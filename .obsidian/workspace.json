@@ -1,0 +1,216 @@
+{
+  "main": {
+    "id": "14c2e10e7af15e0a",
+    "type": "split",
+    "children": [
+      {
+        "id": "c8ec26946e5fe2d0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fd4eafb6861ea5c0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Concurrency.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "c9f0e331040244cd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "NodeJS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "e50b167c88ef45cb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "ASGI.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "dfc9d64c59114226",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Event Loop.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d7cd6b2435986008",
+    "type": "split",
+    "children": [
+      {
+        "id": "33afc26f27569848",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "72121000a084c97b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "f812e771f6c7b482",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "54dc8b231a0d6374",
+    "type": "split",
+    "children": [
+      {
+        "id": "d0669153eeda6be3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "13cad38e08305ed9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "ASGI.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6264242b9441d2b2",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "ASGI.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b630dcfa36ae5ef0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "71d523119ce23464",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "ASGI.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "e50b167c88ef45cb",
+  "lastOpenFiles": [
+    "GitHub",
+    "NodeJS.md",
+    "ASGI.md",
+    "Event Loop.md",
+    "event loop.md",
+    "Concurrency.md",
+    "Browser engine.md",
+    "content security policy.md",
+    "non-blocking.md",
+    "Blocking Vs Non-Blocking.md",
+    "Blocking.md",
+    "blocking.md",
+    "LDAP.md",
+    "nvim setup.md",
+    "SLA.md",
+    "Untitled",
+    "Airlfow/Configuration Options.md",
+    "Docker/Compose file.md",
+    "Airlfow/Celery.md",
+    "Wayland.md",
+    "Docker",
+    "BIOS.md",
+    "JSON-RPC-based.md",
+    "LSP.md",
+    "SQLLite.md",
+    "Airlfow",
+    "firmware.md",
+    "EFI.md",
+    "XDG.md",
+    "Untitled.canvas",
+    "Linux",
+    "Enginerring/Backend/Messaging System",
+    "Enginerring/Backend/Message Format",
+    "Enginerring/Backend/Web server",
+    "Enginerring/Backend/Proxy",
+    "Enginerring/Backend/Communication Protocol",
+    "Enginerring/Frontend"
+  ]
+}
