@@ -4,35 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "c8ec26946e5fe2d0",
+        "id": "b45911ba48d35760",
         "type": "tabs",
         "children": [
           {
-            "id": "fd4eafb6861ea5c0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Concurrency.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "c9f0e331040244cd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "NodeJS.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "e50b167c88ef45cb",
+            "id": "f539406389c543a8",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -42,21 +18,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "dfc9d64c59114226",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Event Loop.md",
-                "mode": "source",
-                "source": false
-              }
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -93,8 +56,17 @@
                 "sortOrder": "alphabetical"
               }
             }
+          },
+          {
+            "id": "cfef2fbfe12d7cda",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -158,7 +130,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -173,14 +146,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e50b167c88ef45cb",
+  "active": "f539406389c543a8",
   "lastOpenFiles": [
-    "GitHub",
+    "Event Loop.md",
+    "Concurrency.md",
     "NodeJS.md",
     "ASGI.md",
-    "Event Loop.md",
+    "GitHub",
     "event loop.md",
-    "Concurrency.md",
     "Browser engine.md",
     "content security policy.md",
     "non-blocking.md",
@@ -210,7 +183,6 @@
     "Enginerring/Backend/Message Format",
     "Enginerring/Backend/Web server",
     "Enginerring/Backend/Proxy",
-    "Enginerring/Backend/Communication Protocol",
-    "Enginerring/Frontend"
+    "Enginerring/Backend/Communication Protocol"
   ]
 }
