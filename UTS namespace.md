@@ -1,0 +1,2 @@
+[Unix Time Sharing namespace](https://en.wikipedia.org/wiki/Linux_namespaces) allow a single system to appear to have different host and domain names to different processes.
+When process create a new UTS namespace the host-name and domain of the new UTS namespace are copied from the corresponding values in the caller's UTS namespace.

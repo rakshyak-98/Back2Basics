@@ -1,4 +1,4 @@
-As an asynchronous event-driven JavaScript runtime. NodeJs is designed to build scalable network application.
+As an asynchronous event-driven JavaScript [[runtime environment]]. NodeJs is designed to build scalable network application.
 - upon each connection, the callback is fired, but if there is no work to be done, NodeJs will sleep.
 - thread-based networking is relatively inefficient and very difficult to use.
 - NodeJs are free from worries of dead-locking the process, since there are no locks.
