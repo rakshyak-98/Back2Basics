@@ -20,6 +20,18 @@
             }
           },
           {
+            "id": "459fa43b444d72bf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Call stack.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
             "id": "7aa27da2a965c5cb",
             "type": "leaf",
             "state": {
@@ -31,7 +43,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -77,7 +90,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -97,7 +111,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Kubernates/Pods.md",
+                "file": "Call stack.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +128,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Kubernates/Pods.md",
+                "file": "Call stack.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Kubernates/Pods.md"
+                "file": "Call stack.md"
               }
             }
           }
@@ -157,12 +171,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d4bc6af181e9010a",
+  "active": "cfef2fbfe12d7cda",
   "lastOpenFiles": [
-    "fontss.md",
     "Stack Frame.md",
-    "Coroutine.md",
+    "Call stack.md",
     "Kubernates/Pods.md",
+    "fontss.md",
+    "Coroutine.md",
     "ASGI.md",
     "NodeJS.md",
     "Runtime Environment.md",
@@ -186,7 +201,6 @@
     "blocking.md",
     "LDAP.md",
     "nvim setup.md",
-    "SLA.md",
     "Docker",
     "Airlfow",
     "Untitled.canvas",
