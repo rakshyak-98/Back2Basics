@@ -41,3 +41,20 @@ This means processes running in containers of the same pod need to take care not
 - each pod gets a [[routable IP address]] and all other pods see the pod under that IP address.
 - it doesn't matter if two pods are scheduled onto a single or onto different worker nodes. in both cases the containers inside those pods can communicate with each other across the flat NAT-less network, much like LAN, regardless of the actual inter-node network topology.
 - this is achieved through an additional software-defined network layered on top of the actual network.
+### Splitting into multiple pods to enable Individual scaling
+- a pod is basic unit of scaling.
+- Kubernetess can't horizontally scale individual containers, instead it scales whole pods.
+- when you scale up the number of instances of the pod to, let's say, two, you end up with two frontend containers and two backend containers.
+- If you need to scale a container individually, this is a clear indication that it need to be deployed in a separate pod.
+### Understanding when to use multiple containers in a pod
+- main reason to put multiple containers into a single pod is when the application consists of one main process and one or more complementary processes.
+For example, the main container in a pod could be a web server that serves files from a certain file directory, while an additional container periodically downloads content from an external source and stores it in the web server's directory.
+### Deciding when to use Multiple containers in a Pod
+- do they need to be run together or can they run on different hosts?
+- do they represent a single whole or are they independent components?
+- must they be scaled together or individually?
+# Creating pods from YAML or JSON descriptors
+- created by posting a JSON or YAML manifest to the Kubernetes REST API endpoint.
+- defining all your Kubernetes Objects from YAML files makes it possible to store them in a version control system, with all the benefits it brings.
+# Reference
+- [Kubernetes API reference documentation](https://kubernetes.io/docs/reference/)

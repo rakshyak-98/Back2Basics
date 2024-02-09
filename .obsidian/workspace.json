@@ -8,55 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f539406389c543a8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ASGI.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "50f327c89f5c6404",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "NodeJS.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "31485e0099a53feb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Runtime Environment.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "a53d97dd0b103db1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "BSD Socket.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "e33693733689d1c5",
+            "id": "d4bc6af181e9010a",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -68,31 +20,18 @@
             }
           },
           {
-            "id": "1aa49d4f0d0ae3b3",
+            "id": "7aa27da2a965c5cb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Kubernates/Pods.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "7254bce587db2fb8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Kubernates/Pods.md",
+                "file": "Coroutine.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "vertical"
@@ -218,18 +157,23 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "7254bce587db2fb8",
+  "active": "d4bc6af181e9010a",
   "lastOpenFiles": [
+    "fontss.md",
+    "Stack Frame.md",
+    "Coroutine.md",
+    "Kubernates/Pods.md",
+    "ASGI.md",
+    "NodeJS.md",
     "Runtime Environment.md",
+    "BSD Socket.md",
+    "Network Information Service (NIS).md",
+    "Untitled.md",
     "Sysv.md",
     "IPC namespace.md",
-    "Kubernates/Pods.md",
     "UTS namespace.md",
-    "ASGI.md",
     "Kubernates",
-    "BSD Socket.md",
     "Microservice.md",
-    "NodeJS.md",
     "Event Loop.md",
     "Concurrency.md",
     "GitHub",
@@ -243,12 +187,7 @@
     "LDAP.md",
     "nvim setup.md",
     "SLA.md",
-    "Airlfow/Configuration Options.md",
-    "Docker/Compose file.md",
-    "Airlfow/Celery.md",
-    "Wayland.md",
     "Docker",
-    "BIOS.md",
     "Airlfow",
     "Untitled.canvas",
     "Linux",

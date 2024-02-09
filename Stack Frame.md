@@ -1,0 +1,1 @@
+A stack frame is a frame of data that gets pushed onto the stack.
