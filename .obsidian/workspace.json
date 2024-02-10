@@ -4,47 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "2e18ca3c2316db85",
+        "id": "e7771ea0192842d6",
         "type": "tabs",
         "children": [
           {
-            "id": "0d475785e0145b03",
+            "id": "e614c687f384ea0b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Distributed computing.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "83b1a4ca260636f1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Eventual consistency.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "866ce6699aedbe1f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Preprocessor.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -90,7 +61,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -110,7 +82,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Preprocessor.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +98,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Preprocessor.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -149,9 +119,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Preprocessor.md"
-              }
+              "state": {}
             }
           }
         ],
@@ -170,13 +138,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "866ce6699aedbe1f",
+  "active": "e614c687f384ea0b",
   "lastOpenFiles": [
+    "Distributed computing.md",
     "Eventual consistency.md",
     "Preprocessor.md",
-    "Distributed computing.md",
-    "Coroutine.md",
     "Kubernates/Pods.md",
+    "Untitled.md",
+    "UTS namespace.md",
+    "Code Coverage.md",
+    "Coroutine.md",
     "Call stack.md",
     "Stack Frame.md",
     "fontss.md",
@@ -185,10 +156,8 @@
     "Runtime Environment.md",
     "BSD Socket.md",
     "Network Information Service (NIS).md",
-    "Untitled.md",
     "Sysv.md",
     "IPC namespace.md",
-    "UTS namespace.md",
     "Kubernates",
     "Microservice.md",
     "Event Loop.md",
@@ -199,7 +168,6 @@
     "content security policy.md",
     "non-blocking.md",
     "Blocking Vs Non-Blocking.md",
-    "Blocking.md",
     "Docker",
     "Airlfow",
     "Untitled.canvas",
