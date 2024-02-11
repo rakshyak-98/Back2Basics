@@ -4,15 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "e7771ea0192842d6",
+        "id": "ca208aa7c73c607b",
         "type": "tabs",
         "children": [
           {
-            "id": "e614c687f384ea0b",
+            "id": "6c949c3713389084",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "diff-view",
+              "state": {
+                "file": ".obsidian/workspace.json",
+                "staged": false
+              }
             }
           }
         ]
@@ -62,7 +65,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -138,7 +141,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e614c687f384ea0b",
+  "active": "6c949c3713389084",
   "lastOpenFiles": [
     "Distributed computing.md",
     "Eventual consistency.md",
