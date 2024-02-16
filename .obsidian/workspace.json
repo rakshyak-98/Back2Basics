@@ -4,21 +4,59 @@
     "type": "split",
     "children": [
       {
-        "id": "ca208aa7c73c607b",
+        "id": "32ff0c36c327b3f9",
         "type": "tabs",
         "children": [
           {
-            "id": "6c949c3713389084",
+            "id": "b319ad049ebfd368",
             "type": "leaf",
             "state": {
-              "type": "diff-view",
+              "type": "markdown",
               "state": {
-                "file": ".obsidian/workspace.json",
-                "staged": false
+                "file": "SSH.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "f19b6ee2688b10ac",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SSH.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "b044e0cb80afdfcd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SSH.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "88053425b5c775d1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SSH.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -64,8 +102,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -85,6 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "SSH.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,6 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "SSH.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -122,7 +161,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "SSH.md"
+              }
             }
           }
         ],
@@ -141,12 +182,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "6c949c3713389084",
+  "active": "88053425b5c775d1",
   "lastOpenFiles": [
+    "Cryptographic hashing.md",
+    "SSH.md",
+    "Asymmetrical Encryption.md",
+    "symmetrical encryption.md",
+    "Event Loop.md",
+    "NodeJs/NodeJS.md",
+    "NodeJs",
+    "LSP.md",
+    "Kubernates/Pods.md",
     "Distributed computing.md",
     "Eventual consistency.md",
     "Preprocessor.md",
-    "Kubernates/Pods.md",
     "Untitled.md",
     "UTS namespace.md",
     "Code Coverage.md",
@@ -155,7 +204,6 @@
     "Stack Frame.md",
     "fontss.md",
     "ASGI.md",
-    "NodeJS.md",
     "Runtime Environment.md",
     "BSD Socket.md",
     "Network Information Service (NIS).md",
@@ -163,14 +211,8 @@
     "IPC namespace.md",
     "Kubernates",
     "Microservice.md",
-    "Event Loop.md",
     "Concurrency.md",
     "GitHub",
-    "event loop.md",
-    "Browser engine.md",
-    "content security policy.md",
-    "non-blocking.md",
-    "Blocking Vs Non-Blocking.md",
     "Docker",
     "Airlfow",
     "Untitled.canvas",
@@ -178,7 +220,6 @@
     "Enginerring/Backend/Messaging System",
     "Enginerring/Backend/Message Format",
     "Enginerring/Backend/Web server",
-    "Enginerring/Backend/Proxy",
-    "Enginerring/Backend/Communication Protocol"
+    "Enginerring/Backend/Proxy"
   ]
 }

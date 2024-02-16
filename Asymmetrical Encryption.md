@@ -1,0 +1,4 @@
+- sends data in a single direction
+- two associated keys are needed (private key, public key.
+- public key shared freely with any party.
+- public key has no ability to decrypt the messages.

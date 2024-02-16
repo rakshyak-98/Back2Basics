@@ -1,0 +1,6 @@
+- one key used to encrypt and decrypt between the participant.
+- also called *shared secret or secret key*
+- Symmetric keys are used by [[SSH]] in order to encrypt the entire connection. 
+- allows even password authentication to be protected against snooping.
+- the secret key is create through a process know as *key exchange algorithm*.
+- this exchange results in the server and client both arriving at the same key independently by sharing certain pieces of public data and manipulating them with certain secret data.

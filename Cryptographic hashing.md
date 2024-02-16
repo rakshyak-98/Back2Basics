@@ -1,0 +1,5 @@
+- Cryptographic hash functions are methods of creating a succinct "signature" or summary of a set on information.
+- never meant to be reversed.
+- using the same hashing function and message should produce the same hash.
+- used for data integrity purposes and to verify the authenticity of communication.
+- main use in [[SSH]] is HMAC (Hash-based Message Authentication Codes). ensure the message text that's received is intact and unmodified.
