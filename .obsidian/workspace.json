@@ -11,8 +11,12 @@
             "id": "571e99316566f66e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Javascript.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Javascript.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Javascript.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Javascript.md"
+              }
             }
           }
         ],
@@ -139,6 +147,8 @@
   },
   "active": "571e99316566f66e",
   "lastOpenFiles": [
+    "Javascript.md",
+    "hsl.md",
     "content security policy.md",
     "cross-site scripting.md",
     "HTTP Strict Transport Security.md",
@@ -163,8 +173,6 @@
     "Eventual consistency.md",
     "Event Loop.md",
     "Distributed computing.md",
-    "Cryptographic hashing.md",
-    "Coroutine.md",
     "NodeJs",
     "Kubernates",
     "GitHub",
