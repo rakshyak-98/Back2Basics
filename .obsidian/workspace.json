@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "a2eef90adddee5a6",
+        "id": "3cf26e168ffe88ae",
         "type": "tabs",
         "children": [
           {
-            "id": "571e99316566f66e",
+            "id": "9980c75cf235bc07",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Javascript.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "graph",
+              "state": {}
             }
           }
         ]
@@ -56,14 +52,6 @@
                 "sortOrder": "alphabetical"
               }
             }
-          },
-          {
-            "id": "cfef2fbfe12d7cda",
-            "type": "leaf",
-            "state": {
-              "type": "git-view",
-              "state": {}
-            }
           }
         ]
       }
@@ -85,7 +73,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Javascript.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +89,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Javascript.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +110,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Javascript.md"
-              }
+              "state": {}
             }
           }
         ],
@@ -145,7 +129,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "571e99316566f66e",
+  "active": "9980c75cf235bc07",
   "lastOpenFiles": [
     "Javascript.md",
     "hsl.md",
