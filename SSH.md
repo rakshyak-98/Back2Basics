@@ -2,7 +2,7 @@
 [post link](https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process)
 - ssh key pairs begins after the symmetric encryption has been established.
 - client-server model to authenticate two parties and encrypt the data.
-- the client is responsible for beginning the initial [[Transmission Control Protocol]] handshake with the server.
+- the client is responsible for beginning the initial [[TCP]] handshake with the server.
 - ssh connection is established in two separate stages
 	- first is to agree upon and establish encryption to protect future communication.
 	- second to authenticate the user and discover whether access to the server should be granted.

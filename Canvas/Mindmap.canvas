@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{"id":"bc1c01e325fe4db9","type":"text","text":"Asynchronous","x":-125,"y":82,"width":250,"height":60},
+		{"id":"27c894cf0bf7c8f8","type":"text","text":"NodeJS","x":114,"y":224,"width":250,"height":60},
+		{"id":"e871284bac18e77e","type":"text","text":"event-driven paradigm","x":-340,"y":220,"width":250,"height":60},
+		{"id":"7bfbb417995114d1","type":"text","text":"JavaScript runtime environment","x":660,"y":440,"width":250,"height":60},
+		{"id":"7d912d17f8fa0bd1","type":"text","text":"No function perform direct i/O operations","x":300,"y":440,"width":250,"height":60},
+		{"id":"80d0853977b22bf3","type":"text","text":"Non-blocking behavior","x":120,"y":700,"width":250,"height":60},
+		{"id":"e834283296bf60a3","type":"text","text":"Scalable Network applications.","x":120,"y":940,"width":250,"height":60},
+		{"id":"126bf01a8bc1af00","type":"text","text":"synchronous I/O operations","x":540,"y":40,"width":250,"height":60},
+		{"id":"8670cb90313e2ee3","type":"text","text":"blocking","x":540,"y":-140,"width":250,"height":60},
+		{"id":"713b742e7a49e53a","type":"text","text":"JavaScript","x":840,"y":260,"width":250,"height":60},
+		{"id":"985076a1e2d2f91f","type":"text","text":"single thread","x":1280,"y":40,"width":250,"height":60},
+		{"id":"43f72c65d077a148","type":"text","text":"new thread","x":1760,"y":40,"width":250,"height":60},
+		{"id":"c4a546b1fda57cb8","type":"text","text":"run in parallel","x":1760,"y":220,"width":250,"height":50},
+		{"id":"2ed0576e37ad3f73","x":880,"y":680,"width":250,"height":60,"type":"text","text":"user action"},
+		{"id":"dbb4468573a586e9","x":560,"y":680,"width":250,"height":60,"type":"text","text":"event"},
+		{"id":"037676f9a3daa7bc","x":560,"y":880,"width":250,"height":60,"type":"text","text":"event handler"},
+		{"id":"966bdcd8df7d1d19","type":"text","text":"callback","x":560,"y":1200,"width":250,"height":50}
+	],
+	"edges":[
+		{"id":"8aa8ad6955b18cbe","fromNode":"bc1c01e325fe4db9","fromSide":"right","toNode":"27c894cf0bf7c8f8","toSide":"top"},
+		{"id":"185aeea0e78a5182","fromNode":"e871284bac18e77e","fromSide":"right","toNode":"27c894cf0bf7c8f8","toSide":"left"},
+		{"id":"bcefc893f2541eb4","fromNode":"7d912d17f8fa0bd1","fromSide":"bottom","toNode":"80d0853977b22bf3","toSide":"top"},
+		{"id":"60de9c91f871250b","fromNode":"27c894cf0bf7c8f8","fromSide":"right","toNode":"7d912d17f8fa0bd1","toSide":"top"},
+		{"id":"28e63fbc6f03e4d0","fromNode":"27c894cf0bf7c8f8","fromSide":"right","toNode":"126bf01a8bc1af00","toSide":"left"},
+		{"id":"2dfe0a4ec1494d31","fromNode":"126bf01a8bc1af00","fromSide":"top","toNode":"8670cb90313e2ee3","toSide":"bottom"},
+		{"id":"43057da7885abd3a","fromNode":"80d0853977b22bf3","fromSide":"bottom","toNode":"e834283296bf60a3","toSide":"top"},
+		{"id":"006ea2768c574a31","fromNode":"e871284bac18e77e","fromSide":"bottom","toNode":"80d0853977b22bf3","toSide":"left","label":"provides"},
+		{"id":"125c6ef02a8993d3","fromNode":"985076a1e2d2f91f","fromSide":"right","toNode":"43f72c65d077a148","toSide":"left","label":"no"},
+		{"id":"91dc5f656826cb33","fromNode":"985076a1e2d2f91f","fromSide":"right","toNode":"c4a546b1fda57cb8","toSide":"left","label":"no"},
+		{"id":"6bb196ef1df76613","fromNode":"27c894cf0bf7c8f8","fromSide":"right","toNode":"7bfbb417995114d1","toSide":"left"},
+		{"id":"f9393ecc1b09999f","fromNode":"7bfbb417995114d1","fromSide":"right","toNode":"713b742e7a49e53a","toSide":"bottom"},
+		{"id":"7fa3e843b336d34f","fromNode":"713b742e7a49e53a","fromSide":"top","toNode":"126bf01a8bc1af00","toSide":"bottom","label":"default"},
+		{"id":"3f8a289ea8ac75a4","fromNode":"126bf01a8bc1af00","fromSide":"right","toNode":"985076a1e2d2f91f","toSide":"left"},
+		{"id":"c004509930060e0a","fromNode":"dbb4468573a586e9","fromSide":"bottom","toNode":"037676f9a3daa7bc","toSide":"top"},
+		{"id":"1a2c688f0f349fdf","fromNode":"037676f9a3daa7bc","fromSide":"bottom","toNode":"966bdcd8df7d1d19","toSide":"top","label":"trigger"},
+		{"id":"078667b2b9e5444a","fromNode":"2ed0576e37ad3f73","fromSide":"top","toNode":"7bfbb417995114d1","toSide":"bottom"},
+		{"id":"444bd66c62ad59a3","fromNode":"7bfbb417995114d1","fromSide":"bottom","toNode":"dbb4468573a586e9","toSide":"top"}
+	]
+}

@@ -2,3 +2,5 @@
 - in many cases a thread is a component of a process.
 - the implementation of threads and processes differs between operating systems.
 - thread in the same process share the same address space. This allows concurrently running code to couple tightly and conveniently exchange data without the overhead or complexity of an [[IPC]].
+
+-  thread based networking is relatively inefficient and very difficult to use.
