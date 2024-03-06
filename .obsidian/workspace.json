@@ -11,11 +11,14 @@
             "id": "a2378893f46451df",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "Callback.md",
-                "mode": "source",
-                "source": true
+                "file": "Canvas/Mindmap.canvas",
+                "viewState": {
+                  "x": 835,
+                  "y": 555,
+                  "zoom": -0.7538065835435195
+                }
               }
             }
           }
@@ -61,8 +64,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -78,7 +80,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Callback.md",
+                "file": "Canvas/Mindmap.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +97,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Callback.md",
+                "file": "Canvas/Mindmap.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,7 +109,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Callback.md"
+                "file": "Canvas/Mindmap.canvas"
               }
             }
           },
@@ -141,14 +143,17 @@
   },
   "active": "a2378893f46451df",
   "lastOpenFiles": [
+    "Event Loop.md",
     "Canvas/Mindmap.canvas",
-    "Callback.md",
-    "javascript.md",
+    "Asymmetrical Encryption.md",
+    "event-driven.md",
     "Asynchronous.md",
+    "Callback.md",
+    "ASGI.md",
+    "javascript.md",
     "NodeJS.md",
     "Canvas",
     "Thread.md",
-    "event-driven.md",
     "Eventual consistency.md",
     "event driven.md",
     "Untitled.md",
@@ -161,15 +166,12 @@
     "TCP.md",
     "BSD Socket.md",
     "UTS namespace.md",
-    "ASGI.md",
     "fontss.md",
     "NodeJs",
     "Untitled 1.canvas",
     "Call stack.md",
     "Microservice.md",
     "Network Information Service (NIS).md",
-    "HTTP Strict Transport Security.md",
-    "Kubernates/Pods.md",
     "Kubernates",
     "GitHub",
     "Docker",
