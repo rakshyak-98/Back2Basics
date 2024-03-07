@@ -37,11 +37,11 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Canvas/JavaScript.canvas",
+                "file": "Canvas/NodeJS.canvas",
                 "viewState": {
-                  "x": 954.7775809425668,
-                  "y": -535.4380241979113,
-                  "zoom": -0.8841402981512102
+                  "x": 185.32159259471152,
+                  "y": 1309.3145312212184,
+                  "zoom": -0.4818895485389356
                 }
               }
             }
@@ -89,8 +89,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -106,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Canvas/JavaScript.canvas",
+                "file": "Canvas/NodeJS.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Canvas/JavaScript.canvas",
+                "file": "Canvas/NodeJS.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -135,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Canvas/JavaScript.canvas"
+                "file": "Canvas/NodeJS.canvas"
               }
             }
           },
@@ -169,10 +168,10 @@
   },
   "active": "a2378893f46451df",
   "lastOpenFiles": [
+    "Canvas/JavaScript.canvas",
     "JavaScript/Concurrency.md",
     "NodeJS.md",
     "Canvas/this.md",
-    "Canvas/JavaScript.canvas",
     "JavaScript/Asynchronous.md",
     "Untitled.md",
     "JavaScript/HashBang Comment.md",
