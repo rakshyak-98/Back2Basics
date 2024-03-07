@@ -1,0 +1,1 @@
+This system is a software or set of tools designed to manage and organize information within an organization or enterprise.

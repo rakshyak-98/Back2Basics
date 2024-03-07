@@ -11,18 +11,31 @@
             "id": "a2378893f46451df",
             "type": "leaf",
             "state": {
+              "type": "markdown",
+              "state": {
+                "file": "NodeJS.md",
+                "mode": "preview",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "c88f54d898fc8851",
+            "type": "leaf",
+            "state": {
               "type": "canvas",
               "state": {
-                "file": "Canvas/Mindmap.canvas",
+                "file": "Canvas/JavaScript.canvas",
                 "viewState": {
-                  "x": 964.8401826484019,
-                  "y": 495.9817351598171,
-                  "zoom": -0.7538065835435195
+                  "x": -456.31312255189374,
+                  "y": 361.0415457414852,
+                  "zoom": -1.6
                 }
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -80,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Canvas/Mindmap.canvas",
+                "file": "Canvas/JavaScript.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Canvas/Mindmap.canvas",
+                "file": "Canvas/JavaScript.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -109,7 +122,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Canvas/Mindmap.canvas"
+                "file": "Canvas/JavaScript.canvas"
               }
             }
           },
@@ -141,44 +154,46 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "a2378893f46451df",
+  "active": "c88f54d898fc8851",
   "lastOpenFiles": [
+    "Canvas/NodeJS.canvas",
+    "Canvas/JavaScript.canvas",
+    "JavaScript/lexical analysis.md",
+    "Untitled.md",
+    "JavaScript/Lexical Grammer.md",
+    "NodeJS.md",
+    "JavaScript",
+    "Throughput.md",
+    "Concurrency.md",
+    "IM (Information Management) production systems.md",
+    "EventMachine.md",
     "Event Loop.md",
-    "Canvas/Mindmap.canvas",
+    "Canvas/JavaScript.canvas",
+    "Canvas/JavaS.md",
     "Asymmetrical Encryption.md",
     "event-driven.md",
     "Asynchronous.md",
     "Callback.md",
     "ASGI.md",
     "javascript.md",
-    "NodeJS.md",
     "Canvas",
     "Thread.md",
     "Eventual consistency.md",
     "event driven.md",
-    "Untitled.md",
     "IPC.md",
     "SSH.md",
     "Coroutine.md",
     "Stack Frame.md",
     "IPC namespace.md",
     "Sysv.md",
-    "TCP.md",
-    "BSD Socket.md",
-    "UTS namespace.md",
-    "fontss.md",
     "NodeJs",
     "Untitled 1.canvas",
-    "Call stack.md",
-    "Microservice.md",
-    "Network Information Service (NIS).md",
     "Kubernates",
     "GitHub",
     "Docker",
     "Airlfow",
     "Linux",
     "Enginerring/Backend/Messaging System",
-    "Enginerring/Backend/Message Format",
-    "Enginerring/Backend/Web server"
+    "Enginerring/Backend/Message Format"
   ]
 }

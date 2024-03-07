@@ -1,0 +1,2 @@
+- JavaScript string has to be parsed to a more structured representation.
+- initial setup of parsing is called [[lexical analysis]].
