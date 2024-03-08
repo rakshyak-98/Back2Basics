@@ -15,7 +15,6 @@
 		{"id":"e834283296bf60a3","type":"text","text":"Scalable Network applications.","x":120,"y":960,"width":250,"height":60},
 		{"id":"bc1c01e325fe4db9","type":"text","text":"Asynchronous","x":120,"y":420,"width":250,"height":60},
 		{"id":"985076a1e2d2f91f","type":"text","text":"single thread","x":1060,"y":40,"width":250,"height":60},
-		{"id":"43f72c65d077a148","type":"text","text":"new thread","x":1500,"y":-160,"width":250,"height":60},
 		{"id":"c4a546b1fda57cb8","type":"text","text":"run in parallel","x":1580,"y":120,"width":250,"height":50},
 		{"id":"10ae0a6024378483","type":"text","text":"first-class function","x":1360,"y":260,"width":250,"height":60},
 		{"id":"e229e91a260314d6","type":"text","text":"variable","x":1369,"y":522,"width":250,"height":60},
@@ -26,12 +25,13 @@
 		{"id":"3910b1955a969d3e","type":"text","text":"spawn child process","x":-139,"y":-84,"width":250,"height":60},
 		{"id":"9723414cb974e44e","type":"text","text":"`chile_process.fork()` API","x":-139,"y":-304,"width":250,"height":60},
 		{"id":"a748ed4f9ce1ad17","type":"text","text":"`cluster` module","x":120,"y":-500,"width":250,"height":60},
-		{"id":"e1fc497a41db2bac","x":-97,"y":1285,"width":250,"height":60,"type":"text","text":"`process.nextTick` queue"},
-		{"id":"3102ea1a1c6c36fe","x":340,"y":1280,"width":250,"height":60,"type":"text","text":"macro-task queue"},
-		{"id":"47fbec10e3ba014b","x":120,"y":1380,"width":250,"height":60,"type":"text","text":"promises micro-task queue"},
-		{"id":"4f8081e09b8a6575","x":-49,"y":1581,"width":250,"height":60,"type":"text","text":"`promise.then()`"},
-		{"id":"2c42efa64b47ce23","x":243,"y":1582,"width":250,"height":60,"type":"text","text":"`startTimeout()`"},
-		{"id":"4fee9c9d054f8f39","x":562,"y":1585,"width":250,"height":60,"type":"text","text":"`setImmediate()`"}
+		{"id":"e1fc497a41db2bac","type":"text","text":"`process.nextTick` queue","x":-97,"y":1285,"width":250,"height":60},
+		{"id":"3102ea1a1c6c36fe","type":"text","text":"macro-task queue","x":340,"y":1280,"width":250,"height":60},
+		{"id":"47fbec10e3ba014b","type":"text","text":"promises micro-task queue","x":120,"y":1380,"width":250,"height":60},
+		{"id":"4f8081e09b8a6575","type":"text","text":"`promise.then()`","x":-49,"y":1581,"width":250,"height":60},
+		{"id":"2c42efa64b47ce23","type":"text","text":"`startTimeout()`","x":243,"y":1582,"width":250,"height":60},
+		{"id":"4fee9c9d054f8f39","type":"text","text":"`setImmediate()`","x":562,"y":1585,"width":250,"height":60},
+		{"id":"43f72c65d077a148","type":"text","text":"new thread","x":1540,"y":-80,"width":250,"height":60}
 	],
 	"edges":[
 		{"id":"185aeea0e78a5182","fromNode":"e871284bac18e77e","fromSide":"right","toNode":"27c894cf0bf7c8f8","toSide":"left","label":"application"},
@@ -67,6 +67,7 @@
 		{"id":"7c4e2067399e172c","fromNode":"74cc61c19e8b3d28","fromSide":"bottom","toNode":"3102ea1a1c6c36fe","toSide":"top"},
 		{"id":"4cbf9ba671910b81","fromNode":"47fbec10e3ba014b","fromSide":"bottom","toNode":"4f8081e09b8a6575","toSide":"top"},
 		{"id":"1e33ea4151b1f5e8","fromNode":"3102ea1a1c6c36fe","fromSide":"bottom","toNode":"2c42efa64b47ce23","toSide":"top"},
-		{"id":"306b9a9660cc8a7e","fromNode":"3102ea1a1c6c36fe","fromSide":"bottom","toNode":"4fee9c9d054f8f39","toSide":"top"}
+		{"id":"306b9a9660cc8a7e","fromNode":"3102ea1a1c6c36fe","fromSide":"bottom","toNode":"4fee9c9d054f8f39","toSide":"top"},
+		{"id":"c55b4cb42a94daea","fromNode":"23aae4c81d9e14b4","fromSide":"left","toNode":"966bdcd8df7d1d19","toSide":"right","label":"call"}
 	]
 }

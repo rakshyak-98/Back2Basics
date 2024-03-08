@@ -37,11 +37,11 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Canvas/NodeJS.canvas",
+                "file": "Canvas/JavaScript.canvas",
                 "viewState": {
-                  "x": 185.32159259471152,
-                  "y": 1309.3145312212184,
-                  "zoom": -0.4818895485389356
+                  "x": -231.98547987821829,
+                  "y": 667.8753761695382,
+                  "zoom": -0.5186427933837405
                 }
               }
             }
@@ -89,7 +89,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -105,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Canvas/NodeJS.canvas",
+                "file": "Canvas/JavaScript.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -122,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Canvas/NodeJS.canvas",
+                "file": "Canvas/JavaScript.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +135,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Canvas/NodeJS.canvas"
+                "file": "Canvas/JavaScript.canvas"
               }
             }
           },
@@ -168,6 +169,7 @@
   },
   "active": "a2378893f46451df",
   "lastOpenFiles": [
+    "Canvas/NodeJS.canvas",
     "Canvas/JavaScript.canvas",
     "JavaScript/Concurrency.md",
     "NodeJS.md",
@@ -175,7 +177,6 @@
     "JavaScript/Asynchronous.md",
     "Untitled.md",
     "JavaScript/HashBang Comment.md",
-    "Canvas/NodeJS.canvas",
     "JavaScript/lexical analysis.md",
     "JavaScript/Lexical Grammer.md",
     "JavaScript",
