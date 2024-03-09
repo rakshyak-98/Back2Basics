@@ -15,9 +15,9 @@
               "state": {
                 "file": "Canvas/JavaScript.canvas",
                 "viewState": {
-                  "x": -121.27132525025115,
-                  "y": 35.845326029797775,
-                  "zoom": -2.4
+                  "x": 2086.5095984887116,
+                  "y": 361.91941157286004,
+                  "zoom": -1.6
                 }
               }
             }
@@ -64,7 +64,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -143,9 +144,10 @@
   },
   "active": "a837aa23cf37eaa5",
   "lastOpenFiles": [
-    "Canvas/NodeJS.canvas",
     "prototype.md",
     "Canvas/JavaScript.canvas",
+    "JavaScript/Asynchronous.md",
+    "Canvas/NodeJS.canvas",
     "Nodejs/agent.md",
     "buffer.md",
     "Nodejs",
@@ -153,7 +155,6 @@
     "BSD Socket.md",
     "Kubernates/Pods.md",
     "event-driven.md",
-    "JavaScript/Asynchronous.md",
     "JavaScript/Concurrency.md",
     "NodeJS.md",
     "Canvas/this.md",
