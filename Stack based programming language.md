@@ -1,0 +1,3 @@
+- relies on a stack machine model for passing parameters.
+- operate on one ore more stacks, each of which may serve a different purpose.
+- most stack-oriented languages operate in [[postfix]] or [[Reverse Polish notation]].
