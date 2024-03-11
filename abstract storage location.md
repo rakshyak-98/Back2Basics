@@ -1,0 +1,1 @@
+data is stored without specifying the exact physical location or implementation details, instead it provides a high-level interface for accessing and manipulating data, allowing developer to work with data without needing to know the specifics of how it is stored or retrieved.
