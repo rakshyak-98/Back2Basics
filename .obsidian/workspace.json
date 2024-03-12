@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "dded16dc5e5855af",
+        "id": "746efb5147da0875",
         "type": "tabs",
         "children": [
           {
-            "id": "f1f8823404289db5",
+            "id": "0ba861be3f3719f2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "variable.md",
+                "file": "Nodejs/Event Loop.md",
                 "mode": "source",
                 "source": true
               }
@@ -61,8 +61,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -78,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "variable.md",
+                "file": "Nodejs/Event Loop.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "variable.md",
+                "file": "Nodejs/Event Loop.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,7 +106,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "variable.md"
+                "file": "Nodejs/Event Loop.md"
               }
             }
           },
@@ -139,9 +138,16 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "f1f8823404289db5",
+  "active": "0ba861be3f3719f2",
   "lastOpenFiles": [
+    "Nodejs/clustering.md",
+    "Nodejs/REPL.md",
+    "Nodejs/spawn.md",
+    "Nodejs/fork.md",
+    "Nodejs/agent.md",
+    "Nodejs/inputs.md",
     "interpreter.md",
+    "object code.md",
     "variable.md",
     "symbolic name.md",
     "abstract storage location.md",
@@ -155,7 +161,6 @@
     "prototype.md",
     "hoisting.md",
     "JavaScript/Asynchronous.md",
-    "Nodejs/agent.md",
     "buffer.md",
     "Nodejs",
     "Call stack.md",
@@ -164,13 +169,7 @@
     "event-driven.md",
     "JavaScript/Concurrency.md",
     "NodeJS.md",
-    "Untitled.md",
-    "JavaScript/HashBang Comment.md",
-    "JavaScript/lexical analysis.md",
-    "JavaScript/Lexical Grammer.md",
     "JavaScript",
-    "Throughput.md",
-    "IM (Information Management) production systems.md",
     "Canvas",
     "NodeJs",
     "Untitled 1.canvas",
