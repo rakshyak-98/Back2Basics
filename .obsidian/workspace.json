@@ -4,22 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "746efb5147da0875",
+        "id": "727b5eb8dddccf42",
         "type": "tabs",
         "children": [
           {
-            "id": "0ba861be3f3719f2",
+            "id": "03e6f96926654b70",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "abstract storage location.md",
-                "mode": "preview",
+                "file": "Rendering performance/paint.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "25f2e3f6bb9378b7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Rendering performance/composite.md",
+                "mode": "source",
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -77,7 +90,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "abstract storage location.md",
+                "file": "Rendering performance/composite.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +107,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "abstract storage location.md",
+                "file": "Rendering performance/composite.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -106,7 +119,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "abstract storage location.md"
+                "file": "Rendering performance/composite.md"
               }
             }
           },
@@ -138,11 +151,24 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "0ba861be3f3719f2",
+  "active": "25f2e3f6bb9378b7",
   "lastOpenFiles": [
+    "Canvas/Browser.canvas",
+    "Rendering performance/layout.md",
+    "Rendering performance/paint.md",
+    "Rendering performance/composite.md",
+    "JavaScript.md",
+    "Canvas/NodeJS.canvas",
+    "Rendering performance/refresh rate.md",
+    "Rendering performance/INP.md",
+    "Call stack.md",
+    "Untitled 1.md",
+    "Untitled 2.md",
+    "Rendering performance",
+    "Canvas/JavaScript.canvas",
+    "abstract storage location.md",
     "variable.md",
     "NodeJS.md",
-    "Untitled.md",
     "Nodejs/event emitter.md",
     "Nodejs/Event Loop.md",
     "Nodejs/clustering.md",
@@ -154,21 +180,9 @@
     "interpreter.md",
     "object code.md",
     "symbolic name.md",
-    "abstract storage location.md",
-    "Canvas/JavaScript.canvas",
     "JavaScript/this.md",
     "`this`.md",
-    "Stack based programming language.md",
-    "Canvas/NodeJS.canvas",
-    "JavaScript/new.md",
-    "constructor function.md",
-    "prototype.md",
-    "hoisting.md",
-    "JavaScript/Asynchronous.md",
-    "buffer.md",
     "Nodejs",
-    "Call stack.md",
-    "BSD Socket.md",
     "JavaScript",
     "Canvas",
     "NodeJs",
@@ -177,7 +191,6 @@
     "GitHub",
     "Docker",
     "Airlfow",
-    "Linux",
-    "Enginerring/Backend/Messaging System"
+    "Linux"
   ]
 }

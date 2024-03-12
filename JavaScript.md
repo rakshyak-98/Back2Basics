@@ -1,0 +1,3 @@
+- JavaScript is synchronous by default and is single threaded.
+- means code cannot create new threads and run in parallel.
+- used to handle work that  will result in visual changes to the user interface.

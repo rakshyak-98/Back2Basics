@@ -1,0 +1,5 @@
+- screens 60 times a second.
+- device's screen always refreshes at a consistent rate, applications that run on a device may not necessarily always be able to produce enough frames to match that refresh rate.
+- 16.66 milliseconds to produce each frame.
+- all work need to completed inside 10 milliseconds, otherwise causes frame drops.
+- meeting 10 milliseconds threshold is crucial for animations.

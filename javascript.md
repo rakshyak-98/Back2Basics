@@ -1,2 +1,0 @@
-- JavaScript is synchronous by default and is single threaded.
-- means code cannot create new threads and run in parallel.
