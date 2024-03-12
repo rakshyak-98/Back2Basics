@@ -29,6 +29,10 @@ if (['production', 'staging'].includes(process.env.NODE_ENV)){
 | don't have `document` `window` object | interacting with the DOM or other Web APIs |
 | Node.js provide additional API like filesystem access | |
 | Node.js support both CommonJS and ES module systems | browser have ES module |
+
+> [!NOTE] Memory leaks happen when a program allocates memory but does not release it with it is no longer needed.
+- memory leaks happens due to use of [[closure]] [[circular references]] [[global variables]].
+
 ### Reference 
 [learn node js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs)
 [[Blocking Vs Non-Blocking]]

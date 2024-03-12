@@ -13,8 +13,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Nodejs/Event Loop.md",
-                "mode": "source",
+                "file": "abstract storage location.md",
+                "mode": "preview",
                 "source": true
               }
             }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Nodejs/Event Loop.md",
+                "file": "abstract storage location.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Nodejs/Event Loop.md",
+                "file": "abstract storage location.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -106,7 +106,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Nodejs/Event Loop.md"
+                "file": "abstract storage location.md"
               }
             }
           },
@@ -140,6 +140,11 @@
   },
   "active": "0ba861be3f3719f2",
   "lastOpenFiles": [
+    "variable.md",
+    "NodeJS.md",
+    "Untitled.md",
+    "Nodejs/event emitter.md",
+    "Nodejs/Event Loop.md",
     "Nodejs/clustering.md",
     "Nodejs/REPL.md",
     "Nodejs/spawn.md",
@@ -148,7 +153,6 @@
     "Nodejs/inputs.md",
     "interpreter.md",
     "object code.md",
-    "variable.md",
     "symbolic name.md",
     "abstract storage location.md",
     "Canvas/JavaScript.canvas",
@@ -165,10 +169,6 @@
     "Nodejs",
     "Call stack.md",
     "BSD Socket.md",
-    "Kubernates/Pods.md",
-    "event-driven.md",
-    "JavaScript/Concurrency.md",
-    "NodeJS.md",
     "JavaScript",
     "Canvas",
     "NodeJs",
