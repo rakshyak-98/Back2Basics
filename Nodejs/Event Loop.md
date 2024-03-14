@@ -1,4 +1,5 @@
 - single-threaded loop responsible for handling all asynchronous tasks.
+- connecting the queue (micro and macro queue) to the call stack.
 - a runtime construct instead of as a library.
 - Node.js simply enters the event loop after executing the input script.
 - Node.js exits the event loop when there are no more callbacks to perform.

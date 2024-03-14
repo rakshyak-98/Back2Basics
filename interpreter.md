@@ -5,3 +5,5 @@
 2. Translate source code into some efficient intermediate representation or [[object code]] and immediately execute that.
 3. Explicitly execute stored pre-compiled [[bytecode]] made by a compiler and matched with the [[interpreter's Virtual machine]].
 > [!INFO] Source programs are compiled ahead of time and stored as machine independent code, which is then linked at run-time and executed by an interpreter and/or compiled (for JIT systems).
+#### In JavaScript
+- Once the byte code is generated fully, the [[AST]] is deleted, clearing up memory space.
