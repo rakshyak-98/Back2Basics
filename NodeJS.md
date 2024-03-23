@@ -11,6 +11,7 @@ all of the I/O methods in the Node.js standard library provide asynchronous vers
 - you are in charge of deciding which ECMAScript version to use by changing the Node.js version.
 - you can run experimental features by running Node.js with flags.
 - instead of blocking the thread and wasting CPU cycles waiting, Node.js will resume the operations when the response comes back. This helps Node.js to handle thousands of concurrent connections with a single server without introducing the burden of managing thread concurrency, which could be a significant source of bugs.
+- In the browser environment, all JavaScript files included in a webpage share the same global namespace. In Node.js or other server-side environments, each file has its own module-level scope, but variables declared without `var` `let` or `const` are still added to the global namespace.
 ### Node.js in production and development
 - put `NODE_ENV=production` in `.bash_profile` with the Bash shell, persist in case of a system restart.
 ```javascript

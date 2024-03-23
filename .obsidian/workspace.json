@@ -4,22 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "6a881cf1e7036f1a",
+        "id": "c408f6f7763e0141",
         "type": "tabs",
         "children": [
           {
-            "id": "ae820597af0ff6dc",
+            "id": "4a9ccf5ad49a3e26",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "JavaScript/Asynchronous.md",
+                "file": "Thread.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "ba5676eeee523f31",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Static Members.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -77,7 +90,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "JavaScript/Asynchronous.md",
+                "file": "Static Members.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +107,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "JavaScript/Asynchronous.md",
+                "file": "Static Members.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -106,7 +119,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "JavaScript/Asynchronous.md"
+                "file": "Static Members.md"
               }
             }
           },
@@ -138,17 +151,22 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "ae820597af0ff6dc",
+  "active": "ba5676eeee523f31",
   "lastOpenFiles": [
+    "Thread.md",
+    "Static Members.md",
+    "NodeJS.md",
     "Canvas/JavaScript.canvas",
+    "Nodejs/Event Loop.md",
+    "Canvas/NodeJS.canvas",
+    "JavaScript/The structured clone algorithm.md",
+    "JavaScript/Asynchronous.md",
     "JavaScript.md",
     "interpreter.md",
     "JavaScript/pre-parser.md",
-    "Nodejs/Event Loop.md",
     "Call stack.md",
     "Nodejs/agent.md",
     "Rendering performance/INP.md",
-    "Canvas/NodeJS.canvas",
     "Nodejs/worker.md",
     "Nodejs/fork.md",
     "Nodejs/inputs.md",
@@ -158,16 +176,12 @@
     "Canvas/Browser.canvas",
     "JavaScript/HashBang Comment.md",
     "JavaScript/Concurrency.md",
-    "JavaScript/Asynchronous.md",
     "Asymmetrical Encryption.md",
     "Blocking.md",
     "Blocking Vs Non-Blocking.md",
     "JavaScript/this.md",
     "Rendering performance/paint.md",
     "Rendering performance/layout.md",
-    "value.md",
-    "connection pooling.md",
-    "Rendering performance/refresh rate.md",
     "Rendering performance",
     "Nodejs",
     "JavaScript",
