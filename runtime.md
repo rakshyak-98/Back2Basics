@@ -1,0 +1,4 @@
+- phase where the compiled program is executed by the computer.
+- dynamic aspects of the program, such as memory allocation, function calls, and input/ output operations, occur.
+- variables are assigned values, functions are called, and data structures are manipulated.
+- dynamic decisions are made based on user input, system state, and other runtime factors.

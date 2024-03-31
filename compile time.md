@@ -1,0 +1,3 @@
+- decisions are made based on the information available at compile time.
+- phase where the source code is translated into machine code or byte-code by a compiler.
+- during compilation, the code is analyzed, optimized, and transformed into an executable form.

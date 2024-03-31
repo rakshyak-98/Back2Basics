@@ -1,0 +1,2 @@
+- portion of the DNS namespace in the DNS,
+- a specific organization or administrator manages.

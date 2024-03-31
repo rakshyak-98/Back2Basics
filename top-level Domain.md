@@ -1,0 +1,1 @@
+- one of the domains at the highest level in the hierarchical [[DNS]]
