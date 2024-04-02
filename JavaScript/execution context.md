@@ -1,0 +1,4 @@
+- variables are assigned their values.
+- functions are invoked, and their code is executed.
+- every function have its own execution context.
+- a global execution context is created first representing the entice script.

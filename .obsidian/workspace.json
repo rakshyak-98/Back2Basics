@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DSL.md",
+                "file": "JavaScript/HashBang Comment.md",
                 "mode": "source",
                 "source": true
               }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "DSL.md",
+                "file": "JavaScript/HashBang Comment.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "DSL.md",
+                "file": "JavaScript/HashBang Comment.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -106,7 +106,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "DSL.md"
+                "file": "JavaScript/HashBang Comment.md"
               }
             }
           },
@@ -140,6 +140,10 @@
   },
   "active": "1ce9cd784c8f0d40",
   "lastOpenFiles": [
+    "JavaScript/lexical analysis.md",
+    "JavaScript/execution context.md",
+    "hoisting.md",
+    "DSL.md",
     "Blocking Vs Non-Blocking.md",
     "Asymmetrical Encryption.md",
     "ASGI.md",
@@ -165,11 +169,7 @@
     "Database/modeling.canvas",
     "Database",
     "IPC.md",
-    "top-level Domain.md",
     "design pattern",
-    "DNS zone.md",
-    "Thread.md",
-    "DSL.md",
     "Canvas/NodeJS.canvas",
     "Canvas/Browser.canvas",
     "Rendering performance",
