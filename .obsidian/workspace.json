@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "prototype.md",
+                "file": "JavaScript/canvas Object/fillReact.md",
                 "mode": "source",
                 "source": true
               }
@@ -73,8 +73,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -90,7 +89,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "prototype.md",
+                "file": "JavaScript/canvas Object/fillReact.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -107,7 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "prototype.md",
+                "file": "JavaScript/canvas Object/fillReact.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -119,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "prototype.md"
+                "file": "JavaScript/canvas Object/fillReact.md"
               }
             }
           },
@@ -153,8 +152,21 @@
   },
   "active": "1ce9cd784c8f0d40",
   "lastOpenFiles": [
+    "JavaScript/Object Creation patterns/Strategy Pattern.md",
+    "JavaScript/canvas Object/fillReact.md",
     "Canvas/JavaScript.canvas",
+    "Canvas/Browser.canvas",
+    "HTTP Strict Transport Security.md",
+    "IPC.md",
+    "IPC namespace.md",
+    "JavaScript/Object Creation patterns/Private Properties and Methods.md",
+    "JavaScript/canvas Object",
     "hoisting.md",
+    "JavaScript/function.md",
+    "prototype.md",
+    "JavaScript/Object Creation patterns",
+    "JavaScript/IIFC.md",
+    "self-defining functions.md",
     "JavaScript/HashBang Comment.md",
     "JavaScript/lexical analysis.md",
     "JavaScript/execution context.md",
@@ -170,28 +182,16 @@
     "Rendering performance/composite.md",
     "Nodejs/worker.md",
     "DNS.md",
-    "Runtime Environment.md",
-    "Coroutine.md",
-    "content security policy.md",
-    "Content-Security-Policy.md",
-    "connection pooling.md",
-    "Database/MMAP.md",
-    "runtime.md",
-    "compile time.md",
-    "Database/Mongodb.md",
     "Database/modeling.canvas",
     "Database",
     "design pattern",
     "Canvas/NodeJS.canvas",
-    "Canvas/Browser.canvas",
     "Rendering performance",
     "Nodejs",
     "JavaScript",
     "Canvas",
     "NodeJs",
     "Untitled 1.canvas",
-    "Kubernates",
-    "GitHub",
-    "Docker"
+    "Kubernates"
   ]
 }
