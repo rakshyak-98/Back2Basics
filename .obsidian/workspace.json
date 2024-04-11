@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "JavaScript/canvas Object/fillReact.md",
+                "file": "interview.md",
                 "mode": "source",
                 "source": true
               }
@@ -89,7 +89,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "JavaScript/canvas Object/fillReact.md",
+                "file": "interview.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "JavaScript/canvas Object/fillReact.md",
+                "file": "interview.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "JavaScript/canvas Object/fillReact.md"
+                "file": "interview.md"
               }
             }
           },
@@ -152,36 +152,36 @@
   },
   "active": "1ce9cd784c8f0d40",
   "lastOpenFiles": [
-    "JavaScript/Object Creation patterns/Strategy Pattern.md",
-    "JavaScript/canvas Object/fillReact.md",
-    "Canvas/JavaScript.canvas",
-    "Canvas/Browser.canvas",
-    "HTTP Strict Transport Security.md",
-    "IPC.md",
-    "IPC namespace.md",
-    "JavaScript/Object Creation patterns/Private Properties and Methods.md",
-    "JavaScript/canvas Object",
-    "hoisting.md",
-    "JavaScript/function.md",
+    "variable.md",
+    "interview.md",
+    "UTS namespace.md",
+    "top-level Domain.md",
+    "Thread.md",
+    "Throughput.md",
+    "SCTP.md",
+    "Runtime Environment.md",
+    "runtime.md",
     "prototype.md",
-    "JavaScript/Object Creation patterns",
-    "JavaScript/IIFC.md",
-    "self-defining functions.md",
-    "JavaScript/HashBang Comment.md",
-    "JavaScript/lexical analysis.md",
-    "JavaScript/execution context.md",
+    "Preprocessor.md",
+    "object code.md",
+    "non-blocking.md",
+    "NodeJS.md",
+    "Network Information Service (NIS).md",
+    "Microservice.md",
+    "LSP.md",
     "DSL.md",
-    "Blocking Vs Non-Blocking.md",
-    "Asymmetrical Encryption.md",
-    "ASGI.md",
-    "abstract storage location.md",
     "Rendering performance/refresh rate.md",
     "Rendering performance/paint.md",
     "Rendering performance/layout.md",
     "Rendering performance/INP.md",
     "Rendering performance/composite.md",
-    "Nodejs/worker.md",
-    "DNS.md",
+    "Nodejs/clustering.md",
+    "Nodejs/agent.md",
+    "JavaScript/canvas Object/fillReact.md",
+    "Canvas/JavaScript.canvas",
+    "Canvas/Browser.canvas",
+    "JavaScript/canvas Object",
+    "JavaScript/Object Creation patterns",
     "Database/modeling.canvas",
     "Database",
     "design pattern",

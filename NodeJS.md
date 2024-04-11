@@ -24,8 +24,8 @@ if (['production', 'staging'].includes(process.env.NODE_ENV)){
 }
 ```
 ## Difference Between Node.js and Browser
-|Node.js     | browser    |
-| --- | --- |
+|Node.js| browser|
+|---|---|
 | frontend and backend in a single language  | |
 | don't have `document` `window` object | interacting with the DOM or other Web APIs |
 | Node.js provide additional API like filesystem access | |
