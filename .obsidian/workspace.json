@@ -20,6 +20,18 @@
             }
           },
           {
+            "id": "807c54a6fe554c82",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Database/Indexing.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
             "id": "8667c0dac7264cf6",
             "type": "leaf",
             "state": {
@@ -31,7 +43,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -89,7 +102,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "interview.md",
+                "file": "Database/Indexing.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +119,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "interview.md",
+                "file": "Database/Indexing.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +131,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "interview.md"
+                "file": "Database/Indexing.md"
               }
             }
           },
@@ -150,10 +163,15 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "1ce9cd784c8f0d40",
+  "active": "807c54a6fe554c82",
   "lastOpenFiles": [
-    "variable.md",
+    "Design pattern/Singleton.md",
+    "Database/Indexing.md",
+    "Untitled.md",
+    "Design pattern/Private Properties and Methods.md",
+    "database application.md",
     "interview.md",
+    "variable.md",
     "UTS namespace.md",
     "top-level Domain.md",
     "Thread.md",
@@ -173,15 +191,10 @@
     "Rendering performance/refresh rate.md",
     "Rendering performance/paint.md",
     "Rendering performance/layout.md",
-    "Rendering performance/INP.md",
-    "Rendering performance/composite.md",
-    "Nodejs/clustering.md",
-    "Nodejs/agent.md",
-    "JavaScript/canvas Object/fillReact.md",
     "Canvas/JavaScript.canvas",
     "Canvas/Browser.canvas",
     "JavaScript/canvas Object",
-    "JavaScript/Object Creation patterns",
+    "Design pattern",
     "Database/modeling.canvas",
     "Database",
     "design pattern",

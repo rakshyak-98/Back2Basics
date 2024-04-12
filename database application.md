@@ -1,0 +1,1 @@
+- refers to a particular database and the associated programs that implements the database queries and updates.
