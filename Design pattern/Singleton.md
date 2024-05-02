@@ -21,3 +21,16 @@ function Universe(){
 	return instance;
 }
 ```
+
+```javascript
+var Universe
+(function(){
+	let instance;
+	Universe = function(){
+		if(instance){
+			return instance;
+		}
+		instance = this;
+	}
+})
+```

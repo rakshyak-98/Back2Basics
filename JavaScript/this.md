@@ -1,9 +1,9 @@
-strict mode
+### strict mode
 - If the function is called without being accessed on anything, `this` will be `undefined`
 non-strict mode
 - if a function is called with `this` set to `undefined` `null` , `this` gets substituted with `globalThis`. 
 - if the function is called with `this` set to a primitive value, `this` get substituted with the primitive value's wrapper object.
-you can  also explicitly set the value of `this` using the
+### you can  also explicitly set the value of `this` using the
 - `Function.prototype.call()`
 - `Function.prototype.apply()`
 - `Reflect.apply()`

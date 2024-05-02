@@ -1,0 +1,24 @@
+{
+	"nodes":[
+		{"id":"a300a13e0aa2ea2c","type":"text","text":"[[TCP]]","x":-62,"y":82,"width":250,"height":60},
+		{"id":"056ac138550a9f33","type":"text","text":"UDP","x":240,"y":80,"width":250,"height":60},
+		{"id":"15a108a35af5257a","type":"text","text":"IP","x":80,"y":280,"width":250,"height":60},
+		{"id":"4a9f5a9cefb0568d","type":"text","text":"HTTP data","x":-60,"y":-180,"width":250,"height":60},
+		{"id":"bd0b39cceff48315","type":"text","text":"data","x":-60,"y":-420,"width":250,"height":60},
+		{"id":"3e5667af78ec1b32","type":"text","text":"Ethernet Header","x":80,"y":500,"width":250,"height":60},
+		{"id":"331c284ba29c0c66","type":"text","text":"Ethernet Trailer","x":480,"y":500,"width":250,"height":60},
+		{"id":"0bf99a5636c51622","x":100,"y":680,"width":250,"height":60,"type":"text","text":"Protocol"},
+		{"id":"c1ca8c194c8a28e4","x":-180,"y":680,"width":250,"height":60,"type":"text","text":"Server IP address"},
+		{"id":"c9e6e2f391d0a904","x":420,"y":680,"width":250,"height":60,"type":"text","text":"Server application port number"}
+	],
+	"edges":[
+		{"id":"de650c61e0b16a18","fromNode":"bd0b39cceff48315","fromSide":"bottom","toNode":"4a9f5a9cefb0568d","toSide":"top"},
+		{"id":"a6b812251786d75e","fromNode":"a300a13e0aa2ea2c","fromSide":"bottom","toNode":"15a108a35af5257a","toSide":"top"},
+		{"id":"113d3e3d17bfe8f5","fromNode":"4a9f5a9cefb0568d","fromSide":"bottom","toNode":"a300a13e0aa2ea2c","toSide":"top","label":"TCP payload"},
+		{"id":"47c98691c2362302","fromNode":"056ac138550a9f33","fromSide":"bottom","toNode":"15a108a35af5257a","toSide":"top"},
+		{"id":"3eebc9d2436217bd","fromNode":"15a108a35af5257a","fromSide":"bottom","toNode":"3e5667af78ec1b32","toSide":"top","label":"Layer 4 (IP Layer)"},
+		{"id":"73ca9c004a268720","fromNode":"c1ca8c194c8a28e4","fromSide":"top","toNode":"3e5667af78ec1b32","toSide":"bottom"},
+		{"id":"05991847c12780c1","fromNode":"0bf99a5636c51622","fromSide":"top","toNode":"3e5667af78ec1b32","toSide":"bottom"},
+		{"id":"e45f40f0108fa87a","fromNode":"c9e6e2f391d0a904","fromSide":"top","toNode":"3e5667af78ec1b32","toSide":"bottom"}
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"2573ce5972305889","x":-160,"y":-180,"width":250,"height":60,"type":"text","text":"key"},
+		{"id":"3991769b28a16966","x":-160,"y":20,"width":250,"height":60,"type":"text","text":"unique"},
+		{"id":"5eb8d60f17276bbe","x":200,"y":-180,"width":250,"height":60,"type":"text","text":"key"},
+		{"id":"ca4b4cde9c041b5c","x":200,"y":20,"width":250,"height":60,"type":"text","text":"Composite key"},
+		{"id":"41d8dbc888fb44de","x":80,"y":200,"width":250,"height":60,"type":"text","text":"Super key"},
+		{"id":"77730558625237d2","x":-440,"y":580,"width":250,"height":60,"type":"text","text":"Primary key"},
+		{"id":"560c9bcb4ff02ec2","x":-440,"y":400,"width":250,"height":60,"type":"text","text":"indexing"},
+		{"id":"e2ec3d21bdefdfef","x":-440,"y":200,"width":250,"height":60,"type":"text","text":"unique key"},
+		{"id":"d3e0d7ff3151dd12","x":-140,"y":400,"width":250,"height":60,"type":"text","text":"Candidate key"}
+	],
+	"edges":[
+		{"id":"49ad742e25580935","fromNode":"2573ce5972305889","fromSide":"bottom","toNode":"3991769b28a16966","toSide":"top"},
+		{"id":"ee653a0b6ec2fc6b","fromNode":"3991769b28a16966","fromSide":"bottom","toNode":"e2ec3d21bdefdfef","toSide":"top"},
+		{"id":"44c663afac947c6d","fromNode":"e2ec3d21bdefdfef","fromSide":"bottom","toNode":"560c9bcb4ff02ec2","toSide":"top"},
+		{"id":"1532a7850324d11d","fromNode":"560c9bcb4ff02ec2","fromSide":"bottom","toNode":"77730558625237d2","toSide":"top"},
+		{"id":"e562d56e0fbe186f","fromNode":"2573ce5972305889","fromSide":"right","toNode":"5eb8d60f17276bbe","toSide":"left"},
+		{"id":"07ad3adbb8815e83","fromNode":"5eb8d60f17276bbe","fromSide":"bottom","toNode":"ca4b4cde9c041b5c","toSide":"top"},
+		{"id":"ed141b056baac379","fromNode":"ca4b4cde9c041b5c","fromSide":"left","toNode":"3991769b28a16966","toSide":"right"},
+		{"id":"6f077e806b0e85d5","fromNode":"3991769b28a16966","fromSide":"bottom","toNode":"41d8dbc888fb44de","toSide":"top"},
+		{"id":"71b889d869154781","fromNode":"41d8dbc888fb44de","fromSide":"left","toNode":"e2ec3d21bdefdfef","toSide":"right","label":"minimum key"},
+		{"id":"52b6229065e17cc2","fromNode":"e2ec3d21bdefdfef","fromSide":"bottom","toNode":"d3e0d7ff3151dd12","toSide":"top"}
+	]
+}

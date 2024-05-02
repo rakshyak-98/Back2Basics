@@ -1,3 +1,4 @@
+Inter-process communication
 - mechanisms provided by an operating system 
 - for processes to manage share data.
 - applications can use IPC, categorized as clients and servers, where client request data and the server responds to client requests.

@@ -1,0 +1,2 @@
+- the debugger has encountered a break point that is set but not yet associated with any particular line of code or location in the program.
+- their can be issues with the debugger's configuration or setup that prevent it from correctly associating the break-point with the appropriate location in the code.

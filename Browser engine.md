@@ -3,4 +3,4 @@ also known as __Layout engine__ or __rendering engine__
 - browser engine is not a stand-alone computer program.
 - a browser engine enforces the [[content security policy]] between documents, handle navigation through hyperlinks and data submitted through forms, and implements the Document Object Model, exposed to scripts associated with the document.
 ### References
-- https://en.wikipedia.org/wiki/Browser_engine
+[Browser engine](https://en.wikipedia.org/wiki/Browser_engine)
