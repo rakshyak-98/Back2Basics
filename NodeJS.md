@@ -1,5 +1,5 @@
 - child process can  be spawned by using `child_process.fork()` API (instead of using multiple threads).
-- `cluster` module, which allows you to share sockets between processes to enable load balancing over your cores.
+- `cluster` module allows you to share sockets between processes to enable load balancing over your cores.
 - designed to build scalable network application ([[non-blocking]], [[Asynchronous]], [[Event Loop]]).
 - because on non-blocking operations Scalable systems are very reasonable to develop in Node.js.
 - As an asynchronous event-driven JavaScript [[runtime environment]]. Node.js is designed to build scalable network application.
