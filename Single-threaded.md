@@ -9,3 +9,6 @@ While the operating system can indeed manage threads for both types of languages
 - Languages like JavaScript, particularly in environment like Node.js, are designed for event-driven, non-blocking I/O operations, which are ideal for web servers and real-time applications where responsiveness is more critical than raw computational throughput.
 - Many UI framework operate on a single-threaded event loop to avoid complex thread synchronization issues, ensuring that UI updates happen in a predictable manner.
 - Single-threaded, non-blocking I/O models can handle a large number of concurrent I/O operations efficiently, making them suitable for network servers and applications that require handling many simultaneous connections.
+### single-threaded programming language typically follows a single stack?
+there is only one thread of execution. This means the program executes instructions sequentially, one at a time, there is no need for multiple stacks to mange concurrent execution contents.
+- the stack is manage function calls, local variables, and control flow in a program. The stack grows and shrinks predictably as functions are called and return .
