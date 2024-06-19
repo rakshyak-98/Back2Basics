@@ -21,7 +21,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "network gateway.md",
+                "file": "cookies.md",
                 "mode": "source",
                 "source": true
               }
@@ -66,8 +66,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -88,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "network gateway.md",
+                "file": "cookies.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "network gateway.md",
+                "file": "cookies.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +116,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "network gateway.md"
+                "file": "cookies.md"
               }
             }
           },
@@ -151,6 +150,8 @@
   },
   "active": "e0da0b857bb3aba3",
   "lastOpenFiles": [
+    "UDP.md",
+    "cookies.md",
     "network gateway.md",
     "Distributed computing.md",
     "library file.md",
@@ -173,13 +174,11 @@
     "Microservice.md",
     "SSH.md",
     "Canvas/Networking.canvas",
-    "UDP.md",
     "Canvas/NodeJS.canvas",
     "unbound breakpoint.md",
     "Browser engine.md",
     "Nodejs/worker.md",
     "Nodejs/spawn.md",
-    "Nodejs/REPL.md",
     "Canvas/JavaScript.canvas",
     "Canvas/Browser.canvas",
     "JavaScript/canvas Object",
