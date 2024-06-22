@@ -21,7 +21,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cookies.md",
+                "file": "hydration.md",
                 "mode": "source",
                 "source": true
               }
@@ -87,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cookies.md",
+                "file": "hydration.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cookies.md",
+                "file": "hydration.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -116,7 +116,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cookies.md"
+                "file": "hydration.md"
               }
             }
           },
@@ -151,6 +151,7 @@
   "active": "e0da0b857bb3aba3",
   "lastOpenFiles": [
     "UDP.md",
+    "hydration.md",
     "cookies.md",
     "network gateway.md",
     "Distributed computing.md",
@@ -178,7 +179,6 @@
     "unbound breakpoint.md",
     "Browser engine.md",
     "Nodejs/worker.md",
-    "Nodejs/spawn.md",
     "Canvas/JavaScript.canvas",
     "Canvas/Browser.canvas",
     "JavaScript/canvas Object",
