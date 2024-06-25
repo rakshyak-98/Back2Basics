@@ -1,0 +1,4 @@
+- general-purpose *transport layer* network protocol by [Jim Roskind]()
+- improves performance of connection-oriented web applications that are currently using [[TCP]].
+- establishing a number of [[multiplexed connections]] between two endpoints using [[UDP]].
+- HTTP/3 has lower latency, if enabled on the server, and loads faster than with HTTP/2.

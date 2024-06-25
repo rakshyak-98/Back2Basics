@@ -1,0 +1,3 @@
+- software suite manages different parts of display screens.
+- type of [[GUI]] which implements the [[WIMP]] (windows, icons, menus, pointer).
+- available [widgets](https://en.wikipedia.org/wiki/Graphical_widget) inside of the window, which are graphical elements for direct user interaction. Simplified through the use of [winget toolkit](https://en.wikipedia.org/wiki/Widget_toolkit).

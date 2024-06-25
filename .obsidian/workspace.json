@@ -4,31 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "cb2dc275c7fa02fa",
+        "id": "2834002c42b401e1",
         "type": "tabs",
         "children": [
           {
-            "id": "a1d7b17345eb4361",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          },
-          {
-            "id": "e0da0b857bb3aba3",
+            "id": "ff170629994bf233",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "hydration.md",
+                "file": "display server.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -87,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "hydration.md",
+                "file": "display server.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "hydration.md",
+                "file": "display server.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -116,7 +107,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "hydration.md"
+                "file": "display server.md"
               }
             }
           },
@@ -148,10 +139,20 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "e0da0b857bb3aba3",
+  "active": "ff170629994bf233",
   "lastOpenFiles": [
-    "UDP.md",
+    "x11.md",
+    "display server.md",
+    "gdb.md",
+    "windowing system.md",
+    "NodeJS.md",
+    "LDAP.md",
+    "handle.md",
+    "Berkeley sockets.md",
+    "QUIC.md",
+    "HTTP Strict Transport Security.md",
     "hydration.md",
+    "UDP.md",
     "cookies.md",
     "network gateway.md",
     "Distributed computing.md",
@@ -160,25 +161,15 @@
     "backpressure.md",
     "Thread.md",
     "multi-threaded.md",
-    "NodeJS.md",
     "web rtc.md",
     "promise.md",
     "white-label auth-url.md",
     "race condition.md",
     "TCP.md",
     "Nodejs/Event Loop.md",
-    "half-open connections.md",
-    "DNS.md",
-    "Byte stream.md",
     "Canvas/Database.canvas",
-    "LSP.md",
-    "Microservice.md",
-    "SSH.md",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",
-    "unbound breakpoint.md",
-    "Browser engine.md",
-    "Nodejs/worker.md",
     "Canvas/JavaScript.canvas",
     "Canvas/Browser.canvas",
     "JavaScript/canvas Object",
