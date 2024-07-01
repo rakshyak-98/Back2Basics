@@ -1,0 +1,2 @@
+- process of digitally signing executable and scripts to confirm that software author and guarantee that the code has not been altered or corrupted since it was signed.
+- process employs the use of cryptographic hash to validate authenticity and integrity.

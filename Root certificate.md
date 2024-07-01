@@ -1,0 +1,2 @@
+- a public key certificate that identifies a root [certificate authority](https://en.wikipedia.org/wiki/Electronic_signature).
+- root certificate are self signed.

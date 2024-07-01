@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "2834002c42b401e1",
+        "id": "5808e3fb7675bce4",
         "type": "tabs",
         "children": [
           {
-            "id": "ff170629994bf233",
+            "id": "6929b00bb792bb0a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "display server.md",
+                "file": "system call.md",
                 "mode": "source",
                 "source": true
               }
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "display server.md",
+                "file": "system call.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "display server.md",
+                "file": "system call.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,7 +107,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "display server.md"
+                "file": "system call.md"
               }
             }
           },
@@ -139,10 +139,25 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "ff170629994bf233",
+  "active": "6929b00bb792bb0a",
   "lastOpenFiles": [
-    "x11.md",
+    "code signing.md",
+    "Nodejs/worker.md",
+    "Nodejs/spawn.md",
+    "Nodejs/inputs.md",
+    "Nodejs/REPL.md",
+    "Nodejs/fork.md",
+    "Nodejs/Event Loop.md",
+    "Nodejs/event emitter.md",
+    "Nodejs/clustering.md",
+    "Nodejs/agent.md",
+    "Kubernates/Pods.md",
+    "PKI.md",
+    "system call.md",
+    "https.md",
+    "Root certificate.md",
     "display server.md",
+    "x11.md",
     "gdb.md",
     "windowing system.md",
     "NodeJS.md",
@@ -152,21 +167,6 @@
     "QUIC.md",
     "HTTP Strict Transport Security.md",
     "hydration.md",
-    "UDP.md",
-    "cookies.md",
-    "network gateway.md",
-    "Distributed computing.md",
-    "library file.md",
-    "Single-threaded.md",
-    "backpressure.md",
-    "Thread.md",
-    "multi-threaded.md",
-    "web rtc.md",
-    "promise.md",
-    "white-label auth-url.md",
-    "race condition.md",
-    "TCP.md",
-    "Nodejs/Event Loop.md",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",

@@ -1,0 +1,1 @@
+- the authentication aspect of HTTPS requires a trusted third party to sign server-side digital certificates.
