@@ -1,0 +1,3 @@
+- Payment Service Provider
+- intermediate between who make payments and those who accept them.
+- typically provide software to integrate with e-commerce website or point of sale systems.
