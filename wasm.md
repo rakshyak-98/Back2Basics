@@ -1,0 +1,2 @@
+- allowing encryption and decryption to occur on the client side without sending sensitive data over the network.
+- reuse of existing code-bases written in languages like c, c++ or Rust, integrate components directly into web applications without rewriting them in JavaScript. 
