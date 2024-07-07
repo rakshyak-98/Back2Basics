@@ -1,0 +1,2 @@
+- Online Analytical Processing
+- an approach to quickly answer multi-dimensional analytical queries.

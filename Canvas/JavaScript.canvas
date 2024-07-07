@@ -53,7 +53,7 @@
 		{"id":"c6ef2089b60a8cef","type":"text","text":"`setTimeout()`","x":-400,"y":548,"width":250,"height":60},
 		{"id":"8cbfaf49445abfcb","type":"text","text":"event","x":-1060,"y":660,"width":250,"height":60},
 		{"id":"48eeb5d7d0bf18b3","type":"text","text":"event handler","x":-600,"y":660,"width":250,"height":60},
-		{"id":"92395db8f6e71d0f","type":"text","text":"[[asynchronous]]","x":-220,"y":180,"width":250,"height":60},
+		{"id":"92395db8f6e71d0f","type":"text","text":"[[Asynchronous]]","x":-220,"y":180,"width":250,"height":60},
 		{"id":"7f6a35791bdd3581","type":"text","text":"temporal dead zone","x":720,"y":1140,"width":250,"height":60},
 		{"id":"8addbd30aab5eacc","type":"text","text":"[[new]]","x":680,"y":-540,"width":250,"height":60,"color":"2"},
 		{"id":"df71162f067727f7","type":"text","text":"Higher Order function","x":80,"y":1140,"width":250,"height":60},
