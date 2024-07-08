@@ -154,6 +154,28 @@ john = null; // overwrite the reference
 - promises are a more modern way to handle errors in asynchronous code.
     - returned by function and can be chained together.
     - resolved when the function completes and rejected when it fails.
+#### promise API
+- 6 static methods
+```javascript
+let promise = Promise.all(iterable);
+```
+- takes an iterable (usually, an array of promises) and return a new promise.
+- the new promise resolves when all listed promises are resolved, and the array of their results becomes its result.
+- the order of the resulting array members is the same as in its source promises. Even though the first promise takes the longest time to resolve. It will still first in the array of results.
+```javascript
+let urls = [
+	'https://api.github.com/users/iliakan',
+	'https://api/github.com/users/remy',
+	'https://api/github.com/users/jeresig'
+];
+
+let requests = urls.map(url => fetch(url));
+
+Promise.all(requests)
+	.then(response => response.forEach(
+		response => console.log(response.status))
+	)
+```
 
 ## Stream
 Streams are objects that allow you to read data from a source or write data to a destination in continuous manner.
