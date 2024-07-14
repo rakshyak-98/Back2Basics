@@ -1,0 +1,4 @@
+- is a file that maps from the transformed source to the original source.
+- enables developers to debug their code withing their development tools.
+- useful when working with languages or tools that compile into JavaScript, such as TypeScript, Babel (for ES6+ JavaScript), Sass for CSS and other pre-processor.
+- when error occurs, the source map helps trace the error back to the original source code, making it easier to identify and fix bugs.

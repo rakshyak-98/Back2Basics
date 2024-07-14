@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "97bbae3379622399",
+        "id": "5f3f26e692579e3b",
         "type": "tabs",
         "children": [
           {
-            "id": "5e2dfa3a67842795",
+            "id": "c5c571083acf1dff",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Descriptive/Javascript.md",
+                "file": "Descriptive/Linux user management.md",
                 "mode": "source",
                 "source": true
               }
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Descriptive/Javascript.md",
+                "file": "Descriptive/Linux user management.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Descriptive/Javascript.md",
+                "file": "Descriptive/Linux user management.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,7 +107,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Descriptive/Javascript.md"
+                "file": "Descriptive/Linux user management.md"
               }
             }
           },
@@ -134,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Descriptive/Javascript.md",
+                "file": "Descriptive/Linux user management.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,16 +161,25 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "5e2dfa3a67842795",
+  "active": "c5c571083acf1dff",
   "lastOpenFiles": [
-    "Stack Frame.md",
+    "Linux management.md",
+    "Python/wheel.md",
+    "Untitled.md",
     "Descriptive/Javascript.md",
+    "linked list.md",
+    "Lexical environment.md",
+    "write-ahead logging.md",
+    "shared memory.md",
+    "Python",
+    "source map.md",
+    "ARIES.md",
+    "Stack Frame.md",
     "Descriptive/JavaScript/this.md",
     "Descriptive/How does debugger work.md",
     "Descriptive/JavaScript/Garbage Collection.md",
     "OLAP.md",
     "LDAP.md",
-    "Linux management.md",
     "Descriptive/Linux user management.md",
     "Descriptive/Linux configuration.md",
     "Descriptive/Linux.md",
@@ -184,14 +193,6 @@
     "JavaScript.md",
     "web worker.md",
     "web workers.md",
-    "database seeding.md",
-    "Kubernates/ingress.md",
-    "PSP.md",
-    "payment gateway.md",
-    "system call.md",
-    "code signing.md",
-    "Nodejs/worker.md",
-    "Nodejs/spawn.md",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",
@@ -205,7 +206,6 @@
     "Rendering performance",
     "Nodejs",
     "Descriptive/JavaScript",
-    "Canvas",
     "Untitled 1.canvas"
   ]
 }

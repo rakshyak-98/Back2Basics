@@ -1,4 +1,7 @@
 user, user with elevated privileges, root.
+```bash
+visudo; # configure elevated privileges
+```
 
 > NOTE: we can limit the functionality of the elevated user.
 
