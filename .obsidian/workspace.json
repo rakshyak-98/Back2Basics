@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "gpg.md",
+                "file": "apt.md",
                 "mode": "source",
                 "source": true
               }
@@ -91,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "gpg.md",
+                "file": "apt.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "gpg.md",
+                "file": "apt.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -120,7 +120,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "gpg.md"
+                "file": "apt.md"
               }
             }
           },
@@ -147,7 +147,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "gpg.md",
+                "file": "apt.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -176,9 +176,10 @@
   },
   "active": "d9a93cfeca577fc0",
   "lastOpenFiles": [
-    "Cryptographic hashing.md",
-    "gpg.md",
     "Linux/Linux.md",
+    "apt.md",
+    "gpg.md",
+    "Cryptographic hashing.md",
     "BSD Socket.md",
     "Linux/Linux user management.md",
     "uwsgi.md",
@@ -204,7 +205,6 @@
     "Descriptive/How does debugger work.md",
     "Descriptive/JavaScript/Garbage Collection.md",
     "OLAP.md",
-    "LDAP.md",
     "Projects",
     "Descriptive",
     "Untitled.canvas",
