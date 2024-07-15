@@ -48,17 +48,11 @@ lsb_release -a; # check latest stable release
 sudo do-release-upgrades;
 ```
 
-## STDIN, STDOUT, STDERR
+# STDIN, STDOUT, STDERR
 
 # system boot timeout config in window 11
 
 win + i > system > about > system protection > advanced > startup and recovery (settings)
-
-ps - process status: report a snapshot of the current processes status.
-
-- options 1 (UNIX) , 2 (BSD) , 3 (GNU)
-- process id, parent process id.
-- `top` can be used to see the threads running on the system.
 
 `sudo make install` : you are telling the system to execute the instructions in the make-file with administrative privileges, which will build the software and then install it on the system. `make` this is a tool that reads a set of instructions in a make-file and builds the software according to those instructions.
 
@@ -245,10 +239,7 @@ STAT - stands for status.
 - S - interruptible sleep (waiting for an event to complete)
 - T - stopped, either by a job control signal or because it is being traced.
 - Z - defunct (zombie) process, terminated but not reaped by its parent.
-
-BSD - Berkeley Software Distribution at Curlie.
-
-tty column - display the terminal device associated with a process.
+`tty` column - display the terminal device associated with a process.
 
 ### sha bang
 
@@ -342,7 +333,6 @@ shell script - default command-line interpreter Unix-like operating system, incl
 
 `/var/lib/apt/lists`
 
-`apt-cache search` - search the cache in the system with package name and little description and `apt-get show` - search without internet connection, the specified package from the cache and show the all information of the package.
 
 ### installing new software
 
@@ -481,3 +471,4 @@ sed -e 's/old_string/new_string/g' -e '/pattern_to_insert_after/a\\text to appen
 sed 's|/path/to/replace|/new/path|g' filename
 ```
 
+## ed editor

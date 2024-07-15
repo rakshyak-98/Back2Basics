@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apt.md",
+                "file": "Linux/Linux.md",
                 "mode": "source",
                 "source": true
               }
@@ -91,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "apt.md",
+                "file": "Linux/Linux.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "apt.md",
+                "file": "Linux/Linux.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -120,7 +120,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "apt.md"
+                "file": "Linux/Linux.md"
               }
             }
           },
@@ -147,7 +147,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "apt.md",
+                "file": "Linux/Linux.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -176,8 +176,8 @@
   },
   "active": "d9a93cfeca577fc0",
   "lastOpenFiles": [
-    "Linux/Linux.md",
     "apt.md",
+    "Linux/Linux.md",
     "gpg.md",
     "Cryptographic hashing.md",
     "BSD Socket.md",
