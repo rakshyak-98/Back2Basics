@@ -1,3 +1,8 @@
+```bash
+update-alternatives --config editor; # change the default options for editor
+```
+
+```
 # Prompt
 
 ```bash
@@ -154,20 +159,22 @@ deb [options] <URI> <distribution> <component1> <component2> ...
 
 ## VISUDO
 
-visudo" is a command-line utility used to safely edit the system's sudoers file. The sudoers file, typically located at `/etc/sudoers` controls the privileges and permissions for users and groups to execute administrative commands using the `sudo` command.
-
+`visudo` is a command-line utility used to safely edit the system's sudoers file `/etc/sudoers`. 
+- The sudoers file, typically located at `/etc/sudoers` 
+- controls the privileges and permissions for users and groups to execute administrative commands.
 - The `sudo` command is used to execute "visudo" with superuser (root) privileges since editing the `sudoers` file requires administrative access.
 
 ```bash
 # template of sudoers fiel : 
-# <user_or_group>  <host>=(<run as user>)  <commands>
+# <user/group>  <host>=(<run as user>:<run as group>) <sepecial>: <commands to allow>
+# %group_name - syntax to define group permission
 john   ALL=(root)   /usr/bin/apt-get
 ```
 
 1. `user_or_group`: This field specifies the user or group to whom the rule applies. It can be a specific user (e.g., "john"), a group name (e.g., "%developers"), or the keyword "ALL," representing all users.
-2. `host`: This field defines the system or hostnames where the rule is valid. It can be the name of a specific host (e.g., "localhost") or the keyword "ALL," indicating the rule applies to all hosts.
+2. `host`: This field defines the system or host-names where the rule is valid. It can be the name of a specific host (e.g., "localhost") or the keyword "ALL," indicating the rule applies to all hosts.
 3. `(runas_user)`: This optional field specifies the user as whom the command should be run. If omitted, the command is executed as the root user. For example, if you want to allow a user to run a specific command as another user (e.g., "www-data"), you would include "(www-data)" in this field.
-4. `commands`: This field contains the commands or command patterns that the user or group is allowed to run. It can be a specific command (e.g., "/usr/bin/apt-get"), a command with wildcard patterns (e.g., "/usr/bin/*"), or the keyword "ALL," allowing the user or group to run any command.
+4. `commands`: This field contains the commands or command patterns that the user or group is allowed to run. It can be a specific command (e.g., `/usr/bin/apt-get`), a command with wildcard patterns (e.g., `/usr/bin/*`), or the keyword `ALL` allowing the user or group to run any command.
 
 ## Window partition types and usage
 
@@ -183,29 +190,6 @@ Here are some common partition types you might encounter when executing the `lis
 8. **Data Partition**: A partition dedicated to storing user data, separate from the operating system and application files.
 9. **Unallocated Space**: Unallocated space represents space on the disk that has not been assigned to any partition. It's available for creating new partitions.
 
-# WaylabndEnable
-
-```bash
-# /etc/gdm3/custom.conf
-WaylandEnable=false
-```
-
-Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware.
-
-### X server
-
-is a display server for UNIX like operating systems, including Linux.
-
-- provide framework for graphical user interface by mapping graphical elements such as windows, applications, and input devices.
-- facilitates the communication between the hardware and the software.
-- default display server for Linux.
-
-### Wayland
-
-display server protocol and architecture designed as a replacement for x11.
-
-- starting with Ubuntu 17.10 there has been experimental support for wayland.
-- user can choose wayland as the session type during the login screen.
 
 ## Setup auto-completion
 
