@@ -4,47 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "b242d30018c6a9c7",
+        "id": "9afc83598fee48f5",
         "type": "tabs",
         "children": [
           {
-            "id": "d64589233e7eaeda",
+            "id": "1092abc54cbb9df6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cryptographic hashing.md",
-                "mode": "source",
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "d9a93cfeca577fc0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Projects/Bookish Buddies.md",
-                "mode": "source",
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "00f099fec8f21aab",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Stack Frame.md",
+                "file": "Linux/Linux command.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -103,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Stack Frame.md",
+                "file": "Linux/Linux command.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Stack Frame.md",
+                "file": "Linux/Linux command.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,7 +107,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Stack Frame.md"
+                "file": "Linux/Linux command.md"
               }
             }
           },
@@ -159,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Stack Frame.md",
+                "file": "Linux/Linux command.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -186,18 +161,19 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "00f099fec8f21aab",
+  "active": "1092abc54cbb9df6",
   "lastOpenFiles": [
-    "sub routine.md",
-    "Stack Frame.md",
-    "bus.md",
+    "Cryptographic hashing.md",
     "Projects/Bookish Buddies.md",
+    "Linux/Linux command.md",
+    "system call.md",
+    "Stack Frame.md",
+    "sub routine.md",
+    "bus.md",
     "Linux window manager.md",
     "Linux/Linux configuration.md",
-    "Linux/Linux command.md",
     "apt.md",
     "gpg.md",
-    "Cryptographic hashing.md",
     "BSD Socket.md",
     "Linux/Linux user management.md",
     "uwsgi.md",
@@ -216,7 +192,6 @@
     "shared memory.md",
     "Python",
     "source map.md",
-    "ARIES.md",
     "Projects",
     "Descriptive",
     "Untitled.canvas",

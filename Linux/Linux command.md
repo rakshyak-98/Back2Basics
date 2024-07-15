@@ -445,12 +445,12 @@ tar -tf <"file name">; # see inside .tar archive
 ## sed
 
 ```bash
-sed '/pattern_to_delete/d' filename
-sed -n '/pattern_to_print/p' filename
-sed '2,5s/old_string/new_string/g' filename
+sed '/pattern_to_delete/d' filename; # delete the line
+sed -n '/pattern_to_print/p' filename;
+sed '2,5s/old_string/new_string/g' filename;
 
 # replace
-sed -i 's/,/;/g' your_file.txt
+sed -i 's/,/;/g' your_file.txt; # inplace change
 
 sed = filename | sed 'N;s/\\n/: /' # print line number
 sed '/^$/d' filename # remove empty line from file
@@ -460,7 +460,7 @@ echo "Hello, World!" | sed 'y/aeiou/AEIOU/' # use transliteration
 sed '/pattern_to_insert_before/i\\text to insert' filename
 sed '/pattern_to_insert_after/a\\text to append' filename
 
-sed -i.bak 's/old_string/new_string/g' filename
+sed -i.bak 's/old_string/new_string/g' filename; # create a backup version.
 
 # multiple operation
 sed -e 's/old_string/new_string/g' -e '/pattern_to_insert_after/a\\text to append' filename
@@ -472,3 +472,15 @@ sed 's|/path/to/replace|/new/path|g' filename
 ```
 
 ## ed editor
+```bash
+ed filename; # open file
+# a - Enter insert mode
+# p - print current line
+# 1,3p - print specific line numbers.
+# 1,$p - print all lines.
+# d - delete the current line.
+# 1,3d - delete specific lines.
+# 1,$s/old/new/g - sustitute text in all lines.
+# w - save changes.
+# wq - save and quite.
+```
