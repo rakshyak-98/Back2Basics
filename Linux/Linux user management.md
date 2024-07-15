@@ -6,7 +6,7 @@ visudo; # configure elevated privileges
 > NOTE: we can limit the functionality of the elevated user.
 
 ```bash
-whoami; # 
+whoami;
 id;
 
 # category
@@ -24,8 +24,12 @@ id;
 # 100+; are for users.
 ```
 
-## Configuration
-
+## Configuration 
+- To differentiate `user` and `group`, we user `%` for specify the group.
+- `pos1` - applies to all hosts
+- `post2` - user can use all commands as all users
+- `post2` - user can use commands as all groups
+- `pos4` - user can use all commands
 4 files involved in configuration of users.
 
 ### `passwd`
@@ -56,12 +60,8 @@ there is possibility to have password set for groups.
 ## user creating
 
 ```bash
--d; # create home directory in specified location, if we want to change.
--m; # create the home directory;
--p; # passowrd
--s; # shell
--c; # commnets, or description of the account
-usermod -aG <user>; # a- append
+useradd -d -m -s /bin/sh -c "SDE team";
 ## it is good practice to append.
-userdel -rf <user>; # delete home directory also otherwise not deleted.
+usermod -aG user;
+userdel -rf user; # delete home directory also otherwise not deleted.
 ```
