@@ -75,7 +75,7 @@ Here are some common exit codes along with their meanings:
 - **143**: Process terminated by Control-C (128 + 15)
 - **255**: Exit status out of range or undefined
 
-> Note: you have already run the `./configure` command to set up the build environment.
+> [!INFO] you have already run the `./configure` command to set up the build environment.
 
 ```bash
 date +%y-%m-%d-%H-M%-%s;
@@ -475,6 +475,7 @@ sed 's|/path/to/replace|/new/path|g' filename
 ```bash
 ed filename; # open file
 # a - Enter insert mode
+# . - Exit append mode by thyping period on new line.
 # p - print current line
 # 1,3p - print specific line numbers.
 # 1,$p - print all lines.
@@ -483,4 +484,7 @@ ed filename; # open file
 # 1,$s/old/new/g - sustitute text in all lines.
 # w - save changes.
 # wq - save and quite.
+# = - print current line number.
+# /example - search example in editor.
+# 10 - move to line no. 10.
 ```
