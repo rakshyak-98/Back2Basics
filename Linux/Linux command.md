@@ -360,7 +360,6 @@ uname -a; #show system information.
 `uname` to get the system name and `uname -s` print the kernel name of your system `uname -n` - to get the network host-name `uname -v` - to get the kernel version `uname -r` to get kernel release `uname -m` machine hardware name.
 
 ### sort command
-
 `tac` command also reverse order. `sort -n <file>` sort the number `-u` - for unique `-r` for reverse `-n` for number . `-k` - search with key (column number)
 
 ```bash
@@ -373,13 +372,10 @@ sort -u; # unique.
 ```
 
 ### make
-
 the Linux make command is used to build and maintain groups of programs and files from the source code. The make command invokes the execution of the make-file. It is a special file that contains the shell commands that we create to maintain the project.
 
 ### file permissions
-
 execute permission **x** - is means access go inside (**`cd`**) that group.
-
 the permissions are divided in 3 having 3 places for each group which hold three permission out of (r, w, x) bits. On every first place is reserved for the type of the file.
 
 ```bash
@@ -390,7 +386,6 @@ chomod og+x+w-r <user>;
 ```
 
 ## Environment variables
-
 ```bash
 printenv; #print all env variables;
 printenv PATH; #print value of pertical value
@@ -400,7 +395,6 @@ echo DB_NAME=test_db >> .bashrc;
 ```
 
 ## tee
-
 ```bash
 some_command 2>&1 | tee output.log
 echo "New data" | tee -a existing_file.txt
@@ -411,7 +405,6 @@ ls -l | tee directory_listing.txt
 - **Viewing Output While Saving**: Sometimes, you may want to view the output of a command in real-time while saving it to a file for future reference. `tee` allows you to do this by displaying the output on the terminal while writing it to a file.
 
 ## tar
-
 ```bash
 zip -r archive.zip source_dir -x "excluded_dir/*"
 unzip -l archive.zip; # see inside .zip archive
@@ -427,7 +420,6 @@ tar -tf <"file name">; # see inside .tar archive
 `shift + g` : go to end of the file.
 
 ## sed
-
 ```bash
 sed '/pattern_to_delete/d' filename; # delete the line
 sed -n '/pattern_to_print/p' filename;
@@ -449,7 +441,6 @@ sed -i.bak 's/old_string/new_string/g' filename; # create a backup version.
 # multiple operation
 sed -e 's/old_string/new_string/g' -e '/pattern_to_insert_after/a\\text to append' filename
 ```
-
 ```bash
 # use different delimiters
 sed 's|/path/to/replace|/new/path|g' filename
@@ -476,7 +467,6 @@ ed filename; # open file
 ## find
 ```bash
 ## files 
-[command] | tee filename;
 find ./ -name '*.txt'
 stat [filename]; # to see more info on the file.
 

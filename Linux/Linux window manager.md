@@ -21,3 +21,11 @@ display server protocol and architecture designed as a replacement for x11.
 
 - starting with Ubuntu 17.10 there has been experimental support for wayland.
 - user can choose wayland as the session type during the login screen.
+
+### I3
+```bash
+i3-msg exit; # exit from current login session.
+```
+
+- configure PAM(Plugable Authentication Module): Ensure that your PAM configuration includes the necessary lines to unlock the key-ring. 
+- `/etc/pam.conf` and `/etc/pam.d/<desktop manager>` this should include `auth required pam_gnome_keyring.so` line.
