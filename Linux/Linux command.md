@@ -100,7 +100,6 @@ cat -n <file name>; # show the line number.
 ls */**; # list nested files.
 ls -i [filename]; # to see the associated file number (inode).
 tail -f [file name] # to follow in the stdout.
-find [path] -maxdepth 2 -mindepth 2 -type [d|f|l] -name [sourcename] -delete.
 cut -d ":" -f1 /etc/passwd;
 
 ## firewall
@@ -128,21 +127,6 @@ df; # amount of available and used disk space on all mounted file system.
 
 unmount; # unmouunt file system.
 mount; # mount file system.
-
-## files 
-[command] | tee filename;
-find ./ -name '*.txt'
-stat [filename]; # to see more info on the file.
-
-# find modified within last 30 days in directory and subdirectory.
-find /home -mtime -30; 
-find [path] -type f -name [file name];
-
-# find all empty directory.
-find [directory] -type d -empty;
-
-# find directory and subdirectory owned by root
-find [directory] -user root;
 
 # fix broken grub config
 sudo apt-get install --reinstall ubuntu-desktop;
@@ -487,4 +471,24 @@ ed filename; # open file
 # = - print current line number.
 # /example - search example in editor.
 # 10 - move to line no. 10.
+```
+
+## find
+```bash
+## files 
+[command] | tee filename;
+find ./ -name '*.txt'
+stat [filename]; # to see more info on the file.
+
+# find modified within last 30 days in directory and subdirectory.
+find /home -mtime -30; 
+find [path] -type f -name [file name];
+
+# find all empty directory.
+find [directory] -type d -empty;
+
+# find directory and subdirectory owned by root
+find [directory] -user root;
+find [path] -maxdepth 2 -mindepth 2 -type [d|f|l] -name [sourcename] -delete.
+
 ```
