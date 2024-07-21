@@ -4,22 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "9afc83598fee48f5",
+        "id": "e73f3eb8fbf92b5c",
         "type": "tabs",
         "children": [
           {
-            "id": "db70a3ec513b41db",
+            "id": "6b66aa82128eae76",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/Linux window manager.md",
+                "file": "System Design/Splitwise.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "32a1ab7817751220",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Debugger configuratoin.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -57,8 +70,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -79,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux/Linux window manager.md",
+                "file": "Debugger configuratoin.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -96,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linux/Linux window manager.md",
+                "file": "Debugger configuratoin.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -108,7 +120,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linux/Linux window manager.md"
+                "file": "Debugger configuratoin.md"
               }
             }
           },
@@ -123,7 +135,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "332ee72a1445fe28",
@@ -135,7 +148,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux/Linux window manager.md",
+                "file": "Debugger configuratoin.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -150,7 +163,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
+    "width": 293.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -162,13 +175,25 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "db70a3ec513b41db",
+  "active": "32a1ab7817751220",
   "lastOpenFiles": [
+    "System Design/Splitwise.md",
+    "Debugger configuratoin.md",
+    "unbound breakpoint.md",
+    "apt.md",
+    "abstract storage location.md",
+    "Untitled 1.md",
+    "Untitled.canvas",
+    "Linux/Linux user management.md",
+    "Linux/Linux window manager.md",
+    "Canvas/JavaScript.canvas",
+    "Coroutine.md",
+    "Descriptive/Java/Basic.md",
+    "Descriptive/Java",
+    "ENOENT.md",
     "Linux/Linux command.md",
     "wayland.md",
-    "Linux/Linux user management.md",
     "Linux/Linux configuration.md",
-    "Untitled 1.md",
     "OOPS/polymorphism.md",
     "System Design",
     "OOPS/Basic.md",
@@ -182,30 +207,18 @@
     "Stack Frame.md",
     "sub routine.md",
     "bus.md",
-    "Linux/Linux window manager.md",
-    "apt.md",
     "gpg.md",
     "BSD Socket.md",
-    "uwsgi.md",
-    "general.md",
-    "gdb.md",
     "Linux",
-    "CLI.md",
     "K8S",
-    "Linux management.md",
-    "Python/wheel.md",
-    "Untitled.md",
     "Python",
     "Projects",
     "Descriptive",
-    "Untitled.canvas",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",
-    "Canvas/JavaScript.canvas",
     "Canvas/Browser.canvas",
     "Descriptive/JavaScript/canvas Object",
-    "Design pattern",
     "Database/modeling.canvas",
     "Untitled 1.canvas"
   ]
