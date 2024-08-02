@@ -24,6 +24,13 @@
                 "uriFormat": "%s",
                 "action": "debugWithChrome"
             }
+        },
+		{
+            "name": "Next.js: debug client-side (Firefox)",
+            "type": "firefox",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

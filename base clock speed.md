@@ -1,0 +1,1 @@
+- minimum operating frequency at which the CPU can run under normal conditions.

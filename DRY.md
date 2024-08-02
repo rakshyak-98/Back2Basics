@@ -1,0 +1,4 @@
+- this is aimed at reducing repetitive of information.
+- divide your system into pieces.
+- reusable code.
+- don't use lengthy methods.

@@ -1,3 +1,9 @@
+```bash
+alsamixer; # manage volume
+xbacklight; # manage brightness
+nmcli; # manage network
+links; #
+```
 # WaylabndEnable
 
 ```bash
@@ -25,6 +31,7 @@ display server protocol and architecture designed as a replacement for x11.
 ### I3
 ```bash
 i3-msg exit; # exit from current login session.
+i3-config-wizard; # re-generate default i3 config file
 ```
 
 - configure PAM(Plugable Authentication Module): Ensure that your PAM configuration includes the necessary lines to unlock the key-ring. 

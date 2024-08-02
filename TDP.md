@@ -1,0 +1,2 @@
+- Thermal Design Power
+- 

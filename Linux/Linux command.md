@@ -482,3 +482,11 @@ find [directory] -user root;
 find [path] -maxdepth 2 -mindepth 2 -type [d|f|l] -name [sourcename] -delete.
 
 ```
+
+## xrandr
+- show information about the display monitor.
+```
+```
+
+## getent
+- get entries from Name Service Switch libraries
