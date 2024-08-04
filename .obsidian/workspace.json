@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "file management.md",
+                "file": "Linux/Linux command.md",
                 "mode": "source",
                 "source": true
               }
@@ -79,7 +79,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "file management.md",
+                "file": "Linux/Linux command.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -96,7 +96,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "file management.md",
+                "file": "Linux/Linux command.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -108,7 +108,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "file management.md"
+                "file": "Linux/Linux command.md"
               }
             }
           },
@@ -136,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "file management.md",
+                "file": "Linux/Linux command.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -165,11 +165,11 @@
   },
   "active": "b8002b906707515d",
   "lastOpenFiles": [
+    "file management.md",
     "ADT.md",
     "UEFI.md",
     "logical partitions.md",
     "GPT.md",
-    "file management.md",
     "Linux/Linux window manager.md",
     "MQTT.md",
     "Linux management.md",
