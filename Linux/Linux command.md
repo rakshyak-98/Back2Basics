@@ -16,6 +16,7 @@ ctrl + d - to close current session terminal.
 ```bash
 # reset terminal keybindings
 dconf reset -f /org/gnome/terminal/legacy/keybindings/
+echo $$; # get the PID of bash
 ```
 
 verbose meaning - expressed in more words then needed.
@@ -490,3 +491,33 @@ find [path] -maxdepth 2 -mindepth 2 -type [d|f|l] -name [sourcename] -delete.
 
 ## getent
 - get entries from Name Service Switch libraries
+
+## curl
+```bash
+curl -O <url>; # save file with original name  
+curl --cookie-jar cookies.txt https://example.com; # allow to store and send cookies during requests
+curl -x <proxy:port> <url>; # route requests through a proxy
+curl --url smtp://smtp.example.com --mail-from sender@example.com --mail-rcpt recipient@example.com -T mail.txt
+```
+
+## visudo
+- the `/etc/sudoers` file should only be edited using the `visudo` command which ensures the file is edited by one user at a time and performs syntax checks.
+- Errors or bad syntax in the `/etc/sudoers` may result in locking out all users.
+
+```bash
+<username> <hostname>(user:group) command
+# username - specifies the user the rule applies to
+# hostname - the machine the rule applies to
+# user:group - user and group the rule applies to usually ALL
+# command - the command user is allow to run
+# NOPASSWD - allow the user to run the specified command without a password
+
+# to allow user john to run the /usr/bin/foo and /usr/bin/bar commands as root witthout a password
+john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
+```
+
+## mount
+- mounting connects a file system from a storage device (like hard disk, USB or network share) to a directory in the main Linux file system tree. 
+- it instructs the operating system that the file system is ready to use and associates it with a particular point in the systems's hierarchy.
+```bash
+```
