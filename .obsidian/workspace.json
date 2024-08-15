@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "b3f0448b1bac0fd7",
+        "id": "7950cbf75a2d18fd",
         "type": "tabs",
         "children": [
           {
-            "id": "efd808e6b6dfa2f7",
+            "id": "25223b4337da1dba",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Postman.md",
+                "file": "Linux/Linux window manager.md",
                 "mode": "source",
                 "source": true
               }
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Postman.md",
+                "file": "Linux/Linux window manager.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Postman.md",
+                "file": "Linux/Linux window manager.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,7 +107,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Postman.md"
+                "file": "Linux/Linux window manager.md"
               }
             }
           },
@@ -135,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Postman.md",
+                "file": "Linux/Linux window manager.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -162,9 +162,14 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "efd808e6b6dfa2f7",
+  "active": "25223b4337da1dba",
   "lastOpenFiles": [
     "Linux/Linux command.md",
+    "Docker/Commands.md",
+    "hoisting.md",
+    "AMD module.md",
+    "UMD global.md",
+    "Linux management.md",
     "Postman.md",
     "redis-cli.md",
     "marshalling.md",
@@ -180,8 +185,6 @@
     "Design pattern/Singleton.md",
     "file management.md",
     "ftp.md",
-    "Docker/Commands.md",
-    "Linux management.md",
     "CLI.md",
     "Projects/Project Assignment.md",
     "embedded image.md",
@@ -189,9 +192,6 @@
     "UEFI.md",
     "logical partitions.md",
     "GPT.md",
-    "Linux/Linux window manager.md",
-    "MQTT.md",
-    "Linux/Linux display manager.md",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
     "Descriptive/Java",

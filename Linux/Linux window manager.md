@@ -13,6 +13,13 @@ WaylandEnable=false
 
 Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware.
 
+### Display manager
+```bash
+sudo dpkg-reconfigure gdm3;
+sudo apt-get install --reinstall gdm3;
+sudo journalctl -xe;
+```
+
 ### X server
 
 is a display server for UNIX like operating systems, including Linux.

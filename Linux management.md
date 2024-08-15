@@ -61,6 +61,10 @@ fuser -all; # process using file.
 
 ## Apt Package management
 
+#### basic packages
+```bash
+apt install shadow; # include useradd ... packages.
+```
 see the package log file `/var/log/dpkg.log`
 
 ```bash

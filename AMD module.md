@@ -7,7 +7,15 @@ define(['dependency1', 'dependency2'], function(dep1, dep2) {
 	return {
 		someMethod: function(){
 			// Module functionality
+			dep1.action();
+			dep2.action();
 		}
 	}
+})
+```
+
+```javascript
+require(['myModule'], function(myModule){
+	myModule.something();
 })
 ```
