@@ -1,7 +1,17 @@
 ```bash
 xdg-mime query default inode/directory; # get the information of file manager
+
 echo $XDG_CURRENT_DESKTOP; # current desktop environment
+
 lsblk; # list block devices
+```
+
+### mime type
+
+- `/etc/mime.types` 
+
+```bash
+gio mime <mime-type>;
 ```
 
 ### block device

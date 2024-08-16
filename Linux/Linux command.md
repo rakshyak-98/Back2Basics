@@ -524,3 +524,9 @@ john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
 - it instructs the operating system that the file system is ready to use and associates it with a particular point in the systems's hierarchy.
 ```bash
 ```
+
+## tr
+- translate of delete characters
+```bash
+grep 'MimeType' /usr/share/applicatoins/eog.desktop | tr ';' '\n';
+``

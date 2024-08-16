@@ -4,11 +4,30 @@ xbacklight; # manage brightness
 nmcli; # manage network
 links; #
 ```
-# WaylabndEnable
+### Application management
+- this configuration specifies that Ranger should be launched in a terminal. new file in the `.local/share/applications/ranger.desktop`
+```bash
+[Desktop Entry]
+Name=Ranger
+Exec=kitty -e ranger %F
+Type=Application
+Terminal=true
+MimeType=inode/directory;
+```
+
+> [!NOTE] after creating the `.desktop` file, need to update the MIME type to associate directories with Ranger.
+
+```bash
+xdg-mime default ranger.desktop inode/directory; # update MIME type
+
+xdg-mime query default inode/directory; # confirm
+```
+
+## Wayland Enable
 
 ```bash
 # /etc/gdm3/custom.conf
-WaylandEnable=false
+WaylandEnable=true
 ```
 
 Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware.
@@ -18,6 +37,16 @@ Xorg is a full featured X server that was originally designed for UNIX and UNIX-
 sudo dpkg-reconfigure gdm3;
 sudo apt-get install --reinstall gdm3;
 sudo journalctl -xe;
+sudo systemctl daemon-reload; # reload systemd daemon to apply tha changes;
+```
+
+- configure: `/etc/systemd/system/` or `/usr/lib/systemd/system/` if it doesn't exist, you may need to reinstall the `gdm3` package.
+
+- this configuration ensures that `gdm3` is started when the `graphical.target` is reached and that it is also aliased as `display-manager.service`
+```bash
+[Install]
+Alias=display-manager.service
+WantedBy=graphical.target
 ```
 
 ### X server

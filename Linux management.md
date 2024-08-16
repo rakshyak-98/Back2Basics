@@ -7,6 +7,7 @@
 ---
 atk : Accessibility Toolkit
 
+### system user sudo
 system user - individual, or (system) process acting on behalf of an individual, authorized to access a system.
 
 - an individual that is authorized to access information and information system to perform assigned duties.
@@ -379,22 +380,26 @@ static units cannot be enabled, this means the unit performs a one-off action or
 
 ## Terminate process
 
+### processes
+```bash
+echo $$; # represent the current process id
+pidof <process>; # get the process id
+pidstat -p <pid>; # get the stat of the process
+strace -f -p <pid> -o <output file>;
+readlink <symbolic link file>;
+```
+
+### signals
 - **SIGHUP (1):** Hang Up. This signal is often used to instruct daemons to reload their configuration files or restart gracefully. It can also be used to disconnect a process from its controlling terminal.
-    
 - `kill -1 PID`
-    
 - **SIGINT (2):** Interrupt. This signal is typically generated when you press Ctrl+C in the terminal. It's used to request a process to terminate cleanly.
-    
     ```
     kill -2 PID
     ```
-    
 - **SIGQUIT (3):** Quit. This signal is similar to SIGINT but can be used to request a process to terminate and produce a core dump for debugging purposes.
-    
     ```
     kill -3 PID
     ```
-    
 - **SIGTERM (15):** Terminate. As mentioned earlier, SIGTERM is used to request a process to terminate gracefully. It allows the process to clean up and release resources.
     
     ```
@@ -402,7 +407,6 @@ static units cannot be enabled, this means the unit performs a one-off action or
     ```
     
 - **SIGUSR1 (10) and SIGUSR2 (12):** User-defined signals. These signals can be used for custom actions within a process. Their behavior depends on how the process is programmed to respond to them.
-    
     ```
     kill -10 PID # SIGUSR1
     kill -12 PID # SIGUSR2
@@ -420,7 +424,6 @@ static units cannot be enabled, this means the unit performs a one-off action or
     ```bash
     kill -20 PID  # SIGTSTP (Ctrl+Z)
     ```
-    
 
 ## Hardware
 
@@ -691,12 +694,12 @@ ssh -i "pem file location" -L 8090:0.0.0.0:8080 "hostname" # port forward
 
 # Grand Unified Boot loader `grub`
 
-Bootloader - a program that is responsible for loading the operating system kernel into memory and starting it.
+- Bootloader - a program that is responsible for loading the operating system kernel into memory and starting it.
 
-BIOS boot - Basic Input Output System. A firmware program that is stored on a ROM chip on the motherboard of a computer. When the computer is turned on, the BIOS performs a series of checks and initialization, and then searches for and loads the bootloader.
+- BIOS boot - Basic Input Output System. A firmware program that is stored on a ROM chip on the motherboard of a computer. When the computer is turned on, the BIOS performs a series of checks and initialization, and then searches for and loads the bootloader.
 
-kernel initialization - once the kernel is loaded into memory, it performs a series of initialization tasks, such as setting up the device drivers, mounting the root filesystem, and starting the init process.
+- kernel initialization - once the kernel is loaded into memory, it performs a series of initialization tasks, such as setting up the device drivers, mounting the root filesystem, and starting the init process.
 
-init process - the first user-space process that is started by the kernel. It is responsible for starting other system process and services, as well as running the system initialization scripts.
+- init process - the first user-space process that is started by the kernel. It is responsible for starting other system process and services, as well as running the system initialization scripts.
 
 > NOTE: ⚠️In some cases, there might be compatibility issues or conflicts between the default graphics drivers and certain hardware configurations or graphics cards. These issues can lead to problems such as a blank screen, graphical glitches, or an inability to boot properly
