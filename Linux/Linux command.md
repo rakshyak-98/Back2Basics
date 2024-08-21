@@ -204,21 +204,19 @@ is one of the few variables used by the shell to generate the prompt.
 - PS1 represent the **primary string process.**
 
 ### process
-
-pts - pseudo terminal slave.
-
-tty - teletypewriter.
-
-pts - first terminal pseudo terminal slave window. A pair of virtual terminal devices that allow a terminal emulator gnome-terminal to communicate with a program as if it were a terminal.
-
-The master end of a pseudo terminal is connected to the terminal emulator, where a slave end is connected to the program. The slave end is identified by a device name that begins with `pts/` followed by a number that identifies the specific pseudo terminal.
+```bash
+nsenter -t <pid> -m -u -i -n -p /bin/bash
+```
+- pts - pseudo terminal slave.
+ -tty - teletypewriter.
+- pts - first terminal pseudo terminal slave window. A pair of virtual terminal devices that allow a terminal emulator gnome-terminal to communicate with a program as if it were a terminal.
+- The master end of a pseudo terminal is connected to the terminal emulator, where a slave end is connected to the program. The slave end is identified by a device name that begins with `pts/` followed by a number that identifies the specific pseudo terminal.
 
 > `pts` notation is specified to Unix-like systems, and may not be used on other operating systems.
 
-SPID - system process id. Identify the process internally. Used to track the process across different terminal sessions.
+- SPID - system process id. Identify the process internally. Used to track the process across different terminal sessions.
 
-STAT - stands for status.
-
+- STAT - stands for status.
 - D - Uninterruptible sleep (usually input or output).
 - R - running or run-able
 - S - interruptible sleep (waiting for an event to complete)

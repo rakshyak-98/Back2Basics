@@ -23,15 +23,6 @@ xdg-mime default ranger.desktop inode/directory; # update MIME type
 xdg-mime query default inode/directory; # confirm
 ```
 
-## Wayland Enable
-
-```bash
-# /etc/gdm3/custom.conf
-WaylandEnable=true
-```
-
-Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware.
-
 ### Display manager
 ```bash
 sudo dpkg-reconfigure gdm3;
@@ -49,8 +40,17 @@ Alias=display-manager.service
 WantedBy=graphical.target
 ```
 
-### X server
+## Window manager
 
+### Wayland Enable
+```bash
+# /etc/gdm3/custom.conf
+WaylandEnable=true
+```
+
+Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware.
+
+### X server
 is a display server for UNIX like operating systems, including Linux.
 
 - provide framework for graphical user interface by mapping graphical elements such as windows, applications, and input devices.
@@ -58,7 +58,6 @@ is a display server for UNIX like operating systems, including Linux.
 - default display server for Linux.
 
 ### Wayland
-
 display server protocol and architecture designed as a replacement for x11.
 
 - starting with Ubuntu 17.10 there has been experimental support for wayland.

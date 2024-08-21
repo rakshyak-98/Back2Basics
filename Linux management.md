@@ -17,18 +17,6 @@ system user - individual, or (system) process acting on behalf of an individual,
 comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
 ```
 
-### GRUB
-
-```bash
-sudo nano /etc/default/grub # change quite splash to nomodeset.
-sudo update-grub
-sudo dpkg --list | grep -E -i --color  "linux-image|linux-headers"; # list installed kernals.
-```
-
-- **Keyring**: In GnuPG, a keyring is a file or database that stores cryptographic keys. There are two primary types of keyrings: "pubring.kbx" for public keys and "secring.gpg" for secret (private) keys.
-- **Public Keys**: "pubring.kbx" specifically stores public keys. Public keys are used to verify digital signatures and encrypt data that can only be decrypted by the corresponding private key.
-- **Key Database Format**: The "kbx" in "pubring.kbx" stands for KeyBox, which is the format used to store the keys. It's a modern keyring format used by GnuPG and is more efficient and secure than older formats.
-
 ## Users
 
 user groups - are used to give several access permissions.
@@ -426,7 +414,6 @@ readlink <symbolic link file>;
     ```
 
 ## Hardware
-
 ```bash
 # to list available sound cards. If none are listed, 
 # it indicates a problem with sound card detection or drivers.
@@ -436,8 +423,17 @@ pacmd; # this command provides control over PulseAudio's configuration.
 alsamixer; 
 ```
 
-### passwd
+### Audio
+```bash
+sudo apt install alsa-utils;
+amixer sset Master 50%;
+amixer sset Master 10%+;
+amixer list;
+amixer sset Master unmute;
+amixer sset Master mute;
+```
 
+### passwd
 ```bash
 passwd -l [user] #lock the user to use login password.
 passed -u [user] #unlock user.
@@ -445,10 +441,9 @@ echo 'userpassword' | passwd --stdin [user] #read password from standard input.
 ```
 
 ### group
+> Password field: Historically, this field stored an encrypted password, but modern systems use an "x" or "\*" character to indicate that the encrypted password is stored in the `/etc/gshadow` file.
 
-> Password field: Historically, this field stored an encrypted password, but modern systems use an "x" or "*" character to indicate that the encrypted password is stored in the `/etc/gshadow` file.
-
-```bash
+``` bash
 id <username>; # to see the groups related to the user with group id.
 getent group 1001; # check if group exist.
 gorups <username>; # to see the groups of the user without group id.
@@ -457,21 +452,14 @@ usermod -aG [group name] [user name]; # append supplimentary group.
 usermod -ag [group name] [user name]; # force group as primary group.
 gpasswd -d username groupname; # remove user from the group.
 ```
-
 - users can be members of multiple supplementary groups, allowing them to share resources and permissions with other users in those groups.
-
-dip - Daemons, system and network management group, is a group on a linux system that is typically used to control access to certain system-level functions and resources.
-
-member of the dip group are typically considered to be privileged user and are granted access to certain system-level commands and files that are not available to regular users.
-
-dip group can give users access to manage and configure system daemon, network interfaces, system logs. Member of this group are also allowed to reboot the system, run system updates.
-
-On Ubuntu systems, the dip group is typically used to control access to the `sudo` command, which allow users to execute commands with superuser privileged. Member of the group dip are allowed to use `sudo` command to perform certain system-level tasks, such as installing software or changing system settings.
-
-samba-share - provides file sharing and print services for computers on a network. It uses the server message block and common internet file system (SMB/CIFS) protocol, so the services created by running samba are available to Linux.
+- dip - Daemons, system and network management group, is a group on a linux system that is typically used to control access to certain system-level functions and resources.
+- member of the dip group are typically considered to be privileged user and are granted access to certain system-level commands and files that are not available to regular users.
+- dip group can give users access to manage and configure system daemon, network interfaces, system logs. Member of this group are also allowed to reboot the system, run system updates.
+- On Ubuntu systems, the dip group is typically used to control access to the `sudo` command, which allow users to execute commands with superuser privileged. Member of the group dip are allowed to use `sudo` command to perform certain system-level tasks, such as installing software or changing system settings.
+- samba-share - provides file sharing and print services for computers on a network. It uses the server message block and common internet file system (SMB/CIFS) protocol, so the services created by running samba are available to Linux.
 
 # Managing Process
-
 ```bash
 ps -ef; # shows all the aunning processes on the system. Parent process, user id.
 ps aux; # more detaild information abot each process.
@@ -481,7 +469,6 @@ ps -p [process_id]; # info on specific process matches the process id.
 ps -eo pid, ppid,%cpu,%mem,cmd;
 ps --sort="-rss"
 ```
-
 ```bash
 pgrep [appname]; # to see if the bin file is running /*/bin
 
@@ -506,7 +493,6 @@ pstree -c | -g | -h;
 ```
 
 ### Upgrade system OS version
-
 ```python
 sudo apt update && sudo apt upgrade -y
 sudo apt install update-manager-core
@@ -515,31 +501,20 @@ sudo do-release-upgrade
 ```
 
 ## Archive
-
 `gzip`, `pizip`, `bzip`,
-
 tar ball - is a jargon term for a TAR archive - a group of files collected together as one.
-
 GNU tar is an archiving program designed to store multiple files in a single file (an archive), and to manipulate such archives.
-
 -c - create,
-
 -v - verbose
-
 -f - accept files
-
 -j - for `bzip` algo
-
 -z - for `gz` compress data
-
 ```bash
 tar -c [new.tar] file[1-3].txt # creat a tar without using a compression algo.
 zip ourarchive.zip file1.txt file2.txt; # output as stdout and files without extracting them.
 tar -czvf ourarchive.tar.gz file[1-3].txt # create tar and compress usign gzip algo.
 tar -cjvf ourarchive.tar.bz2 file[1-3].txt # create tar and compress using bzip2 algo.
-
 ```
-
 ```bash
 tar -tf [.tar]; # to inspect .tar.
 tar -tvf [.tar];
@@ -547,30 +522,21 @@ tar -tvf [.tar];
 # extract the archive and avoid overwriting existing files.
 tar -xf [tar archive] --no-overwrite-dir; 
 ```
-
 to know the file format `file` .
-
 `tar -t archive.tar` - to know what inside the tar ball. it list the file inside the tar archive.
-
 `tar -x archive.tar` - to extract into the current path.
-
-POSIX tar archive - also known as a tarball, is a file format used to bundle a st of files together into a single archive file.
-
-POSIX stands for Portable Operating System Interface. defines a set of specifications for how tar archives should be created and formatted.
+- POSIX tar archive - also known as a tarball, is a file format used to bundle a st of files together into a single archive file.
+- POSIX stands for Portable Operating System Interface. defines a set of specifications for how tar archives should be created and formatted.
 
 ### compression algo
-
 ```bash
 $ gzip archive.tar
 $ bzip2 archive.tar
 ```
-
 to unzip
-
 `gunzip` - to unzip the `gaiz` `archive.tar`
 
 ### un-ziping in one step
-
 ```bash
 $ tar -xzvf archive.tar.gz
 $ tar -xjvf archive.tar.bz2
@@ -578,15 +544,12 @@ unzip <file.zip>
 ```
 
 # Files
-
 ```bash
 unlink <"filename">; # number of links, goes to zero the memory is released.
 mv <"current path"> <"new path">; # udpate the path.
 grep <"string"> <"file path">; # find text as content of a file.
 ```
-
 file system table : refers to the `/etc/fstab` file, which stands for file system table. is an essential configuration file that contains information about how various file system should be mounted and managed when the system boots.
-
 ```bash
 find /path/to/search -name filename.txt
 find /path/to/search -mtime -N
@@ -595,33 +558,27 @@ find /path/to/search -name filename.txt -delete
 find /path/to/search -maxdepth 2 -name "*.txt"
 find /path/to/search -name "*.txt" -ls
 find /path/to/search -type f -perm 644
-
 # [advance]
 find /path/to/search -name "*.txt" -mtime -7
 # Find files by combining multiple criteria with OR logic:
 find /path/to/search \\( -name "*.txt" -o -name "*.log" \\)
-
 find /path/to/search -name "*.txt" -not -path "/path/to/search/exclude"
 find /path/to/search -name "*.txt" -exec command {} \\;
 find /path/to/search -name "*.txt" -exec tar czvf archive.tar.gz {} +
 ```
 
 # Links
-
 ```bash
 # hard link : link to the memory of the content in the system.
 # soft link : link to the registerd path of the source.
 ln <"option"> <"target"> <"destination">
 ```
 
-# Partitions
-
+# Disk
+### Partitions
 partition table : is a data structure used in computer storage devices, such as hard drives and SSDs to define the division of the storage space. Each partition within a storage device is like a separate logical drive, with its own file system and data.
-
-MBR : Master Boot Record
-
-GPT : Global unique Identifier Partition Table.
-
+- MBR : Master Boot Record
+- GPT : Global unique Identifier Partition Table.
 ```bash
 fdisk -l ; # list the disk partition. Linux partition good.
 mkfs ; # see the file system.
@@ -632,7 +589,6 @@ blkid; # print the universally unique identifier for a device.
 ```
 
 ## Hardware
-
 ```python
 lsusb;
 lspci -vv;
@@ -641,13 +597,11 @@ modeprob -a;
 ```
 
 ## Cat command
-
 ```bash
 cat > newfile.txt
 This is some text.
 Press Ctrl+D to save.
 ```
-
 ```bash
 cat file.txt file2.txt > combined.txt
 cat -n file.txt
@@ -655,7 +609,6 @@ cat -v file.txt
 cat -A file.txt
 tac file.txt
 ```
-
 ```bash
 for file in file1.txt file2.txt; do
     echo "File: $file"
@@ -663,8 +616,7 @@ for file in file1.txt file2.txt; do
 done
 ```
 
-## system commands
-
+### system commands
 PCI: "Peripheral Component Interconnect." It is a standard interface used in computers and servers to connect various hardware components, such as expansion cards, graphics cards, network cards, and other peripheral devices, directly to the motherboard.
 
 PCI allows these components to communicate with the computer's central processing unit (CPU) and memory, enabling them to function as part of the overall system.
@@ -674,7 +626,6 @@ PCI allows these components to communicate with the computer's central processin
 **Configuration**: The PCI interface allows devices to be configured and controlled by software. The computer's operating system communicates with the devices using drivers and manages their resources.
 
 ### sync command
-
 When you use a computer, the data that you create or modify is often stored in the computer’s memory (RAM). This is because it is faster to access data from memory then from a hard drive or other storage device.
 
 to make sure that your data is not lost when the power is turned off, the computer writes the data to a storage device (Hard drive) on a regular basis.
@@ -684,16 +635,13 @@ the `sync` command is a Linux utility that forces the computer to write all buff
 by running the `sync` command before shutting down the system, you can be sure that all of your data has been written to the storage device and will not be lost when the power is turned off.
 
 # Setup ssh between two linux instances
-
 ```bash
 apt install openssh-server;
 ssh -i "pem file location" -L 8090:0.0.0.0:8080 "hostname" # port forward
 ```
-
 `/etc/ssh/sshd_config` You can make various changes in this file, such as changing the default SSH port, disabling root login, or using key-based authentication. After making changes, save and exit the editor.
 
 # Grand Unified Boot loader `grub`
-
 - Bootloader - a program that is responsible for loading the operating system kernel into memory and starting it.
 
 - BIOS boot - Basic Input Output System. A firmware program that is stored on a ROM chip on the motherboard of a computer. When the computer is turned on, the BIOS performs a series of checks and initialization, and then searches for and loads the bootloader.
@@ -703,3 +651,13 @@ ssh -i "pem file location" -L 8090:0.0.0.0:8080 "hostname" # port forward
 - init process - the first user-space process that is started by the kernel. It is responsible for starting other system process and services, as well as running the system initialization scripts.
 
 > NOTE: ⚠️In some cases, there might be compatibility issues or conflicts between the default graphics drivers and certain hardware configurations or graphics cards. These issues can lead to problems such as a blank screen, graphical glitches, or an inability to boot properly
+
+### GRUB
+```bash
+sudo nano /etc/default/grub # change quite splash to nomodeset.
+sudo update-grub
+sudo dpkg --list | grep -E -i --color  "linux-image|linux-headers"; # list installed kernals.
+```
+- **Keyring**: In GnuPG, a keyring is a file or database that stores cryptographic keys. There are two primary types of keyrings: "pubring.kbx" for public keys and "secring.gpg" for secret (private) keys.
+- **Public Keys**: "pubring.kbx" specifically stores public keys. Public keys are used to verify digital signatures and encrypt data that can only be decrypted by the corresponding private key.
+- **Key Database Format**: The "kbx" in "pubring.kbx" stands for KeyBox, which is the format used to store the keys. It's a modern keyring format used by GnuPG and is more efficient and secure than older formats.

@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux management.md",
+                "file": "Call stack.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "d1e097e2d9b8c050",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "API design.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux management.md",
+                "file": "API design.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linux management.md",
+                "file": "API design.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,7 +120,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linux management.md"
+                "file": "API design.md"
               }
             }
           },
@@ -135,7 +148,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux management.md",
+                "file": "API design.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -162,16 +175,24 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "25223b4337da1dba",
+  "active": "d1e097e2d9b8c050",
   "lastOpenFiles": [
+    "Call stack.md",
+    "API design.md",
+    "Linux/alsa.md",
+    "HTTP Strict Transport Security.md",
+    "JWT.md",
+    "open standard.md",
+    "Linux management.md",
+    "magic ring.md",
     "Linux/Linux command.md",
-    "file management.md",
-    "Linux/Linux window manager.md",
-    "Docker/Commands.md",
     "hoisting.md",
+    "right buffer.md",
+    "Linux/Linux window manager.md",
+    "file management.md",
+    "Docker/Commands.md",
     "AMD module.md",
     "UMD global.md",
-    "Linux management.md",
     "Postman.md",
     "redis-cli.md",
     "marshalling.md",
@@ -184,14 +205,6 @@
     "marketplace app.md",
     "github actions.md",
     "GitHub",
-    "Design pattern/Singleton.md",
-    "ftp.md",
-    "CLI.md",
-    "Projects/Project Assignment.md",
-    "embedded image.md",
-    "ADT.md",
-    "UEFI.md",
-    "logical partitions.md",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
     "Descriptive/Java",
