@@ -2,5 +2,6 @@
   "promptDelete": false,
   "vimMode": true,
   "alwaysUpdateLinks": true,
-  "livePreview": false
+  "livePreview": false,
+  "showRibbon": true
 }

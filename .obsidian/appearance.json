@@ -1,7 +1,9 @@
 {
   "accentColor": "#fabd2f",
   "baseFontSize": 12,
-  "cssTheme": "Material Gruvbox",
+  "cssTheme": "",
   "baseFontSizeAction": false,
-  "theme": "obsidian"
+  "theme": "obsidian",
+  "interfaceFontFamily": "Ubuntu Sans",
+  "showViewHeader": true
 }

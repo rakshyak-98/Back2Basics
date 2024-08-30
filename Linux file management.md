@@ -6,8 +6,12 @@ echo $XDG_CURRENT_DESKTOP; # current desktop environment
 lsblk; # list block devices
 ```
 
-### mime type
+### API package lock
+- `/var/lib/dpkg/lock` or `/var/lib/apt/lists/lock`
+- apt package manager uses lock files to prevent multiple processes from accessing the package database simultaneously.
+- when you initiate an upgrade apt creates a lock file at `/var/lib/dpkg/lock` or `/var/lib/apt/lists/lock` This file act as a signal that a package management operation is in progress, preventing other instances of `apt` or `dpkg` from running concurrently.
 
+### mime type
 - `/etc/mime.types` 
 
 ```bash

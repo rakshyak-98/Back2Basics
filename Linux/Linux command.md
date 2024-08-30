@@ -407,6 +407,7 @@ ls -l | tee directory_listing.txt
 ```bash
 zip -r archive.zip source_dir -x "excluded_dir/*"
 unzip -l archive.zip; # see inside .zip archive
+unzip -j <file path to unzip>;
 ```
 
 ```bash
@@ -527,4 +528,7 @@ john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
 - translate of delete characters
 ```bash
 grep 'MimeType' /usr/share/applicatoins/eog.desktop | tr ';' '\n';
-``
+```
+
+## flock
+- command used to implement advisory locks.
