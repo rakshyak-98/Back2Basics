@@ -4,35 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "ceb341454830293c",
+        "id": "6819c0213675303a",
         "type": "tabs",
         "children": [
           {
-            "id": "6f6a806abb243a3f",
+            "id": "bd3928af12fc0103",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "System Architecture.md",
-                "mode": "source",
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "128708d7bc060ccb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Github action.md",
+                "file": "Linux/inittramfs.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -74,8 +61,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -91,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Github action.md",
+                "file": "Linux/inittramfs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Github action.md",
+                "file": "Linux/inittramfs.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -120,7 +106,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Github action.md"
+                "file": "Linux/inittramfs.md"
               }
             }
           },
@@ -148,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Github action.md",
+                "file": "Linux/inittramfs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -175,10 +161,15 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "128708d7bc060ccb",
+  "active": "bd3928af12fc0103",
   "lastOpenFiles": [
+    "BIOS/UEFI.md",
+    "Linux/inittramfs.md",
+    "BIOS",
+    "MBR.md",
     "System Architecture.md",
     "Github action.md",
+    "README.md",
     "System Design/Splitwise.md",
     "golang.md",
     "Linux/Linux command.md",
@@ -201,10 +192,6 @@
     "magic ring.md",
     "hoisting.md",
     "right buffer.md",
-    "Linux/Linux window manager.md",
-    "AMD module.md",
-    "UMD global.md",
-    "Postman.md",
     "Redis",
     "GitHub",
     "Canvas/JavaScript.canvas",
@@ -215,7 +202,6 @@
     "Linux",
     "K8S",
     "Python",
-    "Projects",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",
