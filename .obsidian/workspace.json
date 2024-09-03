@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/inittramfs.md",
+                "file": "Github action.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "09c9777f7eb44ca7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Data structure.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -61,7 +74,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -77,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux/inittramfs.md",
+                "file": "Data structure.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linux/inittramfs.md",
+                "file": "Data structure.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -106,7 +120,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linux/inittramfs.md"
+                "file": "Data structure.md"
               }
             }
           },
@@ -134,7 +148,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux/inittramfs.md",
+                "file": "Data structure.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,37 +175,39 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "bd3928af12fc0103",
+  "active": "09c9777f7eb44ca7",
   "lastOpenFiles": [
-    "BIOS/UEFI.md",
+    "AMD module.md",
+    "Data structure.md",
+    "critical rendering path.md",
+    "Descriptive/Javascript.md",
+    "NodeJS.md",
+    "Docker/Commands.md",
+    "AWS ECR.md",
+    "Docker Runtime Security.md",
+    "NodeJS/node command.md",
+    "NodeJS",
+    "git command.md",
+    "Github action.md",
+    "Untitled.md",
+    "GIT",
+    "github actions.md",
     "Linux/inittramfs.md",
+    "BIOS/UEFI.md",
     "BIOS",
     "MBR.md",
     "System Architecture.md",
-    "Github action.md",
     "README.md",
     "System Design/Splitwise.md",
     "golang.md",
     "Linux/Linux command.md",
-    "Untitled 1.md",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Linux management.md",
     "WM_CLASS.md",
     "WiredTiger storage engine.md",
     "Call stack.md",
-    "Docker/Commands.md",
     "Linux resource management.md",
-    "Linux file management.md",
-    "vim commands.md",
-    "API design.md",
-    "Linux/alsa.md",
-    "HTTP Strict Transport Security.md",
-    "JWT.md",
-    "open standard.md",
-    "magic ring.md",
-    "hoisting.md",
-    "right buffer.md",
     "Redis",
     "GitHub",
     "Canvas/JavaScript.canvas",
@@ -200,8 +216,6 @@
     "OOPS",
     "Docker",
     "Linux",
-    "K8S",
-    "Python",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",

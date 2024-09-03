@@ -35,7 +35,6 @@ modules are reusable blocks of code that can be imported into other files.
 ### callback
 - callback are most common way to handle errors in asynchronous code.
 
-
 ### Event emitter
 
 - event emitters more advanced way to handle errors in asynchronous code.
