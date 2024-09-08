@@ -1,0 +1,3 @@
+- is a solution designed for a specific purpose or task, rather than a generalized solution adaptable to multiple situations.
+- the term "ad hoc" comes from Latin and means "for this" or "for this purpose".
+- these system are usually temporary in nature and specific to immediate circumstances.

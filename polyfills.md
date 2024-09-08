@@ -1,0 +1,2 @@
+- no syntax changes, their's no need to transpile anything here. We just need to declare the missing function.
+- a script that updates new functions is called "pilyfill". It fills in the gap and adds missing implementations.

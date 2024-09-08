@@ -4,7 +4,6 @@
 
 [manual config sudoedit](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file)
 
----
 atk : Accessibility Toolkit
 
 ### system user sudo
@@ -90,7 +89,7 @@ Held packages - refers to packages in a package management system (apt) that hav
 
 de facto meaning - existing or holding a specified position in fact but not necessarily by legal right.
 
-```json
+```bash
 ls /etc/ssl/certs; # list system ca certificates pre installed.
 sudo update-ca-certificates --fresh; # update the CA certificates bundle.
 ```
@@ -155,13 +154,13 @@ b - bits size
 
 C - comment
 
-> fixed-length string of characters, typically represented in hexadecimal format.
+> [!NOTE] fixed-length string of characters, typically represented in hexadecimal format.
 
 ### Setup SSH config
 
 - create `~/.ssh/config` config directive.
 
-```jsx
+```
 Host github-repo
     HostName github.com
     User git
@@ -178,9 +177,9 @@ ssh-keygen -b 4096
 ssh-copy-id [username@ipaddress]
 ```
 
-[https://linuxhint.com/ssh-keyscan-ubuntu/](https://linuxhint.com/ssh-keyscan-ubuntu/)
+[ssh-keyscan-ubuntu](https://linuxhint.com/ssh-keyscan-ubuntu/)
 
-```python
+```bash
 ssh-keyscan hostname
 ssh-keyscan -p [port] hostname
 ssh-keyscan -t [rsa | dsa | ...] hostname
@@ -188,11 +187,11 @@ ssh-keyscan -t [rsa | dsa | ...] hostname
 
 ### test key
 
-```jsx
+```bash
 ssh -i /path/to/private/key username@hostname
 ```
 
-> Remember that the `HostName` should be the actual hostname or IP address of the remote host, while the `Host` is a custom name you choose to represent that host in the SSH config file.
+>[!NOTE] Remember that the `HostName` should be the actual hostname or IP address of the remote host, while the `Host` is a custom name you choose to represent that host in the SSH config file.
 
 ## System management
 
@@ -304,7 +303,7 @@ sysctl -w [parameter]=[value]; # set the value of a kernel parameter.
 sysctl -p [file]; # reads the specificed file and sets the kernel.
 ```
 
-sysctl - command in Linux used to modify kernel parameters at runtime. These parameters are stored in the `/proc/sys` directory and can be used to configure various aspects of the system, such as network settings, kernel settings, and more.
+`sysctl` - command in Linux used to modify kernel parameters at runtime. These parameters are stored in the `/proc/sys` directory and can be used to configure various aspects of the system, such as network settings, kernel settings, and more.
 
 - display the current value of a kernel parameter, as well as to change the value of a kernel parameter.
 - the changes made `sysctl` are not persistent across reboots, it is a way to configure system behavior on runtime. it is recommended to use `/etc/sysctl.conf` to make persistent across reboot.
@@ -382,28 +381,28 @@ readlink <symbolic link file>;
 - **SIGHUP (1):** Hang Up. This signal is often used to instruct daemons to reload their configuration files or restart gracefully. It can also be used to disconnect a process from its controlling terminal.
 - `kill -1 PID`
 - **SIGINT (2):** Interrupt. This signal is typically generated when you press Ctrl+C in the terminal. It's used to request a process to terminate cleanly.
-    ```
+    ```bash
     kill -2 PID
     ```
 - **SIGQUIT (3):** Quit. This signal is similar to SIGINT but can be used to request a process to terminate and produce a core dump for debugging purposes.
-    ```
+    ```bash
     kill -3 PID
     ```
 - **SIGTERM (15):** Terminate. As mentioned earlier, SIGTERM is used to request a process to terminate gracefully. It allows the process to clean up and release resources.
     
-    ```
+    ```bash
     kill -15 PID
     ```
     
 - **SIGUSR1 (10) and SIGUSR2 (12):** User-defined signals. These signals can be used for custom actions within a process. Their behavior depends on how the process is programmed to respond to them.
-    ```
+    ```bash
     kill -10 PID # SIGUSR1
     kill -12 PID # SIGUSR2
     ```
     
 - **SIGSTOP (19) and SIGCONT (18):** Stop and Continue. SIGSTOP is used to pause a process, and SIGCONT is used to resume it. These signals do not terminate the process but allow you to temporarily halt and restart it.
     
-    ```
+    ```bash
     kill -19 PID # SIGSTOP
     kill -18 PID # SIGCONT
     ```
@@ -470,6 +469,7 @@ ps -p [process_id]; # info on specific process matches the process id.
 ps -eo pid, ppid,%cpu,%mem,cmd;
 ps --sort="-rss"
 ```
+
 ```bash
 pgrep [appname]; # to see if the bin file is running /*/bin
 
@@ -494,7 +494,7 @@ pstree -c | -g | -h;
 ```
 
 ### Upgrade system OS version
-```python
+```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install update-manager-core
 sudo nano /etc/update-manager/realease-upgrades; # change Prompt=never to Prompt=lts
@@ -590,7 +590,7 @@ blkid; # print the universally unique identifier for a device.
 ```
 
 ## Hardware
-```python
+```bash
 lsusb;
 lspci -vv;
 lsmod;
@@ -618,13 +618,13 @@ done
 ```
 
 ### system commands
-PCI: "Peripheral Component Interconnect." It is a standard interface used in computers and servers to connect various hardware components, such as expansion cards, graphics cards, network cards, and other peripheral devices, directly to the motherboard.
+PCI - "Peripheral Component Interconnect" It is a standard interface used in computers and servers to connect various hardware components, such as expansion cards, graphics cards, network cards, and other peripheral devices, directly to the motherboard.
 
-PCI allows these components to communicate with the computer's central processing unit (CPU) and memory, enabling them to function as part of the overall system.
+PCI - allows these components to communicate with the computer's central processing unit (CPU) and memory, enabling them to function as part of the overall system.
 
-**Hot-Plugging**: Some PCI standards, like PCI Express (PCIe), support hot-plugging, which allows you to connect or disconnect devices while the computer is running without requiring a system restart. This feature is particularly useful for servers and systems that need to be operational at all times.
+**Hot-Plugging** - Some PCI standards, like PCI Express (PCIe), support hot-plugging, which allows you to connect or disconnect devices while the computer is running without requiring a system restart. This feature is particularly useful for servers and systems that need to be operational at all times.
 
-**Configuration**: The PCI interface allows devices to be configured and controlled by software. The computer's operating system communicates with the devices using drivers and manages their resources.
+**Configuration** - The PCI interface allows devices to be configured and controlled by software. The computer's operating system communicates with the devices using drivers and manages their resources.
 
 ### sync command
 When you use a computer, the data that you create or modify is often stored in the computer’s memory (RAM). This is because it is faster to access data from memory then from a hard drive or other storage device.
@@ -638,7 +638,7 @@ by running the `sync` command before shutting down the system, you can be sure t
 # Setup ssh between two linux instances
 ```bash
 apt install openssh-server;
-ssh -i "pem file location" -L 8090:0.0.0.0:8080 "hostname" # port forward
+ssh -i <pem file location> -L 8090:0.0.0.0:8080 <hostname> # port forward
 ```
 `/etc/ssh/sshd_config` You can make various changes in this file, such as changing the default SSH port, disabling root login, or using key-based authentication. After making changes, save and exit the editor.
 
@@ -651,14 +651,19 @@ ssh -i "pem file location" -L 8090:0.0.0.0:8080 "hostname" # port forward
 
 - init process - the first user-space process that is started by the kernel. It is responsible for starting other system process and services, as well as running the system initialization scripts.
 
-> NOTE: ⚠️In some cases, there might be compatibility issues or conflicts between the default graphics drivers and certain hardware configurations or graphics cards. These issues can lead to problems such as a blank screen, graphical glitches, or an inability to boot properly
+>[!NOTE] In some cases, there might be compatibility issues or conflicts between the default graphics drivers and certain hardware configurations or graphics cards. These issues can lead to problems such as a blank screen, graphical glitches, or an inability to boot properly
 
 ### GRUB
 ```bash
-sudo nano /etc/default/grub # change quite splash to nomodeset.
+sudo vi /etc/default/grub # change quite splash to nomodeset.
 sudo update-grub
 sudo dpkg --list | grep -E -i --color  "linux-image|linux-headers"; # list installed kernals.
 ```
-- **Keyring**: In GnuPG, a keyring is a file or database that stores cryptographic keys. There are two primary types of keyrings: "pubring.kbx" for public keys and "secring.gpg" for secret (private) keys.
-- **Public Keys**: "pubring.kbx" specifically stores public keys. Public keys are used to verify digital signatures and encrypt data that can only be decrypted by the corresponding private key.
-- **Key Database Format**: The "kbx" in "pubring.kbx" stands for KeyBox, which is the format used to store the keys. It's a modern keyring format used by GnuPG and is more efficient and secure than older formats.
+- **Keyring**- In GnuPG, a keyring is a file or database that stores cryptographic keys. There are two primary types of keyrings: "pubring.kbx" for public keys and "secring.gpg" for secret (private) keys.
+- **Public Keys**- "pubring.kbx" specifically stores public keys. Public keys are used to verify digital signatures and encrypt data that can only be decrypted by the corresponding private key.
+- **Key Database Format**- The "kbx" in "pubring.kbx" stands for KeyBox, which is the format used to store the keys. It's a modern keyring format used by GnuPG and is more efficient and secure than older formats.
+
+## Configurations
+```bash
+update-alternatives --get-selections; # display all the configured alternatives
+```

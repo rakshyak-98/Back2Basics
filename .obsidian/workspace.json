@@ -4,35 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "6819c0213675303a",
+        "id": "e41f75d8b7ef0368",
         "type": "tabs",
         "children": [
           {
-            "id": "bd3928af12fc0103",
+            "id": "295a467cc6b12dec",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Github action.md",
-                "mode": "source",
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "09c9777f7eb44ca7",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Data structure.md",
+                "file": "Linux/Memory management.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -91,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Data structure.md",
+                "file": "Linux/Memory management.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Data structure.md",
+                "file": "Linux/Memory management.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -120,7 +107,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Data structure.md"
+                "file": "Linux/Memory management.md"
               }
             }
           },
@@ -148,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Data structure.md",
+                "file": "Linux/Memory management.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -175,10 +162,28 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "09c9777f7eb44ca7",
+  "active": "295a467cc6b12dec",
   "lastOpenFiles": [
-    "AMD module.md",
+    "Stack based programming language.md",
+    "Linux/Linux Process management.md",
+    "Inter Process Communication.md",
+    "Linux/Memory management.md",
+    "Linux/Linux Process Theory.md",
+    "Linux/Linux command.md",
+    "Linux management.md",
+    "ServiceWorker.md",
+    "React.md",
+    "Framer motion.md",
+    "React",
+    "Stack Frame.md",
     "Data structure.md",
+    "churn rate.md",
+    "p2p.md",
+    "ad hoc system.md",
+    "polyfills.md",
+    "transpiler.md",
+    "Github action.md",
+    "AMD module.md",
     "critical rendering path.md",
     "Descriptive/Javascript.md",
     "NodeJS.md",
@@ -187,27 +192,10 @@
     "Docker Runtime Security.md",
     "NodeJS/node command.md",
     "NodeJS",
-    "git command.md",
-    "Github action.md",
-    "Untitled.md",
     "GIT",
-    "github actions.md",
-    "Linux/inittramfs.md",
-    "BIOS/UEFI.md",
     "BIOS",
-    "MBR.md",
-    "System Architecture.md",
-    "README.md",
-    "System Design/Splitwise.md",
-    "golang.md",
-    "Linux/Linux command.md",
     "Untitled 1.canvas",
     "Untitled.canvas",
-    "Linux management.md",
-    "WM_CLASS.md",
-    "WiredTiger storage engine.md",
-    "Call stack.md",
-    "Linux resource management.md",
     "Redis",
     "GitHub",
     "Canvas/JavaScript.canvas",
@@ -215,7 +203,6 @@
     "System Design",
     "OOPS",
     "Docker",
-    "Linux",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",

@@ -1,7 +1,7 @@
 Berkeley sockets
 - programming interface for network.
 - communication in Unix-like operating systems.
-- used for [[IPC]]
+- used for [[Inter Process Communication]]
 - a client/server architecture is mandatory for BSD sockets.
 - allow to add internet communication to products.
 

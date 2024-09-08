@@ -1,0 +1,1 @@
+- also know as attrition rate, measures the percentage of customers
