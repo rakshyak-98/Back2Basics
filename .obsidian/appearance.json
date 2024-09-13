@@ -1,9 +1,10 @@
 {
-  "accentColor": "#fabd2f",
+  "accentColor": "#7a7a7a",
   "baseFontSize": 12,
   "cssTheme": "",
   "baseFontSizeAction": false,
   "theme": "obsidian",
-  "interfaceFontFamily": "Ubuntu Sans",
-  "showViewHeader": true
+  "interfaceFontFamily": "Noto Mono",
+  "showViewHeader": false,
+  "nativeMenus": true
 }

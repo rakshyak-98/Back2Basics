@@ -4,6 +4,19 @@ xdg-mime query default inode/directory; # get the information of file manager
 echo $XDG_CURRENT_DESKTOP; # current desktop environment
 
 lsblk; # list block devices
+
+# make custom tmpfs file system
+sudo mount -t tmpfs -o size=100M tmpfs <path>;
+```
+
+#### Make the mount permanent
+- automatically mounted at boot, you can add an entry to `/etc/fstab` file.
+```txt
+tmpfs <path> tmpfs size=100M 0 0
+```
+
+```bash
+df -h; #verify the mount
 ```
 
 ### API package lock

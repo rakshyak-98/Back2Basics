@@ -2,6 +2,19 @@
   "promptDelete": false,
   "vimMode": true,
   "alwaysUpdateLinks": true,
-  "livePreview": false,
-  "showRibbon": true
+  "livePreview": true,
+  "showRibbon": true,
+  "defaultViewMode": "source",
+  "showLineNumber": true,
+  "showInlineTitle": true,
+  "readableLineLength": false,
+  "strictLineBreaks": false,
+  "foldHeading": false,
+  "showIndentGuide": true,
+  "rightToLeft": false,
+  "tabSize": 2,
+  "foldIndent": false,
+  "spellcheck": true,
+  "autoPairBrackets": true,
+  "propertiesInDocument": "source"
 }

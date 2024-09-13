@@ -1,30 +1,40 @@
+### Environment configurations
+- `XDG_` prefix used to denote a set of environment variables defined by the XDG Base Directory Specification.
+- these specification aims to standardize the locations of user-specific files and directories.
+
 ```bash
+apt-cache rdepends <package name>; # view dependency on packages.
+apt-cache rdepends libgtk-3-0;
 update-alternatives --config editor; # change the default options for editor
 ```
 
-```
+```bash
 # Prompt
 
 ```bash
 <<comment
-Text Attributes:
-- 0: Reset all attributes (normal)
-- 1: bold
-- 4: Underline
-- 5: blink
-- 7: reverse video (swap foreground and background colors)
-- 8: concealed (invisible)
-Text colors
-- 30 - 37 (foreground) : set text color (black, red, green yellow, blue, magenta, cyan, white)
+	Text Attributes:
+	- 0: Reset all attributes (normal)
+	- 1: bold
+	- 4: Underline
+	- 5: blink
+	- 7: reverse video (swap foreground and background colors)
+	- 8: concealed (invisible)
+	Text colors
+	- 30 - 37 (foreground) : set text color (black, red, green yellow, blue, magenta, cyan, white)
 - 40 - 47 (background) : set background color...
 comment
-\\[\\e[1;34m\\] #set the text color to bold blue in your prompt.
-PS1='\\[\\e[1;34m\\]➜ \\W \\[\\e[1;35m\\]$(__git_ps1 " (%s)")\\[\\e[0m\\]\\$ ' #my prompt.
+PS1='\[\e[1;34m\]➜ \W \[\e[1;35m\]$(__git_ps1 " (%s)")\[\e[0m\]\$ ' #my prompt.
 ```
 
-```json
+```bash
 set -o vi
 set -o emacs
+```
+
+### Common installation
+```bash
+sudo apt install libgtk-3-0 libgtk2.0-0
 ```
 
 ### Application launcher
@@ -35,7 +45,7 @@ sudo chmod +x /etc/systemd/system/appname.service
 sudo systemctl daemon-reload.
 sudo systemctl start appname
 
-touch ~/.local/share/applications/[app-name].desktop;
+touch ~/.local/share/applications/<app-name>.desktop;
 sudo nano [app-name]; # to add configuration.
 
 # change time zone
@@ -214,3 +224,11 @@ openssl req -new -key server.key -out server.csr; # gen CSR
 # gen self sign certificate
 openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt;
 ```
+
+### terminfo
+`/usr/share/terminfo` directory is a compiled database that describe the capabilities of various terminals.
+- it is used by applications like terminal emulator to communicate with the terminal and take advantage of its specific features.
+- entries are organized into sub-directories based on the firs letter of the terminal name (e.g. `/usr/share/terminfo/v` for viewpoint terminals)
+#### Usage
+- Applications like the terminal emulator use the terminfo database to determine how to control the terminal
+- entries in the terminfo database are compiled from source files using the `tic` command.
