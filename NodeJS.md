@@ -24,12 +24,12 @@ if (['production', 'staging'].includes(process.env.NODE_ENV)){
 }
 ```
 ## Difference Between Node.js and Browser
-|Node.js| browser|
-|---|---|
-| frontend and backend in a single language  | |
-| don't have `document` `window` object | interacting with the DOM or other Web APIs |
-| Node.js provide additional API like filesystem access | |
-| Node.js support both CommonJS and ES module systems | browser have ES module |
+| Node.js                                               | browser                                    |
+| ----------------------------------------------------- | ------------------------------------------ |
+| frontend and backend in a single language             |                                            |
+| don't have `document` `window` object                 | interacting with the DOM or other Web APIs |
+| Node.js provide additional API like filesystem access |                                            |
+| Node.js support both CommonJS and ES module systems   | browser have ES module                     |
 
 > [!NOTE] Memory leaks happen when a program allocates memory but does not release it with it is no longer needed.
 - memory leaks happens due to use of [[closure]] [[circular references]] [[global variables]].

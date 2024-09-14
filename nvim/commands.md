@@ -1,9 +1,10 @@
-```shell
+```bash
 :Lazy update
 :echo stdpath('config');
 :echo stdpath('data'); #/usr/share directory
 :message; # view the log file ~/.local/state/nvim.log
 :lua =package.path; # print the current loaded path string
+:options; # per instance options setup
 ```
 
 ```lua

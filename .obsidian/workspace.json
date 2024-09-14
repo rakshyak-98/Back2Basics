@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "git command.md",
+                "file": "nvim/commands.md",
                 "mode": "source",
                 "source": false
               }
@@ -73,29 +73,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "13cad38e08305ed9",
-            "type": "leaf",
-            "state": {
-              "type": "backlink",
-              "state": {
-                "file": "git command.md",
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical",
-                "showSearch": false,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
             "id": "6264242b9441d2b2",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "git command.md",
+                "file": "nvim/commands.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -107,24 +90,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "git command.md"
+                "file": "nvim/commands.md"
               }
             }
-          }
-        ],
-        "currentTab": 1
-      },
-      {
-        "id": "332ee72a1445fe28",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "5f530ee0397e9af5",
+            "id": "182f87193da938c5",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "git command.md",
+                "file": "nvim/commands.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +111,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -152,6 +129,9 @@
   },
   "active": "a46e31222cce2c78",
   "lastOpenFiles": [
+    "NodeJS/node modules.md",
+    "NodeJS.md",
+    "Linux/Linux command.md",
     "git command.md",
     "Untitled 1.md",
     "relocatable schema.md",
@@ -170,7 +150,6 @@
     "Linux/Linux Process management.md",
     "Inter Process Communication.md",
     "Linux/Linux Process Theory.md",
-    "Linux/Linux command.md",
     "Linux management.md",
     "ServiceWorker.md",
     "React.md",
@@ -178,8 +157,6 @@
     "React",
     "Stack Frame.md",
     "churn rate.md",
-    "p2p.md",
-    "ad hoc system.md",
     "NodeJS",
     "GIT",
     "BIOS",
