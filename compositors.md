@@ -1,0 +1,7 @@
+- refers to a software component that manages the rendering of graphical elements on the screen.
+- it plays a crucial role in how windows and visual elements are displayed, often providing features like transparency, animations, and effects.
+#### Role of compositor
+- Rendering Off-Screen Buffers
+	- A compositor creates an off-screen buffer for each window. This allows for the graphical content of each window to be rendered separately before being combined into a final image that is displayed on the screen. This process helps in managing complex visual effects and transitions without flickering, as the compositor can update the display smoothly.
+	- visual effects - Compositors are responsible for applying various visual effect such as shadows, transparency, and animations. These effects enhance the user experience by making the interface more visually appealing and responsive. For instance, they can handle fade-ins, slide animations, and other transitions between different states of windows. 
+	- Window management - in environment like Linux, compositors can also serve as window managers, controlling how windows are displayed and interact with each other. They can manage multiple virtual desktops and provide features like window tilling and snapping.

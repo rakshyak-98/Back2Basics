@@ -30,7 +30,7 @@
   "authorInHistoryView": "hide",
   "dateInHistoryView": false,
   "lineAuthor": {
-    "show": true,
+    "show": false,
     "followMovement": "inactive",
     "authorDisplay": "hide",
     "showCommitHash": false,
@@ -39,9 +39,9 @@
     "dateTimeTimezone": "viewer-local",
     "coloringMaxAge": "1y",
     "colorNew": {
-      "r": 255,
-      "g": 150,
-      "b": 150
+      "r": 128,
+      "g": 128,
+      "b": 128
     },
     "colorOld": {
       "r": 120,
@@ -49,10 +49,10 @@
       "b": 255
     },
     "textColorCss": "var(--text-muted)",
-    "ignoreWhitespace": false,
+    "ignoreWhitespace": true,
     "gutterSpacingFallbackLength": 0,
-    "lastShownAuthorDisplay": "initials",
-    "lastShownDateTimeFormatOptions": "date"
+    "lastShownAuthorDisplay": "full",
+    "lastShownDateTimeFormatOptions": "custom"
   },
   "autoCommitMessage": "vault backup: {{date}}"
 }

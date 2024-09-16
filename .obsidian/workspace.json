@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "7b28b748e643b663",
+        "id": "0ced5610c4a246e7",
         "type": "tabs",
         "children": [
           {
-            "id": "a46e31222cce2c78",
+            "id": "efab44aa8f9d8252",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nvim/commands.md",
+                "file": "compositors.md",
                 "mode": "source",
                 "source": false
               }
@@ -78,7 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "nvim/commands.md",
+                "file": "compositors.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -90,7 +90,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "nvim/commands.md"
+                "file": "compositors.md"
               }
             }
           },
@@ -100,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "nvim/commands.md",
+                "file": "compositors.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,8 +127,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a46e31222cce2c78",
+  "active": "efab44aa8f9d8252",
   "lastOpenFiles": [
+    "compositors.md",
+    "Data structure.md",
+    "nvim/commands.md",
     "NodeJS/node modules.md",
     "NodeJS.md",
     "Linux/Linux command.md",
@@ -137,9 +140,7 @@
     "relocatable schema.md",
     "Linux file management.md",
     "Linux/Linux configuration.md",
-    "nvim/commands.md",
     "Linux/login shell.md",
-    "Data structure.md",
     "nvim",
     "terminal emulator.md",
     "TTY (teletypewriter).md",
@@ -156,7 +157,6 @@
     "Framer motion.md",
     "React",
     "Stack Frame.md",
-    "churn rate.md",
     "NodeJS",
     "GIT",
     "BIOS",
