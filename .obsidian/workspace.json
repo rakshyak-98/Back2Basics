@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "compositors.md",
+                "file": "Descriptive/Javascript.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "670a47db5f56e21e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SWC.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,7 +91,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "compositors.md",
+                "file": "SWC.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -90,7 +103,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "compositors.md"
+                "file": "SWC.md"
               }
             }
           },
@@ -100,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "compositors.md",
+                "file": "SWC.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,8 +140,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "efab44aa8f9d8252",
+  "active": "670a47db5f56e21e",
   "lastOpenFiles": [
+    "Descriptive/Javascript.md",
+    "SWC.md",
     "compositors.md",
     "Data structure.md",
     "nvim/commands.md",
@@ -136,7 +151,6 @@
     "NodeJS.md",
     "Linux/Linux command.md",
     "git command.md",
-    "Untitled 1.md",
     "relocatable schema.md",
     "Linux file management.md",
     "Linux/Linux configuration.md",
@@ -156,7 +170,6 @@
     "React.md",
     "Framer motion.md",
     "React",
-    "Stack Frame.md",
     "NodeJS",
     "GIT",
     "BIOS",

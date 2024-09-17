@@ -15,7 +15,21 @@
 
  > [!NOTE] Just like a `for .. in` loop, `Object.keys/values/entries` ignore symbolic properties. 
  
- ## Modules
+### propertyDescriptors
+```javascript
+Object.getOwnPropertyDescriptor(Array.prototype, "indexOf")
+```
+
+```txt
+{
+  value: [Function: indexOf],
+  writable: true,
+  enumerable: false,
+  configurable: true
+}
+```
+
+## Modules
 
 modules are reusable blocks of code that can be imported into other files.
 

@@ -1,0 +1,1 @@
+- (Speedy Web Compiler) is a fast, Rust-based transpiler and bundler for javascript Typescript, it is designed to be an alternative to tools like Babel, Rollup, Webpack, offering significant performance improvements.
