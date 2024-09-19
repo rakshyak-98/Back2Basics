@@ -37,5 +37,5 @@ If you’re into this whole idea of preserving tech history, I’d love your hel
 
 ## Wrapping Up
 
-**TechRevive** isn’t just a repo—it’s a bit of a mission to make sure we don’t lose track of the tech that got us here. By digging into the past, we can make sense of the present and maybe do a better job with the future. So yeah, let’s keep this stuff alive. 🚀
+**Back2Basics** isn’t just a repo—it’s a bit of a mission to make sure we don’t lose track of the tech that got us here. By digging into the past, we can make sense of the present and maybe do a better job with the future. So yeah, let’s keep this stuff alive. 🚀
 
