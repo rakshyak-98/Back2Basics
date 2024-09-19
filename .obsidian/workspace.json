@@ -13,26 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Descriptive/Javascript.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "670a47db5f56e21e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "SWC.md",
+                "file": "golang.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -91,7 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "SWC.md",
+                "file": "golang.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -103,7 +90,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "SWC.md"
+                "file": "golang.md"
               }
             }
           },
@@ -113,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "SWC.md",
+                "file": "golang.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -140,7 +127,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "670a47db5f56e21e",
+  "active": "efab44aa8f9d8252",
   "lastOpenFiles": [
     "Descriptive/Javascript.md",
     "SWC.md",
