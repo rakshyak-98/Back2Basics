@@ -18,3 +18,13 @@ vim.opt.rtp:prepend(lazypath)
 
 > [!NOTE] `rtp` stands for runtime path. The runtime path is a list of directories that Neovim searches when looking for files, plugins and configurations.
 - the runtime path determines where Neovim looks for its resources, such as plugins, syntax files, and other configuration files.
+
+### Treesitter
+#### Error is decoration provider treesitter/highlighter.win
+- indicates a problem with the query parsing, specifically related to an invalid node type.
+```bash
+:TSUpdate; # update the treesitter parsers
+:TSInstall <language>; # check installed package
+:checkhealth nvim-treesitter; # run healthcheck
+```
+

@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "0ced5610c4a246e7",
+        "id": "fb3f5e306a4c27ae",
         "type": "tabs",
         "children": [
           {
-            "id": "efab44aa8f9d8252",
+            "id": "10d00793c3a3c0e5",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "golang.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -78,7 +74,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "golang.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -89,9 +84,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "golang.md"
-              }
+              "state": {}
             }
           },
           {
@@ -100,7 +93,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "golang.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,17 +119,23 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "efab44aa8f9d8252",
+  "active": "10d00793c3a3c0e5",
   "lastOpenFiles": [
+    "nvim/commands.md",
+    "combi.md",
+    "WASM",
+    "React/SWR",
+    "Linux/Linux input device ",
+    "golang.md",
+    "How to manipulate memory directly.md",
+    "git command.md",
     "Descriptive/Javascript.md",
     "SWC.md",
     "compositors.md",
     "Data structure.md",
-    "nvim/commands.md",
     "NodeJS/node modules.md",
     "NodeJS.md",
     "Linux/Linux command.md",
-    "git command.md",
     "relocatable schema.md",
     "Linux file management.md",
     "Linux/Linux configuration.md",
@@ -153,9 +151,6 @@
     "Inter Process Communication.md",
     "Linux/Linux Process Theory.md",
     "Linux management.md",
-    "ServiceWorker.md",
-    "React.md",
-    "Framer motion.md",
     "React",
     "NodeJS",
     "GIT",
@@ -165,9 +160,6 @@
     "Redis",
     "GitHub",
     "Canvas/JavaScript.canvas",
-    "Descriptive/Java",
-    "System Design",
-    "OOPS",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
     "Canvas/NodeJS.canvas",

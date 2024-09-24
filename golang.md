@@ -29,6 +29,8 @@ sudo apt install delve; # install go debugger
 ```bash
 break main.main; # break at main function
 stack; # stdout the current stack frame
+locals; # view current stack frame variables reference
+print <variable>; # view the variable ref or value
 ```
 ### `panic` build in function
 - `panic` and `recover` are function-scoped, unlike `try/catch` which is block-scoped. This means you can only recover from a panic withing the same function using a deferred function.
