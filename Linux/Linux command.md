@@ -532,3 +532,7 @@ grep 'MimeType' /usr/share/applicatoins/eog.desktop | tr ';' '\n';
 
 ## flock
 - command used to implement advisory locks.
+
+## vmstat
+
+vmstat - monitoring system, info about processes, memory, paging, block I/O, traps and CPU activity. Perform dignosing performance issues and understanding system behavior under different workloads.
