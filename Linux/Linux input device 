@@ -1,0 +1,13 @@
+how does kernal understand input device instructions
+
+The kernel understands input device instructions through device drivers, which serve as intermediaries between the hardware and the operating system. When an input device is connected, the driver registers the device with the kernel, specifying the types of events it can generate (e.g., key presses) using structures defined in `<linux/input.h>`[1]. The kernel then communicates with the device using memory-mapped I/O or interrupts, allowing it to read from or write to specific hardware registers to process input events[3][4]. This abstraction enables applications to interact with hardware without needing to understand its specifics[5].
+
+Citations:
+[1] 1. Creating an input device driver - The Linux Kernel documentation https://docs.kernel.org/input/input-programming.html
+[2] How does an OS kernel define all the inputs and outputs? - Stack Overflow https://stackoverflow.com/questions/25290641/how-does-an-os-kernel-define-all-the-inputs-and-outputs
+[3] How does the kernel interacts with the hardware? : r/C_Programming https://www.reddit.com/r/C_Programming/comments/sag4c4/how_does_the_kernel_interacts_with_the_hardware/
+[4] Kernel I/O Subsystem in Operating System - GeeksforGeeks https://www.geeksforgeeks.org/kernel-i-o-subsystem-in-operating-system/
+[5] What is a Kernel? | Definition from TechTarget https://www.techtarget.com/searchdatacenter/definition/kernel
+[6] Kernel in Operating System - GeeksforGeeks https://www.geeksforgeeks.org/kernel-in-operating-system/
+[7] Kernel Overview (Device Driver Tutorial) https://docs.oracle.com/cd/E19120-01/open.solaris/819-3159/emjjp/index.html
+[8] User- and Kernel Mode, System Calls, I/O, Exceptions https://minnie.tuhs.org/CompArch/Lectures/week05.html
