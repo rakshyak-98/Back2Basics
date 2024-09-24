@@ -1,0 +1,4 @@
+WASM
+allowing encryption and secryption to occur on the client side without sending sensitive data over the network.
+reuse of existing codebases written in langaagues like c, c++ or Rust, integrate components directly into web applications witout rewriting them in javaScript.
+For compiling other languages in browser.
