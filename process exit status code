@@ -1,0 +1,23 @@
+# How do I interpret different exit status codes in Bash
+
+In Bash, exit status codes indicate the success or failure of commands. Here’s how to interpret them:
+
+- **0**: Success.
+- **1**: General error (e.g., command failed).
+- **2**: Misuse of shell built-ins (e.g., invalid options).
+- **126**: Command found but not executable.
+- **127**: Command not found.
+- **128 + N**: Terminated by signal N (e.g., 130 for SIGINT).
+- **255**: Exit status out of range.
+
+The last command's exit status can be accessed via `$?` [1][2][4].
+
+Citations:
+[1] Exit Status (Bash Reference Manual) - GNU.org https://www.gnu.org/software/bash/manual/html_node/Exit-Status.html
+[2] An Overview of Linux Exit Codes | AgileConnection https://www.agileconnection.com/article/overview-linux-exit-codes
+[3] Are there any standard exit status codes in Linux? https://stackoverflow.com/questions/1101957/are-there-any-standard-exit-status-codes-in-linux/1535733
+[4] Bash command line exit codes demystified | Enable Sysadmin https://www.redhat.com/sysadmin/exit-codes-demystified
+[5] Standard Exit Status Codes in Linux - Baeldung https://www.baeldung.com/linux/status-codes
+[6] Exit status - Wikipedia https://en.wikipedia.org/wiki/Errorlevel
+[7] Understanding Exit Codes and Using them in Bash scripts - Benjamin Cane https://bencane.com/understanding-exit-codes-in-bash-6942a8b96ce5?gi=e2096b055de6
+[8] Process.ExitCode Property (System.Diagnostics) https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.exitcode?redirectedfrom=MSDN&view=net-8.0
