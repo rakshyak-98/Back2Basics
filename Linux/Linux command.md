@@ -17,6 +17,7 @@ ctrl + d - to close current session terminal.
 # reset terminal keybindings
 dconf reset -f /org/gnome/terminal/legacy/keybindings/
 echo $$; # get the PID of bash
+show <parameter>; # show the value of a run-time parameter
 ```
 
 verbose meaning - expressed in more words then needed.

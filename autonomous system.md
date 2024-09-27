@@ -1,0 +1,2 @@
+- is a collection of IP networks and routes under the control of a single organization that presents a common routing policy to the internet.
+- crucial for maintaining the global routing system of the internet, allowing data packets to navigate efficiently across multiple networks.

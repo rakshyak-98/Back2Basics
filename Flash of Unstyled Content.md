@@ -1,0 +1,2 @@
+- occurs when the browser displays content using default styles before external CSS files are loaded.
+- JavaScript manipulates styles after rendering has begun.

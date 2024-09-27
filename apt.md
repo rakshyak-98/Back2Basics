@@ -13,3 +13,7 @@ apt-get install lvm2; # logical volume packages, pvdisplay.
 apt-cache search; # search the cache in the system with package name.
 apt-get show package_name; # search without internet connection, from the cache.
 ```
+
+```bash
+apt-cache rdepends <pkg name>;
+```
