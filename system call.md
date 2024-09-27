@@ -1,3 +1,4 @@
+> [!NOTE] System call are the primary means by which user applications interact with the kernel.
 - these functions allow user programs to request services from the kernel, such as file operations, process control, and communication between processes.
 - low level functions
 - primary way for a program to interact with the operating system.

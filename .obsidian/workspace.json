@@ -11,8 +11,12 @@
             "id": "c9d6c7cad5af3ab5",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "buffer flags.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -74,6 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "buffer flags.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -84,7 +89,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "buffer flags.md"
+              }
             }
           },
           {
@@ -93,6 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "buffer flags.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,8 +111,7 @@
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -121,6 +128,15 @@
   },
   "active": "c9d6c7cad5af3ab5",
   "lastOpenFiles": [
+    "buffer lifecycle.md",
+    "buffer flags.md",
+    "buffer.md",
+    "OS program.md",
+    "buffer head.md",
+    "Buffer cache.md",
+    "kernel subsystem.md",
+    "discriptors.md",
+    "system call.md",
     "IM (Information Management) production systems.md",
     "mongoose.md",
     "Preprocessor.md",
@@ -139,18 +155,9 @@
     "[[autonomous.md",
     "autonomous system.md",
     "AWS ECR.md",
-    "apt.md",
-    "nvim/commands.md",
-    "combi.md",
     "WASM",
     "React/SWR",
     "Linux/Linux input device ",
-    "golang.md",
-    "How to manipulate memory directly.md",
-    "git command.md",
-    "SWC.md",
-    "compositors.md",
-    "Data structure.md",
     "nvim",
     "React",
     "NodeJS",

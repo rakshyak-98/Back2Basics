@@ -1,0 +1,5 @@
+- buffer head are data structures that describe each buffer in the cache.
+- they contain important metadata like:
+	- A 'dirty bit' indicating if the buffer needs to be written to disk
+	- A timestamp for managing buffer eviction from the cache
+	- Device and block number identifying the buffer's location on disk
