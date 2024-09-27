@@ -5,9 +5,12 @@
 - absence of iterations, and the inability to get all current content.
 
 ### why such limitation?
-- for technical reasons, the current element count of a `WeakMap` is not known. The engine may have cleared it up or not, or did it partially. For that reason, methods that access all keys or values are not supported.
+- for technical reasons, the current element count of a `WeakMap` is not known.
+- The engine may have cleared it up or not, or did it partially.
+- For that reason, methods that access all keys or values are not supported.
 
 usually, properties of an object or elements of an array or another data structure are considered reachable and kept in memory while that data structure is in memory.
+
 
 For instance, if we put an object into an array, then while the array is alive, the object will be alive as well, even if there are no other references to it.
 

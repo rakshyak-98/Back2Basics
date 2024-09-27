@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "buffer flags.md",
+                "file": "typescript.md",
                 "mode": "source",
                 "source": false
               }
@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "curl",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,7 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "buffer flags.md",
+                "file": "typescript.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -90,7 +90,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "buffer flags.md"
+                "file": "typescript.md"
               }
             }
           },
@@ -100,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "buffer flags.md",
+                "file": "typescript.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -128,8 +128,12 @@
   },
   "active": "c9d6c7cad5af3ab5",
   "lastOpenFiles": [
-    "buffer lifecycle.md",
     "buffer flags.md",
+    "().md",
+    "vscode.md",
+    "Descriptive/JavaScript/Weak map.md",
+    "Descriptive/Javascript.md",
+    "buffer lifecycle.md",
     "buffer.md",
     "OS program.md",
     "buffer head.md",
@@ -146,15 +150,11 @@
     "typescript.md",
     "markup.js.md",
     "process exit status code",
-    "Descriptive/Javascript.md",
     "Flash of Unstyled Content.md",
     "html.md",
     "Linux/Linux command.md",
     "BGP.md",
-    "().md",
     "[[autonomous.md",
-    "autonomous system.md",
-    "AWS ECR.md",
     "WASM",
     "React/SWR",
     "Linux/Linux input device ",

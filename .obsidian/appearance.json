@@ -1,7 +1,7 @@
 {
-  "accentColor": "#c4b8ff",
+  "accentColor": "",
   "baseFontSize": 12,
-  "cssTheme": "Solarized",
+  "cssTheme": "Minimal",
   "baseFontSizeAction": false,
   "theme": "obsidian",
   "interfaceFontFamily": "Noto Mono",
