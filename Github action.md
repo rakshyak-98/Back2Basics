@@ -59,3 +59,11 @@ jobs:
 		- name: Run a one-line script
 		- run: echo "Hello, World!"
 ```
+
+### How to disable CodeQL
+1. go to repository settings
+2. scroll to Security Left hand side
+3. click on Code security.
+4. scroll to Code Scanning section.
+5. find tools section.
+6. you can select and disable.
