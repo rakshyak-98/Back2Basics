@@ -1,0 +1,1 @@
+- the predictor variables are commonly called "Features", and the response variable are usually referred to as **target**

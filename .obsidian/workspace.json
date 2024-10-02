@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "ML/ordinal classification.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "25753a1abeab1649",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "rank prediction.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -126,22 +139,27 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "59f758504106e066",
+  "active": "25753a1abeab1649",
   "lastOpenFiles": [
+    "ML/ML Classifiers.md",
+    "regression.md",
+    "multiclass classification.md",
+    "rank prediction.md",
+    "supervised learning.md",
+    "ML/scikitlearn.md",
+    "binary classification.md",
+    "ML/ordinal classification.md",
+    "classification.md",
+    "ML/sigmoid.md",
     "ML/Model/Linear regression.md",
     "Decision tree.md",
     "Random forest.md",
     "ML/model tranning.md",
     "Gradient boosting.md",
     "ML/Model",
-    "ML/scikitlearn.md",
-    "rank prediction.md",
-    "ML/ML Classifiers.md",
     "ML/data preprocessing.md",
-    "regression.md",
     "skll.md",
     "Perceptron.md",
-    "ML/ordinal classification.md",
     "GitHub/Github action.md",
     "ML",
     "System Design/System design terms ",
@@ -152,11 +170,6 @@
     "WebDAV.md",
     "typescript.md",
     "buffer flags.md",
-    "().md",
-    "vscode.md",
-    "Descriptive/JavaScript/Weak map.md",
-    "Descriptive/Javascript.md",
-    "buffer lifecycle.md",
     "process exit status code",
     "WASM",
     "React/SWR",

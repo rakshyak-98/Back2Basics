@@ -24,3 +24,4 @@ Learning algorithms for classification
 #### loss minimum
 #### model hyperparameters
 #### transformer
+#### polynomial features
