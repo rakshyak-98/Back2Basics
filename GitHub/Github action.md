@@ -1,3 +1,13 @@
+## Actions
+### Use secret in workflow
+```yaml
+steps:
+  - name: Hello world action
+    with: # Set the secret as an input
+      super_secret: ${{ secrets.SuperSecret }}
+    env: # Or as an environment variable
+      super_secret: ${{ secrets.SuperSecret }}
+```
 ### Pre-installed Run-times
 - GitHub Action, executes in a virtual environment (like Ubuntu, Windows, or macOS) that GitHub provides.
 - in workflow YAML file, you specify the environment in which your action runs.

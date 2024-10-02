@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "c9d6c7cad5af3ab5",
+            "id": "59f758504106e066",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Github action.md",
+                "file": "rank prediction.md",
                 "mode": "source",
                 "source": false
               }
@@ -78,7 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Github action.md",
+                "file": "rank prediction.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -90,7 +90,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Github action.md"
+                "file": "rank prediction.md"
               }
             }
           },
@@ -100,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Github action.md",
+                "file": "rank prediction.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,8 +126,27 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c9d6c7cad5af3ab5",
+  "active": "59f758504106e066",
   "lastOpenFiles": [
+    "ML/Model/Linear regression.md",
+    "Decision tree.md",
+    "Random forest.md",
+    "ML/model tranning.md",
+    "Gradient boosting.md",
+    "ML/Model",
+    "ML/scikitlearn.md",
+    "rank prediction.md",
+    "ML/ML Classifiers.md",
+    "ML/data preprocessing.md",
+    "regression.md",
+    "skll.md",
+    "Perceptron.md",
+    "ML/ordinal classification.md",
+    "GitHub/Github action.md",
+    "ML",
+    "System Design/System design terms ",
+    "GitHub/Github cli.md",
+    "Github runner.md",
     "Linux/file mount.md",
     "digest access authentication.md",
     "WebDAV.md",
@@ -138,34 +157,15 @@
     "Descriptive/JavaScript/Weak map.md",
     "Descriptive/Javascript.md",
     "buffer lifecycle.md",
-    "buffer.md",
-    "OS program.md",
-    "buffer head.md",
-    "Buffer cache.md",
-    "kernel subsystem.md",
-    "discriptors.md",
-    "system call.md",
-    "IM (Information Management) production systems.md",
-    "mongoose.md",
-    "Preprocessor.md",
-    "Linux/Linux Process Theory.md",
-    "ambient modules.md",
-    "AMD module.md",
-    "markup.js.md",
     "process exit status code",
-    "Flash of Unstyled Content.md",
-    "html.md",
     "WASM",
     "React/SWR",
     "Linux/Linux input device ",
     "nvim",
     "React",
     "NodeJS",
-    "GIT",
-    "BIOS",
     "Untitled 1.canvas",
     "Untitled.canvas",
-    "Redis",
     "Canvas/JavaScript.canvas",
     "Canvas/Database.canvas",
     "Canvas/Networking.canvas",
