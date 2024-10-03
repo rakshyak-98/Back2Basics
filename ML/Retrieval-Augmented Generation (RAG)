@@ -1,0 +1,13 @@
+Retrieval-Augmented Generation (RAG)
+
+Retrieval-Augmented Generation (RAG) enhances large language models (LLMs) by integrating external knowledge sources to improve the accuracy and relevance of generated responses. It operates by retrieving pertinent information based on user queries, which is then combined with the LLM's internal knowledge to produce more informed outputs. This approach addresses limitations of traditional LLMs, such as outdated information and factual inaccuracies, making RAG particularly useful in fields requiring precise data, like customer service and scientific writing. Additionally, RAG allows for real-time updates without retraining the model, increasing efficiency and user trust through source attribution[1][2][3].
+
+Citations:
+[1] What Is Retrieval Augmented Generation (RAG)? | Google Cloud https://cloud.google.com/use-cases/retrieval-augmented-generation
+[2] What is RAG? - Retrieval-Augmented Generation AI Explained - AWS https://aws.amazon.com/what-is/retrieval-augmented-generation/?nc1=h_ls
+[3] What Is Retrieval-Augmented Generation aka RAG - NVIDIA Blog https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/
+[4] Retrieval Augmented Generation (RAG) - Prompt Engineering Guide https://www.promptingguide.ai/techniques/rag
+[5] What Is Retrieval-Augmented Generation (RAG)? | Oracle India https://www.oracle.com/in/artificial-intelligence/generative-ai/retrieval-augmented-generation-rag/
+[6] What is retrieval-augmented generation (RAG)? - IBM Research https://research.ibm.com/blog/retrieval-augmented-generation-RAG
+[7] What is Retrieval Augmented Generation (RAG)? - Databricks https://www.databricks.com/glossary/retrieval-augmented-generation-rag
+[8] What is retrieval-augmented generation, and what does it do for ... https://github.blog/ai-and-ml/generative-ai/what-is-retrieval-augmented-generation-and-what-does-it-do-for-generative-ai/
