@@ -1,0 +1,3 @@
+- focuses on the position of relevant items in the ranking. Higher-ranked relevant items contribute more to the score.
+- DCG (Discounted Cumulative Gain) Rewards placing relevant items higher up in the ranking.
+- NDCG DCG normalized by the ideal DCG (best possible ranking), resulting in a score between 0 and 1.

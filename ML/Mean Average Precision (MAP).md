@@ -1,0 +1,4 @@
+- Measures how precise a ranking is by averaging the precision at each relevant item.
+- Precision: The proportion of relevant items among retrieved ones.
+- Average precision: the mean of the precision scores at every relevant item position.
+- MAP the average of the average precision over multiple queries.

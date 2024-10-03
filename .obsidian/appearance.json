@@ -3,8 +3,8 @@
   "baseFontSize": 12,
   "cssTheme": "",
   "baseFontSizeAction": false,
-  "theme": "obsidian",
-  "interfaceFontFamily": "Noto Mono",
+  "theme": "moonstone",
+  "interfaceFontFamily": "",
   "showViewHeader": false,
   "nativeMenus": true
 }

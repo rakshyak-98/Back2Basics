@@ -4,6 +4,13 @@
 - often, non-linear relationships where small score improvements at the top can lead to significant rank jumps
 - In some cases, ranks might be divided into categories (e.g., top 1%, top 5%, etc.), making it a classification problem
 - rank prediction is a classification problem
+- for rank prediction the **Predicted vs Actual** plot will show how close the predicted ranks are to the actual ranks, giving a visual check of accuracy.
+### Visualization
+- a histogram would show how scores are distributed across bins, while a box plot could highlight outliers or the spread between high and low scores. (bin size selection can distort the visualization).
+- a Density plot is smoother then histogram, shows continuous distribution (may be harder to interpret for larger datasets).
+- a box plot highlights outliers and data spread, easy to compare multiple distributions (doesn't show the exact distribution of data points within quadrilles).
+
+> [!INFO] use histogram or density plot for initial distribution checks. And opt for box plots when dealing with multiple categories or to identify outliers.
 ### Advantages of Using Neural Networks for Rank Prediction:
 - Non-linear Relationships: Neural networks can capture complex, non-linear relationships between features and ranks.
 - Scalability: MLPs can be scaled with more layers to handle more sophisticated rank prediction problems.

@@ -4,35 +4,34 @@
     "type": "split",
     "children": [
       {
-        "id": "cd55f1b9420f93b1",
+        "id": "2251b04f77de8e41",
         "type": "tabs",
         "children": [
           {
-            "id": "59f758504106e066",
+            "id": "9ff8a683b0bcbd88",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ML/ordinal classification.md",
+                "file": "ML/Visualization/Residual plot.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "25753a1abeab1649",
+            "id": "d32c154db5b71229",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "rank prediction.md",
+                "file": "ML/model tranning.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -91,7 +90,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "rank prediction.md",
+                "file": "ML/Visualization/Residual plot.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -103,7 +102,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "rank prediction.md"
+                "file": "ML/Visualization/Residual plot.md"
               }
             }
           },
@@ -113,7 +112,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "rank prediction.md",
+                "file": "ML/Visualization/Residual plot.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,44 +138,44 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "25753a1abeab1649",
+  "active": "9ff8a683b0bcbd88",
   "lastOpenFiles": [
+    "ML/model tranning.md",
+    "rank prediction.md",
+    "ML/Visualization/data visualization.md",
+    "ML/Visualization/Residual plot.md",
+    "ml ve",
+    "ML/Visualization/Rank distribution.md",
+    "ML/Visualization/predicated vs actual plot.md",
+    "ML/Visualization/feature importance.md",
+    "ML/Mean Average Precision (MAP).md",
+    "ML/Visualization",
+    "Normalized Discounted Cumulative Gain (NDCG).md",
     "ML/ML Classifiers.md",
+    "ML/ordinal classification.md",
+    "Random forest.md",
+    "Database/MMAP.md",
+    "ML/xg boost.md",
+    "ML/ANN.md",
+    "ML/estimator.md",
+    "ML/data preprocessing.md",
+    "ML/Retrieval-Augmented Generation (RAG)",
     "regression.md",
     "multiclass classification.md",
-    "rank prediction.md",
     "supervised learning.md",
     "ML/scikitlearn.md",
     "binary classification.md",
-    "ML/ordinal classification.md",
     "classification.md",
     "ML/sigmoid.md",
     "ML/Model/Linear regression.md",
     "Decision tree.md",
-    "Random forest.md",
-    "ML/model tranning.md",
-    "Gradient boosting.md",
     "ML/Model",
-    "ML/data preprocessing.md",
-    "skll.md",
-    "Perceptron.md",
-    "GitHub/Github action.md",
     "ML",
     "System Design/System design terms ",
-    "GitHub/Github cli.md",
-    "Github runner.md",
-    "Linux/file mount.md",
-    "digest access authentication.md",
-    "WebDAV.md",
-    "typescript.md",
-    "buffer flags.md",
     "process exit status code",
     "WASM",
     "React/SWR",
     "Linux/Linux input device ",
-    "nvim",
-    "React",
-    "NodeJS",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
