@@ -1,3 +1,5 @@
+## Evaluation
+- accuracy, precision, recall, F1 score, mean squared error.
 ## Test size
 - `test_size` parameter determines the proportion of the dataset to include in the test split 
 - common values `0.2`, `0.25`, `0.1`

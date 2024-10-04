@@ -1,10 +1,11 @@
 - rank prediction involves predicting a continuous output or an ordinal label
 - To handle this, you would typically use a **neural network with multiple layers**
-- predicting ranks is harder as the score distribution may be dense at certain ranges, leading to prediction un-certainities
+- predicting ranks is harder as the score distribution may be dense at certain ranges, leading to prediction uncertainties
 - often, non-linear relationships where small score improvements at the top can lead to significant rank jumps
 - In some cases, ranks might be divided into categories (e.g., top 1%, top 5%, etc.), making it a classification problem
 - rank prediction is a classification problem
 - for rank prediction the **Predicted vs Actual** plot will show how close the predicted ranks are to the actual ranks, giving a visual check of accuracy.
+- combining multiple exam scores into a single composite score
 ### Visualization
 - a histogram would show how scores are distributed across bins, while a box plot could highlight outliers or the spread between high and low scores. (bin size selection can distort the visualization).
 - a Density plot is smoother then histogram, shows continuous distribution (may be harder to interpret for larger datasets).
@@ -21,10 +22,14 @@
 - data normalize or scale features
 - linear regression (Ordinal regression) or Gradient boosting algorithms (XGBoost, LightGBM)
 - how to find the ranking loss?
-# Questions
+- how to fine tune the data?
+- These algorithms consider various factors such as **past academic records, extracurricular activities, and even personal statements to create a holistic view of each applicant**
+# Questions (issues)
 ## How does a student score relates to score?
 ## How to know does distribution of marks happens?
 ## What are the factors contributing to rank?
+## Can I use RAG in rank prediction?
+## How to visualize relationships in the data?
 ## Why does the rank prediction will not supported with unsupervised learning?
 - Rank prediction requires specific output labels (ranks), so it doesn't fit the unsupervised learning category where labels aren’t provided.
 - Unsupervised learning is more suited for tasks like clustering or anomaly detection, where the goal is to identify patterns without predefined outcomes.
