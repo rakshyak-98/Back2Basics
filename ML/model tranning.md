@@ -1,5 +1,8 @@
 ## Evaluation
 - accuracy, precision, recall, F1 score, mean squared error.
+### F1 score
+- is a metric used to evaluate the performance of a classification model.
+- useful in situation where you need to find a balance between precision and recall, especially in case with imbalanced datsets.
 ## Test size
 - `test_size` parameter determines the proportion of the dataset to include in the test split 
 - common values `0.2`, `0.25`, `0.1`

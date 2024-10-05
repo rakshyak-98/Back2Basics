@@ -33,7 +33,16 @@
 ## Why does the rank prediction will not supported with unsupervised learning?
 - Rank prediction requires specific output labels (ranks), so it doesn't fit the unsupervised learning category where labels aren’t provided.
 - Unsupervised learning is more suited for tasks like clustering or anomaly detection, where the goal is to identify patterns without predefined outcomes.
+## Bench mark for the model
+1. mean absolute error (MAE)
+	1. R-squared
+	2. Rank correlation coefficient
+2. Random model
+	1. linear regression
+	2. xgboost
 
+## Linear model rank prediction calculation
+- the output might typically not a direct rank but rather a 
 #### Reference
 [error in rank predictor model](https://www.youtube.com/watch?v=5ZtCh0k9jd0)
 [document to understand information retrievalz](https://web.stanford.edu/class/cs276/handouts/lecture14-learning-ranking.pdf)

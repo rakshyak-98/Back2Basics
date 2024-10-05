@@ -162,7 +162,7 @@ Btrfs - B-Tree File System. Is the default file system for the operating system 
 Cron jobs are particularly useful for automating repetitive or scheduled tasks on a server.
 
 It is denoted by a forward slash (/) followed by a number. This can be useful when you want a job to run at regular intervals within a specified range.
-
+ 
 ```bash
 crontab -e
 crontab -l
