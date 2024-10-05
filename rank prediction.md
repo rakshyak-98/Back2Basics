@@ -42,3 +42,4 @@
 [article](https://www.ai.codersarts.com/post/predicting-entrance-exam-ranks-and-college-admissions-with-machine-learning)
 [article](https://indiaai.gov.in/article/ai-can-now-predict-a-student-s-grade-without-an-exam)
 [article](https://towardsdatascience.com/learning-to-rank-a-complete-guide-to-ranking-using-machine-learning-4c9688d370d4)
+[article](https://www.nowpublishers.com/article/DownloadSummary/INR-016)
