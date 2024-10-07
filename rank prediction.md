@@ -6,6 +6,10 @@
 - rank prediction is a classification problem
 - for rank prediction the **Predicted vs Actual** plot will show how close the predicted ranks are to the actual ranks, giving a visual check of accuracy.
 - combining multiple exam scores into a single composite score
+### Ideal matrix 
+- Mean Absolute Error (MAE): 250
+- Root Mean Squared Error (RMSE): 300
+- R-squared (R²): 0.85
 ### Visualization
 - a histogram would show how scores are distributed across bins, while a box plot could highlight outliers or the spread between high and low scores. (bin size selection can distort the visualization).
 - a Density plot is smoother then histogram, shows continuous distribution (may be harder to interpret for larger datasets).
