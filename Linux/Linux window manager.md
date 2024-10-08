@@ -57,7 +57,7 @@ is a display server for UNIX like operating systems, including Linux.
 - facilitates the communication between the hardware and the software.
 - default display server for Linux.
 
-### Wayland
+### [[ Wayland ]]
 display server protocol and architecture designed as a replacement for x11.
 
 - starting with Ubuntu 17.10 there has been experimental support for wayland.
