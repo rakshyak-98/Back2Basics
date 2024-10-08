@@ -4,47 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "8c716792e7d0608a",
+        "id": "e2cd5c2d983ca2ea",
         "type": "tabs",
         "children": [
           {
-            "id": "075f7631399e9457",
+            "id": "16d509b4d8ee37d3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/Bash.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "633172e488e1bd49",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "rank prediction.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "ffd7b8d8db19fe0f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "linux/commands/puTTY.md",
+                "file": "Linux/management/keyrings.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -86,8 +61,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -103,7 +77,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "linux/commands/puTTY.md",
+                "file": "Linux/management/keyrings.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -115,7 +89,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "linux/commands/puTTY.md"
+                "file": "Linux/management/keyrings.md"
               }
             }
           },
@@ -125,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "linux/commands/puTTY.md",
+                "file": "Linux/management/keyrings.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -151,14 +125,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ffd7b8d8db19fe0f",
+  "active": "16d509b4d8ee37d3",
   "lastOpenFiles": [
+    "Linux/Bash.md",
+    "rank prediction.md",
+    "Linux/management/keyrings.md",
+    "linux/commands/puTTY.md",
+    "pdf-stream-viewing.md",
+    "linux/window manager/Wayland ",
+    "linux/window manager",
+    "Linux/management",
     "linux/commands",
     "linux",
-    "rank prediction.md",
-    "linux/commands/puTTY.md",
     "Linux/Scripting.md",
-    "Linux/Bash.md",
     "ML/Model/Polynomial regression.md",
     "Linux/Linux command.md",
     "ML/model tranning.md",
@@ -181,14 +160,9 @@
     "ML/ordinal classification.md",
     "Random forest.md",
     "Database/MMAP.md",
-    "ML/xg boost.md",
     "ML/Retrieval-Augmented Generation (RAG)",
     "ML/Model",
     "ML",
-    "System Design/System design terms ",
-    "process exit status code",
-    "WASM",
-    "React/SWR",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
