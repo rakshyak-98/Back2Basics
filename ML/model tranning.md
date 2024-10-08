@@ -1,5 +1,9 @@
 ## Evaluation
 - accuracy, precision, recall, F1 score, mean squared error.
+
+### How to check if the model is under fitted or over-fitted?
+- use k-fold cross-validation to evaluate model performance. If the model's performance varies significantly across different folds, it may indicate instability and potential over-fiting.
+- use regularization techniques (like L1 or L2) to control model complexity. A decrease in performance with increase regularization can suggest over-fitting.
 ### F1 score
 - is a metric used to evaluate the performance of a classification model.
 - useful in situation where you need to find a balance between precision and recall, especially in case with imbalanced datsets.
@@ -8,7 +12,7 @@
 - common values `0.2`, `0.25`, `0.1`
 - `0.2`: common choice, good balance between training and testing data
 - `0.25`: if a large dataset, allowing more data from testing
-- `0.1`: very large datasets, where even a small percentage can provide a significant number of samples for testing.
+- `0.1`: very large datasets, where even a small percentage can provide a significant number of samples for testing
 > [!NOTE] for a smaller datasets, a large test size (like 30%) might be necessary to ensure you have enough samples for evaluation.
 
 > [!NOTE] more complex models may require more data to train effectively, suggesting a smaller test size

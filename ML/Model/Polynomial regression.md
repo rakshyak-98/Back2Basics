@@ -1,0 +1,1 @@
+- this model can capture can capture non-linear relationships between features and the target variable by adding polynomial terms.

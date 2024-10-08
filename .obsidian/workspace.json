@@ -4,23 +4,23 @@
     "type": "split",
     "children": [
       {
-        "id": "2251b04f77de8e41",
+        "id": "8c716792e7d0608a",
         "type": "tabs",
         "children": [
           {
-            "id": "d32c154db5b71229",
+            "id": "075f7631399e9457",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/Linux command.md",
+                "file": "Linux/Bash.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "60361d5367a426d7",
+            "id": "633172e488e1bd49",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -30,9 +30,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "ffd7b8d8db19fe0f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "linux/commands/puTTY.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -91,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "rank prediction.md",
+                "file": "linux/commands/puTTY.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -103,7 +115,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "rank prediction.md"
+                "file": "linux/commands/puTTY.md"
               }
             }
           },
@@ -113,7 +125,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "rank prediction.md",
+                "file": "linux/commands/puTTY.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,12 +151,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "60361d5367a426d7",
+  "active": "ffd7b8d8db19fe0f",
   "lastOpenFiles": [
+    "linux/commands",
+    "linux",
     "rank prediction.md",
-    "ML/model tranning.md",
+    "linux/commands/puTTY.md",
+    "Linux/Scripting.md",
     "Linux/Bash.md",
+    "ML/Model/Polynomial regression.md",
     "Linux/Linux command.md",
+    "ML/model tranning.md",
+    "golang.md",
     "Linux/Linux configuration.md",
     "Linux/user management.md",
     "React/flux.md",
@@ -164,19 +182,13 @@
     "Random forest.md",
     "Database/MMAP.md",
     "ML/xg boost.md",
-    "ML/ANN.md",
-    "ML/estimator.md",
-    "ML/data preprocessing.md",
     "ML/Retrieval-Augmented Generation (RAG)",
-    "regression.md",
-    "multiclass classification.md",
     "ML/Model",
     "ML",
     "System Design/System design terms ",
     "process exit status code",
     "WASM",
     "React/SWR",
-    "Linux/Linux input device ",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
