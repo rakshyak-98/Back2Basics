@@ -1,0 +1,67 @@
+Wayland and Xorg are both display server protocols used in Linux, but they differ in various aspects. Here's a breakdown of the key differences:
+
+1. Architecture:
+
+Wayland: Simpler, modern protocol where the compositor is the display server, handling both input/output without needing a separate window manager.
+
+Xorg: Uses a more complex, older architecture that involves a separate window manager to handle input/output along with the X server.
+
+
+2. Performance:
+
+Wayland: More efficient as it reduces overhead by removing unnecessary abstractions. It directly communicates with the hardware.
+
+Xorg: Higher overhead due to legacy code and multiple layers of communication between the window manager and display server.
+
+
+3. Rendering:
+
+Wayland: Each application handles its own rendering, and the compositor just displays the result, improving efficiency and reducing screen tearing.
+
+Xorg: The X server is responsible for rendering, leading to more chances of screen tearing and lag.
+
+
+4. Security:
+
+Wayland: Offers better security as clients are isolated and cannot interfere with each other (no ability for one app to "spy" on another).
+
+Xorg: Less secure, as all applications can potentially access the input/output of other applications.
+
+
+5. Compatibility:
+
+Wayland: Not all applications are fully compatible with Wayland, but it’s improving. Older apps require XWayland (a compatibility layer).
+
+Xorg: More widely supported and compatible with almost all applications, given its long history.
+
+
+6. Extensions and Features:
+
+Wayland: Supports modern features but lacks some legacy extension support compared to Xorg.
+
+Xorg: Supports numerous extensions and customization options due to its age and widespread use.
+
+
+Example:
+
+Wayland is often used in newer Linux distributions like Fedora, while Xorg remains the default in distributions like Ubuntu, though both allow switching between the two.
+
+
+Advantages of Wayland:
+
+Faster and more efficient.
+
+Better security.
+
+Reduces screen tearing.
+
+
+Disadvantages of Wayland:
+
+Limited compatibility with some legacy apps.
+
+Fewer configuration options compared to Xorg.
+
+
+Would you like more details on a specific aspect, such as performance or compatibility?
+
