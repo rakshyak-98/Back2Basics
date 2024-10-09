@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "e2cd5c2d983ca2ea",
+        "id": "e3a7b2bd6ba75eca",
         "type": "tabs",
         "children": [
           {
-            "id": "16d509b4d8ee37d3",
+            "id": "eb5bd3fd85be372b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/management/keyrings.md",
+                "file": "Linux/Linux command.md",
                 "mode": "source",
                 "source": false
               }
@@ -61,7 +61,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -77,7 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linux/management/keyrings.md",
+                "file": "Linux/Linux command.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -89,7 +90,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linux/management/keyrings.md"
+                "file": "Linux/Linux command.md"
               }
             }
           },
@@ -99,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux/management/keyrings.md",
+                "file": "Linux/Linux command.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,11 +126,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "72121000a084c97b",
+  "active": "eb5bd3fd85be372b",
   "lastOpenFiles": [
+    "Linux/management/keyrings.md",
     "Linux/Bash.md",
     "rank prediction.md",
-    "Linux/management/keyrings.md",
     "Linux/commands/puTTY.md",
     "pdf-stream-viewing.md",
     "Linux/window manager/Wayland ",

@@ -1,5 +1,4 @@
 [gnu error codes](https://www.gnu.org/software/libc/manual/html_node/Error-Codes.html)
-
 [remove prompt for default key-rings password on login](https://askubuntu.com/questions/867/how-can-i-stop-being-prompted-to-unlock-the-default-keyring-on-boot)
 
 > In bash, the variable `$1` refers to the first command-line argument passed to the script or function
@@ -486,10 +485,11 @@ find [path] -maxdepth 2 -mindepth 2 -type [d|f|l] -name [sourcename] -delete.
 
 ## xrandr
 - show information about the display monitor.
-```
-xrandr --output <output monitor> --auto --above <output monitor>;
-xrandr --output <output monitor> --off;
-xrandr --output <output monitor> --mode <resolution>;
+```bash
+xrandr --output <display> --auto --above <display>;
+xrandr --output <display> --off;
+xrandr --output <display> --mode <display>;
+xrandr --output <display> --auto --same-as <dispaly>
 ```
 
 ## getent
