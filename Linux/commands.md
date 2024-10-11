@@ -13,10 +13,10 @@ ctrl + d - to close current session terminal.
 ```
 
 ```bash
-# reset terminal keybindings
-dconf reset -f /org/gnome/terminal/legacy/keybindings/
+# reset terminal keybindings dconf reset -f /org/gnome/terminal/legacy/keybindings/
 echo $$; # get the PID of bash
 show <parameter>; # show the value of a run-time parameter
+for i in {0..255}; do printf "\x1b[38;5;${i}mcolour${i}\n"; done # test color support
 ```
 
 verbose meaning - expressed in more words then needed.
@@ -34,8 +34,17 @@ Update version
 time python -c ''
 ```
 
+### gsettings
 ```bash
 gsettings set org.freedesktop.ibus.panel.emoji hotkey '@as []'
+
+# theme
+gsettings get org.gnome.desktop.interface gtk-theme
+gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
+```
+
+```bash
+gnome-default-applications-properties
 ```
 
 # Update to latest Linux desktop
@@ -57,24 +66,6 @@ win + i > system > about > system protection > advanced > startup and recovery (
 
 `sudo make install` : you are telling the system to execute the instructions in the make-file with administrative privileges, which will build the software and then install it on the system. `make` this is a tool that reads a set of instructions in a make-file and builds the software according to those instructions.
 
-## Exit codes
-
-In Linux and Unix-like systems, exit codes (also known as exit statuses or return codes) are numeric values returned by a command or a program to indicate the outcome of its execution. A value of 0 typically indicates success, while non-zero values indicate various types of errors or abnormal conditions.
-
-Here are some common exit codes along with their meanings:
-
-- **0**: Success
-- **1**: General error
-- **2**: Misuse of shell builtins
-- **126**: Command invoked cannot execute (permission issue or not an executable)
-- **127**: Command not found
-- **128**: Invalid argument to exit
-- **128 + N**: Fatal error signal "N" (e.g., 128 + 9 = 137 indicates a SIGKILL)
-- **130**: Script terminated by Control-C
-- **137**: Process terminated by Control-C (128 + 9)
-- **139**: Segmentation fault (invalid memory reference)
-- **143**: Process terminated by Control-C (128 + 15)
-- **255**: Exit status out of range or undefined
 
 > [!INFO] you have already run the `./configure` command to set up the build environment.
 
@@ -537,3 +528,28 @@ grep 'MimeType' /usr/share/applicatoins/eog.desktop | tr ';' '\n';
 ## vmstat
 
 vmstat - monitoring system, info about processes, memory, paging, block I/O, traps and CPU activity. Perform dignosing performance issues and understanding system behavior under different workloads.
+### xdg-open
+- is a command line utility in Linux that opens a file or URL in the user's preferred application. It is part of the XDG [[X Desktop Group]] utilities.
+- commonly used in desktop environment such as GNOME, KDE, XFCE
+
+```bash
+xdg-open http://www.example.com
+xdg-open /path/to/example.pdf
+```
+- each file type has an associated MIME, When `xdg-open` is run it identifies the MIME type of the file you want to open.
+- applications are defined in desktop entry files (usally with a `.desktop` extension) located in directories like `/usr/share/applications`. These files contain metadata about the application, including
+	- the name of the application
+	- the command to execute it
+	- the MIME type it can handle
+- `xdg-mime` is used internally by `xdg-open` to query which application is associated with a given MIME type.
+### xdg-mime
+
+```bash
+xdg-mime query default <MIME type>
+```
+
+- the default applications are store in
+	- `~/.config/mimeapps.list`
+	- `~/.config/gtk-3.0/setting.ini` (for GTP applications)
+
+

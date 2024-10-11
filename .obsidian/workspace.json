@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "e3a7b2bd6ba75eca",
+        "id": "fc18410f349ebe0a",
         "type": "tabs",
         "children": [
           {
-            "id": "eb5bd3fd85be372b",
+            "id": "5985d5b033186b90",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/Linux command.md",
+                "file": "stack pointer.md",
                 "mode": "source",
                 "source": false
               }
@@ -78,7 +78,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linux/Linux command.md",
+                "file": "stack pointer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -90,7 +90,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linux/Linux command.md"
+                "file": "stack pointer.md"
               }
             }
           },
@@ -100,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux/Linux command.md",
+                "file": "stack pointer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,8 +126,31 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "eb5bd3fd85be372b",
+  "active": "5985d5b033186b90",
   "lastOpenFiles": [
+    "Descriptive/JavaScript/Call stack.md",
+    "stack pointer.md",
+    "Linux/Memory management.md",
+    "golang.md",
+    "vim commands.md",
+    "Stack based programming language.md",
+    "OS Boot/UEFI.md",
+    "Linux/commands/journalctl.md",
+    "Linux/commands.md",
+    "OS Boot/Extensible Firmware interface (efi).md",
+    "OS Boot",
+    "Linux/window manager/X window system (X11).md",
+    "x11.md",
+    "Linux/management/xrandr.md",
+    "compiler/clang.md",
+    "compiler",
+    "javascript engine.md",
+    "pdf parser.md",
+    "Linux/Linux Process Theory.md",
+    "Linux/Error status code.md",
+    "Linux management.md",
+    "nvim/commands.md",
+    "nvim/configuration.md",
     "Linux/management/keyrings.md",
     "Linux/Bash.md",
     "rank prediction.md",
@@ -138,32 +161,9 @@
     "Linux/management",
     "Linux/commands",
     "linux",
-    "Linux/Scripting.md",
-    "ML/Model/Polynomial regression.md",
-    "Linux/Linux command.md",
-    "ML/model tranning.md",
-    "golang.md",
-    "Linux/Linux configuration.md",
-    "Linux/user management.md",
-    "React/flux.md",
-    "nvim/commands.md",
-    "ML/Model/support vector machines (SVM).md",
-    "ML/Visualization/Residual plot.md",
-    "ML/Visualization/data visualization.md",
     "ml ve",
-    "ML/Visualization/Rank distribution.md",
-    "ML/Visualization/predicated vs actual plot.md",
-    "ML/Visualization/feature importance.md",
-    "ML/Mean Average Precision (MAP).md",
     "ML/Visualization",
-    "Normalized Discounted Cumulative Gain (NDCG).md",
-    "ML/ML Classifiers.md",
-    "ML/ordinal classification.md",
-    "Random forest.md",
-    "Database/MMAP.md",
     "ML/Retrieval-Augmented Generation (RAG)",
-    "ML/Model",
-    "ML",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

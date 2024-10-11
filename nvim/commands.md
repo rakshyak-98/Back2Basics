@@ -28,3 +28,18 @@ vim.opt.rtp:prepend(lazypath)
 :checkhealth nvim-treesitter; # run healthcheck
 ```
 
+## Telescope
+### ignore files
+```lua
+require('telescope').setup{
+    defaults = {
+        file_ignore_patterns = { 'node_modules/', '.git/', '*.log', '*.tmp' },  -- Add patterns to ignore
+        -- other default options can be added here
+    },
+    pickers = {
+        find_files = {
+            -- You can also override specific picker options here if needed
+        },
+    },
+}
+```
