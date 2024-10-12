@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "golang.md",
+                "file": "stack pointer.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "c1675ca7a1054a5d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "rank prediction.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,7 +91,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "golang.md",
+                "file": "rank prediction.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -90,7 +103,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "golang.md"
+                "file": "rank prediction.md"
               }
             }
           },
@@ -100,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "golang.md",
+                "file": "rank prediction.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,14 +139,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "471b0650930a3d6c",
+  "active": "c1675ca7a1054a5d",
   "lastOpenFiles": [
+    "ML/ML Classifiers.md",
+    "rank prediction.md",
+    "stack pointer.md",
+    "Architectures/Advanced RISC Machine (ARM).md",
+    "Architectures",
+    "golang.md",
     "Linux/commands.md",
     "assembly language.md",
-    "stack pointer.md",
     "Descriptive/JavaScript/Call stack.md",
     "Linux/Memory management.md",
-    "golang.md",
     "vim commands.md",
     "Stack based programming language.md",
     "OS Boot/UEFI.md",
@@ -153,9 +170,6 @@
     "nvim/commands.md",
     "nvim/configuration.md",
     "Linux/management/keyrings.md",
-    "Linux/Bash.md",
-    "rank prediction.md",
-    "Linux/commands/puTTY.md",
     "Linux/window manager/Wayland ",
     "Linux/window manager",
     "Linux/management",
@@ -163,7 +177,6 @@
     "linux",
     "ml ve",
     "ML/Visualization",
-    "ML/Retrieval-Augmented Generation (RAG)",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

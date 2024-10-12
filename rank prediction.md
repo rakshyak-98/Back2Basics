@@ -6,6 +6,16 @@
 - rank prediction is a classification problem
 - for rank prediction the **Predicted vs Actual** plot will show how close the predicted ranks are to the actual ranks, giving a visual check of accuracy.
 - combining multiple exam scores into a single composite score
+When we aim to **predict the rank of a student based on their NEET marks** we are essentially dealing with **regression problem** in the realm.
+
+> [!NOTE] since we are predicting a continuous numerical value (this rank), this aligns with a regression framework. The model will learn to map NEET marks (and possibly other features) to a specific rank value.
+
+[[Linear regression]] and [[ordinal regression]]
+- Linear regression: A basic approach where you assume a linear relationship between NEET marks and rank.
+- Ordinal regression: Given that ranks are ordered, ordinal regression techniques can be particularly effective. They account for the inherent order in the target variable without assuming equal intervals between ranks.
+### Alternative approaches
+- Classification: Although ranks are numerical, treating them as categories for classification isn't ideal because it ignores the ordinal nature of ranks. However, if the rank range is limited and you treat each rank as separate class, classification methods could be applied, but this is generally less effective for this scenario.
+- Learning to Rank: this is more applicable in information retrieval systems where the goal is to order a set of items relative to each other based on some criteria. In your case, since you're predicting a single rank value for each student, traditional regression methods are more suitable.
 ### Ideal matrix 
 - Mean Absolute Error (MAE): 250
 - Root Mean Squared Error (RMSE): 300
@@ -46,7 +56,7 @@
 	2. xgboost
 
 ## Linear model rank prediction calculation
-- the output might typically not a direct rank but rather a 
+- the output might typically not a direct rank but rather a
 #### Reference
 [error in rank predictor model](https://www.youtube.com/watch?v=5ZtCh0k9jd0)
 [document to understand information retrievalz](https://web.stanford.edu/class/cs276/handouts/lecture14-learning-ranking.pdf)
