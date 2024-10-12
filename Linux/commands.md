@@ -551,5 +551,12 @@ xdg-mime query default <MIME type>
 - the default applications are store in
 	- `~/.config/mimeapps.list`
 	- `~/.config/gtk-3.0/setting.ini` (for GTP applications)
-
-
+## ld
+- `ld` is a GNU linker, a part of the GNU binutils package.
+- primary role is to link multiple object files (`.o` files), libraries, and other resources into a single executable program or a library.
+- linking is a crucial step in the compilation process, where seprate pieces of code and data are combined to form a runnable application.
+### key features of ld
+- symbolic resolution: combines symbols (like function, names, and global variables) from different object files, resolving references between them.
+- relocation's: adjust memory addresses so that the program's code and data are correctly placed in the executable's memory space.
+- library linking: incorporates necessary code from libraries (static or shared) into the final executable
+- output generation: produces the final output file, such as an executable or a shared library

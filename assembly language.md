@@ -1,0 +1,2 @@
+- instead of binary code (0s and 1s), assembly uses memonic codes (human readable instructions)  to represent machine-level instructions, for example `MOV` `ADD` `SUB` are common assembly instructions.
+- Assembly language is specific to a computer's architecture, Each CPU family has its own set of instructions and syntax.

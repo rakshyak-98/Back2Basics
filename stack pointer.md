@@ -4,7 +4,8 @@
 
 > [!INFO] in many architecture x86, a dedicated register holds the SP, which interacts with other registers to manage function calls and return effectively
 
-assembly call `Push` `Pop` opcode and operant (register)
+assembly call `Push` `Pop` opcode and oprant (register)
 ### Data register
 ### Flag register
-### Address
+### Address register
+### link register

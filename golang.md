@@ -48,3 +48,10 @@ print <variable>; # view the variable ref or value
 - Error handling in Go is more verbose, as you need to explicitly check for errors after every operation. This verbosity is intentional to encourage better error handling practices.
 - Propagation : when a `panic` occurs, it unwinds the stack, running deferred function until it reaches the top-level, unlike exception which can be caught at any level.
 - `panic/recover` are generally faster than exception because they don't carry the full stack trace.
+### function method syntax
+```go
+func (s *userService) RegisterUser(user *models.User) error { }
+```
+
+- `(s *userService)` this is called the receiver. It specifies that this function is a method of the `userService` struct.
+- the `s` is like `this` or `self` in other languages, allowing to access the struct's fields and methods
