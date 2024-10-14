@@ -1,0 +1,25 @@
+HTTP/1.1 does not natively support multiplexing, even if the message body contains binary data. Here’s why:
+
+### **Why HTTP/1.1 Doesn't Support Multiplexing**
+
+1. **Single Connection Handling**: HTTP/1.1 uses a single connection per request/response pair. Although it supports persistent connections (keep-alive), it does not handle multiple requests and responses simultaneously over the same connection. Each request must complete before the next one begins, leading to the "head-of-line blocking" problem.
+
+2. **Sequential Processing**: Requests and responses in HTTP/1.1 are processed sequentially. If multiple requests are sent over a single connection, the server must handle them one at a time. This can lead to inefficiencies and delays, especially if one request takes a long time to process.
+
+3. **No Built-in Multiplexing**: HTTP/1.1 does not have a mechanism for multiplexing streams within a single connection. Each request and response is treated as a discrete entity, with no built-in support for managing multiple simultaneous streams.
+
+### **Multiplexing in HTTP/2.0**
+
+In contrast, HTTP/2.0 introduces multiplexing with its binary framing layer. This is how it works:
+
+1. **Binary Framing Layer**: HTTP/2.0 uses a binary framing layer that divides data into frames. These frames are then sent over a single connection, allowing multiple streams to be handled concurrently.
+
+2. **Streams**: Each request and response is associated with a stream identifier. Streams can be interleaved within the same connection, enabling multiple requests and responses to be sent and received simultaneously without blocking each other.
+
+3. **Header Compression**: HTTP/2.0 uses HPACK for header compression, which helps reduce overhead and improve performance, especially when multiple requests and responses are in flight.
+
+4. **Efficient Use of Connections**: By allowing multiplexing, HTTP/2.0 makes more efficient use of a single connection, reducing latency and improving overall performance.
+
+### **Summary**
+
+While HTTP/1.1 can transmit binary data in the body of requests and responses, it does not support multiplexing due to its design limitations. HTTP/2.0 introduces multiplexing through its binary framing layer, enabling more efficient and concurrent handling of multiple streams over a single connection.
