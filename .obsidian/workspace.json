@@ -4,47 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "55a2985e4e29f4ef",
+        "id": "8872b533f9ffeec5",
         "type": "tabs",
         "children": [
           {
-            "id": "c1675ca7a1054a5d",
+            "id": "efcab1958613169d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GitHub/Github cli.md",
+                "file": "Linux/management/keyrings.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "1f340bf1de4d7baf",
+            "id": "4ea0ae199e944480",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nvim/commands.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "a0b47f732f266e8d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Errors/Python.md",
+                "file": "migration.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -86,7 +74,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -102,7 +91,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Errors/Python.md",
+                "file": "migration.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -114,7 +103,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Errors/Python.md"
+                "file": "migration.md"
               }
             }
           },
@@ -124,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Errors/Python.md",
+                "file": "migration.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -150,19 +139,27 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a0b47f732f266e8d",
+  "active": "4ea0ae199e944480",
   "lastOpenFiles": [
-    "Errors",
+    "Linux/management/keyrings.md",
+    "migration.md",
+    "http version",
+    "GitHub/Github cli.md",
+    "GitHub/Github action.md",
+    "GIT/git config.md",
     "nvim/commands.md",
+    "stack pointer.md",
+    "webdriver.md",
     "Errors/Python.md",
+    "vscode.md",
+    "Data Direction Register (DDR).md",
+    "Architectures/Register",
+    "Errors",
     "git worktree.md",
     "git command.md",
-    "GitHub/Github cli.md",
     "ssh agent.md",
     "Linux management.md",
-    "GIT/git config.md",
     "rank prediction.md",
-    "stack pointer.md",
     "ML/ML Classifiers.md",
     "Architectures/Advanced RISC Machine (ARM).md",
     "Architectures",
@@ -174,20 +171,12 @@
     "vim commands.md",
     "Stack based programming language.md",
     "OS Boot/UEFI.md",
-    "Linux/commands/journalctl.md",
-    "OS Boot/Extensible Firmware interface (efi).md",
     "OS Boot",
-    "Linux/window manager/X window system (X11).md",
-    "x11.md",
-    "Linux/management/xrandr.md",
     "compiler",
     "Linux/window manager/Wayland ",
     "Linux/window manager",
     "Linux/management",
     "Linux/commands",
-    "linux",
-    "ml ve",
-    "ML/Visualization",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

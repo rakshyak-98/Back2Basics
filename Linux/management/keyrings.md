@@ -53,7 +53,7 @@ During the login process, the OS uses the user's login credentials (username and
 The login keyring is typically configured to unlock automatically with the user’s login password. If they match, the keyring is unlocked silently in the background.
 3. Using PAM (Pluggable Authentication Module):
 Many Linux systems use PAM for authentication. PAM can be configured to integrate with the GNOME Keyring.
-The PAM module (pam_gnome_keyring.so) can be set up to unlock the keyring during user login automatically, utilizing the same password used to log into the desktop environment.
+The PAM module (`pam_gnome_keyring.so`) can be set up to unlock the keyring during user login automatically, utilizing the same password used to log into the desktop environment.
 4. Environment Variables:
 The GNOME Keyring Daemon sets environment variables when started, which applications can use to access the keyring seamlessly.
 These variables help in locating the keyring and its associated files for authentication without further user input.
@@ -61,8 +61,8 @@ These variables help in locating the keyring and its associated files for authen
 Once the keyring is unlocked, any application that requires access to stored secrets (like passwords or keys) can communicate with the GNOME Keyring Daemon using a D-Bus interface.
 The application can request the necessary credentials without prompting the user if the keyring is already unlocked.
 Example Configuration:
-In many systems, the PAM configuration for GNOME Keyring can be found in /etc/pam.d/common-auth or similar files, and it may look something like this:
-auth optional pam_gnome_keyring.so
+In many systems, the PAM configuration for GNOME Keyring can be found in `/etc/pam.d/common-auth` or similar files, and it may look something like this:
+auth optional `pam_gnome_keyring.so`
 This entry allows the keyring to be unlocked as part of the authentication process.
 Summary:
 The OS unlocks the GNOME Keyring automatically using the user's login credentials during the session initialization.
