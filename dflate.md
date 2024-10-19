@@ -1,0 +1,2 @@
+- is a lossless data compression algorithm that compresses data by combining the [[LZ77]] algorithm (dictionary-based compression) and Huffman coding (statistical-based compression)
+- gzip compression format uses deflate for reducing file sizes.
