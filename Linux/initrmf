@@ -1,0 +1,2 @@
+Initramfs, or initial RAM filesystem, is a temporary root filesystem loaded into memory during the Linux boot process. It allows the kernel to execute necessary scripts and load drivers before mounting the actual root filesystem.
+
