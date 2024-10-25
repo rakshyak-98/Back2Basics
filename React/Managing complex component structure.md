@@ -1,0 +1,3 @@
+- Providing global state with the Provider pattern
+- Managing complex component structures with teh Composite pattern
+- Creating clean components with the Summary pattern
