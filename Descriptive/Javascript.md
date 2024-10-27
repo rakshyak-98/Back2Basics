@@ -10,6 +10,12 @@
 - includes features that allow it to handle multi-threaded operations.
 - it offer a feature called [[web worker]] that can mimic multi-threading behavior.
 
+> [!INFO] Javascript `Number` type is based on the IEEE 754 standard, which represents numbers as 64-bit floating point values.
+#### out of these 64 bit
+ - 1 bit for the sign
+ - 11 bits are for the exponent
+ - 52 bits are for the mantissa (fractional part), which gives a 53 bit integer precision when including the implicit leading bit.
+ 
 > [!NOTE] data sent between workers and the main thread is copied, not shared. Objects are serialized and de-serialized, which can impact performance if large amounts of data are being sent.
 
  > [!NOTE] Just like a `for .. in` loop, `Object.keys/values/entries` ignore symbolic properties. 
