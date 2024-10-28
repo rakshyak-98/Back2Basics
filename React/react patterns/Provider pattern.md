@@ -5,3 +5,4 @@
 ### Dedicated component for context management
 - creating a dedicated component for the provider. This refinement addresses the intricacies of managing multiple state aspects and illustrates a more structured and maintainable way to handle complex contexts.
 - as methods to log in and log out in one context; you can have your application data in a second context, and you can, have data controlling the UI in a third context.
+- Truth be told, redux-toolkit uses this same functionality under the hood to provide its magic, so you’re getting the same performance with either method.
