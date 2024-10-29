@@ -11,3 +11,5 @@
 > [!INFO] if we want to avoid re-rendering every context consumer unnecessarily, we need to use an external library. One such library, called `use-context-selector`, allows us to not use an entire context every time. To use this we also need to create our context with this package.
 
  - if you are using contexts to share common functionality throughout your application, you should be using `useContextSelector` rather than the normal `useContext` hook—unless React implements the selection logic as part of the normal `useContext`
+- as methods to log in and log out in one context; you can have your application data in a second context, and you can, have data controlling the UI in a third context.
+- Truth be told, redux-toolkit uses this same functionality under the hood to provide its magic, so you’re getting the same performance with either method.
