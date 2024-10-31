@@ -1,0 +1,3 @@
+- it makes React component sleek and efficient, especially that part above the JSX return.
+- Summary Pattern is a neat trick for tidying your code by packing logic into custom hooks.
+- abstract logic into custom hooks, leading to cleaner, more maintainable components.
