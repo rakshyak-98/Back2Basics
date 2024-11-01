@@ -4,6 +4,7 @@
 - all tasks and operations and handled sequentially within that single thread
 - code cannot create new threads and run in parallel
 - handle work that  will result in visual changes to the user interface.
+**loss of precision** when dealing with large numbers 
 
 > [!INOTE] Two primitive values are **strictly equal** if they represent the same data, even if they're from different variables.
 

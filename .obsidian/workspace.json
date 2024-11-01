@@ -4,53 +4,67 @@
     "type": "split",
     "children": [
       {
-        "id": "ad6e2f3f9ef87104",
+        "id": "79abd336c3151c03",
         "type": "tabs",
         "children": [
           {
-            "id": "ed70eeb54e21f32a",
+            "id": "a06b650e308e24b4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NodeJS.md",
+                "file": "Descriptive/Javascript.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NodeJS"
+              "title": "Javascript"
             }
           },
           {
-            "id": "818fd5fc62434730",
+            "id": "47b5953a67300d13",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NodeJS/NodeJS parallel execution.md",
+                "file": "OLAP.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NodeJS parallel execution"
+              "title": "OLAP"
             }
           },
           {
-            "id": "307c88c0aa67c73b",
+            "id": "1fedbe15b508f91b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NodeJS streams.md",
+                "file": "OLAP.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NodeJS streams"
+              "title": "OLAP"
+            }
+          },
+          {
+            "id": "78a996555b355b3e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "multiple levels of buffering.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "multiple levels of buffering"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -178,11 +192,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "307c88c0aa67c73b",
+  "active": "78a996555b355b3e",
   "lastOpenFiles": [
+    "OLAP.md",
+    "multiple levels of buffering.md",
+    "OLTP.md",
+    "system call.md",
+    "database.md",
+    "Descriptive/Javascript.md",
+    "NodeJS.md",
     "NodeJS/NodeJS parallel execution.md",
     "NodeJS streams.md",
-    "NodeJS.md",
     "race condition.md",
     "react cache.md",
     "React/react config.md",
@@ -193,7 +213,6 @@
     "React/optimizing performace.md",
     "remote data.md",
     "React/Typescript with react.md",
-    "Descriptive/Javascript.md",
     "Registered Media Types (RMT).md",
     "Design pattern/Singleton.md",
     "Electronic Control Unit (ECU).md",
@@ -204,13 +223,8 @@
     "nvim/commands.md",
     "React/React Pattern/Composite pattern.md",
     "React/React Performance",
-    "React/React Pattern/Summary pattern.md",
-    "React/React Pattern/Provider pattern.md",
-    "conflict-files-obsidian-git.md",
     "React/React Pattern/Summary pattern",
     "React/React Pattern",
-    "NodeJS/Stream.md",
-    "NodeJS/expressjs.md",
     "golang",
     "http version",
     "Architectures/Register",
