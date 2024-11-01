@@ -8,77 +8,49 @@
         "type": "tabs",
         "children": [
           {
-            "id": "bfae7c4915aac6fd",
+            "id": "ed70eeb54e21f32a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "React/React Architecture.md",
+                "file": "NodeJS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "React Architecture"
+              "title": "NodeJS"
             }
           },
           {
-            "id": "86bf8cc8b7ea9bc3",
+            "id": "818fd5fc62434730",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "analog interface.md",
+                "file": "NodeJS/NodeJS parallel execution.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "analog interface"
+              "title": "NodeJS parallel execution"
             }
           },
           {
-            "id": "e383fa204b4ba5a4",
+            "id": "307c88c0aa67c73b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "intrinsic attributes.md",
+                "file": "NodeJS streams.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "intrinsic attributes"
-            }
-          },
-          {
-            "id": "f2375172c5f40222",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Electronic Control Unit (ECU).md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Electronic Control Unit (ECU)"
-            }
-          },
-          {
-            "id": "a510f88432b1b76e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "React/React Pattern/Summary pattern.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Summary pattern"
+              "title": "NodeJS streams"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -206,13 +178,27 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "f2375172c5f40222",
+  "active": "307c88c0aa67c73b",
   "lastOpenFiles": [
-    "intrinsic attributes.md",
-    "Electronic Control Unit (ECU).md",
-    "analog interface.md",
+    "NodeJS/NodeJS parallel execution.md",
+    "NodeJS streams.md",
+    "NodeJS.md",
+    "race condition.md",
+    "react cache.md",
+    "React/react config.md",
+    "React/React Application Architecture for Production.md",
+    "React/flux.md",
+    "React/Managing complex component structure.md",
     "React/React Architecture.md",
     "React/optimizing performace.md",
+    "remote data.md",
+    "React/Typescript with react.md",
+    "Descriptive/Javascript.md",
+    "Registered Media Types (RMT).md",
+    "Design pattern/Singleton.md",
+    "Electronic Control Unit (ECU).md",
+    "intrinsic attributes.md",
+    "analog interface.md",
     "React/Untitled",
     "React/Architecture",
     "nvim/commands.md",
@@ -222,24 +208,10 @@
     "React/React Pattern/Provider pattern.md",
     "conflict-files-obsidian-git.md",
     "React/React Pattern/Summary pattern",
-    "NodeJS.md",
-    "React.md",
     "React/React Pattern",
     "NodeJS/Stream.md",
-    "Descriptive/Javascript.md",
     "NodeJS/expressjs.md",
-    "dflate.md",
-    "pandas.md",
-    "compiler.md",
-    "golang/go debugging.md",
-    "Linux/commands.md",
-    "Single Instruction, Multiple Data (SIMD).md",
-    "golang/Makefile.md",
-    "Linux/commands/Linux network commands.md",
-    "Linux/management/keyrings.md",
-    "golang/go starter.md",
     "golang",
-    "migration.md",
     "http version",
     "Architectures/Register",
     "Errors",

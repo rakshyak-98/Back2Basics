@@ -1,0 +1,2 @@
+- a standard identifiers for different kinds of media (data) that are transferred over the web, often used in HTTP headers to define `content-type`
+- these are maintained by the *Internet Assigned Numbers Authority (IANA)*
