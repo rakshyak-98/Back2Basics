@@ -13,58 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Descriptive/Javascript.md",
+                "file": "Linux/commands.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Javascript"
-            }
-          },
-          {
-            "id": "47b5953a67300d13",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "OLAP.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "OLAP"
-            }
-          },
-          {
-            "id": "1fedbe15b508f91b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "OLAP.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "OLAP"
-            }
-          },
-          {
-            "id": "78a996555b355b3e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "multiple levels of buffering.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "multiple levels of buffering"
+              "title": "commands"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -95,7 +52,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "visudo",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -172,8 +129,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ],
@@ -186,20 +143,20 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-git:Open Git source control": false,
       "graph:Open graph view": false,
       "switcher:Open quick switcher": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "78a996555b355b3e",
+  "active": "a06b650e308e24b4",
   "lastOpenFiles": [
+    "Descriptive/Javascript.md",
     "OLAP.md",
     "multiple levels of buffering.md",
     "OLTP.md",
     "system call.md",
     "database.md",
-    "Descriptive/Javascript.md",
     "NodeJS.md",
     "NodeJS/NodeJS parallel execution.md",
     "NodeJS streams.md",

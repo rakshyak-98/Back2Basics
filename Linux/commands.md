@@ -508,6 +508,7 @@ curl --url smtp://smtp.example.com --mail-from sender@example.com --mail-rcpt re
 
 # to allow user john to run the /usr/bin/foo and /usr/bin/bar commands as root witthout a password
 john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
+%sudo	ALL=(ALL:ALL) NOPASSWD:ALL # allow sudo command to run without password
 ```
 
 ## mount
