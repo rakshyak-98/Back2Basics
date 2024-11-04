@@ -485,6 +485,9 @@ xrandr --output <display> --auto --same-as <dispaly>
 
 ## getent
 - get entries from Name Service Switch libraries
+```bash
+getent <serice name>
+```
 
 ## curl
 ```bash

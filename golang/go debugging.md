@@ -42,3 +42,6 @@ stack; # stdout the current stack frame
 locals; # view current stack frame variables reference
 print <variable>; # view the variable ref or value
 ```
+
+#### Why the `// indirect` tag appears?
+- in Go the `// indirect` suffix in `go.mod` means that these dependencies are not directly used in code but are required by other dependencies (often called *transitive dependencies*)
