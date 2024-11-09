@@ -1,0 +1,15 @@
+## Adaptive Bitrate Streaming (ABR)
+
+Adaptive Bitrate Streaming (ABR) is a technology that dynamically adjusts video quality based on the viewer's internet connection and device capabilities. It segments media into small clips, typically 2 to 10 seconds long, allowing for real-time playback without waiting for the entire file to load [1][4]. 
+
+ABR works by encoding a video at multiple bitrates and resolutions, enabling the player to select the most suitable stream according to current bandwidth conditions. This minimizes buffering and enhances user experience, making it ideal for both live and on-demand content delivery over HTTP networks [2][3].
+
+### Citations:
+- [1] [Adaptive Bitrate Streaming (ABR) - GetStream.io](https://getstream.io/glossary/adaptive-bitrate-streaming/)
+- [2] [Adaptive bitrate streaming - Wikipedia](https://en.wikipedia.org/wiki/Smooth_Streaming)
+- [3] [Haivision Glossary: Adaptive Bitrate Streaming (ABR)](https://www.haivision.com/glossary/adaptive-bitrate-abr-streaming/)
+- [4] [What is Adaptive Bitrate Streaming? Benefits & More - Gumlet](https://www.gumlet.com/learn/adaptive-bitrate-streaming/)
+- [5] [How Adaptive Bitrate Streaming is Revolutionizing Video Delivery](https://imagekit.io/blog/adaptive-bitrate-streaming/)
+- [6] [Adaptive Bitrate Streaming: What it Is and How ABR Works - Dacast](https://www.dacast.com/blog/adaptive-bitrate-streaming/)
+- [7] [Adaptive Bitrate Streaming: How It Works and Why It Matters?](https://www.vdocipher.com/blog/adaptive-bitrate-streaming)
+- [8] [Adaptive Bitrate Streaming (ABR): What is it? [2023 Update] - Bitmovin](https://bitmovin.com/blog/adaptive-streaming/)
