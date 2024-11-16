@@ -51,3 +51,10 @@ weakMap.set(john, "...");
 john = null; // overwrite the reference
 // john is removed from memory;
 ```
+
+## Differences between Length and Size
+
+## Arrays
+- **Length Property**: In languages like Java and JavaScript, arrays have a **length** property that indicates the number of elements they can hold. This property is a fixed attribute of the array, meaning it reflects the total capacity of the array rather than the number of elements currently stored. For example, in Java, you access it using `array.length`, which provides a constant time complexity of O(1)O(1) to retrieve this value[
+## Maps
+- **Size Method**: In contrast, collections such as maps (e.g., `HashMap` in Java or `Map` in JavaScript) use a **size()** method to return the number of key-value pairs currently stored. This method is more dynamic because maps can grow or shrink as elements are added or removed. The size of a map can change frequently, so having a method that explicitly returns this value makes sense from an object-oriented design perspective. For instance, in Java, you would call `map.size()` to get the current number of entries.

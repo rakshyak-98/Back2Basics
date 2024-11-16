@@ -564,3 +564,5 @@ xdg-mime query default <MIME type>
 - relocation's: adjust memory addresses so that the program's code and data are correctly placed in the executable's memory space.
 - library linking: incorporates necessary code from libraries (static or shared) into the final executable
 - output generation: produces the final output file, such as an executable or a shared library
+## busctl
+- list all the currently active buses (D-Bus services)

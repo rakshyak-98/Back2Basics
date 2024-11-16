@@ -1,4 +1,5 @@
 ```bash
+stat <filename>;
 xdg-mime query default inode/directory; # get the information of file manager
 
 echo $XDG_CURRENT_DESKTOP; # current desktop environment
@@ -33,14 +34,14 @@ gio mime <mime-type>;
 
 ### block device
  - a type of device file that allows access to storage devices in fixed size blocks.
-	- block devices area a way for Linux kernel to interact with physical storage devices or simulated devices.
-	- call block device because they read and write data in fixed-size "blocks" of multiple bytes at a time.
-	- example of block devices hard devices, SSDs, USB drives, CD-ROMS, and RAM disks
-	- block device provide random access to data organized in fixed-size blocks.
-	- the block size must be a multiple of the sector size and a power of 2, not exceeding the page size.
-	- file-systems are usually stored on block devices.
-	- when you format a block device, you create a file-system on it.
-	- the file-system then can be mounted at a specific location in the directory structure, making the storage available to the system.
+- block devices area a way for Linux kernel to interact with physical storage devices or simulated devices.
+- call block device because they read and write data in fixed-size "blocks" of multiple bytes at a time.
+- example of block devices hard devices, SSDs, USB drives, CD-ROMS, and RAM disks
+- block device provide random access to data organized in fixed-size blocks.
+- the block size must be a multiple of the sector size and a power of 2, not exceeding the page size.
+- file-systems are usually stored on block devices.
+- when you format a block device, you create a file-system on it.
+- the file-system then can be mounted at a specific location in the directory structure, making the storage available to the system.
 
 delegate - authorized to represent others or an elected representative.
 

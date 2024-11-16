@@ -1,0 +1,3 @@
+- used by MongoDB to store and retrieve large files that exceed the BSON-document size limit of 16MB.
+- divide into smaller chunks, typically `255Kb` per chunk.
+- this system is useful for managing files such as images, audio and video, allowing developers to handle large binary data efficiently.

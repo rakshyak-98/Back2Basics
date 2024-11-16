@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "79abd336c3151c03",
+        "id": "13186c08e070c8a1",
         "type": "tabs",
         "children": [
           {
-            "id": "51bd531787fdc93b",
+            "id": "070ffa3eeb08c2ec",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GIT/git command.md",
+                "file": "NodeJS/Stream/Implementing Streams.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "git command"
+              "title": "Implementing Streams"
             }
           }
         ]
@@ -52,7 +52,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "weakmap",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -150,34 +150,37 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "51bd531787fdc93b",
+  "active": "070ffa3eeb08c2ec",
   "lastOpenFiles": [
+    "NodeJS/Stream",
+    "Descriptive/JavaScript/Weak map.md",
+    "Descriptive/Javascript.md",
+    "Data structure.md",
+    "NodeJS/Stream/Implementing Streams.md",
+    "NodeJS/Stream.md",
+    "NodeJS/Stream Events.md",
+    "vim commands.md",
+    "Sorting algorithm.md",
+    "Linux/commands/Services commands.md",
+    "Linux file management.md",
+    "Linux/commands.md",
+    "X Desktop Group.md",
+    "Linux/services/D-Bus.md",
+    "Linux/services",
+    "linux",
+    "Node.js security flaws in architecture.md",
+    "Untitled 1.md",
+    "TypeScript/typescript.md",
+    "NodeJS.md",
+    "GridFS.md",
+    "TypeScript/typescript error.md",
+    "TypeScript",
+    "GIT/git command.md",
     "GitHub/Github cli.md",
     "golang/Makefile.md",
     "golang/go starter.md",
     "golang/go debugging.md",
     "Linux/management/Linux Key management.md",
-    "BGP.md",
-    "How does debugger work.md",
-    "Linux/commands.md",
-    "Descriptive/Javascript.md",
-    "OLAP.md",
-    "multiple levels of buffering.md",
-    "OLTP.md",
-    "system call.md",
-    "database.md",
-    "NodeJS.md",
-    "NodeJS/NodeJS parallel execution.md",
-    "NodeJS streams.md",
-    "race condition.md",
-    "react cache.md",
-    "React/react config.md",
-    "React/React Application Architecture for Production.md",
-    "React/flux.md",
-    "React/Managing complex component structure.md",
-    "React/React Architecture.md",
-    "React/optimizing performace.md",
-    "remote data.md",
     "React/Untitled",
     "React/Architecture",
     "React/React Performance",
@@ -185,9 +188,6 @@
     "React/React Pattern",
     "golang",
     "http version",
-    "Architectures/Register",
-    "Errors",
-    "Architectures",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

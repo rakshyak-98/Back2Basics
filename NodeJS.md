@@ -1,8 +1,8 @@
 - child process can  be spawned by using `child_process.fork()` API (instead of using multiple threads).
 - `cluster` module allows you to share sockets between processes to enable load balancing over your cores.
-- designed to build scalable network application ([[non-blocking]], [[Asynchronous]], [[Event Loop]]).
-- because on non-blocking operations Scalable systems are very reasonable to develop in Node.js.
-- As an asynchronous event-driven JavaScript [[runtime environment]]. Node.js is designed to build scalable network application.
+- designed to build scalabel network application ([[non-blocking]], [[Asynchronous]], [[Event Loop]]).
+- because on non-blocking operations Scalabel systems are very reasonable to develop in Node.js.
+- As an asynchronous event-driven JavaScript [[runtime environment]]. Node.js is designed to build scalabel network application.
 - since their is no locks. Node.js is free from dead-locking the processes.
 - No function is Node.js perform direct I/O.
 - upon each connection, the callback is fired, but if there is no work to be done, Node.js will sleep.
@@ -13,6 +13,7 @@ all of the I/O methods in the Node.js standard library provide asynchronous vers
 - In the browser environment, all JavaScript files included in a webpage share the same global namespace. In Node.js or other server-side environments, each file has its own module-level scope, but variables declared without `var` `let` or `const` are still added to the global namespace.
 ### Node.js in production and development
 - put `NODE_ENV=production` in `.bash_profile` with the Bash shell, persist in case of a system restart.
+
 ```javascript
 if (process.env.NODE_ENV == 'development') {
 	app.use(express.errorHandler({dumpExceptions: true, showStack: true}))
@@ -22,7 +23,9 @@ if (['production', 'staging'].includes(process.env.NODE_ENV)){
 	app.use(express.errorHandler());
 }
 ```
+
 ## Difference Between Node.js and Browser
+
 | Node.js                                               | browser                                    |
 | ----------------------------------------------------- | ------------------------------------------ |
 | frontend and backend in a single language             |                                            |
