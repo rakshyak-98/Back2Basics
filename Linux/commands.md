@@ -33,6 +33,15 @@ mv -p "source" "destination"
 Update version
 time python -c ''
 ```
+time command
+- Real time (real) Total elapsed time from start to finish.
+- User time (user) CPU time spent in user mode.
+- System time (sys) CPU time spend in kernel mode.
+```bash
+time -p <args>; # POSIX-sompilant output format
+time -o <args>; # Redirect output to a file
+time -f <args>; # Customize output format
+```
 
 ### gsettings
 ```bash
