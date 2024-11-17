@@ -1,3 +1,5 @@
+**hoisting** means that **variable and function declarations are moved to the top of the code** before it runs. This lets you use them before they are actually written in the code.
+
 JavaScript enables  you to have multiple var statements anywhere in a function
 - variable act as they were declared at the top of there containing scope during the compile phase.
 - these make possible usage of variable and function before they are declared.

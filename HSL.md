@@ -1,7 +1,5 @@
 ## HLS vs. DASH: A Comparison of Adaptive Streaming Protocols
-
 HLS (HTTP Live Streaming) and DASH (Dynamic Adaptive Streaming over HTTP) are both adaptive bitrate streaming protocols, but they have distinct differences:
-
 - **Origin**: 
   - HLS is proprietary to Apple.
   - DASH is an open standard developed by MPEG, making DASH more flexible in terms of codec support and implementation [1][3].
