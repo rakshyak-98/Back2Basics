@@ -1,28 +1,3 @@
-```bash
-alsamixer; # manage volume
-xbacklight; # manage brightness
-nmcli; # manage network
-links; #
-```
-### Application management
-- this configuration specifies that Ranger should be launched in a terminal. new file in the `.local/share/applications/ranger.desktop`
-```bash
-[Desktop Entry]
-Name=Ranger
-Exec=kitty -e ranger %F
-Type=Application
-Terminal=true
-MimeType=inode/directory;
-```
-
-> [!NOTE] after creating the `.desktop` file, need to update the MIME type to associate directories with Ranger.
-
-```bash
-xdg-mime default ranger.desktop inode/directory; # update MIME type
-
-xdg-mime query default inode/directory; # confirm
-```
-
 ### Display manager
 ```bash
 sudo dpkg-reconfigure gdm3;
