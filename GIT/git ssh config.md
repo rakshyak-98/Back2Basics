@@ -106,4 +106,58 @@ It ensures that:
     ssh -T github-personal
     ssh -T github-work
     ```
+
+## How does git identify the alias
+
+- Git itself doesn’t directly "know" the alias. Instead, **SSH** handles the alias through its configuration in the `~/.ssh/config` file. Here's how it works step-by-step:
+
+---
+
+### How Git and SSH Work Together
+
+1. **Git Command with SSH URL**:
     
+    - When you run a command like:
+        
+        ```bash
+        git clone git@github-personal:username/repo.git
+        ```
+        
+2. **Git Passes the URL to SSH**:
+    
+    - Git identifies `git@github-personal` as an SSH URL and hands it over to the SSH client for connection.
+3. **SSH Resolves the Alias**:
+    
+    - SSH checks its `~/.ssh/config` file for an entry named `Host github-personal`.
+    - It finds the settings (e.g., `HostName`, `IdentityFile`) under `Host github-personal`.
+4. **SSH Establishes the Connection**:
+    
+    - Using the `HostName` (e.g., `github.com`), it connects to GitHub.
+    - The `IdentityFile` (e.g., `id_rsa_personal`) ensures the right private key is used.
+5. **Git Completes the Operation**:
+    
+    - Once SSH establishes the connection, Git handles the rest of the repository operation (clone, push, pull, etc.).
+
+---
+
+### Example
+
+Suppose your `~/.ssh/config` contains:
+
+```plaintext
+Host github-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_personal
+```
+
+- When Git sees `git@github-personal`, it:
+    - Passes `github-personal` to SSH.
+    - SSH resolves `github-personal` to `HostName github.com` and uses the specified key (`id_rsa_personal`).
+
+---
+
+### Key Points
+
+- Git relies on SSH to resolve aliases.
+- SSH aliases allow you to abstract host configurations, making it easier to manage multiple accounts or keys.
