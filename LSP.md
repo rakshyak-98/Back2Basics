@@ -16,3 +16,11 @@ When a user edits one or more source code files using a language server protocol
 3. the server answer's client's request with an appropriate response. The formatting request is answered either by a response that transfers the formatted text to the client or by an error response containing details about the error.
 ### Reference
 - [Language server protocol explained](https://www.youtube.com/watch?v=2GqpdfIAhz8)
+
+## Difference between Go to Reference, Definition, Implementation
+
+| Feature              | Description                                                                    | Use case                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| Go to reference      | Find all occurrences of a symbol in the code.                                  | Locate all usages of a variable of function across the project.                               |
+| Go to Definition     | Navigates to where the symbol is defined                                       | Jump to the exact line where a function, class or variable is defined.                        |
+| Go to Implementation | Navigates tot he concrete implementation(s) of a method, function or interface | For an interface, jump to the class that implements it. For a virtual function, find override |

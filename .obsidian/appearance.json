@@ -4,7 +4,8 @@
   "cssTheme": "",
   "baseFontSizeAction": false,
   "theme": "system",
-  "interfaceFontFamily": "",
+  "interfaceFontFamily": "JetBrains Mono",
   "showViewHeader": false,
-  "nativeMenus": true
+  "nativeMenus": true,
+  "textFontFamily": "JetBrains Mono"
 }
