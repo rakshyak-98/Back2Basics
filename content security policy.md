@@ -6,6 +6,6 @@ allowed to load :
 3. [[html]]
 4. [[frames]]
 5. [[web workers]]
-6. [[fontss]]
+6. [[fonts commands]]
 7. [[images]]
 8. embeddable objects ([[Java applets]], [[ActiveX]] , audio and video files)

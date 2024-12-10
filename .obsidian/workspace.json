@@ -4,35 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "dd84936ab27ac60d",
+        "id": "4dcf36bee104963d",
         "type": "tabs",
         "children": [
           {
-            "id": "4bb2276a41dac649",
+            "id": "a78a41b0484421dd",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SSH.md",
+                "file": "Linux/commands/fonts commands.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SSH"
+              "title": "fonts commands"
             }
           },
           {
-            "id": "664071c8fd523a7c",
+            "id": "f6f466f884c1afc8",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SSH authentication.md",
+                "file": "DSA problems.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SSH authentication"
+              "title": "DSA problems"
             }
           }
         ],
@@ -164,8 +164,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "664071c8fd523a7c",
+  "active": "f6f466f884c1afc8",
   "lastOpenFiles": [
+    "Linux/commands/fonts commands.md",
+    "DSA problems.md",
     "SSH.md",
     "SSH authentication.md",
     "GIT/git ssh config.md",
@@ -190,8 +192,6 @@
     "React/React Architecture.md",
     "hoisting.md",
     "handle.md",
-    "How does debugger work.md",
-    "How to manipulate memory directly.md",
     "NodeJS/Stream",
     "Linux/services",
     "linux",
