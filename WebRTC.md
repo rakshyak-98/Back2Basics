@@ -10,3 +10,8 @@ real-time communication for the web
 - `getUserMedia` acquires the audio and video media (by accessing device's camera and microphone)
 - `RTCPeerConnection` enables audio and video communication between peers. The data is transported using [[SCTP (Stream Control Transmission Protocol)]] over [[DTLS]] . It uses the same API as `WebSockets`
 - `getStats` allows the web application to retrieve a set of statistics
+
+### Peer connection
+- connecting two applications on different computers to communicate using a peer-to-peer protocol.
+- the communication between peer can be video, audio or arbitary binary data (for client supporting the `RTCDataChannel` API).
+- In order to discover how two peers can connect, both clients need to provide an [[ICE Server configuration]]. 
