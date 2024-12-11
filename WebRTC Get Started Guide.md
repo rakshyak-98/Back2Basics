@@ -3,10 +3,9 @@
 ```js
 navigator.mediaDevices.getUserMedia({vide: true, audio: true})
 	.then( stream => {
-		console.log("Got MediaStream: ", stream)
+			console.log("Got MediaStream: ", stream)
 	})
 ```
-- will trigger a permissions request. If the user accepts the permission, the promise is resolved with a `MediaStream` containing one video and one audio track. If the permission is denied, a `PermissionDenied Error` is thrown. In case there are no matching devices connected, a `NotFoundError` will be thrown.
 
 ## Querying media devices
 - in more complex application, we will likely want to check all the connected cameras and microphones and provide the appropriate feedback to the user.
@@ -96,3 +95,11 @@ async function playVideoFromCamers(){
 }
 ```
 
+## Peer Connections
+- deals with connecting two applications on different computers to communicate using a peer-to-peer protocol. The Communication between peers can be video, audio or arbitrary binary data (for clients supporting the `RTCDataChannel` API).
+- In order to discover how two peers can connect, both client need to provide an ICE Server configuration.
+	- This is either STUN or a TURN-server, and their role is to provide ICE candidates to each client which is then transferred to the remote peer.
+	
+> [!INFO] This transferring of ICE candidates is commonly called signaling.
+
+### Signaling

@@ -1,0 +1,1 @@
+- Establishing a WebRTC connection between two devices requires the use of signaling server to resolve how to connect them over the internet.
