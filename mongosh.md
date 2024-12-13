@@ -82,3 +82,9 @@ db.collection.aggregate([
 	}
 ])
 ```
+
+```js
+db.collection.aggregate([
+	{$project: {nameUpperCase: {$toUpper: "$name" }}}
+])
+```
