@@ -12,3 +12,21 @@ db.collectionName.find({
 3. **`$expr`**: Allows evaluating these expressions within the query.
 
 ---
+
+To remove keys (fields) from a document in MongoDB, you can use the `$unset` operator. Here's the query to remove one or more keys from a document:
+
+### Example:
+
+```javascript
+db.collectionName.update(
+  { _id: ObjectId("documentId") }, // Filter condition
+  { $unset: { key1: "", key2: "" } } // Fields to remove
+)
+```
+
+### Explanation:
+
+- **`$unset`**: This operator removes the specified fields from the document.
+- **`key1`, `key2`**: Replace these with the actual field names you want to remove. You can remove multiple fields by adding more key-value pairs (keys as field names and values as empty strings).
+
+---

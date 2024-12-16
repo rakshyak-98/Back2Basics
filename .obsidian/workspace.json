@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ICE (Interactive Connectivity Establishment).md",
+                "file": "vim commands.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ICE (Interactive Connectivity Establishment)"
+              "title": "vim commands"
             }
           }
         ]
@@ -151,13 +151,20 @@
   },
   "active": "0d00255bfb12803f",
   "lastOpenFiles": [
+    "MongoDB/mongosh query.md",
+    "pnpm logs.md",
+    "Relay server.md",
+    "Proxy/Reverse Proxy.md",
+    "NAT (Network Address Translation).md",
+    "Proxy",
+    "TURN server (Traversal Using Relays around NAT).md",
+    "ICE (Interactive Connectivity Establishment).md",
     "STUN (Session Traversal Utilities for NAT).md",
     "WebRTC Signaling channels.md",
     "WebRTC.md",
     "Firebase messaging.md",
     "Firebase/Multicast delivery.md",
     "Data structure questions.md",
-    "MongoDB/mongosh query.md",
     "MongoDB",
     "FCM Token (Firebase Cloud Messaging Token).md",
     "Firebase",
@@ -169,16 +176,10 @@
     "Persistent Block Storage.md",
     "mongosh.md",
     "Linux/commands.md",
-    "ICE (Interactive Connectivity Establishment).md",
     "WebRTC Get Started Guide.md",
-    "TURN server (Traversal Using Relays around NAT).md",
     "routing table.md",
     "Kubernates/Pods.md",
-    "NAT (Network Address Translation).md",
     "Internal routing.md",
-    "apt.md",
-    "Untitled.md",
-    "SCTP (Stream Control Transmission Protocol).md",
     "LLD/Questions",
     "LLD",
     "NodeJS/Stream",
@@ -186,7 +187,6 @@
     "linux",
     "TypeScript",
     "React/Untitled",
-    "React/Architecture",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

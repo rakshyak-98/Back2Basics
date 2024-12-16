@@ -25,3 +25,8 @@ ma (set mark 'a')
 'a (jump to line of mark 'a')
 `a (jump to exact position of mark 'a')
 ```
+
+### Vim rc file
+```vim
+colorscheme habamax
+```
