@@ -64,3 +64,15 @@ def5678 HEAD@{1}: commit: Fixed bug in API
 - store extra metadata like the author, date and message.
 [manage different versions of your code with branching and tagging](https://www.linkedin.com/advice/3/how-can-you-manage-different-versions-your-code-branching)
 
+
+## Git blame
+- shows line-by-line annotations of a file, identifying the commit and author responsible for each line of code.
+
+```shell
+git blame <file>;
+
+# Displays blame annotations based on the file state in a specific commit.
+git blame <commit hash> -- <file>;
+git blame --date=short <file>;
+git blame -C <file>; # Tracks code change even if the fiel was renamed.
+```
