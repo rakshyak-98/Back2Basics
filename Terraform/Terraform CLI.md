@@ -1,6 +1,11 @@
 ```shell
+TF_LOG=DEBUG terraform init
+```
+- to view detailed logs and resolve provider issues
+- show how terraform interacts with provider plugins
+
+```shell
 terraform providers;
-terraform search <provider name>
 terraform providers mirror <directory>; # Display providers installed locally 
 ```
 
