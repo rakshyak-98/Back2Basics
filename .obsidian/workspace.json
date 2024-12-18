@@ -4,63 +4,63 @@
     "type": "split",
     "children": [
       {
-        "id": "ddc35a16a1e6e784",
+        "id": "b753e2c9e2159480",
         "type": "tabs",
         "children": [
           {
-            "id": "dbcb1b1ceeaaf3bf",
+            "id": "3f0a7a4ed4914a6a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "mongosh.md",
+                "file": "Kubernates/ingress.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "mongosh"
+              "title": "ingress"
             }
           },
           {
-            "id": "0e9a959dfba34789",
+            "id": "5dfaf2bd9cb34c84",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MongoDB/mongodb connection.md",
+                "file": "Kubernates/Kubernetes services.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "mongodb connection"
+              "title": "Kubernetes services"
             }
           },
           {
-            "id": "48a633648482aff7",
+            "id": "a1180209487ca7a3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MTU (Maximum Transmission Unit).md",
+                "file": "Terraform/Terraform.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MTU (Maximum Transmission Unit)"
+              "title": "Terraform"
             }
           },
           {
-            "id": "9bbacf7d5e38e55f",
+            "id": "64c1ba67a365e61a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Networking/Packet Fragment.md",
+                "file": "Terraform CLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Packet Fragment"
+              "title": "Terraform CLI"
             }
           }
         ],
@@ -192,14 +192,25 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9bbacf7d5e38e55f",
+  "active": "64c1ba67a365e61a",
   "lastOpenFiles": [
-    "Networking",
-    "MTU (Maximum Transmission Unit).md",
-    "Networking/Packet Fragment.md",
-    "MongoDB/mongodb connection.md",
-    "MongoDB/mongosh user management.md",
+    "Terraform/Terraform.md",
+    "Terraform CLI.md",
+    "Terraform",
+    "Kubernates/Kubernetes services.md",
+    "Kubernates/ingress.md",
+    "DNS.md",
+    "Nginx ingress.md",
+    "Nginx",
+    "Flash of Unstyled Content.md",
+    "Firebase/Firebase messaging.md",
+    "Firebase/FCM Token (Firebase Cloud Messaging Token).md",
     "mongosh.md",
+    "MongoDB/mongodb connection.md",
+    "Networking/MTU (Maximum Transmission Unit).md",
+    "Networking/Packet Fragment.md",
+    "Networking",
+    "MongoDB/mongosh user management.md",
     "IPFS (InterPlanetry File System).md",
     "SCTP (Stream Control Transmission Protocol).md",
     "golang/go starter.md",
@@ -212,24 +223,13 @@
     "vim commands.md",
     "MongoDB/mongosh query.md",
     "pnpm logs.md",
-    "Relay server.md",
-    "Proxy/Reverse Proxy.md",
-    "NAT (Network Address Translation).md",
     "Proxy",
-    "TURN server (Traversal Using Relays around NAT).md",
-    "ICE (Interactive Connectivity Establishment).md",
-    "STUN (Session Traversal Utilities for NAT).md",
-    "WebRTC Signaling channels.md",
-    "WebRTC.md",
     "MongoDB",
     "Firebase",
     "LLD/Questions",
     "LLD",
     "NodeJS/Stream",
     "Linux/services",
-    "linux",
-    "TypeScript",
-    "React/Untitled",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
