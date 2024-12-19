@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cookies.md",
+                "file": "NodeJS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "cookies"
+              "title": "NodeJS"
+            }
+          },
+          {
+            "id": "a5624aa2387c94b6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "NodeJS optimization.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "NodeJS optimization"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -149,8 +164,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "18616786fc47ddcd",
+  "active": "a5624aa2387c94b6",
   "lastOpenFiles": [
+    "NodeJS.md",
+    "NodeJS optimization.md",
+    "cookies.md",
+    "XSRF (cross-site request forgery).md",
+    "XSRF.md",
     "Kubernates/Kubernetes services.md",
     "Terraform/Terraform CLI.md",
     "Kubernates/ingress.md",
@@ -175,11 +195,6 @@
     "go-routines.md",
     "Swarm network.md",
     "TLS (Transport Layer Security).md",
-    "P2P (Peer-to-Peer).md",
-    "GIT/git command.md",
-    "vim commands.md",
-    "MongoDB/mongosh query.md",
-    "pnpm logs.md",
     "Proxy",
     "MongoDB",
     "Firebase",
