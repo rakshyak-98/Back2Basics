@@ -1,3 +1,6 @@
+```shell
+docker inspect --format '{{json .NetworkSettings.IPAddress}}' <container_id>
+```
 #### Installation
 ```bash
 sudo apt install docker-compose-plugin; # install docker compose command as plugin

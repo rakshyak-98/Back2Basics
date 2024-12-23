@@ -1,0 +1,3 @@
+To run a specific command on container restart, you should configure the `ENTRYPOINT` or `CMD` block in the `Dockerfile`
+- `ENTRYPOINT` : used to define the main command or process that always runs in the container. It cannot be overridden at runtime unless specifically done with `docker run --entrypoint`
+- `CMD` : Used to provide default arguments to the `ENTRYPOINT` or to specify the command if no `ENTRYPOINT` is defined. Can be overridden at runtime with `docker urn <image> <command>`

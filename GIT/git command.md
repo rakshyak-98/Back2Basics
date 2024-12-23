@@ -1,4 +1,5 @@
 ```bash
+git clean; # removes untracked files from working directory (not staged, committed, ignored)
 git reflog; # view git logs (not commit)
 git push origin --tags; # push local tag to remote
 git branch --unset-upstream; # unset remote tracking branch
