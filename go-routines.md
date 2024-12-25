@@ -4,3 +4,11 @@
 
 ## How Go-routines work
 1. create a go-routine by using `go` keyword followed by a function call. This create a new concurrent task running alongside the current go-routine.
+
+```go
+go func() {
+	for event := range events {
+		fmt.Printf("received: %v\n", event)
+	}
+}
+```

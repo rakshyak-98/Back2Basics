@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Nginx/Nginx ingress.md",
+                "file": "LF and CRLF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Nginx ingress"
+              "title": "LF and CRLF"
             }
           }
         ]
@@ -151,8 +151,15 @@
   },
   "active": "0f5acc09556b5e72",
   "lastOpenFiles": [
-    "npm.md",
+    "go-routines.md",
+    "LF and CRLF.md",
+    "cookies.md",
+    "Untitled 1.md",
     "Nginx/Nginx internals.md",
+    "Nginx/Nginx ingress.md",
+    "Github cli.md",
+    "Github action.md",
+    "npm.md",
     "ISR (Incremental Static Regeneration).md",
     "File structure.md",
     "Useful prompt for learning with AI chat.md",
@@ -171,13 +178,6 @@
     "Untitled",
     "Docker/Docker compose.md",
     "System Architecture.md",
-    "MongoDB/mongodb migration.md",
-    "mongodb schema.md",
-    "MongoDB/mognodb indexing.md",
-    "vim commands.md",
-    "NodeJS.md",
-    "Data structure.md",
-    "NodeJS/Stream/NodeJS streams.md",
     "Terraform",
     "Nginx",
     "Networking",

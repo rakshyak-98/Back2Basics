@@ -1,27 +1,36 @@
-- enable web server to store **stateful** information.
-	- such as item added in shopping cart.
-	- which page visited in the past.
-	- track user's browsing activity (recording which page were visited in the past).
 ```shell
 HTTP/1.0 200 OK
 Content-type: text/html
 Set-Cookie: theme=light
 Set-Cookie: sessionToken=abc123; Expires=Wed, 09 Jun 2024 10:18:14 GMT
+httpOnly
 ```
-#### Authentication cookies
-- authenticate user logged in, and with which account they are logged in.
-	- without this user have to log in on each page.
-- session cookies are intended to be deleted by the browser when the browser closes.
-[[cross-site scripting]]
-[[XSRF (cross-site request forgery)]]
 
-## Browser cookie
-[cookies, document.cookie](https://javascript.info/cookie)
-If you run it, you will likely see multiple cookies. That’s because the `document.cookie=` operation does not overwrite all cookies. It only sets the mentioned cookie `user`.
-- The `name=value` pair, after `encodeURIComponent`, should not exceed 4KB. So we can’t store anything huge in a cookie.
+> [!INFO] `httpOnly` attribute forbids any JavaScript access to the cookie. We can't see such a cookie or manipulate it using `document.cookie`
+
+> [!NOTE] Cookies have several attribute, many of which are important and should be set.
 ```js
 document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 ```
+
+> [!WARNING] By default, if a cookie doesn't have one of these attributes, it disappears when the browser/tab is closed. Such cookies are called **session cookies** (max-age, expires)
+#### Authentication cookies
+- the cookie should be transferred only over HTTPS (`secure` key). By default, if we set a cookie at `http://site.com`, then it also appears at `https://site.com` and vice versa.
+- authenticate user logged in, and with which account they are logged in.
+	- without this user have to log in on each page.
+- session cookies are intended to be deleted by the browser when the browser closes.
+
+[[cross-site scripting]]
+[[XSRF (cross-site request forgery)]]
+
+> [!NOTE] You can set/update a single cookie at a time using `document.cookie`
+## Browser cookie
+[cookies, document.cookie](https://javascript.info/cookie)
+If you run it, you will likely see multiple cookies. That’s because the `document.cookie=` operation does not overwrite all cookies. It only sets the mentioned cookie `user`.
+
+> [!NOTE] The `name=value` pair, after `encodeURIComponent`, should not exceed 4KB. So we can’t store anything huge in a cookie.
+
+> [!NOTE] The total number of cookies per domain is limited to around 20+ the exact limit depends on the browser.
 
 > [!NOTE] Please note, by default, a cookie is not shared with a subdomain, such as `forum.site.com`.
 
@@ -40,3 +49,13 @@ A `samesite=lax` cookie is sent if both of these conditions are true:
    
 2. The operation performs a top-level navigation (changes URL in the browser address bar).
    This is usually true, but if the navigation is performed in an `<iframe>`, then it is not top-level. Additionally, JavaScript methods for network requests do not perform any navigation.
+### Cookies attributes
+
+> [!NOTE] There's no way to let a cookie be accessible from another 2nd-level domain (it is safety restriction)
+- We have to explicitly set the `domain` attribute to the root domain `domain=site.com`. Then all sub-domain will see such a cookie.
+
+> [!INFO] usually we should set `path` to the root: `path=/` to make the cookie accessible from all website pages.
+
+> [!WARNING]- cookies with `samesite=strict` is never sent if the user comes from outside the same site.
+> - weather a user follow a same link from their email, submits a form outside the same site.
+> - user does any operation that originates from another domain, the cookie is not sent.
