@@ -19,4 +19,3 @@ npm install --legacy-peer-deps; # force install peer dependencies
 failed to solve: cannot replace to directory /var/lib/docker/overlay2/x6ptivu3yyft92itkfpyjjb86/merged/usr/src/app/node_modules/@aws-sdk/client-cloudfront with file     
 ```
 - the error indicates that docker is trying to copy a file over a directory, which is allowed. This usually happens when the `node_modules` directory already exist in the Docker image and the `COPY . .` command tries to overwrite it.
-- 

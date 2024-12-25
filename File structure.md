@@ -1,0 +1,2 @@
+**`core/`**: Contains the core functionalities of NGINX, including essential data structures and utilities.
+**`event/`**: Manages event-driven mechanisms, crucial for handling multiple simultaneous connections efficiently.
