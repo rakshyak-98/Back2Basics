@@ -13,5 +13,4 @@ npx prisma generate; # generat the prisma client
 ## Customizing the Output Directory
 - You can specify a custom directory for the generated Prisma Client in the `schema.prisma` file:
 ```js
-
 ```

@@ -17,7 +17,11 @@
 
 > [!NOTE] more complex models may require more data to train effectively, suggesting a smaller test size
 ## Random state
-- `random_state` parameter controls the shuffling applied to the data before splitting it into
+- `random_state` parameter controls the shuffling applied to the data before splitting it into. Use same `ransom_state` constant for model and seed splitting (train & test).
+- The train and test datasets are formed by randomly splitting rows, but the sequence of values selected for each split depends on the `random_state` used.
+- reflect the variability of read-world data during training and testing.
+- uncover hidden model weakness due to unexpected patterns in data.
+- reduce overfitting to a particular train-test split.
 ### Data features and labels
 - a data set lacking the variation (features or labels being too similar) can lead to poor model learning.
 

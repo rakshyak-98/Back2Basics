@@ -10,3 +10,158 @@
 - used in algorithms for finding the number of elements less than or equal to a given value.
 ### Sliding window
 1. Maximum Sum Sub-array of Size K 
+
+
+---
+### 1. Difference Between Stack and Queue
+
+**Stack**: Follows LIFO (Last In, First Out).  
+**Queue**: Follows FIFO (First In, First Out).
+
+#### Implementation in JavaScript:
+
+- **Stack**: Use an array and `push`/`pop` methods.
+- **Queue**: Use an array and `push`/`shift` methods.
+
+#### Use Cases:
+
+- **Stack**: Undo/Redo functionality, parsing expressions.
+- **Queue**: Task scheduling, print queues.
+
+---
+
+### 2. Linked List in JavaScript
+
+**Types**: Singly Linked List, Doubly Linked List, Circular Linked List.
+
+#### Implementation:
+
+- Node structure: `{value, next}` (Doubly: `{value, next, prev}`).
+
+#### Operations:
+
+- **Insertion**: At head, tail, or specific index.
+- **Deletion**: Remove specific node or at index.
+
+---
+
+### 3. Binary Search Tree (BST)
+
+- **Concept**: Hierarchical data structure; left child < parent, right child > parent.
+
+#### Implementation:
+
+- Node structure: `{value, left, right}`.
+- Operations: Recursive or iterative for search, insert, delete.
+
+#### Time Complexities:
+
+- **Search/Insert/Delete**: O(log n) average, O(n) worst-case (unbalanced).
+
+---
+
+### 4. Hash Table in JavaScript
+
+**Concept**: Key-value storage with hashing.
+
+#### Collision Resolution:
+
+- Separate Chaining: Linked lists at each bucket.
+- Open Addressing: Linear probing, quadratic probing, or double hashing.
+
+#### Dynamic Resizing:
+
+- Expand and rehash when load factor > threshold.
+
+---
+
+### 5. Sorting Algorithms
+
+**Types**: Bubble Sort, Quick Sort, Merge Sort, Heap Sort.
+
+#### Quick Sort:
+
+- Recursive; Pivot-based partitioning.
+- Time: O(n log n) avg, O(n²) worst.
+- Space: O(log n).
+
+#### Merge Sort:
+
+- Divide and conquer; merge sorted halves.
+- Time: O(n log n).
+- Space: O(n).
+
+---
+
+### 6. Dynamic Programming
+
+**Concept**: Optimize by storing overlapping subproblems.
+
+#### Knapsack Problem:
+
+- Define DP array: `dp[w]` for max value with weight `w`.
+
+#### Examples:
+
+- Longest Common Subsequence, Fibonacci, Matrix Chain Multiplication.
+
+---
+
+### 7. Graph Traversal
+
+**Concept**: Explore all nodes in a graph.
+
+#### DFS:
+
+- Recursive or stack-based; explore deeper first.
+
+#### BFS:
+
+- Queue-based; explore all neighbors before moving deeper.
+
+#### Use Cases:
+
+- **DFS**: Pathfinding, cycle detection.
+- **BFS**: Shortest path, level order traversal.
+
+---
+
+### 8. Detecting Cycles in Directed Graphs
+
+**Algorithms**:
+
+- DFS with a visited stack.
+- Kahn's Algorithm (Topological Sort).
+
+#### Implementation:
+
+- Use adjacency list and maintain visited/recursion stack.
+
+---
+
+### 9. Priority Queue and Heap
+
+**Heap**: Binary tree; min-heap or max-heap properties.
+
+#### Implementation:
+
+- Use array and parent/child indices.
+- Insert: Bubble-up; Remove: Bubble-down.
+
+#### Use Cases:
+
+- Task scheduling, Dijkstra's shortest path algorithm.
+
+---
+
+### 10. Trie (Prefix Tree)
+
+**Concept**: Tree structure for string storage.
+
+#### Operations:
+
+- Insert, search, and delete words.
+
+#### Use Case:
+
+- Efficient autocomplete and dictionary operations.

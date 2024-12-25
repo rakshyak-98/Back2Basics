@@ -1,0 +1,2 @@
+TLS is a cryptographic protocol ensuring secure communication over a computer network.
+- It replaces SSL (Secure Sockets Layer) and provide encryption, data integrity, and authentication. Commonly used in HTTPS.

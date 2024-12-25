@@ -1,3 +1,33 @@
+### Command manipulation
+```shell
+echo "Today is ${date}"
+{ echo "First"; echo "Second" }; # Group multiple command to run in the same shell
+mkdir new_dir && cd new_dir # conditional execution
+diff <(ls dir1) <(ls dir2);
+```
+
+```
+(cd /tmp && ls); # Executes commands in a separate subshell
+```
+- This runs the `cd` and `ls` commands in a sub-shell, so the working directory in the current shell remains unchanged.
+
+## Command history expansion
+```shell
+!!; # Repeats the last executed command;
+!-2 # Executes the second-to-last command in history;
+```
+
+```shell
+echo ${my_var:-"default value"}  # Prints "default value" if my_var is unset.
+echo ${my_var:0:3}  # Extracts the first 3 characters from my_var.
+```
+
+## History manipulation
+```shell
+!?install; # executes the last command that contains the word "install"
+^git^git-lfs; # Replaces the first occurrence of git with git-lfs in the last executed command
+```
+
 In Bash, **set flags** (or options) allow you to change the behavior of the shell. You can enable or disable these flags using the `set` command. Here’s a list of some commonly used set flags in Bash:
 
 ### Common Bash Set Flags
