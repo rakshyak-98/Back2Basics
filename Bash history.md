@@ -7,3 +7,7 @@ export HISTICONTROL=ignoreboth;
 
 - `HISTORYCONTROL` Controls what gets saved to history 
  `ignorespace`, `ignoredups`, `ignoreboth` 
+
+```shell
+history -a; # Appends the history of the current session to the history file
+```
