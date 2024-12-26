@@ -1,0 +1,4 @@
+- event streaming platform designed to handle real-time data feeds.
+- used for building data pipelines, stream analytics, and integration across systems.
+- Scale horizontally by distributing data across multiple brokers.
+- producer and consumers are independent, allowing system flexibility.
