@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "280f74cf0de7fa1d",
+        "id": "4c175be19a2bc03a",
         "type": "tabs",
         "children": [
           {
-            "id": "0f5acc09556b5e72",
+            "id": "a8fc94ead1ebcf5e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "kafka.md",
+                "file": "Descriptive/JavaScript/javascript web API.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "kafka"
-            }
-          },
-          {
-            "id": "fc8372fab048ab79",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "MongoDB/mongoose/mongoose.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "mongoose"
+              "title": "javascript web API"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -163,11 +148,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "fc8372fab048ab79",
+  "active": "a8fc94ead1ebcf5e",
   "lastOpenFiles": [
+    "kafka.md",
+    "MongoDB/mongoose/mongoose.md",
     "MongoDB/mongoose/mongoose methods.md",
     "MongoDB/mongoose",
-    "MongoDB/mongoose/mongoose.md",
     "MongoDB/mongosh query.md",
     "mongosh.md",
     "NodeJS/expressjs.md",
@@ -176,7 +162,6 @@
     "javascript/Packages/Immer.md",
     "javascript/Packages",
     "javascript",
-    "kafka.md",
     "Descriptive/JavaScript/Progressive search functionality.md",
     "Descriptive/JavaScript/javascript web API.md",
     "golang/go functions.md",
