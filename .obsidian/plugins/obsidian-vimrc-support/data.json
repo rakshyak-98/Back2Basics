@@ -1,5 +1,5 @@
 {
-  "vimrcFileName": "",
+  "vimrcFileName": "~/.vimrc",
   "displayChord": true,
   "displayVimMode": true,
   "fixedNormalModeLayout": true,
@@ -53,5 +53,11 @@
     "KeyC": "c",
     "Comma": ","
   },
-  "supportJsCommands": false
+  "supportJsCommands": false,
+  "vimStatusPromptMap": {
+    "normal": "🟢",
+    "insert": "🟠",
+    "visual": "🟡",
+    "replace": "🔴"
+  }
 }

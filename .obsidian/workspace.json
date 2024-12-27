@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "javascript/Packages/Immer.md",
+                "file": "Data structure questions.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Immer"
+              "title": "Data structure questions"
             }
           }
         ],
@@ -82,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -165,10 +164,10 @@
   },
   "active": "fc8372fab048ab79",
   "lastOpenFiles": [
+    "javascript/Packages/Immer.md",
     "javascript/Packages",
     "javascript",
     "kafka.md",
-    "javascript/Packages/Immer.md",
     "Descriptive/JavaScript/Progressive search functionality.md",
     "Descriptive/JavaScript/javascript web API.md",
     "golang/go functions.md",
@@ -200,7 +199,6 @@
     "MongoDB",
     "Firebase",
     "LLD/Questions",
-    "LLD",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
