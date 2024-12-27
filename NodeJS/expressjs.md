@@ -28,3 +28,9 @@ console.log(parsedObject);
 
 console.log(parsedObject.birthdate instanceof Date);  // true
 ```
+
+### Inspecting
+```js
+console.log(app._router.stack);
+```
+- property holds middleware and route definitions.

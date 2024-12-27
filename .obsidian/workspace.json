@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Data structure questions.md",
+                "file": "MongoDB/mongoose/mongoose.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Data structure questions"
+              "title": "mongoose"
             }
           }
         ],
@@ -67,7 +67,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "random state",
+                "query": "projection",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -82,7 +82,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -164,6 +165,14 @@
   },
   "active": "fc8372fab048ab79",
   "lastOpenFiles": [
+    "MongoDB/mongoose/mongoose methods.md",
+    "MongoDB/mongoose",
+    "MongoDB/mongoose/mongoose.md",
+    "MongoDB/mongosh query.md",
+    "mongosh.md",
+    "NodeJS/expressjs.md",
+    "debouncing.md",
+    "Data structure questions.md",
     "javascript/Packages/Immer.md",
     "javascript/Packages",
     "javascript",
@@ -184,13 +193,6 @@
     "Useful prompt for learning with AI chat.md",
     "go cli.md",
     "Prisma/Prisma.md",
-    "ML/model tranning.md",
-    "Bash history.md",
-    "pnpm logs.md",
-    "Linux/Bash.md",
-    "Docker Runtime Security.md",
-    "Docker/Commands.md",
-    "Docker/docker file.md",
     "Untitled",
     "Terraform",
     "Nginx",
@@ -198,7 +200,6 @@
     "Proxy",
     "MongoDB",
     "Firebase",
-    "LLD/Questions",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

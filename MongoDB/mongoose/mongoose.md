@@ -9,3 +9,4 @@ mongodb://username:password@host:port/database
 - after parsing the connection string, Mongoose creates a connection instance using the MongoDB NodeJS driver.
 - this involves:
 	-  a TCP
+

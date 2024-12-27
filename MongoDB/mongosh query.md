@@ -1,3 +1,4 @@
+### `$expr`
 To fetch documents where the `reportingManager` field contains more than one `ObjectId`, you can use the `$expr` operator to check the length of the array. Here's the query:
 
 ```javascript
@@ -30,3 +31,25 @@ db.collectionName.update(
 - **`key1`, `key2`**: Replace these with the actual field names you want to remove. You can remove multiple fields by adding more key-value pairs (keys as field names and values as empty strings).
 
 ---
+### `$elementMatch`
+
+```js
+{ "numbers": { "$elemMatch": { "$gt": 5, "$lt": 10 } } }
+```
+- Array `[3,6,11]` matches because `6` satisfies both `$gt` and `$lt`.
+
+query operator used to match one or more elements of an array that satisfy all the specified conditions in a single query.
+- matches individual elements of an array.
+- ensures all conditions are met by the same element in the array.
+- can be used in query filters and projections.
+
+### Sub-documents
+```js
+db.collection.find({ "tasks": { "$elemMatch": { "task": "coding", "hours": { "$gt": 3 } } } })
+```
+
+##### Projection example
+```js
+db.collection.find({}, { "tasks": { "$elemMatch": { "hours": { "$gt": 3 } } } })
+db.collection.find({}, { tasks: { $elemMatch: { priority: "high" } } })
+```
