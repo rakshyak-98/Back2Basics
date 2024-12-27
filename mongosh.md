@@ -1,5 +1,7 @@
 [mongodb aggregation](https://www.mongodb.com/docs/v4.4/reference/operator/aggregation/cond/)
 
+> [!WARNING] On some systems, a password provided directly in a connection string or using `--uri` may be visible to system status programs such as `ps` that may be invoked by other users. 
+
 ```js
 { $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
 ```

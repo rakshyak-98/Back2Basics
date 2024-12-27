@@ -48,3 +48,10 @@
 - **Index Overhead**: Indexes consume additional disk space and memory. It's essential to balance the number of indexes with the available resources.
 - **Write Performance**: Indexes can impact write performance, as the database needs to update the indexes whenever documents are inserted, updated, or deleted.
 - **Index Selection**: Choosing the right indexes based on query patterns is crucial for optimizing performance.
+
+---
+### Evaluating MongoDB Query Performance
+
+To evaluate the performance of MongoDB queries, you can analyze execution statistics and understand how indexes, query structure, and dataset size affect execution time and efficiency.
+
+---

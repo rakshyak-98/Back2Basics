@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Descriptive/JavaScript/javascript web API.md",
+                "file": "MongoDB/mognodb indexing.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "javascript web API"
+              "title": "mognodb indexing"
+            }
+          },
+          {
+            "id": "67f2fff6bd4d6a83",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "MongoDB/MongoDB query evaludation.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "MongoDB query evaludation"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -148,14 +163,17 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a8fc94ead1ebcf5e",
+  "active": "67f2fff6bd4d6a83",
   "lastOpenFiles": [
+    "MongoDB/mognodb indexing.md",
+    "MongoDB/MongoDB query evaludation.md",
+    "mongosh.md",
+    "Descriptive/JavaScript/javascript web API.md",
     "kafka.md",
     "MongoDB/mongoose/mongoose.md",
     "MongoDB/mongoose/mongoose methods.md",
     "MongoDB/mongoose",
     "MongoDB/mongosh query.md",
-    "mongosh.md",
     "NodeJS/expressjs.md",
     "debouncing.md",
     "Data structure questions.md",
@@ -163,7 +181,6 @@
     "javascript/Packages",
     "javascript",
     "Descriptive/JavaScript/Progressive search functionality.md",
-    "Descriptive/JavaScript/javascript web API.md",
     "golang/go functions.md",
     "LF and CRLF.md",
     "go-routines.md",
@@ -177,7 +194,6 @@
     "File structure.md",
     "Useful prompt for learning with AI chat.md",
     "go cli.md",
-    "Prisma/Prisma.md",
     "Untitled",
     "Terraform",
     "Nginx",
