@@ -1,3 +1,6 @@
+```shell
+ssh -F <config file> -G <Host>;
+```
 # Understanding the SSH encryption and  Connection process
 [post link](https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process)
 - ssh key pairs begins after the symmetric encryption has been established.
