@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "5620a465db969c19",
+        "id": "53b869de5bb7a0f3",
         "type": "tabs",
         "children": [
           {
-            "id": "38ad5c8c4928544b",
+            "id": "5f57c4410aa8ccfc",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "SQL normalization.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "SQL normalization"
             }
           }
         ]
@@ -144,8 +148,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "38ad5c8c4928544b",
+  "active": "5f57c4410aa8ccfc",
   "lastOpenFiles": [
+    "SQL normalization.md",
     "openssl.md",
     "Linux/commands/Linux network commands.md",
     "Root certificate.md",
@@ -174,7 +179,6 @@
     "Descriptive/JavaScript/Progressive search functionality.md",
     "golang/go functions.md",
     "LF and CRLF.md",
-    "go-routines.md",
     "Untitled",
     "Terraform",
     "Nginx",
