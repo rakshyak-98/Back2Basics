@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "4c175be19a2bc03a",
+        "id": "5620a465db969c19",
         "type": "tabs",
         "children": [
           {
-            "id": "a8fc94ead1ebcf5e",
+            "id": "38ad5c8c4928544b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "DSA problems.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "DSA problems"
+              "title": "New tab"
             }
           }
         ]
@@ -148,20 +144,27 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a8fc94ead1ebcf5e",
+  "active": "38ad5c8c4928544b",
   "lastOpenFiles": [
+    "openssl.md",
+    "Linux/commands/Linux network commands.md",
+    "Root certificate.md",
+    "Proxy/Reverse Proxy.md",
+    "GIT/git command.md",
+    "mongosh.md",
+    "Prisma/Prisma query.md",
+    "MongoDB/mongosh query.md",
+    "DSA problems.md",
     "SSH.md",
     "SSH authentication.md",
     "GIT/git ssh config.md",
     "MongoDB/mognodb indexing.md",
     "MongoDB/MongoDB query evaludation.md",
-    "mongosh.md",
     "Descriptive/JavaScript/javascript web API.md",
     "kafka.md",
     "MongoDB/mongoose/mongoose.md",
     "MongoDB/mongoose/mongoose methods.md",
     "MongoDB/mongoose",
-    "MongoDB/mongosh query.md",
     "NodeJS/expressjs.md",
     "debouncing.md",
     "Data structure questions.md",
@@ -172,13 +175,6 @@
     "golang/go functions.md",
     "LF and CRLF.md",
     "go-routines.md",
-    "cookies.md",
-    "Nginx/Nginx internals.md",
-    "Nginx/Nginx ingress.md",
-    "Github cli.md",
-    "Github action.md",
-    "npm.md",
-    "ISR (Incremental Static Regeneration).md",
     "Untitled",
     "Terraform",
     "Nginx",

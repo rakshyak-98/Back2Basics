@@ -7,6 +7,16 @@ git remote -v;
 git show-ref;
 git branch -vv;
 ```
+### Without merge how to validate two branch have merge conflict
+```shell
+git checkout <target-branch>;
+git merge <source-branch> --no-commit --no-ff; # dry-run merge
+
+git diff target-branch...source-branch;
+
+git merge-tree $(git merge-base target-branch source-branch) target-branch source-branch;
+
+```
 #### Starter config
 ```bash
 git config user.name <commit author name>;

@@ -43,7 +43,7 @@ query operator used to match one or more elements of an array that satisfy all t
 - ensures all conditions are met by the same element in the array.
 - can be used in query filters and projections.
 
-### Sub-documents
+### Sub-documents query element match
 ```js
 db.collection.find({ "tasks": { "$elemMatch": { "task": "coding", "hours": { "$gt": 3 } } } })
 ```
@@ -52,4 +52,26 @@ db.collection.find({ "tasks": { "$elemMatch": { "task": "coding", "hours": { "$g
 ```js
 db.collection.find({}, { "tasks": { "$elemMatch": { "hours": { "$gt": 3 } } } })
 db.collection.find({}, { tasks: { $elemMatch: { priority: "high" } } })
+```
+
+---
+### Date difference
+```js
+agg = [
+  {
+    '$addFields': {
+      dateDifferenceInMilliseconds: { '$subtract': [ '$endDate', '$startDate' ] }
+    }
+  },
+  {
+    '$project': {
+      dateDifferenceInDays: { '$divide': [ '$dateDifferenceInMilliseconds', 86400000 ] },
+      startDate: 1,
+      endDate: 1
+    }
+  },
+  { '$match': { dateDifferenceInDays: { '$gt': 1 } } }
+]
+
+db.collection.aggrigate(agg);
 ```

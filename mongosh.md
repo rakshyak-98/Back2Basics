@@ -2,6 +2,8 @@
 
 > [!WARNING] On some systems, a password provided directly in a connection string or using `--uri` may be visible to system status programs such as `ps` that may be invoked by other users. 
 
+> [!WARNING] In **`mongosh`**, there is no direct `populate` function like in **Mongoose**.
+
 ```js
 { $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
 ```
