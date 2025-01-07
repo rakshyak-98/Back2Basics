@@ -344,3 +344,51 @@ Given an array of integers **arr[]** in a **circular** fashion. Find the **maxim
 -104 <= arr[i] <= 104
 
 ---
+
+```python
+def integrityScore(s, char_mapping):
+    """
+    Calculate the integrity score for a given dataPacket.
+    
+    Args:
+        s (str): The data packet (string).
+        char_mapping (dict): A dictionary mapping characters to their respective numerical values.
+        
+    Returns:
+        int: The integrity score (total count of valid substrings).
+    """
+    n = len(s)
+    count = 0
+    
+    # Precompute the prefix sum of the numerical values for efficient calculation
+    prefix_sum = [0] * (n + 1)  # prefix_sum[i] stores the sum of values of characters from index 0 to i-1
+    
+    for i in range(1, n + 1):
+        prefix_sum[i] = prefix_sum[i - 1] + char_mapping[s[i - 1]]
+
+    # Check all substrings
+    for i in range(n):
+        for j in range(i + 1, n + 1):
+            # Calculate sum of the current substring using prefix sums
+            substring_sum = prefix_sum[j] - prefix_sum[i]
+            substring_length = j - i
+            
+            # Check if the sum of the substring is divisible by its length
+            if substring_sum % substring_length == 0:
+                count += 1
+
+    return count
+
+# Example Usage:
+# Mapping of characters to numerical values
+char_mapping = {
+    'a': 1, 'b': 1, 'c': 2, 'd': 2, 'e': 2, 'f': 3, 'g': 3, 'h': 3, 'i': 4, 'j': 4, 'k': 4,
+    'l': 5, 'm': 5, 'n': 5, 'o': 6, 'p': 6, 'q': 6, 'r': 7, 's': 7, 't': 7, 'u': 8, 'v': 8,
+    'w': 8, 'x': 9, 'y': 9, 'z': 9
+}
+
+data_packet = "cat"
+result = integrityScore(data_packet, char_mapping)
+print(f"Integrity score for '{data_packet}' is: {result}")
+
+```
