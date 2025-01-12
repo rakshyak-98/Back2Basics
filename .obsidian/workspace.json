@@ -4,35 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "53b869de5bb7a0f3",
+        "id": "5000220ffa7334f5",
         "type": "tabs",
         "children": [
           {
-            "id": "5f57c4410aa8ccfc",
+            "id": "64f5315624bb2c6d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SQL normalization.md",
+                "file": "API design.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SQL normalization"
+              "title": "API design"
             }
           },
           {
-            "id": "79250eed72edefea",
+            "id": "b27c15ff96cb9a8b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DSA problems.md",
+                "file": "Streaming.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "DSA problems"
+              "title": "Streaming"
             }
           }
         ],
@@ -82,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -163,13 +162,24 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "79250eed72edefea",
+  "active": "b27c15ff96cb9a8b",
   "lastOpenFiles": [
+    "API design.md",
+    "Streaming.md",
+    "Design pattern/Command.md",
+    "Design pattern/Creation pattern",
+    "Microservice.md",
+    "vim commands.md",
+    "golang/go package.md",
+    "tsconfig.md",
+    "TypeScript/typescript.md",
+    "System Design/Eventual consistency.md",
+    "System Design/Front-end microservice",
+    "SQL normalization.md",
+    "DSA problems.md",
     "golang/Makefile.md",
     "P2P (Peer-to-Peer).md",
-    "golang/go package.md",
     "MongoDB/mongodb denormalization.md",
-    "SQL normalization.md",
     "openssl.md",
     "Linux/commands/Linux network commands.md",
     "Root certificate.md",
@@ -178,29 +188,18 @@
     "mongosh.md",
     "Prisma/Prisma query.md",
     "MongoDB/mongosh query.md",
-    "DSA problems.md",
     "SSH.md",
     "SSH authentication.md",
     "GIT/git ssh config.md",
     "MongoDB/mognodb indexing.md",
-    "MongoDB/MongoDB query evaludation.md",
-    "Descriptive/JavaScript/javascript web API.md",
-    "kafka.md",
-    "MongoDB/mongoose/mongoose.md",
-    "MongoDB/mongoose/mongoose methods.md",
     "MongoDB/mongoose",
-    "NodeJS/expressjs.md",
-    "debouncing.md",
-    "Data structure questions.md",
     "javascript/Packages",
     "javascript",
-    "Untitled",
     "Terraform",
     "Nginx",
     "Networking",
     "Proxy",
     "MongoDB",
-    "Firebase",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
