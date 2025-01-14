@@ -4,53 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "5000220ffa7334f5",
+        "id": "436d5c99be612d4f",
         "type": "tabs",
         "children": [
           {
-            "id": "64f5315624bb2c6d",
+            "id": "b059766a5220c91f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "API design.md",
+                "file": "interview.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "API design"
-            }
-          },
-          {
-            "id": "b27c15ff96cb9a8b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "MongoDB/mongosh query.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "mongosh query"
-            }
-          },
-          {
-            "id": "2b1160c377bd8317",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "mongoose aggregate query.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "mongoose aggregate query"
+              "title": "interview"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -96,8 +67,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -177,14 +147,22 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "2b1160c377bd8317",
+  "active": "b059766a5220c91f",
   "lastOpenFiles": [
-    "MongoDB/mongosh query.md",
+    "javscript interview.md",
+    "RESTFull rules.md",
+    "interview.md",
+    "javascript engine.md",
+    "Descriptive/Javascript.md",
+    "SCP (Secure Copy Protocol).md",
+    "Relational Model VS Document Model.md",
+    "Data transfer communication channels.md",
+    "API design.md",
     "mongoose aggregate query.md",
+    "MongoDB/mongosh query.md",
     "mongosh.md",
     "MongoDB/mongoose/mongoose.md",
     "Streaming.md",
-    "API design.md",
     "Design pattern/Command.md",
     "Design pattern/Creation pattern",
     "Microservice.md",
@@ -199,14 +177,6 @@
     "golang/Makefile.md",
     "P2P (Peer-to-Peer).md",
     "MongoDB/mongodb denormalization.md",
-    "openssl.md",
-    "Linux/commands/Linux network commands.md",
-    "Root certificate.md",
-    "Proxy/Reverse Proxy.md",
-    "GIT/git command.md",
-    "Prisma/Prisma query.md",
-    "SSH.md",
-    "SSH authentication.md",
     "MongoDB/mongoose",
     "javascript/Packages",
     "javascript",
