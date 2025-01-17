@@ -77,3 +77,21 @@ db.collection.aggrigate(agg);
 ```
 
 ### Populate reference
+
+### Formatting date in query
+```js
+{
+	$project: {
+		programTitle: "$program.programTitle",
+		programType: "$program.programType",
+		status: "$status",
+		appliedOn: {
+			$dateToString: {
+				format: "%B %d %Y",
+				date: "$createdAt",
+			},
+		},
+		universityName: "$program.university.name",
+	},
+}
+```

@@ -127,3 +127,8 @@ db.posts.aggregate([
 ]);
 
 ```
+
+### Grouping related fields
+```js
+
+```

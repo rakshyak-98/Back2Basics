@@ -1,3 +1,14 @@
+### Managed Out-of-Memory
+The path `/run/systemd/io.system.ManagedOOM` Memory management feature provided by `systemd`
+- Purpose is a control interface used by `systemd-oomd`, a system service responsible for monitoring and managing system memory pressure.
+- it is part of the linux `cgroups` (control groups) infrastructure that allows tracking and limiting resources usage.
+- helps avoid system instability during out-of-memory conditions by identifying and killing processes consuming excessive memory. It operates based on policies and resource pressure thresholds.
+```shell
+systemctl status systemd-oomd;
+journalctl -u systemd-oomd;
+```
+- config: `/etc/systemd/oomd.conf`
+
 ```bash
 pmap -x $(pidof <process name>)
 ```
@@ -47,8 +58,6 @@ Captures and analyzes network packets, useful for network troubleshooting and an
 
 ### 15. **strace**
 Traces system calls and signals for a running process, helpful for debugging and performance tuning.
-
-These commands provide a robust toolkit for system administrators to monitor and optimize Linux system performance effectively, helping to identify and troubleshoot potential issues as they arise[1][2][3][4][5].
 
 Citations:
 [1] https://www.tecmint.com/command-line-tools-to-monitor-linux-performance/

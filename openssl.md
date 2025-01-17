@@ -1,6 +1,8 @@
 ```shell
-openssl genpkey -algorithm RSA -out private.key -aes256; # generate private key
-openssl req -key private.key -new -out request.csr; # create CSR
+openssl genpkey -algorithm RSA -out privatekey.pem -aes256; # generate private key
+openssl rsa -in privatekey.pem -pubout -out public.key 
+	
+openssl req -key privatekey.pem -new -out request.csr; # create CSR
 openssl x509 -req -days 365 -in request.csr -signkey private.key -out certificate.crt; # self signed certificate
 ```
 

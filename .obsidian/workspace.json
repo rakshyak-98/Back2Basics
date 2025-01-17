@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "interview.md",
+                "file": "MongoDB/mongosh query.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "interview"
+              "title": "mongosh query"
             }
           }
         ]
@@ -67,7 +67,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "54dc8b231a0d6374",
@@ -149,17 +150,23 @@
   },
   "active": "b059766a5220c91f",
   "lastOpenFiles": [
+    "openssl.md",
+    "TypeScript/typescript.md",
+    "mongoose aggregate query.md",
+    "MongoDB/mongosh query.md",
+    "Linux/Linux resource management.md",
+    "MongoDB/mongodb model.md",
+    "Untitled 1.md",
+    "TypeScript/typescript types.md",
+    "interview.md",
     "javscript interview.md",
     "RESTFull rules.md",
-    "interview.md",
     "javascript engine.md",
     "Descriptive/Javascript.md",
     "SCP (Secure Copy Protocol).md",
     "Relational Model VS Document Model.md",
     "Data transfer communication channels.md",
     "API design.md",
-    "mongoose aggregate query.md",
-    "MongoDB/mongosh query.md",
     "mongosh.md",
     "MongoDB/mongoose/mongoose.md",
     "Streaming.md",
@@ -169,14 +176,8 @@
     "vim commands.md",
     "golang/go package.md",
     "tsconfig.md",
-    "TypeScript/typescript.md",
     "System Design/Eventual consistency.md",
     "System Design/Front-end microservice",
-    "SQL normalization.md",
-    "DSA problems.md",
-    "golang/Makefile.md",
-    "P2P (Peer-to-Peer).md",
-    "MongoDB/mongodb denormalization.md",
     "MongoDB/mongoose",
     "javascript/Packages",
     "javascript",
