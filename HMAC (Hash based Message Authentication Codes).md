@@ -1,0 +1,3 @@
+- cryptographic algorithm used for message authentication.
+- ensures data integrity and authenticity by combining a cryptographic has function (e.g., SHA-256) with secret key.
+- HMAC verifies that the message has not been tempered with and authenticates the sender.

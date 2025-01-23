@@ -667,3 +667,9 @@ sudo dpkg --list | grep -E -i --color  "linux-image|linux-headers"; # list insta
 ```bash
 update-alternatives --get-selections; # display all the configured alternatives
 ```
+
+
+### Media support plugin
+```shell
+sudo apt install ubuntu-restricted-extras
+```

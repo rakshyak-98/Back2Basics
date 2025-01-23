@@ -13,6 +13,34 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "Cryptographic hashing.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Cryptographic hashing"
+            }
+          },
+          {
+            "id": "2c7580454b951144",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "payment gateway.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "payment gateway"
+            }
+          },
+          {
+            "id": "7bc7740359240cdf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "MongoDB/mongosh query.md",
                 "mode": "source",
                 "source": false
@@ -21,7 +49,8 @@
               "title": "mongosh query"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -52,7 +81,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "projection",
+                "query": "hmac",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -63,7 +92,8 @@
               "title": "Search"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -148,15 +178,25 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b059766a5220c91f",
+  "active": "7bc7740359240cdf",
   "lastOpenFiles": [
+    "NAT (Network Address Translation).md",
+    "GIT/git ssh config.md",
+    "SSH authentication.md",
+    "Linux/management/Linux management.md",
+    "razorpay integration.md",
+    "payment gateway.md",
+    "MongoDB/mongoose/mongoose methods.md",
+    "MongoDB/MongoDB query validation.md",
+    "HMAC (Hash based Message Authentication Codes).md",
+    "Cryptographic hashing.md",
+    "mongodb errors.md",
+    "MongoDB/mongosh query.md",
     "openssl.md",
     "TypeScript/typescript.md",
     "mongoose aggregate query.md",
-    "MongoDB/mongosh query.md",
     "Linux/Linux resource management.md",
     "MongoDB/mongodb model.md",
-    "Untitled 1.md",
     "TypeScript/typescript types.md",
     "interview.md",
     "javscript interview.md",
@@ -166,17 +206,7 @@
     "SCP (Secure Copy Protocol).md",
     "Relational Model VS Document Model.md",
     "Data transfer communication channels.md",
-    "API design.md",
-    "mongosh.md",
-    "MongoDB/mongoose/mongoose.md",
-    "Streaming.md",
-    "Design pattern/Command.md",
     "Design pattern/Creation pattern",
-    "Microservice.md",
-    "vim commands.md",
-    "golang/go package.md",
-    "tsconfig.md",
-    "System Design/Eventual consistency.md",
     "System Design/Front-end microservice",
     "MongoDB/mongoose",
     "javascript/Packages",

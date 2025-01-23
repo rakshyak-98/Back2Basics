@@ -1,3 +1,23 @@
+### search query
+```js
+{ $regex: search, $options: "i" }
+
+```
+
+### Find the type reference 
+```js
+const mongoose = require('mongoose');
+
+// Replace 'YourModel' with your Mongoose model
+YourModel.find({ category: { $type: 'objectId' } })
+  .then(docs => {
+    console.log(docs);
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+```
 ### `$expr`
 To fetch documents where the `reportingManager` field contains more than one `ObjectId`, you can use the `$expr` operator to check the length of the array. Here's the query:
 
@@ -76,7 +96,7 @@ agg = [
 db.collection.aggrigate(agg);
 ```
 
-### Populate reference
+## Populate reference
 
 ### Formatting date in query
 ```js
