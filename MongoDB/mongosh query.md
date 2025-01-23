@@ -10,13 +10,15 @@ const mongoose = require('mongoose');
 
 // Replace 'YourModel' with your Mongoose model
 YourModel.find({ category: { $type: 'objectId' } })
-  .then(docs => {
-    console.log(docs);
-  })
-  .catch(err => {
-    console.error(err);
-  });
 
+YourModel.find({
+  category: { 
+    $type: 'objectId'  // Matches fields of type ObjectId
+  },
+  $expr: { 
+    $not: { $isArray: "$category" }  // Ensures category is not an array
+  }
+})
 ```
 ### `$expr`
 To fetch documents where the `reportingManager` field contains more than one `ObjectId`, you can use the `$expr` operator to check the length of the array. Here's the query:
