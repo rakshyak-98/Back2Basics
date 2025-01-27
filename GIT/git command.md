@@ -87,3 +87,8 @@ git blame <commit hash> -- <file>;
 git blame --date=short <file>;
 git blame -C <file>; # Tracks code change even if the fiel was renamed.
 ```
+
+### Stash
+```shell
+git stash show -p stash@{<index>}
+```

@@ -11,3 +11,37 @@ The result is an object type where every key from K maps to a value of type T
 ```ts
 interface Response<ResBody = any>
 ```
+
+
+### Typescript name-space definition
+- specify `.d.ts` file location in `tsconfig.json` under the `include` or `typeRoots` field.
+
+```ts
+declare const APP_VERSION: string;
+declare function logMessgae(messgae: string): void;
+```
+- used when variables or functions are globally available
+
+```ts
+declare module 'my-library' {
+	export function greet(name: stirng): string;
+	export const version: string;
+}
+```
+- define the shape of a module when using `import/export`
+
+#### Namespace declaration
+```ts
+declare namespace MathUtils {
+	function add(a: number, b: number): number;
+	function subtract(a: number; b: number): number;
+}
+```
+- for grouping related declarations
+
+```ts
+declare module "*.json" {
+	const value: any
+	export default value;
+}
+```

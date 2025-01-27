@@ -1,0 +1,3 @@
+- Decouples an abstraction from its implementation so that both can vary independently.
+- Abstraction and implementation hierarchies.
+- A remove control `Remote` for multiple devices `TV` `Projector`, where both `Remote` and `Device` have separate hierarchies sharing a common interface.

@@ -1,0 +1,3 @@
+- Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
+- Behavior is selected on runtime
+- Payment processing with different payment gateway like PayPal, Stripe, or Credit card, all implementing a common `PaymentProcessor` interface.
