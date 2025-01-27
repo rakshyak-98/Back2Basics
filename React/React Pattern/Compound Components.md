@@ -240,5 +240,3 @@ export default App;
 3. **Maintainability**: Routing logic is now isolated, so it’s easier to update or change the routing logic in the future without affecting the cart provider.
 
 ---
-
-Let me know if you need further clarification or a deeper dive into any part of this!
