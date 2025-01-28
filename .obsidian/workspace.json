@@ -11,10 +11,14 @@
             "id": "7691e926304817c0",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Payment integration Strip.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Payment integration Strip"
             }
           }
         ]
@@ -146,6 +150,7 @@
   },
   "active": "7691e926304817c0",
   "lastOpenFiles": [
+    "Payment integration Strip.md",
     "System Design/Eventual consistency.md",
     "React/React Pattern/react design patterns.md",
     "React/React Pattern/Compound Components.md",
@@ -172,7 +177,6 @@
     "mongodb errors.md",
     "openssl.md",
     "TypeScript/typescript.md",
-    "mongoose aggregate query.md",
     "Design pattern/Creation pattern",
     "System Design/Front-end microservice",
     "MongoDB/mongoose",
