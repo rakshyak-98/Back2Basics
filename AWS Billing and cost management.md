@@ -1,0 +1,3 @@
+- go to billing and cost management
+- go to Bills (have all the running services)
+- Go to Charge by services tab

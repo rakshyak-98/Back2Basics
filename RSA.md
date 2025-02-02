@@ -1,0 +1,2 @@
+- Asymetric encryption (public-key cryptography).
+- used for secure data transmission, digital signature.
