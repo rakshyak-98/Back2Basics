@@ -23,3 +23,7 @@ return <div ref={setRef} />
 - Called again with null when the element is unmounted
 - Runs synchronously before paint
 - Only runs once in StrictMode (v18)
+
+### Context provider
+- there is an issue if you wrap multiple component with Context provider component and assume all the state will be sync.
+[Context provider]()

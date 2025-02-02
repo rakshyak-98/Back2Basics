@@ -7,5 +7,6 @@
   "interfaceFontFamily": "JetBrains Mono",
   "showViewHeader": false,
   "nativeMenus": true,
-  "textFontFamily": "JetBrains Mono"
+  "textFontFamily": "JetBrains Mono",
+  "showRibbon": true
 }
