@@ -137,3 +137,8 @@ In a large-scale React application with 2000+ components, categorizing component
     - Maintain a living style guide documenting which pattern applies to each feature.
 4. **Utilize Linting and Testing**:
     - Ensure SRP and ISP compliance through static analysis and unit tests.
+
+
+## Container-Presentational Pattern
+- Container Component: Manages state, logic, and API calls. 
+- Presentational Component: Focuses on rendering UI based on props.
