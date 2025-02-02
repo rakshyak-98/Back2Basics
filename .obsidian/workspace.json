@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "a7976b2418213083",
+        "id": "7bac7c997754c614",
         "type": "tabs",
         "children": [
           {
-            "id": "8550139916495798",
+            "id": "7a6d534df6c49a96",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CSS property.md",
+                "file": "react questions.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CSS property"
+              "title": "react questions"
             }
           }
         ]
@@ -148,8 +148,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8550139916495798",
+  "active": "7a6d534df6c49a96",
   "lastOpenFiles": [
+    "react questions.md",
     "CSS property.md",
     "AWS/AWS IAM.md",
     "AWS/AWS EC2.md",
@@ -177,7 +178,6 @@
     "Untitled",
     "npm packages.md",
     "MongoDB/mongosh query.md",
-    "NAT (Network Address Translation).md",
     "Design pattern/Creation pattern",
     "System Design/Front-end microservice",
     "MongoDB/mongoose",
