@@ -1,0 +1,2 @@
+Transporter is an object used in Nodemailer (or similar email libraries) to define the method and service through which emails will be sent.
+- It acts as the email delivery engine, handling authentication, [[SMTP]] configurations, and sending emails.

@@ -1,3 +1,8 @@
+## Configuration manager
+```sh
+dconf dump /org/gnome/terminal;
+dconf load /org/gnome/terminal < <your dconf file>;
+```
 ### Environment configurations
 - `XDG_` prefix used to denote a set of environment variables defined by the XDG Base Directory Specification.
 - these specification aims to standardize the locations of user-specific files and directories.

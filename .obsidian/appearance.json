@@ -3,7 +3,7 @@
   "baseFontSize": 14,
   "cssTheme": "",
   "baseFontSizeAction": false,
-  "theme": "system",
+  "theme": "obsidian",
   "interfaceFontFamily": "JetBrains Mono",
   "showViewHeader": false,
   "nativeMenus": true,
