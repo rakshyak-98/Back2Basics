@@ -1,4 +1,8 @@
-- four types of streams to handle data read and write operation, useful for handling large data sets without loading everything into memory
+- Non-blocking and memory efficient for large file transfers.
+- Handles large payloads without buffering entire data.
+- Supports real-time streaming like live audio/video processing.
+
+- four types of streams to handle data read and write operation, useful for handling large data sets without loading everything into memory.
 ### Readable stream
 - used to read data from the source
 ```javascript

@@ -92,3 +92,4 @@ git blame -C <file>; # Tracks code change even if the fiel was renamed.
 ```shell
 git stash show -p stash@{<index>}
 ```
+

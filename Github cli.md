@@ -1,5 +1,6 @@
 ```bash
 gh auth login;
+gh api user; # account informations
 ```
 
 ```bash

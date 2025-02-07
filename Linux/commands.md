@@ -478,8 +478,12 @@ find [path] -type f -name [file name];
 find [directory] -type d -empty;
 
 # find directory and subdirectory owned by root
-find [directory] -user root;
-find [path] -maxdepth 2 -mindepth 2 -type [d|f|l] -name [sourcename] -delete.
+find <directory> -user root;
+find <path> -maxdepth 2 -mindepth 2 -type [d|f|l] -name <sourcename> -delete.
+find /path -type f -empty;
+find /path -mtime -7;
+find /path -name "*.log" -delete;
+find /path -name "*.log" -exec rm {} \;
 
 ```
 
@@ -527,10 +531,21 @@ john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
 - mounting connects a file system from a storage device (like hard disk, USB or network share) to a directory in the main Linux file system tree. 
 - it instructs the operating system that the file system is ready to use and associates it with a particular point in the systems's hierarchy.
 ```bash
+mount; # list all mounted filesystem
+mount /dev/sdb1/mnt; # Mount a partition manually
+mount -o ro /dev/sdb1/mnt; # read-only mount
+mount -o loop file.iso /mnt; # mount an ISO image
+mount -t nfs <ip>:/share /mnt; # a network share (NFS)
+
+umount /mnt; # unmount a mounted filesystem
+umount -f /mnt;
+
+mount -o remount, rw /mnt; # remount with different options
 ```
 
 ## tr
-- translate of delete characters
+- used for translating, deleting or compressing characters in text stream. 
+- it works with standard input and output.
 ```bash
 grep 'MimeType' /usr/share/applicatoins/eog.desktop | tr ';' '\n';
 ```

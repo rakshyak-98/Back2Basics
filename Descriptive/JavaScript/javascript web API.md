@@ -2,4 +2,3 @@ The `setImmediate` function is a Node.js-specific API that executes a callback f
 
 ---
 ### Fetch API
-
