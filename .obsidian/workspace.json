@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GIT/git guidlines.md",
+                "file": "NodeJS/expressjs.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "git guidlines"
+              "title": "expressjs"
             }
           }
         ]
@@ -151,6 +151,10 @@
   },
   "active": "cc01c73ce4d67ec5",
   "lastOpenFiles": [
+    "NodeJS/Express middleware.md",
+    "React/React Pattern/Composite pattern.md",
+    "React/React Pattern/Component Presentational Pattern.md",
+    "React/React Pattern/react design patterns SOLID.md",
     "GIT/git guidlines.md",
     "NodeJS/Stream.md",
     "How to attach stream to HTTP handlers.md",
@@ -165,7 +169,6 @@
     "AWS/AWS EC2.md",
     "javascript/Session Storage.md",
     "Database mistakes.md",
-    "React/React Pattern/react design patterns SOLID.md",
     "React/React Pattern/React code smells.md",
     "Feature implementation/Manage cart with session id.md",
     "Feature implementation",
@@ -177,9 +180,6 @@
     "Transporter in Email sending.md",
     "SMTP.md",
     "Common Naming terms.md",
-    "Linux/Linux configuration.md",
-    "Untitled 1.md",
-    "React/React Pattern/Higher order Component (HOCs).md",
     "AWS",
     "Untitled",
     "Design pattern/Creation pattern",
