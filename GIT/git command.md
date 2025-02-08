@@ -93,3 +93,37 @@ git blame -C <file>; # Tracks code change even if the fiel was renamed.
 git stash show -p stash@{<index>}
 ```
 
+### Repository migration
+
+```txt
+fatal: refusing to merge unrelated histories
+```
+- this happen when your local repository and the remote repository have no shared commit history. - often occurs when a new repository is created locally and then connected to an existing remote repository.
+##### Solution 
+- Allow merging unrelated histories.
+- use this command to `rebase` unrelated changes if the initial commit history mismatch
+```shell
+git pull origin main --allow-unrelated-histories
+```
+- this forces git to merge the different commit histories.
+##### Rest local repository with remote repository
+```shell
+git fetch origin
+git reset --hard origin/main
+```
+> [!WARNING] if you want to discard local changes and fully replace them with the remote repository
+
+### Tracking file changes
+```shell
+git ls-tree -r HEAD --name-only; # view last commit tracked files
+```
+
+##### **Summary**
+
+| Command                               | Purpose                                   |
+| ------------------------------------- | ----------------------------------------- |
+| `git ls-files`                        | Lists all tracked files                   |
+| `git status --short`                  | Shows tracked/untracked files with status |
+| `git ls-tree -r HEAD --name-only`     | Lists tracked files in the last commit    |
+| `git ls-tree -r <commit> --name-only` | Lists tracked files in a specific commit  |
+| `git ls-tree -r <branch> --name-only` | Lists tracked files in a branch           |
