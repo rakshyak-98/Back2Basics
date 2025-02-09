@@ -1,10 +1,8 @@
-```js
-```
 - Memoization of function:
 	- preventing its recreation on every render unless its dependency array changes.
 	- avoids expensive computations when passing functions as props to child components.
 
-
+## React ref hook
 ```ts
 const setRef = useCallback((divRef: HTMLDivElement | null) => {
 	if(divRef){
@@ -24,11 +22,11 @@ return <div ref={setRef} />
 - Runs synchronously before paint
 - Only runs once in StrictMode (v18)
 
-### Context provider
+## Context provider
 - there is an issue if you wrap multiple component with Context provider component and assume all the state will be sync.
 [Context provider]()
 
-### Synchronizing with effect
+## Synchronizing with effect
 Some component need to synchronize with external systems.
 - want to control a non-React component based on the React state.
 
@@ -123,3 +121,19 @@ function DataFetcher({ url }) {
 
 ```
 - Why Correct? Data fetching is an external side effect.
+
+### `useState` hook Lazy initialization
+
+- Run only on the first render
+- once initialized, the function never runs again (event if the component re-renders).
+- if you need a dynamic initial state based on props or context, this won't work.
+
+```js
+// Won't update if the props change
+const [count, setCount] = useState(() => props.initialCount)
+
+```
+- use `useEffect` if the state should sync with props.
+
+> [!INFO] use lazy initialization for fetching from `LocalStorage`
+
