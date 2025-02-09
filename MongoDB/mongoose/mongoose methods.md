@@ -33,3 +33,61 @@ res.json({
 	},
 });
 ```
+
+## Custom sequences for categories (100xxx, 200xxx etc.)
+- To generate category-based sequences, you need a separate counter per category.
+```js
+const CounterSchema = new mongoose.Schema({
+  category: String,
+  seq: { type: Number, default: 1000 }
+});
+
+const Counter = mongoose.model('Counter', CounterSchema);
+
+const productSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  productId: Number,
+  category: String,
+  name: String,
+  price: Number
+});
+
+productSchema.pre('save', async function(next) {
+  if (!this.productId) {
+    const counter = await Counter.findOneAndUpdate(
+      { category: this.category },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+    this.productId = parseInt(`${this.category}${counter.seq}`);
+  }
+  next();
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+```
+
+## Mongoose plugin Solution for sequence
+[[Mongoose plugin]]
+
+```js
+const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+
+const productSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  productId: Number,
+  category: String,
+  name: String,
+  price: Number
+});
+
+productSchema.plugin(AutoIncrement, { 
+  inc_field: 'productId', 
+  start_seq: 1001 
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+```
