@@ -134,3 +134,22 @@ app.post('/process', csrfProtection, (req, res) => {
 
 app.listen(3000, () => console.log('Server running on port 3000'));
 ```
+
+### Avoid Try-catch everywhere
+```js
+const asyncHandler = (fn) => (req, res, next) => {
+	Promise.resolve(fn(req, res, next)).catch(next)
+}
+```
+
+```js
+const asyncHandler = require("@middleware/asychHandler")
+
+app.get("/user", asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.params.id);
+	if(!user){
+		throw new Error("User not found)
+	}
+	res.json(user);
+}))
+```
