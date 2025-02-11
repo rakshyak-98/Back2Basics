@@ -93,7 +93,7 @@ git blame -C <file>; # Tracks code change even if the fiel was renamed.
 git stash show -p stash@{<index>}
 ```
 
-### Repository migration
+### Cross Repository migration
 
 ```txt
 fatal: refusing to merge unrelated histories

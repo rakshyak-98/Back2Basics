@@ -69,6 +69,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 export default errorHandler;
+
 ```
 
 5. Static file middleware
