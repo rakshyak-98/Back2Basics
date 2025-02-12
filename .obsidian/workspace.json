@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "b54b3f0406aa0fb0",
+        "id": "d794c8901e413347",
         "type": "tabs",
         "children": [
           {
-            "id": "164615b5c8f99fa0",
+            "id": "27f0e7e8a07f9efc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "React/React Pattern/Higher order Component (HOCs).md",
+                "file": "javascript Intl.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Higher order Component (HOCs)"
+              "title": "javascript Intl"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "withAuth",
+                "query": "$group",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -150,14 +150,27 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "164615b5c8f99fa0",
+  "active": "27f0e7e8a07f9efc",
   "lastOpenFiles": [
+    "javascript Intl.md",
+    "NodeJS/npm command.md",
+    "nodeJs/Packages/npm packages.md",
+    "nodeJs/Packages",
+    "nodeJs",
+    "React/Redux toolkit.md",
+    "React/redux/Redux Thunk.md",
+    "React/redux",
+    "React/Redux.md",
+    "mongosh.md",
+    "mongodb view.md",
+    "mongoose aggregate query.md",
+    "MongoDB/mongosh query.md",
+    "React/React Pattern/Higher order Component (HOCs).md",
     "NodeJS/Express middleware.md",
     "MongoDB/mongodb shell.md",
     "MongoDB/mongoose/mongoose schema.md",
     "MongoDB/mongoose/mongoose methods.md",
     "MongoDB/mongoose/Mongoose plugin.md",
-    "npm packages.md",
     "mongoose middleware.md",
     "MongoDB/mongoose/mongoose custome function.md",
     "SOLID.md",
@@ -168,16 +181,6 @@
     "AWS/AWS EC2.md",
     "Linux/management/Linux management.md",
     "Terraform/Terraform setup.md",
-    "Terraform/Terraform workflow.md",
-    "Terraform docker.md",
-    "AWS cli.md",
-    "Terraform/Terraform CLI.md",
-    "Linux/management/Linux package management.md",
-    "AWS Billing and cost management.md",
-    "AWS EBS(Elastic Block Store).md",
-    "React/react hooks.md",
-    "How to connect Godaddy domain with AWS EC2 instance.md",
-    "Javascript/JavaScript util module.md",
     "ExpressJS/pacakges",
     "ExpressJS",
     "Javascript/javascript web api",
@@ -185,9 +188,6 @@
     "Feature implementation",
     "AWS",
     "Untitled",
-    "Design pattern/Creation pattern",
-    "System Design/Front-end microservice",
-    "MongoDB/mongoose",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
