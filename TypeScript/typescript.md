@@ -25,3 +25,27 @@ const person: MyType = {
 - TypeScript can perform incremental compilation, which means it only re-compiles files that have change since the last compilation.
 
 the `node_modules/.tmp` directory is used to store temporary files generated during the build process.
+
+### How does typescript identifies types declarations
+```shell
+tsc --traceResolution; # see how TypeScript resolves types.
+tsc --explainFiles; # see which files TypeScript includes in the compilation.
+tsc --showConfig; # to check type roots.
+```
+
+```json
+{
+	"compilerOptions": {
+		"traceResolution": true
+	}
+}
+```
+- Enable verbose logging in `tsconfig.json`.
+
+### Reference directives
+[triple-slash directives](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html)
+```ts
+/// <reference types="..." />
+```
+- used to include type definitions from external declaration files.
+- they ensure that TypeScript correctly resolves types from the specified pacakges.

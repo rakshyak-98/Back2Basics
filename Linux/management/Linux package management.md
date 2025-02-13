@@ -1,8 +1,0 @@
-```shell
-sudo apt install software-properties-common;
-```
-- package is installed because it provides the `add-apt-repository` command, which is needed to manage third-part repositories.
-- It enables managing PPA (Personal Package Archives) and other external `source.list`.
-- Ensure dependency resolution and package management stability.
-
-> [!INFO] Since some package are not available in Ubuntu's default repository, we need to add third party repository, which requires `software-properties-common` package to be installed.

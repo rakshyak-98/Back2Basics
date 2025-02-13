@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "d794c8901e413347",
+        "id": "9dc5b2a058b42ecc",
         "type": "tabs",
         "children": [
           {
-            "id": "27f0e7e8a07f9efc",
+            "id": "b779654223cd188f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "javascript Intl.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "javascript Intl"
+              "title": "New tab"
             }
           }
         ]
@@ -53,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "$group",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -150,8 +146,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "27f0e7e8a07f9efc",
+  "active": "b779654223cd188f",
   "lastOpenFiles": [
+    "TypeScript/typescript.md",
+    "Triple-Slash Directives.md",
+    "TypeScript/typescript types.md",
+    "typescript extend types.md",
+    "NodeJS/expressjs.md",
+    "Linux/commands/APT policy.md",
+    "Linux/management/Package Manager.md",
     "javascript Intl.md",
     "NodeJS/npm command.md",
     "nodeJs/Packages/npm packages.md",
@@ -174,13 +177,6 @@
     "mongoose middleware.md",
     "MongoDB/mongoose/mongoose custome function.md",
     "SOLID.md",
-    "GIT/git command.md",
-    "Github cli.md",
-    "System Design/Data fetching Frontend.md",
-    "ExpressJS/pacakges/Socket IO.md",
-    "AWS/AWS EC2.md",
-    "Linux/management/Linux management.md",
-    "Terraform/Terraform setup.md",
     "ExpressJS/pacakges",
     "ExpressJS",
     "Javascript/javascript web api",
