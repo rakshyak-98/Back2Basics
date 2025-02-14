@@ -27,3 +27,19 @@ const kafkaProducer = async(topic, message) => {
 module.exports = kafkaProducer;
 ```
 
+```js
+const addToCart = async (req, res) => {
+	const { userId } = req.auth;
+	const { productId, quantity } = req.body;
+	await kafkaProducer("cart.item.added", {userId, productId, quantity});
+	res.json({ message: "Item added to cart" })
+}
+```
+
+| Component      | Placement                                                                       |
+| -------------- | ------------------------------------------------------------------------------- |
+| Kafka Producer | Called inside API handler (e.g, `addToCart`) to publish events.                 |
+| Kafka Consumer | Runs as a background process, listening from `topic` events and updating stock. |
+- The Service API still handles user request.
+- Kafka decouples services, so Inventory Service automatically updates stock without needing a direct API call.
+- More services (e.g., Order, Discount) can consumer the same Kafka event to react accordingly.
