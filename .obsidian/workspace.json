@@ -4,35 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "5b040e7b0827e970",
+        "id": "f94a640a89069756",
         "type": "tabs",
         "children": [
           {
-            "id": "39999c195c353722",
+            "id": "7a35d40ad7e3742d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NodeJS/expressjs.md",
+                "file": "kafka/kafka producer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "expressjs"
+              "title": "kafka producer"
             }
           },
           {
-            "id": "b45f8da75577cde2",
+            "id": "667e1b9e083dbe4f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "express query handler.md",
+                "file": "Kafka distributed event streaming.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "express query handler"
+              "title": "Kafka distributed event streaming"
             }
           }
         ],
@@ -165,8 +165,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b45f8da75577cde2",
+  "active": "667e1b9e083dbe4f",
   "lastOpenFiles": [
+    "kafka/kafka producer.md",
+    "Kafka distributed event streaming.md",
+    "kafka",
     "NodeJS/expressjs.md",
     "express query handler.md",
     "NodeJS/NodeJS http module.md",
@@ -194,15 +197,12 @@
     "MongoDB/mongodb shell.md",
     "MongoDB/mongoose/mongoose schema.md",
     "MongoDB/mongoose/mongoose methods.md",
-    "MongoDB/mongoose/Mongoose plugin.md",
-    "mongoose middleware.md",
     "ExpressJS/pacakges",
     "ExpressJS",
     "Javascript/javascript web api",
     "Javascript",
     "Feature implementation",
     "AWS",
-    "Untitled",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

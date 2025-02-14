@@ -55,4 +55,6 @@ router.get("/products", validateQuery, parseQuery, cacheMiddleware, async(req, r
 		res.status(500).josn({ success: false, message: "Server error" });
 	}
 })
+
+module.exprots = router;
 ```
