@@ -4,20 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "9dc5b2a058b42ecc",
+        "id": "5b040e7b0827e970",
         "type": "tabs",
         "children": [
           {
-            "id": "b779654223cd188f",
+            "id": "39999c195c353722",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "NodeJS/expressjs.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "expressjs"
+            }
+          },
+          {
+            "id": "b45f8da75577cde2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "express query handler.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "express query handler"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -146,13 +165,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b779654223cd188f",
+  "active": "b45f8da75577cde2",
   "lastOpenFiles": [
+    "NodeJS/expressjs.md",
+    "express query handler.md",
+    "NodeJS/NodeJS http module.md",
     "TypeScript/typescript.md",
     "Triple-Slash Directives.md",
     "TypeScript/typescript types.md",
     "typescript extend types.md",
-    "NodeJS/expressjs.md",
     "Linux/commands/APT policy.md",
     "Linux/management/Package Manager.md",
     "javascript Intl.md",
@@ -175,8 +196,6 @@
     "MongoDB/mongoose/mongoose methods.md",
     "MongoDB/mongoose/Mongoose plugin.md",
     "mongoose middleware.md",
-    "MongoDB/mongoose/mongoose custome function.md",
-    "SOLID.md",
     "ExpressJS/pacakges",
     "ExpressJS",
     "Javascript/javascript web api",
