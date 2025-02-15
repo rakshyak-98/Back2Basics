@@ -100,6 +100,73 @@ export default cartSlice.reducer;
 
 ```
 
+```ts
+import { createSlice, PayloadAction, createAsyncThunk, createApi, fetchBaseQuery } from '@reduxjs/toolkit';
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartState {
+  items: CartItem[];
+  totalAmount: number;
+}
+
+const initialState: CartState = {
+  items: [],
+  totalAmount: 0,
+};
+
+export const cartApi = createApi({
+  reducerPath: 'cartApi',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  endpoints: (builder) => ({
+    fetchCart: builder.query<CartItem[], void>({
+      query: () => '/cart',
+    }),
+    addItem: builder.mutation<CartItem, CartItem>({
+      query: (item) => ({
+        url: '/cart',
+        method: 'POST',
+        body: item,
+      }),
+    }),
+    removeItem: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/cart/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+  }),
+});
+
+const cartSlice = createSlice({
+  name: 'cart',
+  initialState,
+  reducers: {
+    updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
+      const item = state.items.find(item => item.id === action.payload.id);
+      if (item) {
+        state.totalAmount += (action.payload.quantity - item.quantity) * item.price;
+        item.quantity = action.payload.quantity;
+      }
+    },
+    clearCart: (state) => {
+      state.items = [];
+      state.totalAmount = 0;
+    },
+  },
+});
+
+export const { updateQuantity, clearCart } = cartSlice.actions;
+export const { useFetchCartQuery, useAddItemMutation, useRemoveItemMutation } = cartApi;
+export default cartSlice.reducer;
+
+```
+
 ### Difference Between Action and Reducer in Redux
 
 | **Aspect**       | **Action**                                                                    | **Reducer**                                                              |
