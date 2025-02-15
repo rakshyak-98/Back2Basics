@@ -6,41 +6,39 @@
 
 **`createSlice`** is a utility function in Redux Toolkit that **automatically generates both actions and a reducer** for you. It simplifies the process of managing state by bundling the actions and reducer logic together.
 
-```javascript
-import { createSlice } from '@reduxjs/toolkit';
+```ts
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// This is the `createSlice` function that combines both actions and a reducer.
+// Define the state type
+interface CounterState {
+  value: number;
+}
+
+// Define the initial state
+const initialState: CounterState = {
+  value: 0,
+};
+
+// Create the Redux slice with type safety
 const counterSlice = createSlice({
-  name: 'counter', // Name of the slice (used in action types)
-  initialState: { value: 0 }, // Initial state of the slice
-
-  // Reducers section: defines the state update logic
+  name: 'counter',
+  initialState,
   reducers: {
-    // Action: 'increment'
-    // Reducer: Updates state by incrementing the value
     increment: (state) => {
       state.value += 1;
     },
-
-    // Action: 'decrement'
-    // Reducer: Updates state by decrementing the value
     decrement: (state) => {
       state.value -= 1;
     },
-
-    // Action: 'incrementByAmount'
-    // Reducer: Updates state based on action.payload
-    incrementByAmount: (state, action) => {
+    incrementByAmount: (state, action: PayloadAction<number>) => {
       state.value += action.payload;
     },
   },
 });
 
-// **Actions** - Auto-generated from the reducer functions
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;
-
-// **Reducer** - Auto-generated reducer function that handles state updates
 export default counterSlice.reducer;
+
 ```
 
 ### Difference Between Action and Reducer in Redux

@@ -43,3 +43,22 @@ const addToCart = async (req, res) => {
 - The Service API still handles user request.
 - Kafka decouples services, so Inventory Service automatically updates stock without needing a direct API call.
 - More services (e.g., Order, Discount) can consumer the same Kafka event to react accordingly.
+
+## Kafka Consumer
+```js
+
+const consumer = kafka.consumer({ groupId: "inventory-group" })
+
+const run = async () => {
+	await consumer.connect();
+	await consumer.subscribe({ topic: 'cart.item.added' })
+	await consumer.run({
+		eachMessage: async ({ message }) => {
+			cosnt {productId, quantity} = JSON.parse(message.value.toString());
+			await db.query( "UPDATE products SET stock = stock - $1 WHERE id = $2", [quantity, productId] )
+		}
+	})
+}
+
+```
+- run independently, listening for `cart.item.added` events.
