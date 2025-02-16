@@ -5,6 +5,12 @@ Decouples services -> ensure [[event-driven]] architecture, reducing direct depe
 
 Asynchronous processing -> improves performance by processing cart updates in the background.
 
+
+### Why disconnect is called each time?
+In, Kafka, the `disconnect` is called each time a producer is instantiated and sends a message if a new connection is created and closed immediately rather than being 
+
+#### Short lived producer
+- if the kafka producer is instantiated inside a function and not reused, it will create a new connection each time a message is sent.
 ```js
 const {Kafka} = require("kafkajs");
 
@@ -21,11 +27,12 @@ const kafkaProducer = async(topic, message) => {
 		topic,
 		message: [{value: JSON.stringify(message)}],
 	});
-	await producer.disconnect();
+	await producer.disconnect(); // Disconnects after each message.
 }
 
 module.exports = kafkaProducer;
 ```
+- Fix: Reuse the producer instance instead of creating a new one.
 
 ```js
 const addToCart = async (req, res) => {
@@ -62,3 +69,19 @@ const run = async () => {
 
 ```
 - run independently, listening for `cart.item.added` events.
+
+## Connection pooling not used (Explained Clearly)
+Kafka does not have an internal [[connection pool]] like databases, but it does allow persistent connections to brokers. If you not reusing connection efficiently.
+
+#### What happens without connection reuse?
+Each time a producer is created:
+- It establishes a new TCP connection to the kafka broker.
+- It performs authentication (if enabled).
+- It sends metadata requests to discover partitions.
+- It sends the actual message.
+- It closes the connection when `disconnect()` is called.
+
+> [!INFO] This create high latency and extra load on the broker because:
+- each message incurs the overhead of creating and tearing down a connection.
+- kafka brokers must handle frequent connects/disconnects.
+- producers can't batch message efficiently.

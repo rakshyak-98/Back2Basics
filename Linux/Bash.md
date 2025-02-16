@@ -24,8 +24,27 @@ echo ${my_var:0:3}  # Extracts the first 3 characters from my_var.
 
 ## History manipulation
 ```shell
+HISTORYCONTROL=ignoredups:erasedups; # Avoid duplicate history entries.
+```
+
+```shell
 !?install; # executes the last command that contains the word "install"
 ^git^git-lfs; # Replaces the first occurrence of git with git-lfs in the last executed command
+```
+
+```shell
+!!:s/old/new/ # replace old with new in the last command.
+^old^new^ # quick replace old with new in the last command.
+```
+
+```shell
+!$; # last argument of the previous command.
+!^ # first argument of the previous comamnd.
+```
+
+```shell
+fc -l; # list history commands
+fc -e nano n # edit history entry n in nano.
 ```
 
 In Bash, **set flags** (or options) allow you to change the behavior of the shell. You can enable or disable these flags using the `set` command. Here’s a list of some commonly used set flags in Bash:
@@ -71,3 +90,21 @@ set -euo pipefail  # Exit on error, unset vars error, and fail on pipe errors
 echo "This script will exit on error."
 ls non_existent_file  # This will cause the script to exit
 ```
+
+## Configuration setup
+[[Kafka configuration]]
+```shell
+if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
+    info "** Starting Kafka setup **"
+    /opt/bitnami/scripts/kafka/setup.sh
+    info "** Kafka setup finished! **"
+fi
+```
+- this script checks if a specific script (`run.sh`) is part of the command line arguments, and if so, it runs a kafka setup script.
+
+```shell
+if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
+```
+- `$*` -> represents all command-line arguments passed to the script.
+- `[[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]` checks if any argument contains `/opt/bitnami/scripts/kafka/run.sh` or `run.sh`
+- the `*` wildcard makes it a sub-string match.

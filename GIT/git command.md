@@ -127,3 +127,9 @@ git ls-tree -r HEAD --name-only; # view last commit tracked files
 | `git ls-tree -r HEAD --name-only`     | Lists tracked files in the last commit    |
 | `git ls-tree -r <commit> --name-only` | Lists tracked files in a specific commit  |
 | `git ls-tree -r <branch> --name-only` | Lists tracked files in a branch           |
+## Git find command
+```shell
+git ls-files --deleted;
+git diff --cached --name-only --diff-filter=D;
+git log --diff-filter=D --summary;
+```
