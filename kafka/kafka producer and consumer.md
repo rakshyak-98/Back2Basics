@@ -67,6 +67,8 @@ const run = async () => {
 	})
 }
 
+run().catch(console.error);
+
 ```
 - run independently, listening for `cart.item.added` events.
 
@@ -85,3 +87,46 @@ Each time a producer is created:
 - each message incurs the overhead of creating and tearing down a connection.
 - kafka brokers must handle frequent connects/disconnects.
 - producers can't batch message efficiently.
+
+
+```txt
+{"level":"WARN","timestamp":"2025-02-16T10:43:42.166Z","logger":"kafkajs","message":"KafkaJS v2.0.0 switched default partitioner. To retain the same partitioning behavior as in previous versions, create the producer with the option \"createPartitioner: Partitioners.LegacyPartitioner\". See the migration guide at https://kafka.js.org/docs/migration-guide-v2.0.0#producer-new-default-partitioner for details. Silence this warning by setting the environment variable \"KAFKAJS_NO_PARTITIONER_WARNING=1\""}
+Cart service is running on port 3000
+{"level":"ERROR","timestamp":"2025-02-16T10:43:42.204Z","logger":"kafkajs","message":"[Connection] Response Metadata(key: 3, version: 6)","broker":"localhost:9092","clientId":"cart.service","error":"This server does not host this topic-partition","correlationId":1,"size":90}
+/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/protocol/error.js:581
+  return new KafkaJSProtocolError(errorCodes.find(e => e.code === code) || unknownErrorCode(code))
+         ^
+KafkaJSProtocolError: This server does not host this topic-partition
+    at createErrorFromCode (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/protocol/error.js:581:10)
+    at Object.parse (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/protocol/requests/metadata/v0/response.js:55:11)
+    at Connection.send (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/network/connection.js:433:35)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Broker.[private:Broker:sendRequest] (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/broker/index.js:904:14)
+    at async Broker.metadata (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/broker/index.js:177:12)
+    at async /home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/cluster/brokerPool.js:158:25
+    at async /home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/cluster/index.js:111:14
+    at async Cluster.refreshMetadata (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/cluster/index.js:172:5)
+    at async Cluster.addMultipleTargetTopics (/home/ubuntu/GitHub/Playground/express-playground/node_modules/kafkajs/src/cluster/index.js:230:11) {
+  retriable: true,
+  helpUrl: undefined,
+  type: 'UNKNOWN_TOPIC_OR_PARTITION',
+  code: 3,
+  [cause]: undefined
+}
+
+```
+- possible causes, topic doesn't exist, broker metadata is outdated, partitions are not assigned properly, ensure correct kafka connection
+
+##### Fix the Partitioner warning
+```js
+const producer = kafka.producer({
+  createPartitioner: Partitioners.LegacyPartitioner,
+});
+
+```
+
+
+```txt
+{"level":"ERROR","timestamp":"2025-02-16T10:54:00.249Z","logger":"kafkajs","message":"[Connection] Connection error: getaddrinfo EAI_AGAIN kafka-server","broker":"kafka-server:9092","clientId":"cart.service","stack":"Error: getaddrinfo EAI_AGAIN kafka-server\n at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26)"}
+```
+- the error `getadderinfo EAI_AGAIN kafka-server`  means the Kafka client cannot resolve the hostname `kafka-server`

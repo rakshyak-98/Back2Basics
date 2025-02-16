@@ -1,5 +1,6 @@
 ```shell
 docker inspect --format '{{json .NetworkSettings.IPAddress}}' <container_id>
+docker ps --filter "ancestor=bitname/kafka"
 ```
 #### Installation
 ```bash

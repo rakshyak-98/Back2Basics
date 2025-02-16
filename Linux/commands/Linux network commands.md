@@ -31,7 +31,7 @@ tcp6       0      0 ubuntu-Latitude-5:39062 2606:4700:8392:7c:https ESTABLISHED
 `Foreign Address` -> Remote system's IP + port
 `State` -> connection state
 
-
+`-a` -> show all sockets (listening and non-listening)
 `-t` -> show TCP
 `-u` -> show UDP
 `-l` -> show listening ports (servers)
@@ -61,3 +61,37 @@ iptables -Z # Resets the packet and byte counters for a chain.
 iptables-save # Saves the current firewall ruleset to a file.
 iptables-restore # Restores a saved firewall ruleset from a file.
 ```
+
+## `nc`
+
+```shell
+nc google.com 80; # Connect to google.com on port 80
+```
+
+```shell
+nc -l -p 1234; # listen on port 1234
+
+nc -l -p <port> > incomming.txt; # Receiver
+nc <host ip> <port> < file.txt; # Sender
+```
+
+```shell
+nc -z -v host_ip 20-100  # Scan ports 20 to 100
+```
+
+```shell
+nc -l -p <port> -e /bin/bash; # bind shell
+```
+
+## DNS settings
+```shell
+system-resolve --status;
+```
+
+```yaml
+Global
+	Protocols: -LLMR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+	resolv.conf mode: stub
+```
+
+- [[LLMNR]] and [[mDNS]] Disabled -> local name resolution (for finding devices on the network) is off.
