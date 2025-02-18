@@ -1,3 +1,7 @@
+```shell
+npm install @reduxjs/toolkit react-redux
+```
+
 - A Redux application state tree is an *immutable data structure*.  It will not change as long as it exists. It will keep holding the same state forever. How you then go to the next state is by producing another state tree that reflects the changes you wanted to make.
 - Replacing things in maps, removing things from array etc. However, this is not how things are done in Redux.
 
@@ -20,3 +24,38 @@ const counter = createSlice({
 ```
 
 >[!INFO] uses library called [immer](https://www.npmjs.com/package/immer)
+
+```js
+import { getDefaultMiddleware } from "@reduxjs/toolkit"
+
+const middleware = getDefaultMiddleware 
+```
+
+`getDefaultMiddleware` is a utility function provided by Redux Toolkit to configure a store with a set of default middlewares.
+	- It ensures that essential middleware like `redux-thunk`, `serilizaleStateInvariantMiddleware`, and `immutableStateInvariantMiddleware` are automatically added.
+
+`redux-thunk` -> allows `async` logic (e.g, API calls) in actions. 
+`serilizaleStateInvariantMiddleware` -> Ensures state is serializable (development only).
+`immutableStateInvariantMiddleware` -> Prevents accidental state mutations (development only).
+
+#### What does "Ensure state is serializable" means?
+In redux, the state should be serializable, meaning it can be converted into a format like JSON and stored or transferred without losing its structure or meaning.
+
+#### Why should state be serializable?
+- Ensure state updates are trackable.
+- tools like Redux DevTools rely on serializable state to replay actions.
+- Helps store state in `localStore` or send it to a server.
+- Time-travel debugging -> enables stepping forward and backward in state changes.
+
+#### How to fix serialization issues?
+```js
+{user: new Map()}; # Bad
+{user: Object.fromEntries(userMap)};
+
+{lastLogin: new Date()}
+{lastLogin: Date.now()}
+```
+
+
+> [!INFO] [[redux persist]] is a library that automatically saves and rehydrates the Redux state to/from `localStorage` `sessionStorage`, or `IndexedDB`
+- rehydrates -> Restores state from storage when the app reloads.

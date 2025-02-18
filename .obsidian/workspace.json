@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "7e9d8388161925c7",
+        "id": "307cf54df7b0990e",
         "type": "tabs",
         "children": [
           {
-            "id": "a14c2808da999e01",
+            "id": "8dcaca1139ca83c0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Kafka configuration.md",
+                "file": "React/Redux/Redux API.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Kafka configuration"
+              "title": "Redux API"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "lsof",
+                "query": "filter",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -64,8 +64,7 @@
               "title": "Search"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -150,11 +149,21 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a14c2808da999e01",
+  "active": "8dcaca1139ca83c0",
   "lastOpenFiles": [
+    "React/Redux.md",
+    "React/Redux/Redux API.md",
+    "React/Redux/redux persist.md",
+    "Untitled 1.md",
+    "Untitled 2.md",
+    "Untitled.md",
+    "express query handler.md",
+    "Compound Components.md",
+    "React/React Pattern/Compound Components.md",
+    "NodeJS/Express middleware.md",
+    "Kafka configuration.md",
     "kafka/kafka producer and consumer.md",
     "non-Routable address.md",
-    "Kafka configuration.md",
     "kafka/Zookeeper.md",
     "LLMNR.md",
     "Linux/commands/Linux network commands.md",
@@ -168,22 +177,12 @@
     "Linux/Bash.md",
     "unbound variable.md",
     "kafka.md",
-    "GIT/git command.md",
-    "javascript/promise.md",
-    "javascript/javascript web api/JavaScript History API.md",
     "javascript/javascript web api",
-    "javascript/JavaScript util module.md",
-    "javascript/IIFC.md",
-    "NodeJS/Packages/npm packages.md",
     "NodeJS/Packages",
-    "React/Redux toolkit.md",
-    "Kafka distributed event streaming.md",
     "kafka",
-    "NodeJS/expressjs.md",
-    "express query handler.md",
     "nodeJs/Packages",
     "nodeJs",
-    "React/redux",
+    "React/Redux",
     "ExpressJS/pacakges",
     "ExpressJS",
     "Javascript/javascript web api",
