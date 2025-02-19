@@ -4,7 +4,7 @@ The path `/run/systemd/io.system.ManagedOOM` Memory management feature provided 
 - it is part of the linux `cgroups` (control groups) infrastructure that allows tracking and limiting resources usage.
 - helps avoid system instability during out-of-memory conditions by identifying and killing processes consuming excessive memory. It operates based on policies and resource pressure thresholds.
 ```shell
-systemctl status systemd-oomd;
+systemctl status systemd-oomd; # out of memory demon
 journalctl -u systemd-oomd;
 ```
 - config: `/etc/systemd/oomd.conf`
