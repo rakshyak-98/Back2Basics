@@ -9,7 +9,7 @@ if a state value changes and the parent component re-renders, for example, the c
 ### Memoization 
 - Property memoization is relevant for objects and arrays created inline, and even more so for functions, which is the primary reason for the existence of the `useCallback` hook and why it is used so often in React.
 - to prevent expensive recalculations
-- to maintain referential equality
+- to maintain [[referential equality]]
 
 > [!NOTE] if any value in the dependency array has changed since the component was last rendered
 

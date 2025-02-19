@@ -1,5 +1,6 @@
 ```bash
 stat <filename>;
+stat <dirname>;
 xdg-mime query default inode/directory; # get the information of file manager
 
 echo $XDG_CURRENT_DESKTOP; # current desktop environment

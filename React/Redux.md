@@ -2,6 +2,16 @@
 npm install @reduxjs/toolkit react-redux
 ```
 
+Reducers -> listen for dispatched actions and modify the store.
+Dispatching -> triggers state updates in Redux.
+
+> [!INFO] You don't have to use actions manually with Redux Toolkit (RTK) in most cases.
+> - RTK Provides `createSlice` and RTK Query, which automatically generate actions for you.
+> - RTK automatically generates actions for reducers.
+### Dispatching
+Dispatching in Redux means sending an action to the redux store to update the state.
+- you dispatch an action -> the reducer process it -> the store update the state.
+
 - A Redux application state tree is an *immutable data structure*.  It will not change as long as it exists. It will keep holding the same state forever. How you then go to the next state is by producing another state tree that reflects the changes you wanted to make.
 - Replacing things in maps, removing things from array etc. However, this is not how things are done in Redux.
 
@@ -59,3 +69,7 @@ In redux, the state should be serializable, meaning it can be converted into a f
 
 > [!INFO] [[redux persist]] is a library that automatically saves and rehydrates the Redux state to/from `localStorage` `sessionStorage`, or `IndexedDB`
 - rehydrates -> Restores state from storage when the app reloads.
+
+### setup listeners
+A utility used to enable `refetchOnFocus` and `refetchOnReconnect` behaviors. It requires the `dispatch` method from your store.
+- calling `setupListeners(store.dispatch)` will configure listeners with the recommended defaults, but you have the option of providing a callback for more granular control.

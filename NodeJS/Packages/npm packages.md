@@ -10,7 +10,7 @@
 - [helmet]
 - [http-graceful-shutdown]
 - [http-status-code]
-- [hpp]
+- [hpp](https://www.npmjs.com/package/hpp/v/0.1.2) -> middleware to **protect against HTTP Parameter Pollution attacks**
 - [multer]
 - [nocache]
 - [swagger-ui-express]
