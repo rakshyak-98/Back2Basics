@@ -23,6 +23,29 @@ Order.aggregate([
 .catch(error => console.error(error));
 ```
 
+```js
+[
+  {
+    $lookup: {
+      localField: "universityId",
+      foreignField: "_id",
+      from: "users",
+      as: "university",
+    }
+  },
+  {
+    $match: {
+      $expr :{$gt: [{$size: "$university"}, 0]}  
+    }
+  },
+  {
+    $project: {
+      university: 1
+    }
+  }
+]
+```
+
 ## Populate single object instead of array
 To get a **single object** instead of an array for the `$lookup` results in MongoDB aggregation, you can use the `$lookup` stage followed by the `$unwind` stage. The `$unwind` stage deconstructs the array from `$lookup` into individual objects.
 ```js
