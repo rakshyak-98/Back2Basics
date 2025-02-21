@@ -48,3 +48,32 @@ declare module "*.json" {
 	export default value;
 }
 ```
+
+### Type constraints
+- restrictions placed on generic types to ensure they meet certain requirements.
+- defined using the `extends` keyword in generic type parameters.
+```ts
+function getLength<T extends {length: number}>(args: T) : number {
+	return arr.length;
+}
+```
+- here `T` is constrained to types that have a `length` property. This prevents passing types that don't have `lenght` like `number`.
+
+```ts
+interface Animal {
+	name: string;
+}
+
+class Dog implements Animal {
+	name: string;
+	constructor(name: string){
+		this.name = name;
+	}
+}
+
+function printName<T extends Animal>(obj: T) {
+	console.log(obj.name);
+}
+const dog = new Dog("Buddy");
+printName(dog) // Works
+```
