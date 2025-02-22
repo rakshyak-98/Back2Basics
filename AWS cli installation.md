@@ -30,7 +30,3 @@ aws configure set output table;
 cat ~/.aws/credentials;
 aws configure get aws_secret_access_key;
 ```
-### Query
-```shell
-aws ec2 descripbe-regions --query "Regions[].RegionName"
-```

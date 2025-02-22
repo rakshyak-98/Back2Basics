@@ -4,24 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "52533b3857c4803a",
+        "id": "2ecc775db2ee133d",
         "type": "tabs",
         "children": [
           {
-            "id": "23f3dec28570d44d",
+            "id": "b408067d875cf97f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TypeScript/typescript types.md",
+                "file": "AWS/AWS cli commands.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "typescript types"
+              "title": "AWS cli commands"
+            }
+          },
+          {
+            "id": "5fa4bb1bc12b4571",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AWS EFS (Elastic File System).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AWS EFS (Elastic File System)"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -53,8 +68,8 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "cgroup",
-                "matchingCase": false,
+                "query": "",
+                "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": false,
                 "extraContext": false,
@@ -150,8 +165,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "23f3dec28570d44d",
+  "active": "5fa4bb1bc12b4571",
   "lastOpenFiles": [
+    "AWS/AWS cli commands.md",
+    "AWS EFS (Elastic File System).md",
+    "single-sign-on (SSO).md",
+    "AWS cli installation.md",
+    "AWS/ARN (Amazon Resource Name).md",
+    "AWS/AMI (Amazon Machine Image).md",
+    "AWS/EBS (Elastic Block Store).md",
+    "TypeScript/typescript types.md",
     "Docker/next js.md",
     "mongoose aggregate query.md",
     "NodeJS/Packages/npm packages.md",
@@ -170,14 +193,6 @@
     "React/Redux/Redux API.md",
     "React/Redux/redux persist.md",
     "Untitled 1.md",
-    "Untitled 2.md",
-    "express query handler.md",
-    "NodeJS/Express middleware.md",
-    "Kafka configuration.md",
-    "kafka/kafka producer and consumer.md",
-    "non-Routable address.md",
-    "kafka/Zookeeper.md",
-    "LLMNR.md",
     "javascript/javascript web api",
     "NodeJS/Packages",
     "kafka",

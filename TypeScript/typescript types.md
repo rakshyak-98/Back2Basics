@@ -14,8 +14,6 @@ interface Response<ResBody = any>
 
 ## declare keyword
 - it is used to tell the compiler that a variable or property exists but is defined elsewhere.
-
-
 ### Typescript name-space definition
 - specify `.d.ts` file location in `tsconfig.json` under the `include` or `typeRoots` field.
 
