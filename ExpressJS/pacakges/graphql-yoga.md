@@ -1,5 +1,5 @@
 [graphql-yoga](https://github.com/dotansimha/graphql-yoga/tree/HEAD/packages/graphql-yoga)
-
+[graphql-tag](https://www.npmjs.com/package/graphql-tag)
 ```shell
 npm install graphql-yoga graphql
 ```
