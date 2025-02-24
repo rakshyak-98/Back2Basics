@@ -46,8 +46,40 @@ Order.aggregate([
 ]
 ```
 
+### Lookup multiple filed
+```js
+[
+  {
+    "$lookup": {
+      "from": "programs",
+      "localField": "program",
+      "foreignField": "_id",
+      "as": "program"
+    }
+  },
+  {
+    "$lookup": {
+      "from": "courses",
+      "localField": "course",
+      "foreignField": "_id",
+      "as": "course"
+    }
+  },
+  {
+    "$lookup": {
+      "from": "teachers",
+      "localField": "teacher",
+      "foreignField": "_id",
+      "as": "teacher"
+    }
+  },
+]
+```
 ## Populate single object instead of array
-To get a **single object** instead of an array for the `$lookup` results in MongoDB aggregation, you can use the `$lookup` stage followed by the `$unwind` stage. The `$unwind` stage deconstructs the array from `$lookup` into individual objects.
+you can use the `$lookup` stage followed by the `$unwind` stage.
+
+> [!INFO] The `$unwind` stage deconstructs the array from `$lookup` into individual objects.
+
 ```js
 db.posts.aggregate([
     // Lookup to join 'users' collection with 'posts'
@@ -95,7 +127,7 @@ db.posts.aggregate([
 
 ```
 
-### Populate single value instead of object
+### Populate single field value instead of object
 ```js
 [
   {
@@ -114,7 +146,7 @@ db.posts.aggregate([
   },
   {
     $project: {
-      universityName: "$universityId.name",
+      universityName: "$universityId.name", // populating a single value
     }
   }
 ]
@@ -151,7 +183,54 @@ db.posts.aggregate([
 
 ```
 
-### Grouping related fields
+### Why does a MongoDB supports a `pipeline`?
+it is used to perform more complex joins, Instead of just a simple match `localField` <-> `foreignField`
+- you can filter, project, and transform the joined documents before returning them.
+- you can project only the required ones.
+- aggregation operations on joined data -> user `$match`  `$project` `$group` `$sort` inside a lookup.
+
 ```js
+[
+  {
+    "$lookup": {
+      "from": "programs",
+      "let": { "programId": "$program" },
+      "pipeline": [
+        { "$match": { "$expr": { "$eq": ["$_id", "$$programId"] } } },
+        { "$match": { "status": "active" } },
+        { "$project": { "_id": 1, "programName": 1 } }
+      ],
+      "as": "program"
+    }
+  }
+]
+
+```
+- `$expr` allows matching using a **variable** from `$let`.
+
+> [!INFO] If you use the `pipeline` property in `$lookup`, you do not need to specify `localField` or `foreignField`.
+> - instead you use `$let` to pass values from the main collection and `$expr` inside the `pipeline` to dynamically match fields.
+
+```js
+{
+  "$lookup": {
+    "from": "programs",
+    "let": { "programId": "$program" },  
+    "pipeline": [
+      {
+        "$match": {
+          "$expr": { "$eq": ["$_id", "$$programId"] }
+        }
+      },
+      {
+        "$match": { "status": "active" }  // Additional filtering
+      },
+      {
+        "$project": { "_id": 1, "programName": 1 } // Keep only required fields
+      }
+    ],
+    "as": "programDetails"
+  }
+}
 
 ```

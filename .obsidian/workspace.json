@@ -8,34 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "622c0dc8fef7e4c9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "GIT/git ssh config.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "git ssh config"
-            }
-          },
-          {
-            "id": "2775a23eb37c86dc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "GIT/git repo config.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "git repo config"
-            }
-          },
-          {
             "id": "69af3b586fbce322",
             "type": "leaf",
             "state": {
@@ -47,6 +19,20 @@
               },
               "icon": "lucide-file",
               "title": "graphql"
+            }
+          },
+          {
+            "id": "d611be76b87a67b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "mongoDB/query/mongodb lookup query.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "mongodb lookup query"
             }
           }
         ],
@@ -179,12 +165,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "2775a23eb37c86dc",
+  "active": "d611be76b87a67b8",
   "lastOpenFiles": [
+    "mongoDB/query/mongodb lookup query.md",
+    "mongoDB/query/mongodb lookup query.md",
+    "mongoDB/query/mongoDB Group query.md",
+    "mongoDB/query",
+    "mongoDB",
+    "GIT/git submodule.md",
+    "graphql.md",
     "GIT/git ssh config.md",
     "GIT/git repo config.md",
     "ExpressJS/pacakges/graphql-yoga.md",
-    "graphql.md",
     "NodeJS/npm command.md",
     "NodeJS/Packages/npm packages.md",
     "ExpressJS/pacakges/uWebSocket.md",
@@ -199,14 +191,10 @@
     "AWS/EBS (Elastic Block Store).md",
     "TypeScript/typescript types.md",
     "Docker/next js.md",
-    "mongoose aggregate query.md",
     "Linux/management/Linux cgroup.md",
     "Linux/management/Linux out of memory daemon.md",
     "Linux/Linux resource management.md",
     "Linux/management/Linux file management.md",
-    "React/Redux toolkit.md",
-    "React/Redux.md",
-    "React/Redux/RTQ Query.md",
     "javascript/javascript web api",
     "NodeJS/Packages",
     "kafka",
@@ -215,8 +203,6 @@
     "React/Redux",
     "ExpressJS/pacakges",
     "ExpressJS",
-    "Javascript/javascript web api",
-    "Javascript",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
