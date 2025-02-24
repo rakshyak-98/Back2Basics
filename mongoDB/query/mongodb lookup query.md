@@ -1,5 +1,9 @@
+> [!INFO] `preserveNullAndEmptyArrays` in `$unwind`
+> - is optional parameter is MongoDB's `$unwind` stage.
+> - it controls whether documents that have `null` or empty arrays in the specified field should be preserved or removed from the aggregation result.
+
 ```js
-Order.aggregate([
+[
     // Join orders with users based on userId field
     {
         $lookup: {
@@ -18,9 +22,7 @@ Order.aggregate([
             'userDetails._id': 0    // Optionally exclude '_id' from userDetails
         }
     }
-])
-.then(result => console.log(result))
-.catch(error => console.error(error));
+]
 ```
 
 ```js
