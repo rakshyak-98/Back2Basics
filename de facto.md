@@ -1,0 +1,2 @@
+A _de facto_ is a standard is a practice, product, or system that has become widely accepted and commonly used, even though it has not been officially established by a formal standards organization.
+- it gains its status through widespread adoption, market dominance, or convention rather than through official regulation or certification.

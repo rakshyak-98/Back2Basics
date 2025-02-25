@@ -649,3 +649,48 @@ jq 'map(.key|=tonumber)' #Convert string numbers to actual numbers
 ss -t -a | grep -E '80|443|3000|5000';
 lsof -i :443 | grep ESTABLISHED;
 ```
+
+### The binary analysis tool
+`objdump` -> is command line utility used to analyze and disassemble ELF binaries in Linux.
+- provides detailed information about executables, object files, and shared libraries.
+
+## **Key Options & Their Use Cases**
+### General Information
+
+| Option | Description                                                                    |
+| ------ | ------------------------------------------------------------------------------ |
+| `-f`   | Displays **file header** information (architecture, format, entry point, etc.) |
+| `-x`   | Displays **all headers** (section headers, symbols, program headers)           |
+| `-p`   | Shows information about **program headers** (useful for shared libraries)      |
+### **Disassembly (Viewing Assembly Code)**
+
+| Option     | Description                                                          |
+| ---------- | -------------------------------------------------------------------- |
+| `-d`       | Disassemble **only the executable sections** (ignores data sections) |
+| `-D`       | Disassemble **everything** (including data sections)                 |
+| `-M intel` | Display assembly in **Intel syntax** (default is AT&T syntax)        |
+- this shows the assembly instructions of the binary.
+
+```shell
+objdump -d -M intel <binary>;
+```
+
+### **Inspecting Symbols & Functions**
+
+| Option | Description                                                      |
+| ------ | ---------------------------------------------------------------- |
+| `-t`   | Displays the **symbol table** (function names, global variables) |
+| `-T`   | Shows symbols from **shared libraries**                          |
+| `-C`   | Demangles **C++ symbols** (makes them human-readable)<br>        |
+
+```shell
+objdump -t <binary> | grep main;
+```
+- this finds the main function in the symbol table.
+
+### **Inspecting Sections (Memory Layout)**
+
+| Option | Description                                               |
+| ------ | --------------------------------------------------------- |
+| `-s`   | Display **raw section data** (useful for debugging)       |
+| `-h`   | Show **section headers** (helps understand memory layout) |
