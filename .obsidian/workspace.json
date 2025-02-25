@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "2d76f7aa20594f5b",
+        "id": "6fa6f6e4bf8dd8f9",
         "type": "tabs",
         "children": [
           {
-            "id": "9e40dd27f2453e6b",
+            "id": "b763f482269de35d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Linux/commands.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "commands"
+              "title": "New tab"
             }
           }
         ]
@@ -150,8 +146,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9e40dd27f2453e6b",
+  "active": "b763f482269de35d",
   "lastOpenFiles": [
+    "ADT (Abstract Data Type).md",
+    "javascript/Packages/javascript Intl.md",
+    "MongoDB/mongosh query.md",
+    "MongoDB/query/mongodb lookup query.md",
+    "MongoDB/query/mongoDB Group query.md",
+    "MongoDB/query",
+    "Linux/commands.md",
     "Linux/management/Linux Process management.md",
     "Linux/management/Linux resource management.md",
     "Linux/management/Linux application management.md",
@@ -174,12 +177,6 @@
     "GIT/git repo config.md",
     "ExpressJS/pacakges/graphql-yoga.md",
     "NodeJS/npm command.md",
-    "NodeJS/Packages/npm packages.md",
-    "ExpressJS/pacakges/uWebSocket.md",
-    "NodeJS/Packages/Ajv (Another JSON validator).md",
-    "AWS/AWS cli commands.md",
-    "AWS EFS (Elastic File System).md",
-    "Database/Data access patterns.md",
     "javascript/javascript web api",
     "NodeJS/Packages",
     "kafka",
@@ -187,7 +184,6 @@
     "nodeJs",
     "React/Redux",
     "ExpressJS/pacakges",
-    "ExpressJS",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

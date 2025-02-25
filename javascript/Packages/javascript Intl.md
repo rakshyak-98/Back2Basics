@@ -75,7 +75,7 @@ new Intl.DisplayNames(['fr'], { type: 'language' }).of('en'); // "anglais"
 
 ```js
 function formatPrice(amount, currency, locale) {
-return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(amount);
+	return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(amount);
 }
 ```
 
@@ -89,7 +89,7 @@ formatPrice(1500, 'USD', 'en-US'); // "$1,500.00"
 
 ```js
 function formatDate(date, locale) {
-return new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(date);
+	return new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(date);
 }
 ```
 
@@ -103,8 +103,8 @@ formatDate(new Date('2025-05-20'), 'fr-FR'); // "20 mai 2025"
 
 ```js
 function formatStockMessage(quantity, locale) {
-const pluralRules = new Intl.PluralRules(locale);
-return quantity === 1 ? "Only 1 item left!" : `Only ${quantity} items left!`;
+	const pluralRules = new Intl.PluralRules(locale);
+	return quantity === 1 ? "Only 1 item left!" : `Only ${quantity} items left!`;
 }
 ```
 
@@ -118,7 +118,7 @@ formatStockMessage(5, 'en-US'); // "Only 5 items left!"
 
 ```js
 function estimateDelivery(days, locale) {
-return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(days, 'day');
+	return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(days, 'day');
 }
 ```
 
@@ -132,7 +132,7 @@ estimateDelivery(3, 'fr-FR'); // "dans 3 jours"
 
 ```js
 function sortProducts(products, locale) {
-return products.sort(new Intl.Collator(locale).compare);
+	return products.sort(new Intl.Collator(locale).compare);
 }
 ```
 

@@ -1,2 +1,0 @@
-- Abstract Data Type
-- conceptual model that defines a data type in terms of the operations that can be performed on it, without specifying the implementation details.

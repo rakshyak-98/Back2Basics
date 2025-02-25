@@ -117,3 +117,5 @@ db.collection.aggrigate(agg);
 	},
 }
 ```
+
+### Ensuring that the field is explicitly set to `null` if it does not exist?
