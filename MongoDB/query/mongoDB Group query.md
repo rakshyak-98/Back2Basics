@@ -42,3 +42,20 @@
 ```
 - `$facet` allow multiple operations in parallel:
 this approach is useful when you need both the total count and the grouped results without making two separate queries.
+
+- if you want both the grouped data and the total count in one query.
+```js
+[
+  { $match: { role: "UNIVERSITY" } },
+  {
+    $facet: {
+      totalCount: [
+        { $group: { _id: "$country" } },
+        { $count: "totalGroups" }
+      ],
+      groupedData: [{ $group: { _id: "$country" } }]
+    }
+  }
+]
+
+```
