@@ -26,3 +26,19 @@
 
 ```
 - to group based on two keys, you need to structure `_id` as an object containing both fields in the `$group` stage.
+
+### If you need both count and grouping
+```js
+[
+  { $match: { role: "UNIVERSITY" } },
+  {
+    $facet: {
+      totalCount: [{ $count: "totalResults" }],
+      groupedData: [{ $group: { _id: "$country" } }]
+    }
+  }
+]
+
+```
+- `$facet` allow multiple operations in parallel:
+this approach is useful when you need both the total count and the grouped results without making two separate queries.
