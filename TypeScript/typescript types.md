@@ -94,3 +94,40 @@ type ArrayType = string[];
 type Element = ElementType<ArrayType>; // Element is inferred as string
 
 ```
+
+### Strict type using `extends` keyword
+
+```ts
+export default class ConfigurationManager{
+    static instance: ConfigurationManager
+    private config: {
+        data: string
+    }
+    private constructor(){
+        this.config = {
+            data: "some value",
+        }
+    }
+
+    static getInstance(){
+        if(ConfigurationManager.instance){
+            return ConfigurationManager.instance
+        }
+        ConfigurationManager.instance = new ConfigurationManager()
+        return ConfigurationManager.instance
+    }
+
+    public get<K extends keyof typeof this.config>(key:K ): typeof this.config[K] {
+        return "some value"
+    }
+
+    public set<K extends keyof typeof this.config>(key:K, value: typeof this.config[K] ): void {
+        this.config[key] = value
+    }
+}
+
+
+const configManager = ConfigurationManager.getInstance();
+configManager.set("data", "some value")
+configManager.get("data")
+```

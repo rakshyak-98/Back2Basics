@@ -1,3 +1,9 @@
+- Make the class construction `private` member of the class.
+	- prevent direct instantiation. 
+	- in typescript, if constructor is `public` multiple instances of the class could be created.
+
+---
+
 - Instance in a Static Property
 	- caching the singular instance in a static property.
 	- drawback that instance is public.

@@ -4,7 +4,14 @@
 
 > [!INFO] **Immer Integration:** Uses `Immer.js` for writing mutable code that gets converted to immutable updates internally.
 
+## Creating slice
 **`createSlice`** is a utility function in Redux Toolkit that **automatically generates both actions and a reducer** for you. It simplifies the process of managing state by bundling the actions and reducer logic together.
+
+> [!INFO] `name` required in `createSlice` to auto generate action types
+> - `name` property is used as a prefix for action types.
+> - ensure uniqueness in redux state.
+> - clearly shows action names in redux devtools.
+
 
 ```ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -99,6 +106,7 @@ export const { addItem, removeItem, updateQuantity, clearCart } = cartSlice.acti
 export default cartSlice.reducer;
 
 ```
+- the Redux store requires a reducer, not the whole slice. that is why we have this `export default cartSlice.reducer`
 
 ```ts
 import { createSlice, PayloadAction, createAsyncThunk, createApi, fetchBaseQuery } from '@reduxjs/toolkit';

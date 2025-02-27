@@ -2,7 +2,6 @@
 git clean; # removes untracked files from working directory (not staged, committed, ignored)
 git reflog; # view git logs (not commit)
 git push origin --tags; # push local tag to remote
-git branch --unset-upstream; # unset remote tracking branch
 git remote -v;
 git show-ref;
 git branch -vv;
@@ -44,6 +43,7 @@ git rebase --continue; # git will print conflicted files directly
 git config --global --unset credential.helper; # clear Git Credential Cache
 ```
 ## reference
+
 | **Feature**          | **`git show-ref`**                          | **`git reflog`**                     |
 | -------------------- | ------------------------------------------- | ------------------------------------ |
 | **Purpose**          | Lists all refs (branches, tags) with hashes | Shows the history of changes in refs |
@@ -52,6 +52,9 @@ git config --global --unset credential.helper; # clear Git Credential Cache
 | **Output**           | Commit hash + ref name                      | Hash, action, date, user, message    |
 | **Example Command**  | `git show-ref`                              | `git reflog`                         |
 | **Typical Use Case** | View refs or check ref integrity            | Undo changes, find lost commits      |
+```shell
+git branch --unset-upstream; # remove reference from the remote branch
+```
 ### Example:
 
 **`git show-ref` Output:**
