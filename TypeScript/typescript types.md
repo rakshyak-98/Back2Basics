@@ -74,4 +74,23 @@ function printName<T extends Animal>(obj: T) {
 }
 const dog = new Dog("Buddy");
 printName(dog) // Works
+
+```
+
+### Extract type from another type
+the `infer` keyword is used withing conditional types to infer (extract) a type from another type.
+- the `infer` keyword is typically used inside `extends` clauses in conditional types.
+
+```ts
+type ReturnTypeOf<T> = T extends (...args: any[]) => infer R ? R : never;
+type ExampleFunction = () => string;
+type Result = ReturTypeOf<ExampleFunction>; // Result is inferred as string
+
+```
+
+```ts
+type ElementType<T> = T extends (infer U)[] ? U : never;
+type ArrayType = string[];
+type Element = ElementType<ArrayType>; // Element is inferred as string
+
 ```
