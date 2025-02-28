@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "a6f374fa533f0dce",
+        "id": "3a81278970f38850",
         "type": "tabs",
         "children": [
           {
-            "id": "7dec3c53cc7d8021",
+            "id": "b122987676ca37be",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/typescript.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "typescript"
             }
           }
         ]
@@ -146,7 +150,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "7dec3c53cc7d8021",
+  "active": "b122987676ca37be",
   "lastOpenFiles": [
     "NodeJS/Packages/npm packages.md",
     "MongoDB/mongosh query.md",

@@ -49,3 +49,25 @@ tsc --showConfig; # to check type roots.
 ```
 - used to include type definitions from external declaration files.
 - they ensure that TypeScript correctly resolves types from the specified pacakges.
+
+> [!INFO] `dom.iterables`
+> - By default, some DOM collections (like `NodeList`) do not support iteration methods like `forEach` `map` or `spread syntax`. Enabling `dom.iterable` allow you to use these methods safely.
+
+```ts
+// tsconfig.json
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"]
+  }
+}
+
+const elements = document.querySelectorAll("div");
+elements.forEach(el => console.log(el)); // ✅ Works fine
+
+```
+
+```ts
+const elements: NodeList = document.querySelectorAll("div");
+elements.forEach(el => console.log(el)); // ❌ TypeScript error!
+
+```
