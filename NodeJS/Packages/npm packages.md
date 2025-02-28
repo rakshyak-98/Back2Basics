@@ -19,3 +19,4 @@
 - [file-type](https://www.npmjs.com/package/file-type) -> For detecting binary-based file formats, not text-based formats.
 - [got]() - HTTP request library for NodeJS, alternative to Axios and Node's built-in `http` module, provider stream support
 - [uWebSocket](https://github.com/uNetworking/uWebSockets) -> low-latency [[WebSocket]] and HTTP server library written c++
+- [class-transformer](https://www.npmjs.com/package/class-transformer) -> if you're using typeScript, this package is used for serializing and transforming objects.

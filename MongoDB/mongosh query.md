@@ -119,3 +119,26 @@ db.collection.aggrigate(agg);
 ```
 
 ### Ensuring that the field is explicitly set to `null` if it does not exist?
+
+### Add computed fields using aggregation pipelines
+- mongoDB `$addFields` stage can be used to create computed fields dynamically.
+```js
+db.users.aggregate([
+	{
+		$addFields: {
+			fullName: { $concat: ["$firstName", " ", "$lastName"] }
+		}
+	}
+])
+```
+##### using view in mongoDB
+- mongoDB views allow storing read-only computed fields.
+```js
+db.createView("userView", "users", {
+	{
+		$addFields: {
+			fullName: { $concat: ["$firstName", " ", "$lastname" ]}
+		}
+	}
+})
+```

@@ -10,3 +10,11 @@ mongodb://username:password@host:port/database
 - this involves:
 	-  a TCP
 
+
+### mongoose virtuals
+- mongoDB itself does not have the concept of virtuals. Virtual properties are a mongoose-only feature, implemented at the application level, not at the database level.
+#### Why mongoDB does not have virtuals
+- mongoDB stores raw JSON-like documents (BSON) and does not support computed fields natively.
+- mongoose which is an ODM (Object-Document Mapper) for mongoDB, provides virtuals as a way to define computed properties on JavaScript objects that are derived from stored data.
+
+> [!INFO] if you want computed fields, you have to use aggregation pipelines or computed fields at the application level.
