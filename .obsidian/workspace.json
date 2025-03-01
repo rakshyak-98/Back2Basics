@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Descriptive/Javascript.md",
+                "file": "javascript/prototype.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Javascript"
+              "title": "prototype"
             }
           }
         ]
@@ -152,6 +152,7 @@
   },
   "active": "b122987676ca37be",
   "lastOpenFiles": [
+    "Descriptive/Javascript.md",
     "NodeJS/npm command.md",
     "TypeScript/typescript.md",
     "NodeJS/Packages/npm packages.md",
@@ -178,7 +179,6 @@
     "de facto.md",
     "BGP.md",
     "graphql.md",
-    "Linux/management/Linux file management.md",
     "mongoDB/query",
     "mongoDB",
     "javascript/javascript web api",
