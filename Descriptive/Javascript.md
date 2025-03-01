@@ -128,7 +128,7 @@ Promise.all(requests)
 ## Stream
 Streams are objects that allow you to read data from a source or write data to a destination in continuous manner.
 - used to handle large amounts of data efficiently.
-[]()## De-bouncing
+## De-bouncing
 ## Throttling
 ## memorize
 

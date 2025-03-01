@@ -11,6 +11,7 @@ const readStream = fs.createReadStream('file.txt')
 readStrema.on('data', (chunk) => {
 	console.log(chunk)
 })
+
 ```
 ### Writable stream
 - used to write data to destination
