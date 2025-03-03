@@ -7,3 +7,4 @@
 4. When a packet arrives:
 	- if enough tokes are available, they are removed, and the packet is sent.
 	- if not, the packet is either queued (delayed) or dropped (depending on policy).
+	
