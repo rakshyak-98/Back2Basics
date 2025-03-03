@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "semaphore.md",
+                "file": "React/Redux/RTQ Query.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "semaphore"
+              "title": "RTQ Query"
             }
           }
         ],
@@ -167,8 +167,9 @@
   },
   "active": "23adb9daa1aab4d7",
   "lastOpenFiles": [
-    "ADT (Abstract Data Type).md",
+    "MongoDB/query/mongodb lookup query.md",
     "semaphore.md",
+    "ADT (Abstract Data Type).md",
     "Token bucket.md",
     "throttle.md",
     "LF and CRLF.md",
@@ -193,7 +194,6 @@
     "MongoDB/mongoose/mongoose.md",
     "class-transformer.md",
     "Serialization.md",
-    "TypeScript/typescript error.md",
     "MongoDB/query",
     "mongoDB/query",
     "mongoDB",

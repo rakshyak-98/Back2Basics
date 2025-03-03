@@ -205,3 +205,40 @@ export default MyApp;
 - Now RTK query cache persists after refresh!
 - No duplicate API calls after page reload.
 
+### Re-fetching on demand with `refetch` `initiate`
+[`refetchOnMountOrArgChange`](https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#encouraging-re-fetching-with-refetchonmountorargchange)
+- Queries can be encouraged to re-fetch more frequently than usual via the API `refetchOnMountOrArgChange` property.
+
+- refetching on subscription if data exceeds a given time
+```ts
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import type { Post } from './types'
+
+export const api = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+  // global configuration for the api
+  refetchOnMountOrArgChange: 30,
+  endpoints: (build) => ({
+    getPosts: build.query<Post[], number>({
+      query: () => `posts`,
+    }),
+  }),
+})
+
+```
+
+- refetching at component mount
+```ts
+import { useGetPostsQuery } from './api'
+
+const Component = () => {
+  const { data } = useGetPostsQuery(
+    { count: 5 },
+    // this overrules the api definition setting,
+    // forcing the query to always fetch when this component is mounted
+    { refetchOnMountOrArgChange: true },
+  )
+
+  return <div>...</div>
+}
+```
