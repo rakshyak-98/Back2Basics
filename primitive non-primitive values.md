@@ -9,4 +9,3 @@
 - Memory Storage -> stored in the heap memory, and a reference (or pointer) to the location is stored in the stack.
 - Access speed -> Slightly slower than stack access, because heap allocation involves dynamic memory management.
 - Copying behavior -> when assigned to another variable, only the reference (memory address) is copied, not the actual object.
-

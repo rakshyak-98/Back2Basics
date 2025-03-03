@@ -2,8 +2,6 @@ The difference between `\n` (Line Feed) and `\r` (Carriage Return) lies in their
 
 ---
 
-### **Side-by-Side Comparison**
-
 | **Feature**          | **\n (Line Feed)**             | **\r (Carriage Return)**                                   |
 | -------------------- | ------------------------------ | ---------------------------------------------------------- |
 | **ASCII Code**       | 10 (Decimal) / 0x0A (Hex)      | 13 (Decimal) / 0x0D (Hex)                                  |
@@ -18,51 +16,37 @@ The difference between `\n` (Line Feed) and `\r` (Carriage Return) lies in their
 ### **Historical Context**
 
 1. **`\n` (Line Feed)**:
-    
-    - Originates from typewriters, where it moved the paper up by one line.
-    - In modern systems (Unix, macOS, Linux), it indicates the end of a line in text files.
+	- Originates from typewriters, where it moved the paper up by one line.
+	- In modern systems (Unix, macOS, Linux), it indicates the end of a line in text files.
 2. **`\r` (Carriage Return)**:
-    
-    - Refers to moving the print head back to the beginning of the line on a typewriter.
-    - In modern systems (Windows), it is combined with `\n` as `\r\n` for line endings.
+	- Refers to moving the print head back to the beginning of the line on a typewriter.
+	- In modern systems (Windows), it is combined with `\n` as `\r\n` for line endings.
 
 ---
-
 ### **Examples**
 
 1. **Newline (`\n`)**:
-    
-    - Code:
-        
-        ```python
-        print("Hello\nWorld")
-        ```
-        
-    - Output:
-        
-        ```
-        Hello
-        World
-        ```
-        
-2. **Carriage Return (`\r`)**:
-    
-    - Code:
-        
-        ```python
-        print("Hello\rWorld")
-        ```
-        
-    - Output:
-        
-        ```
-        World
-        ```
-        
-        - The cursor moves back to the start, so "Hello" is overwritten by "World".
-3. **Combining Both (`\r\n`)**:
-    
-    - Commonly used in Windows systems to represent a newline.
+```python
+print("Hello\nWorld")
+```
+
+```txt
+Hello
+World
+```
+
+1. **Carriage Return (`\r`)**:
+```python
+print("Hello\rWorld")
+```
+
+```txt
+World
+```
+- The cursor moves back to the start, so "Hello" is overwritten by "World".
+
+1. **Combining Both (`\r\n`)**:
+- Commonly used in Windows systems to represent a newline.
 
 ---
 
@@ -87,9 +71,9 @@ The difference between `\n` (Line Feed) and `\r` (Carriage Return) lies in their
 #### **`\r`**
 
 - **Advantages**:
-    - Simplicity in its original context.
+	- Simplicity in its original context.
 - **Disadvantages**:
-    - Rarely used alone in modern systems.
-    - Confusion when handling cross-platform files.
-
+	- Rarely used alone in modern systems.
+	- Confusion when handling cross-platform files.
+	
 ---
