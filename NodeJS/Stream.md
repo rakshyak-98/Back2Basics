@@ -20,6 +20,7 @@ const fs = require('f')
 const writeStream = fs.createWriteStream('output.txt')
 writeStream.write('hello world')
 writeStream.end()
+
 ```
 ### Duplex stream
 - Acts as both readable and writable streams
@@ -37,6 +38,7 @@ const duplex = new Duplex({
 	}
 })
 duplex.write('hello, Duplex strema')
+
 ```
 ### Transform stream
 - Special form of Duplex stream that can modify or transform the data as it is read or written
@@ -50,4 +52,5 @@ const transform = new Transform({
 	}
 })
 process.stdin.pipe(transform).pipe(process.stdout)
+
 ```

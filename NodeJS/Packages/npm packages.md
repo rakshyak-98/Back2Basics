@@ -1,3 +1,4 @@
+- [lodash](https://www.npmjs.com/package/lodash) - JavaScript utility library
 - [mathjs](https://mathjs.org/)
 - [vercel/ms](https://github.com/vercel/ms) use this package to easily convert time formats to milliseconds
 - [express-validator]()

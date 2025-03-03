@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "dd13cfc9f7da62a6",
+        "id": "1462f506b2fee6bb",
         "type": "tabs",
         "children": [
           {
-            "id": "4f281114ac73a4b5",
+            "id": "7baceeae4dbc49c6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NodeJS/Stream.md",
+                "file": "primitive non-primitive values.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Stream"
+              "title": "primitive non-primitive values"
             }
           }
         ]
@@ -41,7 +41,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": true
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -64,8 +64,7 @@
               "title": "Search"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -150,14 +149,25 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4f281114ac73a4b5",
+  "active": "7baceeae4dbc49c6",
   "lastOpenFiles": [
+    "Take snapshot.md",
+    "primitive non-primitive values.md",
+    "NodeJS.md",
+    "NodeJS/Packages/npm packages.md",
+    "fetch blob api.md",
+    "NodeJS/Packages/lodash.md",
+    "NodeJS/Packages/Ajv (Another JSON validator).md",
+    "NodeJS/Packages",
+    "NodeJS/expressjs.md",
+    "ExpressJS/express streams.md",
+    "ExpressJS/pacakges/Socket IO.md",
+    "NodeJS/Stream.md",
     "Descriptive/Javascript.md",
     "Docker/docker commands.md",
     "javascript/prototype.md",
     "NodeJS/npm command.md",
     "TypeScript/typescript.md",
-    "NodeJS/Packages/npm packages.md",
     "MongoDB/mongosh query.md",
     "MongoDB/mongoose/mongoose.md",
     "class-transformer.md",
@@ -168,17 +178,7 @@
     "React/Redux toolkit.md",
     "GIT/git command.md",
     "MongoDB/query/mongoDB Group query.md",
-    "ADT (Abstract Data Type).md",
-    "javascript/Packages/javascript Intl.md",
-    "MongoDB/query/mongodb lookup query.md",
     "MongoDB/query",
-    "Linux/commands.md",
-    "Linux/management/Linux Process management.md",
-    "Linux/management/Linux resource management.md",
-    "Linux/management/Linux application management.md",
-    "SYSV (System V).md",
-    "Sysv.md",
-    "de facto.md",
     "mongoDB/query",
     "mongoDB",
     "javascript/javascript web api",
@@ -187,7 +187,6 @@
     "nodeJs/Packages",
     "nodeJs",
     "React/Redux",
-    "ExpressJS/pacakges",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",
