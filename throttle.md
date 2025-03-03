@@ -1,7 +1,7 @@
 - control the rate of data transfer to prevent congestion, ensure fair resource distribution, and maintain Quality of Service (QoS).
 
 ### Throttling algorithms
-#### Token bucket
+#### [[Token bucket]]
 - allows burst of traffic while enforcing an average rate limit.
 - Tokens are added to a bucket at a fixed rate; packets can be sent only if there are enough tokens.
 - Efficient for controlling bursty traffic.

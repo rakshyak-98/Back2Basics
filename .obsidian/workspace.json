@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "throttle.md",
+                "file": "Token bucket.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "throttle"
+              "title": "Token bucket"
             }
           }
         ]
@@ -152,6 +152,9 @@
   },
   "active": "7baceeae4dbc49c6",
   "lastOpenFiles": [
+    "throttle.md",
+    "Token bucket.md",
+    "Untitled.md",
     "LF and CRLF.md",
     "primitive non-primitive values.md",
     "Take snapshot.md",
@@ -176,9 +179,6 @@
     "Serialization.md",
     "TypeScript/typescript error.md",
     "TypeScript/typescript types.md",
-    "Design pattern/Singleton.md",
-    "React/Redux toolkit.md",
-    "GIT/git command.md",
     "MongoDB/query",
     "mongoDB/query",
     "mongoDB",
