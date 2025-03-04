@@ -6,6 +6,8 @@ The `Intl` module provides built-in internationalization support for formatting 
 ```js
 new Intl.NumberFormat('de-DE').format(1234567.89); // "1.234.567,89"
 new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(1500); // "$1,500.00"
+new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }); // ₹12,34,56,789.00
+
 ```
 ### **2. Date & Time Formatting
 
