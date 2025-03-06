@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "e568bffdaccafcef",
+        "id": "f904cb8564b5b12f",
         "type": "tabs",
         "children": [
           {
-            "id": "978a256273fc82e2",
+            "id": "5ad7a1a66cc69e04",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "LDAP (Lightweight Directory Access Protocol).md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "LDAP (Lightweight Directory Access Protocol)"
             }
           }
         ]
@@ -146,8 +150,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "978a256273fc82e2",
+  "active": "5ad7a1a66cc69e04",
   "lastOpenFiles": [
+    "MongoDB/query/mongodb lookup query.md",
     "javascript/Packages/javascript Intl.md",
     "Docker/next js.md",
     "React/Redux/RTQ Query.md",
@@ -158,7 +163,6 @@
     "WYSIWYG.md",
     "React/Redux toolkit.md",
     "semaphores.md",
-    "MongoDB/query/mongodb lookup query.md",
     "Token bucket.md",
     "throttle.md",
     "LF and CRLF.md",

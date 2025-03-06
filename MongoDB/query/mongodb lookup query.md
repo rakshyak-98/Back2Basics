@@ -236,3 +236,30 @@ it is used to perform more complex joins, Instead of just a simple match `localF
 }
 
 ```
+
+### Lookup multiple fields
+you can match multiple fields by leveraging the `$expr` operator inside the `$lookup` pipeline.
+```js
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "customers",
+      let: { orderCustomerId: "$customer_id", orderNumber: "$order_number" },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: ["$_id", "$$orderCustomerId"] },
+                { $eq: ["$customer_code", "$$orderNumber"] }
+              ]
+            }
+          }
+        }
+      ],
+      as: "customer_data"
+    }
+  }
+]);
+
+```
