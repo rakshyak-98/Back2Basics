@@ -1,0 +1,4 @@
+- **A**tomicity – Ensures transactions are all-or-nothing.
+- **C**onsistency – Guarantees the database remains in a valid state.
+- **I**solation – Transactions execute independently.
+- **D**urability – Ensures committed transactions persist.
