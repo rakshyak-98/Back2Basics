@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "44cdd4340a736e49",
+        "id": "d478d3d70abc7af7",
         "type": "tabs",
         "children": [
           {
-            "id": "8e9666a7893a6f03",
+            "id": "09efa9c69900ede5",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Design pattern/Strategy pattern.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Strategy pattern"
             }
           }
         ]
@@ -60,8 +64,7 @@
               "title": "Search"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -82,12 +85,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "pandas.md",
+                "file": "Design pattern/Strategy pattern.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from pandas"
+              "title": "Outgoing links from Strategy pattern"
             }
           },
           {
@@ -145,8 +148,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8e9666a7893a6f03",
+  "active": "09efa9c69900ede5",
   "lastOpenFiles": [
+    "GIT/git command.md",
+    "Github cli.md",
     "Linux/commands.md",
     "Linux/commands/Linux process commands.md",
     "Linux/commands/Authentication command.md",
@@ -156,7 +161,7 @@
     "Linux/management/Linux Key management.md",
     "Linux/management/keyrings.md",
     "GIT/git ssh config.md",
-    "Design pattern/Strategy design pattern.md",
+    "Design pattern/Strategy pattern.md",
     "Electronic Control Unit (ECU).md",
     "Untitled.md",
     "SOLID.md",
@@ -171,8 +176,6 @@
     "ADT (Abstract Data Type).md",
     "semaphore.md",
     "WYSIWYG.md",
-    "React/Redux toolkit.md",
-    "semaphores.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
