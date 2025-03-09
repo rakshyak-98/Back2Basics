@@ -13,3 +13,5 @@
 
 ### Usage
 - Payment processing with different payment gateway like PayPal, Stripe, or Credit card, all implementing a common `PaymentProcessor` interface.
+
+### Separating what changes from what stays the same

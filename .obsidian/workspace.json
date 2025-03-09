@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Design pattern/Strategy pattern.md",
+                "file": "UML diagram.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Strategy pattern"
+              "title": "UML diagram"
             }
           }
         ]
@@ -85,12 +85,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Design pattern/Strategy pattern.md",
+                "file": "UML diagram.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Strategy pattern"
+              "title": "Outgoing links from UML diagram"
             }
           },
           {
@@ -150,6 +150,8 @@
   },
   "active": "09efa9c69900ede5",
   "lastOpenFiles": [
+    "Design pattern/Strategy pattern.md",
+    "UML diagram.md",
     "GIT/git command.md",
     "Github cli.md",
     "Linux/commands.md",
@@ -161,7 +163,6 @@
     "Linux/management/Linux Key management.md",
     "Linux/management/keyrings.md",
     "GIT/git ssh config.md",
-    "Design pattern/Strategy pattern.md",
     "Electronic Control Unit (ECU).md",
     "Untitled.md",
     "SOLID.md",
@@ -175,7 +176,6 @@
     "MongoDB/mongodb model.md",
     "ADT (Abstract Data Type).md",
     "semaphore.md",
-    "WYSIWYG.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
