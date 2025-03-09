@@ -37,30 +37,25 @@ It ensures that:
 ### Steps to Create SSH Config File
 
 1. **Open or create the SSH config file**:
-    
-    ```bash
+```bash
     nano ~/.ssh/config
-    ```
+```
     
 2. **Add the configuration for both GitHub accounts**:  
-    Example:
-    
-    ```plaintext
-    # First GitHub account
-    Host github-personal
-        HostName github.com
-        User git
-        IdentityFile ~/.ssh/id_rsa_personal
-    
-    # Second GitHub account
-    Host github-work
-        HostName github.com
-        User git
-        IdentityFile ~/.ssh/id_rsa_work
-    ```
+```plaintext
+	 Host github-personal
+		HostName github.com
+		User git
+		IdentityFile ~/.ssh/id_rsa_personal
+	
+	Host github-work
+		HostName github.com
+		User git
+		IdentityFile ~/.ssh/id_rsa_work
+		
+```
     
 3. **Save and exit**:
-    
     - Press `CTRL+O`, then `CTRL+X`.
 
 ---

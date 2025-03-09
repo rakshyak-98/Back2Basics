@@ -1,5 +1,13 @@
 ```shell
 ssh -F <config file> -G <Host>;
+ssh user@host; # connect to remote host
+ssh -p 2222 user@host; # connect with specific port
+ssh-copy-id user@host; # copy public key to a remote server
+```
+
+```shell
+nc -zv host 22; # ehck ssh port availability
+ssh -T user@host;
 ```
 # Understanding the SSH encryption and  Connection process
 [post link](https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process)
