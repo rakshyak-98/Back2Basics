@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "07c13ab8af43954f",
+        "id": "44cdd4340a736e49",
         "type": "tabs",
         "children": [
           {
-            "id": "7d7f5aa0413db036",
+            "id": "8e9666a7893a6f03",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Linux/commands.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "commands"
+              "title": "New tab"
             }
           }
         ]
@@ -134,8 +130,7 @@
               "title": "Source Control"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -150,8 +145,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "7d7f5aa0413db036",
+  "active": "8e9666a7893a6f03",
   "lastOpenFiles": [
+    "Linux/commands.md",
     "Linux/commands/Linux process commands.md",
     "Linux/commands/Authentication command.md",
     "ML/Visualization/predicated vs actual plot.md",
@@ -177,7 +173,6 @@
     "WYSIWYG.md",
     "React/Redux toolkit.md",
     "semaphores.md",
-    "Token bucket.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
