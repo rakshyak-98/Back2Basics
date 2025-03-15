@@ -6,6 +6,12 @@ git remote -v;
 git show-ref;
 git branch -vv;
 ```
+
+### Branch
+```shell
+git branch --unset-upstream <branch-name>; # detach the upstream reference from a local branch
+```
+
 ### Without merge how to validate two branch have merge conflict
 ```shell
 git checkout <target-branch>;
@@ -21,6 +27,7 @@ git merge-tree $(git merge-base target-branch source-branch) target-branch sourc
 git config user.name <commit author name>;
 git config user.email <commit author email>;
 git config init.branch main; # main instead of master;
+git config --global --unset credential.helper; # clear Git Credential Cache
 ```
 ### Commands
 ```bash
@@ -40,7 +47,9 @@ git rebase --continue; # git will print conflicted files directly
 ```
 ## remote
 ```bash
-git config --global --unset credential.helper; # clear Git Credential Cache
+git remote remote origin;
+git remote prune;
+git fetch --prune;
 ```
 ## reference
 

@@ -1,3 +1,6 @@
+```shell
+go run main.go & pmap $!;
+```
 ## How does the stack memory usage differ between single-thread and multi-threaded processes
 ### Stack memory in Single-Threaded Processes
 ##### Dedicated stack

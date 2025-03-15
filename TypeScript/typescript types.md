@@ -131,3 +131,50 @@ const configManager = ConfigurationManager.getInstance();
 configManager.set("data", "some value")
 configManager.get("data")
 ```
+
+### infer
+`infer` is used within conditional types to infer a type from a generic type parameter.
+- it allows TypeScript to extract and assign a part of type to a type variable.
+
+```ts
+type Example<T> = T extends Promise<infer U> ? U : never;
+
+```
+- if `T` extends `Primise<Something>` TypeScript will infer `Something` as U.
+- if `T` is not a `Promise`, it return `never`.
+
+
+```ts
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+type A = UnwrapPromise<Promise<string>>;  // A = string
+type B = UnwrapPromise<number>;           // B = number (not a Promise)
+
+```
+
+```ts
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
+function foo(): number {
+  return 42;
+}
+
+type FooReturn = ReturnType<typeof foo>;  // FooReturn = number
+
+```
+
+```ts
+type FirstElement<T> = T extends [infer First, ...any[]] ? First : never;
+
+type Test1 = FirstElement<[string, number, boolean]>; // Test1 = string
+type Test2 = FirstElement<[]>;                        // Test2 = never
+
+```
+
+#### Infer in Recursive types 
+```ts
+type Flatten<T> = T extends Array<infer U> ? Flatten<U> : T;
+
+type NestedArray = Flatten<number[][][]>;  // NestedArray = number
+
+```

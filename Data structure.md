@@ -1,3 +1,11 @@
+> [!INFO]  Algorithm complexity
+> - algorithm is judged by its computational complexity, which mostly has to do with the number of times the algorithm needs to access its input data to do its job.
+- an `O(n)` algorithm, which needs to access its input only once.
+
+> [INFO] `O(n!)`
+> - the worst algorithms, however, are the ones with an `O(n!)` running time. 
+> - Which makes them almost unusable for inputs with more than 300 elements.
+
 ## Array
 - deleting an element from the array can be done in O(1) by swapping the element to be deleted with the last element in the array and then removing the last element.
 ### Sub-array
