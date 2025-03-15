@@ -1,1 +1,0 @@
-> [!INFO] streams are commonly used to handle large amounts of data

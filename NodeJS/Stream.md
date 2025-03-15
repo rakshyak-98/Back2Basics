@@ -3,6 +3,11 @@
 - Supports real-time streaming like live audio/video processing.
 
 - four types of streams to handle data read and write operation, useful for handling large data sets without loading everything into memory.
+
+> [!INFO] NodeJS streams use internal buffers to handle data efficiently.
+> - Streams read/write chunks of data instead of loading everything into memory.
+> - NodeJS maintains an internal buffer to balance the data flow (handle backpressure).
+
 ### Readable stream
 - used to read data from the source
 ```javascript
