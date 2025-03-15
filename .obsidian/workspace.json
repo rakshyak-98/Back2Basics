@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Design pattern/Strategy pattern.md",
+                "file": "NodeJS/Stream/NodeJS pipe.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Strategy pattern"
+              "title": "NodeJS pipe"
             }
           }
         ]
@@ -149,8 +149,9 @@
   },
   "active": "d53c06e296dc82e2",
   "lastOpenFiles": [
-    "UML diagram.md",
     "Design pattern/Strategy pattern.md",
+    "NodeJS/Stream/NodeJS pipe.md",
+    "UML diagram.md",
     "GIT/git command.md",
     "Github cli.md",
     "Linux/commands.md",
@@ -174,7 +175,6 @@
     "MongoDB data populate.md",
     "MongoDB/mongodb model.md",
     "ADT (Abstract Data Type).md",
-    "semaphore.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
