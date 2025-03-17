@@ -55,3 +55,23 @@ export default function Page() {
 | `asPath`   | `/product/10?sort=asc`    | the actual URL in the browser, including query params. |
 | `pathName` | `/product/[id]`           | the NextJS route pattern (dynamic route name).         |
 | `query`    | `{id: "10", sort: "asc"}` | extracted query parameters as an object.               |
+#### Map an incoming request path with `rewrites`
+- `rewrites` allow you to map an incoming request path to a different destination path.
+- `rewriets` act as a URL prozy and mask the destination path.
+
+> [!NOTE] `rewrites` are applied to client-side routing, a `<Link href="/about">` will have the rewrite.
+
+```js
+// next.config.js
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",  // Match any API route
+        destination: "https://backend.example.com/api/:path*", // Proxy to backend
+      },
+    ];
+  },
+};
+
+```

@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "3b44623604ad8f3c",
+        "id": "cb274a5799ab23ad",
         "type": "tabs",
         "children": [
           {
-            "id": "f6ca96d5cfcb7a95",
+            "id": "c43d99b9ec64727b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NextJS/Next JS.md",
+                "file": "Networking/loopback.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Next JS"
+              "title": "loopback"
             }
           }
         ]
@@ -148,8 +148,17 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f6ca96d5cfcb7a95",
+  "active": "c43d99b9ec64727b",
   "lastOpenFiles": [
+    "DNS rebinding.md",
+    "Networking/loopback.md",
+    "golang/go package.md",
+    "autonomous system.md",
+    "autonomous program.md",
+    "Data structure.md",
+    "Data structure/Array.md",
+    "Data structure",
+    "NextJS/Next JS.md",
     "NextJS",
     "GIT/git command.md",
     "Github cli.md",
@@ -161,7 +170,6 @@
     "How to manipulate memory directly.md",
     "Linux/management/Linux out of memory daemon.md",
     "go data structure.md",
-    "Data structure.md",
     "Cilium.md",
     "NodeJS/Buffers.md",
     "buffer.md",
@@ -170,12 +178,6 @@
     "NodeJS/Stream/NodeJS streams.md",
     "NodeJS/Stream/stream error.md",
     "ExpressJS/express streams.md",
-    "NodeJS/Stream/NodeJS pipe.md",
-    "NodeJS/Stream/Implementing Streams.md",
-    "Design pattern/Strategy pattern.md",
-    "UML diagram.md",
-    "Linux/commands.md",
-    "Linux/commands/Linux process commands.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
@@ -184,8 +186,6 @@
     "NodeJS/Packages",
     "kafka",
     "nodeJs/Packages",
-    "nodeJs",
-    "React/Redux",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "Canvas/JavaScript.canvas",

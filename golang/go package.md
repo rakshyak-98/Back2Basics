@@ -1,3 +1,7 @@
+a go package is a go source file that begins with the `package` keyword followed by the name of the package.
+
+> [!INFO] Apart from the packages of the go standard library, there exist external packages that can be imported using their full address and that should be downloaded before their first use.
+
 - each file start with a `package` declaration.
 - `go.mod` it is used as the base path for imports within the module.
 - A package is a collection of Go course files in the same directory that are compiled together.
