@@ -4,53 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "02ac957adec32be0",
+        "id": "5183874cf166abd5",
         "type": "tabs",
         "children": [
           {
-            "id": "a29b4fc171902675",
+            "id": "ed1975aaef92f2e3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/management/grub.md",
+                "file": "Linux/services/systemd.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "grub"
-            }
-          },
-          {
-            "id": "37436c93c7a84365",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "NodeJS/nvm.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "nvm"
-            }
-          },
-          {
-            "id": "8469b1df5e04ef0a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "NodeJS/Buffers.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Buffers"
+              "title": "systemd"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -177,13 +148,17 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8469b1df5e04ef0a",
+  "active": "ed1975aaef92f2e3",
   "lastOpenFiles": [
+    "Linux/management/grub.md",
+    "NodeJS/nvm.md",
+    "NodeJS/child process.md",
+    "Linux/services/D-Bus.md",
+    "Linux/services/systemd.md",
+    "NodeJS/Buffers.md",
     "javascript/event listener.md",
     "html.md",
     "WCAG (Web Content Accessibility Guidelines).md",
-    "NodeJS/nvm.md",
-    "Linux/management/grub.md",
     "React/Typescript with react.md",
     "user triggered event.md",
     "Networking/loopback.md",
@@ -203,10 +178,6 @@
     "TypeScript/typescript types.md",
     "eBPF.md",
     "Linux/Memory management.md",
-    "How to manipulate memory directly.md",
-    "Linux/management/Linux out of memory daemon.md",
-    "go data structure.md",
-    "Cilium.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
