@@ -1,3 +1,7 @@
+```js
+let buffer = new ArrayBuffer(16):
+console.log(buffer.byteLength); // output 16
+```
 
 ```js
 const fs = require('fs');
@@ -29,3 +33,20 @@ if (!stream.write(data)){
 > - Large files -> Control buffer size to avoid memory issues.
 > - Slow consumers -> Backpressure prevents overload.
 > - Socket streams -> Use small buffers for real-time data transfer.
+
+### How does the `byteLength` is calculated
+the `.byteLength` of an `ArrayBuffer` or a TypedArray in JavaScript is calculated based on the total number of bytes allocated in memory when `ArrayBuffer` is created.
+
+#### TypedArray `.byteLength`
+- for TypedArray (e.g., `Uint8Array` `Float32Array`) `.byteLength` is calculated as
+
+```txt
+byteLength = number of elements x bytes per element
+byteLength = length x BYTES_PER_ELEMENT
+
+```
+```js
+console.log(Float32Array.BYTES_PER_ELEMENT); // ouptut 4
+console.log(new Float32Array(5).byteLength); // output 5 x 4 = 20
+```
+
