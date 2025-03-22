@@ -21,7 +21,7 @@
 
 # Sliding window
 useful for solving problems involving contiguous subarray or sub-strings efficiently by avoiding redundant computations. Instead of using a brute-force `O(n^2)` approach, it efficiently slides a window over the input to achieve `O(n)` complexity.
-## Fixed size window -> size is predetermined
+## Fixed size window size is predetermined
 - complexity -> time `O(n)` / space `O(1)`.
 ### algorithm
 - initialize two pointers `left=0` and `right=0`
@@ -29,7 +29,7 @@ useful for solving problems involving contiguous subarray or sub-strings efficie
 - compute result `sum` `max` etc.
 - slide the window by moving `left` and `right` together.
 
-## Variable size window -> window expands or shrinks dynamically based on constraints
+## Variable size window window expands or shrinks dynamically based on constraints
 - used when the window size is not fixed and depends on conditions
 ### algorithm
 - expand `right` until the condition is met. 
