@@ -1,9 +1,10 @@
 ## Abstraction and Implementation Hierarchies
 In software design, separate abstraction and implementation hierarchies refer to 
 - decoupling the high level logic (abstraction) from its underlying details (implementation).
-This separation allows both the abstraction and its implementation to evolve independently without tightly coupling them.
+- this separation allows both the abstraction and its implementation to evolve independently without tightly coupling them.
 
 #### Abstraction
+- interface is a tool to achieve abstraction.
 - represents the high-level functionality or concept.
 - does not know the implementation details.
 - typically defines what need to be done (e.g., an interface or abstract class).

@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "d604b96567f823e2",
+        "id": "7fd0ca78b1fa9586",
         "type": "tabs",
         "children": [
           {
-            "id": "63088f202c508b44",
+            "id": "0c2d7ef1c7438078",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "System design.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "System design"
             }
           }
         ]
@@ -144,7 +148,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "63088f202c508b44",
+  "active": "0c2d7ef1c7438078",
   "lastOpenFiles": [
     "Data structure/DSA Techniques.md",
     "DSA problems.md",
