@@ -3,6 +3,10 @@
 
 > In bash, the variable `$1` refers to the first command-line argument passed to the script or function
 
+```shell
+timedatectl list-timezones;
+```
+
 ```
 # shortcut key
 ctrl + r - reverse history

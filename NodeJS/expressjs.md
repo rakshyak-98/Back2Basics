@@ -34,3 +34,36 @@ console.log(parsedObject.birthdate instanceof Date);  // true
 console.log(app._router.stack);
 ```
 - property holds middleware and route definitions.
+
+### How to get all registered routes in an Express JS app
+
+```js
+const express = require("express");
+const app = express();
+
+app.get("/home", (req, res) => res.send("home page"))
+app.get("/login", (req, res) => res.send("login page"))
+app.get("/update", (req, res) => res.send("login page"))
+
+function getRoutes(){
+	return app._router.stack.filter(layer => layer.route)
+	.map(layer => ({
+		method: Object.keys(layer.route.methods)[0].toUpperCase();
+	}))
+}
+
+console.log(getRoutes());
+
+```
+
+##### Get routes for a specific router
+
+```js
+const router = express.Router();
+router.get('/users', (req, res) => res.send('Users'));
+router.get('/users', (req, res) => res.send('Create User'))
+
+app.use('/api', router);
+console.log(router.stack.map(layer => layer.route?.path));
+
+```

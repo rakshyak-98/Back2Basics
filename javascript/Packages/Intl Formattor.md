@@ -1,5 +1,4 @@
 The `Intl` module provides built-in internationalization support for formatting numbers, dates, times, strings, and lists based on locale.
-
 ### **1. Number Formatting
 - Formats numbers, currency, percentages.
 - **Example:**
@@ -14,6 +13,13 @@ new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }); // ₹12
 - Formats dates/times according to locale.
 ```js
 new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' }).format(new Date()); // "11 février 2025"
+```
+
+```js
+Intl.DateTimeFormat().resolvedOptions().timeZone();
+// American/New_York
+
+Intl.supportedValueof('timeZone');
 ```
 ### **3. Relative Time
 

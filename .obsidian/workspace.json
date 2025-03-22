@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "990670dce176917e",
+        "id": "524e0d323a192717",
         "type": "tabs",
         "children": [
           {
-            "id": "d3e28595a563db86",
+            "id": "ef9fb80b8a006f45",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Data structure/DSA lessons.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "DSA lessons"
             }
           }
         ]
@@ -144,8 +148,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d3e28595a563db86",
+  "active": "ef9fb80b8a006f45",
   "lastOpenFiles": [
+    "Data structure.md",
+    "Data structure/DSA lessons.md",
+    "hax dump.md",
+    "Linux/commands.md",
+    "SOCKS (Socket Secure).md",
+    "javascript/Packages/Intl Formattor.md",
+    "NodeJS/expressjs.md",
+    "webSocket.md",
+    "NodeJS/Stream/Implementing Streams.md",
+    "NodeJS/NodeJS parallel execution.md",
+    "ExpressJS/express streams.md",
+    "Docker/next js.md",
     "supervisorctl.md",
     "Jenkins.md",
     "Linux/services/systemd.md",
@@ -160,20 +176,8 @@
     "React/Typescript with react.md",
     "user triggered event.md",
     "Networking/loopback.md",
-    "DNS rebinding.md",
-    "golang/go package.md",
-    "autonomous system.md",
-    "autonomous program.md",
-    "Data structure.md",
-    "Data structure/Array.md",
     "Data structure",
-    "NextJS/Next JS.md",
     "NextJS",
-    "GIT/git command.md",
-    "Github cli.md",
-    "go cli.md",
-    "buffer flags.md",
-    "TypeScript/typescript types.md",
     "NodeJS/Packages",
     "MongoDB/query",
     "mongoDB/query",
