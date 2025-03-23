@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Data structure/DSA algorithms.md",
+                "file": "Data structure.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "DSA algorithms"
+              "title": "Data structure"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "prefix sum",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -150,17 +150,17 @@
   },
   "active": "4e0452367c7866f0",
   "lastOpenFiles": [
+    "Data structure/DSA algorithms.md",
+    "Data structure.md",
     "Descriptive/JavaScript/The structured clone algorithm.md",
     "Design pattern/Creation pattern/Abstract Factor.md",
     "Abstraction.md",
     "LLD/Questions/Connection Pool.md",
     "LLD Practice.md",
     "System design.md",
-    "Data structure/DSA algorithms.md",
     "DSA problems.md",
     "Linux/commands.md",
     "Linux/commands/customization.md",
-    "Data structure.md",
     "hax dump.md",
     "SOCKS (Socket Secure).md",
     "javascript/Packages/Intl Formattor.md",

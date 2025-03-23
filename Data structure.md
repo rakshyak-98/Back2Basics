@@ -1,5 +1,5 @@
 > [!INFO]  Algorithm complexity
-> - algorithm is judged by its computational complexity, which mostly has to do with the number of times the algorithm needs to access its input data to do its job.
+> - mostly has to do with the number of times the algorithm needs to access its input data to do its job. 
 - an `O(n)` algorithm, which needs to access its input only once.
 
 > [!INFO] `O(n!)`
@@ -19,9 +19,6 @@
 - allow for quick calculations of the sum of elements within a specific range of an array.
 - Efficient Range queries : sum(L, R) = prefix[R] - prefix[L-1]. This is significantly faster than recalculating the sum from scratch, which would take O(n) time for each query.
 - used in algorithms for finding the number of elements less than or equal to a given value.
-### Sliding window
-1. Maximum Sum Sub-array of Size K 
-
 
 ---
 ### 1. Difference Between Stack and Queue
@@ -59,108 +56,68 @@
 ### 3. Binary Search Tree (BST)
 
 - **Concept**: Hierarchical data structure; left child < parent, right child > parent.
-
 #### Implementation:
-
 - Node structure: `{value, left, right}`.
 - Operations: Recursive or iterative for search, insert, delete.
-
 #### Time Complexities:
-
 - **Search/Insert/Delete**: O(log n) average, O(n) worst-case (unbalanced).
-
 ---
-
 ### 4. Hash Table in JavaScript
-
 **Concept**: Key-value storage with hashing.
-
 #### Collision Resolution:
-
 - Separate Chaining: Linked lists at each bucket.
 - Open Addressing: Linear probing, quadratic probing, or double hashing.
-
 #### Dynamic Resizing:
-
 - Expand and rehash when load factor > threshold.
 
 ---
 
 ### 5. Sorting Algorithms
-
 **Types**: Bubble Sort, Quick Sort, Merge Sort, Heap Sort.
-
 #### Quick Sort:
-
 - Recursive; Pivot-based partitioning.
 - Time: O(n log n) avg, O(n²) worst.
 - Space: O(log n).
-
 #### Merge Sort:
-
 - Divide and conquer; merge sorted halves.
 - Time: O(n log n).
 - Space: O(n).
 
 ---
-
 ### 6. Dynamic Programming
-
 **Concept**: Optimize by storing overlapping subproblems.
-
 #### Knapsack Problem:
-
 - Define DP array: `dp[w]` for max value with weight `w`.
-
 #### Examples:
-
 - Longest Common Subsequence, Fibonacci, Matrix Chain Multiplication.
 
 ---
-
 ### 7. Graph Traversal
-
 **Concept**: Explore all nodes in a graph.
-
 #### DFS:
-
 - Recursive or stack-based; explore deeper first.
-
 #### BFS:
-
 - Queue-based; explore all neighbors before moving deeper.
-
 #### Use Cases:
-
 - **DFS**: Pathfinding, cycle detection.
 - **BFS**: Shortest path, level order traversal.
 
 ---
 
 ### 8. Detecting Cycles in Directed Graphs
-
 **Algorithms**:
-
 - DFS with a visited stack.
 - Kahn's Algorithm (Topological Sort).
-
 #### Implementation:
-
 - Use adjacency list and maintain visited/recursion stack.
-
 ---
 
 ### 9. Priority Queue and Heap
-
 **Heap**: Binary tree; min-heap or max-heap properties.
-
 #### Implementation:
-
 - Use array and parent/child indices.
 - Insert: Bubble-up; Remove: Bubble-down.
-
 #### Use Cases:
-
 - Task scheduling, Dijkstra's shortest path algorithm.
 
 ---
@@ -168,11 +125,55 @@
 ### 10. Trie (Prefix Tree)
 
 **Concept**: Tree structure for string storage.
-
 #### Operations:
-
 - Insert, search, and delete words.
-
 #### Use Case:
-
 - Efficient autocomplete and dictionary operations.
+
+> [!INFO] Overlapping sub-problems cause exponential time complexity `O(2^n)`
+> - if you see repeated sub-problems, think [[Memoization (Top-Down DP)]] 
+
+### Memoization (Optimized recursion)
+- store results in a hashmap time `O(n)` and space `O(n)`
+- convert naive recursion into [[Memoization (Top-Down DP)]] to optimize.
+
+### Tabulation (Bottom-up DP)
+- start from `n=1` and `n=2` and build up using iteration.
+- time complexity `O(n)` space `O(n)`
+- if recursion was too much space, flip it into [[Bottom-UP DP]]
+
+### Space optimized fibonacci
+- instead of storing `O(n)` results, only keep track of the last two values.
+- time complexity `O(n)` space complexity `O(1)`
+- if a problem follows fibonacci recurrence, reduce it to a two-variable approach.
+
+### Matrix exponentiation
+- converts fibonacci relation into matrix multiplication.
+- if a recurrence is linear, consider Matrix Exponentiation for `O(log n)` time.
+
+# Sliding window
+useful for solving problems involving contiguous subarray or sub-strings efficiently by avoiding redundant computations. Instead of using a brute-force `O(n^2)` approach, it efficiently slides a window over the input to achieve `O(n)` complexity.
+## Fixed size window size is predetermined
+- complexity -> time `O(n)` / space `O(1)`.
+### algorithm
+- initialize two pointers `left=0` and `right=0`
+- expand `right` until the window reaches size `k`.
+- compute result `sum` `max` etc.
+- slide the window by moving `left` and `right` together.
+
+## Variable size window window expands or shrinks dynamically based on constraints
+- used when the window size is not fixed and depends on conditions
+### algorithm
+- expand `right` until the condition is met. 
+- contract `left` while the condition remains valid.
+- keep track of the best answer.
+
+## Dynamic sliding window (Two Pointers)
+used when the window must be adjusted dynamically based on a condition. (Find the longest substring without repeating characters)
+### algorithm
+- expand `right` and store characters in a hashmap.
+- if a duplicate exists, shrink `left` until it's valid.
+- track the longest valid window.
+
+## Sliding window with frequency count
+used when dealing with counting elements inside a dynamic window (anagram matching).
