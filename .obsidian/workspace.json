@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Data structure/Prefix sum.md",
+                "file": "vscode.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Prefix sum"
+              "title": "vscode"
             }
           }
         ],
@@ -165,8 +165,8 @@
   },
   "active": "4b5476265804872a",
   "lastOpenFiles": [
-    "Data structure.md",
     "Data structure/Prefix sum.md",
+    "Data structure.md",
     "DSA Guide.md",
     "Data structure/DSA algorithms.md",
     "Descriptive/JavaScript/The structured clone algorithm.md",
