@@ -12,6 +12,21 @@
 > - ensure uniqueness in redux state.
 > - clearly shows action names in redux devtools.
 
+```js
+import { configureStore } from '@redux/toolkit'
+import { api } from './api'
+
+export const store = configureStore({
+	reducer: {
+		[api.reducerPath]: api.reducer,
+	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
+})
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+```
 
 ```ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -129,11 +144,13 @@ const initialState: CartState = {
 };
 
 export const cartApi = createApi({
-  reducerPath: 'cartApi',
+  reducerPath: 'cartApi', // this determines where the API data is stored in Redux.
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+	tagTypes: ['Users'] // Define a tag for cache nivalidation.
   endpoints: (builder) => ({
     fetchCart: builder.query<CartItem[], void>({
       query: () => '/cart',
+			providesTags: ['Users'], // This marks tha data with the "Users" tag
     }),
     addItem: builder.mutation<CartItem, CartItem>({
       query: (item) => ({
@@ -141,6 +158,7 @@ export const cartApi = createApi({
         method: 'POST',
         body: item,
       }),
+			invalidatesTags: ['Users'] // this invalidates "Users" tag, triggering a refresh of getUsers.
     }),
     removeItem: builder.mutation<void, string>({
       query: (id) => ({
@@ -218,3 +236,50 @@ const counterReducer = (state = { count: 0 }, action) => {
 ### Summary
 - **Actions** are "messages" that carry information about an event.
 - **Reducers** define the logic to update the state based on the action type.
+
+### Manually refresh query
+
+```jsx
+import { useGetUserQuery, useCreateUserMutation } from "./api"
+
+const AddUser = () => {
+	const { refresh } = useGetUserQuey();
+	const [ createUser ] = useCreateUserMutation();
+
+	const handleAddUser = async () => {
+		await createUser({ name: 'New User' })
+		refresh();
+	}
+
+	return <button onClick={handleAddUser}>Add User</button>;
+}
+```
+
+#### Auto invalidate cache
+
+```jsx
+endPoints: (builder) => ({
+	createUser: builder.mutation<User, Partial<User>>({
+		query: (newUser) => ({
+			url: 'users',
+			method: "POST",
+			body: newUser,
+		}),
+		invalidatesTags: ['Users'],
+	}),
+	getUsres: builder.query<User[], void>({
+		query: () => 'users',
+		providesTags: ['Users'],
+	})
+})
+
+```
+- Now, after `createUser()` RTK Query automatically refetches `getUsers` keeping the store updated.
+
+##### manually accessing API data from Redux
+```jsx
+import { useSelector } from "react-redux";
+import { api } from "./api";
+
+const users = useSelector((state) => api.endpoints.getUsers.select(state)?.data);
+```

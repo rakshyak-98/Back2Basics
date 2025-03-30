@@ -1,8 +1,11 @@
-- RTK Query is an advanced data fetching and caching tool.
-- leverages RTK APIs like [`createSlice`](https://redux-toolkit.js.org/api/createSlice) and [`createAsyncThunk`](https://redux-toolkit.js.org/api/createAsyncThunk) to implement its capabilities.
-- use of RTK Query's auto-generated React hooks.
-- `providersTags: ['products']` -> is used to enable automatic cache invalidation and refetching when related data updates.
-	- If another API mutation updates products and has `invalidatesTags: ['products']` the RTK Query automatically refetch the `getProductByCategoryQuery`
+`reducerPath` -> determines where in Redux the data is stored. `providesTags` and `invalidatesTags` -> automatically refresh data when mutations happen.
+ - RTK Query is an advanced data fetching and caching tool.
+- leverages RTK APIs like [`createSlice`](https://redux-toolkit.js.org/api/createSlice) and [`createAsyncThunk`](https://redux-toolkit.js.org/api/createAsyncThunk) to implement its capabilities. - use of RTK Query's auto-generated React hooks.
+- `providersTags: ['products']` -> is used to enable automatic cache invalidation and refetching when related data updates. - If another API mutation updates products and has `invalidatesTags: ['products']` the RTK Query automatically refetch the `getProductByCategoryQuery`
+ > [!INFO] Query keying
+> - RTK Query uses a keying system `queryKey` to store and update API responses.
+> - Query keying system ensures different API calls update the correct store data.
+> - You don't need to manually manage Redux state-RTK Query handles it for you.
 
 > [!INFO] API calls trigger state update automatically
 
@@ -242,3 +245,18 @@ const Component = () => {
   return <div>...</div>
 }
 ```
+
+### How does RTK Query Automatically Mange Redux state?
+unlike traditional Redux where you manually update state using `dispatch()`, RTK Query automate state management by:
+- Auto caching responses -> RTK Query automatically caches API responses based on the query key, if same query is called again, cached data is returned instead of re-fetching.
+
+```js
+const { data, isLoading } = useGetUserQuery(userId);
+
+```
+- if `userId` remains the same, RTK Query returns cached data instead of making a new request.
+- if `userId` changes, it triggers a new API request. No need to manually store or update state. RTK Query manages caching automatically.
+
+- Auto state updates.
+- optimistic updates and cache invalidation
+- handles loading and error states automatically
