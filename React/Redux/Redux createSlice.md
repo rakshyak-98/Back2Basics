@@ -146,3 +146,8 @@ export default cartSlice.reducer;
 
 ```
 - the Redux store requires a reducer, not the whole slice. that is why we have this `export default cartSlice.reducer`
+
+### Updating Nested Data
+
+> [!INFO] There may be occasions when you want to insert a value and then make further updates to it.
+Related to this RTK's `createEntityAdapter` update function can either be used as standalone reducers, or _mutating_ update functions.

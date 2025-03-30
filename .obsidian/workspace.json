@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "React/Redux/Redux createApi slice.md",
+                "file": "React/Redux toolkit.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Redux createApi slice"
+              "title": "Redux toolkit"
             }
           },
           {
@@ -193,9 +193,9 @@
   },
   "active": "78f760df2bd4e129",
   "lastOpenFiles": [
-    "React/Redux toolkit.md",
-    "React/Redux/Redux createApi slice.md",
     "React/Redux/Redux createSlice.md",
+    "React/Redux/Redux createApi slice.md",
+    "React/Redux toolkit.md",
     "javascript/Packages/Immer.md",
     "React/Redux/Immutability in Redux.md",
     "React/Redux/RTQ Query.md",
