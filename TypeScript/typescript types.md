@@ -1,4 +1,10 @@
 ```ts
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);
+
+```
+
+```ts
 type CountryPopulation = Record<string, number>;
 ```
 - `Record` utility type in TypeScript create an object type with specified keys and value types.

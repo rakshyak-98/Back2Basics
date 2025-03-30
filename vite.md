@@ -1,3 +1,10 @@
+### Environment variable
+```js
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);
+
+```
+- you can not directly use `process.env` like in Webpack setup. Instead vite uses `import.meta.env` to access environment variables.
 ### Configuration
 ```javascript
 server: {
