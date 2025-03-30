@@ -1,3 +1,5 @@
+> [!INFO] use shallow merge, so any new object definitions will override existing endpoints with the same name.
+
 - tasks are handled sequentially within the same thread because of stack based programming language.
 - JavaScript is synchronous by default 
 - is single threaded within the same process

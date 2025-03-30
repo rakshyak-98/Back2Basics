@@ -3,3 +3,7 @@ JavaScript library helps manage immutable data structures.
 
 > [!INFO] Immer uses drafts to represent temporary objects that you can mutate directly. Once the mutation is complete, Immer returns a new immutable state.
 - Immer uses structural sharing to ensure that only modified parts of the data are updated, making it highly efficient compared to copying large data structures.
+
+> [!NOTE] Immer works by tracking attempts to mutate
+> - any existing drafted state must be a JS object and array in order for Immer to see the attempted changes.
+
