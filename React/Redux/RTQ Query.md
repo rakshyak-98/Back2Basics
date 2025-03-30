@@ -2,6 +2,7 @@
  - RTK Query is an advanced data fetching and caching tool.
 - leverages RTK APIs like [`createSlice`](https://redux-toolkit.js.org/api/createSlice) and [`createAsyncThunk`](https://redux-toolkit.js.org/api/createAsyncThunk) to implement its capabilities. - use of RTK Query's auto-generated React hooks.
 - `providersTags: ['products']` -> is used to enable automatic cache invalidation and refetching when related data updates. - If another API mutation updates products and has `invalidatesTags: ['products']` the RTK Query automatically refetch the `getProductByCategoryQuery`
+ 
  > [!INFO] Query keying
 > - RTK Query uses a keying system `queryKey` to store and update API responses.
 > - Query keying system ensures different API calls update the correct store data.
@@ -32,6 +33,26 @@ const RefreshProducts = () => {
 
 ## Create API slice
 
+> [!INFO] data sync in Redux Store
+> - RTK Query stores API response in Redux under `state.api.queries`.
+
+```json
+{
+  "api": {
+    "queries": {
+      "getUsers()": {
+        "status": "fulfilled",
+        "data": [
+          { "id": 1, "name": "Alice" },
+          { "id": 2, "name": "Bob" }
+        ]
+      }
+    }
+  }
+}
+
+```
+
 ### Feature API slice
 ```ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
@@ -54,7 +75,7 @@ export const { useGetAllProductsQuery, useGetProductByIdQuery } = productApi;
 
 ```
 
-### Store
+# Store
 ```ts
 import { configureStore } from '@reduxjs/toolkit';
 import { productApi } from './apiSlice';
@@ -96,7 +117,7 @@ export default ProductList;
 
 ```
 
-### User `skip` options in RTK Query
+### `skip` options in RTK Query
 - RTK Query provides a `skip` option that prevents the API call until `id` is available
 ```ts
 import { useRouter } from 'next/router';
@@ -121,7 +142,7 @@ export default ProductDetail;
 
 ```
 
-### Example: Auto-refetch on Product Addition
+### Example: Auto refetch on Product Addition
 ```ts
 getProductByCategory: builder.query({
 	query: (category) => `products?category=${category}`,
@@ -129,7 +150,8 @@ getProductByCategory: builder.query({
 })
 
 ```
-
+- RTK Query sends a POST request.
+- `invalidatesTags: ['Products']` tells RTK Query to refetch `getProductByCategory()` automatically.
 #### Mutation
 ```ts
 addProduct: builder.mutation({
@@ -145,6 +167,64 @@ addProduct: builder.mutation({
 - RTK Query automatically refetches `getProductByCategoryQuery`.
 - The UI Updates instantly without manual refetching.
 
+| Action                         | What happens in Redux Store                            | UI Update                      |
+| ------------------------------ | ------------------------------------------------------ | ------------------------------ |
+| `useGetUserQuery()` runs       | Stores response under `state.api.queries.getUsers`     | Shows users list               |
+| `useCreateUserMutation()` runs | Invalidates `getUsers` tag -> Auto refresh users again | UI updates with new User       |
+| Auto cache                     | Data is stored in Redux for reuse                      | Prevents unnecessary API calls |
+
+## By default, RTK Query does not directly modify other slices of your Redux state. However, you can sync in two main ways
+ 
+### Directly User API cache
+Since RTK Query automatically caches API responses, your component should read from `useGetUserQuery()` instead of a separate `UserProfile` state.
+```tsx
+const {data: userProfile} = useGetUserQuery(userid);
+
+if(userProfile) {
+	console.log(userProfile.name); // Data is already in redux store.
+}
+
+```
+
+### Sync API data with a separate `UserProfile` slice
+if you must store user data separately in `UserProfile`, update it using an extra reducer when `getUser` succeds.
+```tsx
+import { createSlice, PayloadAction } from '@redux/toolkit';
+import { api } from "./api";
+
+interface UserProfile {
+	id: number;
+	name: string;
+	email: string;
+}
+
+const initialState: UserProfile | null = null;
+
+export const userSlice = createSlice({
+	name: 'userProfile',
+	initialState,
+	reducers: {} // No standard reducers needed
+	extraReducers: (builder) => {
+		builder.addMatcher(
+			api.endpoints.getUser.matchFulfilled, // when getUserQuery succedds
+			(state, action: PayloadAction<UserProfile>) => {
+				return action.payload; // updates UserProfile slice
+			}
+		)
+	}
+})
+
+export default unserSlice.reducer;
+
+```
+
+### Why use `addMatcher()` instead of `addCase()`?
+- Both `addMatcher()` and `addCase()` are used in Redux Toolkit `extraReducers` to handle actions outside of the slice (e.g., API responses from RTK Query). However, `addMatcher()` is preferred for RTK Query API actions because of its flexibility.
+
+> [!INFO] `addMatcher`
+> - `matchFulfilled` -> triggers when a query / mutation successfully completes (HTTP `2xx` status).
+> - `matchRejected` -> triggers when a query / mutation fails (HTTP `4xx` `5xx` etc).
+ 
 ### Why add API reducer to Redux store in RTK Query?
 when using `createApi` RTK Query, you must add its reducer to the store because Redux toolkit manages all API-related data (cache, loading states, responses) within the redux store.
 
