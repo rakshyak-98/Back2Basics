@@ -25,3 +25,7 @@ Using `fmt.Prinf` with `%+v`
 ```go
 fmt.Printf("%+v\n", t)
 ```
+
+> [!INFO] files at the same level cannot be part of different packages within the same directory.
+> - all files in a directory must belong the same package.
+- if you have `main.go` in a directory, any other file in the same directory must use `package main`.
