@@ -11,6 +11,11 @@
 
 ## Array
 - deleting an element from the array can be done in O(1) by swapping the element to be deleted with the last element in the array and then removing the last element.
+- fixed size, contiguous memory allocation.
+- direct index access `O(1)`
+- insertion/Deletion `O(n)` because of shifting elements.
+
+> [!INFO] Array are ideal for fast, direct access when you know the index.
 ### Sub-array
 - a sub-array is a contiguous segment of an array. For an array of size N, a sub-array can start at any index from 0 to N -1. 
 - counting sub-array : from each start index i (where i ranges from 0 to N - 1), the sub-array can end at any index j (where j ranges from i to N - 1).
@@ -37,6 +42,11 @@
 ### 2. Linked List in JavaScript
 
 **Types**: Singly Linked List, Doubly Linked List, Circular Linked List.
+- sequence of nodes where each node points to the next.
+- Access `O(1)` direct index access.
+- insertion/Deletion `O(1)` if pointer is known.
+
+> [!INFO] Linked list are useful when frequent insertion/deletion is required without concern for random access.
 
 #### Implementation:
 

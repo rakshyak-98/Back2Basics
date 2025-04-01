@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "golang/go.md",
+                "file": "Data structure.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "go"
+              "title": "Data structure"
             }
           }
         ]
@@ -150,11 +150,11 @@
   },
   "active": "2880b0a7af18611c",
   "lastOpenFiles": [
+    "golang/go.md",
     "opcode.md",
     "auto-pong.md",
     "ICMP.md",
     "go data structure.md",
-    "golang/go.md",
     "Untitled.md",
     "GIT/git command.md",
     "Linux/Bash.md",
