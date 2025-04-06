@@ -34,6 +34,11 @@ ssh-keygen -lf tmp_key;
 ```
 - verify the fingerprint manually before trusting.
 
+```sh
+ssh-keygen -F github.com
+```
+- this tells you the line number of GitHub's key from `~/.ssh/known_hosts`.
+- find all the entries of for a host.
 ### Why this works
 - SSH servers must send their public key early in handshake (to prove identity).
 - that key is not secret - it's how clients verify they're talking to the correct server.

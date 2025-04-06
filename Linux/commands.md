@@ -468,29 +468,6 @@ ed filename; # open file
 # 10 - move to line no. 10.
 ```
 
-## find
-```bash
-## files 
-find ./ -name '*.txt'
-stat [filename]; # to see more info on the file.
-
-# find modified within last 30 days in directory and subdirectory.
-find /home -mtime -30; 
-find [path] -type f -name [file name];
-
-# find all empty directory.
-find [directory] -type d -empty;
-
-# find directory and subdirectory owned by root
-find <directory> -user root;
-find <path> -maxdepth 2 -mindepth 2 -type [d|f|l] -name <sourcename> -delete.
-find /path -type f -empty;
-find /path -mtime -7;
-find /path -name "*.log" -delete;
-find /path -name "*.log" -exec rm {} \;
-
-```
-
 ## xrandr
 - show information about the display monitor.
 ```bash
