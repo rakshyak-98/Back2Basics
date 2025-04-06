@@ -6,9 +6,43 @@ ssh-copy-id user@host; # copy public key to a remote server
 ```
 
 ```shell
-nc -zv host 22; # ehck ssh port availability
+nc -zv host 22; # check ssh port availability
 ssh -T user@host;
 ```
+
+### How `ssh-keyscan` fetches SSH host keys
+`ssh-kyscan` works by initiating a raw ssh handshake with the remote server just long enough to capture its public host key, then disconnects.
+- TCP connect to server on port 22 (or customer with -p).
+- Sends SSH protocol version exchange.
+- Receives server's public host key's RSA, ED25519.
+- Prints key's in OpenSSH `known_hosts` format.
+
+> [!NOTE] Does not authenticate or complete full SSH logins
+
+> [!INFO] You must manually verify the fingerprint from a trusted source before trusting.
+
+#### Why `ssh-keyscan` alone is not secure?
+- it trusts whatever host responds on the IP/hostname and port.
+- if a attacker is spoofing the server [[MITM]], `ssh-keyscan` will still show their key.
+- So, if you blindly save that key (to `known_hosts`) you've now trusting a potentially fake server.
+[github official fingerprint](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)
+
+```sh
+ssh-keyscan github.com | tee tmp_key;
+ssh-keygen -lf tmp_key;
+
+```
+- verify the fingerprint manually before trusting.
+
+### Why this works
+- SSH servers must send their public key early in handshake (to prove identity).
+- that key is not secret - it's how clients verify they're talking to the correct server.
+- `ssh-keyscan` captures just that.
+
+### Difference between `ssh-keyscan` and `ssh-keygen`
+- `ssh-keyscan` fetch a remote server's host key. You want to get a host's key without connecting fully.
+- `ssh-keygen` inspect/verify key fingerprint. You want to view fingerprint of local key file (your own SSH keys) or a `known_hosts` entry.
+
 # Understanding the SSH encryption and  Connection process
 [post link](https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process)
 - ssh key pairs begins after the symmetric encryption has been established.

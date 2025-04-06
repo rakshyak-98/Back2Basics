@@ -153,6 +153,24 @@ Host github-personal
 ---
 
 ### Key Points
-
 - Git relies on SSH to resolve aliases.
 - SSH aliases allow you to abstract host configurations, making it easier to manage multiple accounts or keys.
+
+### Github official fingerprint error
+```txt
+The authenticity of host 'github.com (...)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+
+```
+- if the prompt matches, it's safe to type
+```txt
++DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU
+
+```
+
+to avoid prompt in future
+```sh
+ssh-keygen github.com >> ~/.ssh/known_hosts;
+
+```
+- this adds Github's host key to your known hosts and suppresses future trust prompts.

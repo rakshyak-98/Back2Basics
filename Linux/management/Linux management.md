@@ -184,6 +184,14 @@ ssh-keyscan hostname
 ssh-keyscan -p [port] hostname
 ssh-keyscan -t [rsa | dsa | ...] hostname
 ```
+- `ssh-keyscan retrieves that public SSH host key from a remote server (e.g., GitHub) and prints it.
+- GitHub's public host key, not your identity key.
+
+```text
+github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc5...
+
+```
+- Always verify the fingerprint from GitHub's official docs before trusting and appending to `known_hosts`
 
 ### test key
 
