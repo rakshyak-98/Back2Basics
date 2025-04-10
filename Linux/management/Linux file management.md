@@ -1,4 +1,5 @@
 ```bash
+mimetype <filen path>; # show input file mime type
 stat <filename>;
 stat <dirname>;
 xdg-mime query default inode/directory; # get the information of file manager
