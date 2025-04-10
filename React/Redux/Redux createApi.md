@@ -1,3 +1,10 @@
+Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
+
+> [!NOTE] `fetchBaseQuery`
+> By default, `fetchBaseQuery` assumes that every request you make will be `json`, so in those cases all you have to do is set the `url` and pass a `body` object when appropriate.
+> [parsing response](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#parsing-a-response)
+> [adding custom timeout](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#adding-a-custom-timeout-to-requests)
+
 ```ts
 import { createSlice, PayloadAction, createAsyncThunk, createApi, fetchBaseQuery } from '@reduxjs/toolkit';
 
@@ -62,8 +69,11 @@ const cartSlice = createSlice({
   },
 });
 
-export const { updateQuantity, clearCart } = cartSlice.actions;
+// [ for api slice ]
 export const { useFetchCartQuery, useAddItemMutation, useRemoveItemMutation } = cartApi;
+
+// [ for state slice ]
+export const { updateQuantity, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
 
 ```
