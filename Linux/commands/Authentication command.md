@@ -29,3 +29,28 @@ each line in `known_hosts` contains
 ```text
 hostname algorithm public-key
 ```
+
+## gnupg
+
+```sh
+sudo apt install gnupg;
+```
+
+```sh
+gpg --full-gen-key; # generate new set of keys
+gpg --list-secrets-key --keyid-format=long;
+
+gpg --armor --export <key id>; # export public key
+gpg --armor --export-secret-keys <key id>; # export private key
+```
+
+### gnupg git config
+```sh
+git config --global user.signingkey <key>;
+git config --global commit.gpgsign true;
+```
+
+```sh
+git commit -S -m 'signed commit';
+git log --show-signature;
+```

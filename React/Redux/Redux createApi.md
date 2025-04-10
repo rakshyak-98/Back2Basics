@@ -1,4 +1,22 @@
-Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
+	Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
+
+> [!INFO] `ApiProvider`
+> Can be used as a `Provider` if you **do not already have a Redux store**.
+> [ApiProvider](https://redux-toolkit.js.org/rtk-query/api/ApiProvider)
+> 
+```js
+import * as React from 'react';
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { Pokemon } from './features/Pokemon';
+
+function App() {
+  return (
+    <ApiProvider api={api}>
+      <Pokemon />
+    </ApiProvider>
+  );
+}
+```
 
 > [!NOTE] `fetchBaseQuery`
 > By default, `fetchBaseQuery` assumes that every request you make will be `json`, so in those cases all you have to do is set the `url` and pass a `body` object when appropriate.
