@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e4a67f962a08de96",
+        "id": "620f2de0ba23fbf8",
         "type": "tabs",
         "children": [
           {
-            "id": "830abf686c9ef27c",
+            "id": "58409e6c4ec30c71",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -148,10 +148,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "830abf686c9ef27c",
+  "active": "58409e6c4ec30c71",
   "lastOpenFiles": [
-    "gpg.md",
+    "Linux/Linux terminal.md",
     "NextJS/NextJS Deployment.md",
+    "gpg.md",
     "Linux/commands.md",
     "NextJS/Next JS.md",
     "Linux/management/Linux file management.md",
@@ -175,7 +176,6 @@
     "ICMP.md",
     "go data structure.md",
     "GIT/git command.md",
-    "Linux/Bash.md",
     "Data structure",
     "NextJS",
     "NodeJS/Packages",
