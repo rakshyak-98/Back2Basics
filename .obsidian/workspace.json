@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NextJS/NextJS Deployment.md",
+                "file": "React/Redux/RTQ Query.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NextJS Deployment"
+              "title": "RTQ Query"
             }
           }
         ]
@@ -150,8 +150,8 @@
   },
   "active": "58409e6c4ec30c71",
   "lastOpenFiles": [
-    "Linux/Linux terminal.md",
     "NextJS/NextJS Deployment.md",
+    "Linux/Linux terminal.md",
     "gpg.md",
     "Linux/commands.md",
     "NextJS/Next JS.md",
