@@ -15,3 +15,4 @@ sudo add-apt-repository ppa:<repository name>;
 ls /etc/apt/source.list.d/; # list configured ppa pacakge repository
 grep -rhE '^dep' /etc/apt/source.list.d/
 ```
+
