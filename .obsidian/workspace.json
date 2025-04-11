@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "gpg.md",
+                "file": "Linux/commands/Authentication command.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "gpg"
+              "title": "Authentication command"
             }
           }
         ]
@@ -150,6 +150,7 @@
   },
   "active": "643b30419ce68e84",
   "lastOpenFiles": [
+    "gpg.md",
     "React/Redux/RTQ/RTQ Middleware.md",
     "React/Redux/Redux createApi.md",
     "NextJS/Next JS.md",
@@ -165,7 +166,6 @@
     "React/Redux/RTQ",
     "NextJS/NextJS Deployment.md",
     "Linux/Linux terminal.md",
-    "gpg.md",
     "Linux/commands.md",
     "Linux/management/Linux file management.md",
     "Linux/commands/Find command.md",
