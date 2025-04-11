@@ -8,6 +8,7 @@ gpg --refresh-keys
 # [ list keys ]
 gpg --list-keys # pulic keys
 gpg --list-secret-keys # private keys
+gpg --list-secret-keys --keyid-format=long
 
 # [ export keys ]
 gpg --export-secret-keys -a KEY_ID > my_private_key.asc; # -a ASCII-armored
