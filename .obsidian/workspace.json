@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GIT/git ssh config.md",
+                "file": "Blockchain.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "git ssh config"
+              "title": "Blockchain"
             }
           }
         ],
@@ -79,7 +79,8 @@
               "title": "Search"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -164,6 +165,10 @@
   },
   "active": "f0ef2edfe2233124",
   "lastOpenFiles": [
+    "Rendering performance/paint.md",
+    "Blockchain.md",
+    "hydration.md",
+    "GIT/git ssh config.md",
     "yarn.md",
     "Linux/management/Package Manager.md",
     "React/zustand.md",
@@ -188,10 +193,6 @@
     "Linux/commands/Find command.md",
     "stateless.md",
     "MCP.md",
-    "Python/wheel.md",
-    "Python.md",
-    "Errors/Python.md",
-    "SSE (Server-Sent Events).md",
     "Data structure",
     "NextJS",
     "NodeJS/Packages",
