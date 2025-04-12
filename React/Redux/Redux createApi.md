@@ -1,4 +1,4 @@
-	Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
+Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
 
 > [!INFO] `ApiProvider`
 > Can be used as a `Provider` if you **do not already have a Redux store**.
@@ -186,3 +186,37 @@ import { api } from "./api";
 
 const users = useSelector((state) => api.endpoints.getUsers.select(state)?.data);
 ```
+
+### Browser will not re-request same API call if all below are true
+### Server-side HTTP caching in enabled
+- if server sends cacheable header like
+
+```txt
+Cache-Control: public, max-age=600
+ETag: "xyz123"
+```
+- browser skips network request (if `max-age` still valid)
+- Or sends conditional `if-none-match` with `ETag` -> gets `304 Not Modified`
+
+### Same method + same URL + same headers
+- must be a Get request (POST / PUT are not cached by default)
+- full request must match, including query params
+
+### No cache bypass flags
+- Request isn't sent with
+	- `cache: 'no-store'`
+	- `Pragma: no-cache` or `Cache-Control: no-cache` (forces re-validation)
+- User didn't force refresh `ctrl + shift + R` or `comd + shift + R`
+
+### No interceptors / Proxies / Service workers
+- no service worker intercepting the call and rerouting it
+- no browser extension modifying request behavior
+
+
+### Real check
+- open network tab
+- reload page
+- status column:
+	- `200 (from cache)` -> browser cached
+	- `304 Not Modified` -> conditional cache used
+	- `200` -> full fetch
