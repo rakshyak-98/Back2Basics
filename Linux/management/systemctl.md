@@ -15,3 +15,8 @@ systemctl status <service name>; # service state and stats
 - process ID
 - resource usage
 - the control group hierarchy
+
+```sh
+systemctl is-active <servie name>;
+systemctl is-enable <service name>; 
+```
