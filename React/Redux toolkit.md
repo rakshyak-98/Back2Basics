@@ -23,3 +23,86 @@ module.exports = {
 }
 
 ```
+
+### Cross component state sync
+any component using `useSelector()` auto-subscribe to the store. When the slice updates, all connected components re-render.
+
+### What Triggers re-render?
+- Component uses `useSelector(...)`.
+- Selector returns new references or different value.
+- Redux store emits change -> selector runs -> value changed -> re-render.
+- not splitting state into multiple slices.
+
+```js
+const selectorItems = createSelector(state => state.itmes, items => items)
+const items = useSelector(selectItems)
+```
+
+### Sync state across multiple slices
+
+> [!INFO] each slice is isolated -> can't modify another slice
+
+### Sync via
+
+##### Share action pattern
+```js
+// actions/globalActions.js
+import {createAction} from "@reduxjs/toolkit";
+export const userLoggedOut = createAction("use/logout")
+```
+
+```js
+// userSlice.js
+
+import { useLoggedOut } from "../actions/globalActions";
+extraReducers: (builder) => {
+	builder.addCase(userLoggedOut, (state) => {
+		state.info = null;
+	})
+}
+
+```
+
+```js
+// settingSlice.js
+
+extraReducers: (builder) => {
+	builder.addCase(userLoggedOut, (state) => {
+		state.theme = 'light'
+	})
+}
+
+```
+
+#### Create listener middleware (RTK-native)
+> [!INFO] prefer `listenerMiddleware` or central orchestration logic.
+
+|                                                          |     |
+| -------------------------------------------------------- | --- |
+| Prefer listenerMiddleware or central orchestration logic |     |
+
+```js
+import { createListenerMiddleware } from "@reduxjs/toolkit"
+import { userLoggedOut} from "./actions/globalActions"
+
+const listenerMiddleware = createListenerMiddleware();
+
+listenerMiddleware.startListening({
+	actionCreator: userLoggedOut,
+	effect: async (actions, listenerApi) => {
+		listenerApi.dispatch(clearCache());
+		listenerApi.dispatch(resetForms());
+	}
+})
+
+```
+
+```js
+// store.js
+
+configureStore({
+	reducer: {},
+	middleware: (getDefault) => getDefault().prepend(listenerMiddleware.middleware)
+})
+
+```
