@@ -5,14 +5,10 @@
 gpgconf --list-dir
 gpg --refresh-keys
 
-# [ generate new keys ]
-gpg --gen-key # asymmetric
-gpg --gen-random 32
-gpg --import "file"; # import gpg public key from a file.
-
 # [ list keys ]
 gpg --list-keys # pulic keys
 gpg --list-secret-keys # private keys
+gpg --list-secret-keys --keyid-format=long
 
 # [ export keys ]
 gpg --export-secret-keys -a KEY_ID > my_private_key.asc; # -a ASCII-armored
@@ -31,6 +27,15 @@ gpg --check-trustdb
 gpg --firgerprint <key id>;
 ```
 
+### Generate new keys
+```sh
+# [ generate new keys ]
+gpg --gen-key # asymmetric
+gpg --gen-random 32
+gpg --import "file"; # import gpg public key from a file.
+```
+
+### Encryption
 ```bash
 # [ encryption ]
 gpg --sign -u user@example.com mydocument.txt
@@ -55,8 +60,7 @@ gpg --clear-sign "file.txt"; # create new file with clear redable format
 # sign with armor representation
 gpg --armor -s -o signed.asc "yourfile.txt"
 ```
-
-GNU Privacy Guard, used for encryption and digital signature operations.
+- GNU Privacy Guard, used for encryption and digital signature operations.
 
 ASCII-armor : feature to type of encryption called Pretty Good Privacy (PGP). and `.asc` file extension.
 

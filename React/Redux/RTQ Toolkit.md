@@ -299,7 +299,7 @@ export default MyApp;
 [`refetchOnMountOrArgChange`](https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#encouraging-re-fetching-with-refetchonmountorargchange)
 - Queries can be encouraged to re-fetch more frequently than usual via the API `refetchOnMountOrArgChange` property.
 
-- refetching on subscription if data exceeds a given time
+- re-fetching on subscription if data exceeds a given time
 ```ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { Post } from './types'
@@ -317,7 +317,7 @@ export const api = createApi({
 
 ```
 
-- refetching at component mount
+- re-fetching at component mount
 ```ts
 import { useGetPostsQuery } from './api'
 
@@ -347,3 +347,10 @@ const { data, isLoading } = useGetUserQuery(userId);
 - Auto state updates.
 - optimistic updates and cache invalidation
 - handles loading and error states automatically
+
+### Customising response from API
+[customising queries](https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#customizing-query-responses-with-transformresponse)
+[example web-socket with a transformed response](https://redux-toolkit.js.org/rtk-query/usage/streaming-updates#websocket-chat-api-with-a-transformed-response-shape)
+
+> [!INFO] Individual endpoints on [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) accept a [`transformResponse`](https://redux-toolkit.js.org/rtk-query/api/createApi) property which allows manipulation of the data returned by a query or mutation before it hits the cache.
+- `transformResponse` is called with the `meta` property returned from the `baseQuery` as its second argument, which can be used while determining the transformed response. The value for `meta` is dependent on the `baseQuery` used.
