@@ -1,3 +1,4 @@
+[cheat sheet](https://last9.io/blog/linux-commands-cheat-sheet/)
 [gnu error codes](https://www.gnu.org/software/libc/manual/html_node/Error-Codes.html)
 [remove prompt for default key-rings password on login](https://askubuntu.com/questions/867/how-can-i-stop-being-prompted-to-unlock-the-default-keyring-on-boot)
 
