@@ -10,5 +10,3 @@ Examples:
 > 	- central error handling
 > 	- retries / timeouts
 > 	- strict sequencing
-
-

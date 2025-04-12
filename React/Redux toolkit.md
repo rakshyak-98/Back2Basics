@@ -106,3 +106,43 @@ configureStore({
 })
 
 ```
+
+### Sync API slice
+
+```js
+import { myAPi } from "../services/myApi"
+
+extraReduers: (builder) => {
+	builder.addMather(
+		myApi.endpoints.getUser.matchFulfilled,
+		(state, action) => {
+			state.user = actions.payload
+		}
+	)
+}
+
+```
+
+- `onQueryStarted` hook (preferred for side effects dispatch)
+```ts
+getUser: builder.query<User, void>({
+	async onQueryStarted(_, {dispatch, queryFulfilled}){
+		try{
+			const { data } = await queryFulfilled;
+			dispatch(userSlice.actions.setUsers(data))
+		}catch {}
+	}
+})
+
+```
+
+###### create listener middleware
+```ts
+listenerMiddleware.startListening({
+	matcher: myAPi.endpoints.getUser.matchFulfilled,
+	effect: async (action, api) => {
+		api.dispatch(setUser(action.payload))
+	}
+})
+
+```
