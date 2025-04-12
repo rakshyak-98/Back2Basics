@@ -1,0 +1,1 @@
+[reshaping the real estate industry](https://helalabs.com/blog/12-top-real-estate-crypto-projects-to-know-in-2025/)
