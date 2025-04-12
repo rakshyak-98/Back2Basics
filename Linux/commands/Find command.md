@@ -1,6 +1,5 @@
 ```sh
 find . -depth -name "*.log" -delete;
-
 ```
 - delete `.log` files, descending into subdirs first.
 - removes subdirs before parent
@@ -27,7 +26,6 @@ find /path -name "*.log" -delete;
 find /path -name "*.log" -exec rm {} \;
 
 ```
-
 
 ```sh
 find . -size +10M;
