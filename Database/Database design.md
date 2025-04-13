@@ -1,11 +1,7 @@
 ```md
 //// Docs: https://dbml.dbdiagram.io/docs
-
 //// -- LEVEL 1
-
 //// -- Schemas, Tables and References
-
-  
 
 // Creating tables
 // You can define the tables with full schema names
@@ -21,8 +17,6 @@ Table ecommerce.merchants {
 	}
 }
 
-  
-
 // If schema name is omitted, it will default to "public" schema.
 
 Table users as U {
@@ -32,15 +26,11 @@ Table users as U {
 	country_code int
 }
 
-  
-
 Table countries {
 	code int [pk]
 	name varchar
 	continent_name varchar
 }
-
-  
 
 // Creating references
 // You can also define relaionship separately
@@ -71,93 +61,51 @@ status varchar
 created_at varchar [note: 'When order created'] // add column note
 }
 
-  
-
 //----------------------------------------------//
 
-  
-
 //// -- Level 3
-
 //// -- Enum, Indexes
-
-  
 
 // Enum for 'products' table below
 
 Enum ecommerce.products_status {
-
-out_of_stock
-
-in_stock
-
-running_low [note: 'less than 20'] // add column note
-
+	out_of_stock
+	in_stock
+	running_low [note: 'less than 20'] // add column note
 }
-
-  
 
 // Indexes: You can define a single or multi-column index
-
 Table ecommerce.products {
-
-id int [pk]
-
-name varchar
-
-merchant_id int [not null]
-
-price int
-
-status ecommerce.products_status
-
-created_at datetime [default: `now()`]
-
-Indexes {
-
-(merchant_id, status) [name:'product_status']
-
-id [unique]
-
+	id int [pk]
+	name varchar
+	merchant_id int [not null]
+	price int
+	status ecommerce.products_status
+	created_at datetime [default: `now()`]
+	Indexes {
+		(merchant_id, status) [name:'product_status']
+		id [unique]
+	}
 }
-
-}
-
-  
 
 Table ecommerce.product_tags {
-
-id int [pk]
-
-name varchar
-
+	id int [pk]
+	name varchar
 }
-
-  
 
 Table ecommerce.merchant_periods {
-
-id int [pk]
-
-merchant_id int
-
-country_code int
-
-start_date datetime
-
-end_date datetime
-
+	id int [pk]
+	merchant_id int
+	country_code int
+	start_date datetime
+	end_date datetime
 }
 
-  
-
 Ref: ecommerce.products.merchant_id > ecommerce.merchants.id // many-to-one
-
 Ref: ecommerce.product_tags.id <> ecommerce.products.id // many-to-many
 
 //composite foreign key
-
 Ref: ecommerce.merchant_periods.(merchant_id, country_code) > ecommerce.merchants.(id, country_code)
-
 Ref user_orders: ecommerce.orders.user_id > public.users.id
+
 ```
