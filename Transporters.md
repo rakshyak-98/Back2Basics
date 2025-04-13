@@ -1,0 +1,1 @@
+Transporters abstraction over data transmission they handle how data moves between systems / components.
