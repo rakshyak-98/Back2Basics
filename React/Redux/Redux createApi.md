@@ -4,7 +4,7 @@ Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-a
 > Can be used as a `Provider` if you **do not already have a Redux store**.
 > [ApiProvider](https://redux-toolkit.js.org/rtk-query/api/ApiProvider)
 > 
-```js
+```jsx
 import * as React from 'react';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { Pokemon } from './features/Pokemon';
@@ -186,6 +186,9 @@ import { api } from "./api";
 
 const users = useSelector((state) => api.endpoints.getUsers.select(state)?.data);
 ```
+- every call to `select(state)` returns a new function/object unless wrapped in `useMemo`.
+- can cause unnecessary re-render.
+- `.data` only gives the final value. You lose `isLoading` `isError` `status` etc. which RTK Query provides.
 
 ### Browser will not re-request same API call if all below are true
 ### Server-side HTTP caching in enabled

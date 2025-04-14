@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "84ba50023fc419bf",
+        "id": "b01ca5648aa33737",
         "type": "tabs",
         "children": [
           {
-            "id": "4d84cea425eb7ffc",
+            "id": "42f7bca206dd0d56",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Transporter in Email sending.md",
+                "file": "NextJS/NextJS Deployment.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Transporter in Email sending"
-            }
-          },
-          {
-            "id": "6084151fb5a7ad28",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Transporters.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Transporters"
+              "title": "NextJS Deployment"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -163,19 +148,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6084151fb5a7ad28",
+  "active": "42f7bca206dd0d56",
   "lastOpenFiles": [
+    "NextJS Error.md",
+    "NextJS/Next JS.md",
     "Transporter in Email sending.md",
+    "React/Redux/Redux createApi.md",
     "Transporters.md",
     "Docker/docker commands.md",
     "Docker/Docker compose.md",
-    "NextJS Error.md",
     "Database/Database design.md",
     "Linux/management/systemctl.md",
     "Linux/loggging.md",
     "linux seri/Service masking.md",
     "linux seri",
-    "React/Redux/Redux createApi.md",
     "Linux/management/Linux out of memory daemon.md",
     "graphql.md",
     "React/Redux/Redux State sync with localstorage.md",
@@ -191,7 +177,6 @@
     "React/Redux toolkit.md",
     "Linux/commands/Services commands.md",
     "orchestration.md",
-    "workflow DSL.md",
     "React/Redux/RTQ",
     "Netlify",
     "Data structure",
