@@ -7,6 +7,23 @@ git show-ref;
 git branch -vv;
 ```
 
+## Tags
+```sh
+git tag -a <tag_name> -m "your message"; # -a annotate tag
+git push origin <tag name>;
+
+git branch --contains <tab name>; # find branch containing the tag
+
+git rev-list -n 1 <tag_name>; # find commit has for the tag
+
+```
+### Move tag to different commit
+```sh
+git tag -a <new_tag_name> <new_commit_hash> -m "updated tag"
+git push origin <new_tag_name>
+
+```
+
 ### Branch
 ```shell
 git branch --unset-upstream <branch-name>; # detach the upstream reference from a local branch
@@ -29,7 +46,7 @@ git config user.email <commit author email>;
 git config init.branch main; # main instead of master;
 git config --global --unset credential.helper; # clear Git Credential Cache
 ```
-### Commands
+
 ```bash
 git tag -l "v1.*"; # filter tag based on pattern
 git tag -a <tagname> -m <message>; # annotate tag with name, email, message
