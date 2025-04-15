@@ -58,6 +58,7 @@ listener.startListening({
 })
 
 ```
+- a way to specify when that callback should run based on dispatched actions or state changes.
 
 ```js
 configureStore({
@@ -83,6 +84,9 @@ unsubscribe() // return value from listenerMiddleware.startListening
 
 ### Attach multiple listeners
 ```js
+import { createListenerMiddleware } from "@reduxjs/toolkit";
+
+const listenerMiddleware = createListenerMiddleware()
 listenerMiddleware.startListening({
   actionCreator: actionOne,
   effect: async (action, api) => {
