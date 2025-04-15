@@ -81,3 +81,21 @@ const unsubscribe = listenerMiddleware.startListening({
 unsubscribe() // return value from listenerMiddleware.startListening
 ```
 
+
+### Attach multiple listeners
+```js
+listenerMiddleware.startListening({
+  actionCreator: actionOne,
+  effect: async (action, api) => {
+    // handle actionOne
+  },
+});
+
+listenerMiddleware.startListening({
+  actionCreator: actionTwo,
+  effect: async (action, api) => {
+    // handle actionTwo
+  },
+});
+
+```
