@@ -8,63 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f0ef2edfe2233124",
+            "id": "5c31a88e3df97c72",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MongoDB/query/mongodb lookup query.md",
+                "file": "Transporters.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "mongodb lookup query"
-            }
-          },
-          {
-            "id": "fae935a7dcb7af0c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Kubernates/Kubernetes services.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Kubernetes services"
-            }
-          },
-          {
-            "id": "83909a47a5b45cab",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "React/Redux/Redux State sync with localstorage.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Redux State sync with localstorage"
-            }
-          },
-          {
-            "id": "d6a8c3e912fc4ea0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "React/Redux/Redux middleware.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Redux middleware"
+              "title": "Transporters"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -96,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "createLis",
+                "query": "python",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -191,15 +148,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d6a8c3e912fc4ea0",
+  "active": "5c31a88e3df97c72",
   "lastOpenFiles": [
-    "React/Redux/Redux State sync with localstorage.md",
+    "MongoDB/query/mongodb lookup query.md",
+    "Kubernates/Kubernetes services.md",
+    "Transporters.md",
+    "GIL (Global interpreter lock).md",
+    "Python.md",
     "React/Redux/Redux middleware.md",
+    "React/Redux/Redux State sync with localstorage.md",
     "React/Redux/Redux createApi.md",
     "Kubernates/Kubernetes config.md",
-    "Kubernates/Kubernetes services.md",
     "mongodb replicaset.md",
-    "MongoDB/query/mongodb lookup query.md",
     "Linux/management/Package Manager.md",
     "mongosh.md",
     "MongoDB/mongoose/mongoose.md",
@@ -216,9 +176,6 @@
     "Projects/Project Assignment.md",
     "Kubernates/kubectl.md",
     "React/Redux toolkit.md",
-    "GIT/git command.md",
-    "Blockchain.md",
-    "orchestration.md",
     "linux seri",
     "Netlify",
     "React/Redux/RTQ",
