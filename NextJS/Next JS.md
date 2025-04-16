@@ -75,3 +75,24 @@ module.exports = {
 };
 
 ```
+
+### Manifest json file
+
+- enables code splitting, lazy loading
+- [[SSR]] needs to know which chunks to send.
+- Middleware/runtime matches routes and behaviors based on manifest.
+
+> [!INFO] manifest json file
+> - allow static hosting/CDNs to understand asset dependencies.
+
+- `*-manifest.json` files serve as internal maps used by the framework and server to efficiently resolve resources.
+
+| File Name                        | Purpose                                                     |
+| -------------------------------- | ----------------------------------------------------------- |
+| `build-manifest.json`            | Map of all built files for each route/page (JS/CSS chunks)  |
+| `react-loadable-manifest.json`   | Helps with dynamic imports & SSR chunk resolution           |
+| `ssr-module-manifest.json`       | Used by the server to know which modules to preload for SSR |
+| `middleware-manifest.json`       | Metadata for middleware (functions, matchers)               |
+| `routes-manifest.json`           | List of all static + dynamic routes and rewrites/redirects  |
+| `client-reference-manifest.json` | Tracks server components vs client components for RSC       |
+| `app-build-manifest.json`        | Used in App Router builds (maps pages to built files)       |
