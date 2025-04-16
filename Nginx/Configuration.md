@@ -5,7 +5,6 @@
 > [!WARNING] nginx doesn't allow variables in alias.
 - if you must use dynamic/templated configs: generate them via a build script or use templating engines (e.g., Ansible / Jinja, envsubst)
 
-use 
 - use `nginx` to serve static files `/public`.
 - Proxy all dynamic routes to NextJS `localhost:3000`
 
@@ -27,3 +26,17 @@ images: {
   ],
 }
 ```
+
+## Folder
+`fastcgi.conf` -> this is a standard Nginx config file used when Nginx acts as a reverse proxy for FastCGI servers.
+```conf
+location ~ \.php$ {
+    include fastcgi.conf;
+    fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+}
+
+```
+
+> [!INFO] Nginx itself does not execute dynamic code (like PHP, Python etc) instead, it forwards requests to external FastCGI servers and `fastcgi.conf` provides the necessary parameters for the communications.
+
+
