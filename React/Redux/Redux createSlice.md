@@ -151,3 +151,20 @@ export default cartSlice.reducer;
 
 > [!INFO] There may be occasions when you want to insert a value and then make further updates to it.
 Related to this RTK's `createEntityAdapter` update function can either be used as standalone reducers, or _mutating_ update functions.
+
+### Keep slice in sync
+- when one slice updates, the other should respond accordingly.
+
+> [!NOTE] cannot directly access another slice's state inside a reducer.
+- use `extraReducers` `createAction` or `createAsyncThunk`
+
+```js
+// userThunk.ts
+export const loginUser = createAsyncThunk('user/login', async (creds, { dispatch }) => {
+  const user = await api.login(creds);
+  dispatch(userLoggedIn({ userId: user.id }));
+  dispatch(syncProfile({ userId: user.id })); // <- runs after user state is updated
+  return user;
+});
+
+```

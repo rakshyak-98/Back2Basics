@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "882cb0dcf7d36f23",
+        "id": "669fe95628a9a327",
         "type": "tabs",
         "children": [
           {
-            "id": "c4ad5698e54a3462",
+            "id": "6c3be7819fe4f81e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Nginx/Configuration.md",
+                "file": "React/Redux/Redux createSlice.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Configuration"
+              "title": "Redux createSlice"
             }
           }
         ]
@@ -148,13 +148,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c4ad5698e54a3462",
+  "active": "6c3be7819fe4f81e",
   "lastOpenFiles": [
+    "React/Redux/Redux Error.md",
+    "React/Redux.md",
+    "React/Redux/Immutability in Redux.md",
+    "Nginx/Configuration.md",
     "Linux/management/Linux system management.md",
     "Linux/management/Linux management.md",
     "NextJS/Next JS.md",
     "NextJS Error.md",
-    "Nginx/Configuration.md",
     "Inter Process Communication.md",
     "Linux/Linux configuration.md",
     "pm2.md",
@@ -173,9 +176,6 @@
     "React/Redux/Redux createApi.md",
     "Kubernates/Kubernetes config.md",
     "mongodb replicaset.md",
-    "Linux/management/Package Manager.md",
-    "mongosh.md",
-    "MongoDB/mongoose/mongoose.md",
     "linux seri",
     "Netlify",
     "React/Redux/RTQ",
