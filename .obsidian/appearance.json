@@ -1,7 +1,7 @@
 {
   "accentColor": "",
   "baseFontSize": 16,
-  "cssTheme": "",
+  "cssTheme": "Obsidian gruvbox",
   "baseFontSizeAction": false,
   "theme": "system",
   "interfaceFontFamily": "JetBrains Mono",

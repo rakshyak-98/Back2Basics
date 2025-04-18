@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "nginx",
+                "query": "",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -64,8 +64,7 @@
               "title": "Search"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",

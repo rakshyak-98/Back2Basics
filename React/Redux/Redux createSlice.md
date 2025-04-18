@@ -168,3 +168,31 @@ export const loginUser = createAsyncThunk('user/login', async (creds, { dispatch
 });
 
 ```
+
+> [!WARNING] You cannot access same slice reducer in `extraReducers` property
+
+```js
+extraReducers: (builder) => {
+  builder.addCase(mySlice.actions.doSomething, ...) // ❌ won't work
+}
+
+```
+
+if you need to run an action Workaround
+```js
+export const doSomething = createAction('mySlice/doSomething');
+
+createSlice({
+  name: 'mySlice',
+  initialState,
+  reducers: {}, // or use it here too
+  extraReducers: (builder) => {
+    builder.addCase(doSomething, (state) => {
+      state.count++;
+    });
+  },
+});
+
+```
+
+> [!INFO] `extraReducers` are designed to respond to actions defined outside the slice or to handle async actions, and do not have internal access to the slice's reducer functions
