@@ -48,9 +48,12 @@ time -o <args>; # Redirect output to a file
 time -f <args>; # Customize output format
 ```
 
-### gsettings
+### `gsettings` 
+
 ```bash
 gsettings set org.freedesktop.ibus.panel.emoji hotkey '@as []'
+
+gsettings get org.gnome.Terminal.ProfilesList default; # get profile
 
 # theme
 gsettings get org.gnome.desktop.interface gtk-theme
