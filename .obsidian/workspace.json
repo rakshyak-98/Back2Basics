@@ -56,8 +56,8 @@
                 "query": "",
                 "matchingCase": true,
                 "explainSearch": false,
-                "collapseAll": true,
-                "extraContext": true,
+                "collapseAll": false,
+                "extraContext": false,
                 "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
@@ -128,8 +128,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "lucide-file",
-              "title": "Plugin no longer active"
+              "icon": "git-pull-request",
+              "title": "Source Control"
             }
           }
         ]
@@ -153,6 +153,8 @@
     "React/Redux.md",
     "React/Redux/Immutability in Redux.md",
     "Nginx/Configuration.md",
+    "Kubernates/kubectl.md",
+    "Kubernates/Kubernetes config.md",
     "Linux/management/Linux system management.md",
     "Linux/management/Linux management.md",
     "NextJS/Next JS.md",
@@ -169,15 +171,23 @@
     "MongoDB/query/mongodb lookup query.md",
     "Kubernates/Kubernetes services.md",
     "GIL (Global interpreter lock).md",
-    "Python.md",
-    "React/Redux/Redux middleware.md",
-    "React/Redux/Redux State sync with localstorage.md",
+    "NextJS Error.md",
+    "NextJS/Next JS.md",
+    "Transporter in Email sending.md",
     "React/Redux/Redux createApi.md",
+    "Transporters.md",
+    "Docker/docker commands.md",
+    "Docker/Docker compose.md",
+    "Database/Database design.md",
+    "Linux/management/systemctl.md",
+    "Linux/loggging.md",
+    "linux seri/Service masking.md",
     "Kubernates/Kubernetes config.md",
     "mongodb replicaset.md",
     "linux seri",
     "Netlify",
     "React/Redux/RTQ",
+    "Netlify",
     "Data structure",
     "NextJS",
     "NodeJS/Packages",
