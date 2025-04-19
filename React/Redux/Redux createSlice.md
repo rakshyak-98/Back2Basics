@@ -43,6 +43,9 @@ const todosSlice = createSlice({
 ```
 - This is because statements and function calls may return a value, and Immer sees both the attempted mutation and _and_ the new returned value and doesn't know which to use as the result.
 
+> [!INFO] slice reducer 
+> - `extraReduer` -> what are the thing this slice is not in charge of that it might to deal with.
+
 > [!NOTE] As an alternative, you can use `Object.assign` to mutate multiple fields at once, since `Object.assign` always mutates the first object that it's given. [ref](https://redux-toolkit.js.org/usage/immer-reducers)
 ```js
 function objectCaseReducer3(state, action) {
