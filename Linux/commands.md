@@ -245,6 +245,7 @@ shebang is the character sequence consisting of the characters `#!` when a text 
 `pgrep -l -u $USER` list the process and get the process id, user `kill` command to kill the process.
 
 ```bash
+kill -l; # list all the signal names;
 sudo lsof -i -P -n | grep LISTEN
 kill -s QUIT [process id]
 ```
