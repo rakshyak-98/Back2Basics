@@ -31,3 +31,17 @@ this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/se
 ```
 
 - you're importing a vendored/interval version of React from `Next.js` RSC (`react.js [app-rsc]`) instead of the public React module.
+
+## Prerender Error with NextJS
+```txt
+Error occured prerendering path /menu-items.
+```
+[NextJS prerender-error](https://nextjs.org/docs/messages/prerender-error)
+
+> [!NOTE] app route -> app router allow colocation of pages and other files in the same folder.
+
+- [avoid exporting pages with server-side rendering](https://nextjs.org/docs/messages/prerender-error#4-avoid-exporting-pages-with-server-side-rendering) -> If you're using `next export` or `output: 'export'` in your `next.config.js`, ensure that none of your pages use `getServerSideProps`. Instead, use `getStaticProps` for data fetching:
+
+### Next JS export to static HTML always redirect to the home page "/" if page refresh
+[discussion vercel nextjs](https://github.com/vercel/next.js/discussions/10522)
+[cloudfront-nextjs-redirect fix](https://medium.com/@ersel_aker/cloudfront-nextjs-redirect-d7673f0122e3)

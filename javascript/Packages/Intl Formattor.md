@@ -45,19 +45,15 @@ new Intl.PluralRules('en-US').select(2); // "other"
 ```
 
 
-### **6. List Formatting (**``**)**
-
+### **6. List Formatting
 - Formats lists naturally.
 - **Example:**
-
 ```js
 new Intl.ListFormat('en', { style: 'long', type: 'conjunction' }).format(["Apple", "Banana", "Cherry"]);
 // "Apple, Banana, and Cherry"
 ```
 
-
-### **7. Text Segmentation (**``**)**
-
+### **7. Text Segmentation
 - Splits text into words/sentences.
 - **Example:**
 
@@ -67,9 +63,9 @@ new Intl.ListFormat('en', { style: 'long', type: 'conjunction' }).format(["Apple
 ```
 
 
-### **8. Localized Display Names (**``**)**
+### **8. Localised Display Names
 
-- Provides localized names for languages/regions.
+- Provides localised names for languages/regions.
 - **Example:**
 
 ```js
