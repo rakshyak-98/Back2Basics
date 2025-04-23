@@ -44,4 +44,4 @@ Error occured prerendering path /menu-items.
 
 ### Next JS export to static HTML always redirect to the home page "/" if page refresh
 [discussion vercel nextjs](https://github.com/vercel/next.js/discussions/10522)
-[cloudfront-nextjs-redirect fix](https://medium.com/@ersel_aker/cloudfront-nextjs-redirect-d7673f0122e3)
+[discussioncomment-2304314](https://github.com/vercel/next.js/discussions/10522#discussioncomment-2304314)
