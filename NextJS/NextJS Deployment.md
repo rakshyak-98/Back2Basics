@@ -1,6 +1,8 @@
 ### Static HTML Export
 [static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
 
+> [!INFO] You can use [`next export`](https://nextjs.org/docs/advanced-features/static-html-export) to generate a completely static site, if *you have no need for any of the dynamic features that Next.js offers.*
+
 >[!INFO] Since Next.js supports this static export, it can be deployed and hosted on any web server that can serve HTML/CSS/JS static assets.
 
 ```txt

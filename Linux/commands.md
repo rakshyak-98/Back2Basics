@@ -140,8 +140,18 @@ mount; # mount file system.
 # fix broken grub config
 sudo apt-get install --reinstall ubuntu-desktop;
 ```
+### tee
+- read from `stdin` 
+- writes to both `stdout` and Files
+- useful for logging output while still displaying it.
+tee - command is used to redirect the output of a command to a file, while still displaying it on the terminal. It is named after the T-spliter used in plumbing, which splits water into two directions.
 
-tee - command is used to redirect the output of a command to a file, while still displaying it on the terminal. It is named after the T-splitter used in plumbing, which splits water into two directions.
+```sh
+<command> | tee file.txt;
+ls -l | tee files.txt; # save output file and see it live.
+echo "log lie" | tee -a log.txt; # append instead of overwrite.
+echo "config" | tee a.txt b.txt c.txt; # save output to multiple files.
+```
 
 `chmod` use to grant user, group and other read, write, and execute permissions, `chmod a-x` execute permission for all users. `x` execute, `w` write, `r` read. `a` all user `u` current user `o` other. `rwx-rw-x` it is in the format `ownerOfFile-groupOfOwner-others`. this can be done with octal 761 ( in binary 111, 110, 001) `rwx` to give permissions.
 
