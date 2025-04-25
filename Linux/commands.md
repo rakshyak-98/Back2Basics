@@ -556,6 +556,19 @@ xdg-open /path/to/example.pdf
 	- the command to execute it
 	- the MIME type it can handle
 - `xdg-mime` is used internally by `xdg-open` to query which application is associated with a given MIME type.
+
+#### What is atk-bridge
+is a software component that acts as a bridge between the ATK (Accessibility Toolkit)
+
+> [!NOTE] Users may encounter warnings such as "Failed to load module **'atk-bridge'" if the library is missing or not properly configured**
+
+This bridge enables applications that use ATK (such as those built with GTK and other toolkits) to expose their accessibility information to assistive technologies like screen readers, magnifiers and other accessibility tools through the AT-SPI infrastructure.
+
+ATK -> is a toolkit-independent accessibility API, providing a way for applications to describe their user interface elements and events in a standardized way.
+
+ATK-SPI -> is the main accessibility framework on Linux, allowing assistive technologies to interact with applications and retrieve information about their UI.
+
+atk-bridge -> connects these two layers: it translates ATK calls from applications into AT-SPI events and data, making them accessible over D-Bus (the interprocess communication mechanism used by AT-SPI2)
 ### xdg-mime
 
 ```bash
