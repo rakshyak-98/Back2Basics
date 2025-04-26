@@ -4,67 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "669fe95628a9a327",
+        "id": "d6aeeecfb29c359d",
         "type": "tabs",
         "children": [
           {
-            "id": "6c3be7819fe4f81e",
+            "id": "dceeadfd7d9075e6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NextJS/NextJS Error.md",
+                "file": "GIT/git command.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NextJS Error"
-            }
-          },
-          {
-            "id": "7079095797bf8e4b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Payment break down json.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Payment break down json"
-            }
-          },
-          {
-            "id": "b966f01e36bde368",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Linux/commands.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "commands"
-            }
-          },
-          {
-            "id": "8e8f3454660596e0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Linux/commands.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "commands"
+              "title": "git command"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -191,18 +148,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8e8f3454660596e0",
+  "active": "dceeadfd7d9075e6",
   "lastOpenFiles": [
-    "Linux/commands/awk command.md",
+    "NextJS/NextJS Error.md",
     "Linux/commands.md",
+    "Payment break down json.md",
+    "Linux/commands/awk command.md",
     "NextJS/NextJS Deployment.md",
     "NextJS/Next JS.md",
     "Netlify/Netlify deployment.md",
     "pm2.md",
     "React/Redux/Redux createApi.md",
     "Nginx/Configuration.md",
-    "NextJS/NextJS Error.md",
-    "Payment break down json.md",
     "javascript/Packages/Intl Formattor.md",
     "NodeJS/Packages/npm packages.md",
     "React/Redux/Redux createSlice.md",
