@@ -49,7 +49,7 @@ time -f <args>; # Customize output format
 ```
 
 ### `gsettings` 
-
+	
 ```bash
 gsettings set org.freedesktop.ibus.panel.emoji hotkey '@as []'
 
@@ -64,6 +64,62 @@ gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
 gnome-default-applications-properties
 ```
 
+```bash
+PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
+gsettings list-recursively "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
+```
+
+```bash
+gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" use-theme-colors false
+gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" background-color '#282A36'
+gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" foreground-color '#F8F8F2'
+gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" palette "['#000000', '#FF5555', '#50FA7B', '#F1FA8C', '#BD93F9', '#FF79C6', '#8BE9FD', '#BFBFBF', '#4D4D4D', '#FF6E67', '#5AF78E', '#F4F99D', '#CAA9FA', '#FF92D0', '#9AEDFE', '#E6E6E6']"
+```
+
+```bash
+gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" bold-color '#FFFFFF'
+gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" bold-color-same-as-fg false
+```
+
+### Use rose pine moon theme
+```bash
+# Get the current profile ID
+PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
+
+# Set theme colors
+BASE_PATH="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
+
+gsettings set "$BASE_PATH" use-theme-colors false
+gsettings set "$BASE_PATH" use-theme-background false
+
+# Background, foreground, bold
+gsettings set "$BASE_PATH" background-color '#232136'     # base
+gsettings set "$BASE_PATH" foreground-color '#e0def4'     # text
+gsettings set "$BASE_PATH" bold-color '#c4a7e7'           # love
+gsettings set "$BASE_PATH" bold-color-same-as-fg false
+
+# Rosé Pine Moon palette (16 colors)
+gsettings set "$BASE_PATH" palette "[
+  '#393552',  # black     (surface)
+  '#eb6f92',  # red       (love)
+  '#9ccfd8',  # green     (foam)
+  '#f6c177',  # yellow    (gold)
+  '#3e8fb0',  # blue      (pine)
+  '#c4a7e7',  # magenta   (iris)
+  '#ea9a97',  # cyan      (rose)
+  '#e0def4',  # white     (text)
+
+  '#6e6a86',  # bright black  (highlight low)
+  '#eb6f92',  # bright red    (love)
+  '#9ccfd8',  # bright green  (foam)
+  '#f6c177',  # bright yellow (gold)
+  '#3e8fb0',  # bright blue   (pine)
+  '#c4a7e7',  # bright magenta(iris)
+  '#ea9a97',  # bright cyan   (rose)
+  '#e0def4'   # bright white  (text)
+]"
+
+```
 # Update to latest Linux desktop
 
 ```bash
