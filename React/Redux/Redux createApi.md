@@ -213,7 +213,7 @@ ETag: "xyz123"
 
 ### No interceptors / Proxies / Service workers
 - no service worker intercepting the call and rerouting it
-- no browser extension modifying request behavior
+- no browser extension modifying request behavior 
 
 
 ### Real check
@@ -223,3 +223,5 @@ ETag: "xyz123"
 	- `200 (from cache)` -> browser cached
 	- `304 Not Modified` -> conditional cache used
 	- `200` -> full fetch
+
+### Transform response from API slice
