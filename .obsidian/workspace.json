@@ -4,23 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "729ed6ef2ab2d61e",
+        "id": "e43d8c1652905572",
         "type": "tabs",
         "children": [
           {
-            "id": "b05264542fee82f9",
+            "id": "abcd6bd57fb61135",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cookies.md",
+                "file": "React/Redux toolkit.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "cookies"
+              "title": "Redux toolkit"
             }
           }
+        ]
         ]
       }
     ],
@@ -53,7 +54,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tee",
+                "query": "thunk",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -148,19 +149,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b05264542fee82f9",
+  "active": "abcd6bd57fb61135",
   "lastOpenFiles": [
-    "System design.md",
-    "Web Security.md",
-    "Linux/commands.md",
-    "Linux/Bash.md",
-    "Netlify/Netlify deployment.md",
-    "GIT/git command.md",
+    "React/Redux/Redux Thunk.md",
     "NextJS/NextJS Error.md",
     "Payment break down json.md",
+    "Linux/commands.md",
     "Linux/commands/awk command.md",
     "NextJS/NextJS Deployment.md",
     "NextJS/Next JS.md",
+    "Netlify/Netlify deployment.md",
     "pm2.md",
     "React/Redux/Redux createApi.md",
     "Nginx/Configuration.md",
@@ -176,6 +174,9 @@
     "Inter Process Communication.md",
     "Linux/Linux configuration.md",
     "Nginx.md",
+    "uwsgi.md",
+    "POP3 (Post Office Protocol v3).md",
+    "IMAP (Internet Message Access Protocol).md",
     "linux seri",
     "Netlify",
     "React/Redux/RTQ",

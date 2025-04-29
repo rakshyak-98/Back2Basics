@@ -6,6 +6,29 @@
 
 > [!INFO] Many ESLint configs include the [no-param-reassign](https://eslint.org/docs/rules/no-param-reassign) rule, which may also warn about mutations to nested fields. 
 
+
+> [!INFO] `dispatch(thunk).unwrap()` converts it to a real Promise.
+> - `dispatch(thunk)` normally returns a Redux action (not a real promise).
+- with `unwrap()` returns `Promise` with real `payload` and throw `error`.
+```js
+// Without unwrap
+const action = await dispatch(fetchPosts());
+if (fetchPosts.fulfilled.match(action)) {
+  console.log('Success', action.payload);
+} else {
+  console.error('Failed');
+}
+
+// With unwrap (cleaner)
+try {
+  const posts = await dispatch(fetchPosts()).unwrap();
+  console.log('Success', posts);
+} catch (err) {
+  console.error('Failed', err);
+}
+
+```
+
 > [!WARNING] In Immer powered reducers, no-param-reassign is not helpful
 - To resolve this, you can tell the ESLint rule to ignore mutations and assignment to a parameter named `state` only in slice files:
 ```js
