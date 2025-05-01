@@ -1,4 +1,4 @@
-They are **compile-time enforced boundaries** that separate **Server Components** from **Client Components** in Next.js (App Router) using **React Server Components (RSC)**.
+They are **compile-time enfo[]()rced boundaries** that separate **Server Components** from **Client Components** in Next.js (App Router) using **React Server Components (RSC)**.
 
 ### What they actually _do_:
 - **Server Components**: Rendered on the server at build- or request-time, serialized into HTML/JSON.
