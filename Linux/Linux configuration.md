@@ -237,3 +237,6 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt;
 #### Usage
 - Applications like the terminal emulator use the terminfo database to determine how to control the terminal
 - entries in the terminfo database are compiled from source files using the `tic` command.
+
+### Sound
+`/etc/asound.conf` ALSA settings file. User level `~/.asoundrc`
