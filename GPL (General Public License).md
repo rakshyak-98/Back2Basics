@@ -1,0 +1,1 @@
+Community server GPL usually refers to open-source server software that is licensed under the GNU General Public License (GPL) and is distributed in a **Community Edition** variant.

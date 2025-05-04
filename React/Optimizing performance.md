@@ -1,3 +1,5 @@
+[optimize react component](https://github.com/stevekinney/lots-to-do/tree/main/src/lib)
+
 **A functional component will render for one of three reasons:**
 - Then component was not in the component tree before and is now.
 - The parent component just re-rendered.
