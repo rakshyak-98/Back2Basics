@@ -75,4 +75,11 @@ location ~ \.php$ {
 
 > [!INFO] Nginx itself does not execute dynamic code (like PHP, Python etc) instead, it forwards requests to external FastCGI servers and `fastcgi.conf` provides the necessary parameters for the communications.
 
+## site-enable and site-available
+`/etc/nginx/sites-enabled` -> stored active in live Nginx usually contains `symlinks` to files in `site-available`
+
+- easy to enable/disable site
+```shell
+sudo unlink /etc/nginx/sites-enabled/myapp;
+```
 
