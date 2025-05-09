@@ -1,3 +1,9 @@
+### pass args to the underlying command
+```bash
+npm start -- --port 4000 --verbose; # pass args to the underlying command.
+```
+- the `--` separates `npm` args from script args.
+
 ```shell
 npm install <package>@<version>;
 npm install <pacakge> --save-exact;
@@ -32,3 +38,5 @@ npm repo <pacakge>; # open repository in the browser.
 npm search <pacakge>; # search for the package matching the keyword.
 npm explain <package>; # explains why a package is installed.
 ```
+
+

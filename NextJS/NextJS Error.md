@@ -48,10 +48,27 @@ Error occured prerendering path /menu-items.
 [discussioncomment-2304314](https://github.com/vercel/next.js/discussions/10522#discussioncomment-2304314)
 
 
-### Process already running
+# Process already running
 ```bash
 npm run start;
 pkill -3 npm;
+```
+
+```text
+> dinehub@0.1.0 start
+> next start
+
+ ⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3000
+    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)
+    at new Promise (<anonymous>) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+
 ```
 
 ```txt
