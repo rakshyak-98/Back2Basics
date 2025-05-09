@@ -59,3 +59,20 @@ commit;
 -- if not ok
 rollback;
 ```
+
+## Query table
+```sql
+SELECT id, name, role, shift
+  CASE
+    WHEN role = 'admin' AND shift = 'Morning' THEN email
+    WHEN role = 'manager' AND department = 'IT' THEN department
+    ELSE NULL
+  END AS conditional_info,
+  
+  CASE
+    WHEN role = 'guest' OR shift = 'Night' THEN 'Restricted'
+    ELSE 'Allowed'
+  END AS access_status
+FROM users;
+
+```
