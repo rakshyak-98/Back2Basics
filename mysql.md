@@ -12,3 +12,50 @@ SHOW COLUMNS FROM <table>;
 SHOW INDEX FROM <table>;
 SHOW tables;
 ```
+
+## table
+```txt
+CREATE TABLE table_name (
+	column1 datatype constraints,
+	column2 datatype constraints,
+	...
+)
+```
+
+```sql
+CREATE TABLE users(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	role VARCHAR(50) DEFAULT 'guest'
+)
+```
+
+## Permission
+```sql
+GRANT ALL PRIVILEGES ON db_name.* TO 'user'@'host';
+```
+
+#### grant specific privileges
+```sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON db_name.* TO 'user'@'host';
+
+```
+
+```sql
+update <tablename> Set <columnname> = <value> <condition>;
+update employee Set name = "ram" where emp_id = 1000;
+```
+
+### Transaction
+```sql
+START Transaction;
+
+update user set name = "Alice" where id = 1000;
+
+select * from users where id = 1000;
+-- decide if OK
+commit;
+
+-- if not ok
+rollback;
+```
