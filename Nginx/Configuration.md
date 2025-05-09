@@ -83,3 +83,6 @@ location ~ \.php$ {
 sudo unlink /etc/nginx/sites-enabled/myapp;
 ```
 
+> [!INFO] put files inside `/etc/nginx/site-available` create symbolic link to the `/etc/nginx/site-enable`
+- `next.conf.ts` -> add `base_path` and `leadingslash: true` property in `nextConfig`
+- `basePath` must not have trailing `/`

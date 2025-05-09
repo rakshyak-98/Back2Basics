@@ -1,3 +1,4 @@
+> [!INFO] NextJS build will call api 
 [next-router-not-mounted](https://nextjs.org/docs/messages/next-router-not-mounted)
 error comes from `Next.js v13+` App Router
 - If used in the `app` directory, migrate to the new hooks imported from `next/navigation`.
@@ -32,7 +33,7 @@ this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/se
 
 - you're importing a vendored/interval version of React from `Next.js` RSC (`react.js [app-rsc]`) instead of the public React module.
 
-## Prerender Error with NextJS
+## Pre-render Error with NextJS
 ```txt
 Error occured prerendering path /menu-items.
 ```
@@ -45,3 +46,41 @@ Error occured prerendering path /menu-items.
 ### Next JS export to static HTML always redirect to the home page "/" if page refresh
 [discussion vercel nextjs](https://github.com/vercel/next.js/discussions/10522)
 [discussioncomment-2304314](https://github.com/vercel/next.js/discussions/10522#discussioncomment-2304314)
+
+
+### Process already running
+```bash
+npm run start;
+pkill -3 npm;
+```
+
+```txt
+
+> dinehub@0.1.0 start
+> next start
+
+   ▲ Next.js 15.2.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.29.101:3000
+
+ ✓ Starting...
+ ✓ Ready in 1812ms
+Quit (core dumped)
+
+```
+
+```bash
+ps aux | grep next;
+```
+
+
+> [!NOTE] check the start time before killing (not accedentaly killing another process)
+```txt
+rakshyak   18329  0.0  0.0   2896  1536 pts/0    S    12:16   0:00 sh -c next start
+rakshyak   18330  4.8  1.2 14404692 146420 pts/0 Sl   12:16   0:04 next-server (v15.2.4)
+
+```
+
+```bash
+pkill next-server;
+```

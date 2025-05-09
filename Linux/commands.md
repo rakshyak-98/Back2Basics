@@ -583,6 +583,14 @@ curl -x <proxy:port> <url>; # route requests through a proxy
 curl --url smtp://smtp.example.com --mail-from sender@example.com --mail-rcpt recipient@example.com -T mail.txt
 ```
 
+```bash
+curl -X <http method> -d "key1=value1&key2=value2" <url> 
+curl -X POST -d "key1=value1&key2=value2" https://example.com/endpoint
+
+curl -X POST -H "Content-Type: application/json" -d '{"key":"value"}' https://example.com/endpoint
+
+```
+
 ## visudo
 - the `/etc/sudoers` file should only be edited using the `visudo` command which ensures the file is edited by one user at a time and performs syntax checks.
 - Errors or bad syntax in the `/etc/sudoers` may result in locking out all users.

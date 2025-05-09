@@ -1,3 +1,9 @@
+# kill process with `SIGQUIT` 
+```bash
+kill -s 3 <pid>; # send SIGQUIT signal
+```
+- the process won't show on `ps aux | grep <process sub string>;` you need to find the child process which was running instead of the process you signal `SIGQUIT`
+- if the process is not still bind to the port (not released). Find and kill the child process
 
 ```bash
 sudo apt install strace;
