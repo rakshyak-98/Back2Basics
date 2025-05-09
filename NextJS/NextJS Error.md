@@ -101,3 +101,9 @@ rakshyak   18330  4.8  1.2 14404692 146420 pts/0 Sl   12:16   0:04 next-server (
 ```bash
 pkill next-server;
 ```
+
+### Fix CORS error
+
+## Static image not loading when hosted on AWS ec2 instance
+
+### Nginx proxy setup error, not able to call API

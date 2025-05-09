@@ -16,7 +16,7 @@
 - [nocache]
 - [swagger-ui-express]
 - [nodemailer]
-- [cors]
+- [cors](https://www.npmjs.com/package/cors)
 - [file-type](https://www.npmjs.com/package/file-type) -> For detecting binary-based file formats, not text-based formats.
 - [got]() - HTTP request library for NodeJS, alternative to Axios and Node's built-in `http` module, provider stream support
 - [uWebSocket](https://github.com/uNetworking/uWebSockets) -> low-latency [[WebSocket]] and HTTP server library written c++
@@ -44,19 +44,28 @@ const schema = yup.object({
 ```
 
 ```json
-create a yup validaton for this object:
 {
-		guestDetails: [],
-		personalDetails: {
-			FirstName: "",
-			LastName: "",
-			Email: "",
-			Mobile: "",
-			Address: "",
-			Country: "",
-			State: "",
-			Zipcode: "",
-			Comment: "",
-		},
-	}
+	guestDetails: [],
+	personalDetails: {
+		FirstName: "",
+		LastName: "",
+		Email: "",
+		Mobile: "",
+		Address: "",
+		Country: "",
+		State: "",
+		Zipcode: "",
+		Comment: "",
+	},
+}
+```
+
+## CORS
+```js
+origin: (origin, callback) => {
+  const allowed = ["https://mydomain.com"];
+  if (allowed.includes(origin)) return callback(null, true);
+  return callback(new Error("Not allowed by CORS"));
+}
+
 ```
