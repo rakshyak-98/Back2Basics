@@ -788,3 +788,5 @@ objdump -t <binary> | grep main;
 | ------ | --------------------------------------------------------- |
 | `-s`   | Display **raw section data** (useful for debugging)       |
 | `-h`   | Show **section headers** (helps understand memory layout) |
+## `lsof`
+lists on its standard output file information about files opened by processes for the following UNIX dialects
