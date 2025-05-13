@@ -14,13 +14,15 @@
 - [hpp](https://www.npmjs.com/package/hpp/v/0.1.2) -> middleware to **protect against HTTP Parameter Pollution attacks**
 - [multer]
 - [nocache]
-- [swagger-ui-express]
+- [swagger-u-express]
 - [nodemailer]
 - [cors](https://www.npmjs.com/package/cors)
 - [file-type](https://www.npmjs.com/package/file-type) -> For detecting binary-based file formats, not text-based formats.
-- [got]() - HTTP request library for NodeJS, alternative to Axios and Node's built-in `http` module, provider stream support
+- [got]() - HTTP request library for NodeJS, alternative to axios and Node's built-in `http` module, provider stream support
 - [uWebSocket](https://github.com/uNetworking/uWebSockets) -> low-latency [[WebSocket]] and HTTP server library written c++
 - [class-transformer](https://www.npmjs.com/package/class-transformer) -> if you're using typeScript, this package is used for serializing and transforming objects.
+- [node-cron](https://www.npmjs.com/package/node-cron) -> 
+	- `node-cron` schedules tasks in-memory within the NodeJS process - not at the OS level.
 
 ## yup
 ```js
@@ -69,3 +71,4 @@ origin: (origin, callback) => {
 }
 
 ```
+
