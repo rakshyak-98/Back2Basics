@@ -9,4 +9,4 @@ function debounce(func, delay){
 	}
 }
 ```
-- A search input box where logging occurs only after 300ms of inactivity.
+- A search input box where logging occurs only after 300 ms of inactivity.
