@@ -76,3 +76,13 @@ SELECT id, name, role, shift
 FROM users;
 
 ```
+
+### How to update to column in single query
+```txt
+UPDATE <table name> 
+SET 
+	<column> = <value>,
+	<column2> = <value2>,
+	<column3> = <vlaue3>,
+<condition>
+```
