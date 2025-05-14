@@ -139,3 +139,48 @@ CREATE TABLE mem_table (
 ```mysql
 SHOW INDEX FROM your_table;
 ```
+
+### how to define constraints
+```mysql
+CREATE TABLE orders (
+	order_id INT PRIMARY KEY,
+	custoemr_id INT
+	FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+)
+
+```
+
+#### Altering an existing table
+```mysql
+ALTER TABLE orders
+ADD CONSTRAINT fk_customer
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+
+```
+
+```mysql
+FOREIGN KEY (...) REFERENCES ... ON DELETE CASCADE ON UPDATE CASCADE
+```
+- `CASCADE` -> auto delete/update child rows
+- `SET NULL` -> sets child to `NULL` on parent delete
+- `RESTRICT/NO ACTIOn` -> blocks delete/update
+
+### `ERROR 1553 (HY000): Cannot drop index 'customerNumber': needed in a foreign key constraint`
+- you're trying to drop an index that is automatically created to enforce a foreign key constraint.
+- drop the foreign key first, then the index
+```mysql
+SELECT CONSTRAINT_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'your_table' AND COLUMN_NAME = 'your_table_column_name'
+
+```
+
+```mysql
+SHOW CREATE TABLE your_table;
+```
+
+#### Drop the foreign key constraint
+```mysql
+ALTER TABLE your_table DROP FOREIGN KEY fk_name;
+
+```
