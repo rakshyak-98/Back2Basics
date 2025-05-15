@@ -1,3 +1,8 @@
+> [!INFO] in most libraries, *multi statements are disallowed by default* to prevent SQL injection
+```mysql
+SELECT * FROM user WHERE id = 3; DROP DATABASE test; 
+```
+- this is valid SQL syntax if urn directly in the MySQL cli or with `multiStatements: true`
 # Error: `Public Key Retrieval is not allowed`
 - MySQL 8+ default to the `caching_sha2_password` and plugin, which requires the client to encrypt the password using the server's public key during authentication over insecure connections.
 

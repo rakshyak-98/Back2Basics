@@ -1,3 +1,6 @@
+```bash
+mysql --auto-rehash -u user -p db_name; # enable auto complete
+```
 ### Import DB
 
 - before execution create database
@@ -93,7 +96,7 @@ SET
 ## List matching
 ```mysql
 SELECT col1
-FROM table
+	FROM table
 WHERE column_name IN ('val1', 'val2', 'val3');
 
 ```
