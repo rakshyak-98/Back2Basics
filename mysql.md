@@ -67,7 +67,7 @@ commit;
 rollback;
 ```
 
-## Query table
+## table
 ```mysql
 SELECT id, name, role, shift CASE
     WHEN role = 'admin' AND shift = 'Morning' THEN email
@@ -81,6 +81,28 @@ SELECT id, name, role, shift CASE
   END AS access_status
 FROM users;
 
+```
+
+## Add columns to an existing table
+```mysql
+ALTER TABLE users
+ADD (
+	age INT
+	is_active BOOLEAN DEFAULT TRUE,
+	last_login TIMESTAMP
+)
+```
+
+```mysql
+ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
+ALTER TABLE table_name CHANGE COLUMN old_name TO new_name data_type;
+
+```
+
+### re-arrange columns
+```mysql
+ALTER TABLE table_name MODIFY column_name data_type AFTER other_column;
+ALTER TABLE table_name MODIFY column_name data_tyep FIRST;
 ```
 
 ### How to update to column in single query
