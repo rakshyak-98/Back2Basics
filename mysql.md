@@ -184,6 +184,11 @@ FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 ```
 
 ```mysql
+ALTER TABLE table_name DROP COLUMN column_name;
+
+```
+
+```mysql
 FOREIGN KEY (...) REFERENCES ... ON DELETE CASCADE ON UPDATE CASCADE
 ```
 - `CASCADE` -> auto delete/update child rows
@@ -207,5 +212,16 @@ SHOW CREATE TABLE your_table;
 #### Drop the foreign key constraint
 ```mysql
 ALTER TABLE your_table DROP FOREIGN KEY fk_name;
+
+```
+
+
+### Manuplutation
+```mysql
+SELECT JSON_OBJECT(
+  'col1', col1,
+  'col2', col2
+) AS json_data
+FROM users;
 
 ```
