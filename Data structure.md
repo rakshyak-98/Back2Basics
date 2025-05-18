@@ -1,8 +1,10 @@
-> [!INFO]  Algorithm complexity
+> [!INFO] 
+  Algorithm complexity
 > - mostly has to do with the number of times the algorithm needs to access its input data to do its job. 
 - an `O(n)` algorithm, which needs to access its input only once.
 
-> [!INFO] `O(n!)`
+> [!INFO]
+>  `O(n!)`
 > - the worst algorithms, however, are the ones with an `O(n!)` running time. 
 > - Which makes them almost unusable for inputs with more than 300 elements.
 
@@ -10,13 +12,19 @@
 - increase the steps
 
 ## Array
+
+> [!INFO]
+> getting data at a specific index, take the width of the type multiply it by the offset puts it at the memory addressing go in and grab that.
+
 - deleting an element from the array can be done in O(1) by swapping the element to be deleted with the last element in the array and then removing the last element.
 - fixed size, contiguous memory allocation.
 - direct index access `O(1)`
 - insertion/Deletion `O(n)` because of shifting elements.
 
-> [!INFO] Array are ideal for fast, direct access when you know the index.
-### Sub-array
+> [!INFO]
+> Getting data at a specific index involves multiplying the width (size in bytes) of the type by the index offset, then adding it to the base memory address to locate the desired element. The system then goes to that calculated address and retrieves the data.
+
+## Sub-array
 - a sub-array is a contiguous segment of an array. For an array of size N, a sub-array can start at any index from 0 to N -1. 
 - counting sub-array : from each start index i (where i ranges from 0 to N - 1), the sub-array can end at any index j (where j ranges from i to N - 1).
 - the number of choices from the ending index j for a given starting index i in N - i.
@@ -46,7 +54,8 @@
 - Access `O(1)` direct index access.
 - insertion/Deletion `O(1)` if pointer is known.
 
-> [!INFO] Linked list are useful when frequent insertion/deletion is required without concern for random access.
+> [!INFO]
+> Linked list are useful when frequent insertion/deletion is required without concern for random access.
 
 #### Implementation:
 
