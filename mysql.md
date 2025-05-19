@@ -225,3 +225,15 @@ SELECT JSON_OBJECT(
 FROM users;
 
 ```
+
+## how to do a table migration between database
+
+```bash
+mysqldump -u user -p source_db table_name > table_dump.sql
+
+```
+
+```bash
+mysql -u user -p target_db < table_dump.sql
+
+```
