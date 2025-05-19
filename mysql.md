@@ -228,6 +228,7 @@ FROM users;
 
 ## how to do a table migration between database
 
+#### If different server
 ```bash
 mysqldump -u user -p source_db table_name > table_dump.sql
 
@@ -237,3 +238,17 @@ mysqldump -u user -p source_db table_name > table_dump.sql
 mysql -u user -p target_db < table_dump.sql
 
 ```
+
+#### if server is same
+```mysql
+CREATE TABLE target_db.table_name AS SELECT * FROM source_db.table_name; 
+
+-- copy structure only
+CREATE TABLE target_db.table_name LIKE source_db.table_name;
+ 
+-- Copy structure + insert data
+INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
+
+```
+> [!WARNING]
+> Loses indexes, constraints - recreate manually if needed.
