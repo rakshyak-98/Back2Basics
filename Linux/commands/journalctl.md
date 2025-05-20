@@ -6,3 +6,7 @@ sudo journalctl --vacuum-time=1week;
 sudo journalctl --vacuum-time=1s;
 journalctl --disk-usage;
 ```
+
+```bash
+journalctl -u <local.service>; # view logs for perticular service.
+```

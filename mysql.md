@@ -1,3 +1,6 @@
+```bash
+mysql --auto-rehash -u user -p db_name; # enable auto complete
+```
 ### Import DB
 
 - before execution create database
@@ -64,7 +67,7 @@ commit;
 rollback;
 ```
 
-## Query table
+## table
 ```mysql
 SELECT id, name, role, shift CASE
     WHEN role = 'admin' AND shift = 'Morning' THEN email
@@ -80,6 +83,28 @@ FROM users;
 
 ```
 
+## Add columns to an existing table
+```mysql
+ALTER TABLE users
+ADD (
+	age INT
+	is_active BOOLEAN DEFAULT TRUE,
+	last_login TIMESTAMP
+)
+```
+
+```mysql
+ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
+ALTER TABLE table_name CHANGE COLUMN old_name TO new_name data_type;
+
+```
+
+### re-arrange columns
+```mysql
+ALTER TABLE table_name MODIFY column_name data_type AFTER other_column;
+ALTER TABLE table_name MODIFY column_name data_tyep FIRST;
+```
+
 ### How to update to column in single query
 ```txt
 UPDATE <table name> 
@@ -93,7 +118,7 @@ SET
 ## List matching
 ```mysql
 SELECT col1
-FROM table
+	FROM table
 WHERE column_name IN ('val1', 'val2', 'val3');
 
 ```
@@ -159,6 +184,11 @@ FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 ```
 
 ```mysql
+ALTER TABLE table_name DROP COLUMN column_name;
+
+```
+
+```mysql
 FOREIGN KEY (...) REFERENCES ... ON DELETE CASCADE ON UPDATE CASCADE
 ```
 - `CASCADE` -> auto delete/update child rows
@@ -184,3 +214,41 @@ SHOW CREATE TABLE your_table;
 ALTER TABLE your_table DROP FOREIGN KEY fk_name;
 
 ```
+
+
+### Manuplutation
+```mysql
+SELECT JSON_OBJECT(
+  'col1', col1,
+  'col2', col2
+) AS json_data
+FROM users;
+
+```
+
+## how to do a table migration between database
+
+#### If different server
+```bash
+mysqldump -u user -p source_db table_name > table_dump.sql
+
+```
+
+```bash
+mysql -u user -p target_db < table_dump.sql
+
+```
+
+#### if server is same
+```mysql
+CREATE TABLE target_db.table_name AS SELECT * FROM source_db.table_name; 
+
+-- copy structure only
+CREATE TABLE target_db.table_name LIKE source_db.table_name;
+ 
+-- Copy structure + insert data
+INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
+
+```
+> [!WARNING]
+> Loses indexes, constraints - recreate manually if needed.

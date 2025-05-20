@@ -15,7 +15,3 @@ gh issue edit <issue id> --add-label <label name>;
 gh pr create --base <base_branch> --head <head_branch> --title <title> --body <body>:
 gh pr view;
 ```
-
-```bash
-gh repo view Raksyak-MST/backend --json sshUrl
-```

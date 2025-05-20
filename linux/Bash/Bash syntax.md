@@ -1,7 +1,6 @@
 ### Command manipulation
 ```shell
 echo "Today is ${date}"
-{ echo "First"; echo "Second" }; # Group multiple command to run in the same shell
 mkdir new_dir && cd new_dir # conditional execution
 diff <(ls dir1) <(ls dir2);
 ```
@@ -10,6 +9,7 @@ diff <(ls dir1) <(ls dir2);
 (cd /tmp && ls); # Executes commands in a separate subshell
 ```
 - This runs the `cd` and `ls` commands in a sub-shell, so the working directory in the current shell remains unchanged.
+
 
 ## Command history expansion
 ```shell
@@ -20,31 +20,6 @@ diff <(ls dir1) <(ls dir2);
 ```shell
 echo ${my_var:-"default value"}  # Prints "default value" if my_var is unset.
 echo ${my_var:0:3}  # Extracts the first 3 characters from my_var.
-```
-
-## History manipulation
-```shell
-HISTORYCONTROL=ignoredups:erasedups; # Avoid duplicate history entries.
-```
-
-```shell
-!?install; # executes the last command that contains the word "install"
-^git^git-lfs; # Replaces the first occurrence of git with git-lfs in the last executed command
-```
-
-```shell
-!!:s/old/new/ # replace old with new in the last command.
-^old^new^ # quick replace old with new in the last command.
-```
-
-```shell
-!$; # last argument of the previous command.
-!^ # first argument of the previous comamnd.
-```
-
-```shell
-fc -l; # list history commands
-fc -e nano n # edit history entry n in nano.
 ```
 
 In Bash, **set flags** (or options) allow you to change the behavior of the shell. You can enable or disable these flags using the `set` command. Here’s a list of some commonly used set flags in Bash:
