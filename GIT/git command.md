@@ -24,8 +24,25 @@ git push origin <new_tag_name>
 
 ```
 
+#### transfer tag from one commit to another
+```bash
+# 1. Delete local tag (if exists)
+git tag -d <tag_name>
+
+# 2. Recreate tag on new commit
+git tag <tag_name> <new_commit_hash>
+
+# 3. Delete remote tag (if pushed before)
+git push origin :refs/tags/<tag_name>
+
+# 4. Push new tag
+git push origin <tag_name>
+
+```
+
 ### Branch
 ```shell
+git branch --set-upstream-to=origin/<branch> <local branch>;
 git branch --unset-upstream <branch-name>; # detach the upstream reference from a local branch
 ```
 
