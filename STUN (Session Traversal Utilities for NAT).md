@@ -12,7 +12,7 @@ Sharing public-facing IP and port information via STUN is critical step in bypas
 - The STUN server responds with the client's public IP and port as seen from outside the NAT.
 - Example: If the client's private IP is `192.168.1.10:4000`, the public IP and port might be `203.0.113.5:6000`.
 #### Sharing public details:
-- The client shares this public IP and port with other peers during a signaling process (e.g., using [[SDP]] via protocols like [[SIP]] or [[WebRTC signaling channels]])
+- The client shares this public IP and port with other peers during a signaling process (e.g., using [[SDP (Service Discovery Protocol)]] via protocols like [[SIP]] or [[WebRTC signaling channels]])
 - the signaling process doesn't involve STUN but relies on a separate signaling server to exchange connection metadata between peers.
 #### Peers Establish a direct connection:
 - The receiving peer attempts to establish a connection to the provided public IP and port.
