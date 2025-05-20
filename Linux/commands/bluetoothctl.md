@@ -6,3 +6,7 @@ Failed to set power on: org.bluez.Error.Busy
 	- A conflicting process (e.g., GNOME Bluetooth)
 	- Driver issue
 	- Device already powered on or misreported state 
+
+```bash
+bluetoothctl;
+```
