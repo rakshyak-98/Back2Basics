@@ -5,6 +5,14 @@ mkdir new_dir && cd new_dir # conditional execution
 diff <(ls dir1) <(ls dir2);
 ```
 
+```bash
+touch -- -file.txt;
+```
+> [!NOTE]
+> end of the options marker.
+> after `--` all args treated as positional.
+> prevents `-file.txt` interpreted as a option flag.
+
 ```
 (cd /tmp && ls); # Executes commands in a separate subshell
 ```
