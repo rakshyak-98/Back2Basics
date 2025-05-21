@@ -20,7 +20,21 @@ SHOW tables;
 DROP VIEW <viewname>;
 ```
 
-## table
+```mysql
+SELECT DATABASE(); # view current database.
+```
+## Permission
+```mysql
+GRANT ALL PRIVILEGES ON db_name.* TO 'user'@'host';
+```
+
+#### grant specific privileges
+```mysql
+GRANT SELECT, INSERT, UPDATE, DELETE ON db_name.* TO 'user'@'host';
+
+```
+
+## Table
 ```txt
 CREATE TABLE table_name (
 	column1 datatype constraints,
@@ -35,17 +49,6 @@ CREATE TABLE users(
 	name VARCHAR(100) NOT NULL,
 	role VARCHAR(50) DEFAULT 'guest'
 )
-```
-
-## Permission
-```mysql
-GRANT ALL PRIVILEGES ON db_name.* TO 'user'@'host';
-```
-
-#### grant specific privileges
-```mysql
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_name.* TO 'user'@'host';
-
 ```
 
 ```mysql
@@ -67,7 +70,6 @@ commit;
 rollback;
 ```
 
-## table
 ```mysql
 SELECT id, name, role, shift CASE
     WHEN role = 'admin' AND shift = 'Morning' THEN email
@@ -80,6 +82,75 @@ SELECT id, name, role, shift CASE
     ELSE 'Allowed'
   END AS access_status
 FROM users;
+
+```
+
+## Constraint
+```mysql
+ALTER TABLE hkAppNotification
+ADD CONSTRAINT unique_floor_shift_department
+UNIQUE (floorNumber, shiftName, department);
+```
+> [!NOTE]
+> If **any of the 3 columns can be NULL**, then uniqueness is not guaranteed across rows with NULLs (as per SQL standard: `NULL != NULL`).
+
+## How to do a table migration between database
+
+#### If different server
+```bash
+mysqldump -u user -p source_db table_name > table_dump.sql
+
+```
+
+```bash
+mysql -u user -p target_db < table_dump.sql
+
+```
+
+
+#### if server is same
+```mysql
+CREATE TABLE target_db.table_name AS SELECT * FROM source_db.table_name; 
+
+-- copy structure only
+CREATE TABLE target_db.table_name LIKE source_db.table_name;
+ 
+-- Copy structure + insert data
+INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
+
+```
+> [!WARNING]
+> Loses indexes, constraints - recreate manually if needed.
+
+### Update table after query with join
+```mysql
+UPDATE hkAppNotification AS hk
+LEFT JOIN jobDepartment AS jd
+  ON jd.jobDepartmentName = hk.department
+SET hk.department = jd.id;
+
+```
+> [!NOTE]
+> Both column should of same data type
+> Foreign reference column should have unique constraint (or primary key).
+
+```mysql
+SHOW INDEX FROM jobDepartment WHERE Column_name = 'id';
+```
+
+```mysql
+ALTER TABLE jobDepartment ADD PRIMARY KEY (id);
+
+-- or if primary key exists on another column and you want unique only:
+ALTER TABLE jobDepartment ADD UNIQUE INDEX uq_id (id);
+```
+
+#### Data insert in table from other table
+```mysql
+INSERT INTO hkAppNotification (jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile)
+SELECT jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile
+FROM hkAppNotification
+WHERE department = 15;
 
 ```
 
@@ -226,29 +297,3 @@ FROM users;
 
 ```
 
-## how to do a table migration between database
-
-#### If different server
-```bash
-mysqldump -u user -p source_db table_name > table_dump.sql
-
-```
-
-```bash
-mysql -u user -p target_db < table_dump.sql
-
-```
-
-#### if server is same
-```mysql
-CREATE TABLE target_db.table_name AS SELECT * FROM source_db.table_name; 
-
--- copy structure only
-CREATE TABLE target_db.table_name LIKE source_db.table_name;
- 
--- Copy structure + insert data
-INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
-
-```
-> [!WARNING]
-> Loses indexes, constraints - recreate manually if needed.
