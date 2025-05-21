@@ -145,13 +145,27 @@ ALTER TABLE jobDepartment ADD PRIMARY KEY (id);
 ALTER TABLE jobDepartment ADD UNIQUE INDEX uq_id (id);
 ```
 
-#### Data insert in table from other table
+## Index
+### change index of table
 ```mysql
-INSERT INTO hkAppNotification (jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile)
-SELECT jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile
-FROM hkAppNotification
-WHERE department = 15;
+ALTER TABLE your_table DROP INDEX index_name;
+ALTER TABLE your_table ADD INDEX index_name (column_name) USING HASH;
+```
 
+> [!NOTE] InnoDB only supports `BTREE` so `HASH` is ignored silently unless he engine is `MEMORY`
+```mysql
+CREATE TABLE mem_table (
+  id INT,
+  name VARCHAR(100),
+  INDEX name_idx (name) USING HASH
+) ENGINE=MEMORY;
+
+```
+- `HASH` is only supported by `MEMORY` engine.
+
+- check current index type
+```mysql
+SHOW INDEX FROM your_table;
 ```
 
 ## Add columns to an existing table
@@ -176,9 +190,18 @@ ALTER TABLE table_name MODIFY column_name data_type AFTER other_column;
 ALTER TABLE table_name MODIFY column_name data_tyep FIRST;
 ```
 
+### Data insert in table from other table
+```mysql
+INSERT INTO hkAppNotification (jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile)
+SELECT jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile
+FROM hkAppNotification
+WHERE department = 15;
+
+```
+
 ### How to update to column in single query
 ```txt
-UPDATE <table name> 
+	UPDATE <table name> 
 SET 
 	<column> = <value>,
 	<column2> = <value2>,
@@ -211,32 +234,7 @@ FROM <tablename>;
 where <condition>;
 ```
 
-``
-
-## Index
-### change index of table
-```mysql
-ALTER TABLE your_table DROP INDEX index_name;
-ALTER TABLE your_table ADD INDEX index_name (column_name) USING HASH;
-```
-
-> [!NOTE] InnoDB only supports `BTREE` so `HASH` is ignored silently unless he engine is `MEMORY`
-```mysql
-CREATE TABLE mem_table (
-  id INT,
-  name VARCHAR(100),
-  INDEX name_idx (name) USING HASH
-) ENGINE=MEMORY;
-
-```
-- `HASH` is only supported by `MEMORY` engine.
-
-- check current index type
-```mysql
-SHOW INDEX FROM your_table;
-```
-
-### how to define constraints
+### How to define constraints
 ```mysql
 CREATE TABLE orders (
 	order_id INT PRIMARY KEY,
@@ -246,7 +244,7 @@ CREATE TABLE orders (
 
 ```
 
-#### Altering an existing table
+### Altering an existing table
 ```mysql
 ALTER TABLE orders
 ADD CONSTRAINT fk_customer
@@ -285,7 +283,6 @@ SHOW CREATE TABLE your_table;
 ALTER TABLE your_table DROP FOREIGN KEY fk_name;
 
 ```
-
 
 ### Manuplutation
 ```mysql
