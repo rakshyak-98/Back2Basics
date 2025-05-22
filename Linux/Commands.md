@@ -390,7 +390,7 @@ get the zip and compile and run the compiled version.
 
 main - maintained by conicol
 
-universal - maintained by communinity
+universal - maintained by community
 
 ### downloading source code
 

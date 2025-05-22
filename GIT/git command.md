@@ -1,3 +1,11 @@
+#### Starter config
+```bash
+git config user.name <commit author name>;
+git config user.email <commit author email>;
+git config init.branch main; # main instead of master;
+git config --global --unset credential.helper; # clear Git Credential Cache
+```
+
 ```bash
 git clean; # removes untracked files from working directory (not staged, committed, ignored)
 git reflog; # view git logs (not commit)
@@ -40,7 +48,7 @@ git push origin <tag_name>
 
 ```
 
-### Branch
+## Branch
 ```shell
 git branch --set-upstream-to=origin/<branch> <local branch>;
 git branch --unset-upstream <branch-name>; # detach the upstream reference from a local branch
@@ -55,13 +63,6 @@ git diff target-branch...source-branch;
 
 git merge-tree $(git merge-base target-branch source-branch) target-branch source-branch;
 
-```
-#### Starter config
-```bash
-git config user.name <commit author name>;
-git config user.email <commit author email>;
-git config init.branch main; # main instead of master;
-git config --global --unset credential.helper; # clear Git Credential Cache
 ```
 
 ```bash
@@ -157,14 +158,13 @@ git pull origin main --allow-unrelated-histories
 git fetch origin
 git reset --hard origin/main
 ```
-> [!WARNING] if you want to discard local changes and fully replace them with the remote repository
+> [!WARNING]
+> if you want to discard local changes and fully replace them with the remote repository
 
 ### Tracking file changes
 ```shell
 git ls-tree -r HEAD --name-only; # view last commit tracked files
 ```
-
-##### **Summary**
 
 | Command                               | Purpose                                   |
 | ------------------------------------- | ----------------------------------------- |
@@ -178,4 +178,10 @@ git ls-tree -r HEAD --name-only; # view last commit tracked files
 git ls-files --deleted;
 git diff --cached --name-only --diff-filter=D;
 git log --diff-filter=D --summary;
+```
+
+### Git diff check
+```bash
+git diff --diff-filter=D <to compare branch name>;
+man git diff; # view diff manual
 ```
