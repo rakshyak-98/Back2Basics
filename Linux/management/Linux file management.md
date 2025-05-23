@@ -2,7 +2,6 @@
 mimetype <filen path>; # show input file mime type
 stat <filename>;
 stat <dirname>;
-xdg-mime query default inode/directory; # get the information of file manager
 
 echo $XDG_CURRENT_DESKTOP; # current desktop environment
 
@@ -11,6 +10,15 @@ lsblk; # list block devices
 # make custom tmpfs file system
 sudo mount -t tmpfs -o size=100M tmpfs <path>;
 ```
+
+### mime type
+- `/etc/mime.types` 
+
+```bash
+xdg-mime query default inode/directory; # get the information of file manager
+gio mime <mime-type>;
+```
+
 
 #### Make the mount permanent
 - automatically mounted at boot, you can add an entry to `/etc/fstab` file.
@@ -26,13 +34,6 @@ df -h; #verify the mount
 - `/var/lib/dpkg/lock` or `/var/lib/apt/lists/lock`
 - apt package manager uses lock files to prevent multiple processes from accessing the package database simultaneously.
 - when you initiate an upgrade apt creates a lock file at `/var/lib/dpkg/lock` or `/var/lib/apt/lists/lock` This file act as a signal that a package management operation is in progress, preventing other instances of `apt` or `dpkg` from running concurrently.
-
-### mime type
-- `/etc/mime.types` 
-
-```bash
-gio mime <mime-type>;
-```
 
 ### block device
  - a type of device file that allows access to storage devices in fixed size blocks.
