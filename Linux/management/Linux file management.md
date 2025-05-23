@@ -11,6 +11,12 @@ lsblk; # list block devices
 sudo mount -t tmpfs -o size=100M tmpfs <path>;
 ```
 
+## set the recommended (default) application for a mime type on your system
+```bash
+xdg-mime query default mime/type;
+xdg-mime default vim.desktop text/plain;
+```
+
 ### mime type
 - `/etc/mime.types` 
 
