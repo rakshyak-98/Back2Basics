@@ -23,6 +23,18 @@ DROP VIEW <viewname>;
 ```mysql
 SELECT DATABASE(); # view current database.
 ```
+
+## Range
+```mysql
+SELECT * FROM reservations
+ORDER BY check_in
+LIMIT 10 OFFSET 20;
+```
+
+## Dates
+```mysql
+SELECT DATE_SUB(CURDATE(), interval 1 day);
+```
 ## Permission
 ```mysql
 GRANT ALL PRIVILEGES ON db_name.* TO 'user'@'host';
