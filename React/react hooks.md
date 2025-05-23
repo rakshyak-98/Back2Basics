@@ -83,6 +83,9 @@ Two types of logic inside React components:
 ## When should you use `useEffect` in React?
 - if it's just deriving state (e.g., filtering, sorting, or transforming data), no effect needed.
 
+> [!INFO]
+> run side effects when React commits changes to the DOM.
+
 ```jsx
 function SearchResults({ query, items }) {
   const filteredItems = items.filter(item => item.includes(query));

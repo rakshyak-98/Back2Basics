@@ -97,8 +97,29 @@ module.exports = {
 | `client-reference-manifest.json` | Tracks server components vs client components for RSC       |
 | `app-build-manifest.json`        | Used in App Router builds (maps pages to built files)       |
 ### Next dynamic
+[skipping ssr](https://nextjs.org/docs/app/guides/lazy-loading#skipping-ssr)
 ```js
 export default dynamic(() => Promise.resolve(Home_1), { ssr: false })
 ```
 > [!INFO] 
 > dynamically load the component and do not render this component of ssr.
+
+> [!NOTE]
+> `ssr: false` option will work for client component, move it into Client Component ensure the client code-splitting working properly.
+
+if you dynamically import a Server Component, only the Client Components that are children of the server component will be lazy-loaded - not the server component itself. It will also help preload the static assets such as CSS when you're using it in Server Components.
+
+```js
+import dynamic from 'next/dynamic'
+ 
+// Server Component:
+const ServerComponent = dynamic(() => import('../components/ServerComponent'))
+ 
+export default function ServerComponentExample() {
+  return (
+    <div>
+      <ServerComponent />
+    </div>
+  )
+}
+```
