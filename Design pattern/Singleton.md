@@ -40,3 +40,17 @@ var Universe
 	}
 })
 ```
+
+```js
+class Singleton {
+	static instance = null;
+	static {
+		this.instance = new Singleton();
+	}
+	constructor() {
+		if (Singleton.instance) {
+			throw new Error("Use Singleton.getInstance()");
+		}
+	}
+}
+```
