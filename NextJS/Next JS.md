@@ -96,3 +96,9 @@ module.exports = {
 | `routes-manifest.json`           | List of all static + dynamic routes and rewrites/redirects  |
 | `client-reference-manifest.json` | Tracks server components vs client components for RSC       |
 | `app-build-manifest.json`        | Used in App Router builds (maps pages to built files)       |
+### Next dynamic
+```js
+export default dynamic(() => Promise.resolve(Home_1), { ssr: false })
+```
+> [!INFO] 
+> dynamically load the component and do not render this component of ssr.
