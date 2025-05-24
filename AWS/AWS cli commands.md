@@ -1,12 +1,13 @@
 ### Query
 ```shell
-aws ec2 descripbe-regions --query "Regions[].RegionName";
+aws ec2 describe-regions --query "Regions[].RegionName";
 ```
 
 ### User
 ```
 aws sts get-caller-identity; # check which user logged in with.
 aws iam list-attached-user-policies --user-name <your-username>; 
+aws iam list-users;
 ```
 #### STS (security Token Service)
 - providers temporary security credentials for users and applications to access aws securely access AWS services without needing long-term IAM credentials.

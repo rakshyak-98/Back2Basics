@@ -81,7 +81,7 @@ gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/prof
 gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" bold-color-same-as-fg false
 ```
 
-### Use rose pine moon theme
+### Use rose pine moon theme (dark)
 ```bash
 # Get the current profile ID
 PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
@@ -118,6 +118,40 @@ gsettings set "$BASE_PATH" palette "[
   '#ea9a97',  # bright cyan   (rose)
   '#e0def4'   # bright white  (text)
 ]"
+
+```
+
+### Use rose pine moon theme (light)
+```bash
+# Get the current profile ID
+PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
+
+# Set theme colors
+BASE_PATH="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
+
+gsettings set "$BASE_PATH" use-theme-colors false
+gsettings set "$BASE_PATH" use-theme-background false
+
+# Background, foreground, bold
+gsettings set "$BASE_PATH" background-color '#faf4ed'     # base (light)
+gsettings set "$BASE_PATH" foreground-color '#575279'     # text (subtle dark)
+gsettings set "$BASE_PATH" bold-color '#286983'           # blue (pine)
+gsettings set "$BASE_PATH" bold-color-same-as-fg false
+
+# Rosé Pine Dawn-inspired palette (light variant)
+gsettings set "$BASE_PATH" palette "[
+  '#f2e9de',  # black     (surface)
+  '#b4637a',  # red       (love)
+  '#286983',  # green     (foam)
+  '#ea9d34',  # yellow    (gold)
+  '#56949f',  # blue      (pine)
+  '#907aa9',  # magenta   (iris)
+  '#d7827e',  # cyan      (rose)
+  '#575279',  # white     (text)
+
+  '#9893a5',  # bright black  (highlight low)
+  '#b4637a',  # bright red    (love)
+  '#2869
 
 ```
 # Update to latest Linux desktop

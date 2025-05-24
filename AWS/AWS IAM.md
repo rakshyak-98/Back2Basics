@@ -9,3 +9,5 @@
 - lists all account users and the status of their various credentials.
 #### IAM Access Advisor (user-level)
 - shows service permissions granted to a user when those services were last accessed.
+
+##  A user in Identity center
