@@ -81,7 +81,7 @@ gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/prof
 gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/" bold-color-same-as-fg false
 ```
 
-### Use rose pine moon theme (dark)
+### Use rose pine moon theme
 ```bash
 # Get the current profile ID
 PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
@@ -123,37 +123,45 @@ gsettings set "$BASE_PATH" palette "[
 
 ### Use rose pine moon theme (light)
 ```bash
-# Get the current profile ID
-PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'")
 
-# Set theme colors
+# Get the current profile ID (first in the list)
+PROFILE_ID=$(gsettings get org.gnome.Terminal.ProfilesList list | grep -o "'[^']*'" | tr -d "'" | head -n 1)
+
+# Set base path
 BASE_PATH="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/"
 
+# Disable default theme colors
 gsettings set "$BASE_PATH" use-theme-colors false
 gsettings set "$BASE_PATH" use-theme-background false
 
-# Background, foreground, bold
-gsettings set "$BASE_PATH" background-color '#faf4ed'     # base (light)
-gsettings set "$BASE_PATH" foreground-color '#575279'     # text (subtle dark)
-gsettings set "$BASE_PATH" bold-color '#286983'           # blue (pine)
+# Set background, foreground, bold colors
+gsettings set "$BASE_PATH" background-color '#ffffff'     # pure white background
+gsettings set "$BASE_PATH" foreground-color '#000000'     # black text
+gsettings set "$BASE_PATH" bold-color '#ae7cf7'           # purple (bold accent)
 gsettings set "$BASE_PATH" bold-color-same-as-fg false
 
-# Rosé Pine Dawn-inspired palette (light variant)
+# Set palette (converted rgb to hex)
 gsettings set "$BASE_PATH" palette "[
-  '#f2e9de',  # black     (surface)
-  '#b4637a',  # red       (love)
-  '#286983',  # green     (foam)
-  '#ea9d34',  # yellow    (gold)
-  '#56949f',  # blue      (pine)
-  '#907aa9',  # magenta   (iris)
-  '#d7827e',  # cyan      (rose)
-  '#575279',  # white     (text)
+  '#000000',  # rgb(0,0,0)
+  '#ff5555',  # rgb(255,85,85)
+  '#5070fa',  # rgb(80,112,250)
+  '#f1fa8c',  # rgb(241,250,140)
+  '#ae7cf7',  # rgb(174,124,247)
+  '#ff79c6',  # rgb(255,121,198)
+  '#81d3e5',  # rgb(129,211,229)
+  '#bfbfbf',  # rgb(191,191,191)
 
-  '#9893a5',  # bright black  (highlight low)
-  '#b4637a',  # bright red    (love)
-  '#2869
-
+  '#4d4d4d',  # rgb(77,77,77)
+  '#ff6e67',  # rgb(255,110,103)
+  '#5a8ff7',  # rgb(90,143,247)
+  '#f4f99d',  # rgb(244,249,157)
+  '#9e76da',  # rgb(158,118,218)
+  '#ff92d0',  # rgb(255,146,208)
+  '#96cfdb',  # rgb(150,207,219)
+  '#e6e6e6'   # rgb(230,230,230)
+]"
 ```
+
 # Update to latest Linux desktop
 
 ```bash
