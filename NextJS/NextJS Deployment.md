@@ -1,4 +1,5 @@
 ### Static HTML Export
+
 [static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
 
 > [!INFO] You can use [`next export`](https://nextjs.org/docs/advanced-features/static-html-export) to generate a completely static site, if *you have no need for any of the dynamic features that Next.js offers.*
@@ -93,10 +94,5 @@ export async function generateStaticParams() {
 ### 🧠 Notes:
 
 - Runs at **build time only**
-    
 - Equivalent of `getStaticPaths` (Pages Router)
-    
 - Required for **static export** if using `[param]` routes
-    
-
-Let me know if you want a minimal working setup example.

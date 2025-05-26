@@ -130,12 +130,25 @@ Promise.all(requests)
 ## Stream
 Streams are objects that allow you to read data from a source or write data to a destination in continuous manner.
 - used to handle large amounts of data efficiently.
-## De-bouncing
+## de-bouncing
 ## Throttling
-## memorize
+## Memoize
 
 ### How does `instanceof` keyword work?
 1. Retrieves the `Contstuctor.prototype` 
 2. Gets the internal `[[Prototype]]` (also know as `__proto__`) of `object`.
 3. Traverses up the prototype chain of `object`, checking if it matches `Constructor.prototype`.
 4. If a match is found, `instanceof` returns `true`; otherwise, it returns `false`.
+
+
+### Remove duplicate
+```js
+const entries = [
+  ["pricing:BookingTran", "pricing:BookingTran"],
+  ["pricing:BookingTran", "pricing:BookingTran"],
+  ["pricing:finalReservationDetails", "pricing:finalReservationDetails"],
+  ...
+];
+const unique = Object.fromEntries(entries); // keeps last value
+
+```
