@@ -208,7 +208,6 @@ INSERT INTO hkAppNotification (jobType, floorNumber, department, shiftName, leve
 SELECT jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile
 FROM hkAppNotification
 WHERE department = 15;
-
 ```
 
 ### How to update to column in single query
@@ -226,7 +225,6 @@ SET
 SELECT col1
 	FROM table
 WHERE column_name IN ('val1', 'val2', 'val3');
-
 ```
 
 ## View
