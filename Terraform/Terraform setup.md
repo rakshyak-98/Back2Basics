@@ -1,4 +1,4 @@
-Terraform scripts are not limited to AWS and GCP. Terraform is a cloud-agnostic Infrastructure as Code (IaC) tool that can manage resources across a wide rage of providers. It works by using providers, which are plugins for specific services or platforms.
+Terraform scripts are not limited to AWS and GCP. Terraform is a cloud-agnostic Infrastructure as Code (IaC) tool that can manage resources across a wide range of providers. It works by using providers, which are plugins for specific services or platforms.
 
 ---
 Kubernetes:
@@ -33,3 +33,27 @@ sudo apt update && sudo apt install -y terraform
 ```shell
 terraform -install-autocomplete;
 ```
+
+
+## File structure
+```txt
+project-root/
+│
+├── main.tf         # core resources and module calls
+├── variables.tf    # all variable definitions (type, default)
+├── outputs.tf      # all output values
+├── terraform.tfvars  # actual values for variables
+├── backend.tf      # remote state backend (optional but common)
+├── provider.tf     # provider block (or include in main.tf)
+│
+└── modules/        # reusable components
+    └── <module-name>/
+        ├── main.tf
+        ├── variables.tf
+        └── outputs.tf
+
+```
+
+### Execution Order
+1. Load all `.tf` files in the root (no specific order, just parsed together).
+2. Read `variable.tf` + `terraform.tfvars` [[variable file]]
