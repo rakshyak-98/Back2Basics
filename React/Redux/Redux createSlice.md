@@ -199,3 +199,23 @@ createSlice({
 ```
 
 > [!INFO] `extraReducers` are designed to respond to actions defined outside the slice or to handle async actions, and do not have internal access to the slice's reducer functions
+
+## What are selectors
+extract the transform specific pieces of state from the Redux store.
+
+Memoization
+caches function results based on input args.
+
+### `reselect`/`createSelector`
+`createSelector` from `reselect` or RTK does memoization automatically.
+
+```js
+import { createSelector } from "reselect"
+
+const selectTodos = (state) => state.todos.items;
+
+const selectIncompleteTodos = createSelector([selectTodos], (todos) => todos.filter(todo => !todo.completed));
+```
+- First args: input selector(s)
+- Second args: transform logic (only re-runs if input changes)
+- helps to move logic (filtering, mapping, computations) out of components. Avoid scattered business logic across components.

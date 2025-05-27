@@ -1,6 +1,6 @@
 > [!WARNING]
 > Terminate EC2, then manually delete EBS volumes, Elastic IPs, and NAT gateways to stop all charges.
-> Don't attach EIP, NAT
+> - Don't attach EIP, NAT
 
 ## Setup AWS Budget Setup
 - allow IAM user and role to IAM user and role access to billing information.

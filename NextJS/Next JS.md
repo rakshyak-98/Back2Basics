@@ -1,6 +1,5 @@
 > [!INFO] In NextJS, when using `next/router`, the query parameters might be undefined on the first render because NextJS initially renders the page on the server (or statically), and _the query values are only available after hydration on the client.
 
-
 ### Image
 
 ```txt
@@ -76,11 +75,11 @@ module.exports = {
 
 ```
 
-### Manifest json file
+### Manifest JSON file
 
 - enables code splitting, lazy loading
 - [[SSR]] needs to know which chunks to send.
-- Middleware/runtime matches routes and behaviors based on manifest.
+- Middleware/runtime matches routes and behavior based on manifest.
 
 > [!INFO] manifest json file
 > - allow static hosting/CDNs to understand asset dependencies.
