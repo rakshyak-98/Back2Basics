@@ -50,6 +50,7 @@ git push origin <tag_name>
 
 ## Branch
 ```shell
+git branch -vv; # view with remote references
 git branch --set-upstream-to=origin/<branch> <local branch>;
 git branch --unset-upstream <branch-name>; # detach the upstream reference from a local branch
 ```
