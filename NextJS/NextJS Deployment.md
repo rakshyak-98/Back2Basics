@@ -29,7 +29,7 @@
 
 ```
 - performs tree-shaking, minification, dead-code removal.
-- Deduplicates and chunks JS / CSS assets.
+- Deduplicates and chunks JS/CSS assets.
 - Optimizes fonts and images.
 
 ```txt

@@ -1,3 +1,6 @@
+> [!INFO] 
+> extraneous -> A package is installed in `node_modules` but not listed in `dependencies` or `devDependencies` in `package.json`.
+
 - [lodash](https://www.npmjs.com/package/lodash) - JavaScript utility library
 - [mathjs](https://mathjs.org/)
 - [vercel/ms](https://github.com/vercel/ms) use this package to easily convert time formats to milliseconds
