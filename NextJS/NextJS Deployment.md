@@ -96,3 +96,18 @@ export async function generateStaticParams() {
 - Runs at **build time only**
 - Equivalent of `getStaticPaths` (Pages Router)
 - Required for **static export** if using `[param]` routes
+
+
+## Transfer only the `.next` folder to the server
+> [!INFO]
+> No, your NextJS frontend app will not be able to run if you
+> - Run `next build` (creates `.next`).
+> - then delete `node_modules).`
+> The `.next` directory contains the compiled output, but not the runtime dependencies.
+- when you run `next start` it needs:
+- `next` package itself
+- other dependencies (e.g., React, middleware, API handlers)
+All of these are in `node_modules`
+
+Exceptions (Not Applicable to development)
+`next export` [read more](https://nextjs.org/docs/app/guides/static-exports)

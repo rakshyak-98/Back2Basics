@@ -16,6 +16,10 @@ SHOW INDEX FROM <table>;
 SHOW tables;
 ```
 
+```txt
+EXPLAIN SELECT * FROM table_name where condition; 
+```
+
 ```mysql
 DROP VIEW <viewname>;
 ```
@@ -61,6 +65,10 @@ CREATE TABLE users(
 	name VARCHAR(100) NOT NULL,
 	role VARCHAR(50) DEFAULT 'guest'
 )
+```
+
+### Cascade
+```mysql
 ```
 
 ```mysql
@@ -158,6 +166,13 @@ ALTER TABLE jobDepartment ADD UNIQUE INDEX uq_id (id);
 ```
 
 ## Index
+## Get all tables constraints keys
+```mysql
+SELECT CONSTRAINT_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+-- filter 
+WHERE TABLE_NAME = 'orders' AND COLUMN_NAME = 'customer_id' AND CONSTRAINT_NAME != 'PRIMARY';
+```
 ### change index of table
 ```mysql
 ALTER TABLE your_table DROP INDEX index_name;
@@ -254,6 +269,11 @@ CREATE TABLE orders (
 
 ```
 
+## Set foreign key constraints
+```mysql
+ALTER TABLE table_naem ADD CONSTRAINT FOREIGN KEY 
+```
+
 ### Altering an existing table
 ```mysql
 ALTER TABLE orders
@@ -304,3 +324,4 @@ FROM users;
 
 ```
 
+## Partition table

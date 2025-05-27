@@ -22,7 +22,7 @@ npm show <package>; # show packages.
 npm view <pacakge> version; # list available versions.
 ```
 
-### Npm configuration
+### npm configuration
 ```shell
 npm config list;
 npm config set <ke> <value>;
@@ -30,7 +30,7 @@ npm config delete <key>;
 npm cache clean --force;
 ```
 
-### Npm package info
+### npm package info
 ```shell
 npm view <pacakge> dependencies;
 npm info <pacakge>;
