@@ -1,3 +1,7 @@
+> [!WARNING]
+> Terminate EC2, then manually delete EBS volumes, Elastic IPs, and NAT gateways to stop all charges.
+> Don't attach EIP, NAT
+
 ## Setup AWS Budget Setup
 - allow IAM user and role to IAM user and role access to billing information.
 - go to charges live services.
@@ -8,7 +12,7 @@
 ### Why need to create VPC when launching instance
 - AWS create a VPC (default or custom) because Networking is essential for running EC2 instance.
 - if you don't create a VPC, AWS automatically places your EC2 instance in the default VPC of the selected region.
-- Every EC2 instance needs a network (IP, routing, security)
+- Every EC2 instance needs a network (IP, routing, security).
 - VPC provides a controlled, private environment for instances.
 - Subnet management -> segregates instances (public, private, database layers).
 
