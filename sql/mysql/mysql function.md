@@ -24,3 +24,20 @@ WHERE ROUTINE_TYPE = 'FUNCTION'
   AND ROUTINE_SCHEMA = 'your_database_name';
 
 ```
+
+```mysql
+SHOW FUNCTION STATUS WHERE Db = 'mysql';
+```
+
+## Data conversion
+### Type conversion
+```mysql
+SELECT CAST('123' AS UNSIGNED);
+SELECT CONVERT('2024-01-01', DATE);
+```
+
+### Date/Time Conversion
+```mysql
+SELECT STR_TO_DATE('27-05-2025', '%d-%m-%Y');
+SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
+```

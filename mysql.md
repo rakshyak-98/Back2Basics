@@ -9,12 +9,38 @@ mymysql -u <username> -p <db name> < <sql file>;
 mymysql -u root -p testDB < db.sql;
 ```
 
+```bash
+mysqldump --user=user --passwrod=pass --host=localhost \
+--skip-comments --no-create-info --tab=/tmp --fields-terminated-by=',' dbname tablename;
+```
+> [!INFO]
+> then convert the CSV output to JSON using a tool like
+
+- Then convert the CSV output to JSON using this tool
+```bash
+cat /tmp/tablename.txt | jq -R -s -c 'split("\n")' | map(split(","))'
+```
+
 ```mysql
 SHOW databases;
 SHOW COLUMNS FROM <table>;
 SHOW INDEX FROM <table>;
 SHOW tables;
 ```
+
+```mysql
+pager less -S; # -S no wrap, set a pager for output result;
+nopager; # to reset the pager to stdout (default);
+
+less <file to log to>; # everyting you will type is directed to the file;
+```
+
+```mysql
+SELECT JSON_OBJECT('id', id, 'name', name) FROM your_table;
+SELECT * FROM table_name/G; -- Each column shown on its own line
+```
+> [!INFO]
+> User `pager` to Customise output (like CSV, JSON, no-wrap)
 
 ```txt
 EXPLAIN SELECT * FROM table_name where condition; 
@@ -44,7 +70,7 @@ SELECT DATE_SUB(CURDATE(), interval 1 day);
 GRANT ALL PRIVILEGES ON db_name.* TO 'user'@'host';
 ```
 
-#### grant specific privileges
+#### Grant specific privileges
 ```mysql
 GRANT SELECT, INSERT, UPDATE, DELETE ON db_name.* TO 'user'@'host';
 

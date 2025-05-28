@@ -1,4 +1,8 @@
 ```bash
+vim -R ; # start vim in Read-only mode.
+```
+
+```bash
 :g/TODO/d; # delete all lines containing work TODO
 ```
 
