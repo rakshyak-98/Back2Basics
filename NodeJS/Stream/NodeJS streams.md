@@ -12,7 +12,7 @@ import buffer from "node:buffer"
 console.log(buffer.constants.MAX_LENGTH)
 ```
 
-#### using buffer
+#### Using buffer
 ```javascript
 const zlib = require("node:zlib");
 const { promisify } = require("node:util");
@@ -31,7 +31,7 @@ async function main() {
 main();
 ```
 
-#### using stream
+#### Using stream
 ```javascript
 const { createReadStream, createWriteStream } = require("node:fs");
 const { createGzip } = require("node:zlib");
