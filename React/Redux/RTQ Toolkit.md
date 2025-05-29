@@ -31,6 +31,19 @@ const RefreshProducts = () => {
 ```
 - `invalidateTags(['product'])` -> forces data refetch for updated results.
 
+> [!INFO]
+> `executeMutation` -> manually trigger a mutation (instead of useMutation()) hook.
+> `removeMutationResult` -> clears a specific mutation result from the cache (i.e., removes the mutation entry and its metadata).
+
+```js
+dispatch(api.util.removeMutationResult({ requestId }));
+```
+- you must have saved the `requestId` from the original mutation call.
+```js
+const result = dispatch(api.endpoints.login.initiate(payload));
+dispatch(api.util.removeMutationResult({ requestId: result.requestId }));
+```
+
 ## Create API slice
 
 > [!INFO] data sync in Redux Store
