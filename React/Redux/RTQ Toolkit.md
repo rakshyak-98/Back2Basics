@@ -31,6 +31,10 @@ const RefreshProducts = () => {
 ```
 - `invalidateTags(['product'])` -> forces data refetch for updated results.
 
+### `executeMutation`
+is the internal Redux action that RTK Query dispatches whey you trigger a mutation
+- `useMutation()` hook
+- or programmatically `dispatch(api.endpoints.fullField.initiate(payload))`
 > [!INFO]
 > `executeMutation` -> manually trigger a mutation (instead of useMutation()) hook.
 > `removeMutationResult` -> clears a specific mutation result from the cache (i.e., removes the mutation entry and its metadata).
