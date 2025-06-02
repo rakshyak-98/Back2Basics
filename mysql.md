@@ -10,8 +10,7 @@ mymysql -u root -p testDB < db.sql;
 ```
 
 ```bash
-mysqldump --user=user --passwrod=pass --host=localhost \
---skip-comments --no-create-info --tab=/tmp --fields-terminated-by=',' dbname tablename;
+mysqldump --user=user --passwrod=pass --host=localhost \ --skip-comments --no-create-info --tab=/tmp --fields-terminated-by=',' dbname tablename;
 ```
 > [!INFO]
 > then convert the CSV output to JSON using a tool like
@@ -361,7 +360,7 @@ ALTER TABLE your_table DROP FOREIGN KEY fk_name;
 
 ```
 
-### Manuplutation
+### Manipulation
 ```mysql
 SELECT JSON_OBJECT(
   'col1', col1,
