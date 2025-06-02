@@ -83,6 +83,12 @@ nc -z -v host_ip 20-100  # Scan ports 20 to 100
 nc -l -p <port> -e /bin/bash; # bind shell
 ```
 
+## nslookup
+
+```bash
+nslookup <domain.name>; # omit schema, port, and path
+```
+
 ## DNS settings
 ```shell
 system-resolve --status;
