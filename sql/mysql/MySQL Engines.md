@@ -2,6 +2,9 @@
 - binary format -> uses InnoDB internal data structure layout (pages, records, B-tree).
 - Optimised for Performance, not for inspection.
 - Designed for InnoDB engine internals, not for user access.
+
+> [!WARNING]
+> Don't try -> moving `.idb` without matching metadata (`.frm` or MySQL 8+ `data dictionary`) .
 ## CSV
 ```mysql
 CREATE TABLE my_table()
