@@ -510,15 +510,10 @@ ls -l | tee directory_listing.txt
 - **Viewing Output While Saving**: Sometimes, you may want to view the output of a command in real-time while saving it to a file for future reference. `tee` allows you to do this by displaying the output on the terminal while writing it to a file.
 
 ## zip
-```sh
+```bash
 zip -e output.zip folder/; # password protect zip.
 zip -z output.zip; # add comment to zip folder.
-```
-
-```bash
-zip -r archive.zip source_dir -x "excluded_dir/*"
-unzip -l archive.zip; # see inside .zip archive
-unzip -j <file path to unzip>;
+zip -r archive.zip source_dir -x "excluded_dir/*";
 ```
 
 ```sh
@@ -534,6 +529,12 @@ zip -r otuput.zip folder/ -x "*.log" "*.tmp";
 
 ```sh
 unzip -l output.zip; # list contents of zip file.
+```
+
+```bash
+unzip -l archive.zip; # see inside .zip archive
+unzip -j <file path to unzip>;
+unzip -r archive.zip source_dir -x "excluded_dir/*" "**/dist/*";
 ```
 
 ## tar
