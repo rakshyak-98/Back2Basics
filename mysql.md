@@ -374,7 +374,18 @@ SELECT JSON_OBJECT(
   'col2', col2
 ) AS json_data
 FROM users;
+```
 
+### View size of a table
+```mysql
+SELECT 
+  table_schema AS database_name,
+  table_name,
+  ROUND((data_length + index_length) / 1024 / 1024, 2) AS size_mb
+FROM 
+  information_schema.tables
+WHERE 
+  table_schema = 'your_database' AND table_name = 'your_table';
 ```
 
 ## Partition table

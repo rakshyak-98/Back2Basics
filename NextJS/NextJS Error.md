@@ -107,3 +107,14 @@ pkill next-server;
 ## Static image not loading when hosted on AWS ec2 instance
 
 ### Nginx proxy setup error, not able to call API
+
+### NextJS build error
+```txt
+Error: ENOENT: no such file or directory, open '$PWD/.next/prerender-manifest.json'
+```
+- `.next/prerender-manifest.json` is an internal build artifact generated during `next build`. it contains metadata used by the server to efficiently serve statically pre-rendered pages (SSG) and handle ISR (Incremental Static Regeneration).
+- SSR server uses this to determine, if a route is static or needs regeneration, where to load the pre-rendered HTML/JSON.
+- `.rsc` extension inside `.next` are compiled artifacts of server components used for server-side streaming and rendering. Generated during `next build` or `next dev`.
+
+> [!INFO]
+> `.rsc` files are not editable or human-readable they're used internally for optimised React rendering.
