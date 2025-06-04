@@ -59,3 +59,14 @@ A `samesite=lax` cookie is sent if both of these conditions are true:
 > [!WARNING]- cookies with `samesite=strict` is never sent if the user comes from outside the same site.
 > - weather a user follow a same link from their email, submits a form outside the same site.
 > - user does any operation that originates from another domain, the cookie is not sent.
+
+
+### Fix localhost cookies error (not being sent in request API from client browser)
+- in production, frontend and backend are likely on the same origin or subdomain, so cookies are automatically sent. In development they are on different origins (ports), so you must set `credentials: 'include'`.
+- subdomain based setup -> when frontend and backend are on different origin, set `sameSite: 'none'` and `secure: true` (when using HTTPS) in cookies. Have backend set with `Access-Control-Allow-Credentials: true`.
+
+> [!INFO]
+> browser blocks cookies by default in cross-origin requests unless
+> - `fetch(..., { credentials: true })` is used.
+> - Backend CORS has `credentials: true`.
+> - Cookie is set with correct `sameSite` and `secure` flags.
