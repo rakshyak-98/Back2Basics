@@ -118,3 +118,10 @@ Error: ENOENT: no such file or directory, open '$PWD/.next/prerender-manifest.js
 
 > [!INFO]
 > `.rsc` files are not editable or human-readable they're used internally for optimised React rendering.
+> on request `.rsc` is streamed to client or edge, allowing partial hydration.
+
+|File|Purpose|
+|---|---|
+|`.rsc`|Compiled React Server Component output|
+|`.js`|Client-side JS bundle|
+|`.html`|Static HTML fallback or initial render|
