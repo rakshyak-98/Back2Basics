@@ -45,6 +45,20 @@ SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
 ### JSON Conversion
 ```mysql
 SELECT JSON_OBJECT('id', id, 'name', name) FROM users;
+
+-- array aggregator with group by
+SELECT
+  user_id,
+  JSON_ARRAYAGG(email) AS emails
+FROM user_emails
+GROUP BY user_id;
+
+SELECT
+  user_id,
+  JSON_ARRAYAGG(JSON_OBJECT('id', post_id, 'title', title)) AS posts
+FROM user_posts
+GROUP BY user_id;
+
 ```
 
 ### Numeric Conversion

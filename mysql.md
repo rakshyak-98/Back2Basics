@@ -35,6 +35,11 @@ tee <file to log to>; # everyting you will type is directed to the file;
 ```
 
 ```mysql
+SELECT VERSION();
+SELECT DATABASE();
+```
+
+```mysql
 SELECT JSON_OBJECT('id', id, 'name', name) FROM your_table;
 SELECT * FROM table_name/G; -- Each column shown on its own line
 ```
