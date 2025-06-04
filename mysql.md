@@ -31,7 +31,7 @@ SHOW tables;
 pager less -S; # -S no wrap, set a pager for output result;
 nopager; # to reset the pager to stdout (default);
 
-less <file to log to>; # everyting you will type is directed to the file;
+tee <file to log to>; # everyting you will type is directed to the file;
 ```
 
 ```mysql
