@@ -2,3 +2,11 @@
 ```js
 
 ```
+
+```js
+const nextConfig = {
+  images: {
+    domains: ["example.com"]
+  }
+}
+```
