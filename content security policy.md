@@ -2,7 +2,7 @@ CSP: standard introduced to prevent [[cross-site scripting]], [[clickjacking]] a
 - CSP provides standard method for website owners to declare approved origins of content that browsers should be allowed to load on the website.
 allowed to load :
 1. [[JavaScript]]
-2. [[css]]
+2. [[scss]]
 3. [[html]]
 4. [[frames]]
 5. [[web workers]]
