@@ -23,3 +23,9 @@ MimeType=inode/directory;
 xdg-mime default ranger.desktop inode/directory; # update MIME type
 xdg-mime query default inode/directory; # confirm
 ```
+
+```bash
+# list all the MIME types from shared-mime-info database
+grep -hE '^[^#]' /usr/share/mime/packages/*.xml | grep -oP 'type="\K[^"]+'
+
+```

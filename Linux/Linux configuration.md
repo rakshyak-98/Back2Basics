@@ -240,3 +240,21 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt;
 
 ### Sound
 `/etc/asound.conf` ALSA settings file. User level `~/.asoundrc`
+
+## Port
+`/etc/services` -> is a plain-text file in Linux that maps service names to port number and protocols. 
+- used by network tools (`telnet` `netstat` `namp`)
+- enables named-based service identification instead of hard-conding port
+
+> [!INFO]
+> if the app chooses to look up service names through the system's service database. Otherwise, it's just an unused file.
+> Languages like `Go` or NodeJS that implement their own networking stack and don't consult `/etc/services` by default.
+> 
+```txt
+<service-name> <port>/<protocol> [alias] [# comment]
+```
+
+```bash
+http 80/tcp www # World Wide Web
+```
+

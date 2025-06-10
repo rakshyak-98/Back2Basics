@@ -19,6 +19,8 @@ xdg-mime default vim.desktop text/plain;
 
 ### mime type
 - `/etc/mime.types` 
+- `/usr/share/mime` -> system wide
+- 
 
 ```bash
 xdg-mime query default inode/directory; # get the information of file manager
