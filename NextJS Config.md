@@ -10,3 +10,20 @@ const nextConfig = {
   }
 }
 ```
+
+```js
+const nextConfig = {
+	images: {
+    remotePatterns: [
+      { hostname: "example.com" },
+    ],
+  },
+}
+```
+
+### Enable client side source map
+```js
+const nextConfig = {
+  productionBrowserSourceMaps: true, // enable client side source map
+}
+```
