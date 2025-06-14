@@ -16,3 +16,10 @@ ls /etc/apt/source.list.d/; # list configured ppa pacakge repository
 grep -rhE '^dep' /etc/apt/source.list.d/
 ```
 
+
+###  auto updates 
+```bash
+sudo apt install unattended-upgrades;
+
+sudo dpkg-reconfigure --priority=low unattended-upgrades;
+```
