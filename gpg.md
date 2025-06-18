@@ -74,22 +74,21 @@ gpg --armor \\
 --encrypt --recipient "username" plaintext.txt;
 ```
 
-GPG or gpg - GNU Privacy Guard, tool is a native security tool for encrypting files. It is a tool to provide digital encryption and signing services using the OpenPGP standard.
+GPG - GNU Privacy Guard, tool is a native security tool for encrypting files. It is a tool to provide digital encryption and signing services using the OpenPGP standard.
 
 openpgp standard - is the most widely used email encryption standard. It is defined by the OpenPGP working group of the Internet Engineering Task Force (IETF)
 
 - is describes the format and methods needed to read, check, generate, and write, conforming encrypted messages, keys, and signatures.
 
-### armor
+### armor (ASCII-armored-format)
+- process of encoding binary data, such as cryptographic keys or messages, into a human-readable text format. 
+- This text format is designed to be easily exchanged and shared in contexts where binary data might not be appropriate (e.g.,emails, forums).
 
-(ASCII-armored-format)
-
-**Armor**: "Armor" refers to the process of encoding binary data, such as cryptographic keys or messages, into a human-readable text format. This text format is designed to be easily exchanged and shared in contexts where binary data might not be appropriate (e.g.,emails, forums).
-
-**Dearmor**: "Dearmor" (or "dearmor") is the process of decoding ASCII-armored data back into its original binary format. This is done when you want to use the original binary data for cryptographic operations or other purposes.
+## Dearmor Dearmor (or *dearmor*) 
+- process of decoding ASCII-armored data back into its *original binary format*. 
+- This is done when you want to use the original binary data for cryptographic operations or other purposes.
 
 recipient : specifies the recipient public key or email address
-
 - refers to the individual or entity for whom you are encrypting a message or a file.
 - to ensure intended recipient can decrypt and read the content.
 
@@ -102,7 +101,8 @@ gpg --delete-keys "key_id"
 rm -rf ~/.gnupg/ # gpg stores your keys in files in directory
 ```
 
-After your key pair is generated, you may want to create a revocation certificate. the owner of a cryptographic key pair to declare that their public key should no longer be used for encryption, decryption, or digital signatures. Essentially, it revokes the validity of the associated public key.
+> [!INFO]
+>  After your key pair is generated, you may want to create a revocation certificate. the owner of a cryptographic key pair to declare that their public key should no longer be used for encryption, decryption, or digital signatures. Essentially, it revokes the validity of the associated public key.
 
 ```bash
 gpg --gen-revoke <ID>
@@ -124,24 +124,3 @@ management operations. Some common commands include:
 - `uid`: Select a specific user ID for editing.
 - `check`: Check the key for consistency and correctness.
 
-### standard output
-
-`>` - used to redirect standard out.
-
-```bash
-# STDOUT
-command [option] > [output file]
-```
-
-```bash
-Hit: # comparing metadata with remote site.
-Get: # fetching new, improved version from remote site.
-Ign: # a non-critical error occured.
-Err: # a critical error occured.
-```
-
-when `apt-get update` is verifies if the same update indexes need downloading, if not it does not download the same updated indexes again.
-
-- `Hit` - means apt checked the timestamps on package list ( `Release` or `InRelease` file), those match and there are no changes (compare with `/var/lib/apt/lists` ).
-- `Ign` - means there are no changes in the `pdiff` index file (in-release file), it wont bother downloading it again, Ignore.
-- `Get` - means apt checked the timestamps on package list, there were changes and will be downloaded.
