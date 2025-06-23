@@ -90,12 +90,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON db_name.* TO 'user'@'host';
 ### Cascade
 ```mysql
 ```
-
-```mysql
-update <tablename> Set <columnname> = <value> <condition>;
-update employee Set name = "ram" where emp_id = 1000;
-```
-
 ### Transaction
 ```mysql
 START Transaction;
@@ -134,46 +128,6 @@ UNIQUE (floorNumber, shiftName, department);
 > [!NOTE]
 > If **any of the 3 columns can be NULL**, then uniqueness is not guaranteed across rows with NULLs (as per SQL standard: `NULL != NULL`).
 
-## How to do a table migration between database
-
-#### If different server
-```bash
-mysqldump -u user -p source_db table_name > table_dump.sql
-
-```
-
-```bash
-mysql -u user -p target_db < table_dump.sql
-
-```
-
-
-#### if server is same
-```mysql
-CREATE TABLE target_db.table_name AS SELECT * FROM source_db.table_name; 
-
--- copy structure only
-CREATE TABLE target_db.table_name LIKE source_db.table_name;
- 
--- Copy structure + insert data
-INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
-
-```
-> [!WARNING]
-> Loses indexes, constraints - recreate manually if needed.
-
-### Update table after query with join
-```mysql
-UPDATE hkAppNotification AS hk
-LEFT JOIN jobDepartment AS jd
-  ON jd.jobDepartmentName = hk.department
-SET hk.department = jd.id;
-
-```
-> [!NOTE]
-> Both column should of same data type
-> Foreign reference column should have unique constraint (or primary key).
-
 ```mysql
 SHOW INDEX FROM jobDepartment WHERE Column_name = 'id';
 ```
@@ -185,7 +139,7 @@ ALTER TABLE jobDepartment ADD PRIMARY KEY (id);
 ALTER TABLE jobDepartment ADD UNIQUE INDEX uq_id (id);
 ```
 
-## Update value on update
+## Auto Update field value when update query run
 ```mysql
 CREATE TABLE my_table (
 	id INT PRIMARY KEY,
@@ -204,28 +158,6 @@ MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 SELECT COLUMN_NAME, COLUMN_DEFAULT, EXTRA, GENERATION_EXPRESSION, IS_GENERATED, COLUMN_DEFAULT_GENERATED
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'users';
-```
-
-## Add columns to an existing table
-```mysql
-ALTER TABLE users
-ADD (
-	age INT
-	is_active BOOLEAN DEFAULT TRUE,
-	last_login TIMESTAMP
-)
-```
-
-```mysql
-ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
-ALTER TABLE table_name CHANGE COLUMN old_name TO new_name data_type;
-
-```
-
-### re-arrange columns
-```mysql
-ALTER TABLE table_name MODIFY column_name data_type AFTER other_column;
-ALTER TABLE table_name MODIFY column_name data_tyep FIRST;
 ```
 
 ### Data insert in table from other table

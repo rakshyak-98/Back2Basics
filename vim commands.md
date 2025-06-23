@@ -34,3 +34,28 @@ ma (set mark 'a')
 ```vim
 colorscheme habamax
 ```
+
+### Enable system clipboard
+
+> [!INFO] 
+> if you see `+clipboard` clipboard is supported
+> if you see `-clipboard` clipboard is not supported
+```bash
+vim --version | grep clipboard; 
+```
+
+```bash
+sudo apt install vim-gtk3; # install vim with clipboard support
+```
+
+```vim
+"+y        " Yank to system clipboard
+"+p        " Paste from system clipboard
+```
+
+#### Make clipboard default
+> [!INFO]
+> uses the `+` register (system clipboard) for all the yank/paste.
+```vim
+set clipboard=unnamedplus;
+```
