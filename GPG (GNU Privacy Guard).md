@@ -1,4 +1,20 @@
-# GNU Privacy Guard
+### Verify gpg key
+```bash
+# 1. Extract the fingure print
+gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --fingerprint; 
+
+# 2. Download official key for comparision
+curl -fsSL https://repo.com/gpg_signing.key | gpg --with-fingerprint;
+
+```
+
+#### Compare the binary hash
+```bash
+gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --export > localkey.gpg
+curl -fsSL https://nginx.org/keys/nginx_signing.key -o officialkey.gpg
+gpg --dearmor officialkey.gpg
+diff -s localkey.gpg officialkey.gpg.gpg
+```
 
 ```bash
 # [ configure key ]

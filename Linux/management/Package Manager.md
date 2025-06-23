@@ -42,3 +42,27 @@ when `apt-get update` is verifies if the same update indexes need downloading, i
 # STDOUT
 command [option] > [output file]
 ```
+
+### Source list file config
+```txt
+deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian jammy nginx
+```
+- `deb` -> this is a binary package source (as opposed to `deb-src` for source code).
+- `[signed-by=...]` -> custom gpg key used to verify the authenticity of packages.
+- 'http://' -> URL of the APT repository (from package org).
+- `jammy` -> code name for Ubuntu 22.04 (APT uses Debian-style naming).
+- `nginx` -> the distribution/component (like `main`, `contrib`)  here it is nginx specific pacakge.
+
+> [!INFO]
+> `main` component -> sub folder under distribution `/dists/jammy/main/binary-amd64/`
+> when you run `apt update` APT tries to download
+```bash
+https://my.repo.com/apt/dists/jammy/Release
+https://my.repo.com/apt/dists/jammy/main/binary-amd64/Packages.gz
+```
+- `jammy` to select the `dists/<distribution>` folder
+- `main` (component) to pick which subfolder(s) to load packages from
+
+> [!NOTE]
+> APT does not "determine" these — **you must specify both**, and the server must have a matching structure under `/dists`. 
+
