@@ -66,3 +66,14 @@ https://my.repo.com/apt/dists/jammy/main/binary-amd64/Packages.gz
 > [!NOTE]
 > APT does not "determine" these — **you must specify both**, and the server must have a matching structure under `/dists`. 
 
+
+## package architecture
+```text
+deb [arch=amd64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/ubuntu jammy nginx
+```
+- mention the `arch`
+
+```bash
+dpkg --print-foreign-architectures;
+dpkg --print-architectures;
+```
