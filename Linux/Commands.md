@@ -542,6 +542,14 @@ curl -X POST -H "Content-Type: application/json" -d '{"key":"value"}' https://ex
 
 ```
 
+#### curl network
+```bash
+curl ifconfig.me/ip;
+curl ifconfig.me/all.json;
+curl ifconfig/mime;
+curl ifconfig/forwarded;
+```
+
 ## visudo
 - the `/etc/sudoers` file should only be edited using the `visudo` command which ensures the file is edited by one user at a time and performs syntax checks.
 - Errors or bad syntax in the `/etc/sudoers` may result in locking out all users.
