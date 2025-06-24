@@ -9,7 +9,7 @@
 - To access a private network (behind NAT/firewall) from a public IP over the internet, you need to punch through the NAT or relay/forward.
 
 #### Port forwarding
-- you control the router/firewall on the private network 
+- you control the router/firewall on the private network.
 #### Reverse SSH Tunnel
 #### VPN (Virtual Private Network)
 #### ZeroTier/Tailscale/Ngrok/Cloudflare Tunnel
