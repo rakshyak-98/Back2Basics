@@ -43,6 +43,12 @@ SET content = JSON_SET(
 WHERE id = 1;
 ```
 
+```mysql
+UPDATE your_table
+SET json_column = JSON_REMOVE(json_column, '$.yourKey')
+WHERE your_condition;
+```
+
 ### update array field value
 ```sql
 UPDATE section
