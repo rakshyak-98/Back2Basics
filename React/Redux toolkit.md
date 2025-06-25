@@ -169,3 +169,10 @@ listenerMiddleware.startListening({
 })
 
 ```
+
+### How to normalise nested data in Redux TookKit
+- Avoid deep nesting -> improves performance.
+- Reduces duplication.
+
+> [!INFO]
+> Tool to use [normaliser](https://www.npmjs.com/package/normalizr)
