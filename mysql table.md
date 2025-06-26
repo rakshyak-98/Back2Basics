@@ -1,4 +1,4 @@
-```txt
+`ssssssssssssssssssss`txt
 CREATE TABLE table_name (
 	column1 datatype constraints,
 	column2 datatype constraints,
@@ -7,7 +7,7 @@ CREATE TABLE table_name (
 ```
 
 ```mysql
-CREATE TABLE users(
+	CREATE TABLE users(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	role VARCHAR(50) DEFAULT 'guest'
@@ -149,3 +149,28 @@ LEFT JOIN jobDepartment AS jd
   ON jd.jobDepartmentName = hk.department
 SET hk.department = jd.id;
 ```
+
+
+### Insert object into an array of Object for JSON type column
+```mysql
+update 
+  sub_section 
+set 
+  content = JSON_ARRAY_APPEND(
+    content, 
+    '$', 
+    JSON_OBJECT(
+      'image', 
+      JSON_OBJECT(
+        'alt', 'KSUP room', 'url', 'https://quickimagetools.com/uploads/image_6855171736d464.12303213.png', 
+        'width', 500, 'height', 400
+      ), 
+      'title', 
+      'KSUP (KING superior)', 
+      'description', 
+      'A warm and elegant room with modern amenities...'
+    )
+  ) 
+where 
+  id = 11;
+``
