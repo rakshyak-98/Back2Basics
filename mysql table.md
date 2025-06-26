@@ -152,6 +152,7 @@ SET hk.department = jd.id;
 
 
 ### Insert object into an array of Object for JSON type column
+
 ```mysql
 update 
   sub_section 
@@ -173,4 +174,4 @@ set
   ) 
 where 
   id = 11;
-``
+```
