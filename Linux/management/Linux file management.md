@@ -1,3 +1,7 @@
+> [!INFO]
+> Open file -> any file that a process has actively opened and is accessing this includes more than just regular files.
+> A kernel assigns it a file description (FD) an integer like `0` `1` `2`, etc.
+
 ```bash
 mimetype <filen path>; # show input file mime type
 stat <filename>;
@@ -192,4 +196,34 @@ ls users-[0-9][!0-9][a-zA-Z]*
 touch file{1..3}
 touch {jan, feb}{1..3}/file{1..10}.txt
 mkdir -p dir1/subdir1/
+```
+
+
+### Open file
+
+these can be considered as open file:
+
+| Type                   | Example                   |
+| ---------------------- | ------------------------- |
+| Regular file           | `/var/log/syslog`         |
+| Directory              | `/etc/`                   |
+| Socket                 | `/var/run/docker.sock`    |
+| Pipe                   | Output of a shell command |
+| Character device       | `/dev/null`, `/dev/tty`   |
+| Block device           | `/dev/sda`                |
+| Network socket         | `TCP`, `UDP` connections  |
+| Anonymous file (tmpfs) | in-memory opened files    |
+```bash
+lsof; # view all the open files.
+lsof -u $USER; # current user open files.
+lsof -p <pid>; # open files for a process.
+```
+
+> [!INFO]
+> - `FD`: file descriptor (3)
+> - `u`: read/write
+> - `REG`: regular file 
+> - `NAME`: actual file path
+```bash
+lsof -p 1234;
 ```
