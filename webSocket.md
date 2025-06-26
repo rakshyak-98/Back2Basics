@@ -3,9 +3,12 @@ WebSocket provide full-duplex, bidirectional communication between a client and 
 
 #### Basic WebSocket Flow
 - client initiates handshake via `ws://` or `wss://`
-- server upgrades connection to WebSocket protocol
+- server upgrades connection to WebSocket protocol from http.
 - client and server exchange messages bidirectionally
 - connection remains open until one side close it
+
+> [!INFO]
+> websocket protocol `ws://` upgrades from `HTTP/1.1`. it's part of the spec.
 
 
 #### Setting proxy for WebSocket
