@@ -9,7 +9,7 @@
 - **buffer mode** causes all the data coming from a resource to be collected into a buffer until the operation is completed, it is then passed back to the caller as one single blob of data.
 **Example**: at time `t1`, some data is received from the resource and saved into the buffer. At time _t2_, another data chunk is received—the final one—which completes the read operation, so that, at _t3_, the entire buffer is sent to the consumer.
 - **Stream** allow us to process the data as soon as it arrives from the resource.
-	- program run in constant memory utilization.
+	- program run in constant memory utilisation.
 
 > [!INFO] Buffers in V8 are limited in size. You cannot allocate more than a few gigabytes of data.
 ```javascript
