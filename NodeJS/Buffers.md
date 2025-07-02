@@ -50,3 +50,15 @@ console.log(Float32Array.BYTES_PER_ELEMENT); // ouptut 4
 console.log(new Float32Array(5).byteLength); // output 5 x 4 = 20
 ```
 
+### Convert buffer to string
+
+```js
+fs = require('fs');
+
+fs.readdirSync("./");
+file = fs.readfileSync("./img.png");
+Buffer.isBuffer(file);
+
+file.toString("base64");
+
+```
