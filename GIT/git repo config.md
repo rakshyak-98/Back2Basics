@@ -24,3 +24,4 @@ git commit -S -m <commit message>; # if auto-sign is not eanble
 git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
+
