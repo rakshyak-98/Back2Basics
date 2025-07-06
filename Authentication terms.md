@@ -1,0 +1,1 @@
+top_secret -> is the shared secret key between your server and the user's TOTP app (e.g., Google Authenticator, Authy). It's used to generate time-based one-time password (TOTP) Every 30 seconds.
