@@ -7,8 +7,7 @@
 const nextConfig = {
   images: {
     domains: ["example.com"]
-  }
-}
+  } }
 ```
 
 ```js
@@ -25,5 +24,19 @@ const nextConfig = {
 ```js
 const nextConfig = {
   productionBrowserSourceMaps: true, // enable client side source map
+}
+```
+
+```js
+const nextConfig = {
+	async redirects() {
+		return [
+			{
+				source: '/old-path',
+				destination: '/new-path',
+				parament: true,
+			}
+		]
+	}
 }
 ```

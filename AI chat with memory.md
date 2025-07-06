@@ -1,0 +1,2 @@
+- AI LLM don't remember history. We need to give all the necessary information it need to generate the output.
+- For every input, output and history it will use the token quota.
