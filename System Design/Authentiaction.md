@@ -59,3 +59,20 @@ Recover password
 <input type="email" autocomplete="username" />
 <input type="password" autocomplete="new-password" />
 ```
+
+
+> [!INFO]
+> make the label element block element for usebality
+```html
+<form>
+	<fieldset>
+		<label for="register_eamil">Your Email</label>
+		<input id="register_eamil" autocomplete="username" />
+		<label for="register_eamil">Your Password</label>
+		<input id="register_eamil" autocomplete="new-password" />
+	</fieldset>
+</form>
+```
+
+ > [!NOTE]
+ > return response message from the server saying that the credential is wrong instead of the let the user know what was miss typed as any non existing user can guess the credentials.
