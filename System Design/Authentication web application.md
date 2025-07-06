@@ -1,5 +1,4 @@
 [full Stack authentication](https://firtman.github.io/authentication/)
-
 validating user identity, system validation, or a service validation.
 
 Credentials -> identify user on server side.
