@@ -1,4 +1,3 @@
-## Guidance 
 - time complexity grows linearly with two independent factors, multiply them to get the overall time complexity.
 
 independent factors -> if you have two independent parts (outer loop and inner loop) of an algorithm, and each part has a linear time complexity, you multiply their complexity.
