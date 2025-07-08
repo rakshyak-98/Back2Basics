@@ -1,8 +1,8 @@
 A heap is a tree-based structure that lets you always get the min and max element in `O(1)` and insert/remove in `O(log n)`.
 
 > [!INFO]
->- min-head -> top (root) is always the smallest element.
->- max-heap -> top is always the largest element.
+> - min-head -> top (root) is always the smallest element.
+> - max-heap -> top is always the largest element.
 
 > [!NOTE]
 > Heap (DSA) and Heap memory (Runtime/OS) they are completely different concepts.
