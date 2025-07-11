@@ -2,7 +2,7 @@
 - **`HISTIGNORE`**: Excludes certain commands from being saved in history.
 ```shell
 export HISTIGNORE="ls:cd:pwd"; # prevent from being saved to history.
-export HISTICONTROL=ignoreboth;
+export HISTCONTROL=ignoreboth;
 ```
 
 - `HISTORYCONTROL` Controls what gets saved to history 
@@ -37,7 +37,7 @@ HISTORYCONTROL=ignoredups:erasedups; # Avoid duplicate history entries.
 !!:s/old/new/ # replace old with new in the last command.
 ^old^new^ # quick replace old with new in the last command.
 ```
-
+#### Previous command arguments
 ```shell
 !$; # last argument of the previous command.
 !^ # first argument of the previous comamnd.

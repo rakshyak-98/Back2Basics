@@ -1,4 +1,11 @@
 ### Command manipulation
+
+```bash
+fc -ln -1; # show the last command ( no line number );
+fc -ln -2 -1; # show the last two commands;
+fc -e nano; # edit previous command with neno;
+```
+
 ```shell
 echo "Today is ${date}"
 mkdir new_dir && cd new_dir # conditional execution
@@ -64,7 +71,7 @@ set +u      # Disable error on unset variables
 ```
 
 ### Example
-Here’s a simple example of using flags in a script:
+	Here’s a simple example of using flags in a script:
 ```bash
 #!/bin/bash
 set -euo pipefail  # Exit on error, unset vars error, and fail on pipe errors

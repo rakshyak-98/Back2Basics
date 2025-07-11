@@ -81,3 +81,16 @@ function addWaterMarkWhenPrintKeyboardShortut(e){
 document.addEventListener("keydown", addWaterMarkWhenPrintKeyboardShortut)
 
 ```
+
+### Select Warning: The `value` prop supplied to `<select>` must be a scalar value if `multiple` is false.
+- you are using a `<select>` element with `multiple={false}` (or by default, since `multiple` is `false` by default).
+- you passed an array or non-scaler value to the `value` prop.
+
+> [!INFO]
+> react will warn here because `value` is an array, only allowed when `multiple={true}`
+```html
+<select value={["apple"]}>
+	<option value="apple">Apple</option>
+	<option value="banana">Banana</option>
+</select>
+```
