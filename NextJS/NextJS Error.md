@@ -125,3 +125,25 @@ Error: ENOENT: no such file or directory, open '$PWD/.next/prerender-manifest.js
 |`.rsc`|Compiled React Server Component output|
 |`.js`|Client-side JS bundle|
 |`.html`|Static HTML fallback or initial render|
+
+
+### useSearchParams() should be wrapped in a suspense boundary at page "/reserve-table". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+- `useSearchParams` is a client Component only hook from `next/navigation`, and you're using it outside a proper Suspense boundary in new Next.js App router.
+- solution -> wrap the part of your component that uses `useSearchParams()` in a `<Suspense>` block to allow Next.js handle the client side Rendering (CSR) bailout gracefully.
+```js
+// app/reserve-table/page.tsx
+
+import { Suspense } from "react";
+import ReserveTableContent from "./ReserveTableContent";
+
+export default function ReserveTablePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReserveTableContent />
+    </Suspense>
+  );
+}
+
+```
+- `useSearchParams()` needs client-side runtime.
+- App Router does SSR/Streaming by default. It needs a suspense boundary to isolate client components that rely on the browser environment.
