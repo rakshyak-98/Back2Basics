@@ -18,10 +18,13 @@ git branch -vv;
 ## Tags
 ```sh
 git tag -a <tag_name> -m "your message"; # -a annotate tag
+git tag -a v1.0.0 -m 'Updated description for release'; # Recreate with description.
+git tag -a v1.0.0; 
+git tag show <tag name>;
+git for-each-ref refs/tags/v10.0.0 --format="%(subject)%(body)"; # view tag name and description.
+
 git push origin <tag name>;
-
 git branch --contains <tab name>; # find branch containing the tag
-
 git rev-list -n 1 <tag_name>; # find commit has for the tag
 
 ```

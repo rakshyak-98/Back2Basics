@@ -219,3 +219,24 @@ const selectIncompleteTodos = createSelector([selectTodos], (todos) => todos.fil
 - First args: input selector(s)
 - Second args: transform logic (only re-runs if input changes)
 - helps to move logic (filtering, mapping, computations) out of components. Avoid scattered business logic across components.
+
+### Redux Action dispatch custom hook
+```js
+
+```
+
+```js
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from "@/store/authSlice";
+
+export function useLogin() {
+	const dispatch = useDispatch();
+	const { user, token, loading, error } = useSelector(state => state.auth);
+	
+	const login = (email, password) => {
+		dispatch(loginUser({ email, password }));
+	}
+	
+	return  { login, user, token, loading, error };
+}
+```
