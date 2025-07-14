@@ -7,7 +7,7 @@ use new `next/navigation` hooks
 import { useRouter, useSearchParams, useParams } from 'next/navigation'
 ```
 
-### Why the changes?
+ Why the changes?
 App Router runs in a **React Server Component-first architecture**. The old hooks from `next/router` depend on the client-side routing context — which doesn't exist in server components.
 
 The new `next/navigation` hooks are **designed to work with [[RSC (React Server Component boundaries)]] and match the new routing paradigm.
@@ -120,11 +120,11 @@ Error: ENOENT: no such file or directory, open '$PWD/.next/prerender-manifest.js
 > `.rsc` files are not editable or human-readable they're used internally for optimised React rendering.
 > on request `.rsc` is streamed to client or edge, allowing partial hydration.
 
-|File|Purpose|
-|---|---|
-|`.rsc`|Compiled React Server Component output|
-|`.js`|Client-side JS bundle|
-|`.html`|Static HTML fallback or initial render|
+| File    | Purpose                                |
+| ------- | -------------------------------------- |
+| `.rsc`  | Compiled React Server Component output |
+| `.js`   | Client-side JS bundle                  |
+| `.html` | Static HTML fallback or initial render |
 
 
 ### useSearchParams() should be wrapped in a suspense boundary at page "/reserve-table". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
