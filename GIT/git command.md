@@ -189,3 +189,21 @@ git log --diff-filter=D --summary;
 git diff --diff-filter=D <to compare branch name>;
 man git diff; # view diff manual
 ```
+
+### Credentials
+```bash
+git config --global credential.helper cache;
+```
+
+> [!INFO]
+> credential.helper -> controls how Git remembers (or not) those credentials.
+> `store` -> stores them permanently in `~/.git-credentials` in plain text.
+> `gpt` -> Encrypts credentials with GPG (custom setup).
+
+> [!NOTE]
+> git doesn't allow direct removal of just one value from a __multi-value section__ like this
+```ini
+[credential "https://github.com"]
+helper = 
+helper = !/usr/bin/gh auth git-credential
+```
