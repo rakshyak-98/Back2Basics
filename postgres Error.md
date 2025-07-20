@@ -1,0 +1,2 @@
+## `psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  role "ubuntu" does not exist`
+- This error means you're trying to connect PostgreSQL using the linux user inside the PostgreSQL system named 'ubuntu'.
