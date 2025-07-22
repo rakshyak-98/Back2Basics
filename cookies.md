@@ -70,3 +70,8 @@ A `samesite=lax` cookie is sent if both of these conditions are true:
 > - `fetch(..., { credentials: true })` is used.
 > - Backend CORS has `credentials: true`.
 > - Cookie is set with correct `sameSite` and `secure` flags.
+
+
+```js
+axios.defaults.withCredentials = true;
+```

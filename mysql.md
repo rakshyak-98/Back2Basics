@@ -19,8 +19,7 @@ mysqldump --user=user --passwrod=pass --host=localhost \ --skip-comments --no-cr
 ```bash
 cat /tmp/tablename.txt | jq -R -s -c 'split("\n")' | map(split(","))'
 ```
-
-```mysql
+ ```mysql
 SHOW databases;
 SHOW COLUMNS FROM <table>;
 SHOW INDEX FROM <table>;

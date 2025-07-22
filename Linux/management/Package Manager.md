@@ -1,5 +1,6 @@
 ```shell
 sudo apt install software-properties-common;
+apt-mark showmanual; # show, set and unset verious settings for a package.
 ```
 - package is installed because it provides the `add-apt-repository` command, which is needed to manage third-part repositories.
 - It enables managing PPA (Personal Package Archives) and other external `source.list`.
@@ -22,6 +23,16 @@ sudo apt install unattended-upgrades;
 
 sudo dpkg-reconfigure --priority=low unattended-upgrades;
 ```
+
+|Criteria|**Manually Installed**|**Automatically Installed**|
+|---|---|---|
+|**Definition**|Explicitly installed by the user|Installed as dependencies for other packages|
+|**Tracking**|`apt-mark showmanual`|`apt-mark showauto`|
+|**Removal Behavior**|Not removed unless explicitly removed|Auto-removed when no longer needed (`apt autoremove`)|
+|**Install Command**|`apt install <pkg>`|Installed _with_ another package (not directly)|
+|**Uninstallation**|Safe from auto-removal|Can be auto-removed if orphaned|
+|**Marking**|Can be marked with `apt-mark manual`|Can be marked with `apt-mark auto`|
+|**Purpose**|Intended usage by user|Support/requirement for other packages|
 
 ```bash
 Hit: # comparing metadata with remote site.
