@@ -7,6 +7,20 @@ EXECUTE stmt USING @json;
 DEALLOCATE PROCEDURE stmt;
 ```
 
+> [!NOTE]
+> - **No**, you **cannot** use literals directly in the `EXECUTE ... USING` statement like this
+```mysql
+EXECUTE stmt USING 10, 2, Home; -- this is invalid.
+```
+- have to assign literals to variables.
+```mysql
+SET @a = 10;
+SET @b = 2;
+SET @c = 'Home';
+EXECUTE stmt USING @a, @b, @c;
+
+```
+
 | Name                        | MySQL Term / Category        | Description                                     |
 | --------------------------- | ---------------------------- | ----------------------------------------------- |
 | `PREPARE`, `EXECUTE`        | **Prepared Statements**      | Runtime dynamic SQL with placeholders           |

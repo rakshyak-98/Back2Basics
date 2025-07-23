@@ -80,3 +80,9 @@ origin: (origin, callback) => {
 > [!NOTE]
 > This must be set by the browser or client when uploading files. If you're using `fetch`, do **not manually** set `Content-Type` when using `FormData` — let the browser do it.
 > - The key must match the name you defined in `multer.single()` or `multer.array()`.
+
+| Backend (`multer`)                                        | Frontend Requirement                         |
+| --------------------------------------------------------- | -------------------------------------------- |
+| `upload.single('file')`                                   | `formData.append('file', file)`              |
+| `upload.array('files', 5)`                                | `formData.append('files', file1)` (multiple) |
+| `upload.fields([{ name: 'avatar' }, { name: 'resume' }])` | Use matching keys for each                   |
