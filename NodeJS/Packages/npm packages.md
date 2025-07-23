@@ -75,3 +75,8 @@ origin: (origin, callback) => {
 
 ```
 
+## multer
+
+> [!NOTE]
+> This must be set by the browser or client when uploading files. If you're using `fetch`, do **not manually** set `Content-Type` when using `FormData` — let the browser do it.
+> - The key must match the name you defined in `multer.single()` or `multer.array()`.
