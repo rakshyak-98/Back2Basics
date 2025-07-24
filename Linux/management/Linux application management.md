@@ -29,3 +29,20 @@ xdg-mime query default inode/directory; # confirm
 grep -hE '^[^#]' /usr/share/mime/packages/*.xml | grep -oP 'type="\K[^"]+'
 
 ```
+
+### Bluetooth connectivity
+- `ControllerMode = bredr` to `/etc/bluetooth/main.conf`
+
+> [!INFO]
+> `ControllerMode` -> is a BlueZ configuration (usually set in `main.conf`)
+
+```vi
+[General]
+ControllerMode = dual    # or le, or bredr
+```
+
+- Then restart Bluetooth
+```bash
+sudo service bluetooth restart;
+sudo btmgmt info; # BlueZ tool 
+```
