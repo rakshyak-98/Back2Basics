@@ -103,6 +103,7 @@ pkill next-server;
 ```
 
 ### Fix CORS error
+- use inbuild `app/api` routes to call external APIs.
 
 ## Static image not loading when hosted on AWS ec2 instance
 
@@ -147,3 +148,8 @@ export default function ReserveTablePage() {
 ```
 - `useSearchParams()` needs client-side runtime.
 - App Router does SSR/Streaming by default. It needs a suspense boundary to isolate client components that rely on the browser environment.
+
+
+## `Collecting page data  ...TypeError: Super expression must either be null or a function, not undefined`
+
+- due to `use client` directive not mentioned in component.
