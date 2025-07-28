@@ -7,7 +7,6 @@ Here’s a minimal yet deep dive into the **cookie flow and lifecycle** between 
 `Client Request → Server Response (Set-Cookie) → Client Stores → Subsequent Requests → Server Reads → Expiry / Manual Deletion`
 
 ---
-
 ## 1. **Creation (Server → Client)**
 ### Server sets a cookie:
 - **HTTP Header**:
@@ -98,16 +97,18 @@ document.cookie = "theme=dark; Max-Age=3600; Path=/";
 ---
 
 ## 8. **Common Gotchas**
-- CORS must allow credentials:
-    - Frontend: `fetch(url, { credentials: "include" })`
-    - Server: `Access-Control-Allow-Credentials: true`
+> [!NOTE]
+> CORS must allow credentials: 
+> - Frontend: `fetch(url, { credentials: "include" })` 
+> - Server: `Access-Control-Allow-Credentials: true`
+
 - Cross-site cookies require `SameSite=None; Secure`
 - Domain mismatch (subdomain issues)
 - Clock skew can affect expiry
 
 ---
 
-## 🔁 Cookie Flow Summary
+## Cookie Flow Summary
 ```text
 Client  ─────────▶  Server
         [Request w/ no cookie]
