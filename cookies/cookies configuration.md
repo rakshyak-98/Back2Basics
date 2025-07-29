@@ -1,3 +1,4 @@
+[cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cookie)
 ```shell
 HTTP/1.0 200 OK
 Content-type: text/html
