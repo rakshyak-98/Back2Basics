@@ -4,6 +4,10 @@ PS1='\[\e[38;5;109m\]\u\[\e[38;5;250m\]@\[\e[38;5;110m\]\h \[\e[38;5;144m\]\w\[\
 ```
 
 ```bash
+PS1='\[\e[38;5;141m\]\W\[\e[38;5;175m\]$(__git_ps1 "(%s)")\[\e[0m\]\[\e[38;5;108m\] ➜ '
+```
+
+```bash
 PS1='\[\e[38;5;110m\]➜ \[\e[38;5;144m\]\W\[\e[38;5;109m\]$(__git_ps1 " (%s)")\[\e[0m\] '
 ```
 ## Habamax dark
@@ -128,4 +132,59 @@ gsettings set "$BASE_PATH" palette "[
   '#96cfdb',  # rgb(150,207,219)
   '#e6e6e6'   # rgb(230,230,230)
 ]"
+```
+
+
+## Catppuccin Mocha palette
+
+```bash
+#!/bin/bash
+
+# Catppuccin Mocha palette
+declare -A colors=(
+  [black]="#1e1e2e"
+  [red]="#f38ba8"
+  [green]="#a6e3a1"
+  [yellow]="#f9e2af"
+  [blue]="#89b4fa"
+  [magenta]="#f5c2e7"
+  [cyan]="#94e2d5"
+  [white]="#cdd6f4"
+  [brightBlack]="#585b70"
+  [brightRed]="#f38ba8"
+  [brightGreen]="#a6e3a1"
+  [brightYellow]="#f9e2af"
+  [brightBlue]="#89b4fa"
+  [brightMagenta]="#f5c2e7"
+  [brightCyan]="#94e2d5"
+  [brightWhite]="#ffffff"
+  [bg]="#1e1e2e"
+  [fg]="#cdd6f4"
+  [cursor]="#f5c2e7"
+)
+
+# Create a new GNOME terminal profile with Catppuccin colors
+PROFILE_NAME="Catppuccin Mocha"
+PROFILE_SLUG="catppuccin-mocha"
+DCONF_DIR=/org/gnome/terminal/legacy/profiles:
+PROFILE_ID=$(uuidgen)
+
+# Append profile
+dconf write $DCONF_DIR/list "[$(dconf read $DCONF_DIR/list | sed "s/]$/, '$PROFILE_ID']/")]"
+dconf write $DCONF_DIR/:$PROFILE_ID/visible-name "'$PROFILE_NAME'"
+dconf write $DCONF_DIR/:$PROFILE_ID/palette "['${colors[black]}', '${colors[red]}', '${colors[green]}', '${colors[yellow]}', '${colors[blue]}', '${colors[magenta]}', '${colors[cyan]}', '${colors[white]}', '${colors[brightBlack]}', '${colors[brightRed]}', '${colors[brightGreen]}', '${colors[brightYellow]}', '${colors[brightBlue]}', '${colors[brightMagenta]}', '${colors[brightCyan]}', '${colors[brightWhite]}']"
+dconf write $DCONF_DIR/:$PROFILE_ID/background-color "'${colors[bg]}'"
+dconf write $DCONF_DIR/:$PROFILE_ID/foreground-color "'${colors[fg]}'"
+dconf write $DCONF_DIR/:$PROFILE_ID/bold-color "'${colors[fg]}'"
+dconf write $DCONF_DIR/:$PROFILE_ID/use-theme-colors "false"
+dconf write $DCONF_DIR/:$PROFILE_ID/use-theme-background "false"
+dconf write $DCONF_DIR/:$PROFILE_ID/cursor-colors-set "true"
+dconf write $DCONF_DIR/:$PROFILE_ID/cursor-background-color "'${colors[cursor]}'"
+dconf write $DCONF_DIR/:$PROFILE_ID/cursor-foreground-color "'${colors[bg]}'"
+
+# Optional: Set as default profile
+dconf write $DCONF_DIR/default "'$PROFILE_ID'"
+
+echo "🎨 Catppuccin Mocha theme applied to GNOME Terminal."
+
 ```
