@@ -76,7 +76,6 @@ Two types of logic inside React components:
 ---
 
 ### **What if There's No User Action?**
-
 - Some **side effects don’t happen due to a direct user event** (e.g., connecting to a chat server when a component appears).
 - **Solution:** Use **Effects (`useEffect`)**, which run after rendering to handle such side effects.
 

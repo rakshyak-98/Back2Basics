@@ -1,15 +1,11 @@
 ## When to use:
-- Controlled: When you need to manage the form state or respond to changes immediately (form validation, conditional rendering)
-- Uncontrolled: When you don't need to track every input change, reducing overhead, especially for forms that don't require much interaction.
-
-- Controlled Components: Components that are controlled by React state.
-- Uncontrolled Components: Components that maintain their own internal state.
+- Controlled: When you need to *respond to changes immediately* (form validation, conditional rendering).
+- Uncontrolled: When you don't need to track every input change.
 
 This pattern helps manage form element, input validation, and UI integrations, providing flexibility for managing state externally or letting the component handle its own state.
 
 ### Controlled Component
-- controlled via react state.
-- the component value is always synchronized with the state.
+- the component value is always synchronised with the state.
 
 ```js
 import { useState } from 'react';

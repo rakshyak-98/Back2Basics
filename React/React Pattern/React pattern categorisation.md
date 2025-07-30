@@ -1,5 +1,3 @@
-### Summary Table for Categorization
-
 | **Pattern**                   | **Example Components**                                | **Purpose**                                          |
 | ----------------------------- | ----------------------------------------------------- | ---------------------------------------------------- |
 | **Component Composition**     | `Button`, `Input`, `Card`, `Grid`                     | Reusability and SRP.                                 |
@@ -13,9 +11,9 @@
 | **Controller-Presentational** | `UserController`, `ProductList`                       | Separate logic-heavy and UI-heavy responsibilities.  |
 
 ---
-### Categorization of Components Based on Design Patterns in React
+### Categorisation of Components Based on Design Patterns in React
 
-In a large-scale React application with 2000+ components, categorizing components by their responsibilities and aligning them with suitable design patterns ensures maintainability, scalability, and adherence to SOLID principles.
+In a large-scale React application with 2000+ components, Categorisation components by their responsibilities and aligning them with suitable design patterns ensures maintainability, scalability, and adherence to SOLID principles.
 
 ---
 
