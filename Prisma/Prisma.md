@@ -15,3 +15,12 @@ npx prisma generate; # generat the prisma client
 - You can specify a custom directory for the generated Prisma Client in the `schema.prisma` file:
 ```js
 ```
+
+```ts
+Withoug<T, U>;
+```
+- in typescript (used by Prisma) `Without<T, U>` is a utility type that removes keys of `U` from `T` by setting them to `never`.
+
+```ts
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never};
+```
