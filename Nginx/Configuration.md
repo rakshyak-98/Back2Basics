@@ -92,6 +92,8 @@ To run a PHP project using Nginx, you need to configure it to pass `.php` files 
 
 Edit or create config -> `/etc/nginx/sites-available/yourproject`
 
+> [!NOTE]
+> Even if Nginx runs as nginx, PHP-FPM (handling PHP execution) typically runs as www-data. Thus, www-data needs ownership or sufficient permissions (e.g., 755 for directories, 644 for files) to access your project files.
 
 ```nginx
 server {

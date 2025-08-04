@@ -21,6 +21,8 @@ sudo chown -R www-data:www-data /var/lib/php/sessions
 sudo chown -R www-data:www-data /var/www/html/your-project-folder
 
 ```
+> [!NOTE]
+> On Ubuntu, www-data is the default user and group for web services like Apache and PHP-FPM, making it a convention for web-related file ownership.
 
 > [!NOTE]
 > Check your Apache config file `/etc/apache2/sites-enabled/000-default.conf`
