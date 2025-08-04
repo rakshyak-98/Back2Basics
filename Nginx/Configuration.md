@@ -95,6 +95,12 @@ Edit or create config -> `/etc/nginx/sites-available/yourproject`
 > [!NOTE]
 > Even if Nginx runs as nginx, PHP-FPM (handling PHP execution) typically runs as www-data. Thus, www-data needs ownership or sufficient permissions (e.g., 755 for directories, 644 for files) to access your project files.
 
+> [!NOTE]
+> You change the owner to www-data (or ensure www-data has access) to allow PHP-FPM to:
+> - Read PHP files for execution.
+> - Write to directories (e.g., for uploads, logs, or framework caches like Laravel’s storage directory).
+> - Avoid permission errors when PHP-FPM tries to access files owned by another user.
+
 ```nginx
 server {
     listen 80;
