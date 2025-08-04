@@ -250,10 +250,11 @@ make copy from `/lib/systemd/system`
 ```bash
 [unit]
 Description=My new Service
+
 [service]
 ExecStart=/usr/bin/my_new_service
-```
 
+```
 - there are two potential locations to store service configurations unit files.
 
 > [!INFO]
