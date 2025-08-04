@@ -86,3 +86,42 @@ sudo unlink /etc/nginx/sites-enabled/myapp;
 > [!INFO] put files inside `/etc/nginx/site-available` create symbolic link to the `/etc/nginx/site-enable`
 - `next.conf.ts` -> add `base_path` and `leadingslash: true` property in `nextConfig`
 - `basePath` must not have trailing `/`
+
+### Run php project
+To run a PHP project using Nginx, you need to configure it to pass `.php` files to `PHP-fpm`.
+
+Edit or create config -> `/etc/nginx/sites-available/yourproject`
+
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+
+    root /var/www/html/yourproject;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock; # adjust for your PHP version
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+```
+
+```bash
+sudo ln -s /etc/nginx/sites-available/yourproject /etc/nginx/sites-enabled/
+
+sudo systemctl restart php7.4-fpm;
+sudo systemctl restart nginx;
+```

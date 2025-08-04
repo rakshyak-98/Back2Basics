@@ -255,13 +255,18 @@ ExecStart=/usr/bin/my_new_service
 ```
 
 - there are two potential locations to store service configurations unit files.
-- `/ect/systemd/system` : used to store customized local service configuration unit files
-    - files in this location are not overwritten by software installations or upgrades
-    - files here are used by the system _event_ if there is a file of the same name in the `/lib.systemd/system` directory
-    - Notice that in this directory, the files are symbolic links pointing to service unit configuration
-- `/lib/systemd/system` : store system service configuration unit files
-    - files in this location are overwritten by software installations and upgrades.
-    - files here are used by the system only if there is not a file of the same name in the `/etc/systemd/system` directory.
+
+> [!INFO]
+> - `/ect/systemd/system` : used to store customized local service configuration unit files
+> - files in this location are not overwritten by software installations or upgrades
+>
+
+> [!INFO]
+> - files here are used by the system _event_ if there is a file of the same name in the `/lib.systemd/system` directory
+> - Notice that in this directory, the files are symbolic links pointing to service unit configuration
+> - `/lib/systemd/system` : store system service configuration unit files
+> - files in this location are overwritten by software installations and upgrades.
+> - files here are used by the system only if there is not a file of the same name in the `/etc/systemd/system` directory.
 
 <aside> 💡 When you create a new or customized service, in order for the change to take effect without a server reboot, you will need to issue a special command
 
