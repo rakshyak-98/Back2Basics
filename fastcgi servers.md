@@ -8,3 +8,12 @@ A `FastCGI server` is a long-running process that handles dynamic content genera
 2. It **forwards** it to `php-fpm` via FastCGI.
 3. `php-fpm` **executes PHP**, returns result to Nginx.
 4. Nginx **returns** the final response to the client.
+
+```nginx
+location ~ \.php$ {
+    include fastcgi_params;
+    fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}
+
+```
