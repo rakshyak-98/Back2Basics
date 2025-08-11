@@ -1,7 +1,7 @@
 
 [PREPARE statement](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html)
 ```mysql
-PROCEDURE stmt FROM 'UPDATE table_name set column_name = ? where id = 1';
+PREPARE stmt FROM 'UPDATE table_name set column_name = ? where id = 1';
 SET @json = '[]';
 EXECUTE stmt USING @json;
 DEALLOCATE PROCEDURE stmt;

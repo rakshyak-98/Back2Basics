@@ -34,3 +34,6 @@ DocumentRoot /var/www/html
 > [!NOTE]
 > missing `.htaccess` or Rewrite Rules
 > - if you are using `Codelgniter`  `Laravel` or another framework, a missing `.htaccess` can cause routes to break. 
+
+### Apache rewrite rules
+- this is handled by `.htaccess` file in the root of the porject.

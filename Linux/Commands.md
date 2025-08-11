@@ -528,6 +528,10 @@ getent <serice name>
 
 ## curl
 ```bash
+curl -L <url>;
+```
+
+```bash
 curl -O <url>; # save file with original name  
 curl --cookie-jar cookies.txt https://example.com; # allow to store and send cookies during requests
 curl -x <proxy:port> <url>; # route requests through a proxy
