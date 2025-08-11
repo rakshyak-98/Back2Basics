@@ -133,3 +133,54 @@ sudo ln -s /etc/nginx/sites-available/yourproject /etc/nginx/sites-enabled/
 sudo systemctl restart php7.4-fpm;
 sudo systemctl restart nginx;
 ```
+
+## Configure nginx to handle different directory
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+
+    # Global root for static files (CSS, JS, images)
+    root /var/www/global;
+
+    index index.html index.htm;
+
+    # Serve static assets directly from global root
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # PHP location with its own root
+    location ~ \.php$ {
+        root /var/www/phpapp;
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        include fastcgi_params;
+    }
+
+    # Python (WSGI via uWSGI HTTP)
+    location /py/ {
+        root /var/www/pythonapp;
+        proxy_pass http://127.0.0.1:8000;  # Gunicorn/uwsgi server
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Node.js app
+    location /node/ {
+        root /var/www/nodeapp; # Optional, for static files inside /node/
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+    }
+
+    # Optional error logging
+    error_log /var/log/nginx/multi-lang-error.log;
+    access_log /var/log/nginx/multi-lang-access.log;
+}
+
+```
