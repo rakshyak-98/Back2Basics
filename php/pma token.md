@@ -1,0 +1,2 @@
+- the PMA_token is a [[CSRF (Cross-site Request Forgery)]] token stored in the PHP session `$_SESSION['PMA_token]` and regenerated on each login.
+- It helps protect against unauthorised or malicious form sessions.
