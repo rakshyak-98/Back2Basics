@@ -19,4 +19,3 @@ ON hkAppNotification(floorNumber, shiftName, department)
 WHERE floorNumber IS NOT NULL AND shiftName IS NOT NULL AND department IS NOT NULL;
 
 ```
-
