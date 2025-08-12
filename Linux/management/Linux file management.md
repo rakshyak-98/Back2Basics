@@ -15,33 +15,6 @@ lsblk; # list block devices
 sudo mount -t tmpfs -o size=100M tmpfs <path>;
 ```
 
-## set the recommended (default) application for a mime type on your system
-```bash
-xdg-mime query default mime/type;
-xdg-mime default vim.desktop text/plain;
-```
-
-### mime type
-- `/etc/mime.types` 
-- `/usr/share/mime` -> system wide
-- 
-
-```bash
-xdg-mime query default inode/directory; # get the information of file manager
-gio mime <mime-type>;
-```
-
-
-#### Make the mount permanent
-- automatically mounted at boot, you can add an entry to `/etc/fstab` file.
-```txt
-tmpfs <path> tmpfs size=100M 0 0
-```
-
-```bash
-df -h; #verify the mount
-```
-
 ### API package lock
 - `/var/lib/dpkg/lock` or `/var/lib/apt/lists/lock`
 - apt package manager uses lock files to prevent multiple processes from accessing the package database simultaneously.
