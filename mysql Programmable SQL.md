@@ -7,6 +7,12 @@ EXECUTE stmt USING @json;
 DEALLOCATE PROCEDURE stmt;
 ```
 
+## View all the prepared statement
+```sql
+SELECT STATEMENT_ID, STATEMENT_NAME, SQL_TEXT FROM performance_schema.prepared_statements_instances;
+
+```
+
 > [!NOTE]
 > - **No**, you **cannot** use literals directly in the `EXECUTE ... USING` statement like this
 ```mysql
