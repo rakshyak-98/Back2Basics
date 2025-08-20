@@ -147,7 +147,7 @@ The "sticky bit" (`1` in the `1777` permission mode) has different effects depen
 
 ## Wildcard
 
-### creating files
+### Creating files
 
 touch command - is used to create or update the timestamps of a file or directory. Keep in mind that is any of the file names you specify with the `touch` command already exist, their timestamps will be updated rather than creating new files.
 
@@ -171,7 +171,6 @@ touch {jan, feb}{1..3}/file{1..10}.txt
 mkdir -p dir1/subdir1/
 ```
 
-
 ### Open file
 
 these can be considered as open file:
@@ -186,6 +185,7 @@ these can be considered as open file:
 | Block device           | `/dev/sda`                |
 | Network socket         | `TCP`, `UDP` connections  |
 | Anonymous file (tmpfs) | in-memory opened files    |
+
 ```bash
 lsof; # view all the open files.
 lsof -u $USER; # current user open files.
