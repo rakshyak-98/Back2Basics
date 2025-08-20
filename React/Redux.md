@@ -2,6 +2,13 @@
 npm install @reduxjs/toolkit react-redux
 ```
 
+> [!INFO]
+> Redux is good if configs can change at runtime or need to be updated via API.
+> - if configs are static constants (e.g., section names that never change), Redux adds unnecessary boilerplate & re-render overhead. 
+
+> [!NOTE]
+> Accessing via Redux selectors is slightly slower than direct import (though negligible in most apps).
+
 Reducers -> listen for dispatched actions and modify the store.
 Dispatching -> triggers state updates in Redux.
 
