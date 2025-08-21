@@ -1,3 +1,22 @@
+Process without controlling TTY -> process not associated with any terminal (keyboard, screen).
+
+> [!INFO]
+> Normally, when you log in via terminal/SSH, a controlling terminal (tty) is assigned to your session.
+> - this tty handles input/output signals, job control.
+
+```bash
+ps -o pid,tty,cmd; # TTY shows `?` when no controlling tty. 
+ls -l /proc/<pid>fd/0; # if not symlinked to `/dev/tty*`, no tty attached.
+```
+
+### Process without controlling tty
+- Detached from terminal, so:
+	- No interactive input/output.
+	- Doesn't receive terminal-generates signals (`SITINT`, `SIGHUP` on logout etc.)
+	- Runs independently of any user session.
+- Daemons (`sshd` `cron` `systemd` ) usually started by `init`/`systemd` without tty.
+- Background jobs disowned (`nohup command` & `disown`).
+- Processes launched with `setsid` -> new session, no controlling tty.
 # kill process with `SIGQUIT` 
 ```bash
 kill -s 3 <pid>; # send SIGQUIT signal
