@@ -1,6 +1,7 @@
 ```sh
 pm2 start npm --name <app name> -- start
 pm2 save; # synchronized with saved list.
+pm2 show <process id>; # view the details of the process.
 pm2 env <process id>; # show all environment variabel of process id.
 ```
 

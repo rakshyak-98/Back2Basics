@@ -1,8 +1,8 @@
-## PTY
-A pseudo-TTY is a software-based implementation of a TTY that enables terminal emulators, such as GNOME terminal, Konsole, and xterm etc. to function. When you launch a terminal emulator, it requests a PTY from the operating system, which is then used for input/output operations.
+## PTS
+A pseudo-TTY is a software-based implementation of a TTY that enables terminal emulators, such as GNOME terminal, Console, and xterm etc. to function. When you launch a terminal emulator, it requests a PTS from the operating system, which is then used for input/output operations.
 
 ## TTY Device files
-- in Linux  each TTY (virtual or pseudo) is represented by a device file located in the `/dev` directory.  For example `/dev/tty1` represents the first virtual TTy, while `/dev/pts/0` represents the first pseudo-TTy.
+- in Linux  each TTY (virtual or pseudo) is represented by a device file located in the `/dev` directory.  For example `/dev/tty1` represents the first virtual TTY, while `/dev/pts/0` represents the first pseudo-TTY.
 
 ## Virtual TTY
 - text-based interface that allows users to interact with the operating system using a keyboard and display.
