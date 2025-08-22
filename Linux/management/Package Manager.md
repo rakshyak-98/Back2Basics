@@ -1,4 +1,10 @@
 ```shell
+apt-cache policy <package name>;
+```
+
+```shell
+sudo apt full-upgrade;
+
 sudo apt install software-properties-common;
 apt-mark showmanual; # show, set and unset verious settings for a package.
 ```

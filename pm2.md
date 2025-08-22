@@ -41,3 +41,49 @@ module.exports = {
   ]
 }
 ```
+
+### pm2 modes
+### Fork mode (default)
+Runs a single instance of your app, like `node app.js`.
+```bash
+pm2 start app.js --name myapp -x; # x means fork mode;
+```
+
+### Cluster mode
+Uses node.js cluster module to spawn multiple processes (one per CPU core, or a number you specify)
+- Enable load balancing across cores.
+```bash
+pm2 start app.js -i max; # one process per CPU core.
+```
+
+#### Migrate an app from fork_mode to cluster mode
+```bash
+pm2 reload <app name> -i max;
+```
+
+```bash
+pm2 describe <app name>;
+```
+
+## pm2 deployment system
+```bash
+pm2 forward <app name>;
+```
+- is used when you configure an app with pm2 deploy.
+
+```bash
+pm2 forward <app name> ;
+[PM2] Updating to next commit repository for process name backend
+[PM2] No versioning system found for process backend
+
+```
+- means that pm2 tried to fetch the next commit from Git for the process, but your app was not started using `pm2 deploy` with Git integration.
+
+```bash
+pm2 deploy ecosystem.config.js production setup;
+pm2 deploy ecosystem.comfig.js production;
+```
+
+```bash
+pm2 list --namespace <app name>;
+```
