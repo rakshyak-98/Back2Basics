@@ -152,7 +152,7 @@ ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
 ALTER TABLE table_name CHANGE COLUMN old_name TO new_name data_type;
 
 ```
-### re-arrange columns
+### Re-arrange columns
 ```mysql
 ALTER TABLE table_name MODIFY column_name data_type AFTER other_column;
 ALTER TABLE table_name MODIFY column_name data_tyep FIRST;

@@ -4,6 +4,10 @@ ss -tuln
 lsof -i -P -n | grep LISTEN
 ```
 
+```bash
+nc -zv <domain name> <port>; # check if the server is reachable on port 443;
+```
+
 ## Socket Statistics
 - list all ports and their protocols
 ## List open files

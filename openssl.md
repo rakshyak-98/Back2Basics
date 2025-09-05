@@ -20,3 +20,5 @@ openssl x509 -in certificate.crt -noout -fingerprint;
 ```shell
 openssl verify -CAfile ca_bunle.crt certificate.crt;
 ```
+
+`/etc/ssl/certs/ca-certificates.crt`
