@@ -1,3 +1,6 @@
+```bash
+npm root -g; # get the global npm node_modules location 
+```
 ### peer dependency conflict during the `npm install` process
 `npm warn ERESOLVE overriding peer dependency`
 - it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual versions being installed.
