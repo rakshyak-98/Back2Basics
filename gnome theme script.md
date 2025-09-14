@@ -188,3 +188,29 @@ dconf write $DCONF_DIR/default "'$PROFILE_ID'"
 echo "🎨 Catppuccin Mocha theme applied to GNOME Terminal."
 
 ```
+
+## Gruvbox theme
+```bash
+#!/usr/bin/env bash
+# Apply Gruvbox Dark theme to GNOME Terminal
+
+PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \')
+PROFILE_PATH="/org/gnome/terminal/legacy/profiles:/:$PROFILE"
+
+# Gruvbox Dark palette
+PALETTE="['#282828', '#cc241d', '#98971a', '#d79921', \
+'#458588', '#b16286', '#689d6a', '#a89984', \
+'#928374', '#fb4934', '#b8bb26', '#fabd2f', \
+'#83a598', '#d3869b', '#8ec07c', '#ebdbb2']"
+
+# Apply settings
+dconf write $PROFILE_PATH/background-color "'#282828'"
+dconf write $PROFILE_PATH/foreground-color "'#ebdbb2'"
+dconf write $PROFILE_PATH/palette "$PALETTE"
+dconf write $PROFILE_PATH/bold-color "'#ebdbb2'"
+dconf write $PROFILE_PATH/use-theme-colors "false"
+dconf write $PROFILE_PATH/bold-color-same-as-fg "true"
+
+echo "Gruvbox Dark theme applied to GNOME Terminal profile: $PROFILE"
+
+```

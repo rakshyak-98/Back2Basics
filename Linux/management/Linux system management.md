@@ -3,6 +3,11 @@ limiting resources - is valuable in environments with multiple users and system 
 - file path - `/etc/security/limits.conf` . Changing the values in the file persist after system reboot.
 
 ```bash
+lsb_release -a -r;
+hostnamectl; # show system information
+```
+
+```bash
 jobs;
 
 lsusb; # list USB devices.

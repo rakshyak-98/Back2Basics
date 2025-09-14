@@ -61,10 +61,13 @@ These variables help in locating the keyring and its associated files for authen
 Once the keyring is unlocked, any application that requires access to stored secrets (like passwords or keys) can communicate with the GNOME Keyring Daemon using a D-Bus interface.
 The application can request the necessary credentials without prompting the user if the keyring is already unlocked.
 Example Configuration:
-In many systems, the PAM configuration for GNOME Keyring can be found in `/etc/pam.d/common-auth` or similar files, and it may look something like this:
-auth optional `pam_gnome_keyring.so`
-This entry allows the keyring to be unlocked as part of the authentication process.
+> [!NOTE] 
+> In many systems, the PAM configuration for GNOME Keyring can be found in `/etc/pam.d/common-auth` or similar files, and it may look something like this:
+
+- auth optional `pam_gnome_keyring.so` -> This entry allows the keyring to be unlocked as part of the authentication process.
 Summary:
 The OS unlocks the GNOME Keyring automatically using the user's login credentials during the session initialization.
 PAM facilitates this integration, allowing for seamless communication without GUI interaction.
-Applications access the keyring via a D-Bus interface after it has been unlocked.
+
+> [!INFO] 
+> Applications access the keyring via a D-Bus interface after it has been unlocked.
