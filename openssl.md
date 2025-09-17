@@ -33,6 +33,10 @@ sudo openssl req -x509 -nodes -days 365 \
 ```
 - `Common Name (CN)` -> shop.localhost (important).
 - others you can skip with Enter.
+- `-nodes` -> don't encrypt the private key with a passphrase.
+
+> [!INFO]
+> Normally, when you generate a private key with `openssl` it asks for a password to protect it.
 
 This gives you 
 `/etc/nginx/certs/shop.localhost.crt` (certificate)
