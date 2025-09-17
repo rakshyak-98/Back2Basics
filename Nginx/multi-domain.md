@@ -75,3 +75,54 @@ server {
 	return 301 https://$host$request_uri;
 }
 ```
+
+### Reverse proxy
+
+Run a Local API [[expressjs]]
+
+> [!NOTE]
+> Trailing slash in `proxy_pass` matters
+
+Configure Nginx for Reverse Proxy
+Edit your `/etc/nginx/sites-available/multidomain` and update the `api.localhost` block
+```nginx
+server {
+	listen 80;
+	server_name api.localhost;
+	location / {
+		proxy_pass http://127.0.0.1:3000;
+		
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forward-For $proxy_add_x_forward_for;
+		proxy_set_header X-Forward-Proto $scheme;
+	}
+}
+```
+```nginx
+location /users/ {
+	proxy_pass http://127.0.0.1:3000/;
+}
+
+location /auth/ {
+	proxy_pass http://127.0.0.1:4000/;
+}
+```
+-> `/users/*` goes to one backend, `/auth/*` goes to another.
+
+Load balancing multiple APIs
+
+```nginx
+upstream api_backend {
+	server 127.0.0.1:3000;
+	server 127.0.0.1:3001;
+}
+server {
+	listen 80;
+	server_name api.localhost;
+	
+	location / {
+		proxy_pass http://api_backend;
+	}
+}
+```
