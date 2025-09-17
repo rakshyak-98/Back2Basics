@@ -1,3 +1,4 @@
+[variables](https://nginx.org/en/docs/http/ngx_http_core_module.html#var_host)
 ```sh
 sudo nginx -t;
 sudo nginx -t -c <full path to custom nginx.conf>;
