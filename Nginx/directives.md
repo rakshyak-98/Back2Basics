@@ -82,3 +82,14 @@ server {
 	server_name;
 }
 ```
+
+### Static files
+
+`try_files` -> it checks for the existence of files in a specified order and uses the first found file for request processing. 
+
+```nginx
+try_files file1 file2 file3 ... fallback;
+```
+- nginx tries each argument in order until it finds an existing file or reaches the final fallback.
+
+[[How does directive work#try_files]]
