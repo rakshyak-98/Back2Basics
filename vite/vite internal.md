@@ -86,3 +86,9 @@ export default defineConfig(({ mode }) => ({
 }));
 
 ```
+
+## PostCSS
+- anytime your `import "./style.css"` in your code, vite runs the file through PostCSS pipeline.
+
+> [!INFO]
+> vite looks for PostCSS config in your project root: `postcss.config.js` `postcss.config.cjs` `postcss.config.mjs` `postcss.config.json` or inline config inside `vite.config.js` under `css.postcss`

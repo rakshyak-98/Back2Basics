@@ -13,13 +13,19 @@
 
 ## Array
 
+> [!INTO]
 > [!INFO]
 > getting data at a specific index, take the width of the type multiply it by the offset puts it at the memory addressing go in and grab that.
+> Array not good for implementing for **enqueue** or **dequeue**.
 
+- direct index access `O(1)`
 - deleting an element from the array can be done in O(1) by swapping the element to be deleted with the last element in the array and then removing the last element.
 - fixed size, contiguous memory allocation.
-- direct index access `O(1)`
-- insertion/Deletion `O(n)` because of shifting elements.
+
+- insertion/Deletion `O(n)` because of shifting elements. Inserting or deleting elements in an array requires manually shifting all other elements, which typically involves writing for loop to move elements and create space for the new value.
+
+> [!NOTE]
+> Array allocate all memory upfront, meaning if you want space for 1000 times, you reserve all that memory immediately. Linked lists, in contrast, allocate memory dynamically, creating nodes only when elements are inserted.
 
 > [!INFO]
 > Getting data at a specific index involves multiplying the width (size in bytes) of the type by the index offset, then adding it to the base memory address to locate the desired element. The system then goes to that calculated address and retrieves the data.
@@ -48,6 +54,12 @@
 ---
 
 ### 2. Linked List in JavaScript
+
+> [!NOTE]
+> Linked list can only perform linear search, which means traversing each element sequentially until the desired item is found. There is no possibility of binary search or direct random access.
+
+> [!INFO]
+> A linked list is ideal for scenarios like an async request queue, where you need to efficiently push and pop elements from the head or tail without the performance overhead of shifting array indices.
 
 **Types**: Singly Linked List, Doubly Linked List, Circular Linked List.
 - sequence of nodes where each node points to the next.
