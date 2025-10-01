@@ -9,3 +9,14 @@ Example -> you have an array of size N, and for each element in the array, you n
 
 ### LPS Array (in KMP) Longest Prefix Suffix
 for each position `i` in the patterns, `LPS[i]` stores the length of the longest proper prefix that is also a suffix of the sub-string ``
+
+### Recursion
+- return address, return value, stack trace
+- pre-operation (something done before recursion), Recursion (actual function call), Post-operation (something done after recursion).
+- base case
+
+> [!INFO]
+> recursive function terminates by reaching a base case, where the function no longer calls itself and instead returns a specific value or performs a final operation.
+
+> [!INFO]
+> The call stack grows downward as recursive calls are made, then unwinds upward as each function returns its calculated value, with each function adding its own computation to the final result.

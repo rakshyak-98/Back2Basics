@@ -1,3 +1,20 @@
+### Create table from existing table
+
+```sql
+-- copies schema, indexes, column definitions
+-- no data
+CREATE TABLE new_table LIKE old_table;
+
+-- copies columns and data
+-- no indexes, constraints, triggers.
+CREATE TABLE new_table AS SELECT * FROM old_table;
+
+
+-- copy structure + data + indexes
+CREATE TABLE new_table LIKE old_table;
+INSERT INTO new_table SELECT * FROM old_table;
+```
+
 ### Create table
 ```mysql
 CREATE TABLE table_name (
