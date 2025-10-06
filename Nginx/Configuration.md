@@ -1,3 +1,9 @@
+
+| Directive | Config                                          | Request           | Resolved Path                    |
+| --------- | ----------------------------------------------- | ----------------- | -------------------------------- |
+| root      | `location /images/ { root /var/www/static; }`   | `/images/cat.png` | `/var/www/static/images/cat.png` |
+| alias     | `location /images/ { alias /var/www/static/; }` | `/images/cat.png` | `/var/www/static/cat.png`        |
+
 [variables](https://nginx.org/en/docs/http/ngx_http_core_module.html#var_host)
 ```sh
 sudo nginx -t;
