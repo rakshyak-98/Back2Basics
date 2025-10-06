@@ -80,6 +80,15 @@ location ~ \.php$ {
 
 ```
 
+> [!INFO]
+> `~` means case-sensitive regular expression match.
+> - Nginx will match the location using the regex pattern that follows.
+> - without `~` Nginx treats the path as a literal prefix.
+
+So, `~ /.php$` -> matches any URI ending with `.php` like `/index.php`, `/folder/file.php`
+`~* \.php$` -> same as above but case-insensitive `.PHP` `.Php`
+
+
 > [!INFO] Nginx itself does not execute dynamic code (like PHP, Python etc) instead, it forwards requests to external FastCGI servers and `fastcgi.conf` provides the necessary parameters for the communications.
 
 ## site-enable and site-available

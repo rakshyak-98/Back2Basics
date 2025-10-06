@@ -1,3 +1,18 @@
+m -> SGR command applies the color/style. The terminal wouldn't know you're talking about graphics attributes (color, bold, underline, etc.)
+
+|Color|FG|Bright FG|
+|---|---|---|
+|Black|`30`|`90`|
+|Red|`31`|`91`|
+|Green|`32`|`92`|
+|Yellow|`33`|`93`|
+|Blue|`34`|`94`|
+|Magenta|`35`|`95`|
+|Cyan|`36`|`96`|
+|White|`37`|`97`|
+
+`\[\e[<style>;<foreground>;<background>m\]`
+
 ## PS1
 ```bash
 PS1='\[\e[38;5;109m\]\u\[\e[38;5;250m\]@\[\e[38;5;110m\]\h \[\e[38;5;144m\]\w\[\e[0m\]\n\$ '
@@ -10,6 +25,7 @@ PS1='\[\e[38;5;109m\]\u\[\e[38;5;250m\]@\[\e[38;5;110m\]\h \[\e[38;5;144m\]\w\[\
 ```bash
 PS1='\[\e[38;5;110m\]➜ \[\e[38;5;144m\]\W\[\e[38;5;109m\]$(__git_ps1 " (%s)")\[\e[0m\] '
 ```
+
 ## Habamax dark
 ```bash
 #!/bin/bash
