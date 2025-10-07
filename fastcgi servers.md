@@ -1,4 +1,5 @@
-A `FastCGI server` is a long-running process that handles dynamic content generation (lik php, python etc.) and communicates with web servers (like Nginx) via the FastCGI protocol.
+- Process that handles dynamic content generation (like php, python etc.) and communicates with web servers (like Nginx) via the FastCGI protocol.
+
 
 > [!INFO]
 > - web servers like Nginx cannot interpret PHP directly. So, they forward requests to a FastCGI server (like PHP-FPM).

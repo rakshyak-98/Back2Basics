@@ -65,4 +65,20 @@ Return IP
 **Run a full trace**
 ```bash
 dig +trace <domain>;
-``
+```
+
+## Classic DNS propagation/resolver difference issue
+
+`nslookup <domain> <public dns server>` -> NXDOMAIN
+google public DNS (`8.8.8.8`) does not yet have the record cached or the record hasn't propagated to it.
+
+`nslookup <domain> 1.1.1.1` -> resolves correctly
+	- Cloudflare DNS `1.1.1.1` has already received the update record.
+
+> [!INFO]
+> - DNS changes propagate asynchronously
+> - Each resolver caches records based on TTL.
+> - Some resolvers query authoritative servers sooner than other.
+> - NXDOMAIN on 8.8.8.8 means either
+> 	- Had cached an old non-existent state (before the A record was added), or
+> 	- Hasn't queried the authoritative nameservers yet.
