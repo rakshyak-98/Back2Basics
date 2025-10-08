@@ -145,7 +145,7 @@ you need different ssh key to pull from different git repository.
 ```bash
 ssh-keygen -t rsa -b 4096 -C 'comment'; # generate public and private key. 
 ssh-add id_rsa;
-ssh-keygen -lf [filename]; # get the fingureprint of the key private/public.
+ssh-keygen -lf <filename>; # get the fingureprint of the key private/public.
 ```
 
 t - type of algorithm
