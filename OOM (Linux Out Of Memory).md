@@ -1,4 +1,4 @@
-linux OOM killer is a kernel mechanism triggered when system memory is exhausted and no more memory can be allocated.
+Linux OOM killer is a kernel mechanism triggered when system memory is exhausted and no more memory can be allocated.
 
 ### When it happens?
 - all memory + swap used.
@@ -20,5 +20,5 @@ journalctl -k; # if systemd present
 
 #### Avoid by
 - adding more swap.
-- tuning memory limits (e.g., cgroups for containers).
-- optimizing memory usage.
+- tuning memory limits (e.g.,`cgroups` for containers).
+- optimising memory usage.

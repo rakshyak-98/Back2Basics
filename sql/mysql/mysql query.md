@@ -9,3 +9,8 @@ FROM your_table
 WHERE JSON_TYPE(your_column) = 'ARRAY';
 ```
 - `JSON_TYPE(column)` returns one of: `OBJECT` `ARRAY` `STRING` `INTEGER` `DECIMAL` `BOOLEAN` `NULL`.
+
+# Show details about table
+```mysql
+SHOW FULL COLUMNS FROM "<table name>";
+```

@@ -1,7 +1,9 @@
 A relay server is a server that forwards data between two or more devices or systems that cannot communicate directly.
 
-Both devices (Device A and Device B) first establish a connection to the relay server.
-- This connection is possible because the devices initiate outgoing connections, which are generally allowed by most NAT's and firewalls (outgoing traffic is usually not blocked).
+> [!NOTE]
+> Both devices (Device A and Device B) first establish a connection to the relay server.
+> - This connection is possible because the devices initiate outgoing connections, which are generally allowed by most NAT's and firewalls (outgoing traffic is usually not blocked).
+
 Once both devices have connected to the relay server, the server creates communication channels (virtual pipes) for each device. These channels serve as endpoints to send and receive data between the devices via the relay server.
 
 ### Why Relay servers work?
