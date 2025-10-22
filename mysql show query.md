@@ -39,3 +39,9 @@ SHOW MASTER STATUS; -- current binary log file & position
 SHOW EVENTS; -- scheduled events
 ```
 
+**Show view table for current database**
+```mysql
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.VIEWS
+WHERE TABLE_SCHEMA = DATABASE();
+```

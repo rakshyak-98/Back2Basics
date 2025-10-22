@@ -27,3 +27,6 @@ CREATE TABLE HotelSections (
 );
 
 ```
+
+> [!NOTE]
+> - Foreign key also creates an index automatically. this is other then `FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE`

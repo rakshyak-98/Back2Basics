@@ -94,3 +94,6 @@ deb [arch=amd64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://
 dpkg --print-foreign-architectures;
 dpkg --print-architectures;
 ```
+
+[`distro-info-data`](https://github.com/deepin-community/distro-info-data)
+- the `distro-info` package provides centralised lists of code-names and release history for the supported distributions (Currently: Debian and Ubuntu)

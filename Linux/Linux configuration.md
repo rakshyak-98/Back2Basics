@@ -233,23 +233,23 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt;
 ### terminfo
 `/usr/share/terminfo` directory is a compiled database that describe the capabilities of various terminals.
 - it is used by applications like terminal emulator to communicate with the terminal and take advantage of its specific features.
-- entries are organized into sub-directories based on the firs letter of the terminal name (e.g. `/usr/share/terminfo/v` for viewpoint terminals)
+- entries are organised into sub-directories based on the firs letter of the terminal name (e.g. `/usr/share/terminfo/v` for viewpoint terminals)
 #### Usage
 - Applications like the terminal emulator use the terminfo database to determine how to control the terminal
 - entries in the terminfo database are compiled from source files using the `tic` command.
 
 ### Sound
-`/etc/asound.conf` ALSA settings file. User level `~/.asoundrc`
+`/etc/asound.conf` `ALSA` settings file. User level `~/.asoundrc`
 
 ## Port
 `/etc/services` -> is a plain-text file in Linux that maps service names to port number and protocols. 
 - used by network tools (`telnet` `netstat` `namp`)
-- enables named-based service identification instead of hard-conding port
+- enables named-based service identification instead of hard-coding port
 
 > [!INFO]
 > if the app chooses to look up service names through the system's service database. Otherwise, it's just an unused file.
 > Languages like `Go` or NodeJS that implement their own networking stack and don't consult `/etc/services` by default.
-> 
+
 ```txt
 <service-name> <port>/<protocol> [alias] [# comment]
 ```
@@ -258,3 +258,40 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt;
 http 80/tcp www # World Wide Web
 ```
 
+`/etc/host.conf` -> used by GNU `libc` (resolver) to control how hostname resolution behaves on Linux before or along with `/etc/nsswitch.conf`. It defines lookup order, multi-address behaviour, and alias handling.
+- `order hosts,bind` -> check `/etc/hosts` file first then query DNS via `bind` (named).
+
+## SSL Certificate
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d example.com -d www.example.com
+```
+
+```bash
+sudo certbot renew --dry-run;
+```
+
+**For Local HTTPS**
+```bash
+sudo apt install mkcert;
+mkcert -install;
+mkcert localhost 127.0.0.01 ::1;
+```
+
+**Self signed certificate**
+```bash
+openssl req -x509 -newkey rsa:2048 -keyout server.key -out server.crt -days 365 -nodes
+```
+
+`/etc/services` -> maps service names (port numbers + protocols), used by network tools `netstat` `ss` `telnet` 
+
+> [!NOTE]
+> Overrides can exist in `/etc/nsswitch.conf` (for name resolution order).
+> Editing `/etc/services` affects only name–port lookups, not actual daemon configs.
+
+```text
+http    80/tcp    www
+https   443/tcp
+ssh     22/tcp
+```
+- when you type `telnet localhost http`, it connects to port 80
