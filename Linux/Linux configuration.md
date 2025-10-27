@@ -5,7 +5,7 @@ dconf load /org/gnome/terminal < <your dconf file>;
 ```
 ### Environment configurations
 - `XDG_` prefix used to denote a set of environment variables defined by the XDG Base Directory Specification.
-- these specification aims to standardize the locations of user-specific files and directories.
+- these specification aims to standardise the locations of user-specific files and directories.
 
 ```bash
 apt-cache rdepends <package name>; # view dependency on packages.
