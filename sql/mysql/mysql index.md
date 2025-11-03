@@ -26,3 +26,18 @@ CREATE TABLE mem_table (
 SHOW INDEX FROM your_table;
 ```
 - check current index type
+
+
+# Index usage
+```mysql
+SELECT
+  OBJECT_SCHEMA,
+  OBJECT_NAME,
+  INDEX_NAME,
+  COUNT_STAR
+FROM performance_schema.table_io_waits_summary_by_index_usage
+WHERE INDEX_NAME IS NOT NULL
+ORDER BY COUNT_STAR DESC;
+```
+- unused indexes (drop them - index maintenance isn't free)
+- hot indexes to optimize further 
