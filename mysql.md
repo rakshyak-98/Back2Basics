@@ -40,7 +40,6 @@ SELECT DATABASE();
 ```
 
 ```mysql
-SELECT JSON_OBJECT('id', id, 'name', name) FROM your_table;
 SELECT * FROM table_name/G; -- Each column shown on its own line
 ```
 > [!INFO]
@@ -174,15 +173,6 @@ SHOW CREATE TABLE your_table;
 ```mysql
 ALTER TABLE your_table DROP FOREIGN KEY fk_name;
 
-```
-
-### Manipulation
-```mysql
-SELECT JSON_OBJECT(
-  'col1', col1,
-  'col2', col2
-) AS json_data
-FROM users;
 ```
 
 ### View size of a table
