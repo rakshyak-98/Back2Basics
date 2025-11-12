@@ -7,10 +7,16 @@ EXECUTE stmt USING @json;
 DEALLOCATE PROCEDURE stmt;
 ```
 
+```mysql
+SHOW STATUS LIKE "Prepared%";
+```
+
 ## View all the prepared statement
 ```sql
 SELECT STATEMENT_ID, STATEMENT_NAME, SQL_TEXT FROM performance_schema.prepared_statements_instances;
 
+SELECT STATEMENT_NAME, SQL_TEXT FROM
+performance_schema.prepared_statements_instances;
 ```
 
 > [!NOTE]
