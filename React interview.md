@@ -38,3 +38,14 @@ function TestComponent({ id }) {
     - There is no mechanism to **abort** the fetch request when the component unmounts.
 3. **Missing Error Handling**
     - Network failures or invalid responses aren't handled, which could cause runtime errors.
+
+## Add fallback image
+
+```js
+const fallback = "http://fallback.jpg";
+
+<img 
+	src="http://"
+	onError={(e) => {e.target.src = fallback}}
+/>
+```
