@@ -1,6 +1,6 @@
-```bash
-dig +short google.com;
-dig @8.8.8.8 google.com;
+```sh
+dig +short google.com; # out ip only
+dig @8.8.8.8 google.com; # DNS
 ```
  
  > [!INFO]

@@ -30,3 +30,8 @@ h1 {
 
 > [!INFO]
 > `@import "tailwindcss"` -> tailwindcss registers itself as a PostCSS plugin. The `tailwindcss` package in `node_modules` exposes an entry point. When PostCSS parses `@import "tailwindcss"` the PostCSS import plugin + tailwindcss plugin intercept the directive.
+
+## Sticky position
+> [!NOTE]
+> Sticky positioning is relative to the nearest scrolling ancestor.
+> Grid items don't establish the properly unless height is constrained.

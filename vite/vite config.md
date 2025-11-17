@@ -47,3 +47,10 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
   }
 })
 ```
+
+## Vite allowed host error
+
+[server-allowed-hosts](https://vite.dev/config/server-options#server-allowedhosts)
+
+```js
+```
