@@ -1,6 +1,13 @@
+> [!NOTE]
+> - It is not intended for frequently changing application state (e.g., form inputs, todo lists, shopping carts). When the Provider's value prop changes, every consumer downstream re-renders (unless you manually optimise with memoisation, splitting contexts, etc.).
+> - Dan *Abramov* (Redux creator & React core team) has repeatedly said Context is for dependency injection-style sharing of infrequent or configuration-like data, not for replacing Redux/MobX/Zustand for complex app state.
+
 - wrap a child component in a provider that handles multiple related state values and setters.
 - a common approach is to use a context as a delivery mechanism for stateful values and setters.
 - this pattern can be used as single pattern throughout even a large application as the single way to distribute and organize data and functionality in your entire application.
+
+> [!WARNING]
+> Accept that changes cause broad re-renders -> Nest many Providers at the root, put frequently updating state in them → performance issues
 
 > [!NOTE] we always have a context at the root of the application, so the default values will never be used.
 ### Dedicated component for context management
