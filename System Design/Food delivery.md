@@ -1,0 +1,8 @@
+- 100 million daily active users (DAU)
+- 5000 queries per seconds KQPS hitting core transactional systems
+- 20 mile radius and ideally sort of by distance.
+- Controlled order cancellation (can't cancel once the chef start cooking).
+- Asynchronous notifications for every single status change.
+- Driver assigned foods on the way.
+- Moment from the user hitting submit to the system saying "Yep got your order, here's the ID" that has to be under 2 seconds.
+- Persisting the order. 10 million order a day, every day year after year.
