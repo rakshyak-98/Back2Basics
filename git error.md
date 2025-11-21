@@ -17,3 +17,24 @@ exit status 128
 
 > [!NOTE]
 > - Mixing `sudo` and non-sudo commands -> using sudo with git command can cause permission mismatch, especially if your SSH keys are not available to the root user.
+
+### Cross Repository migration
+
+```txt
+fatal: refusing to merge unrelated histories
+```
+- this happen when your local repository and the remote repository have no shared commit history. - often occurs when a new repository is created locally and then connected to an existing remote repository.
+##### Solution 
+- Allow merging unrelated histories.
+- use this command to `rebase` unrelated changes if the initial commit history mismatch
+```shell
+git pull origin main --allow-unrelated-histories
+```
+- this forces git to merge the different commit histories.
+##### Rest local repository with remote repository
+```shell
+git fetch origin
+git reset --hard origin/main
+```
+> [!WARNING]
+> if you want to discard local changes and fully replace them with the remote repository

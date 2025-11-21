@@ -86,7 +86,7 @@ git rebase --continue; # git will print conflicted files directly
 ```
 ## remote
 ```bash
-git remote remote origin;
+git remote origin;
 git remote prune;
 git fetch --prune;
 ```
@@ -143,27 +143,6 @@ git blame -C <file>; # Tracks code change even if the fiel was renamed.
 ```shell
 git stash show -p stash@{<index>}
 ```
-
-### Cross Repository migration
-
-```txt
-fatal: refusing to merge unrelated histories
-```
-- this happen when your local repository and the remote repository have no shared commit history. - often occurs when a new repository is created locally and then connected to an existing remote repository.
-##### Solution 
-- Allow merging unrelated histories.
-- use this command to `rebase` unrelated changes if the initial commit history mismatch
-```shell
-git pull origin main --allow-unrelated-histories
-```
-- this forces git to merge the different commit histories.
-##### Rest local repository with remote repository
-```shell
-git fetch origin
-git reset --hard origin/main
-```
-> [!WARNING]
-> if you want to discard local changes and fully replace them with the remote repository
 
 ### Tracking file changes
 ```shell
