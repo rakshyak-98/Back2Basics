@@ -14,7 +14,7 @@ resource "kubernetes_namespace" "exmaple" {
 ```
 
 ### Installation
-[Hashicorp installation linux](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+[Hashicorp installation Linux](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 ```shell
 sudo apt install -y gnupg software-properties-common curl
 

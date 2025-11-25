@@ -1,3 +1,7 @@
+ > [!NOTE]
+ > - `require()` in Node is **synchronous** (blocking). (Browsers **cannot block** while waiting for network fetches.)
+ 
+ 
 - child process can  be spawned by using `child_process.fork()` API (instead of using multiple threads).
 - `cluster` module allows you to share sockets between processes to enable load balancing over your cores.
 - designed to build scalabel network application ([[non-blocking]], [[Asynchronous]], [[Event Loop]]).

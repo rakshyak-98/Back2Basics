@@ -1,3 +1,12 @@
+|Concept|What it Means (Simple)|Example in Our Project|
+|---|---|---|
+|Provider|Tells Terraform which cloud (AWS, GCP, Azure…)|provider "aws" { region = "us-east-1" }|
+|Resource|Something you want to create (an EC2, RDS, S3 bucket…)|resource "aws_ecs_cluster" "main" { … }|
+|Variable|A value you want to change per environment (dev/staging/prod)|variable "environment" { default = "dev" }|
+|Output|Shows you useful info after creation (like URLs, IPs)|output "alb_dns_name" { value = aws_alb.main.dns_name }|
+|Module|Re-usable folder of Terraform code|We will have modules for vpc, rds, ecs, alb, etc.|
+|State|A JSON file that remembers everything Terraform created|Stored in S3 + DynamoDB (locked so two people don’t break it)|
+
 ### Terraform commands
 
 | Step       | Command             | Purpose                                     |

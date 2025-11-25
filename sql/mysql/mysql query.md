@@ -10,6 +10,11 @@ WHERE JSON_TYPE(your_column) = 'ARRAY';
 ```
 - `JSON_TYPE(column)` returns one of: `OBJECT` `ARRAY` `STRING` `INTEGER` `DECIMAL` `BOOLEAN` `NULL`.
 
+```sql
+SHOW FULL TABLE WHERE Table_type = "VIEW";
+SHOW FULL TABLE WHERE Table_type = "BASE TABLE";
+```
+
 # Show details about table
 ```mysql
 SHOW FULL COLUMNS FROM "<table name>";
