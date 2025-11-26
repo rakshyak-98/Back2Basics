@@ -1,11 +1,11 @@
-```hcl
+```json
 data "<provider>_<data_type>" "<name>" {
 	# lookup filters/params
 }
 ```
 - `data` -> blocks are used to fetch existing infrastructure or external information read-only (not create/update/delete).
 
-```hcl
+```json
 data "aws_ami" "ubuntu" {
 	most_recent = true
 	owners = [""]
