@@ -22,3 +22,7 @@
 - Reduce to 2-sum -> `b + c = -a`
 - Outer loop fix `i`  
 - Inner while find pairs via 2-pointer
+
+[Game of Life](https://leetcode.com/problems/game-of-life/description/)
+- the eight coordinate pairs represent all possible moves from a cell in a grid.
+	- they enumerate exactly 8 directions around a cell.
