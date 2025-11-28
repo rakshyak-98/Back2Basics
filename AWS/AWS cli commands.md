@@ -1,3 +1,20 @@
+
+```bash
+aws configure
+aws sts get-caller-identity
+```
+
+```bash
+aws iam list-access-keys
+aws iam create-access-key
+
+aws configure
+```
+
+```bash
+aws iam delete-access-key --access-key-id <access key id>;
+```
+
 ### Query
 ```shell
 aws ec2 describe-regions --query "Regions[].RegionName";
