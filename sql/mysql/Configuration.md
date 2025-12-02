@@ -1,7 +1,24 @@
+```ini
+[client]
+user=myuser
+password=mypassword
+host=127.0.0.1
+
+[mysql]
+pager=less -S
+prompt="\u@\h> "
+
+[mysqldump]
+quick=TRUE
+single-transaction=TRUE
+
+```
+
 ## Allow local private IP to connect to local mysql server
 
 ```mysql
 CREATE USER '<user>'@'<private ip>' IDENTIFIED BY '<password>';
+
 GRANT ALL PRIVILEGES ON database_name.* TO 'nodeuser'@'<private ip>';
 SHOW GRANTS FOR '<user>'@'<private ip>';
 FLUSH PRIVILEGES;
@@ -20,11 +37,6 @@ FLUSH PRIVILEGES;
 sql_safe_update=1
 ```
 
-```mysql
-SET sql_safe_updates=1;
-SET GLOBAL sql_safe_updates=1; -- restart server or reconnect client for effect
-SET GLOBAL general_log=1;
-```
 
 ## Dump configuration
 ```bash

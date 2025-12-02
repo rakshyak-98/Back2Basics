@@ -1,4 +1,5 @@
 ## Permission
+
 ```mysql
 SHOW GRANTS FROM 'username'@'host';
 SHOW PRIVILEGES;
