@@ -7,20 +7,24 @@ Set-Cookie: sessionToken=abc123; Expires=Wed, 09 Jun 2024 10:18:14 GMT
 httpOnly
 ```
 
-> [!INFO] `httpOnly` attribute forbids any JavaScript access to the cookie. We can't see such a cookie or manipulate it using `document.cookie`
+> [!INFO]
+> `httpOnly` attribute forbids any JavaScript access to the cookie. We can't see such a cookie or manipulate it using `document.cookie`
 
-> [!NOTE] Cookies have several attribute, many of which are important and should be set.
+> [!NOTE] 
+> Cookies have several attribute, many of which are important and should be set.
+
 ```js
 document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 ```
 
-> [!WARNING] By default, if a cookie doesn't have one of these attributes, it disappears when the browser/tab is closed.
-> Such cookies are called **session cookies** (max-age, expires)
+> [!WARNING] 
+> By default, if a cookie doesn't have one of these attributes, it disappears when the browser/tab is closed (max-age, expires).
+> Such cookies are called **session cookies**
 
 #### Authentication cookies
-- the cookie should be transferred only over HTTPS (`secure` key). By default, if we set a cookie at `http://site.com`, then it also appears at `https://site.com` and vice versa.
-- authenticate user logged in, and with which account they are logged in.
-	- without this user have to log in on each page.
+
+- the cookie should be transferred only over HTTPS (`secure: true`).
+- By default, if we set a cookie at `http://site.com`, then it also appears at `https://site.com` and vice versa.
 - session cookies are intended to be deleted by the browser when the browser closes.
 
 [[cross-site scripting]]
