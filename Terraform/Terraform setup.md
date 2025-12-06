@@ -57,3 +57,5 @@ project-root/
 ### Execution Order
 1. Load all `.tf` files in the root (no specific order, just parsed together).
 2. Read `variable.tf` + `terraform.tfvars` [[variable file]]
+
+
