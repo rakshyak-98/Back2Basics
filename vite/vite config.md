@@ -52,5 +52,13 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 
 [server-allowed-hosts](https://vite.dev/config/server-options#server-allowedhosts)
 
-```js
-```
+
+## Vite image load issue when `base: "/custompage"`
+
+|What you write in code|How Vite treats it during build|Result when `base: "/admin/"`|
+|---|---|---|
+|`import logo from './logo.png'`|Asset import → Vite fingerprints + rewrites the URL|Becomes `/admin/assets/logo-abc123.png` → works|
+|`src="/login-page-image.jpg"` (string)|Plain string → Vite treats it as an **absolute URL**|Stays exactly `/login-page-image.jpg` → 404|
+|`src="./some-image.png"` (relative)|Only rewritten if imported as asset|Stays `./some-image.png` → broken in subpath|
+|`new URL('./image.png', import.meta.url)`|Treated as real asset → gets fingerprinted + prefixed|Becomes `/admin/assets/image-xyz.png` → works|
+
