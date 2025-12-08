@@ -1,6 +1,11 @@
 ### Create table from existing table
 
 ```sql
+RENAME TABLE 
+    faqs TO hotel_faqs,
+    rooms TO hotel_rooms,
+    testimonials TO hotel_testimonials;
+		
 -- copies schema, indexes, column definitions
 -- no data
 CREATE TABLE new_table LIKE old_table;
