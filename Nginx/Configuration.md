@@ -20,11 +20,12 @@ sudo nginx -c <full path to nginx confi file> -g "daemon off"; # run in foregrou
 > [!INFO] reverse proxy + static file server
 > `nginx` is not an app server, it's reverse proxy + static file server. It cannot directly execute dynamic code (like NodeJS, Python, PHP)
 
-```conf
+```nginx
 http {
   server{
     listen 8080;
     server_name localhost;
+		
     location /_next/status/ {
       alias /home/rakshyak/GitHub/Booking-engine/gotrip/.next/static/;
       access_log off;

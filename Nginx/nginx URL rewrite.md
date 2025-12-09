@@ -1,3 +1,4 @@
+
 |Nginx directive|What it actually does|When your browser URL becomes|Real folder on disk|
 |---|---|---|---|
 |`root /var/www/html;`|Physical folder|unchanged|`/var/www/html/blog/post1.html`|
@@ -5,6 +6,8 @@
 |`try_files`|“Look here, then here, then fallback”|unchanged|multiple places|
 |`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
 |`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
+
+## Client side routers
 
 > [!INFO]
 > most of the time you only need `try_files`
@@ -14,6 +17,13 @@
 location / {
     root /var/www/myapp;           # → looks in /var/www/myapp
     try_files $uri $uri/ /index.html;   # ← THIS IS THE ONLY LINE YOU NEED
+}
+```
+
+```nginx
+location / {
+    root /var/www/site;
+    try_files $uri $uri.html $uri/ =404;
 }
 ```
 
@@ -52,3 +62,64 @@ Browser requests → /about
 
 > ## What happens if you FORGET this line
 >  - User types yoursite.com/about → Nginx looks for file /about → 404 Not Found Even though your React app could handle it perfectly!
+
+## Force remove `.php` or `.html` (hide extension completely)
+
+```nginx
+rewrite ^/([^.]+)$ /$1.html last;
+```
+
+> [!NOTE]
+> Redirect old URL to new ones (SEO critical)
+
+```nginx
+# Permanent redirect (301) – Google loves this
+rewrite ^/blog/my-old-post.php$ /blog/my-new-post permanent;
+
+# Or with regex capture
+rewrite ^/old-path/(.*)$ /new-path/$1 permanent;
+```
+
+### Force HTTPS + remove www
+
+```nginx
+server {
+    listen 80;
+    server_name www.example.com example.com;
+    return 301 https://example.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name www.example.com;
+    return 301 https://example.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name example.com;
+    # your real config here
+}
+```
+
+```nginx
+if ($host ~* ^www\.) forces https and removes www
+if ($host ~* ^www\.(.*)$) {
+    return 301 https://$1$request_uri;
+}
+if ($scheme = http) {
+    return 301 https://$host$request_uri;
+}
+```
+
+## "refresh adds a trailing slash and 404s" bug.
+
+### What’s actually happening (step-by-step)
+
+1. You are on: https://yoursite.com/dashboard
+2. You click a React Router link → works perfectly (client-side)
+3. You press **F5 (refresh)** → browser sends request to server: GET /dashboard
+4. Nginx receives /dashboard → looks for a real folder/file
+5. Nginx sees there is a folder called dashboard/ in your dist/? → **No** (there isn’t!)
+6. But Nginx **automatically tries /dashboard/** (with trailing slash) because many servers treat /dashboard as a directory
+7. Nginx now returns **404** (or sometimes serves nothing)
