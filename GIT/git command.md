@@ -1,4 +1,5 @@
 #### Starter config
+
 ```bash
 git config user.name <commit author name>;
 git config user.email <commit author email>;
@@ -16,6 +17,7 @@ git branch -vv;
 ```
 
 ## Tags
+
 ```sh
 git tag -a <tag_name> -m "your message"; # -a annotate tag
 git tag -a v1.0.0 -m 'Updated description for release'; # Recreate with description.
@@ -29,6 +31,7 @@ git rev-list -n 1 <tag_name>; # find commit has for the tag
 
 ```
 ### Move tag to different commit
+
 ```sh
 git tag -a <new_tag_name> <new_commit_hash> -m "updated tag"
 git push origin <new_tag_name>
@@ -36,6 +39,7 @@ git push origin <new_tag_name>
 ```
 
 #### transfer tag from one commit to another
+
 ```bash
 # 1. Delete local tag (if exists)
 git tag -d <tag_name>
@@ -52,6 +56,7 @@ git push origin <tag_name>
 ```
 
 ## Branch
+
 ```shell
 git branch -vv; # view with remote references
 git branch --set-upstream-to=origin/<branch> <local branch>;
@@ -59,6 +64,7 @@ git branch --unset-upstream <branch-name>; # detach the upstream reference from 
 ```
 
 ### Without merge how to validate two branch have merge conflict
+
 ```shell
 git checkout <target-branch>;
 git merge <source-branch> --no-commit --no-ff; # dry-run merge
@@ -78,19 +84,25 @@ git push --delete origin <tagname>; # delete remote tag
 git push origin --tags; # push all tags
 git checkout <tagname>; # go to specific tag
 ```
+
 ### Conflicts
+
 ```bash
 git ls-files -u; # list files with conflicts and show details
 git diff --name-only --diff-filter=U; # show conflicting files names
 git rebase --continue; # git will print conflicted files directly
 ```
+
 ## remote
+
 ```bash
 git remote origin;
 git remote prune;
 git fetch --prune;
 ```
+
 ## reference
+
 
 | **Feature**          | **`git show-ref`**                          | **`git reflog`**                     |
 | -------------------- | ------------------------------------------- | ------------------------------------ |
@@ -103,6 +115,7 @@ git fetch --prune;
 ```shell
 git branch --unset-upstream; # remove reference from the remote branch
 ```
+
 ### Example:
 
 **`git show-ref` Output:**
@@ -128,6 +141,7 @@ def5678 HEAD@{1}: commit: Fixed bug in API
 
 
 ## Git blame
+
 - shows line-by-line annotations of a file, identifying the commit and author responsible for each line of code.
 
 ```shell
@@ -140,11 +154,13 @@ git blame -C <file>; # Tracks code change even if the fiel was renamed.
 ```
 
 ### Stash
+
 ```shell
 git stash show -p stash@{<index>}
 ```
 
 ### Tracking file changes
+
 ```shell
 git ls-tree -r HEAD --name-only; # view last commit tracked files
 ```
@@ -156,7 +172,9 @@ git ls-tree -r HEAD --name-only; # view last commit tracked files
 | `git ls-tree -r HEAD --name-only`     | Lists tracked files in the last commit    |
 | `git ls-tree -r <commit> --name-only` | Lists tracked files in a specific commit  |
 | `git ls-tree -r <branch> --name-only` | Lists tracked files in a branch           |
+
 ## Git find command
+
 ```shell
 git ls-files --deleted;
 git diff --cached --name-only --diff-filter=D;
@@ -164,6 +182,7 @@ git log --diff-filter=D --summary;
 ```
 
 ### Git diff check
+
 ```bash
 git diff --diff-filter=D <to compare branch name>;
 man git diff; # view diff manual
