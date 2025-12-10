@@ -4,8 +4,9 @@ dig @8.8.8.8 google.com; # DNS
 ```
  
  > [!INFO]
- > If `dig <domain>` shows no "ANSWER SECTION", it usually means the queried name didn't return any authoritative or resolved data.
- common reasons
+ > no "ANSWER SECTION": In `dig <domain>`, it usually means the queried name didn't return any authoritative or resolved data.
+ 
+ Common reasons
 1. No DNS record exists
 	 - The domain or specific record type (A, AAA, CNAME) is missing.
 	 - Example: querying an `A` record for a subdomain that hasn't been created.
@@ -13,7 +14,7 @@ dig @8.8.8.8 google.com; # DNS
 	- The domain itself does not exist.
 	- In `dig` output, you'll see
 
-```bash
+```text
 status: NXDOMAIN
 ```
 
