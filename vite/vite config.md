@@ -62,3 +62,52 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 |`src="./some-image.png"` (relative)|Only rewritten if imported as asset|Stays `./some-image.png` → broken in subpath|
 |`new URL('./image.png', import.meta.url)`|Treated as real asset → gets fingerprinted + prefixed|Becomes `/admin/assets/image-xyz.png` → works|
 
+
+## Manage multiple environment env file configuration
+
+```text
+.env                  # shared by all modes
+.env.local            # local overrides (gitignored)
+.env.development      # default dev
+.env.production       # default prod
+.env.staging          # your custom mode
+.env.testing
+.env.demo
+```
+
+> Package json script
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:staging": "vite build --mode staging",
+    "build:testing": "vite build --mode testing",
+    "build:demo": "vite build --mode demo",
+
+    "preview": "vite preview",
+    "preview:staging": "vite preview --mode staging"
+  }
+}
+```
+
+
+### Typescript support
+
+```ts
+// vite-env.d.ts or env.d.ts
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_APP_ENV: string
+  readonly VITE_API_BASE_URL: string
+  readonly VITE_SENTRY_DSN?: string
+  readonly VITE_FEATURE_FLAG_NEW_UI?: string
+  // add more...
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+```
