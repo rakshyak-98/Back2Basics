@@ -129,15 +129,6 @@ ls -i [filename]; # to see the associated file number (inode).
 tail -f [file name] # to follow in the stdout.
 cut -d ":" -f1 /etc/passwd;
 
-## firewall
-ufw status; # check firewall status.
-ufw show; # show firewall current configurations rules.
-ufw logging; # show current logging level.
-ufw app list;
-ufw allow 3000/tcp;
-ufw reset;
-ufw delete allow;
-
 ## system commands
 free -h [-m | -g]; # see memory usage.
 
