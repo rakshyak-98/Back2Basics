@@ -88,7 +88,7 @@ pm2 deploy ecosystem.comfig.js production;
 pm2 list --namespace <app name>;
 ```
 
-## pm2 process pid
+## pm2 process PID
 
 Using pm2 `pm2 start npm --name "my-app" -- run dev`
 PID location: `~/.pm2/pm2.pid (PM2 daemon PID)` and per-app PID in `~/.pm2/pids/-.pid`
