@@ -3,6 +3,14 @@ user, user with elevated privileges, root.
 visudo; # configure elevated privileges
 ```
 
+|Group name|Typical GID|Purpose|Typical members|
+|---|---|---|---|
+|wheel or sudo|10|Allow sudo access|Admins|
+|docker|~998|Allow use of Docker without root|Developers|
+|adm||Read logs in /var/log|Monitoring users|
+|audio, video||Access sound card, webcam|Desktop users|
+|users|100|Legacy “all normal users” group|Everyone|
+
 > NOTE: we can limit the functionality of the elevated user.
 
 ```bash
@@ -25,6 +33,7 @@ id;
 ```
 
 ## Configuration 
+
 - To differentiate `user` and `group`, we user `%` for specify the group.
 - `pos1` - applies to all hosts
 - `post2` - user can use all commands as all users

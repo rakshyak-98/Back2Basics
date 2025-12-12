@@ -4,4 +4,10 @@ This is the classic “Permission denied” bug that hits almost everyone at lea
 
 ### Exact Diagnosis from Your Output
 
-Bash
+```text
+> npx vite build
+sh: 1: vite: Permission denied
+```
+
+> [!INFO]
+> `npx` found vite inside ./node_modules/.bin/, but that file is not marked executable (`-rw-r--r--` instead of `-rwxr-xr-x`).
