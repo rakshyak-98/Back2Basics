@@ -65,3 +65,11 @@ useradd -d -m -s /bin/sh -c "SDE team";
 usermod -aG user;
 userdel -rf user; # delete home directory also otherwise not deleted.
 ```
+
+## How to manage Permissions
+
+|Category|Meaning|Who it applies to|
+|---|---|---|
+|**u** (user/owner)|The user who owns the file|Usually the creator of the file|
+|**g** (group)|The group that owns the file|All users who are members of that group|
+|**o** (others)|Everyone else on the system|Users not owner and not in the owning group|

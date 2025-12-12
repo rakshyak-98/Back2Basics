@@ -108,3 +108,13 @@ awk '{print NR, $0}' file.txt
 
 # 10. Use custom field separator (e.g. colon in /etc/passwd)
 awk -F: '{print $1, $7}' /etc/passwd
+```
+
+## How to print user and their belonging groups
+
+```bash
+getent passwd | awk -F: '{print $1}' | while read user; do
+	echo -n "$user: "
+	groups "$user" | cut -d: -f2
+done
+```
