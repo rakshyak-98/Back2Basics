@@ -8,6 +8,44 @@
 
 ## Compound Component
 
+```jsx
+import { createContext, useContext, useState } from 'react';
+
+const TabsContext = createContext();
+
+function Tabs({ children, defaultValue }) {
+  const [active, setActive] = useState(defaultValue);
+  return (
+    <TabsContext.Provider value={{ active, setActive }}>
+      <div>{children}</div>
+    </TabsContext.Provider>
+  );
+}
+
+function Tab({ value, children }) {
+  const { active, setActive } = useContext(TabsContext);
+  return (
+    <button onClick={() => setActive(value)} style={{ fontWeight: active === value ? 'bold' : 'normal' }}>
+      {children}
+    </button>
+  );
+}
+
+function TabPanel({ value, children }) {
+  const { active } = useContext(TabsContext);
+  if (active !== value) return null;
+  return <div>{children}</div>;
+}
+
+// Usage
+<Tabs defaultValue="one">
+  <Tab value="one">One</Tab>
+  <Tab value="two">Two</Tab>
+  <TabPanel value="one">Panel One</TabPanel>
+  <TabPanel value="two">Panel Two</TabPanel>
+	</Tabs>
+```
+
 ## Render Props pattern (Data Fetcher API aware components)
 
 ## Headless Components
