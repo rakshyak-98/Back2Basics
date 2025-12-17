@@ -2,7 +2,7 @@
 
 - Separate frequently changing state from stable actions.
 
-```js
+```jsx
 const AuthStateContext = createContext();
 const AuthActionsContext = createContext();
 
