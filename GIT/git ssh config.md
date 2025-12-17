@@ -1,3 +1,14 @@
+> [!NOTE]
+>  if `~/.ssh/config` have permission other then 600 it will give 
+
+```text
+Bad owner or permissions on /home/mihir/.ssh/config 
+```
+
+```bash
+man 5 ssh_config
+```
+
 ### Relation Between `Host github-personal` and `git@github-personal`
 
 1. **Host Entry in `~/.ssh/config`**:  

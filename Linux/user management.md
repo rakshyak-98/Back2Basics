@@ -66,6 +66,14 @@ id;
 
 there is possibility to have password set for groups.
 
+- **adm**: Allows reading many system log files in /var/log/ (e.g., for monitoring and troubleshooting). Historically tied to old log directories like /var/adm.
+- **cdrom**: Grants access to optical drives (CD/DVD/Blu-ray) for mounting and using them without root privileges.
+- **sudo**: Permits full administrative access via the sudo command (run commands as root after entering your password). This is the primary group for system administration on modern Ubuntu.
+- **dip** (Dial-Up Internet Protocol): Historically allowed access to modem/PPP connections and related config files for dial-up internet. Less relevant today but still included for compatibility.
+- **plugdev**: Allows mounting and unmounting removable/external storage devices (e.g., USB drives, external hard disks) via tools like udisks/polkit, often without needing a password prompt.
+- **lpadmin**: Enables full management of printers via CUPS (add/remove printers, configure queues, manage print jobs—including those from other users).
+- **sambashare**: Facilitates sharing files/folders over the local network using Samba (e.g., easier setup for Windows-compatible file sharing).
+
 ## user creating
 
 ```bash
