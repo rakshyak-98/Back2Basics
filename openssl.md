@@ -1,4 +1,5 @@
 `/etc/ssl/certs/ca-certificates.crt`
+
 ### Generate certificate
 ```shell
 openssl genpkey -algorithm RSA -out privatekey.pem -aes256; # generate private key
@@ -23,9 +24,16 @@ openssl x509 -in certificate.crt -noout -fingerprint;
 openssl verify -CAfile ca_bunle.crt certificate.crt;
 ```
 
+
 ### Generate self signed certificate
+
+```bash
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"
+```
+
 ```bash
 sudo mkdir -p /etc/nginx/certs;
+
 sudo openssl req -x509 -nodes -days 365 \
 	-newkey rsa:2048 \
 	-keyout /etc/nginx/certs/shop.localhost.key \

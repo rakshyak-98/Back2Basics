@@ -1,0 +1,1 @@
+## When frontend and backend have two different domain name
