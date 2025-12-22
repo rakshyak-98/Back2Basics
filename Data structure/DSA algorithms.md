@@ -36,8 +36,16 @@ for each position `i` in the patterns, `LPS[i]` stores the length of the longest
 
 ## Two pointer
 
+- Each step resolves one conflict (too big / too small) deterministically.
+- Eliminates dominated states: once a pointer moves, all skipped states are provably invalid.
+
 > Monotonic property -> A property is monotonic if it changes in only one direction (once it increases, it never decreases or vice versa).
 - this enables one-way decisions.
+
+**When it fails**
+- Unsorted data with no monotonic rule.
+- Global constraints needing lookahead.
+- Multiple independent conditions.
 
 **Edge cases**
 - Equal values → non-strict monotonicity.
