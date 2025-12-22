@@ -23,12 +23,19 @@ q: (open command history)
 ```
 
 ### mark
+ 
  [mark doc](https://vim.fandom.com/wiki/Using_marks)
+
 ```vim
 ma (set mark 'a')
 'a (jump to line of mark 'a')
 `a (jump to exact position of mark 'a')
 ```
+
+```vim
+m{char}
+```
+`{char}` = a-z (buffer local), A-Z (global)
 
 ### Vim rc file
 ```vim

@@ -4,8 +4,11 @@ xbacklight; # manage brightness
 nmcli; # manage network
 links; #
 ```
+
 ### Application management
+
 - this configuration specifies that Ranger should be launched in a terminal. new file in the `.local/share/applications/ranger.desktop`
+
 ```bash
 [Desktop Entry]
 Name=Ranger

@@ -36,6 +36,14 @@ for each position `i` in the patterns, `LPS[i]` stores the length of the longest
 
 ## Two pointer
 
+> Monotonic property -> A property is monotonic if it changes in only one direction (once it increases, it never decreases or vice versa).
+- this enables one-way decisions.
+
+**Edge cases**
+- Equal values → non-strict monotonicity.
+- Floating-point precision breaks monotonic checks.
+- Data mutation invalidates monotonic assumptions.
+
 **Sorted two pointer array**
 - Ordered values let us decide which way to move pointer. 
 - After sorting, same value repeated → skip to prevent same triplet.
