@@ -1,0 +1,1 @@
+[doc](https://github.com/mozilla/node-convict)
