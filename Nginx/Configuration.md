@@ -49,7 +49,7 @@ events {}
 
 
 > [!WARNING] nginx doesn't allow variables in alias.
-- if you must use dynamic/templated configs: generate them via a build script or use templating engines (e.g., Ansible / Jinja, envsubst)
+- if you must use dynamic/template configs: generate them via a build script or use templating engines (e.g., Ansible / Jinja, envsubst)
 
 - use `nginx` to serve static files `/public`.
 - Proxy all dynamic routes to NextJS `localhost:3000`
