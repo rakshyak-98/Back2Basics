@@ -202,3 +202,12 @@ server {
 
 ```
 
+
+`location ^~ /storage/ {` -> for any request that starts with `/storage/` use this block, and make sure no regular expression location can override it. Even if the regular expression might also match.
+
+|Modifier|Meaning|Stops regex search?|Typical use case|
+|---|---|---|---|
+|`=`|Exact match|Yes|Very specific URLs (e.g. `/favicon.ico`)|
+|`^~`|Prefix, highest priority|**Yes**|Static files, uploads, protected dirs (most common)|
+|`~` / `~*`|Regular expression (case sensitive/insensitive)|No|Complex patterns, file extensions, rewrite rules|
+|(none)|Normal prefix|No|Fallback routes|

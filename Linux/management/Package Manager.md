@@ -70,6 +70,14 @@ deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/p
 - `jammy` -> code name for Ubuntu 22.04 (APT uses Debian-style naming).
 - `nginx` -> the distribution/component (like `main`, `contrib`)  here it is nginx specific pacakge.
 
+|Part|Meaning|Example|
+|---|---|---|
+|`deb`|Binary packages (most common). `deb-src` = source packages|`deb`|
+|`[options]`|Extra settings (arch, signed-by, trusted=yes, etc.)|`[arch=amd64 signed-by=...]`|
+|`URL`|The repository base URL|`https://dl.google.com/linux/chrome/deb/`|
+|`suite`|Release/codename (stable, noble, bookworm, etc.)|`stable` or `noble`|
+|`component`|Section (main, universe, multiverse, non-free, etc.)|`main`|
+
 > [!INFO]
 > `main` component -> sub folder under distribution `/dists/jammy/main/binary-amd64/`
 > when you run `apt update` APT tries to download
