@@ -1,4 +1,6 @@
 
+[post nginx configuration](https://medium.com/javascript-in-plain-english/7-important-nginx-configuration-guid-for-frontend-developers-5881e643deb0)
+
 | Directive | Config                                          | Request           | Resolved Path                    |
 | --------- | ----------------------------------------------- | ----------------- | -------------------------------- |
 | root      | `location /images/ { root /var/www/static; }`   | `/images/cat.png` | `/var/www/static/images/cat.png` |
