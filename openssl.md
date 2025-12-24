@@ -1,3 +1,9 @@
+## Generate random string
+
+```bash
+openssl rand -hex 32;
+```
+
 `/etc/ssl/certs/ca-certificates.crt`
 
 ### Generate certificate
