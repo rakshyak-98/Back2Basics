@@ -7,6 +7,7 @@ openssl rand -hex 32;
 `/etc/ssl/certs/ca-certificates.crt`
 
 ### Generate certificate
+
 ```shell
 openssl genpkey -algorithm RSA -out privatekey.pem -aes256; # generate private key
 openssl rsa -in privatekey.pem -pubout -out public.key 
