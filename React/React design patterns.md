@@ -1,3 +1,17 @@
+## Provider Pattern
+
+```jsx
+const ThemeContext = createContext('light');
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+```
+
 ## Presentational Pattern
 
 ## Container Pattern
@@ -54,9 +68,22 @@ function TabPanel({ value, children }) {
 
 ## Higher Order components (HOC)
 
+- A function that takes a component and returns an enhanced version. Less common now due to hooks, but still useful for legacy code or cross-cutting concerns.
+
+```tsx
+function withAuth<WCP>(WrappedComponent: React.ComponentType<WCP>) {
+  return function Enhanced(props: WCP) {
+    const isLoggedIn = useAuth(); // custom hook
+    return isLoggedIn ? <WrappedComponent {...props} /> : <Redirect to="/login" />;
+  };
+}
+
+const ProtectedDashboard = withAuth(Dashboard);
+```
+
 ## Error Boundaries
 
-Yes, I know a lot about React design patterns! They're essential for writing clean, maintainable, scalable, and performant React code.
+Yes, I know a lot about React design patterns! They're essential for writing clean, maintainable, scaleable, and performant React code.
 
 Here are some of the most popular and useful **React design patterns** (all in plain JavaScript, as you prefer):
 
@@ -248,4 +275,53 @@ function Card({ title, children }) {
 <Card title="Profile">
   <p>User info here</p>
 </Card>
+```
+
+
+## Props gatter pattern
+
+```jsx
+import { useState } from 'react';
+
+function useToggle() {
+  const [on, setOn] = useState(false);
+  const toggle = () => setOn(!on);
+
+  // Prop getter for the toggler element
+  const getTogglerProps = ({ onClick, ...props } = {}) => ({
+    'aria-pressed': on,
+    onClick: (e: React.MouseEvent) => {
+      onClick?.(e);  // Call user's handler first
+      toggle();
+    },
+    ...props,
+  });
+
+  return { on, getTogglerProps };
+}
+
+// Usage in a render prop or compound component
+function Toggle({ children }: { children: (utils: ReturnType<typeof useToggle>) => JSX.Element }) {
+  const utils = useToggle();
+  return children(utils);
+}
+
+// Example usage
+function App() {
+  return (
+    <Toggle>
+      {({ on, getTogglerProps }) => (
+        <div>
+          <button {...getTogglerProps({ 'aria-label': 'custom toggle' })}>
+            {on ? 'On' : 'Off'}
+          </button>
+          {/* User can add their own onClick without breaking toggle */}
+          <div {...getTogglerProps({ onClick: () => console.log('Extra!') })}>
+            Clickable Div (also toggles)
+          </div>
+        </div>
+      )}
+    </Toggle>
+  );
+}
 ```

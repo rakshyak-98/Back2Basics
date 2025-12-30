@@ -259,11 +259,7 @@ const Cart = ({ children }) => {
 
   const removeItem = (id) => {
     setItems(items.filter(item => item.id !== id));
-  };
-
-  const total = items.reduce((sum, item) => sum + item.price, 0);
-
-  return (
+  }; const total = items.reduce((sum, item) => sum + item.price, 0); return (
     <CartContext.Provider value={{ items, removeItem, total }}>
       <div>
         <h2>Shopping Cart</h2>
