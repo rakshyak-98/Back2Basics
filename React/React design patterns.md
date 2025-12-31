@@ -170,7 +170,7 @@ Toggle.Button = function Button() {
 ```
 
 ### 3. **Custom Hooks Pattern**
-Extract logic into reusable hooks (your favorite!).
+Extract logic into reusable hooks (your favourite!).
 
 ```jsx
 // Custom hook

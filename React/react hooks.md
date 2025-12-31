@@ -139,3 +139,6 @@ const [count, setCount] = useState(() => props.initialCount)
 
 > [!INFO] use lazy initialization for fetching from `LocalStorage`
 
+## Custom Hook: `useAuth` for Tracking User Authentication
+
+hook that manages and tracks user authentication state in a react application
