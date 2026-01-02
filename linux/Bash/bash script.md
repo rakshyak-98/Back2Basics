@@ -129,6 +129,10 @@ greet() {
 }
 ```
 
+```bash
+greet "World"
+```
+
 ## Arithmetic
 
 ```bash
