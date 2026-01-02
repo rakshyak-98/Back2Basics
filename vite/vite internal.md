@@ -92,3 +92,6 @@ export default defineConfig(({ mode }) => ({
 
 > [!INFO]
 > vite looks for PostCSS config in your project root: `postcss.config.js` `postcss.config.cjs` `postcss.config.mjs` `postcss.config.json` or inline config inside `vite.config.js` under `css.postcss`
+
+## Why does `npm run dev` work
+- 
