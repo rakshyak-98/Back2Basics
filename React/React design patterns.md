@@ -325,3 +325,19 @@ function App() {
   );
 }
 ```
+
+## Component Pattern to handle Network request
+
+> [!INFO]
+> For production: Use TanStack Query + Suspense/Error Boundaries — it handles 90% of edge cases (stale-while-revalidate, refetch on focus, etc.).
+
+- The preferred modern approach. Encapsulate fetching logic (using fetch, Axios, etc.) in a reusable hook with `useState` and `useEffect`.
+
+- Container/Presentational (Smart/Dumb) Components
+	- Container (smart) -> Handles data fetching, state management, and business logic.
+	- Presentational (dumb) -> Pure UI rendering based on props (no fetching).
+
+- Higher-Order Components (HOC)
+> [!INFO]
+> - A function that takes a component and returns an enhanced version (e.g., `withDataFetching(WrappedComponent)`). Add fetching logic, loading indicator, or error handling without modifying the original component.
+> - Example: `withLoader` HOC fetches data and shows "Loading..." until ready.
