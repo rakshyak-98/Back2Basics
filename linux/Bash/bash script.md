@@ -1,4 +1,3 @@
-
 - Start every script with a shebang
 
 ```bash

@@ -1,5 +1,5 @@
-Egress -> Traffic that leaves VPC and goes out to the internet
-Ingress -> Traffic that comes in from the internet. 
+Egress -> Traffic that leaves VPC and goes out to the internet.
+Ingress -> Traffic that comes in from the internet.
 
 |Direction|Name|Example in Your 3-Tier Lab|Who Usually Pays?|
 |---|---|---|---|
