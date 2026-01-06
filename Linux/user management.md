@@ -1,4 +1,5 @@
 user, user with elevated privileges, root.
+
 ```bash
 visudo; # configure elevated privileges
 ```

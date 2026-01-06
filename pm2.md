@@ -1,3 +1,6 @@
+> [!INFO]
+> pm2 runs as a non-root user (e.g., ubuntu, deploy, or your app user).
+
 ```sh
 pm2 start npm --name <app name> -- start
 pm2 save; # synchronized with saved list.

@@ -545,23 +545,6 @@ curl ifconfig/mime;
 curl ifconfig/forwarded;
 ```
 
-## visudo
-- the `/etc/sudoers` file should only be edited using the `visudo` command which ensures the file is edited by one user at a time and performs syntax checks.
-- Errors or bad syntax in the `/etc/sudoers` may result in locking out all users.
-
-```bash
-<username> <hostname>(user:group) command
-# username - specifies the user the rule applies to
-# hostname - the machine the rule applies to
-# user:group - user and group the rule applies to usually ALL
-# command - the command user is allow to run
-# NOPASSWD - allow the user to run the specified command without a password
-
-# to allow user john to run the /usr/bin/foo and /usr/bin/bar commands as root witthout a password
-john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
-%sudo	ALL=(ALL:ALL) NOPASSWD:ALL # allow sudo command to run without password
-```
-
 ## mount
 - mounting connects a file system from a storage device (like hard disk, USB or network share) to a directory in the main Linux file system tree. 
 - it instructs the operating system that the file system is ready to use and associates it with a particular point in the systems's hierarchy.
