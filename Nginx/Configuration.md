@@ -1,4 +1,8 @@
 
+> [!NOTE]
+> include `~/app/nginx/deployment.conf/*`;
+> Nginx does not perform shell expansion on paths in the `include` directive.
+
 [post nginx configuration](https://medium.com/javascript-in-plain-english/7-important-nginx-configuration-guid-for-frontend-developers-5881e643deb0)
 
 | Directive | Config                                          | Request           | Resolved Path                    |

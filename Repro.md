@@ -1,0 +1,1 @@
+A repro, or a reproducing case, is a sequence of instructions then, when followed, gives you a reliable way to tell whether the bug is still happening. it's "the test". A repro says what to do, what's expected to happen, and what is actually happening.

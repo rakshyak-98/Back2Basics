@@ -1,8 +1,10 @@
-`visudo` is a command-line utility used to safely edit the system's sudoers file `/etc/sudoers`. 
+`visudo` -> safely edit the system's `sudoers` file `/etc/sudoers`. 
 
-- The sudoers file, typically located at `/etc/sudoers` 
-- controls the privileges and permissions for users and groups to execute administrative commands.
-- The `sudo` command is used to execute "visudo" with superuser (root) privileges since editing the `sudoers` file requires administrative access.
+- Located at `/etc/sudoers` 
+
+> [!NOTE]
+> - Controls the privileges and permissions for users and groups to execute administrative commands.
+> - The `sudo` command is used to execute `visudo` with superuser (root) privileges since editing the `sudoers` file requires administrative access.
 
 ```bash
 # template of sudoers fiel : 
@@ -10,6 +12,13 @@
 # %group_name - syntax to define group permission
 john   ALL=(root)   /usr/bin/apt-get
 ```
+
+## Extending sudoers file to include user specific sudoers config files
+
+> [!WARNING]
+> Allowing per-user sudoers files in home directories would be a **major security risk**:
+> - Users could edit their own files to grant themselves unlimited privileges.
+> - Malicious scripts or compromised accounts could modify these files undetected
 
 1. `user_or_group`: user or group to whom the rule applies. It can be a specific user (e.g., "john"), a group name (e.g., "%developers"), or the keyword "ALL," representing all users.
 2. `host`: This field defines the system or host-names where the rule is valid. It can be the name of a specific host (e.g., "localhost") or the keyword "ALL," indicating the rule applies to all hosts.
