@@ -1,4 +1,8 @@
-- **A**tomicity – Ensures transactions are all-or-nothing.
-- **C**onsistency – Guarantees the database remains in a valid state.
-- **I**solation – Transactions execute independently.
-- **D**urability – Ensures committed transactions persist.
+- **Atomicity** – transaction (all or nothing) Ensures transactions are all-or-nothing.
+	- undo logs, roolback
+- **Consistency** – DB moves from one valid state to another. Guarantees the database remains in a valid state.
+	- constraints, triggers, application invariants
+- **Isolation** – Concurrent transactions behaves as if serialised. Transactions execute independently.
+	- locks, MVCC, isolation levels
+- **Durability** – Committed data survives crashes. Ensures committed transactions persist.
+	- write-ahead logging (WAL), fsync

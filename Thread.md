@@ -3,3 +3,8 @@
 - the implementation of threads and processes differs between operating systems.
 - thread in the same process share the same address space. This allows concurrently running code to couple tightly and conveniently exchange data without the overhead or complexity of an [[Inter Process Communication]].
 -  thread based networking is relatively inefficient and very difficult to use.
+
+> [!INFO]
+> - Need synchronisation (mutex, semaphore, atomic, memory barriers).
+> - Bugs are nondeterministic and hard to reproduce.
+> - Data races, Race conditions.
