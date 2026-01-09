@@ -75,7 +75,12 @@ there is possibility to have password set for groups.
 - **lpadmin**: Enables full management of printers via CUPS (add/remove printers, configure queues, manage print jobs—including those from other users).
 - **sambashare**: Facilitates sharing files/folders over the local network using Samba (e.g., easier setup for Windows-compatible file sharing).
 
-## user creating
+## add new user
+
+```bash
+sudo adduser devopsuser;
+sudo usermod -aG sudo devopsuser; # add to sudo group
+```
 
 ```bash
 useradd -d -m -s /bin/sh -c "SDE team";
