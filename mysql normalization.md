@@ -67,44 +67,30 @@ Fix:
 ## 3NF – Third Normal Form
 
 Rule:
-
 - Must be in 2NF
-    
 - No **transitive dependency**
-    
 
 Meaning:
-
 - Non-key column must not depend on another non-key column
-    
 
 Example issue:
-
 - `user_id → city → state`
-    
 
 Fix:
-
 - Separate `city/state` mapping table
     
-
 ---
 
 ## BCNF – Boyce-Codd Normal Form
 
 Rule:
-
 - Stronger 3NF
-    
 - Every determinant must be a **candidate key**
     
 
 When needed:
-
 - Multiple candidate keys
-    
 - Functional dependency anomalies still exist in 3NF
-    
 
 Rare but important for correctness
 
@@ -113,57 +99,36 @@ Rare but important for correctness
 ## 4NF – Fourth Normal Form
 
 Rule:
-
 - No **multi-valued dependencies**
-    
 
 Example issue:
-
 - One user has multiple skills AND multiple hobbies stored together
     
 
 Fix:
-
 - Separate independent multi-valued attributes
-    
-
----
 
 ## 5NF – Fifth Normal Form
 
 Rule:
-
 - No **join dependency**
-    
 - Decompose until lossless join only
-    
 
 Used when:
-
 - Extremely complex relationships
-    
 - Rare in real systems
-    
-
 ---
 
 ## Normalization vs Performance
 
 Reality:
-
 - 3NF is enough for **most systems**
-    
 - BCNF/4NF only when correctness demands it
     
 - Denormalization is common for:
-    
     - Read-heavy systems
-        
     - Analytics
-        
     - Reporting
-        
-
 ---
 
 ## Interview-Ready Summary
