@@ -304,7 +304,7 @@ Tabs.List: Holds multiple `Tab` elements.
 Tabs.Tab: Represents an individual tab button.
 Tabs.panel: Displays the content of the active tab.
 
-```js Tabs.jsx
+```jsx Tabs.jsx
 import { createContext, useContext, useState } from "react";
 
 const TabsContext = createContext();
@@ -320,11 +320,11 @@ const Tabs = ({ children }) => {
 };
 ```
 
-```js Tab.List
-Tabs.List = ({ children }) => <div>{children}</div>;
+```jsx
+Tabs.List = ({ children }) => (<div>{children}</div>);
 ```
 
-```js Tabs.Tab
+```jsx
 Tabs.Tab = ({ index, children }) => {
   const { activeTab, setActiveTab } = useContext(TabsContext);
   
@@ -339,7 +339,7 @@ Tabs.Tab = ({ index, children }) => {
 };
 ```
 
-```js Tabs.Panel.jsx
+```jsx
 Tabs.Panel = ({ index, children }) => {
   const { activeTab } = useContext(TabsContext);
   
@@ -347,7 +347,7 @@ Tabs.Panel = ({ index, children }) => {
 };
 ```
 
-```js App.jsx
+```jsx App.jsx
 import Tabs from "./Tabs";
 
 const App = () => (
