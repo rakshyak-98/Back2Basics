@@ -1,3 +1,12 @@
+
+## Text only REPL-style debugger.
+
+``` bash
+node inspect <script>; # start debugger.
+```
+- Add one or more `debugger;` statements where you want execution to pause
+
+
 `pwd-node` -> refers to a Node.js debugger provided by the JavaScript Debugger extension in VS Code, which is built into the IDE by default.
 
 > [!INFO]
