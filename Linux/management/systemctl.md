@@ -1,6 +1,11 @@
 > [!INFO] linux Service Manager
 > - `systemctl` is the control center for [[systemd]] and service manager that's become standard in most Linux distributions.
 
+```bash
+sudo systemctl edit <service file>;
+sudo systemctl show <service file>;
+```
+
 ```sh
 systemctl --failed; # show all failed services.
 systemctl reset-failed; # attemt to restart all failed service.
@@ -79,70 +84,6 @@ sudo systemctl daemon-reload
 sudo systemctl restart ssh
 ```
 
-### Service file Anatomy
-- **Unit** section metadata and dependencies
-- **Service** runtime behavior configuration
-- **Install** boot time integration
-```toml
-[Unit]
-Description=My Awesome Service
-Documentation=https://example.com/docs
-After=network.target
-Requires=postgresql.service
-Wants=redis.service
-
-[Service]
-Type=simple
-User=appuser
-Group=appgroup
-WorkingDirectory=/opt/myapp
-ExecStart=/usr/bin/myservice --config /etc/myapp/config.yaml
-ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
-RestartSec=5s
-TimeoutStartSec=30s
-Environment="NODE_ENV=production" "PORT+3000" "DEBUG=false"
-Environemnt=/etc/myapp/env
-
-CPUQuota=50%
-MemoryLimit=512M
-LimitNPROC=100 # limit number of processes/threads
-
-# set disk IO priority
-IOSchedulingClass=best-effort
-IOSchedulinPriority=5
-Nice=10
-
-[Install]
-WantedBy=multi-user.target
-```
-- `Description` -> human readable service description.
-- `Documentation` -> URLs on man pages with service documentation.
-- `After` -> defines start order (but doesn't create a dependency).
-- `Requires` -> hard dependency - if this fails, the service won't start.
-- `Wants` -> soft dependency - service will start even if this fails.
-
-#### Service section
-- `Type` -> how `systemd` determines if service started successfully.
-	- `simple` -> default -> main process is the service.
-	- `forking` -> service forks, parents exits.
-	- `oneshot` -> service exists after completing task.
-	- `notify` -> service signals when ready.
-	- `dbus` -> service registers on D-Bus.
-- `User/Group` -> run service as this `User/group` instead of root.
-- `WorkingDirectory` -> working directory for the service.
-- `ExecStart` -> Command to start the service.
-- `ExecReload` -> Command to reload configuration.
-- `Restart` -> When to restart the service automatically.
-	- Options: `no` `on-success` `on-failure` `on-abnormal` `on-watchdog` `on-abort` `always`
-- `RestartSec` -> how long to wait before restarting.
-- `Environment` -> Environment variables for the service.
-
-### Install section 
-- `WantedBy` -> which target wants this service.
-	- `multi-user.target` -> normal multi-user system.
-	- `graphical.target` -> graphical interface.
-	- `network-online.target` -> when network is fully up.
 
 
 ### Unit file manipulation
