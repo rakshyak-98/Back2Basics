@@ -1,0 +1,1 @@
+- Required non-negative or monotonic contribution.

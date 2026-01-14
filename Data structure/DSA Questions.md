@@ -26,3 +26,10 @@
 [Game of Life](https://leetcode.com/problems/game-of-life/description/)
 - the eight coordinate pairs represent all possible moves from a cell in a grid.
 	- they enumerate exactly 8 directions around a cell.
+
+
+[Contiguous Array](https://leetcode.com/problems/contiguous-array/description/)
+- Given a binary array `nums`, return _the maximum length of a contiguous subarray with an equal number of_ `0` _and_ `1`.
+
+- What we need to know is. Same prefix sum at two indices = balanced subarray between them
+- Longest subarray with target sum -> prefix sum + hash map.
