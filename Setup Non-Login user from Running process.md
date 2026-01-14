@@ -1,3 +1,11 @@
+## Using pm2
+
+```bash
+sudo pm2 start /path/to/your/app.js --name myapp --user nodeuser;
+sudo pm2 save;
+sudo pm2 startup;
+```
+
 > [!NOTE] 
 > - Need root or sudo access to perform these steps.
 
@@ -65,3 +73,43 @@ Environment=NODE_ENV=production
 [Install]
 WantedBy=multi-user.target
 ```
+
+## Grant Passwordless `sudo` for specific commands
+
+find full path
+
+```bash
+which nginx;
+which systemctl;
+```
+
+Edit sudoers safely with `visudo` 
+- create file at `/etc/sudoers.d/<file>`;
+
+```bash
+nodeuser ALL=(ALL) NOPASSWD: /usr/sbin/nginx -t
+nodeuser ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart nginx
+```
+
+- save and exit. Test as `nodeuser` (using `su`)
+
+```bash
+sudo su -s /bin/bash - nodeuser -c "sudo nginx -t"
+```
+- should run without password.
+
+
+## Additional Security passwrod (optional)
+
+```bash
+sudo passwd -l nodeuser; # Locks any password (though none was set).
+```
+
+Permissions for Node app. Ensure file/directories are owned by `nodeuser`
+
+```bash
+sudo chown -R nodeuser:nodeuser /path/to/your/app-directory;
+```
+
+> [!INFO]
+> Why this setup?: The user runs processes (like Node) but can't log in or escalate beyond the allowed commands. Ideal for automated scripts or services needing limited privileged actions (e.g., a Node app reloading Nginx).
