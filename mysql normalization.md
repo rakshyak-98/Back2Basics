@@ -11,26 +11,18 @@ Goal: **reduce redundancy, avoid anomalies, ensure data consistency**
 ## 1NF – First Normal Form
 
 Rule:
-
 - Atomic values (no arrays, lists)
-    
 - No repeating groups
-    
 - Each row uniquely identifiable (PK)
-    
 
 Bad:
-
 - `phones = "123,456"`
     
 
 Good:
-
 - Separate table or rows
-    
 
 Use when:
-
 - Data is stored in tabular relational form
     
 
@@ -39,28 +31,19 @@ Use when:
 ## 2NF – Second Normal Form
 
 Rule:
-
 - Must be in 1NF
-    
 - No **partial dependency** on composite primary key
-    
 
 Meaning:
-
 - Non-key column must depend on **full primary key**, not part of it
-    
 
 Example issue:
-
 - PK = `(order_id, product_id)`
-    
 - `product_name` depends only on `product_id`
     
 
 Fix:
-
 - Move product data to `products` table
-    
 
 ---
 
