@@ -16,6 +16,7 @@ SHOW FULL TABLE WHERE Table_type = "BASE TABLE";
 ```
 
 # Show details about table
+
 ```mysql
 SHOW FULL COLUMNS FROM "<table name>";
 ```

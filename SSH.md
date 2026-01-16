@@ -37,7 +37,7 @@ ssh-keygen -yf <private key>; # prints public key if valid.
 ssh-keygen -i <private key> -v user@host; # verify connectivity.
 
 ```
-
+[]()
 - verify the fingerprint manually before trusting.
 
 ```sh
