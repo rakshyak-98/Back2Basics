@@ -27,3 +27,15 @@ ERROR 1045 (28000): Access denied for user 'root'@'_gateway' (using password: YE
 1. Create a new DB user in the RDS console or with SQL
 2. Make sure the RDS security group allows your IP (or 0.0.0.0/0 if public)
 3. Connect with that new user, not root
+
+---
+
+```text
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (13)
+
+```
+
+- means the MySQL client is trying to connect via the Unix socket file, but it cannot access it — specifically error code 13 = Permission denied.
+
+> [!NOTE]
+> Here the socket file exists, but your user mst does not have permission to read/write to it or to the parent directory.

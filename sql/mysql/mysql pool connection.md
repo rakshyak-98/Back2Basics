@@ -1,0 +1,3 @@
+- Connection issues -> Since not using a pool connection, if two requests call same function at exactly the same time, the `STAET TRANSACTION` from the second request might interfere with the first one because they share the exact same connection. In production, this lead to unpredictable `ROLLBACK` behavior.
+
+- Connection dropping -> `createConnection` often times out if the server is idle. If doesn't handle reconnection logic, the app will crash with `PROTOCOL_CONNECTION_LOST`.

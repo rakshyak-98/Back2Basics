@@ -11,3 +11,9 @@ cat /proc/<pid>/maps          # memory regions + permissions
 pmap -XX <pid>                # more human readable
 gdb -p <pid> → (gdb) info proc mappings
 ```
+
+## Find which user own the process
+
+```bash
+ps -p <pid-from-pm2> -o user; # Definitive answer
+```

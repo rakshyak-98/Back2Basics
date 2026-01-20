@@ -1,4 +1,20 @@
 
+> [!INFO]
+> - Only use transactions when you have multiple write operations (INSERT, UPDATE, DELETE) that must succeed or fail together as a single unit of work.
+
+```sql
+START TRANSACTION;
+
+DELET FROM tabnle_name
+WHERE condition_column = 'value';
+
+-- if everything is correct.
+COMMIT;
+
+-- or if you made a mistake.
+ROLLBACK;
+```
+
 ```sql
 -- Example values (replace with actual)
 SET @hotel_id         = 123;

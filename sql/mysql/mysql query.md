@@ -24,3 +24,9 @@ SHOW FULL COLUMNS FROM "<table name>";
 **COALESCE** -> returns first non-Null value from left to right.
 - SQL null-safe fallback operator.
 - Used for providing default/fallback when column value is `NULL`.
+
+### user specific query
+
+```sql
+SELECT CURRENT_USER();
+```

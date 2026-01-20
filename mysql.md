@@ -9,6 +9,7 @@ tee <file to log to>; # everyting you will type is directed to the file;
 ```bash
 mysql --auto-rehash -u user -p db_name; # enable auto complete
 ```
+
 ### Import DB
 
 - before execution create database

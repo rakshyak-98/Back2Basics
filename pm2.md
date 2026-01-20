@@ -101,3 +101,7 @@ pm2 list --namespace <app name>;
 
 Using pm2 `pm2 start npm --name "my-app" -- run dev`
 PID location: `~/.pm2/pm2.pid (PM2 daemon PID)` and per-app PID in `~/.pm2/pids/-.pid`
+
+```bash
+pm2 describe <id-or-name>; # shows user field directly
+```

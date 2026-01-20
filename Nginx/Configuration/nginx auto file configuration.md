@@ -22,3 +22,8 @@ ubuntu ALL=(root) NOPASSWD: /bin/ln -sf /etc/nginx/sites-available/hotel-example
 > - In Node.js, use child_process.exec with sudo for only those steps.
 > - Temp write config to /tmp first, then sudo copy/symlink/reload.
 
+debug
+
+```bash
+sudo -l
+```

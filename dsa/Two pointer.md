@@ -90,6 +90,8 @@ function twoSumSorted(arr, target) {
 
 ## Fast and slow pointers
 
+- cycle detection middle finding.
+
 ```js
 function removeDuplicates(nums) {
   let slow = 0
