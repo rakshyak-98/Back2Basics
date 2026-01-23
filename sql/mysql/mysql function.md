@@ -25,6 +25,8 @@ DELIMITER ;
 
 ```
 
+Delete funciton 
+
 ```mysql
 DROP FUNCTION IF EXISTS add_tax;
 ```
@@ -42,24 +44,29 @@ SHOW FUNCTION STATUS WHERE Db = 'mysql';
 ```
 
 ## Data conversion
+
 ### Type conversion
+
 ```mysql
 SELECT CAST('123' AS UNSIGNED);
 SELECT CONVERT('2024-01-01', DATE);
 ```
 
 ### Date/Time Conversion
+
 ```mysql
 SELECT STR_TO_DATE('27-05-2025', '%d-%m-%Y');
 SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
 ```
 
 ### Numeric Conversion
+
 ```mysql
 SELECT CONV('1010', 2, 10);  -- binary 1010 → decimal 10
 ```
 
 ## Procedure
+
 ```sql
 SHOW PROCEDURE STATUS WHERE Db = 'your_database_name';
 
@@ -108,4 +115,28 @@ BEGIN
 END$$
 
 DELIMITER ;
+```
+
+## User define functions
+
+```sql
+CREATE FUNCTION get_hotel_name(hotel_id INT) RETURNS VARCHAR(100)
+READS SQL DATA DETERMINISTIC
+BEGIN
+    DECLARE name VARCHAR(100);
+    SELECT hotel_name INTO name FROM hotels WHERE id = hotel_id;
+    RETURN IFNULL(name, 'Unknown');
+END;
+
+SELECT 
+    booking_id,
+    hotel_id,
+    get_hotel_name(hotel_id) AS hotel_name
+FROM bookings;
+```
+
+```sql
+CREATE FUNCTION mask_card(card_number VARCHAR(20)) RETURNS VARCHAR(20)
+DETERMINISTIC
+RETURN CONCAT('**** **** **** ', RIGHT(card_number, 4));
 ```
