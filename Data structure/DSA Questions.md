@@ -50,3 +50,17 @@
 
 - The longest common prefix can never be longer then the shortest string in the array.
 - Think of the strings as columns in a table. We're checking if each "row" has all the identical values.
+
+---
+
+[Remove duplicate from sorted array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- Slow pointer (i) -> Tracks where to place the next unique element.
+- Fast pointer (j) -> Scans through the array looking for new unique element.
+- Compare with the last unique element we kept.
+
+---
+
+[Search Insert Position](https://leetcode.com/problems/search-insert-position/?envType=problem-list-v2&envId=wrdcuh52)
+
+- Binary search -> Sorted array + `O(logn)` complexity
