@@ -29,7 +29,14 @@ DELIMITER ;
 DROP FUNCTION IF EXISTS add_tax;
 ```
 
-sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+```mysql
+SELECT ROUTINE_NAME
+FROM information_schema.ROUTINES
+WHERE ROUTINE_TYPE = 'FUNCTION'
+  AND ROUTINE_SCHEMA = 'your_database_name';
+
+```
+
 ```mysql
 SHOW FUNCTION STATUS WHERE Db = 'mysql';
 ```
