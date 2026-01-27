@@ -29,7 +29,9 @@ function TestComponent({ id }) {
   return <div>Data: {JSON.stringify(data)}</div>;
 }
 ```
+
 ### Issues fixed in the Code
+
 1. **Unresolved Promise in `useEffect`**
     - `fetchData()` returns a **Promise**, but it's not awaited or handled correctly inside `useEffect`.
     - React does not support `async` functions directly in `useEffect`, leading to potential race conditions.
