@@ -64,3 +64,13 @@
 [Search Insert Position](https://leetcode.com/problems/search-insert-position/?envType=problem-list-v2&envId=wrdcuh52)
 
 - Binary search -> Sorted array + `O(logn)` complexity
+
+[Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- find if there are duplicate values in the array that are close enough to each other.
+- you need to check if any number appears twice in the array, and those two occurrence are at most `k` position apart.
+
+- Maintain a sliding window of the last `k` element using a Set
+- For Each element, check if it's already in the window (duplicate withing distance k)
+- Add the current element to the window
+- Remove the oldest element if the window exceeds size `k`
