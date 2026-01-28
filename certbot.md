@@ -13,7 +13,14 @@ sudo certbot --apache -d example.com -d www.example.com;
 sudo certbot certonly --nginx -d example.com; # Get certificate only (no auto-config).
 ```
 
+## Renew certificate
+
 ```bash
 sudo certbot renew; # Renew all certificate
 sudo certbot renew --dry-run;
+```
+
+```bash
+sudo certbot renew --deploy-hook "systemctl reload nginx";
+sudo certbot renew --quiet; # For cron
 ```

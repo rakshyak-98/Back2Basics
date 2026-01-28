@@ -1,0 +1,1 @@
+- delegate the privileged operation (reloading nginx) to `systemd` itself -> which is designed exactly for this kind of privilege separation.

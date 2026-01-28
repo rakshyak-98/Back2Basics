@@ -1,5 +1,13 @@
 `visudo` -> safely edit the system's `sudoers` file `/etc/sudoers`. 
 
+```bash
+sudo -lU <user>; 
+sudo -u developer sudo nginx -t;
+```
+
+> [!WARNING]
+> sudo reads /etc/sudoers.d/* in lexical order (alphabetical).
+
 - Located at `/etc/sudoers` 
 
 > [!NOTE]
@@ -58,4 +66,33 @@ When you see just ALL ALL=(ALL) ALL (without the second :ALL), it means:
 # to allow user john to run the /usr/bin/foo and /usr/bin/bar commands as root witthout a password
 john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
 %sudo	ALL=(ALL:ALL) NOPASSWD:ALL # allow sudo command to run without password
+```
+
+### Sudoers file naming
+
+> [!NOTE]
+> Use `zz-` prefix for your temporary/test rule so they win precedence.
+
+|Prefix|Purpose|Example filename|
+|---|---|---|
+|`00-`|Very early overrides / defaults|`00-defaults`|
+|`10-`|Group definitions / aliases|`10-groups`, `10-cmnd-aliases`|
+|`20-`|Service accounts / automation users|`20-deployer-nopasswd`|
+|`50-`|Per-team / per-role rules|`50-dev-team`, `50-monitoring`|
+|`90-` / `zz-`|Last-resort overrides / catch-all|`zz-emergency-root`, `zz-nginx-reload`|
+
+### Sudoers file pattern
+
+```text
+# /etc/sudoers.d/50-dev-team
+User_Alias DEV_TEAM = alice,bob,charlie
+
+Cmnd_Alias LOGS_AND_STATUS = /usr/bin/journalctl *, \
+                             /usr/bin/tail -f /var/log/*
+
+Cmnd_Alias SERVICE_CONTROL = /bin/systemctl status *, \
+                             /bin/systemctl restart myapp.service
+
+DEV_TEAM ALL=(ALL) NOPASSWD: LOGS_AND_STATUS
+DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL   # password for restarts
 ```
