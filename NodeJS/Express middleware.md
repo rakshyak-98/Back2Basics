@@ -1,6 +1,7 @@
 - They provide a way to execute code, modify the request and response objects, end the request-response cycle, and call the next middleware function in the stack.
 
 ### How middleware work
+
 - middleware functions are executed sequentially in the order they are defined.
 - middleware functions can perform tasks such as logging, authentication, parsing request bodies.
 - they can modify the `req` and `res` object or end the request-response cycle by sending a response.
@@ -63,16 +64,54 @@ export default auth;
 
 4. Error handling middleware
 ```js
-const errorHandler = (err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-};
-
-export default errorHandler;
+app.use((err, req, res, next) => {
+	logger.error("Request failed", {
+		error: {
+			name: err.name,
+			message: err.message,
+			stack: erro.stack,
+			statusCode: err.statusCode,
+		},
+		request: {
+			method: req.method,
+			url: req.originUrl,
+			ip: req.ip,
+			userId: req.user?.id,
+			body: req.body ? JSON.stringfy(req.body).slice(0, 500) : null, // truncate
+		}
+	});
+	
+	const status = err.statusCode || 500;
+	const isDev = process.env.NODE_ENV=='development';
+	
+	let response = {
+		error: 'Internal server error',
+	};
+	
+	if(err instanceof ValidationError) {
+		response = {
+			error: 'Validation failed',
+			details: err.details || err.message,
+		};
+	}else if (status < 500){
+		response.error = err.message || 'Bad Request';
+	}
+	
+	if(isDev){
+		response.details = {
+			name: err.name,
+			message: err.message,
+			stack: err.stack?.split('\n').slice(0, 8), // first 8 lines
+		};
+	}
+	
+	res.status(status).json(response);
+})
 
 ```
 
 5. Static file middleware
+
 ```js
 import express from 'express';
 import path from 'path';
@@ -105,6 +144,7 @@ app.listen(PORT, () => {
 ```
 
 6. XSRF Token implementation
+
 ```js
 // filepath: /home/ubuntu/GitHub/Playground/Javascript/src/index.js
 const express = require('express');
@@ -136,6 +176,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));
 ```
 
 ### Avoid Try-catch everywhere
+
 ```js
 const asyncHandler = (fn) => (req, res, next) => {
 	Promise.resolve(fn(req, res, next)).catch(next)
@@ -153,3 +194,4 @@ app.get("/user", asyncHandler(async (req, res, next) => {
 	res.json(user);
 }))
 ```
+
