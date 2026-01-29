@@ -25,3 +25,9 @@ If someone passes:
 → path.resolve() will happily climb out of your project root and give access to **any file on the filesystem** the Node.js process has permission to read.
 
 This is a **classic path traversal vulnerability** — very common in file upload / template systems.
+
+## API
+
+- Security No Auth/Validation -> open write access api. Bloating your DB with malicious data
+- Add middleware for auth (JWT) + zod schema validation. Never trust `req.body`.
+- Missing body size limits, rate limiting (spam risk).

@@ -32,3 +32,37 @@ Nginx configuration failed with message: Command failed: sudo nginx -t sudo: a t
 ```
 
 - this happens because your deployment script is running `sudo nginx -t` in a non-interactive environment (no terminal/TTY), but the user executing the command require a password for `sudo` and has no way to provide it automatically
+
+---
+
+
+`ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor`
+- this comes when you access `this.constructor.name` before calling `super(message)`
+
+```js
+class AppError extends Error {
+  constructor(statusCode, message, isOperational = true) {
+    super(message);
+    this.statusCode = statusCode;
+    this.message = message;
+    this.isOperational = isOperational;
+  }
+}
+
+class BadRequestError extends AppError {
+  constructor(message = "Bad Request") {
+    this.name = this.constructor.name; // this line caused the error
+    super(400, message);
+  }
+}
+
+try {
+  throw new BadRequestError("Missing hotel name");
+} catch (error) {
+  console.error(error.name);
+  console.error(error.message);
+  console.error(error.statusCode);
+  console.log(error.stack);
+}
+
+```

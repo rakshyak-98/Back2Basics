@@ -1,8 +1,11 @@
-### Use case for `http.createServer(app)`
+## Use case for `http.createServer(app)`
+
 - this approach is useful in scenarios where you need more control over the HTTP server beyond what `app.linsten(port)` provides in Express.
 
-##### Enabling WebSockets
+## Enabling WebSockets
+
 - `http.createServer(app)` allows integrating WebSockets for real-time communication.
+
 ```js
 import express from 'express';
 import http from 'http';
@@ -21,7 +24,8 @@ server.listen(3000, () => console.log('Server running on port 3000'));
 
 ```
 
-##### Handling Both HTTP & HTTPS Requests
+## Handling Both HTTP & HTTPS Requests
+
 ```js
 import express from 'express';
 import http from 'http';
@@ -40,8 +44,10 @@ httpsServer.listen(443, () => console.log('HTTPS Server running on port 443'));
 
 ```
 
-##### Graceful shutdown
+## Graceful shutdown
+
 - when shutting down a server (e.g., during deployments or errors), you may need to properly close connections before exiting
+
 ```js
 import express from 'express';
 import http from 'http';

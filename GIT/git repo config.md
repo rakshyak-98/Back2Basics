@@ -28,6 +28,12 @@ git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
 
+## Git clone
+
+```bash
+git clone -b <branch> --single-branch --depth 1 <repo-url>;
+```
+
 ## Configure git refs
 
 ```ini
