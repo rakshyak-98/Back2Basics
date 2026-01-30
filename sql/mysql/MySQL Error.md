@@ -70,3 +70,49 @@ sudo usermod -s /usr/sbin/nologin mysql   # or /bin/false
 sudo systemctl start mysql
 # or sudo service mysql start
 ```
+
+---
+
+```text
+Error: Bind parameters must be array if namedPlaceholders parameter is not enabled",
+            " at PromisePool.execute (/home/mihir/GitHub/Templates/backend/node_modules/mysql2/lib/promise/pool.js:54:22)",
+" at query (file:///home/mihir/GitHub/Templates/backend/index.js:1778:31)",
+" at createHotel (file:///home/mihir/GitHub/Templates/backend/index.js:3062:31)",
+ 
+on this line: const createHotel = (data) => query("INSERT INTO Hotels SET ?", data);
+```
+
+> [!NOTE]
+> Named placeholders are disabled by default in `mysql2` (for security/compatibility reasons).
+> - if you pass an object without enabling `namedPlaceholders: true` in the pool config -> boom, this exact error.
+
+- this error is common when people switch to `mysql2/promise` or `pool.execute` and try to the old `mysql2` object shorthand style for INSERT/UPDATE
+
+```js
+const createHotel = (data) => query("INSERT INTO Hotels SET ?", data);
+```
+- `mysql2` `execute()` does not support passing an object directory for `SET ?` unless you enable a special option.
+
+> [!INFO]
+> User `pool.query()` instead of `execute()`
+
+- **Question mark placeholders (?)** → always expect **array** of values
+```sql
+INSERT INTO Hotels (name, city, price) VALUES (?, ?, ?)
+```
+→ Second arg: ['Grand', 'Bengaluru', 5000]
+
+- **Named placeholders (:name)** → expect **object** with keys
+```sql
+INSERT INTO Hotels SET name = :name, city = :city, price = :price
+```
+→ Second arg: { name: 'Grand', city: 'Bengaluru', price: 5000 }
+
+FIX
+```js
+const pool = mysql.createPool({
+  // ... your other config ...
+  namedPlaceholders: true,   // ← Add this line!
+});
+```
+

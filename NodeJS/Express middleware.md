@@ -62,7 +62,8 @@ const auth = (req, res, next) => {
 export default auth;
 ```
 
-4. Error handling middleware
+### Error handling middleware
+
 ```js
 app.use((err, req, res, next) => {
 	logger.error("Request failed", {
@@ -95,6 +96,15 @@ app.use((err, req, res, next) => {
 		};
 	}else if (status < 500){
 		response.error = err.message || 'Bad Request';
+	}
+	
+	if(err instanceOf multer.MulterError){
+		if(err.code === "LIMIT_FILE_SIZE"){
+			response.error = "File tool large (max 5MB)"
+		}
+		if(err.code === "LIMIT_UNEXPECTED_FILE"){
+			response.error = "Too many files (max 10)"
+		}
 	}
 	
 	if(isDev){

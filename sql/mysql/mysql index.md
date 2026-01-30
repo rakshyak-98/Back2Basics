@@ -46,3 +46,40 @@ ORDER BY COUNT_STAR DESC;
 ```
 - unused indexes (drop them - index maintenance isn't free)
 - hot indexes to optimize further 
+
+## Why indexes matter
+
+> [!NOTE]
+> MySQL (InnoDB default engine) stores data in two main structures
+
+**Clustered Index**
+- the actual table data (PRIMARY KEY or first unique key)
+- Rows are physically ordered by the key
+- Looking up by PK is very fast
+
+**Secondary Indexes**
+- Separate B+ tree structures that point back to the clustered index
+- Every secondary index stores the indexed columns + PK value
+- Covering index = when all needed columns are in the secondary index -> no extra lookup to clustered table (fastest)
+
+- Forgetting composite indexes for multi-column WHERE/JOIN/ORDER BY
+	- Bad `WHERE city = "Bengaluru" AND status = "active" ORDER BY created_at DESC`
+	-> only index on `city` ? MySQL scans all Bengaluru rows + sorts
+	- Good `CREATE INDEX idx_city_status_created ON hotels(city, status, created_at)`
+
+> [!INFO]
+> Index columns in left-to-right order as they appear in WHERE/JOIN/ORDER/GROUP.
+
+- **Using functions on indexed columns → index ignored**
+	- Bad: `WHERE YEAR(created_at) = 2025 or WHERE LOWER(email) = 'rakshyak@example.com'` → Full scan, index useless
+	- Good: `WHERE created_at >= '2025-01-01' AND created_at < '2026-01-01'` or store normalized data if needed
+	
+- **SELECT * kills covering indexes**
+	- If you `SELECT` columns not in the index → MySQL has to go back to clustered table for every row (bookmark lookup)
+	- In high-traffic APIs → this adds 2–10× latency easily
+	- Fix: Select only needed columns, or make index [[covering index]] by including extras via INCLUDE (MySQL 8.0+) or just add them to index.
+
+- **Too many indexes = write penalty**
+	- Every INSERT/UPDATE/DELETE must update **all** indexes → slows writes
+	- Rule: Aim for 3–6 indexes per table max in most cases
+	- Monitor with SHOW INDEX FROM table; and drop unused ones (use EXPLAIN + slow query log)

@@ -88,3 +88,14 @@ const usernameCheck = z.string().min(3).superRefine(async (val, ctx) => {
   }
 });
 ```
+
+## Error handling
+
+```js
+	
+  if (err instanceof zod.ZodError) {
+    response.error = "Validation error";
+    response.message = zod.treeifyError(err); // zod provider error formator native support
+  }
+	
+```
