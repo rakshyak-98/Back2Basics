@@ -1,0 +1,2 @@
+- Using a shared `api` instance -> great for interceptors (auth token auto-attach, logging etc.)
+- Support for cancellation/abort request
