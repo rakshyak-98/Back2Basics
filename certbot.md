@@ -1,3 +1,19 @@
+> [!NOTE]
+> You cannot get a public trusted certificate (from Let's Encrypt ACME server).
+> - use `staging` environment
+
+```bash
+sudo certbot certonly \
+  --staging \
+  --standalone \
+  -d testhotel1.example.com \
+  -d testhotel5.example.com \
+  --email your@email.com \
+  --agree-tos \
+  --non-interactive   # optional, if you want to skip prompts
+```
+- `--standalone` -> Certbot starts its own temporary web server on port 80 (make sure nothing else is using 80).
+
 ```bash
 certbot plugins
 certbot certificates;
@@ -35,7 +51,7 @@ The `--webroot` plugin is the mechanism that tells `certbot`:
 
 ```bash
 sudo certbot certonly \
-  --webroot \
+	--webroot \
   -w /var/www/html          # ← DocumentRoot or public folder
   -d example.com -d www.example.com
 ```
