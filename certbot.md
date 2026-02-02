@@ -24,3 +24,18 @@ sudo certbot renew --dry-run;
 sudo certbot renew --deploy-hook "systemctl reload nginx";
 sudo certbot renew --quiet; # For cron
 ```
+
+## Webroot
+
+- `certbot` needs to prove to let's Encrypt that you really control the domain you're requesting a certificate for.
+
+The `--webroot` plugin is the mechanism that tells `certbot`:
+> “Please write those challenge files into this folder on disk → my already-running web server (Apache, Nginx, Caddy, lighttpd, IIS, etc.) will automatically serve them at the correct URL.”
+- You specify the folder with `-w` / `--webroot-path`
+
+```bash
+sudo certbot certonly \
+  --webroot \
+  -w /var/www/html          # ← DocumentRoot or public folder
+  -d example.com -d www.example.com
+```
