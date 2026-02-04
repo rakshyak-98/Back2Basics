@@ -55,3 +55,7 @@ sudo certbot certonly \
   -w /var/www/html          # ← DocumentRoot or public folder
   -d example.com -d www.example.com
 ```
+
+## HTTP-01 Challenge
+
+- HTTP-01 is the most common ACME challenge for domain validation in Certbot. It proves you control a domain by serving a specific token file (your domain name `-d` and port 80)

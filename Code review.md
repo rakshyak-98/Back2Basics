@@ -31,3 +31,14 @@ This is a **classic path traversal vulnerability** — very common in file uploa
 - Security No Auth/Validation -> open write access api. Bloating your DB with malicious data
 - Add middleware for auth (JWT) + zod schema validation. Never trust `req.body`.
 - Missing body size limits, rate limiting (spam risk).
+
+
+### Command Injection Vulnerabilities
+
+```javascript
+// Line: execFileAsync("rsync", ["-a", "--delete", `${src}/`, `${dest}/`])
+```
+
+While `execFile` is safer than `exec`, the `--delete` flag with `rsync` is dangerous. If an attacker controls the source directory, they could delete all files in the destination.
+
+**Recommendation:** Validate that `src` exists and is within expected boundaries before executing.

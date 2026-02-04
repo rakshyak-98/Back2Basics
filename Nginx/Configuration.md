@@ -217,3 +217,13 @@ server {
 |`^~`|Prefix, highest priority|**Yes**|Static files, uploads, protected dirs (most common)|
 |`~` / `~*`|Regular expression (case sensitive/insensitive)|No|Complex patterns, file extensions, rewrite rules|
 |(none)|Normal prefix|No|Fallback routes|
+
+> [!NOTE]
+> Nginx uses `allow` and `deny` directives to manage IP-based access restrictions. The `allow all;` statement explicitly authorises client IPs, making the location fully accessible unless a subsequent `deny all;` intervense.
+
+```nginx
+location /admin {
+	deny 192.168.1.10/24;
+	allow all; # Overrides deny for others 
+}
+```
