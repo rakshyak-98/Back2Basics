@@ -48,7 +48,9 @@ module.exports = {
 ```
 
 ### Cross component state sync
-any component using `useSelector()` auto-subscribe to the store. When the slice updates, all connected components re-render.
+
+> [!WARNING]
+> any component using `useSelector()` auto-subscribe to the store. When the slice updates, all connected components re-render.
 
 ### What Triggers re-render?
 - Component uses `useSelector(...)`.
@@ -123,10 +125,20 @@ listenerMiddleware.startListening({
 ```js
 // store.js
 
+import { counterReducer, authReducer } from "@/app/slice";
+import { listenerMiddleware } from "@/app/middleware";
+
 configureStore({
-	reducer: {},
+	reducer: {
+		counter: counterReducer,
+		auth: authReducer,
+	},
 	middleware: (getDefault) => getDefault().prepend(listenerMiddleware.middleware)
 })
+
+// typescript
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 ```
 

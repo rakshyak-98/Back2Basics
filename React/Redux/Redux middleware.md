@@ -8,7 +8,7 @@
 
 > [!INFO] You must provide exactly _one_ of the four options for deciding when the listener will run: `type`, `actionCreator`, `matcher`, or `predicate`. Every time an action is dispatched, each listener will be checked to see if it should run based on the current action vs the comparison option provided.
 
-```js
+```jsx
 // 1) Action type string
 listenerMiddleware.startListening({ type: 'todos/todoAdded', effect })
 // 2) RTK action creator
@@ -27,7 +27,7 @@ listenerMiddleware.startListening({
 })
 ```
 
-```js
+```jsx
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
 
 import todosReducer, {

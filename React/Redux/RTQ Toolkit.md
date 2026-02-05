@@ -92,25 +92,6 @@ export const { useGetAllProductsQuery, useGetProductByIdQuery } = productApi;
 
 ```
 
-# Store
-```ts
-import { configureStore } from '@reduxjs/toolkit';
-import { productApi } from './apiSlice';
-
-export const store = configureStore({
-  reducer: {
-    [productApi.reducerPath]: productApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productApi.middleware),
-});
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-
-```
-> [!NOTE] You must concat api middleware to `getDefaultMiddleware()` _because RTK Query requires additional middleware for caching, invalidation, and background refetching._
-
 ### Fetch data in React Component
 ```ts
 import { useGetAllProductsQuery } from './apiSlice';
