@@ -26,7 +26,7 @@ export type AppDispatch = typeof store.dispatch;
 
 > [!INFO]
 > `setupLinsteners(store.dispatch);` -> if you're using RTK Query and want polling, auto-refetch on tab focus, or reconnection handling to work automatically -> you need this line.
-> - it attaches several global event listeners to the store's dispatch pipeline. These listeners react to certain actions and automatically trigger usefull side-effects.
+> - it attaches several global event listeners to the store's dispatch pipeline. These listeners react to certain actions and automatically trigger useful side-effects.
 
 ### Config when you want Maximum Control
 
