@@ -96,6 +96,65 @@ export default cartSlice.reducer;
 
 ```
 
+## Lazy query and Normal query hooks
+
+> [!INFO]
+> - `useLazy...Query` hook exists so you can control exactly when the request is sent. In RTK Query there are two kinds of generated hooks for every query endpoint
+
+|Hook|When does it fetch?|Typical use-case|Loading state available immediately?|
+|---|---|---|---|
+|`useGetAllHotelsQuery()`|**automatically** when the component mounts|“Show this list as soon as the page loads”|Yes|
+|`useLazyGetAllHotelsQuery()`|**only when you call the trigger function**|“Fetch only after user clicks a button / tab / search / opens modal / etc.”|No (until you trigger)|
+
+### Normal query hook
+
+-> featches immediately when component mounts.
+-> good for data that should always be visible.
+
+```jsx
+
+function HotelList(){
+	const { data, isLoading, error } = useGetAllHotelsQuery();
+	
+	if(loading) return <Loading />
+	if(error) return <Error />
+	return (
+		<ul>
+			{data?.map(hotel => <li key={hotel.id}>{hotel.name}</li>)}
+		</ul>
+	)
+}
+```
+
+### Lazy query hook
+
+```jsx
+function SearchHotel() {
+	const [trigger, { data, isLoading, isUninitialized, error }] = useLazyGetAllHotelsQuery();
+	
+	const handleSearch = () => {
+		trigger(); // Only now the request is sent.
+	}
+	
+	return (
+		<div>
+			<button>
+				{isLoading ? "Searching..." : "Load all hotels" }
+			</button>
+			{isUninitialized && <p>Click to load</p>}
+			{isLoading && <p>Loading...</p>}
+			{error && <Error />}
+			{data && (
+				<ul>
+					{data.map(hotel => <li key={hotel.id}>{hotel.name}</li>)}
+				</ul>
+			)}
+		</div>
+	)
+	
+}
+```
+
 ### Difference Between Action and Reducer in Redux
 
 | **Aspect**       | **Action**                                                                    | **Reducer**                                                              |
