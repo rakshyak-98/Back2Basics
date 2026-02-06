@@ -18,10 +18,15 @@ function App() {
 }
 ```
 
+### Setup base URL
+
 > [!NOTE] `fetchBaseQuery`
 > By default, `fetchBaseQuery` assumes that every request you make will be `json`, so in those cases all you have to do is set the `url` and pass a `body` object when appropriate.
 > [parsing response](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#parsing-a-response)
 > [adding custom timeout](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#adding-a-custom-timeout-to-requests)
+
+> [!WARNING]
+> by default `fetchBaseQuery` does not send cookies (neither session cookies nore `httpOnly` cookies). This is intentional, the default `credentials` setting is `same-origin`.
 
 ```ts
 import { createSlice, PayloadAction, createAsyncThunk, createApi, fetchBaseQuery } from '@reduxjs/toolkit';
@@ -45,7 +50,10 @@ const initialState: CartState = {
 
 export const cartApi = createApi({
   reducerPath: 'cartApi', // this determines where the API data is stored in Redux.
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_BASE_URL,
+    credentials: "include" // need to setup explicitly  to include cookies in every request
+  }),
 	tagTypes: ['Users'] // Define a tag for cache nivalidation.
   endpoints: (builder) => ({
     fetchCart: builder.query<CartItem[], void>({
