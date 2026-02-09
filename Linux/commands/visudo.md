@@ -3,10 +3,18 @@
 ```bash
 sudo -lU <user>; 
 sudo -u developer sudo nginx -t;
+sudo EDITOR=vi visudo -f <file path>;
+```
+
+> [!NOTE]
+> `sudo -k` this option does not require a password, and was added to allow a user to revoke sudo permissions
+
+```bash
+sudo -k;
 ```
 
 > [!WARNING]
-> sudo reads /etc/sudoers.d/* in lexical order (alphabetical).
+> sudo reads `/etc/sudoers.d/*` in lexical order (alphabetical).
 
 - Located at `/etc/sudoers` 
 
