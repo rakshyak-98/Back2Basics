@@ -1,3 +1,9 @@
+
+- Default config and log files path
+- Main debug log: `/var/log/letsencrypt/letsencrypt.log`
+- Global level conf: `/etc/letsencrypt/cli.ini`
+- User level conf `~/.config/letsencrypt/cli.ini`
+
 > [!NOTE]
 > You cannot get a public trusted certificate (from Let's Encrypt ACME server).
 > - use `staging` environment
