@@ -127,3 +127,43 @@ You are given an array of integer **arr[]** where each number represents a vote 
 -109 <= arr[i] <= 109
 
 ---
+
+Given an integer `rowIndex`, return the `rowIndexth` (**0-indexed**) row of the **Pascal's triangle**.
+
+In **Pascal's triangle**, each number is the sum of the two numbers directly above it as shown:
+
+![](https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif)
+
+**Example 1:**
+
+**Input:** rowIndex = 3
+**Output:** [1,3,3,1]
+
+**Example 2:**
+
+**Input:** rowIndex = 0
+**Output:** [1]
+
+**Example 3:**
+
+**Input:** rowIndex = 1
+**Output:** [1,1]
+
+**Constraints:**
+
+- `0 <= rowIndex <= 33`
+
+**Follow up:** Could you optimize your algorithm to use only `O(rowIndex)` extra space?
+
+- each interior element = sum of two element above it `triangle[i][j] = triangle[i-1][j-1] + triangle[i-1][j]`
+
+---
+
+[Home many Numbers are smaller than the current number](https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/description/)
+
+- when we sort an array, we lose track of where element originally were
+- Track original indices -> `const sorted = nums.map((num, idx) => [num, idx])`
+
+- `[ [ 1, 2 ], [ 1, 4 ], [ 2, 1 ], [ 4, 3 ], [ 8, 0 ] ]` position in sorted array = count of smaller numbers
+
+- Handling the duplicate correctly

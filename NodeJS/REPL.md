@@ -1,3 +1,10 @@
+```bash
+# node repl
+
+.load <file path>;
+.save session.js
+```
+
 Read-Eval-Print-Loop.
 - interactive shell.
 - allows to execute JavaScript code.
