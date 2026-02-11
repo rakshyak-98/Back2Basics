@@ -5,6 +5,10 @@
 .save session.js
 ```
 
+```bash
+> watch
+```
+
 Read-Eval-Print-Loop.
 - interactive shell.
 - allows to execute JavaScript code.
