@@ -166,4 +166,22 @@ In **Pascal's triangle**, each number is the sum of the two numbers directly abo
 
 - `[ [ 1, 2 ], [ 1, 4 ], [ 2, 1 ], [ 4, 3 ], [ 8, 0 ] ]` position in sorted array = count of smaller numbers
 
-- Handling the duplicate correctly
+- Handling the duplicate correctly sort and keep the track of original index -> `row[originalIdx] = sorted[i-1][1]`
+
+
+```js
+// When duplicate found, copy result from first occurrence
+if (i > 0 && sorted[i][0] === sorted[i-1][0]) {
+    result[originalIdx] = result[sorted[i-1][1]];
+}
+```
+
+### For Documentation:
+
+> **Duplicate Handling Strategy:**  
+> In a sorted array with index tracking, when a duplicate value is detected, the algorithm retrieves the result from the previous occurrence's original position rather than recalculating, ensuring consistency across all instances of the same value.
+
+> "Since we're sorting but need results in original order, we track indices. For duplicates, we don't recalculate—we just copy what we already computed for the first instance of that value."
+
+---
+
