@@ -11,7 +11,7 @@ find . -type -f -exec chmod 644 {} +
 |`\;`|Old way: “Run the command once per file” (slow — avoid it)|
 
 ```sh
-find . -depth -name "*.log" -delete;
+find . -name "*.log" -delete;
 ```
 - delete `.log` files, descending into subdirs first.
 - removes subdirs before parent

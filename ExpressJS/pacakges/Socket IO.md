@@ -1,4 +1,4 @@
-## Why it is http:// Instead of ws:// in the Web Socket server setup?
+# Why it is http:// Instead of ws:// in the Web Socket server setup?
 
 - WebSocket start as an HTTP request and then upgrade to the WebSocket protocol.
 - The client sends an HTTP request and then upgrade to the WebSocket protocol.

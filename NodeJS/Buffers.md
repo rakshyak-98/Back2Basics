@@ -3,17 +3,37 @@ let buffer = new ArrayBuffer(16):
 console.log(buffer.byteLength); // output 16
 ```
 
+### Copy content of one file to another 
+
+- create readable stream fro the file `input.txt` and reads the file in chunks instead of loading the whole file into memory at once.
+
 ```js
 const fs = require('fs');
 
-const readable = fs.createReadStream('input.txt', { highWaterMark: 16 * 1024} )
-const writable = fs.createWritableStream('output.txt');
+const readable = fs.createReadStream('input.txt', { highWaterMark: 16 * 1024 });
+const writable = fs.createWriteStream('output.txt');
 
-redable.pipe(writable);
+readable.pipe(writable);
+
+readable.on('error', err => console.error('Read error:', err));
+writable.on('error', err => console.error('Write error:', err));
+
+writable.on('finish', () => {
+  console.log('File copy completed successfully');
+});
 ```
+
 - `highWaterMark` controls buffer size (default: `64KB` for files, `16KB` for sockets).
 
+- `redable.pipe(writable)` -> connects the two stream using `.pipe()`
+	- Readable stream reads a chunk (up to 16 KB) from `input.txt`
+	- Automatically writes that chunk to `writable` stream.
+	- When writable is busy (buffer full), readable resumes.
+	- Repeats until the entire file is copied.
+	- When readable ends -> automatically calls `writable.end()` -> close output file cleanly.
+
 #### Buffer status
+
 ```js
 const stream = fs.createWritableStream('output.txt');
 
