@@ -1,10 +1,12 @@
 ## set the recommended (default) application for a mime type on your system
+
 ```bash
 xdg-mime query default mime/type;
 xdg-mime default vim.desktop text/plain;
 ```
 
 ### mime type
+
 - `/etc/mime.types` 
 - `/usr/share/mime` -> system wide
 - 
@@ -16,6 +18,7 @@ gio mime <mime-type>;
 
 
 #### Make the mount permanent
+
 - automatically mounted at boot, you can add an entry to `/etc/fstab` file.
 ```txt
 tmpfs <path> tmpfs size=100M 0 0

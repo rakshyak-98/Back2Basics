@@ -29,7 +29,9 @@ vim.opt.rtp:prepend(lazypath)
 ```
 
 ## Telescope
+
 ### ignore files
+
 ```lua
 require('telescope').setup{
     defaults = {
