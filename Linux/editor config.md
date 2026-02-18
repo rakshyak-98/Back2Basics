@@ -5,7 +5,6 @@
 ```bash
 set -o vi;
 set -o emacs;
-
 ```
 
 - Toggle between emac and vim

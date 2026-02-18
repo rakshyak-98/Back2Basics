@@ -74,3 +74,4 @@ interactive_timeout = 86400
 ```sql
 SHOW VARIABLES LIKE '%timeout%';
 ```
+

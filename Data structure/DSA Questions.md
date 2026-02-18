@@ -74,3 +74,45 @@
 - For Each element, check if it's already in the window (duplicate withing distance k)
 - Add the current element to the window
 - Remove the oldest element if the window exceeds size `k`
+
+---
+
+[Maximum product of three number](https://leetcode.com/problems/maximum-product-of-three-numbers/submissions/1923224246/?envType=problem-list-v2&envId=wrdcuh52)
+
+- the maximum product of three numbers doesn't have to be from consecutive elements.
+
+---
+
+[Find All Numbers Disappeared in an Array](https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/?envType=problem-list-v2&envId=wrdcuh52)
+
+> [!NOTE]
+> Mark all the position negative by the `nums` array element. After that what ever the position is positive that are the missing number.
+
+- `nums[i]` Gets the current number (could be positive or negative)
+- `Math.abs(nums[i])` -> Gets the absolute value (removes the negative sing if present). Without this when we encounter a number that's already been marked negative, we'd get the wrong index.
+
+```js
+// WITHOUT Math.abs() - WRONG!
+nums[2] = -2
+const index = -2 - 1;  // index = -3 ❌ (negative index!)
+
+// WITH Math.abs() - CORRECT!
+nums[2] = -2
+const index = Math.abs(-2) - 1;  // index = 1 ✓
+```
+
+
+**Why subtract 1:**
+
+The problem uses numbers from **1 to n**, but array indices are **0 to n-1**:
+
+```js
+// Number 1 should mark index 0
+Math.abs(1) - 1 = 0 ✓
+
+// Number 4 should mark index 3
+Math.abs(4) - 1 = 3 ✓
+
+// Number 8 should mark index 7
+Math.abs(8) - 1 = 7 ✓
+```
