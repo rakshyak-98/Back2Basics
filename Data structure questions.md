@@ -185,3 +185,55 @@ if (i > 0 && sorted[i][0] === sorted[i-1][0]) {
 
 ---
 
+[Best time to buy and sell stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/?source=submission-ac)
+
+```text
+prices = [7, 1, 5, 3, 6, 4]
+         i=0  1  2  3  4  5
+
+i=0: prices[0]=7, prices[-1]=undefined → skip
+i=1: 1 > 7? No → skip
+i=2: 5 > 1? Yes → profit += (5-1) = 4
+i=3: 3 > 5? No → skip
+i=4: 6 > 3? Yes → profit += (6-3) = 7
+i=5: 4 > 6? No → skip
+
+Total profit = 7
+```
+
+- Capture every upward movement. Because we can buy and Sell multiple times.
+
+> [!NOTE]
+> Why checking consecutive days gives the same result as waiting for future peaks.
+> - Buying at valley and selling at future peak = Sum of all daily increase between them.
+
+```text
+Prices: [1, 2, 3, 5, 4]
+         ↑           ↑
+       valley      peak
+
+Method 1: Wait for peak (what you're suggesting)
+Buy at day 0 (price=1), sell at day 3 (price=5)
+Profit = 5 - 1 = 4
+
+Method 2: Consecutive day gains (the algorithm)
+Day 0→1: 2 - 1 = 1
+Day 1→2: 3 - 2 = 1  
+Day 2→3: 5 - 3 = 2
+Total = 1 + 1 + 2 = 4
+
+SAME RESULT! ✓
+```
+
+**Why?** Because mathematically:
+```
+(2-1) + (3-2) + (5-3) 
+= 2 - 1 + 3 - 2 + 5 - 3    // Expand
+= 5 - 1                     // Middle terms cancel!
+```
+
+---
+
+[island perimeter](https://leetcode.com/problems/island-perimeter/?envType=problem-list-v2&envId=wrdcuh52)
+
+- 

@@ -38,3 +38,20 @@ docker network connect --alias <alias name> <network name> <container anme>
 - When use a bind mount, a file or directory on host machine is mounted into a container. The file or directory is referenced by its absolute path on the host machine.
 - when use a volume, a new directory is created within Docker's storage directory on the host machine, and Docker manages that directory's contents.
 - Can't use Docker CLI commands to directly manage bind mounts.
+
+```bash
+docker inspect --format='{{.SomeField}}' container_or_image_id;
+```
+
+```bash
+oci runtime exec --tty --user 1000:1000 my-container /bin/bash
+
+docker system df; # information abuut docker daemon storage.
+docker system update; # update docker daemon to latest version.
+docker system prune; # pauses all running container on docker daemon.
+docker system info; # system-wide info about docker-daemon.
+docker system events; # events from docker-daemons
+
+docker system prune --all; # delete all cached
+docker system prune --[resource to preserve]; # add --volumes --images flags, to preserve resources.
+```
