@@ -96,3 +96,20 @@ userdel -rf user; # delete home directory also otherwise not deleted.
 |**u** (user/owner)|The user who owns the file|Usually the creator of the file|
 |**g** (group)|The group that owns the file|All users who are members of that group|
 |**o** (others)|Everyone else on the system|Users not owner and not in the owning group|
+
+## Users
+
+user groups - are used to give several access permissions.
+
+`/etc/passwd` - information about user home directory.
+
+passwords are stored in the `/etc/shadow`
+
+```bash
+useradd -m john # create a user john with home directory.
+usermod -s /bin/bash john; #setting the shell for the john user.
+useradd -d $USER <dir name># set the home directory for the user account.
+useradd -g [groupname] [username];
+useradd -e [yyyy-mm-dd] [username]; # new user account with expiration date.
+useradd -c [comment_for_user] [username]; # set user comment.
+```
