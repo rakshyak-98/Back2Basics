@@ -76,7 +76,7 @@ SELECT DATE_SUB(CURDATE(), interval 1 day);
 ```mysql
 START Transaction;
 
-update user set name = "Alice" where id = 1000;
+update user set name = "Alice" WHERE id 1000;
 
 select * from users where id = 1000;
 -- decide if OK

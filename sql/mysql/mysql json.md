@@ -22,7 +22,6 @@ FROM People;
 -- array aggregator with group by
 SELECT
   user_id,
-  JSON_ARRAYAGG(email) AS emails
 FROM user_emails
 GROUP BY user_id;
 ```

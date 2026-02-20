@@ -236,4 +236,4 @@ SAME RESULT! ✓
 
 [island perimeter](https://leetcode.com/problems/island-perimeter/?envType=problem-list-v2&envId=wrdcuh52)
 
-- 
+- Each land cell(1) has 4 sides. But if a side touches another land cell, we don't count it.
