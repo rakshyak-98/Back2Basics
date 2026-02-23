@@ -237,3 +237,12 @@ SAME RESULT! ✓
 [island perimeter](https://leetcode.com/problems/island-perimeter/?envType=problem-list-v2&envId=wrdcuh52)
 
 - Each land cell(1) has 4 sides. But if a side touches another land cell, we don't count it.
+
+---
+
+[next greater element 1](https://leetcode.com/problems/next-greater-element-i/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- Monotonic stack problem
+- For each element, use stack to find next greater element. Stack maintains element in decreasing order (bottom -> top) Monotonic stack mechanism. Element remain in stack until they find their next greater. Decreasing order ensures we catch all valid pairs.
+- Store result in HashMap: element -> next greater. Element still in stack never found a larger element to their right.
+- Query map for each element to lookup answer from HashMap and return precomputed result. This works because one is sub set of other.
