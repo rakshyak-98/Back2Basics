@@ -5,6 +5,7 @@ Control group `cgroup` in Linux are a feature that allows you to allocate, prior
 mount | grep cgroup; # view which version is enabled 
 cat /sys/fs/cgroup/cgroup.controllers
 ```
+
 The linux kernel provides two versions:
 - `cgroup` v1 -> Hierarchical, separate controllers for CPU, memory, and I/O.
 - `cgroup` v2 -> Unified hierarchy with a single controller for better management.
@@ -17,6 +18,6 @@ The linux kernel provides two versions:
 - **Devices** (`devices`): Control device access.
 - **Processes** (`pids`): Limit the number of processes.
 
-```shell
+```bash
 systemctl status systemd-cgls; # list systemd-managed cgroups;
 ```
