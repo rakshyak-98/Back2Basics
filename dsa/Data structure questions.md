@@ -246,3 +246,7 @@ SAME RESULT! ✓
 - For each element, use stack to find next greater element. Stack maintains element in decreasing order (bottom -> top) Monotonic stack mechanism. Element remain in stack until they find their next greater. Decreasing order ensures we catch all valid pairs.
 - Store result in HashMap: element -> next greater. Element still in stack never found a larger element to their right.
 - Query map for each element to lookup answer from HashMap and return precomputed result. This works because one is sub set of other.
+
+---
+
+[array_partition](https://leetcode.com/problems/array-partition/?envType=problem-list-v2&envId=wrdcuh52)
