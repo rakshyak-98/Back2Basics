@@ -1,4 +1,5 @@
 ### Verify gpg key
+
 ```bash
 # 1. Extract the fingure print
 gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --fingerprint; 

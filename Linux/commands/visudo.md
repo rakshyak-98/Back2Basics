@@ -33,13 +33,13 @@ john   ALL=(root)   /usr/bin/apt-get
 who   where   =   (as_whom : as_which_group)   what
 ```
 
-|Position|Value|Meaning|
-|---|---|---|
-|1. Who (User_List)|ALL|**Any user** (including root, normal users, system users, etc.)|
-|2. Where (Host_List)|ALL|On **any host** (this rule applies no matter what machine name is)|
-|3. As whom (Runas_List – user part)|ALL|Can run commands **as any user** (root, any other account, etc.)|
-|4. As which group (Runas_List – group part)|ALL|Can run commands **as any group** (using `-g` option)|
-|5. What (Cmnd_List)|ALL|Can run **any command** (with or without arguments)|
+| Position                                    | Value | Meaning                                                            |
+| ------------------------------------------- | ----- | ------------------------------------------------------------------ |
+| 1. Who (User_List)                          | ALL   | **Any user** (including root, normal users, system users, etc.)    |
+| 2. Where (Host_List)                        | ALL   | On **any host** (this rule applies no matter what machine name is) |
+| 3. As whom (Runas_List – user part)         | ALL   | Can run commands **as any user** (root, any other account, etc.)   |
+| 4. As which group (Runas_List – group part) | ALL   | Can run commands **as any group** (using `-g` option)              |
+| 5. What (Cmnd_List)                         | ALL   | Can run **any command** (with or without arguments)                |
 
 When you see just ALL ALL=(ALL) ALL (without the second :ALL), it means:
 

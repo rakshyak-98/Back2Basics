@@ -1,3 +1,7 @@
+```bash
+sudo systemctl restart systemd-hostnamed # restart host name service or reboot.
+```
+
 is dependent upon what init daemon is used by your Linux server.
 - before you do any service management, be sure determine the init daemon.
 
@@ -11,6 +15,7 @@ is dependent upon what init daemon is used by your Linux server.
 ### How do you get it to start at boot time?
 
 # Understanding the Linux inti Deamon
+
 services, also called daemon, is a running program or a process that provide a particular function.
 
 > [!INFO] init daemon: is the first process to be started by the kernel on the Linux server.
@@ -34,7 +39,7 @@ A run-level is a categorization number that determines what services are started
 
 ## Standard Linux Run-levels
 
-Runlevels are primarily used for managing the system’s state during different phases, such as booting, single-user mode, or normal operation.
+Run-levels are primarily used for managing the system’s state during different phases, such as booting, single-user mode, or normal operation.
 
 system administrators can switch between these targets to change thee system’s operational state.
 
