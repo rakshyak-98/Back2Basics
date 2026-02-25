@@ -3,6 +3,22 @@
 > - mostly has to do with the number of times the algorithm needs to access its input data to do its job. 
 - an `O(n)` algorithm, which needs to access its input only once.
 
+Pattern recognition practice
+- What type of problem is this? (counting, finding, max/min, searching).
+- Have I seen something similar before?
+- What data structure naturally fits this problem?
+
+Break the problem into constraints -> Every problem has constraints that defines the answer.
+- What is limiting the result?
+- What is the ceilling (maximum possible)?
+- What is the floor (minimum required)?
+
+Think in terms of What you're Optimizing
+(this builds the habit of seeing the mathematical relationship behind a problem)
+- Am I maximizing or minimizing something?
+- What variables affect the result?
+- What happens at the extremes? (all same type, all different types)
+
 > [!INFO]
 >  `O(n!)`
 > - the worst algorithms, however, are the ones with an `O(n!)` running time. 

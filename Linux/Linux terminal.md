@@ -1,3 +1,11 @@
+## Authorized shells list
+
+> [!NOTE]
+> added new shell will not work if shell is not in your authorized shells list `/etc/shells`, of if you don't have permission to use `chsh`.
+
+```
+```
+
 ## What is the difference between `xtermin-256color` and `dumb` when it is set to `TERM` in environment variables?
 
 Here's a side-by-side comparison of `xterm-256color` and `dumb` values for the `TERM` environment variable:

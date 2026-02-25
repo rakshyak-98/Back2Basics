@@ -250,3 +250,23 @@ SAME RESULT! ✓
 ---
 
 [array_partition](https://leetcode.com/problems/array-partition/?envType=problem-list-v2&envId=wrdcuh52)
+
+---
+
+[Distribute Candies](https://leetcode.com/problems/distribute-candies/?envType=problem-list-v2&envId=wrdcuh52)
+
+> [!INFO]
+> in the candy problem, recognizing it as a "maximize unique elements under a constraint" problem immediately points toward `Sets + Math.min`
+
+- The key insight is that Alice can eat `n/2` candies, and we want to maximize the number of different she gets.
+
+**Constraints**
+- she can only eat `n/2` candies so she can't have more than `n/2` different types.
+
+---
+
+[Longest Harmonious Substring](https://leetcode.com/problems/longest-harmonious-subsequence/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- Find the most frequent pair of numbers that differ by exactly 1, return their combined count.
+- It's a subsequence element don't need to be adjacent.
+- Counting occurrences -> Map, then check `num + 1` exists.
