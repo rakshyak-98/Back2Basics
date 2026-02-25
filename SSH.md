@@ -10,6 +10,12 @@ nc -zv host 22; # check ssh port availability
 ssh -T user@host;
 ```
 
+### List Current ssh connections
+
+```bash
+who; # show who is logged on.
+```
+
 ### How `ssh-keyscan` fetches SSH host keys
 `ssh-kyscan` works by initiating a raw ssh handshake with the remote server just long enough to capture its public host key, then disconnects.
 - TCP connect to server on port 22 (or customer with -p).

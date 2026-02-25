@@ -2,12 +2,24 @@
 
 ```bash
 ufw status; # check firewall status.
-ufw show; # show firewall current configurations rules.
-ufw logging; # show current logging level.
+ufw status verbose; # more detailed output.
+ufw status numbered; # usefull when deleting rules.
+
+ufw logging on; # turn logging on (low/medium/high/full) 
+
 ufw app list;
-ufw allow 3000/tcp;
+ufw app info <profile name>;
+
+ufw allow 3000/tcp comment 'Node.js / React dev server';
+ufw allow from 192.168.1.0/24 to any port 3000 proto tcp comment 'LAN only';
+
 ufw reset;
-ufw delete allow;
+```
+
+```bash
+sudo ufw delete allow 3000/tcp
+sudo ufw delete allow 80,443/tcp comment 'Web server'
+sudo ufw delete allow 'Nginx Full'
 ```
 
 ## UFW application profile
