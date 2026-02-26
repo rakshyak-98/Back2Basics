@@ -251,6 +251,46 @@ SAME RESULT! ✓
 
 [array_partition](https://leetcode.com/problems/array-partition/?envType=problem-list-v2&envId=wrdcuh52)
 
+- bad pairing and good pairing
+- put big cookies with big cookies, small cookies with small cookies. This way you don't waste big cookies by pairing them with tiny ones.
+
+> [!NOTE]
+> - If order doesn't matter in input and output doesn't depend on original indices -> sort first.
+> Sorting cookies from small to big, pairing them with their neighbors, keeping every other cookie (this 1st, 3rd, 5th...) will give you the answer.
+
+```text
+[1, 4, 3, 2]
+
+// bad pairing
+1 with 4
+	you keep 1
+	you lose 4 (the big one)
+
+// sort the array
+[1, 2, 3, 4]
+
+// good pairing
+1 with 2
+	you keep 1
+	you only lose 2 (not so big)
+	
+3 with 4
+	you keep 3
+	you only lose 4
+
+[1, 2] -> 1
+[3, 4] -> 4
+
+// you can keep sum of every other number
+[1, 2, 3, 4]
+1 + 3 => 4
+
+```
+
+> [!NOTE]
+> - Look for problems where making the best choice at each step leads to best overall result.
+> - Sorting data -> time complexity often dominated by O(n log n) sort, not the solution logic
+
 ---
 
 [Distribute Candies](https://leetcode.com/problems/distribute-candies/?envType=problem-list-v2&envId=wrdcuh52)
