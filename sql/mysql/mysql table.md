@@ -244,3 +244,20 @@ FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 ```mysql
 ALTER TABLE table_name DROP COLUMN column_name;
 ```
+
+- multiple drop statement
+```sql
+ALTER TABLE PMSnPOSTransactions
+    -- Guest & reservation identification
+    DROP COLUMN guestName,
+    DROP COLUMN guestCompany,
+    DROP COLUMN companyGroup,
+```
+
+## Pick column from one table and insert into to another
+
+```sql
+INSERT IGNORE INTO target_table (target_column)
+SELECT source_column
+FROM source_table;
+```
