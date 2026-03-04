@@ -236,7 +236,21 @@ SAME RESULT! ✓
 
 [island perimeter](https://leetcode.com/problems/island-perimeter/?envType=problem-list-v2&envId=wrdcuh52)
 
-- Each land cell(1) has 4 sides. But if a side touches another land cell, we don't count it.
+- this is [[Matrix Connectivity]] problem.
+- When you see a grid and a "perimeter", stop thinking about maps and start thinking about Overlap logic.
+
+- Each land cell(1) has 4 sides. But if a side touches another land cell, we don't count it. If you simply counted all lands cells and multiplied by 4, you would over-count because land cells share edges.
+
+`Perimeter = (Total Land Cells x 4) - (Shared Edges x 2)`
+
+Why multiply shared edges by 2?
+Because a shared edge is "internal" to two different cells. You must subtract that edge from both cells.
+
+The shared Edge Rule: I will iterate through every cell (1):
+- if the current cell is `1`:
+	- Add 4 to the perimeter
+	- Check if the neighbor above is `1`. If yes, subtract 2.
+	- Check if the neighbor to the left is `1`. If yes, subtract 2.
 
 ---
 
