@@ -299,9 +299,15 @@ SAME RESULT! ✓
 > in the candy problem, recognizing it as a "maximize unique elements under a constraint" problem immediately points toward `Sets + Math.min`
 
 - The key insight is that Alice can eat `n/2` candies, and we want to maximize the number of different she gets.
+- **Identify the "Limit" Signal:** The doctor’s advice is a hard cap. It doesn't matter if there are 1,000 types of candies; if I can only eat 5, the answer is 5.
+- **Floating Point Pitfalls:** While n is guaranteed to be even here, in other allocation problems, developers forget that `/ 2` can return a float in JS. Always use `Math.floor()` or bitwise `>> 1` if there is any chance of an odd n to avoid index errors or logic bugs. 
+- **Memory Exhaustion (DoS Risk):** Creating a `Set` of 105 elements (the constraint limit) consumes significant heap memory. If this were a high-throughput production API, a senior dev might suggest **sorting in-place** (O(1) space, O(nlogn) time) instead of a `Set` (O(n) space, O(n) time) to prevent the process from crashing under memory pressure. 
 
 **Constraints**
 - she can only eat `n/2` candies so she can't have more than `n/2` different types.
+
+> [!NOTE]
+> This problem tests your ability to recognize a **Lower Bound**. You are looking for min(uniques,capacity). Candidates fail here when they try to actually "simulate" picking candies (using loops or sorting), which turns an O(n) problem into a complex `O(nlogn)` or `O(n2)` mess.
 
 ---
 
@@ -310,3 +316,21 @@ SAME RESULT! ✓
 - Find the most frequent pair of numbers that differ by exactly 1, return their combined count.
 - It's a subsequence element don't need to be adjacent.
 - Counting occurrences -> Map, then check `num + 1` exists.
+
+---
+
+[Find All Numbers Disappeared in an Array](https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/)
+
+> [!NOTE]
+> Mapping value to an address. By using the sign (positive/negative) as a boolean flag, you preserve the original magnitude of the data while adding a new layer of "metadata" (the "seen" status) without allocating new memory.
+
+- This problem is introduces a high-level concept: The array as its own Hash Map.
+- Numbers are in range [1, N] and Array length is n.
+- Every number has a home (as index) waiting for it in the array. if n = 8, the numbers should be 1 through 8. If we find a 4, it "belongs" at index 3 (zero based).
+
+> [!INFO]
+> Use the input array as hash map.
+
+The marking strategy: How do I "mark" that a number has been seen without deleting the data already at that index?
+- Negation. if I see the number 4, I go to index 3 and make whatever value is there negative.
+- Any index that still has a positive number means its corresponding value (index + 1) was never "seen".
