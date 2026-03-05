@@ -1,6 +1,7 @@
-```shell
-apt-cache policy <package name>;
+```bash
+apt-cache policy <package name>; # view the installation status and priority of a specific package across all configured repositories.
 ```
+- It is the best tool for debugging why a specific version of a program is (or isn't) being installed.
 
 ```shell
 sudo apt full-upgrade;
@@ -24,6 +25,7 @@ grep -rhE '^dep' /etc/apt/source.list.d/
 ```
 
 ###  auto updates 
+
 ```bash
 sudo apt install unattended-upgrades;
 
@@ -52,7 +54,9 @@ when `apt-get update` is verifies if the same update indexes need downloading, i
 - `Hit` - means apt checked the timestamps on package list ( `Release` or `InRelease` file), those match and there are no changes (compare with `/var/lib/apt/lists` ).
 - `Ign` - means there are no changes in the `pdiff` index file (in-release file), it wont bother downloading it again, Ignore.
 - `Get` - means apt checked the timestamps on package list, there were changes and will be downloaded.
+
 ### standard output
+
 - used to redirect standard out.
 
 ```bash
@@ -61,9 +65,11 @@ command [option] > [output file]
 ```
 
 ### Source list file config
+
 ```txt
 deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian jammy nginx
 ```
+
 - `deb` -> this is a binary package source (as opposed to `deb-src` for source code).
 - `[signed-by=...]` -> custom gpg key used to verify the authenticity of packages.
 - 'http://' -> URL of the APT repository (from package org).
@@ -93,14 +99,16 @@ https://my.repo.com/apt/dists/jammy/main/binary-amd64/Packages.gz
 
 
 ## package architecture
+
 ```text
 deb [arch=amd64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/ubuntu jammy nginx
 ```
+
 - mention the `arch`
 
 ```bash
-dpkg --print-foreign-architectures;
-dpkg --print-architectures;
+dpkg --print-foreign-architectures; # list secondary CPU architectures
+dpkg --print-architectures; # see primary architecture your OS was installed with
 ```
 
 [`distro-info-data`](https://github.com/deepin-community/distro-info-data)
