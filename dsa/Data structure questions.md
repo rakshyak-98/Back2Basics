@@ -1,3 +1,21 @@
+[two sum](https://leetcode.com/problems/two-sum/?envType=problem-list-v2&envId=wrdcuh52)
+
+- the problem gives you equation: `x + y = target` you are looking for `x` and `y`. When you are standing at any number `x` in the array, you don't need to search for `y`. You already know exactly what `y` must be.
+
+>[!NOTE]
+> To get below `O(n)^2`, I need to remember what I've seen. A Hash Map provides `O(1)` average time lookups.
+
+- Common implementation Error
+	- **The `0` Index Trap:** If you use a plain object `{}` instead of `Map`, and you check `if (seen[complement])`, it will fail if the index is `0` because `0` is **falsy** in JavaScript.
+
+---
+
+[Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/?envType=problem-list-v2&envId=wrdcuh52)
+
+- 
+
+---
+
 Given an array of positive integers arr[], return the second largest element from the array. If the second largest element doesn't exist then return -1.
 
 Note: The second largest element should not be equal to the largest element.
@@ -128,34 +146,16 @@ You are given an array of integer **arr[]** where each number represents a vote 
 
 ---
 
-Given an integer `rowIndex`, return the `rowIndexth` (**0-indexed**) row of the **Pascal's triangle**.
-
-In **Pascal's triangle**, each number is the sum of the two numbers directly above it as shown:
-
-![](https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif)
-
-**Example 1:**
-
-**Input:** rowIndex = 3
-**Output:** [1,3,3,1]
-
-**Example 2:**
-
-**Input:** rowIndex = 0
-**Output:** [1]
-
-**Example 3:**
-
-**Input:** rowIndex = 1
-**Output:** [1,1]
-
-**Constraints:**
-
-- `0 <= rowIndex <= 33`
-
-**Follow up:** Could you optimize your algorithm to use only `O(rowIndex)` extra space?
+[pascal triangle 2](https://leetcode.com/problems/pascals-triangle-ii/?envType=problem-list-v2&envId=wrdcuh52)
 
 - each interior element = sum of two element above it `triangle[i][j] = triangle[i-1][j-1] + triangle[i-1][j]`
+- Pascal triangle is often taught as a 2D structure, but to solve it in `O(k)` space, you must treat it as a single array that updates itself in-place.
+
+> [!NOTE]
+> - **The "In-Place" Constraint:** If you update the array from left to right, you will overwrite the values you need for the next calculation.
+
+> [!WARNING]
+> If you build the whole triangle and just return the last row. That's `O(k^2)` space.
 
 ---
 
@@ -348,3 +348,16 @@ The shared Edge Rule: I will iterate through every cell (1):
 The marking strategy: How do I "mark" that a number has been seen without deleting the data already at that index?
 - Negation. if I see the number 4, I go to index 3 and make whatever value is there negative.
 - Any index that still has a positive number means its corresponding value (index + 1) was never "seen".
+
+---
+
+[merge sorted array](https://leetcode.com/problems/merge-sorted-array/?envType=problem-list-v2&envId=wrdcuh52)
+
+- in-place array Manipulation. the trick is to stop looking at the beginning of the arrays and start looking at the end
+
+- if you merge from the front (index 0) you will overwrite the elements that hasn't compared yet.
+- Since the largest elements are at the back of both sorted arrays, and the "empty space" (the zeros), you should merge from right to left.
+
+> [!NOTE]
+> This build Backwards Reasoning. In many "In-place" problems (like replacing spaces in a string or merging arrays) the "empty space" or "buffer" is at end. Working from the back allows you to use that buffer without destroying your input data, achieving `O(1)` space complexity.
+

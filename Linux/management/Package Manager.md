@@ -1,9 +1,13 @@
 ```bash
 apt-cache policy <package name>; # view the installation status and priority of a specific package across all configured repositories.
 ```
-- It is the best tool for debugging why a specific version of a program is (or isn't) being installed.
 
-```shell
+- It is the best tool for debugging why a specific version of a program is (or isn't) being installed.
+- **Installed:** The version currently on your system (or `(none)`).
+- **Candidate:** The version APT _wants_ to install next.
+- **Version Table:** A list of every version available in your `/etc/apt/sources.list`, sorted by their "Pin Priority."
+
+```bash
 sudo apt full-upgrade;
 
 sudo apt install software-properties-common;
