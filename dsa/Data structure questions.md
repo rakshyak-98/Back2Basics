@@ -361,3 +361,6 @@ The marking strategy: How do I "mark" that a number has been seen without deleti
 > [!NOTE]
 > This build Backwards Reasoning. In many "In-place" problems (like replacing spaces in a string or merging arrays) the "empty space" or "buffer" is at end. Working from the back allows you to use that buffer without destroying your input data, achieving `O(1)` space complexity.
 
+--- 
+
+[Range Addition 2](https://leetcode.com/problems/range-addition-ii/description/?envType=problem-list-v2&envId=wrdcuh52)
