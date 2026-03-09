@@ -117,3 +117,11 @@ dpkg --print-architectures; # see primary architecture your OS was installed wit
 
 [`distro-info-data`](https://github.com/deepin-community/distro-info-data)
 - the `distro-info` package provides centralised lists of code-names and release history for the supported distributions (Currently: Debian and Ubuntu)
+
+## advance package tool (apt)
+
+`apt show [package name]` this will show the package info `apt show [package name] -a` this will only show the package description.
+
+### difference between `apt remove` and `apt purge`
+
+apt remove just removes the binaries of a package. it leaves residue configuration files. apt purge removes everything related to a package including the configuration files.

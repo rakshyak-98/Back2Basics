@@ -5,7 +5,11 @@ SET @my_var = 42;
 SELECT @my_var;
 ```
 
+```sql
+SELECT * FROM users WHERE id = @user_id;
+```
 ## local variable (inside stored routines)
+
 ```mysql
 DECLARE my_var INT;
 SET my_var = 100;
