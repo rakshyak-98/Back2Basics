@@ -364,3 +364,11 @@ The marking strategy: How do I "mark" that a number has been seen without deleti
 --- 
 
 [Range Addition 2](https://leetcode.com/problems/range-addition-ii/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+---
+
+[image smoother](https://leetcode.com/problems/image-smoother/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- This is the sliding window on a 2D grid pattern, also called a **convolution kernel** in image processing.
+- which neighbors are valid -> bounds checking
+- what's the floored average -> sum / count
