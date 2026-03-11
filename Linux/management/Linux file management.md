@@ -200,3 +200,15 @@ lsof -p <pid>; # open files for a process.
 ```bash
 lsof -p 1234;
 ```
+
+
+## `/opt` directory short fro Optional
+
+- designed for add-on software packages.
+- `/op` is for software that wants to keep all its files in one single folder
+
+> [!INFO]
+> While most standard Linux software is split up and scattered across the system (executables in `/usr/bin`, libraries in `/usr/lib`)
+
+- The `/opt` directory was created to provide a sandboxed ares. Because the app is self-contained in one folder you can delete that single folder to completely remove the app without touching the rest of the operating system.
+- In the early days of Unix, installing new software was messy. If you uninstalled a program, you might accidenlty leave "orphan" files in `/usr/lib`

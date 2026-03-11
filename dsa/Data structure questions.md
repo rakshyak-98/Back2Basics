@@ -372,3 +372,37 @@ The marking strategy: How do I "mark" that a number has been seen without deleti
 - This is the sliding window on a 2D grid pattern, also called a **convolution kernel** in image processing.
 - which neighbors are valid -> bounds checking
 - what's the floored average -> sum / count
+
+---
+
+[Degree of an Array](https://leetcode.com/problems/degree-of-an-array/description/)
+
+- look for the span of the most frequent elements
+- the degree is just the maximum frequency of any number.
+
+> [!INFO]
+> If `1` appears 10 times but is spread across the whole array (index 0 to 1000), and `2` appears 10 times but is bunched together (index 5 to 20), the "bunched" one gives you the shortest subarray.
+
+> [!NOTE]
+> - To maintain the frequency of a number `x` in a contiguous subarray, that subarray must start at the first occurrence of `x` and end at the last occurrence of `x`.
+
+Beginners often loop once to find the degree, then again to find the numbers, then again to find indices.
+- The performance fix: You can track `first` `last` `count` simultaneously. With `N = 50,000` constant factor optimizations matter for cache locality.
+
+```text
+**Find the "Span" for the Degree-making number:**
+
+- Where is the **first** `2`? Index **1**.
+    
+- Where is the **last** `2`? Index **6**.
+    
+- The shortest subarray containing all three `2`s **must** start at index 1 and end at index 6.
+    
+- **Length:** 6−1+1=6.
+```
+
+Why to use three Maps
+- to calculate that Length. We need three specific facts about every number we encounter:
+	- Count -> How many times have I seen this? (To find the Degree).
+	- First -> Where did I first see this (This never changes once set).
+	- Last -> Where did I just see this (This updates every time we see the number)
