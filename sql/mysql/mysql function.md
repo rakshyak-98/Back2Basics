@@ -138,5 +138,7 @@ FROM bookings;
 ```sql
 CREATE FUNCTION mask_card(card_number VARCHAR(20)) RETURNS VARCHAR(20)
 DETERMINISTIC
-RETURN CONCAT('**** **** **** ', RIGHT(card_number, 4));
+BEGIN
+	RETURN CONCAT('**** **** **** ', RIGHT(card_number, 4));
+END
 ```

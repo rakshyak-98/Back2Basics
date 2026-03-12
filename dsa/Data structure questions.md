@@ -534,3 +534,33 @@ To plant a flower at index `i`, three conditions must be met:
 1. `flowerbed[i]` must be `0`.
 2. The spot to the **left** (`i-1`) must be `0` (or it's the start of the bed).
 3. The spot to the **right** (`i+1`) must be `0` (or it's the end of the bed).
+
+Logic if `i===0`, the left is effectively `0`. If `i===length - 1` the right is effectively `0`
+
+> [!NOTE]
+> ask if you can modify the input. If not, you either need to copy the array `O(n)` space or just use logic to keep track of where the virtual flowers are.
+
+**Inefficient Bounds Checking:** Writing `if (flowerbed[i-1] == 0 || i == 0)`.
+- **The Error:** In many languages, if `i == 0` is checked second, `flowerbed[i-1]` will throw an Out of Bounds error. In JS, it returns `undefined`. Always put the boundary check (`i === 0`) **first** so the logical OR short-circuits.
+
+--- 
+
+[Find Pivot in Index](https://leetcode.com/problems/find-pivot-index/)
+
+- you need to use the prefix sum to solve a balance equation.
+- you don't need a second loop to find the right sum. If you know the Total sum of the array, then at any point
+
+```text
+Right sum = Total sum - Left sum - current number;
+```
+
+The goal is to find the first index i where:
+
+```text
+Left Sum = (Total sum - Left sum - nums[i])
+```
+
+> [!NOTE]
+> Instead of calculating two separate things (Left and Right), you calculate the whole and subtract the know part.
+> - you only need the current prefix sum. Storing it in an array uses `O(n) space`, using a single variable `O(1)` space.
+> - The pivot index itself is never part of the left or right sum.

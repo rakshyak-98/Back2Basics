@@ -60,7 +60,7 @@ ORDER BY COUNT_STAR DESC;
 **Secondary Indexes**
 - Separate B+ tree structures that point back to the clustered index
 - Every secondary index stores the indexed columns + PK value
-- Covering index = when all needed columns are in the secondary index -> no extra lookup to clustered table (fastest)
+- **Covering index** = when all needed columns are in the secondary index -> no extra lookup to clustered table (fastest)
 
 - Forgetting composite indexes for multi-column WHERE/JOIN/ORDER BY
 	- Bad `WHERE city = "Bengaluru" AND status = "active" ORDER BY created_at DESC`
@@ -83,3 +83,9 @@ ORDER BY COUNT_STAR DESC;
 	- Every INSERT/UPDATE/DELETE must update **all** indexes → slows writes
 	- Rule: Aim for 3–6 indexes per table max in most cases
 	- Monitor with SHOW INDEX FROM table; and drop unused ones (use EXPLAIN + slow query log)
+
+## Covering Index
+
+- A covering index is an index that contains all columns required to execute a query so the database does not need to read the main table.
+
+The query result can be produced entirely from the index structure.
