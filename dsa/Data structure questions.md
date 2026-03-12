@@ -1,3 +1,122 @@
+[169 majority-element](https://leetcode.com/problems/majority-element/)
+- pair different elements and discard them.
+- only the majority element can remain at the end, because it's more frequent than all others combined.
+- Boyer-Moore Majority Vote Algorithm.
+
+---
+
+[3494 Find the Minimum Amount of Time to Brew Potions](https://leetcode.com/problems/find-the-minimum-amount-of-time-to-brew-potions)
+
+---
+
+[977 Squares of sorted array](https://leetcode.com/problems/squares-of-a-sorted-array/description/)
+- fill backward(end), two pointers start and end.
+- if array is not sorted two pointers approach breaks - because it assumes order around 0.
+
+---
+
+[118 Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/)
+
+---
+
+[2273 Find Resultant Array After Removing Anagrams](https://leetcode.com/problems/find-resultant-array-after-removing-anagrams)
+
+---
+
+[15 3Sum](https://leetcode.com/problems/3sum/)
+- Now it’s the **2-Sum** problem with target `-a`.  
+- Known trick: sort + two-pointer
+- Reduce to 2-sum -> `b + c = -a`
+- Outer loop fix `i`  
+- Inner while find pairs via 2-pointer
+
+---
+
+[Game of Life](https://leetcode.com/problems/game-of-life/description/)
+- the eight coordinate pairs represent all possible moves from a cell in a grid.
+	- they enumerate exactly 8 directions around a cell.
+
+---
+
+[Contiguous Array](https://leetcode.com/problems/contiguous-array/description/)
+- Given a binary array `nums`, return _the maximum length of a contiguous subarray with an equal number of_ `0` _and_ `1`.
+
+- What we need to know is. Same prefix sum at two indices = balanced subarray between them
+- Longest subarray with target sum -> prefix sum + hash map.
+
+---
+
+[Longest common prefix](https://leetcode.com/problems/longest-common-prefix/submissions/1894187919/?envType=problem-list-v2&envId=wrdcuh52)
+
+- The longest common prefix can never be longer then the shortest string in the array.
+- Think of the strings as columns in a table. We're checking if each "row" has all the identical values.
+
+---
+
+[Remove duplicate from sorted array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- Slow pointer (i) -> Tracks where to place the next unique element.
+- Fast pointer (j) -> Scans through the array looking for new unique element.
+- Compare with the last unique element we kept.
+
+---
+
+[Search Insert Position](https://leetcode.com/problems/search-insert-position/?envType=problem-list-v2&envId=wrdcuh52)
+
+- Binary search -> Sorted array + `O(logn)` complexity
+
+[Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- find if there are duplicate values in the array that are close enough to each other.
+- you need to check if any number appears twice in the array, and those two occurrence are at most `k` position apart.
+
+- Maintain a sliding window of the last `k` element using a Set
+- For Each element, check if it's already in the window (duplicate withing distance k)
+- Add the current element to the window
+- Remove the oldest element if the window exceeds size `k`
+
+---
+
+[Maximum product of three number](https://leetcode.com/problems/maximum-product-of-three-numbers/submissions/1923224246/?envType=problem-list-v2&envId=wrdcuh52)
+
+- the maximum product of three numbers doesn't have to be from consecutive elements.
+
+---
+
+[Find All Numbers Disappeared in an Array](https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/?envType=problem-list-v2&envId=wrdcuh52)
+
+> [!NOTE]
+> Mark all the position negative by the `nums` array element. After that what ever the position is positive that are the missing number.
+
+- `nums[i]` Gets the current number (could be positive or negative)
+- `Math.abs(nums[i])` -> Gets the absolute value (removes the negative sing if present). Without this when we encounter a number that's already been marked negative, we'd get the wrong index.
+
+```js
+// WITHOUT Math.abs() - WRONG!
+nums[2] = -2
+const index = -2 - 1;  // index = -3 ❌ (negative index!)
+
+// WITH Math.abs() - CORRECT!
+nums[2] = -2
+const index = Math.abs(-2) - 1;  // index = 1 ✓
+```
+
+
+**Why subtract 1:**
+
+The problem uses numbers from **1 to n**, but array indices are **0 to n-1**:
+
+```js
+// Number 1 should mark index 0
+Math.abs(1) - 1 = 0 ✓
+
+// Number 4 should mark index 3
+Math.abs(4) - 1 = 3 ✓
+
+// Number 8 should mark index 7
+Math.abs(8) - 1 = 7 ✓
+```
+
 [two sum](https://leetcode.com/problems/two-sum/?envType=problem-list-v2&envId=wrdcuh52)
 
 - the problem gives you equation: `x + y = target` you are looking for `x` and `y`. When you are standing at any number `x` in the array, you don't need to search for `y`. You already know exactly what `y` must be.
@@ -406,3 +525,12 @@ Why to use three Maps
 	- Count -> How many times have I seen this? (To find the Degree).
 	- First -> Where did I first see this (This never changes once set).
 	- Last -> Where did I just see this (This updates every time we see the number)
+
+---
+
+[Can Place Flowers](https://leetcode.com/problems/can-place-flowers/?envType=problem-list-v2&envId=wrdcuh52)
+
+To plant a flower at index `i`, three conditions must be met:
+1. `flowerbed[i]` must be `0`.
+2. The spot to the **left** (`i-1`) must be `0` (or it's the start of the bed).
+3. The spot to the **right** (`i+1`) must be `0` (or it's the end of the bed).
