@@ -564,3 +564,11 @@ Left Sum = (Total sum - Left sum - nums[i])
 > Instead of calculating two separate things (Left and Right), you calculate the whole and subtract the know part.
 > - you only need the current prefix sum. Storing it in an array uses `O(n) space`, using a single variable `O(1)` space.
 > - The pivot index itself is never part of the left or right sum.
+
+---
+
+[Majority Element](https://leetcode.com/problems/majority-element/?envType=problem-list-v2&envId=wrdcuh52&)
+
+- This is the **Boyer-Moore Voting Algorithm** problem. While most developers reach for a Hash Map (which takes `O(n)`) space
+
+- If you have a majority element, it appears more often than all other elements combined.
