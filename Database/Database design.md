@@ -80,8 +80,7 @@ Table ecommerce.products {
 	name varchar
 	merchant_id int [not null]
 	price int
-	status ecommerce.products_status
-	created_at datetime [default: `now()`]
+	status ecommerce.products_status created_at datetime [default: `now()`]
 	Indexes {
 		(merchant_id, status) [name:'product_status']
 		id [unique]

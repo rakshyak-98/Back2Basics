@@ -105,3 +105,11 @@ PID location: `~/.pm2/pm2.pid (PM2 daemon PID)` and per-app PID in `~/.pm2/pids/
 ```bash
 pm2 describe <id-or-name>; # shows user field directly
 ```
+
+## Log rotation
+
+```bash
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 10 
+pm2 set pm2-logrotate:compress true 
+```
