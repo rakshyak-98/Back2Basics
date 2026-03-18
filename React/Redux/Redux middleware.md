@@ -11,8 +11,10 @@
 ```jsx
 // 1) Action type string
 listenerMiddleware.startListening({ type: 'todos/todoAdded', effect })
+
 // 2) RTK action creator
 listenerMiddleware.startListening({ actionCreator: todoAdded, effect })
+
 // 3) RTK matcher function
 listenerMiddleware.startListening({
   matcher: isAnyOf(todoAdded, todoToggled),

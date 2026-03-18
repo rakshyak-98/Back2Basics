@@ -352,3 +352,4 @@ const { data, isLoading } = useGetUserQuery(userId);
 
 > [!INFO] Individual endpoints on [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) accept a [`transformResponse`](https://redux-toolkit.js.org/rtk-query/api/createApi) property which allows manipulation of the data returned by a query or mutation before it hits the cache.
 - `transformResponse` is called with the `meta` property returned from the `baseQuery` as its second argument, which can be used while determining the transformed response. The value for `meta` is dependent on the `baseQuery` used.
+

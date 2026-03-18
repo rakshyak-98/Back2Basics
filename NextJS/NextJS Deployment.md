@@ -1,3 +1,6 @@
+> [!NOTE]
+> No, NextJS cannot be deployed like a plan React (CRA) project with a static `index.html`
+
 ### Static HTML Export
 
 [static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
@@ -111,3 +114,17 @@ All of these are in `node_modules`
 
 Exceptions (Not Applicable to development)
 `next export` [read more](https://nextjs.org/docs/app/guides/static-exports)
+
+
+## Deployment NextJS with pm2 + Nginx
+
+- NextJS need server (Node.js) to run;
+
+> [!INFO]
+> However your NextJS project doesn't use any server-side features like `getServerSideProps`, API routes or middleware, you can export it sa static HTML.
+
+```js next.ocn
+const nextConfig = {
+	output: "exprot"
+}
+```

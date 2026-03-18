@@ -7,6 +7,16 @@ git config init.branch main; # main instead of master;
 git config --global --unset credential.helper; # clear Git Credential Cache
 ```
 
+## Credential manage
+
+Check current credential helper
+
+```bash
+git config --global credential.helper
+git config --system credential.helper
+git config --local credential.helper
+```
+
 ```bash
 git clean; # removes untracked files from working directory (not staged, committed, ignored)
 git reflog; # view git logs (not commit)

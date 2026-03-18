@@ -1,6 +1,8 @@
 ```bash
 gh auth login;
 gh api user; # account informations
+gh auth status;
+gh auth switch --hostname github.com --user <username>;
 ```
 
 ```bash
