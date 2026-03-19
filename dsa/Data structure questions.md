@@ -534,3 +534,10 @@ Left Sum = (Total sum - Left sum - nums[i])
 - This is the **Boyer-Moore Voting Algorithm** problem. While most developers reach for a Hash Map (which takes `O(n)`) space
 
 - If you have a majority element, it appears more often than all other elements combined.
+
+---
+
+[Min Cost Climbing Stairs](https://leetcode.com/problems/min-cost-climbing-stairs/?envType=problem-list-v2&envId=wrdcuh52)
+
+- At any step `i`, you could have arrived from either `i - 1` (one step) or `i - 2` (two steps).
+- You want the minimum of those two options, plus the cost of the step you are currently on.
