@@ -1,5 +1,5 @@
 ```shell
-ssh -F <config file> -G <Host>;
+ssh -F <config file> -G <Host>; # print final resolved configurations for that host
 ssh user@host; # connect to remote host using default key
 ssh -p 2222 user@host; # connect with specific port
 ssh-copy-id user@host; # copy public key to a remote server
@@ -9,6 +9,14 @@ ssh-copy-id user@host; # copy public key to a remote server
 nc -zv host 22; # check ssh port availability
 ssh -T user@host;
 ```
+
+### Debug wrong key/user/port
+
+```bash
+ssh -F <config file> -G <host>;
+```
+- verify which `IdentityFile` is used
+- check config inheritance (Host*, wildcard)
 
 ### List Current ssh connections
 

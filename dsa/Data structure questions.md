@@ -541,3 +541,10 @@ Left Sum = (Total sum - Left sum - nums[i])
 
 - At any step `i`, you could have arrived from either `i - 1` (one step) or `i - 2` (two steps).
 - You want the minimum of those two options, plus the cost of the step you are currently on.
+
+---
+
+[Largest number at least twice of others](https://leetcode.com/problems/largest-number-at-least-twice-of-others/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+- don't need to check every number against the winner, you only need to check the winner against the runner-up.
+- If the largest number is at least twice as big as the second-largest number, it is automatically at least twice as big as everything else.
