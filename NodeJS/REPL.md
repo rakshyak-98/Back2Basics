@@ -14,7 +14,7 @@ Read-Eval-Print-Loop.
 - allows to execute JavaScript code.
 - view the output immediately.
 
-if `require.mai` is `undefined` in your NodeJS REPL, you're likely in REPL mode started with `node` directly, and not from a script file, so `require.main` is not set.
+if `require.main` is `undefined` in your NodeJS REPL, you're likely in REPL mode started with `node` directly, and not from a script file, so `require.main` is not set.
 
 ```js
 const { pathToFileURL } = require('url');

@@ -33,3 +33,27 @@ git fetch origin refs/notes/*:refs/notes/*; # fetch remotes notes explicitly.
 git log origin/your-branch -1 --format=%H; # Get latest commit of remote branch.
 git log origin/your-branch --show-notes;
 ```
+
+### interactive patch mode
+
+```bash
+git add -p <file>;
+
+git add -p; ## Entire repo
+git reset -p; # Unstage hunks
+```
+
+```text
+Stage this hunk [y,n,q,a,d,s,e,?]?
+- `y` → stage this hunk
+- `n` → skip
+- `a` → stage this + all remaining
+- `d` → skip this + all remaining
+- `q` → quit
+
+### Hunk manipulation (important)
+
+- `s` → split hunk into smaller parts
+- `e` → manually edit patch (fine-grained control)
+
+```

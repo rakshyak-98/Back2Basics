@@ -1,3 +1,54 @@
+## Create middlewares
+```jsx
+```
+## With Extra Middleware (logger, thunk custom config)
+```js
+import {} from "@reduxjs/toolkit";
+import logger from "redux-logger";
+export const store = configureStore({
+	reducer: {
+		counter: counterRedcuer,
+	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: true,
+			immutableCheck: true,
+			thunk: {
+				extraArgument: { api: myApliClient },
+			}
+		}).concat(logger),
+		devTool: process.env.NODE_ENV !== 'production',
+})
+```
+## Add multiple mather
+```js
+import { isAnyOf } from '@reduxjs/toolkit';
+import { apiCall1, apiCall2, apiCall3 } from './api';
+const customMiddleware = (store) => (next) => (action) => {
+	// your logic
+	return next(action);
+};
+// inside middleware registration, use .addMatcher
+const myMiddleware = (builder) => {
+	builder
+		.addMatcher(
+			isAnyOf(apiCall1.pending, apiCall2.fulfilled, apiCall3.rejected),
+			(state, action) => {
+				// handle any of these actions
+			}
+		)
+		.addMatcher(
+			(action) => action.type.endsWith('/rejected'),
+			(state, action) => {
+				// generic error handler
+			}
+		);
+};
+```
+> [!INFO]
+> in redux toolkit you can add multiple matchers in a middleware using `isAnyOf` or by chaining `.addMatcher()` calls.
+
+
 [createListenerMiddleware](https://redux-toolkit.js.org/api/createListenerMiddleware)
 - it's intended to be a lightweight alternative to more widely used redux async middleware like sagas and observable.
 
