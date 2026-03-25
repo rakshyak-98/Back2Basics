@@ -59,6 +59,10 @@ const myMiddleware = (builder) => {
 
 > [!INFO] You must provide exactly _one_ of the four options for deciding when the listener will run: `type`, `actionCreator`, `matcher`, or `predicate`. Every time an action is dispatched, each listener will be checked to see if it should run based on the current action vs the comparison option provided.
 
+> [!INFO]
+> `actionCreator` -> accepts a single action creator and matches only that one specific action.
+> `matcher` -> accepts a function that receives and action and returns true or false. This give you full flexibility, you can match multiple actions, match by condition, or use RTK's built-in matcher utilities like `isAnyOf`
+
 ```jsx
 // 1) Action type string
 listenerMiddleware.startListening({ type: 'todos/todoAdded', effect })
