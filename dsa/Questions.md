@@ -548,3 +548,14 @@ Left Sum = (Total sum - Left sum - nums[i])
 
 - don't need to check every number against the winner, you only need to check the winner against the runner-up.
 - If the largest number is at least twice as big as the second-largest number, it is automatically at least twice as big as everything else.
+
+---
+
+[minimum operations to equalise array](https://leetcode.com/problems/minimum-operations-to-equalize-array/description/?envType=problem-list-v2&envId=wrdcuh52)
+
+
+---
+
+[find closest number to zero](https://leetcode.com/problems/find-closest-number-to-zero/?envType=problem-list-v2&envId=wrdcuh52)
+
+- distance from zero is defined by the absolute value `|x|`.
