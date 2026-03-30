@@ -34,3 +34,23 @@ for each position `i` in the patterns, `LPS[i]` stores the length of the longest
 ## Cancellation trick
 - When you need to find an element that dominates, you can cancel out minority elements until only the dominant remains.
 
+
+## **Floyd's Tortoise and Hare** algorithm.
+
+In a circular racing track. If two people start running at the same point, but one runs twice as fact as the other, the faster runner will eventually 'lap' the slower open. They will meet again at some point on the track.
+
+> [!INFO]
+> We use same logic to find loops (cycles) in data.
+
+We use two pointers to move through a sequence (like an array or a linked list):
+	- the tortoise : move 1 step at a time.
+	- the hare : move 2 steps at a time.
+
+Phase 1 : finding the collision
+If there is a loop, the Hare will eventually enter it and start running in circle. Since the Hare is faster, it will eventually catch up to the Tortoise from behind. The moment they land on the same spot, we know for a fact that a cycle exists.
+
+Phase 2 : Finding the entrance
+Once they collide, we need to find exactly where the loop starts (the entrance is the duplicate number).
+
+## Dutch National Flag algorithm
+since we only have three distinct values (0, 1, and 2) we can sort them in a single pass by partitioning the array into three sections.

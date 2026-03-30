@@ -7,7 +7,7 @@ yarn upgrade-interactive; # upgrade packages
 yarn info;
 yarn outdated;
 yarn why <package name>;
-yarn cache clean; # clear global cache to free up disk space
+	yarn cache clean; # clear global cache to free up disk space
 ```
 
 ```sh

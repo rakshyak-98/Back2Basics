@@ -8,6 +8,6 @@ Heartbeat -> members monitor each other
 
 ```js
 rs.initiate() // initialize replica set
-rs.add('host:port') // add secondary
+rs.add('<hostname>:<port>') // add secondary
 rs.status() // check replica set status
 ```
