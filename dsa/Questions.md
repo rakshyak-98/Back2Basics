@@ -559,3 +559,24 @@ Left Sum = (Total sum - Left sum - nums[i])
 [find closest number to zero](https://leetcode.com/problems/find-closest-number-to-zero/?envType=problem-list-v2&envId=wrdcuh52)
 
 - distance from zero is defined by the absolute value `|x|`.
+
+---
+
+[remove one element to make the array strictly increasing](https://leetcode.com/problems/remove-one-element-to-make-the-array-strictly-increasing/description/)
+
+- determine which element to remove, and whether that removal actually fixes the sequence
+
+- When you find a "violation" (where nums[i]≤nums[i−1]), you have two choices to fix it: remove the **current** element (nums[i]) or the **previous** element (nums[i−1]). In a sequence like `[1, 2, 10, 5, 7]`, which one should you remove, and how does your code decide?
+- Edge case -> Look at the edge case `[10, 20, 30, 5, 25]`. At index 3 (value 5), there is a dip. If you remove `5`, is the array strictly increasing? If you remove `30`, is it strictly increasing?
+- Your current `if` condition checks `i > 1` and looks at `nums[i-2]`. Why is it important to look **two steps back** rather than just one?
+
+### Implementation
+
+The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" remove one. If removing the current element is necessary because it's too small (smaller than the one two steps back), we simulate its removal by updating its value to match the previous one, so the _next_ iteration compares against a valid "last seen" height.
+
+### Common implementation errors
+
+- In-place mutation vulnerability -> mutating the `nums` array can be dangerous. If this function is part of a large utility library, an unsuspecting developer might pass an array they need later, only to find their data has been modified. **A safer approach would be to track the previous valid value in a variable** 
+
+> [!INFO]
+> To transition fro mutating the array to using a variable, you essentially need a *phantom* pointer that remembers the last number that was part of a strictly increasing sequence.

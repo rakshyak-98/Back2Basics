@@ -1,10 +1,10 @@
 Egress -> Traffic that leaves VPC and goes out to the internet.
 Ingress -> Traffic that comes in from the internet.
 
-|Direction|Name|Example in Your 3-Tier Lab|Who Usually Pays?|
-|---|---|---|---|
-|Internet → INTO VPC|Ingress|Someone in India opens your website → data enters AWS|Almost always free|
-|← OUT OF VPC|**Egress**|Your EC2 downloads updates, sends logs to CloudWatch, RDS backup to S3|This one can cost money!|
+| Direction           | Name       | Example in Your 3-Tier Lab                                             | Who Usually Pays?        |
+| ------------------- | ---------- | ---------------------------------------------------------------------- | ------------------------ |
+| Internet → INTO VPC | Ingress    | Someone in India opens your website → data enters AWS                  | Almost always free       |
+| ← OUT OF VPC        | **Egress** | Your EC2 downloads updates, sends logs to CloudWatch, RDS backup to S3 | This one can cost money! |
 
 > [!NOTE]
 > - Do everything in the same region (don’t copy files to Mumbai if you’re in N. Virginia)
