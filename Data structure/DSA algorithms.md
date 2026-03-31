@@ -54,3 +54,11 @@ Once they collide, we need to find exactly where the loop starts (the entrance i
 
 ## Dutch National Flag algorithm
 since we only have three distinct values (0, 1, and 2) we can sort them in a single pass by partitioning the array into three sections.
+
+- The **Dutch National Flag algorithm**, proposed by Edsger Dijkstra, is a three-way partitioning technique.
+- It efficiently sorts an array containing three distinct values (typically represented as red, white, and blue) into three ordered groups.
+- It completes the partitioning in **a single pass** through the array.
+- It operates in **linear time complexity (O(n))** with **constant extra space (O(1))**.
+
+> [!INFO]
+> The dutch national Flag algorithm works for any scenario where you need to partition data into three distinct category that have a logical order (small, medium, large).
