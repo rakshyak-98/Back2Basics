@@ -153,3 +153,65 @@ export default function ReserveTablePage() {
 ## `Collecting page data  ...TypeError: Super expression must either be null or a function, not undefined`
 
 - due to `use client` directive not mentioned in component.
+
+---
+
+```text
+> Build error occurred
+Error: Page "/blog-details/[id]" is missing "generateStaticParams()" so it cannot be used with "output: export" config.
+    at /home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/build/index.js:1297:59
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Span.traceAsyncFn (/home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/trace/trace.js:154:20)
+    at async Promise.all (index 8)
+    at async /home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/build/index.js:1175:17
+    at async Span.traceAsyncFn (/home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/trace/trace.js:154:20)
+    at async /home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/build/index.js:1098:124
+    at async Span.traceAsyncFn (/home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/trace/trace.js:154:20)
+    at async build (/home/mihir/GitHub/Templates/booking-engine/node_modules/next/dist/build/index.js:368:9)
+error Command failed with exit code 1.
+
+```
+
+- With `output: 'export'`, NextJS generates a fully static site at build time, there's no server to handle requests dynamically.
+	- For dynamic routes like `/blog-details/[id]`, NextJS has no way to know which values `[id]` can take, so it doesn't know which HTML files to generate.
+
+`generateStaticParams()` to your `/blog-details[id]/page.tsx`
+
+### The fix
+
+Add `generateStaticParams()` to your `/blog-details/[id]/page.tsx`
+if your data comes from an API:
+
+```js
+// app/blog-details/[id]/page.tsx
+
+export async function generateStaticParams() {
+  const res = await fetch('https://your-api.com/blogs');
+  const blogs = await res.json();
+
+  return blogs.map((blog: { id: string }) => ({
+    id: blog.id,
+  }));
+}
+
+export default function BlogDetailsPage({ params }: { params: { id: string } }) {
+  // your component
+}
+```
+
+> [!INFO]
+> At build time, NextJS calls `generateStaticParams()`, gets back the list of `id` values, and generate a static HTML file for each.
+
+```text
+out/
+  blog-details/
+    1/
+      index.html
+    2/
+      index.html
+    3/
+      index.html
+```
+
+> [!NOTE]
+> This means any `id` not returned from `generateStatic` will result in a 404.

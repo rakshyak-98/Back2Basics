@@ -227,3 +227,13 @@ location /admin {
 	allow all; # Overrides deny for others 
 }
 ```
+
+## Nginx App router
+
+```js
+const nextConfig = {
+	basePath = "/booking"
+}
+
+export default nextConfig;
+```

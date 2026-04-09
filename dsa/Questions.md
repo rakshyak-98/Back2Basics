@@ -559,6 +559,7 @@ Left Sum = (Total sum - Left sum - nums[i])
 [find closest number to zero](https://leetcode.com/problems/find-closest-number-to-zero/?envType=problem-list-v2&envId=wrdcuh52)
 
 - distance from zero is defined by the absolute value `|x|`.
+- Correctly identify that absolute value (|x|) is the bridge between a position and distance. Find the proximity and then reintroduced the sign for the comparison.
 
 ---
 
