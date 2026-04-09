@@ -581,3 +581,42 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 
 > [!INFO]
 > To transition fro mutating the array to using a variable, you essentially need a *phantom* pointer that remembers the last number that was part of a strictly increasing sequence.
+
+---
+
+[Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/)
+
+- Usually, we map `Number -> Frequency`. What if we created an array where the index represents the `Frequency` and the value is a list of `Numbers` that hit that frequency? This is called Bucket Sort.
+
+> [!INFO]
+> This approach achieves `O(n)` time complexity because we only iterate through the input array and the bucket array once.
+
+
+```js
+var topKFrequent = function(nums, k) {
+    const countMap = new Map();
+    // Create buckets where the index represents frequency
+    // The max frequency possible is nums.length
+    const buckets = Array.from({ length: nums.length + 1 }, () => []);
+
+    // 1. Count frequencies
+    for (const num of nums) {
+        countMap.set(num, (countMap.get(num) || 0) + 1);
+    }
+
+    // 2. Map numbers into frequency buckets
+    for (const [num, freq] of countMap) {
+        buckets[freq].push(num);
+    }
+
+    const result = [];
+    // 3. Collect from the highest frequency downwards
+    for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {
+        if (buckets[i].length > 0) {
+            result.push(...buckets[i]);
+        }
+    }
+
+    return result.slice(0, k);
+};
+```
