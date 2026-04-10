@@ -215,3 +215,37 @@ out/
 
 > [!NOTE]
 > This means any `id` not returned from `generateStatic` will result in a 404.
+
+--- 
+
+## No refresh page show 404 Not found error
+
+- after hosting next build static files with nginx, when navigate to pages and refresh page. The page show 404 not found message.
+
+Why it happens
+- When you navigate to `/about` in NextJS app the client side router handles it without a real HTTP request. But when you refresh, the browser makes an actual HTTP request to `/about` and Nginx looks for a file literally named `about`, finds nothing and return 404.
+
+The Fix `try_files` in Nginx
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    root /var/www/your-app;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+}
+```
+
+What `try_files $uri $uri.html /index.html` does
+- `$uri` -> Exact file match. e.g., `/about` as a file
+- `$uri/` -> Directory with index e.g., `/about/index.html`
+- `$uri.html` -> Append `.html` e.g., `/about.html`
+- `/index.html` -> Final fallback for SPA routing
+
+> [!NOTE]
+> Since `next build` generates `/about.html` or `/about/index.html` if `trailingSlash: true`, the `$uri.html` step catches it.
