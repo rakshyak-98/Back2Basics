@@ -598,3 +598,25 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 > [!WARNING]
 > Mapping frequency with index
 > - memory exhaustion, in environments with strict memory limits, creating a large sparse array based on input size can be risky.
+
+---
+
+[Valid anagram](https://leetcode.com/problems/valid-anagram/description/)
+- you can apply frequency count logic to raise a count and decrease the count with other string and if the counts is 0 that means same number of frequency character are present in both the string.
+
+---
+
+[Group anagram](https://leetcode.com/problems/group-anagrams/)
+- normalize each string so that all anagrams produce the exact same key.
+
+- If you have "eat" and "tea", what operation could you perform ob both string to make them identical?
+	- we can do better then sorting both the word by using a frequency array to reach `O(n . k)`
+	- since the constraints limit us to lowercase English letters, a fixed-size array of 26 is the most efficient way to generate a "fingerprint" for each string.
+
+> [!INFO]
+> We take the word "eat" and "tea". We count the letters in each. Both result in: `{a: 1, e: 1, t: 1}`. No matter what the sequence of character is the index of count will be the same that can be used as a key to group the similar anagram words.
+
+---
+
+[Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/)
+- Look up neighbors in constant time.

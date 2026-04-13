@@ -39,4 +39,4 @@ Heap out of memory refers to condition in which a program attempts to allocate m
 	- When these limits are reached, the program typically raises an error such as `OutOfMemoryError` or `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed`
 
 > [!INFO]
-> These actions are feasible because many applications trust external input to be well-behaved and do not enforce safeguards such as maximum allocation sizes, timeouts, or memory quotas per operation.kjj
+> These actions are feasible because many applications trust external input to be well-behaved and do not enforce safeguards such as maximum allocation sizes, timeouts, or memory quotas per operation.kjjkkjjjj
