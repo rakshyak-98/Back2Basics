@@ -26,3 +26,17 @@ A heap is a tree-based structure that lets you always get the min and max elemen
 |     Text / Code     | (binary instructions)
 +---------------------+
 ```
+
+## Heap out or memory
+
+ >[!INFO]
+ >It is a pure resource-exhaustion attack aimed at availability rather than confidentiality or integrity.
+
+Heap out of memory refers to condition in which a program attempts to allocate more memory in the heap region than is available or permitted by the operating system or runtime environment resulting in an allocation failure.
+
+- The heap is the portion of a process's virtual memory used for dynamic allocations (via functions such as `malloc` in c/c++).
+- Unlike the stack, which is automatically managed and limited in size, the heap grows as needed until it encounters system-imposed limits (for example, process address space constraints, ulimit settings, or the Java Virtual Machine's configured heap size).
+	- When these limits are reached, the program typically raises an error such as `OutOfMemoryError` or `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed`
+
+> [!INFO]
+> These actions are feasible because many applications trust external input to be well-behaved and do not enforce safeguards such as maximum allocation sizes, timeouts, or memory quotas per operation.kjj

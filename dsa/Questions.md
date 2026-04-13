@@ -588,5 +588,13 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 
 - Usually, we map `Number -> Frequency`. What if we created an array where the index represents the `Frequency` and the value is a list of `Numbers` that hit that frequency? This is called Bucket Sort.
 
+> [!NOTE]
+> If two numbers have the same frequency, they simply share the same "bucket". 
+> - think of each index in your bucket array as a container (like a nested array). if both the number appear exactly same times, they both get pushed into the bucket at same index.
+
 > [!INFO]
 > This approach achieves `O(n)` time complexity because we only iterate through the input array and the bucket array once.
+
+> [!WARNING]
+> Mapping frequency with index
+> - memory exhaustion, in environments with strict memory limits, creating a large sparse array based on input size can be risky.
