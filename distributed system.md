@@ -37,4 +37,31 @@ For strong consistency (not just availability), you need all nodes to _agree_ on
 - The leader replicates the write to followers before acknowledging success
 - If the leader dies, followers elect a new one — and no committed data is lost
 
-Used by: etcd, CockroachDB, TiKV, Consul.
+Used by: `etcd`, `CockroachDB`, `TiKV`, `Consul`.
+
+#### Write-Ahead Log (WAL)
+
+Before data is written to the actual storage, it's first appended to a log on disk. If a node crashes mid-write, on recovery it replays the log to restore state.
+
+This guarantees **no partial writes** are silently lost.
+
+#### Persistent, Durable Storage
+
+RAM is volatile -> if a node dies, RAM is gone. So any data that must survive node failure needs to be on disk (or SSD), ideally with `fsync` to ensure the OS actually flushes it to hardware.
+
+### What happens when Nodes Die One by One?
+
+With proper replication (say N=3, W=2)
+- 1 node dies -> system keeps working, data intact (2 replicas remain).
+- 2 nodes die -> system may become unavailable (can't reach quorum), but data is not lost, the surviving node still has it.
+- All 3 die simultaneously -> data loss is possible if some writes hadn't fully replicated yet.
+
+> [!NOTE]
+> So the guarantee is -> you can lose up to N-W nodes without losing data, Beyond that, you're trading availability.
+
+### CAP Theorem Reminder
+
+In distributed systems, when nodes fail (partition), you must choose:
+- CP (Consistency + Partition tolerance) -> System may go unavailable but data is never lost or stale, Raft-based systems do this.
+- AP (Availability + Partition tolerance) -> System stays up but might return stale data.
+
