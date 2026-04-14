@@ -1,3 +1,9 @@
+# JavaScript
+
+```js
+Object.getPrototypeOf(value).constructor.name; // Get type of any value
+```
+
 # SQL
 What is functional dependency means ?
 - value can be determined by the value of another attribute.
