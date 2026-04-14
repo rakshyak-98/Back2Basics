@@ -14,5 +14,24 @@ LLM -> have a cut off date.
 
 - asking the AI to think step-by-step or Few-Shot Prompting
 
-> [!INFO]
-> Attention is All You Need research paper introduced the transformer architecture with an attention mechanism. This allowed models to pay attention to thousands of words at a time instead of just 5-10 words like phone autocomplete. The architecture also enabled models to learn which tokens mattered most for predictions. Additionally, the paper revealed scaling laws showing that when model size increased by 10x, capability increased by 100x, leading to models that can now handle over a million tokens.
+
+## Temperature, Top P, Tokens, and Context window
+
+Temperature -> our way of changing a model's creativity or randomness
+- controls how predictable the AI output will be. This is range from 0 to 2. At temperature 0, the LLM will always pick the most likely next word (remember, they are pattern predictors, so their responses are just picking words based on computer science and statistics). 
+
+When we raise the temperature, the AI might pick the 2nd most likely word, or the 100th most likely word. This can make our outputs much more creative, but can also add too much randomness and make them incoherent.
+
+> [!NOTE]
+> If you are writing an application focused on creativity, you might bump the temperature up to 1.4 (remember 2 is completely random and incoherent). But if you are running a medical AI application, you might dial it way down to .5. So keep this in mind when working with these APIs.
+
+## Top P
+
+**Top P**: Top P _sounds similar_ to temperature, but it does something a bit different.
+
+In every word prediction, the percentage of words that can be predicted add up to 100%. So if I ask the color of the sky, "blue" might be 80% most likely, "gray" 15% most likely, and "orange" 5% most likely. We can see that these three options add up to 100%.
+
+- If we are running a business and want to only consider the top 90% of options, we can change our top p to .9, and it will only consider the first 90% of token/word options. What does that mean for our sky example? That "orange" would no longer be considered, because its not in the top 90% most likely next words.
+
+> **Context Windows**: how many tokens an LLM can "remember" at a time.
+

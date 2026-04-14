@@ -1,3 +1,10 @@
+[jwt alg algorithms](https://datatracker.ietf.org/doc/html/rfc7518#section-3.1)
+
+| **Part**         | **Name** | **Purpose**                                                                                                                                      |
+| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **1. Header**    | `xxxxx`  | Contains metadata. Usually defines the type (`JWT`) and the hashing algorithm used (like `HS256`).                                               |
+| **2. Payload**   | `yyyyy`  | Contains the "claims" or data you passed in (e.g., `userId`). This is where the session info lives.                                              |
+| **3. Signature** | `zzzzz`  | The security guard. It is a hash of the (Header + Payload + Secret). If anything in the first two parts changes, this signature becomes invalid. |
 - Signed token can verify the integrity of the claims contained withing it, while encrypted tokens hide those claims.
 - JWT rely on a single key. If that key is compromised, the entire system is at risk.
 - You con't push message to all clients, and you can't manage clients from the server side.
@@ -17,3 +24,15 @@ Each JWT is typically associated with a specific user or session, meaning that m
 - user `access_token` to call `GET /` API.
 - On expiry, `POST /refresh` -> gets new tokens.
 - Try reusing old refresh token -> get `403 Forbidden`.
+
+
+### JWT options
+
+```js
+jwt.sign(payload, secret, { expiresIn: '10m' })   // 10 minutes
+jwt.sign(payload, secret, { expiresIn: '1d' })    // 1 day
+jwt.sign(payload, secret, { expiresIn: 3600 })    // seconds
+```
+
+- exp = iat + duration
+
