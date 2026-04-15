@@ -1,3 +1,24 @@
+## Check docker file is valid
+
+```bash
+docker build --check .
+docker build -t test-image .
+```
+
+```bash
+docker buildx build --check . # Dry/run syntax parse without building
+```
+
+- Syntax errors (invalid instructions)
+- invalid base image
+- Broken RUN commands
+- Missing files (COPY/ADD)
+- Layer execution correctness
+
+```bash
+docker urn --rm -i hadoling/hadolint < Dockerfile
+```
+
 ```shell
 docker inspect --format '{{json .NetworkSettings.IPAddress}}' <container_id>
 docker ps --filter "ancestor=bitname/kafka"
@@ -14,6 +35,25 @@ sudo apt install docker-compose-plugin; # install docker compose command as plug
 docker ps -q; # show only container id 
 docker commit <container_id> <new container name>
 docker run -d --name <new_container_name> --volumes-from <old_container_name> <new_image_name>
+```
+
+## Docker build image 
+
+```bash
+docker build -t myapp:latest . # . is build context (current directory, where the Dockerfile is)
+```
+
+```bash
+docker build -t myapp:latest .
+docker build -f path/to/Dockerfile -t myapp:latest .
+docker build -t myapp:1.0.0 .
+docker build --no-cache -t myapp:latest .
+docker build --build-arg NODE_ENV=production -t myapp:latest .
+docker build --target builder -t myapp:latest .
+```
+
+```bash
+docker run -p 3000:3000 myapp:latest
 ```
 
 ## Network

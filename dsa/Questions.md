@@ -627,3 +627,4 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 - Since we have 9 rows, 9 columns, and 9 sub-boxes, we need to track seen digits for each.
 - Sub-box identification -> If your are at a specific cell (r, c) how can you mathematically determine which of the nine `3 x 3` sub-boxes it belong to?
 - **Iteration Efficiency:** We could iterate over the board three times (once for rows, once for columns, once for boxes), but is it possible to validate all three constraints in a **single pass** of the 9×9 grid?
+

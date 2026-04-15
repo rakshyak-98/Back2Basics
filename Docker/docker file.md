@@ -24,12 +24,12 @@ Docker supports multiple drivers (you usually don't change this unless needed)
 docker info --format '{{.Driveri}'
 ```
 
-|Storage Driver|Filesystem|Most Common Use Case|
-|---|---|---|
-|overlay2|overlayfs|Default on modern Linux (recommended)|
-|aufs|AUFS|Older Ubuntu/Debian|
-|btrfs, zfs|Native|When you use those filesystems|
-|fuse-overlayfs|For rootless|Rootless Docker/Podman|
+| Storage Driver | Filesystem   | Most Common Use Case                  |
+| -------------- | ------------ | ------------------------------------- |
+| overlay2       | overlayfs    | Default on modern Linux (recommended) |
+| aufs           | AUFS         | Older Ubuntu/Debian                   |
+| btrfs, zfs     | Native       | When you use those filesystems        |
+| fuse-overlayfs | For rootless | Rootless Docker/Podman                |
 
 - docker file must begin with `FROM` (specifies the parent image). The `FROM` instruction initializes a new build stage and sets the Base image for subsequent instructions. Each `FROM` instruction clears any state created by previous instructions.
 - Optionally a name can be given to a build stage by adding `AS name` to the `FROM` instructions.
