@@ -628,3 +628,12 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 - Sub-box identification -> If your are at a specific cell (r, c) how can you mathematically determine which of the nine `3 x 3` sub-boxes it belong to?
 - **Iteration Efficiency:** We could iterate over the board three times (once for rows, once for columns, once for boxes), but is it possible to validate all three constraints in a **single pass** of the 9×9 grid?
 
+---
+
+[Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap/description/?envType=problem-list-v2&envId=wrdcuh52)
+- This is a "balance" problem. The logic "strips down" to finding two variables that satisfy a linear equation.
+
+---
+
+[Surface Area of 3D Shapes](https://leetcode.com/problems/surface-area-of-3d-shapes/?envType=problem-list-v2&envId=wrdcuh52)
+- Need to think about how surface area is created, and more importantly, how it is lost, when cubes are stacked or placed next to each other.
