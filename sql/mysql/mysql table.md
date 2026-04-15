@@ -136,7 +136,7 @@ set
     '$', 
     JSON_OBJECT(
       'image', 
-      JSON_OBJECT(
+      JSON_OBJECT[]()(
         'alt', 'KSUP room', 'url', 'https://quickimagetools.com/uploads/image_6855171736d464.12303213.png', 
         'width', 500, 'height', 400
       ), 
