@@ -1,3 +1,7 @@
+- Session → multiple windows
+- Window → full screen workspace
+- Pane → splits inside window
+
 ```bash
 tmux ls; // list session
 tmux attach -t <name>; // attach previous session
@@ -6,7 +10,6 @@ tmux attach -t <name>; // attach previous session
 ## Window
 
 ```text
-C-b d // detach the current session
 C-b c // new window
 C-b n // next window
 C-b p // previous window
@@ -26,6 +29,7 @@ C-b z // zoom/unzoom pane
 ## Session
 
 ```text
+C-b d // detach the current session
 ctrl + b :
 rename-session my_session;
 ```
