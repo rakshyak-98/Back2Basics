@@ -1,0 +1,1 @@
+- Reducers must be pure functions. If a reducer depended on an API response, the same action could result in different states depending on network speed or server errors. This would break the "Time Travel Debugging" and make your state unpredictable.
