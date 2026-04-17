@@ -637,3 +637,9 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 
 [Surface Area of 3D Shapes](https://leetcode.com/problems/surface-area-of-3d-shapes/?envType=problem-list-v2&envId=wrdcuh52)
 - Need to think about how surface area is created, and more importantly, how it is lost, when cubes are stacked or placed next to each other.
+
+---
+
+[X of a Kind in a Deck of Cards](https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards/?envType=problem-list-v2&envId=wrdcuh52)
+- This is a [[Frequency Counting]] and [[Greatest Common Divisor (GCD)]] problem.
+- Commonality Requirement It's not enough for each group to have some size `x > 1` every single group in the entire partition must have the same size. Therefore, x must be a common divisor of all card counts.
