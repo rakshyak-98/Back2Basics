@@ -1,1 +1,3 @@
 - Required non-negative or monotonic contribution.
+- we can remove some elements from window until it becomes valid again.
+- to remove element we can increment `left` which shrinks our window.

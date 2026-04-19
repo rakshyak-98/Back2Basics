@@ -1,4 +1,8 @@
 ```bash
+# enable vim in terminal
+```
+
+```bash
 set clipboard=unnamedplus
 set expandtab
 set shiftwidth=4 # indentation commands >>, << shift by 4 spaces.

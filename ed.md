@@ -26,11 +26,11 @@
 | `d`     | Delete current line |
 | `N,Md`  | Delete lines N to M |
 
-| Command             | Description                           |
-| ------------------- | ------------------------------------- |
-| `s/old/new/`        | Replace first match in current line   |
-| `s/old/new/g`       | Replace all matches in current line   |
-| `N,Ms/old/new/g`    | Replace in range N to M               |
+| Command          | Description                         |
+| ---------------- | ----------------------------------- |
+| `s/old/new/`     | Replace first match in current line |
+| `s/old/new/g`    | Replace all matches in current line |
+| `N,Ms/old/new/g` | Replace in range N to M             |
 
 | Command    | Description        |
 | ---------- | ------------------ |
