@@ -9,6 +9,10 @@
 timedatectl list-timezones;
 ```
 
+```bash
+cd -; # previous directory toggle.
+```
+
 ```
 # shortcut key
 ctrl + r - reverse history
