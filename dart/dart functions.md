@@ -1,0 +1,1 @@
+In Dart, you can define functions inside other functions or constructors.
