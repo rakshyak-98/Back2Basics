@@ -16,6 +16,7 @@ Dispatching -> triggers state updates in Redux.
 > - RTK Provides `createSlice` and RTK Query, which automatically generate actions for you.
 > - RTK automatically generates actions for reducers.
 ### Dispatching
+
 Dispatching in Redux means sending an action to the redux store to update the state.
 - you dispatch an action -> the reducer process it -> the store update the state.
 
@@ -78,5 +79,17 @@ In redux, the state should be serializable, meaning it can be converted into a f
 - rehydrates -> Restores state from storage when the app reloads.
 
 ### setup listeners
+
 A utility used to enable `refetchOnFocus` and `refetchOnReconnect` behaviors. It requires the `dispatch` method from your store.
 - calling `setupListeners(store.dispatch)` will configure listeners with the recommended defaults, but you have the option of providing a callback for more granular control.
+
+## Asynchronous Data Flow pattern
+
+- The problem -> redux is a closed loop of synchronous update.
+- The solution -> Move the impure logic (the API Call) outside of the Redux loop. We trigger the async task, wait for the result, and then dispatch new synchronous actions to update the state based on the outcome (Pending, Success or Failure).
+
+> [!INFO]
+> If multiple components need the same data, you end up duplicating the `fetch` logic in every `useEffect`. This is exactly why middleware like `redux-thunk` was invented, to move that logic out of the UI.
+
+> [!NOTE]
+> Placing complex data transformation logic inside the `useEffect` instead of keeping it in a selector or the reducer. This makes the UI code brittle.

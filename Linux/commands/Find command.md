@@ -4,11 +4,11 @@
 find . -type -f -exec chmod 644 {} +
 ```
 
-|Part|Meaning|
-|---|---|
-|`{}`|Placeholder for each file/path that `find` discovers|
-|`+`|“Append as many filenames as possible to this one command” (like xargs)|
-|`\;`|Old way: “Run the command once per file” (slow — avoid it)|
+| Part | Meaning                                                                 |
+| ---- | ----------------------------------------------------------------------- |
+| `{}` | Placeholder for each file/path that `find` discovers                    |
+| `+`  | “Append as many filenames as possible to this one command” (like xargs) |
+| `\;` | Old way: “Run the command once per file” (slow — avoid it)              |
 
 ```sh
 find . -name "*.log" -delete;
