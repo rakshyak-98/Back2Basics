@@ -643,3 +643,11 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 [X of a Kind in a Deck of Cards](https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards/?envType=problem-list-v2&envId=wrdcuh52)
 - This is a [[Frequency Counting]] and [[Greatest Common Divisor (GCD)]] problem.
 - Commonality Requirement It's not enough for each group to have some size `x > 1` every single group in the entire partition must have the same size. Therefore, x must be a common divisor of all card counts.
+
+---
+
+[Sign of the product of an array](https://leetcode.com/problems/sign-of-the-product-of-an-array/?envType=problem-list-v2&envId=wrdcuh52)
+
+We don't actually need to calculate the product of the entire array. Since multiplying large number can lead to integer overflow.
+- If any number is the array is 0, the entire product will be 0.
+- If there are no zeros, the sign of the product depends entirely on the count of negative numbers

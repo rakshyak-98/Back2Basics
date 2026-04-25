@@ -62,3 +62,4 @@ since we only have three distinct values (0, 1, and 2) we can sort them in a sin
 
 > [!INFO]
 > The dutch national Flag algorithm works for any scenario where you need to partition data into three distinct category that have a logical order (small, medium, large).
+
