@@ -116,3 +116,15 @@ const pool = mysql.createPool({
 });
 ```
 
+
+---
+
+```text
+W: Failed to fetch http://repo.mysql.com/apt/ubuntu/dists/jammy/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY B7B3B788A8D3785C
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+```
+- add the missing GPG key
+
+```bash
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
+```

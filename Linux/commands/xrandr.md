@@ -5,3 +5,7 @@
 
 > [!INFO] when you run `xrandr` commands, it interact with the underlying X server, which act as a backend to render the graphics and manage displays.
 
+
+```bash
+xrandr --output HDMI-1 --auto --right-of eDP-1;
+```
