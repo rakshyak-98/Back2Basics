@@ -651,3 +651,13 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 We don't actually need to calculate the product of the entire array. Since multiplying large number can lead to integer overflow.
 - If any number is the array is 0, the entire product will be 0.
 - If there are no zeros, the sign of the product depends entirely on the count of negative numbers
+
+---
+
+[Longest Subsequence With Limited Sum](https://leetcode.com/problems/longest-subsequence-with-limited-sum/description/?envType=weekly-question&envId=2026-04-22)
+
+- this problem lies in the definition of a subsequence. Because we only care about the size of the subsequence and its total sum, the original order of the element doesn't actually matter.
+- Picking any subset of elements will always form a valid subsequence if we just pick them in their original relative order.
+
+> [!INFO]
+> To maximize the number of elements we can pick without exceeding the target sum `queries[i]`, we should greedily pick the smallest numbers available.
