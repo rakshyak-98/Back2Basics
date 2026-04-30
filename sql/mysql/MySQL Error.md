@@ -128,3 +128,42 @@ W: Some index files failed to download. They have been ignored, or old ones used
 ```bash
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
 ```
+
+## After MySQL installation service is failing
+
+```text
+Warning: Unable to start the server.
+Job for mysql.service failed because the control process exited with error code.
+See "systemctl status mysql.service" and "journalctl -xeu mysql.service" for details.
+invoke-rc.d: initscript mysql, action "start" failed.
+● mysql.service - MySQL Community Server
+     Loaded: loaded (/usr/lib/systemd/system/mysql.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Thu 2026-04-30 10:34:48 IST; 28ms ago
+    Process: 14515 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCESS)
+    Process: 14523 ExecStart=/usr/sbin/mysqld (code=exited, status=1/FAILURE)
+   Main PID: 14523 (code=exited, status=1/FAILURE)
+     Status: "Server shutdown complete"
+      Error: 22 (Invalid argument)
+        CPU: 1.044s
+dpkg: error processing package mysql-server-8.0 (--configure):
+ installed mysql-server-8.0 package post-installation script subprocess returned error exit status 1
+dpkg: dependency problems prevent configuration of mysql-server:
+ mysql-server depends on mysql-server-8.0; however:
+  Package mysql-server-8.0 is not configured yet.
+
+dpkg: error processing package mysql-server (--configure):
+ dependency problems - leaving unconfigured
+No apport report written because the error message indicates its a followup error from a previous failure.
+                                                                                                          Errors w
+ere encountered while processing:
+ mysql-server-8.0
+ mysql-server
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+```
+
+- This error indicates that the MySQL post-installation script failed because the database service couldn't start during configuration. Specially `mysqld` exited with `status=1/FAILURE` and `Error: 22 (Invalid argument)`.
+
+> [!INFO]
+> The most common reasons for this specific failure is MySQL 8.0 are permission issues, corrupt log files, or conflicting configuration settings in `my.cnf`.
+
