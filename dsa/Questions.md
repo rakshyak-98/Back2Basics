@@ -651,3 +651,21 @@ The trick is to realise that when `nums[i]≤nums[i−1]` we must "virtually" re
 We don't actually need to calculate the product of the entire array. Since multiplying large number can lead to integer overflow.
 - If any number is the array is 0, the entire product will be 0.
 - If there are no zeros, the sign of the product depends entirely on the count of negative numbers
+
+---
+
+[Smallest index with equal value](https://leetcode.com/problems/smallest-index-with-equal-value/description/?envType=problem-list-v2&envId=wrdcuh52)
+The mod 10 operation isolates the last digit of the index
+- index 0 -> 0 mod 10 = 0
+- index 7 -> 7 mod 10 = 7
+- index 12 -> 12 mod 10 = 2
+- index 25 -> 25 mod 10 = 5
+
+This means indices 0-9 map to themselves (0-9), but index 10 wraps back to 0, index 11 to 1, etc.
+
+```textt
+Loop through each index i:
+	Math found ? Return i immediately (smallest by definition)
+	no match? Continue
+After loop: Return -1 (no match exists)
+```
