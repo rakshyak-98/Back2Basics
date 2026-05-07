@@ -14,4 +14,6 @@ git diff --name-only --cached;
 ```bash
 git log <commit 1>..<commin 2>; # dot is mendaroty
 git log -p <commit 1>..<commit 2>;
+
+git log -m --name-only -1 <merge commit>; # treat merge commit as normal commit 
 ```

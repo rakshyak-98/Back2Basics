@@ -661,3 +661,8 @@ We don't actually need to calculate the product of the entire array. Since multi
 
 > [!INFO]
 > To maximize the number of elements we can pick without exceeding the target sum `queries[i]`, we should greedily pick the smallest numbers available.
+
+---
+
+[Summary range](https://leetcode.com/problems/summary-ranges/description/?envType=problem-list-v2&envId=wrdcuh52)
+- 
