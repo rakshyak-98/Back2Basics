@@ -41,3 +41,9 @@ adb devices;
 ```text
 Expected result: 0123456789ABCDEF    device
 ```
+
+> [!NOTE]
+> `10.0.2.2` -> special alias created by Android Emulator to access host machine localhost.
+> - Android emulator runs inside virtual network
+> - Android emulator provides mapping `10.0.2.2` -> host machine localhost
+> - IOS simulator can directly use `localhost`
