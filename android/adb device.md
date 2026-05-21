@@ -47,3 +47,16 @@ Expected result: 0123456789ABCDEF    device
 > - Android emulator runs inside virtual network
 > - Android emulator provides mapping `10.0.2.2` -> host machine localhost
 > - IOS simulator can directly use `localhost`
+
+
+## Running application with private network IP
+1. Use the private network IP, not localhost
+	1. replace `localhost` or `127.0.0.1` with your backend private network `192.168.x.x` or `10.x.x.x`
+
+2. Device/Emulator must be on same network
+	1. physical device -> Connected to the same wifi as your backend machine.
+	2. Android emulator -> Configured to bridge to your host network (or use `10.0.2.2`) as host gateway.
+	3. IOS simulator -> Can typically access host machines' private IPs directly via `localhost` or by using your machine private IP.
+
+> [!NOTE]
+> - Backend binding -> backend must listen on `0.0.0.0` (all interface), not just `127.0.0.1`

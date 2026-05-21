@@ -237,3 +237,35 @@ const nextConfig = {
 
 export default nextConfig;
 ```
+
+## Nginx process architecture
+
+PID <process id> (root) = Master process
+- Owns the socket files descriptions (FD 6 & 7)
+- Manages worker processes
+- Runs with root privileges (needed to bind to port 80)
+
+PID (nginx user) = Worker processes
+- Handle actual incoming requests
+- Run as unprivileged `nginx` user (for security)
+- Share the same file descriptors (FD 6 & 7) inherited from master
+- All point to the same NODE (14085 & 14086), same underlying socket
+
+> [!INFO]
+> Each process shows up because they all have the socket open. The `lsof` output lists every process with an open file descriptor on `port 80`.
+
+### What Those Two FDs Are
+
+- **FD 6 (IPv4):** Socket listening on `0.0.0.0:80` (all IPv4 addresses)
+- **FD 7 (IPv6):** Socket listening on `[::]:80` (all IPv6 addresses)
+
+How many workers?
+```text
+PIDs: 2193, 2194, 2195, 2196, 2197, 2198, 2199, 2201
+= 8 worker processes
+```
+- this is typically set in your nginx config:
+
+```text
+worker_processes auto;  # or explicit number like 8
+```
