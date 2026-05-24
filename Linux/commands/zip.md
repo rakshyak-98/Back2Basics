@@ -1,4 +1,8 @@
 
+```bash
+## Zip tracked files only
+git archive -o archive.zip HEAD
+```
 ## zip
 ```bash
 zip -e output.zip folder/; # password protect zip.

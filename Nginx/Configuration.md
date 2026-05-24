@@ -174,8 +174,7 @@ server {
         try_files $uri $uri/ =404;
     }
 
-    # PHP location with its own root
-    location ~ \.php$ {
+    # PHP location with its own root location ~ \.php$ {
         root /var/www/phpapp;
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/run/php/php8.2-fpm.sock;
@@ -211,12 +210,12 @@ server {
 
 `location ^~ /storage/ {` -> for any request that starts with `/storage/` use this block, and make sure no regular expression location can override it. Even if the regular expression might also match.
 
-|Modifier|Meaning|Stops regex search?|Typical use case|
-|---|---|---|---|
-|`=`|Exact match|Yes|Very specific URLs (e.g. `/favicon.ico`)|
-|`^~`|Prefix, highest priority|**Yes**|Static files, uploads, protected dirs (most common)|
-|`~` / `~*`|Regular expression (case sensitive/insensitive)|No|Complex patterns, file extensions, rewrite rules|
-|(none)|Normal prefix|No|Fallback routes|
+| Modifier   | Meaning                                         | Stops regex search? | Typical use case                                    |
+| ---------- | ----------------------------------------------- | ------------------- | --------------------------------------------------- |
+| `=`        | Exact match                                     | Yes                 | Very specific URLs (e.g. `/favicon.ico`)            |
+| `^~`       | Prefix, highest priority                        | **Yes**             | Static files, uploads, protected dirs (most common) |
+| `~` / `~*` | Regular expression (case sensitive/insensitive) | No                  | Complex patterns, file extensions, rewrite rules    |
+| (none)     | Normal prefix                                   | No                  | Fallback routes                                     |
 
 > [!NOTE]
 > Nginx uses `allow` and `deny` directives to manage IP-based access restrictions. The `allow all;` statement explicitly authorises client IPs, making the location fully accessible unless a subsequent `deny all;` intervense.
@@ -236,4 +235,71 @@ const nextConfig = {
 }
 
 export default nextConfig;
+```
+
+## Nginx process architecture
+
+PID process id (root) = Master process
+- Owns the socket files descriptions (FD 6 & 7)
+- Manages worker processes
+- Runs with root privileges (needed to bind to port 80)
+
+PID (nginx user) = Worker processes
+- Handle actual incoming requests
+- Run as unprivileged `nginx` user (for security)
+- Share the same file descriptors (FD 6 & 7) inherited from master
+- All point to the same NODE (14085 & 14086), same underlying socket
+
+> [!INFO]
+> Each process shows up because they all have the socket open. The `lsof` output lists every process with an open file descriptor on `port 80`.
+
+### What Those Two FDs Are
+
+- **FD 6 (IPv4):** Socket listening on `0.0.0.0:80` (all IPv4 addresses)
+- **FD 7 (IPv6):** Socket listening on `[::]:80` (all IPv6 addresses)
+
+How many workers?
+```text
+PIDs: 2193, 2194, 2195, 2196, 2197, 2198, 2199, 2201
+= 8 worker processes
+```
+- this is typically set in your nginx config:
+
+```text
+worker_processes auto;  # or explicit number like 8
+```
+
+## Increasing Workers
+
+Optimal worker count -> A common rule 1 worker per CPU core
+```bash
+nproc
+
+# OR
+
+grep -c ^processor /proc/cpuinfo
+```
+
+> [!NOTE]
+> Increasing workers alone isn't enough. Also tune connection per worker.
+
+```nginx
+events {
+	worker_connections 2048;
+	# Formula: max concurrent users = (worker_process x worker_connections)
+}
+```
+- 8 workers x 2048 connections = ~16,384 concurrent connections
+
+### Monitor before and after
+
+```bash
+## Real time process monitoring
+tcp -p $(grep -d',' nginx)
+
+## Check connection per worker
+watch 'sudo lsof -i :80 | grep nginx | wc -l'
+
+## Check actual connection to nginx
+ss -tupn | grep nginx
 ```

@@ -5,6 +5,11 @@ git diff main.. --name-only;
 git diff --name-status;
 ```
 
+- compare file in different brach
+```bash
+git diff branch1 branch2 -- <file path>;
+```
+
 ```bash
 git diff --stat
 git diff --shortstat
