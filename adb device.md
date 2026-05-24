@@ -2,6 +2,7 @@
 
 ```bash
 adb devices;
+adb logcat; # view logs
 ```
 
 ```bash

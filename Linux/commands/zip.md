@@ -26,3 +26,9 @@ unzip -l archive.zip; # see inside .zip archive
 unzip -j <file path to unzip>;
 unzip -r archive.zip source_dir -x "excluded_dir/*" "**/dist/*";
 ```
+
+## Count how many files are in zip
+
+```bash
+zipinfo -1 <zipfile>;
+```

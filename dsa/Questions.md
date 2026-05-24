@@ -654,6 +654,7 @@ We don't actually need to calculate the product of the entire array. Since multi
 
 ---
 
+<<<<<<< HEAD
 [Smallest index with equal value](https://leetcode.com/problems/smallest-index-with-equal-value/description/?envType=problem-list-v2&envId=wrdcuh52)
 The mod 10 operation isolates the last digit of the index
 - index 0 -> 0 mod 10 = 0
@@ -669,3 +670,17 @@ Loop through each index i:
 	no match? Continue
 After loop: Return -1 (no match exists)
 ```
+=======
+[Longest Subsequence With Limited Sum](https://leetcode.com/problems/longest-subsequence-with-limited-sum/description/?envType=weekly-question&envId=2026-04-22)
+
+- this problem lies in the definition of a subsequence. Because we only care about the size of the subsequence and its total sum, the original order of the element doesn't actually matter.
+- Picking any subset of elements will always form a valid subsequence if we just pick them in their original relative order.
+
+> [!INFO]
+> To maximize the number of elements we can pick without exceeding the target sum `queries[i]`, we should greedily pick the smallest numbers available.
+
+---
+
+[Summary range](https://leetcode.com/problems/summary-ranges/description/?envType=problem-list-v2&envId=wrdcuh52)
+- 
+>>>>>>> origin/main
