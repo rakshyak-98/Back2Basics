@@ -1,3 +1,11 @@
+> [!WARNING]
+> You cannot explicitly delete a mysql user variable definition. Once created, exists for the lifetime of the session.
+> - Disconnect/reconnect to MySQL server which removes all session variables. Declare is not allowed outside a stored-program `BEGIN ... END` block.
+> - Instead stored procedure, use `DECLARE x INT` the variable lifetime is controlled by the block
+
+```sql
+```
+
 ## User-defined session variable
 
 ```mysql

@@ -25,11 +25,14 @@ DELIMITER ;
 
 ```
 
-Delete funciton 
+Delete function 
 
 ```mysql
 DROP FUNCTION IF EXISTS add_tax;
 ```
+
+Routine -> stored executable code saved inside MySQL database.
+type of routines -> Stored Procedure, Stored Function.
 
 ```mysql
 SELECT ROUTINE_NAME

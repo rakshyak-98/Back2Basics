@@ -14,6 +14,17 @@ SHOW FULL TABLE WHERE Table_type = "VIEW";
 SHOW FULL TABLE WHERE Table_type = "BASE TABLE";
 ```
 
+## Search table
+
+```sql
+SELECT table_schema table_name
+FROM information_schema.tables
+WHERE table_name = 'users';
+```
+
+```sql
+SHOW TABLES LIKE "%user%";
+```
 ## Format dates
 
 ```sql
