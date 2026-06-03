@@ -1,3 +1,32 @@
+A computer, however is a state machine, it has no intuition and cannot "look ahead". It only knows the exact values of its variables at time `t`, and that strict rules to get to time `t + 1`.
+
+Before touching a keyboard, strip away the "story" of the problem.
+- identify the raw input and output: "I am given an array of unsorted integers, and I need to return a single integer"
+- Note the constraints: Are there negative numbers? Can the array be empty? Is time complexity strictly bounded by O(N)?
+- Write out a manual example: Create an edge-case example that wasn't provided in the prompt, if you can't solve it on paper, you cannot code it.
+
+Brute Froce
+- The brute force solution reveals the core logic and guarantees you actually understand the problem. It also sets a safety net.
+
+There are usually only a few reasons a brute force solution is slow:
+- you are searching for the same thing repeatedly. (Store it in a Hash Map/Set for O(1) lookups).
+- you are recalculating overlapping sub problems (Fix: Save the result using Dynamic programming).
+- you are scanning the whole array when you only care about the extremes. (Fix: Sort it, use a Heap/Priority Queue, or use Two Pointers).
+- You are looking at elements you've already processed. (Fix: Maintain a sliding Windows or a Stack).
+
+> [!NOTE]
+> If you try to hold the changing states in your head, your human brain will naturally try to skip to the end, drop a variable, and crash. Force it onto paper. If you can track the micro-state transitions manually, the code practically writes itself.
+
+To break the habit of jumping ahead, apply these three rules to your practice:
+
+1. **Ban the phrase "And then it just..." from your mind.** Algorithms don't "just" do anything. Replace it with explicit mechanics: "And then variable x increments by 1, and we check if it is greater than y."
+    
+2. **Focus on the "Invariant."** An invariant is a rule that must remain true at the start and end of every single loop iteration. For example, in Binary Search, the invariant is: _"The target, if it exists, is ALWAYS between the `left` and `right` pointers."_ If you focus on keeping that rule true step-by-step, you won't get lost looking ahead.
+    
+3. **Talk to a rubber duck.** Literally explain the state changes out loud. Hearing yourself skip a step is much easier than catching yourself thinking past it.
+
+---
+
 # DSA Foundation Knowledge Roadmap
 
 ## Overview: Building Strong Intuition for DSA
