@@ -1,5 +1,11 @@
 [notes webpage](https://sql.holt.courses/lessons/data/nodejs-and-postgresql)
 
+## Create user
+
+```bash
+sudo -u postgres psql;
+```
+
 pg has two ways to connect to a database: a client and a pool.
 
 ```sql

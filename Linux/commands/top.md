@@ -3,11 +3,8 @@
 ---
 
 ## Core layout (mental model)
-
 - **Header** → system stats (load avg, CPU %, RAM)
-    
 - **Process table** → per-process metrics
-    
 
 ---
 
@@ -16,81 +13,54 @@
 ### Process control
 
 - `k` → kill process (enter PID)
-    
 - `r` → renice (change priority)
-    
 
 ### Sorting (most important)
 
 - `P` → sort by CPU
-    
 - `M` → sort by memory
-    
 - `N` → sort by PID
-    
 - `T` → sort by runtime
-    
-
 ### View tuning
 
 - `c` → toggle full command vs program name
-    
 - `t` → toggle CPU stats view
-    
 - `m` → toggle memory stats
-    
 - `l` → toggle load avg
-    
 
 ### Refresh / exit
 
 - `q` → quit
-    
 - `d` → change refresh interval (seconds)
-    
 - `space` → manual refresh
-    
 
 ---
 
 ## Filtering (important for real usage)
 
 - `u` → show processes by user
-    
 - `o` → add filter (advanced)
-    
 - `O` → manage fields
-    
 
 ---
 
 ## Threads / hierarchy
 
 - `H` → show threads
-    
 - `V` → tree view (parent-child)
-    
 
 ---
 
 ## Fields (must know)
 
 - `PID` → process id
-    
 - `USER` → owner
-    
 - `%CPU` → CPU usage
-    
 - `%MEM` → memory usage
-    
 - `RES` → actual RAM used
-    
 - `VIRT` → total allocated memory
-    
 - `TIME+` → CPU time consumed
-    
 - `COMMAND` → process name
-    
 
 ---
 

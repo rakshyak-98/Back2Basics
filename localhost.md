@@ -1,4 +1,25 @@
 
+## What localhost means to each devices
+`localhost` always means the device running the app, not "my dev machine" or "where the API lives".
+
+| Where the app runs            | What `http://localhost:3000` points to                        |
+| ----------------------------- | ------------------------------------------------------------- |
+| Your computer (Linux desktop) | Your computer — same machine as the backend                   |
+| Android emulator              | The emulator (special case: use `10.0.2.2` to reach the host) |
+| Physical phone/tablet<br>     | The phone itself — not your computer                          |
+
+- On a physical device, that URL tries to open port 3000 on the phone. Nothing is listening there, so the request fails and you get “Unable to connect to the server…”
+
+## Why you need your computer’s IP
+
+The backend runs on your development machine (`npm run dev` in `backend/`). The phone is a separate device on the same Wi‑Fi/LAN.
+
+To reach your computer, the phone must use its network address, for example:
+
+`http://192.168.1.50:3000/api`
+
+That tells the phone: “send this request to the machine at 192.168.1.50 on port 3000,” which is your laptop/desktop.
+
 ## How to host localhost with HTTPS
 
 ```bash

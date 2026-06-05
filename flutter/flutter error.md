@@ -22,4 +22,3 @@ Why people add this:
 - multiple JDK versions installed
 - Android Studio using different JDK
 - lock project to specific Java version
-
