@@ -1,3 +1,13 @@
+ > [!INFO]
+ > Before NodeJS most we servers relied on a blocking, multi-threaded architecture. In this model, the server would assign a new thread or process to each incoming request. If a request required a slow operation (like reading a file or querying a database), the thread would "block" and sit idle, waiting for the I/O operation to finish. This approach hit a bottleneck when trying to scale to thousands of concurrent connections. 
+
+ Dahl wanted to build a system that was:
+ - Event Driven and Non Blocking -> Instead of waiting for I/O, the system should trigger a callback when the operation completes, allowing the server to handle other request in the meantime.
+ - High Performance -> He utilized Google's V8 engine (which compiles JavaScript to machine code) to ensure the runtime was fast.
+ - Simplified Concurrency -> By using a single-threaded event loop, he eliminated the complexities associated with multi-threaded synchronisation (like deadlocks).
+
+---
+ 
  - Google V8 Engine -> Compiles js to machine code (JIT compilation for speed). [article](https://medium.com/@mukeshsharma20120/%EF%B8%8F-deep-dive-into-node-js-internal-working-a-comprehensive-guide-389542a036f4)
  - libuv -> A C library for async I/O, event loop, and cross-platform abstractions (e.g., handles Windows IOCP vs. Linux epoll).
  - Node Bindings -> C++ wrappers that give V8 and libuv to JS APIs (e.g., `fs` `net`...)

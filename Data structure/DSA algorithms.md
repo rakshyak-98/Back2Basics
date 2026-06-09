@@ -70,3 +70,7 @@ used to traverse or search through data structures like graphs and trees.
 
 DFS usually uses:
 - a stack (explicitly) or recursion (implicit stack)
+
+---
+
+## Expand around centre

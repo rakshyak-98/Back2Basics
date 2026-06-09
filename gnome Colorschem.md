@@ -1,15 +1,15 @@
 m -> SGR command applies the color/style. The terminal wouldn't know you're talking about graphics attributes (color, bold, underline, etc.)
 
-|Color|FG|Bright FG|
-|---|---|---|
-|Black|`30`|`90`|
-|Red|`31`|`91`|
-|Green|`32`|`92`|
-|Yellow|`33`|`93`|
-|Blue|`34`|`94`|
-|Magenta|`35`|`95`|
-|Cyan|`36`|`96`|
-|White|`37`|`97`|
+| Color   | FG   | Bright FG |
+| ------- | ---- | --------- |
+| Black   | `30` | `90`      |
+| Red     | `31` | `91`      |
+| Green   | `32` | `92`      |
+| Yellow  | `33` | `93`      |
+| Blue    | `34` | `94`      |
+| Magenta | `35` | `95`      |
+| Cyan    | `36` | `96`      |
+| White   | `37` | `97`      |
 
 `\[\e[<style>;<foreground>;<background>m\]`
 

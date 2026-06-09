@@ -11,13 +11,14 @@
 - Multiple independent conditions.
 
 **Edge cases**
-- Equal values → non-strict monotonicity.
+- Equal values → non-strict monotonically.
 - Floating-point precision breaks monotonic checks.
 - Data mutation invalidates monotonic assumptions.
 
 **Sorted two pointer array**
 - Ordered values let us decide which way to move pointer. 
 - After sorting, same value repeated → skip to prevent same triplet.
+- sorting allows us to easily skip duplicate values and use the two-pointer technique effectively.
 
 ## Two pointer: pointer placement rules
 
