@@ -6,6 +6,16 @@ Why use migrations?
 	- Up the code needed to apply the change
 	- Down the code needed to roll back the change if something goes wrong
 
+```sql
+-- Up
+ALTER TABLE users ADD COLUMN email VARCHAR(255);
+
+-- Down
+ALTER TABLE users DROP COLUMN email;
+```
+
+> Everyone can apply the same renovation plan and end up with the same building structure.
+
 The migration workflow
 - Generate -> you trigger a command `npm run generate-migration` to create a timestamped file.
 - Define -> You write the schema change in that file.
