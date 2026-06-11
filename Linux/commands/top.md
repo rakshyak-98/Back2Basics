@@ -13,7 +13,7 @@
 ### Process control
 
 - `k` → kill process (enter PID)
-- `r` → renice (change priority)
+- `r` → [[renice]] (change priority)
 
 ### Sorting (most important)
 
