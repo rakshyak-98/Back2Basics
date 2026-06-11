@@ -10,8 +10,7 @@ Why use migrations?
 -- Up
 ALTER TABLE users ADD COLUMN email VARCHAR(255);
 
--- Down
-ALTER TABLE users DROP COLUMN email;
+-- Down ALTER TABLE users DROP COLUMN email;
 ```
 
 > Everyone can apply the same renovation plan and end up with the same building structure.
@@ -23,7 +22,6 @@ The migration workflow
 - Track -> the migration tool keeps a special table in your database (often called `migrations` or `schema_history`) to remember which files have already been executed, ensuring they aren't run twice.
 
 ## Best practices 
-
-- Never edit past migrations -> once a migration has been pushed to a shared repository or production, it is "locked". If you made a mistake, create a new migration to fix it rather than altering the old one.
+ - Never edit past migrations -> once a migration has been pushed to a shared repository or production, it is "locked". If you made a mistake, create a new migration to fix it rather than altering the old one.
 - Keep them Atomic -> Each migration file should ideally represent a single, logical change (e.g., adding a table, reaming a column, adding an index).
 - Always test the down -> Ensure your rollback logic actually works so you can recover quickly from a bad deployment.
