@@ -9,9 +9,13 @@
 - a semaphore is a variable or [[ADT (Abstract Data Type)]] 
 - used to *control access* to a common resource by multiple threads and avoid [[critical sections]] problems in a concurrent system such as a multitasking operating system.
 
+> The Guard -> Before a process can use a shared resource (like a specific block of memory, a file, or a hardware driver), it must perform a `wait()` (or `P`) operation on the semaphore.
+> - If the counter is is > 0, the process "takes" a permit and proceeds.
+> - If the counter is 0, the process is forced to "sleep" (block) until another process finishes and calls `signal()` or `V`.
+> The Signal -> once finished, the process calls `signal()` to release the permit, potentially waking up another process waiting in line.
+
 ### Binary semaphores
 - used to implement locks
-
 
 ## Operations
 

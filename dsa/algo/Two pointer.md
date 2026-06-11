@@ -1,3 +1,7 @@
+Pointer = movable reference to a position in a data structure. A void revisiting elements.
+
+> Instead of looking at values directly, think:
+> I have one or more fingers pointing at locations, and I move those fingers according to rules".
 
 - Each step resolves one conflict (too big / too small) deterministically.
 - Eliminates dominated states: once a pointer moves, all skipped states are provably invalid.
@@ -21,6 +25,9 @@
 - sorting allows us to easily skip duplicate values and use the two-pointer technique effectively.
 
 ## Two pointer: pointer placement rules
+
+- Shrink search space.
+- compare element from both ends.
 
 ### Pointer at first + last
 - use when global comparison across range is needed.
