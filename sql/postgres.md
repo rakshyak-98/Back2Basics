@@ -10,12 +10,14 @@ pg has two ways to connect to a database: a client and a pool.
 
 ```sql
 \du; -- view current roles
+
 \l; -- list database
 \c <db name> ; -- use the database
+\dt; -- list tables
 ```
 
 ```sql
-\dt; -- view database
+\dt; -- view database tables
 \d <table name>; -- view the columns
 ```
 

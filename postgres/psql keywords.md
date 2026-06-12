@@ -1,0 +1,1 @@
+EXCLUDED -> special pseudo-table available only inside, it represents the row that PostgreSQL tried to insert but could not because of the conflict
