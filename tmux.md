@@ -7,6 +7,11 @@ tmux ls; // list session
 tmux attach -t <name>; // attach previous session
 ```
 
+```bash
+ctrl+b z; # Toggle focus on pane
+ctrl+<space>; # Toggle pane layout
+```
+
 ## Window
 
 ```text
