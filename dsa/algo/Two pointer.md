@@ -10,6 +10,7 @@ Pointer = movable reference to a position in a data structure. A void revisiting
 - this enables one-way decisions.
 
 **When it fails**
+- array is not sorted.
 - Unsorted data with no monotonic rule.
 - Global constraints needing lookahead.
 - Multiple independent conditions.
