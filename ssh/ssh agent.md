@@ -1,3 +1,5 @@
+use `ssh-agent` to hold your keys in memory. This prevents the need to type the passphrase repeatedly while keeping the key encrypted on the disk.
+
 > [!INFO]
 > `ssh-agent` is a background program that holds your decrypted private SSH keys in memory so you don't have to type your passphrase (or password) every single time you `git push` `ssh` `scp` etc.
 

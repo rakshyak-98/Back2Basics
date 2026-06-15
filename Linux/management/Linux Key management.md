@@ -1,4 +1,3 @@
-
 # generate private key
 
 ```bash
@@ -50,3 +49,6 @@ b - bits size
 C - comment
 
 > [!NOTE] fixed-length string of characters, typically represented in hexadecimal format.
+
+
+## Keymanager

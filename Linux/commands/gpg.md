@@ -10,6 +10,7 @@ curl -fsSL https://repo.com/gpg_signing.key | gpg --with-fingerprint;
 ```
 
 #### Compare the binary hash
+
 ```bash
 gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --export > localkey.gpg
 curl -fsSL https://nginx.org/keys/nginx_signing.key -o officialkey.gpg
@@ -19,20 +20,21 @@ diff -s localkey.gpg officialkey.gpg.gpg
 
 ```bash
 # [ configure key ]
-gpgconf --list-dir
-gpg --refresh-keys
+gpgconf --list-dir;
+gpg --refresh-keys;
 
 # [ list keys ]
-gpg --list-keys # pulic keys
-gpg --list-secret-keys # private keys
-gpg --list-secret-keys --keyid-format=long
+gpg --list-keys; # pulic keys
+gpg --list-secret-keys; # private keys
+gpg --list-secret-keys --keyid-format=long;
 
 # [ export keys ]
 gpg --export-secret-keys -a KEY_ID > my_private_key.asc; # -a ASCII-armored
-gpg --export -a KEY_ID > my_public_key.asc
+gpg --export -a KEY_ID > my_public_key.asc;
 # -o stdout to location
-gpg --export -o public.asc <user ID>
-gpg --export-secret-keys -o private.asc <user ID>
+gpg --export -o public.asc <user ID>;
+gpg --export-secret-keys -o private.asc <user ID>;
+gpg --full-generate-key;
 
 # [ edit key ]
 gpg --edit-key; # init intrective terminal
@@ -40,7 +42,7 @@ gpg --edit-key; # init intrective terminal
 # [ verification ]
 gpg --verify "signature file"; # verify signature
 gpg --detach-sign "file.txt"; # create a detach sign to verify.
-gpg --check-trustdb
+gpg --check-trustdb;
 gpg --firgerprint <key id>;
 ```
 
