@@ -1,5 +1,5 @@
 ### Types
-- You can define global level types, to use types without importing them and still use them in your code.
+- Can define global level types, without importing them and still use them in your code.
 #### Global types
 > [!NOTE]
 > `declare` is specific to TypeScript only

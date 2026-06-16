@@ -6,3 +6,5 @@ It allows interaction with an object through a defined interface, ensuring that 
 
 > [!NOTE]
 > Because behavior is often passed directly as a function instead of forcing inheritance. Functional programming language (Data + functions) Pass function directly Execute behavior.
+
+- Function programming languages generally don't depend on abstract classes and abstract methods because they achieve polymorphism by passing functions and composing behavior instead of inheritance.
