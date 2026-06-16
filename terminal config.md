@@ -4,8 +4,14 @@
 fc-list :spacing=100 family; # instal installed fonts
 ```
 
+using gsetting
 
-enable disable shell behavior options
+```bash
+gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
+```
+
+
+enable disable shell behaviour options
 
 ```bash
 set -o vi;
