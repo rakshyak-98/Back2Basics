@@ -85,6 +85,56 @@ unused write to field
 ```
 - it is a compiler warning that happens when you assign a value to a struct field but never actually use it. 
 
+---
+
+## Go tag
+
+struct tag -> it provides metadata that packages (like `encoding/json`)
+
+Go code is compiled, but JSON data is only know when the program is running. `encoding/json` reads struct tags at runtime so it can dynamically map JSON data to Go structs.
+
+```go
+type User struct {
+	ID int `json:"user_id"`,
+	Name string `json:"name"`
+}
+```
+
+- Go struct tags were designed to be generic metadata, not something specific to JSON. Instead of inventing syntax for every library, Go created one mechanism.
+
+```go
+type User struct {
+	ID int `json:"user_id"`
+	Email string `json:"email" validate:"require"`
+}
+```
+
+```txt
+json.Unmarshal()
+
+↓
+
+inspect User struct
+
+↓
+
+read tags
+
+↓
+
+"user_id" → ID
+
+↓
+
+"name" → Name
+
+↓
+
+assign values
+
+```
+
+---
 ### How to print value instead of memory address?
 
 When printing struct pointers, `fmt.Println` may print memory addresses instead of values.
