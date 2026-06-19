@@ -2,13 +2,7 @@
 ```bash
 aws configure
 aws sts get-caller-identity
-```
-
-```bash
-aws iam list-access-keys
-aws iam create-access-key
-
-aws configure
+aws sts get-caller-identity --query Account --output text; # get only specific fields
 ```
 
 ```bash
@@ -20,11 +14,19 @@ aws iam delete-access-key --access-key-id <access key id>;
 aws ec2 describe-regions --query "Regions[].RegionName";
 ```
 
-### User
-```
-aws sts get-caller-identity; # check which user logged in with.
-aws iam list-attached-user-policies --user-name <your-username>; 
+### IAM
+
+```bash
 aws iam list-users;
+aws iam list-users --query "Users[].UserName";
+aws iam list-attached-user-policies --user-name <your-username>; 
+```
+
+```bash
+aws iam get-user
+aws iam list-access-keys
+aws iam create-access-key
+
 ```
 
 #### STS (security Token Service)

@@ -1,0 +1,1 @@
+- Instead of using long-terms credentials (like permanent IAM user Access Keys)
