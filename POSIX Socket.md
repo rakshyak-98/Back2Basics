@@ -66,3 +66,19 @@
 - **Partial send/recv** → loop until all data processed.
 - **SIGPIPE** → writing to closed socket (use `MSG_NOSIGNAL` or ignore).
 - IPv6 dual-stack behavior → `IPV6_V6ONLY` option.
+
+## OS socket bind
+
+In computer networking `bind()` is a system call used to associate a specific network address (IP address) and a port number with a socket.
+
+When you care a socket (using the `socket()` system call), it exists in a "nameless" state. It has no identity on the network. The `bind()` function gives that socket an identity so that other computers or processes know exactly where to send data.
+
+> OS Socket binding is the process of assigning a specific transport layer address, consisting of an IP address and a port number, to a socket file descriptor.
+
+this operation enables an application to control exactly which network interface and port it listens on or communicates from.
+
+## Functional Mechanics
+
+When a socket is created, it exists state without a network identity. Binding attaches it to local system's networking stack:
+- server-side -> The `bind()` system call is required to associate a socket with a specific port, allowing the OS to route incoming packets destined for that port to the application.
+- Client-side -> Binding is typically optional. If omitted, the OS performs an implicit (ephemeral) binding to an available port when the connection is initiated.
