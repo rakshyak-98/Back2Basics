@@ -1,3 +1,6 @@
+```bash
+history -r ~/.bash_history-*.tmp; # load bash history
+```
 ### **Ignoring Commands in History**
 - **`HISTIGNORE`**: Excludes certain commands from being saved in history.
 ```shell
