@@ -1,0 +1,1 @@
+Key Management System -> its a server that stores and distributes encryption keys.
