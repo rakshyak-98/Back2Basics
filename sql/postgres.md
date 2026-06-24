@@ -4,6 +4,7 @@
 
 ```bash
 sudo -u postgres psql;
+psql -h localhost -p 5432 -U username -d database_name; # login with user
 ```
 
 pg has two ways to connect to a database: a client and a pool.
