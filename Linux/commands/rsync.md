@@ -4,6 +4,8 @@ rsync -av src/ user@host:/path/; # remote
 rsync -avz src/ user@host:/path/; # compress
 ```
 
+### Using `rsync` over ssh
+
 ```bash
 rsync -av -e "ssh -i ~/.ssh/key" src/ user@host:/path/; # ssh key
 ```

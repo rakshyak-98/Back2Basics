@@ -10,6 +10,15 @@ nc -zv host 22; # check ssh port availability
 ssh -T user@host;
 ```
 
+## Remote port forwarding
+
+```bash
+
+# Make local port 3000 accessible on remote port 8080
+ssh -R 8080:localhost:3000 user@root;
+
+```
+
 ### Debug wrong key/user/port
 
 ```bash

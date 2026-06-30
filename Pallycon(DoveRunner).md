@@ -18,3 +18,14 @@ Access to the PallyCon (now DoveRunner) DevConsole is granted through their offi
 
 > [!INFO]
 > **DevConsole Utilities**: Inside the console, look for the **DRM Tools** or **License Token Generator** section. This provides an interface to input your `Site ID` and `Site Key` (found in your account dashboard) to generate test tokens for specific `Content ID` values.
+
+## Concurrent Stream Limiting Guide
+
+[link](https://docs.doverunner.com/content-security/multi-drm/license/csl-guide/)
+
+CSL -> is one of DoveRunner Multi-DRM service features that can identify and limit the number of streams being played simultaneously per user account through DRM `license renewal`.
+
+DRM License Renewal -> is a function that enables periodic license renewal requests and responses during content playback by setting the license duration shorter than the length of content (eg 10 minutes). This allows the DRM server to accurately determine whether the stream has finished playing and control the number of 'simultaneous plays'.
+
+> [!NOTE]
+> CSl feature is not application to VOD download/.

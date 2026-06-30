@@ -217,3 +217,8 @@ send via UDP
 - UDP is **connectionless** → packets can be dropped.
     
 - `127.0.0.1` means **only same machine** can receive. Use another IP (e.g. `192.168.x.x`) for other devices.
+
+## Why `ffmpeg` for TC channels
+
+- Generate 480p, 720p, 1080p, 4K from single input stream -> `ffmpeg` handles this in one pass with parallel encoding.
+- For 1000 concurrent live channels across 5 bitrates, ffmpeg + media server (Flussonic) handles it efficiently.

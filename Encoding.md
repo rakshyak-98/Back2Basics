@@ -1,0 +1,1 @@
+Encoding -> is the process of converting data from one representation (format) into another using a predefined, publicly know scheme, so that it can be stored, transmitted, or processed by another system.
