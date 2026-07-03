@@ -1,0 +1,1 @@
+Single Stream (Unicast/Point-to-Point) -> A single-stream architecture maps one source feed to one output destination (e.g., one camera/encoder to one ingest point).
