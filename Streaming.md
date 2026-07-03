@@ -27,4 +27,21 @@ Its purpose is not to transport video. It protects the video so only authorized 
 Playback -> the process of reading, decoding, and presenting media (video/audio) to the user.
 - Everything before playback prepare the video. Playback is when the viewer actually watches it.
 
-Encoding 
+
+### Video Audio multiplexing (muxing)
+is the process of combining separate video, audio, and metadata streams into a single container format for storage or transmission, while **preserving timing synchronization between them**.
+
+How it words:
+- Video and audio are encoded independently (e.g., H.264 for video, AAC for audio), producing separate elementary streams.
+- The multiplexer interleaves packets from each stream into a single output, using timestamps (PTS/DTS) to maintain sync.
+- The receiving player demultiplexes (demuxes) the container back into separate streams for decoding and playback.
+
+Common container formats (muxers):
+- MPEG-TS -> packetizes into fixed 188-byte units for broadcast/live streaming
+- MP4/fMP4 -> used for HLS/DASH segemnts and progressive download
+- FLV -> used with RTMP
+- MKV -> general-purpose, supports multiple tracks/subtitiles
+
+```bash
+ffmpeg -i video.h264 -i audio.acc -c copy -f mp4 output.mp4
+```

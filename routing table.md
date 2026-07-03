@@ -1,14 +1,17 @@
+routing table -> is a data structure that stores routes for network traffic, mapping destination IP ranges (CIDR blocks) to next hops (targets).
+Structure -> Each entry contains a destination CIDR and a target (where to send matching traffic).
+Matching rule -> Most specific match winds. A `/32` route takes precedence over a `/24`, which takes precedence over `/0`.
+
+> [!INFO]
+> In AWS, every subnet is associated with a route table (explicit or the VPC's main route table). Route tables determine whether a subnet is public (route to IGW) or private (route to NAT Gateway or none).
+
 view DNS server configurations
 
 ```shell
 cat /etc/resolv.conf;
 resolvectl status;
-nmvli dev show | grep DNS;
 ip route show;
 route -n;
-route print;
-route -n get default;
-tracert google.com;
 netstat -nr;
 ```
 

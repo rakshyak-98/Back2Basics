@@ -2,15 +2,26 @@
 
 Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the sinks, while being transformed by the components they encounter along the way.
 
+### Public via MPEG-TS (if Flussonic is configured for TS ingest)
+
 ```bash
-ffmpeg \
--stream_loop -1 \
--re \
--i /home/mihir/Downloads/sample-video-1hr.mp4 \
--c copy \
--f mpegts \
-udp://127.0.0.1:5000
+ffmpeg -re -stream_loop -1 -i /path/to/video.mp4 \
+  -c:v libx264 -preset veryfast -pix_fmt yuv420p \
+  -c:a aac \
+  -f mpegts "udp://127.0.0.1:1234"
 ```
+
+### Publish a local file as a live stream
+
+```bash
+ffmpeg -re -stream-loop -1 -i /path/to/video.mp4 \
+-c:v libx264 -preset veryfast -profile:v main -pix_fmt yuv420p \
+-c:a aac -ar 48000 -b:a 128k \
+-f flv "rtmp://127.0.0.1:1935/channel_test_1"
+```
+- `-re` real time pacing (important for live)
+- `-stream_loop -1` loop forever (omit for one-shot play)
+- `-f flv` required for `RTMP` 
 
 ## Goal
 
