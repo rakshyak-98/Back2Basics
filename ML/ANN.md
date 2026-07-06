@@ -1,0 +1,1 @@
+Artificial Neural Networks (ANNs) are connectionist computational models defined by a directed graph structure where nodes (neurons) perform weighted summations followed by non-linear activations.
