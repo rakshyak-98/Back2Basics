@@ -1,3 +1,5 @@
+
+
 `package main` tells the Go compiler: "The package is the entry point of an executable program". Without this Go treats the code as a reusable library/package.
 
 `go mod init example.com/myapp` -> it is a globally unique identifier for you go project. Identify your module uniquely. Without a unique path collision occurs

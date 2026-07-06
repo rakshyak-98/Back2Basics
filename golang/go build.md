@@ -1,0 +1,1 @@
+`go.mod` -> file is the manifest defining a Go module, serving as the foundation for the GO toolchain dependency management and build system. It replaces historical GOPATH-based workflows with explicit versioned module requirement.

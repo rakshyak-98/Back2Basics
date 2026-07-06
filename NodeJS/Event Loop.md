@@ -24,14 +24,14 @@ while an event handler is running, the single-threaded runtime cannot do anythin
 
 - iterated per "tick". Each phase handles specific callback types, and the loop blocks efficiently (e.g., via epoll on Linux) waiting to events
 
-|Phase|What Happens|Examples|Why It Matters (Senior Insight)|
-|---|---|---|---|
-|**Timers**|Executes expired `setTimeout`/`setInterval` callbacks. (Min delay: 1ms due to loop overhead.)|`setTimeout(fn, 0)` runs here, but after current sync code.|Prioritizes time-based tasks; misuse (e.g., recursive timeouts) starves other phases—causes high latency.|
-|**Pending Callbacks**|Handles OS-level I/O callbacks (e.g., TCP errors). Mostly internal.|libuv queues failed socket ops here.|Rare for user code, but debug here for network flakiness (e.g., ECONNREFUSED).|
-|**Idle/Prepare**|Internal Node/libuv prep (e.g., garbage collection hints). Not user-facing.|Used by addons or internals.|Ignore unless hacking Node core; impacts perf in edge cases like high GC.|
-|**Poll**|Waits for I/O events (e.g., new data on sockets). Blocks if no work elsewhere, but checks timers often.|`fs.readFile` callback lands here after libuv completes.|Core of non-blocking: Uses OS selectors (epoll/kqueue) for efficiency. Long polls = idle server; short = busy.|
-|**Check**|Runs `setImmediate` callbacks. After poll, for "next tick" but post-I/O.|`setImmediate(fn)` for deferring without timeout.|Great for batching post-I/O work; faster than `process.nextTick` in loops.|
-|**Close Callbacks**|Cleans up closed resources (e.g., socket 'close' events).|`socket.on('close', cleanup)`.|Ensures no leaks; forget this, and you'll OOM in prod.|
+| Phase                 | What Happens                                                                                            | Examples                                                    | Why It Matters (Senior Insight)                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Timers**            | Executes expired `setTimeout`/`setInterval` callbacks. (Min delay: 1ms due to loop overhead.)           | `setTimeout(fn, 0)` runs here, but after current sync code. | Prioritizes time-based tasks; misuse (e.g., recursive timeouts) starves other phases—causes high latency.      |
+| **Pending Callbacks** | Handles OS-level I/O callbacks (e.g., TCP errors). Mostly internal.                                     | libuv queues failed socket ops here.                        | Rare for user code, but debug here for network flakiness (e.g., ECONNREFUSED).                                 |
+| **Idle/Prepare**      | Internal Node/libuv prep (e.g., garbage collection hints). Not user-facing.                             | Used by addons or internals.                                | Ignore unless hacking Node core; impacts perf in edge cases like high GC.                                      |
+| **Poll**              | Waits for I/O events (e.g., new data on sockets). Blocks if no work elsewhere, but checks timers often. | `fs.readFile` callback lands here after libuv completes.    | Core of non-blocking: Uses OS selectors (epoll/kqueue) for efficiency. Long polls = idle server; short = busy. |
+| **Check**             | Runs `setImmediate` callbacks. After poll, for "next tick" but post-I/O.                                | `setImmediate(fn)` for deferring without timeout.           | Great for batching post-I/O work; faster than `process.nextTick` in loops.                                     |
+| **Close Callbacks**   | Cleans up closed resources (e.g., socket 'close' events).                                               | `socket.on('close', cleanup)`.                              | Ensures no leaks; forget this, and you'll OOM in prod.                                                         |
 
 - Microtasks Queue -> Outside phases, but interleaved - `Promise` resolves or `process.nextTick` run immediately after current operation (before next phase). This is for error handling.
 
