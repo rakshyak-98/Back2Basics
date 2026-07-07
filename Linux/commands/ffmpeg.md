@@ -1,6 +1,8 @@
+[[re-encoding]] [[codecs]]
+
 [documentation](https://ffmpeg.org/ffmpeg.html#Description)
 
-Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the sinks, while being transformed by the components they encounter along the way.
+`ffmpeg` -> Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the [[sinks]], while being transformed by the components they encounter along the way.
 
 ### Public via MPEG-TS (if Flussonic is configured for TS ingest)
 
@@ -10,6 +12,21 @@ ffmpeg -re -stream_loop -1 -i /path/to/video.mp4 \
   -c:a aac \
   -f mpegts "udp://127.0.0.1:1234"
 ```
+
+### Convert to source file to MPTS
+
+```bash
+
+ffmpeg -i input.mp4 -c copy -f mpegts output.ts;
+# `-c copy` avoids re-encoding. 
+
+```
+
+```bash
+ffmpeg -i input.mp4 -c:v libx264 -c:a aac -f mpegts output.ts
+# If codecs are incompatible with TS (e.g., some audio formats), re-encode
+```
+
 
 ### Publish a local file as a live stream
 
