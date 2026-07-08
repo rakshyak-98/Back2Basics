@@ -387,7 +387,6 @@ blkid; # print the universally unique identifier for a device.
 ## Hardware
 ```bash
 lsusb;
-lspci -vv;
 lsmod;
 modeprob -a;
 ```

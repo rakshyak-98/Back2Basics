@@ -12,7 +12,6 @@ jobs;
 
 lsusb; # list USB devices.
 sudo sync; # to flush the filesystem buffers, all buffered data to be written to disk.
-lspci; # list PCI devices.
 lsblk; # disk partitions.
 lsof -P -i; # P no port names, i : show ipv[46]
 sudo lshw; # list hardware information.
