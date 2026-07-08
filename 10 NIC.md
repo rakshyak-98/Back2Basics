@@ -1,0 +1,3 @@
+A 10G NIC (Network Interface Card) is a specialized hardware component capable of transmitting and receiving data at a line rate of 10 Gigabits per seconds (Gbps), or approximately 1.25 Gigabytes per second (GB/s).
+
+In high-performance infrastructure, a 10G NIC is the standard baseline for moving away from to bottlenecks of standard 1G (Gigabit) Ethernet, particularly in media streaming, virtualization, and high-density ingest environments.

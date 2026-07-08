@@ -1,0 +1,1 @@
+NVENC (NVIDIA Encoder) -> is a dedicated hardware block within NVIDIA GPUs that offloads the entire video encoding pipeline from the CPU. Unlike software encoders (x264/x256) that consume general-purpose CPU cycles and memory bandwidth, NVENC operates as an independent ASIC (Application-Specific Integrated Circuit).
