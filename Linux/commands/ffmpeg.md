@@ -4,7 +4,12 @@
 
 `ffmpeg` -> Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the [[sinks]], while being transformed by the components they encounter along the way.
 
+
 ### Public via MPEG-TS (if Flussonic is configured for TS ingest)
+
+```bash
+ffmpeg -re -stream_loop -1 -i 586000000.ts -c copy -f mpegts udp://239.1.1.3:10003?pkt_size=1316
+```
 
 ```bash
 ffmpeg -re -stream_loop -1 -i /path/to/video.mp4 \
@@ -250,3 +255,28 @@ send via UDP
 
 - Generate 480p, 720p, 1080p, 4K from single input stream -> `ffmpeg` handles this in one pass with parallel encoding.
 - For 1000 concurrent live channels across 5 bitrates, ffmpeg + media server (Flussonic) handles it efficiently.
+
+### Recording in segment
+
+
+```bash
+ffmpeg -i udp://@224.20.20.1:5001 \
+    -c copy \
+    -f segment \
+    -segment_time 600 \
+    -reset_timestamps 1 \
+    -strftime 1 \
+    "5001_%Y%m%d_%H%M%S.ts"
+```
+
+**get the program_name**
+
+```bash
+
+ffprobe -i udp://224.20.20.1:5003 -show_programs;
+
+ffprobe -v quiet \
+--show_programs \
+-of json
+udp://@224.20.20.1:5003
+```
