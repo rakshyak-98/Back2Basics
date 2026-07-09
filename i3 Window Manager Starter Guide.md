@@ -135,11 +135,11 @@ These are the **default** bindings. You can customize them in your config file.
 
 ### Navigation
 
-|Keybinding|Action|
-|---|---|
-|`Mod1 + j/k/l/;`|Focus window (left/down/up/right)|
-|`Mod1 + left/right/up/down`|Focus window (arrow keys)|
-|`Mod1 + 1-9/0`|Switch to workspace 1-10|
+| Keybinding                  | Action                            |
+| --------------------------- | --------------------------------- |
+| `Mod1 + j/k/l/;`            | Focus window (left/down/up/right) |
+| `Mod1 + left/right/up/down` | Focus window (arrow keys)         |
+| `Mod1 + 1-9/0`              | Switch to workspace 1-10          |
 
 ### Window Management
 
