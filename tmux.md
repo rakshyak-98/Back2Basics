@@ -34,7 +34,7 @@ C-b z // zoom/unzoom pane
 ## Session
 
 ```text
-C-b d // detach the current session
+	C-b d // detach the current session
 ctrl + b :
 rename-session my_session;
 ```
