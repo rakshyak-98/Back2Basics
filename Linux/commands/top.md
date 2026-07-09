@@ -1,5 +1,11 @@
 `top` = real-time process monitor (CPU, RAM, load)
 
+```bash
+top -bn1 | grep "%Cpu"
+mpstat 1; # only view cpu usage every 1s
+vmstat;
+```
+
 ---
 
 ## Core layout (mental model)

@@ -41,4 +41,20 @@ rename-session my_session;
 
 ```bash
 tmux rename-session -t 0 my_session_name
+tmux new-session -d -s <session name>;
+
+# Kill session
+tmux ls | cut -d: -f1 | xargs -n1 tmux kill-session -t;
+```
+
+ **Loop to create multiple sessions**
+```bash
+port=10001
+
+for file in *.ts; do
+    tmux new-session -d -s "stream_${port}" \
+        "ffmpeg -re -stream_loop -1 -i '$file' -c copy -f mpegts udp://239.1.1.3:${port}?pkt_size=1316"
+
+    ((port++))
+done
 ```
