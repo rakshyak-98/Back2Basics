@@ -1,3 +1,5 @@
+> Replace direct object construction calls with calls to a special factory method.
+
 lets you product families of related objects without specifying their concrete classes.
 - in this you don't want to change existing code when adding new product.
 
