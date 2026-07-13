@@ -1,35 +1,67 @@
-Transmission Control Protocol
-- Data is continuous flow of bytes.
-- The application cannot write more data when the buffer is full.
-- TCP is [[Byte stream]] instead of packet based.
-- multiplexing.
-- Connection oriented protocol (formal purpose for setup and tear down).
-- reliable delivery.
-- recovery from errors (build in feature).
-- can manage out-of-order messages or re-transmissions (can be re-sent from the source).
-- flow control (the receiver can manage how much data is sent).
-- HTTPS
-	- return receipt
-- [[SSH]]
-	- terminal communication between systems.
-- Application doesn't worry about out of order frames or missing data.
-- TCP handles all the communication.
+[[Byte stream]] [[SSH]] 
 
-layer is added to top of IP packets. TCP provides:
-- [[Byte stream]] instead of packets.
-- Reliable and ordered delivery.
-- UDP is on the same layer as TCP, but is still packed-based like the lower layer.
-- UDP just adds port numbers over IP packets.
-1. TCP send buffer: This is where data is stored before transmission. Multiple writes are indistinguishable from a single write.
-2. Data is encapsulated as one or more IP packets, IP boundaries have a relationship to the original write boundaries.
-3. TCP receive buffer: data is available to application as it arrives.
->[!INFO] Protocols are required to interpret TCP data by imposing boundaries within the byte stream.
+### Transmission Control Protocol (TCP) Architecture
 
-- TCP is bidirectional and Full Duplex, Once established
-	- TCP connection can be used as a bi--directional byte stream
-	- with 2 channels for each direction.
-- TCP END with 2 Handshakes
-	- A peer tells the other side that no more data will be sent with the FIN flag.
-	- other side ACKs the FIN.
-	- remote application is notified of the termination when reading from the channel.
-	- each direction of channel can be terminated independently, so the other side also performs the same handshake to fully close the connection.
+#### Protocol Primitives & Characteristics
+
+- **Stream-Oriented Abstraction:** Operates as a continuous byte stream. Application-layer write boundaries are entirely discarded at the transport layer.
+    
+- **Connection-Oriented (Stateful):** Requires explicit state synchronization for setup (3-way handshake) and teardown (4-way handshake).
+    
+- **Full-Duplex:** Establishes independent, bi-directional transmit (TX) and receive (RX) channels over a single connection.
+    
+- **Multiplexing:** Identifies unique connections using the standard 4-tuple: `(Source IP, Source Port, Destination IP, Destination Port)`.
+    
+- **Underlying Application Substrate:** Serves as the transport foundation for protocols requiring guaranteed delivery (e.g., HTTPS, SSH).
+    
+
+#### Reliability & Control Mechanisms
+
+- **Guaranteed, Ordered Delivery:** Utilizes sequence (SEQ) numbers and acknowledgment (ACK) numbers to track byte offsets, ensuring in-order delivery to the application space.
+    
+- **Error Recovery:** Transparently handles out-of-order segments, packet loss, and data corruption via retransmission (e.g., Retransmission Timeout, Fast Retransmit).
+    
+- **Flow Control:** Receiver dynamically advertises its available buffer capacity (Receive Window, `rwnd`) to throttle the sender, preventing application buffer exhaustion.
+    
+
+#### Buffer & Memory Management
+
+- **TCP Send Buffer (TX):**
+    
+    - Data is queued here via application syscalls (`write()`, `send()`).
+        
+    - The OS/TCP stack segments the byte stream into Maximum Segment Sizes (MSS) for IP encapsulation.
+        
+    - Multiple consecutive application writes may be coalesced into a single TCP segment, or a single write may be fragmented across multiple segments.
+        
+    - Application threads block (or return `EAGAIN`/`EWOULDBLOCK`) if the TX buffer is full.
+        
+- **TCP Receive Buffer (RX):**
+    
+    - Segments are collected, reordered, and buffered upon arrival.
+        
+    - Data is exposed to the application layer stream (`read()`, `recv()`) as it becomes contiguous.
+        
+- **Boundary Enforcement (Application Layer Responsibility):** Because TCP is stream-based, protocols relying on it _must_ implement application-level framing (e.g., `Content-Length` headers, delimited payloads) to parse discrete messages out of the continuous stream.
+    
+
+#### Protocol Encapsulation (Layer 4)
+
+- **TCP over IP:** TCP headers and payload (Segments) are encapsulated within IP Packets. IP fragment boundaries have zero correlation to original application write boundaries.
+    
+- **Comparison to UDP:** UDP operates at the same layer and provides multiplexing (ports) over IP, but retains the Layer 3 datagram (packet-based) model without state, flow control, or delivery guarantees.
+    
+
+#### Connection Teardown (State Machine)
+
+- **Half-Close Capability:** Because channels are independent, each direction is terminated separately, allowing a peer to stop transmitting while continuing to receive.
+    
+- **Termination Sequence (4-Way Handshake):**
+    
+    1. Active closer transmits a `FIN` control flag.
+        
+    2. Passive closer acknowledges with an `ACK`. (The remote application receives an `EOF` on its next `read()` operation).
+        
+    3. Passive closer transmits its own `FIN` when its application channel is closed.
+        
+    4. Active closer responds with a final `ACK`.

@@ -1,4 +1,4 @@
-```javscript
+```javscrip
 app.set()
 ```
 - may store any value that you want, but certain names can be used to configure the behavior of the server.

@@ -1,3 +1,5 @@
+[[ingestion]]
+
 ```bash
 ffmpeg -re -i /home/mihir/Downloads/sample-video-1hr.mp4 -c copy -f mpegts udp://127.0.0.1:5000
 
@@ -20,7 +22,7 @@ Broadcasting -> sending the same audio/video/data from one source to multiple re
 - Broadcasting is the process of transmitting content from one publisher to many viewers.
 - one stream is distributed to many viewers.
 
-DRM (Digital Right Management) -> fits after ingestion and transcoding, but before playback by viewers.
+> DRM (Digital Right Management) -> fits after ingestion and transcoding, but before playback by viewers.
 
 Its purpose is not to transport video. It protects the video so only authorized users can watch it.
 
