@@ -4,7 +4,7 @@
 
 ```bash
 tmux ls; // list session
-tmux attach -t <name>; // attach previous session
+tmux attach -t <name>; // attach previous session from outside of tmux
 ```
 
 ```bash
@@ -25,7 +25,7 @@ C-b & // kill window
 
 ```text
 C-b % // vertical split
-C-b " // horizontal split
+C-b ****" // horizontal split
 C-b o // switch pane
 C-b x // kill pane
 C-b z // zoom/unzoom pane
@@ -34,8 +34,10 @@ C-b z // zoom/unzoom pane
 ## Session
 
 ```text
-	C-b d // detach the current session
+C-b d // detach the current session
 ctrl + b :
+ctrl + b s // switch session
+tmux switch-client -t <session-name>
 rename-session my_session;
 ```
 
