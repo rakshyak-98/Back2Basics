@@ -4,6 +4,9 @@ app.set()
 - may store any value that you want, but certain names can be used to configure the behavior of the server.
 - [app settings table](https://expressjs.com/en/4x/api.html#app.settings.table)
 
+> [!INFO]
+> expressjs itself doesn't implement concurrency, it inherits NodeJS single-threaded, even-loop-based concurrency model. Express is a routing/middleware layer on top of Node's `http` module, it does not spawn threads or processes per request.
+
 >[!NOTE ] calling `app.set('foo', true)` for a boolean property is same as calling `app.engable('foo')`. Similarly `app.set('foo', false)` is `app.disable('foo')`
 
 > [!INFO] empty object (`{}`) if there was no body to parse, the `Content-Type` was not matched, or an error occurred.
