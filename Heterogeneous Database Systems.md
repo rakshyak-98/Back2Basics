@@ -1,3 +1,3 @@
 A heterogeneous database systems is a setup where an app uses several completely different kinds of databases working together behind the scenes, rather than trying to force one single database to do every single task.
 
-Heterogeneous database system integrate disparate data models, schemas, and query languages across multiple storage engines (e.g, Relational, Document, Graph, Time-Series) into a cohesive operational surface.
+Heterogeneous database system integrate different data models, schemas, and query languages across multiple storage engines (e.g, Relational, Document, Graph, Time-Series) into a cohesive operational surface.
