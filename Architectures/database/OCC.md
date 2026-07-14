@@ -9,4 +9,4 @@ Validation Phase (Conflict Detection) -> Prior to commit, the transaction manage
 - Backward validation: Checks if the Read Set intersects with the Write Sets of transactions that committed after the current transaction started.
 - Forward validation: Checks if the Write Set intersects with the Read Sets of active transactions.
 
-Write Phase (Commit/Abort) -> If the validation succeeds, the Write Set is flushed to global 
+Write Phase (Commit/Abort) -> If the validation succeeds, the workspace state is flushed to the durable store. If it fails, the transaction is aborted, rolled back, and typically yields to a retry heuristic.

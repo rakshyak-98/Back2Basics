@@ -1,0 +1,1 @@
+A rolling (circular/ring) buffer utilizes a statically allocated, contiguous memory segment to manage streaming data with bounded memory footprints, completely bypassing dynamic memory allocation and garbage collection during steady-state execution.
