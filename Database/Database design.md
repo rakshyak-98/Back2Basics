@@ -171,6 +171,8 @@ GENERATED ALWAYS AS (
 ## No Transaction Boundary Grouping
 
 It means the audit log records **what changed**, but **not which changes belonged to the same transaction**.
+	- Group all audit entries that belong to the same business transaction.
+	- Although for different tables changed, they all belong to the same business transaction.
 
 ```sql
 BEGIN;
@@ -195,6 +197,32 @@ Question you cannot answer:
 - Which audit rows belong to one user action?
 
 ### With `transaction_correlation_id`
+
+When `transaction_correlation_id` is stored in an `audit_log` table, its purpose is **not to identify the audit record itself**, but to group all audit entries that belong to the same business transaction.
+
+> [!NOTE]
+> The `transaction_correlation_id` should be created once, at the beginning of the business operation, before the database transaction starts (or immediately after it begins), and then passed unchanged throughout the entire request.
+
+```txt
+HTTP Request
+     │
+Generate UUID
+     │
+Store in request context
+     │
+Pass to all repositories/services
+
+Reason:
+
+- Same ID can be used in:
+    - database
+    - application logs
+    - HTTP logs
+    - Kafka messages
+    - microservices
+    - audit logs
+```
+
 
 Audit table:
 
@@ -226,3 +254,9 @@ This proves these changes were part of one **atomic database transaction**.
 
 > [!NOTE]
 > Without a transaction correlation ID, auditors must infer relationships using timestamps, user IDs, or session IDs, Which are unreliable because multiple transactions can occur within the same time window or session.
+
+## Overlapping validity periods
+
+## Multi-Tenancy Boundary Violations
+
+In a multi-tenant SaaS application, every row of tenant-specific data must belong to exactly one tenant, unless the table is explicitly designed to hold globally shared reference data.

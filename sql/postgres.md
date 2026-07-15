@@ -1,4 +1,9 @@
+[[Database]]
+
 [notes webpage](https://sql.holt.courses/lessons/data/nodejs-and-postgresql)
+
+> [!NOTE]
+> In PostgreSQL, **creating a Foreign key constraint does not automatically create an index** on the referencing column.
 
 ## Create user
 
