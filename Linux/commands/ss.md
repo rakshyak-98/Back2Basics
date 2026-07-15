@@ -1,0 +1,3 @@
+```bash
+ss -luntp;
+```

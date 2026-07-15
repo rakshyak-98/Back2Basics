@@ -1,0 +1,3 @@
+```shell
+getent passwd <username>
+```

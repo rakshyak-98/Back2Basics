@@ -1,3 +1,5 @@
+[[useradd]] [[getent]] [[passwd]] [[userdel]] [[usermod]] [[gpasswd]] [[groups]] [[chage]] [[chmod]] [[su]] [[groupadd]]
+
 user, user with elevated privileges, root.
 
 ```bash
@@ -113,4 +115,31 @@ useradd -d $USER <dir name># set the home directory for the user account.
 useradd -g [groupname] [username];
 useradd -e [yyyy-mm-dd] [username]; # new user account with expiration date.
 useradd -c [comment_for_user] [username]; # set user comment.
+```
+
+### Create admin user
+
+```shell
+sudo useradd -m -s /bin/bash admin1
+sudo passwd admin1
+sudo usermod -aG sudo admin1
+```
+
+```shell
+sudo useradd -m developer
+sudo passwd developer
+sudo usermod -aG developers developer
+```
+
+> [!WARNING]
+> Always use `usermod -aG` not `-G`, when adding new user to an existing supplementary group. Using `-G` alone replaces all supplementary groups.
+
+```shell
+# Lock a compromised account
+sudo passwd -l testuser
+```
+
+```shell
+# Delete inactive user completely
+sudo userdel -r olduser
 ```

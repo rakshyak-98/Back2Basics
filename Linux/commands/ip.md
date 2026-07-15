@@ -10,3 +10,7 @@ ip link show  en0s31f5
 ```bash
 ip -s link; # Check interface statistics (RX/TX packets)
 ```
+
+```bash
+sar -n DEV 1;
+```

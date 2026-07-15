@@ -257,6 +257,17 @@ This proves these changes were part of one **atomic database transaction**.
 
 ## Overlapping validity periods
 
+occur when two or more distinct timeframes (or date ranges) share a common segment of time.
+
+This concept frequently arises in database management, scheduling, HR systems, and software engineering (often referred to as temporal data). Managing validity periods effectively is crucial because overlaps can cause system conflicts, such as billing a customer twice for the same subscription or assigning two employees to a mutually exclusive shift.
+
+### Understanding the Overlap logic
+
+The most common challenge with validity periods is writing the logic to detect if an overlap exists.
+
+A common mistake is trying to check if the start or end date of one period falls strictly inside the other. This often misses edge cases where one period completely engulfs another. The most robust, foolproof way to check if two periods, Period A and Period B overlap is to use this simple formula:
+Period A starts before (or when) Period B ends AND Period A and Period B ends after (or when) Period B starts.
+
 ## Multi-Tenancy Boundary Violations
 
 In a multi-tenant SaaS application, every row of tenant-specific data must belong to exactly one tenant, unless the table is explicitly designed to hold globally shared reference data.
