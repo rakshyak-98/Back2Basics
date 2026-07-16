@@ -1,4 +1,4 @@
-[[context switching]] [[networking]]
+[[context switching]] [[Networking]]
 
 In the context of media streaming and infrastructure architecture, a concurrent connection is as active, sustained session between a client (or source) and a server where data is being actively transmitted or maintained in a state-ready condition.
 

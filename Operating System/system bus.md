@@ -1,0 +1,1 @@
+The system bus is the primary high-speed communication interconnect linking a CPU to main memory and the motherboard chipset. While historically a shared electrical pathway, modern implementations (e.g., AMD infinity Fabric, Intel UPI) are packetized, point-to-point serial links that govern the maximum bandwidth and latency from memory operations and I/O traffic.
