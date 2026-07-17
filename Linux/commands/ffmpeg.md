@@ -25,6 +25,13 @@ ffmpeg -i input.mp4 -c:v libx265 -c:a copy output.mp4
 
 ```
 
+```bash
+ffmpeg -i <video_source> -i <audio_source> -c copy <outputvideo>;
+
+ffmpeg -i video.mp4 -itsoffset 0.5 -i audio.aac -map 0:v -map 1:a -c copy output.mp4
+ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac -b:a 192k output.mp4
+```
+
 ## Choose compression
 
 In `ffmpeg` compression is chosen by selecting the codec `-c:v` `-c:a` and its settings (bitrate, CRF, preset, quality).
