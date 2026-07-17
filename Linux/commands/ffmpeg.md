@@ -1,9 +1,33 @@
-[[re-encoding]] [[codecs]]
+[[re-encoding]] [[codecs]] [[transcoding]]
 
 [documentation](https://ffmpeg.org/ffmpeg.html#Description)
 
+`ffmpeg` is a command-line multimedia processing tool. It can read, write, convert, process, and stream audio and video.
+
 `ffmpeg` -> Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the [[sinks]], while being transformed by the components they encounter along the way.
 
+### Separate the audio and video from the source file
+
+To separate the audio and video from a source file without re-encoding (fast and lossless), use `-c copy`
+
+```bash
+
+ffmpeg -i <input_source> -an -c copy video_only.mp4;
+# -c copy - if you don't want to recompress, this simply copies the existing streams.
+# -an remove audio
+
+ffmpeg -i <input_source> -vn -c copy audio_only.aac;
+# -vn remove video
+
+ffmpeg -i input.mp4 -c:v libx265 -c:a copy output.mp4
+# Video: transcoded from H.264 to H.256
+# Audio: copied without transcoding
+
+```
+
+## Choose compression
+
+In `ffmpeg` compression is chosen by selecting the codec `-c:v` `-c:a` and its settings (bitrate, CRF, preset, quality).
 
 ### Public via MPEG-TS (if Flussonic is configured for TS ingest)
 

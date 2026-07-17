@@ -1,3 +1,5 @@
+[[ffmpeg]]
+
 **Transcoding** is the direct digital-to-digital conversion of one media file format (audio or video) into another.
 
 At its core, it is the process of taking an existing media file, decoding it to an uncompressed state, and then re-encoding it into a new format, size, or quality.
