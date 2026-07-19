@@ -1,93 +1,160 @@
-|Concept|What it Means (Simple)|Example in Our Project|
-|---|---|---|
-|Provider|Tells Terraform which cloud (AWS, GCP, Azure…)|provider "aws" { region = "us-east-1" }|
-|Resource|Something you want to create (an EC2, RDS, S3 bucket…)|resource "aws_ecs_cluster" "main" { … }|
-|Variable|A value you want to change per environment (dev/staging/prod)|variable "environment" { default = "dev" }|
-|Output|Shows you useful info after creation (like URLs, IPs)|output "alb_dns_name" { value = aws_alb.main.dns_name }|
-|Module|Re-usable folder of Terraform code|We will have modules for vpc, rds, ecs, alb, etc.|
-|State|A JSON file that remembers everything Terraform created|Stored in S3 + DynamoDB (locked so two people don’t break it)|
+[[Terraform setup]] [[terraform]] [[terraform provider]] [[Terraform CLI]] [[variable file]]
 
-### Terraform commands
+# Terraform workflow
 
-| Step       | Command             | Purpose                                     |
-| ---------- | ------------------- | ------------------------------------------- |
-| Initialize | `terrafrom init`    | Prepare the directory, downloads providers. |
-| Plan       | `terraform plan`    | Shows what changes will be made.            |
-| Apply      | `terraform apply`   | Deploy the infrastructure.                  |
-| Destroy    | `terraform destroy` | Deletes the infrastructure.                 |
-### Querying available providers
-```shell
-terraform providers;
-terraform providers | grep aws;
-terraform providers scheam -json | jq | head;
+> Core loop & state — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
+
+---
+
+## Mental model (both books)
+
+```txt
+.tf desired state  +  credentials  +  state file
+                         │
+                    terraform plan
+                         │
+              + create / ~ update / - destroy
+                         │
+                   terraform apply
+                         │
+                 cloud API + new state
 ```
+
+Concepts used in this loop:
+
+| Concept | Meaning | Notes |
+|---------|---------|-------|
+| Provider | Which cloud/API | [[terraform provider]] |
+| Resource | Managed object | [[terraform]] |
+| Variable | Per-env input | [[variable file]] |
+| Output | Value to show / share | [[variable file]] |
+| Module | Reusable package | [[terraform]] |
+| State | Record of what Terraform owns | [[Terraform setup]] backends |
+
+---
+
+## The four commands
+
+| Step | Command | Purpose |
+|------|---------|---------|
+| Initialize | `terraform init` | Download providers/modules; configure backend |
+| Plan | `terraform plan` | Diff: desired config vs state (+ refresh from cloud) |
+| Apply | `terraform apply` | Execute the plan; update state |
+| Destroy | `terraform destroy` | Remove managed resources; clear state |
+
+Prereqs: [[Terraform setup]] · debug: [[Terraform CLI]]
+
+```shell
+terraform init
+terraform plan -out=tfplan
+terraform apply tfplan
+terraform destroy
+```
+
+---
+
+## Dependency graph (Winkler)
+
+Before plan, Terraform builds a DAG of resources:
+
+- **Implicit** edges from references (`ami = aws_ami…` / `subnet_id = aws_subnet.a.id`)
+- **Explicit** `depends_on` when there is no attribute reference but order still matters
+- Independent nodes can run **in parallel**
+
+That’s why file order among `*.tf` files does not define apply order.
+
+---
+
+## What `init` does
+
+1. Read `required_providers` / module sources
+2. Download plugins → `.terraform/`
+3. Configure backend (local or remote)
+4. Write `.terraform.lock.hcl` (provider checksums — commit this; Brikman/team practice)
+
+```shell
+terraform init
+terraform init -upgrade          # allow newer providers within constraints
+terraform init -migrate-state    # after backend change
+```
+
+---
+
+## What `plan` / `apply` do
+
+1. Load config + [[variable file]] values
+2. Refresh state against cloud (unless `-refresh=false`)
+3. Compute actions: create / update / replace / destroy
+4. Apply: call [[terraform provider]], then write state
 
 ```txt
 │ Error: No configuration files
-│ 
-│ The directory /home/ubuntu/GitHub/Playground/terraform-playground contains no Terraform configuration files.
-╵
-
+│ The directory … contains no Terraform configuration files.
 ```
-- The error "No configuration files" means terraform couldn't find a `.tf` file in your directory.
-- there should be a `.tf` file `main.tf`
+
+→ add at least one `.tf` (e.g. `main.tf` with a [[terraform provider]] block), then `terraform init`.
+
+---
+
+## State: why it exists (Brikman)
+
+`terraform.tfstate` maps addresses → real IDs/attributes.
+
+| Without state | With state |
+|---------------|------------|
+| Guess what exists | Know what Terraform created |
+| Risk of duplicates | Diff-driven changes |
+| Solo only | Remote + lock for teams |
+
+```shell
+terraform state list
+terraform state show aws_instance.web
+terraform refresh   # sync state from cloud (use carefully)
+```
+
+> [!INFO] Apply of **data sources only** can change state/outputs without changing cloud infrastructure.
+
+Example: reading `data.aws_instances.all` and writing an output updates local/remote state, not EC2 inventory.
+
+Remote backend + DynamoDB/Blob lease locking → [[Terraform setup]]
+
+---
+
+## Lifecycle meta-arguments (Winkler)
+
 ```hcl
-provider "aws" {
-	region = "us-east-1"
+resource "aws_instance" "web" {
+  ami           = var.ami
+  instance_type = var.instance_type
+
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy       = true
+    ignore_changes        = [tags]
+  }
 }
-
-```
-- then initialize the terraform
-```shell
-terraform init
 ```
 
-##### Query the schema
-```shell
-terraform providers schema -json | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas | keys'
+| Argument | Use |
+|----------|-----|
+| `create_before_destroy` | Zero-downtime replacements |
+| `prevent_destroy` | Guard rails for critical resources |
+| `ignore_changes` | Stop Terraform fighting out-of-band edits |
 
-```
+---
 
-```shell
-terraform providers schema -json | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas["aws_instance"]'
+## Safe team loop (Brikman)
 
-```
-- Check details of a specific resource
-- view EC2 `aws_instance` resource details.
+1. Branch + PR with plan output in CI
+2. Remote state unlocked only after apply finishes
+3. Secrets never in git
+4. Pin versions (`.terraform.lock.hcl` committed)
 
-### Querying Data Sources (Read-Only Resources)
-- data sources let you query existing infrastructure.
-- useful when working with pre-existing AWS resources.
+---
 
-```hcl
+## Related
 
-```
-
-#### What happens If you type "yes" for `terraform apply`?
-```txt
-➜ terraform-playground $ terraform apply
-data.aws_instances.all: Reading...
-data.aws_instances.all: Read complete after 1s [id=ap-south-1]
-
-Changes to Outputs:
-  + ec2_instances = []
-
-You can apply this plan to save these new output values to the Terraform state, without changing any real
-infrastructure.
-
-Do you want to perform these actions?
-  Terraform will perform the actions described above.
-  Only 'yes' will be accepted to approve.
-
-```
-- terraform is using a data source `data.aws_instances.all` to fetch existing EC2 instances in the region `ap-south-1`. 
-- since terraform fetched the instance list successfully, it updates the Terraform state file `terraform.tfstate` whit the new value `ect_instances = []`
-- in this Terraform will not create, modify, or delete any AWS resources it will only update its internal state.
-
-> [!INFO] Terraform applies the changes only to the local state file `terraform.tfstate`.
--  AWS infrastructure remains unchanged.
-
-### What is the purpose of `terraform.tfstate` file?
-- Track resources, helps terraform understand what exists vs what need to change.
-- Enables change detection -> `terraform plan` compares the state file with the `.tf` config to show what changes will be made.
-- When using remote state storage (e.g., S3, Terraform Cloud), multiple team members can work on the same infrastructure safely.
+- Language building blocks → [[terraform]]
+- First project plumbing → [[Terraform setup]]
+- Provider RPC / aliases → [[terraform provider]]
+- Logs & schema → [[Terraform CLI]]
