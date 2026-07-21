@@ -53,7 +53,7 @@ tmux ls | cut -d: -f1 | xargs -n1 tmux kill-session -t;
 ```bash
 port=10001
 
-for file in *.ts; do
+	for file in *.ts; do
     tmux new-session -d -s "stream_${port}" \
         "ffmpeg -re -stream_loop -1 -i '$file' -c copy -f mpegts udp://239.1.1.3:${port}?pkt_size=1316"
 

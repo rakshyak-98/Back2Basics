@@ -1,3 +1,5 @@
+[[psql user acl]]
+
 role -> can own objects and have privileges.
 user -> A role that can log in.
 Internally PostgreSQL stores both as roles.
@@ -22,6 +24,7 @@ PostgreSQL Server
 \l -- List database
 \z users -- Show tables privileges
 \conninfo -- show curretn connection info
+\dn -- show schema list
 ```
 
 
