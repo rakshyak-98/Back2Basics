@@ -32,6 +32,27 @@ ffmpeg -i video.mp4 -itsoffset 0.5 -i audio.aac -map 0:v -map 1:a -c copy output
 ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac -b:a 192k output.mp4
 ```
 
+## Open transport stream files with tmux new session
+
+```bash
+tmux new-session -d -s ffmpeg
+
+first=1
+for file in *.mp4 *.mkv *.mov *.ts; do
+    [ -e "$file" ] || continue
+
+    if [ $first -eq 1 ]; then
+        tmux rename-window -t ffmpeg:0 "$file"
+        tmux send-keys -t ffmpeg:0 "ffmpeg -i \"$file\"" C-m
+        first=0
+    else
+        tmux new-window -t ffmpeg -n "$file" "ffmpeg -i \"$file\""
+    fi
+done
+
+tmux attach -t ffmpeg
+```
+
 ## Choose compression
 
 In `ffmpeg` compression is chosen by selecting the codec `-c:v` `-c:a` and its settings (bitrate, CRF, preset, quality).
