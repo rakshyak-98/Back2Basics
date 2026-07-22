@@ -13,3 +13,6 @@ Characteristics
 - Sent to every host in the subnet.
 - Routers do not forward broadcast packets by default.
 - Increase unnecessary network traffic.
+
+> [!INFO]
+> Routers generally do not forward broadcasts, so the request would never reach an Internet server.
