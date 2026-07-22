@@ -1,1 +1,3 @@
-- in computer programming, a handle is an abstract reference to a resource that is used when application software references blocks of memory or objects that are managed by another system like a database or an operating system.
+→ [[file descriptors]]
+
+Alias note: **handle** (abstract resource reference) — on Unix/Linux the concrete mechanism is [[file descriptors]] (integer indices into the per-process fd table). Windows uses `HANDLE`; databases use cursor/connection handles — same pattern, different API.

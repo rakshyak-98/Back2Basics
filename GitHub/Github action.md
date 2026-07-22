@@ -1,100 +1,99 @@
-# Actions
+[[Github runner]] [[Github cli]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
 
-### Use secret in workflow
+# GitHub Actions
+
+> Event-driven CI/CD defined in YAML under `.github/workflows/` — jobs run on [[Github runner]] instances.
+
+## Mental model
+
+```
+Trigger (push, PR, cron, dispatch)
+  → Workflow (.yml)
+    → Job(s) [parallel by default]
+      → Steps (run shell or uses: action)
+        → Runner environment
+```
+
+Secrets live in GitHub (`secrets.*`, `vars.*`); never commit them. Expressions `${{ }}` access context (`github`, `env`, `matrix`).
+
+## Standard config / commands
+
+### Minimal CI workflow
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
+```
+
+### Secrets in steps
 
 ```yaml
 steps:
-  - name: Hello world action
-    with: # Set the secret as an input
-      super_secret: ${{ secrets.SuperSecret }}
-    env: # Or as an environment variable
-      super_secret: ${{ secrets.SuperSecret }}
+  - name: Deploy
+    env:
+      API_KEY: ${{ secrets.API_KEY }}
+    run: ./deploy.sh
 ```
 
-### Pre-installed Run-times
-
-- GitHub Action, executes in a virtual environment (like Ubuntu, Windows, or macOS) that GitHub provides.
-- in workflow YAML file, you specify the environment in which your action runs.
-- if your workflow is set to run on `ubuntu-latest`. It will use a virtual machine that already has Node.js installed.
-
-## Workflow
-
-workflows in git repository are defined in the `.github/workflow`
-
-workflow triggers are events that cause a workflow to run:
-- Events that occur in workflow's repository
-- Event that occur outside of Github and trigger a **repository_dispatch** event on GitHub.
-
-### Workflow components
-
-#### actions
-
-- reusable tasks the perform specific jobs withing a workflow
-
-#### workflows
-
-- automated processes defined in git repository that coordinate one or more jobs, triggered by events or on a schedule.
-
-#### jobs
-
-- groups of steps that executes on the same runner, typically running in parallel unless configured otherwise.
-
-#### steps
-
-- individual tasks within a job that run commands or actions sequentially.
-
-#### runs
-
-- instances of workflows execution triggered by events, representing the complete run-through of a workflow.
-
-#### runners
-
-- servers that host the environment where the jobs are executed, available as GitHub-hosted or self-hosted options.
-
-#### marketplace
-
-- a platform to find and share reusable actions, enhancing workflow capabilities with community-developed tools.
-
-## Triggering schedule event
-
-- schedule can use a `cron` expression to trigger a workflow at a specific time or day.
-
-```yml
-on:
-	schedule:
-		- cron: '30 5 * * 1,3'
-		- cron: '30 5 * * 2,4'
-jobs:
-	test_schedule:
-		runs-on: ubuntu-latest
-		steps:
-			- name: Not on Monday or Wednesday
-			if: github.event.schedule !== '30 5 * * 1,3'
-			run: echo "Skip this step on Monday and Wednesday"
-			- name: Event time
-			run: echo "This step will alsays run"
-```
-
-## Triggering Single or Multiple events
+### Scheduled cron (UTC)
 
 ```yaml
-name: CI on PUSH
-
 on:
-	push:
-		branch:
-			- main
+  schedule:
+    - cron: '30 5 * * 1,3'   # Mon/Wed 05:30 UTC
 jobs:
-	build:
-		- uses: actions/checkout@v2
-		- name: Run a one-line script
-		- run: echo "Hello, World!"
+  nightly:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ github.event.schedule }}"
 ```
 
-### How to disable CodeQL
-1. go to repository settings
-2. scroll to Security Left hand side
-3. click on Code security.
-4. scroll to Code Scanning section.
-5. find tools section.
-6. you can select and disable.
+### Disable CodeQL (repo setting path)
+
+Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in prod repos).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Workflow not triggering | `on:` branch/path filters | Match branch name; use `workflow_dispatch` to test |
+| Secret empty in log | `secrets` scope (env vs repo) | Set secret at correct level; fork PRs don't get secrets |
+| `ubuntu-latest` tool missing | Runner image changelog | Pin `actions/setup-*` or explicit apt install |
+| YAML invalid | Actions tab error | Validate indentation; tabs break YAML |
+| Cron didn't run | GitHub schedule delay | Cron is best-effort; can slip minutes on busy repos |
+| Action pin drift | `@v4` vs SHA | Pin major tag or full SHA for supply-chain safety |
+
+## Gotchas
+
+> [!WARNING]
+> **`pull_request` from forks** — secrets unavailable; use `pull_request_target` only with extreme care (RCE risk).
+>
+> **Cache poisoning across branches** — scope cache keys with `${{ github.ref }}`.
+>
+> **Reusable workflow inputs** — untrusted input in `run:` = injection; pass as env, not string concat in script.
+
+## When NOT to use
+
+- Don't run long-lived servers in Actions — use deploy targets (k8s, Lambda, VM).
+- Don't replace proper secret manager (Vault, AWS SM) with hundreds of repo secrets for shared infra creds.
+
+## Related
+
+[[Github runner]] [[Github cli]] [[GIT/git hook]] [[DevOps/Jenkins]]

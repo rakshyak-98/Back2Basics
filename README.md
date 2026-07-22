@@ -1,41 +1,52 @@
 # Back2Basics
 
-## Intro
+Staff-engineer **field notes** — fast retrieval for debugging, standard configs, and solid mental models.
 
-So, here’s the deal—tech moves **fast**. Like, ridiculously fast. We’re all so caught up chasing the newest frameworks, languages, and shiny things that we tend to forget where it all came from. And honestly? That’s a bit sad. There’s a ton of valuable stuff in the tech world’s past that’s just getting buried under layers of abstraction and encapsulation.
+Not a framework zoo. Not man-page dumps. Notes are written for software engineers under pressure: OS, networking, databases, containers, IaC, security, and the runtimes you ship.
 
-**TechRevive** is my attempt to dig up some of that forgotten knowledge, dust it off, and give it a second chance. This repo is about collecting and sharing those old-school tech ideas and tools that still have a lot to teach us, even if they’re not the hot new thing anymore.
+---
 
-## Why Bother?
+## Start here
 
-### **Keeping the Old Stuff Alive**
+| Need | Open |
+|------|------|
+| How notes are structured | [[NOTES_STANDARD]] |
+| Symptom → note map | [[INDEX]] |
+| Staff-level skill model | [[staff engineer]] |
 
-Let’s face it, a lot of foundational tech stuff is getting left in the dust. Sure, new is exciting, but old doesn’t mean useless. There’s a reason why these things were important back in the day. **TechRevive** is here to make sure that stuff doesn’t just disappear.
+---
 
-### **Learning from Legacy**
+## What good looks like
 
-There’s a ton to learn from older tech. These systems and languages? They didn’t just work, they worked *well*. The way problems were solved back then might seem a bit "hacky" by today’s standards, but there’s real genius in those solutions. We can take those lessons and apply them to the problems we’re dealing with now.
+Every note should answer under ~2 minutes:
 
-### **Bridging the Generational Gap**
+1. **What is this?** (mental model)
+2. **How do I configure it correctly?** (standard config / commands)
+3. **How do I debug it when it breaks?** (triage table)
+4. **What bites people in production?** (gotchas)
 
-Let’s be real—there’s a growing disconnect between the old guard and the new kids on the block in tech. It’s like we’re speaking different languages sometimes. This repo is an attempt to build a bridge, so we can all learn from each other and keep this knowledge alive.
+Templates already in the vault: [[Terraform workflow]], [[gRPC]], [[Configuration]] (Nginx), [[file descriptors]], [[ss]].
 
-### **Questioning the Status Quo**
+---
 
-Modern dev practices are all about hiding complexity with abstractions, which is cool and all... until it’s not. Sometimes, those abstractions make us forget how things *actually* work. **TechRevive** is about poking at those layers, understanding the guts of the machine, and maybe rethinking some of our assumptions.
+## Domains
 
-## What’s in Here?
+Linux · Operating System · Networking · DNS · Docker · Kubernetes · Terraform · Nginx · Database · Redis · Security · ssh · Protocol · GIT · NodeJS · Streaming · System Design · …
 
-- **Docs**: Write-ups on old tech, history, impact—basically, why it matters.
-- **Code**: Some practical examples, because theory is nice, but seeing it in action is better.
-- **Tutorials**: Step-by-step guides to help you actually get hands-on with this stuff.
-- **Discussions**: A spot to talk about why this old tech still matters (or maybe doesn’t?) today.
+Use [[INDEX]] for on-call routing.
 
-## How You Can Help
+---
 
-If you’re into this whole idea of preserving tech history, I’d love your help. Whether you’ve got experience with some ancient system or just want to learn something new (to you), jump in. Check out the [Contributing Guidelines](link-to-contributing-guidelines) to get started.
+## Contributing to this vault
 
-## Wrapping Up
+1. Read [[NOTES_STANDARD]] before writing.
+2. Prefer expanding one empty/stub over adding a fifth synonym.
+3. Merge duplicates with a redirect (`→ [[Canonical]]`).
+4. Strip wiki/ChatGPT citation spam; keep book/source attributions that are real (Kleppmann, Kerrisk, Brikman, Stevens, Burns).
+5. Link siblings with Obsidian `[[wikilinks]]`.
 
-**Back2Basics** isn’t just a repo—it’s a bit of a mission to make sure we don’t lose track of the tech that got us here. By digging into the past, we can make sense of the present and maybe do a better job with the future. So yeah, let’s keep this stuff alive. 🚀
+---
 
+## Why this exists
+
+Abstractions hide the machine until production fails. These notes dig back to **process tables, sockets, WAL, route tables, cgroups, and failure modes** so you can design and debug with evidence — not folklore.
