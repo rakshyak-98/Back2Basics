@@ -1,7 +1,7 @@
 ```bash
 AUTH <password>
-KEYS *; # get list of keys
-SCAN 0;
+KEYS * # get list of keys
+SCAN 0
 ```
 
 ```bash
@@ -29,5 +29,4 @@ MGET a b c
 ```
 
 ```bash
-
 ```
