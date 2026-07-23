@@ -1,181 +1,101 @@
-[[psql user acl]]
+[[postgres/psql essential]] [[postgres/psql keywords]] [[mysql/mysql user]] [[IAM]]
 
-role -> can own objects and have privileges.
-user -> A role that can log in.
-Internally PostgreSQL stores both as roles.
+# PostgreSQL users & roles
 
-```txt
-PostgreSQL Server
-│
-├── Roles (Users)
-│   ├── postgres
-│   ├── app_user
-│   ├── readonly_user
-│   └── admin
-│
-├── Database: inventory
-├── Database: payroll
-└── Database: analytics
+> One-line: Postgres **roles** unify users and groups — login role = user; grant least privilege; never app-connect as superuser.
+
+## Mental model
+
+Postgres uses **roles**. A role with `LOGIN` is a user. Roles can **inherit** membership in other roles (group pattern). Permissions attach to roles on databases, schemas, tables, sequences.
+
 ```
-- A user exists at the server (cluster) level, not inside a single database.
-
-```sql
-\du -- List users
-\l -- List database
-\z users -- Show tables privileges
-\conninfo -- show curretn connection info
-\dn -- show schema list
+CREATE ROLE app_user LOGIN PASSWORD '…'
+GRANT CONNECT ON DATABASE mydb TO app_user
+GRANT USAGE ON SCHEMA public TO app_user
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO app_user
 ```
 
+Default superuser `postgres` is for admin — apps use scoped role. Peer auth on Unix socket maps OS user → PG role (common source of "role does not exist" errors).
+
+## Standard config / commands
+
+### psql meta-commands
 
 ```sql
-CREATE USER app_user PASSWORD 'secret';
-
-CREATE DATABASE inventory OWNER app_user;
-
-\c inventory
-
-GRANT USAGE, CREATE
-ON SCHEMA public
-TO app_user;
-
-GRANT ALL PRIVILEGES
-ON ALL TABLES IN SCHEMA public
-TO app_user;
-
-ALTER DEFAULT PRIVILEGES
-IN SCHEMA public
-GRANT ALL
-ON TABLES
-TO app_user;
+\du          -- list roles
+\du+         -- with descriptions
+\l           -- databases
+\c mydb      -- connect
+\dp          -- table privileges
 ```
 
-```sql
-CREATE USER myuser WITH PASSWORD 'mypassword';
--- or
-CREATE ROLE app_user LOGIN PASSWROD 'secret';
+### Create app user + database
 
+```sql
+CREATE ROLE myuser WITH LOGIN PASSWORD 'strong-password' NOSUPERUSER NOCREATEDB;
 CREATE DATABASE mydb OWNER myuser;
+GRANT CONNECT ON DATABASE mydb TO myuser;
 ```
+
+### Schema grants (Postgres 15+ public schema)
 
 ```sql
-ALTER USER app_user PASSWORD 'new_password';
-
-ALTER USER app_user RENAME TO inventory_user;
-
-DROP USER app_user;
-
-ALTER ROLE app_user LOGIN;
-ALTER ROLE app_user NOLOGIN;
-ALTER ROLE admin SUPERUSER;
-ALTER ROLE admin NOSUPERUSER;
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;  -- harden default
+GRANT USAGE ON SCHEMA public TO myuser;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO myuser;
 ```
 
-Transfer ownership first
+### Role flags (use sparingly)
 
 ```sql
-REASSIGN OWNED BY app_user TO postgres;
-DROP OWNED BY app_user;
-DROP USER app_user;
+ALTER ROLE myuser CREATEDB;      -- can create databases
+ALTER ROLE myuser WITH SUPERUSER; -- break-glass only
 ```
+
+### Change password
 
 ```sql
-ALTER USER app_user CREATEDB;
-ALTER USER myuser WITH SUPERUSER;
+ALTER ROLE myuser WITH PASSWORD 'new-secret';
 ```
 
-```sql
-ALTER ROLE app_user CREATEDB;
-ALTER ROLE app_user NOCREATEDB;
-ALTER ROLE app_user CREATEROLE;
-ALTER ROLE replica REPLICATION;
+### pg_hba.conf auth modes
+
+```conf
+# TYPE  DATABASE  USER     ADDRESS       METHOD
+local   all       postgres               peer
+host    mydb      myuser   10.0.0.0/8    scram-sha-256
 ```
 
-```sql
--- database privileges
-GRANT CONNECT
-ON DATABASE inventory
-TO app_user;
+Reload after edit: `SELECT pg_reload_conf();`
 
-GRANT ALL PRIVILEGES
-ON DATABASE inventory
-TO app_user;
+## Triage (when things break)
 
--- Schema privileges
-GRANT USAGE
-ON SCHEMA public
-TO app_user;
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `role "ubuntu" does not exist` | Peer auth uses OS username | Create role; or `-U postgres`; fix pg_hba |
+| `password authentication failed` | Wrong secret; scram vs md5 | Reset password; align pg_hba method |
+| `permission denied for table` | Missing GRANT | Grant table/sequence; default privileges |
+| `must be owner` | DDL as app user | Migration role separate from runtime role |
+| Too many connections one user | No pool | [[connection pooling]]; lower app pool max |
+| `remaining connection slots` | Superuser reserved | Terminate idle; raise max_connections carefully |
 
-GRANT CREATE
-ON SCHEMA public
-TO app_user;
+## Gotchas
 
--- Table privileges
-GRANT SELECT
-ON TABLE users
-TO app_user;
+> [!WARNING]
+> **SUPERUSER in app connection string** — full cluster compromise on SQL injection.
 
-GRANT SELECT, INSERT, UPDATE, DELETE
-ON TABLE users
-TO app_user;
+> [!WARNING]
+> **Peer auth surprise** — `psql` as ubuntu tries role ubuntu, not postgres.
 
-GRANT ALL PRIVILEGES
-ON TABLE users
-TO app_USEr;
+> [!WARNING]
+> **Public schema CREATE granted to PUBLIC by old defaults** — revoke on new clusters.
 
-GRANT SELECT
-ON ALL TABLES IN SCHEMA public
-TO readonly;
+## When NOT to use
 
-ALTER DEFAULT PRIVILEGES
-IN SCHEMA public
-GRANT SELECT
-ON TABLES
-TO readonly;
+- **IAM DB auth (RDS/IAM)** — token-based user still maps to PG role; different connection flow.
+- **Row-level security** — complements grants; see app-specific policies.
 
-```
+## Related
 
-```sql
--- All tables
-GRANT SELECT
-ON ALL TABLES IN SCHEMA public
-TO readonly;
-
-ALTER DEFAULT PRIVILEGES
-IN SCHEMA public
-GRANT SELECT
-ON TABLES
-TO readonly;
-```
-
-```sql
-REVOKE INSERT
-ON TABLE users
-FROM app_user;
-```
-
-```sql
-CREATE TABLE users (...);
-```
-- The creator becomes the owner.
-
-```sql
-ALTER TABLE users
-OWNER TO app_user; -- Transfer ownership
-```
-
-```sql
--- Group roles Instead of granting permissions to each user
-CREATE ROLE developers;
-
-GRANT developers TO alice;
-GRANT developers TO bob;
-
-GRANT SELECT, INSERT
-ON ALL TABLES IN SCHEMA public
-TO developers;
-```
-
-```sql
-GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser;
-```
+[[postgres/postgres Error]] [[postgres/psql essential]] [[connection pooling]] [[mysql/mysql user]]

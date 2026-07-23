@@ -1,43 +1,105 @@
-- Border Gateway Protocol
-- designed to exchange routing and reliability information among autonomous systems on the Internet.
+[[routing table]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]]
 
-### How BGP Works
+# BGP
 
-BGP operates as a **path-vector protocol**, which means it maintains a record of the path that data packets take through various ASes. Each BGP router maintains a routing table that is updated based on information received from other routers. This information includes:
+> One-line: path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
 
-- **Network Layer Reachability Information (NLRI)**: This indicates which IP prefixes are reachable.
-- **Path Attributes**: These include various metrics like AS_PATH (the list of ASes a route has traversed), LOCAL_PREF (local preference for route selection), and NEXT_HOP (the next hop IP address for reaching a destination).
+## Mental model
 
-When routers establish connections, known as **peering**, they exchange routing updates to determine the best paths for data transmission based on policies set by network administrators[1][2][3].
+BGP (Border Gateway Protocol) advertises **IP prefixes** (NLRI) between **Autonomous Systems** (AS). Each route carries **path attributes** — notably `AS_PATH`, `NEXT_HOP`, `LOCAL_PREF`, `MED` — used for policy-based selection, not pure shortest-path.
 
-## Why BGP is Used
+```
+  AS 65001 (you)                    AS 64500 (upstream)
+  ┌─────────────┐    eBGP session   ┌─────────────┐
+  │ edge router │◄─────────────────►│   ISP peer  │
+  │ 10.0.0.0/16 │                   │             │
+  └──────┬──────┘                   └─────────────┘
+         │ iBGP (full mesh or RR)
+  ┌──────▼──────┐
+  │ core routers│  same AS_PATH, NEXT_HOP often unchanged
+  └─────────────┘
+```
 
-BGP serves several essential functions in internet routing:
+| Type | Scope | Typical use |
+|------|-------|-------------|
+| **eBGP** | Between different ASNs | Internet peering, transit, cloud Direct Connect |
+| **iBGP** | Within one ASN | Propagate external routes to all internal routers |
 
-- **Routing Between Networks**: BGP determines the optimal paths for data to travel between different ASes, ensuring efficient data transfer across the internet. It evaluates various factors such as network congestion, geographical location, and administrative policies to select the best route[1][3].
+**Selection order (simplified):** highest LOCAL_PREF → shortest AS_PATH → eBGP over iBGP → lowest MED → closest IGP to NEXT_HOP → router tie-break.
 
-- **Network Stability and Redundancy**: BGP enhances network stability by allowing routers to quickly adapt to changes in network topology. If one path fails, BGP can reroute traffic through an alternative path, maintaining connectivity and reducing downtime[2][4].
+BGP is **slow to converge by design** (minutes possible). It assumes stability over sub-second failover — pair with BFD or IGP for fast local failure detection.
 
-- **Traffic Engineering**: Network administrators can implement policies that control how traffic flows between networks. This capability allows for load balancing and optimization of network performance, ensuring efficient use of available resources[2][3].
+## Standard config / commands
 
-- **Dynamic Route Discovery**: The protocol enables autonomous systems to discover new routes and adapt to changes in the network structure, such as adding or removing ASes. This adaptability is vital for maintaining an up-to-date routing table[3][4].
+Inspect locally (Linux FRR / Bird / vendor CLI patterns):
 
-### Types of BGP
+```shell
+# FRR (common on Linux routers)
+vtysh -c 'show ip bgp summary'          # session state
+vtysh -c 'show ip bgp neighbors'         # timers, prefixes received
+vtysh -c 'show ip bgp'                  # RIB
+vtysh -c 'show ip bgp <prefix>'         # why this path won
 
-BGP can be categorized into two main types:
+# Bird
+birdc show protocols
+birdc show route for 203.0.113.0/24 all
 
-- **External BGP (eBGP)**: Used for exchanging routing information between different autonomous systems. eBGP sessions are typically established between routers located at the edge of their respective ASes.
+# Generic: is the session up?
+ss -tn sport = :179 or dport = :179       # BGP uses TCP/179
+tcpdump -ni any port 179 -c 50
+```
 
-- **Internal BGP (iBGP)**: Used for routing information within a single autonomous system. iBGP helps maintain consistent routing information among routers within the same organization[1][2].
+Cloud/hybrid peering sanity:
 
-In summary, BGP is fundamental to the operation of the internet, enabling efficient data routing and ensuring network resilience across diverse and interconnected systems.
+```shell
+# AWS Direct Connect / VPN — check propagated routes in route table
+aws ec2 describe-vpn-connections
+aws directconnect describe-virtual-interfaces
 
-Citations:
-[1] https://www.techtarget.com/searchnetworking/definition/BGP-Border-Gateway-Protocol
-[2] https://www.kentik.com/kentipedia/what-is-bgp-border-gateway-protocol/
-[3] https://aws.amazon.com/what-is/border-gateway-protocol/
-[4] https://www.javatpoint.com/border-gateway-protocol
-[5] https://www.wallarm.com/what/bgp-routing-explanation
-[6] https://www.geeksforgeeks.org/border-gateway-protocol-bgp/
-[7] https://www.cloudflare.com/learning/security/glossary/what-is-bgp/
-[8] https://en.wikipedia.org/wiki/Border_Gateway_Protocol
+# Confirm prefix actually installed in kernel RIB
+ip route show proto bgp    # if redistributed locally
+```
+
+Minimal eBGP sanity checklist after change:
+1. TCP/179 reachable (ACL, MD5/TCP-AO if configured)
+2. Session `Established` (not `Active` / `Idle`)
+3. Expected prefixes in `show ip bgp` / received count matches peer
+4. NEXT_HOP reachable via IGP (`ping <nexthop>`, `traceroute`)
+5. Prefix propagates to downstream (iBGP reflector clients, route-maps)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Session stuck `Active` / `Idle` | `tcpdump port 179`; ACL on either side | Open TCP/179; fix MD5 mismatch; verify correct source IP on multi-homed host |
+| Session flaps every ~60–180s | `show bgp neighbors` → hold timer, keepalive | MTU issue on TCP/179 (try `tcp mss` or lower interface MTU); BFD false positives |
+| Prefix not received | `show ip bgp neighbors received-routes` (soft config) | Peer export policy filters you; ask peer what they advertise |
+| Prefix received but not installed | `show ip bgp <prefix>` all paths | Import route-map denies; AS_PATH loop; NEXT_HOP unreachable |
+| Traffic blackholed after peer up | `traceroute`; compare AS_PATH length vs expected | Longer path selected elsewhere; MED/LOCAL_PREF policy wrong |
+| Partial internet outage | Multiple peers down? RPKI/ROV drop? | Check upstream status; validate ROA for your announced prefixes |
+| iBGP routes missing on some routers | Full-mesh vs route-reflector topology | RR client missing; `next-hop-self` not set on edge |
+| Leak / hijack suspicion | IRR/RPKI vs actual AS_PATH | Emergency withdraw; contact peer NOC; enable RPKI on imports |
+
+## Gotchas
+
+> [!WARNING]
+> **BGP alone won't save a bad IGP.** If NEXT_HOP isn't reachable inside your AS, the route sits in RIB but never forwards.
+
+> [!WARNING]
+> **Route leaks** (advertising paths you shouldn't) are operational incidents, not theoretical. Always outbound filter what you announce.
+
+- **eBGP multi-hop** requires explicit TTL and often fixed source IP — cloud VPN tunnels need this.
+- **Private ASNs (64512–65534)** must be stripped before advertising to transit.
+- **Graceful restart** helps control-plane upgrades; without it, full table withdraw causes microbursts.
+- **RPKI ROV invalid** → some peers drop your prefix silently; monitor with external looking-glass tools.
+- **Default route 0.0.0.0/0** from upstream is a policy choice — importing blindly can steal internal traffic.
+
+## When NOT to use
+
+- Don't run BGP inside a single-site LAN — use OSPF/IS-IS; BGP's policy complexity isn't worth it.
+- Don't announce prefixes you don't own (even "temporarily") — upstream filtering varies and leaks propagate globally.
+- Don't expect sub-second failover from BGP timers alone — add BFD or track interface state.
+
+## Related
+
+[[routing table]] · [[CIDR (Classless Inter-Domain Routing)]] · [[Egress traffic]] · [[ethtool]]

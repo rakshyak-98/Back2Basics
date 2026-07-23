@@ -1,73 +1,181 @@
-BIND (_Berkeley Internet Name Domain_) is an open-source DNS software suite and one of the most widely deployed DNS server implementations on the Internet. It is maintained by the [Internet Systems Consortium (ISC)](https://www.isc.org/bind/?utm_source=chatgpt.com) and serves roles ranging from small private networks to root-zone and top-level domain infrastructure. ([ISC](https://www.isc.org/bind/?utm_source=chatgpt.com "BIND 9"))
+[[DNS]] [[servers]]
 
-### Core Capabilities
+# BIND (named) — Operations
 
-BIND can operate as both an **authoritative DNS server** and a **recursive resolver**:
+> One-line: authoritative/recursive DNS via `named` — edit `named.conf`, validate zones, reload without restart, know recursion vs authority.
 
-- **Authoritative server**: Answers queries about domains it manages.
-    
-- **Recursive resolver**: Looks up answers from other DNS servers on behalf of clients.
-    
-- **Caching resolver**: Stores responses temporarily to improve performance and reduce external queries.
-    
-- **Secondary server**: Replicates zones from a primary server for redundancy and availability. ([Red Hat Documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_networking_infrastructure_services/assembly_setting-up-and-configuring-a-bind-dns-server_networking-infrastructure-services?utm_source=chatgpt.com "Chapter 1. Setting up and configuring a BIND DNS server"))
-    
+## Mental model
 
-### Key Features
+BIND 9 runs as **`named`**. Two roles (don't mix blindly on public internet):
 
-Modern BIND 9 releases include:
+```
+Authoritative:  "I own example.com" → answers from zone files / DNSSEC
+Recursive:      "Look up google.com for client" → queries root → TLD → …
+```
 
-- **DNSSEC** signing and validation
-    
-- **Dynamic DNS updates** (`nsupdate`)
-    
-- **IPv6 support**
-    
-- **TSIG authentication** for secure zone transfers
-    
-- **Response Rate Limiting (RRL)** to help mitigate amplification attacks
-    
-- **Views** for serving different DNS answers to different clients
-    
-- **Remote administration** via `rndc`
-    
-- High scalability for large DNS deployments ([Wikipedia](https://en.wikipedia.org/wiki/BIND?utm_source=chatgpt.com "BIND"))
-    
+Public resolvers open to the world amplify attacks if misconfigured. Authoritative servers answer only zones they host.
 
-### Why It Matters
+Key files (Debian/RHEL layouts vary):
 
-BIND is often considered the de facto DNS standard on Unix-like systems and has been a foundational component of Internet infrastructure for decades. It is used in environments ranging from enterprise networks and hosting providers to operators of major DNS zones, including parts of the global DNS hierarchy. ([ISC](https://www.isc.org/bind/?utm_source=chatgpt.com "BIND 9"))
+```
+/etc/named.conf              # main config
+/etc/named.conf.local          # your zones (include)
+/var/named/ or /etc/bind/      # zone files
+rndc.key                     # admin control key
+```
 
-### Architecture and Components
+---
 
-The best-known BIND process is **`named`** (the name daemon), which performs DNS server functions. The software suite also includes administrative and troubleshooting tools such as:
+## Standard config / commands
 
-- **`dig`** — DNS query and diagnostics tool
-    
-- **`nslookup`** — DNS lookup utility
-    
-- **`nsupdate`** — Dynamic DNS update client
-    
-- **`rndc`** — Remote control interface for BIND servers ([Wikipedia](https://en.wikipedia.org/wiki/BIND?utm_source=chatgpt.com "BIND"))
-    
+### Minimal named.conf skeleton
 
-### History
+```named
+options {
+    directory "/var/cache/bind";
+    listen-on port 53 { any; };
+    allow-query { any; };           # tighten for authoritative-only public
+    recursion no;                   # authoritative server: OFF
+    dnssec-validation auto;
+};
 
-BIND originated at the University of California, Berkeley, in the early 1980s. The current major branch, **BIND 9**, was rewritten from the ground up and released in 2000, introducing a more modern architecture and stronger security features such as DNSSEC support. It continues to receive active development and maintenance. ([Wikipedia](https://en.wikipedia.org/wiki/BIND?utm_source=chatgpt.com "BIND"))
+include "/etc/bind/named.conf.local";
+include "/etc/bind/named.conf.default-zones";
+```
 
-### Typical Use Cases
+### Authoritative zone
 
-- Corporate internal DNS
-    
-- Public authoritative DNS hosting
-    
-- ISP and hosting-provider resolver farms
-    
-- DNSSEC-enabled domains
-    
-- Lab and development environments
-    
-- Hybrid private/public DNS deployments ([ISC](https://www.isc.org/bind/?utm_source=chatgpt.com "BIND 9"))
-    
+```named
+// named.conf.local
+zone "example.com" {
+    type master;
+    file "/etc/bind/db.example.com";
+};
+```
 
-BIND remains one of the most mature, feature-rich, and widely trusted self-hosted DNS solutions available. ([ISC](https://www.isc.org/blogs/2025-bind-report/?utm_source=chatgpt.com "2025 BIND 9 Development Report"))
+```dns
+; db.example.com
+$TTL 300
+@   IN SOA  ns1.example.com. admin.example.com. (
+        2025072201 ; serial (YYYYMMDDnn)
+        3600       ; refresh
+        600        ; retry
+        86400      ; expire
+        300 )      ; negative cache
+    IN NS   ns1.example.com.
+    IN A    203.0.113.10
+www IN A    203.0.113.10
+```
+
+**Serial bump rule:** increment on every zone change or secondaries won't transfer.
+
+### Validate and reload
+
+```bash
+sudo named-checkconf
+sudo named-checkzone example.com /etc/bind/db.example.com
+sudo rndc reload                    # reload zones without full restart
+sudo rndc reload example.com        # single zone
+sudo systemctl reload named
+sudo systemctl status named
+```
+
+### rndc admin
+
+```bash
+sudo rndc status
+sudo rndc flush                     # clear cache (resolver)
+sudo rndc reconfig                  # reload named.conf only
+```
+
+### dig verification
+
+```bash
+dig @127.0.0.1 example.com A +short
+dig @127.0.0.1 example.com SOA
+dig @ns1.example.com example.com AXFR   # zone transfer test (restrict in prod)
+```
+
+### Slave/secondary zone
+
+```named
+zone "example.com" {
+    type slave;
+    masters { 203.0.113.1; };
+    file "/var/cache/bind/slave/example.com";
+};
+```
+
+Restrict transfers:
+
+```named
+zone "example.com" {
+    allow-transfer { 203.0.113.2; };   # secondary IP only
+};
+```
+
+### TSIG for secure transfer
+
+```bash
+rndc-confgen -a   # generates key for rndc
+# named.conf: allow-transfer { key "transfer-key"; };
+```
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| NXDOMAIN for valid record | Serial not bumped; wrong zone file path | `named-checkzone`; bump SOA serial; `rndc reload` |
+| Secondary stale | NOTIFY blocked; serial | Open TCP 53 between prim/sec; increment serial |
+| `REFUSED` on query | `allow-query` ACL | Add client network or `any` (careful) |
+| SERVFAIL | Config syntax; DNSSEC break | `journalctl -u named`; `named-checkconf` |
+| Open resolver abuse | Recursion on for world | `recursion no;` + `allow-recursion { localhost; };` |
+| Zone transfer leak | AXFR open | `allow-transfer` restricted; TSIG |
+| named won't start | Port 53 in use | `ss -ulnp \| grep :53`; disable systemd-resolved stub if conflict |
+
+```bash
+sudo journalctl -u named -n 50 --no-pager
+sudo named-checkconf -z
+```
+
+### systemd-resolved conflict (common on Ubuntu)
+
+```bash
+# If port 53 held by stub resolver
+sudo ss -ulnp | grep :53
+# Options: disable stub, or configure BIND on different interface
+```
+
+---
+
+## Gotchas
+
+> [!WARNING]
+> **Forgot serial increment** — #1 secondary drift issue. Automate with `dnssec-signzone` tools or CI check.
+
+> [!WARNING]
+> **CNAME at apex** — invalid (RFC); use ALIAS/ANAME at provider or A record at apex.
+
+> [!WARNING]
+> **TTL too high during migration** — lower TTL days before IP change.
+
+> [!WARNING]
+> **DNSSEC** — broken DS record at registrar = full domain outage. Have rollback plan.
+
+> [!WARNING]
+> **Views** — split-horizon (internal vs external) doubles operational complexity; document which view clients hit.
+
+---
+
+## When NOT to use
+
+- **Simple public DNS for a startup** — managed DNS (Route53, Cloudflare) reduces BIND ops burden.
+- **Recursive resolver for office** — consider Unbound or dedicated resolver distro; BIND can do it but harden carefully.
+
+---
+
+## Related
+
+[[DNS]] [[TLS (Transport Layer Security)]]

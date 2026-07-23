@@ -1,185 +1,253 @@
-#### Starter config
+[[git]] [[git merge]] [[git rebase]] [[git branch]] [[git diff]] [[git error]]
 
-```bash
-git config user.name <commit author name>;
-git config user.email <commit author email>;
-git config init.branch main; # main instead of master;
-git config --global --unset credential.helper; # clear Git Credential Cache
+# Git Commands — Recovery & Debug
+
+> One-line: when history is wrong, refs are lost, or merges surprise you — reflog, bisect, and dry-run merge before you force-push.
+
+## Mental model
+
+Git stores a DAG of commits; **refs** (branches, tags, HEAD) are movable pointers. `git reflog` records where refs *were* — your safety net after bad reset/rebase. Recovery is almost always possible until garbage collection (`gc`) prunes unreachable objects (~90 days default).
+
+```
+Working tree → index (staging) → local commits → remote refs
+                     ↑
+              reflog remembers HEAD@{n} even after "lost" commits
 ```
 
-## Credential manage
+---
 
-Check current credential helper
+## Standard config / commands
+
+### Starter identity
 
 ```bash
+git config user.name "Your Name"
+git config user.email "you@example.com"
+git config init.defaultBranch main
+git config --global --unset credential.helper   # clear cached creds if switching accounts
+```
+
+### Credential helpers (debug auth)
+
+```bash
+git config --show-origin credential.helper
 git config --global credential.helper
 git config --system credential.helper
 git config --local credential.helper
 ```
 
-```bash
-git clean; # removes untracked files from working directory (not staged, committed, ignored)
-git reflog; # view git logs (not commit)
-git push origin --tags; # push local tag to remote
-git remote -v;
-git show-ref;
-git branch -vv;
-```
+---
 
-## Tags
+## Recovery playbook
 
-```sh
-git tag -a <tag_name> -m "your message"; # -a annotate tag
-git tag -a v1.0.0 -m 'Updated description for release'; # Recreate with description.
-git tag -a v1.0.0; 
-git tag show <tag name>;
-git for-each-ref refs/tags/v10.0.0 --format="%(subject)%(body)"; # view tag name and description.
-
-git push origin <tag name>;
-git branch --contains <tab name>; # find branch containing the tag
-git rev-list -n 1 <tag_name>; # find commit has for the tag
-
-```
-### Move tag to different commit
-
-```sh
-git tag -a <new_tag_name> <new_commit_hash> -m "updated tag"
-git push origin <new_tag_name>
-
-```
-
-#### transfer tag from one commit to another
+### Reflog — find lost commits
 
 ```bash
-# 1. Delete local tag (if exists)
-git tag -d <tag_name>
+git reflog                          # HEAD history
+git reflog show feature-branch      # branch-specific
+git log -g --oneline -10            # same idea, compact
 
-# 2. Recreate tag on new commit
-git tag <tag_name> <new_commit_hash>
-
-# 3. Delete remote tag (if pushed before)
-git push origin :refs/tags/<tag_name>
-
-# 4. Push new tag
-git push origin <tag_name>
-
+# Recover "lost" commit after bad reset
+git reset --hard abc1234            # from reflog entry
+git cherry-pick abc1234             # or apply onto current branch
+git branch recovered-work abc1234     # save without moving HEAD
 ```
 
-## Branch
+| When | Command |
+|------|---------|
+| "I reset --hard and lost work" | `git reflog` → find pre-reset SHA → `git reset --hard HEAD@{1}` |
+| "Rebase went wrong" | `git reflog` → `git reset --hard ORIG_HEAD` or specific entry |
+| "Deleted branch" | `git reflog` or `git fsck --lost-found` → recreate branch at SHA |
 
-```shell
-git branch -vv; # view with remote references
-git branch --set-upstream-to=origin/<branch> <local branch>;
-git branch --unset-upstream <branch-name>; # detach the upstream reference from a local branch
-```
-
-### Without merge how to validate two branch have merge conflict
-
-```shell
-git checkout <target-branch>;
-
-git diff target-branch...source-branch;
-
-
-```
+### Undo without rewriting shared history
 
 ```bash
-git tag -l "v1.*"; # filter tag based on pattern
-git tag -a <tagname> -m <message>; # annotate tag with name, email, message
-git show <tagname>; # see detailed information about a tag
-git tag -d <tagname>; # delete a tag
-git push --delete origin <tagname>; # delete remote tag
-git push origin --tags; # push all tags
-git checkout <tagname>; # go to specific tag
+git revert <commit-sha>             # new commit that undoes — safe on main
+git restore --staged <file>         # unstage
+git restore <file>                  # discard working tree changes
+git checkout -- <file>              # older syntax, same as restore
 ```
 
-### Conflicts
+Avoid `git push --force` on shared branches unless team agrees.
+
+### Stash recovery
 
 ```bash
-git ls-files -u; # list files with conflicts and show details
-git diff --name-only --diff-filter=U; # show conflicting files names
-git rebase --continue; # git will print conflicted files directly
+git stash list
+git stash show -p stash@{2}
+git stash apply stash@{2}           # keep stash
+git stash pop                       # apply + drop
+git fsck --unreachable | grep commit   # last resort for dropped stash
 ```
 
-## remote
+---
+
+## Bisect — find the breaking commit
 
 ```bash
-git remote origin;
-git remote prune;
-git fetch --prune;
+git bisect start
+git bisect bad                      # current HEAD is broken
+git bisect good v1.0.0              # last known good tag/commit
+
+# Git checks out middle commit — test, then:
+git bisect good                     # or: git bisect bad
+# repeat until culprit commit printed
+
+git bisect reset                    # return to original branch
 ```
 
-## reference
-
-
-| **Feature**          | **`git show-ref`**                          | **`git reflog`**                     |
-| -------------------- | ------------------------------------------- | ------------------------------------ |
-| **Purpose**          | Lists all refs (branches, tags) with hashes | Shows the history of changes in refs |
-| **Scope**            | All branches and tags                       | Local changes (HEAD, branches)       |
-| **Usage**            | Verify branch/tag refs                      | Track changes, recover lost commits  |
-| **Output**           | Commit hash + ref name                      | Hash, action, date, user, message    |
-| **Example Command**  | `git show-ref`                              | `git reflog`                         |
-| **Typical Use Case** | View refs or check ref integrity            | Undo changes, find lost commits      |
-```shell
-git branch --unset-upstream; # remove reference from the remote branch
-```
-
-### Example:
-
-**`git show-ref` Output:**
-```bash
-abc1234 refs/heads/main
-def5678 refs/tags/v1.0
-```
-
-**`git reflog` Output:**
-```bash
-abc1234 HEAD@{0}: checkout: moving from feature to main
-def5678 HEAD@{1}: commit: Fixed bug in API
-```
-
-**Summary:**
-- Use **`git show-ref`** to see where refs (branches/tags) currently point.
-- Use **`git reflog`** to view the history of changes to refs for recovery or debugging. 
-
-### How to use tags to track different versions of code
-- use annotated tags to mark important milestones like releases.
-- store extra metadata like the author, date and message.
-[manage different versions of your code with branching and tagging](https://www.linkedin.com/advice/3/how-can-you-manage-different-versions-your-code-branching)
-
-
-### Stash
-
-```shell
-git stash show -p stash@{<index>}
-```
-
-### Tracking file changes
-
-```shell
-git ls-tree -r HEAD --name-only; # view last commit tracked files
-```
-
-| Command                               | Purpose                                   |
-| ------------------------------------- | ----------------------------------------- |
-| `git ls-files`                        | Lists all tracked files                   |
-| `git status --short`                  | Shows tracked/untracked files with status |
-| `git ls-tree -r HEAD --name-only`     | Lists tracked files in the last commit    |
-| `git ls-tree -r <commit> --name-only` | Lists tracked files in a specific commit  |
-| `git ls-tree -r <branch> --name-only` | Lists tracked files in a branch           |
-
-## Git find command
-
-```shell
-git ls-files --deleted;
-git diff --cached --name-only --diff-filter=D;
-git log --diff-filter=D --summary;
-```
-
-### Git diff check
+Automate with a test script:
 
 ```bash
-git diff --diff-filter=D <to compare branch name>;
-man git diff; # view diff manual
+git bisect start HEAD v1.0.0
+git bisect run npm test             # exit 0 = good, 1-125 = bad, 127+ = skip
+git bisect reset
 ```
 
+Use for: regression after release, flaky test introduced between tags, perf cliff.
+
+---
+
+## Merge & conflict debug
+
+### Preview conflicts without merging
+
+```bash
+git checkout target-branch
+git merge --no-commit --no-ff source-branch   # dry-run merge
+git merge --abort                               # clean up
+
+# Or diff the merge base only
+git diff target-branch...source-branch
+git merge-tree $(git merge-base target-branch source-branch) target-branch source-branch
+```
+
+See [[git merge]] for merge strategies.
+
+### Active conflict triage
+
+```bash
+git ls-files -u                     # unmerged index entries (stages 1/2/3)
+git diff --name-only --diff-filter=U
+git diff                            # conflict markers in working tree
+
+# After fixing markers:
+git add <resolved-files>
+git merge --continue                # or rebase --continue
+```
+
+---
+
+## Remote & ref inspection
+
+```bash
+git remote -v
+git fetch --prune                   # drop stale remote-tracking branches
+git remote prune origin
+git branch -vv                      # upstream tracking status
+git branch --set-upstream-to=origin/main my-feature
+git branch --unset-upstream
+
+git show-ref                        # all refs → SHAs (integrity check)
+git show-ref --verify refs/heads/main
+```
+
+| Tool | Purpose | Scope |
+|------|---------|-------|
+| `git show-ref` | Where refs point now | All branches/tags |
+| `git reflog` | History of ref movements | Local (HEAD, branches) |
+
+Example `show-ref`: `abc1234 refs/heads/main`
+Example `reflog`: `abc1234 HEAD@{0}: reset: moving to HEAD~1`
+
+---
+
+## Tags (release pointers)
+
+```bash
+git tag -l "v1.*"
+git tag -a v1.0.0 -m "Release notes"
+git show v1.0.0
+git push origin v1.0.0
+git push origin --tags
+
+# Move tag to different commit (coordinate with team)
+git tag -d v1.0.0
+git tag -a v1.0.0 <new-sha> -m "Retagged"
+git push origin :refs/tags/v1.0.0   # delete remote old tag
+git push origin v1.0.0
+
+git branch --contains v1.0.0
+git rev-list -n 1 v1.0.0
+```
+
+Prefer **annotated tags** (`-a`) for releases — store author, date, message.
+
+---
+
+## Inspection & forensics
+
+### What is tracked / deleted?
+
+```bash
+git ls-files                       # tracked in index
+git status --short
+git ls-tree -r HEAD --name-only    # files in last commit
+git ls-tree -r <branch> --name-only
+
+git ls-files --deleted
+git diff --cached --name-only --diff-filter=D
+git log --diff-filter=D --summary  # commits that deleted files
+git diff --diff-filter=D main..feature
+```
+
+### Diff deep cuts
+
+```bash
+git diff main...feature             # changes on feature since diverge (triple-dot)
+git diff main..feature              # symmetric diff (double-dot)
+man git-diff
+```
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| "Detached HEAD" after checkout | `git status` | `git switch -c new-branch` to keep work |
+| Push rejected (non-fast-forward) | `git fetch`; `git log origin/main..HEAD` | Rebase onto remote or merge; don't force unless intentional |
+| Wrong commit on main | `git reflog` | Revert commit or reset + force (if unpushed only) |
+| Submodule shows modified | `git submodule status` | See [[git submodule]] |
+| Auth fails mid-push | `git config credential.helper` | Clear helper; re-auth with PAT/SSH |
+| Can't find when bug introduced | `git bisect run ./test.sh` | Bisect between good tag and HEAD |
+
+---
+
+## Gotchas
+
+> [!WARNING]
+> **`git clean -fd` is irreversible** — removes untracked files. Preview with `git clean -fdn`.
+
+> [!WARNING]
+> **Reflog is local** — not on remote. Cloned repo won't have your laptop's reflog.
+
+> [!WARNING]
+> **`git merge-tree` output is informational** — doesn't modify working tree; use for CI conflict prediction.
+
+> [!WARNING]
+> **Triple-dot vs double-dot diff** — `A...B` = changes on B since common ancestor; `A..B` = all diff between tips. Code review and merge preview usually want `...`.
+
+---
+
+## When NOT to use
+
+- **`git push --force` on shared main** — use revert or a coordinated reset window.
+- **Bisect on flaky tests** — script must be deterministic or bisect lies.
+- **Reflog on someone else's machine** — recover from your clone or remote tags.
+
+---
+
+## Related
+
+[[git merge]] [[git rebase]] [[git worktree]] [[git hook]] [[git submodule]] [[git logs]] [[git blame]]

@@ -1,5 +1,5 @@
-## Partition table
-Splitting a table's data into smaller, manageable parts (partitions) but still treated as a single table.
+→ [[mysql data partition]]
 
-```sql
-```
+# mysql partitioning
+
+Merged into [[mysql data partition]] — RANGE/LIST/HASH partitioning, pruning, migration, and triage live there.
