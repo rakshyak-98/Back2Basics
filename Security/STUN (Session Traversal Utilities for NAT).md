@@ -1,6 +1,11 @@
 - Identifies NAT type (e.g., Full Cone, Symmetric).
 - maps the public port to the private port on a device.
 
+Session -> A communication session between two endpoints.
+Traversal -> Crossing or working through NATs.
+Utilities -> Helper functions.
+for NAT -> The problem STUN is solving.
+
 When a client (e.g., a WebRTC application or VoIP client) communicates with a STUN server, the primary goal is to discover its public IP address and port. Once this information is obtained, the client uses it to establish direct peer-to-peer (P2P) connections by sharing the public facing details with other peers.
 
 ### Why this is Important?

@@ -34,9 +34,9 @@ C-b z // zoom/unzoom pane
 ## Session
 
 ```text
+ctrl + b s // switch session
 C-b d // detach the current session
 ctrl + b :
-ctrl + b s // switch session
 tmux switch-client -t <session-name>
 rename-session my_session;
 ```

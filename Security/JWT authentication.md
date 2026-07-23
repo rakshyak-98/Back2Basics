@@ -79,19 +79,20 @@ if (ttl > 0) await redis.setEx(`bl:${jti}`, ttl, '1');
 ```
 
 Use **`jti`** (unique token ID) for blacklist keys — not the full token string (memory heavy).
+- when user logs in and receives an access token or refresh token, multiple tokens may exist for the same user. `jti` uniquely identifies each token instance.
 
 ## Triage (when things break)
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `invalid signature` after IdP change | JWKS `kid`; cached old key | Refresh JWKS; support multiple `kid`; reduce cache TTL during rotation |
-| `jwt expired` sporadic | NTP on API nodes vs IdP | Sync time (chrony); set `clockTolerance: 30` |
-| `jwt not active` (`nbf`) | Clock ahead on client | Fix skew; avoid `nbf` unless needed |
-| Auth bypass reports (pen test) | Accept `alg: none`? HS256 with public key? | **Allowlist algorithms**; use asymmetric RS256/ES256 for multi-service |
-| `kid` header attack | App fetches key from attacker URL via `kid` path traversal | Map `kid` to known JWKS only — never filesystem paths from header |
-| Logged-out user still works until exp | No revocation | Blacklist `jti`; or short access token (5–15m) + refresh |
-| Refresh token reuse detected | Rotation not enforced | Issue new refresh on use; invalidate family on reuse |
-| `aud` mismatch | Token for wrong client | Validate `aud` matches your API identifier |
+| Symptom                               | Check                                                      | Fix                                                                    |
+| ------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `invalid signature` after IdP change  | JWKS `kid`; cached old key                                 | Refresh JWKS; support multiple `kid`; reduce cache TTL during rotation |
+| `jwt expired` sporadic                | NTP on API nodes vs IdP                                    | Sync time (chrony); set `clockTolerance: 30`                           |
+| `jwt not active` (`nbf`)              | Clock ahead on client                                      | Fix skew; avoid `nbf` unless needed                                    |
+| Auth bypass reports (pen test)        | Accept `alg: none`? HS256 with public key?                 | **Allowlist algorithms**; use asymmetric RS256/ES256 for multi-service |
+| `kid` header attack                   | App fetches key from attacker URL via `kid` path traversal | Map `kid` to known JWKS only — never filesystem paths from header      |
+| Logged-out user still works until exp | No revocation                                              | Blacklist `jti`; or short access token (5–15m) + refresh               |
+| Refresh token reuse detected          | Rotation not enforced                                      | Issue new refresh on use; invalidate family on reuse                   |
+| `aud` mismatch                        | Token for wrong client                                     | Validate `aud` matches your API identifier                             |
 
 ## Gotchas
 

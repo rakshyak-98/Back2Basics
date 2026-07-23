@@ -4,3 +4,6 @@ Unlike [[STUN (Session Traversal Utilities for NAT)]], which enables direct peer
 - All data between peers is sent through the TURN server instead of directly between devices.
 - Necessary in [[Symmetric NAT]] or highly restrictive firewalls where direct connection (hole punching) is impossible.
 - Often used as a fallback after STUN fails.
+
+Traffic relaying -> The TURN server forwards all data between two peers because they cannot communicate directly.
+Relay -> A relay is an intermediate node that receives data and forwards it.
