@@ -22,6 +22,7 @@
 | Terraform state lock / drift | [[Terraform workflow]] · [[Terraform CLI]] · [[variable file]] |
 | Redis latency / OOM / eviction | [[redis-cli]] · [[redis installation]] |
 | Slow query / missing index | [[covering index]] · [[mysql index]] · [[Data access patterns]] |
+| Postgres `inconsistent types deduced for parameter $n` | [[postgres/postgres parameter type error]] |
 
 ---
 

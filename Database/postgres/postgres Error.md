@@ -90,8 +90,8 @@ openssl s_client -connect host:5432 -starttls postgres
 
 ## When NOT to use
 
-- **Query/runtime SQL errors** — different class (`syntax error`, deadlock); check application logs and `pg_stat_activity`.
+- **Query/runtime SQL errors** — different class (`syntax error`, deadlock, [[postgres/postgres parameter type error]]); check application logs and `pg_stat_activity`.
 
 ## Related
 
-[[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]
+[[postgres/postgres parameter type error]] [[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]
