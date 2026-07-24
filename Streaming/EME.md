@@ -137,4 +137,4 @@ Mixed content blocked — manifest + segments + license all TLS
 
 ## Related
 
-[[DRM]] [[HLS]] [[DASH]] [[CMAF]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]
+[[DRM]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CMAF]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]

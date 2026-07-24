@@ -1,3 +1,5 @@
+[[CAS (Conditional Access System)]] [[DRM]] [[Multicast]] [[MPEG-TS]] [[Streaming]]
+
 IPTV stands for **Internet Protocol Television**. It's a system for delivering television content over internet networks (IP-based) instead of traditional broadcast, satellite, or cable methods.
 
 **How it works:**
@@ -17,6 +19,7 @@ IPTV stands for **Internet Protocol Television**. It's a system for delivering t
 - Streaming server (like Flussonic) encodes and delivers video
 - Content management system organizes channels/content
 - Set-top box or app receives and decodes stream
+- **[[CAS (Conditional Access System)]]** (operator STBs) or **[[DRM]]** (OTT apps) enforces subscriber entitlements
 - User interface (EPG - Electronic Program Guide) for navigation
 
 **Advantages:**
