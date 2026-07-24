@@ -1,7 +1,10 @@
+[[CAS (Conditional Access System)]] [[EME]] [[HLS]] [[DASH]]
+
 - Digital Rights Management
 
 > [!INFO]
 > Modern browser-based DRM relies on the Encrypted Media Extensions (EME) API — a standard part of HTML5.
+> For broadcast/IPTV STB protection, operators use [[CAS (Conditional Access System)]] (ECM/EMM) instead — see CAS vs DRM there.
 
 **Set up a License Server** (or use a DRM-as-a-Service)
 - This is the hardest part if doing it yourself. Popular easy options :

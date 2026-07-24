@@ -1,3 +1,5 @@
+[[CAS (Conditional Access System)]] [[IPTV]] [[ingestion]]
+
 TS ingest refers to ingesting an MPEG-TS (Transport Stream) -> feed into a media server or streaming pipeline
 
 What it means:
