@@ -96,4 +96,4 @@ remote.toggle();
 
 ## Related
 
-[[Design pattern/Command]] [[Design pattern/Dependency Injection]] [[Design pattern]] [[System Design/HES Architecture]]
+[[Design pattern/Command]] [[Design pattern/Dependency Injection]] [[Design pattern/Adapter]] [[Design pattern/Decorator]] [[Design pattern]] [[System Design/HES Architecture]]

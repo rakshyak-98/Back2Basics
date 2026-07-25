@@ -107,4 +107,4 @@ Each middleware receives `(req, res, next)` — deps wired when registering rout
 
 ## Related
 
-[[Design pattern/Bridge]] [[Design pattern/Command]] [[NodeJS/Express middleware]] [[Design pattern]]
+[[Design pattern/Bridge]] [[Design pattern/Command]] [[Design pattern/Factory Method]] [[Design pattern/Facade]] [[NodeJS/Express middleware]] [[Design pattern]]

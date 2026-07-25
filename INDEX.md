@@ -61,6 +61,12 @@
 ### Protocols & APIs
 - [[gRPC]] · [[SMTP]] · [[MQTT]] · [[HTTP module]]
 
+### Design patterns (apply in projects)
+- Hub / principles: [[Design pattern]]
+- Creational: [[Design pattern/Factory Method]] · [[Design pattern/Creation pattern/Abstract Factory]] · [[Design pattern/Builder]] · [[Design pattern/Singleton]]
+- Structural: [[Design pattern/Adapter]] · [[Design pattern/Bridge]] · [[Design pattern/Decorator]] · [[Design pattern/Facade]] · [[Design pattern/Proxy]]
+- Behavioral: [[Design pattern/Strategy pattern]] · [[Design pattern/Chain of Responsibility]] · [[Design pattern/Template Method]] · [[Design pattern/Observer]] · [[Design pattern/Command]] · [[Design pattern/State]] · [[Design pattern/Mediator]] · [[Design pattern/Memento]] · [[Design pattern/Dependency Injection]]
+
 ### Git / delivery
 - [[git error]] · [[git rebase]] · [[git ssh config]] · [[git worktree]]
 

@@ -13,11 +13,11 @@ Client: nc -zv host 443  →  SYN → SYN-ACK = open
 Listener: nc -lk 8080    →  accept connections (debug/mock server)
 ```
 
-| Variant | `-z` scan | `-l` listen | Notes |
-|---------|-----------|-------------|-------|
-| OpenBSD `nc` | yes | `-l` | Common on Debian/Ubuntu |
-| GNU netcat | `-z` | `-l -p PORT` | `-p` required on listen |
-| `ncat` (nmap) | `-z` | `-l` | `--ssl`, `--proxy |
+| Variant       | `-z` scan | `-l` listen  | Notes                   |
+| ------------- | --------- | ------------ | ----------------------- |
+| OpenBSD `nc`  | yes       | `-l`         | Common on Debian/Ubuntu |
+| GNU netcat    | `-z`      | `-l -p PORT` | `-p` required on listen |
+| `ncat` (nmap) | `-z`      | `-l`         | `--ssl`, `--proxy       |
 
 ## Standard config / commands
 
