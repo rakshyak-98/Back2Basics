@@ -23,6 +23,7 @@
 | Redis latency / OOM / eviction | [[redis-cli]] · [[redis installation]] |
 | Slow query / missing index | [[covering index]] · [[mysql index]] · [[Data access patterns]] |
 | Postgres `inconsistent types deduced for parameter $n` | [[postgres/postgres parameter type error]] |
+| TLS not yet valid / JWT expired / clock skew | [[NTP sync]] · [[date]] · [[TLS (Transport Layer Security)]] |
 
 ---
 
@@ -32,6 +33,7 @@
 - Kernel I/O path: [[file descriptors]] · [[Epoll]] · [[fsync]] · [[Buffer cache]] · [[multiple levels of buffering]]
 - Process/memory: [[Linux Process Theory]] · [[context switching]] · [[OOM (Linux Out Of Memory)]] · [[mutexes]] · [[non-blocking]]
 - Observability: [[eBPF]] · [[top]] · [[journalctl]] · [[systemctl]]
+- Time: [[NTP sync]] · [[date]]
 - Boot/disk: [[MBR]] · [[inittramfs]] · [[file mount]]
 
 ### Networking & DNS

@@ -85,4 +85,4 @@ timedatectl set-timezone UTC    # Servers: usually UTC; apps convert for users
 
 ## Related
 
-[[Scripting]] [[crontab]] [[Linux system management]] [[journalctl]]
+[[Scripting]] [[crontab]] [[Linux system management]] [[NTP sync]] [[journalctl]]
