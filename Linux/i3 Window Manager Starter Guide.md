@@ -159,7 +159,7 @@ bindsym $mod+Shift+4 move container to workspace $ws4
 bindsym $mod+Shift+5 move container to workspace $ws5
 
 # ── dev quick launch ──────────────────────────────────────
-bindsym $mod+Shift+Return exec $term --working-directory=$(xdotool getwindowfocus getwindowname 2>/dev/null || echo $HOME)
+bindsym $mod+Shift+Return exec $term
 bindsym Print             exec flameshot gui
 bindsym $mod+Shift+p      exec $term -e pulsemixer   # or pavucontrol
 

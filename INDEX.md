@@ -31,6 +31,7 @@
 
 ### OS & Linux
 - Kernel I/O path: [[file descriptors]] · [[Epoll]] · [[fsync]] · [[Buffer cache]] · [[multiple levels of buffering]]
+- Window / display: [[i3 Window Manager Starter Guide]] · [[wayland]] · [[WM_CLASS]]
 - Process/memory: [[Linux Process Theory]] · [[context switching]] · [[OOM (Linux Out Of Memory)]] · [[mutexes]] · [[non-blocking]]
 - Observability: [[eBPF]] · [[top]] · [[journalctl]] · [[systemctl]]
 - Time: [[NTP sync]] · [[date]]
