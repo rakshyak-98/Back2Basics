@@ -22,15 +22,15 @@ See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementa
 
 These are created **unconditionally** when Nvim starts (your own maps override them):
 
-| Action | Key | LSP call |
-|--------|-----|----------|
-| Go to references | `g r r` | `vim.lsp.buf.references()` |
-| Go to implementation | `g r i` | `vim.lsp.buf.implementation()` |
-| Go to type definition | `g r t` | `vim.lsp.buf.type_definition()` |
-| Rename symbol | `g r n` | `vim.lsp.buf.rename()` |
-| Code action | `g r a` | `vim.lsp.buf.code_action()` |
-| Run codelens | `g r x` | `vim.lsp.codelens.run()` |
-| Document symbols (outline) | `g O` | `vim.lsp.buf.document_symbol()` |
+| Action                     | Key     | LSP call                        |
+| -------------------------- | ------- | ------------------------------- |
+| Go to references           | `g r r` | `vim.lsp.buf.references()`      |
+| Go to implementation       | `g r i` | `vim.lsp.buf.implementation()`  |
+| Go to type definition      | `g r t` | `vim.lsp.buf.type_definition()` |
+| Rename symbol              | `g r n` | `vim.lsp.buf.rename()`          |
+| Code action                | `g r a` | `vim.lsp.buf.code_action()`     |
+| Run codelens               | `g r x` | `vim.lsp.codelens.run()`        |
+| Document symbols (outline) | `g O`   | `vim.lsp.buf.document_symbol()` |
 
 ## Go to (on LSP attach — buffer-local)
 
