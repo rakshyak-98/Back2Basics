@@ -27,7 +27,9 @@ Multi-level architecture is two orthogonal axes:
 
 **Strict vs relaxed layering:** In a **strict** layered system, layer *N* talks only to layer *N−1*. In a **relaxed** system, upper layers may skip intermediate layers (faster to build, harder to change). Most production code is relaxed — document which skips are allowed.
 
-**Dependency rule (hexagonal/clean):** Source dependencies point **inward** only. Outer rings (HTTP, DB, queues) depend on inner rings (use cases, domain) — never the reverse. Flow of control can go outward; compile-time deps cannot.
+**Dependency rule (Martin / hexagonal / clean):** Source dependencies point **inward** only — toward higher-level **policies**. Outer rings (HTTP, DB, queues) depend on inner rings (use cases, entities) — never the reverse. Flow of control can go outward; compile-time deps cannot. Crossing that gap uses **Dependency Inversion** ([[SOLID]] DIP): inner layer defines the interface (port); outer layer implements it (adapter).
+
+**Martin's core thesis:** Architecture is about **managing dependencies so the system survives change** — not about picking Spring, Postgres, or microservices. Frameworks, the web, and the database are **details** to keep at the outer edge.
 
 ---
 
@@ -101,23 +103,24 @@ Client → CDN/Edge → API Gateway → BFF → Microservices → DAL → DB/Cac
 
 ## Logical layers (inside one deployable)
 
-Layers exist **inside** a monolith, microservice, or mobile app. Common stack:
+Layers exist **inside** a monolith, microservice, or mobile app. Two common models — do not conflate them.
+
+### Traditional layered (top-down call stack)
 
 ```txt
 ┌─────────────────────────────────────────────┐
-│  Controller / Handler  (HTTP, gRPC, CLI)    │  ← adapters IN
+│  Controller / Handler  (HTTP, gRPC, CLI)      │
 ├─────────────────────────────────────────────┤
-│  Service / Use case    (orchestration, txn)   │
+│  Service               (orchestration, txn) │
 ├─────────────────────────────────────────────┤
-│  Domain / Entity       (rules, invariants)    │  ← no framework imports
+│  Domain / Entity       (rules, invariants)    │
 ├─────────────────────────────────────────────┤
-│  Repository / DAO      (persistence port)     │
+│  Repository / DAO      (queries, mapping)     │
 └─────────────────────────────────────────────┘
-         ▲                              ▲
-         │ implements                 │ implements
-   PostgresRepo                  RestController
-   (infrastructure)             (infrastructure)
+         │ call direction (runtime) ──► DB
 ```
+
+**Canonical flow:** [[presentation layer]] → [[Service Layer]] → Repository → DB. See [[Database application]] for transaction boundaries.
 
 | Layer | Owns | Must NOT |
 |-------|------|----------|
@@ -126,57 +129,117 @@ Layers exist **inside** a monolith, microservice, or mobile app. Common stack:
 | **Domain** | Entities, value objects, domain services, invariants | `import` from web/DB SDKs |
 | **Repository/DAO** | Queries, mapping rows ↔ domain | Business policy ("can user withdraw?") |
 
-**Canonical flow:** [[presentation layer]] → [[Service Layer]] → Repository → DB. See [[Database application]] for transaction boundaries.
+### Clean Architecture (Martin — dependency direction inward)
+
+Martin organizes by **policy stability**, not call order. Inner = most abstract; outer = mechanisms/details.
+
+```txt
+        ┌──────────────────────────────────────────┐
+        │  Frameworks & Drivers  (DB engine, web)   │  ◄── details
+        ├──────────────────────────────────────────┤
+        │  Interface Adapters  (controllers,        │
+        │    presenters, gateways, repo impl)       │  ◄── converts formats
+        ├──────────────────────────────────────────┤
+        │  Use Cases  (application-specific rules)   │  ◄── orchestrates entities
+        ├──────────────────────────────────────────┤
+        │  Entities  (enterprise / critical rules)   │  ◄── innermost policy
+        └──────────────────────────────────────────┘
+              ▲ compile-time deps point IN only
+```
+
+| Martin ring | Responsibility | Stability |
+|-------------|----------------|-----------|
+| **Entities** | Critical business rules; usable across apps in an enterprise | Highest — unaffected by UI, DB, or page navigation changes |
+| **Use cases** | Application-specific rules; orchestrate entities per user goal | Changes when app operations change — not when DB or framework changes |
+| **Interface adapters** | Convert data between use-case format and external format (HTTP, SQL rows, message payloads) | Changes when delivery mechanism changes |
+| **Frameworks & drivers** | Glue to Spring, Express, Postgres, Kafka — minimal code here | Most volatile — "the web is a detail; the database is a detail" |
+
+**Key Martin corrections vs traditional layered:**
+
+| Traditional habit | Martin's rule |
+|-------------------|---------------|
+| Repository is a layer *below* domain | Repository **interface** (port) lives with use cases; **implementation** is an outer adapter |
+| Controller is "above" everything | Controller is an **interface adapter** — depends inward on use cases |
+| Pass ORM entity / DB row into service | Pass **simple DTOs or primitives** across boundaries — never framework-generated row structures inward |
+| MVC `Model` holds business logic | MVC models are often **dumb data passed to use cases**; critical rules live in **entities** |
+| Folder named `controllers/`, `models/`, `views/` | **Screaming architecture** — folders named for **use cases** (`CreateOrder/`, `EnrollStudent/`) |
 
 **Frontend analogue:** [[frontend layered architecture]] — presentation / application / domain / infrastructure folders.
 
 ### Strict call rules (design review checklist)
 
 ```txt
-✓ Handler → Service → Repository → DB
-✗ Handler → Repository (skips rules)
-✗ Repository → Service (inverted dependency)
-✗ Domain imports framework types (@Entity, axios, gin.Context)
+Traditional layered (runtime flow):
+  ✓ Handler → Service → Repository → DB
+  ✗ Handler → Repository (skips rules)
+
+Martin Clean Architecture (compile-time deps):
+  ✓ Adapter → Use Case → Entity
+  ✓ Use Case defines IOrderRepository; PostgresOrderRepository implements it (outer)
+  ✗ Entity imports @Entity, gin.Context, sql.Row
+  ✗ Use case imports SQL driver or HTTP response types
+  ✗ Pass ORM model or DB row structure inward across a boundary
 ```
 
 ---
 
 ## Hexagonal / Clean Architecture (ports and adapters)
 
-**Same goal as layered**, but organized as **concentric rings** with explicit **ports** (interfaces) and **adapters** (implementations). Names: Hexagonal (Cockburn), Clean (Martin), Onion (Palermo) — shared **dependency rule**.
+Martin unified Hexagonal (Cockburn), Onion (Palermo), and related patterns under one idea: **separation of concerns via layers + the Dependency Rule**. Same goal as traditional layering, but organized as **concentric rings** with explicit **ports** (interfaces) and **adapters** (implementations).
+
+### Martin's five properties of a good architecture
+
+A system built this way should be ([Clean Architecture, Ch. 22](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)):
+
+1. **Independent of frameworks** — use frameworks as tools; don't let them dictate structure
+2. **Testable** — business rules testable without UI, DB, or web server
+3. **Independent of UI** — swap web UI for CLI without touching business rules
+4. **Independent of database** — swap Postgres for Mongo without touching entities/use cases
+5. **Independent of external agencies** — business rules know nothing about the outside world
+
+### Ports, adapters, and boundary crossing
 
 ```txt
          ┌──────── REST adapter (primary/driving)
-         │
+         │         flow of control ──►
     ┌────┴────────────────────────────────────┐
     │  PORT: CreateOrderUseCase (inbound)      │
     │  ┌────────────────────────────────────┐  │
-    │  │  DOMAIN: Order, Money, OrderService │  │
+    │  │  ENTITIES: Order, Money             │  │
+    │  │  USE CASE: CreateOrderInteractor    │  │
     │  └────────────────────────────────────┘  │
-    │  PORT: OrderRepository (outbound)         │
+    │  PORT: OrderRepository (outbound)         │  ◄── interface defined HERE
     └────┬────────────────────────────────────┘
-         │
-         └──────── Postgres adapter (secondary/driven)
+         │         source code deps ──► inward
+         └──────── PostgresOrderRepository (adapter — outer)
 ```
 
 | Concept | Meaning |
 |---------|---------|
-| **Port** | Interface the **application defines** — "I need to save orders" |
-| **Adapter** | Infrastructure class that **implements** the port — Postgres, Kafka, Stripe |
-| **Primary (driving)** | Outside world calls in — HTTP controller, CLI, message consumer |
-| **Secondary (driven)** | App calls out — DB, email, payment gateway |
-| **Dependency rule** | Adapters depend on ports; domain never depends on adapters |
+| **Port** | Interface the **inner layer defines** — use case declares `IOrderRepository`; presenter output port for responses |
+| **Adapter** | Outer class that **implements** the port — Postgres repo, REST controller, email sender |
+| **Primary (driving)** | Outside world initiates — HTTP controller, CLI, message consumer |
+| **Secondary (driven)** | App initiates outward — DB write, payment API, notification |
+| **Dependency rule** | Adapters depend on ports; entities and use cases never depend on adapters |
+| **DIP at boundaries** | When use case must call presenter/repo, it calls an **interface in its own layer**; outer class implements it — deps oppose flow of control |
 
-**Clean Architecture rings (default):**
+**What crosses boundaries:** Only **simple data structures** — structs, DTOs, function args, plain maps. Never pass entities tied to outer frameworks, and never pass **database row structures** inward (Martin's explicit anti-pattern).
 
-1. **Entities** — enterprise-wide business rules
-2. **Use cases** — application-specific orchestration
-3. **Interface adapters** — controllers, presenters, gateways
-4. **Frameworks & drivers** — DB, web framework, external APIs
+### Screaming Architecture (Martin)
 
-**Payoff:** Domain tests without containers; swap Postgres for in-memory; change REST to gRPC by new adapter only.
+> *"The architecture of a software application should scream about the use cases of the application."* — [Screaming Architecture](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html)
 
-**Cost:** ~2–3× more types/files; overkill for CRUD with 5 tables and one developer.
+| Screams frameworks (weak) | Screams domain (Martin-aligned) |
+|---------------------------|----------------------------------|
+| `controllers/`, `models/`, `views/` | `createorder/`, `enrollstudent/`, `processpayment/` |
+| "It's a Rails app" | "It's a health-care / accounting / streaming system" |
+| New hire asks "where are the use cases?" | New hire finds use cases in top-level package names |
+
+Good architecture **defers** framework, DB, and web-server decisions. You should be able to deliver as console app, web app, or thick client without rewriting core policy.
+
+**Payoff:** Domain tests without containers; swap Postgres for in-memory; change REST to gRPC by new adapter only; frameworks become replaceable details.
+
+**Cost:** ~2–3× more types/files; overkill for CRUD with 5 tables and one developer. Martin's bar: earn the structure when **testability and longevity** justify it.
 
 ---
 
@@ -268,14 +331,22 @@ func (s *OrderService) Create(ctx context.Context, cmd CreateOrderCommand) (Orde
 }
 ```
 
-### Hexagonal package layout (Java/Kotlin/TS analogue)
+### Hexagonal package layout (Martin-aligned)
 
 ```txt
-domain/           # entities, domain services — zero infra imports
-application/      # use cases + port interfaces (inbound/outbound)
+# Screaming architecture — use cases visible at top level
+createorder/
+  CreateOrderInteractor.ts    # use case (application rules)
+  CreateOrderRequest.ts       # simple input DTO
+  IOrderRepository.ts         # outbound port (interface)
+  entities/Order.ts           # entity (critical rules)
+
 adapters/
-  in/web/         # REST controllers implement inbound ports
-  out/persistence/# repositories implement outbound ports
+  in/web/CreateOrderController.ts   # driving adapter
+  out/persistence/PostgresOrderRepository.ts  # driven adapter — ALL SQL here
+
+# Anti-pattern (framework-screaming):
+# controllers/ models/ views/  ← tells you Rails/MVC, not what the app DOES
 ```
 
 ### Scaling knobs per tier
@@ -296,7 +367,10 @@ adapters/
 | "Works in Postman, wrong in UI" | Client doing business logic (2-tier leak) | Move rules to [[Service Layer]]; UI displays only |
 | Schema change breaks mobile app | Fat client queries DB or embeds SQL | API versioning; server-owned contract |
 | Random data corruption | Handler writes DB without transaction | Wrap multi-table updates in service txn ([[ACID]]) |
-| Can't unit test without Docker | Domain imports ORM/HTTP types | Introduce ports; in-memory adapters for tests |
+| Can't unit test without Docker | Domain imports ORM/HTTP types | Introduce ports (Martin DIP); in-memory adapters for tests |
+| ORM models used as domain entities | `@Entity` annotations in "domain" package | Separate entity from persistence model; map at adapter boundary |
+| DB row / `ResultSet` passed to use case | Framework data structure crossed inward | Map to simple DTO in repository adapter before returning |
+| Folder layout says "Spring" not "Billing" | Framework-screaming structure | Reorganize by use case ([[Screaming Architecture]] below) |
 | 15-hop sync chain, cascading timeouts | N-tier / microservice sprawl | Merge services or go async; [[backpressure]] |
 | "Distributed monolith" — must deploy all 12 together | Shared DB, shared libs, circular calls | Database-per-service; define bounded contexts |
 | Layer violation in PRs | Controller imports repository directly | Enforce module boundaries (archunit, eslint boundaries) |
@@ -315,7 +389,13 @@ adapters/
 > **Skipping the service layer** — controllers that call repositories directly bypass validation, authz, and transactions. First shortcut becomes permanent.
 
 > [!WARNING]
-> **Anemic domain model** — entities are structs with getters; all logic in services. Works short-term; invariants scatter and duplicate across handlers.
+> **Framework dictates folder structure** — Martin: frameworks are tools, not architecture. `controllers/models/views` layout defers use-case discovery; structure should scream domain operations.
+
+> [!WARNING]
+> **Database row crosses boundary** — passing ORM/query result objects into use cases violates the Dependency Rule; map to plain DTOs in the adapter.
+
+> [!WARNING]
+> **Anemic domain model** — entities are structs with getters; all logic in services. Martin puts **critical rules in entities**; use cases orchestrate, not replace, entity behavior.
 
 > [!WARNING]
 > **Hexagonal on a todo app** — ports/adapters for `TodoRepository`, `ClockPort`, `UuidPort` adds ceremony without boundary value. Use [[KISS]] until complexity earns structure.
@@ -328,6 +408,61 @@ adapters/
 
 > [!WARNING]
 > **N-tier for resume-driven design** — API gateway + BFF + mesh + 6 services for 100 RPS. Operate what you draw; every box needs on-call.
+
+---
+
+## Validation: Robert C. Martin alignment
+
+Cross-check any design against Martin's *Clean Architecture* ([blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), book Ch. 20–22). This note's tier/layer content is **compatible** when applied as below.
+
+### Alignment matrix
+
+| This note teaches | Martin agrees | Caveat |
+|-------------------|---------------|--------|
+| Tiers ≠ layers | Yes — physical deployment is orthogonal to dependency structure | 3-tier deploy does not imply clean inner deps |
+| Dependency rule (inward only) | Yes — central rule | Must hold at **source code** level, not just diagram |
+| Entities vs use cases | Yes — two inner rings with different stability | Don't collapse both into a generic "service layer" |
+| Controllers/repos as adapters | Yes — Interface Adapters + Frameworks rings | SQL belongs in adapter, not "domain repository layer" |
+| Ports and adapters | Yes — Martin credits Cockburn; same DIP mechanism | Port interface owned by inner layer |
+| Microservices as distribution | Yes — with caution | Martin warns against premature distribution; each service still needs clean internal deps |
+| Testability without infra | Yes — primary payoff of the rule | If you need Docker to unit-test rules, deps point wrong way |
+| Web/DB/framework as details | Yes — defer and isolate | BFF/gateway are fine; business rules must not live there |
+| Screaming architecture | Yes — use-case-first structure | Added explicitly in this note |
+| Traditional Handler→Service→Repo | Partial | Valid **runtime** flow; map Service→**Use Case**, ensure **compile-time** deps still point inward |
+| Anemic domain as gotcha | Yes — entities should carry critical rules | Use cases orchestrate; entities enforce invariants |
+| Default to layered monolith | Yes — Martin favors monolith until boundaries proven | "Monolith" must still respect Dependency Rule |
+
+### Martin pass/fail checklist (design review)
+
+```txt
+PASS when:
+  □ Entities compile with zero framework/DB imports
+  □ Use cases depend on entity + port interfaces only
+  □ All SQL/HTTP/SDK code lives in outer adapters
+  □ Tests run business rules without DB, web server, or container
+  □ Top-level packages/folders name use cases or domain areas
+  □ Data crossing boundaries is plain DTOs — not ORM rows
+  □ Swapping Postgres → in-memory needs only adapter rewrite
+
+FAIL when:
+  □ "Domain" package imports JPA, ActiveRecord, or axios
+  □ Use case accepts HttpRequest or sql.Rows as parameters
+  □ Architecture diagram is only deployment boxes (tiers) with no dependency diagram
+  □ Framework chosen on day 1 dictated all folder names
+  □ Microservices split before use cases and entities are stable in a monolith
+```
+
+### Where Martin would push back on common industry practice
+
+| Industry habit | Martin's view |
+|----------------|---------------|
+| "We're 3-tier so we're well-architected" | Deployment shape ≠ dependency hygiene |
+| Shared ORM models across services | Each service owns its entities; integrate via API/events, not shared tables |
+| Fat gateway/BFF with business rules | Rules belong in use cases; gateway routes/auth/transforms only |
+| Repository as a sub-layer under domain in UML | Port with inner interface, outer implementation |
+| DDD aggregate = JPA `@Entity` | Persistence model is an adapter concern; map to/from entity |
+
+**Bottom line:** Multi-tier answers *where* components run. Martin's Clean Architecture answers *which direction code is allowed to depend*. A correct system needs both diagrams — and they are independent.
 
 ---
 
@@ -352,5 +487,7 @@ adapters/
 **Distribution & scale:** [[Microservice]] · [[distributed system]] · [[database sharding]] · [[stateless]] · [[event-driven]]
 
 **Principles:** [[SOLID]] · [[KISS]] · [[DRY]] · [[Design pattern/Dependency Injection]]
+
+**Martin / Clean Architecture:** [The Clean Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) · [Screaming Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html) · *Clean Architecture* (Robert C. Martin, 2017)
 
 **APIs between tiers:** [[gRPC]] · [[API design]] · [[HTTP module]]
