@@ -1,3 +1,22 @@
+[[zed config]] [[Descriptive/vscode]]
+
+# Zed keybindings
+
+## Completions & inline ghost text
+
+| Action | Linux / Windows | macOS |
+|--------|-----------------|-------|
+| Accept edit prediction (ghost text) | `tab` (no menu) · `alt-l` · `alt-tab` | `tab` · `alt-tab` |
+| Accept next word of prediction | `alt-k` | `ctrl-cmd-right` |
+| Accept next line of prediction | `alt-j` | `ctrl-cmd-down` |
+| Show / cycle edit prediction | `alt-\` · `alt-tab` / `alt-shift-tab` | `alt-tab` / `alt-shift-tab` |
+| Toggle edit predictions (buffer) | `ctrl-shift-e` | `ctrl-cmd-e` |
+| LSP completion menu | `ctrl-space` | `ctrl-space` |
+| Accept LSP menu item | `tab tab` | `tab tab` |
+| Dismiss menu / prediction | `escape` | `escape` |
+
+When the LSP popup and a ghost prediction conflict, **hold `alt`** to preview inline and hide the menu. See [[zed config#Inline ghost completions (VS Code Copilot-style)]].
+
 ## Key bindings
 ```text
 ] c next change
