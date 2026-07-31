@@ -1,3 +1,5 @@
+[[Multi-tier and Layered Architecture]] [[Service Layer]]
+
 > [!NOTE]
 > In a well architected application, the **Presentation Layer** should never communicate directly with the [[Data access Layer]]. Doing so creates tight coupling, making your code fragile and difficult to test.
 
