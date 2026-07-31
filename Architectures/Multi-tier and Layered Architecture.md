@@ -370,7 +370,7 @@ adapters/
 | Can't unit test without Docker | Domain imports ORM/HTTP types | Introduce ports (Martin DIP); in-memory adapters for tests |
 | ORM models used as domain entities | `@Entity` annotations in "domain" package | Separate entity from persistence model; map at adapter boundary |
 | DB row / `ResultSet` passed to use case | Framework data structure crossed inward | Map to simple DTO in repository adapter before returning |
-| Folder layout says "Spring" not "Billing" | Framework-screaming structure | Reorganize by use case ([[Screaming Architecture]] below) |
+| Folder layout says "Spring" not "Billing" | Framework-screaming structure | Reorganize by use case (Screaming Architecture — see below) |
 | 15-hop sync chain, cascading timeouts | N-tier / microservice sprawl | Merge services or go async; [[backpressure]] |
 | "Distributed monolith" — must deploy all 12 together | Shared DB, shared libs, circular calls | Database-per-service; define bounded contexts |
 | Layer violation in PRs | Controller imports repository directly | Enforce module boundaries (archunit, eslint boundaries) |
