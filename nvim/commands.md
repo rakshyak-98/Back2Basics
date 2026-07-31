@@ -1,3 +1,5 @@
+[[vim keybindings]] [[nvim setup]]
+
 ```bash
 :Lazy update
 :echo stdpath('config');

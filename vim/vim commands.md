@@ -1,3 +1,5 @@
+[[vim keybindings]] [[vim buffers]]
+
 ```bash
 vim -R ; # start vim in Read-only mode.
 ```
