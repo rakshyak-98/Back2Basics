@@ -1,3 +1,5 @@
+[[Multi-tier and Layered Architecture]] [[presentation layer]]
+
 A **Service Layer** is a design pattern used in software architecture to act as an intermediary between the [[presentation layer]] (UI/API controllers) and the [[Data access Layer]] (repositories/databases).
 
 - Encapsulate business logic, ensuring that your application follow the **Separation of Concerns** principle. Instead of controllers dealing with complex calculations, data validation, and transaction management, they simply delegate those tasks to the Service layer.

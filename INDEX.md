@@ -63,6 +63,9 @@
 ### Protocols & APIs
 - [[gRPC]] · [[SMTP]] · [[MQTT]] · [[HTTP module]]
 
+### Software architecture
+- [[Multi-tier and Layered Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Orchestration layer]]
+
 ### Design patterns (apply in projects)
 - Hub / principles: [[Design pattern]]
 - Creational: [[Design pattern/Factory Method]] · [[Design pattern/Creation pattern/Abstract Factory]] · [[Design pattern/Builder]] · [[Design pattern/Singleton]]
