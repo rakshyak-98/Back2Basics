@@ -1,3 +1,5 @@
+[[vim keybindings]] [[Descriptive/LSP]]
+
 ```bash
 apt update neovim;
 nvim --version;

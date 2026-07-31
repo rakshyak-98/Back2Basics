@@ -1,4 +1,4 @@
-[[netrw file explorer]] [[Linux/CLI]]
+[[netrw file explorer]] [[vim keybindings]] [[Linux/CLI]]
 
 # Vim buffers
 
