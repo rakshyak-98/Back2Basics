@@ -1,3 +1,15 @@
+[[kubectl]] [[kubectl pod creation]] [[Kubernetes services]] [[ingress]]
+
+# Pods
+
+> Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
+
+## Creating pods
+
+Operational commands and YAML patterns → [[kubectl pod creation]].
+
+---
+
 - it’s common for pods to contain only a single container.
 - pod does contain multiple containers, all of them are always run on a single worker node. It never spans multiple worker nodes.
 

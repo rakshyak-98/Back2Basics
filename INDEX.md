@@ -18,6 +18,7 @@
 | Nginx 502/504/499 | [[Configuration]] · [[nginx using unix socket]] |
 | Container won’t start / compose drift | [[Docker compose]] · [[docker cli]] · [[Docker Runtime Security]] |
 | Pod CrashLoop / not Ready | [[Pods]] · [[kubectl]] · [[ingress]] |
+| Create / apply a Pod manifest | [[kubectl pod creation]] · [[Pods]] · [[kubectl]] |
 | Certbot / TLS renew fail | [[certbot error]] · [[TLS (Transport Layer Security)]] · [[ACME server]] |
 | Terraform state lock / drift | [[Terraform workflow]] · [[Terraform CLI]] · [[variable file]] |
 | Redis latency / OOM / eviction | [[redis-cli]] · [[redis installation]] |
