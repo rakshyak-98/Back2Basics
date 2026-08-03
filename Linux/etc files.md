@@ -17,7 +17,7 @@ systemd ──► /etc/systemd/system/*.service (overrides)
 
 | Pattern | Example | Note |
 |---------|---------|------|
-| Main config | `/etc/ssh/sshd_config` | Single file |
+| Main config | `/etc/ssh/sshd_config` | Single file — see [[sshd config]] |
 | Drop-in dir | `/etc/ssh/sshd_config.d/` | Preferred on newer OpenSSH |
 | Defaults | `/etc/default/grub` | Sourced by scripts, not daemon directly |
 | systemd override | `/etc/systemd/system/nginx.service.d/` | `systemctl daemon-reload` after edit |
