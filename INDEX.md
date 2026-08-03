@@ -49,7 +49,7 @@
 - [[terraform]] · [[Terraform workflow]] · [[Terraform setup]] · [[variable file]] · [[Terraform CLI]]
 
 ### AWS
-- [[AWS Networking]] · [[Security group]] · [[Route53]] · [[aws STS (Security Token Service)]] · [[IAM]] · [[AWS EC2]] · [[AWS ECR]]
+- [[AWS Networking]] · [[Security group]] · [[Route53]] · [[aws STS (Security Token Service)]] · [[IAM]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]
 
 ### Data stores
 - Semantics: [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[OLTP]] · [[OLAP]]

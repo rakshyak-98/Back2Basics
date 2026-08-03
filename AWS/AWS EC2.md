@@ -80,7 +80,7 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 ## When NOT to use
 
 - **Long-running stateless web at scale without ASG** — use Auto Scaling Group + ALB.
-- **Batch/analytics** — consider Fargate, Lambda, or Spot Fleet for cost.
+- **Batch/analytics** — consider Fargate, [[AWS Lambda]], or Spot Fleet for cost.
 - **Bare metal driver/hardware timing needs** — consider Dedicated Hosts or on-prem.
 
 ## Related

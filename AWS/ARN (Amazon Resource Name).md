@@ -1,4 +1,4 @@
-[[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]]
+[[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]] [[AWS Lambda]]
 
 # ARN (Amazon Resource Name)
 
