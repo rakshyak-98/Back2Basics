@@ -85,4 +85,4 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 
 ## Related
 
-[[AWS Networking]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]
+[[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]
