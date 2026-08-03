@@ -20,9 +20,9 @@ Multi-level architecture is two orthogonal axes:
                          └─────────┘  └────┴────┘  └───┴───┴───┴───┘
 ```
 
-| Term | Separated by | Question it answers |
-|------|--------------|---------------------|
-| **Tier** | Process, machine, network, security zone | *Where does this run?* |
+| Term      | Separated by                                     | Question it answers          |
+| --------- | ------------------------------------------------ | ---------------------------- |
+| **Tier**  | Process, machine, network, security zone         | *Where does this run?*       |
 | **Layer** | Package, module, namespace, dependency direction | *Who may call whom in code?* |
 
 **Strict vs relaxed layering:** In a **strict** layered system, layer *N* talks only to layer *N−1*. In a **relaxed** system, upper layers may skip intermediate layers (faster to build, harder to change). Most production code is relaxed — document which skips are allowed.

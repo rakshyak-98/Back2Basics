@@ -15,13 +15,13 @@ Event source ──► Lambda service ──► execution env (runtime + your co
                       └── IAM role (STS)   └── /tmp, env vars, layers
 ```
 
-| Knob | What it actually controls |
-|------|---------------------------|
-| **Memory** | CPU share scales with memory (more MB ≈ more vCPU) |
-| **Timeout** | Hard kill after N seconds (max 15 min) |
-| **Reserved concurrency** | Cap for this function (also reserves from account pool) |
-| **Provisioned concurrency** | Pre-warmed envs — kills cold starts, costs money idle |
-| **Execution role** | What AWS APIs the function can call ([[IAM]]) |
+| Knob                        | What it actually controls                               |
+| --------------------------- | ------------------------------------------------------- |
+| **Memory**                  | CPU share scales with memory (more MB ≈ more vCPU)      |
+| **Timeout**                 | Hard kill after N seconds (max 15 min)                  |
+| **Reserved concurrency**    | Cap for this function (also reserves from account pool) |
+| **Provisioned concurrency** | Pre-warmed envs — kills cold starts, costs money idle   |
+| **Execution role**          | What AWS APIs the function can call ([[IAM]])           |
 
 Billing ≈ **requests + GB-seconds** (and provisioned concurrency if used). Retries multiply both.
 
@@ -84,13 +84,13 @@ aws lambda create-function \
   --architectures arm64
 ```
 
-| Setting | Prod default | Why |
-|---------|--------------|-----|
-| `--timeout` | 3–30s for APIs; longer for batch | Fail fast; don't hide hung deps |
-| `--memory-size` | Start 256–512; load-test | Under-memory = CPU starve + timeouts |
-| `--architectures` | `arm64` when deps allow | Often cheaper/faster per GB-s |
-| Env vars | Non-secrets only | Secrets → Secrets Manager / SSM, not plain env |
-| Ephemeral `/tmp` | ≤ 512 MB–10 GB (config) | Not durable storage |
+| Setting           | Prod default                     | Why                                            |
+| ----------------- | -------------------------------- | ---------------------------------------------- |
+| `--timeout`       | 3–30s for APIs; longer for batch | Fail fast; don't hide hung deps                |
+| `--memory-size`   | Start 256–512; load-test         | Under-memory = CPU starve + timeouts           |
+| `--architectures` | `arm64` when deps allow          | Often cheaper/faster per GB-s                  |
+| Env vars          | Non-secrets only                 | Secrets → Secrets Manager / SSM, not plain env |
+| Ephemeral `/tmp`  | ≤ 512 MB–10 GB (config)          | Not durable storage                            |
 
 ### 4. Update code / config
 

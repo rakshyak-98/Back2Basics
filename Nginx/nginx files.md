@@ -18,16 +18,16 @@ Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but
 
 ### Common paths (Debian/Ubuntu)
 
-| Path | Purpose |
-|------|---------|
-| `/etc/nginx/nginx.conf` | Main include tree |
-| `/etc/nginx/sites-available/` | Site defs |
-| `/etc/nginx/sites-enabled/` | Symlinks to enabled sites |
-| `/etc/nginx/conf.d/*.conf` | Drop-in snippets |
-| `/var/log/nginx/access.log` | Request log |
-| `/var/log/nginx/error.log` | Errors, upstream failures |
-| `/etc/logrotate.d/nginx` | Rotation policy |
-| `/run/nginx.pid` | Master PID |
+| Path                          | Purpose                   |
+| ----------------------------- | ------------------------- |
+| `/etc/nginx/nginx.conf`       | Main include tree         |
+| `/etc/nginx/sites-available/` | Site defs                 |
+| `/etc/nginx/sites-enabled/`   | Symlinks to enabled sites |
+| `/etc/nginx/conf.d/*.conf`    | Drop-in snippets          |
+| `/var/log/nginx/access.log`   | Request log               |
+| `/var/log/nginx/error.log`    | Errors, upstream failures |
+| `/etc/logrotate.d/nginx`      | Rotation policy           |
+| `/run/nginx.pid`              | Master PID                |
 
 ### Enable site
 

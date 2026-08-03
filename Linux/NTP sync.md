@@ -18,11 +18,11 @@ Host ──UDP/123──► pool.ntp.org / corporate NTP / hypervisor
   kernel adjtime / step clock ──► timedatectl status
 ```
 
-| Daemon | Typical distro | Role |
-|--------|----------------|------|
-| **chrony** | RHEL, Fedora, modern Ubuntu server | Full NTP client/server; handles VM clock drift well |
-| **systemd-timesyncd** | Ubuntu desktop, minimal images | Lightweight SNTP client only |
-| **ntpd** (NTP ref impl) | Legacy installs | Full NTP; avoid mixing with chrony on same host |
+| Daemon                  | Typical distro                     | Role                                                |
+| ----------------------- | ---------------------------------- | --------------------------------------------------- |
+| **chrony**              | RHEL, Fedora, modern Ubuntu server | Full NTP client/server; handles VM clock drift well |
+| **systemd-timesyncd**   | Ubuntu desktop, minimal images     | Lightweight SNTP client only                        |
+| **ntpd** (NTP ref impl) | Legacy installs                    | Full NTP; avoid mixing with chrony on same host     |
 
 **One sync daemon per host.** `timedatectl` is the control plane; it enables/disables sync but does not replace chrony/timesyncd.
 
