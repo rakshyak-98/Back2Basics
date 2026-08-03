@@ -1,3 +1,5 @@
+Server policy (`/etc/ssh/sshd_config`): [[sshd config]]
+
 ```shell
 ssh -F <config file> -G <Host>; # print final resolved configurations for that host
 ssh user@host; # connect to remote host using default key

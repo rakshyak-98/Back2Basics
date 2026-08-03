@@ -73,6 +73,8 @@ restrict,port-forwarding ssh-ed25519 AAAA... tunnel-user
 
 ### sshd_config — allow specific users
 
+→ Full directive reference: [[sshd config]]
+
 ```ini
 # /etc/ssh/sshd_config — validate with sudo sshd -t after edit
 PubkeyAuthentication yes
