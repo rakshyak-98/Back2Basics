@@ -19,6 +19,8 @@ systemd ──► /etc/systemd/system/*.service (overrides)
 |---------|---------|------|
 | Main config | `/etc/ssh/sshd_config` | Single file — see [[sshd config]] |
 | Drop-in dir | `/etc/ssh/sshd_config.d/` | Preferred on newer OpenSSH |
+| Main config | `/etc/nginx/nginx.conf` | Includes sites + snippets — [[nginx config structure]] |
+| Drop-in dir | `/etc/nginx/conf.d/` | Global HTTP snippets; Debian also uses `sites-enabled/` |
 | Defaults | `/etc/default/grub` | Sourced by scripts, not daemon directly |
 | systemd override | `/etc/systemd/system/nginx.service.d/` | `systemctl daemon-reload` after edit |
 

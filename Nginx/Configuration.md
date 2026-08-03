@@ -1,8 +1,8 @@
-[[Nginx]] [[web server]] [[directives]] [[nginx SPA deployment]] [[nginx fastcgi]]
+[[Nginx]] [[web server]] [[directives]] [[nginx SPA deployment]] [[nginx fastcgi]] [[nginx config structure]]
 
 # Nginx Configuration
 
-> One-line: reverse proxy + static file server — configure locations correctly, validate with `nginx -t`, reload without dropping connections.
+> One-line: reverse proxy + static file server — configure locations correctly, validate with `nginx -t`, reload without dropping connections. **Config tree:** [[nginx config structure]].
 
 ## Mental model
 
@@ -189,6 +189,8 @@ server {
 `~ \.php$` = case-sensitive regex. `~* \.php$` = case-insensitive.
 
 ### sites-available / sites-enabled
+
+→ Full directory layout: [[nginx config structure]]
 
 ```bash
 sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
