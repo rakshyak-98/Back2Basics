@@ -1,4 +1,4 @@
-[[AWS/AWS EC2]] [[AWS/IAM]] [[AWS/ARN (Amazon Resource Name)]]
+[[AWS/AWS EC2]] [[Elastic IP]] [[AWS/IAM]] [[AWS/ARN (Amazon Resource Name)]]
 
 # AWS Billing and Cost Management
 
