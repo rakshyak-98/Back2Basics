@@ -1,4 +1,4 @@
-[[Route53]] [[DNS]] [[DNS zone]] [[NAT (Network Address Translation)]] [[certbot (letsencrypt)]] [[CORS (Cross Origin Request Sharing)]]
+[[Route53]] [[Elastic IP]] [[DNS]] [[DNS zone]] [[NAT (Network Address Translation)]] [[certbot (letsencrypt)]] [[CORS (Cross Origin Request Sharing)]]
 
 # Connect GoDaddy domain to AWS EC2
 
