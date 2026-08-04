@@ -14,16 +14,16 @@ src   dest/   → creates dest/src/ (whole dir)
 --delete      → dest files not in src are REMOVED (mirror)
 ```
 
-| Flag | Meaning |
-|------|---------|
-| `-a` | Archive (rlptgoD) — preserve metadata |
-| `-v` | Verbose |
-| `-z` | Compress over network |
-| `-n` | Dry run — **always first on prod** |
-| `-c` | Checksum compare (ignore mtime) |
-| `-H` | Hard links (backup fidelity) |
-| `--delete` | Delete extraneous dest files |
-| `-e ssh` | Remote shell (custom key/port) |
+| Flag       | Meaning                               |
+| ---------- | ------------------------------------- |
+| `-a`       | Archive (rlptgoD) — preserve metadata |
+| `-v`       | Verbose                               |
+| `-z`       | Compress over network                 |
+| `-n`       | Dry run — **always first on prod**    |
+| `-c`       | Checksum compare (ignore mtime)       |
+| `-H`       | Hard links (backup fidelity)          |
+| `--delete` | Delete extraneous dest files          |
+| `-e ssh`   | Remote shell (custom key/port)        |
 
 ## Standard config / commands
 

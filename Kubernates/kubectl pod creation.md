@@ -16,12 +16,12 @@ kubectl run / apply ──► kube-apiserver ──► etcd (Pod desired state)
 
 A **Pod** is the smallest deployable unit: one or more containers that share network and optional volumes. `kubectl` does not “run a container” on a node directly — it creates a **Pod API object**; controllers and kubelet do the rest.
 
-| Path | When |
-|------|------|
-| `kubectl apply -f` | Default for anything that survives the afternoon (GitOps, CI, repeatable) |
-| `kubectl run` + `--dry-run=client -o yaml` | Bootstrap a manifest from flags, then edit and apply |
-| `kubectl run` (no dry-run) | Quick throwaway pod in dev — avoid in prod |
-| `kubectl create -f` | One-shot create; fails on duplicate name (no upsert) |
+| Path                                       | When                                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------- |
+| `kubectl apply -f`                         | Default for anything that survives the afternoon (GitOps, CI, repeatable) |
+| `kubectl run` + `--dry-run=client -o yaml` | Bootstrap a manifest from flags, then edit and apply                      |
+| `kubectl run` (no dry-run)                 | Quick throwaway pod in dev — avoid in prod                                |
+| `kubectl create -f`                        | One-shot create; fails on duplicate name (no upsert)                      |
 
 **Bare Pod vs Deployment:** a standalone Pod is not self-healing. Node loss or eviction does not recreate it. Production workloads almost always go through **Deployment** (or StatefulSet / Job). Bare Pods are for debug, batch one-offs, operators, or learning.
 

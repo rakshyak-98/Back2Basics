@@ -14,15 +14,15 @@ systemd unit ──► journald ──► /var/log/journal/ (or /run/log/journal
                                journalctl filters
 ```
 
-| Filter | Flag / syntax |
-|--------|----------------|
-| Unit | `-u nginx.service` |
-| Boot | `-b`, `-b -1`, `--list-boots` |
-| Time | `--since`, `--until` |
+| Filter   | Flag / syntax                 |
+| -------- | ----------------------------- |
+| Unit     | `-u nginx.service`            |
+| Boot     | `-b`, `-b -1`, `--list-boots` |
+| Time     | `--since`, `--until`          |
 | Priority | `-p err`, `-p warning..alert` |
-| Kernel | `-k` |
-| Follow | `-f` |
-| Field | `_EXE=`, `_UID=`, `_COMM=` |
+| Kernel   | `-k`                          |
+| Follow   | `-f`                          |
+| Field    | `_EXE=`, `_UID=`, `_COMM=`    |
 
 ## Standard config / commands
 
