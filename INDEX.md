@@ -76,6 +76,7 @@
 
 ### Git / delivery
 - [[git error]] · [[git rebase]] · [[git ssh config]] · [[git worktree]]
+- Deploy CLIs: [[Deployment/render cli]] · [[Deployment/vercel cli]] · [[Deployment/vercel deployment]] · [[Netlify/Netlify deployment]]
 
 ---
 

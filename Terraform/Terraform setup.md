@@ -27,8 +27,20 @@ terraform version
 
 Pin Terraform **and** providers so laptops and CI behave the same.
 
+| Constraint | Meaning |
+|------------|---------|
+| `~> 5.0` | ≥ 5.0.0 and < 6.0.0 |
+| `>= 1.5.0, < 2.0.0` | Allow patches/minors in 1.x only |
+| Exact `"5.40.0"` | Strictest pin for prod CI |
+
+Use **one** cloud block below per root module (or both if you truly manage AWS + GCP from the same root). Details: [[terraform provider]]
+
+---
+
+## AWS configuration
+
+### versions.tf
 ```hcl
-# versions.tf
 terraform {
   required_version = ">= 1.5.0, < 2.0.0"
 
@@ -37,88 +49,38 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 5.0"
-    }
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.0"
-    }
   }
 }
 ```
 
-| Constraint | Meaning |
-|------------|---------|
-| `~> 5.0` | ≥ 5.0.0 and < 6.0.0 |
-| `>= 1.5.0, < 2.0.0` | Allow patches/minors in 1.x only |
-| Exact `"5.40.0"` | Strictest pin for prod CI |
-
-Details: [[terraform provider]]
-
----
-
-## Provider blocks (cloud endpoint)
-
-> [!NOTE] Winkler — provider block is the bridge from HCL to the API (region / project / subscription).
-
-### AWS
+### providers.tf
 ```hcl
 provider "aws" {
   region = var.aws_region
+  # optional: profile = "my-sso-profile"
 }
 ```
 
-### GCP
+### variables (non-secret)
 ```hcl
-provider "google" {
-  project = var.gcp_project
-  region  = var.gcp_region
+variable "aws_region" {
+  type        = string
+  default     = "us-east-1"
+  description = "AWS region for the default provider"
 }
 ```
 
-### Azure
-```hcl
-provider "azurerm" {
-  features {}
-  subscription_id = var.azure_subscription_id
-}
-```
+### Auth
+| Method | When |
+|--------|------|
+| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` | Local / CI keys |
+| `~/.aws/credentials` + `AWS_PROFILE` | Named profiles |
+| AWS SSO / IAM Identity Center | Human interactive |
+| Instance / task IAM role | EC2, ECS, Lambda, GitHub OIDC |
 
-### Kubernetes
-```hcl
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-```
+> [!WARNING] Brikman — never commit access keys in `.tf` or `.tfvars`.
 
-Aliases / multi-region → [[terraform provider]]
-
----
-
-## Authentication (never commit secrets)
-
-> [!WARNING] Brikman — secrets in env, secret manager, or CI; not in `.tf` or committed `.tfvars`.
-
-| Cloud | Typical auth |
-|-------|----------------|
-| AWS | `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`, `~/.aws/credentials`, SSO, IAM role |
-| GCP | `GOOGLE_APPLICATION_CREDENTIALS`, `gcloud` ADC |
-| Azure | `az login`, SP env (`ARM_CLIENT_ID` …), managed identity |
-
-Pass non-secret knobs via [[variable file]] (`TF_VAR_*`, `*.tfvars`).
-
----
-
-## Remote state / backend (Brikman — state chapter)
-
-Local `terraform.tfstate` is fine solo. Teams need:
-
-1. Shared storage
-2. Encryption
-3. **Locking** (two applies don’t corrupt state)
-
+### Remote state (S3 + DynamoDB lock)
 ```hcl
 # backend.tf
 terraform {
@@ -132,7 +94,114 @@ terraform {
 }
 ```
 
-Also common: GCS, Azure Blob, HCP Terraform / Terraform Cloud, HTTP.
+Create the bucket + lock table **once** (often by hand or a bootstrap stack) before `terraform init`.
+
+---
+
+## GCP configuration
+
+### versions.tf
+```hcl
+terraform {
+  required_version = ">= 1.5.0, < 2.0.0"
+
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.0"
+    }
+  }
+}
+```
+
+Need GKE / beta APIs? Also pin `hashicorp/google-beta` the same way (`~> 5.0`).
+
+### providers.tf
+```hcl
+provider "google" {
+  project = var.gcp_project
+  region  = var.gcp_region
+  # zone optional; many resources take it per-resource
+}
+```
+
+### variables (non-secret)
+```hcl
+variable "gcp_project" {
+  type        = string
+  description = "GCP project ID (not display name)"
+}
+
+variable "gcp_region" {
+  type        = string
+  default     = "us-central1"
+  description = "Default region for regional resources"
+}
+```
+
+### Auth
+| Method | When |
+|--------|------|
+| `gcloud auth application-default login` | Local ADC |
+| `GOOGLE_APPLICATION_CREDENTIALS=/path/key.json` | SA key file (CI / break-glass) |
+| Workload Identity / attached SA | GCE, GKE, Cloud Build, GitHub WIF |
+
+Prefer short-lived ADC / WIF over long-lived JSON keys.
+
+### Remote state (GCS — built-in locking)
+```hcl
+# backend.tf
+terraform {
+  backend "gcs" {
+    bucket = "my-tf-state"
+    prefix = "prod/network"
+  }
+}
+```
+
+GCS backends lock via object generation — no separate DynamoDB equivalent. Create the bucket first (versioning on is a good default).
+
+---
+
+## Other providers (same pattern)
+
+> [!NOTE] Winkler — provider block is the bridge from HCL to the API (region / project / subscription).
+
+### Azure
+```hcl
+# versions: hashicorp/azurerm ~> 3.0
+provider "azurerm" {
+  features {}
+  subscription_id = var.azure_subscription_id
+}
+```
+
+Auth: `az login`, SP env (`ARM_CLIENT_ID` …), or managed identity. Backend: Azure Blob.
+
+### Kubernetes
+```hcl
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+```
+
+Aliases / multi-region → [[terraform provider]]
+
+Pass non-secret knobs via [[variable file]] (`TF_VAR_*`, `*.tfvars`).
+
+---
+
+## Remote state rules (Brikman — state chapter)
+
+Local `terraform.tfstate` is fine solo. Teams need shared storage, encryption, and **locking**.
+
+| Cloud | Backend | Locking |
+|-------|---------|---------|
+| AWS | `s3` | DynamoDB table (or S3 native lock on newer TF) |
+| GCP | `gcs` | Built into GCS backend |
+| Either | HCP Terraform / TFC | Platform-managed |
+
+Also common: Azure Blob, HTTP.
 
 After changing backend: `terraform init -migrate-state` → [[Terraform workflow]]
 
@@ -167,9 +236,9 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 ## First-run checklist
 
 1. Install Terraform
-2. `versions.tf` + provider → [[terraform provider]]
-3. Cloud credentials
-4. Optional `backend.tf`
+2. Pick cloud: AWS or GCP section above → `versions.tf` + `providers.tf`
+3. Auth (env / ADC / role) — never commit secrets
+4. Optional remote `backend.tf` (S3 or GCS)
 5. `terraform init` → download plugins ([[Terraform CLI]])
 6. `terraform plan` → `terraform apply` ([[Terraform workflow]])
 7. Stuck? `TF_LOG=DEBUG` ([[Terraform CLI]])
