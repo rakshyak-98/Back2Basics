@@ -253,3 +253,4 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 | HCL blocks, providers, dependency graph | *Terraform in Action* — Winkler |
 | Language overview | [[terraform]] |
 | Non-cloud practice | [[Terraform docker]] |
+| E-commerce EKS layout (extends setup) | [[ecommerce-eks-layout]] |

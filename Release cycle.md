@@ -146,4 +146,4 @@ git revert <commit> && redeploy
 
 ## Related
 
-[[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]
+[[ecommerce-cicd-environments]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]
