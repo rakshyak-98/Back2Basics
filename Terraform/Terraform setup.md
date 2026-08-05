@@ -27,11 +27,11 @@ terraform version
 
 Pin Terraform **and** providers so laptops and CI behave the same.
 
-| Constraint | Meaning |
-|------------|---------|
-| `~> 5.0` | ≥ 5.0.0 and < 6.0.0 |
+| Constraint          | Meaning                          |
+| ------------------- | -------------------------------- |
+| `~> 5.0`            | ≥ 5.0.0 and < 6.0.0              |
 | `>= 1.5.0, < 2.0.0` | Allow patches/minors in 1.x only |
-| Exact `"5.40.0"` | Strictest pin for prod CI |
+| Exact `"5.40.0"`    | Strictest pin for prod CI        |
 
 Use **one** cloud block below per root module (or both if you truly manage AWS + GCP from the same root). Details: [[terraform provider]]
 
@@ -71,12 +71,12 @@ variable "aws_region" {
 ```
 
 ### Auth
-| Method | When |
-|--------|------|
-| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` | Local / CI keys |
-| `~/.aws/credentials` + `AWS_PROFILE` | Named profiles |
-| AWS SSO / IAM Identity Center | Human interactive |
-| Instance / task IAM role | EC2, ECS, Lambda, GitHub OIDC |
+| Method                                        | When                          |
+| --------------------------------------------- | ----------------------------- |
+| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` | Local / CI keys               |
+| `~/.aws/credentials` + `AWS_PROFILE`          | Named profiles                |
+| AWS SSO / IAM Identity Center                 | Human interactive             |
+| Instance / task IAM role                      | EC2, ECS, Lambda, GitHub OIDC |
 
 > [!WARNING] Brikman — never commit access keys in `.tf` or `.tfvars`.
 
@@ -140,11 +140,11 @@ variable "gcp_region" {
 ```
 
 ### Auth
-| Method | When |
-|--------|------|
-| `gcloud auth application-default login` | Local ADC |
-| `GOOGLE_APPLICATION_CREDENTIALS=/path/key.json` | SA key file (CI / break-glass) |
-| Workload Identity / attached SA | GCE, GKE, Cloud Build, GitHub WIF |
+| Method                                          | When                              |
+| ----------------------------------------------- | --------------------------------- |
+| `gcloud auth application-default login`         | Local ADC                         |
+| `GOOGLE_APPLICATION_CREDENTIALS=/path/key.json` | SA key file (CI / break-glass)    |
+| Workload Identity / attached SA                 | GCE, GKE, Cloud Build, GitHub WIF |
 
 Prefer short-lived ADC / WIF over long-lived JSON keys.
 
