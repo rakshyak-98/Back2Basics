@@ -10,11 +10,11 @@ Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the *
 
 ## Why Terraform (Brikman)
 
-| Approach | Problem |
-|----------|---------|
-| ClickOps (console) | Not repeatable, no review, drift |
-| Scripts alone | Imperative, brittle order, hard to parallelize |
-| Terraform | Declarative, plan before apply, state + dependency graph |
+| Approach           | Problem                                                  |
+| ------------------ | -------------------------------------------------------- |
+| ClickOps (console) | Not repeatable, no review, drift                         |
+| Scripts alone      | Imperative, brittle order, hard to parallelize           |
+| Terraform          | Declarative, plan before apply, state + dependency graph |
 
 Brikman: treat infra like software — code review, versioning, reusable modules, CI.
 
@@ -22,14 +22,14 @@ Brikman: treat infra like software — code review, versioning, reusable modules
 
 ## Building blocks (Winkler)
 
-| Block | Role |
-|-------|------|
-| `terraform {}` | Version pins, backends → [[Terraform setup]] |
-| `provider` | Cloud/API plugin config → [[terraform provider]] |
-| `resource` | Manage something (create/update/delete) |
-| `data` | Read-only lookup of existing info |
+| Block                            | Role                                                |
+| -------------------------------- | --------------------------------------------------- |
+| `terraform {}`                   | Version pins, backends → [[Terraform setup]]        |
+| `provider`                       | Cloud/API plugin config → [[terraform provider]]    |
+| `resource`                       | Manage something (create/update/delete)             |
+| `data`                           | Read-only lookup of existing info                   |
 | `variable` / `output` / `locals` | Inputs, exports, computed names → [[variable file]] |
-| `module` | Reusable folder of config |
+| `module`                         | Reusable folder of config                           |
 
 ---
 
