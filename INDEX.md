@@ -67,6 +67,7 @@
 
 ### Software architecture
 - [[Multi-tier and Layered Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Orchestration layer]]
+- E-commerce reference: [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]] · [[ecommerce-eks-layout]]
 
 ### Design patterns (apply in projects)
 - Hub / principles: [[Design pattern]]
