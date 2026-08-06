@@ -4,6 +4,17 @@
 
 > Ship missing runtime APIs via script — fill gaps older browsers/Node versions lack — **compat tables + core-js / polyfill.io**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Transpiling** rewrites syntax (`class` → function). **Polyfilling** adds **missing functions or prototypes** at runtime. No syntax change — only implementation.

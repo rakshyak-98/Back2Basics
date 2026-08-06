@@ -4,6 +4,17 @@
 
 > One-line: **server-side SSH policy** in `/etc/ssh/sshd_config` (+ drop-ins) — who can connect, how they authenticate, what they can forward, and which sockets/keys the daemon exposes. **OpenSSH sshd_config(5) + production hardening practice.**
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `sshd` reads **one effective config** at startup (or reload) from `/etc/ssh/sshd_config`, which **includes** fragments under `/etc/ssh/sshd_config.d/*.conf`. OpenSSH ships defaults **commented**; any **uncommented** directive overrides the built-in default.

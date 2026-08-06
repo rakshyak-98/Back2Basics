@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **DEFLATE** (RFC 1951) is the **algorithm**; **gzip** (RFC 1952) and **zlib** (RFC 1950) are **container formats** around it:

@@ -6,6 +6,17 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Start here]]
+- [[#How to use this vault]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Back2Basics** is a staff-engineer field notebook: fast retrieval under incident pressure, not a tutorial site or man-page mirror.
@@ -23,6 +34,10 @@ Symptom / design question
 Every note follows [[NOTES_STANDARD]] — mental model first, then commands, then breakage playbook.
 
 ---
+
+## Standard config / commands
+
+…
 
 ## Start here
 
@@ -43,6 +58,21 @@ Every note follows [[NOTES_STANDARD]] — mental model first, then commands, the
 4. **Rewrite thin stubs:** prioritize P0/P1 in [[NOTES_STANDARD]] vault priorities.
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

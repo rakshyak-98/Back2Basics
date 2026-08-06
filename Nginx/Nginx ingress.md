@@ -1,20 +1,33 @@
+[[Nginx]]
+
+# Nginx ingress
+
+> One-line: what / why for **Nginx ingress** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Acts as a load balancer and [[Reverse Proxy]] for kubernetes cluster.
-Nginx ingress is a ingress controller for Kubernetes that manages external access to services running in a kubernetes cluster. 
-- enables secure and scalable HTTP(S) traffic routing to Kubernetes workloads. 
+Nginx ingress is a ingress controller for Kubernetes that manages external access to services running in a kubernetes cluster.
+- enables secure and scalable HTTP(S) traffic routing to Kubernetes workloads.
 - rate limiting, IP whitelisting, and custom error page.
-
 Load Balancing: Distributes traffic across multiple back-end pods to ensure reliability and scalability
-
 SSL/TLS Termination: Handles HTTPS traffic by terminating SSL connections at the ingress layer.
-
 Host-Based Routing: Routes requests based on URL paths or hostnames.
-
 Authentication: Supports basic authentication, JWT, and OAuth2 integration.
-
 ### Example nginx ingress config file
-
 ```yaml
-apiVersion: networking.k8s.io/v1 # must be appropriate version 
+apiVersion: networking.k8s.io/v1 # must be appropriate version
 kind: Ingress # Always set to Ingress
 metadata:
 	name: basic-ingress # Name of the ingress resource
@@ -31,3 +44,26 @@ spec:
 				port:
 					number: 80 # Port number of the target service
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

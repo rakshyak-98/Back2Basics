@@ -1,5 +1,23 @@
 [[vim keybindings]] [[nvim setup]]
 
+# commands
+
+> One-line: what / why for **commands** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Telescope]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```bash
 :Lazy update
 :echo stdpath('config');
@@ -8,19 +26,15 @@
 :lua =package.path; # print the current loaded path string
 :options; # per instance options setup
 ```
-
 ```lua
 print(vim.inspect(package.loaded['sg.nvim']));
 ```
-
 ```nvim
 vim.opt.rtp:prepend(lazypath)
 ```
 - `prepend` method is used to add a new directory to the beginning of the runtime path.
-
 > [!NOTE] `rtp` stands for runtime path. The runtime path is a list of directories that Neovim searches when looking for files, plugins and configurations.
 - the runtime path determines where Neovim looks for its resources, such as plugins, syntax files, and other configuration files.
-
 ### Treesitter
 #### Error is decoration provider treesitter/highlighter.win
 - indicates a problem with the query parsing, specifically related to an invalid node type.
@@ -29,6 +43,10 @@ vim.opt.rtp:prepend(lazypath)
 :TSInstall <language>; # check installed package
 :checkhealth nvim-treesitter; # run healthcheck
 ```
+
+## Standard config / commands
+
+…
 
 ## Telescope
 
@@ -47,3 +65,22 @@ require('telescope').setup{
     },
 }
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

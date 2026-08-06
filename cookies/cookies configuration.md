@@ -1,3 +1,24 @@
+[[cross-site scripting]]
+[[XSRF (cross-site request forgery)]]
+
+# cookies configuration
+
+> One-line: what / why for **cookies configuration** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Browser cookie]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 [cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cookie)
 ```shell
 HTTP/1.0 200 OK
@@ -6,31 +27,25 @@ Set-Cookie: theme=light
 Set-Cookie: sessionToken=abc123; Expires=Wed, 09 Jun 2024 10:18:14 GMT
 httpOnly
 ```
-
 > [!INFO]
 > `httpOnly` attribute forbids any JavaScript access to the cookie. We can't see such a cookie or manipulate it using `document.cookie`
-
-> [!NOTE] 
+> [!NOTE]
 > Cookies have several attribute, many of which are important and should be set.
-
 ```js
 document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 ```
-
-> [!WARNING] 
+> [!WARNING]
 > By default, if a cookie doesn't have one of these attributes, it disappears when the browser/tab is closed (max-age, expires).
 > Such cookies are called **session cookies**
-
 #### Authentication cookies
-
 - the cookie should be transferred only over HTTPS (`secure: true`).
 - By default, if we set a cookie at `http://site.com`, then it also appears at `https://site.com` and vice versa.
 - session cookies are intended to be deleted by the browser when the browser closes.
-
-[[cross-site scripting]]
-[[XSRF (cross-site request forgery)]]
-
 > [!NOTE] You can set/update a single cookie at a time using `document.cookie`
+
+## Standard config / commands
+
+…
 
 ## Browser cookie
 
@@ -55,7 +70,7 @@ A `samesite=lax` cookie is sent if both of these conditions are true:
 
 1. The HTTP method is “safe” (e.g. GET, but not POST).
    The full list of safe HTTP methods is in the [RFC7231 specification](https://tools.ietf.org/html/rfc7231#section-4.2.1). These are the methods that should be used for reading, but not writing the data. They must not perform any data-changing operations. Following a link is always GET, the safe method.
-   
+
 2. The operation performs a top-level navigation (changes URL in the browser address bar).
    This is usually true, but if the navigation is performed in an `<iframe>`, then it is not top-level. Additionally, JavaScript methods for network requests do not perform any navigation.
 
@@ -85,3 +100,22 @@ A `samesite=lax` cookie is sent if both of these conditions are true:
 ```js
 axios.defaults.withCredentials = true;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

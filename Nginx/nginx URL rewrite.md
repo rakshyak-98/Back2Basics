@@ -1,3 +1,23 @@
+[[Nginx]]
+
+# nginx URL rewrite
+
+> One-line: what / why for **nginx URL rewrite** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Client side routers]]
+- [[#Force remove `.php` or `.html` (hide extension completely)]]
+- [[#"refresh adds a trailing slash and 404s" bug.]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 |Nginx directive|What it actually does|When your browser URL becomes|Real folder on disk|
 |---|---|---|---|
@@ -123,3 +143,22 @@ if ($scheme = http) {
 5. Nginx sees there is a folder called dashboard/ in your dist/? → **No** (there isn’t!)
 6. But Nginx **automatically tries /dashboard/** (with trailing slash) because many servers treat /dashboard as a directory
 7. Nginx now returns **404** (or sometimes serves nothing)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

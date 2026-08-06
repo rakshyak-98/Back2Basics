@@ -1,3 +1,29 @@
+[[TypeScript]]
+
+# typescript error
+
+> One-line: what / why for **typescript error** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Augmentations for the global scope can only be directly nested in external modules or ambient module declarations.]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Augmentations for the global scope can only be directly nested in external modules or ambient module declarations.
 
 The error can be fixed by adding the `export {}` statement at the end of the file. This turns the file into a module, which is required for global augmentations in TypeScript.
@@ -8,3 +34,22 @@ The error can be fixed by adding the `export {}` statement at the end of the fil
 
 ### All declaration must have identical modifiers Error
 - might have missed the `typeof` keyword and directly used the property when creating a generic type.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

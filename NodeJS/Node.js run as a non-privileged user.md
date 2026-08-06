@@ -4,6 +4,17 @@
 
 > One-line: never run app servers as root — bind high ports or use capabilities/setcap; delegate privileged ops to systemd; load nvm/env in service units explicitly.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate admin tools — not `sudo` from the app.

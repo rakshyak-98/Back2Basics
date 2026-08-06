@@ -4,6 +4,17 @@
 
 > One-line: TCP where one side has closed its write path (FIN sent) but the read path is still open — **Stevens, TCP/IP Illustrated**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 TCP is full-duplex: each direction has its own FIN/ACK lifecycle. **Half-open** means one peer has shut down its outbound byte stream while the other can still send.

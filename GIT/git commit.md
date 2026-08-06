@@ -1,4 +1,32 @@
+[[GIT]]
+
+# git commit
+
+> One-line: what / why for **git commit** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Inspect commit]]
+- [[#Add notes to the commit]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Inspect commit
+
 ```bash
 git show --stat <commit-hash>;
 git show --name-only <commit-hash>;
@@ -19,7 +47,7 @@ git am <patch-file>; # apply and create original commit.
 ### Heads
 
 used to refer to order commits relative to your current `HEAD` position. While they often point to the exact same commit in a simple, linear history, they behave very differently when you encounter **merge commits**.
-- `HEAD~1` -> (Ancestor Chains) used to go back a specific number of generations along the first-parent history. 
+- `HEAD~1` -> (Ancestor Chains) used to go back a specific number of generations along the first-parent history.
 	- `HEAD~1` means the immediate parent of `HEAD`.
 	- `HEAD~1` means the grandparent (the parent of the parent) of `HEAD` and so on.
 - `HEAD^1` -> (Specific Parents) Most commits have only one parent, but a merge commit has two or more parents. Goes to the tip of the merged branch.
@@ -30,6 +58,7 @@ used to refer to order commits relative to your current `HEAD` position. While t
 ```
 
 ## Add notes to the commit
+
 ```bash
 git notes add -m 'Message';
 git notes remove <commit-hash>;
@@ -68,3 +97,22 @@ Stage this hunk [y,n,q,a,d,s,e,?]?
 - `e` → manually edit patch (fine-grained control)
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

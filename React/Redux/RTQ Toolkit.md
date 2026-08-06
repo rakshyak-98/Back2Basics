@@ -1,25 +1,37 @@
+[[Redux]]
+
+# RTQ Toolkit
+
+> - RTK Query uses a keying system `queryKey` to store and update API responses. - Query keying system ensures different API calls update the correct store data. - You don't need to manually manage Redux state-RTK Query handles it for you.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Create API slice]]
+- [[#By default, RTK Query does not directly modify other slices of your Redux state. However, you can sync in two main ways]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 `reducerPath` -> determines where in Redux the data is stored. `providesTags` and `invalidatesTags` -> automatically refresh data when mutations happen.
  - RTK Query is an advanced data fetching and caching tool.
 - leverages RTK APIs like [`createSlice`](https://redux-toolkit.js.org/api/createSlice) and [`createAsyncThunk`](https://redux-toolkit.js.org/api/createAsyncThunk) to implement its capabilities. - use of RTK Query's auto-generated React hooks.
 - `providersTags: ['products']` -> is used to enable automatic cache invalidation and refetching when related data updates. - If another API mutation updates products and has `invalidatesTags: ['products']` the RTK Query automatically refetch the `getProductByCategoryQuery`
- 
  > [!INFO] Query keying
-> - RTK Query uses a keying system `queryKey` to store and update API responses.
-> - Query keying system ensures different API calls update the correct store data.
-> - You don't need to manually manage Redux state-RTK Query handles it for you.
-
 > [!INFO] API calls trigger state update automatically
-
 ### Will RTK Query Prevent API calls after page refresh ?
 No, RTK Query's cache is stored in memory, so when you refresh the page, the cache is lost, and a new API call is made.
-
 ### Dispatching in RTK Query
 RTK Query uses `dispatch` to trigger manual refetching or invalidate cached data:
-
 ```ts
 import { useDispatch } from "react-redux"
 import { productApi } from "../redux/productApi"
-
 const RefreshProducts = () => {
 	const dispatch = useDispatch();
 	const handleRefresh = () => {
@@ -27,10 +39,8 @@ const RefreshProducts = () => {
 	};
 	return <button onClick={handleRefresh}> Refresh Products </button>;
 }
-
 ```
 - `invalidateTags(['product'])` -> forces data refetch for updated results.
-
 ### `executeMutation`
 is the internal Redux action that RTK Query dispatches whey you trigger a mutation
 - `useMutation()` hook
@@ -38,7 +48,6 @@ is the internal Redux action that RTK Query dispatches whey you trigger a mutati
 > [!INFO]
 > `executeMutation` -> manually trigger a mutation (instead of useMutation()) hook.
 > `removeMutationResult` -> clears a specific mutation result from the cache (i.e., removes the mutation entry and its metadata).
-
 ```js
 dispatch(api.util.removeMutationResult({ requestId }));
 ```
@@ -47,6 +56,10 @@ dispatch(api.util.removeMutationResult({ requestId }));
 const result = dispatch(api.endpoints.login.initiate(payload));
 dispatch(api.util.removeMutationResult({ requestId: result.requestId }));
 ```
+
+## Standard config / commands
+
+…
 
 ## Create API slice
 
@@ -172,7 +185,7 @@ addProduct: builder.mutation({
 | Auto cache                     | Data is stored in Redux for reuse                      | Prevents unnecessary API calls |
 
 ## By default, RTK Query does not directly modify other slices of your Redux state. However, you can sync in two main ways
- 
+
 ### Directly User API cache
 Since RTK Query automatically caches API responses, your component should read from `useGetUserQuery()` instead of a separate `UserProfile` state.
 ```tsx
@@ -222,14 +235,14 @@ export default unserSlice.reducer;
 
 > [!INFO] `extraReducer` allow `createSlice` to respond and update its own state in response to other actions types besides the types it had generated.
 
-> [!WARNING] As with the `reducers` field, each case reducer in `extraReducer` is wrapped 
+> [!WARNING] As with the `reducers` field, each case reducer in `extraReducer` is wrapped
 ### Why use `addMatcher()` instead of `addCase()`?
 - Both `addMatcher()` and `addCase()` are used in Redux Toolkit `extraReducers` to handle actions outside of the slice (e.g., API responses from RTK Query). However, `addMatcher()` is preferred for RTK Query API actions because of its flexibility.
 
 > [!INFO] `addMatcher`
 > - `matchFulfilled` -> triggers when a query / mutation successfully completes (HTTP `2xx` status).
 > - `matchRejected` -> triggers when a query / mutation fails (HTTP `4xx` `5xx` etc).
- 
+
 ### Why add API reducer to Redux store in RTK Query?
 when using `createApi` RTK Query, you must add its reducer to the store because Redux toolkit manages all API-related data (cache, loading states, responses) within the redux store.
 
@@ -353,3 +366,21 @@ const { data, isLoading } = useGetUserQuery(userId);
 > [!INFO] Individual endpoints on [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) accept a [`transformResponse`](https://redux-toolkit.js.org/rtk-query/api/createApi) property which allows manipulation of the data returned by a query or mutation before it hits the cache.
 - `transformResponse` is called with the `meta` property returned from the `baseQuery` as its second argument, which can be used while determining the transformed response. The value for `meta` is dependent on the `baseQuery` used.
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

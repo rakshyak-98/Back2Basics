@@ -4,6 +4,17 @@
 
 > Two-pointer technique over a contiguous subarray/substring — turn O(n²) brute force into O(n) by expanding/shrinking one window instead of restarting from every index.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Maintain indices `left` and `right` defining window `[left, right]`. Advance `right` to grow; advance `left` to shrink when a **validity invariant** breaks (sum too large, duplicate char seen, etc.).

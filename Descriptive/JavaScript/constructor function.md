@@ -4,6 +4,17 @@
 
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **constructor function** is a normal function intended to be called with `new`. It creates an object, links prototypes, runs the body with `this` bound to that object, and returns it (unless overridden).

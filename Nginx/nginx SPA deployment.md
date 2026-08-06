@@ -4,6 +4,17 @@
 
 > One-line: client-side routers own URLs that don't exist on disk — `try_files` must fall back to `index.html` without breaking API routes or static assets.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.

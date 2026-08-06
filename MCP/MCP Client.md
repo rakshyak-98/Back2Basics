@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or more **MCP servers** that expose **tools**, **resources**, and **prompts** over a transport. The LLM never talks to your server directly — the client mediates capability discovery and tool calls.

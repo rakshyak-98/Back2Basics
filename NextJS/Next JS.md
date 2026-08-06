@@ -1,12 +1,28 @@
+[[NextJS]]
+
+# Next JS
+
+> One-line: what / why for **Next JS** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 > [!INFO] In NextJS, when using `next/router`, the query parameters might be undefined on the first render because NextJS initially renders the page on the server (or statically), and _the query values are only available after hydration on the client.
-
 ### Image
-
 ```txt
 Error: Invalid src prop [(https://picsum.photos/seed/DUeHUGir/1880/2247)](https://picsum.photos/seed/DUeHUGir/1880/2247) on `next/image`, hostname "picsum.photos" is not configured under images in your `next.config.js` See more info: [https://nextjs.org/docs/messages/next-image-unconfigured-host](https://nextjs.org/docs/messages/next-image-unconfigured-host)
 ```
 - NextJS restricts external image resources for `next/image` by default. You need to allow `hostname` in your `next.config.js` file.
-
 #### Allow External images in `next.config.js`
 ```js
 /** @type {import('next').NextConfig} */
@@ -20,35 +36,25 @@ const nextConfig = {
     ],
   },
 };
-
 module.exports = nextConfig;
-
 ```
-
 ### Page route
 - in NextJS application, any file inside the `pages/` directory become a route.
 - To create a directory inside `pages/` that NextJS ignores.
-
 ```txt
 pages/
   _apiSlice/  <-- Ignored by Next.js routing
   index.js
-
 ```
-
 ### next Router
 `asPath` is a property of `useRouter()` from `next/Router` ant it returns the URL path as seen in the browser (including query parameters but without considering dynamic route patterns)
 ```ts
 import { useRouter } from "next/router";
-
 export default function Page() {
   const router = useRouter();
-
   return <p>Current Path: {router.asPath}</p>;
 }
-
 ```
-
 | Property   | Example Route             | Description                                            |
 | ---------- | ------------------------- | ------------------------------------------------------ |
 | `asPath`   | `/product/10?sort=asc`    | the actual URL in the browser, including query params. |
@@ -57,9 +63,7 @@ export default function Page() {
 #### Map an incoming request path with `rewrites`
 - `rewrites` allow you to map an incoming request path to a different destination path.
 - `rewriets` act as a URL prozy and mask the destination path.
-
 > [!NOTE] `rewrites` are applied to client-side routing, a `<Link href="/about">` will have the rewrite.
-
 ```js
 // next.config.js
 module.exports = {
@@ -72,20 +76,14 @@ module.exports = {
     ];
   },
 };
-
 ```
-
 ### Manifest JSON file
-
 - enables code splitting, lazy loading
 - [[SSR]] needs to know which chunks to send.
 - Middleware/runtime matches routes and behavior based on manifest.
-
 > [!INFO] manifest json file
 > - allow static hosting/CDNs to understand asset dependencies.
-
 - `*-manifest.json` files serve as internal maps used by the framework and server to efficiently resolve resources.
-
 | File Name                        | Purpose                                                     |
 | -------------------------------- | ----------------------------------------------------------- |
 | `build-manifest.json`            | Map of all built files for each route/page (JS/CSS chunks)  |
@@ -100,20 +98,15 @@ module.exports = {
 ```js
 export default dynamic(() => Promise.resolve(Home_1), { ssr: false })
 ```
-> [!INFO] 
+> [!INFO]
 > dynamically load the component and do not render this component of ssr.
-
 > [!NOTE]
 > `ssr: false` option will work for client component, move it into Client Component ensure the client code-splitting working properly.
-
 if you dynamically import a Server Component, only the Client Components that are children of the server component will be lazy-loaded - not the server component itself. It will also help preload the static assets such as CSS when you're using it in Server Components.
-
 ```js
 import dynamic from 'next/dynamic'
- 
 // Server Component:
 const ServerComponent = dynamic(() => import('../components/ServerComponent'))
- 
 export default function ServerComponentExample() {
   return (
     <div>
@@ -122,3 +115,26 @@ export default function ServerComponentExample() {
   )
 }
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

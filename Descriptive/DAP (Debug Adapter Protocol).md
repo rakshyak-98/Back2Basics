@@ -1,4 +1,29 @@
+[[Descriptive]]
+
+# DAP (Debug Adapter Protocol)
+
+> One-line: what / why for **DAP (Debug Adapter Protocol)** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#DAP Architecture]]
+- [[#How DAP communication flow]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Protocol designed to standardise the way development tools (like VS Code, IntelliJ, or Vim) talk to debugger (like [[gdb]], [[LLDB]], or NodeJS runtime debuggers).
+
+## Standard config / commands
+
+…
 
 ## DAP Architecture
 
@@ -22,3 +47,22 @@ DAP operates as a request-response protocol, typically running over JSON-RPC.
 | ------------ | --------------------- | ------------------------------------------------------------------------- |
 | **LSP**      | **Code Intelligence** | Autocomplete, "Go to Definition," linting, refactoring.                   |
 | **DAP**      | **Runtime Execution** | Breakpoints, stepping through code, variable inspection, memory analysis. |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

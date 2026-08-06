@@ -4,6 +4,17 @@
 
 > One-line: **`source` / `.` loads a script into the current shell** — libraries, env, and functions without a fork. Wrong path resolution breaks cron, systemd, and CI the moment cwd changes.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Sourcing** executes commands in the **current shell context**. Exported vars, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.

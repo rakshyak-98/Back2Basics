@@ -4,6 +4,17 @@
 
 > One-line: **`/etc/nginx/` layout on Debian/Ubuntu** — how `nginx.conf` includes sites, snippets, and param files into one effective config tree. **Package `nginx` + `nginx-common`.**
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Nginx does not run "one big file." The **master config** (`nginx.conf`) sets global defaults, then **`include`** pulls in everything else at parse time. Debian/Ubuntu split **reusable fragments** (params, mime types, snippets) from **virtual hosts** (`sites-available` → `sites-enabled`).

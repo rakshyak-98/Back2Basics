@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 For each query, you have a ranked list of items. **Relevance** is binary (or graded in nDCG). **Precision@k** = relevant in top k / k. **Average Precision (AP)** integrates precision at each rank where a relevant item appears.

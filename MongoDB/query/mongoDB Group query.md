@@ -1,3 +1,22 @@
+[[query]]
+
+# mongoDB Group query
+
+> One-line: what / why for **mongoDB Group query** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ### Grouping related fields
 ```js
 {
@@ -9,7 +28,6 @@
 	},
 },
 ```
-
 #### Group on two keys
 ```shell
 [
@@ -23,10 +41,8 @@
     }
   }
 ]
-
 ```
 - to group based on two keys, you need to structure `_id` as an object containing both fields in the `$group` stage.
-
 ### If you need both count and grouping
 ```js
 [
@@ -38,11 +54,9 @@
     }
   }
 ]
-
 ```
 - `$facet` allow multiple operations in parallel:
 this approach is useful when you need both the total count and the grouped results without making two separate queries.
-
 - if you want both the grouped data and the total count in one query.
 ```js
 [
@@ -57,5 +71,27 @@ this approach is useful when you need both the total count and the grouped resul
     }
   }
 ]
-
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

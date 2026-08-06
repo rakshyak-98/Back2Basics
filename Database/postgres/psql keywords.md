@@ -4,6 +4,17 @@
 
 > `INSERT … ON CONFLICT` pseudo-table names — `EXCLUDED` is the proposed row that lost the conflict; misuse causes silent wrong updates or duplicate key errors.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 PostgreSQL upsert = insert row; if unique/exclusion constraint violated, **do conflict action** instead of error.

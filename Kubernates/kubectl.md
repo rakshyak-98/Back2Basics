@@ -4,6 +4,18 @@
 
 > CLI to the Kubernetes API — read cluster state, ship manifests, debug failing pods — **Kubernetes: Up and Running** (Burns et al.) + **The Kubernetes Book** (Sayed).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#CrashLoopBackOff triage]]
+- [[#Triage table]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```
@@ -46,6 +58,10 @@ kubectl logs -n prod api-7f8b9c-xyz --since=10m
 kubectl logs -n prod api-7f8b9c-xyz -c sidecar -f --tail=100
 kubectl logs -n prod -l app=api --prefix --timestamps --max-log-requests=10
 ```
+
+### Create pods
+
+Bare Pod creation (manifests, `kubectl run`, init/sidecar patterns) → [[kubectl pod creation]].
 
 ### Apply / rollouts
 
@@ -168,4 +184,4 @@ readinessProbe:        # removed from Service endpoints when failing
 
 ## Related
 
-[[Pods]] [[ingress]] [[Kubernetes services]] [[Kubernetes config]] [[Cilium]] [[Docker compose]]
+[[Pods]] [[kubectl pod creation]] [[ingress]] [[Kubernetes services]] [[Kubernetes config]] [[Cilium]] [[Docker compose]]

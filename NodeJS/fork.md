@@ -4,6 +4,17 @@
 
 > One-line: `child_process.fork()` spawns a **Node.js** child with built-in IPC — use for cluster workers and isolated JS processes; not for arbitrary shell commands.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `fork(modulePath, args, options)` is `spawn('node', [modulePath, ...args])` plus an **`process.send` / `message` IPC channel**. Parent and child both run V8; child gets its own event loop and memory.

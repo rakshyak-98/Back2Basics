@@ -1,9 +1,63 @@
+[[Redux]]
+
 # Store Architecture Guide
 
-> Reference document for maintaining and extending the Redux store after refactoring.
-> Last updated: March 2026
+> Reference document for maintaining and extending the Redux store after refactoring. Last updated: March 2026
 
 ---
+
+## Index
+
+- [[#Core Concepts]]
+- [[#Standard config / commands]]
+- [[#Table of Contents]]
+- [[#Folder Structure]]
+- [[#Slice Rules]]
+- [[#Middleware Rules]]
+- [[#API Layer Rules]]
+- [[#Storage Abstraction]]
+- [[#Adding a New Feature]]
+- [[#Removing a Feature]]
+- [[#Dependency Map]]
+- [[#Common Pitfalls]]
+- [[#Refactoring History]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Core Concepts
+
+### Three Middleware Responsibilities
+
+| Middleware File | Responsibility | Example |
+|---|---|---|
+| `storageMiddleware.js` | Sync state → sessionStorage/localStorage | Save `roomChooises` on `insertRoomOptions` |
+| `apiMiddleware.js` | Handle API response side effects | Save `orderID` after `addReservationFromWeb` |
+| `stateMiddleware.js` | Sync state across slices | Update `quantity` in `searchQuery` after `insertRoomOptions` |
+
+> **Rule:** If you are unsure which middleware file to put a listener in, ask: is this saving to storage? handling an API response? or syncing two slices? That answer tells you the file.
+
+### Listener API vs RTK Query API
+
+Inside a listener `effect`, the second parameter is the **listener API** — not the RTK Query `api`.
+
+```js
+// ✅ correct — reference the imported `api` (createApi instance) directly
+import { api } from "@/api/apiSlice";
+
+stateMiddleware.startListening({
+  actionCreator: someSlice.actions.someAction,
+  effect: (action, listenerApi) => {  // listenerApi ≠ RTK Query api
+    listenerApi.dispatch(api.endpoints.someEndpoint.initiate(payload));
+  }
+});
+```
+
+---
+
+## Standard config / commands
+
+…
 
 ## Table of Contents
 
@@ -69,36 +123,6 @@ src/
     formatDate.js                   # moment date formatting helpers
     browserStorageKeys.js           # all storage key constants
     storage.js                      # sessionStorage / localStorage wrapper
-```
-
----
-
-## Core Concepts
-
-### Three Middleware Responsibilities
-
-| Middleware File | Responsibility | Example |
-|---|---|---|
-| `storageMiddleware.js` | Sync state → sessionStorage/localStorage | Save `roomChooises` on `insertRoomOptions` |
-| `apiMiddleware.js` | Handle API response side effects | Save `orderID` after `addReservationFromWeb` |
-| `stateMiddleware.js` | Sync state across slices | Update `quantity` in `searchQuery` after `insertRoomOptions` |
-
-> **Rule:** If you are unsure which middleware file to put a listener in, ask: is this saving to storage? handling an API response? or syncing two slices? That answer tells you the file.
-
-### Listener API vs RTK Query API
-
-Inside a listener `effect`, the second parameter is the **listener API** — not the RTK Query `api`.
-
-```js
-// ✅ correct — reference the imported `api` (createApi instance) directly
-import { api } from "@/api/apiSlice";
-
-stateMiddleware.startListening({
-  actionCreator: someSlice.actions.someAction,
-  effect: (action, listenerApi) => {  // listenerApi ≠ RTK Query api
-    listenerApi.dispatch(api.endpoints.someEndpoint.initiate(payload));
-  }
-});
 ```
 
 ---
@@ -491,3 +515,17 @@ effect: (action, listenerApi) => {
 | Phase 7 | Middleware split — storageMiddleware, apiMiddleware, stateMiddleware | ✅ Done |
 | Phase 8 | API layer split — endpoints grouped by domain | ✅ Done |
 | Phase 9 | Storage abstraction — storage utility wrapper | ✅ Done |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

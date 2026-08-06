@@ -4,6 +4,17 @@
 
 > One-line: **Supervisord process control** — keep worker processes (Celery, gunicorn, custom daemons) alive when systemd units aren't the chosen layer. `reread` vs `update` trips everyone once.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Supervisord** is a parent daemon that spawns children, restarts on crash, and rotates logs. Config lives in `/etc/supervisor/conf.d/*.conf`. Changes on disk are **not** live until `reread` + `update`. Unlike systemd, one supervisord tree is typical per machine/container.

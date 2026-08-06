@@ -1,4 +1,21 @@
-[[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]]
+[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]]
+
+# frontend layered architecture
+
+> One-line: what / why for **frontend layered architecture** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 ```text
 project-root/
@@ -32,11 +49,8 @@ project-root/
 ├── vite.config.js         # Build tool config (or webpack.config.js)
 └── package.json           # Dependencies
 ```
-
 #### Detailed Layer Guidelines
-
 ##### 1. Presentation Layer
-
 - **Responsibility**: Render UI, handle user events, and display data. This layer should be "dumb" – no business logic, just props/state passing.
 - **Key Files/Examples**:
     - Components: Atomic (Button), molecular (Form), organisms (UserProfileCard).
@@ -47,9 +61,7 @@ project-root/
     - Use hooks or lifecycle methods to connect to application layer.
     - Avoid direct API calls or storage access.
     - Example: A Button component receives onClick from parent; doesn't know what it does.
-
 ##### 2. Application Layer
-
 - **Responsibility**: Coordinate flows, manage global state, and wire up domain logic to presentation.
 - **Key Files/Examples**:
     - State: Centralized store (e.g., Redux actions/reducers for user auth state).
@@ -60,9 +72,7 @@ project-root/
     - Inject dependencies (e.g., pass repositories to services).
     - This layer adapts domain outputs for UI (e.g., transform data for display).
     - Example: A service like AuthService calls domain/usecases/loginUser and updates state.
-
 ##### 3. Domain Layer
-
 - **Responsibility**: Encapsulate business rules, entities, and logic. This is the "heart" of the app – pure, no external dependencies.
 - **Key Files/Examples**:
     - Entities: Plain objects/interfaces (e.g., class User { id: string; name: string; }).
@@ -73,9 +83,7 @@ project-root/
     - Focus on "what" the app does, not "how" (e.g., validation rules here, not in UI).
     - Test heavily – this layer should have 100% coverage.
     - Example: A use case throws domain-specific errors (e.g., InvalidCredentialsError).
-
 ##### 4. Infrastructure Layer
-
 - **Responsibility**: Implement external concerns like data fetching, persistence, and adapters.
 - **Key Files/Examples**:
     - API: HTTP clients (e.g., api/users.ts with fetch/Axios calls).
@@ -87,9 +95,7 @@ project-root/
     - Handle errors and mapping (e.g., API response to domain entity).
     - Mock for testing (e.g., in-memory repo for unit tests).
     - Example: ApiUserRepository.getUser(id) calls /users/${id} and maps to User entity.
-
 #### Implementation Steps for Developers
-
 1. **Setup Boilerplate**:
     - Create the folder structure as above.
     - Install core deps: npm init, add TypeScript, ESLint, a framework (e.g., npm i react react-dom).
@@ -114,3 +120,26 @@ project-root/
     - Avoid circular dependencies.
     - Keep utils lightweight; if complex, move to domain.
     - Regularly refactor as the project grows.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,17 @@
 
 > One-line: **iproute2** Swiss army knife — links, addresses, routes, neighbors, tunnels. **Modern replacement for ifconfig/route/netstat.** Kerrisk.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Network config is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.

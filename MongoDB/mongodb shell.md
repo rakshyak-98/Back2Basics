@@ -1,5 +1,23 @@
-[mongodb shell run Command](https://www.mongodb.com/docs/manual/reference/method/db.runCommand/)
+[[MongoDB]]
 
+# mongodb shell
+
+> One-line: what / why for **mongodb shell** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+[mongodb shell run Command](https://www.mongodb.com/docs/manual/reference/method/db.runCommand/)
 ```shell
 db.createCollection("users", {
   validator: {
@@ -14,9 +32,7 @@ db.createCollection("users", {
     }
   }
 })
-
 ```
-
 ### Create transaction
 ```js
 session = db.getMongo().startSession();
@@ -26,12 +42,33 @@ session.commitTransaction();
 session.abortTransaction();
 session.endSession();
 ```
-
 ```js
 db.adminCommand({ listSessions: {} }); // return all active session
 db.adminCommand({ listSessions: { allUsers: false }}); // returns only sessions owned by the current user.
 ```
-
 ```js
 db.runCommand({ help: 1})
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

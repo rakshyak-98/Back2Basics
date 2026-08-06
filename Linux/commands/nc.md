@@ -4,6 +4,17 @@
 
 > One-line: **Swiss-army TCP/UDP socket tool** — prove connectivity, banner-grab, and one-shot port checks faster than full scans. Not a replacement for proper TLS or auth testing.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `nc` opens a **raw socket** (client or listener). For ops, the common pattern is **connect probe**: did SYN get SYN-ACK (port open) or RST/timeout (closed/filtered)? OpenBSD netcat (`nc`) and nmap's `ncat` differ in flags — know which is installed.

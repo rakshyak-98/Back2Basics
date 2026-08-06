@@ -1,3 +1,22 @@
+[[commands]]
+
+# APT policy
+
+> One-line: what / why for **APT policy** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```shell
 apt policy;
 ```
@@ -5,11 +24,8 @@ apt policy;
 ```shell
 apt policy <package name>;
 ```
-
 > [!INFO] the numbers (500, 100, etc.) represent priority levels that determine which package version is installed. This priorities come from API pinning rules in `/etc/apt/preferences`.
-
 ### **Priority Breakdown**
-
 | Priority  | Meaning                                                           |
 | --------- | ----------------------------------------------------------------- |
 | **100**   | Installed package (from `.deb` or manually added).                |
@@ -27,8 +43,30 @@ nginx:
         500 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 Packages
  *** 1.18.0-0ubuntu1 100
         100 /var/lib/dpkg/status
-
 ```
 - `1.18.0-0ubuntu1 (100)`: Installed version (lower priority).
 - `1.21.0-1+ubuntu20.04 (500)`: Available version from PPA (higher priority).
 - Since `500` is higher than `100`, running `sudo apt upgrade nginx` will install `1.21.0-1+ubuntu20.04`.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,17 @@
 
 > One-line: automatic SQL on INSERT/UPDATE/DELETE — audit, denormalization, validation; hidden logic that breaks migrations and surprises ORMs.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Triggers run **inside the same transaction** as the triggering statement (InnoDB). **BEFORE** triggers can modify `NEW` row; **AFTER** triggers see committed change context but can't modify triggering row.

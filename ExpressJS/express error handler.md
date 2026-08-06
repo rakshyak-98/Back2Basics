@@ -4,6 +4,17 @@
 
 > One-line: four-argument middleware `(err, req, res, next)` must be registered **last** — centralize status codes, hide stacks in prod, never leak internals.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Express distinguishes error-handling middleware by **arity (4 params)**. Calling `next(err)` or throwing inside async route (with wrapper) skips normal middleware and jumps to error handler.

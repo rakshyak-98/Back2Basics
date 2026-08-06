@@ -1,12 +1,55 @@
+[[Networking]]
+
+# POSIX Socket
+
+> One-line: what / why for **POSIX Socket** — source TBD.
+
+---
+
+## Index
+
+- [[#Overview]]
+- [[#Client vs Server Workflow]]
+- [[#Core Functions]]
+- [[#Data Structures]]
+- [[#Properties]]
+- [[#Common Edge Cases]]
+- [[#OS socket bind]]
+- [[#Functional Mechanics]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Overview
-- **Definition**: Standardized API (POSIX) for inter-process & network communication using sockets.  
-- **Origin**: Based on BSD sockets, adopted by POSIX for portability.  
-- **Key Idea**: Socket = file descriptor → usable with `read()`, `write()`, `close()`.  
+
+- **Definition**: Standardized API (POSIX) for inter-process & network communication using sockets.
+- **Origin**: Based on BSD sockets, adopted by POSIX for portability.
+- **Key Idea**: Socket = file descriptor → usable with `read()`, `write()`, `close()`.
 - **Uses**: TCP/UDP networking, IPC (Unix domain sockets), raw packet access.
 
 ---
 
+## Client vs Server Workflow
+
+**Client**
+1. `socket()`
+2. `connect()`
+3. `send()/recv()`
+4. `close()`
+
+**Server**
+1. `socket()`
+2. `bind()`
+3. `listen()`
+4. `accept()`
+5. `send()/recv()`
+6. `close()`
+
+---
+
 ## Core Functions
+
 1. **Socket Lifecycle**
    - `socket()` → create endpoint.
    - `bind()` → assign local address/port.
@@ -27,6 +70,7 @@
 ---
 
 ## Data Structures
+
 - `struct sockaddr` → generic address container.
 - `struct sockaddr_in` → IPv4 address.
 - `struct sockaddr_in6` → IPv6 address.
@@ -35,24 +79,8 @@
 
 ---
 
-## Client vs Server Workflow
-**Client**
-1. `socket()`
-2. `connect()`
-3. `send()/recv()`
-4. `close()`
-
-**Server**
-1. `socket()`
-2. `bind()`
-3. `listen()`
-4. `accept()`
-5. `send()/recv()`
-6. `close()`
-
----
-
 ## Properties
+
 - Protocol families: `AF_INET`, `AF_INET6`, `AF_UNIX`, `AF_PACKET`.
 - Blocking & non-blocking modes supported.
 - Errors follow `errno`.
@@ -61,6 +89,7 @@
 ---
 
 ## Common Edge Cases
+
 - `EADDRINUSE` → port already bound.
 - `EAGAIN` / `EWOULDBLOCK` → non-blocking socket operations.
 - **Partial send/recv** → loop until all data processed.
@@ -82,3 +111,22 @@ this operation enables an application to control exactly which network interface
 When a socket is created, it exists state without a network identity. Binding attaches it to local system's networking stack:
 - server-side -> The `bind()` system call is required to associate a socket with a specific port, allowing the OS to route incoming packets destined for that port to the application.
 - Client-side -> Binding is typically optional. If omitted, the OS performs an implicit (ephemeral) binding to an available port when the connection is initiated.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

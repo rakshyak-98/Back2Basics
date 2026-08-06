@@ -4,6 +4,17 @@
 
 > Defer instantiation to a method subclasses (or a registry) can override — caller depends on product interface, not `new Concrete` — **Dive Into Design Patterns**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Creation is not the creator's main job — the creator already has business logic. Factory Method isolates *which* concrete product appears so you can add variants without editing call sites.

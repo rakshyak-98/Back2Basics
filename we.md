@@ -4,11 +4,40 @@
 
 > **Mission:** force-multiply engineering teams with operational field notes — retrieve fast, debug fast, configure correctly.
 
-→ Primary hub: **[[staff engineer]]**
+---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+→ Primary hub: **[[staff engineer]]**
 → Vault entry: **[[INDEX]]** · **[[NOTES_STANDARD]]** · **[[README]]**
 
----
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

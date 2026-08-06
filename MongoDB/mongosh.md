@@ -1,17 +1,31 @@
+[[MongoDB]]
+
+# mongosh
+
+> One-line: what / why for **mongosh** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 [mongodb aggregation](https://www.mongodb.com/docs/v4.4/reference/operator/aggregation/cond/)
-
-> [!WARNING] On some systems, a password provided directly in a connection string or using `--uri` may be visible to system status programs such as `ps` that may be invoked by other users. 
-
+> [!WARNING] On some systems, a password provided directly in a connection string or using `--uri` may be visible to system status programs such as `ps` that may be invoked by other users.
 > [!WARNING] In **`mongosh`**, there is no direct `populate` function like in **Mongoose**.
-
 ```js
 { $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
 ```
-
 ```js
 { $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
 ```
-
 ```js
 db.collection.aggregate([{ $project: {name: 1, age: 1, _id: 0}}])
 db.collection.aggregate([
@@ -34,18 +48,15 @@ db.collection.aggregate([
 ])
 db.collection.aggregate([{ $unwind: "$items" }])
 ```
-
 ```js
 db.collection.aggregate([{ $search: {text: { query: "mongodb", path: "title" }}}])
 ```
-
 ```js
 // Handling Dates
 db.collection.aggregate([
 	{ $project: {formatDate: {$dateToString: {format: "%Y-%m-%d", date: "$createdAt" }}}}
 ])
 ```
-
 ```js
 db.collection.aggregate([
 	{
@@ -57,16 +68,13 @@ db.collection.aggregate([
 	}
 ])
 ```
-
 ```js
 db.collection.aggregate([{ $skip: 10 }, { $limit: 5 }])
 ```
-
 ```js
 // data sampling Randomly select documents
 db.collection.aggregate([{ $sample: { size: 3 }}])
 ```
-
 ```js
 // $merge Write aggregation result into a collection.
 db.collection.aggregate([
@@ -74,7 +82,6 @@ db.collection.aggregate([
 	{ $merge: "summary" }
 ])
 ```
-
 ```js
 // Run multiple aggregations in parallel
 db.collection.aggregate([
@@ -86,9 +93,31 @@ db.collection.aggregate([
 	}
 ])
 ```
-
 ```js
 db.collection.aggregate([
 	{$project: {nameUpperCase: {$toUpper: "$name" }}}
 ])
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

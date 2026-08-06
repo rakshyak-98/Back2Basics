@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).
@@ -20,13 +29,13 @@ Player JS ──► EME: requestMediaKeySystemAccess('com.widevine.alpha')
          License server ([[DRM]] KMS — Pallycon, EZDRM, etc.)
 ```
 
-| Piece | Role |
-|-------|------|
-| **EME** | API surface in browser |
-| **CDM** | Proprietary decrypt (Widevine L1/L3, etc.) |
-| **CENC** | Common encryption format in [[CMAF]]/fMP4 |
-| **License server** | Validates entitlement; returns keys |
-| **MSE** | Feeds encrypted segments to CDM |
+| Piece              | Role                                       |
+| ------------------ | ------------------------------------------ |
+| **EME**            | API surface in browser                     |
+| **CDM**            | Proprietary decrypt (Widevine L1/L3, etc.) |
+| **CENC**           | Common encryption format in [[CMAF]]/fMP4  |
+| **License server** | Validates entitlement; returns keys        |
+| **MSE**            | Feeds encrypted segments to CDM            |
 
 EME does **not** define encryption — packaging uses **CENC**; [[HLS]] SAMPLE-AES / fMP4 `sinf`/`schi` boxes wrap the same keys for Apple.
 

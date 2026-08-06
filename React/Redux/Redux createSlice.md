@@ -1,4 +1,32 @@
+[[Redux]]
+
+# Redux createSlice
+
+> One-line: what / why for **Redux createSlice** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Creating slice]]
+- [[#What are selectors]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Creating slice
+
 **`createSlice`** is a utility function in Redux Toolkit that **automatically generates both actions and a reducer** for you. It simplifies the process of managing state by bundling the actions and reducer logic together.
 
 [!INFO] `createSlice` and `createReducer` automatically use [[Immer]] internally to let you write simpler immutable update logic using _mutating_ syntax.
@@ -43,7 +71,7 @@ const todosSlice = createSlice({
 ```
 - This is because statements and function calls may return a value, and Immer sees both the attempted mutation and _and_ the new returned value and doesn't know which to use as the result.
 
-> [!INFO] slice reducer 
+> [!INFO] slice reducer
 > - `extraReduer` -> what are the thing this slice is not in charge of that it might to deal with.
 
 > [!NOTE] As an alternative, you can use `Object.assign` to mutate multiple fields at once, since `Object.assign` always mutates the first object that it's given. [ref](https://redux-toolkit.js.org/usage/immer-reducers)
@@ -201,6 +229,7 @@ createSlice({
 > [!INFO] `extraReducers` are designed to respond to actions defined outside the slice or to handle async actions, and do not have internal access to the slice's reducer functions
 
 ## What are selectors
+
 extract the transform specific pieces of state from the Redux store.
 
 Memoization
@@ -232,11 +261,30 @@ import { loginUser } from "@/store/authSlice";
 export function useLogin() {
 	const dispatch = useDispatch();
 	const { user, token, loading, error } = useSelector(state => state.auth);
-	
+
 	const login = (email, password) => {
 		dispatch(loginUser({ email, password }));
 	}
-	
+
 	return  { login, user, token, loading, error };
 }
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

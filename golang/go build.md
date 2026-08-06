@@ -4,6 +4,17 @@
 
 > Compile Go packages/binaries with module-aware dependency resolution — `go.mod` is the source of truth.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Go modules (`go.mod` + `go.sum`) replace GOPATH-era vendoring chaos. `go build` resolves imports, compiles packages, links a static binary (by default). Cross-compile via `GOOS`/`GOARCH`. Build cache lives in `$GOCACHE` — clean builds are rare after first compile.

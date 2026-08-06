@@ -4,6 +4,17 @@
 
 > Interactive + scripted Redis admin — inspect memory, latency, persistence, and live traffic under incident load.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```

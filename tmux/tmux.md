@@ -1,16 +1,39 @@
+[[tmux]]
+
+# tmux
+
+> One-line: what / why for **tmux** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Window]]
+- [[#Session]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - Session → multiple windows
 - Window → full screen workspace
 - Pane → splits inside window
-
 ```bash
 tmux ls; // list session
 tmux attach -t <name>; // attach previous session from outside of tmux
 ```
-
 ```bash
 ctrl+b z; # Toggle focus on pane
 ctrl+<space>; # Toggle pane layout
 ```
+
+## Standard config / commands
+
+…
 
 ## Window
 
@@ -60,3 +83,22 @@ port=5000
     ((port++))
 done
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

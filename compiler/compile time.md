@@ -4,6 +4,17 @@
 
 > Phase before program runs — parsing, type checking, optimization, and codegen; errors here prevent broken binaries from shipping.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Compile time** = while compiler/transpiler/build tool runs. **Runtime** = while program executes. Decisions at compile time are fixed (types, const generics, `#ifdef`); runtime handles user input, network, dynamic dispatch (virtual methods, `interface{}`, reflection).

@@ -4,6 +4,17 @@
 
 > One-line: encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 MySQL supports TLS on connection (like Postgres `sslmode`). Server presents certificate; client verifies CA (`ssl-ca`). **Mutual TLS** adds client cert (`ssl-cert`, `ssl-key`) for auth.

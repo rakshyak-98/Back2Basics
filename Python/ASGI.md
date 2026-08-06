@@ -1,3 +1,22 @@
+[[Python]]
+
+# ASGI
+
+> One-line: what / why for **ASGI** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Asynchronous Server Gateway Interface (ASGI)
 web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
 - built as a successor to the Web Server Gateway Interface ([[WSGI]]). Superset of WSGI.
@@ -6,3 +25,26 @@ web servers to forward request to asynchronous-capable python programming langua
 >[!NOTE] WSGI
 >A thread pool can be used to run the synchronous WSGI applications away from the async event loop
 >
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

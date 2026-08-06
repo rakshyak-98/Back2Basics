@@ -4,6 +4,17 @@
 
 > One-line: change or administratively control local **password hash** in `/etc/shadow` — not SSH keys, not LDAP; the gate for `su`/console/PAM password auth. **Kerrisk**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `passwd` updates the encrypted password field in `/etc/shadow` (users can't read it; root can). PAM stacks (`/etc/pam.d/`) decide when password checks apply — SSH with `PasswordAuthentication no` never hits `passwd`'s verify path for remote login.

@@ -1,39 +1,60 @@
-A computer, however is a state machine, it has no intuition and cannot "look ahead". It only knows the exact values of its variables at time `t`, and that strict rules to get to time `t + 1`.
+[[Data structure]]
 
+# DSA Foundation Knowledge Roadmap
+
+> One-line: what / why for **DSA Foundation Knowledge Roadmap** — source TBD.
+
+---
+
+## Index
+
+- [[#Overview: Building Strong Intuition for DSA]]
+- [[#Standard config / commands]]
+- [[#Layer 0: Ancient Mathematical Thinking (2000 BCE onwards)]]
+- [[#Layer 1: Mathematical Foundations]]
+- [[#Layer 2: Computational Thinking Basics]]
+- [[#Layer 3: Basic Data Structures (1950s Foundation)]]
+- [[#Layer 4: Advanced Data Structures (Modern Era, 1960s-1980s)]]
+- [[#Layer 5: Algorithmic Paradigms & Techniques]]
+- [[#Layer 6: Analysis, Design & Advanced Topics]]
+- [[#Why This Order Matters]]
+- [[#Practical Application: Using This Roadmap]]
+- [[#Essential Takeaway]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Overview: Building Strong Intuition for DSA
+
+A computer, however is a state machine, it has no intuition and cannot "look ahead". It only knows the exact values of its variables at time `t`, and that strict rules to get to time `t + 1`.
 Before touching a keyboard, strip away the "story" of the problem.
 - identify the raw input and output: "I am given an array of unsorted integers, and I need to return a single integer"
 - Note the constraints: Are there negative numbers? Can the array be empty? Is time complexity strictly bounded by O(N)?
 - Write out a manual example: Create an edge-case example that wasn't provided in the prompt, if you can't solve it on paper, you cannot code it.
-
 Brute Froce
 - The brute force solution reveals the core logic and guarantees you actually understand the problem. It also sets a safety net.
-
 There are usually only a few reasons a brute force solution is slow:
 - you are searching for the same thing repeatedly. (Store it in a Hash Map/Set for O(1) lookups).
 - you are recalculating overlapping sub problems (Fix: Save the result using Dynamic programming).
 - you are scanning the whole array when you only care about the extremes. (Fix: Sort it, use a Heap/Priority Queue, or use Two Pointers).
 - You are looking at elements you've already processed. (Fix: Maintain a sliding Windows or a Stack).
-
 > [!NOTE]
 > If you try to hold the changing states in your head, your human brain will naturally try to skip to the end, drop a variable, and crash. Force it onto paper. If you can track the micro-state transitions manually, the code practically writes itself.
-
 To break the habit of jumping ahead, apply these three rules to your practice:
-
 1. **Ban the phrase "And then it just..." from your mind.** Algorithms don't "just" do anything. Replace it with explicit mechanics: "And then variable x increments by 1, and we check if it is greater than y."
-    
 2. **Focus on the "Invariant."** An invariant is a rule that must remain true at the start and end of every single loop iteration. For example, in Binary Search, the invariant is: _"The target, if it exists, is ALWAYS between the `left` and `right` pointers."_ If you focus on keeping that rule true step-by-step, you won't get lost looking ahead.
-    
 3. **Talk to a rubber duck.** Literally explain the state changes out loud. Hearing yourself skip a step is much easier than catching yourself thinking past it.
 
----
 
-# DSA Foundation Knowledge Roadmap
-
-## Overview: Building Strong Intuition for DSA
 
 Based on the historical evolution of Data Structures and Algorithms (from 2000 BCE to modern times), here's a comprehensive roadmap organized into 6 layers. Each layer builds on the previous one, creating a strong foundation for understanding why algorithms work and which ones to use when.
 
 ---
+
+## Standard config / commands
+
+…
 
 ## Layer 0: Ancient Mathematical Thinking (2000 BCE onwards)
 
@@ -132,12 +153,12 @@ Classic data structures laid the foundation for modern approaches. These are the
 ### 3.3 Stack & Queue
 
 - **Stack (LIFO - Last In First Out)**:
-    
+
     - Core operations: push (add), pop (remove), peek
     - Real-world analogy: browser history, function call stack, plate stack
     - Use case: undo/redo, depth-first traversal
 - **Queue (FIFO - First In First Out)**:
-    
+
     - Core operations: enqueue (add), dequeue (remove), peek
     - Real-world analogy: printer queue, customer line, breadth-first traversal
     - Use case: scheduling, level-order traversal
@@ -365,15 +386,15 @@ This roadmap follows that progression:
 Layers 1-2: Build your THEORETICAL FOUNDATION
             ↓
             (Why algorithms work, why some solutions are better)
-            
+
 Layers 3-4: Learn CONCRETE TOOLS
             ↓
             (What data structures exist, what operations they support)
-            
+
 Layer 5:    Master PROBLEM-SOLVING TECHNIQUES
             ↓
             (How to recognize problems, which tools to combine)
-            
+
 Layer 6:    Achieve MASTERY
             ↓
             (Deep understanding, knowing your tools so well you can invent new ones)
@@ -426,3 +447,22 @@ Layer 6:    Achieve MASTERY
 You can memorize that merge sort is O(n log n), but without understanding the mathematical foundations and the problem-solving patterns, you won't know when to use it or how to explain why it's better than quicksort in certain contexts.
 
 This roadmap is your journey from "I know algorithms exist" to "I understand how to solve any algorithmic problem I encounter."
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

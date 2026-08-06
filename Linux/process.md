@@ -1,3 +1,30 @@
+[[Linux]]
+
+# process
+
+> One-line: what / why for **process** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#How process memory spaces work in Linux (modern x86-64)]]
+- [[#Find which user own the process]]
+- [[#Process]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## How process memory spaces work in Linux (modern x86-64)
 
@@ -61,3 +88,22 @@ kill -s QUIT [process id]
 ### kill a process by name not pid
 
 `pkill [process name]`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

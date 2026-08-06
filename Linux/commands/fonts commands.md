@@ -4,6 +4,17 @@
 
 > One-line: **fontconfig CLI** — resolve, list, and rebuild font caches when apps show tofu boxes or wrong faces after install. Not a font installer; it tells you what the system *actually* picks.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Linux apps ask **fontconfig** (`fc-*`) for a font matching family + weight + size. Installed files live under `/usr/share/fonts`, `~/.local/share/fonts`, etc. After adding fonts, the cache in `~/.cache/fontconfig` (and system cache) must be rebuilt or apps keep stale metadata.

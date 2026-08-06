@@ -1,5 +1,30 @@
-## Node REPL debugger operation
+[[NodeJS]]
 
+# node inspect
+
+> One-line: what / why for **node inspect** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Node REPL debugger operation]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
+## Node REPL debugger operation
 
 | Command                | Shortcut   | What it does                                        | Example use case                            |
 | ---------------------- | ---------- | --------------------------------------------------- | ------------------------------------------- |
@@ -21,3 +46,22 @@
 | `exec <code>`          |            | Run JS code in current context (rarely needed)      |                                             |
 | `help`                 | `h`        | Show all available commands                         | Quick reference                             |
 | `.exit` / `quit` / `q` |            | Exit the debugger                                   | Finish session                              |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

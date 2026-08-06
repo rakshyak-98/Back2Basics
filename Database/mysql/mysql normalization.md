@@ -1,6 +1,38 @@
-Below is **MySQL normalization rules**, **short**, **structured**, **interview-oriented**.
+[[mysql]]
+
+# mysql normalization
+
+> One-line: what / why for **mysql normalization** — source TBD.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Database Normalization]]
+- [[#1NF – First Normal Form]]
+- [[#2NF – Second Normal Form]]
+- [[#3NF – Third Normal Form]]
+- [[#BCNF – Boyce-Codd Normal Form]]
+- [[#4NF – Fourth Normal Form]]
+- [[#5NF – Fifth Normal Form]]
+- [[#Normalization vs Performance]]
+- [[#Interview-Ready Summary]]
+- [[#Common Edge Cases]]
+- [[#One-Line Answer (if rushed)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Below is **MySQL normalization rules**, **short**, **structured**, **interview-oriented**.
+
+## Standard config / commands
+
+…
 
 ## Database Normalization
 
@@ -17,14 +49,14 @@ Rule:
 
 Bad:
 - `phones = "123,456"`
-    
+
 
 Good:
 - Separate table or rows
 
 Use when:
 - Data is stored in tabular relational form
-    
+
 
 ---
 
@@ -40,7 +72,7 @@ Meaning:
 Example issue:
 - PK = `(order_id, product_id)`
 - `product_name` depends only on `product_id`
-    
+
 
 Fix:
 - Move product data to `products` table
@@ -61,7 +93,7 @@ Example issue:
 
 Fix:
 - Separate `city/state` mapping table
-    
+
 ---
 
 ## BCNF – Boyce-Codd Normal Form
@@ -69,7 +101,7 @@ Fix:
 Rule:
 - Stronger 3NF
 - Every determinant must be a **candidate key**
-    
+
 
 When needed:
 - Multiple candidate keys
@@ -86,7 +118,7 @@ Rule:
 
 Example issue:
 - One user has multiple skills AND multiple hobbies stored together
-    
+
 
 Fix:
 - Separate independent multi-valued attributes
@@ -107,7 +139,7 @@ Used when:
 Reality:
 - 3NF is enough for **most systems**
 - BCNF/4NF only when correctness demands it
-    
+
 - Denormalization is common for:
     - Read-heavy systems
     - Analytics
@@ -140,3 +172,22 @@ If you want:
 - Normalization **with examples**
 - Real-world **ecommerce schema**
 - When **not** to normalize
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

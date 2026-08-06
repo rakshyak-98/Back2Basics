@@ -1,21 +1,37 @@
+[[Operating System]]
+
+# semaphores
+
+> The Guard -> Before a process can use a shared resource (like a specific block of memory, a file, or a hardware driver), it must perform a `wait()` (or `P`) operation on the semaphore. - If the counter is is > 0, the process "takes" a permit and proceeds. - If the counter is 0, the process is forced to "sleep" (block) until another process finishes and calls `signal()` or `V`. The Signal -> once finished, the process calls `signal()` to release the permit, potentially waking up another process waiting in line.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Operations]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - synchronisation mechanism for managing access to shared resources by multiple threads or processes in concurrent systems (threads/processes).
 - act as a signaling system to prevent race conditions and ensure that data is not corrupted when multiple parts of a program run at the same time.
-
 > [!INFO]
 > - integer variable used as a signal mechanism
 > - Controlled by atomic operations `wait()` and `signal()`
 > - Prevents race conditions, ensures mutual exclusion (mutex) or process coordination.
-
-- a semaphore is a variable or [[ADT (Abstract Data Type)]] 
+- a semaphore is a variable or [[ADT (Abstract Data Type)]]
 - used to *control access* to a common resource by multiple threads and avoid [[critical sections]] problems in a concurrent system such as a multitasking operating system.
-
-> The Guard -> Before a process can use a shared resource (like a specific block of memory, a file, or a hardware driver), it must perform a `wait()` (or `P`) operation on the semaphore.
-> - If the counter is is > 0, the process "takes" a permit and proceeds.
-> - If the counter is 0, the process is forced to "sleep" (block) until another process finishes and calls `signal()` or `V`.
-> The Signal -> once finished, the process calls `signal()` to release the permit, potentially waking up another process waiting in line.
-
 ### Binary semaphores
 - used to implement locks
+
+## Standard config / commands
+
+…
 
 ## Operations
 
@@ -27,3 +43,22 @@
 
 - **Counting Semaphore:** The internal counter can be any positive integer. This is used when you have a pool of identical resources available (like a database connection pool that can handle 10 concurrent connections).
 - **Binary Semaphore:** The internal counter can only be `0` or `1`. This acts as a simple gatekeeper to ensure that only a single thread can access a specific piece of data or code at a time.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

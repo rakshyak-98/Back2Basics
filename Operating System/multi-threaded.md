@@ -1,4 +1,46 @@
+[[Operating System]]
+
+# multi-threaded
+
+> One-line: what / why for **multi-threaded** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - Multi-threaded languages can leverage multiple CPU cores to perform parallel computation, significantly speeding up tasks that are computationally intensive, such as scientific calculations, data processing and rendering.
 - By performing background tasks in separate threads, applications, can remain responsive to user input even when executing time-consuming operations.
 - Multi-threaded programming allows for the development of more complex applications that can perform multiple operations simultaneously, such as modern games, simulations, and large-scale enterprise applications.
 - Developers have more control over the execution of threads, allowing for fine-tuned performance optimization in high-performance applications.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

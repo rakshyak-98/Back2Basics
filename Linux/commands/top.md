@@ -1,14 +1,40 @@
-`top` = real-time process monitor (CPU, RAM, load)
+[[commands]]
 
+# top
+
+> One-line: what / why for **top** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core layout (mental model)]]
+- [[#Navigation (interactive keys)]]
+- [[#Filtering (important for real usage)]]
+- [[#Threads / hierarchy]]
+- [[#Fields (must know)]]
+- [[#Practical workflow (how engineers use it)]]
+- [[#Optimization tricks]]
+- [[#Edge cases / gotchas]]
+- [[#Mental shortcut]]
+- [[#Check system load]]
+- [[#How analyze cpu utilization]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+`top` = real-time process monitor (CPU, RAM, load)
 ```bash
 top -bn1 | grep "%Cpu"
 mpstat 1; # only view cpu usage every 1s
 vmstat;
 ```
 
----
-
 ## Core layout (mental model)
+
 - **Header** → system stats (load avg, CPU %, RAM)
 - **Process table** → per-process metrics
 
@@ -101,9 +127,9 @@ press c
 ## Optimization tricks
 
 - Use `htop` instead → better UX
-    
+
 - Combine with:
-    
+
 
 ```
 ps aux --sort=-%mem | head
@@ -115,13 +141,13 @@ ps aux --sort=-%cpu | head
 ## Edge cases / gotchas
 
 - `%CPU > 100` → multi-core usage
-    
+
 - `load avg` ≠ CPU % → includes waiting tasks
-    
+
 - zombie process (`Z`) → already dead, waiting parent cleanup
-    
+
 - high `VIRT` ≠ actual memory issue → check `RES`
-    
+
 
 ---
 
@@ -155,13 +181,13 @@ Look at the `%Cpu(s)` line:
 ```
 
 - `us` → User processes
-    
+
 - `sy` → Kernel/system
-    
+
 - `id` → Idle (higher = less CPU load)
-    
+
 - `wa` → Waiting for I/O (high value may indicate disk bottleneck)
-    
+
 
 **CPU utilization = `100 - id`**
 
@@ -178,13 +204,13 @@ MiB Mem :  15884.0 total, 1200.0 free, 6200.0 used, 8484.0 buff/cache
 Important values:
 
 - `total` → Total RAM
-    
+
 - `used` → RAM in use
-    
+
 - `free` → Completely free RAM
-    
+
 - `buff/cache` → Linux cache (can be reclaimed if needed)
-    
+
 
 ---
 
@@ -199,11 +225,11 @@ load average: 0.45, 0.60, 0.72
 These are the average system load over:
 
 - 1 minute
-    
+
 - 5 minutes
-    
+
 - 15 minutes
-    
+
 
 Compare the load to your CPU core count.
 
@@ -216,13 +242,13 @@ nproc
 Example:
 
 - `nproc` → `8`
-    
+
 - Load `2.5` → Light load
-    
+
 - Load `8.0` → Fully utilized
-    
+
 - Load `12.0` → Overloaded (more runnable tasks than CPU cores)
-    
+
 
 ---
 
@@ -231,15 +257,15 @@ Example:
 While `top` is running:
 
 - `P` → Sort by CPU usage
-    
+
 - `M` → Sort by RAM usage
-    
+
 - `T` → Sort by CPU time
-    
+
 - `1` → Show usage for each CPU core
-    
+
 - `q` → Quit
-    
+
 
 ---
 
@@ -268,15 +294,15 @@ Example:
 Meaning:
 
 - `us` = 12.5% → Running user programs
-    
+
 - `sy` = 5.0% → Running kernel/system code
-    
+
 - `id` = 80.0% → CPU is idle
-    
+
 - `wa` = 2.5% → Waiting for disk/network I/O
-    
+
 - Others = Interrupts, virtualization, etc.
-    
+
 
 These add up to **100%**.
 
@@ -333,3 +359,17 @@ Press **`1`** in `top` to see each core separately:
 ```
 
 This shows which individual cores are busy.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,9 +4,30 @@
 
 > Inputs, locals, outputs, tfvars — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Declare inputs (`variables.tf`)]]
+- [[#How values are supplied (precedence)]]
+- [[#Locals (named expressions)]]
+- [[#Outputs (`outputs.tf`)]]
+- [[#Module variables]]
+- [[#Book takeaways]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Variables make one config work across envs (dev/stage/prod) without editing resource blocks. They feed [[terraform provider]] region/project and resource args during [[Terraform workflow]].
 
----
+## Standard config / commands
+
+…
 
 ## Declare inputs (`variables.tf`)
 
@@ -171,3 +192,22 @@ Module overview: [[terraform]]
 | Validate + `sensitive` | Both / modern Terraform |
 | Wire into provider | [[terraform provider]] · [[Terraform setup]] |
 | Used at plan/apply | [[Terraform workflow]] · [[Terraform CLI]] |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

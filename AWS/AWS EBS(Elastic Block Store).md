@@ -4,6 +4,17 @@
 
 > Network-attached block volumes for EC2 — persistent disk, snapshots, resize, and **Delete on Termination** gotcha.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 EBS volumes are AZ-scoped block devices attached to EC2 as `/dev/xvdf` etc. OS sees raw disk — format, mount, persist data independent of instance lifecycle **unless** volume is deleted on instance terminate. Snapshots → S3-backed incremental backups → new volume in any AZ (copy region for DR).

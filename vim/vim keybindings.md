@@ -4,6 +4,22 @@
 
 > LSP-powered navigation (definition, references, implementation) plus jump-back — requires Neovim with a language server attached; plain Vim needs ctags or a plugin.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Go to (Neovim 0.11+ defaults)]]
+- [[#Go to (on LSP attach — buffer-local)]]
+- [[#Common manual mappings (`gd` style)]]
+- [[#Jump back after go to]]
+- [[#Without LSP (plain Vim / fallback)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Go to** commands ask the [[Descriptive/LSP|LSP]] (or ctags) where a symbol lives, then jump the cursor there. Neovim 0.11+ ships **global** `gr*` maps at startup; **buffer-local** maps (`K`, `CTRL-]`, diagnostics) apply when an LSP client attaches.
@@ -17,6 +33,10 @@ cursor on symbol → go-to key → LSP query → jump (or quickfix list)
 ```
 
 See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementation]] for when to use each target.
+
+## Standard config / commands
+
+…
 
 ## Go to (Neovim 0.11+ defaults)
 
@@ -115,6 +135,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 > **LSP must be running** — Go-to is a no-op (or tag-only) without an attached client for that buffer's filetype.
 >
 > **Declaration** — Many servers omit `textDocument/declaration`; use definition instead.
+
+## When NOT to use
+
+…
 
 ## Related
 

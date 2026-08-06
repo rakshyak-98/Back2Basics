@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **SIP** is text-based signaling (like HTTP) for establishing, modifying, and tearing down **media sessions**. Actual audio/video flows over **RTP/RTCP** (usually UDP) on separate ports — SIP only negotiates codecs and endpoints.

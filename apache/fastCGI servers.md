@@ -1,27 +1,46 @@
+[[apache]]
+
+# fastCGI servers
+
+> One-line: what / why for **fastCGI servers** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Step-by step how FastCGI works]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Fast Common Gateway Interface -> binary protocol that improves upon the original CGI by providing a high-performance, language-agnostic way for web servers to interface with external applications for generating dynamic content.
 - Process that handles dynamic content generation (like php, python etc.) and communicates with web servers (like Nginx) via the FastCGI protocol.
-
 > [!NOTE]
 > FastCGI runs the application as [[persistent processes]] (often called workers or daemons) separate from the web server. These processes stay alive and handle multiple requests over time.
 > The web server communicates with the fastCGI application via a persistent connection (usually TCP socket or Unix domain socket), using a binary protocol for efficiency.
-
 > [!INFO]
 > - web servers like Nginx cannot interpret PHP directly. So, they forward requests to a FastCGI server (like PHP-FPM).
-
 ### **How it works:**
 1. **Nginx** receives a `.php` request.
 2. It **forwards** it to `php-fpm` via FastCGI.
 3. `php-fpm` **executes PHP**, returns result to Nginx.
 4. Nginx **returns** the final response to the client.
-
 ```nginx
 location ~ \.php$ {
     include fastcgi_params;
     fastcgi_pass unix:/run/php/php7.4-fpm.sock;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 }
-
 ```
+
+## Standard config / commands
+
+…
 
 ## Step-by step how FastCGI works
 
@@ -39,3 +58,22 @@ location ~ \.php$ {
 
 > [!INFO]
 > - While FastCGI is still widely used (especially for PHP), newer alternatives like [[uwsgi]]  [[scgi]] or embedded runtimes (mod_php, Node.js or containerized apps) exists. However PHP-FPM remains dominant for PHP on high performance setups like Nginx.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

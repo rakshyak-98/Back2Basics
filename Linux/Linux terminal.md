@@ -1,3 +1,30 @@
+[[Linux]]
+
+# Linux terminal
+
+> One-line: what / why for **Linux terminal** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Authorized shells list]]
+- [[#What is the difference between `xtermin-256color` and `dumb` when it is set to `TERM` in environment variables?]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Authorized shells list
 
 > [!NOTE]
@@ -32,3 +59,22 @@ Here's a side-by-side comparison of `xterm-256color` and `dumb` values for the `
 ### Summary:
 - **`xterm-256color`**: Rich and interactive terminal experience.
 - **`dumb`**: Bare-bones, plain text-only functionality for compatibility or minimal environments.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

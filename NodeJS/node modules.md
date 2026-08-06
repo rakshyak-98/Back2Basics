@@ -1,3 +1,22 @@
+[[NodeJS]]
+
+# node modules
+
+> One-line: what / why for **node modules** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Node.js does not use traditional linkers like those found in compiled languages (e.g C or C++) due to its architecture and the nature of JavaScript an an interpreted language.
 #### Dynamic Module loading
 - employs a *dynamic module loading system* through the `require()` function, which allows modules to be loaded at *runtime*.
@@ -5,3 +24,26 @@ Node.js does not use traditional linkers like those found in compiled languages 
 ### CommonJS Module System
 - Node.js uses the CommonJS module system, which is designed to work seamlessly with JavaScript's *asynchronous* and *event-driven* nature. In this system, each file is treated as a separate module, and the `exports` and `require` objects facilitate the sharing of functionality between them.
 - this functionality eliminates the need for a linker since module dependencies are resolved at runtime rather than at compile time.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

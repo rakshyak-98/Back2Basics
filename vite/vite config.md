@@ -1,11 +1,32 @@
+[[vite]]
+
+# vite config
+
+> One-line: what / why for **vite config** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#ModuleRunner]]
+- [[#Vite allowed host error]]
+- [[#Vite image load issue when `base: "/custompage"`]]
+- [[#Manage multiple environment env file configuration]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```bash
 vite --config my-config.js;
 ```
-
 > [!NOTE]
 > Environment Variables _are_ automatically loaded later and exposed to application code via `import.meta.env` (with the default `VITE_` prefix filter)
 
 ## ModuleRunner
+
 - A module runner is instantiated in the target runtime.
 - In dev mode, vite serves modules directly (ESM in browser). But Sometimes you need to execute a module inside Node:
 	- Server Side Rendering (SSR).
@@ -52,7 +73,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 
 [server-allowed-hosts](https://vite.dev/config/server-options#server-allowedhosts)
 
-
 ## Vite image load issue when `base: "/custompage"`
 
 |What you write in code|How Vite treats it during build|Result when `base: "/admin/"`|
@@ -61,7 +81,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 |`src="/login-page-image.jpg"` (string)|Plain string → Vite treats it as an **absolute URL**|Stays exactly `/login-page-image.jpg` → 404|
 |`src="./some-image.png"` (relative)|Only rewritten if imported as asset|Stays `./some-image.png` → broken in subpath|
 |`new URL('./image.png', import.meta.url)`|Treated as real asset → gets fingerprinted + prefixed|Becomes `/admin/assets/image-xyz.png` → works|
-
 
 ## Manage multiple environment env file configuration
 
@@ -111,3 +130,16 @@ interface ImportMeta {
   readonly env: ImportMetaEnv
 }
 ```
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

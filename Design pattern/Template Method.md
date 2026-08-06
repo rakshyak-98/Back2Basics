@@ -4,6 +4,17 @@
 
 > Fixed algorithm skeleton in a base class (or function); subclasses override steps — **Dive Into Design Patterns + LaunchPipeline**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Launch always: validate → create campaign → create adset → create creative → create ad → publish events. Platforms differ in *how* each step talks to the vendor. Template Method locks the order; overrides supply platform-specific steps.

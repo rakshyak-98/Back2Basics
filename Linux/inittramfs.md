@@ -1,4 +1,46 @@
+[[Linux]]
+
+# inittramfs
+
+> One-line: what / why for **inittramfs** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 > [!INFO] Linux kernels contain a gzipped 'cpio' format archive, which is extracted into rootfs when the kernel boot up.
 - after extracting, the kernel checks to see if rootfs contains a file *init*, and if so it executes it as PID 1.
 > [!INFO] init process is responsible for bringing the system the rest of the way up, including locating and mounting the real root device (if any).
 - if rootfs doesn't contain an init program after the embedded cpio archive is extracted into it, the kernel will fall through to the older code to locate and mount a root partition, then exec some variant of `/sbin/ini` out of that.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

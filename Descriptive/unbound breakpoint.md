@@ -4,6 +4,17 @@
 
 > Debugger set a breakpoint but cannot map it to executable code yet — common with source maps, wrong path, or unloaded modules — **VS Code / Chrome DevTools playbook**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A breakpoint is **bound** when the debugger links it to an exact script location (file URL + line → bytecode offset). **Unbound** means the IDE shows the breakpoint (often hollow/grey) but the runtime has no matching source line loaded.

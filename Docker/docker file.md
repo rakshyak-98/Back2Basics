@@ -1,8 +1,33 @@
+[[Docker]]
+
+# docker file
+
+> One-line: what / why for **docker file** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Docker layered filesystem]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 To run a specific command on container restart, you should configure the `ENTRYPOINT` or `CMD` block in the `Dockerfile`
 - `ENTRYPOINT` : used to define the main command or process that always runs in the container. It cannot be overridden at runtime unless specifically done with `docker run --entrypoint`
 - `CMD` : Used to provide default arguments to the `ENTRYPOINT` or to specify the command if no `ENTRYPOINT` is defined. Can be overridden at runtime with `docker urn <image> <command>`
 
+## Standard config / commands
+
+…
+
 ## Docker layered filesystem
+
 - Docker uses a layered filesystem (also called Union Filesystem or UnionFS) to store images and containers in a very efficient, smart way. This is one of the core reasons Docker is fast, lightweight, and save disk space.
 
  > [!NOTE]
@@ -134,3 +159,22 @@ KillMode=process
 [Install]
 WantedBy=multi-user.target
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

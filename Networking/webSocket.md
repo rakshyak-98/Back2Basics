@@ -4,6 +4,17 @@
 
 > One-line: full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 WebSocket starts as HTTP/1.1 with an **Upgrade** handshake, then switches to a binary-framed protocol. No repeated HTTP headers per message — ideal for push, chat, live dashboards.

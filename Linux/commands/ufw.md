@@ -1,3 +1,30 @@
+[[commands]]
+
+# ufw
+
+> One-line: what / why for **ufw** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#firewall]]
+- [[#UFW application profile]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## firewall
 
 ```bash
@@ -5,7 +32,7 @@ ufw status; # check firewall status.
 ufw status verbose; # more detailed output.
 ufw status numbered; # usefull when deleting rules.
 
-ufw logging on; # turn logging on (low/medium/high/full) 
+ufw logging on; # turn logging on (low/medium/high/full)
 
 ufw app list;
 ufw app info <profile name>;
@@ -41,7 +68,7 @@ ufw app info "OpenSSH"; # get detailed info about a specific application profile
 
 ```bash
 ufw allow "Apache FUll"
-ufw allow OpenSSH 
+ufw allow OpenSSH
 ufw allow "Nginx HTTPS"
 ```
 
@@ -49,3 +76,22 @@ ufw allow "Nginx HTTPS"
 ufw deny "Apache"
 ufw delete allow "Nginx HTTP"
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

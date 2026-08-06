@@ -1,23 +1,39 @@
-A Class Management component composed of smaller components like `ClassHeader` `ClassBody` and `ClassFooter`.
+[[React Pattern]]
 
+# Compound Components
+
+> One-line: what / why for **Compound Components** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Cart Provider pattern]]
+- [[#Implementation of a Tabs component]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+A Class Management component composed of smaller components like `ClassHeader` `ClassBody` and `ClassFooter`.
 ```ts
 import React, { createContext, useContext, useState } from "react";
-
 // Context for managing class data
 const ClassContext = createContext();
-
 export const ClassManagement = ({ children }) => {
     const [students, setStudents] = useState([
         { id: 1, name: "Alice" },
         { id: 2, name: "Bob" },
     ]);
     const [isClassActive, setIsClassActive] = useState(false);
-
     const addStudent = (student) => setStudents((prev) => [...prev, student]);
     const removeStudent = (id) =>
         setStudents((prev) => prev.filter((student) => student.id !== id));
     const toggleClass = () => setIsClassActive((prev) => !prev);
-
     return (
         <ClassContext.Provider
             value={{
@@ -32,16 +48,12 @@ export const ClassManagement = ({ children }) => {
         </ClassContext.Provider>
     );
 };
-
 // Hook for consuming context
 export const useClass = () => useContext(ClassContext);
-
 ```
-
 ```ts
 export const ClassHeader = () => {
     const { isClassActive, toggleClass } = useClass();
-
     return (
         <header className="class-header">
             <h2>Class Status: {isClassActive ? "Active" : "Inactive"}</h2>
@@ -52,11 +64,9 @@ export const ClassHeader = () => {
     );
 };
 ```
-
 ```ts
 export const ClassBody = () => {
     const { students, removeStudent } = useClass();
-
     return (
         <div className="class-body">
             <h3>Students</h3>
@@ -74,11 +84,9 @@ export const ClassBody = () => {
     );
 };
 ```
-
 ```ts
 export const ClassHeader = () => {
     const { isClassActive, toggleClass } = useClass();
-
     return (
         <header className="class-header">
             <h2>Class Status: {isClassActive ? "Active" : "Inactive"}</h2>
@@ -89,11 +97,9 @@ export const ClassHeader = () => {
     );
 };
 ```
-
 ```ts
 export const ClassBody = () => {
     const { students, removeStudent } = useClass();
-
     return (
         <div className="class-body">
             <h3>Students</h3>
@@ -111,11 +117,9 @@ export const ClassBody = () => {
     );
 };
 ```
-
 ```ts
 import React from "react";
 import { ClassManagement, ClassHeader, ClassBody, ClassFooter } from "./ClassComponents";
-
 const App = () => {
     return (
         <ClassManagement>
@@ -125,25 +129,27 @@ const App = () => {
         </ClassManagement>
     );
 };
-
 export default App;
-
-
 ```
 
+## Standard config / commands
+
+…
+
 ## Cart Provider pattern
+
 It's generally not recommended to place routing logic directly in the **Cart Provider** component. The **Cart Provider** should focus on managing the cart's state and actions (like adding/removing items, updating totals, etc.), not routing or navigation.
 
 ### **Why it's not ideal:**
 
 1. **Separation of Concerns**:
-    
+
     - The **Cart Provider** is responsible for state management (cart-related data), while routing should be handled separately. Mixing concerns can make your code harder to maintain and test.
 2. **Reusability**:
-    
+
     - Keeping routing logic in the provider would make the provider tightly coupled to the routing logic, limiting the ability to reuse the **Cart Provider** component in different routes or contexts.
 3. **Testability**:
-    
+
     - It's easier to test the cart functionality if it's decoupled from navigation. Combining both in the same component might make unit testing more complicated.
 
 ---
@@ -296,6 +302,7 @@ Cart.RemoveButton = ({ id }) => {
 ```
 
 ## Implementation of a Tabs component
+
 - It allows consumers to define `TabList`, Tab and `TabPanel` without explicit prop drilling.
 - The Tabs parent manages active state and exposes subcomponents.
 
@@ -327,9 +334,9 @@ Tabs.List = ({ children }) => (<div>{children}</div>);
 ```jsx
 Tabs.Tab = ({ index, children }) => {
   const { activeTab, setActiveTab } = useContext(TabsContext);
-  
+
   return (
-    <button 
+    <button
       onClick={() => setActiveTab(index)}
       style={{ fontWeight: activeTab === index ? "bold" : "normal" }}
     >
@@ -342,7 +349,7 @@ Tabs.Tab = ({ index, children }) => {
 ```jsx
 Tabs.Panel = ({ index, children }) => {
   const { activeTab } = useContext(TabsContext);
-  
+
   return activeTab === index ? <div>{children}</div> : null;
 };
 ```
@@ -366,3 +373,22 @@ const App = () => (
 
 export default App;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,28 +1,41 @@
-**Parsing**
+[[npm]]
 
+# moment
+
+> One-line: what / why for **moment** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Time management]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+**Parsing**
 ```js
 moment("2026-03-24")                    // parse from string
 moment(new Date())                      // parse from JS Date
 moment("2026-03-24", "YYYY-MM-DD")      // parse with explicit format (safer)
 ```
-
 **Formatting**
-
 ```js
 moment().format("YYYY-MM-DD")           // "2026-03-24"
 moment().format("MMMM DD")             // "March 24"
 ```
-
 **Manipulation**
-
 ```js
 moment().add(1, "days")                 // tomorrow
 moment().subtract(1, "days")           // yesterday
 moment().add(1, "months")              // next month
 ```
-
 **Comparison**
-
 ```js
 moment(a).isSame(moment(b), "day")      // same day check
 moment(a).isBefore(moment(b), "day")    // before check
@@ -30,17 +43,18 @@ moment(a).isAfter(moment(b), "day")     // after check
 moment(a).isSameOrBefore(b, "day")      // same or before
 diff(b, "days")                         // difference in days
 ```
-
 **Converting back to JS Date**
-
 ```js
 moment().toDate()                       // convert back to native Date
 ```
-
 **Key gotchas learned from this codebase**
 - Always use `DateObject.format("YYYY-MM-DD")` instead of `toDate()` when working with `react-multi-date-picker` to avoid **IST timezone offset issues**
 - Wrapping an already formatted string in `new Date()` causes **double conversion bugs**
 - Prefer `moment(date, "YYYY-MM-DD")` over `moment(new Date(date))` to avoid timezone shifts
+
+## Standard config / commands
+
+…
 
 ## Time management
 
@@ -100,7 +114,7 @@ duration.seconds()                     // seconds part
 
 ```js
 moment(a).isBefore(moment(b))          // strict time comparison
-moment(a).isAfter(moment(b))           
+moment(a).isAfter(moment(b))
 moment(a).isSame(moment(b), "hour")    // same hour
 moment(a).isBetween(start, end)        // between two times
 ```
@@ -140,3 +154,22 @@ d.humanize()                           // "an hour"
 - Always use `moment.utc()` when working with API dates to avoid timezone bugs
 - `startOf("day")` and `endOf("day")` are useful for date range queries to include the full day
 - `moment.duration` is better than manual math for displaying time differences like `"2 hours 30 minutes"`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

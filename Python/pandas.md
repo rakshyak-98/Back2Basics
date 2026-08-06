@@ -4,6 +4,17 @@
 
 > Columnar DataFrame library for load → transform → analyze → export workflows in Python.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object vs int vs category affects memory and speed. Prefer explicit dtypes on ingest for prod pipelines.

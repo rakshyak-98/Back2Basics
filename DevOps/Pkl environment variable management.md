@@ -4,6 +4,17 @@
 
 > Apple Pkl — typed config language that evaluates to JSON/YAML/properties — **env-specific config without stringly env soup**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Pkl** (.pkl files) describes configuration with **types, constraints, and composition**. Evaluator outputs formats for apps; **parameters** (e.g. `env=production`) select overlays at eval time — cleaner than duplicating `.env` files.

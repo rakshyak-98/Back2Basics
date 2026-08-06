@@ -4,6 +4,17 @@
 
 > One-line: combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Merge finds the **merge base** (common ancestor) and integrates two tips into one. Three-way merge compares base → each branch and combines changes.

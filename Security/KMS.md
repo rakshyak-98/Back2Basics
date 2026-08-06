@@ -4,6 +4,17 @@
 
 > **Managed encryption keys** — envelope encryption for AWS services and your apps; keys never leave HSM in plaintext. **AWS KMS docs** + outages when key policy and IAM both had to align.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 KMS stores **Customer Master Keys (CMKs)** — symmetric (default) or asymmetric (sign/verify). Data is encrypted with **data keys**; data keys are wrapped by CMK (**envelope encryption**). Every use calls `kms:Decrypt/GenerateDataKey` — logged in CloudTrail.

@@ -1,36 +1,49 @@
 [[re-encoding]] [[codecs]] [[transcoding]]
 
-[documentation](https://ffmpeg.org/ffmpeg.html#Description)
-
-`ffmpeg` is a command-line multimedia processing tool. It can read, write, convert, process, and stream audio and video.
-
-`ffmpeg` -> Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the [[sinks]], while being transformed by the components they encounter along the way.
-
-### Separate the audio and video from the source file
-
-To separate the audio and video from a source file without re-encoding (fast and lossless), use `-c copy`
-
-```bash
-
-ffmpeg -i <input_source> -an -c copy video_only.mp4;
-# -c copy - if you don't want to recompress, this simply copies the existing streams.
-# -an remove audio
-
-ffmpeg -i <input_source> -vn -c copy audio_only.aac;
-# -vn remove video
-
-ffmpeg -i input.mp4 -c:v libx265 -c:a copy output.mp4
-# Video: transcoded from H.264 to H.256
 # Audio: copied without transcoding
 
-```
+> One-line: what / why for **Audio: copied without transcoding** — source TBD.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Open transport stream files with tmux new session]]
+- [[#Choose compression]]
+- [[#Goal]]
+- [[#Each option]]
+- [[#Complete lifecycle]]
+- [[#Real-world use cases]]
+- [[#Edge cases]]
+- [[#Why `ffmpeg` for TC channels]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+[documentation](https://ffmpeg.org/ffmpeg.html#Description)
+`ffmpeg` is a command-line multimedia processing tool. It can read, write, convert, process, and stream audio and video.
+`ffmpeg` -> Builds a [[transcoding]] pipeline out of the components listed below. The program’s operation then consists of input data chunks flowing from the sources down the pipes towards the [[sinks]], while being transformed by the components they encounter along the way.
+### Separate the audio and video from the source file
+To separate the audio and video from a source file without re-encoding (fast and lossless), use `-c copy`
+```bash
+ffmpeg -i <input_source> -an -c copy video_only.mp4;
+ffmpeg -i <input_source> -vn -c copy audio_only.aac;
+ffmpeg -i input.mp4 -c:v libx265 -c:a copy output.mp4
+```
 ```bash
 ffmpeg -i <video_source> -i <audio_source> -c copy <outputvideo>;
-
 ffmpeg -i video.mp4 -itsoffset 0.5 -i audio.aac -map 0:v -map 1:a -c copy output.mp4
 ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac -b:a 192k output.mp4
 ```
+
+## Standard config / commands
+
+…
 
 ## Open transport stream files with tmux new session
 
@@ -75,7 +88,7 @@ ffmpeg -re -stream_loop -1 -i /path/to/video.mp4 \
 ```bash
 
 ffmpeg -i input.mp4 -c copy -f mpegts output.ts;
-# `-c copy` avoids re-encoding. 
+# `-c copy` avoids re-encoding.
 
 ```
 
@@ -95,7 +108,7 @@ ffmpeg -re -stream-loop -1 -i /path/to/video.mp4 \
 ```
 - `-re` real time pacing (important for live)
 - `-stream_loop -1` loop forever (omit for one-shot play)
-- `-f flv` required for `RTMP` 
+- `-f flv` required for `RTMP`
 
 ## Goal
 
@@ -132,11 +145,11 @@ Loop input forever.
 ```
 
 - `0` → play once
-    
+
 - `1` → repeat 1 extra time
-    
+
 - `-1` → infinite loop
-    
+
 
 Without this, the stream stops when the file ends.
 
@@ -201,11 +214,11 @@ same H264 + AAC
 Benefits:
 
 - CPU usage ↓
-    
+
 - Faster
-    
+
 - No quality loss
-    
+
 
 ---
 
@@ -222,11 +235,11 @@ MPEG-TS packets
 MPEG-TS is commonly used for:
 
 - UDP streaming
-    
+
 - IPTV
-    
+
 - Broadcast systems
-    
+
 
 ---
 
@@ -283,24 +296,23 @@ send via UDP
 ## Real-world use cases
 
 - Simulate a live TV channel
-    
+
 - Test video ingest pipelines
-    
+
 - Feed video into another FFmpeg process
-    
+
 - Test HLS/DASH transcoding servers
-    
+
 - Stream to VLC/ffplay/GStreamer applications
-    
 
 ## Edge cases
 
 - `-c copy` may fail if input codecs are incompatible with `mpegts`.
-    
+
 - Without `-re`, packets are sent too fast (not live behavior).
-    
+
 - UDP is **connectionless** → packets can be dropped.
-    
+
 - `127.0.0.1` means **only same machine** can receive. Use another IP (e.g. `192.168.x.x`) for other devices.
 
 ## Why `ffmpeg` for TC channels
@@ -332,3 +344,22 @@ ffprobe -v quiet \
 -of json
 udp://@224.20.20.1:5003
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

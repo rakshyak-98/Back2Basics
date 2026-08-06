@@ -1,4 +1,35 @@
+[[golang]]
+
 # Go Backend Projects: Brief Specifications
+
+> One-line: what / why for **Go Backend Projects: Brief Specifications** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#**Beginner (Syntax, Structs, Testing)**]]
+- [[#**1. CLI Todo App**]]
+- [[#**2. URL Shortener CLI**]]
+- [[#**3. File Stats Analyzer**]]
+- [[#**Intermediate (APIs, DB, Concurrency)**]]
+- [[#**4. REST Task API** (Gin + PostgreSQL)]]
+- [[#**5. Chat Server** (WebSockets)]]
+- [[#**6. Rate Limited API Gateway**]]
+- [[#**Advanced (Distributed Systems)**]]
+- [[#**7. Distributed KV Store** (gRPC)]]
+- [[#**8. Hotel Booking Service** (Microservices)]]
+- [[#**9. Log Aggregator**]]
+- [[#**Production Checklist** (All Projects)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
 
 ## **Beginner (Syntax, Structs, Testing)**
 
@@ -34,7 +65,7 @@ text
 
 `Endpoints: - POST/GET/PUT/DELETE /tasks - GET /tasks?user_id=123&status=done&limit=20 - POST /auth/login (JWT)`
 
-**Tech**: Gin, GORM, PostgreSQL, JWT middleware, Docker  
+**Tech**: Gin, GORM, PostgreSQL, JWT middleware, Docker
 **Tests**: Integration + unit (80% coverage)
 
 ## **5. Chat Server** (WebSockets)
@@ -88,3 +119,22 @@ text
 `✅ Docker + docker-compose ✅ 80%+ test coverage (go test ./...) ✅ Graceful shutdown (context) ✅ Config via env vars ✅ README: build/run/benchmark ✅ GitHub Actions CI ✅ Architecture diagram (mermaid)`
 
 **Start order**: 1→9. Each takes 4-12 hours. Deploy to Fly.io. Perfect interview portfolio!
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

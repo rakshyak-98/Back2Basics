@@ -1,7 +1,47 @@
+[[System Design]]
+
+# Serialization
+
+> One-line: what / why for **Serialization** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 converting data (such as objects, database records, or responses) into a format that can be easily transferred over a network, stored, or processed.
-
 - in backend API handlers, serialization is used to transform application data into JSON, XML, or other formats before sending it to clients.
-
 > [!INFO] Serialization does not handle request queries directly.
 > - Serialization is focused on transforming data for output (response)
 > - handling request queries falls under parsing, validation and business logic before serialization happens.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

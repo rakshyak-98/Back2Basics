@@ -4,6 +4,17 @@
 
 > **Event-driven compute that runs your handler, then stops billing** — configure memory/timeout/role correctly or you pay for cold starts, timeouts, and over-privileged roles. **AWS Lambda Developer Guide** + production bills from retry storms.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Lambda is **stateless compute on demand**: an event (API Gateway, SQS, S3, EventBridge, cron) invokes a **handler** in a managed runtime (or container image). You do not manage servers; you manage **execution role**, **memory**, **timeout**, **concurrency**, and **triggers**. Cold start = new execution environment; warm reuse is best-effort, not a guarantee.

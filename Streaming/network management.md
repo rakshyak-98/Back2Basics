@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Streaming **breaks at the network layer** before the player shows a useful error: **RTMP stall**, **UDP TS gaps**, **CDN 502**, **TLS reset**. Operators correlate **publisher uplink**, **origin ingest**, and **viewer last-mile** — each hop has different tools and SLOs.

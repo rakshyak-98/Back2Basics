@@ -4,6 +4,17 @@
 
 > One-line: the MTA/MDA/MUA stack that accepts, routes, stores, and retrieves mail — debug deliverability at each hop.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Email crosses distinct roles. Confusing them causes misconfigured ports and wrong logs.

@@ -1,7 +1,34 @@
+[[mongoose]]
+
+# mongoose schema
+
+> One-line: what / why for **mongoose schema** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#How to extend schema]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## How to extend schema
+
 ### Using `discriminator()` allow multiple model types withing a single collection
 
-- Example Base `User` Schema with `Admin` and `Manager` Variants 
+- Example Base `User` Schema with `Admin` and `Manager` Variants
 ```js
 const mongoose = require("mongoose");
 
@@ -55,3 +82,22 @@ const Manager = User.discriminator("Manager", new mongoose.Schema({ permissions:
 
 Manager.schema.path("role").default("Manager").immutable(true);
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]
