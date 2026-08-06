@@ -4,6 +4,17 @@
 
 > Operate [Render](https://render.com/) services from the terminal — deploy, logs, SSH, psql, Blueprint validation. Docs: [CLI](https://render.com/docs/cli) · [reference](https://render.com/docs/cli-reference).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `render` talks to your **active workspace**. Interactive mode (TTY) is menu-driven; scripts/CI use **API key + `--confirm` + `-o json`**. Deploys are **triggers against an existing service** (`srv-…`), not “upload this folder like `vercel`” — Git/image is already wired on the service.

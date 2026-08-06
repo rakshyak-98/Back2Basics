@@ -1,3 +1,29 @@
+[[mongoose]]
+
+# mongoose custome function
+
+> One-line: what / why for **mongoose custome function** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Create custom function in mongoose schema]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Create custom function in mongoose schema
 
 #### Instance method ( Custom method for a single document)
@@ -59,3 +85,22 @@ userSchema.pre("save", function (next) {
 });
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

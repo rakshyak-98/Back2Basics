@@ -1,16 +1,37 @@
+[[management]]
+
+# Linux management
+
+> One-line: what / why for **Linux management** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configurations]]
+- [[#Apt Package management]]
+- [[#service management]]
+- [[#Firewall]]
+- [[#Terminate process]]
+- [[#Hardware]]
+- [[#Archive]]
+- [[#Hardware]]
+- [[#Cat command]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 [system administration YT](https://www.youtube.com/watch?v=UCr04qIB7uc&t=22578s)
-
 [updating drivers](https://ubuntu.com/server/docs/nvidia-drivers-installation)
-
 [manual config sudoedit](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file)
-
 atk : Accessibility Toolkit
-
 ### system user sudo
 system user - individual, or (system) process acting on behalf of an individual, authorized to access a system.
-
 - an individual that is authorized to access information and information system to perform assigned duties.
-
 ```bash
 w; # show information of current user.
 id; # show ids.
@@ -25,8 +46,19 @@ last; # info about previous user logins.
 fuser -all; # process using file.
 ```
 
-## Apt Package management
+## Configurations
 
+```bash
+update-alternatives --get-selections; # display all the configured alternatives
+```
+
+
+### Media support plugin
+```shell
+sudo apt install ubuntu-restricted-extras
+```
+
+## Apt Package management
 
 ### Setup SSH config
 
@@ -45,7 +77,7 @@ Host github-repo
 
 ```bash
 # on window use putty
-ssh-keygen -b 4096 
+ssh-keygen -b 4096
 ssh-copy-id [username@ipaddress]
 ```
 
@@ -128,7 +160,7 @@ sudo systemctl is-active application.service; # stdout the state is active or in
 sudo systemctl is-enabled application.service; # stdout the state is enable or disable
 # this will active if it is running properly or failed if an error occured. if the unit was
 # intentionally stopped, it may return unknown or inactive.
-sudo systemctl is-failed application.service 
+sudo systemctl is-failed application.service
 ```
 
 ### system state overview
@@ -145,7 +177,7 @@ systemctl list-units; # show the list of current running services.
 ```bash
 systemctl
 # only displays units that systemd has attempted to parse and load into memory.
-systemctl list-units 
+systemctl list-units
 systemctl list-units --all
 systemctl list-units --all --state=inactive
 systemctl list-units --type=service
@@ -184,38 +216,39 @@ readlink <symbolic link file>;
     kill -3 PID
     ```
 - **SIGTERM (15):** Terminate. As mentioned earlier, SIGTERM is used to request a process to terminate gracefully. It allows the process to clean up and release resources.
-    
+
     ```bash
     kill -15 PID
     ```
-    
+
 - **SIGUSR1 (10) and SIGUSR2 (12):** User-defined signals. These signals can be used for custom actions within a process. Their behavior depends on how the process is programmed to respond to them.
     ```bash
     kill -10 PID # SIGUSR1
     kill -12 PID # SIGUSR2
     ```
-    
+
 - **SIGSTOP (19) and SIGCONT (18):** Stop and Continue. SIGSTOP is used to pause a process, and SIGCONT is used to resume it. These signals do not terminate the process but allow you to temporarily halt and restart it.
-    
+
     ```bash
     kill -19 PID # SIGSTOP
     kill -18 PID # SIGCONT
     ```
-    
+
 - **SIGTSTP (20) and SIGTTIN (21) and SIGTTOU (22):** Terminal-related signals. SIGTSTP is sent when you press `Ctrl+z` in the terminal to suspend a process. SIGTTIN and SIGTTOU are used when background and foreground processes attempt to read from or write to the terminal, respectively.
-    
+
     ```bash
     kill -20 PID  # SIGTSTP (Ctrl+Z)
     ```
 
 ## Hardware
+
 ```bash
-# to list available sound cards. If none are listed, 
+# to list available sound cards. If none are listed,
 # it indicates a problem with sound card detection or drivers.
 aplay -l;
 
 pacmd; # this command provides control over PulseAudio's configuration.
-alsamixer; 
+alsamixer;
 ```
 
 ### Audio
@@ -297,6 +330,7 @@ sudo do-release-upgrade
 ```
 
 ## Archive
+
 `gzip`, `pizip`, `bzip`,
 tar ball - is a jargon term for a TAR archive - a group of files collected together as one.
 GNU tar is an archiving program designed to store multiple files in a single file (an archive), and to manipulate such archives.
@@ -316,7 +350,7 @@ tar -tf [.tar]; # to inspect .tar.
 tar -tvf [.tar];
 
 # extract the archive and avoid overwriting existing files.
-tar -xf [tar archive] --no-overwrite-dir; 
+tar -xf [tar archive] --no-overwrite-dir;
 ```
 to know the file format `file` .
 `tar -t archive.tar` - to know what inside the tar ball. it list the file inside the tar archive.
@@ -379,12 +413,13 @@ partition table : is a data structure used in computer storage devices, such as 
 fdisk -l ; # list the disk partition. Linux partition good.
 mkfs ; # see the file system.
 tuen2fw -j; # add a journal.
-mount; # 
+mount; #
 unmount;
 blkid; # print the universally unique identifier for a device.
 ```
 
 ## Hardware
+
 ```bash
 lsusb;
 lsmod;
@@ -392,6 +427,7 @@ modeprob -a;
 ```
 
 ## Cat command
+
 ```bash
 cat > newfile.txt
 This is some text.
@@ -457,13 +493,21 @@ sudo dpkg --list | grep -E -i --color  "linux-image|linux-headers"; # list insta
 - **Public Keys**- "pubring.kbx" specifically stores public keys. Public keys are used to verify digital signatures and encrypt data that can only be decrypted by the corresponding private key.
 - **Key Database Format**- The "kbx" in "pubring.kbx" stands for KeyBox, which is the format used to store the keys. It's a modern keyring format used by GnuPG and is more efficient and secure than older formats.
 
-## Configurations
-```bash
-update-alternatives --get-selections; # display all the configured alternatives
-```
+## Triage (when things break)
 
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
 
-### Media support plugin
-```shell
-sudo apt install ubuntu-restricted-extras
-```
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 An **opcode** (operation code) is the discriminant in an instruction word. Everything else in the instruction (registers, immediates, addressing mode) is **operand encoding**.

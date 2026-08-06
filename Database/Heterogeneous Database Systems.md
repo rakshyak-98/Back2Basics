@@ -4,6 +4,17 @@
 
 > One-line: one application orchestrates **multiple DB engines** (SQL + document + cache + search) — polyglot persistence; integration and consistency are the hard parts.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Instead of one RDBMS for everything, teams pick **best-fit stores per access pattern**:

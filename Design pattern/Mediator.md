@@ -4,6 +4,17 @@
 
 > Central colleague that coordinates widgets/modules so they do not refer to each other — **Dive Into Design Patterns + campaign wizard steps**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Wizard steps (goal → creative → budget → review) must enable/disable each other. Without Mediator, every step imports every other step. Mediator owns the collaboration graph; colleagues talk only to the mediator.
@@ -40,6 +51,11 @@ class CampaignWizardMediator {
 | Steps import each other | Mediator bypassed | Route all cross-talk through mediator |
 | Mediator god object | Too many domains | One mediator per UI flow / BC |
 | State illegal for status | Lifecycle mixed in | Keep legality in [[Design pattern/State]] |
+
+## Gotchas
+
+> [!WARNING]
+> …
 
 ## When NOT to use
 

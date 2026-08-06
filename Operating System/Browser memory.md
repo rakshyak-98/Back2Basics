@@ -1,3 +1,30 @@
+[[Operating System]]
+
+# Browser memory
+
+> One-line: what / why for **Browser memory** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Keeping files/data in browser memory (not on disk)]]
+- [[#In-memory browser database like (SQLite in browser)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Keeping files/data in browser memory (not on disk)
 
 - You upload an image in the browser -> it stays in RAM, never touches your hard drive.
@@ -8,13 +35,13 @@
   document.getElementById('fileInput').onchange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-    
+
     reader.onload = (event) => {
       const buffer = event.target.result; // ← in browser memory!
       console.log('File is now in RAM:', buffer.byteLength, 'bytes');
       // You can send it to server, show preview, etc.
     };
-    
+
     reader.readAsArrayBuffer(file); // keeps it in memory
   };
 </script>
@@ -35,3 +62,22 @@ db.run("INSERT INTO users VALUES ('Alice');");
 ```
 - Lost when you close/refresh the page
 - Super fast, No files on disk
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

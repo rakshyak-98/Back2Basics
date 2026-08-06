@@ -4,6 +4,17 @@
 
 > Built-in Vim directory browser (`:Explore`, `:Vex`) — navigate and open files without a plugin manager.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to go up a directory, `%` to create file, `d` to bookmark. It respects `netrw_liststyle` (thin/thick/long/tree).

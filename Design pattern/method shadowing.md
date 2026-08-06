@@ -4,6 +4,17 @@
 
 > Same-named method on outer and inner type — **which implementation runs depends on the static type of the reference**, not the "logical" OOP hierarchy; source of subtle bugs in Go embedding and Java hiding.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Overriding (Java virtual methods)** — dynamic dispatch on runtime type.

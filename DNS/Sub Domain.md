@@ -1,4 +1,28 @@
+[[DNS]]
+
+# Sub Domain
+
+> One-line: what / why for **Sub Domain** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#DNS record]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 user enters a subdomain in browser
+
+## Standard config / commands
+
+…
 
 ## DNS record
 
@@ -13,3 +37,22 @@ user enters a subdomain in browser
 Authoritative DNS server -> An **authoritative DNS server** is a DNS server that **has the final, official answer** for a domain’s DNS records (A, MX, CNAME, etc).
 
 It holds the **zone file** — the actual record set configured by the domain owner.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

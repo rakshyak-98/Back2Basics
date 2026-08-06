@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Good **API design** optimizes for **who** can call **what**, **how**, and **what they get back** — not for mirroring database tables. URLs express a **resource hierarchy**; HTTP methods express **intent**; status codes express **outcome**. Versioning and pagination are part of the contract from day one, not retrofits.

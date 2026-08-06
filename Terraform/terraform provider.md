@@ -4,9 +4,42 @@
 
 > Provider deep-dive — **Terraform in Action** (Winkler) + **Terraform: Up & Running** (Brikman).
 
-A **provider** is a plugin that implements Create / Read / Update / Delete against an API (AWS, GCP, Azure, GitHub, Kubernetes, Docker, …).
+---
 
+## Index
+
+- [[#Mental model]]
+- [[#Configure the provider]]
+- [[#Declare source + version]]
+- [[#Aliases (multi-region / multi-account)]]
+- [[#How Terraform talks to providers]]
+- [[#Auth reminders]]
+- [[#Inspect providers]]
+- [[#Resource vs data for a provider]]
+- [[#Non-cloud providers]]
+- [[#Book takeaways]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+A **provider** is a plugin that implements Create / Read / Update / Delete against an API (AWS, GCP, Azure, GitHub, Kubernetes, Docker, …).
 Terraform core does not know EC2 or GCE — it loads the provider, then asks it to reconcile resources. Setup context: [[Terraform setup]].
+
+## Configure the provider
+
+```hcl
+provider "aws" {
+  region = var.region
+  # optional: profile, shared_credentials_files, assume_role, …
+}
+```
+
+Winkler: arguments here are **provider-level** (region, endpoints, auth), not resource arguments.
+
+Values often come from [[variable file]].
 
 ---
 
@@ -26,21 +59,6 @@ terraform {
 - `source` → `registry.terraform.io/<namespace>/<name>`
 - `version` → always constrain (Brikman: avoid “latest” in prod)
 - Written once during [[Terraform setup]]; plugins fetched by `terraform init`
-
----
-
-## Configure the provider
-
-```hcl
-provider "aws" {
-  region = var.region
-  # optional: profile, shared_credentials_files, assume_role, …
-}
-```
-
-Winkler: arguments here are **provider-level** (region, endpoints, auth), not resource arguments.
-
-Values often come from [[variable file]].
 
 ---
 
@@ -132,3 +150,22 @@ Same pattern — `required_providers` + `provider` block:
 
 - **Winkler**: provider = plugin; config block; aliases; schema drives valid args
 - **Brikman**: pin versions; never store credentials in code; registries for providers/modules
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

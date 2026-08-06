@@ -1,6 +1,24 @@
+[[vim]]
+
+# vim mark
+
+> One-line: what / why for **vim mark** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 > [!INFO]
 > The next time you want to edit your .vimrc, just press `'V` to open it. This assumes that you have kept the default ['viminfo'](http://vimdoc.sourceforge.net/cgi-bin/help?tag=%27viminfo%27) behavior, so that uppercase marks are all remembered in the [viminfo-file](http://vimdoc.sourceforge.net/cgi-bin/help?tag=viminfo-file) between Vim sessions.
-
 | Command     | Description                                                       |
 | ----------- | ----------------------------------------------------------------- |
 | `ma`        | set mark **a** at current cursor location                         |
@@ -12,7 +30,6 @@
 | ``y`a``     | yank text to unnamed buffer from cursor to position of mark **a** |
 | `:marks`    | list all the current marks                                        |
 | `:marks aB` | list marks **a**, **B**<br>                                       |
-
 | Command          | Description                                             |
 | ---------------- | ------------------------------------------------------- |
 | `:delmarks a`    | delete mark **a**                                       |
@@ -20,3 +37,26 @@
 | `:delmarks abxy` | delete marks **a**, **b**, **x**, **y**                 |
 | `:delmarks aA`   | delete marks **a**, **A**                               |
 | `:delmarks!`     | delete all lowercase marks for the current buffer (a-z) |
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,17 @@
 
 > One-line: configured SMTP (or SES/transport plugin) instance that sends mail — create once at boot, reuse for all messages; auth and TLS live on the transporter.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.

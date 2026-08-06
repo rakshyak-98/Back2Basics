@@ -1,3 +1,22 @@
+[[mysql]]
+
+# key Constraint
+
+> One-line: what / why for **key Constraint** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```mysql
 CREATE TABLE HotelSections (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -7,13 +26,9 @@ CREATE TABLE HotelSections (
     FOREIGN KEY (hotel_template_id) REFERENCES HotelTemplates(id),
     FOREIGN KEY (template_section_id) REFERENCES TemplateSections(id)
 );
-
 ALTER TABLE HotelSections
 ADD CONSTRAINT unique_hotel_template_section UNIQUE (hotel_template_id, template_section_id);
-
 ```
-
-
 **Create during table creation**
 ```mysql
 CREATE TABLE HotelSections (
@@ -25,8 +40,29 @@ CREATE TABLE HotelSections (
     FOREIGN KEY (template_section_id) REFERENCES TemplateSections(id),
     UNIQUE (hotel_template_id, template_section_id)
 );
-
 ```
-
 > [!NOTE]
 > - Foreign key also creates an index automatically. this is other then `FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE`
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

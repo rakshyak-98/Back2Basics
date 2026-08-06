@@ -1,3 +1,22 @@
+[[Payments]]
+
+# Payment integration Strip
+
+> One-line: what / why for **Payment integration Strip** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```ts
   const handleCheckout = async () => {
     Swal.fire({
@@ -21,15 +40,12 @@
               // isToken: true, // Not relying on automatic token handling
             }
           )
-
           if (status !== 200) {
             const errorMsg = results?.message || `HTTP error! status: ${status}`
             Swal.fire('Error', errorMsg, 'error')
             return
           }
-
           // console.debug(results)
-
           if (results?.success?.data?.url) {
             Swal.fire({
               title: 'Redirecting...',
@@ -76,3 +92,26 @@
     })
   }
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

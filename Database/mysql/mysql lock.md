@@ -1,19 +1,40 @@
-`LOCK TABLES` -> manually locks entire tables to control concurrency.
+[[mysql]]
 
+# mysql lock
+
+> One-line: what / why for **mysql lock** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Row locking]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+`LOCK TABLES` -> manually locks entire tables to control concurrency.
 ```txt
 LOCK TABLES table_name [READ | WRITE];
 ```
-
 **Read lock**
 - others can read
 - others cannot write
 - you also cannot write to the table
 - used for consistent reads
-
 **Write lock**
 - others cannot read or write
 - you can read & write
 - Ensures exclusive write access
+
+## Standard config / commands
+
+…
 
 ## Row locking
 
@@ -45,3 +66,22 @@ COMMIT:
 ```
 - allow reads
 - blocks writes
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

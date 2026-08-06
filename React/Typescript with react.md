@@ -1,12 +1,27 @@
+[[React]]
+
+# Typescript with react
+
+> One-line: what / why for **Typescript with react** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```shell
 grep -r "defaultExportName" src/
-
 ```
-
 > [!INFO] `useRef` has a type overload for the specific case in which the type argument doesn't include `null` but the initializer is `null`
-
 React has a built-in interface, `Reducer` that takes two type arguments: the state and the action interface, both of which are readily available.
-
 > [!WARNING] when we apply `forwardRef` to the component, the type argument is somehow forgotten and replace by `unknown`
 - the problem is the `forwardRef` does not return a component with the same type that you pass into it.
 ```typescript
@@ -18,3 +33,26 @@ declare module "react" {
 }
 ```
 - Typescript definition file `*.d.ts` in source tree `<root>/react-augmented.d.ts`
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

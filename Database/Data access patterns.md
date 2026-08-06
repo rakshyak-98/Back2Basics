@@ -4,6 +4,22 @@
 
 > How the app reads/writes drives schema, indexes, caching, and consistency — staff design-review lens — **Designing Data-Intensive Applications** (Kleppmann).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Core patterns (catalog)]]
+- [[#Read patterns → engineering choices]]
+- [[#Write patterns → engineering choices]]
+- [[#Caching decision table]]
+- [[#Standard checklist (design review)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Schema follows **access paths**, not ER diagrams drawn once. Ask every feature:
@@ -26,6 +42,10 @@ Write ──►│  Primary    │──► CDC/outbox ──► search index / 
 ```
 
 **Pattern picks consistency boundary** — not the ORM.
+
+## Standard config / commands
+
+…
 
 ## Core patterns (catalog)
 

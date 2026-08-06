@@ -4,6 +4,17 @@
 
 > **Initial or repeatable reference data** loaded into schema after migrations — dev fixtures, prod lookup tables, demo tenants. Not a substitute for migrations or prod data backup.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Migrations** change structure; **seeds** insert rows. Seeds run in **known order**, ideally **idempotent** (safe to re-run in dev/CI). Prod seeds = small, static reference data (roles, countries); **never** fake PII at scale in prod.

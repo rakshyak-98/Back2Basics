@@ -4,6 +4,17 @@
 
 > *(Filename typo: **Stripe**)* — Payment processor API for cards, subscriptions, Connect marketplaces — **Stripe docs + PCI scope reduction**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw PAN never touches your disk if integrated correctly.

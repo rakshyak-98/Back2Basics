@@ -1,3 +1,22 @@
+[[helm]]
+
+# cli
+
+> One-line: what / why for **cli** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```bash
 helm repo add <namespace> <url> <flag>;
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -5,14 +24,35 @@ help repo udpate;
 help search repo nginx;
 help search repo ingress;
 ```
-
 ```bash
 helm install my-ingress ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.service.type=NodePort
 ```
-
 ```bash
 helm list -A;
 helm status my-ingress -n ingress-nginx;
 helm upgrade my-ingress ingress-nginx/ingress-nginx -n ingress-nginx;
 helm uninstall my-ingress -n ingress-nginx;
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

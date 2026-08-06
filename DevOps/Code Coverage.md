@@ -4,6 +4,17 @@
 
 > Percentage of source lines/branches executed by tests — guide, not quality proof — **Istanbul/nyc + CI gates**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Coverage tools **instrument** code (counters at branches/lines), run tests, report what executed.

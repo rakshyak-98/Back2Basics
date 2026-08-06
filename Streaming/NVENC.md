@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **NVENC** is a **dedicated encode ASIC** on NVIDIA GPUs (GeForce, RTX, datacenter L4/A10/A100 lines). It runs **parallel to CUDA cores** — multiple live channels per GPU without starving compute. Quality at equal bitrate historically lagged **libx264**; modern **RTX 40+ / Ada** encoders close the gap for live **CBR** workloads.

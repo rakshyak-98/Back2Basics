@@ -1,3 +1,29 @@
+[[Networking]]
+
+# mime type
+
+> One-line: what / why for **mime type** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#set the recommended (default) application for a mime type on your system]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## set the recommended (default) application for a mime type on your system
 
 ```bash
@@ -7,9 +33,9 @@ xdg-mime default vim.desktop text/plain;
 
 ### mime type
 
-- `/etc/mime.types` 
+- `/etc/mime.types`
 - `/usr/share/mime` -> system wide
-- 
+-
 
 ```bash
 xdg-mime query default inode/directory; # get the information of file manager
@@ -35,3 +61,22 @@ octet-stream -> sequence of 8-bit bytes (no specific format/encoding).
 
 > [!INFO]
 > use to force download in browsers. Many servers send this type with a `Content-Disposition: attachment` header to trigger file save dialog.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

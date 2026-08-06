@@ -1,9 +1,34 @@
+[[Python]]
+
 # Python Package Setup
+
+> One-line: what / why for **Python Package Setup** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Target Layout]]
+- [[#Step 1: Create `pyproject.toml`]]
+- [[#Step 2: Create the Package Directory]]
+- [[#Step 3: Add `__init__.py`]]
+- [[#Step 4: Fix Imports in `cpix_client.py`]]
+- [[#Step 5: Update the Sample Script]]
+- [[#Step 6: Install Locally]]
+- [[#Step 7: Use in Other Projects]]
+- [[#Checklist]]
+- [[#Requirements]]
+- [[#Notes]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 This guide explains how to turn the `python/` folder into an installable package for use in other projects.
 The sample code under `python/src/` is currently a flat set of scripts. To reuse it as a library, follow the steps below.
-
----
 
 ## Target Layout
 
@@ -183,6 +208,7 @@ python -c "from doverunner_cpix import CpixClient; print(CpixClient)"
 ---
 
 ## Step 7: Use in Other Projects
+
 ### From a local path (same machine)
 
 ```bash
@@ -246,6 +272,26 @@ pack_info = client.get_content_key_info_from_doverunner_kms(
 ---
 
 ## Notes
+
 - Bump `version` in `pyproject.toml` for each release if you publish to PyPI.
 - Consider adding `python/.venv/` and generated `*.json` output files to `.gitignore`.
 - For a quick run without packaging, see the main [README.md](./README.md).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

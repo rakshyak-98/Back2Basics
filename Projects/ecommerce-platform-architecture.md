@@ -6,17 +6,21 @@
 
 ---
 
-## Scope & ambiguities
+## Index
 
-**In scope:** eight bounded services below plus cross-cutting platform pieces (API gateway, mesh, broker).
-
-**Assumed companion (not one of the eight):** **Order / checkout orchestrator** — owns cart, order state machine, saga coordination. Without it, payment–refund–notification flows have no correlation id. See [[marketplace app]] for state machine; implement as a dedicated `order-service` or a thin BFF only at MVP — this note assumes **dedicated order-service**.
-
-**`live` environment:** treated as **production traffic slice** (canary/blue-green on the prod cluster), not a fifth full stack — detail in [[ecommerce-cicd-environments]].
-
-**Language split:** Go for payment, refund, catalog, pricing, vendor (CPU + strict typing); Node for notification (template ecosystem) and promotions (rapid rule changes). Either stack is valid per team — table below marks suggested default.
-
----
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Scope & ambiguities]]
+- [[#Service dependency diagram]]
+- [[#Service catalog summary]]
+- [[#Per-service design]]
+- [[#Inter-service communication]]
+- [[#Event schema (CloudEvents-style envelope)]]
+- [[#Data consistency: saga + outbox]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -36,6 +40,22 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 ```
 
 **Money and catalog are separate failure domains.** Never hold catalog locks while waiting on PSP. Emit facts after local commit (outbox), consume with idempotent handlers.
+
+---
+
+## Standard config / commands
+
+…
+
+## Scope & ambiguities
+
+**In scope:** eight bounded services below plus cross-cutting platform pieces (API gateway, mesh, broker).
+
+**Assumed companion (not one of the eight):** **Order / checkout orchestrator** — owns cart, order state machine, saga coordination. Without it, payment–refund–notification flows have no correlation id. See [[marketplace app]] for state machine; implement as a dedicated `order-service` or a thin BFF only at MVP — this note assumes **dedicated order-service**.
+
+**`live` environment:** treated as **production traffic slice** (canary/blue-green on the prod cluster), not a fifth full stack — detail in [[ecommerce-cicd-environments]].
+
+**Language split:** Go for payment, refund, catalog, pricing, vendor (CPU + strict typing); Node for notification (template ecosystem) and promotions (rapid rule changes). Either stack is valid per team — table below marks suggested default.
 
 ---
 

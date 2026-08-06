@@ -4,6 +4,17 @@
 
 > Encapsulate an action as an object — invoker, undo, queue, and log requests — **GoF + UI/action systems**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```

@@ -6,6 +6,21 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / structure]]
+- [[#Physical tiers (deployment models)]]
+- [[#Logical layers (inside one deployable)]]
+- [[#Hexagonal / Clean Architecture (ports and adapters)]]
+- [[#Microservices (distribution-level multi-tier)]]
+- [[#Decision table: which model when?]]
+- [[#Validation: Robert C. Martin alignment]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Multi-level architecture is two orthogonal axes:
@@ -30,6 +45,72 @@ Multi-level architecture is two orthogonal axes:
 **Dependency rule (Martin / hexagonal / clean):** Source dependencies point **inward** only — toward higher-level **policies**. Outer rings (HTTP, DB, queues) depend on inner rings (use cases, entities) — never the reverse. Flow of control can go outward; compile-time deps cannot. Crossing that gap uses **Dependency Inversion** ([[SOLID]] DIP): inner layer defines the interface (port); outer layer implements it (adapter).
 
 **Martin's core thesis:** Architecture is about **managing dependencies so the system survives change** — not about picking Spring, Postgres, or microservices. Frameworks, the web, and the database are **details** to keep at the outer edge.
+
+---
+
+## Standard config / structure
+
+### Minimal 3-tier web (reference layout)
+
+```txt
+deploy/
+  web/          # tier 1 — static + reverse proxy (nginx)
+  api/          # tier 2 — stateless app replicas (horizontally scaled)
+  data/         # tier 3 — managed RDS / Cloud SQL (no public IP)
+
+api/src/
+  handlers/     # presentation (HTTP)
+  services/     # business logic + transactions
+  domain/       # entities, rules (optional but valuable)
+  repos/        # data access
+```
+
+### Layer boundary in code (Go sketch)
+
+```go
+// handler — maps HTTP only
+func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
+    var req CreateOrderDTO
+    if err := json.NewDecoder(r.Body).Decode(&req); err != nil { ... }
+    order, err := h.orders.Create(r.Context(), req.ToCommand())
+    ...
+}
+
+// service — transaction + rules
+func (s *OrderService) Create(ctx context.Context, cmd CreateOrderCommand) (Order, error) {
+    return s.db.WithTx(ctx, func(tx Tx) (Order, error) {
+        if err := s.inventory.Reserve(tx, cmd.SKU, cmd.Qty); err != nil { return Order{}, err }
+        return s.orders.Insert(tx, cmd)
+    })
+}
+```
+
+### Hexagonal package layout (Martin-aligned)
+
+```txt
+# Screaming architecture — use cases visible at top level
+createorder/
+  CreateOrderInteractor.ts    # use case (application rules)
+  CreateOrderRequest.ts       # simple input DTO
+  IOrderRepository.ts         # outbound port (interface)
+  entities/Order.ts           # entity (critical rules)
+
+adapters/
+  in/web/CreateOrderController.ts   # driving adapter
+  out/persistence/PostgresOrderRepository.ts  # driven adapter — ALL SQL here
+
+# Anti-pattern (framework-screaming):
+# controllers/ models/ views/  ← tells you Rails/MVC, not what the app DOES
+```
+
+### Scaling knobs per tier
+
+| Tier | Scale lever | Watch |
+|------|-------------|-------|
+| Presentation | CDN, edge cache, static offload | Cache invalidation, auth on edge |
+| Application | Horizontal pods, stateless design | Session stickiness, [[connection pooling]] |
+| Data | Read replicas, sharding ([[database sharding]]) | Replica lag, cross-shard queries |
+| Gateway | Rate limits ([[Token bucket]]), autoscale | Single point of misconfiguration |
 
 ---
 
@@ -294,123 +375,6 @@ See [[Microservice]] (streaming boundaries) and [[KISS]] — don't split before 
 
 ---
 
-## Standard config / structure
-
-### Minimal 3-tier web (reference layout)
-
-```txt
-deploy/
-  web/          # tier 1 — static + reverse proxy (nginx)
-  api/          # tier 2 — stateless app replicas (horizontally scaled)
-  data/         # tier 3 — managed RDS / Cloud SQL (no public IP)
-
-api/src/
-  handlers/     # presentation (HTTP)
-  services/     # business logic + transactions
-  domain/       # entities, rules (optional but valuable)
-  repos/        # data access
-```
-
-### Layer boundary in code (Go sketch)
-
-```go
-// handler — maps HTTP only
-func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
-    var req CreateOrderDTO
-    if err := json.NewDecoder(r.Body).Decode(&req); err != nil { ... }
-    order, err := h.orders.Create(r.Context(), req.ToCommand())
-    ...
-}
-
-// service — transaction + rules
-func (s *OrderService) Create(ctx context.Context, cmd CreateOrderCommand) (Order, error) {
-    return s.db.WithTx(ctx, func(tx Tx) (Order, error) {
-        if err := s.inventory.Reserve(tx, cmd.SKU, cmd.Qty); err != nil { return Order{}, err }
-        return s.orders.Insert(tx, cmd)
-    })
-}
-```
-
-### Hexagonal package layout (Martin-aligned)
-
-```txt
-# Screaming architecture — use cases visible at top level
-createorder/
-  CreateOrderInteractor.ts    # use case (application rules)
-  CreateOrderRequest.ts       # simple input DTO
-  IOrderRepository.ts         # outbound port (interface)
-  entities/Order.ts           # entity (critical rules)
-
-adapters/
-  in/web/CreateOrderController.ts   # driving adapter
-  out/persistence/PostgresOrderRepository.ts  # driven adapter — ALL SQL here
-
-# Anti-pattern (framework-screaming):
-# controllers/ models/ views/  ← tells you Rails/MVC, not what the app DOES
-```
-
-### Scaling knobs per tier
-
-| Tier | Scale lever | Watch |
-|------|-------------|-------|
-| Presentation | CDN, edge cache, static offload | Cache invalidation, auth on edge |
-| Application | Horizontal pods, stateless design | Session stickiness, [[connection pooling]] |
-| Data | Read replicas, sharding ([[database sharding]]) | Replica lag, cross-shard queries |
-| Gateway | Rate limits ([[Token bucket]]), autoscale | Single point of misconfiguration |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| "Works in Postman, wrong in UI" | Client doing business logic (2-tier leak) | Move rules to [[Service Layer]]; UI displays only |
-| Schema change breaks mobile app | Fat client queries DB or embeds SQL | API versioning; server-owned contract |
-| Random data corruption | Handler writes DB without transaction | Wrap multi-table updates in service txn ([[ACID]]) |
-| Can't unit test without Docker | Domain imports ORM/HTTP types | Introduce ports (Martin DIP); in-memory adapters for tests |
-| ORM models used as domain entities | `@Entity` annotations in "domain" package | Separate entity from persistence model; map at adapter boundary |
-| DB row / `ResultSet` passed to use case | Framework data structure crossed inward | Map to simple DTO in repository adapter before returning |
-| Folder layout says "Spring" not "Billing" | Framework-screaming structure | Reorganize by use case (Screaming Architecture — see below) |
-| 15-hop sync chain, cascading timeouts | N-tier / microservice sprawl | Merge services or go async; [[backpressure]] |
-| "Distributed monolith" — must deploy all 12 together | Shared DB, shared libs, circular calls | Database-per-service; define bounded contexts |
-| Layer violation in PRs | Controller imports repository directly | Enforce module boundaries (archunit, eslint boundaries) |
-| Gateway does business logic | BFF/gateway grew fat | Push rules to domain services; gateway routes/auth only |
-| Performance fine in dev, slow in prod | Extra network tier not in local compose | Measure p99 per hop; colocate or cache |
-| Team argues "3-tier vs microservices" | Conflating physical and logical | Draw two diagrams: deployment + module deps |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Tiers ≠ layers.** A team that "went to microservices" but kept one shared database and synchronous chains still has a **distributed monolith** — worst of both worlds.
-
-> [!WARNING]
-> **Skipping the service layer** — controllers that call repositories directly bypass validation, authz, and transactions. First shortcut becomes permanent.
-
-> [!WARNING]
-> **Framework dictates folder structure** — Martin: frameworks are tools, not architecture. `controllers/models/views` layout defers use-case discovery; structure should scream domain operations.
-
-> [!WARNING]
-> **Database row crosses boundary** — passing ORM/query result objects into use cases violates the Dependency Rule; map to plain DTOs in the adapter.
-
-> [!WARNING]
-> **Anemic domain model** — entities are structs with getters; all logic in services. Martin puts **critical rules in entities**; use cases orchestrate, not replace, entity behavior.
-
-> [!WARNING]
-> **Hexagonal on a todo app** — ports/adapters for `TodoRepository`, `ClockPort`, `UuidPort` adds ceremony without boundary value. Use [[KISS]] until complexity earns structure.
-
-> [!WARNING]
-> **2-tier security illusion** — "only our app talks to the DB" — if the app ships DB credentials or RLS is weak, users own your data plane.
-
-> [!WARNING]
-> **Relaxed layering without documentation** — repository calls another service's HTTP API from the data layer. Debugging requires full stack traces across "layers."
-
-> [!WARNING]
-> **N-tier for resume-driven design** — API gateway + BFF + mesh + 6 services for 100 RPS. Operate what you draw; every box needs on-call.
-
----
-
 ## Validation: Robert C. Martin alignment
 
 Cross-check any design against Martin's *Clean Architecture* ([blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), book Ch. 20–22). This note's tier/layer content is **compatible** when applied as below.
@@ -463,6 +427,57 @@ FAIL when:
 | DDD aggregate = JPA `@Entity` | Persistence model is an adapter concern; map to/from entity |
 
 **Bottom line:** Multi-tier answers *where* components run. Martin's Clean Architecture answers *which direction code is allowed to depend*. A correct system needs both diagrams — and they are independent.
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| "Works in Postman, wrong in UI" | Client doing business logic (2-tier leak) | Move rules to [[Service Layer]]; UI displays only |
+| Schema change breaks mobile app | Fat client queries DB or embeds SQL | API versioning; server-owned contract |
+| Random data corruption | Handler writes DB without transaction | Wrap multi-table updates in service txn ([[ACID]]) |
+| Can't unit test without Docker | Domain imports ORM/HTTP types | Introduce ports (Martin DIP); in-memory adapters for tests |
+| ORM models used as domain entities | `@Entity` annotations in "domain" package | Separate entity from persistence model; map at adapter boundary |
+| DB row / `ResultSet` passed to use case | Framework data structure crossed inward | Map to simple DTO in repository adapter before returning |
+| Folder layout says "Spring" not "Billing" | Framework-screaming structure | Reorganize by use case (Screaming Architecture — see below) |
+| 15-hop sync chain, cascading timeouts | N-tier / microservice sprawl | Merge services or go async; [[backpressure]] |
+| "Distributed monolith" — must deploy all 12 together | Shared DB, shared libs, circular calls | Database-per-service; define bounded contexts |
+| Layer violation in PRs | Controller imports repository directly | Enforce module boundaries (archunit, eslint boundaries) |
+| Gateway does business logic | BFF/gateway grew fat | Push rules to domain services; gateway routes/auth only |
+| Performance fine in dev, slow in prod | Extra network tier not in local compose | Measure p99 per hop; colocate or cache |
+| Team argues "3-tier vs microservices" | Conflating physical and logical | Draw two diagrams: deployment + module deps |
+
+---
+
+## Gotchas
+
+> [!WARNING]
+> **Tiers ≠ layers.** A team that "went to microservices" but kept one shared database and synchronous chains still has a **distributed monolith** — worst of both worlds.
+
+> [!WARNING]
+> **Skipping the service layer** — controllers that call repositories directly bypass validation, authz, and transactions. First shortcut becomes permanent.
+
+> [!WARNING]
+> **Framework dictates folder structure** — Martin: frameworks are tools, not architecture. `controllers/models/views` layout defers use-case discovery; structure should scream domain operations.
+
+> [!WARNING]
+> **Database row crosses boundary** — passing ORM/query result objects into use cases violates the Dependency Rule; map to plain DTOs in the adapter.
+
+> [!WARNING]
+> **Anemic domain model** — entities are structs with getters; all logic in services. Martin puts **critical rules in entities**; use cases orchestrate, not replace, entity behavior.
+
+> [!WARNING]
+> **Hexagonal on a todo app** — ports/adapters for `TodoRepository`, `ClockPort`, `UuidPort` adds ceremony without boundary value. Use [[KISS]] until complexity earns structure.
+
+> [!WARNING]
+> **2-tier security illusion** — "only our app talks to the DB" — if the app ships DB credentials or RLS is weak, users own your data plane.
+
+> [!WARNING]
+> **Relaxed layering without documentation** — repository calls another service's HTTP API from the data layer. Debugging requires full stack traces across "layers."
+
+> [!WARNING]
+> **N-tier for resume-driven design** — API gateway + BFF + mesh + 6 services for 100 RPS. Operate what you draw; every box needs on-call.
 
 ---
 

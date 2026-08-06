@@ -1,5 +1,23 @@
-- control the rate of data transfer to prevent congestion, ensure fair resource distribution, and maintain Quality of Service (QoS).
+[[javascript]]
 
+# throttle
+
+> One-line: what / why for **throttle** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+- control the rate of data transfer to prevent congestion, ensure fair resource distribution, and maintain Quality of Service (QoS).
 ### Throttling algorithms
 #### [[Token bucket]]
 - allows burst of traffic while enforcing an average rate limit.
@@ -14,13 +32,33 @@
 - simple but can lead to inefficient bandwidth utilization.
 #### Random Early Detection (RED)
 - Proactively drop packets based on queue length and probability to prevent congestion.
-
 > [!INFO] (RED) Random Early Detection is used in TCP congestion control.
-
 #### Explicit Congestion Notification (ECN)
 - Marks packets instead of dropping them to signal congestion to the sender.
 - works with TCP to reduce congestion without packet loss.
-
 #### TCP flow control & Congestion Control (e.g., TCP Reno, Cubic)
 - Adjusts sending rate dynamically based on network feedback (ACKs, dropped packets).
 - Ensures fair bandwidth sharing.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

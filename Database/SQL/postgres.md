@@ -1,9 +1,32 @@
 [[Database]]
 
-[notes webpage](https://sql.holt.courses/lessons/data/nodejs-and-postgresql)
+# postgres
 
+> One-line: what / why for **postgres** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Create user]]
+- [[#Constraints]]
+- [[#Restart the cluster]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+[notes webpage](https://sql.holt.courses/lessons/data/nodejs-and-postgresql)
 > [!NOTE]
 > In PostgreSQL, **creating a Foreign key constraint does not automatically create an index** on the referencing column.
+
+## Standard config / commands
+
+…
 
 ## Create user
 
@@ -51,3 +74,22 @@ sudo systemctl start postgresql@16-main;
 pg_lsclusters; # list of running clusters
 sudo -u postgres psql; # connect to postgres db
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

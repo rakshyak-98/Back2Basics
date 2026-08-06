@@ -4,6 +4,17 @@
 
 > Built-in job scheduler — run SQL on a cron-like schedule inside the server; no external cron required, but visibility and failure handling are weaker than app-level workers.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 MySQL Event Scheduler is a background thread that fires **EVENT** objects at `AT` or `EVERY` intervals. Each event runs a single SQL body (often `BEGIN … END` block).

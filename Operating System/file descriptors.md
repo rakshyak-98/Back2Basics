@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Every open I/O object in Unix is a **file descriptor (fd)**: a small non-negative integer index into the process's **fd table**. Each slot points at a **kernel `struct file`** (open file description) that holds offset, flags, and the underlying inode/socket.

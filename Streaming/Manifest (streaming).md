@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls **media segments** over HTTP. **[[ABR]]** decisions use manifest-declared `BANDWIDTH` / `Representation` attributes — wrong manifest = wrong quality or failed playback.

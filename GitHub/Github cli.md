@@ -4,6 +4,17 @@
 
 > Terminal interface for auth, PRs, issues, secrets, and API — faster than clicking through github.com during incidents.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `gh` wraps GitHub REST/GraphQL with repo-aware defaults (current directory's remote). Auth is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repo, environment, or org.

@@ -4,6 +4,17 @@
 
 > One-line: stream filter for lines matching a pattern — first tool for log triage, config audits, and "does this string exist anywhere?" **Kernighan & Pike, Unix philosophy**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `grep` reads input line-by-line, tests each line against a **regex** (basic by default; extended with `-E`), prints matches. It does not understand structure (JSON, CSV) — pair with `jq`, `awk`, or structured tools when you need fields.

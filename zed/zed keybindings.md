@@ -2,6 +2,29 @@
 
 # Zed keybindings
 
+> One-line: what / why for **Zed keybindings** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Completions & inline ghost text]]
+- [[#Key bindings]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Completions & inline ghost text
 
 | Action | Linux / Windows | macOS |
@@ -18,9 +41,10 @@
 When the LSP popup and a ghost prediction conflict, **hold `alt`** to preview inline and hide the menu. See [[zed config#Inline ghost completions (VS Code Copilot-style)]].
 
 ## Key bindings
+
 ```text
 ] c next change
-[ c previous change 
+[ c previous change
 
 g ] next problem
 g [ previous problem
@@ -41,3 +65,22 @@ g [ previous problem
 | Go to previous diagnostic                | `g [` or `[ d`   |
 | Show inline error (hover)                | `g h`            |
 | Open the code actions menu               | `g .`            |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

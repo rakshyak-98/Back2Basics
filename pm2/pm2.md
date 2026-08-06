@@ -1,6 +1,27 @@
+[[pm2]]
+
+# pm2
+
+> One-line: what / why for **pm2** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Config file]]
+- [[#pm2 deployment system]]
+- [[#pm2 process PID]]
+- [[#Log rotation]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 > [!INFO]
 > pm2 runs as a non-root user (e.g., ubuntu, deploy, or your app user).
-
 ```sh
 pm2 start npm --name <app name> -- start
 pm2 save; # synchronized with saved list.
@@ -11,9 +32,7 @@ pm2 env <process id>; # show all environment variabel of process id.
 ```sh
 pm2 delete <app name | id | all>;
 ```
-
-`fastchi_pass` -> 
-
+`fastchi_pass` ->
 ```txt
 [PM2][WARN] Current process list is not synchronized with saved list. App booking-engine-app differs. Type 'pm2 save' to synchronize.
 ```
@@ -21,7 +40,6 @@ pm2 delete <app name | id | all>;
 - `pm2` keeps 2 versions of your process list
 	- current running process
 	- saved process list `~/.pm2/dump.pm2`
-	
 > [!WARNING] your current process `<app name> ` will not auto restart unless saved.
 
 ## Config file
@@ -110,6 +128,25 @@ pm2 describe <id-or-name>; # shows user field directly
 
 ```bash
 pm2 set pm2-logrotate:max_size 10M
-pm2 set pm2-logrotate:retain 10 
-pm2 set pm2-logrotate:compress true 
+pm2 set pm2-logrotate:retain 10
+pm2 set pm2-logrotate:compress true
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

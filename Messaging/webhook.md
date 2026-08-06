@@ -4,6 +4,17 @@
 
 > One-line: server-to-server HTTP callback on events — receiver must verify, dedupe, and respond fast — **not** a reliable message bus.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick** (ack, then process async).

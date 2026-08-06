@@ -4,6 +4,17 @@
 
 > PCI SSC program: outsource entire payment page/checkout to qualified provider — dramatically shrink merchant PCI scope — **PCI DSS SAQ selection**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **PSI GSS** (Payment Card Industry **Guest Service System**) describes when a merchant uses a **third-party hosted** checkout such that **cardholder data never enters merchant systems**.

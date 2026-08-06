@@ -1,3 +1,22 @@
+[[Rendering performance]]
+
+# composite
+
+> One-line: what / why for **composite** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Compositing is where the painted parts of the page are put together for displaying on screen.
 since the part of the page were potentially drawn onto multiple layers, they need to be applied to the screen in the correct order.
 - especially important for elements that overlap another.
@@ -7,3 +26,26 @@ since the part of the page were potentially drawn onto multiple layers, they nee
 - Stick to transform and opacity changes for your animations.
 - promote moving elements with `will-change` or `translateZ`.
 - avoid overusing promotion rules; layers requires memory and management.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

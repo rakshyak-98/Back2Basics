@@ -1,4 +1,46 @@
+[[React Pattern]]
+
+# Composite pattern
+
+> One-line: what / why for **Composite pattern** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - The beauty of the composite pattern is that it allows for a harmonious symphony of distinct functionalities, each encapsulated in its own component yet all working together seamlessly.
 - in this paradigm, one component acts as the conductor, orchestrating the flow of data and events through contexts, while other components plays its part with focused responsibility.
 - Composite pattern offers a level of abstraction and flexibility that these methods often lack. By decoupling child components from their parent, the Composite Pattern  allows for greater reuse and easier modification of individual components.
 - this pattern excels when UI components need to be reused and recombined in various ways.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

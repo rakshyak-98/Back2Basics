@@ -1,3 +1,21 @@
+[[ExpressJS]]
+
+# express query handler
+
+> One-line: what / why for **express query handler** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 | Method                                    | Why it matters                                    |
 | ----------------------------------------- | ------------------------------------------------- |
@@ -6,10 +24,9 @@
 | Dynamic Filtering and Sorting             | Allow flexible queries without hard-coding fields |
 | Pagination Support                        | Handler large datasets efficiently                |
 | Error Handling Midddleware                | Standardizes error responses                      |
-### Middleware query parse and validator 
+### Middleware query parse and validator
 ```js
 const { query, validationResult } = require("express-validation");
-
 const validateQuery = [
 	query("category").optional().isString(),
 	query("price_min").optional().isNumeric(),
@@ -18,7 +35,6 @@ const validateQuery = [
 	query("limit").optional().isInt({min: 1, max: 100}),
 	query("page").optional().isInt({min: 1}),
 ]
-
 const parseQuery = (req, res, next) => {
 	const errors = validationResult(req);
 	if(!errors.isEmpty()){
@@ -34,19 +50,16 @@ const parseQuery = (req, res, next) => {
 	}
 	req.sort = { price: sort === "asc" ? 1 : -1 };
 	req.limit = Number(limit);
-	req.skip = (Number(pate) - 1) * req.limit; 
+	req.skip = (Number(pate) - 1) * req.limit;
 	next();
 }
 ```
-
 ### API route handler
 ```js
 const express = require('express');
 const Product = require("@models/Product");
 const {validateQuery, parseQuery} = require("../middleware/queryParser");
-
 const router = express.router();
-
 router.get("/products", validateQuery, parseQuery, cacheMiddleware, async(req, res) => {
 	try{
 		const products = await Product.find(req.filter).sort(req.sort).skip(res.skip);
@@ -55,6 +68,28 @@ router.get("/products", validateQuery, parseQuery, cacheMiddleware, async(req, r
 		res.status(500).josn({ success: false, message: "Server error" });
 	}
 })
-
 module.exprots = router;
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,4 +1,26 @@
-> [!INFO] NextJS build will call api 
+[[NextJS]]
+
+# NextJS Error
+
+> One-line: what / why for **NextJS Error** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Pre-render Error with NextJS]]
+- [[#Static image not loading when hosted on AWS ec2 instance]]
+- [[#`Collecting page data  ...TypeError: Super expression must either be null or a function, not undefined`]]
+- [[#No refresh page show 404 Not found error]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+> [!INFO] NextJS build will call api
 [next-router-not-mounted](https://nextjs.org/docs/messages/next-router-not-mounted)
 error comes from `Next.js v13+` App Router
 - If used in the `app` directory, migrate to the new hooks imported from `next/navigation`.
@@ -6,16 +28,12 @@ use new `next/navigation` hooks
 ```js
 import { useRouter, useSearchParams, useParams } from 'next/navigation'
 ```
-
  Why the changes?
 App Router runs in a **React Server Component-first architecture**. The old hooks from `next/router` depend on the client-side routing context — which doesn't exist in server components.
-
 The new `next/navigation` hooks are **designed to work with [[RSC (React Server Component boundaries)]] and match the new routing paradigm.
-
 ```text
 Module not found: Can't resolve '@/app/store/store.js'
 ```
-
 ```json
 {
   "compilerOptions": {
@@ -24,16 +42,18 @@ Module not found: Can't resolve '@/app/store/store.js'
     }
   }
 }
-
 ```
-
 ```text
 this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-rsc] (ecmascript)}.useContext) is not a function
 ```
-
 - you're importing a vendored/interval version of React from `Next.js` RSC (`react.js [app-rsc]`) instead of the public React module.
 
+## Standard config / commands
+
+…
+
 ## Pre-render Error with NextJS
+
 ```txt
 Error occured prerendering path /menu-items.
 ```
@@ -149,7 +169,6 @@ export default function ReserveTablePage() {
 - `useSearchParams()` needs client-side runtime.
 - App Router does SSR/Streaming by default. It needs a suspense boundary to isolate client components that rely on the browser environment.
 
-
 ## `Collecting page data  ...TypeError: Super expression must either be null or a function, not undefined`
 
 - due to `use client` directive not mentioned in component.
@@ -216,7 +235,7 @@ out/
 > [!NOTE]
 > This means any `id` not returned from `generateStatic` will result in a 404.
 
---- 
+---
 
 ## No refresh page show 404 Not found error
 
@@ -249,3 +268,16 @@ What `try_files $uri $uri.html /index.html` does
 
 > [!NOTE]
 > Since `next build` generates `/about.html` or `/about/index.html` if `trailingSlash: true`, the `$uri.html` step catches it.
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

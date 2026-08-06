@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `sessionStorage` is a **`Storage` object** tied to a **top-level browsing context** (tab/window). Data survives **page reloads and SPA navigations** within the same tab, but dies when the tab closes. It is **origin-scoped** (`scheme + host + port`) like `localStorage`.

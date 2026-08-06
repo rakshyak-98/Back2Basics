@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Each cached query entry can **provide** tags `{ type, id? }`. Mutations **invalidate** tags → RTK refetches all queries that provided matching tags.

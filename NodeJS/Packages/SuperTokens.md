@@ -4,6 +4,17 @@
 
 > One-line: managed/session-based auth SDK — handles login, refresh, anti-CSRF, and session validation middleware for Express/Fastify; self-host or SaaS core.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 [SuperTokens](https://supertokens.com/docs/nodejs) splits auth into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.

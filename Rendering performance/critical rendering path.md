@@ -1,3 +1,22 @@
+[[Rendering performance]]
+
+# critical rendering path
+
+> One-line: what / why for **critical rendering path** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - is a crucial sequence of steps that web browsers follow to convert HTML, CSS and JavaScript into a visual representation on the screen.
 ### Pipeline
 1. Document Object Model Construction
@@ -16,3 +35,26 @@
 6. Compositing
 	1. if there are overlapping elements, the browser composites these layers together before displaying them on the screen.
 	2. this step ensures that the final visual output is rendered correctly, taking into account the stacking order of layers.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

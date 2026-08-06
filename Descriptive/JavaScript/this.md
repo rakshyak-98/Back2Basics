@@ -1,5 +1,23 @@
-- The value of `this` is the object the one used to call the method.
+[[JavaScript]]
 
+# this
+
+> One-line: what / why for **this** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+- The value of `this` is the object the one used to call the method.
 > [!NOTE] Only the moment of call matters.
 ```javascript
 function makeUser(){
@@ -8,11 +26,9 @@ function makeUser(){
 		ref: this
 	}
 }
-
 let user = makeUser(); // called as a function not method
 console.log(user.ref.name); // Error: Cannot read property 'name' ...
 ```
-
 - the value of `this` is evaluated during the run-time, depending on the context.
 - `this` value is evaluated at call-time and does not depend on where the method was declared, but rather on what object.
 - _arrow function_ have no `this`. If we reference `this` from such a function, it's taken from the outer "normal" function.
@@ -27,7 +43,7 @@ function f(){
 ### strict mode
 - If the function is called without being accessed on anything, `this` will be `undefined`
 non-strict mode
-- if a function is called with `this` set to `undefined` `null` , `this` gets substituted with `globalThis`. 
+- if a function is called with `this` set to `undefined` `null` , `this` gets substituted with `globalThis`.
 - if the function is called with `this` set to a primitive value, `this` get substituted with the primitive value's wrapper object.
 ### you can  also explicitly set the value of `this` using the
 - `Function.prototype.call()`
@@ -44,3 +60,26 @@ non-strict mode
 - arrow function create a [[closure]] over the `this` value of its surrounding scope.
 ### Constructors
 - its `this` is bound to the new object being constructed, no matter which object the constructor function is accessed on.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,9 +1,25 @@
+[[Feature implementation]]
+
+# Manage cart with session id
+
+> One-line: what / why for **Manage cart with session id** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ### Folder and File Structure for a Shopping Cart with Session Management:
-
 Here’s how you can structure your project:
-
 #### **Backend (Node.js / Express)**
-
 ```plaintext
 /backend
 ├── controllers
@@ -22,9 +38,7 @@ Here’s how you can structure your project:
 ├── app.js                      # Main entry point for Express
 └── .env                        # Environment variables (e.g., session secret)
 ```
-
 #### **Frontend (React/Next.js)**
-
 ```plaintext
 /frontend
 ├── components
@@ -44,38 +58,25 @@ Here’s how you can structure your project:
 └── utils
     └── api.js                  # Utility for making API calls (fetch cart, checkout)
 ```
-
----
-
 ### Key Features and Flow:
-
 1. **Session Management**:
-    
     - The **cart** is stored in a session (48 hours).
     - If a user isn't logged in, the cart is associated with a session ID.
     - Upon checkout, the user is prompted to log in (if they aren’t logged in already).
     - Once logged in, cart items are saved in the user’s account.
 2. **Backend Setup**:
-    
     - Use `express-session` middleware to manage the cart session for up to 48 hours.
     - Cart data is stored in `sessionStorage` until the user decides to check out and log in.
     - When logged in, cart items are saved to the `Cart` model in the database.
 3. **Frontend Setup**:
-    
     - Cart data is fetched from the backend using the `useCart` hook.
     - On checkout, the user is redirected to the login page if not authenticated.
     - Once authenticated, cart data is moved from session storage to the user’s profile.
-
----
-
 ### Example Flow:
-
 #### **Backend Example (Session Management)**
-
 ```js
 // sessionManager.js
 const session = require('express-session');
-
 module.exports = function(app) {
   app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -85,22 +86,16 @@ module.exports = function(app) {
   }));
 };
 ```
-
 #### **Frontend Example (Cart Context)**
-
 ```js
 // CartContext.js
 import { createContext, useContext, useState, useEffect } from 'react';
-
 const CartContext = createContext();
-
 export const useCart = () => {
   return useContext(CartContext);
 };
-
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-
   useEffect(() => {
     // Fetch cart from session storage or backend
     const fetchCart = async () => {
@@ -110,17 +105,14 @@ export const CartProvider = ({ children }) => {
     };
     fetchCart();
   }, []);
-
   const addItemToCart = async (item) => {
     setCart([...cart, item]);
     await fetch('/api/cart', { method: 'POST', body: JSON.stringify(item) });
   };
-
   const removeItemFromCart = async (itemId) => {
     setCart(cart.filter(item => item.id !== itemId));
     await fetch(`/api/cart/${itemId}`, { method: 'DELETE' });
   };
-
   return (
     <CartContext.Provider value={{ cart, addItemToCart, removeItemFromCart }}>
       {children}
@@ -128,11 +120,8 @@ export const CartProvider = ({ children }) => {
   );
 };
 ```
-
 #### **Session Timeout Logic**
-
 In **sessionUtils.js**, you can check whether the session has expired by comparing the session time with the current time.
-
 ```js
 // sessionUtils.js
 module.exports.isSessionExpired = (sessionTime) => {
@@ -140,16 +129,33 @@ module.exports.isSessionExpired = (sessionTime) => {
   return (currentTime - sessionTime) > (48 * 60 * 60 * 1000); // 48 hours
 };
 ```
-
----
-
 ### Advantages:
-
 - **Session Persistence**: Cart is retained even if the user is not logged in.
 - **Seamless Checkout**: Users can add items to the cart without signing in but are prompted to log in before checkout.
 - **Simple Architecture**: Easy to extend with more features like discounts, order history, etc.
-
 ### Disadvantages:
-
 - **Session Expiration**: Cart will expire after 48 hours if not checked out or logged in.
 - **Session Management Complexity**: Handling session persistence can get tricky with scaling, especially if using a stateless backend.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

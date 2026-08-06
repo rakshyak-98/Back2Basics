@@ -4,6 +4,17 @@
 
 > Built distribution format — pre-built zip of code + metadata for fast `pip install` without compile on target.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **sdist** (source tarball) may compile C extensions on install. **wheel** ships pre-built artifacts for a platform tag (`cp312-manylinux_x86_64`). `pip` prefers wheels when tag matches. You build wheels in CI; consumers install in seconds.

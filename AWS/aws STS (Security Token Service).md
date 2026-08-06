@@ -4,6 +4,17 @@
 
 > Short-lived **temporary credentials** (AccessKeyId, SecretAccessKey, SessionToken) instead of long-lived IAM user keys — foundation for roles, federation, and cross-account access. **AWS IAM docs** + incident stories from leaked static keys.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 STS is AWS's **token mint**: you prove identity (IAM user, role, SAML/OIDC, or another account's role), STS returns credentials valid for **minutes to hours**, bound to an **IAM role's permissions**. Every `AssumeRole`, EC2 instance profile, Lambda execution role, and `aws sso login` session flows through STS.

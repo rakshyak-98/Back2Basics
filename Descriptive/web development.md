@@ -4,6 +4,17 @@
 
 > Building for browsers — HTML parse, script loading, render path, and delivery constraints — **browser architecture + Core Web Vitals mindset**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Browser pipeline for a typical page:

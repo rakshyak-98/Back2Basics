@@ -4,6 +4,17 @@
 
 > **Server metadata** that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content, clickjacking, or broken CDNs. **OWASP Secure Headers** + CDN cache mystery tickets.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Response headers are **out-of-band instructions** to browsers, proxies, and CDNs. Some are **security defaults** (CSP, HSTS); others define **cache keys** (`Vary`, `Cache-Control`). Order of middleware matters: headers set after response sent are ignored.

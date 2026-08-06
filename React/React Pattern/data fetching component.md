@@ -1,3 +1,30 @@
+[[React Pattern]]
+
+# data fetching component
+
+> One-line: what / why for **data fetching component** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#`useEffect` (Classic Client-Side Fetching)]]
+- [[#React Suspense with use Hook]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## `useEffect` (Classic Client-Side Fetching)
 
 ```jsx
@@ -46,3 +73,22 @@ function App() {
   );
 }
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

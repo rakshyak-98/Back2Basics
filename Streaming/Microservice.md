@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Streaming stacks fail when teams draw microservices around **org charts** instead of **failure domains and bitrate paths**. Split where **scale, deploy cadence, and blast radius** differ — keep hot paths colocated when IPC cost matters.

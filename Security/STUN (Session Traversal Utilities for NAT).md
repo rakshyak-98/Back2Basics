@@ -1,13 +1,29 @@
+[[Security]]
+
+# STUN (Session Traversal Utilities for NAT)
+
+> One-line: what / why for **STUN (Session Traversal Utilities for NAT)** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - Identifies NAT type (e.g., Full Cone, Symmetric).
 - maps the public port to the private port on a device.
-
 Session -> A communication session between two endpoints.
 Traversal -> Crossing or working through NATs.
 Utilities -> Helper functions.
 for NAT -> The problem STUN is solving.
-
 When a client (e.g., a WebRTC application or VoIP client) communicates with a STUN server, the primary goal is to discover its public IP address and port. Once this information is obtained, the client uses it to establish direct peer-to-peer (P2P) connections by sharing the public facing details with other peers.
-
 ### Why this is Important?
 Without STUN, the devices would have no way to knowing how to reach each other directly because NAT/firewalls hid private IP addresses.
 Sharing public-facing IP and port information via STUN is critical step in bypassing NAT and ensuring peer-to-peer connectivity.
@@ -26,3 +42,26 @@ Sharing public-facing IP and port information via STUN is critical step in bypas
 #### Testing and NAT hole punching
 - During connection attempts, both peers send packets to each other simultaneously to punch a hole in their respective NATs, allowing direct traffic flow.
 - If successful, data packets bypass the signaling server, resulting in faster and more efficient communication.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

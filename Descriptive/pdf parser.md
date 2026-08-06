@@ -4,6 +4,17 @@
 
 > Extract text, structure, and metadata from PDF byte streams — operators, fonts, and page trees — **PDF spec + production extraction pitfalls**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A PDF is not plain text. It's a **byte-oriented format**: header, body of **indirect objects** (dictionaries, streams, arrays), cross-reference table, trailer. Pages reference **content streams** — lists of graphics/text **operators** (`Tj`, `Td`, `re`, …).

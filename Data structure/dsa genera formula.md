@@ -4,6 +4,17 @@
 
 > High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Many DSA problems reduce to **counting objects** (subarrays, pairs, paths) or **bounding work** (max operations). These closed forms avoid brute-force enumeration.

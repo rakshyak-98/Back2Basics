@@ -4,6 +4,17 @@
 
 > One-line: column DDL — types, nullability, defaults, order, and comments; full definition required on MODIFY; plan for online schema change.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Columns define **type**, **NULL/NOT NULL**, **DEFAULT**, **AUTO_INCREMENT**, **GENERATED**, charset/collation, and optional **COMMENT**. MySQL stores column order in metadata; reordering can **rebuild table**.

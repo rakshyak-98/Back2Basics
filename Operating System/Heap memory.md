@@ -1,18 +1,34 @@
-A heap is a tree-based structure that lets you always get the min and max element in `O(1)` and insert/remove in `O(log n)`.
+[[Operating System]]
 
+# Heap memory
+
+> One-line: what / why for **Heap memory** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Heap out or memory]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+A heap is a tree-based structure that lets you always get the min and max element in `O(1)` and insert/remove in `O(log n)`.
 > [!INFO]
 > - min-head -> top (root) is always the smallest element.
 > - max-heap -> top is always the largest element.
-
 > [!NOTE]
 > Heap (DSA) and Heap memory (Runtime/OS) they are completely different concepts.
 > Heap (DSA) -> a tree-based structure (Min/Max heap).
 > Heap (Runtime/OS) -> a region of RAM used for dynamic allocation.
-
 > [!INFO]
 > heap memory in OS, is a logical memory region, not a physical one.
 > logical memory -> it's part of the process's virtual address space. The OS maps it to physical memory under the hood, but the heap itself is just a logical abstraction provided to your program.
-
 ```txt
 +---------------------+
 |     Stack           | ← grows downward (for function calls, locals)
@@ -27,6 +43,10 @@ A heap is a tree-based structure that lets you always get the min and max elemen
 +---------------------+
 ```
 
+## Standard config / commands
+
+…
+
 ## Heap out or memory
 
  >[!INFO]
@@ -40,3 +60,22 @@ Heap out of memory refers to condition in which a program attempts to allocate m
 
 > [!INFO]
 > These actions are feasible because many applications trust external input to be well-behaved and do not enforce safeguards such as maximum allocation sizes, timeouts, or memory quotas per operation.kjjkkjjjj
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

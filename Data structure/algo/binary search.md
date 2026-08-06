@@ -4,6 +4,17 @@
 
 > Halve sorted search space each step — O(log n) find/insert boundary; loop invariant is the hard part.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** vs **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` vs `left < right` causes infinite loops or missed answers.

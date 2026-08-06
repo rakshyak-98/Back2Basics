@@ -1,4 +1,38 @@
+[[Linux]]
+
+# Linux configuration
+
+> One-line: what / why for **Linux configuration** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configuration manager]]
+- [[#update-alternatives]]
+- [[#APT repository]]
+- [[#deb - indicates that it's binary package repository]]
+- [[#db-src - for source packages.]]
+- [[#[options] - are optional and can specify architecture or other APT parameters.]]
+- [[#<URI> - repository URL.]]
+- [[#<distribution> - release name (focal, bionic, buster).]]
+- [[#<component> - repository section (main, contrib, non-free).]]
+- [[#Window partition types and usage]]
+- [[#openssl]]
+- [[#Port]]
+- [[#SSL Certificate]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
 ## Configuration manager
+
 ```sh
 dconf dump /org/gnome/terminal;
 dconf load /org/gnome/terminal < <your dconf file>;
@@ -57,7 +91,7 @@ sudo nano [app-name]; # to add configuration.
 sudo timedatectl set-timezone Your/Desired/Timezone;
 sudo ln -sf /usr/share/zoneinfo/Your/Desired/Timezone /etc/localtime
 sudo apt-get install tzdata
-dpkg-reconfigure tzdata; # to re collaberate system time zone. 
+dpkg-reconfigure tzdata; # to re collaberate system time zone.
 ```
 
 ```bash
@@ -105,7 +139,7 @@ WantedBy=multi-user.target
 `/dev/null` delete anything which is navigate to it
 
 ```bash
-<file path> > /dev/null 
+<file path> > /dev/null
 ```
 
 ```bash
@@ -126,6 +160,21 @@ follow the pattern. Asterisk means **in every** (originally any). And 5 columns 
 ```
 
 deb: used to install Degian packages on a Debian-based linux distribution.
+
+
+### Setup auto-completion
+
+
+```bash
+dpkg -l | grep bash-completion
+```
+
+- copy the cli tool auto completion script
+- create a file in `/etc/bash_completion.d`
+
+```bash
+source /etc/bash_completion;
+```
 
 ## update-alternatives
 
@@ -164,12 +213,19 @@ sudo apt-get update
 
 ```bash
 deb [options] <URI> <distribution> <component1> <component2> ...
+
 ## deb - indicates that it's binary package repository
+
 ## db-src - for source packages.
+
 ## [options] - are optional and can specify architecture or other APT parameters.
+
 ## <URI> - repository URL.
+
 ## <distribution> - release name (focal, bionic, buster).
+
 ## <component> - repository section (main, contrib, non-free).
+
 ```
 
 ## Window partition types and usage
@@ -185,20 +241,6 @@ Here are some common partition types you might encounter when executing the `lis
 7. **OEM Partition**: An OEM partition might contain tools, drivers, or other data provided by the original equipment manufacturer. It's typically used for system recovery or customization.
 8. **Data Partition**: A partition dedicated to storing user data, separate from the operating system and application files.
 9. **Unallocated Space**: Unallocated space represents space on the disk that has not been assigned to any partition. It's available for creating new partitions.
-
-
-## Setup auto-completion
-
-```bash
-dpkg -l | grep bash-completion
-```
-
-- copy the cli tool auto completion script
-- create a file in `/etc/bash_completion.d`
-
-```bash
-source /etc/bash_completion;
-```
 
 ## openssl
 
@@ -223,7 +265,8 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt;
 `/etc/asound.conf` `ALSA` settings file. User level `~/.asoundrc`
 
 ## Port
-`/etc/services` -> is a plain-text file in Linux that maps service names to port number and protocols. 
+
+`/etc/services` -> is a plain-text file in Linux that maps service names to port number and protocols.
 - used by network tools (`telnet` `netstat` `namp`)
 - enables named-based service identification instead of hard-coding port
 
@@ -243,6 +286,7 @@ http 80/tcp www # World Wide Web
 - `order hosts,bind` -> check `/etc/hosts` file first then query DNS via `bind` (named).
 
 ## SSL Certificate
+
 ```bash
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d example.com -d www.example.com
@@ -264,7 +308,7 @@ mkcert localhost 127.0.0.01 ::1;
 openssl req -x509 -newkey rsa:2048 -keyout server.key -out server.crt -days 365 -nodes
 ```
 
-`/etc/services` -> maps service names (port numbers + protocols), used by network tools `netstat` `ss` `telnet` 
+`/etc/services` -> maps service names (port numbers + protocols), used by network tools `netstat` `ss` `telnet`
 
 > [!NOTE]
 > Overrides can exist in `/etc/nsswitch.conf` (for name resolution order).
@@ -276,3 +320,117 @@ https   443/tcp
 ssh     22/tcp
 ```
 - when you type `telnet localhost http`, it connects to port 80
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+## Related
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]

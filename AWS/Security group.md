@@ -4,6 +4,17 @@
 
 > **Stateful virtual firewall** at ENI level — default deny inbound, allow by rule; return traffic automatically permitted. Primary ingress/egress control for EC2, RDS, ELB, Lambda-in-VPC, ElastiCache, etc.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A Security Group (SG) is a **label + rule set** attached to ENIs (instances, load balancers, RDS). Rules are **allow-only** (no deny rules). **Stateful**: if inbound TCP 443 is allowed and connection established, **return packets flow without explicit outbound rule** for that flow.

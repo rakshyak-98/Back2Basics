@@ -4,6 +4,26 @@
 
 > Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Creating pods]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Creating pods
 
 Operational commands and YAML patterns → [[kubectl pod creation]].
@@ -70,3 +90,22 @@ For example, the main container in a pod could be a web server that serves files
 - defining all your Kubernetes Objects from YAML files makes it possible to store them in a version control system, with all the benefits it brings.
 # Reference
 - [Kubernetes API reference documentation](https://kubernetes.io/docs/reference/)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

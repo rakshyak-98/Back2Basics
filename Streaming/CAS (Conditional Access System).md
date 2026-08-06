@@ -6,6 +6,21 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Components]]
+- [[#Standard flow / example]]
+- [[#CAS vs DRM]]
+- [[#CAS in IPTV]]
+- [[#CAS in OTT]]
+- [[#Popular CAS vendors]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **CAS (Conditional Access System)** is a security system that **controls who is allowed to watch encrypted content**. It is primarily used by **pay-TV operators** (DTH, Cable, IPTV) to ensure only authorized subscribers can decrypt and view channels.
@@ -49,6 +64,10 @@ Video decrypted if authorized
 ```
 
 ---
+
+## Standard config / commands
+
+…
 
 ## Components
 

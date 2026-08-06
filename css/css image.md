@@ -4,6 +4,17 @@
 
 > When a parent clips width but `<img>` uses `width/height: 100%`, browsers disagree on which box defines 100% — fix with explicit object-fit and containment.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome vs Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.

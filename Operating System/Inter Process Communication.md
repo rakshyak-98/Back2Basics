@@ -1,22 +1,45 @@
+[[Operating System]]
+
+# Inter Process Communication
+
+> One-line: what / why for **Inter Process Communication** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#How does process communicat through port with external requests outside of os]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 IPC- Inter-process communication
-- mechanisms provided by an operating system 
+- mechanisms provided by an operating system
 - for processes to manage share data.
 - applications can use IPC, categorized as clients and servers, where client request data and the server responds to client requests.
 ### Approaches
 Different approaches to IPC have been tailored to different software requirements.
-
 ### Reference
 [Inter-process communication (IPC)](https://en.wikipedia.org/wiki/Inter-process_communication)
 
+## Standard config / commands
+
+…
+
 ## How does process communicat through port with external requests outside of os
 
-Processes communicate with external requests outside of an operating system primarily through **network sockets** and **ports**. 
+Processes communicate with external requests outside of an operating system primarily through **network sockets** and **ports**.
 
 1. **Network Sockets**: These are endpoints for sending and receiving data across a network, using protocols like TCP or UDP. Each socket is associated with a port number, which identifies the specific process that should handle the incoming data[4][5].
 
-2. **Ports**: A port number allows the operating system to direct incoming traffic to the correct application. For example, HTTP traffic typically uses port 80, while HTTPS uses port 443[4][5]. 
+2. **Ports**: A port number allows the operating system to direct incoming traffic to the correct application. For example, HTTP traffic typically uses port 80, while HTTPS uses port 443[4][5].
 
-3. **Inter-process Communication (IPC)**: This includes mechanisms like message queues, pipes, and shared memory, allowing processes to exchange data even if they are not on the same machine[6]. 
+3. **Inter-process Communication (IPC)**: This includes mechanisms like message queues, pipes, and shared memory, allowing processes to exchange data even if they are not on the same machine[6].
 
 This architecture enables robust communication between processes and external systems.
 
@@ -29,3 +52,22 @@ Citations:
 [6] Inter-process communication - Wikipedia https://en.wikipedia.org/wiki/Inter-process_communication
 [7] Inter-Process Communication, Technique T1559 - MITRE ATT&CK® https://attack.mitre.org/techniques/T1559/
 [8] Process Communication - an overview | ScienceDirect Topics https://www.sciencedirect.com/topics/computer-science/process-communication
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

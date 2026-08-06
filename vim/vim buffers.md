@@ -4,6 +4,17 @@
 
 > In-memory views of files — switch, list, and close without quitting Vim.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Opening a file loads a **buffer** (text + metadata). Buffers can be hidden (not shown in a window) or active (displayed). Windows are views onto buffers; one buffer can appear in multiple windows. Unsaved changes live in the buffer until `:w` or `:wa`.

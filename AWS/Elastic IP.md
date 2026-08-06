@@ -4,6 +4,17 @@
 
 > **Static public IPv4 in a region** — survives stop/start, anchors DNS A records, and fronts NAT gateways. **AWS EC2 User Guide (Elastic IP addresses)** + billing surprises from orphaned or stopped-instance EIPs.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 An Elastic IP is a **regional, static public IPv4** you allocate into your account and **associate** with a network interface (usually an EC2 instance's primary ENI, or a NAT Gateway's ENI). It is **not** tied to an AZ until associated — the ENI's subnet/AZ defines placement.

@@ -1,10 +1,28 @@
+[[React]]
+
+# React interview
+
+> One-line: what / why for **React interview** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Add fallback image]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```js
 import { useCallback, useEffect, useState } from "react";
-
 function TestComponent({ id }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-
   const fetchData = useCallback(async (signal) => {
     try {
       const response = await fetch(`/api/data/${id}`, { signal });
@@ -15,23 +33,17 @@ function TestComponent({ id }) {
       if (err.name !== "AbortError") setError(err.message);
     }
   }, [id]);
-
   useEffect(() => {
     const controller = new AbortController();
     fetchData(controller.signal);
-    
     return () => controller.abort();
   }, [fetchData]);
-
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>Loading...</div>;
-
   return <div>Data: {JSON.stringify(data)}</div>;
 }
 ```
-
 ### Issues fixed in the Code
-
 1. **Unresolved Promise in `useEffect`**
     - `fetchData()` returns a **Promise**, but it's not awaited or handled correctly inside `useEffect`.
     - React does not support `async` functions directly in `useEffect`, leading to potential race conditions.
@@ -41,13 +53,36 @@ function TestComponent({ id }) {
 3. **Missing Error Handling**
     - Network failures or invalid responses aren't handled, which could cause runtime errors.
 
+## Standard config / commands
+
+…
+
 ## Add fallback image
 
 ```js
 const fallback = "http://fallback.jpg";
 
-<img 
+<img
 	src="http://"
 	onError={(e) => {e.target.src = fallback}}
 />
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

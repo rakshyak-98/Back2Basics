@@ -4,6 +4,17 @@
 
 > One-line: traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `git log` walks commits reachable from refs, newest first by default. Ranges use **double-dot** `A..B` = commits reachable from B not from A (merge-base relative). **Path filter** limits to commits touching files.

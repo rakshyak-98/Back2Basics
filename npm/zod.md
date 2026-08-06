@@ -1,5 +1,24 @@
-Making field options
+[[npm]]
 
+# zod
+
+> One-line: what / why for **zod** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Db query with validation]]
+- [[#Error handling]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Making field options
 ```js
 cosnt schema = z.object({
 	descriptino: z.string().max(500).optionl(),
@@ -7,18 +26,14 @@ cosnt schema = z.object({
 	starRating: z.number().int().min(1).max(5).optionl(),
 })
 ```
-
 Default values
-
 ```js
 const schema = z.object({
 	role: z.enum(["admin", "user", "guest"]).default("guest"),
 	theme: z.enum(["light", "dark"]).default("guest").optional().default("light"),
 })
 ```
-
 `superRefine` and `refine`
-
 ```js
 const authSchema = z.object({
 	email: z.string().email(),
@@ -44,7 +59,6 @@ const authSchema = z.object({
 	}
 })
 ```
-
 ```js
 const contactSchema = z.object({
   email: z.string().email().optional(),
@@ -59,9 +73,7 @@ const contactSchema = z.object({
   }
 });
 ```
-
 `.transform()` Clean & powerful data shaping
-
 ```js
 const userCreateSchema = z.object({
 	fullName: z.string().min(2),
@@ -73,6 +85,10 @@ const userCreateSchema = z.object({
 		.toLowerCase().replace(/\s+/g, '-')
 }))
 ```
+
+## Standard config / commands
+
+…
 
 ## Db query with validation
 
@@ -92,10 +108,23 @@ const usernameCheck = z.string().min(3).superRefine(async (val, ctx) => {
 ## Error handling
 
 ```js
-	
+
   if (err instanceof zod.ZodError) {
     response.error = "Validation error";
     response.message = zod.treeifyError(err); // zod provider error formator native support
   }
-	
+
 ```
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

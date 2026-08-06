@@ -1,3 +1,29 @@
+[[MongoDB]]
+
+# MongoDB data populate
+
+> One-line: what / why for **MongoDB data populate** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Populating faker data using `faker-js`]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Populating faker data using `faker-js`
 
 ```ts
@@ -56,3 +82,22 @@ const seedDatabase = async () => {
 seedDatabase();
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

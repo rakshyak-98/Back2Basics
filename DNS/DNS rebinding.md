@@ -4,6 +4,17 @@
 
 > One-line: attacker rotates DNS answers to turn the browser into a proxy to internal IPs — bypasses naive same-origin checks — **CWE-350**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Browser loads attacker page from `evil.example` (legitimate origin at load time). Attacker's DNS TTL is **very short**; on reconnect the name resolves to `127.0.0.1`, `169.254.169.254`, or `10.0.0.5`. Same-origin policy compares **scheme+host+port at request time** — if host string still matches but IP is now internal, fetches may hit services that trust "local" clients.

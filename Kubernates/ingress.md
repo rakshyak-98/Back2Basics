@@ -4,6 +4,18 @@
 
 > HTTP/S routing into the cluster — **Ingress** = rules; **Ingress Controller** = program that implements them — **Kubernetes: Up and Running** (Burns et al.).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#502 / 503 debugging playbook]]
+- [[#Triage table]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```

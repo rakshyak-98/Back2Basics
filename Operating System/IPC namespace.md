@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Linux **IPC namespace** scopes legacy **SysV IPC** (`shmget`, `semget`, `msgget`) and **POSIX mqueues** (`mq_open`):

@@ -1,7 +1,26 @@
+[[query]]
+
+# mongodb lookup query
+
+> One-line: what / why for **mongodb lookup query** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Populate single object instead of array]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 > [!INFO] `preserveNullAndEmptyArrays` in `$unwind`
 > - is optional parameter is MongoDB's `$unwind` stage.
 > - it controls whether documents that have `null` or empty arrays in the specified field should be preserved or removed from the aggregation result.
-
 ```js
 [
     // Join orders with users based on userId field
@@ -24,7 +43,6 @@
     }
 ]
 ```
-
 ```js
 [
   {
@@ -37,7 +55,7 @@
   },
   {
     $match: {
-      $expr :{$gt: [{$size: "$university"}, 0]}  
+      $expr :{$gt: [{$size: "$university"}, 0]}
     }
   },
   {
@@ -47,7 +65,6 @@
   }
 ]
 ```
-
 ### Lookup multiple filed
 ```js
 [
@@ -77,7 +94,13 @@
   },
 ]
 ```
+
+## Standard config / commands
+
+…
+
 ## Populate single object instead of array
+
 you can use the `$lookup` stage followed by the `$unwind` stage.
 
 > [!INFO] The `$unwind` stage deconstructs the array from `$lookup` into individual objects.
@@ -217,7 +240,7 @@ it is used to perform more complex joins, Instead of just a simple match `localF
 {
   "$lookup": {
     "from": "programs",
-    "let": { "programId": "$program" },  
+    "let": { "programId": "$program" },
     "pipeline": [
       {
         "$match": {
@@ -263,3 +286,22 @@ db.orders.aggregate([
 ]);
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

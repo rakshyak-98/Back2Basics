@@ -4,6 +4,17 @@
 
 > Convert one interface into another the client expects — retrofit vendor shapes into domain — **Dive Into Design Patterns + MetaPayloadAdapter**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Your domain speaks `LaunchRequest` / `Campaign`. Meta Graph speaks nested snake_case fields that change with API version. Adapter sits on the boundary and translates both directions so domain and controllers never touch vendor field names.

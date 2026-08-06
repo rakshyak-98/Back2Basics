@@ -1,11 +1,37 @@
 [[useradd]] [[getent]] [[passwd]] [[userdel]] [[usermod]] [[gpasswd]] [[groups]] [[chage]] [[chmod]] [[su]] [[groupadd]]
 
-user, user with elevated privileges, root.
+# 100+; are for users.
 
+> NOTE: we can limit the functionality of the elevated user.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configuration]]
+- [[#GID]]
+- [[#/sbin/nologin; user no need to have login. No actoin perform intrectively.]]
+- [[#/usr/sbin/nogin;]]
+- [[#the other file or magic file]]
+- [[#sensitive information about the user, like passwrd, other configuration.]]
+- [[#* no password set.]]
+- [[#! password never set.]]
+- [[#add new user]]
+- [[#it is good practice to append.]]
+- [[#How to manage Permissions]]
+- [[#Users]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+user, user with elevated privileges, root.
 ```bash
 visudo; # configure elevated privileges
 ```
-
 | Group name    | Typical GID | Purpose                          | Typical members  |
 | ------------- | ----------- | -------------------------------- | ---------------- |
 | wheel or sudo | 10          | Allow sudo access                | Admins           |
@@ -13,29 +39,14 @@ visudo; # configure elevated privileges
 | adm           |             | Read logs in /var/log            | Monitoring users |
 | audio, video  |             | Access sound card, webcam        | Desktop users    |
 | users         | 100         | Legacy “all normal users” group  | Everyone         |
-
-> NOTE: we can limit the functionality of the elevated user.
-
 ```bash
 whoami;
 id;
-
-# category
-# UID 0; reserved for root.
-# 1- 99; reserved for predefined accrounts (games, mail, www-data, sys, bin).
-# 100-999; reserved for system and administrative accounts.
-# 1000+ are reserved for users.
 ```
-
 - group : abstract combines many users in similar entity (for the same privileges, purpose, actions etc.).
-
 ```bash
-## GID
-# 1-99; reserved for system and application
-# 100+; are for users.
-```
 
-## Configuration 
+## Configuration
 
 - To differentiate `user` and `group`, we user `%` for specify the group.
 - `pos1` - applies to all hosts
@@ -52,17 +63,29 @@ id;
 # description; can have real first and last name. Role in organization.
 # homedir; home directory of the user, where logs and data store.
 # shell; find all the available shells /etc/shells
+
+## GID
+
+```
+
 ## /sbin/nologin; user no need to have login. No actoin perform intrectively.
+
 ## /usr/sbin/nogin;
+
 ```
 
 ### `shadow`
 
 ```bash
+
 ## the other file or magic file
+
 ## sensitive information about the user, like passwrd, other configuration.
+
 ## * no password set.
+
 ## ! password never set.
+
 ```
 
 ### `group`
@@ -88,6 +111,7 @@ sudo usermod -aG sudo devopsuser; # add to sudo group
 useradd -d -m -s /bin/sh -c "SDE team" <user>; # create fresh user
 
 ## it is good practice to append.
+
 usermod -aG <group>;
 userdel -rf <user>; # delete home directory also otherwise not deleted.
 ```
@@ -143,3 +167,22 @@ sudo passwd -l testuser
 # Delete inactive user completely
 sudo userdel -r olduser
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]
