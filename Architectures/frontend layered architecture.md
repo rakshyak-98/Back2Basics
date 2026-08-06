@@ -1,4 +1,4 @@
-[[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]]
+[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]]
 
 # frontend layered architecture
 
