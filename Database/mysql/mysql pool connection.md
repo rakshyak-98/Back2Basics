@@ -4,6 +4,17 @@
 
 > One-line: reuse TCP+auth sessions via `mysql2`/`createPool` — cap concurrency, always release; raw `createConnection` per request causes races and `PROTOCOL_CONNECTION_LOST`.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Each MySQL connection is a **server session** (memory, temp tables, transaction state). **Pool** maintains N open connections; app **borrows** for query duration and **releases** back.

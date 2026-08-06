@@ -1,3 +1,30 @@
+[[commands]]
+
+# Find command
+
+> One-line: what / why for **Find command** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Only change permission of file in current directory]]
+- [[#files]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Only change permission of file in current directory
 
 ```bash
@@ -18,12 +45,14 @@ find . -name "*.log" -delete;
 - prevents modifying symlinks before their contents are processed.
 
 ```bash
-## files 
+
+## files
+
 find ./ -name '*.txt'
 stat [filename]; # to see more info on the file.
 
 # find modified within last 30 days in directory and subdirectory.
-find /home -mtime -30; 
+find /home -mtime -30;
 find [path] -type f -name [file name];
 
 # find all empty directory.
@@ -51,3 +80,22 @@ find . -perm 6444; # files with exact permission 644
 ```sh
 find . -exec rm {} \; # Execute commands `rm` on found files
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

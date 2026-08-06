@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```txt
@@ -134,4 +143,4 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 
 ## Related
 
-[[ACID]] · [[connection pooling]] · [[TLS (Transport Layer Security)]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]
+[[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]] · [[ecommerce-eks-layout]] · [[ACID]] · [[connection pooling]] · [[TLS (Transport Layer Security)]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]

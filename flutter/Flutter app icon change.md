@@ -1,4 +1,36 @@
+[[flutter]]
+
+# Flutter app icon change
+
+> One-line: what / why for **Flutter app icon change** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Prerequisites]]
+- [[#Scope]]
+- [[#Step 1: Place the source icon in the Flutter project]]
+- [[#Step 2: Update `pubspec.yaml`]]
+- [[#Step 3: Generate platform icons]]
+- [[#Step 4: Rebuild and verify]]
+- [[#Step 5: Login screen branding (optional)]]
+- [[#Step 6: Web manifest theme colors (optional)]]
+- [[#Verification checklist]]
+- [[#Troubleshooting]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Instructions for replacing the default Flutter launcher icon with the green recycling trash icon (`WasteManagement.png`).
+
+## Standard config / commands
+
+…
 
 ## Prerequisites
 
@@ -158,3 +190,16 @@ Also update `web/index.html` if the `theme-color` meta tag still uses blue.
 | iOS build warns about alpha channel     | `remove_alpha_ios: true` is already set; re-run the generator                 |
 | Blurry icon on device                   | Use a higher-resolution source image (1024x1024)                              |
 | Login image not found                   | Confirm `assets:` entry in `pubspec.yaml` and path `assets/icon/app_icon.png` |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

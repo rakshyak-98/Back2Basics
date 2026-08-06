@@ -4,6 +4,17 @@
 
 > **Virtual machines in a VPC** — pick AMI, instance type, subnet/SG, and know what still bills after `terminate`. **AWS EC2 User Guide** + finance surprises from orphaned EIPs/NAT.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 An EC2 instance is compute on shared hardware (or Dedicated Host) with **ENI(s)** in a subnet. Launch = AMI + instance type + key pair/instance profile + [[Security group]]. Storage = root + optional [[EBS (Elastic Block Store)]] volumes. **Terminate ≠ delete all billable artifacts.**
@@ -85,4 +96,4 @@ aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
 
 ## Related
 
-[[AWS Networking]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]
+[[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]

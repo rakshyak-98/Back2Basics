@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **release cycle** is the contract between engineering and customers for **when** change arrives, **how much** risk is bundled, and **what happens** when it fails.
@@ -146,4 +155,4 @@ git revert <commit> && redeploy
 
 ## Related
 
-[[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]
+[[ecommerce-cicd-environments]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]

@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 You have pairs `(xᵢ, yᵢ)`. The algorithm picks a function class (linear, tree, neural net) and minimizes **empirical risk** + regularization on training data. Success = low error on **new** data from the same distribution.

@@ -1,9 +1,26 @@
-in Kubernetes, a service is a method for exposing a network application that is running as one or more [[Pods]] in your cluster.
+[[Kubernates]]
 
+# Kubernetes services
+
+> One-line: what / why for **Kubernetes services** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+in Kubernetes, a service is a method for exposing a network application that is running as one or more [[Pods]] in your cluster.
 A Service is an abstraction that defines a logical set of [[Pods]] and a policy to access them.
 - It enables seamless communication between different parts of an application and external clients by providing a stable endpoint, even as the underlying Pods may change.
 - Service decouple the frontend from backend Pods, ensuring consistent access despite Pod restarts or scaling operations
-
 ```yaml
 apiVersion: v1
 kind: Service
@@ -23,3 +40,26 @@ spec:
    # will allocate a port from a range (default: 30000-32767)
    nodePort: 30007
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

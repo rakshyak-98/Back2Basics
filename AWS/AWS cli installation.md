@@ -1,4 +1,26 @@
+[[AWS]]
+
+# AWS cli installation
+
+> One-line: what / why for **AWS cli installation** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Installation aws cli]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
 ## Installation aws cli
+
 [aws cli installation linux](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 ```shell
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -10,7 +32,7 @@ sudo ./aws/install
 - setup autocomplete
 ```shell
 sudo apt install -y bash-completion;
-complete -C "$(command -v aws_completer)" aws; 
+complete -C "$(command -v aws_completer)" aws;
 echo 'complete -C "$(command -v aws_completer)" aws' >> ~/.bashrc
 ```
 
@@ -30,3 +52,22 @@ aws configure set output table;
 cat ~/.aws/credentials;
 aws configure get aws_secret_access_key;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

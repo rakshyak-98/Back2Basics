@@ -1,15 +1,30 @@
+[[NextJS]]
+
 # How to set global package which is been fetched at the client side
+
+> One-line: what / why for **How to set global package which is been fetched at the client side** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```js
-
 ```
-
 ```js
 const nextConfig = {
   images: {
     domains: ["example.com"]
   } }
 ```
-
 ```js
 const nextConfig = {
 	images: {
@@ -19,14 +34,12 @@ const nextConfig = {
   },
 }
 ```
-
 ### Enable client side source map
 ```js
 const nextConfig = {
   productionBrowserSourceMaps: true, // enable client side source map
 }
 ```
-
 ```js
 const nextConfig = {
 	async redirects() {
@@ -40,3 +53,26 @@ const nextConfig = {
 	}
 }
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

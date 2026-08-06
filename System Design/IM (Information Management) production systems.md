@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Information Management (IM)** in broadcast is **Media Asset Management (MAM)** plus **workflow orchestration**: log content, attach **metadata/CIDs**, manage **versions/rights**, route through **edit/approval**, and feed **playout/streaming** endpoints. Unlike a web **[[CMS]]**, IM systems handle **professional formats** (MXF, GXF), **timecode**, **frame-accurate edits**, and **rights windows**.

@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted app logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.

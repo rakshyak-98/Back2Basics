@@ -4,6 +4,17 @@
 
 > One-line: path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 BGP (Border Gateway Protocol) advertises **IP prefixes** (NLRI) between **Autonomous Systems** (AS). Each route carries **path attributes** — notably `AS_PATH`, `NEXT_HOP`, `LOCAL_PREF`, `MED` — used for policy-based selection, not pure shortest-path.

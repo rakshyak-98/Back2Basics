@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **CMS** lets non-engineers **create, edit, publish** content (pages, articles, video metadata, assets) with **workflow** (draft → review → live). **Headless CMS** exposes **JSON/API** only — web/mobile apps render UI; **monolithic CMS** (WordPress) renders HTML server-side.

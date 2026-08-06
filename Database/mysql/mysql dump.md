@@ -4,6 +4,17 @@
 
 > One-line: logical backup/export of schema and/or data — primary disaster-recovery baseline; know flags for schema-only, routines, triggers, and restore pitfalls.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `mysqldump` reads tables (consistent snapshot with `--single-transaction` on InnoDB) and emits SQL or delimited text. **Logical** backup — restore = replay SQL. Not a replacement for **binlog PITR** for minute-level RPO; combine full dump + binlogs for production.

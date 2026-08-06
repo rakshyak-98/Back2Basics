@@ -1,3 +1,22 @@
+[[commands]]
+
+# tee
+
+> One-line: what / why for **tee** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 |What you want|Command|
 |---|---|
 |See output + save to file|`ls -la \| tee listing.txt`|
@@ -10,17 +29,38 @@
 |Debug a long pipeline without breaking it|`curl -s https://api.example.com \| tee /dev/stderr \| jq .`|
 |Suppress the screen output, only save to file|`command \| tee file.txt \| cat > /dev/null`|
 |Colorized output in terminal AND in file (2025 trick)|`git log --oneline --graph --all \| tee git-history.txt` (colors are preserved!)|
-- read from `stdin` 
+- read from `stdin`
 - writes to both `stdout` and Files
 - useful for logging output while still displaying it.
 tee - command is used to redirect the output of a command to a file, while still displaying it on the terminal. It is named after the T-spliter used in plumbing, which splits water into two directions.
-
 ```sh
 <command> | tee file.txt;
 ls -l | tee files.txt; # save output file and see it live.
 echo "log lie" | tee -a log.txt; # append instead of overwrite.
 echo "config" | tee a.txt b.txt c.txt; # save output to multiple files.
 ```
-
 ```bash
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

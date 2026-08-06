@@ -1,3 +1,29 @@
+[[RTQ]]
+
+# RTQ Concepts
+
+> One-line: what / why for **RTQ Concepts** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Redux Toolkit (RTK) — Full Feature Reference]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Redux Toolkit (RTK) — Full Feature Reference
 
 ### 1. `configureStore()`
@@ -355,3 +381,22 @@ reducers: {
 | `fetchBaseQuery`          | Built-in fetch wrapper for RTK Query  |
 | OpenAPI Codegen           | Auto-generate endpoints from schema   |
 | Immer (built-in)          | Immutable updates via mutation syntax |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

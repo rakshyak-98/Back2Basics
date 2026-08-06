@@ -1,11 +1,28 @@
+[[Networking]]
+
+# Egress and Ingress
+
+> One-line: what / why for **Egress and Ingress** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#How to check Ingress Egress usage]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Egress -> Traffic that leaves VPC and goes out to the internet.
 Ingress -> Traffic that comes in from the internet.
-
 | Direction           | Name       | Example in Your 3-Tier Lab                                             | Who Usually Pays?        |
 | ------------------- | ---------- | ---------------------------------------------------------------------- | ------------------------ |
 | Internet → INTO VPC | Ingress    | Someone in India opens your website → data enters AWS                  | Almost always free       |
 | ← OUT OF VPC        | **Egress** | Your EC2 downloads updates, sends logs to CloudWatch, RDS backup to S3 | This one can cost money! |
-
 > [!NOTE]
 > - Do everything in the same region (don’t copy files to Mumbai if you’re in N. Virginia)
 > - Use s3, CloudWatch, SSM inside the same region -> zero cost
@@ -22,3 +39,22 @@ aws ce get-cost-and-usage \
   --group-by Type=DIMENSION,Key=SERVICE \
   --filter '{"Dimensions":{"Key":"SERVICE","Values":["Data Transfer"]}}'
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

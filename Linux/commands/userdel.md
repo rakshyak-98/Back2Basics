@@ -4,6 +4,17 @@
 
 > One-line: remove a local user account from `/etc/passwd` and optionally home + mail spool — offboarding and cleanup; irreversible without backups. **Kerrisk**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `userdel` removes the account line from `/etc/passwd`, `/etc/shadow`, and `/etc/group` (primary group entry if it was user-private). Files owned by the UID **remain on disk** unless `-r` removes the home directory and mail spool — everything else (cron, systemd user units, `/var/spool/cron`, processes) needs manual cleanup.

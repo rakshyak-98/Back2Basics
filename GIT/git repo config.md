@@ -1,37 +1,45 @@
+[[GIT]]
+
+# git repo config
+
+> One-line: what / why for **git repo config** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configure git refs]]
+- [[#Git clone]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```shell
 gpg --full-generate-key; # generate gpg key
 gpg --list-secret-keys --keyid-format=long;
 gpg --armor --export <your email>; # export your public key
 ```
-
 ```shell
 git config --get commit.gpgsign;
 git log --show-signature;
 ```
-
 #### Configure git to use GPG key
-
 ```shell
 git config user.signingkey <gpg key>;
 git config commit.gpgsign true; # enable auto-sign
 git config tag.gpgsign; # enable auto sign for tags
 ```
-
 ```shell
 git commit -S -m <commit message>; # if auto-sign is not eanble
 ```
-
 #### SSH
-
 ```shell
 git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
-```
-
-## Git clone
-
-```bash
-git clone -b <branch> --single-branch --depth 1 <repo-url>;
 ```
 
 ## Configure git refs
@@ -69,7 +77,7 @@ git config branch.<your-branch-name>.rebase true;
 git config --global pull.rebase true; # merges / interactive / false
 ```
 
-(When things are messy) Full reset 
+(When things are messy) Full reset
 
 ```bash
 git branch --unset-upstream;
@@ -81,3 +89,28 @@ git fetch --prune origin; # clean up deleted remote branches
 git branch --set-upstream-to=origin/main;
 git pull;
 ```
+
+## Git clone
+
+```bash
+git clone -b <branch> --single-branch --depth 1 <repo-url>;
+```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

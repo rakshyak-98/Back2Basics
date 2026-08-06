@@ -4,6 +4,17 @@
 
 > One-line: **The process that owns the framebuffer and multiplexes GUI clients** — every pixel and input event passes through it. When the screen freezes, blame the server stack before the app.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **display server** sits between hardware (GPU, monitor, keyboard) and **clients** (Firefox, terminal, IDE). Clients don't draw directly on VRAM; they speak a **display protocol** (X11, Wayland) to the server, which composites and presents frames.

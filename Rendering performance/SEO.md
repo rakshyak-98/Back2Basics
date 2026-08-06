@@ -4,6 +4,17 @@
 
 > Make content discoverable, crawlable, and eligible for rich results — technical + content signals — **Google Search Essentials**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Search engines **crawl** URLs, **index** content, **rank** for queries. SEO spans:

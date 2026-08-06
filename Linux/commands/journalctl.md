@@ -4,6 +4,17 @@
 
 > One-line: query **systemd-journald** — indexed, structured logs for units, boots, kernel, and priorities. **Default first tool for "why did the service die?"**
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured `journal` API calls. Entries are keyed by **unit**, **boot ID**, **priority**, **executable**, and custom fields (`_PID`, `_UID`, `_SYSTEMD_CGROUP`). Binary store — use `journalctl` to read, not raw `cat`.
@@ -14,15 +25,15 @@ systemd unit ──► journald ──► /var/log/journal/ (or /run/log/journal
                                journalctl filters
 ```
 
-| Filter | Flag / syntax |
-|--------|----------------|
-| Unit | `-u nginx.service` |
-| Boot | `-b`, `-b -1`, `--list-boots` |
-| Time | `--since`, `--until` |
+| Filter   | Flag / syntax                 |
+| -------- | ----------------------------- |
+| Unit     | `-u nginx.service`            |
+| Boot     | `-b`, `-b -1`, `--list-boots` |
+| Time     | `--since`, `--until`          |
 | Priority | `-p err`, `-p warning..alert` |
-| Kernel | `-k` |
-| Follow | `-f` |
-| Field | `_EXE=`, `_UID=`, `_COMM=` |
+| Kernel   | `-k`                          |
+| Follow   | `-f`                          |
+| Field    | `_EXE=`, `_UID=`, `_COMM=`    |
 
 ## Standard config / commands
 

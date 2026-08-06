@@ -4,6 +4,17 @@
 
 > Append-only durability journal: log the intent **before** mutating data pages — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Every durable DB must survive crash mid-write. WAL is the contract: **log record hits stable storage first**, then in-memory/dirty pages may change. On restart, replay log from last checkpoint forward; undo incomplete transactions.

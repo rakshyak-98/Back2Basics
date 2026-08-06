@@ -1,15 +1,31 @@
+[[Packages]]
+
+# Ajv (Another JSON validator)
+
+> One-line: what / why for **Ajv (Another JSON validator)** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 is a fast and flexible JavaScript library for JSON Schema validation.
 - used for validate JSON data against JSON schema standards.
-
 #### Installation
 ```shell
 npm install ajv;
 ```
-
 ```js
 const Ajv = require("ajv");
 const ajv = new Ajv();
-
 // Define JSON Schema
 const schema = {
   type: "object",
@@ -20,28 +36,22 @@ const schema = {
   },
   required: ["name", "email"]
 };
-
 // JSON Data to Validate
 const data = {
   name: "John Doe",
   age: 25,
   email: "john.doe@example.com"
 };
-
 // Compile Schema
 const validate = ajv.compile(schema);
-
 // Validate Data
 const valid = validate(data);
-
 if (valid) {
   console.log("✅ Data is valid!");
 } else {
   console.log("❌ Validation errors:", validate.errors);
 }
-
 ```
-
 #### Handle errors
 ```js
 const invalidData = {
@@ -49,10 +59,30 @@ const invalidData = {
   age: 16,
   email: "not-an-email"
 };
-
 const isValid = validate(invalidData);
 console.log("Valid?", isValid);
 console.log("Errors:", validate.errors);
-
 ```
 
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

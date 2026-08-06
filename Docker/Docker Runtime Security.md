@@ -4,6 +4,18 @@
 
 > Shrink the container attack surface: non-root, dropped caps, seccomp, read-only rootfs — **Docker Deep Dive** (Poulton) + **Container Security** (Liz Rice).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Hardening checklist]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A container is **namespaced processes** on shared kernel — not a VM. Security = **defense in depth**:

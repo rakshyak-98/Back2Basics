@@ -4,6 +4,17 @@
 
 > **Programs that issue queries and enforce data rules** — ORM, query builder, repository layer, transactions, and connection lifecycle. The "application" in "database application" is your service code, not the RDBMS binary.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A database application = **schema** + **access layer** (SQL/ORM) + **transaction boundaries** + **pool**. Users hit API; API opens connection (from pool), runs queries in a transaction, commits/rolls back, returns DTOs. Leaks and N+1 queries live here, not in "the database being slow."

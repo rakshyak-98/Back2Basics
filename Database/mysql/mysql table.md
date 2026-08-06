@@ -1,25 +1,46 @@
-### Create table from existing table
+[[mysql]]
 
+# mysql table
+
+> One-line: what / why for **mysql table** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Query table]]
+- [[#Create JSON type column]]
+- [[#update field]]
+- [[#Add columns to an existing table]]
+- [[#Constraint]]
+- [[#Auto Update field value when update query run]]
+- [[#Set foreign key constraints]]
+- [[#Pick column from one table and insert into to another]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+### Create table from existing table
 ```sql
-RENAME TABLE 
+RENAME TABLE
     faqs TO hotel_faqs,
     rooms TO hotel_rooms,
     testimonials TO hotel_testimonials;
-		
 -- copies schema, indexes, column definitions
 -- no data
 CREATE TABLE new_table LIKE old_table;
-
 -- copies columns and data
 -- no indexes, constraints, triggers.
 CREATE TABLE new_table AS SELECT * FROM old_table;
-
-
 -- copy structure + data + indexes
 CREATE TABLE new_table LIKE old_table;
 INSERT INTO new_table SELECT * FROM old_table;
 ```
-
 ### Create table
 ```mysql
 CREATE TABLE table_name (
@@ -27,7 +48,6 @@ CREATE TABLE table_name (
 	column2 datatype constraints,
 )
 ```
-
 ```mysql
 	CREATE TABLE users(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,9 +56,14 @@ CREATE TABLE table_name (
 )
 ```
 
+## Standard config / commands
+
+…
+
 ## Query table
+
 ```mysql
-SELECT 
+SELECT
 	table_schema,
 	table_name,
 	table_rows
@@ -61,6 +86,7 @@ update table_name set content = '{"name": "james"}' where id = 1;
 ```
 
 ## update field
+
 ```mysql
 update <tablename> Set <columnname> = <value> <condition>;
 update employee Set name = "ram" where emp_id = 1000;
@@ -128,25 +154,25 @@ WHERE id = 1;
 ### Insert object into an array of Object for JSON type column
 
 ```mysql
-update 
-  sub_section 
-set 
+update
+  sub_section
+set
   content = JSON_ARRAY_APPEND(
-    content, 
-    '$', 
+    content,
+    '$',
     JSON_OBJECT(
-      'image', 
+      'image',
       JSON_OBJECT[]()(
-        'alt', 'KSUP room', 'url', 'https://quickimagetools.com/uploads/image_6855171736d464.12303213.png', 
+        'alt', 'KSUP room', 'url', 'https://quickimagetools.com/uploads/image_6855171736d464.12303213.png',
         'width', 500, 'height', 400
-      ), 
-      'title', 
-      'KSUP (KING superior)', 
+      ),
+      'title',
+      'KSUP (KING superior)',
       'desc
       'A warm and elegant room with modern amenities...'
     )
-  ) 
-where 
+  )
+where
   id = 11;
 ```
 
@@ -160,6 +186,7 @@ INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
 ```
 
 ## Add columns to an existing table
+
 ```mysql
 ALTER TABLE users
 ADD (
@@ -181,6 +208,7 @@ ALTER TABLE table_name MODIFY column_name data_tyep FIRST;
 ```
 
 ## Constraint
+
 ```mysql
 ALTER TABLE hkAppNotification
 ADD CONSTRAINT unique_floor_shift_department
@@ -190,6 +218,7 @@ UNIQUE (floorNumber, shiftName, department);
 > If **any of the 3 columns can be NULL**, then uniqueness is not guaranteed across rows with NULLs (as per SQL standard: `NULL != NULL`).
 
 ## Auto Update field value when update query run
+
 ```mysql
 CREATE TABLE my_table (
 	id INT PRIMARY KEY,
@@ -197,7 +226,7 @@ CREATE TABLE my_table (
 )
 ```
 
-- remove the constraint from existing table 
+- remove the constraint from existing table
 ```mysql
 ALTER TABLE your_table
 MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
@@ -229,8 +258,9 @@ CREATE TABLE orders (
 ```
 
 ## Set foreign key constraints
+
 ```mysql
-ALTER TABLE table_naem ADD CONSTRAINT FOREIGN KEY 
+ALTER TABLE table_naem ADD CONSTRAINT FOREIGN KEY
 ```
 
 ### Altering an existing table
@@ -261,3 +291,22 @@ INSERT IGNORE INTO target_table (target_column)
 SELECT source_column
 FROM source_table;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

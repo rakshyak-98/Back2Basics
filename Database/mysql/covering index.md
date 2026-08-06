@@ -4,6 +4,17 @@
 
 > Secondary index that contains **all columns the query needs** — InnoDB skips the clustered-index lookup — **High Performance MySQL** (Schwartz et al.).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / DDL]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 InnoDB secondary indexes store `(index_cols…, PK)` in a B+ tree. Non-covering query:

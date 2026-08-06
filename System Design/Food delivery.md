@@ -1,3 +1,22 @@
+[[System Design]]
+
+# Food delivery
+
+> One-line: what / why for **Food delivery** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - 100 million daily active users (DAU)
 - 5000 queries per seconds KQPS hitting core transactional systems
 - 20 mile radius and ideally sort of by distance.
@@ -6,3 +25,26 @@
 - Driver assigned foods on the way.
 - Moment from the user hitting submit to the system saying "Yep got your order, here's the ID" that has to be under 2 seconds.
 - Persisting the order. 10 million order a day, every day year after year.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

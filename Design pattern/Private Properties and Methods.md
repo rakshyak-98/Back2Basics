@@ -1,11 +1,29 @@
+[[Design pattern]]
+
+# Private Properties and Methods
+
+> One-line: what / why for **Private Properties and Methods** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```javascript
 function Gadget(){
 	this.name = "iPod";
 	this.stretch = function(){
-		return "iPad"; 
+		return "iPad";
 	}
 }
-
 var toy  = new Gadget();
 toy.stretch(); // stretch() is public
 ```
@@ -14,10 +32,9 @@ toy.stretch(); // stretch() is public
 function Gadget(){
 	var name = "iPod";
 	this.getName = function(){
-		return name;	
+		return name;
 	}
 }
-
 var toy = new Gadget();
 toy.name; // undefined
 toy.getName(); // iPod
@@ -36,7 +53,6 @@ let myObj = (() => {
 		}
 	}
 })
-
 myObj.getName(); // "my, oh my"
 ```
 #### Prototypes and Privacy
@@ -46,3 +62,26 @@ myObj.getName(); // "my, oh my"
 #### Private Static Members
 - shared by all the objects created with the same constructor function.
 - not accessible outside the constructor.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

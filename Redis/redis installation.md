@@ -4,6 +4,17 @@
 
 > Install Redis as a managed service — bind address, auth/ACL, memory cap, and persistence before exposing beyond localhost.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```

@@ -4,6 +4,17 @@
 
 > Fill pixels after layout — text, colors, borders, shadows — **often split into layers for compositing**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 After [[Rendering performance/layout]], **paint** records **draw lists** per layer (what to draw where). GPU **composite** merges layers. Changing paint-only properties skips layout but still repaints.

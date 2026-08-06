@@ -1,4 +1,46 @@
+[[MongoDB]]
+
+# mongodb schema
+
+> One-line: what / why for **mongodb schema** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 1. **Dynamic Schema**: MongoDB does not enforce a fixed schema at the database level. This means you can add or remove fields from documents without affecting other documents in the collection. This flexibility is useful for applications that evolve over time.
 2. **Schema Validation**: While MongoDB is schema-less by default, you can enforce schema validation rules using JSON Schema. This allows you to define required fields, data types, and other constraints to ensure data integrity.
 3. **Aggregation Framework**: MongoDB's aggregation framework allows for complex data processing and transformation operations, similar to SQL's GROUP BY and JOIN operations.
 4. **Sharding and Replication**: MongoDB supports horizontal scaling through sharding and high availability through replication. Proper schema design and data modeling are essential to take full advantage of these features.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

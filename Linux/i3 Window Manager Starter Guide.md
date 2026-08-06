@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 i3 is a **tiling window manager**, not a desktop environment. It tiles windows into a tree of containers — no overlap by default. You drive everything with `$mod` + keys; mouse is optional.

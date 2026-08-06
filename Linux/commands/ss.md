@@ -4,6 +4,17 @@
 
 > One-line: **socket statistics from the kernel** — faster, richer `netstat` replacement for listening ports, TCP state, queues, and process ownership. **First tool for “what is connected to what?”**
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `ss` reads `/proc/net/*` and netlink — same truth the kernel uses for TCP/UDP state. No DNS, no guessing from `/proc/<pid>/fd` alone.

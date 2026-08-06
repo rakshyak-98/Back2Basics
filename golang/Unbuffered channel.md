@@ -1,3 +1,45 @@
+[[golang]]
+
+# Unbuffered channel
+
+> One-line: what / why for **Unbuffered channel** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 An unbuffered channel in Go is a type of channel that does not store any data. It only allows communication between two go-routines when both are ready to send and receive a message at the same time. This ensures that the sender and receiver are synchronized during the communication.
 - No Buffer: The channel has no capacity to hold values; messages are passed directly between the sender and receiver.
 - Synchronization: The sender will block (wait) until the receiver is ready to receive the value, and vise versa.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

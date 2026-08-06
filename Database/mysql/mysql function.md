@@ -1,3 +1,24 @@
+[[mysql]]
+
+# mysql function
+
+> One-line: what / why for **mysql function** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Data conversion]]
+- [[#Procedure]]
+- [[#User define functions]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 | Feature                 | **Stored Procedure**                                            | **Function**                                        |
 | ----------------------- | --------------------------------------------------------------- | --------------------------------------------------- |
@@ -9,10 +30,8 @@
 | **Return mechanism**    | OUT/INOUT parameters or result sets                             | Single scalar return via `RETURN`                   |
 | **Determinism**         | Not required                                                    | Must be deterministic for index usage               |
 | **Performance usage**   | Used for business logic workflows                               | Used for computed columns or expressions in queries |
-
 ```mysql
 DELIMITER //
-
 CREATE FUNCTION function_name (param1 TYPE, param2 TYPE, ...)
 RETURNS return_type
 DETERMINISTIC -- or NONDETERMINISTIC
@@ -20,31 +39,27 @@ BEGIN
   -- Logic here
   RETURN some_value;
 END //
-
 DELIMITER ;
-
 ```
-
-Delete function 
-
+Delete function
 ```mysql
 DROP FUNCTION IF EXISTS add_tax;
 ```
-
 Routine -> stored executable code saved inside MySQL database.
 type of routines -> Stored Procedure, Stored Function.
-
 ```mysql
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES
 WHERE ROUTINE_TYPE = 'FUNCTION'
   AND ROUTINE_SCHEMA = 'your_database_name';
-
 ```
-
 ```mysql
 SHOW FUNCTION STATUS WHERE Db = 'mysql';
 ```
+
+## Standard config / commands
+
+…
 
 ## Data conversion
 
@@ -98,19 +113,19 @@ CREATE PROCEDURE GetHotelSectionsByPage(
   IN p_page_name VARCHAR(255)
 )
 BEGIN
-  SELECT 
+  SELECT
     hs.id AS hotel_section_id,
     ts.section_name,
     ts.type AS section_type,
     hs.is_active
   FROM Hotels AS h
-  JOIN HotelPages AS hp 
+  JOIN HotelPages AS hp
     ON hp.hotel_id = h.id
-  JOIN TemplatePages AS tp 
+  JOIN TemplatePages AS tp
     ON tp.id = hp.template_page_id
-  JOIN HotelSections AS hs 
+  JOIN HotelSections AS hs
     ON hs.hotel_page_id = hp.id
-  JOIN TemplateSections AS ts 
+  JOIN TemplateSections AS ts
     ON ts.id = hs.template_section_id
   WHERE h.id = p_hotel_id
     AND tp.page_name = p_page_name
@@ -131,7 +146,7 @@ BEGIN
     RETURN IFNULL(name, 'Unknown');
 END;
 
-SELECT 
+SELECT
     booking_id,
     hotel_id,
     get_hotel_name(hotel_id) AS hotel_name
@@ -145,3 +160,22 @@ BEGIN
 	RETURN CONCAT('**** **** **** ', RIGHT(card_number, 4));
 END
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

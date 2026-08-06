@@ -1,3 +1,35 @@
+[[Data structure]]
+
+# dsa problem solving Scaffold
+
+> One-line: what / why for **dsa problem solving Scaffold** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Read and Restate the problem (Understand Precisely)]]
+- [[#Examples and Edge Cases (Build Intuition)]]
+- [[#Brute Force Approach (Start Simple)]]
+- [[#Optimise step by step (Derive Batter Logic)]]
+- [[#Pseudocode (Solidify Logic Blocks)]]
+- [[#Implementation and Testing (Execute Precisely)]]
+- [[#Reflection (internalise patters)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Read and Restate the problem (Understand Precisely)
 
 - Read the problem statement twice. Identify: What is the input? What is the output What are the constrains (e.g., time limits, array sizes, value ranges)?
@@ -39,4 +71,22 @@
 
 - What patterns did you derive? How does this relate to similar problems (e.g., sliding window for arrays)?
 - What tripped you? How to avoid next time?
-  
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

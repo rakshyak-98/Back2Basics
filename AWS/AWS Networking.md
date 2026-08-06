@@ -4,6 +4,17 @@
 
 > VPC + subnets + routing + SG/NACL — the **network shell** every AWS service lives in. **AWS Well-Architected (Reliability/Security)** + on-call VPC debug muscle memory.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 AWS networking is **regional isolation inside a VPC**: you own private IP space, carve **subnets** per AZ, attach **route tables** (where traffic goes), and gate traffic with **Security Groups** (stateful, instance-level) and **NACLs** (stateless, subnet-level). Public subnets reach the internet via **Internet Gateway (IGW)**; private subnets reach out via **NAT Gateway/GW** or **VPC endpoints** (stay on AWS backbone, no public IP).
@@ -84,4 +95,4 @@ aws ec2 create-network-insights-path --source i-xxx --destination i-yyy --protoc
 
 ## Related
 
-[[Route53]] · [[Security group]] · [[AWS EC2]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]
+[[Route53]] · [[Elastic IP]] · [[Security group]] · [[AWS EC2]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]

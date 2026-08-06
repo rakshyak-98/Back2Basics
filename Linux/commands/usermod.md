@@ -4,6 +4,17 @@
 
 > One-line: **mutate existing POSIX accounts** — shell, home, groups, login name. Always verify with `getent`; `/etc/passwd` alone lies when LDAP/sssd is in play.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `usermod` edits `/etc/passwd`, `/etc/shadow`, `/etc/group` (and gshadow) **for local accounts**. Changes to groups need `-aG` (append); bare `-G` **replaces** the supplementary group list. Active sessions keep old UID/GID until re-login.

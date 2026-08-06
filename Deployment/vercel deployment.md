@@ -4,6 +4,17 @@
 
 > **Git-push serverless hosting** for Next.js/static SPAs — edge CDN, serverless functions, env vars per environment. **Vercel docs** + classic SPA refresh 404 and env mismatch debug.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Vercel builds from Git (or CLI `vercel deploy`) → **static assets** on global CDN + **serverless functions** (`/api/*`, Next.js routes). Routing is **filesystem-based** (Next) or **`vercel.json` rewrites** (CRA/Vite SPA). No long-lived server — cold starts and regional execution matter for APIs.

@@ -1,13 +1,29 @@
+[[ExpressJS]]
+
+# Express-useragent
+
+> One-line: what / why for **Express-useragent** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 is a middleware for Express JS that parses user-agent strings from incoming HTTP requests.
 - it helps identify details about the client making the request
-
 ```js
 import express from 'express';
 import useragent from 'express-useragent';
-
 const app = express();
 app.use(useragent.express()); // Middleware to parse user-agent
-
 app.get('/', (req, res) => {
     res.json({
         browser: req.useragent.browser,
@@ -18,7 +34,28 @@ app.get('/', (req, res) => {
         isDesktop: req.useragent.isDesktop,
     });
 });
-
 app.listen(3000, () => console.log('Server running on port 3000'));
-
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

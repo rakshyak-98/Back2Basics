@@ -1,7 +1,26 @@
+[[Operating System]]
+
+# CPU IO Bound Task
+
+> One-line: what / why for **CPU IO Bound Task** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Why mixing CPU-bound + IO-bound tasks in one shared thread pool causes serious problem]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 CPU-bound -> your CPU is the one sweating
 IO-bound -> your CPU is mostly sitting and waiting for someone/something else.
 CPU-bound task and IO-bound tasks are two fundamentally different types of **Workloads** that behave very differently when it comes to performance, concurrency, threading, asyncio, multiprocessing etc.
-
 |Aspect|CPU-bound task|IO-bound task|
 |---|---|---|
 |Main bottleneck|CPU (computation)|Waiting for I/O (disk, network, database, API)|
@@ -14,7 +33,29 @@ CPU-bound task and IO-bound tasks are two fundamentally different types of **Wor
 |Typical scaling strategy|• More CPU cores • Multiprocessing • Faster CPU • Optimize algorithm|• More concurrent connections • Async I/O • Connection pooling • Caching|
 |Real-world feel|8-core CPU → can run ~8 such tasks efficiently at the same time|8-core CPU → can easily handle hundreds or thousands of such tasks concurrently|
 
+## Standard config / commands
+
+…
 
 ## Why mixing CPU-bound + IO-bound tasks in one shared thread pool causes serious problem
 
 - The CPU-bound tasks hog the threads -> IO-bound tasks get queued even though many threads are actually idle but blocked on I/O
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,17 @@
 
 > One-line: DAG scheduler for batch data/workflows — correctness = idempotent tasks + clear executor choice + SLA-aware ops — **Apache Airflow docs + on-call reality**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Airflow defines **DAGs** (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The **scheduler** parses DAGs, creates **DagRuns**, queues **TaskInstances**. **Workers** (executor-dependent) execute operators.

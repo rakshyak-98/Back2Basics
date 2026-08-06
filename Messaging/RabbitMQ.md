@@ -1,3 +1,25 @@
+[[Messaging]]
+
+# RabbitMQ
+
+> One-line: what / why for **RabbitMQ** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configuration]]
+- [[#Exchange]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
 ## Configuration
 
 They will be **loaded in alphabetical order**. A common naming practice uses numerical prefixes in filenames to make it easier to reason about the order, or make sure a "defaults file" is always loaded first, regardless of how many extra files are generated at deployment time:
@@ -22,3 +44,22 @@ different types of exchanges have different routing strategies
 # Bindings
 
 - these are like rules that specifies how messages should be routed from an exchange to queues based on the routing key.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

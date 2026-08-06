@@ -4,6 +4,17 @@
 
 > Split one logical table into physical partitions (by RANGE/LIST/HASH/KEY) — prune scans on time/tenant keys; **not** a substitute for indexing or sharding.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Partitioning divides rows by a **partition key** expression. Optimizer **partition pruning** skips irrelevant partitions on queries that constrain the key.

@@ -4,6 +4,17 @@
 
 > HTTP server maps URL path to handler — today "file" in the path is usually a **resource identifier**, not a literal on-disk filename.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). App servers (Node, PHP-FPM, reverse proxy) treat path as **route key**. SPA fallback serves `index.html` for unknown paths so client router takes over.

@@ -1,3 +1,30 @@
+[[React Pattern]]
+
+# Provider pattern
+
+> One-line: what / why for **Provider pattern** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Split context into State and Actions]]
+- [[#Dynamic Context Modules Pattern]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## Split context into State and Actions
 
 - Separate frequently changing state from stable actions.
@@ -177,3 +204,22 @@ function App() {
  - if you are using contexts to share common functionality throughout your application, you should be using `useContextSelector` rather than the normal `useContext` hook—unless React implements the selection logic as part of the normal `useContext`
 - as methods to log in and log out in one context; you can have your application data in a second context, and you can, have data controlling the UI in a third context.
 - Truth be told, redux-toolkit uses this same functionality under the hood to provide its magic, so you’re getting the same performance with either method.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

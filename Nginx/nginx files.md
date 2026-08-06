@@ -4,6 +4,17 @@
 
 > Where config, logs, and runtime state live on disk — first stop when nginx -t passes but site wrong or logs vanish. **Full `/etc/nginx/` tree:** [[nginx config structure]].
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but patterns hold: **main config** includes **snippets** and **sites-enabled**. See [[nginx config structure]] for every file under `/etc/nginx/`. Logs go to `/var/log/nginx/` unless redirected. **logrotate** truncates logs without dropping open FDs if postrotate sends `USR1` to nginx.

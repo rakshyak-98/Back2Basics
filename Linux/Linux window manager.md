@@ -1,3 +1,23 @@
+[[Linux]]
+
+# Linux window manager
+
+> One-line: what / why for **Linux window manager** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Window manager]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ### Display manager
 ```bash
 sudo dpkg-reconfigure gdm3;
@@ -5,15 +25,17 @@ sudo apt-get install --reinstall gdm3;
 sudo journalctl -xe;
 sudo systemctl daemon-reload; # reload systemd daemon to apply tha changes;
 ```
-
 - configure: `/etc/systemd/system/` or `/usr/lib/systemd/system/` if it doesn't exist, you may need to reinstall the `gdm3` package.
-
 - this configuration ensures that `gdm3` is started when the `graphical.target` is reached and that it is also aliased as `display-manager.service`
 ```bash
 [Install]
 Alias=display-manager.service
 WantedBy=graphical.target
 ```
+
+## Standard config / commands
+
+…
 
 ## Window manager
 
@@ -44,5 +66,24 @@ i3-msg exit; # exit from current login session.
 i3-config-wizard; # re-generate default i3 config file
 ```
 
-- configure PAM(Plugable Authentication Module): Ensure that your PAM configuration includes the necessary lines to unlock the key-ring. 
+- configure PAM(Plugable Authentication Module): Ensure that your PAM configuration includes the necessary lines to unlock the key-ring.
 - `/etc/pam.conf` and `/etc/pam.d/<desktop manager>` this should include `auth required pam_gnome_keyring.so` line.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

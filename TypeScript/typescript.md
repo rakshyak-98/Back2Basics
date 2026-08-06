@@ -1,3 +1,24 @@
+[[TypeScript]]
+
+# typescript
+
+> One-line: what / why for **typescript** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Namespaces]]
+- [[#Compilation]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ### Types
 - Can define global level types, without importing them and still use them in your code.
 #### Global types
@@ -15,15 +36,20 @@ const person: MyType = {
 	age: 32
 }
 ```
-
 #### Ambient Modules
-- 
+-
+
+## Standard config / commands
+
+…
 
 ## Namespaces
+
 - used to organize and share code across multiple files.
 - allow you to group related functionality into a single unit and prevent naming conflicts.
 
 ## Compilation
+
 - TypeScript can perform incremental compilation, which means it only re-compiles files that have change since the last compilation.
 
 the `node_modules/.tmp` directory is used to store temporary files generated during the build process.
@@ -73,3 +99,22 @@ const elements: NodeList = document.querySelectorAll("div");
 elements.forEach(el => console.log(el)); // ❌ TypeScript error!
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

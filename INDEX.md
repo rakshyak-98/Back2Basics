@@ -5,6 +5,13 @@
 
 ---
 
+## Index
+
+- [[#On-call / debug first]]
+- [[#Domain hubs]]
+- [[#Quality ceiling (copy these patterns)]]
+- [[#Empty / stub policy]]
+
 ## On-call / debug first
 
 | Symptom / need | Go to |
@@ -18,6 +25,7 @@
 | Nginx 502/504/499 | [[Configuration]] · [[nginx using unix socket]] |
 | Container won’t start / compose drift | [[Docker compose]] · [[docker cli]] · [[Docker Runtime Security]] |
 | Pod CrashLoop / not Ready | [[Pods]] · [[kubectl]] · [[ingress]] |
+| Create / apply a Pod manifest | [[kubectl pod creation]] · [[Pods]] · [[kubectl]] |
 | Certbot / TLS renew fail | [[certbot error]] · [[TLS (Transport Layer Security)]] · [[ACME server]] |
 | Terraform state lock / drift | [[Terraform workflow]] · [[Terraform CLI]] · [[variable file]] |
 | Redis latency / OOM / eviction | [[redis-cli]] · [[redis installation]] |
@@ -49,7 +57,7 @@
 - [[terraform]] · [[Terraform workflow]] · [[Terraform setup]] · [[variable file]] · [[Terraform CLI]]
 
 ### AWS
-- [[AWS Networking]] · [[Security group]] · [[Route53]] · [[aws STS (Security Token Service)]] · [[IAM]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]
+- [[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[Route53]] · [[aws STS (Security Token Service)]] · [[IAM]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]
 
 ### Data stores
 - Semantics: [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[OLTP]] · [[OLAP]]
@@ -65,7 +73,8 @@
 - [[gRPC]] · [[SMTP]] · [[MQTT]] · [[HTTP module]]
 
 ### Software architecture
-- [[Multi-tier and Layered Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Orchestration layer]]
+- [[Clean Architecture]] · [[Multi-tier and Layered Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Orchestration layer]]
+- E-commerce reference: [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]] · [[ecommerce-eks-layout]]
 
 ### Design patterns (apply in projects)
 - Hub / principles: [[Design pattern]]
@@ -75,6 +84,7 @@
 
 ### Git / delivery
 - [[git error]] · [[git rebase]] · [[git ssh config]] · [[git worktree]]
+- Deploy CLIs: [[Deployment/render cli]] · [[Deployment/vercel cli]] · [[Deployment/vercel deployment]] · [[Netlify/Netlify deployment]]
 
 ---
 

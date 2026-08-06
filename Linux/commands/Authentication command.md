@@ -1,4 +1,32 @@
+[[commands]]
+
+# Authentication command
+
+> One-line: what / why for **Authentication command** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#ssh]]
+- [[#gnupg]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## ssh
+
 ```bash
 ssh-keyscan <hostname>;
 ssh-keyscan -p <port> <hostname>; # if SSH is running on a non-default port
@@ -54,3 +82,22 @@ git config --global commit.gpgsign true;
 git commit -S -m 'signed commit';
 git log --show-signature;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,17 @@
 
 > Precomputed cumulative totals — answer any fixed-range sum query in O(1) after O(n) preprocess; foundation for range queries, subarray counts, and difference arrays.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Build array `P` where `P[i]` = sum of `arr[0..i]` (0-indexed). Range sum `[l, r]` = `P[r] - P[l-1]` (define `P[-1] = 0`).

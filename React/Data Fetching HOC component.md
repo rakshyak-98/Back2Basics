@@ -1,26 +1,40 @@
+[[React]]
+
+# Data Fetching HOC component
+
+> One-line: what / why for **Data Fetching HOC component** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```js
 // withDataFetching.js
 import React, { useState, useEffect } from 'react';
-
 // Optional: Simple loading spinner component
 const DefaultLoading = () => <div>Loading...</div>;
 const DefaultError = ({ error }) => <div>Error: {error.message}</div>;
-
 function withDataFetching(WrappedComponent, fetchConfig) {
   // fetchConfig can be:
   // - a string URL
   // - or an object: { url, method = 'GET', headers = {}, body = null, dependencies = [] }
-
   return function WithDataFetching(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     // Normalize config
     const config = typeof fetchConfig === 'string'
       ? { url: fetchConfig }
       : fetchConfig;
-
     const {
       url,
       method = 'GET',
@@ -30,14 +44,11 @@ function withDataFetching(WrappedComponent, fetchConfig) {
       LoadingComponent = DefaultLoading,
       ErrorComponent = DefaultError,
     } = config;
-
     useEffect(() => {
       let mounted = true;
-
       const fetchData = async () => {
         setLoading(true);
         setError(null);
-
         try {
           const response = await fetch(url, {
             method,
@@ -47,13 +58,10 @@ function withDataFetching(WrappedComponent, fetchConfig) {
             },
             body: body ? JSON.stringify(body) : null,
           });
-
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-
           const result = await response.json();
-
           if (mounted) {
             setData(result);
             setLoading(false);
@@ -65,23 +73,18 @@ function withDataFetching(WrappedComponent, fetchConfig) {
           }
         }
       };
-
       fetchData();
-
       return () => {
         mounted = false; // cleanup to prevent state update on unmounted component
       };
     }, [url, method, JSON.stringify(body), JSON.stringify(headers), ...dependencies]);
-
     // Render logic
     if (loading) {
       return <LoadingComponent />;
     }
-
     if (error) {
       return <ErrorComponent error={error} />;
     }
-
     // Pass data, loading, error, and refetch capability
     return (
       <WrappedComponent
@@ -97,20 +100,15 @@ function withDataFetching(WrappedComponent, fetchConfig) {
     );
   };
 }
-
 export default withDataFetching;
 ```
-
 ### Example usage
-
 ```js
 // UserList.js
 import React from 'react';
-
 function UserList({ data, loading, error }) {
   // data is already handled by HOC, but we can still use props safely
   if (!data) return null;
-
   return (
     <div>
       <h2>Users</h2>
@@ -124,7 +122,29 @@ function UserList({ data, loading, error }) {
     </div>
   );
 }
-
 // Wrap it with the HOC
 export default withDataFetching(UserList, 'https://jsonplaceholder.typicode.com/users');
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,17 +4,39 @@
 
 > Core notes from **Terraform: Up & Running** (Yevgeniy Brikman) and **Terraform in Action** (Scott Winkler).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Why Terraform (Brikman)]]
+- [[#Building blocks (Winkler)]]
+- [[#Resource]]
+- [[#Data source (read-only)]]
+- [[#Modules (Brikman — “how to stay DRY”)]]
+- [[#Registry]]
+- [[#State (preview)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related graph]]
+
+## Mental model
+
 Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the **desired end state** in HCL; Terraform figures out create / update / delete against cloud APIs through [[terraform provider]] plugins.
 
----
+## Standard config / commands
+
+…
 
 ## Why Terraform (Brikman)
 
-| Approach | Problem |
-|----------|---------|
-| ClickOps (console) | Not repeatable, no review, drift |
-| Scripts alone | Imperative, brittle order, hard to parallelize |
-| Terraform | Declarative, plan before apply, state + dependency graph |
+| Approach           | Problem                                                  |
+| ------------------ | -------------------------------------------------------- |
+| ClickOps (console) | Not repeatable, no review, drift                         |
+| Scripts alone      | Imperative, brittle order, hard to parallelize           |
+| Terraform          | Declarative, plan before apply, state + dependency graph |
 
 Brikman: treat infra like software — code review, versioning, reusable modules, CI.
 
@@ -22,14 +44,14 @@ Brikman: treat infra like software — code review, versioning, reusable modules
 
 ## Building blocks (Winkler)
 
-| Block | Role |
-|-------|------|
-| `terraform {}` | Version pins, backends → [[Terraform setup]] |
-| `provider` | Cloud/API plugin config → [[terraform provider]] |
-| `resource` | Manage something (create/update/delete) |
-| `data` | Read-only lookup of existing info |
+| Block                            | Role                                                |
+| -------------------------------- | --------------------------------------------------- |
+| `terraform {}`                   | Version pins, backends → [[Terraform setup]]        |
+| `provider`                       | Cloud/API plugin config → [[terraform provider]]    |
+| `resource`                       | Manage something (create/update/delete)             |
+| `data`                           | Read-only lookup of existing info                   |
 | `variable` / `output` / `locals` | Inputs, exports, computed names → [[variable file]] |
-| `module` | Reusable folder of config |
+| `module`                         | Reusable folder of config                           |
 
 ---
 
@@ -138,6 +160,21 @@ Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` ca
 - Behavior in the apply loop → [[Terraform workflow]]
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related graph
 

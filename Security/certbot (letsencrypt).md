@@ -1,13 +1,32 @@
+[[Security]]
+
+# certbot (letsencrypt)
+
+> One-line: what / why for **certbot (letsencrypt)** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Renew certificate]]
+- [[#Webroot]]
+- [[#HTTP-01 Challenge]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 - Default config and log files path
 - Main debug log: `/var/log/letsencrypt/letsencrypt.log`
 - Global level conf: `/etc/letsencrypt/cli.ini`
 - User level conf `~/.config/letsencrypt/cli.ini`
-
 > [!NOTE]
 > You cannot get a public trusted certificate (from Let's Encrypt ACME server).
 > - use `staging` environment
-
 ```bash
 sudo certbot certonly \
   --staging \
@@ -19,21 +38,22 @@ sudo certbot certonly \
   --non-interactive   # optional, if you want to skip prompts
 ```
 - `--standalone` -> Certbot starts its own temporary web server on port 80 (make sure nothing else is using 80).
-
 ```bash
 certbot plugins
 certbot certificates;
 sudo apt install certbot python3-certbot-nginx
 ```
-
 ```bash
 sudo certbot --nginx -d example.com -d www.example.com; # Get certificate + auto-configure nginx
 sudo certbot --apache -d example.com -d www.example.com;
 ```
-
 ```bash
 sudo certbot certonly --nginx -d example.com; # Get certificate only (no auto-config).
 ```
+
+## Standard config / commands
+
+…
 
 ## Renew certificate
 
@@ -65,3 +85,22 @@ sudo certbot certonly \
 ## HTTP-01 Challenge
 
 - HTTP-01 is the most common ACME challenge for domain validation in Certbot. It proves you control a domain by serving a specific token file (your domain name `-d` and port 80)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

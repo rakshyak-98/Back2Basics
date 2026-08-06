@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The **one-level store** illusion: programmers see a single large **virtual address space**. The OS + MMU map virtual pages to **RAM frames** or **disk blocks** transparently. There is no explicit `read()` in the mental model — a load instruction either hits RAM or page-faults and the kernel fills the page from disk.

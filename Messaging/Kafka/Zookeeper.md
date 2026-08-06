@@ -1,5 +1,23 @@
-is a [[distributed coordination service]] used by kafka to manage metadata, leader election, and synchronization across brokers.
+[[Kafka]]
 
+# Zookeeper
+
+> One-line: what / why for **Zookeeper** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+is a [[distributed coordination service]] used by kafka to manage metadata, leader election, and synchronization across brokers.
 | Function                 | Description                                                     |
 | ------------------------ | --------------------------------------------------------------- |
 | Broker management        | Keeps track of active Kafka brokers.                            |
@@ -10,6 +28,28 @@ is a [[distributed coordination service]] used by kafka to manage metadata, lead
 ### How does kafka brokers register with Zookeeper when they start?
 ### How does Zookeeper assigns a controller broker to manage partition leader?
 ### How does producers and consumers fetch metadata from Zookeeper to locate topic leaders?
-
 > [!INFO] Kafka 3.0+ supports KRaft (Kafka Raft mode), which eliminates the need for Zookeeper.
 - KRaft directly manages metadata, making Kafka more scalable.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

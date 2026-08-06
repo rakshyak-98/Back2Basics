@@ -4,6 +4,23 @@
 
 > One-line: when history is wrong, refs are lost, or merges surprise you — reflog, bisect, and dry-run merge before you force-push.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Recovery playbook]]
+- [[#Bisect — find the breaking commit]]
+- [[#Merge & conflict debug]]
+- [[#Remote & ref inspection]]
+- [[#Tags (release pointers)]]
+- [[#Inspection & forensics]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Git stores a DAG of commits; **refs** (branches, tags, HEAD) are movable pointers. `git reflog` records where refs *were* — your safety net after bad reset/rebase. Recovery is almost always possible until garbage collection (`gc`) prunes unreachable objects (~90 days default).

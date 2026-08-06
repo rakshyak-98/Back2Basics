@@ -4,6 +4,17 @@
 
 > One-line: link-local multicast DNS for `.local` names without a central server — **RFC 6762** (Bonjour / Avahi).
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 mDNS (multicast DNS) resolves hostnames on a **local link** via UDP **5353** to `224.0.0.251` (IPv4) / `ff02::fb` (IPv6). Queries and responses are multicast — any host on the segment can answer for names it owns.

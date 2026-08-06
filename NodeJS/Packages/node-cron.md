@@ -1,4 +1,31 @@
+[[Packages]]
+
+# node-cron
+
+> One-line: what / why for **node-cron** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#`node-cron`]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## `node-cron`
+
 - if you didn't save the reference, there is no way to stop or access it after it starts. it becomes garbage-managed, and you lose all control over it. It runs in the background as long as the Node process is alive.
 
 > [!INFO] use a function wrapper to track auto-registers every task
@@ -21,3 +48,22 @@ taskRegistry.forEach(t => t.stop());
 ```
 
 > [!NOTE] always store a reference to your cron job if you may need to stop or inspect it.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

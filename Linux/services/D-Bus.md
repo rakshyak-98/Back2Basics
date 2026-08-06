@@ -1,12 +1,36 @@
-D-Bus (Desktop Bus)
-- an Inter-process communication (IPC) system primarily used in Linux and Unix-like operating systems. 
-- communication between applications and system processes, allowing them to exchange messages and respond to events efficiently.
+[[services]]
 
+# D-Bus
+
+> One-line: what / why for **D-Bus** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Message Bus Architecture]]
+- [[#Use cases]]
+- [[#How to view the methods a service offers]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+D-Bus (Desktop Bus)
+- an Inter-process communication (IPC) system primarily used in Linux and Unix-like operating systems.
+- communication between applications and system processes, allowing them to exchange messages and respond to events efficiently.
 > [!INFO]
 > it is a standard way for an application to discover what services exist and what methods they offer.
-
 > [!INFO]
 > switchboard where applications, system services, and background daemons can easily talk to each other without needing to know low-level details like sockets, port or PIDs.
+
+## Standard config / commands
+
+…
 
 ## Message Bus Architecture
 
@@ -58,7 +82,7 @@ Applications can send signals to notify others about events without requiring a 
 
 **Desktop integration** enables different desktop applications to work together seamlessly, such as notifying media players when a new track is available or managing system resources like printers and network connections.
 **Event Handling** when hardware changes occur (e.g., a USB drive being connected), D-Bus informs all interested applications about the event, allowing them to react appropriately without individual checks.
-**Service Management** Applications can manage their lifecycle through D-Bus by launching or terminating services as needed based on user interactions or system events. 
+**Service Management** Applications can manage their lifecycle through D-Bus by launching or terminating services as needed based on user interactions or system events.
 
 ## How to view the methods a service offers
 
@@ -71,7 +95,7 @@ busctl tree <bus name>; # show the hierarchy of object paths.
 - Introspect a specific path to see methods, properties, signals
 
 ```bash
-busctl introspect 
+busctl introspect
 ```
 
 |Column|What it means|Common examples|Notes / what to look for|
@@ -123,3 +147,22 @@ busctl get-property <service> <path> <interface> <PropertyName>;
 ```bash
 busctl call org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager PowerOff b true
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

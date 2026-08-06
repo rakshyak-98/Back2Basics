@@ -4,6 +4,17 @@
 
 > One-line: CI/CD or app servers write configs to `/tmp`, validate, then sudo-copy into `sites-available` — never let unprivileged processes write directly to `/etc/nginx`.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:

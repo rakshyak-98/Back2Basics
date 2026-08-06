@@ -1,3 +1,22 @@
+[[MongoDB]]
+
+# mongosh user management
+
+> One-line: what / why for **mongosh user management** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```js
 use admin;
 db.getRoles({showBuiltinRoles: true, showPrivileges: true});
@@ -11,7 +30,6 @@ db.createUser({
   ]
 });
 ```
-
 ```js
 db.getUsers(); // view users;
 db.updateUser("myUser", {
@@ -23,9 +41,7 @@ db.grantRolesToUser("myUser", [{role: "read", db: "testDB"}])
 db.revokeRolesFromUser("myUser", [{role: "read", db: "testDB" }])
 db.auth("myUser", "password");
 ```
-
 ### **Default Roles Overview**
-
 1. **Database-Specific Roles**:
    - `read`: Read-only access to a database.
    - `readWrite`: Read and write access to a database.
@@ -38,7 +54,6 @@ db.auth("myUser", "password");
 4. **Backup and Restore Roles**:
    - `backup`: Permissions for backups.
    - `restore`: Permissions for restoring data.
-
 ```js
 db.runCommand({ listCommands: 1 }); // list all available commands (actions correspond to commands)
 db.createRole({
@@ -58,31 +73,49 @@ db.createRole({
 - `insert`: Add new documents.
 - `update`: Modify existing documents.
 - `remove`: Delete documents.
-
 #### **Administrative Actions**:
 - `createCollection`: Create new collections.
 - `dropCollection`: Drop collections.
 - `createIndex`: Create indexes.
 - `dropIndex`: Drop indexes.
 - `compact`: Defragment data on storage.
-
 #### **Database Management Actions**:
 - `listCollections`: List collections in a database.
 - `listIndexes`: List indexes on a collection.
 - `collStats`: Retrieve collection statistics.
 - `dbStats`: Retrieve database statistics.
-
 #### **User and Role Management Actions**:
 - `createUser`: Create users.
 - `dropUser`: Remove users.
 - `grantRole`: Grant roles to a user.
 - `revokeRole`: Revoke roles from a user.
-
 #### **Backup and Restore Actions**:
 - `backup`: Take database backups.
 - `restore`: Restore databases from backups.
-
 #### **Cluster-Level Actions**:
 - `addShard`: Add shards to a cluster.
 - `removeShard`: Remove shards from a cluster.
 - `shardCollection`: Shard a collection.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

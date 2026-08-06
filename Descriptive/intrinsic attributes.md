@@ -4,6 +4,17 @@
 
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 In React + TypeScript, **`IntrinsicElements`** maps HTML tag names to their allowed attributes. **`IntrinsicAttributes`** is the small set every JSX element gets (mainly `key` and `ref`). Component authors extend this when wrapping native elements.

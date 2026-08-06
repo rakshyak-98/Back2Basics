@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Assembly** maps 1:1 (or close) to **opcodes** the CPU decodes. The assembler (`as`) produces object files; the **linker** resolves symbols.

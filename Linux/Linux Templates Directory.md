@@ -1,7 +1,26 @@
+[[Linux]]
+
+# Linux Templates Directory
+
+> One-line: what / why for **Linux Templates Directory** — source TBD.
+
+---
+
+## Index
+
+- [[#How it works]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## How it works
+
 The `~/Templates` directory in Linux is part of the XDG user directories standard.
 - It allow you to create custom file templates that appear in your file manager's right click context menu
 
-## How it works
+
 
 - Any file you place in `~/Templates` becomes a template option.
 - When you right-click in a folder and select **New Document**, your templates will show up in the submenu.
@@ -20,3 +39,26 @@ XDG_TEMPLATES_DIR="$HOME/Templates"
 - Right-click in empty space -> **New Document**
 - Select the template from the list
 - A copy will be created in the current folder.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,3 +1,29 @@
+[[mysql]]
+
+# mysql concepts
+
+> One-line: what / why for **mysql concepts** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#mysql2 — Full Feature Reference]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
+
 ## mysql2 — Full Feature Reference
 
 > Latest version: **3.20.0** — a fast MySQL driver implementing core protocol, prepared statements, SSL and compression in native JS. No native bindings — installs cleanly on Linux, Mac, and Windows.
@@ -501,3 +527,22 @@ pool.on('enqueue', () => { /* waiting for available connection */ })
 |TypeScript support|Full types: `RowDataPacket`, `ResultSetHeader`, etc.|
 |Promise Wrapper|`mysql2/promise` or per-connection `.promise()`|
 |Connection Events|Monitor connect, error, acquire, release lifecycle|
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

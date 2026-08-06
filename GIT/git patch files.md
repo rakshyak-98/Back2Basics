@@ -4,6 +4,17 @@
 
 > One-line: export commits as mailbox patches (`format-patch`) and apply with `git am` — email-style workflow, offline review, and vendor branch maintenance without shared remote.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only applies diff to working tree).

@@ -4,6 +4,17 @@
 
 > Display hardware cadence — frames must be ready before vsync or user sees jank — **60 Hz ≈ 16.67 ms budget**.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Screen refreshes at fixed Hz (60, 90, 120, 144). Browser must produce a frame **before each vsync** or frame drops (stutter).

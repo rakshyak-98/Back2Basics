@@ -4,6 +4,17 @@
 
 > One-line: **GUI stack that turns pixels into windows, icons, and input** — WIMP (windows, icons, menus, pointer) plus toolkits. Know the layers before blaming "Linux graphics."
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The **windowing system** is the umbrella for everything between kernel evdev/GPU drivers and your application UI. It includes the **display server** ([[display server]]), **compositor** (optional but default now), **window manager**, **widget toolkit** (GTK/Qt), and **desktop environment** (GNOME/KDE).

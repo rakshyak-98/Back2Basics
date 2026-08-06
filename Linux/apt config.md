@@ -1,3 +1,22 @@
+[[Linux]]
+
+# apt config
+
+> One-line: what / why for **apt config** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 |Path|Purpose|
 |---|---|
 |`/etc/apt/apt.conf.d/`|Main directory for APT global configuration snippets (most settings go here)|
@@ -10,8 +29,6 @@
 |`/etc/apt/keyrings/`|Debsign-style GPG keys (used with `signed-by=` in sources, recommended now)|
 |`/var/lib/apt/lists/`|Cached repository metadata (auto-generated)|
 |`/var/cache/apt/archives/`|Downloaded `.deb` packages (can be cleaned)|
-
-
 |Prefix|Meaning|Is it bad?|
 |---|---|---|
 |Hit:|The cached copy on your computer is still current. Nothing was downloaded.|Good / normal|
@@ -20,3 +37,26 @@
 |Err:|Real error → could not reach the repository or the file is missing (404, connection timeout, etc.)|Bad – needs fixing|
 |W:|Warning → something is not ideal but APT can continue (e.g. unsigned repo, hash mismatch)|Usually needs attention)|
 |E:|Fatal error → APT stops. You will not be able to install/upgrade packages until it is fixed|Must be fixed|
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

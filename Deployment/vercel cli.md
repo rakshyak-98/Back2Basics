@@ -1,8 +1,19 @@
-[[Deployment/vercel deployment]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
+[[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
 
 # Vercel CLI
 
 > Link local project, preview deploy, and promote to production without leaving the terminal.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -82,4 +93,4 @@ vercel logs <deployment-url>
 
 ## Related
 
-[[Deployment/vercel deployment]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
+[[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]

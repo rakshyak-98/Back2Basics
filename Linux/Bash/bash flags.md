@@ -1,3 +1,22 @@
+[[Bash]]
+
+# bash flags
+
+> One-line: what / why for **bash flags** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 |Flag|Description|
 |---|---|
 |`-a`|Automatically export all variables and functions that are modified or created.|
@@ -25,3 +44,26 @@
 |`-P`|Use physical directory structure for `cd` (do not follow symlinks).|
 |`-T`|If set, DEBUG and RETURN traps are inherited by shell functions.|
 |`--`|Signal end of options; treat remaining arguments as filenames/positional parameters.|
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,14 +1,30 @@
+[[postgres]]
+
+# psql table
+
+> One-line: what / why for **psql table** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Table details]]
+- [[#Schema]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 > [!WARNING]
 > No. PostgreSQL does not support an `ON UPDATE` column attribute at the schema definition level to automatically update a column value when the row changes (unlike MySQL's `ON UPDATE CURRENT_TIMESTAMP`).
 - In PostgreSQL, you must implement this behavior using a `TRIGGER`.
-
 ### Implementation via Trigger
-
 To update a "last modified" timestamp column, you must define a function and bind it to the table.
-
 #### 1. Define the trigger function
-
 ```sql
 CREATE OR REPLACE FUNCTION update_modified_column()
 RETURNS TRIGGER AS $$
@@ -18,29 +34,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
-
 #### 2. Attach the trigger to the table
-
 ```sql
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON your_table_name
 FOR EACH ROW
 EXECUTE FUNCTION update_modified_column();
 ```
-
 #### 3. Attach schema
-
 ```sql
 SET search_path to <schema1>, <scehma2>;
-
 SELECT * FROM users;
 ```
 - PostgreSQL first looks for: `<current_user>.users`  `public.users`, if not found, it returns an error
-
 ```sql
 psql "postgresql://drm_tester:admin@localhost:5432/drm_streaming" \
   -c 'CREATE SCHEMA IF NOT EXISTS ott;'
 ```
+
+## Standard config / commands
+
+…
 
 ## Table details
 
@@ -115,10 +129,29 @@ DROP SCHEMA sales CASCADE; -- Drop schema and all objects
 ```
 
 ```sql
-SELECT * FROM sales.orders; 
+SELECT * FROM sales.orders;
 ```
 
 ```sql
 \dn; -- view schemas
 \dt sales.* -- list tables in a schema
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

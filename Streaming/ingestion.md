@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, auth, and isolation per tenant**.

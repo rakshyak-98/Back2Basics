@@ -1,11 +1,29 @@
+[[commands]]
+
+# dig
+
+> One-line: what / why for **dig** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Diagnose why domain doesn't show an ANSWER SECTION]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```sh
 dig +short google.com; # out ip only
 dig @8.8.8.8 google.com; # DNS
 ```
- 
  > [!INFO]
  > no "ANSWER SECTION": In `dig <domain>`, it usually means the queried name didn't return any authoritative or resolved data.
- 
  Common reasons
 1. No DNS record exists
 	 - The domain or specific record type (A, AAA, CNAME) is missing.
@@ -13,47 +31,39 @@ dig @8.8.8.8 google.com; # DNS
 2. NXDOMAIN (Non-Existent Domain)
 	- The domain itself does not exist.
 	- In `dig` output, you'll see
-
 ```text
 status: NXDOMAIN
 ```
-
 3. Query type mismatch
-
 - You requested a type that isn't present.
 ```bash
 dig <domain> MX;
 ```
 - if no `MX` record exists, Answer section is empty.
-
 4. Propagation/Caching issues
 - DNS changes not propagated yet.
 - Local resolver may not have the record cached.
-
 ```bash
 dig +trace <domain>; # Follows the DNS chain to authoritative server.
 dig @8.8.8.8 <domain>; # check using public resolver.
 ```
-
-
 ```bash
 resolvectl status; # check which dns server is used by current config.
 ```
-
 - `dig` expects a hostname only - on schema `https://` no path `/`, no port `443`.
-
 ```bash
 dig google.com; # correct
 dig https://google.com; # wrong
-
 ```
-
 - `NOERROR` -> means DNS resolution was successful (no errors like `NXDOMAIN`).
 - ANSWER SECTION -> subdomain resolves to n number of IPv4 addresses (A records).
 - TTL -> will be cached that long unless manually flushed.
-
 > [!INFO]
 > public resolvers -> DNS servers operated by third parties, open for anyone to use instead of your ISP's DNS. They translate domain names -> IP addresses.
+
+## Standard config / commands
+
+…
 
 ## Diagnose why domain doesn't show an ANSWER SECTION
 
@@ -100,3 +110,22 @@ dig @1.1.1.1 <domain>;
 	- A/CNAME records exist for requested hostname.
 	- No typos in subdomain names.
 	- TTL isn't too high (causing stale cache).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

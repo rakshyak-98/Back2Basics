@@ -1,3 +1,23 @@
+[[management]]
+
+# keyrings
+
+> One-line: what / why for **keyrings** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Keyring work with OS]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Managing GNOME Keyrings involves creating, accessing, and securing stored credentials, passwords, and other sensitive data. Here are key points to effectively manage GNOME Keyrings:
 1. Understanding GNOME Keyring
 Purpose: GNOME Keyring stores secrets, passwords, and keys securely, enabling applications to access them without manual input.
@@ -43,7 +63,13 @@ Disadvantages of GNOME Keyring:
 Complexity: May be confusing for users unfamiliar with password management.
 Limited CLI Support: Some advanced management features are easier in GUI than CLI.
 If you need more specific instructions or assistance with a particular task in GNOME Keyrings, feel free to ask!
+
+## Standard config / commands
+
+…
+
 ## Keyring work with OS
+
 After booting, the operating system (OS) can communicate with the GNOME Keyring to unlock it automatically without user interaction through several mechanisms. Here's how it typically works:
 1. Keyring Initialization at Login:
 When a user logs into a session, the OS starts the GNOME Keyring Daemon (usually gnome-keyring-daemon).
@@ -61,7 +87,7 @@ These variables help in locating the keyring and its associated files for authen
 Once the keyring is unlocked, any application that requires access to stored secrets (like passwords or keys) can communicate with the GNOME Keyring Daemon using a D-Bus interface.
 The application can request the necessary credentials without prompting the user if the keyring is already unlocked.
 Example Configuration:
-> [!NOTE] 
+> [!NOTE]
 > In many systems, the PAM configuration for GNOME Keyring can be found in `/etc/pam.d/common-auth` or similar files, and it may look something like this:
 
 - auth optional `pam_gnome_keyring.so` -> This entry allows the keyring to be unlocked as part of the authentication process.
@@ -69,5 +95,24 @@ Summary:
 The OS unlocks the GNOME Keyring automatically using the user's login credentials during the session initialization.
 PAM facilitates this integration, allowing for seamless communication without GUI interaction.
 
-> [!INFO] 
+> [!INFO]
 > Applications access the keyring via a D-Bus interface after it has been unlocked.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

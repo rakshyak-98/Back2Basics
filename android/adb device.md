@@ -1,3 +1,25 @@
+[[android]]
+
+# adb device
+
+> One-line: what / why for **adb device** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Setup Unauthorized device]]
+- [[#Running application with private network IP]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
 ## Setup Unauthorized device
 
 ```bash
@@ -48,8 +70,8 @@ Expected result: 0123456789ABCDEF    device
 > - Android emulator provides mapping `10.0.2.2` -> host machine localhost
 > - IOS simulator can directly use `localhost`
 
-
 ## Running application with private network IP
+
 1. Use the private network IP, not localhost
 	1. replace `localhost` or `127.0.0.1` with your backend private network `192.168.x.x` or `10.x.x.x`
 
@@ -60,3 +82,117 @@ Expected result: 0123456789ABCDEF    device
 
 > [!NOTE]
 > - Backend binding -> backend must listen on `0.0.0.0` (all interface), not just `127.0.0.1`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+
+### Gotchas
+
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+
+### When NOT to use
+
+
+…
+
+## Related
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]
+
+
+### Related
+
+
+[[…]]

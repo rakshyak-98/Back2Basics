@@ -1,5 +1,23 @@
-offset -> how far to move -> from a known starting place.
+[[Streaming]]
 
+# offset
+
+> One-line: what / why for **offset** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+offset -> how far to move -> from a known starting place.
 |Context|What "offset" means|Typical unit|Example|
 |---|---|---|---|
 |**Arrays / Lists**|How many elements from the beginning (index 0)|Number of elements|In array `["a","b","c","d"]`, `'d'` has offset **3** (or index 3)|
@@ -9,3 +27,26 @@ offset -> how far to move -> from a known starting place.
 |**Assembly / Low-level**|Value added to a base register to get effective address|Bytes / words|`mov eax, [ebx + 8]` → offset = 8 bytes|
 |**Buffer / String slicing**|Starting position within a buffer or string|Bytes or characters|`substr(str, offset=5, len=3)`|
 |**2D arrays / images / matrices**|Row offset × width + column offset|Elements or bytes|Pixel at (y=10, x=4) in 1920×1080 image → offset = 10×1920 + 4 pixels|
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

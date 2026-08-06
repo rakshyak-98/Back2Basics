@@ -1,5 +1,9 @@
 # AGENTS.md
 
+## Index
+
+- [[#Cursor Cloud specific instructions]]
+
 ## Cursor Cloud specific instructions
 
 This repository (`Back2Basics`) is a **documentation/knowledge-base vault**, not a

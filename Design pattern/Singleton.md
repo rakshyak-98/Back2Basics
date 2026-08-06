@@ -1,9 +1,25 @@
-- Make the class construction `private` member of the class.
-	- prevent direct instantiation. 
-	- in typescript, if constructor is `public` multiple instances of the class could be created.
+[[Design pattern]]
+
+# Singleton
+
+> One-line: what / why for **Singleton** — source TBD.
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+- Make the class construction `private` member of the class.
+	- prevent direct instantiation.
+	- in typescript, if constructor is `public` multiple instances of the class could be created.
 - Instance in a Static Property
 	- caching the singular instance in a static property.
 	- drawback that instance is public.
@@ -15,19 +31,16 @@
 function Universe(){
 	let instance;
 	Universe = function(){
-		return instance;	
+		return instance;
 	}
-
 	// carry over the prototype properties
 	Universe.prototype = this;
 	instance = new Universe();
-
 	// reset the constructor pointer
 	instance.constructor = Universe;
 	return instance;
 }
 ```
-
 ```javascript
 var Universe
 (function(){
@@ -40,7 +53,6 @@ var Universe
 	}
 })
 ```
-
 ```js
 class Singleton {
 	static instance = null;
@@ -54,3 +66,26 @@ class Singleton {
 	}
 }
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]
