@@ -4,6 +4,8 @@
 
 > One-line: run scripts, eval snippets, and switch users/environments from the shell — know when `node` vs `npm run` vs `npx` applies.
 
+---
+
 ## Index
 
 - [[#Mental model]]

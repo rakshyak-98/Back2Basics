@@ -4,6 +4,8 @@
 
 > Language tuned to one problem domain — expressive for experts, useless elsewhere — **contrast with general-purpose languages**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

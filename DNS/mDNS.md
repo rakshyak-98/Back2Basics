@@ -4,6 +4,8 @@
 
 > One-line: link-local multicast DNS for `.local` names without a central server — **RFC 6762** (Bonjour / Avahi).
 
+---
+
 ## Index
 
 - [[#Mental model]]

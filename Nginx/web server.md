@@ -4,6 +4,8 @@
 
 > HTTP server maps URL path to handler — today "file" in the path is usually a **resource identifier**, not a literal on-disk filename.
 
+---
+
 ## Index
 
 - [[#Mental model]]

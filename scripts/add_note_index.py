@@ -9,7 +9,7 @@ from pathlib import Path
 
 VAULT_ROOT = Path(__file__).resolve().parent.parent
 HEADING_RE = re.compile(r"^## (.+)$")
-FENCE_RE = re.compile(r"^```")
+FENCE_RE = re.compile(r"^\s*```")
 
 
 def parse_headings(lines: list[str]) -> list[str]:

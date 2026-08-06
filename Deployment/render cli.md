@@ -4,6 +4,8 @@
 
 > Operate [Render](https://render.com/) services from the terminal — deploy, logs, SSH, psql, Blueprint validation. Docs: [CLI](https://render.com/docs/cli) · [reference](https://render.com/docs/cli-reference).
 
+---
+
 ## Index
 
 - [[#Mental model]]

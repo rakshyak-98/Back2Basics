@@ -1,7 +1,24 @@
+[[Linux]]
+
+# Error status code
+
+> One-line: what / why for **Error status code** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 In Linux and Unix-like systems, exit codes (also known as exit statuses or return codes) are numeric values returned by a command or a program to indicate the outcome of its execution. A value of 0 typically indicates success, while non-zero values indicate various types of errors or abnormal conditions.
-
 Here are some common exit codes along with their meanings:
-
 - **0**: Success
 - **1**: General error
 - **2**: Misuse of shell builtins
@@ -14,3 +31,26 @@ Here are some common exit codes along with their meanings:
 - **139**: Segmentation fault (invalid memory reference)
 - **143**: Process terminated by Control-C (128 + 15)
 - **255**: Exit status out of range or undefined
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

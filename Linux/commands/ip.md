@@ -4,6 +4,8 @@
 
 > One-line: **iproute2** Swiss army knife — links, addresses, routes, neighbors, tunnels. **Modern replacement for ifconfig/route/netstat.** Kerrisk.
 
+---
+
 ## Index
 
 - [[#Mental model]]

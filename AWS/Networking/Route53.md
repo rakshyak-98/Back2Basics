@@ -4,6 +4,8 @@
 
 > AWS **authoritative DNS + health-checked routing + private zones** — not just "create an A record." **Route53 Developer Guide** + prod cutover war stories.
 
+---
+
 ## Index
 
 - [[#Mental model]]

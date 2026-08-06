@@ -4,6 +4,8 @@
 
 > One-line: Linux’s **scalable FD readiness notification** — O(1) wait on thousands of sockets instead of scanning all FDs every wake. **Stevens / Kerrisk.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

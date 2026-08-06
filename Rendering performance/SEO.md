@@ -4,6 +4,8 @@
 
 > Make content discoverable, crawlable, and eligible for rich results — technical + content signals — **Google Search Essentials**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

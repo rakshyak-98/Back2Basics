@@ -4,6 +4,8 @@
 
 > Named shortcuts in `package.json` → shell commands — the standard entry point for dev, test, and build.
 
+---
+
 ## Index
 
 - [[#Mental model]]

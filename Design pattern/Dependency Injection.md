@@ -4,6 +4,8 @@
 
 > Supply dependencies from outside instead of hard-coding `new` inside a class — testability and modular wiring — **IoC container vs manual constructor inject**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

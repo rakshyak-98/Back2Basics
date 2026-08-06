@@ -4,6 +4,8 @@
 
 > Precomputed cumulative totals — answer any fixed-range sum query in O(1) after O(n) preprocess; foundation for range queries, subarray counts, and difference arrays.
 
+---
+
 ## Index
 
 - [[#Mental model]]

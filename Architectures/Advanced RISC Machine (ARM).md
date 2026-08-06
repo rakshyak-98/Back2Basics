@@ -4,6 +4,8 @@
 
 > RISC ISA dominating mobile and cloud — load/store architecture, fixed-width instructions, power-efficient — **ARMv8-A / AArch64 ops debugging**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

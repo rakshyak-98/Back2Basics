@@ -1,3 +1,45 @@
+[[Security]]
+
+# white-label auth-url
+
+> One-line: what / why for **white-label auth-url** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
  A white-lable auth-URL flow is a method for user authentication that utilizes an external service's login system while maintaining the look and feel of the original application.
  **white-label** : This refers to the fact that the login process appears to be part of the original application. There won't be any visual cues indicating the user is interacting with a separate service for authentication.
  **auth-URL**: it's a unique web address provided by the external service that facilitates the login process. When a user clicks the login button on the original application, they're redirected to this specific auth-url.![/home/rakshyak/GitHub/news-homepage-main/assets/images/image-web-3-desktop.jpg](file:///home/rakshyak/GitHub/news-homepage-main/assets/images/image-web-3-desktop.jpg)
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > One-line: file copy over SSH — reuses sshd auth and encryption; prefer `rsync -e ssh` or SFTP for large/recursive transfers with resume.
 
+---
+
 ## Index
 
 - [[#Mental model]]

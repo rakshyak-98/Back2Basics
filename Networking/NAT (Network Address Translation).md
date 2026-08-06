@@ -1,10 +1,28 @@
 [[NAT Traversal]]
 
-Network Address Translation -> modifies IP headers in transit, remapping address spaces by overwriting source/destination IP addresses and/or port numbers in the packet header. It enables private network address conservation and topology hiding.
+# NAT (Network Address Translation)
+
+> One-line: what / why for **NAT (Network Address Translation)** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Lifecycle Hooks & Packet Processing]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Network Address Translation -> modifies IP headers in transit, remapping address spaces by overwriting source/destination IP addresses and/or port numbers in the packet header. It enables private network address conservation and topology hiding.
+
+## Standard config / commands
+
+…
 
 ## Lifecycle Hooks & Packet Processing
 
@@ -16,3 +34,22 @@ Ingress (Internal to External)
 
 
 NAT traversal -> is the process of enabling two devices behind NATs to communicate withe each other.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

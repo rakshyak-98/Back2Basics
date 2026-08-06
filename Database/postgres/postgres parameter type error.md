@@ -4,14 +4,18 @@
 
 > One-line: PostgreSQL inferred **different data types** for the **same placeholder (`$n`)** in one statement — fix by splitting placeholders or adding explicit casts.
 
+---
+
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Common causes]]
-- [[#Triage (when things break)]]
 - [[#Fixes]]
-- [[#Gotchas]]
 - [[#Rule of thumb]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
@@ -22,6 +26,10 @@ Prepared statements bind each `$n` to **one** PostgreSQL type for the whole quer
 $params ──► $2 used in SET status (text) ──┐
             $2 used in WHERE version (int) ─┴──► type conflict → ERROR
 ```
+
+## Standard config / commands
+
+…
 
 ## Common causes
 
@@ -82,31 +90,6 @@ SELECT id, true;
 
 `$2` is inferred as **BOOLEAN**, even if intended to be another type.
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `inconsistent types deduced for parameter $n` | Print SQL + param array | Find every `$n` occurrence |
-| Same value, different columns | Column types in schema | Use separate placeholders (`$2`, `$3`) |
-| `null` in params | Context around `$n` | Cast (`$2::text`) or pass typed value |
-| `CASE` / `COALESCE` / `UNION` | Branches infer different types | Split placeholders or cast |
-
-### Debugging steps
-
-1. Print the SQL query.
-2. Print the parameter array.
-3. Find every occurrence of the reported placeholder (`$2`, `$3`, etc.).
-4. Verify every occurrence expects the **same PostgreSQL data type**.
-
-Example:
-
-```sql
-UPDATE products
-SET status = $2
-WHERE id = $1
-   OR version = $2;
-```
-
 ## Fixes
 
 ### Use different placeholders
@@ -152,6 +135,37 @@ Or convert explicitly:
 Number(value)
 ```
 
+## Rule of thumb
+
+- Each placeholder (`$1`, `$2`, `$3`, ...) should represent **one logical value**.
+- Reuse a placeholder **only if every occurrence expects the same PostgreSQL type**.
+- If the same value is needed in different type contexts, use separate placeholders or explicit casts.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `inconsistent types deduced for parameter $n` | Print SQL + param array | Find every `$n` occurrence |
+| Same value, different columns | Column types in schema | Use separate placeholders (`$2`, `$3`) |
+| `null` in params | Context around `$n` | Cast (`$2::text`) or pass typed value |
+| `CASE` / `COALESCE` / `UNION` | Branches infer different types | Split placeholders or cast |
+
+### Debugging steps
+
+1. Print the SQL query.
+2. Print the parameter array.
+3. Find every occurrence of the reported placeholder (`$2`, `$3`, etc.).
+4. Verify every occurrence expects the **same PostgreSQL data type**.
+
+Example:
+
+```sql
+UPDATE products
+SET status = $2
+WHERE id = $1
+   OR version = $2;
+```
+
 ## Gotchas
 
 > [!WARNING]
@@ -160,11 +174,9 @@ Number(value)
 > [!WARNING]
 > **`null` without context** — Postgres cannot always infer type; cast the placeholder or use separate params per branch.
 
-## Rule of thumb
+## When NOT to use
 
-- Each placeholder (`$1`, `$2`, `$3`, ...) should represent **one logical value**.
-- Reuse a placeholder **only if every occurrence expects the same PostgreSQL type**.
-- If the same value is needed in different type contexts, use separate placeholders or explicit casts.
+…
 
 ## Related
 

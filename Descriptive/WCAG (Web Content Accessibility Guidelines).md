@@ -4,6 +4,8 @@
 
 > W3C recommendations for perceivable, operable, understandable, robust web content — legal and UX baseline — **WCAG 2.2 + WAI**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

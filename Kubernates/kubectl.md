@@ -4,6 +4,8 @@
 
 > CLI to the Kubernetes API — read cluster state, ship manifests, debug failing pods — **Kubernetes: Up and Running** (Burns et al.) + **The Kubernetes Book** (Sayed).
 
+---
+
 ## Index
 
 - [[#Mental model]]

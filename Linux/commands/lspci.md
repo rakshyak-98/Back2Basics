@@ -4,6 +4,8 @@
 
 > One-line: list **PCI/PCIe devices** attached to the CPU — NICs, GPUs, storage controllers, USB bridges. **First step for "does the kernel see my hardware?"**
 
+---
+
 ## Index
 
 - [[#Mental model]]

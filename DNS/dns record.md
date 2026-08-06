@@ -4,6 +4,8 @@
 
 > Name → type → value mapping in a zone — A/AAAA/CNAME/TXT/MX with TTL controlling cache stickiness.
 
+---
+
 ## Index
 
 - [[#Mental model]]

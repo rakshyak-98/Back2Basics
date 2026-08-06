@@ -4,6 +4,8 @@
 
 > Online Transaction Processing — many small, concurrent read/write operations with latency SLOs; schema normalized, indexes hot — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
 
+---
+
 ## Index
 
 - [[#Mental model]]

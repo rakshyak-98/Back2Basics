@@ -9,8 +9,8 @@
 ## Index
 
 - [[#Mental model]]
-- [[#Environment topology]]
 - [[#Config & secrets per environment]]
+- [[#Environment topology]]
 - [[#Promotion gates (dev → test → staging → prod → live)]]
 - [[#CI/CD pipeline]]
 - [[#Deployment strategy per environment]]
@@ -31,6 +31,23 @@ dev ──► test ──► staging ──► production ──► live (traffi
 All five exist **in parallel** (separate clusters or namespaces + accounts). Promotion is **artifact-based** — same immutable image digest advances; config differs per env.
 
 **`live` definition (resolved):** not a sixth infrastructure clone — **production cluster** namespaces `prod` + `live-canary` (or Argo Rollouts `canary` strategy) receiving weighted traffic after prod deploy gate passes.
+
+---
+
+## Config & secrets per environment
+
+| Layer | dev | test | staging | prod / live |
+|-------|-----|------|---------|-------------|
+| **App config** | Helm values `values-dev.yaml` | `values-test.yaml` | `values-staging.yaml` | `values-prod.yaml` |
+| **Secrets** | Doppler / AWS Secrets Manager `dev/*` | `test/*` | `staging/*` | `prod/*` — no shared keys |
+| **PSP** | PSP sandbox keys | sandbox | sandbox or limited live | live keys — separate webhook URLs per env |
+| **Kafka topics** | prefix `dev.` | `test.` | `staging.` | `prod.` — no cross-env consumption |
+| **Feature flags** | defaults on | CI overrides | QA matrix | default off until [[Release cycle]] train |
+
+**Rules:**
+- Never copy prod secrets into dev ([[Terraform setup]] — no keys in `.tfvars` git).
+- GitHub OIDC → IAM role per env for deploy ([[Github runner]]).
+- Sealed Secrets or External Secrets Operator sync from Secrets Manager.
 
 ---
 
@@ -56,23 +73,6 @@ All five exist **in parallel** (separate clusters or namespaces + accounts). Pro
 | Flash sale (Promotions) | manual | load test profile | Pre-warm Redis; HPA max raised via runbook |
 
 Cluster autoscaler: `min`/`max` node pools per env in [[ecommerce-eks-layout]] Terraform.
-
----
-
-## Config & secrets per environment
-
-| Layer | dev | test | staging | prod / live |
-|-------|-----|------|---------|-------------|
-| **App config** | Helm values `values-dev.yaml` | `values-test.yaml` | `values-staging.yaml` | `values-prod.yaml` |
-| **Secrets** | Doppler / AWS Secrets Manager `dev/*` | `test/*` | `staging/*` | `prod/*` — no shared keys |
-| **PSP** | PSP sandbox keys | sandbox | sandbox or limited live | live keys — separate webhook URLs per env |
-| **Kafka topics** | prefix `dev.` | `test.` | `staging.` | `prod.` — no cross-env consumption |
-| **Feature flags** | defaults on | CI overrides | QA matrix | default off until [[Release cycle]] train |
-
-**Rules:**
-- Never copy prod secrets into dev ([[Terraform setup]] — no keys in `.tfvars` git).
-- GitHub OIDC → IAM role per env for deploy ([[Github runner]]).
-- Sealed Secrets or External Secrets Operator sync from Secrets Manager.
 
 ---
 

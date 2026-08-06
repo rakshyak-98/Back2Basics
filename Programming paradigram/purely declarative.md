@@ -4,6 +4,8 @@
 
 > Describe **what** result you want; runtime chooses **how** — SQL, regex, HTML/CSS, Prolog-style rules.
 
+---
+
 ## Index
 
 - [[#Mental model]]

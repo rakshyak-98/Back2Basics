@@ -4,6 +4,8 @@
 
 > One-line: stream filter for lines matching a pattern — first tool for log triage, config audits, and "does this string exist anywhere?" **Kernighan & Pike, Unix philosophy**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

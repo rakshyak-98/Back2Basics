@@ -1,21 +1,35 @@
-`pallycon-customdata-v2` -> token is a server-side generated, cryptographically signed authentication string and authorizes your application to request a decryption key from the PallyCon License Server. You do not get this token from the client-side code the library itself; 
+[[Streaming]]
 
-**You must implement an authentication flow in your backend to retrieve it.**
+# Pallycon(DoveRunner)
 
-### The Authentication Architecture
+> One-line: what / why for **Pallycon(DoveRunner)** — source TBD.
 
-1. **Application Auth**: Before the player initiates a license request, your app authenticates the user against your own backend (e.g., via a standard OAuth2 or JWT session).
-    
-2. **Token Generation**: Upon successful user authentication, your backend communicates with the **PallyCon DevConsole API** (or your own internal token service) to generate a valid DRM license token.
-    
-3. **Token Delivery**: Your backend returns this token to the client app (your Android/Kotlin code).
-    
-4. **License Request**: Your Android app then injects this token into the `pallycon-customdata-v2` HTTP header when making the request to `[https://license-global.pallycon.com/ri/licenseManager.do](https://license-global.pallycon.com/ri/licenseManager.do)`.
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#PallyCon DevConsole API]]
 - [[#Concurrent Stream Limiting Guide]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+`pallycon-customdata-v2` -> token is a server-side generated, cryptographically signed authentication string and authorizes your application to request a decryption key from the PallyCon License Server. You do not get this token from the client-side code the library itself;
+**You must implement an authentication flow in your backend to retrieve it.**
+### The Authentication Architecture
+1. **Application Auth**: Before the player initiates a license request, your app authenticates the user against your own backend (e.g., via a standard OAuth2 or JWT session).
+2. **Token Generation**: Upon successful user authentication, your backend communicates with the **PallyCon DevConsole API** (or your own internal token service) to generate a valid DRM license token.
+3. **Token Delivery**: Your backend returns this token to the client app (your Android/Kotlin code).
+4. **License Request**: Your Android app then injects this token into the `pallycon-customdata-v2` HTTP header when making the request to `[https://license-global.pallycon.com/ri/licenseManager.do](https://license-global.pallycon.com/ri/licenseManager.do)`.
+
+## Standard config / commands
+
+…
 
 ## PallyCon DevConsole API
 
@@ -34,3 +48,22 @@ DRM License Renewal -> is a function that enables periodic license renewal reque
 
 > [!NOTE]
 > CSl feature is not application to VOD download/.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

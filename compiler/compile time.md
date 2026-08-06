@@ -4,6 +4,8 @@
 
 > Phase before program runs — parsing, type checking, optimization, and codegen; errors here prevent broken binaries from shipping.
 
+---
+
 ## Index
 
 - [[#Mental model]]

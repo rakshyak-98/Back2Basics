@@ -4,6 +4,8 @@
 
 > Extract text, structure, and metadata from PDF byte streams — operators, fonts, and page trees — **PDF spec + production extraction pitfalls**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

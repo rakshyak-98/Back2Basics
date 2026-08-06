@@ -1,15 +1,39 @@
+[[RTQ]]
+
+# Middleware
+
+> One-line: what / why for **Middleware** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Create middlewares]]
 - [[#With Extra Middleware (logger, thunk custom config)]]
 - [[#Add multiple mather]]
 - [[#Listener management]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Create middlewares
+
 ```jsx
 ```
+
 ## With Extra Middleware (logger, thunk custom config)
+
 ```js
 import {} from "@reduxjs/toolkit";
 import logger from "redux-logger";
@@ -28,7 +52,9 @@ export const store = configureStore({
 		devTool: process.env.NODE_ENV !== 'production',
 })
 ```
+
 ## Add multiple mather
+
 ```js
 import { isAnyOf } from '@reduxjs/toolkit';
 import { apiCall1, apiCall2, apiCall3 } from './api';
@@ -96,7 +122,7 @@ listenerMiddleware.startListening({
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
 
 import todosReducer, {
-  todoAdded, 
+  todoAdded,
   todoToggled,
   todoDeleted,
 } from '../features/todos/todosSlice'
@@ -155,4 +181,24 @@ const store = configureStore({
 ```
 
 ## Listener management
+
 [listener subscription management](https://redux-toolkit.js.org/api/createListenerMiddleware#listener-subscription-management)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,7 +1,28 @@
+[[orm]]
+
+# sequalizer
+
+> One-line: what / why for **sequalizer** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Hooks]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Hooks
 
@@ -14,9 +35,9 @@ Product.init({
   name: DataTypes.STRING,
   price: DataTypes.FLOAT,
   slug: DataTypes.STRING
-}, { 
-  sequelize, 
-  modelName: 'product' 
+}, {
+  sequelize,
+  modelName: 'product'
 });
 
 // Using addHook for specific events
@@ -63,3 +84,22 @@ User.init({
 ```
 
 - **Double Hashing**: If you have a hash logic in `beforeCreate` AND `beforeUpdate`, and you don't check if the field has changed, you might hash the already-hashed string during a profile update. This makes the password impossible to verify during login.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

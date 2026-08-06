@@ -4,6 +4,8 @@
 
 > Halve sorted search space each step — O(log n) find/insert boundary; loop invariant is the hard part.
 
+---
+
 ## Index
 
 - [[#Mental model]]

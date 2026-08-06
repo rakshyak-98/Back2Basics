@@ -4,6 +4,8 @@
 
 > One-line: a Go `string` is a read-only slice of UTF-8 bytes — index and `len` count **bytes**, not characters; use `range`, `[]rune`, or `unicode/utf8` when you need rune-safe logic.
 
+---
+
 ## Index
 
 - [[#Mental model]]

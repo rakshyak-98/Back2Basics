@@ -4,6 +4,8 @@
 
 > One-line: per-user job scheduler — minute/hour/day/month/weekday triggers for scripts and one-liners. **Still everywhere; systemd timers are the modern alternative on server distros.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

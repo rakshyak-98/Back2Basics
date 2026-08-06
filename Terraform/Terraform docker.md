@@ -4,17 +4,29 @@
 
 > Hands-on provider example — same patterns as cloud, without a bill. Framework from **Terraform in Action** (Winkler) + practices from **Terraform: Up & Running** (Brikman).
 
-Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → configure → resource → plan/apply ([[Terraform setup]] · [[Terraform workflow]]).
-
 ---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Why practice with Docker]]
 - [[#Minimal project]]
 - [[#Run it]]
 - [[#Map to cloud thinking]]
 - [[#Book takeaways]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → configure → resource → plan/apply ([[Terraform setup]] · [[Terraform workflow]]).
+
+## Standard config / commands
+
+…
 
 ## Why practice with Docker
 
@@ -125,3 +137,22 @@ Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
 - **Winkler**: providers are interchangeable plugins; resources + references define the graph
 - **Brikman**: pin versions, use variables, destroy cleanly, graduate to remote state when collaborating
 - Core language still: [[terraform]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

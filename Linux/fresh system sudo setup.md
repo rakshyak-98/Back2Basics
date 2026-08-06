@@ -4,6 +4,8 @@
 
 > One-line: **bootstrap a non-root admin safely** — sudo group, key-based SSH, visudo edits, and recovery paths before you lock yourself out. **First-boot checklist for VPS/bare metal.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,9 +1,30 @@
+[[Streaming]]
+
+# streaming license
+
+> One-line: what / why for **streaming license** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#License token generation (DRM)]]
 - [[#License validity period in streaming scenario]]
 - [[#Playback policy]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## License token generation (DRM)
 
@@ -30,8 +51,25 @@ IV + Key + Plaintext → AES-256-CBC → Ciphertext
 
 In streaming scenario, user rights are checked and new licenses are issued every time playback starts even for the same content.
 
-
 ## Playback policy
 
 [link](https://docs.doverunner.com/content-security/multi-drm/license/license-token/#playback_policy)
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

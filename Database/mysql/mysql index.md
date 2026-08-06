@@ -1,16 +1,37 @@
+[[mysql]]
+
+# mysql index
+
+> One-line: what / why for **mysql index** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Get all tables constraints keys]]
 - [[#Why indexes matter]]
 - [[#Covering Index]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Get all tables constraints keys
 
 ```mysql
 SELECT CONSTRAINT_NAME
 FROM information_schema.KEY_COLUMN_USAGE
--- filter 
+-- filter
 WHERE TABLE_NAME = 'orders' AND COLUMN_NAME = 'customer_id' AND CONSTRAINT_NAME != 'PRIMARY';
 ```
 
@@ -52,7 +73,7 @@ WHERE INDEX_NAME IS NOT NULL
 ORDER BY COUNT_STAR DESC;
 ```
 - unused indexes (drop them - index maintenance isn't free)
-- hot indexes to optimize further 
+- hot indexes to optimize further
 
 ## Why indexes matter
 
@@ -80,7 +101,7 @@ ORDER BY COUNT_STAR DESC;
 - **Using functions on indexed columns → index ignored**
 	- Bad: `WHERE YEAR(created_at) = 2025 or WHERE LOWER(email) = 'rakshyak@example.com'` → Full scan, index useless
 	- Good: `WHERE created_at >= '2025-01-01' AND created_at < '2026-01-01'` or store normalized data if needed
-	
+
 - **SELECT * kills covering indexes**
 	- If you `SELECT` columns not in the index → MySQL has to go back to clustered table for every row (bookmark lookup)
 	- In high-traffic APIs → this adds 2–10× latency easily
@@ -96,3 +117,22 @@ ORDER BY COUNT_STAR DESC;
 - A covering index is an index that contains all columns required to execute a query so the database does not need to read the main table.
 
 The query result can be produced entirely from the index structure.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

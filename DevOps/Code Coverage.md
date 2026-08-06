@@ -4,6 +4,8 @@
 
 > Percentage of source lines/branches executed by tests — guide, not quality proof — **Istanbul/nyc + CI gates**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > Regenerate static pages on a timer or on-demand without full site rebuild — Next.js stale-while-revalidate for CDN-backed pages.
 
+---
+
 ## Index
 
 - [[#Mental model]]

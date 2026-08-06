@@ -4,6 +4,8 @@
 
 > One-line: table data lives in RAM only — microsecond reads for temp/session data; gone on restart; strict type/size limits.
 
+---
+
 ## Index
 
 - [[#Mental model]]

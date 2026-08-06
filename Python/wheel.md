@@ -4,6 +4,8 @@
 
 > Built distribution format — pre-built zip of code + metadata for fast `pip install` without compile on target.
 
+---
+
 ## Index
 
 - [[#Mental model]]

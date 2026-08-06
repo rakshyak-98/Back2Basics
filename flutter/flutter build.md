@@ -4,6 +4,8 @@
 
 > Compile Dart to native ARM/x64 binaries and platform bundles — debug fast, profile jank, release with obfuscation, signing, and store-ready artifacts.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > Editor CLI + multi-root workflow — open correct folder, reuse window, remote URIs, and command palette IDs for automation and docs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

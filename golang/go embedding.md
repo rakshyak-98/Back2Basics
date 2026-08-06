@@ -4,6 +4,8 @@
 
 > Anonymous field embedding — promotes methods and fields for convenient delegation; **not** classical inheritance; conflicts resolve by explicit outer rules.
 
+---
+
 ## Index
 
 - [[#Mental model]]

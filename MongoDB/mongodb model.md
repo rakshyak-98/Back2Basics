@@ -4,6 +4,8 @@
 
 > Schema + indexes + hooks that define document shape, constraints, and query paths — **Mongoose docs** + DBA review habits.
 
+---
+
 ## Index
 
 - [[#Mental model]]

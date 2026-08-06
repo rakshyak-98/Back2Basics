@@ -1,3 +1,22 @@
+[[mysql]]
+
+# mysql Programmable SQL
+
+> One-line: what / why for **mysql Programmable SQL** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#View all the prepared statement]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 [PREPARE statement](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html)
 ```mysql
@@ -6,16 +25,16 @@ SET @json = '[]';
 EXECUTE stmt USING @json;
 DEALLOCATE PROCEDURE stmt;
 ```
-
 ```mysql
 SHOW STATUS LIKE "Prepared%";
 ```
 
-## Index
+## Standard config / commands
 
-- [[#View all the prepared statement]]
+…
 
 ## View all the prepared statement
+
 ```sql
 SELECT STATEMENT_ID, STATEMENT_NAME, SQL_TEXT FROM performance_schema.prepared_statements_instances;
 
@@ -48,3 +67,22 @@ EXECUTE stmt USING @a, @b, @c;
 | `User-defined Variable`     | **Session Variable**         | Temporary scoped variable prefixed with `@`     |
 | `Control Flow` (`IF`, etc.) | **Flow Control Constructs**  | Logic inside procedures/functions               |
 | `EXECUTE IMMEDIATE`         | Not in SQL; MySQL Shell only | Used in `mysqlsh`, not standard MySQL SQL       |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

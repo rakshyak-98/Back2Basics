@@ -4,6 +4,8 @@
 
 > How NGINX organizes its C source tree — where event I/O, core utilities, and modules live — **NGINX internals + reading upstream source under incident pressure**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

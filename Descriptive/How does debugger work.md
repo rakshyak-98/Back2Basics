@@ -1,3 +1,28 @@
+[[Descriptive]]
+
+# How does debugger work
+
+> One-line: what / why for **How does debugger work** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Operating System interaction]]
+- [[#Process break]]
+- [[#Context Switching]]
+- [[#Exception handling]]
+- [[#User and kernel modes]]
+- [[#Control transfer]]
+- [[#Debugger Initialization]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 1. Debugger initialization
 2. Operating system interaction
 3. Process Break
@@ -9,22 +34,9 @@
 9. User interface
 10. Control Transfer
 
-## Index
+## Standard config / commands
 
-- [[#Debugger Initialization]]
-- [[#Operating System interaction]]
-- [[#Process break]]
-- [[#Context Switching]]
-- [[#Debugging Events]]
-- [[#Exception handling]]
-- [[#User and kernel modes]]
-- [[#Control transfer]]
-
-## Debugger Initialization
-
-debugger is launched and attaches to the target process.
-
-- done by user or by an IDE
+…
 
 ## Operating System interaction
 
@@ -41,10 +53,6 @@ debugger is launched and attaches to the target process.
 
 - operating system kernel performs a context switch to transfer control to the debugger.
 - debugger then can inspect and modify the state of the target process (registers, memory, stack)
-
-## Debugging Events
-
-- break-points exception, signals, occur during the execution of the target process.
 
 ## Exception handling
 
@@ -95,3 +103,28 @@ ptrace has a request to get the registers :
 
 - A debugger will sometimes need to read some parts of the memory or even modify it.
 - the GNU Project Debugger (GDB) can use _print_ to get the value of a memory location or a variable.
+
+## Debugger Initialization
+
+debugger is launched and attaches to the target process.
+
+- done by user or by an IDE
+
+
+### Debugging Events
+
+
+- break-points exception, signals, occur during the execution of the target process.
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

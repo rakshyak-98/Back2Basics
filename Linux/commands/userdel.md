@@ -4,6 +4,8 @@
 
 > One-line: remove a local user account from `/etc/passwd` and optionally home + mail spool — offboarding and cleanup; irreversible without backups. **Kerrisk**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

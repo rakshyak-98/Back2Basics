@@ -4,6 +4,8 @@
 
 > One-line: authoritative/recursive DNS via `named` — edit `named.conf`, validate zones, reload without restart, know recursion vs authority.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,11 +1,15 @@
-Absolutely. Here’s a comprehensive PRD for CityDress AI, structured to cover strategy, product, and execution details you can hand to engineers, designers, and stakeholders.
-
----
+[[Projects]]
 
 # Product Requirements Document (PRD)
 
+> One-line: what / why for **Product Requirements Document (PRD)** — source TBD.
+
+---
+
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#CityDress AI]]
 - [[#1) Product Overview]]
 - [[#2) Target Users]]
@@ -20,6 +24,18 @@ Absolutely. Here’s a comprehensive PRD for CityDress AI, structured to cover s
 - [[#11) Risks & Mitigations]]
 - [[#12) Roadmap (High-Level)]]
 - [[#13) Success Criteria for MVP Launch]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Absolutely. Here’s a comprehensive PRD for CityDress AI, structured to cover strategy, product, and execution details you can hand to engineers, designers, and stakeholders.
+
+## Standard config / commands
+
+…
 
 ## CityDress AI
 
@@ -270,3 +286,22 @@ An online service that generates hyper-customized women's dresses aligned to use
 ---
 
 If you’d like, I can tailor this PRD to a specific city set, provide a detailed data schema for the backend, or draft user interface wireframes and a minimal test plan for MVP validation. Would you like me to drill down into any section (e.g., AI engine requirements, data model, or specific MVP user stories)?
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

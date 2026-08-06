@@ -4,6 +4,8 @@
 
 > Creates object, sets prototype, runs constructor with fresh `this`, returns instance — **ECMAScript `[[Construct]]`**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

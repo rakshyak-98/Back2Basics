@@ -4,6 +4,8 @@
 
 > One-line: the MTA/MDA/MUA stack that accepts, routes, stores, and retrieves mail — debug deliverability at each hop.
 
+---
+
 ## Index
 
 - [[#Mental model]]

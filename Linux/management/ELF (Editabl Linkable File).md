@@ -4,6 +4,8 @@
 
 > One-line: the standard **binary object format** for executables, shared libraries, and relocatable objects on Linux — what `file`, the dynamic linker, and debuggers consume. **System V ABI / gABI**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

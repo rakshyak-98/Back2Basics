@@ -1,9 +1,15 @@
-**NAT traversal** is the process of enabling two devices behind NATs to communicate with each other.
+[[Networking]]
+
+# NAT Traversal
+
+> One-line: what / why for **NAT Traversal** — source TBD.
 
 ---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#What is NAT?]]
 - [[#The problem]]
 - [[#NAT traversal]]
@@ -11,6 +17,18 @@
 - [[#Technologies involved]]
 - [[#Real-world analogy]]
 - [[#Summary]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+**NAT traversal** is the process of enabling two devices behind NATs to communicate with each other.
+
+## Standard config / commands
+
+…
 
 ## What is NAT?
 
@@ -75,11 +93,11 @@ NAT traversal is the set of techniques used to overcome this problem.
 Typical steps:
 
 1. Discover the public IP and port (**STUN**).
-    
+
 2. Attempt a direct connection (**ICE**).
-    
+
 3. If direct communication fails, relay traffic through **TURN**.
-    
+
 
 ---
 
@@ -131,30 +149,49 @@ Browser A ---> TURN ---> Browser B
 Imagine two people inside office buildings.
 
 - **Private IP** = their desk extension number.
-    
+
 - **Public IP** = the company's main phone number.
-    
+
 - **NAT traversal** = figuring out how they can call each other despite each being behind a company phone system.
-    
+
     - Ask the receptionist for the external number (**STUN**).
-        
+
     - Try calling directly (**ICE**).
-        
+
     - If direct calls aren't allowed, route the call through an operator (**TURN**).
-        
+
 
 ---
 
 ## Summary
 
 - **NAT traversal** = techniques for enabling communication through NAT devices.
-    
+
 - It is needed because devices behind NAT are not directly reachable from the Internet.
-    
+
 - Common protocols:
-    
+
     - **STUN** → discover public address.
-        
+
     - **ICE** → find the best connection path.
-        
+
     - **TURN** → relay traffic if direct connectivity fails.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

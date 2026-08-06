@@ -4,6 +4,8 @@
 
 > Fixed algorithm skeleton in a base class (or function); subclasses override steps — **Dive Into Design Patterns + LaunchPipeline**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

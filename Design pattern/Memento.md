@@ -4,11 +4,14 @@
 
 > Capture and restore an object's internal state without exposing it — undo/draft snapshots — **Dive Into Design Patterns + campaign draft memento**.
 
+---
+
 ## Index
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
+- [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
@@ -57,6 +60,11 @@ function undo() {
 | Undo leaks private fields | Caretaker reads memento | Keep snapshot opaque / readonly |
 | Memory blowup | Unbounded history | Cap stack; persist to disk |
 | Partial restore | Nested objects shared by ref | Deep clone on save |
+
+## Gotchas
+
+> [!WARNING]
+> …
 
 ## When NOT to use
 

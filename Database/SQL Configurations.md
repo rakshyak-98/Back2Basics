@@ -4,6 +4,8 @@
 
 > **Server knobs that survive reboot** — connection limits, memory, replication, SSL, and logging. Tune for workload (OLTP vs batch), not copy-paste "my.cnf from blog."
 
+---
+
 ## Index
 
 - [[#Mental model]]

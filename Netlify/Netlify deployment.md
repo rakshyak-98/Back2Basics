@@ -4,6 +4,8 @@
 
 > Git-connected or CLI deploy with `netlify.toml` — build command, publish dir, and Next.js plugin for SSR/ISR.
 
+---
+
 ## Index
 
 - [[#Mental model]]

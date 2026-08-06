@@ -1,5 +1,28 @@
-[getting-started/media-devices](https://webrtc.org/getting-started/media-devices)
+[[Streaming]]
 
+# WebRTC Get Started Guide
+
+> One-line: what / why for **WebRTC Get Started Guide** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Querying media devices]]
+- [[#Listening for devices changes]]
+- [[#Media constraints]]
+- [[#Local playback]]
+- [[#Peer Connections]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+[getting-started/media-devices](https://webrtc.org/getting-started/media-devices)
 ```js
 navigator.mediaDevices.getUserMedia({vide: true, audio: true})
 	.then( stream => {
@@ -7,15 +30,12 @@ navigator.mediaDevices.getUserMedia({vide: true, audio: true})
 	})
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Querying media devices]]
-- [[#Listening for devices changes]]
-- [[#Media constraints]]
-- [[#Local playback]]
-- [[#Peer Connections]]
+…
 
 ## Querying media devices
+
 - in more complex application, we will likely want to check all the connected cameras and microphones and provide the appropriate feedback to the user.
 ```js
 function getConnectedDevices(type, callback){
@@ -29,6 +49,7 @@ getConnectedDevices('videoinput', cameras => console.log("Cameras found", camera
 ```
 
 ## Listening for devices changes
+
 - most computers support plugging in various devices during runtime. It could be a webcam connected by USB, a Bluetooth headset, or a set of external speakers. In order to properly support this, a web application should listen for the changes of media devices.
 
 > [!INFO] this is done by adding a listener to `navigator.mediaDevices` for the `devicechange` event.
@@ -104,10 +125,30 @@ async function playVideoFromCamers(){
 ```
 
 ## Peer Connections
+
 - deals with connecting two applications on different computers to communicate using a peer-to-peer protocol. The Communication between peers can be video, audio or arbitrary binary data (for clients supporting the `RTCDataChannel` API).
 - In order to discover how two peers can connect, both client need to provide an ICE Server configuration.
 	- This is either STUN or a TURN-server, and their role is to provide ICE candidates to each client which is then transferred to the remote peer.
-	
+
 > [!INFO] This transferring of ICE candidates is commonly called signaling.
 
 ### Signaling
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

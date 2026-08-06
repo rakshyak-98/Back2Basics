@@ -1,9 +1,31 @@
+[[JavaScript]]
+
+# Garbage Collection
+
+> One-line: what / why for **Garbage Collection** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Garbage collection]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Garbage collection
+
 - memory management in JavaScript is performed automatically and invisibly to us.
 - the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on the execution.
 ### what happens when something is not needed any more? How does JavaScript engine discover it and clean it up?
@@ -15,7 +37,7 @@
 	- global variables
 2. if it's reachable from a _root_ by a reference or by a chain of references.
 	- if there's an object in a global variable, and that object has a property referencing another object, that object is considered reachable. And those that it references are also reachable.
-	
+
 > [!INFO] there are background processes in the JavaScript engine that is called [garbage collector](). It monitors all objects and removes those that have become unreachable.
 
 > [!INFO] only incoming references can make an object reachable.
@@ -26,3 +48,22 @@
 - so on until every reachable (from the roots) references are visited.
 - all objects except marked ones are removed.
 [A tour of V8: Garbage Collection](https://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

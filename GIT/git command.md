@@ -4,6 +4,8 @@
 
 > One-line: when history is wrong, refs are lost, or merges surprise you — reflog, bisect, and dry-run merge before you force-push.
 
+---
+
 ## Index
 
 - [[#Mental model]]

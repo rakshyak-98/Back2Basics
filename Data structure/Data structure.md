@@ -1,40 +1,54 @@
-> [!INFO] 
-  Algorithm complexity
-> - mostly has to do with the number of times the algorithm needs to access its input data to do its job. 
-- an `O(n)` algorithm, which needs to access its input only once.
+[[Data structure]]
 
-Pattern recognition practice
-- What type of problem is this? (counting, finding, max/min, searching).
-- Have I seen something similar before?
-- What data structure naturally fits this problem?
+# Data structure
 
-Break the problem into constraints -> Every problem has constraints that defines the answer.
-- What is limiting the result?
-- What is the ceilling (maximum possible)?
-- What is the floor (minimum required)?
+> - mostly has to do with the number of times the algorithm needs to access its input data to do its job.
 
-Think in terms of What you're Optimizing
-(this builds the habit of seeing the mathematical relationship behind a problem)
-- Am I maximizing or minimizing something?
-- What variables affect the result?
-- What happens at the extremes? (all same type, all different types)
-
-> [!INFO]
->  `O(n!)`
-> - the worst algorithms, however, are the ones with an `O(n!)` running time. 
-> - Which makes them almost unusable for inputs with more than 300 elements.
-
-### Logic
-- increase the steps
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Array]]
 - [[#Sub-array]]
 - [[#Fixed size window size is predetermined]]
 - [[#Variable size window window expands or shrinks dynamically based on constraints]]
 - [[#Dynamic sliding window (Two Pointers)]]
 - [[#Sliding window with frequency count]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+> [!INFO]
+  Algorithm complexity
+- an `O(n)` algorithm, which needs to access its input only once.
+Pattern recognition practice
+- What type of problem is this? (counting, finding, max/min, searching).
+- Have I seen something similar before?
+- What data structure naturally fits this problem?
+Break the problem into constraints -> Every problem has constraints that defines the answer.
+- What is limiting the result?
+- What is the ceilling (maximum possible)?
+- What is the floor (minimum required)?
+Think in terms of What you're Optimizing
+(this builds the habit of seeing the mathematical relationship behind a problem)
+- Am I maximizing or minimizing something?
+- What variables affect the result?
+- What happens at the extremes? (all same type, all different types)
+> [!INFO]
+>  `O(n!)`
+> - the worst algorithms, however, are the ones with an `O(n!)` running time.
+> - Which makes them almost unusable for inputs with more than 300 elements.
+### Logic
+- increase the steps
+
+## Standard config / commands
+
+…
 
 ## Array
 
@@ -56,14 +70,15 @@ Think in terms of What you're Optimizing
 > Getting data at a specific index involves multiplying the width (size in bytes) of the type by the index offset, then adding it to the base memory address to locate the desired element. The system then goes to that calculated address and retrieves the data.
 
 ## Sub-array
-- a sub-array is a contiguous segment of an array. For an array of size N, a sub-array can start at any index from 0 to N -1. 
+
+- a sub-array is a contiguous segment of an array. For an array of size N, a sub-array can start at any index from 0 to N -1.
 - counting sub-array : from each start index i (where i ranges from 0 to N - 1), the sub-array can end at any index j (where j ranges from i to N - 1).
 - the number of choices from the ending index j for a given starting index i in N - i.
 
 ---
 ### 1. Difference Between Stack and Queue
 
-**Stack**: Follows LIFO (Last In, First Out).  
+**Stack**: Follows LIFO (Last In, First Out).
 **Queue**: Follows FIFO (First In, First Out).
 
 #### Implementation in JavaScript:
@@ -183,7 +198,7 @@ Think in terms of What you're Optimizing
 - Efficient autocomplete and dictionary operations.
 
 > [!INFO] Overlapping sub-problems cause exponential time complexity `O(2^n)`
-> - if you see repeated sub-problems, think [[Memoization (Top-Down DP)]] 
+> - if you see repeated sub-problems, think [[Memoization (Top-Down DP)]]
 
 ### Memoization (Optimized recursion)
 - store results in a hashmap time `O(n)` and space `O(n)`
@@ -205,7 +220,9 @@ Think in terms of What you're Optimizing
 
 # Sliding window
 useful for solving problems involving contiguous subarray or sub-strings efficiently by avoiding redundant computations. Instead of using a brute-force `O(n^2)` approach, it efficiently slides a window over the input to achieve `O(n)` complexity.
+
 ## Fixed size window size is predetermined
+
 - complexity -> time `O(n)` / space `O(1)`.
 ### algorithm
 - initialize two pointers `left=0` and `right=0`
@@ -214,13 +231,15 @@ useful for solving problems involving contiguous subarray or sub-strings efficie
 - slide the window by moving `left` and `right` together.
 
 ## Variable size window window expands or shrinks dynamically based on constraints
+
 - used when the window size is not fixed and depends on conditions
 ### algorithm
-- expand `right` until the condition is met. 
+- expand `right` until the condition is met.
 - contract `left` while the condition remains valid.
 - keep track of the best answer.
 
 ## Dynamic sliding window (Two Pointers)
+
 used when the window must be adjusted dynamically based on a condition. (Find the longest substring without repeating characters)
 ### algorithm
 - expand `right` and store characters in a hashmap.
@@ -228,4 +247,24 @@ used when the window must be adjusted dynamically based on a condition. (Find th
 - track the longest valid window.
 
 ## Sliding window with frequency count
+
 used when dealing with counting elements inside a dynamic window (anagram matching).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

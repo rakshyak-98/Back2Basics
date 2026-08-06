@@ -4,6 +4,8 @@
 
 > One-line: **delta file sync over SSH or local** — production backups and deploys with `-a`, dry-run, and explicit trailing slashes. The trailing slash rule causes more outages than rsync bugs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

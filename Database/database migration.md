@@ -4,6 +4,8 @@
 
 > One-line: versioned, reversible schema changes applied in order — single source of truth for DDL; never edit applied migrations.
 
+---
+
 ## Index
 
 - [[#Mental model]]

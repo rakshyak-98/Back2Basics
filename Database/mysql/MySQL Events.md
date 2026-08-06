@@ -4,6 +4,8 @@
 
 > Built-in job scheduler — run SQL on a cron-like schedule inside the server; no external cron required, but visibility and failure handling are weaker than app-level workers.
 
+---
+
 ## Index
 
 - [[#Mental model]]

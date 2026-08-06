@@ -1,11 +1,30 @@
-`lean()` 
+[[mongoose]]
+
+# mongoose methods
+
+> One-line: what / why for **mongoose methods** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Custom sequences for categories (100xxx, 200xxx etc.)]]
+- [[#Mongoose plugin Solution for sequence]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+`lean()`
 Avoid the overhead of Mongoose wrapper functions and features.
 - used in Mongoose ORM to optimize performance for read-heavy opeartions.
 - can not use methods like `.save()` or `.validate()` on lean query results.
 - read-only use, not suitable for operations requiring updates or additional mongoose methods.
-
 > [!NOTE] as `populate()` normally returns Mongoose documents. When combined with `lean()`, it ensures even the populated fields are returned as plain JavaScript objects.
-
 ### Validate schema
 ```js
 const validateDoc = new ApplicationSchema(
@@ -16,7 +35,6 @@ const validateDoc = new ApplicationSchema(
 	{ new: true }
 );
 console.log(validateDoc);
-
 await validateDoc.validate({ pathsToSkip: ["program"] });
 const application = await ApplicationSchema.updateOne(
 	{
@@ -34,12 +52,12 @@ res.json({
 });
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Custom sequences for categories (100xxx, 200xxx etc.)]]
-- [[#Mongoose plugin Solution for sequence]]
+…
 
 ## Custom sequences for categories (100xxx, 200xxx etc.)
+
 - To generate category-based sequences, you need a separate counter per category.
 ```js
 const CounterSchema = new mongoose.Schema({
@@ -74,6 +92,7 @@ const Product = mongoose.model('Product', productSchema);
 ```
 
 ## Mongoose plugin Solution for sequence
+
 [[Mongoose plugin]]
 
 ```js
@@ -88,11 +107,30 @@ const productSchema = new mongoose.Schema({
   price: Number
 });
 
-productSchema.plugin(AutoIncrement, { 
-  inc_field: 'productId', 
-  start_seq: 1001 
+productSchema.plugin(AutoIncrement, {
+  inc_field: 'productId',
+  start_seq: 1001
 });
 
 const Product = mongoose.model('Product', productSchema);
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

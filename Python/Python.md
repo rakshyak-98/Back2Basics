@@ -1,109 +1,39 @@
+[[Python]]
+
 # Python
 
-- ref
-	[https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/](https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/)
-	
-	[https://docs.python.org/3/library/inspect.html#module-inspect](https://docs.python.org/3/library/inspect.html#module-inspect)
-	
-	[https://docs.python.org/3/glossary.html](https://docs.python.org/3/glossary.html)
-	
-	[https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf](https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf)
-	
+> One-line: what / why for **Python** — source TBD.
 
-```bash
-python3 -m pdb <"python file to debug">;
-```
-
-- dashes are illegal in Python identifiers
-- The `sys.path` list contains all the directories that Python will search for modules when you try to import them.
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Setup tool]]
 - [[#Python version mapping (multiple python version)]]
 - [[#json]]
 - [[#encoding decoding]]
-- [[#Setup tool]]
 - [[#Sub process]]
 - [[#Thread process]]
 - [[#Deleting variables and garbage collection]]
 - [[#modules]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
-## Python version mapping (multiple python version)
-
-```bash
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt-get update
-
-apt list | grep python3.11
-
-sudo apt-get install python3.11
-
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
-
-sudo update-alternatives --config python3
-
-python3 -V
-```
-
-### Create wheel setup for python
-
-```python
-
-```
-
-# GIL
-
-# Serialize or De-serialize
-
-# Supervisor
+## Mental model
 
 - ref
-    
-    [http://supervisord.org/](http://supervisord.org/)
-    
-    [https://docs.python.org/3/library/configparser.html](https://docs.python.org/3/library/configparser.html)
-    
-
+	[https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/](https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/)
+	[https://docs.python.org/3/library/inspect.html#module-inspect](https://docs.python.org/3/library/inspect.html#module-inspect)
+	[https://docs.python.org/3/glossary.html](https://docs.python.org/3/glossary.html)
+	[https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf](https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf)
 ```bash
-pip install supervisor
+python3 -m pdb <"python file to debug">;
 ```
-
-## json
-
-- The `Person` class has attributes `name` and `age`.
-- The `convert_to_dict` function is defined to convert a `Person` object into a dictionary, which is JSON serializable.
-- The `default=convert_to_dict` argument is passed to `json.dumps()`, telling it to use `convert_to_dict` for any non-serializable objects encountered.
-
-```python
-import json
-
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-def convert_to_dict(obj):
-    if isinstance(obj, Person):
-        return obj.__dict__
-    raise TypeError("Type not serializable")
-
-person = Person(name="John", age=30)
-json_string = json.dumps(person, default=convert_to_dict)
-
-print(json_string)
-```
-
-# Data Validation
-
-`pydentic` : python widely used data validation library.
-
-## encoding decoding
-
-```python
-import hashlib, base64
-original_bytes = bytes.fromhex(hex_value); # get hex value form hex decoded.
-```
+- dashes are illegal in Python identifiers
+- The `sys.path` list contains all the directories that Python will search for modules when you try to import them.
 
 ## Setup tool
 
@@ -130,9 +60,9 @@ python setup.py sdist bdist_wheel
 ### Window setup activate-env
 
 - ref
-    
+
     https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3
-    
+
 
 ```bash
 # setup for activate.bat to take effect in poweshell
@@ -210,20 +140,20 @@ bound methods - if a function is an attribute of class and it is accessed via th
 
 - the methods with the `self` argument at the beginning are the bounds methods. These are dependent on the instance of the classes, known as instance methods.
 
-unbound methods - 
+unbound methods -
 
 - cannot call this methods using a class instance. *Static methods* are example of unbound method.
 
-static methods - 
+static methods -
 
 - deals with the arguments it takes.
 
 ### XML parsing
 
 - reference
-    
+
     [https://lxml.de/parsing.html](https://lxml.de/parsing.html)
-    
+
 
 ```python
 from lxml import etree
@@ -237,6 +167,83 @@ etree.XMLParser()
 
 # Processes
 
+## Python version mapping (multiple python version)
+
+```bash
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+
+apt list | grep python3.11
+
+sudo apt-get install python3.11
+
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
+
+sudo update-alternatives --config python3
+
+python3 -V
+```
+
+### Create wheel setup for python
+
+```python
+
+```
+
+# GIL
+
+# Serialize or De-serialize
+
+# Supervisor
+
+- ref
+
+    [http://supervisord.org/](http://supervisord.org/)
+
+    [https://docs.python.org/3/library/configparser.html](https://docs.python.org/3/library/configparser.html)
+
+
+```bash
+pip install supervisor
+```
+
+## json
+
+- The `Person` class has attributes `name` and `age`.
+- The `convert_to_dict` function is defined to convert a `Person` object into a dictionary, which is JSON serializable.
+- The `default=convert_to_dict` argument is passed to `json.dumps()`, telling it to use `convert_to_dict` for any non-serializable objects encountered.
+
+```python
+import json
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+def convert_to_dict(obj):
+    if isinstance(obj, Person):
+        return obj.__dict__
+    raise TypeError("Type not serializable")
+
+person = Person(name="John", age=30)
+json_string = json.dumps(person, default=convert_to_dict)
+
+print(json_string)
+```
+
+# Data Validation
+
+`pydentic` : python widely used data validation library.
+
+## encoding decoding
+
+```python
+import hashlib, base64
+original_bytes = bytes.fromhex(hex_value); # get hex value form hex decoded.
+```
+
 ## Sub process
 
 ```python
@@ -246,9 +253,9 @@ result = subprocess.run(['path/to/your/binary/executable'], stdout=subprocess.PI
 ## Thread process
 
 - reference
-    
+
     [https://docs.python.org/3/library/threading.html](https://docs.python.org/3/library/threading.html)
-    
+
 
 ### See the threads currently running
 
@@ -268,12 +275,12 @@ using `active_count()` function to get the number of active threads in the progr
 
 1. Using the `thread.exit()`. Called from within the thread to terminate the thread. It Does not allow the thread to clean up after itself or release any resources it may be holding.
 2. Using a flag variable. Use a flag variable that the thread checks periodically when the flag variable that the thread checks periodically.
-    1. `threading.Event().is_set()`   
+    1. `threading.Event().is_set()`
     2. `thread.join()` method is called on a thread, the calling thread will block until the target thread has finished executing. This can be used to terminate a thread by calling `join()` on the thread from the main thread or another thread.
         1. allows to wait for a thread to complete its execution.
         2. support the use of `TIMEOUT_MAX` . Takes an optional argument `timeout` argument.
         3. the error `cannot join current thread` can occur when `join()` method call on the thread that is currently running, because current thread cannot be joined to itself.
-        4. the error `cannot wait on un-acquired lock` can occur when using the `threading.Condition()` . If you try to call the `wait()` method without first acquiring the lock associated with the condition. 
+        4. the error `cannot wait on un-acquired lock` can occur when using the `threading.Condition()` . If you try to call the `wait()` method without first acquiring the lock associated with the condition.
         5. The Condition class provides a way to synchronize the execution of threads by allowing them to wait for a certain condition to be met before continuing.
             1. to use condition. Create a `Lock` object and acquire it, and then call the `wait()` method on the `Condition` , the `wait()` method releases the lock and blocks the current thread until the condition is set or the optional timeout is reached.
             2. If the calling thread has not acquired the lock when this method is called, a `RuntimeError` is raised.
@@ -349,7 +356,7 @@ with open('eggs.csv', newline='') as csvfile:
         print(', '.join(row))
 ```
 
-reader 
+reader
 
 - return a reader object which will over lines in the given csvfile.
 
@@ -370,3 +377,22 @@ reader
 [CLI](https://www.notion.so/CLI-ae01cb22e6e2483ba6e4134a402c4dc5?pvs=21)
 
 [topics](https://www.notion.so/topics-35ad2f8d9c054745bd718a5c58e46e17?pvs=21)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > PCI SSC program: outsource entire payment page/checkout to qualified provider — dramatically shrink merchant PCI scope — **PCI DSS SAQ selection**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

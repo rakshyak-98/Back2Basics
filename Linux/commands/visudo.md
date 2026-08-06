@@ -1,38 +1,46 @@
-`visudo` -> safely edit the system's `sudoers` file `/etc/sudoers`. 
+[[commands]]
 
+# %group_name - syntax to define group permission
+
+> Can run as any **user**, but **not** as any arbitrary group (the group stays the original user's primary group unless -g is explicitly used).
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Extending sudoers file to include user specific sudoers config files]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+`visudo` -> safely edit the system's `sudoers` file `/etc/sudoers`.
 ```bash
-sudo -lU <user>; 
+sudo -lU <user>;
 sudo -u developer sudo nginx -t;
 sudo EDITOR=vi visudo -f <file path>;
 ```
-
 > [!NOTE]
 > `sudo -k` this option does not require a password, and was added to allow a user to revoke sudo permissions
-
 ```bash
 sudo -k;
 ```
-
 > [!WARNING]
 > sudo reads `/etc/sudoers.d/*` in lexical order (alphabetical).
-
-- Located at `/etc/sudoers` 
-
+- Located at `/etc/sudoers`
 > [!NOTE]
 > - Controls the privileges and permissions for users and groups to execute administrative commands.
 > - The `sudo` command is used to execute `visudo` with superuser (root) privileges since editing the `sudoers` file requires administrative access.
-
 ```bash
-# template of sudoers fiel : 
-# <user/group>  <host>=(<run as user>:<run as group>) <sepecial>: <commands to allow>
-# %group_name - syntax to define group permission
 john   ALL=(root)   /usr/bin/apt-get
 ```
-
 ```text
 who   where   =   (as_whom : as_which_group)   what
 ```
-
 | Position                                    | Value | Meaning                                                            |
 | ------------------------------------------- | ----- | ------------------------------------------------------------------ |
 | 1. Who (User_List)                          | ALL   | **Any user** (including root, normal users, system users, etc.)    |
@@ -40,14 +48,11 @@ who   where   =   (as_whom : as_which_group)   what
 | 3. As whom (Runas_List – user part)         | ALL   | Can run commands **as any user** (root, any other account, etc.)   |
 | 4. As which group (Runas_List – group part) | ALL   | Can run commands **as any group** (using `-g` option)              |
 | 5. What (Cmnd_List)                         | ALL   | Can run **any command** (with or without arguments)                |
-
 When you see just ALL ALL=(ALL) ALL (without the second :ALL), it means:
 
-> Can run as any **user**, but **not** as any arbitrary group (the group stays the original user's primary group unless -g is explicitly used).
+## Standard config / commands
 
-## Index
-
-- [[#Extending sudoers file to include user specific sudoers config files]]
+…
 
 ## Extending sudoers file to include user specific sudoers config files
 
@@ -108,3 +113,22 @@ Cmnd_Alias SERVICE_CONTROL = /bin/systemctl status *, \
 DEV_TEAM ALL=(ALL) NOPASSWD: LOGS_AND_STATUS
 DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL   # password for restarts
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

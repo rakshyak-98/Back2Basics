@@ -4,6 +4,8 @@
 
 > **Authorization bug**: client supplies object id (URL/body); server checks authentication but **not ownership** — attacker swaps id and reads/writes someone else's data. Includes auto-increment enumeration.
 
+---
+
 ## Index
 
 - [[#Mental model]]

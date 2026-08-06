@@ -4,6 +4,8 @@
 
 > First-line interpreter hint for Unix shells — stripped by the JS engine, meaningful only to the OS launcher — **POSIX + Node shebang practice**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

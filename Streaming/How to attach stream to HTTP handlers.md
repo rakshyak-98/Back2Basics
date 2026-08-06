@@ -1,10 +1,32 @@
+[[Streaming]]
+
+# How to attach stream to HTTP handlers
+
+> One-line: what / why for **How to attach stream to HTTP handlers** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Streaming file download]]
 - [[#Streaming file upload]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Streaming file download
+
 ```js
 const express = require('express');
 const fs = require('fs');
@@ -29,6 +51,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));
 - `.pipe(res)` sends data directly to the client, reducing memory usage.
 
 ## Streaming file upload
+
 ```js
 const express = require('express');
 const fs = require('fs');
@@ -65,8 +88,8 @@ const app = express();
 app.use('/proxy', (req, res) => {
   const proxyReq = request('https://example.com', { method: req.method });
 
-  req.pipe(proxyReq); // Forward request data  
-  proxyReq.pipe(res); // Stream response back  
+  req.pipe(proxyReq); // Forward request data
+  proxyReq.pipe(res); // Stream response back
 });
 
 app.listen(3000, () => console.log('Proxy server running on port 3000'));
@@ -74,3 +97,22 @@ app.listen(3000, () => console.log('Proxy server running on port 3000'));
 ```
 - `req.pipe(proxyReq)` forwards data to an external server.
 - `proxyReq.pipe(res)` stream the response back to the client.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

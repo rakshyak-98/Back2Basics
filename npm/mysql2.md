@@ -1,10 +1,30 @@
-> [!NOTE]
-> - in the `mysql2` package when you run DDL statements the response is a `RequestHeader`, not rows.
+[[npm]]
+
+# mysql2
+
+> One-line: what / why for **mysql2** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Create Pool connection]]
 - [[#Connection shutdown]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+> [!NOTE]
+> - in the `mysql2` package when you run DDL statements the response is a `RequestHeader`, not rows.
+
+## Standard config / commands
+
+…
 
 ## Create Pool connection
 
@@ -50,3 +70,22 @@ process.on("SIGTERM", async () => {
 });
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

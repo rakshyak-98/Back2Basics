@@ -1,6 +1,27 @@
-> [!INFO] 
-> extraneous -> A package is installed in `node_modules` but not listed in `dependencies` or `devDependencies` in `package.json`.
+[[Packages]]
 
+# npm packages
+
+> One-line: what / why for **npm packages** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#yup]]
+- [[#CORS]]
+- [[#multer]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+> [!INFO]
+> extraneous -> A package is installed in `node_modules` but not listed in `dependencies` or `devDependencies` in `package.json`.
 - [lodash](https://www.npmjs.com/package/lodash) - JavaScript utility library
 - [mathjs](https://mathjs.org/)
 - [vercel/ms](https://github.com/vercel/ms) use this package to easily convert time formats to milliseconds
@@ -24,16 +45,15 @@
 - [got]() - HTTP request library for NodeJS, alternative to axios and Node's built-in `http` module, provider stream support
 - [uWebSocket](https://github.com/uNetworking/uWebSockets) -> low-latency [[WebSocket]] and HTTP server library written c++
 - [class-transformer](https://www.npmjs.com/package/class-transformer) -> if you're using typeScript, this package is used for serializing and transforming objects.
-- [node-cron](https://www.npmjs.com/package/node-cron) -> 
+- [node-cron](https://www.npmjs.com/package/node-cron) ->
 	- `node-cron` schedules tasks in-memory within the NodeJS process - not at the OS level.
 
-## Index
+## Standard config / commands
 
-- [[#yup]]
-- [[#CORS]]
-- [[#multer]]
+…
 
 ## yup
+
 ```js
 import * as yup from 'yup';
 
@@ -72,6 +92,7 @@ const schema = yup.object({
 ```
 
 ## CORS
+
 ```js
 origin: (origin, callback) => {
   const allowed = ["https://mydomain.com"];
@@ -92,3 +113,22 @@ origin: (origin, callback) => {
 | `upload.single('file')`                                   | `formData.append('file', file)`              |
 | `upload.array('files', 5)`                                | `formData.append('files', file1)` (multiple) |
 | `upload.fields([{ name: 'avatar' }, { name: 'resume' }])` | Use matching keys for each                   |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

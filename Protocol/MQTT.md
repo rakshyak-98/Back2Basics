@@ -4,6 +4,8 @@
 
 > One-line: lightweight pub/sub for devices and IoT — broker-centric topics, QoS 0/1/2, small headers; not a drop-in for HTTP REST or chat at web scale without ops discipline.
 
+---
+
 ## Index
 
 - [[#Mental model]]

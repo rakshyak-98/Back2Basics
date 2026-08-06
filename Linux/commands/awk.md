@@ -1,10 +1,30 @@
+[[commands]]
+
+# awk
+
+> One-line: what / why for **awk** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#How to print user and their belonging groups]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```text
 awk 'pattern { action }' file:
 ```
 
-## Index
+## Standard config / commands
 
-- [[#How to print user and their belonging groups]]
+…
 
 ## How to print user and their belonging groups
 
@@ -62,7 +82,7 @@ awk '{ print $2 }' file.text
 > - by default `awk` split each line on white-space (space or tab).
 > - Text processing tool for line by line parsing.
 > - patterns scanning + processing (fields, columns, regex, etc.).
- 
+
 ```sh
 awk 'pattern { action }' file;
 ```
@@ -81,8 +101,8 @@ awk -F, '{ print $1 }' file.csv; # change delimiter
 ```
 
 ```sh
-awk 'BEGIN { init_code } 
-     condition { action_code } 
+awk 'BEGIN { init_code }
+     condition { action_code }
      END { cleanup_code }'
 ```
 
@@ -123,3 +143,21 @@ awk '{print NR, $0}' file.txt
 awk -F: '{print $1, $7}' /etc/passwd
 ```
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

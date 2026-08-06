@@ -4,6 +4,8 @@
 
 > One-line: **Swiss-army TCP/UDP socket tool** — prove connectivity, banner-grab, and one-shot port checks faster than full scans. Not a replacement for proper TLS or auth testing.
 
+---
+
 ## Index
 
 - [[#Mental model]]

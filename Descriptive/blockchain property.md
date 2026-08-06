@@ -4,6 +4,8 @@
 
 > Distributed ledger guarantees for builders — immutability, consensus, and transparency trade off against latency, cost, and privacy; don't treat "on-chain" as magic persistence.
 
+---
+
 ## Index
 
 - [[#Mental model]]

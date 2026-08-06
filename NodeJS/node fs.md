@@ -4,6 +4,8 @@
 
 > One-line: Node's filesystem API (`node:fs`) — promises for app code, streams for size, sync only at boot; understand flags, modes, and EMFILE limits.
 
+---
+
 ## Index
 
 - [[#Mental model]]

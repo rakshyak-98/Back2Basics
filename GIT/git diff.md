@@ -1,20 +1,37 @@
+[[GIT]]
+
+# git diff
+
+> One-line: what / why for **git diff** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Ignore some kind of changes]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```bash
 git diff --name-only;
 git diff --cached --name-only;
 git diff main.. --name-only;
 git diff --name-status;
 ```
-
 - compare file in different brach
 ```bash
 git diff branch1 branch2 -- <file path>;
 ```
-
 ```bash
 git diff --stat
 git diff --shortstat
 ```
-
 ```bash
 git diff --cached;
 git diff --staged;
@@ -23,26 +40,22 @@ git diff HEAD~1 HEAD;
 git diff main...HEAD;
 git diff main..feature;
 ```
-
 ```bash
 git diff v1.2.3 v1.3.0 --name-only;
 git diff abc123..def456;
 git diff --since="2 days ago" --name-only;
 ```
-
 ### Filter by path/pattern
-
 ```bash
 git diff -- src/;
 git diff -- '*.js' '*.ts' '*.tsx';
-
 git diff -- . ':!node_modules';
 git diff --diff-filter=R --name-only;
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Ignore some kind of changes]]
+…
 
 ## Ignore some kind of changes
 
@@ -63,3 +76,22 @@ git diff --ignore-space-at-eol
 # Ignore changes in indentation
 git diff --ignore-cr-at-eol
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

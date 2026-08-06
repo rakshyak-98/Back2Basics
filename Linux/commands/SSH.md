@@ -1,22 +1,40 @@
-Server policy (`/etc/ssh/sshd_config`): [[sshd config]]
+[[commands]]
 
+# SSH
+
+> One-line: what / why for **SSH** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Remote port forwarding]]
+- [[#Understand Symmetric Encryption, Asymmetric Encryption and Hashes]]
+- [[#Hashing]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Server policy (`/etc/ssh/sshd_config`): [[sshd config]]
 ```shell
 ssh -F <config file> -G <Host>; # print final resolved configurations for that host
 ssh user@host; # connect to remote host using default key
 ssh -p 2222 user@host; # connect with specific port
 ssh-copy-id user@host; # copy public key to a remote server
 ```
-
 ```shell
 nc -zv host 22; # check ssh port availability
 ssh -T user@host;
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Remote port forwarding]]
-- [[#Understand Symmetric Encryption, Asymmetric Encryption and Hashes]]
-- [[#Hashing]]
+…
 
 ## Remote port forwarding
 
@@ -126,3 +144,22 @@ after the symmetrical encryption is established to secure communication between 
 - the MAC is calculated from the symmetrical shared secret, the packet sequence number of the message, and the actual message content.
 - the MAC itself is sent outside of the symmetrically encrypted area as the final part of the packet.
 - recommend encrypting the data first and then calculating the MAC.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

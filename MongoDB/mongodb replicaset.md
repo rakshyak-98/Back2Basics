@@ -4,6 +4,8 @@
 
 > Primary + secondaries + oplog for durability and automatic failover — **MongoDB Manual** (Kleppmann-style distributed ops).
 
+---
+
 ## Index
 
 - [[#Mental model]]

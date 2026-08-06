@@ -1,31 +1,53 @@
-```bash
-netstat -tuln; # to show all active TCP & UDP Connections (with servers);
-ss -tuln
-lsof -i -P -n | grep LISTEN
-```
+[[commands]]
 
-```bash
-nc -zv <domain name> <port>; # check if the server is reachable on port 443;
-```
+# Linux network commands
+
+> One-line: what / why for **Linux network commands** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Socket Statistics]]
 - [[#List open files]]
 - [[#`tcpdump`]]
 - [[#`nc`]]
 - [[#nslookup]]
 - [[#DNS settings]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+```bash
+netstat -tuln; # to show all active TCP & UDP Connections (with servers);
+ss -tuln
+lsof -i -P -n | grep LISTEN
+```
+```bash
+nc -zv <domain name> <port>; # check if the server is reachable on port 443;
+```
+
+## Standard config / commands
+
+…
 
 ## Socket Statistics
+
 - list all ports and their protocols
+
 ## List open files
+
 - list all open files related to network ports, showing which services are using which ports
 
-### `netstat` 
+### `netstat`
 ```txt
 Active Internet connections (w/o servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      0 ubuntu-Latitude-5:40422 20.189.173.8:https      ESTABLISHED
 tcp        0      0 ubuntu-Latitude-5:45274 140.227.186.35.bc:https ESTABLISHED
 tcp        0      0 ubuntu-Latitude-5:40404 93.243.107.34.bc.:https ESTABLISHED
@@ -103,6 +125,7 @@ nslookup <domain.name>; # omit schema, port, and path
 ```
 
 ## DNS settings
+
 ```shell
 system-resolve --status;
 ```
@@ -114,3 +137,22 @@ Global
 ```
 
 - [[LLMNR]] and [[mDNS]] Disabled -> local name resolution (for finding devices on the network) is off.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

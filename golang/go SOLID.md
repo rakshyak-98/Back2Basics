@@ -4,6 +4,8 @@
 
 > SOLID adapted to Go's interfaces, composition, and small-package culture — not Java inheritance.
 
+---
+
 ## Index
 
 - [[#Mental model]]

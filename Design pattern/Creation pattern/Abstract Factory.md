@@ -4,6 +4,8 @@
 
 > Create families of related products without binding to concrete classes — **Dive Into Design Patterns** (Marketing platform = campaign + adset + creative + ad + insights).
 
+---
+
 ## Index
 
 - [[#Mental model]]

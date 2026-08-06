@@ -4,6 +4,8 @@
 
 > VPC + subnets + routing + SG/NACL — the **network shell** every AWS service lives in. **AWS Well-Architected (Reliability/Security)** + on-call VPC debug muscle memory.
 
+---
+
 ## Index
 
 - [[#Mental model]]

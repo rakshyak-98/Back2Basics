@@ -4,6 +4,8 @@
 
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

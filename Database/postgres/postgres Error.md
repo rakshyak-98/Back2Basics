@@ -4,6 +4,8 @@
 
 > One-line: decode FATAL connection failures — role/auth, socket vs TCP, pg_hba, SSL, and pool exhaustion.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,9 +1,26 @@
+[[Packages]]
+
+# ngrok
+
+> One-line: what / why for **ngrok** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Installation]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
 
 ## Installation
+
 ```bash
 curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
 
@@ -28,3 +45,22 @@ https://c12345abc.ngrok.io → http://localhost:3000
 
 > [!NOTE]
 > `ngrok config edit` opens with `neno` editor for opening with vim `export EDITOR=vim`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,26 +1,39 @@
+[[Kafka]]
+
+# kafka producer and consumer
+
+> One-line: what / why for **kafka producer and consumer** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Kafka Consumer]]
+- [[#Connection pooling not used (Explained Clearly)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 A kafka producer is a component responsible for sending messages (events) to Kafka topics.
 - used to notify other microservices (e.g., Inventory, Order, and Discount services).
-
 Decouples services -> ensure [[event-driven]] architecture, reducing direct dependencies between services.
-
 Asynchronous processing -> improves performance by processing cart updates in the background.
-
-
 ### Why disconnect is called each time?
-In, Kafka, the `disconnect` is called each time a producer is instantiated and sends a message if a new connection is created and closed immediately rather than being 
-
+In, Kafka, the `disconnect` is called each time a producer is instantiated and sends a message if a new connection is created and closed immediately rather than being
 #### Short lived producer
 - if the kafka producer is instantiated inside a function and not reused, it will create a new connection each time a message is sent.
 ```js
 const {Kafka} = require("kafkajs");
-
 const kafka = new Kafka({
 	clientId: 'cart-service',
 	brokers: ["localhost:9092"], // Actual Kafka brokers
 })
-
 const producer = kafka.producer();
-
 const kafkaProducer = async(topic, message) => {
 	await producer.connect();
 	await producer.send({
@@ -29,11 +42,9 @@ const kafkaProducer = async(topic, message) => {
 	});
 	await producer.disconnect(); // Disconnects after each message.
 }
-
 module.exports = kafkaProducer;
 ```
 - Fix: Reuse the producer instance instead of creating a new one.
-
 ```js
 const addToCart = async (req, res) => {
 	const { userId } = req.auth;
@@ -42,7 +53,6 @@ const addToCart = async (req, res) => {
 	res.json({ message: "Item added to cart" })
 }
 ```
-
 | Component      | Placement                                                                       |
 | -------------- | ------------------------------------------------------------------------------- |
 | Kafka Producer | Called inside API handler (e.g, `addToCart`) to publish events.                 |
@@ -51,12 +61,12 @@ const addToCart = async (req, res) => {
 - Kafka decouples services, so Inventory Service automatically updates stock without needing a direct API call.
 - More services (e.g., Order, Discount) can consumer the same Kafka event to react accordingly.
 
-## Index
+## Standard config / commands
 
-- [[#Kafka Consumer]]
-- [[#Connection pooling not used (Explained Clearly)]]
+…
 
 ## Kafka Consumer
+
 ```js
 
 const consumer = kafka.consumer({ groupId: "inventory-group" })
@@ -78,6 +88,7 @@ run().catch(console.error);
 - run independently, listening for `cart.item.added` events.
 
 ## Connection pooling not used (Explained Clearly)
+
 Kafka does not have an internal [[connection pool]] like databases, but it does allow persistent connections to brokers. If you not reusing connection efficiently.
 
 #### What happens without connection reuse?
@@ -135,3 +146,22 @@ const producer = kafka.producer({
 {"level":"ERROR","timestamp":"2025-02-16T10:54:00.249Z","logger":"kafkajs","message":"[Connection] Connection error: getaddrinfo EAI_AGAIN kafka-server","broker":"kafka-server:9092","clientId":"cart.service","stack":"Error: getaddrinfo EAI_AGAIN kafka-server\n at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26)"}
 ```
 - the error `getadderinfo EAI_AGAIN kafka-server`  means the Kafka client cannot resolve the hostname `kafka-server`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

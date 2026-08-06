@@ -4,6 +4,8 @@
 
 > One-line: **`gnome-extensions`** — install, enable, and reset Shell extensions without hunting UUIDs in the GUI. Break/fix cycle when desktop behavior changes after upgrade.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,24 +1,14 @@
-- Start every script with a shebang
+[[Bash]]
 
-```bash
-#!/bin/bash
-```
+# bash script
 
-- Save the file (e.g., `myscript.sh`)
-- Make it executable
+> One-line: what / why for **bash script** — source TBD.
 
-```bash
-chmod +x myscript.sh;
-```
-
-- Run it
-
-```bash
-./myscript.sh
-```
+---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Variables]]
 - [[#Output echo]]
 - [[#User input: read]]
@@ -27,6 +17,26 @@ chmod +x myscript.sh;
 - [[#Loop]]
 - [[#Function]]
 - [[#Arithmetic]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+- Start every script with a shebang
+```bash
+#!/bin/bash
+```
+- Save the file (e.g., `myscript.sh`)
+- Make it executable
+```bash
+chmod +x myscript.sh;
+```
+- Run it
+```bash
+./myscript.sh
+```
 
 ## Variables
 
@@ -86,7 +96,6 @@ if
 	- `-eq` `-ne` `-lt` `-gt` `-le` `-ge` (numbers)
 	- `=`, `!=` (strings)
 	- `-f file` (file exists), `-d dir` (directory exists)
-
 
 ## Loop
 
@@ -150,3 +159,22 @@ greet "World"
 echo $sum  # 8
 ((count++))  # Increment
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

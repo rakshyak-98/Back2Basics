@@ -4,6 +4,8 @@
 
 > Ship missing runtime APIs via script — fill gaps older browsers/Node versions lack — **compat tables + core-js / polyfill.io**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

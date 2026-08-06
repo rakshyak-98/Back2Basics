@@ -4,6 +4,8 @@
 
 > One simple entry point over a noisy subsystem — keep routes/controllers dumb — **Dive Into Design Patterns + ServicesManageApi**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

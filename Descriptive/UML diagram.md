@@ -4,6 +4,8 @@
 
 > Standardized boxes-and-lines notation for structure, behavior, and deployment — design reviews and onboarding — **UML 2.x subset for engineers**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

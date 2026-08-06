@@ -4,6 +4,8 @@
 
 > Translates source in a high-level language to machine code or bytecode for a target platform — portability via abstraction over CPU ISAs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

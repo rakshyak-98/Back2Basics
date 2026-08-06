@@ -4,6 +4,8 @@
 
 > Express path patterns are **not** full JavaScript RegExp — anchoring, capture groups, and `*` semantics differ; misread routes cause 404s, open redirects, and ReDoS.
 
+---
+
 ## Index
 
 - [[#Mental model]]

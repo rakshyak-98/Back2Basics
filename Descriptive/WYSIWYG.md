@@ -4,6 +4,8 @@
 
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > PCI DSS self-assessment path when checkout is fully outsourced — merchant attests reduced cardholder-data environment — **PCI SSC SAQ programs**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

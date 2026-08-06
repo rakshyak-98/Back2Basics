@@ -4,6 +4,8 @@
 
 > One-line: **Reusable shell blocks in the current session or sourced file** — share logic without fork/exec overhead of external scripts. Scope, `return`, and `local` prevent the subtle bugs that leak into prod deploy scripts.
 
+---
+
 ## Index
 
 - [[#Mental model]]

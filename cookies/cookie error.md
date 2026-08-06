@@ -4,6 +4,8 @@
 
 > **Browser blocked the cookie** — almost always SameSite/Secure/domain mismatch, missing CORS credentials, or third-party cookie phaseout — not "cookies broken."
 
+---
+
 ## Index
 
 - [[#Mental model]]

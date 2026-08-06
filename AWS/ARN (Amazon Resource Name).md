@@ -4,6 +4,8 @@
 
 > **Universal resource identifier** for IAM policies, CloudTrail, cross-service references, and CLI `--resource-arn`. Format is strict — one wrong segment = `AccessDenied` or wrong resource.
 
+---
+
 ## Index
 
 - [[#Mental model]]

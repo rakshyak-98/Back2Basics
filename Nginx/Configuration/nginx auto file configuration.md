@@ -4,6 +4,8 @@
 
 > One-line: CI/CD or app servers write configs to `/tmp`, validate, then sudo-copy into `sites-available` — never let unprivileged processes write directly to `/etc/nginx`.
 
+---
+
 ## Index
 
 - [[#Mental model]]

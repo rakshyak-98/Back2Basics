@@ -1,9 +1,27 @@
+[[TypeScript]]
+
+# typescript types
+
+> One-line: what / why for **typescript types** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#declare keyword]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```ts
 const apiUrl = import.meta.env.VITE_API_URL;
 console.log(apiUrl);
-
 ```
-
 ```ts
 type CountryPopulation = Record<string, number>;
 ```
@@ -12,17 +30,17 @@ type CountryPopulation = Record<string, number>;
 - `T` is the type of values that will be stored.
 - `[P in K]` uses a mapped type to iterate over all possible values of K
 The result is an object type where every key from K maps to a value of type T
-
 > [!INFO] we can assign default type parameter
 ```ts
 interface Response<ResBody = any>
 ```
 
-## Index
+## Standard config / commands
 
-- [[#declare keyword]]
+…
 
 ## declare keyword
+
 - it is used to tell the compiler that a variable or property exists but is defined elsewhere.
 ### Typescript name-space definition
 - specify `.d.ts` file location in `tsconfig.json` under the `include` or `typeRoots` field.
@@ -181,10 +199,29 @@ type Test2 = FirstElement<[]>;                        // Test2 = never
 
 ```
 
-#### Infer in Recursive types 
+#### Infer in Recursive types
 ```ts
 type Flatten<T> = T extends Array<infer U> ? Flatten<U> : T;
 
 type NestedArray = Flatten<number[][][]>;  // NestedArray = number
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

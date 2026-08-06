@@ -4,6 +4,8 @@
 
 > `INSERT … ON CONFLICT` pseudo-table names — `EXCLUDED` is the proposed row that lost the conflict; misuse causes silent wrong updates or duplicate key errors.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,19 +1,38 @@
-[fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
-if you want nginx to handle other languages, you have two main routes.
+[[Nginx]]
 
-> [!NOTE]
-> - Each language needs its own backend -> nginx does not interpret code.
-> - PHP works because of PHP-FPM `php_fastcgi`. For others, you need a similar FastCGI handler or an HTTP reverse proxy.
+# nginx fastcgi
 
-> [!INFO]
-> You can run multiple handlers at once and let Nginx route based on file extensions or URL path.
+> One-line: what / why for **nginx fastcgi** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Use the language's own FastCGI handler]]
 - [[#Reverse proxy to an application server]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+[fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
+if you want nginx to handle other languages, you have two main routes.
+> [!NOTE]
+> - Each language needs its own backend -> nginx does not interpret code.
+> - PHP works because of PHP-FPM `php_fastcgi`. For others, you need a similar FastCGI handler or an HTTP reverse proxy.
+> [!INFO]
+> You can run multiple handlers at once and let Nginx route based on file extensions or URL path.
+
+## Standard config / commands
+
+…
 
 ## Use the language's own FastCGI handler
+
 ```nginx
 location ~ \.py$ {
 	fastcgi_pass unix:/run/uwsgi/python.sock;
@@ -27,6 +46,7 @@ uwsgi --socket /run/uwsgi/python.sock --plugin python --wsgi-file app.py;
 ```
 
 ## Reverse proxy to an application server
+
 - works for languages that run their own HTTP server (Node.js Django, Go etc).
 
 ```nginx
@@ -76,3 +96,22 @@ location /node/ {
 
 > [!NOTE]
 > - without them PHP would not know what query string, request method, or body type/length was.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

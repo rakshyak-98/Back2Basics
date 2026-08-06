@@ -4,6 +4,8 @@
 
 > Alternative Node package manager — lockfile, deterministic installs, workspace monorepos.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > One-line: `stream {}` module proxies raw TCP/UDP — use for databases, MQTT, TLS passthrough, or non-HTTP protocols; separate from `http {}`.
 
+---
+
 ## Index
 
 - [[#Mental model]]

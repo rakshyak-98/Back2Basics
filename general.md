@@ -9,8 +9,12 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Start here]]
 - [[#How to use this vault]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
@@ -31,6 +35,10 @@ Every note follows [[NOTES_STANDARD]] — mental model first, then commands, the
 
 ---
 
+## Standard config / commands
+
+…
+
 ## Start here
 
 | Need | Open |
@@ -50,6 +58,21 @@ Every note follows [[NOTES_STANDARD]] — mental model first, then commands, the
 4. **Rewrite thin stubs:** prioritize P0/P1 in [[NOTES_STANDARD]] vault priorities.
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

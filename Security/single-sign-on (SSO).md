@@ -4,6 +4,8 @@
 
 > One-line: one identity provider (IdP) login federates access to many apps via signed assertions — **SAML 2.0** or **OIDC/OAuth 2.0**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

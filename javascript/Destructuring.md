@@ -1,9 +1,31 @@
+[[javascript]]
+
+# Destructuring
+
+> One-line: what / why for **Destructuring** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Destructing assignment]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Destructing assignment
+
 - it _destructrizes_ by copying items into variables.
 - ignore elements using comma
 - work with any iterable on the right-side
@@ -13,3 +35,22 @@
 - `({title, widht, height} = {title: "Menu", width: 100, height: 100})`
 
 > [!NOTE] JavaScript assumes that we have a code block `{key: value, ...}`, that's why there's an error. To show JavaScript that it's not a code block, we can wrap the expression in parentheses `(...)`;
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

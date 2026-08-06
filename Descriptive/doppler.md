@@ -4,6 +4,8 @@
 
 > Centralized secrets manager — sync API keys and env vars to dev/stage/prod without `.env` in git — **Doppler docs + production secret-rotation practice**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

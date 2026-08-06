@@ -4,6 +4,8 @@
 
 > One-line: **server-side SSH policy** in `/etc/ssh/sshd_config` (+ drop-ins) — who can connect, how they authenticate, what they can forward, and which sockets/keys the daemon exposes. **OpenSSH sshd_config(5) + production hardening practice.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

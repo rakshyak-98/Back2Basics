@@ -4,6 +4,8 @@
 
 > Core Web Vital measuring responsiveness — latency from user input to next frame paint — **replaces FID (2024)**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

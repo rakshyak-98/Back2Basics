@@ -4,6 +4,8 @@
 
 > Reusable schema functions that add paths, indexes, methods, or hooks without copy-paste — [Mongoose plugins docs](https://mongoosejs.com/docs/plugins.html).
 
+---
+
 ## Index
 
 - [[#Mental model]]

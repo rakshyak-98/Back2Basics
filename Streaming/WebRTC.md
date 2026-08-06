@@ -1,13 +1,33 @@
+[[Streaming]]
+
+# WebRTC
+
+> One-line: what / why for **WebRTC** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Design]]
+- [[#Example]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 [webrtc.googlesource](https://webrtc.googlesource.com/src)
 real-time communication for the web
 - it support video, voice and generic data to be sent between peers.
 - the technologies behind WebRTC are implemented as an open web standard and available as regular JavaScript APIs in all major browsers.
 - there are many different use-cases WebRTC, from basic web apps that uses the camera or microphone, to more advanced video-calling applications and screen sharing.
 
-## Index
+## Standard config / commands
 
-- [[#Design]]
-- [[#Example]]
+…
 
 ## Design
 
@@ -19,9 +39,10 @@ real-time communication for the web
 ### Peer connection
 - connecting two applications on different computers to communicate using a peer-to-peer protocol.
 - the communication between peer can be video, audio or arbitary binary data (for client supporting the `RTCDataChannel` API).
-- In order to discover how two peers can connect, both clients need to provide an [[ICE (Interactive Connectivity Establishment)]]. 
+- In order to discover how two peers can connect, both clients need to provide an [[ICE (Interactive Connectivity Establishment)]].
 
 ## Example
+
 ### WebRTC Video call workflow
 ##### STUN phase:
 - Browser A (behind NAT) queries a STUN server and discovers its public IP as `203.0.113.5:6000`.
@@ -32,3 +53,22 @@ real-time communication for the web
 ##### Direct Connection:
 - Browser A sends connection request to Browser B's public IP and port.
 - Browser B does the same, and a direct communication channel is established.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

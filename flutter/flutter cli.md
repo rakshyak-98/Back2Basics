@@ -1,20 +1,38 @@
-AOT (Ahead-of-Time Compilation)
+[[flutter]]
 
+# flutter cli
+
+> One-line: what / why for **flutter cli** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Channel]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+AOT (Ahead-of-Time Compilation)
 ```bash
 flutter bash-completion;
 flutter create <DIRECTORY>; # Creates a new project
 flutter install -d <DEVICE ID>; # Install flutter app on an attached device.
 flutter logs; # SHow log output fo running flutter apps.
 ```
-
 ```bash
 flutter run; # Users JIT (Just-In-Time) compilation
 flutter attach -d <DEVICE ID>;
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Channel]]
+…
 
 ## Channel
 
@@ -27,3 +45,22 @@ A channel is a release stream of the Flutter SDK. Each channel receives updates 
 flutter channel; # list channel
 flutter channel beta; # switch channel
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,3 +1,23 @@
+[[React Pattern]]
+
+# React pattern categorisation
+
+> One-line: what / why for **React pattern categorisation** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Container-Presentational Pattern]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 | **Pattern**                   | **Example Components**                                | **Purpose**                                          |
 | ----------------------------- | ----------------------------------------------------- | ---------------------------------------------------- |
 | **Component Composition**     | `Button`, `Input`, `Card`, `Grid`                     | Reusability and SRP.                                 |
@@ -9,27 +29,16 @@
 | **Factory Pattern**           | `WidgetFactory`, `FormFactory`                        | Dynamically create components or configurations.     |
 | **Portal Pattern**            | `Tooltip`, `Notification`, `Snackbar`                 | Render outside the DOM hierarchy.                    |
 | **Controller-Presentational** | `UserController`, `ProductList`                       | Separate logic-heavy and UI-heavy responsibilities.  |
-
----
 ### Categorisation of Components Based on Design Patterns in React
-
 In a large-scale React application with 2000+ components, Categorisation components by their responsibilities and aligning them with suitable design patterns ensures maintainability, scalability, and adherence to SOLID principles.
-
----
-
 #### **1. Component Composition (SRP, LSP)**
-
 - **Purpose**: Break down complex UI into smaller, reusable components.
 - **Example Components**:
     - **UI Components**:
         - `Button`, `Input`, `Card`, `Avatar`, `Badge`
     - **Layout Components**:
         - `Grid`, `Row`, `Column`, `Container`
-
----
-
 #### **2. Higher-Order Components (HOCs) (OCP, DIP)**
-
 - **Purpose**: Reuse functionality across multiple components.
 - **Example Components**:
     - **Authentication**:
@@ -38,11 +47,7 @@ In a large-scale React application with 2000+ components, Categorisation compone
         - `withLogging`, `withErrorBoundary`
     - **Data Fetching**:
         - `withDataFetch`, `withPagination`
-
----
-
 #### **3. Render Props (OCP, ISP)**
-
 - **Purpose**: Share complex logic via a render prop function.
 - **Example Components**:
     - **Data Fetching**:
@@ -51,11 +56,7 @@ In a large-scale React application with 2000+ components, Categorisation compone
         - `AnimationWrapper`, `TransitionGroup`
     - **Utilities**:
         - `DragDropProvider`, `TooltipProvider`
-
----
-
 #### **4. Compound Components (SRP, LSP)**
-
 - **Purpose**: Enable multiple child components to work together with implicit relationships.
 - **Example Components**:
     - **UI/Interactive Components**:
@@ -64,11 +65,7 @@ In a large-scale React application with 2000+ components, Categorisation compone
         - `Form`, `Form.Input`, `Form.Button`
     - **Chart Components**:
         - `Chart`, `Chart.Axis`, `Chart.Tooltip`
-
----
-
 #### **5. Custom Hooks (DIP, ISP)**
-
 - **Purpose**: Encapsulate shared stateful logic for reusability.
 - **Example Components**:
     - **State Management**:
@@ -77,54 +74,35 @@ In a large-scale React application with 2000+ components, Categorisation compone
         - `useFetch`, `usePagination`, `useSearch`
     - **UI Logic**:
         - `useModal`, `useDragDrop`, `useHover`
-
----
-
 #### **6. Provider Pattern (DIP)**
-
 - **Purpose**: Inject global dependencies or states into components.
 - **Example Components**:
     - **Global State**:
         - `AuthProvider`, `ThemeProvider`, `LocalizationProvider`
     - **Feature Flags**:
         - `FeatureFlagProvider`, `ExperimentProvider`
-
----
-
 #### **7. Factory Pattern (SRP, OCP)**
-
 - **Purpose**: Dynamically create or configure components based on requirements.
 - **Example Components**:
     - **Dynamic UI**:
         - `WidgetFactory`, `FormFactory`
     - **Themed Components**:
         - `ButtonFactory`, `ChartFactory`
-
----
-
 #### **8. Portal Pattern (ISP, DIP)**
-
 - **Purpose**: Render components outside the main DOM hierarchy.
 - **Example Components**:
     - **Modals/Overlays**:
         - `Tooltip`, `Popover`, `Modal`
     - **System-Level Notifications**:
         - `Notification`, `Snackbar`
-
----
-
 #### **9. Controller and Presentational Pattern (SRP)**
-
 - **Purpose**: Separate logic-heavy and UI-heavy responsibilities.
 - **Example Components**:
     - **Controller Components**:
         - `UserController`, `ProductController`
     - **Presentational Components**:
         - `UserCard`, `ProductList`
-
----
 ### Suggestions:
-
 1. **Keep Composition Flexible**:
     - Prefer composition over rigid hierarchies to make components reusable.
 2. **Avoid Overusing HOCs**:
@@ -134,10 +112,30 @@ In a large-scale React application with 2000+ components, Categorisation compone
 4. **Utilize Linting and Testing**:
     - Ensure SRP and ISP compliance through static analysis and unit tests.
 
-## Index
+## Standard config / commands
 
-- [[#Container-Presentational Pattern]]
+…
 
 ## Container-Presentational Pattern
-- Container Component: Manages state, logic, and API calls. 
+
+- Container Component: Manages state, logic, and API calls.
 - Presentational Component: Focuses on rendering UI based on props.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

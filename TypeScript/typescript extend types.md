@@ -1,6 +1,24 @@
+[[TypeScript]]
+
+# typescript extend types
+
+> One-line: what / why for **typescript extend types** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ### User proper module augmentation
 - create a file named `express.d.ts` in the root of your project or inside a `@types` folder.
-
 ```ts
 declare module "express" {
 	interface Response {
@@ -11,10 +29,8 @@ declare module "express" {
 > [!INFO] typescript treats this as a new module declaration, not an augmentation.
 - it replaces Express types instead of extending them.
 - As a result `Request`, `NextFunction`, etc., are no longer available when you try to import them.
-
 ```ts
 import "express";
-
 declare module "express" {
 	interface Response {
 		success: (data: any) => void;
@@ -23,3 +39,26 @@ declare module "express" {
 ```
 - `import "express"` Ensures that existing express types (`Request`, `Response`, etc.) are available.
 	- extend only what you need `Response.success`, without losing anything.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

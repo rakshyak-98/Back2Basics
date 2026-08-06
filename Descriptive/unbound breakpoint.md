@@ -4,6 +4,8 @@
 
 > Debugger set a breakpoint but cannot map it to executable code yet — common with source maps, wrong path, or unloaded modules — **VS Code / Chrome DevTools playbook**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

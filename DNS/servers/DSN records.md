@@ -1,5 +1,25 @@
-DNS records are entries in a DNS database that tell the internet how to route traffic for a domain.
+[[servers]]
 
+# DSN records
+
+> One-line: what / why for **DSN records** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Records]]
+- [[#MX]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+DNS records are entries in a DNS database that tell the internet how to route traffic for a domain.
 ```txt
 example.com
 ├── A      -> 192.168.1.10
@@ -11,10 +31,9 @@ example.com
 └── SRV    -> server.example.com:8080
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Records]]
-- [[#MX]]
+…
 
 ## Records
 
@@ -58,3 +77,22 @@ SMTP Connection
    |
 Mail Server
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

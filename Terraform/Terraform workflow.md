@@ -16,6 +16,9 @@
 - [[#State: why it exists (Brikman)]]
 - [[#Lifecycle meta-arguments (Winkler)]]
 - [[#Safe team loop (Brikman)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model (both books)
@@ -163,6 +166,21 @@ resource "aws_instance" "web" {
 4. Pin versions (`.terraform.lock.hcl` committed)
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

@@ -4,6 +4,8 @@
 
 > Apache/PHP-FPM startup and runtime failures — read the error log line, fix the socket/port/config mismatch.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > One-line: managed/session-based auth SDK — handles login, refresh, anti-CSRF, and session validation middleware for Express/Fastify; self-host or SaaS core.
 
+---
+
 ## Index
 
 - [[#Mental model]]

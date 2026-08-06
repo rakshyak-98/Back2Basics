@@ -1,14 +1,32 @@
-Idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique key to detect and reject/duplicate repeat attempts.
+[[Architectures]]
 
-**Problem it solves**
-A client sends `POST /orders` to create a resource. The request succeeds server-side, but the response is lost (network drop, timeout). The client retries the same POST. Without protection, this creates a second, duplicate resource — a data integrity violation.
+# Idempotent-key
 
-> [!NOTE]
-> The key must be client-generated per logical operation, not server-generated, since the whole point is that the client can safely resend the same key across retries of the same logical request.
+> One-line: what / why for **Idempotent-key** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Mechanism]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique key to detect and reject/duplicate repeat attempts.
+**Problem it solves**
+A client sends `POST /orders` to create a resource. The request succeeds server-side, but the response is lost (network drop, timeout). The client retries the same POST. Without protection, this creates a second, duplicate resource — a data integrity violation.
+> [!NOTE]
+> The key must be client-generated per logical operation, not server-generated, since the whole point is that the client can safely resend the same key across retries of the same logical request.
+
+## Standard config / commands
+
+…
 
 ## Mechanism
 
@@ -39,3 +57,21 @@ CREATE TABLE idempotency_keys (
 > [!NOTE]
 > - Store the request payload hash alongside the key. If the same key arrives with a different body, that's a client-side bug (key reused across different logical operations) — reject rather than silently applying one or the other.
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

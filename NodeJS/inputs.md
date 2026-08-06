@@ -4,6 +4,8 @@
 
 > One-line: read interactive CLI input line-by-line via `readline` — wrap stdin/stdout; handle SIGINT and backpressure for REPL-style tools.
 
+---
+
 ## Index
 
 - [[#Mental model]]

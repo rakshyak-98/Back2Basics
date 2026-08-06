@@ -4,6 +4,8 @@
 
 > One-line: query **systemd-journald** — indexed, structured logs for units, boots, kernel, and priorities. **Default first tool for "why did the service die?"**
 
+---
+
 ## Index
 
 - [[#Mental model]]

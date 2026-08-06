@@ -4,6 +4,8 @@
 
 > Human-readable identifier bound to a program entity — variables, functions, constants — instead of raw literals — **readability + refactor safety**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

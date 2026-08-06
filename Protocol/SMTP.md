@@ -4,6 +4,8 @@
 
 > One-line: push protocol for MTA-to-MTA mail relay — submission on 587/TLS, legacy 25, implicit TLS 465 — **RFC 5321**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

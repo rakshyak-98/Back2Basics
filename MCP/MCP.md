@@ -4,6 +4,8 @@
 
 > Open protocol for AI clients to discover and call tools, read resources, and exchange prompts with servers — USB-C for LLM integrations.
 
+---
+
 ## Index
 
 - [[#Mental model]]

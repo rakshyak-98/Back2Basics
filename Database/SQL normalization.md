@@ -1,10 +1,31 @@
+[[Database]]
+
+# SQL normalization
+
+> One-line: what / why for **SQL normalization** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#**Quick Summary Table**]]
 - [[#**1NF (First Normal Form)**]]
 - [[#**2NF (Second Normal Form)**]]
 - [[#**3NF (Third Normal Form)**]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## **Quick Summary Table**
 
@@ -13,12 +34,14 @@
 | **1NF**         | Atomic values, unique columns, no repeating groups.     |
 | **2NF**         | 1NF + no partial dependency on part of a composite key. |
 | **3NF**         | 2NF + no transitive dependency on non-prime attributes. |
+
 ## **1NF (First Normal Form)**
-- **Rule**:  
-  - Each cell contains a single value (atomic).  
-  - Each column has a unique name.  
-  - The order of rows and columns does not matter.  
-- **Example**:  
+
+- **Rule**:
+  - Each cell contains a single value (atomic).
+  - Each column has a unique name.
+  - The order of rows and columns does not matter.
+- **Example**:
   **Before (Not 1NF)**:
   ```
   | ID | Name       | Phone Numbers      |
@@ -26,7 +49,7 @@
   | 1  | Alice      | 12345, 67890       |
   | 2  | Bob        | 54321             |
   ```
-  **After (1NF)**:  
+  **After (1NF)**:
   ```
   | ID | Name       | Phone Number       |
   |----|------------|--------------------|
@@ -36,29 +59,31 @@
   ```
 
 ---
+
 ## **2NF (Second Normal Form)**
-- **Rule**:  
-  - Must be in **1NF**.  
-  - No partial dependency: Non-prime attributes should depend on the entire primary key, not just part of it (for composite keys).  
-- **Example**:  
-  **Before (Not 2NF)**:  
+
+- **Rule**:
+  - Must be in **1NF**.
+  - No partial dependency: Non-prime attributes should depend on the entire primary key, not just part of it (for composite keys).
+- **Example**:
+  **Before (Not 2NF)**:
   ```
   | OrderID | ProductID | ProductName  | CustomerName |
   |---------|-----------|--------------|--------------|
   | 1       | 101       | Laptop       | Alice        |
   | 2       | 102       | Mobile       | Bob          |
   ```
-  **Issue**: `ProductName` depends only on `ProductID`, not the full key (`OrderID, ProductID`).  
-  **After (2NF)**:  
-  - Split into two tables:  
-    **Orders**:  
+  **Issue**: `ProductName` depends only on `ProductID`, not the full key (`OrderID, ProductID`).
+  **After (2NF)**:
+  - Split into two tables:
+    **Orders**:
     ```
     | OrderID | ProductID | CustomerName |
     |---------|-----------|--------------|
     | 1       | 101       | Alice        |
     | 2       | 102       | Bob          |
     ```
-    **Products**:  
+    **Products**:
     ```
     | ProductID | ProductName |
     |-----------|-------------|
@@ -69,28 +94,29 @@
 ---
 
 ## **3NF (Third Normal Form)**
-- **Rule**:  
-  - Must be in **2NF**.  
-  - No transitive dependency: Non-prime attributes should not depend on other non-prime attributes.  
-- **Example**:  
-  **Before (Not 3NF)**:  
+
+- **Rule**:
+  - Must be in **2NF**.
+  - No transitive dependency: Non-prime attributes should not depend on other non-prime attributes.
+- **Example**:
+  **Before (Not 3NF)**:
   ```
   | EmployeeID | EmployeeName | Department | DeptHead  |
   |------------|--------------|------------|-----------|
   | 1          | Alice        | HR         | Bob       |
   | 2          | Charlie      | IT         | Dave      |
   ```
-  **Issue**: `DeptHead` depends on `Department`, not directly on `EmployeeID`.  
-  **After (3NF)**:  
-  - Split into two tables:  
-    **Employees**:  
+  **Issue**: `DeptHead` depends on `Department`, not directly on `EmployeeID`.
+  **After (3NF)**:
+  - Split into two tables:
+    **Employees**:
     ```
     | EmployeeID | EmployeeName | Department |
     |------------|--------------|------------|
     | 1          | Alice        | HR         |
     | 2          | Charlie      | IT         |
     ```
-    **Departments**:  
+    **Departments**:
     ```
     | Department | DeptHead     |
     |------------|--------------|
@@ -99,3 +125,22 @@
     ```
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

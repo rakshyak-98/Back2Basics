@@ -4,6 +4,8 @@
 
 > One-line: read/write paths via `node:fs` — choose sync vs promise vs stream based on size and startup cost; never block the event loop on large sync I/O.
 
+---
+
 ## Index
 
 - [[#Mental model]]

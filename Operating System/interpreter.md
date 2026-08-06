@@ -1,3 +1,22 @@
+[[Operating System]]
+
+# interpreter
+
+> One-line: what / why for **interpreter** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - computer program
 - directly executes instructions written in a programming or scripting language without requiring them previously to have been compiled into a machine language program.
 #### Strategies from program execution:
@@ -7,3 +26,26 @@
 > [!INFO] Source programs are compiled ahead of time and stored as machine independent code, which is then linked at run-time and executed by an interpreter and/or compiled (for JIT systems).
 #### In JavaScript
 - Once the byte code is generated fully, the [[AST]] is deleted, clearing up memory space.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

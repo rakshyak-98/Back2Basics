@@ -4,6 +4,8 @@
 
 > First-class, closable functions with optional/named params, cascade-friendly syntax, and nested functions for encapsulation — know closure capture and `=>` vs block bodies.
 
+---
+
 ## Index
 
 - [[#Mental model]]

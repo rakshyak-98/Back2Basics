@@ -1,24 +1,42 @@
+[[mysql]]
+
+# mysql query
+
+> One-line: what / why for **mysql query** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Search table]]
+- [[#Format dates]]
+- [[#Extract database metadata]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 `\G` -> in MySQL CLI the `\G` is not the same as semicolon. It's a command terminator that changes the output format.
 - outputs results in standard tabular format (columns as headers, rows as lines)
 - use `\G` when, the table has many columns, you want vertical readability instead of horizontal table.
-
 - check if JSON type if Array
 ```mysql
 SELECT *
 FROM your_table
 WHERE JSON_TYPE(your_column) = 'ARRAY';
 ``` - `JSON_TYPE(column)` returns one of: `OBJECT` `ARRAY` `STRING` `INTEGER` `DECIMAL` `BOOLEAN` `NULL`.
-
 ```sql
 SHOW FULL TABLE WHERE Table_type = "VIEW";
 SHOW FULL TABLE WHERE Table_type = "BASE TABLE";
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Search table]]
-- [[#Format dates]]
-- [[#Extract database metadata]]
+…
 
 ## Search table
 
@@ -31,10 +49,11 @@ WHERE table_name = 'users';
 ```sql
 SHOW TABLES LIKE "%user%";
 ```
+
 ## Format dates
 
 ```sql
- SELECT 
+ SELECT
      DATE_FORMAT(MAX(trxnDate), '%d %b %Y, %W') AS last_revenue_date_formatted,
      MAX(trxnDate) AS last_revenue_date_raw,
      COUNT(*) AS number_of_bills_on_that_date,
@@ -68,10 +87,29 @@ SELECT CURRENT_USER();
 ## Extract database metadata
 
 ```sql
-SELECT 
-  table_name, 
-  column_name, 
-  data_type 
-FROM information_schema.columns 
+SELECT
+  table_name,
+  column_name,
+  data_type
+FROM information_schema.columns
 WHERE table_schema = 'your_db';
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

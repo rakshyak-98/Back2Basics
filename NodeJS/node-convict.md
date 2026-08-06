@@ -4,6 +4,8 @@
 
 > One-line: schema-validated config with env/JSON/file layering — fail fast at boot when a knob is missing or wrong type.
 
+---
+
 ## Index
 
 - [[#Mental model]]

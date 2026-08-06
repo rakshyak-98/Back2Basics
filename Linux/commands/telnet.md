@@ -4,6 +4,8 @@
 
 > One-line: **cleartext TCP client** — still the fastest manual probe for "does this port accept connections and speak text?" Mail debugging and legacy gear; never for secrets on untrusted networks.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > Building for browsers — HTML parse, script loading, render path, and delivery constraints — **browser architecture + Core Web Vitals mindset**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

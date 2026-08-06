@@ -4,11 +4,15 @@
 
 > Rofi **combi** mode merges window switcher, app launcher, and run dialog into one fuzzy search — muscle memory launcher on Linux desktops.
 
+---
+
 ## Index
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
@@ -42,6 +46,15 @@ bindsym $mod+d exec rofi -show combi -combi-modes "window,drun,run"
 | Wrong terminal flag | `-terminal` | Set your terminal emulator name |
 | Theme broken | `config.rasi` | Validate rasi syntax |
 | Slow start | Many windows | Reduce modes; disable icons |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

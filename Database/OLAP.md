@@ -4,6 +4,8 @@
 
 > **Read-heavy analytics** — scans, aggregates, GROUP BY across dimensions — optimized for dashboards and BI, not row-by-row checkout. Contrast [[OLTP]]: many small writes, index-point lookups, [[ACID]] transactions.
 
+---
+
 ## Index
 
 - [[#Mental model]]

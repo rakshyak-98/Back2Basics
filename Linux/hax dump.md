@@ -4,6 +4,8 @@
 
 > One-line: **Hex dumps for binary inspection** — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

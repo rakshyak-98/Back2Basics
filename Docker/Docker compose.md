@@ -4,6 +4,8 @@
 
 > Multi-container apps as declarative YAML — `docker compose` v2 is a Docker CLI plugin, not a separate Python binary — Compose spec + **Docker Deep Dive** (Poulton).
 
+---
+
 ## Index
 
 - [[#Mental model]]

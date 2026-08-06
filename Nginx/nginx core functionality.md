@@ -1,6 +1,25 @@
+[[Nginx]]
+
+# nginx core functionality
+
+> One-line: what / why for **nginx core functionality** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#What really happens step by step (when accept_mutex is off)]]
+- [[#How to view and monitor the kernel's connection listen queue]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 `accept_mutex`
-
 When `accept_mutex` disabled
 - All workers processes get simultaneously notified about a new incoming connection.
 - the race to call `accept()` on the shared listen socket.
@@ -8,10 +27,9 @@ When `accept_mutex` disabled
 - The others get `EAGAIN` (or similar) and go back to sleep.
 This is called **thundering herd** problem (or wake-up storm).
 
-## Index
+## Standard config / commands
 
-- [[#What really happens step by step (when accept_mutex is off)]]
-- [[#How to view and monitor the kernel's connection listen queue]]
+…
 
 ## What really happens step by step (when accept_mutex is off)
 
@@ -23,7 +41,6 @@ This is called **thundering herd** problem (or wake-up storm).
 6. All other workers get accept() returning **-1** with `errno = EAGAIN (or EWOULDBLOCK)`
 7. Those workers go back to sleep (`epoll_wait` again)
 8. The winning worker handles the connection normally
-
 
 ## How to view and monitor the kernel's connection listen queue
 
@@ -51,3 +68,22 @@ tcpdump -i any port 80 -nn; # See SYN packets ariving (and if they get RST where
 ```bash
 sysctl net.core.somaxconn; # max possible backlog. default 4096
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

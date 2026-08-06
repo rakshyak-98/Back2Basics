@@ -4,6 +4,8 @@
 
 > One-line: glue Unix tools and business logic with **shell scripts** — automation, cron wrappers, deploy hooks, and incident one-offs. **Know when bash stops and Python starts.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

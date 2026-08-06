@@ -4,6 +4,8 @@
 
 > One-line: configured SMTP (or SES/transport plugin) instance that sends mail — create once at boot, reuse for all messages; auth and TLS live on the transporter.
 
+---
+
 ## Index
 
 - [[#Mental model]]

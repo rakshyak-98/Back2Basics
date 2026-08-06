@@ -4,6 +4,8 @@
 
 > Surrogate that controls access to a real object — lazy init, auth, caching — **Dive Into Design Patterns + MetaClientProxy**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

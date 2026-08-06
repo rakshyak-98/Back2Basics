@@ -4,6 +4,8 @@
 
 > One-line: pub/sub inside a Node process — decouple producers from listeners; foundation of streams, HTTP, and most core APIs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

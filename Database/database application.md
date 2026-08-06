@@ -4,6 +4,8 @@
 
 > **Programs that issue queries and enforce data rules** — ORM, query builder, repository layer, transactions, and connection lifecycle. The "application" in "database application" is your service code, not the RDBMS binary.
 
+---
+
 ## Index
 
 - [[#Mental model]]

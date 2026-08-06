@@ -1,17 +1,31 @@
 # Work Log — DRM Streaming Demo
 
-**Project:** Browser DRM playback demo (streaming origin + Widevine + license server)  
-**Period:** June 2026
+> One-line: what / why for **Work Log — DRM Streaming Demo** — source TBD.
 
 ---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Brief introduction]]
 - [[#What I created]]
 - [[#Tech stack]]
 - [[#What I learned]]
 - [[#Summary]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+**Project:** Browser DRM playback demo (streaming origin + Widevine + license server)
+**Period:** June 2026
+
+## Standard config / commands
+
+…
 
 ## Brief introduction
 
@@ -135,3 +149,22 @@ Playback depends on consistent configuration across packaging and playback:
 ## Summary
 
 I delivered a working **browser DRM playback demo** covering token generation, streaming proxy design, client-side EME integration, and operational debugging. The work gave me hands-on experience with **multi-DRM licensing**, **adaptive streaming**, and **secure content delivery** in an integrated playback pipeline.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

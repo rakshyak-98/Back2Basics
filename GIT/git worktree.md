@@ -4,6 +4,8 @@
 
 > One-line: multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
+---
+
 ## Index
 
 - [[#Mental model]]

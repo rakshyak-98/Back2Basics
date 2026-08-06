@@ -4,6 +4,8 @@
 
 > One-line: when the kernel **cannot reclaim enough RAM**, it kills processes to keep the system alive — global OOM killer, cgroup limits, or `systemd-oomd`. **Kerrisk + container on-call.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

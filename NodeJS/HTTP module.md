@@ -1,10 +1,31 @@
+[[NodeJS]]
+
+# HTTP module
+
+> One-line: what / why for **HTTP module** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Use case for `http.createServer(app)`]]
 - [[#Enabling WebSockets]]
 - [[#Handling Both HTTP & HTTPS Requests]]
 - [[#Graceful shutdown]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Use case for `http.createServer(app)`
 
@@ -74,3 +95,22 @@ process.on('SIGTERM', () => {
 });
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

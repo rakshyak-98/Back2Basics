@@ -4,6 +4,8 @@
 
 > One-line: signed (or encrypted) JSON claims for stateless auth — verify **algorithm, signature, and claims** server-side every request — **RFC 7519**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

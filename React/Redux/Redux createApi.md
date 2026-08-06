@@ -1,14 +1,32 @@
-Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
+[[Redux]]
 
+# Redux createApi
+
+> One-line: what / why for **Redux createApi** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Lazy query and Normal query hooks]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes a version of [`createApi`](https://redux-toolkit.js.org/rtk-query/api/createApi) designed specifically for use with React, which [automatically generates React hooks](https://redux-toolkit.js.org/rtk-query/api/created-api/hooks).
 > [!INFO] `ApiProvider`
 > Can be used as a `Provider` if you **do not already have a Redux store**.
 > [ApiProvider](https://redux-toolkit.js.org/rtk-query/api/ApiProvider)
-> 
+>
 ```jsx
 import * as React from 'react';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { Pokemon } from './features/Pokemon';
-
 function App() {
   return (
     <ApiProvider api={api}>
@@ -17,37 +35,29 @@ function App() {
   );
 }
 ```
-
 ### Setup base URL
-
 > [!NOTE] `fetchBaseQuery`
 > By default, `fetchBaseQuery` assumes that every request you make will be `json`, so in those cases all you have to do is set the `url` and pass a `body` object when appropriate.
 > [parsing response](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#parsing-a-response)
 > [adding custom timeout](https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#adding-a-custom-timeout-to-requests)
-
 > [!WARNING]
 > by default `fetchBaseQuery` does not send cookies (neither session cookies nore `httpOnly` cookies). This is intentional, the default `credentials` setting is `same-origin`.
-
 ```ts
 import { createSlice, PayloadAction, createAsyncThunk, createApi, fetchBaseQuery } from '@reduxjs/toolkit';
-
 interface CartItem {
   id: string;
   name: string;
   price: number;
   quantity: number;
 }
-
 interface CartState {
   items: CartItem[];
   totalAmount: number;
 }
-
 const initialState: CartState = {
   items: [],
   totalAmount: 0,
 };
-
 export const cartApi = createApi({
   reducerPath: 'cartApi', // this determines where the API data is stored in Redux.
   baseQuery: fetchBaseQuery({
@@ -76,7 +86,6 @@ export const cartApi = createApi({
     }),
   }),
 });
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -94,19 +103,16 @@ const cartSlice = createSlice({
     },
   },
 });
-
 // [ for api slice ]
 export const { useFetchCartQuery, useAddItemMutation, useRemoveItemMutation } = cartApi;
-
 // [ for state slice ]
 export const { updateQuantity, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
-
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Lazy query and Normal query hooks]]
+…
 
 ## Lazy query and Normal query hooks
 
@@ -127,7 +133,7 @@ export default cartSlice.reducer;
 
 function HotelList(){
 	const { data, isLoading, error } = useGetAllHotelsQuery();
-	
+
 	if(loading) return <Loading />
 	if(error) return <Error />
 	return (
@@ -143,11 +149,11 @@ function HotelList(){
 ```jsx
 function SearchHotel() {
 	const [trigger, { data, isLoading, isUninitialized, error }] = useLazyGetAllHotelsQuery();
-	
+
 	const handleSearch = () => {
 		trigger(); // Only now the request is sent.
 	}
-	
+
 	return (
 		<div>
 			<button>
@@ -163,7 +169,7 @@ function SearchHotel() {
 			)}
 		</div>
 	)
-	
+
 }
 ```
 
@@ -284,7 +290,7 @@ ETag: "xyz123"
 
 ### No interceptors / Proxies / Service workers
 - no service worker intercepting the call and rerouting it
-- no browser extension modifying request behavior 
+- no browser extension modifying request behavior
 
 
 ### Real check
@@ -296,3 +302,22 @@ ETag: "xyz123"
 	- `200` -> full fetch
 
 ### Transform response from API slice
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

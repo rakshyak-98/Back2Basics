@@ -4,6 +4,8 @@
 
 > One-line: evolve schema in place — adds cost (locks, rebuilds); plan online DDL, batch alters, and rollback via migrations.
 
+---
+
 ## Index
 
 - [[#Mental model]]

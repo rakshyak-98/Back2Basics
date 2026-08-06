@@ -4,6 +4,8 @@
 
 > One-line: export commits as mailbox patches (`format-patch`) and apply with `git am` — email-style workflow, offline review, and vendor branch maintenance without shared remote.
 
+---
+
 ## Index
 
 - [[#Mental model]]

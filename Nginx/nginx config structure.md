@@ -4,6 +4,8 @@
 
 > One-line: **`/etc/nginx/` layout on Debian/Ubuntu** — how `nginx.conf` includes sites, snippets, and param files into one effective config tree. **Package `nginx` + `nginx-common`.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

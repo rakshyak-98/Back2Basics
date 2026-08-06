@@ -4,6 +4,8 @@
 
 > One-line: run **verified sandboxed programs in the kernel** to observe or steer traffic, syscalls, and latency — without loading a kernel module. **Kerrisk / BPF docs + production observability practice.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > One-line: CI orchestrator — pipelines as code, agents execute steps; most outages are credentials, disk, or plugin drift — **operational field notes**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

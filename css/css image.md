@@ -4,6 +4,8 @@
 
 > When a parent clips width but `<img>` uses `width/height: 100%`, browsers disagree on which box defines 100% — fix with explicit object-fit and containment.
 
+---
+
 ## Index
 
 - [[#Mental model]]

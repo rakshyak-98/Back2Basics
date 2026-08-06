@@ -4,6 +4,8 @@
 
 > One-line: **GNU date arithmetic and formatting** — compute timestamps for certs, TTLs, cron windows, and log correlation. `-d` is GNU-specific; don't assume on Alpine/BusyBox.
 
+---
+
 ## Index
 
 - [[#Mental model]]

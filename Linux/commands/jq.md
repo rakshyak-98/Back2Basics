@@ -1,3 +1,21 @@
+[[commands]]
+
+# jq
+
+> One-line: what / why for **jq** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 | **Command**                                 | **Description**                            |
 | ------------------------------------------- | ------------------------------------------ |
@@ -25,7 +43,6 @@
 | `jq -c '.' file.json`                       | Compact output (no pretty-print)           |
 - `jq` is a lightweight and powerful command-line JSON processor.
 - it allows you to parse, filter, transform, and manipulate JSON data efficiently in a Unix-like environment.
-
 #### Transforming with `jq`
 ```shell
 jq 'map(.key)' #Extract a key from all objects in an array
@@ -46,5 +63,27 @@ jq 'flatten' #Flatten nested arrays into a single-level array
 jq 'split(" ")' #Split a string into an array by spaces
 jq 'map_values(tostring)' #Convert all values in an object to strings
 jq 'map(.key|=tonumber)' #Convert string numbers to actual numbers
-
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

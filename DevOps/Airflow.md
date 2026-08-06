@@ -4,6 +4,8 @@
 
 > One-line: DAG scheduler for batch data/workflows — correctness = idempotent tasks + clear executor choice + SLA-aware ops — **Apache Airflow docs + on-call reality**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

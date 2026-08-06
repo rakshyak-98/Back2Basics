@@ -1,8 +1,29 @@
+[[Questions]]
+
+# Logger
+
+> One-line: what / why for **Logger** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Problem Statement]]
 - [[#Assignment]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Problem Statement
 
@@ -15,9 +36,9 @@ Your task is to complete the implementation of the `Logger` interface that follo
 ### Part 1: Implementing Singleton and Logger
 
 1. **Implement the Singleton design pattern**: There is a class `LoggerImpl` that implements the `Logger` interface. Implement the Singleton design pattern within this class to ensure that only one instance of the logger can exist within the program.
-    
+
 2. **Implement the `get_instance()` and `reset_instance()` methods**: Implement the `get_instance()` method in the `LoggerImpl` class. This method should return the singleton instance of the logger class. Also, implement the `reset_instance()` method to reset the singleton instance to `null`.
-    
+
 
 ### Part 2: Logging Operations
 
@@ -37,3 +58,22 @@ You have to implement the following methods:
 2. Implement the `Logger` interface and the required methods as specified above.
 3. Ensure that your implementation follows the Singleton design pattern and provides proper logging functionality.
 4. Run the provided test cases in the `LoggerTest` class to verify the correctness of your implementation.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

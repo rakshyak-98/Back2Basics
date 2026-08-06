@@ -4,6 +4,8 @@
 
 > **Who can do what to which resource** — users, groups, roles, policies, permission boundaries, and SCPs (org level). **AWS IAM best practices** + audit findings from over-privileged CI roles.
 
+---
+
 ## Index
 
 - [[#Mental model]]

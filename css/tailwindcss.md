@@ -4,6 +4,8 @@
 
 > Utility-first CSS framework — compose designs from constrained class names; build step tree-shakes unused utilities for production.
 
+---
+
 ## Index
 
 - [[#Mental model]]

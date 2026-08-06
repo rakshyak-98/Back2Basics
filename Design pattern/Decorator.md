@@ -4,6 +4,8 @@
 
 > Wrap an object to add behavior without changing its interface — stack concerns — **Dive Into Design Patterns + logging/retry around Graph client**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

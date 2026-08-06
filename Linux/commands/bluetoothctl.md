@@ -4,6 +4,8 @@
 
 > One-line: **BlueZ interactive CLI** — pair headsets, debug `org.bluez.Error.Busy`, and script BT when GUI applets lie about power state.
 
+---
+
 ## Index
 
 - [[#Mental model]]

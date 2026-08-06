@@ -4,6 +4,8 @@
 
 > One-line: **GRand Unified Bootloader** — first stage that loads the kernel + initramfs; edit here for dual-boot, recovery entries, kernel cmdline (nomodeset, iommu). **GRUB 2 on virtually all modern distros.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

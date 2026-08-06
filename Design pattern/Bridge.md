@@ -4,6 +4,8 @@
 
 > Decouple abstraction from implementation so both evolve independently — two hierarchies joined by composition — **GoF + device/remote mental model**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

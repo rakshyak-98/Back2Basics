@@ -1,5 +1,44 @@
-components are located in different parts of the application. Sometimes this can be solved by "lifting state up" to parent components, but that doesn't always help.
-- one way to solve this is to extract the share state from the components, and put it into a centralized location outside the component tree.
+[[Redux]]
+
+# Redux concept and data flow
 
 > A basic idea behind Redux: a single centralized place to contain the global state in your application, and specific patterns to follow when updating that state to make the code predictable.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+components are located in different parts of the application. Sometimes this can be solved by "lifting state up" to parent components, but that doesn't always help.
+- one way to solve this is to extract the share state from the components, and put it into a centralized location outside the component tree.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

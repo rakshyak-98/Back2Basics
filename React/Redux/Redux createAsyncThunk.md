@@ -1,7 +1,26 @@
+[[Redux]]
+
+# Redux createAsyncThunk
+
+> One-line: what / why for **Redux createAsyncThunk** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Use in component]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```js
 // features/user/userThunks.ts
 import { createAsyncThunk } from '@reduxjs/toolkit'
-
 export const fetchUserById = createAsyncThunk(
   'user/fetchById',
   async (userId: string, thunkAPI) => {
@@ -10,20 +29,16 @@ export const fetchUserById = createAsyncThunk(
     return res.json()
   }
 )
-
 ```
-
 ```js
 // features/user/userSlice.ts
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchUserById } from './userThunks'
-
 const initialState = {
   data: null,
   status: 'idle', // 'loading' | 'succeeded' | 'failed'
   error: null,
 }
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -44,16 +59,15 @@ const userSlice = createSlice({
       })
   },
 })
-
 export const userReducer = userSlice.reducer
-
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Use in component]]
+…
 
 ## Use in component
+
 ```js
 // in a React component
 const dispatch = useAppDispatch()
@@ -64,3 +78,22 @@ useEffect(() => {
 }, [])
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

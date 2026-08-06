@@ -4,6 +4,8 @@
 
 > **Managed encryption keys** — envelope encryption for AWS services and your apps; keys never leave HSM in plaintext. **AWS KMS docs** + outages when key policy and IAM both had to align.
 
+---
+
 ## Index
 
 - [[#Mental model]]

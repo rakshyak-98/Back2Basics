@@ -4,6 +4,8 @@
 
 > Cooperative multitasking on a single main thread — I/O overlaps, CPU work blocks everyone — **Event Loop + libuv model**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

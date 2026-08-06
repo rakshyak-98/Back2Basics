@@ -1,9 +1,31 @@
+[[React Pattern]]
+
+# Controlled and Uncontrolled component Pattern
+
+> One-line: what / why for **Controlled and Uncontrolled component Pattern** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#When to use:]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## When to use:
+
 - Controlled: When you need to *respond to changes immediately* (form validation, conditional rendering).
 - Uncontrolled: When you don't need to track every input change.
 
@@ -62,3 +84,22 @@ const UncontrolledInput = () => {
 
 export default UncontrolledInput;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

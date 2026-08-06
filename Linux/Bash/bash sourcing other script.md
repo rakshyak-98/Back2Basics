@@ -4,6 +4,8 @@
 
 > One-line: **`source` / `.` loads a script into the current shell** — libraries, env, and functions without a fork. Wrong path resolution breaks cron, systemd, and CI the moment cwd changes.
 
+---
+
 ## Index
 
 - [[#Mental model]]

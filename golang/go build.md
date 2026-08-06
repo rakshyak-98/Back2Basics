@@ -4,6 +4,8 @@
 
 > Compile Go packages/binaries with module-aware dependency resolution — `go.mod` is the source of truth.
 
+---
+
 ## Index
 
 - [[#Mental model]]

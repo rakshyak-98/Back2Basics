@@ -4,6 +4,8 @@
 
 > Short-lived **temporary credentials** (AccessKeyId, SecretAccessKey, SessionToken) instead of long-lived IAM user keys — foundation for roles, federation, and cross-account access. **AWS IAM docs** + incident stories from leaked static keys.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,25 +1,38 @@
-Instead of passing multiple props, the parent component manages the state, and child components communicate implicitly.
+[[React Pattern]]
 
+# Compound Components 1
+
+> One-line: what / why for **Compound Components 1** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Implementation of a Tabs component]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Instead of passing multiple props, the parent component manages the state, and child components communicate implicitly.
 ### How it works
 We break the component into self-contained components
-
 ```js Cart.jsx
 import { createContext, useContext, useState } from "react";
-
 const CartContext = createContext();
-
 const Cart = ({ children }) => {
   const [items, setItems] = useState([
     { id: 1, name: "React Book", price: 30 },
     { id: 2, name: "JavaScript Guide", price: 25 }
   ]);
-
   const removeItem = (id) => {
     setItems(items.filter(item => item.id !== id));
   };
-
   const total = items.reduce((sum, item) => sum + item.price, 0);
-
   return (
     <CartContext.Provider value={{ items, removeItem, total }}>
       <div>
@@ -30,7 +43,6 @@ const Cart = ({ children }) => {
   );
 };
 ```
-
 ```js Cart.Item.jsx
 Cart.Item = ({ item }) => {
   return (
@@ -41,14 +53,12 @@ Cart.Item = ({ item }) => {
   );
 };
 ```
-
 ```js Cart.Total.jsx
 Cart.Total = () => {
   const { total } = useContext(CartContext);
   return <h3>Total: ${total}</h3>;
 };
 ```
-
 ```js Cart.RemoveButton.jsx
 Cart.RemoveButton = ({ id }) => {
   const { removeItem } = useContext(CartContext);
@@ -56,11 +66,12 @@ Cart.RemoveButton = ({ id }) => {
 };
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Implementation of a Tabs component]]
+…
 
 ## Implementation of a Tabs component
+
 - It allows consumers to define `TabList`, Tab and `TabPanel` without explicit prop drilling.
 - The Tabs parent manages active state and exposes subcomponents.
 
@@ -92,9 +103,9 @@ Tabs.List = ({ children }) => <div>{children}</div>;
 ```js Tabs.Tab
 Tabs.Tab = ({ index, children }) => {
   const { activeTab, setActiveTab } = useContext(TabsContext);
-  
+
   return (
-    <button 
+    <button
       onClick={() => setActiveTab(index)}
       style={{ fontWeight: activeTab === index ? "bold" : "normal" }}
     >
@@ -107,7 +118,7 @@ Tabs.Tab = ({ index, children }) => {
 ```js Tabs.Panel.jsx
 Tabs.Panel = ({ index, children }) => {
   const { activeTab } = useContext(TabsContext);
-  
+
   return activeTab === index ? <div>{children}</div> : null;
 };
 ```
@@ -131,3 +142,22 @@ const App = () => (
 
 export default App;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

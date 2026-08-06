@@ -4,6 +4,8 @@
 
 > **Team notification bus for on-call** — Incoming Webhooks, Bot tokens, Workflow Builder, and Slack CLI for deploy/CI signals. Not a product pitch; wiring alerts that don't spam or leak secrets.
 
+---
+
 ## Index
 
 - [[#Mental model]]

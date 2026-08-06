@@ -4,6 +4,8 @@
 
 > Type-safe DB access via generated client — `findMany`, relations, filters, and `include` for joins.
 
+---
+
 ## Index
 
 - [[#Mental model]]

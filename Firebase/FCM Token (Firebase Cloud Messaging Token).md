@@ -4,6 +4,8 @@
 
 > Device-scoped token identifying one app install for push delivery — rotate on reinstall, clear data, or token refresh.
 
+---
+
 ## Index
 
 - [[#Mental model]]

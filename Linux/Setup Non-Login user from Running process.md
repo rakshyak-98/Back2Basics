@@ -1,10 +1,26 @@
+[[Linux]]
+
+# Setup Non-Login user from Running process
+
+> One-line: what / why for **Setup Non-Login user from Running process** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Using pm2]]
 - [[#Persistent Run (using system service)]]
 - [[#Grant Passwordless `sudo` for specific commands]]
 - [[#Additional Security passwrod (optional)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
 
 ## Using pm2
 
@@ -14,7 +30,7 @@ sudo pm2 save;
 sudo pm2 startup;
 ```
 
-> [!NOTE] 
+> [!NOTE]
 > - Need root or sudo access to perform these steps.
 
 **Create new user (with Login Disable)**
@@ -91,7 +107,7 @@ which nginx;
 which systemctl;
 ```
 
-Edit sudoers safely with `visudo` 
+Edit sudoers safely with `visudo`
 - create file at `/etc/sudoers.d/<file>`;
 
 ```bash
@@ -105,7 +121,6 @@ nodeuser ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart nginx
 sudo su -s /bin/bash - nodeuser -c "sudo nginx -t"
 ```
 - should run without password.
-
 
 ## Additional Security passwrod (optional)
 
@@ -121,3 +136,22 @@ sudo chown -R nodeuser:nodeuser /path/to/your/app-directory;
 
 > [!INFO]
 > Why this setup?: The user runs processes (like Node) but can't log in or escalate beyond the allowed commands. Ideal for automated scripts or services needing limited privileged actions (e.g., a Node app reloading Nginx).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > Pass a request along a chain of handlers until one handles it (or all approve) — **Dive Into Design Patterns + launch validation chain**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

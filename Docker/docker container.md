@@ -1,31 +1,45 @@
+[[Docker]]
+
+# docker container
+
+> One-line: what / why for **docker container** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Snap shot a container]]
+- [[#Run container with working director]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 ```bash
 docker run [OPTIONS] image_name[:tag];
 ```
-
 ```bash
 docker run hello-world;
-
 docker run -it --rm ubuntu bash; # interactive terminal, remove when stopped
 docker run -d --name my-nginx -p 8080:80 nginx:latest;
-
 docker run -d -e MYSQL_ROOT_PASSWORD=secret123 --name mydb mysql:8.0;
 ```
-
 ```bash
 docker run -it -v $(pwd):/app python:3.11 bash; # Mount current directory into container
 ```
-
 ```bash
 docker create --name my-container -p 9000:80 nginx; # Create container (but don't start it).
 docker start my-container;
 docker start -ai my-container; # start and attach terminal
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Snap shot a container]]
-- [[#Run container with working director]]
+…
 
 ## Snap shot a container
 
@@ -69,3 +83,22 @@ docker run -it -w /app ubuntu:24.04 bash;
 - start with interactive bash shell
 - Working directory is `/app` (created automatically if missing)
 - `-it` interactive + pseudo-TTY
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

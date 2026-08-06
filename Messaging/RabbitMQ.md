@@ -1,8 +1,24 @@
+[[Messaging]]
+
+# RabbitMQ
+
+> One-line: what / why for **RabbitMQ** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Configuration]]
 - [[#Exchange]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
 
 ## Configuration
 
@@ -28,3 +44,22 @@ different types of exchanges have different routing strategies
 # Bindings
 
 - these are like rules that specifies how messages should be routed from an exchange to queues based on the routing key.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

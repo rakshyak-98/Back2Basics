@@ -4,6 +4,8 @@
 
 > MongoDB's default storage engine since 4.2 — B-tree docs, MVCC, checkpointed durability, cache-bound performance — MongoDB manual + **Designing Data-Intensive Applications** (Kleppmann, log-structured ideas).
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,15 +1,37 @@
+[[React Pattern]]
+
+# Component Presentational Pattern
+
+> One-line: what / why for **Component Presentational Pattern** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Why use this pattern?]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Why use this pattern?
+
 - Logic (Container) is separate from UI (Presentational)
 - `Cart.jsx` can be used elsewhere with different data.
 - Can test the presentational component independently.
 
 - Container component: Handles state and business logic
-- Presentational Component: Renders UI based on props. 
+- Presentational Component: Renders UI based on props.
 
 Creating the Presentational Component (`cart.jsx`)
 - Receives cart items, total price, and handlers via props.
@@ -62,3 +84,22 @@ const CartContainer = () => {
 
 export default CartContainer;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

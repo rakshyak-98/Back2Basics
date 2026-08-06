@@ -1,13 +1,35 @@
+[[React]]
+
+# React Application Architecture for Production
+
+> One-line: what / why for **React Application Architecture for Production** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Allow multiple rendering strategies]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Allow multiple rendering strategies
+
 - Being able to use multiple rendering strategies is probably the main reason why we want to use NextJS
 ### NextJS
-- it allows us to define the behavior of page rendering at the page level 
-- means we can define how we want to render each page individually 
+- it allows us to define the behavior of page rendering at the page level
+- means we can define how we want to render each page individually
 - support multiple rendering strategies
 ### `src` folder structure
 - components: all shared components that are used across the entire application
@@ -27,3 +49,22 @@
 - utils: contains all shared utility functions
 
 > [!NOTE] we can combine all the application providers in `providers` and export a single application provider with we can wrap `App.tsx`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

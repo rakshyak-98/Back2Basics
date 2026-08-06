@@ -4,6 +4,8 @@
 
 > One-line: combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
+---
+
 ## Index
 
 - [[#Mental model]]

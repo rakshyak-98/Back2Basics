@@ -4,6 +4,8 @@
 
 > High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > Where money leaks show up — Free Tier tracking, Cost Explorer, bills by service, and alarms before finance pings you.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > UDP-based transport with built-in TLS 1.3, multiplexing, and faster handshakes — **HTTP/3 foundation**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > Terminal interface for auth, PRs, issues, secrets, and API — faster than clicking through github.com during incidents.
 
+---
+
 ## Index
 
 - [[#Mental model]]

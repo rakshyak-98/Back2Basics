@@ -4,6 +4,8 @@
 
 > One-line: true OS threads inside one Node process for CPU-heavy work — share memory optionally via `SharedArrayBuffer`; don't replace cluster for HTTP scaling.
 
+---
+
 ## Index
 
 - [[#Mental model]]

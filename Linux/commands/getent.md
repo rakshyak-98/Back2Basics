@@ -4,6 +4,8 @@
 
 > One-line: query **NSS** (Name Service Switch) databases the same way libc does — one command for local files, LDAP, SSSS, DNS, and hosts. **The truth for "does this account exist?"**
 
+---
+
 ## Index
 
 - [[#Mental model]]

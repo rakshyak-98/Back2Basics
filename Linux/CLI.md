@@ -4,6 +4,8 @@
 
 > One-line: the Linux **command-line interface** — compose small tools via pipes, redirect streams, and automate with shell; the operator's primary debugger. **Kernighan & Pike, POSIX shell**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

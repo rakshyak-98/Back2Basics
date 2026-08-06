@@ -4,6 +4,8 @@
 
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

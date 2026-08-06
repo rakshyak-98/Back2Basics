@@ -4,6 +4,8 @@
 
 > Source-to-source translator — modern syntax down-levelled for older runtimes; runs at **build time**, not in user's browser (usually).
 
+---
+
 ## Index
 
 - [[#Mental model]]

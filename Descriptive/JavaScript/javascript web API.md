@@ -4,6 +4,8 @@
 
 > Browser and runtime surfaces beyond ECMAScript — DOM, fetch, timers, storage — **MDN + integration debugging**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

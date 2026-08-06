@@ -1,36 +1,48 @@
+[[algo]]
+
+# Two pointer
+
+> Instead of looking at values directly, think: I have one or more fingers pointing at locations, and I move those fingers according to rules".
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Two pointer: pointer placement rules]]
+- [[#Converging pointers (opposite ends)]]
+- [[#Sliding window (same direction)]]
+- [[#Fast and slow pointers]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 Pointer = movable reference to a position in a data structure. A void revisiting elements.
-
-> Instead of looking at values directly, think:
-> I have one or more fingers pointing at locations, and I move those fingers according to rules".
-
 - Each step resolves one conflict (too big / too small) deterministically.
 - Eliminates dominated states: once a pointer moves, all skipped states are provably invalid.
-
 > Monotonic property -> A property is monotonic if it changes in only one direction (once it increases, it never decreases or vice versa).
 - this enables one-way decisions.
-
 **When it fails**
 - array is not sorted.
 - Unsorted data with no monotonic rule.
 - Global constraints needing lookahead.
 - Multiple independent conditions.
-
 **Edge cases**
 - Equal values → non-strict monotonically.
 - Floating-point precision breaks monotonic checks.
 - Data mutation invalidates monotonic assumptions.
-
 **Sorted two pointer array**
-- Ordered values let us decide which way to move pointer. 
+- Ordered values let us decide which way to move pointer.
 - After sorting, same value repeated → skip to prevent same triplet.
 - sorting allows us to easily skip duplicate values and use the two-pointer technique effectively.
 
-## Index
+## Standard config / commands
 
-- [[#Two pointer: pointer placement rules]]
-- [[#Converging pointers (opposite ends)]]
-- [[#Sliding window (same direction)]]
-- [[#Fast and slow pointers]]
+…
 
 ## Two pointer: pointer placement rules
 
@@ -124,3 +136,21 @@ function removeDuplicates(nums) {
 
 ```
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

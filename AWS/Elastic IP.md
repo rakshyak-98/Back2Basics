@@ -4,6 +4,8 @@
 
 > **Static public IPv4 in a region** — survives stop/start, anchors DNS A records, and fronts NAT gateways. **AWS EC2 User Guide (Elastic IP addresses)** + billing surprises from orphaned or stopped-instance EIPs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

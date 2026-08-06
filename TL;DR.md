@@ -4,16 +4,25 @@
 
 > **Too long; didn't read** — compressed summary up front; use in docs, PRs, and incident threads so busy readers get the decision in 10 seconds.
 
+---
+
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Patterns]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
 - [[#Anti-patterns]]
 - [[#Related]]
 
 ## Mental model
 
 Put **outcome + key constraint** first; details follow. In PRs: what changed and why. In runbooks: fix command before theory. In chat: answer the question in line one, then context.
+
+## Standard config / commands
+
+…
 
 ## Patterns
 
@@ -25,6 +34,17 @@ Put **outcome + key constraint** first; details follow. In PRs: what changed and
 
 **Doc section**
 > TL;DR: Use `set -euo pipefail` in bash scripts; `${VAR:?}` for required env.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
 
 ## Anti-patterns
 

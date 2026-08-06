@@ -4,6 +4,8 @@
 
 > One-line: a contiguous DNS namespace slice served authoritatively by one or more NS — **RFC 1035**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

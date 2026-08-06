@@ -4,6 +4,8 @@
 
 > Where config, logs, and runtime state live on disk — first stop when nginx -t passes but site wrong or logs vanish. **Full `/etc/nginx/` tree:** [[nginx config structure]].
 
+---
+
 ## Index
 
 - [[#Mental model]]

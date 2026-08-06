@@ -4,6 +4,8 @@
 
 > Static (compiled-in) vs shared (dynamic `LoadModule`) — what you can toggle without recompiling httpd.
 
+---
+
 ## Index
 
 - [[#Mental model]]

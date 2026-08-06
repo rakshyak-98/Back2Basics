@@ -4,6 +4,8 @@
 
 > One-line: automatic SQL on INSERT/UPDATE/DELETE — audit, denormalization, validation; hidden logic that breaks migrations and surprises ORMs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

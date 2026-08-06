@@ -4,6 +4,8 @@
 
 > Secondary index that contains **all columns the query needs** — InnoDB skips the clustered-index lookup — **High Performance MySQL** (Schwartz et al.).
 
+---
+
 ## Index
 
 - [[#Mental model]]

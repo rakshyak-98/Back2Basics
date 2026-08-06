@@ -4,6 +4,8 @@
 
 > Network-attached block volumes for EC2 — persistent disk, snapshots, resize, and **Delete on Termination** gotcha.
 
+---
+
 ## Index
 
 - [[#Mental model]]

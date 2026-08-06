@@ -4,6 +4,8 @@
 
 > One-line: the `node` executable and common flags — version pinning, env preload, inspect, and one-liners when npm scripts aren't enough.
 
+---
+
 ## Index
 
 - [[#Mental model]]

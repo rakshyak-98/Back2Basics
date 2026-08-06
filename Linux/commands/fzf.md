@@ -4,6 +4,8 @@
 
 > One-line: fuzzy finder for the terminal — filter any list interactively (files, history, processes, git branches) with sub-100ms feel. **Reach for it when Tab completion isn't enough.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

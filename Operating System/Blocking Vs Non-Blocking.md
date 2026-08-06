@@ -9,8 +9,8 @@
 ## Index
 
 - [[#Mental model]]
-- [[#Decision table]]
 - [[#Standard config / commands]]
+- [[#Decision table]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -36,18 +36,6 @@ Non-blocking + reactor:    [Event loop]──read(EAGAIN)──epoll──►rea
 **Go:** goroutine blocking on `conn.Read` blocks an OS thread from the pool — cheap until GOMAXPROCS threads all block.
 
 **Java:** thread-per-request **blocking** servlets vs Netty **non-blocking** — thread count vs complexity tradeoff.
-
----
-
-## Decision table
-
-| Workload | Prefer | Why |
-|----------|--------|-----|
-| High fan-in HTTP/WebSocket | Non-blocking + event loop | Few [[file descriptors]] threads, many conns |
-| CRUD API moderate QPS | Blocking + thread pool | Simpler code; pool size tuned to cores |
-| Disk-heavy batch ETL | Blocking threads or async IO | Throughput over latency |
-| CPU-bound (hash, ML) | Worker threads/processes | I/O model irrelevant — avoid blocking event loop |
-| Postgres client | Blocking JDBC common | Pool limits connections; pgbouncer |
 
 ---
 
@@ -78,6 +66,18 @@ jcmd PID Thread.print | grep -A5 BLOCKED
 **Java:** Tomcat `maxThreads` caps blocking workers; reactive stack (WebFlux) for non-blocking end-to-end **only if** DB/driver also async.
 
 See [[non-blocking]] for `fcntl O_NONBLOCK`, epoll, and `EAGAIN` handling.
+
+---
+
+## Decision table
+
+| Workload | Prefer | Why |
+|----------|--------|-----|
+| High fan-in HTTP/WebSocket | Non-blocking + event loop | Few [[file descriptors]] threads, many conns |
+| CRUD API moderate QPS | Blocking + thread pool | Simpler code; pool size tuned to cores |
+| Disk-heavy batch ETL | Blocking threads or async IO | Throughput over latency |
+| CPU-bound (hash, ML) | Worker threads/processes | I/O model irrelevant — avoid blocking event loop |
+| Postgres client | Blocking JDBC common | Pool limits connections; pgbouncer |
 
 ---
 

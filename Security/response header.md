@@ -4,6 +4,8 @@
 
 > **Server metadata** that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content, clickjacking, or broken CDNs. **OWASP Secure Headers** + CDN cache mystery tickets.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,20 +1,15 @@
-Here is a detailed series of **copy-paste ready prompts** you can feed sequentially to any AI agent (like me, Claude, or ChatGPT) over the next 6 months. Each prompt is self-contained, builds on prior ones, and turns the AI into your personal Go interview coach.
+[[golang]]
 
-**Instructions for use:**
+# go learning
 
-- Run prompts in order, one session per topic/project/mock.
-    
-- After each AI response, paste your code/answers back with: _"Here is my attempt. Review it line-by-line, score 1-10, suggest idiomatic improvements, and give me the next exercise."_
-    
-- Aim for 7-10 hours/week: 60% coding, 30% Q&A drills, 10% review.
-    
-- Track progress in a GitHub repo with weekly commits.
-    
+> One-line: what / why for **go learning** — source TBD.
 
 ---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#🎯 **PHASE 1: FOUNDATIONS (Months 1-2)**]]
 - [[#**Prompt 1.1: Create your personalized Go roadmap**]]
 - [[#**Prompt 1.2: Daily Go concept drill (repeat weekly)**]]
@@ -32,6 +27,23 @@ Here is a detailed series of **copy-paste ready prompts** you can feed sequentia
 - [[#**Prompt 4.2: Portfolio storytelling**]]
 - [[#🚀 **FINAL PREP (Last 2 weeks)**]]
 - [[#**Prompt 5.1: War games - hardest questions**]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Here is a detailed series of **copy-paste ready prompts** you can feed sequentially to any AI agent (like me, Claude, or ChatGPT) over the next 6 months. Each prompt is self-contained, builds on prior ones, and turns the AI into your personal Go interview coach.
+**Instructions for use:**
+- Run prompts in order, one session per topic/project/mock.
+- After each AI response, paste your code/answers back with: _"Here is my attempt. Review it line-by-line, score 1-10, suggest idiomatic improvements, and give me the next exercise."_
+- Aim for 7-10 hours/week: 60% coding, 30% Q&A drills, 10% review.
+- Track progress in a GitHub repo with weekly commits.
+
+## Standard config / commands
+
+…
 
 ## 🎯 **PHASE 1: FOUNDATIONS (Months 1-2)**
 
@@ -126,3 +138,22 @@ text
 **Start with Prompt 1.1 today.** Copy-paste it to me now, and we'll generate your complete 24-week schedule!
 
 This system will get you interview-ready. Commit to it daily. 💪linkedin+2
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

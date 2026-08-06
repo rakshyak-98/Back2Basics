@@ -4,6 +4,8 @@
 
 > One-line: **modern display protocol** — clients allocate buffers and pass FDs to the compositor; no global X11 server drawing model. **Debug sockets and env vars, not WM internals.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

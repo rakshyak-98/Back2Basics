@@ -1,5 +1,23 @@
-A broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
+[[Kafka]]
 
+# Kafka broker
+
+> One-line: what / why for **Kafka broker** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+A broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
 | feature              | Description                                                       |
 | -------------------- | ----------------------------------------------------------------- |
 | Message storage      | Stores messages in topics and partitions.                         |
@@ -10,3 +28,26 @@ A broker in Apache Kafka is server that acts as an intermediary between producer
 ### Why is it called a Topic in Kafka?
 The term _topic_ in kafka is inspired by publish-subscribe messaging systems.
 - it represents a logical channel where messages are categorized, similar to how topics work in forums or newsletters.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

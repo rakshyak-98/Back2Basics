@@ -4,6 +4,8 @@
 
 > CSRF token in phpMyAdmin sessions — validates that form POSTs came from your logged-in UI, not a malicious site.
 
+---
+
 ## Index
 
 - [[#Mental model]]

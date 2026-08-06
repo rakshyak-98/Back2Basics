@@ -1,15 +1,32 @@
-instead of shipping a feature directly to all users, you wrap it behind a conditional check that can be toggled on or off remotely.
+[[Architectures]]
 
+# feature flag
+
+> One-line: what / why for **feature flag** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#The Flag Service]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+instead of shipping a feature directly to all users, you wrap it behind a conditional check that can be toggled on or off remotely.
 ```js
 if(featureFlags.isEnabled('new-checkout')){
 	showNewCheckout();
 } else {
 	showOldCheckout();
 }
-
 ```
 - The flag's value is controlled externally through a dashboard, API, or configuration service, not hardcoded in source code.
-
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
 │  Dashboard  │────>│  Flag Service    │────>│  Database   │
@@ -31,9 +48,9 @@ if(featureFlags.isEnabled('new-checkout')){
                  └───────────┘ └───────────┘
 ```
 
-## Index
+## Standard config / commands
 
-- [[#The Flag Service]]
+…
 
 ## The Flag Service
 
@@ -44,3 +61,22 @@ There are two fundamental approaches to flag evaluation
 **Server side evaluation** ->  backend sends the user context to the flag service (or evaluates locally with a cached ruleset) and returns the computed flag values. The rules and logic never leave your server.
 
 **Client side evaluation** -> browser SDK receives the evaluated flag values from the flag service (not the raw rules). The client knows what's enabled for the current user but doesn't see other user's configurations or your targeting logic.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

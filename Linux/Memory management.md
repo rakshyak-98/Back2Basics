@@ -4,6 +4,8 @@
 
 > One-line: virtual memory = per-process address spaces + page cache + swap — OOM kills when overcommit meets real RAM pressure.
 
+---
+
 ## Index
 
 - [[#Mental model]]

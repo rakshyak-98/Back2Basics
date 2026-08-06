@@ -4,6 +4,8 @@
 
 > Family of interchangeable algorithms behind one interface — pick at runtime — **Dive Into Design Patterns + ODAX/goal configs in Marketing API**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

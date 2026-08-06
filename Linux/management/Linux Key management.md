@@ -1,18 +1,34 @@
+[[management]]
+
 # generate private key
 
-```bash
-openssl genpkey -algorithm RSA -out private_key.pem -aes256 # with pass phrase
+> One-line: what / why for **generate private key** — source TBD.
 
-openssl genpkey -algorithm RSA -out private_key.pem # without pass phrase
-
-openssl ecparam -name secp256k1 -genkey -noout -out private_key.pem
-```
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Generate CSR]]
 - [[#verify certificate]]
 - [[#Keymanager]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+```bash
+openssl genpkey -algorithm RSA -out private_key.pem -aes256 # with pass phrase
+openssl genpkey -algorithm RSA -out private_key.pem # without pass phrase
+openssl ecparam -name secp256k1 -genkey -noout -out private_key.pem
+```
+
+## Standard config / commands
+
+…
 
 ## Generate CSR
 
@@ -46,7 +62,7 @@ SHA256 key fingerprints or SHA256 hash, or checksum are used to verify the authe
 you need different ssh key to pull from different git repository.
 
 ```bash
-ssh-keygen -t rsa -b 4096 -C 'comment'; # generate public and private key. 
+ssh-keygen -t rsa -b 4096 -C 'comment'; # generate public and private key.
 ssh-add id_rsa;
 ssh-keygen -lf <filename>; # get the fingureprint of the key private/public.
 ```
@@ -56,5 +72,23 @@ C - comment
 
 > [!NOTE] fixed-length string of characters, typically represented in hexadecimal format.
 
-
 ## Keymanager
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

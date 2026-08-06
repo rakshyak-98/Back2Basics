@@ -1,5 +1,23 @@
-SMT -> Simultaneous Multi-threading. SMT is the technology that lets one physical CPU core run two (or more) threads at the same time. Intel calls it **Hyper-Threading (HT)**, AMD calls it SMT.
+[[Operating System]]
 
+# SMT threads
+
+> One-line: what / why for **SMT threads** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+SMT -> Simultaneous Multi-threading. SMT is the technology that lets one physical CPU core run two (or more) threads at the same time. Intel calls it **Hyper-Threading (HT)**, AMD calls it SMT.
 **How it actually works**
 One physical core has these execution units
 - ALU
@@ -7,8 +25,30 @@ One physical core has these execution units
 - Load/Store units
 - Branch predictor etc.
 in normal single-threads use, many of these units sit idle every clock cycle waiting for the current thread.
-
 **With SMT**
 - Core pretends to be two logical cores (threads).
 - When thread A is waiting for memory -> Thread B uses the ALU.
 - When thread B stalls on a branch mispredict -> Thread A keeps going.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

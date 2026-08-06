@@ -4,6 +4,8 @@
 
 > One-line: **Login greeter that starts your graphical session** — picks X11 vs Wayland and launches i3/GNOME/KDE. Breaks here looks like "boot loops to black screen" before any app runs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

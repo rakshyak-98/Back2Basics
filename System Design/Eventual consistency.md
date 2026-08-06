@@ -1,15 +1,36 @@
+[[System Design]]
+
+# Eventual consistency
+
+> One-line: what / why for **Eventual consistency** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#BASE]]
+- [[#Conflict resolution]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 is a consistency model used in [[Distributed computing]] to achieve high availability that informally guarantees
 - new updates are made to a given data item, all accesses to that item will return the last updated value.
 - Eventual consistency, also called *optimistic replication*
 - weak guarantee
 Most stronger models, like [[linerizability]] are trivially eventually consistent.
 
-## Index
+## Standard config / commands
 
-- [[#BASE]]
-- [[#Conflict resolution]]
+…
 
 ## BASE
+
 Basically-Available Soft-state Eventual consistency
 ### Basically available
 - reading and writing operations are available as much as possible (using all nodes of databases cluster)
@@ -22,9 +43,29 @@ Basically-Available Soft-state Eventual consistency
 > Eventual consistency is sometimes criticised as increasing the complexity of distributed software applications. An eventually consistent system can return any value before it converges.
 
 ## Conflict resolution
+
 - ensure replica convergence, must reconcile differences between multiple copies of distributed data.
 1. exchanging versions or updates of data between servers (anti-entropy)
 2. choosing an appropriate final state when concurrent updates have occurred (reconciliation).
 - A widespread approach is "Last writes wins"
 - another is invoke a user-specified handler.
 - Timestamps and [vector clocks](#vecrot clocks) are often used to detect concurrency between updates.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

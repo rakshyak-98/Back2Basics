@@ -4,6 +4,8 @@
 
 > One-line: real-time **per-interface bandwidth** graph in the terminal — quick "who is saturating the NIC?" without Prometheus. **Legacy but still useful on jump boxes.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

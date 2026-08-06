@@ -4,6 +4,8 @@
 
 > Directives in context blocks compose request handling — inheritance, merge rules, and phase order determine which `location` wins.
 
+---
+
 ## Index
 
 - [[#Mental model]]

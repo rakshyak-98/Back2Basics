@@ -1,9 +1,31 @@
+[[Linux]]
+
+# file mount
+
+> One-line: what / why for **file mount** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#How to mount a google driver in current file system]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## How to mount a google driver in current file system
+
 ```bash
 sudo apt install gnome-control-center gnome-online-accounts
 sudo apt insall rclone
@@ -25,3 +47,22 @@ Running gnome-control-center is only supported under GNOME and Unity, exiting
 
 also view
 [configuring Rclone YT](https://www.youtube.com/watch?v=n7yB1x2vhKw)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

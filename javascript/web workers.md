@@ -4,6 +4,8 @@
 
 > Run JavaScript off the main thread so UI stays responsive during CPU-heavy work — **HTML Living Standard / WHATWG**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

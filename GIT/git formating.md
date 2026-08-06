@@ -4,6 +4,8 @@
 
 > One-line: `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
+---
+
 ## Index
 
 - [[#Mental model]]

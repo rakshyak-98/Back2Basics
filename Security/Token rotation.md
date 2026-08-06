@@ -4,6 +4,8 @@
 
 > **Limit blast radius of leaked credentials** — refresh/access tokens, API keys, session ids, and signing keys expire and are replaced on a schedule or after use. **RFC 6819 (OAuth 2.0 Threat Model)** + prod incidents from never-rotated JWT signing keys.
 
+---
+
 ## Index
 
 - [[#Mental model]]

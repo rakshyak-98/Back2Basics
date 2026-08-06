@@ -4,12 +4,11 @@
 
 > Getting started & project plumbing — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
 
-Setup = install CLI → pin versions → configure [[terraform provider]] → auth → (optional) remote state → first [[Terraform workflow]].
-
 ---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Install CLI]]
 - [[#Version constraints (Brikman)]]
 - [[#AWS configuration]]
@@ -19,6 +18,14 @@ Setup = install CLI → pin versions → configure [[terraform provider]] → au
 - [[#File layout (both books)]]
 - [[#First-run checklist]]
 - [[#Book map]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Setup = install CLI → pin versions → configure [[terraform provider]] → auth → (optional) remote state → first [[Terraform workflow]].
 
 ## Install CLI
 
@@ -266,3 +273,22 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 | Language overview | [[terraform]] |
 | Non-cloud practice | [[Terraform docker]] |
 | E-commerce EKS layout (extends setup) | [[ecommerce-eks-layout]] |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

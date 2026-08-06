@@ -4,6 +4,8 @@
 
 > One-line: Postgres **roles** unify users and groups — login role = user; grant least privilege; never app-connect as superuser.
 
+---
+
 ## Index
 
 - [[#Mental model]]

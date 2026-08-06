@@ -4,6 +4,8 @@
 
 > Coordinate ordered steps, retries, and failure handling across services — central workflow vs scattered scripts — **CI/CD + runtime workflow engines**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

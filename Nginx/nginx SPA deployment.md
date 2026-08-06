@@ -4,6 +4,8 @@
 
 > One-line: client-side routers own URLs that don't exist on disk — `try_files` must fall back to `index.html` without breaking API routes or static assets.
 
+---
+
 ## Index
 
 - [[#Mental model]]

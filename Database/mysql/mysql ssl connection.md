@@ -4,6 +4,8 @@
 
 > One-line: encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
 
+---
+
 ## Index
 
 - [[#Mental model]]

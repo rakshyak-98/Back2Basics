@@ -1,12 +1,28 @@
+[[window manager]]
+
+# X window system (X11)
+
+> One-line: what / why for **X window system (X11)** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Client Server Architecture]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - also known as X or X11
 - graphical windowing system for bitmap displays, commonly used on Unix-like operating system such as Linux and BSD.
 - it provide fundamental framework for building **graphical user Interface**, managing graphical display, and handling input devices like keyboards and mice.
 
-## Index
-
-- [[#Client Server Architecture]]
-
 ## Client Server Architecture
+
 - X use a client-server model
 - X server control the display, which the X clients are applications that request the server to display their windows.
 - the server manages input / output devices (monitors, mice, keyboards), while clients send requests (e.g, drawing windows, receiving user input) to the server.
@@ -21,3 +37,22 @@
 2. X client communicate with X server to display windows and handle input
 3. X Display refer to the screen or screens being controlled by the X server Each display consist of a screen (actual monitor) and an associated keyboard and mouse.
 4. Window manager controls the appearance and functionality of the windows in the system, such as window border, closing/maximizing buttons, and how windows are arranged on the screen.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

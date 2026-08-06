@@ -4,6 +4,8 @@
 
 > One-line: four-argument middleware `(err, req, res, next)` must be registered **last** — centralize status codes, hide stacks in prod, never leak internals.
 
+---
+
 ## Index
 
 - [[#Mental model]]

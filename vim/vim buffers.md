@@ -4,6 +4,8 @@
 
 > In-memory views of files — switch, list, and close without quitting Vim.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > Mental math and code patterns for `%` of a value, change, and reverse-percent — **on-call sizing + discount math without a calculator**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

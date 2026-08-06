@@ -4,6 +4,8 @@
 
 > One-line: **systemd's D-Bus introspection CLI** — list services, call methods, monitor signals on system/session bus without raw `dbus-send` XML. **Ships with systemd; the operator-facing D-Bus debugger.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

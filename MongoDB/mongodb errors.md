@@ -4,6 +4,8 @@
 
 > Symptom → cause → fix for the errors that show up in prod logs and Compass — **MongoDB Manual** + Mongoose gotchas.
 
+---
+
 ## Index
 
 - [[#Mental model]]

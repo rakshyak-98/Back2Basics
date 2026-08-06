@@ -4,12 +4,12 @@
 
 > Core notes from **Terraform: Up & Running** (Yevgeniy Brikman) and **Terraform in Action** (Scott Winkler).
 
-Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the **desired end state** in HCL; Terraform figures out create / update / delete against cloud APIs through [[terraform provider]] plugins.
-
 ---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Why Terraform (Brikman)]]
 - [[#Building blocks (Winkler)]]
 - [[#Resource]]
@@ -17,7 +17,18 @@ Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the *
 - [[#Modules (Brikman — “how to stay DRY”)]]
 - [[#Registry]]
 - [[#State (preview)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
 - [[#Related graph]]
+
+## Mental model
+
+Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the **desired end state** in HCL; Terraform figures out create / update / delete against cloud APIs through [[terraform provider]] plugins.
+
+## Standard config / commands
+
+…
 
 ## Why Terraform (Brikman)
 
@@ -149,6 +160,21 @@ Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` ca
 - Behavior in the apply loop → [[Terraform workflow]]
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related graph
 

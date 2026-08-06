@@ -4,6 +4,8 @@
 
 > **Virtual machines in a VPC** — pick AMI, instance type, subnet/SG, and know what still bills after `terminate`. **AWS EC2 User Guide** + finance surprises from orphaned EIPs/NAT.
 
+---
+
 ## Index
 
 - [[#Mental model]]

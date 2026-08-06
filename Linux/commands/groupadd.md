@@ -4,6 +4,8 @@
 
 > One-line: create a new **group** entry in `/etc/group` (and `/etc/gshadow` if shadow groups enabled) — shared permissions, sudo rules, and service ACLs. **Kerrisk**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

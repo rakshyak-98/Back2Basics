@@ -9,6 +9,7 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#AWS / cluster strategy]]
 - [[#Sample Terraform directory structure]]
 - [[#Sample Helm directory structure]]
@@ -36,6 +37,10 @@ helm/
 **Terraform owns** cloud resources (network, cluster, databases, broker, IAM). **Helm owns** workload manifests (Deployments, HPA, Rollouts, ConfigMaps). **GitOps** (Argo CD) syncs Helm releases from env branches or OCI chart versions.
 
 ---
+
+## Standard config / commands
+
+…
 
 ## AWS / cluster strategy
 

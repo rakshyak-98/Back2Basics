@@ -1,5 +1,46 @@
-Instead of locking or rolling back on concurrent read/writes, MVCC treats the database as an append-only structure where each mutation creates a new tuple version.
+[[database]]
 
+# MVCC
+
+> One-line: what / why for **MVCC** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Instead of locking or rolling back on concurrent read/writes, MVCC treats the database as an append-only structure where each mutation creates a new tuple version.
 - Implementation Mechanics: Each row contains hidden metadata (e.g., in PostgreSQL: `xmin` for creation transaction ID, `xmax` for deletion/update transaction ID). Transactions use snapshot isolation, reading the state of the database committed at the time the transaction began, governed by active transaction id arrays.
 - Storage layout & Garbage Collection: Requires aggressive background garbage collection to reclaim storage from obsolete row versions (e.g, PostgreSQL `VACUUM`, MySQL/InnoDB undo Logs).
 - Performance Profile: Reads never block writes, writes never block reads. However, it incurs significant I/O amplification and storage bloat compared to in-place updates.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

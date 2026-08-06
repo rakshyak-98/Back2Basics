@@ -4,6 +4,8 @@
 
 > Client-side routing in the App/Pages router — when to use `Link`, `router`, or a real new tab.
 
+---
+
 ## Index
 
 - [[#Mental model]]

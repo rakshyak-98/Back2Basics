@@ -1,10 +1,32 @@
+[[System Design]]
+
+# System design
+
+> One-line: what / why for **System design** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Abstraction and Implementation Hierarchies]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Abstraction and Implementation Hierarchies
-In software design, separate abstraction and implementation hierarchies refer to 
+
+In software design, separate abstraction and implementation hierarchies refer to
 - decoupling the high level logic (abstraction) from its underlying details (implementation).
 - this separation allows both the abstraction and its implementation to evolve independently without tightly coupling them.
 
@@ -22,3 +44,22 @@ In software design, separate abstraction and implementation hierarchies refer to
 - you can extend either abstraction or implementation without affecting the other.
 - adding new features or implementation is easier.
 - implementations can be reused with different abstraction.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

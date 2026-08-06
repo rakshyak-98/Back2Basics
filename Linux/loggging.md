@@ -4,6 +4,8 @@
 
 > One-line: Linux **log aggregation** — systemd-journald (structured, indexed) plus legacy syslog files under `/var/log`. **Start every service incident with journalctl, not grep of random files.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

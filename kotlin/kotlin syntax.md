@@ -4,6 +4,8 @@
 
 > JVM-null-safe language — `?.`, `!!`, `val`/`var`, and extension functions; use this note for day-one reading code, not full language spec.
 
+---
+
 ## Index
 
 - [[#Mental model]]

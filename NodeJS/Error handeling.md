@@ -1,3 +1,22 @@
+[[NodeJS]]
+
+# Error handeling
+
+> One-line: what / why for **Error handeling** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Creating Custom Error]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```js
 try{
 	...
@@ -6,9 +25,9 @@ try{
 }
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Creating Custom Error]]
+…
 
 ## Creating Custom Error
 
@@ -51,7 +70,7 @@ class UnauthorizedError extends Error {
 ```js
 class AppError extens Error {
 	constructor(statusCode, message, isOperational = true){
-		super(message); // 
+		super(message); //
 		this.name = this.constructor.name;
 		this.statusCode = stausCode;
 		this.isOperational = isOperational;
@@ -72,3 +91,16 @@ class ForbiddenError extends AppError {
 }
 
 ```
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

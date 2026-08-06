@@ -4,6 +4,8 @@
 
 > Append-only durability journal: log the intent **before** mutating data pages — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
 
+---
+
 ## Index
 
 - [[#Mental model]]

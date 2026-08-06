@@ -1,11 +1,32 @@
+[[NodeJS]]
+
+# Optimization
+
+> One-line: what / why for **Optimization** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Profiling and Monitoring]]
 - [[#Efficient code practices]]
 - [[#Caching]]
 - [[#Load Balancing]]
 - [[#Compression]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Profiling and Monitoring
 
@@ -33,3 +54,22 @@
 ## Compression
 
 - Gzip compression: Enable gzip compression to reduce the size of the response body and improve load time.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

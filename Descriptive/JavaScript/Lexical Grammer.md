@@ -4,6 +4,8 @@
 
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

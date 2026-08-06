@@ -4,6 +4,8 @@
 
 > Declarative process config — cluster mode, env injection, logs, and restart policy for Node apps.
 
+---
+
 ## Index
 
 - [[#Mental model]]

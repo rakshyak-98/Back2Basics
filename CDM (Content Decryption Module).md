@@ -1,7 +1,23 @@
 [[DRM]]
 
-CDM (Content Decryption Module) -> is the secure software (or hardware-baked component) responsible for decrypting DRM-protected media during playback
+# CDM (Content Decryption Module)
 
+> One-line: what / why for **CDM (Content Decryption Module)** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+CDM (Content Decryption Module) -> is the secure software (or hardware-baked component) responsible for decrypting DRM-protected media during playback
 ```txt
 Encrypted Video
        |
@@ -20,7 +36,6 @@ Decrypted frames (inside secure environment)
        v
 Video Decoder -> Display
 ```
-
 Responsibilities
 - Authenticate with the DRM system
 - Process the DRM license received from the license server.
@@ -32,7 +47,6 @@ Responsibilities
 	- HD/UHD restrictions
 	- Screen recording prevention
 	- HDCP requirements
-
 Playback Flow
 1. User requests video.
 2. Player downloads (manifest MPD/HLS), encrypted media segments
@@ -41,12 +55,32 @@ Playback Flow
 5. CDM -> validates license, extracts keys, decrypts media.
 6. Decoder receives decrypted content.
 7. Video is deiplayed.
-
-
 **Common DRM systems**
-
 | DRM                 | CDM           |
 | ------------------- | ------------- |
 | Google Widevine     | Widevine CDM  |
 | Microsoft PlayReady | PlayReady CDM |
 | Apple FairPlay<br>  | FairPlay CDM  |
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

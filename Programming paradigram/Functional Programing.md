@@ -4,6 +4,8 @@
 
 > Compose pure functions and immutable data — minimize shared mutable state; side effects at the edges.
 
+---
+
 ## Index
 
 - [[#Mental model]]

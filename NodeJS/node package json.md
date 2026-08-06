@@ -4,6 +4,8 @@
 
 > One-line: project manifest — scripts, dependency graph, engine constraints, and module type; enforce Node/npm versions in CI and prod.
 
+---
+
 ## Index
 
 - [[#Mental model]]

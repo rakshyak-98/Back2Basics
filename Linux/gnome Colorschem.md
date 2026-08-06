@@ -1,5 +1,27 @@
-m -> SGR command applies the color/style. The terminal wouldn't know you're talking about graphics attributes (color, bold, underline, etc.)
+[[Linux]]
 
+# gnome Colorschem
+
+> One-line: what / why for **gnome Colorschem** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#PS1]]
+- [[#Habamax dark]]
+- [[#Catppuccin Mocha palette]]
+- [[#Gruvbox theme]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+m -> SGR command applies the color/style. The terminal wouldn't know you're talking about graphics attributes (color, bold, underline, etc.)
 | Color   | FG   | Bright FG |
 | ------- | ---- | --------- |
 | Black   | `30` | `90`      |
@@ -10,17 +32,14 @@ m -> SGR command applies the color/style. The terminal wouldn't know you're talk
 | Magenta | `35` | `95`      |
 | Cyan    | `36` | `96`      |
 | White   | `37` | `97`      |
-
 `\[\e[<style>;<foreground>;<background>m\]`
 
-## Index
+## Standard config / commands
 
-- [[#PS1]]
-- [[#Habamax dark]]
-- [[#Catppuccin Mocha palette]]
-- [[#Gruvbox theme]]
+…
 
 ## PS1
+
 ```bash
 PS1='\[\e[38;5;109m\]\u\[\e[38;5;250m\]@\[\e[38;5;110m\]\h \[\e[38;5;144m\]\w\[\e[0m\]\n\$ '
 ```
@@ -162,7 +181,6 @@ gsettings set "$BASE_PATH" palette "[
 ]"
 ```
 
-
 ## Catppuccin Mocha palette
 
 ```bash
@@ -218,6 +236,7 @@ echo "🎨 Catppuccin Mocha theme applied to GNOME Terminal."
 ```
 
 ## Gruvbox theme
+
 ```bash
 #!/usr/bin/env bash
 # Apply Gruvbox Dark theme to GNOME Terminal
@@ -242,3 +261,22 @@ dconf write $PROFILE_PATH/bold-color-same-as-fg "true"
 echo "Gruvbox Dark theme applied to GNOME Terminal profile: $PROFILE"
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

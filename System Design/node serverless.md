@@ -1,21 +1,38 @@
+[[System Design]]
+
 # Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling
 
-**Author:** Rakshyak (@rakshak_sat)  
-**Date:** March 10, 2026  
-**Goal:** Build a minimal viable prototype of an event-driven serverless task manager by weekend (target: deploy and test by March 15, 2026). This will demonstrate auto-scaling Lambdas triggered by DynamoDB Streams for task creation/updates, processing notifications via SNS. Focus on infrastructure patterns for high-scale reliability in Bengaluru's cloud-heavy ecosystem (e.g., AWS Mumbai region for low latency).
+> One-line: what / why for **Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling** — source TBD.
 
-This draft doc serves as your blueprint: tech stack, phased plan, code patterns, and resources. Implement iteratively—commit to GitHub daily for version control. Total effort: 10-15 hours, assuming basic AWS CLI setup.
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Tech Stack]]
 - [[#Architecture Overview]]
 - [[#Prototype Implementation Plan]]
 - [[#Staff-Level Critique of Common "Best Practices" That Fail at Scale]]
 - [[#High-Scale Implementation Failures]]
 - [[#Resources]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+**Author:** Rakshyak (@rakshak_sat)
+**Date:** March 10, 2026
+**Goal:** Build a minimal viable prototype of an event-driven serverless task manager by weekend (target: deploy and test by March 15, 2026). This will demonstrate auto-scaling Lambdas triggered by DynamoDB Streams for task creation/updates, processing notifications via SNS. Focus on infrastructure patterns for high-scale reliability in Bengaluru's cloud-heavy ecosystem (e.g., AWS Mumbai region for low latency).
+This draft doc serves as your blueprint: tech stack, phased plan, code patterns, and resources. Implement iteratively—commit to GitHub daily for version control. Total effort: 10-15 hours, assuming basic AWS CLI setup.
+
+## Standard config / commands
+
+…
 
 ## Tech Stack
+
 - **Runtime:** Node.js 20.x (V8 11.8+ for optimized async/await and crypto in Lambdas).
 - **Deployment:** Serverless Framework (v3+)—simpler than CDK for prototypes; handles IaC for Lambda + DynamoDB.
 - **Database:** AWS DynamoDB (provisioned mode for cost control; auto-scaling enabled).
@@ -93,6 +110,7 @@ resources:
 ```
 
 ## Prototype Implementation Plan
+
 Phased for weekend (March 10-15, 2026). Allocate 2-3 hours/day; test locally first.
 
 ### Day 1: Setup & Core Infra (March 10-11)
@@ -124,12 +142,14 @@ Phased for weekend (March 10-15, 2026). Allocate 2-3 hours/day; test locally fir
 5. Milestone: Full prototype live; record demo video.
 
 ## Staff-Level Critique of Common "Best Practices" That Fail at Scale
+
 - "Always use serverless for everything" → Great for bursts, but fixed 15-min timeouts kill long ETL jobs; hybrid with Step Functions for orchestration.
 - "DynamoDB single-table is foolproof" → Works for prototypes; at 1M+ items, poor partition keys cause hot shards—use random suffixes, not sequential IDs.
 - "Ignore cold starts" → Acceptable <100ms in dev; provisioned concurrency is essential for <50ms P99 at 10k RPS, else user drop-off spikes 20%.
 - "EventBridge for all events" → Overkill vs. Streams (cheaper, tighter coupling); use Streams for intra-service, EventBridge for cross-account.
 
 ## High-Scale Implementation Failures
+
 - **No stream shard management** → At 10k writes/sec, uneven shards overload Lambdas → batch failures → infinite retries → $1000+ SNS bills from loops.
 - **Unbounded Lambda memory** → Default 128MB bloats on large streams → V8 GC pauses >1s → timeouts cascade to API Gateway 504s → full outage.
 - **Missing DLQ on streams** → Failed mutations (e.g., SNS outage) retry forever → DynamoDB write capacity exhausts → 429 throttles block all writes → revenue loss.
@@ -137,6 +157,7 @@ Phased for weekend (March 10-15, 2026). Allocate 2-3 hours/day; test locally fir
 - **No X-Ray sampling** → Traces flood at scale → CloudWatch costs explode; undersampled → invisible latency spikes → unrooted SLO violations.
 
 ## Resources
+
 Curated from 2026 sources—prioritize hands-on ones. Total reading: 2 hours.
 
 | Resource                                          | Type          | Why Useful                                          | Link/Cite |
@@ -153,3 +174,16 @@ Curated from 2026 sources—prioritize hands-on ones. Total reading: 2 hours.
 | Node.js REST API with Serverless + DynamoDB       | Tutorial      | Legacy but solid base; update deps.                 |           |
 
 **Next Steps:** Fork this doc to Notion/Google Docs; track progress in a Git repo. Ping me (@rakshak_sat) for blockers—let's iterate on the plan if needed. This prototype will sharpen your infra intuition for real Bengaluru-scale deploys.
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > Locally optimal choice at each step — works when problem has **greedy choice property** and **optimal substructure**; otherwise wrong answer with confidence.
 
+---
+
 ## Index
 
 - [[#Mental model]]

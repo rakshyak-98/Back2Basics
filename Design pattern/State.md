@@ -4,6 +4,8 @@
 
 > Object alters behavior when its internal state changes — appears to change class — **Dive Into Design Patterns + campaign wizard Draft → Ready → Launched**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

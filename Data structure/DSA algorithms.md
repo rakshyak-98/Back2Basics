@@ -1,47 +1,58 @@
+[[Data structure]]
+
+# DSA algorithms
+
+> One-line: what / why for **DSA algorithms** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Cancellation trick]]
+- [[#**Floyd's Tortoise and Hare** algorithm.]]
+- [[#Dutch National Flag algorithm]]
+- [[#DFS (Depth First Search)]]
+- [[#Expand around centre]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - time complexity grows linearly with two independent factors, multiply them to get the overall time complexity.
-
 independent factors -> if you have two independent parts (outer loop and inner loop) of an algorithm, and each part has a linear time complexity, you multiply their complexity.
-
 ### Linear growth
 if you you increase the input size by a factor, the execution time increases by the same factor.
-
 Example -> you have an array of size N, and for each element in the array, you need to perform an operation that takes K steps. That's N operations, and each of those N operations takes K steps. The total number of steps is then `N * K`.
-
 ### LPS Array (in KMP) Longest Prefix Suffix
 for each position `i` in the patterns, `LPS[i]` stores the length of the longest proper prefix that is also a suffix of the sub-string ``
-
 ### Recursion
 - return address, return value, stack trace
 - pre-operation (something done before recursion), Recursion (actual function call), Post-operation (something done after recursion).
 - base case
-
 > [!INFO]
 > recursive function terminates by reaching a base case, where the function no longer calls itself and instead returns a specific value or performs a final operation.
-
 > [!INFO]
 > The call stack grows downward as recursive calls are made, then unwinds upward as each function returns its calculated value, with each function adding its own computation to the final result.
-
 [pivot index](https://leetcode.com/problems/find-pivot-index/)
 - pre-compute the total sum
 - `lhs === total sum - lhs - nums[i]`
-
 ### Prefix sum balance checking
 - Find index where left part = right part
 - split array evenly
 - find equilibrium point
 - this trick is always: pre computer total, then compare with running prefix.
 
-## Index
+## Standard config / commands
 
-- [[#Cancellation trick]]
-- [[#**Floyd's Tortoise and Hare** algorithm.]]
-- [[#Dutch National Flag algorithm]]
-- [[#DFS (Depth First Search)]]
-- [[#Expand around centre]]
+…
 
 ## Cancellation trick
-- When you need to find an element that dominates, you can cancel out minority elements until only the dominant remains.
 
+- When you need to find an element that dominates, you can cancel out minority elements until only the dominant remains.
 
 ## **Floyd's Tortoise and Hare** algorithm.
 
@@ -61,6 +72,7 @@ Phase 2 : Finding the entrance
 Once they collide, we need to find exactly where the loop starts (the entrance is the duplicate number).
 
 ## Dutch National Flag algorithm
+
 since we only have three distinct values (0, 1, and 2) we can sort them in a single pass by partitioning the array into three sections.
 
 - The **Dutch National Flag algorithm**, proposed by Edsger Dijkstra, is a three-way partitioning technique.
@@ -82,3 +94,22 @@ DFS usually uses:
 ---
 
 ## Expand around centre
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

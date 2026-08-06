@@ -4,6 +4,8 @@
 
 > One-line: distributed-systems tradeoff label — **B**asically **A**vailable, **S**oft state, **E**ventual consistency — opposite emphasis from [[ACID]]; know what you're giving up.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > One-line: logical backup/export of schema and/or data — primary disaster-recovery baseline; know flags for schema-only, routines, triggers, and restore pitfalls.
 
+---
+
 ## Index
 
 - [[#Mental model]]

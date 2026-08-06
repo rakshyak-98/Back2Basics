@@ -4,6 +4,8 @@
 
 > Nodes chained by `next` (and optionally `prev`) pointers — O(1) insert/delete at known node; O(n) indexed access.
 
+---
+
 ## Index
 
 - [[#Mental model]]

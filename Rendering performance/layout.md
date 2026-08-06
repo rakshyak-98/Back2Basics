@@ -4,6 +4,8 @@
 
 > Browser calculates geometry — sizes and positions of elements — **render pipeline stage between style and paint**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

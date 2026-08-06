@@ -4,6 +4,8 @@
 
 > One-line: kernel resource envelopes for processes — v2 unified hierarchy is what Docker/K8s use for CPU, memory, and I/O limits.
 
+---
+
 ## Index
 
 - [[#Mental model]]

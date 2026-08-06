@@ -1,3 +1,22 @@
+[[NodeJS]]
+
+# EventMachine
+
+> One-line: what / why for **EventMachine** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 is an event-driven I/O and light-weight concurrency library for Ruby. It provides event-driven I/O using the Reactor pattern, much like JBoss Netty, Apache MINA. Python [[Twisted]], Node.js `libevent` and `libev`.
 ### Two key needs:
 -  Extremely high scalability, performance and stability for the most demanding production environments.
@@ -9,3 +28,26 @@ is an event-driven I/O and light-weight concurrency library for Ruby. It provide
 	- email
 	- [[IM (Information Management) production systems]]
 	- authentication / authorization processors.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

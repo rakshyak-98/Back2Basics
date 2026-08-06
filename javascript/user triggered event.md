@@ -4,6 +4,8 @@
 
 > Browser events caused directly by user input — the gate for privileged APIs, popup blockers, and "did the user mean this?" security checks.
 
+---
+
 ## Index
 
 - [[#Mental model]]

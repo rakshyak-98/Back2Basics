@@ -1,3 +1,22 @@
+[[Redux]]
+
+# redux toolkit features
+
+> One-line: what / why for **redux toolkit features** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 |#|Feature|Main API(s)|Why It's Essential in React Projects|When / How Often You Use It|
 |---|---|---|---|---|
 |1|Simplified Store Setup|`configureStore()`|One-line store creation with sensible defaults (Redux Thunk included, DevTools enabled, combine reducers automatically)|Always – root setup|
@@ -12,3 +31,26 @@
 |10|Reselect-style memoized selectors|`createSelector` from reselect (included)|Efficient derived state computation (prevents unnecessary re-renders)|Whenever you derive/compute from state|
 |11|TypeScript-first APIs|Generics & inference everywhere|Excellent type safety with minimal extra typing effort|Strongly recommended in 2025–2026 projects|
 |12|DevTools + Time-travel|Included by default in `configureStore`|Automatic integration — inspect, replay, diff state changes|Debugging & development|
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

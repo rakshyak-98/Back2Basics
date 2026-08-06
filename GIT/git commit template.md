@@ -1,21 +1,34 @@
-**Git config to use custom commit template**
+[[GIT]]
 
+# git commit template
+
+> One-line: what / why for **git commit template** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+**Git config to use custom commit template**
 ```bash
 git config --global commit.template ~/.config/git/commit-template
 ```
-
 ```text
 <type>(<scope>): <short summary 50-72 chars>
-
 <body - optional>
 Explain **why** this change + **context** if needed (especially for tricky parts)
-
 BREAKING CHANGE: <description if any>   ← only when really breaking
-
 Resolves: #123
 See also: #456
 ```
-
 - feat        → new feature
 - fix         → bug fix
 - docs        → documentation only
@@ -26,3 +39,26 @@ See also: #456
 - build       → build system, CI, external dependencies
 - chore       → maintenance (gitignore, scripts, rename...)
 - revert      → revert previous commit
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

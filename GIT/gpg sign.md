@@ -4,6 +4,8 @@
 
 > One-line: cryptographically **sign Git commits/tags** with your GPG key — proves authorship and integrity for supply-chain and release audit. **Fix "no secret key" before enabling signing in CI or globally.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

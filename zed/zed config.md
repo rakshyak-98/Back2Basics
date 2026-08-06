@@ -4,6 +4,8 @@
 
 > `~/.config/zed/settings.json` — themes, LSP, formatters, inline edit predictions, and remote editing over SSH.
 
+---
+
 ## Index
 
 - [[#Mental model]]

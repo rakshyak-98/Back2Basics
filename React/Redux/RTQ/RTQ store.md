@@ -1,7 +1,28 @@
+[[RTQ]]
+
+# RTQ store
+
+> One-line: what / why for **RTQ store** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Store]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Store
 
@@ -37,7 +58,7 @@ export type AppDispatch = typeof store.dispatch;
 ```jsx
 export const store = configureStore({
 	reducer: rootReducer, // or combineReducers({...})
-	
+
 	middleware: (getDefaultMiddleware) => [
 		...getDefaultMiddleware({
 		}),
@@ -71,3 +92,22 @@ setupListeners(store.dispatch, {
   refetchOnMountOrArgChange: true // default = false (more aggressive)
 })
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

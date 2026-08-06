@@ -1,25 +1,35 @@
+[[mysql]]
+
+# Configuration
+
+> One-line: what / why for **Configuration** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Constraint safe update]]
+- [[#Dump configuration]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```ini
 [client]
 user=myuser
 password=mypassword
 host=127.0.0.1
-
 [mysql]
 pager=less -S
 prompt="\u@\h> "
-
 [mysqldump]
 quick=TRUE
 single-transaction=TRUE
-
 ```
-
-	
-
-## Index
-
-- [[#Constraint safe update]]
-- [[#Dump configuration]]
 
 ## Constraint safe update
 
@@ -29,8 +39,8 @@ single-transaction=TRUE
 sql_safe_update=1
 ```
 
-
 ## Dump configuration
+
 ```bash
 mysqldump --routine <database name> > dump.sql;
 mysqldump --routine --triggers <database name> > dump.sql;
@@ -39,3 +49,22 @@ mysqldump --routine --triggers <database name> > dump.sql;
 > [!NOTE]
 > By default `mysqldump` does not include stored routines (functions + procedures)
 > Must add the flag.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

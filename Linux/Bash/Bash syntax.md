@@ -1,17 +1,34 @@
-### Command manipulation
+[[Bash]]
 
+# Bash syntax
+
+> One-line: what / why for **Bash syntax** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configuration setup]]
+- [[#Command history expansion]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+### Command manipulation
 ```bash
 fc -ln -1; # show the last command ( no line number );
 fc -ln -2 -1; # show the last two commands;
 fc -e nano; # edit previous command with neno;
 ```
-
 ```shell
 echo "Today is ${date}"
 mkdir new_dir && cd new_dir # conditional execution
 diff <(ls dir1) <(ls dir2);
 ```
-
 ```bash
 touch -- -file.txt;
 ```
@@ -19,18 +36,32 @@ touch -- -file.txt;
 > end of the options marker.
 > after `--` all args treated as positional.
 > prevents `-file.txt` interpreted as a option flag.
-
 ```
 (cd /tmp && ls); # Executes commands in a separate subshell
 ```
 - This runs the `cd` and `ls` commands in a sub-shell, so the working directory in the current shell remains unchanged.
 
-## Index
+## Configuration setup
 
-- [[#Command history expansion]]
-- [[#Configuration setup]]
+[[Kafka configuration]]
+```shell
+if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
+    info "** Starting Kafka setup **"
+    /opt/bitnami/scripts/kafka/setup.sh
+    info "** Kafka setup finished! **"
+fi
+```
+- this script checks if a specific script (`run.sh`) is part of the command line arguments, and if so, it runs a kafka setup script.
+
+```shell
+if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
+```
+- `$*` -> represents all command-line arguments passed to the script.
+- `[[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]` checks if any argument contains `/opt/bitnami/scripts/kafka/run.sh` or `run.sh`
+- the `*` wildcard makes it a sub-string match.
 
 ## Command history expansion
+
 ```shell
 !!; # Repeats the last executed command;
 !-2 # Executes the second-to-last command in history;
@@ -85,20 +116,21 @@ echo "This script will exit on error."
 ls non_existent_file  # This will cause the script to exit
 ```
 
-## Configuration setup
-[[Kafka configuration]]
-```shell
-if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
-    info "** Starting Kafka setup **"
-    /opt/bitnami/scripts/kafka/setup.sh
-    info "** Kafka setup finished! **"
-fi
-```
-- this script checks if a specific script (`run.sh`) is part of the command line arguments, and if so, it runs a kafka setup script.
+## Triage (when things break)
 
-```shell
-if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
-```
-- `$*` -> represents all command-line arguments passed to the script.
-- `[[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]` checks if any argument contains `/opt/bitnami/scripts/kafka/run.sh` or `run.sh`
-- the `*` wildcard makes it a sub-string match.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

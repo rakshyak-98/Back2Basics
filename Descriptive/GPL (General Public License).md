@@ -4,6 +4,8 @@
 
 > Copyleft open-source license — distribute derivatives **only** if you provide corresponding source under the same license; understand v2 vs v3 and linking boundaries before shipping products.
 
+---
+
 ## Index
 
 - [[#Mental model]]

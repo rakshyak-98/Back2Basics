@@ -1,47 +1,52 @@
+[[React]]
+
+# Render props
+
+> One-line: what / why for **Render props** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - A render prop is a function prop that component uses to share reusable logic.
 - Instead of wrapping components (like HOCs), the parent component controls rendering.
 - Used for logic reuse, such as authentication, state management, and event handling.
-
 Instead of maintaining cart state in multiple places, we create a CartProvider component that shares cart logic via a render prop.
-
 ```jsx
 import { useState } from "react";
-
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-
   const addItem = (item) => setCart([...cart, item]);
   const removeItem = (id) => setCart(cart.filter((item) => item.id !== id));
-
   return children({ cart, addItem, removeItem });
 };
-
 export default CartProvider;
-
 ```
 ##### With context API
 ```jsx
 import { createContext, useState, useContext } from "react";
-
 const CartContext = createContext();
-
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-
   const addItem = (item) => setCart([...cart, item]);
   const removeItem = (id) => setCart(cart.filter((item) => item.id !== id));
-
   return (
     <CartContext.Provider value={{ cart, addItem, removeItem }}>
       {children}
     </CartContext.Provider>
   );
 };
-
 export const useCart = () => useContext(CartContext);
-
 ```
-
 ```jsx
 const ShoppingCart = () => {
   return (
@@ -65,18 +70,13 @@ const ShoppingCart = () => {
     </CartProvider>
   );
 };
-
 export default ShoppingCart;
-
 ```
-
 ##### Using the context
 ```jsx
 import { useCart } from "./CartContext";
-
 const ShoppingCart = () => {
   const { cart, addItem, removeItem } = useCart();
-
   return (
     <div>
       <h2>Your Shopping Cart</h2>
@@ -94,7 +94,28 @@ const ShoppingCart = () => {
     </div>
   );
 };
-
 export default ShoppingCart;
-
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

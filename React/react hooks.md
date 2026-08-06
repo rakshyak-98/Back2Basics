@@ -1,22 +1,43 @@
-- Memoization of function:
-	- preventing its recreation on every render unless its dependency array changes.
-	- avoids expensive computations when passing functions as props to child components.
+[[React]]
+
+# react hooks
+
+> One-line: what / why for **react hooks** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#React ref hook]]
 - [[#Context provider]]
 - [[#Synchronizing with effect]]
 - [[#**Two Types of Logic in React Components**]]
 - [[#When should you use `useEffect` in React?]]
 - [[#Custom Hook: `useAuth` for Tracking User Authentication]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+- Memoization of function:
+	- preventing its recreation on every render unless its dependency array changes.
+	- avoids expensive computations when passing functions as props to child components.
+
+## Standard config / commands
+
+…
 
 ## React ref hook
+
 ```ts
 const setRef = useCallback((divRef: HTMLDivElement | null) => {
 	if(divRef){
 		// called with the element when it is mounted
-	}else { 
+	}else {
 		// called with null when the element is unmounted
 	}
 }, [])
@@ -32,10 +53,12 @@ return <div ref={setRef} />
 - Only runs once in StrictMode (v18)
 
 ## Context provider
+
 - there is an issue if you wrap multiple component with Context provider component and assume all the state will be sync.
 [Context provider]()
 
 ## Synchronizing with effect
+
 Some component need to synchronize with external systems.
 - want to control a non-React component based on the React state.
 
@@ -55,13 +78,13 @@ Two types of logic inside React components:
 - **Transforms** `props` & `state` → Returns **JSX**.
 - **No side effects** (just like a math formula).
 - **Example:**
-    
+
     ```jsx
     function Welcome({ name }) {
       return <h1>Hello, {name}!</h1>;
     }
     ```
-    
+
 - **Key Rule:** It should only **calculate and return UI**, nothing else.
 
 2. **Event Handlers (Side Effects on User Action)**
@@ -70,7 +93,7 @@ Two types of logic inside React components:
 - **Modify state, send API requests, trigger navigation, etc.**
 - **Triggered by a user event** (e.g., clicking a button, typing in input).
 - **Example:**
-    
+
     ```jsx
     function Button() {
       function handleClick() {
@@ -79,7 +102,7 @@ Two types of logic inside React components:
       return <button onClick={handleClick}>Click me</button>;
     }
     ```
-    
+
 - **Key Rule:** They run **only when needed**, based on user actions.
 
 ---
@@ -89,6 +112,7 @@ Two types of logic inside React components:
 - **Solution:** Use **Effects (`useEffect`)**, which run after rendering to handle such side effects.
 
 ## When should you use `useEffect` in React?
+
 - if it's just deriving state (e.g., filtering, sorting, or transforming data), no effect needed.
 
 > [!INFO]
@@ -105,7 +129,7 @@ function SearchResults({ query, items }) {
 ```jsx
 function SearchResults({ query, items }) {
   const [filteredItems, setFilteredItems] = useState([]);
-  
+
   useEffect(() => {
     setFilteredItems(items.filter(item => item.includes(query)));
   }, [query, items]);
@@ -151,3 +175,22 @@ const [count, setCount] = useState(() => props.initialCount)
 ## Custom Hook: `useAuth` for Tracking User Authentication
 
 hook that manages and tracks user authentication state in a react application
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

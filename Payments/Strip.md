@@ -4,6 +4,8 @@
 
 > *(Filename typo: **Stripe**)* — Payment processor API for cards, subscriptions, Connect marketplaces — **Stripe docs + PCI scope reduction**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

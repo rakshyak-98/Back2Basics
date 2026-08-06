@@ -4,6 +4,8 @@
 
 > Filename typo: **chrun** → **churn**. TCP/HTTP connection lifecycle storms: keepalives, LB idle timeouts, client pools, `TIME_WAIT` — the usual “works then exhausts ports or CPU” failure.
 
+---
+
 ## Index
 
 - [[#Mental model]]

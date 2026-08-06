@@ -1,15 +1,34 @@
+[[mysql]]
+
+# variables
+
+> One-line: what / why for **variables** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#User-defined session variable]]
+- [[#local variable (inside stored routines)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 > [!WARNING]
 > You cannot explicitly delete a mysql user variable definition. Once created, exists for the lifetime of the session.
 > - Disconnect/reconnect to MySQL server which removes all session variables. Declare is not allowed outside a stored-program `BEGIN ... END` block.
 > - Instead stored procedure, use `DECLARE x INT` the variable lifetime is controlled by the block
-
 ```sql
 ```
 
-## Index
+## Standard config / commands
 
-- [[#User-defined session variable]]
-- [[#local variable (inside stored routines)]]
+…
 
 ## User-defined session variable
 
@@ -21,6 +40,7 @@ SELECT @my_var;
 ```sql
 SELECT * FROM users WHERE id = @user_id;
 ```
+
 ## local variable (inside stored routines)
 
 ```mysql
@@ -34,6 +54,25 @@ SET GLOBAL sql_safe_updates=1; -- restart server or reconnect client for effect
 SET GLOBAL general_log=1;
 ```
 
-> [!NOTE] 
+> [!NOTE]
 > - `@var` persists across queries in same session
 > - `DECLARE` only works inside `BEGIN...END`
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > End-to-end payments intermediary — merchant accounts, processing, and often gateway UX — **Stripe/Adyen/Square class of vendors**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

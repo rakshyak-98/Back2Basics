@@ -4,6 +4,8 @@
 
 > **Stateful virtual firewall** at ENI level — default deny inbound, allow by rule; return traffic automatically permitted. Primary ingress/egress control for EC2, RDS, ELB, Lambda-in-VPC, ElastiCache, etc.
 
+---
+
 ## Index
 
 - [[#Mental model]]

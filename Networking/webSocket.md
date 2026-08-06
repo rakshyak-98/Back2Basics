@@ -4,6 +4,8 @@
 
 > One-line: full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

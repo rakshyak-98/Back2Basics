@@ -4,6 +4,8 @@
 
 > One-line: **USB flash drive** prep — partition, FAT/exfat format, safe mount/unmount. Filename was a typo (`pandirve`); not pandoc. **Classic ops task on bare-metal and air-gapped hosts.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

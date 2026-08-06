@@ -4,6 +4,8 @@
 
 > First compiler phase — scan source left-to-right into tokens; strip whitespace and comments — **ECMAScript lexical grammar**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

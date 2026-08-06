@@ -4,13 +4,15 @@
 
 > One-line: reverse proxy + static file server — configure locations correctly, validate with `nginx -t`, reload without dropping connections. **Config tree:** [[nginx config structure]].
 
+---
+
 ## Index
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
+- [[#Process architecture]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
-- [[#Process architecture]]
 - [[#When NOT to use]]
 - [[#Related]]
 
@@ -221,6 +223,17 @@ Order matters: first matching rule wins.
 
 ---
 
+## Process architecture
+
+```
+PID (root)     = Master — owns FD 6 (IPv4 :80), FD 7 (IPv6 :80), manages workers
+PID (nginx)    = Workers — handle requests, inherit same listen sockets
+```
+
+All processes show in `lsof -i :80` because each worker holds the shared socket. Worker count from config or `ps aux | grep nginx`.
+
+---
+
 ## Triage (when things break)
 
 ### 499 / 502 / 504 playbook
@@ -264,17 +277,6 @@ sudo tail -f /var/log/nginx/error.log | grep -E 'upstream|timeout|connect'
 
 > [!WARNING]
 > **Worker count alone doesn't fix saturation:** Also tune `worker_connections`, upstream `keepalive`, and OS `somaxconn` / `file-max`.
-
----
-
-## Process architecture
-
-```
-PID (root)     = Master — owns FD 6 (IPv4 :80), FD 7 (IPv6 :80), manages workers
-PID (nginx)    = Workers — handle requests, inherit same listen sockets
-```
-
-All processes show in `lsof -i :80` because each worker holds the shared socket. Worker count from config or `ps aux | grep nginx`.
 
 ---
 

@@ -4,6 +4,8 @@
 
 > Display hardware cadence — frames must be ready before vsync or user sees jank — **60 Hz ≈ 16.67 ms budget**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

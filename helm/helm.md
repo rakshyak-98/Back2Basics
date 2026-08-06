@@ -1,14 +1,32 @@
-```bash
-helm list
-helm get values 
+[[helm]]
 
-```
+# helm
 
-- The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
+> One-line: what / why for **helm** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Deployment]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+```bash
+helm list
+helm get values
+```
+- The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
+
+## Standard config / commands
+
+…
 
 ## Deployment
 
@@ -36,3 +54,22 @@ Once deployed, the controller automatically:
 	- reads your YAML file.
 	- Configure NGINX accordingly
 	- Routes external traffic to your backend service (`/v1` `/v2` etc.).
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

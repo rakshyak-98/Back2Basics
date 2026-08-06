@@ -1,15 +1,38 @@
+[[commands]]
 
-```bash
-## Zip tracked files only
-git archive -o archive.zip HEAD
-```
+# zip
+
+> One-line: what / why for **zip** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Zip tracked files only]]
 - [[#zip]]
 - [[#Count how many files are in zip]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+```bash
+
+## Standard config / commands
+
+…
+
+## Zip tracked files only
+
+git archive -o archive.zip HEAD
+```
 
 ## zip
+
 ```bash
 zip -e output.zip folder/; # password protect zip.
 zip -z output.zip; # add comment to zip folder.
@@ -42,3 +65,22 @@ unzip -r archive.zip source_dir -x "excluded_dir/*" "**/dist/*";
 ```bash
 zipinfo -1 <zipfile>;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

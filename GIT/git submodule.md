@@ -4,6 +4,8 @@
 
 > One-line: pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
+---
+
 ## Index
 
 - [[#Mental model]]

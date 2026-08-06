@@ -4,6 +4,8 @@
 
 > **Authoritative DNS + reverse proxy (orange cloud) + WAF/CDN/DDoS** — changes where traffic terminates and who sees origin IP. **Cloudflare docs** + migration incidents when proxy hid real client IP or broke TLS.
 
+---
+
 ## Index
 
 - [[#Mental model]]

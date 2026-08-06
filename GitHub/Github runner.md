@@ -4,6 +4,8 @@
 
 > Machine that executes workflow jobs — GitHub-hosted VM or your own hardware with the runner agent.
 
+---
+
 ## Index
 
 - [[#Mental model]]

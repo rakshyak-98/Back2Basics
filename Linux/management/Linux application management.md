@@ -1,21 +1,36 @@
+[[management]]
+
+# OR
+
+> One-line: what / why for **OR** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Create systemd service for auto-start]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```bash
 alsamixer; # manage volume
 xbacklight; # manage brightness
 nmcli; # manage network
 links; #
 ```
-
 ### Application management
-
 ```bash
 lsb-release -a; # check your ubuntu version
-
 sudo apt udpate;
 sudo apt upgrade -y;
 ```
-
 ```bash
-# Install git, curl, wget, build essentials
 sudo apt install -y \
   git \
   curl \
@@ -23,32 +38,25 @@ sudo apt install -y \
   build-essential \
   software-properties-common \
   apt-transport-https
-	
 ```
-
 ```bash
 mkdir -p ~/applications
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/share/applications
-
 echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.bsahrc
 source ~/.bashrc
-
 ```
-
 ```bash
 cd ~/applications
 git clone <repository-url> <app-name>
-# OR
 wget <download-url> -O <app-name>.tar.gz
 tar -xzf <app-name>.tar.gz
 cd <app-name>
-
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Create systemd service for auto-start]]
+…
 
 ## Create systemd service for auto-start
 
@@ -106,5 +114,24 @@ ControllerMode = dual    # or le, or bredr
 - Then restart Bluetooth
 ```bash
 sudo service bluetooth restart;
-sudo btmgmt info; # BlueZ tool 
+sudo btmgmt info; # BlueZ tool
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

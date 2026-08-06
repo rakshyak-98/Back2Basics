@@ -1,9 +1,28 @@
+# Code review
+
+> One-line: what / why for **Code review** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Good practice]]
 - [[#Security Risk – Path Traversal Vulnerability (Critical)]]
 - [[#API]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Good practice
 
@@ -13,7 +32,6 @@
 - Propagating original error via `cause` + context properties.
 - `stdio: "inherit"` -> useful for seeing real-time output during debugging
 - Warning instead of crash on `chmod` failure
-
 
 ## Security Risk – Path Traversal Vulnerability (Critical)
 
@@ -49,3 +67,22 @@ This is a **classic path traversal vulnerability** — very common in file uploa
 While `execFile` is safer than `exec`, the `--delete` flag with `rsync` is dangerous. If an attacker controls the source directory, they could delete all files in the destination.
 
 **Recommendation:** Validate that `src` exists and is within expected boundaries before executing.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

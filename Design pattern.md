@@ -4,9 +4,12 @@
 
 > Apply GoF patterns only where variation or collaboration is real — **Dive Into Design Patterns (Shvets / Refactoring.Guru)** + production Marketing-API refactors.
 
+---
+
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Decision table — which pattern when]]
 - [[#How to extend (project playbook)]]
 - [[#Triage (when patterns go wrong)]]
@@ -37,6 +40,10 @@ Client / REST
       → Adapter + Decorator/Proxy (vendor IO)
       → Observer (side-effects)
 ```
+
+## Standard config / commands
+
+…
 
 ## Decision table — which pattern when
 

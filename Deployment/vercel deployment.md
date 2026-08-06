@@ -4,6 +4,8 @@
 
 > **Git-push serverless hosting** for Next.js/static SPAs — edge CDN, serverless functions, env vars per environment. **Vercel docs** + classic SPA refresh 404 and env mismatch debug.
 
+---
+
 ## Index
 
 - [[#Mental model]]

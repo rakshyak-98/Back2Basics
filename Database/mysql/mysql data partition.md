@@ -4,6 +4,8 @@
 
 > Split one logical table into physical partitions (by RANGE/LIST/HASH/KEY) — prune scans on time/tenant keys; **not** a substitute for indexing or sharding.
 
+---
+
 ## Index
 
 - [[#Mental model]]

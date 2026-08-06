@@ -4,6 +4,8 @@
 
 > One-line: reuse TCP+auth sessions via `mysql2`/`createPool` — cap concurrency, always release; raw `createConnection` per request causes races and `PROTOCOL_CONNECTION_LOST`.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,48 +1,146 @@
-```bash
-sudo systemctl restart systemd-hostnamed # restart host name service or reboot.
-```
-
-is dependent upon what init daemon is used by your Linux server.
-- before you do any service management, be sure determine the init daemon.
-
-> [!INFO] If you do not have the strings command on your Linux system, you can install it via the binutils packages.
-> Your Linux server’s primary job is to offer services.
-
-### How do you start suspend daemon?
-
-### What if you have a special program you want to start on your server?
-
-### How do you get it to start at boot time?
+[[services]]
 
 # Understanding the Linux inti Deamon
 
-services, also called daemon, is a running program or a process that provide a particular function.
+> One-line: what / why for **Understanding the Linux inti Deamon** — source TBD.
 
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configure a Default runlevel or target unit]]
+- [[#Standard Linux Run-levels]]
+- [[#Learning systemd basics]]
+- [[#Target units]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+```bash
+sudo systemctl restart systemd-hostnamed # restart host name service or reboot.
+```
+is dependent upon what init daemon is used by your Linux server.
+- before you do any service management, be sure determine the init daemon.
+> [!INFO] If you do not have the strings command on your Linux system, you can install it via the binutils packages.
+> Your Linux server’s primary job is to offer services.
+### How do you start suspend daemon?
+### What if you have a special program you want to start on your server?
+### How do you get it to start at boot time?
+services, also called daemon, is a running program or a process that provide a particular function.
 > [!INFO] init daemon: is the first process to be started by the kernel on the Linux server.
 - init daemon has a parent process ID (PPID) of 0, and a PID of 1.
 - Once started, init is responsible for spawning (launching) process configured to be started at the server’s boot time, such as the login shell (getty or migetty process).
 - the two original Linux init daemons were BSD init and SysVinit.
-
 Int addition, as new services came along, the classic init daemon had to deal with starting more and more services. Thus, the entire system initialization process be less efficient and ultimately slower.
-
 - the modern init daemons have attempted to solve the problems of inefficient system boots and non-static environment. Two of these init daemon are _Upstart_ and `systemd`.
-
 > [!INFO] In order to properly manage your services, you need to know which init daemon your server has
 >  - do your lunux distribution and version appear in the preceding list of _Upstart_ adopters? Then your Linux init daemon is the _Upstart_ init daemon.
 >  - Try searching your Linux distribution’s init daemon for clues, using the strings and the grep commands.
-
 ```bash
 sudo strings /sbin/init | grep -i systemd
 ```
-
 A run-level is a categorization number that determines what services are started and what services are stopped.
 
-## Index
+## Configure a Default runlevel or target unit
 
-- [[#Standard Linux Run-levels]]
-- [[#Learning systemd basics]]
-- [[#Target units]]
-- [[#Configure a Default runlevel or target unit]]
+simply edit the `/etc/inittab` file using the editor and change the 5 run level to 2,3,4, Do not use the run levels 0 or 6 in this file! This would cause your server to either halt or reboot when it is started up.
+
+- some uses this file, where other uses `/etc/init/rc-sysint.conf` file.
+
+# Adding new or Customized Services
+
+1. create a new or customized service script file.
+2. Move the new or customized service script to the proper location for SysVinit management.
+3. Add the service to a specific runlevel(s).
+
+<aside> 💡 if you are creating a new script, you will need to make sure you handle all the various options you want the service command to accept for your service, such as _start, stop, restart_ and so on.
+
+</aside>
+
+- once you created a script move it to proper location `/etc/rc.d/init.d`
+- the final step is needed only if you want the service to be persistent at certain runlevels.
+    - you must create symbolic link for every runlevel at which you want the service to be persistent.
+    - check each run-levels directory you want service to start on
+    - determine what the appropriate _S number_ should be for your service.
+- once you have made the symbolic links, test that your new or modified service will work as expected before performing a server reboot.
+
+The Upstart service job configuration files are located in the `/etc/init` directory, These files are plain text only.
+
+```bash
+# cat cron.conf
+# cron - regular background program processing daemon
+descripton "regular background program processing daemon"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+expect fork
+respawn
+
+exec cron
+```
+
+- the expect : this particular stanza is rather important, the _expect_ fork syntax will allow Upstart to track this daemon and any of its child process (forks).
+- respawn : the stanza here tells Upstart to restart this service should it ever be terminated via a means outside of its normal stop on.
+
+```bash
+man upstart-events
+```
+
+### Adding new services to systemd init
+
+1. Create a new or customized service configuration
+2. move the new or customized service configuration unit file
+3. add the service to a specific target unit’s wants if you want to have the new or customized service start automatically with other services.
+
+make copy from `/lib/systemd/system`
+
+```bash
+[unit]
+Description=My new Service
+
+[service]
+ExecStart=/usr/bin/my_new_service
+
+```
+- there are two potential locations to store service configurations unit files.
+
+> [!INFO]
+> - `/ect/systemd/system` : used to store customized local service configuration unit files
+> - files in this location are not overwritten by software installations or upgrades
+>
+
+> [!INFO]
+> - files here are used by the system _event_ if there is a file of the same name in the `/lib.systemd/system` directory
+> - Notice that in this directory, the files are symbolic links pointing to service unit configuration
+> - `/lib/systemd/system` : store system service configuration unit files
+> - files in this location are overwritten by software installations and upgrades.
+> - files here are used by the system only if there is not a file of the same name in the `/etc/systemd/system` directory.
+
+<aside> 💡 When you create a new or customized service, in order for the change to take effect without a server reboot, you will need to issue a special command
+
+</aside>
+
+```bash
+systemctl daemon-reload
+```
+
+- to add a new _service unit_ to _target unit_ you need to create a symbolic link.
+
+```bash
+ln -s /etc/systemd/system/my_new_service \\
+/etc/systemd/system/multi-user.target.wants/my_new_service.service
+```
+
+<aside> 💡 If you want to change the `*systemd target unit`* of a service you will need to change the symbolic link to point to a new target want directory location.
+
+</aside>
+
+- use the -sf command option to force any current symbolic link too be broken and the new designated symbolic like to be enforced.
 
 ## Standard Linux Run-levels
 
@@ -205,99 +303,21 @@ You can use _disable_ option on the systemctl command to keep a service from sta
 - However it does not immediately stop the service you need to use the stop option discussed in the section
 - the disable option simply removes a few files via the preferred method of the systemctl command.
 
-## Configure a Default runlevel or target unit
+## Triage (when things break)
 
-simply edit the `/etc/inittab` file using the editor and change the 5 run level to 2,3,4, Do not use the run levels 0 or 6 in this file! This would cause your server to either halt or reboot when it is started up.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
 
-- some uses this file, where other uses `/etc/init/rc-sysint.conf` file.
+## Gotchas
 
-# Adding new or Customized Services
+> [!WARNING]
+> …
 
-1. create a new or customized service script file.
-2. Move the new or customized service script to the proper location for SysVinit management.
-3. Add the service to a specific runlevel(s).
+## When NOT to use
 
-<aside> 💡 if you are creating a new script, you will need to make sure you handle all the various options you want the service command to accept for your service, such as _start, stop, restart_ and so on.
+…
 
-</aside>
+## Related
 
-- once you created a script move it to proper location `/etc/rc.d/init.d`
-- the final step is needed only if you want the service to be persistent at certain runlevels.
-    - you must create symbolic link for every runlevel at which you want the service to be persistent.
-    - check each run-levels directory you want service to start on
-    - determine what the appropriate _S number_ should be for your service.
-- once you have made the symbolic links, test that your new or modified service will work as expected before performing a server reboot.
-
-The Upstart service job configuration files are located in the `/etc/init` directory, These files are plain text only.
-
-```bash
-# cat cron.conf
-# cron - regular background program processing daemon
-descripton "regular background program processing daemon"
-
-start on runlevel [2345]
-stop on runlevel [!2345]
-
-expect fork
-respawn
-
-exec cron
-```
-
-- the expect : this particular stanza is rather important, the _expect_ fork syntax will allow Upstart to track this daemon and any of its child process (forks).
-- respawn : the stanza here tells Upstart to restart this service should it ever be terminated via a means outside of its normal stop on.
-
-```bash
-man upstart-events
-```
-
-### Adding new services to systemd init
-
-1. Create a new or customized service configuration
-2. move the new or customized service configuration unit file
-3. add the service to a specific target unit’s wants if you want to have the new or customized service start automatically with other services.
-
-make copy from `/lib/systemd/system`
-
-```bash
-[unit]
-Description=My new Service
-
-[service]
-ExecStart=/usr/bin/my_new_service
-
-```
-- there are two potential locations to store service configurations unit files.
-
-> [!INFO]
-> - `/ect/systemd/system` : used to store customized local service configuration unit files
-> - files in this location are not overwritten by software installations or upgrades
->
-
-> [!INFO]
-> - files here are used by the system _event_ if there is a file of the same name in the `/lib.systemd/system` directory
-> - Notice that in this directory, the files are symbolic links pointing to service unit configuration
-> - `/lib/systemd/system` : store system service configuration unit files
-> - files in this location are overwritten by software installations and upgrades.
-> - files here are used by the system only if there is not a file of the same name in the `/etc/systemd/system` directory.
-
-<aside> 💡 When you create a new or customized service, in order for the change to take effect without a server reboot, you will need to issue a special command
-
-</aside>
-
-```bash
-systemctl daemon-reload
-```
-
-- to add a new _service unit_ to _target unit_ you need to create a symbolic link.
-
-```bash
-ln -s /etc/systemd/system/my_new_service \\
-/etc/systemd/system/multi-user.target.wants/my_new_service.service
-```
-
-<aside> 💡 If you want to change the `*systemd target unit`* of a service you will need to change the symbolic link to point to a new target want directory location.
-
-</aside>
-
-- use the -sf command option to force any current symbolic link too be broken and the new designated symbolic like to be enforced.
+[[…]]

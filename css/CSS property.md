@@ -1,5 +1,25 @@
-- If you change the `<p>` element’s `display` property to `inline`, the `::first-letter` pseudo-element **will not work** because `::first-letter` only applies to block-level elements.
+[[css]]
 
+# CSS property
+
+> One-line: what / why for **CSS property** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#at-rules]]
+- [[#Sticky position]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+- If you change the `<p>` element’s `display` property to `inline`, the `::first-letter` pseudo-element **will not work** because `::first-letter` only applies to block-level elements.
 ### Multipline ellipsis
 ```css
 h1 {
@@ -9,15 +29,14 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 ```
 
-## Index
+## Standard config / commands
 
-- [[#at-rules]]
-- [[#Sticky position]]
+…
 
 ## at-rules
+
 - they are not style selectors, but directives that control how CSS is parsed and applied.
 ```css
 @import "file.css"; /* bring external css */
@@ -37,6 +56,26 @@ h1 {
 > `@import "tailwindcss"` -> tailwindcss registers itself as a PostCSS plugin. The `tailwindcss` package in `node_modules` exposes an entry point. When PostCSS parses `@import "tailwindcss"` the PostCSS import plugin + tailwindcss plugin intercept the directive.
 
 ## Sticky position
+
 > [!NOTE]
 > Sticky positioning is relative to the nearest scrolling ancestor.
 > Grid items don't establish the properly unless height is constrained.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

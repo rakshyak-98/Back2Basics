@@ -4,6 +4,8 @@
 
 > Event-driven CI/CD defined in YAML under `.github/workflows/` — jobs run on [[Github runner]] instances.
 
+---
+
 ## Index
 
 - [[#Mental model]]

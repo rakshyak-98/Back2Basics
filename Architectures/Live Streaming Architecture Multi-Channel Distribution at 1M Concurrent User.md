@@ -1,17 +1,37 @@
+[[Architectures]]
+
+# Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User
+
+> One-line: what / why for **Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Executive Summary]]
 - [[#Architecture Layers]]
 - [[#Data Flow Summary]]
 - [[#Performance Characteristics]]
 - [[#Scaling Considerations]]
-- [[#Failure Modes & Resilience]]
 - [[#Operational Metrics & Monitoring]]
 - [[#Security & DRM Considerations]]
 - [[#Cost Optimization]]
 - [[#Conclusion]]
 - [[#Rungs]]
+- [[#Failure Modes & Resilience]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Executive Summary
 
@@ -221,23 +241,23 @@ Edge PoPs        (1000+, dense population coverage)
 ## Data Flow Summary
 
 ```
-[Broadcast Feed] 
+[Broadcast Feed]
       ↓ (SRT/Zixi - primary + backup)
-[Ingest Gateway] 
+[Ingest Gateway]
       ↓ (NAL units, raw H.264 streams)
-[Encoding Farm] 
+[Encoding Farm]
       ↓ (4 ABR variants output)
-[JIT Packager] 
+[JIT Packager]
       ↓ (segment.m4s + manifest.m3u8)
-[Origin NVMe Storage] 
+[Origin NVMe Storage]
       ↓ (atomic writes, ~120 sec rolling window)
-[Origin Shield Cache] 
+[Origin Shield Cache]
       ↓ (consolidates 10K simultaneous requests into 1)
-[CDN Edge PoPs] 
+[CDN Edge PoPs]
       ↓ (99%+ cache hit, 1000+ nodes)
-[1M End-User Clients] 
+[1M End-User Clients]
       ↓ (HTTP GET → nearest edge, adaptive bitrate selection)
-[Device Playback] 
+[Device Playback]
       (HLS/DASH player, video renderer)
 ```
 
@@ -285,19 +305,6 @@ Edge PoPs        (1000+, dense population coverage)
     - Deploy regional origin shield layers
     - Deploy regional CDN edge PoP clusters
 - **Trade-off**: Introduces replication lag (~100-500 ms); acceptable for live sports, news
-
----
-
-## Failure Modes & Resilience
-
-|Failure|Impact|Mitigation|
-|---|---|---|
-|**Ingest Path Failure**|Single encoder affected; channel offline if no backup|Dual-path SRT + Zixi; auto-failover within 5 sec|
-|**Encoding Farm Node Down**|ABR variants unavailable; downstream failures|N+1 redundancy; stateless encoders; quick replacement|
-|**Origin Disk Full**|New segments drop; clients see stale manifest|Automated rotation; pre-computed storage quotas|
-|**Origin Shield Cache Failure**|Origin request rate spikes 100×; origin may saturate|Multi-region shield deployment; cache replication|
-|**CDN Edge PoP Offline**|Users in that region rerouted to next-nearest PoP; latency increases|Geo-DNS failover; 100+ redundant edge PoPs|
-|**Packaging Timeout**|Segment never written; manifest goes stale; 4-sec buffer drain|Watchdog timers; fallback to 2-segment retention mode|
 
 ---
 
@@ -369,9 +376,7 @@ Live streaming at 1M concurrent users is enabled by a three-tier caching model:
 
 The architecture achieves sub-second latency across the encoding pipeline and seconds-long end-to-end latency with <1% rebuffering by distributing request load exponentially across geography while maintaining bit-identical segment delivery to all viewers of the same channel.
 
-
-
-## Rungs 
+## Rungs
 
 **4 [[ABR]] rungs** = **4 quality levels (steps) in an ABR ladder**.
 
@@ -426,15 +431,15 @@ Multiple rungs = ABR ladder
 ### Each rung usually defines
 
 - Resolution (360p, 720p, ...)
-    
+
 - Video bitrate
-    
+
 - Audio bitrate
-    
+
 - Codec (H.264, H.265, AV1)
-    
+
 - Frame rate (sometimes)
-    
+
 
 ### Real-world example
 
@@ -455,3 +460,29 @@ Example:
 **Definition:**
 
 > **ABR rung = one encoded representation/quality level that a player can switch to during adaptive bitrate streaming.**
+
+## Failure Modes & Resilience
+
+|Failure|Impact|Mitigation|
+|---|---|---|
+|**Ingest Path Failure**|Single encoder affected; channel offline if no backup|Dual-path SRT + Zixi; auto-failover within 5 sec|
+|**Encoding Farm Node Down**|ABR variants unavailable; downstream failures|N+1 redundancy; stateless encoders; quick replacement|
+|**Origin Disk Full**|New segments drop; clients see stale manifest|Automated rotation; pre-computed storage quotas|
+|**Origin Shield Cache Failure**|Origin request rate spikes 100×; origin may saturate|Multi-region shield deployment; cache replication|
+|**CDN Edge PoP Offline**|Users in that region rerouted to next-nearest PoP; latency increases|Geo-DNS failover; 100+ redundant edge PoPs|
+|**Packaging Timeout**|Segment never written; manifest goes stale; 4-sec buffer drain|Watchdog timers; fallback to 2-segment retention mode|
+
+---
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

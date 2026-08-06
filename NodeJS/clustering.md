@@ -4,6 +4,8 @@
 
 > One-line: fork one process per CPU core to use all cores — each worker has its own event loop; share nothing unless you add Redis/DB.
 
+---
+
 ## Index
 
 - [[#Mental model]]

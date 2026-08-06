@@ -1,3 +1,22 @@
+[[golang]]
+
+# go cli
+
+> One-line: what / why for **go cli** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```shell
 go mod init <domain name/username/module name>;
 go mod tidy;
@@ -7,35 +26,28 @@ go run <file.go>;
 go build;
 go install;
 ```
-
 ```shell
 go mod edit --replace example.com/module=../module; # Replace a module with local version
 ```
-
 ```shell
 go clean -cache;
 go list -m all; # list dependencies
 go get -u ./..; # upgrade dependencies
 go doc <package>;
 ```
-
 #### Using `pmap` (Memory Map of the Process)
 - run your go program and capture its memory map
-
 ```shell
 go run mian.go & pmap -x $! > memory_snapshot.txt;
 ```
-
 ### Using `/proc` Fielsystem (Detailed Memory Stats)
 ```shell
 go run main.go & cat /proc$!/status | grep Vm > memory_snapshot.txt;
 ```
 - Extracts virtual memory (Vm) statistics of the Go process.
-
 ```shell
 cat /proc/$!/smaps > memory_snapshot.txt
 ```
-
 ```txt
 0000000000400000   6032K r-x-- go
 00000000009e4000   5724K r---- go
@@ -67,5 +79,27 @@ cat /proc/$!/smaps > memory_snapshot.txt
 00007ffd256c4000    132K rw---   [ stack ]
 ffffffffff600000      4K --x--   [ anon ]
  total          1236432K
-
 ```
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

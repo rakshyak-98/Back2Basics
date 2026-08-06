@@ -1,8 +1,27 @@
+[[mysql]]
+
+# mysql engine
+
+> One-line: what / why for **mysql engine** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#MySQL storage Engines comparison: `InnoDB` `MyISM` `MEMORY`]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 `ENGINE=InnoDB` -> is the default and most advanced storage engine in MySQL, whey you set
 ```mysql
 CREATE TABLE my_table () ENGINE=InnoDB;
 ```
-
 | Feature                 | Description                                                               |
 | ----------------------- | ------------------------------------------------------------------------- |
 | ✅ **ACID compliant**    | Ensures Atomicity, Consistency, Isolation, Durability (via transactions)  |
@@ -12,9 +31,9 @@ CREATE TABLE my_table () ENGINE=InnoDB;
 | ✅ **MVCC**              | Multi-Version Concurrency Control — enables non-blocking reads            |
 | ✅ **Clustered index**   | Primary key data is physically ordered with the table (performance boost) |
 
-## Index
+## Standard config / commands
 
-- [[#MySQL storage Engines comparison: `InnoDB` `MyISM` `MEMORY`]]
+…
 
 ## MySQL storage Engines comparison: `InnoDB` `MyISM` `MEMORY`
 
@@ -35,3 +54,22 @@ CREATE TABLE my_table () ENGINE=InnoDB;
 `InnoDB` -> use for most production workloads (safety, concurrency, FK).
 `MyISAM` -> use for read-heavy, non-critical legacy apps.
 `MEMORY` -> use for temporary, fast, non-persistent in-RAM memory.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

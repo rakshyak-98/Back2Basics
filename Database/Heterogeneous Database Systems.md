@@ -4,6 +4,8 @@
 
 > One-line: one application orchestrates **multiple DB engines** (SQL + document + cache + search) — polyglot persistence; integration and consistency are the hard parts.
 
+---
+
 ## Index
 
 - [[#Mental model]]

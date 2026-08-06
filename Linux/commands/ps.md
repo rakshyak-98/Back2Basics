@@ -1,24 +1,38 @@
-> [!INFO]
-> Process without controlling TTY -> process not associated with any terminal (keyboard, screen).
+[[commands]]
 
-> [!INFO]
-> Normally, when you log in via terminal/SSH, a controlling terminal (tty) is assigned to your session.
-> - this tty handles input/output signals, job control.
+# ps
 
-```bash
-ps -o pid,tty,cmd; # TTY shows `?` when no controlling tty. 
-ls -l /proc/<pid>fd/0; # if not symlinked to `/dev/tty*`, no tty attached.
-```
+> One-line: what / why for **ps** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Process without controlling tty]]
 - [[#kill process with `SIGQUIT`]]
 - [[#Modern processors and RAM work together]]
 - [[#How do multi-core processors affect RAM usage and efficiency]]
 - [[#MIME]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+> [!INFO]
+> Process without controlling TTY -> process not associated with any terminal (keyboard, screen).
+> [!INFO]
+> Normally, when you log in via terminal/SSH, a controlling terminal (tty) is assigned to your session.
+> - this tty handles input/output signals, job control.
+```bash
+ps -o pid,tty,cmd; # TTY shows `?` when no controlling tty.
+ls -l /proc/<pid>fd/0; # if not symlinked to `/dev/tty*`, no tty attached.
+```
 
 ## Process without controlling tty
+
 - Detached from terminal, so:
 	- No interactive input/output.
 	- Doesn't receive terminal-generates signals (`SITINT`, `SIGHUP` on logout etc.)
@@ -27,7 +41,7 @@ ls -l /proc/<pid>fd/0; # if not symlinked to `/dev/tty*`, no tty attached.
 - Background jobs disowned (`nohup command` & `disown`).
 - Processes launched with `setsid` -> new session, no controlling tty.
 
-## kill process with `SIGQUIT` 
+## kill process with `SIGQUIT`
 
 ```bash
 kill -s 3 <pid>; # send SIGQUIT signal
@@ -59,7 +73,6 @@ cat /proc/<pid>/maps; # memory map of the process
 pmap <pid>
 ```
 
-
 ## Modern processors and RAM work together
 
 - CPUS, operate at much higher clock speeds than RAM.
@@ -81,3 +94,22 @@ pmap <pid>
 - MIME is a standard used to define the nature of the content being transferred over the internet.
 - Originally developed for email, MIME type tell the browser or email client what type of content is being delivered so that it can handle it appropriately.
 - this standard allows for the transmission of different types of files (like images, video, text, etc) vie email or web portocols.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > One-line: change or administratively control local **password hash** in `/etc/shadow` — not SSH keys, not LDAP; the gate for `su`/console/PAM password auth. **Kerrisk**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

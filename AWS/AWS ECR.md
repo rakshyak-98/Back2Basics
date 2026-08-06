@@ -4,6 +4,8 @@
 
 > **Private Docker registry in AWS** — store images per region/account; IAM controls push/pull; integrates with ECS/EKS/Lambda/EC2. Not Docker Hub; not interchangeable without auth + URL change.
 
+---
+
 ## Index
 
 - [[#Mental model]]

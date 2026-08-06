@@ -4,6 +4,8 @@
 
 > Convert one interface into another the client expects — retrofit vendor shapes into domain — **Dive Into Design Patterns + MetaPayloadAdapter**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > One-line: never run app servers as root — bind high ports or use capabilities/setcap; delegate privileged ops to systemd; load nvm/env in service units explicitly.
 
+---
+
 ## Index
 
 - [[#Mental model]]

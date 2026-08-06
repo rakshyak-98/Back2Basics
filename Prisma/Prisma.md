@@ -1,21 +1,40 @@
+[[Prisma]]
+
+# Prisma
+
+> One-line: what / why for **Prisma** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Customizing the Output Directory]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 [Prisma doc Manifesto](https://www.prisma.io/blog/prisma-orm-manifesto?ref=dailydev)
 The Prisma client is generated as a set of TypeScript or JavaScript files and is located in the `node_modules` directory.
 - Default location `./node_modules/@prisma/client` this folder contains the generated code that Prisma uses to interact with the database.
 - You do not directly edit this files; they are managed by Prisma
-
 ```shell
 npx prisma generate; # generat the prisma client
 ```
 - Read the `schema.prisma` file.
 - Regenerate the Prisma Client files.
-
 > [!INFO] Prisma uses generated internal files to map your high-level API calls into SQL queries.
 
-## Index
+## Standard config / commands
 
-- [[#Customizing the Output Directory]]
+…
 
 ## Customizing the Output Directory
+
 - You can specify a custom directory for the generated Prisma Client in the `schema.prisma` file:
 ```js
 ```
@@ -28,3 +47,22 @@ Withoug<T, U>;
 ```ts
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never};
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

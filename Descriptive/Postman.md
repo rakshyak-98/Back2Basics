@@ -4,6 +4,8 @@
 
 > API client + collection runner + Newman CLI for CI — design, debug, and regression-test HTTP APIs — **Postman docs + contract testing in pipelines**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

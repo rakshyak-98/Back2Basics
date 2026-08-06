@@ -1,13 +1,30 @@
+[[NodeJS]]
+
+# Stream
+
+> One-line: what / why for **Stream** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Buffering vs Streaming]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - Non-blocking and memory efficient for large file transfers.
 - Handles large payloads without buffering entire data.
 - Supports real-time streaming like live audio/video processing.
-
 - four types of streams to handle data read and write operation, useful for handling large data sets without loading everything into memory.
-
 > [!INFO] NodeJS streams use internal buffers to handle data efficiently.
 > - Streams read/write chunks of data instead of loading everything into memory.
 > - NodeJS maintains an internal buffer to balance the data flow (handle backpressure).
-
 ### Readable stream
 - used to read data from the source
 ```javascript
@@ -16,7 +33,6 @@ const readStream = fs.createReadStream('file.txt')
 readStrema.on('data', (chunk) => {
 	console.log(chunk)
 })
-
 ```
 ### Writable stream
 - used to write data to destination
@@ -25,7 +41,6 @@ const fs = require('f')
 const writeStream = fs.createWriteStream('output.txt')
 writeStream.write('hello world')
 writeStream.end()
-
 ```
 ### Duplex stream
 - Acts as both readable and writable streams
@@ -43,7 +58,6 @@ const duplex = new Duplex({
 	}
 })
 duplex.write('hello, Duplex strema')
-
 ```
 ### Transform stream
 - Special form of Duplex stream that can modify or transform the data as it is read or written
@@ -57,20 +71,16 @@ const transform = new Transform({
 	}
 })
 process.stdin.pipe(transform).pipe(process.stdout)
-
 ```
-
 - the most efficient way to handle I/O operation is in real time, consuming the input as soon as it is available and sending the output as soon as the application produces it.
-
 > [!INFO]
 > Blob -> Binary Large Object. Is a data type used to store large amounts of binary data, such as images, videos, audio, or other multimedia files, typically in database or file systems.
-
 > [!NOTE]
 > In javascript and web APIs, a blob represents immutable, raw data that can be read as text or binary and is commonly used for handling files and binary content in web application.
 
-## Index
+## Standard config / commands
 
-- [[#Buffering vs Streaming]]
+…
 
 ## Buffering vs Streaming
 
@@ -111,7 +121,7 @@ main();
 ```javascript
 const { createReadStream, createWriteStream } = require("node:fs");
 const { createGzip } = require("node:zlib");
-  
+
 const filename = process.argv[2];
 createReadStream(filename)
   .pipe(createGzip())
@@ -124,3 +134,22 @@ createReadStream(filename)
 ```js
 
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

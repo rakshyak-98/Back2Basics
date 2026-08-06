@@ -1,7 +1,28 @@
+[[ExpressJS]]
+
+# express concepts
+
+> One-line: what / why for **express concepts** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Express.js v5 — Full Feature Reference]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Express.js v5 — Full Feature Reference
 
@@ -447,3 +468,22 @@ app.use('/admin', adminApp)
 | ReDoS-safe routing (v5)     | Sub-expression regex removed for security            |
 | `app.router` (v5)           | Direct reference to base router instance             |
 | Sub-applications            | Mount Express apps as middleware                     |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

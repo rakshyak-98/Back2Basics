@@ -4,6 +4,8 @@
 
 > Shrink the container attack surface: non-root, dropped caps, seccomp, read-only rootfs — **Docker Deep Dive** (Poulton) + **Container Security** (Liz Rice).
 
+---
+
 ## Index
 
 - [[#Mental model]]

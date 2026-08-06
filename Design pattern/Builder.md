@@ -4,6 +4,8 @@
 
 > Construct a complex object step by step — same construction process, different representations — **Dive Into Design Patterns + wizard → launch request**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

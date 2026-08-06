@@ -1,8 +1,29 @@
+[[Questions]]
+
+# Connection Pool
+
+> One-line: what / why for **Connection Pool** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Problem Statement]]
 - [[#Assignment]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Problem Statement
 
@@ -15,9 +36,9 @@ Your task is to implement the `ConnectionPool` interface that follows the Single
 ### Part 1: Implementing Singleton and Connection Pool
 
 1. **Implement the Singleton design pattern**: Create a class that implements the `ConnectionPool` interface. Implement the Singleton design pattern within this class to ensure that only one instance of the connection pool manager can exist within the program.
-    
+
 2. **Implement the `get_instance(max_connections)` and `reset_instance()` methods**: Implement the `get_instance(maxConnections)` method in the `ConnectionPoolImpl` class. This method should return the singleton instance of the connection pool manager class. Also, implement the `reset_instance()` method to reset the singleton instance to `null`.
-    
+
 
 ### Part 2: Connection Pool Management
 
@@ -39,3 +60,22 @@ You have to implement the following methods:
 2. Implement the `ConnectionPool` interface and the required methods as specified above.
 3. Ensure that your implementation follows the Singleton design pattern and provides proper connection pool management.
 4. Run the provided test cases in the `ConnectionPoolTest` class to verify the correctness of your implementation.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

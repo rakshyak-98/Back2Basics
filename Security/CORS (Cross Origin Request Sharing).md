@@ -4,6 +4,8 @@
 
 > One-line: browser-enforced policy — server headers permit another origin to read responses; preflight validates "non-simple" requests — **Fetch spec / W3C**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

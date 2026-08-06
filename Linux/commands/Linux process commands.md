@@ -1,9 +1,31 @@
+[[commands]]
+
+# Linux process commands
+
+> One-line: what / why for **Linux process commands** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#`top`]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## `top`
+
 #### **Navigation & Display**
 - `h` → Help menu
 - `q` → Quit `top`
@@ -27,3 +49,22 @@
 - `Shift+I` → Toggle Irix mode (CPU usage)
 - `m` → Toggle memory info
 - `t` → Toggle CPU time display
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

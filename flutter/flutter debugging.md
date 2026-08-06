@@ -1,6 +1,23 @@
+[[flutter]]
+
+# flutter debugging
+
+> One-line: what / why for **flutter debugging** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
 
 ### Process description
-
 | Process           | Purpose                                           |
 | ----------------- | ------------------------------------------------- |
 | `dart:dartdev_ao` | Dart CLI launcher (`dart` command infrastructure) |
@@ -9,3 +26,26 @@
 | `dart:dartdev_ao` | Another Dart CLI helper process                   |
 | `adb`             | Another ADB invocation                            |
 | `dart:frontend_s` | Dart frontend server (compiler)                   |
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

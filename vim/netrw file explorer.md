@@ -4,6 +4,8 @@
 
 > Built-in Vim directory browser (`:Explore`, `:Vex`) — navigate and open files without a plugin manager.
 
+---
+
 ## Index
 
 - [[#Mental model]]

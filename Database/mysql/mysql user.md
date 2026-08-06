@@ -1,20 +1,39 @@
+[[mysql]]
+
+# mysql user
+
+> One-line: what / why for **mysql user** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#For plugin (legacy clients)]]
+- [[#Allow private network host]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```sql
 CREATE USER 'username'@'host' IDENTIFIED BY 'password';
 ```
 - user just created but never granted perms
 - perms were revoked
 - migration/restore created empty grants
-
 ```sql
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
 DROP USER 'username'@'host';
 DROP USER 'app'@'%';
 ```
 
-## Index
+## Standard config / commands
 
-- [[#For plugin (legacy clients)]]
-- [[#Allow private network host]]
+…
 
 ## For plugin (legacy clients)
 
@@ -44,3 +63,22 @@ FLUSH PRIVILEGES;
 GRANT ALL PRIVILEGES ON hotel_cms.* TO 'nodeuser'@'192.168.3.106' IDENTIFIED BY 'password123';
 FLUSH PRIVILEGES;
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > Defer instantiation to a method subclasses (or a registry) can override — caller depends on product interface, not `new Concrete` — **Dive Into Design Patterns**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

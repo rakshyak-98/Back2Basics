@@ -4,12 +4,11 @@
 
 > Commands & debugging — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler) + HashiCorp CLI reference.
 
-Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
-
 ---
 
 ## Index
 
+- [[#Mental model]]
 - [[#Everyday commands]]
 - [[#Init flags]]
 - [[#Plan / apply flags]]
@@ -19,6 +18,13 @@ Most day-to-day work is the [[Terraform workflow]] quartet. This note covers fla
 - [[#Useful env vars]]
 - [[#First-time failure checklist]]
 - [[#Book takeaways]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
 
 ## Everyday commands
 
@@ -149,3 +155,16 @@ Workflow context: [[Terraform workflow]]
 
 - **Brikman**: automate fmt/validate/plan in CI; treat state commands as ops tools
 - **Winkler**: schema + graph explain *why* a plan looks that way — use CLI to inspect both
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > One-line: client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — debug egress and bypass paths — **RFC 1928**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

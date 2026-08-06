@@ -4,6 +4,8 @@
 
 > One-line: TCP where one side has closed its write path (FIN sent) but the read path is still open — **Stevens, TCP/IP Illustrated**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

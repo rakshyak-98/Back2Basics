@@ -4,6 +4,8 @@
 
 > One-line: mailbox protocol — messages stay on server; folders, flags, UID sync; clients use 143/STARTTLS or 993/IMAPS.
 
+---
+
 ## Index
 
 - [[#Mental model]]

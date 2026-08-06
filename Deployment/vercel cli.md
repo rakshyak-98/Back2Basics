@@ -4,6 +4,8 @@
 
 > Link local project, preview deploy, and promote to production without leaving the terminal.
 
+---
+
 ## Index
 
 - [[#Mental model]]

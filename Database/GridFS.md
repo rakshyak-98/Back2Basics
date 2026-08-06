@@ -4,6 +4,8 @@
 
 > One-line: MongoDB's convention for storing files >16MB BSON limit — chunks in `fs.files` + `fs.chunks`; stream in/out; not a general filesystem.
 
+---
+
 ## Index
 
 - [[#Mental model]]

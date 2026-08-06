@@ -4,6 +4,8 @@
 
 > One-line: server-to-server HTTP callback on events — receiver must verify, dedupe, and respond fast — **not** a reliable message bus.
 
+---
+
 ## Index
 
 - [[#Mental model]]

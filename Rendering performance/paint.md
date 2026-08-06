@@ -4,6 +4,8 @@
 
 > Fill pixels after layout — text, colors, borders, shadows — **often split into layers for compositing**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

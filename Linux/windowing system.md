@@ -4,6 +4,8 @@
 
 > One-line: **GUI stack that turns pixels into windows, icons, and input** — WIMP (windows, icons, menus, pointer) plus toolkits. Know the layers before blaming "Linux graphics."
 
+---
+
 ## Index
 
 - [[#Mental model]]

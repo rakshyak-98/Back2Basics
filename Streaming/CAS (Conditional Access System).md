@@ -9,6 +9,7 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Components]]
 - [[#Standard flow / example]]
 - [[#CAS vs DRM]]
@@ -63,6 +64,10 @@ Video decrypted if authorized
 ```
 
 ---
+
+## Standard config / commands
+
+…
 
 ## Components
 

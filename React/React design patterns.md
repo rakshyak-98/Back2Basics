@@ -1,6 +1,15 @@
+[[React]]
+
+# React design patterns
+
+> One-line: what / why for **React design patterns** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Provider Pattern]]
 - [[#Presentational Pattern]]
 - [[#Container Pattern]]
@@ -14,6 +23,17 @@
 - [[#Error Boundaries]]
 - [[#Props gatter pattern]]
 - [[#Component Pattern to handle Network request]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Provider Pattern
 
@@ -294,7 +314,6 @@ function Card({ title, children }) {
 </Card>
 ```
 
-
 ## Props gatter pattern
 
 ```jsx
@@ -358,3 +377,16 @@ function App() {
 > [!INFO]
 > - A function that takes a component and returns an enhanced version (e.g., `withDataFetching(WrappedComponent)`). Add fetching logic, loading indicator, or error handling without modifying the original component.
 > - Example: `withLoader` HOC fetches data and shows "Loading..." until ready.
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

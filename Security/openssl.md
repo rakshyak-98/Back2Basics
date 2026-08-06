@@ -1,7 +1,28 @@
+[[Security]]
+
+# openssl
+
+> One-line: what / why for **openssl** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Generate random string]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+…
+
+## Standard config / commands
+
+…
 
 ## Generate random string
 
@@ -15,8 +36,8 @@ openssl rand -hex 32;
 
 ```shell
 openssl genpkey -algorithm RSA -out privatekey.pem -aes256; # generate private key
-openssl rsa -in privatekey.pem -pubout -out public.key 
-	
+openssl rsa -in privatekey.pem -pubout -out public.key
+
 openssl req -key privatekey.pem -new -out request.csr; # create CSR
 openssl x509 -req -days 365 -in request.csr -signkey private.key -out certificate.crt; # self signed certificate
 ```
@@ -58,6 +79,25 @@ sudo openssl req -x509 -nodes -days 365 \
 > [!INFO]
 > Normally, when you generate a private key with `openssl` it asks for a password to protect it.
 
-This gives you 
+This gives you
 `/etc/nginx/certs/shop.localhost.crt` (certificate)
 `/etc/nginx/certs/shop.localhost.key` (private key)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

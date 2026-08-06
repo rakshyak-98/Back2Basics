@@ -4,6 +4,8 @@
 
 > One-line: per-user Node version switching via shell hooks — install multiple runtimes; pin version per project with `.nvmrc`; fix PATH before systemd/cron runs node.
 
+---
+
 ## Index
 
 - [[#Mental model]]

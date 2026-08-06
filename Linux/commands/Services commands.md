@@ -4,6 +4,8 @@
 
 > One-line: operator cheat sheet for **systemd units** and **D-Bus** introspection — start/stop, failed units, bus traffic. **Modern Linux service management.**
 
+---
+
 ## Index
 
 - [[#Mental model]]

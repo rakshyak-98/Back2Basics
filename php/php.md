@@ -4,6 +4,8 @@
 
 > Server-side language runtime — install extensions, pair with FPM, tune for web workloads.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -4,6 +4,8 @@
 
 > One-line: **Windows SSH/telnet client** — quick remote shell and tunnel setup when OpenSSH isn't available locally. Know its limits: key format, host keys, and saved-session security.
 
+---
+
 ## Index
 
 - [[#Mental model]]

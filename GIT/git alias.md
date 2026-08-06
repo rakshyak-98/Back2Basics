@@ -4,6 +4,8 @@
 
 > One-line: shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
+---
+
 ## Index
 
 - [[#Mental model]]

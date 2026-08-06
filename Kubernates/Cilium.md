@@ -4,6 +4,8 @@
 
 > eBPF-powered CNI: pod networking, kube-proxy replacement, NetworkPolicy enforcement, Hubble observability — **Kubernetes: Up and Running** (Burns et al.) + Cilium docs.
 
+---
+
 ## Index
 
 - [[#Mental model]]

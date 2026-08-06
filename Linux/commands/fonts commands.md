@@ -4,6 +4,8 @@
 
 > One-line: **fontconfig CLI** — resolve, list, and rebuild font caches when apps show tofu boxes or wrong faces after install. Not a font installer; it tells you what the system *actually* picks.
 
+---
+
 ## Index
 
 - [[#Mental model]]

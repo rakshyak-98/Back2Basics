@@ -1,4 +1,25 @@
+[[Visualization]]
+
 # Histogram
+
+> One-line: what / why for **Histogram** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Density Plot (KDE- Kernel Density Estimate)]]
+- [[#Box plot]]
+- [[#Violin plot]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 - displays the frequency distribution of a dataset
 - best for showing how data is spread across intervals (bins)
 ```python
@@ -10,13 +31,12 @@ plt.ylabel('Frequency')
 plt.show()
 ```
 
-## Index
+## Standard config / commands
 
-- [[#Density Plot (KDE- Kernel Density Estimate)]]
-- [[#Box plot]]
-- [[#Violin plot]]
+…
 
 ## Density Plot (KDE- Kernel Density Estimate)
+
 - A smoothed curve representing the distribution of data, which is similar to a smoothed histogram.
 - better for showing data distribution in a more continuous and smooth way, ideal for visualizing probability distributions.
 
@@ -29,6 +49,7 @@ plt.show()
 ```
 
 ## Box plot
+
 - summarizes data distribution with minimum, first quartile, median, third quartile, and maximum.
 - useful for identifying outliers and comparing distributions across categories.
 
@@ -40,6 +61,7 @@ plt.show()
 ```
 
 ## Violin plot
+
 - combines a box plot with a KDE plot, showing shape and data summary.
 - offers a deeper understanding of the distribution, combining box plot features with KDE.
 
@@ -48,3 +70,22 @@ import seaborn as sns
 sns.violinplot(data=data)
 plt.show();
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

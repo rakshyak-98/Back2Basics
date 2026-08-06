@@ -4,6 +4,8 @@
 
 > **Initial or repeatable reference data** loaded into schema after migrations — dev fixtures, prod lookup tables, demo tenants. Not a substitute for migrations or prod data backup.
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,9 +1,29 @@
-[Firebase Multicast Message](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)
+[[Firebase]]
+
+# Firebase messaging
+
+> One-line: what / why for **Firebase messaging** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Multicast Message]]
 - [[#FirebaseMessagingError: tokens list must not contain more than 500 items]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+[Firebase Multicast Message](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)
+
+## Standard config / commands
+
+…
 
 ## Multicast Message
 
@@ -11,18 +31,18 @@
 
 ## FirebaseMessagingError: tokens list must not contain more than 500 items
 
-### Explanation:  
-The current code has a logic flaw: it limits the token list to 500 (`slice(0, 500)`) but does not handle tokens **beyond 500** or split them into multiple batches. This still causes issues when the total number of tokens exceeds 500.  
+### Explanation:
+The current code has a logic flaw: it limits the token list to 500 (`slice(0, 500)`) but does not handle tokens **beyond 500** or split them into multiple batches. This still causes issues when the total number of tokens exceeds 500.
 
-To handle the error, modify the `pushNotification` function to:  
+To handle the error, modify the `pushNotification` function to:
 
-1. **Batch Tokens into Chunks of 500**  
-2. **Send Notifications Iteratively for Each Batch**  
-3. **Handle Token Errors Gracefully**  
+1. **Batch Tokens into Chunks of 500**
+2. **Send Notifications Iteratively for Each Batch**
+3. **Handle Token Errors Gracefully**
 
 ---
 
-### Updated Code with Firebase Token Chunking  
+### Updated Code with Firebase Token Chunking
 
 ```typescript
 import { BadRequest } from "http-errors";
@@ -125,25 +145,44 @@ export const pushNotification = async ({
 
 ---
 
-### Key Modifications:  
+### Key Modifications:
 
-1. **Chunking Tokens**:  
-   - Added a `chunkTokens` utility to split the `tokens` array into groups of **500**.  
+1. **Chunking Tokens**:
+   - Added a `chunkTokens` utility to split the `tokens` array into groups of **500**.
 
-2. **Batch Notifications**:  
-   - Used a `for` loop to send notifications for each batch using `sendEachForMulticast`.  
+2. **Batch Notifications**:
+   - Used a `for` loop to send notifications for each batch using `sendEachForMulticast`.
 
-3. **Flat Mapping & Filtering**:  
-   - Improved token extraction by flattening and removing null/undefined tokens.  
+3. **Flat Mapping & Filtering**:
+   - Improved token extraction by flattening and removing null/undefined tokens.
 
 ---
 
-### Advantages of Updated Code:  
-1. Prevents exceeding the **500 tokens limit**.  
-2. Handles any number of tokens efficiently by batching.  
-3. Reuses logic to save notifications to the database.  
+### Advantages of Updated Code:
+1. Prevents exceeding the **500 tokens limit**.
+2. Handles any number of tokens efficiently by batching.
+3. Reuses logic to save notifications to the database.
 
-### Suggestions:  
-- Add error-handling for invalid tokens during batch sending.  
-- Log the number of successes/failures per batch for debugging.  
-- If notifications frequently exceed 500 tokens, consider **Firebase Topics** for better scalability.  
+### Suggestions:
+- Add error-handling for invalid tokens during batch sending.
+- Log the number of successes/failures per batch for debugging.
+- If notifications frequently exceed 500 tokens, consider **Firebase Topics** for better scalability.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,3 +1,22 @@
+[[zed]]
+
+# zed debugger
+
+> One-line: what / why for **zed debugger** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```text
 Console is in 'commands' mode, prefix expressions with '?'.
 Tried to launch debugger with: {
@@ -11,3 +30,26 @@ error: Could not attach: The current value of ptrace_scope is 1, which can cause
 For more information, see: https://www.kernel.org/doc/Documentation/security/Yama.txt.
 ```
 - The debugger is trying to attach to an already running process using Linux's `ptrace()` system call
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -4,6 +4,8 @@
 
 > Subscribers react to events without the subject knowing who they are — **Dive Into Design Patterns + launchEventBus**.
 
+---
+
 ## Index
 
 - [[#Mental model]]

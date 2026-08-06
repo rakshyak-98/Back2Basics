@@ -1,12 +1,52 @@
-Kafka is a distributed event streaming platform used for real-time data processing. 
-- it helps microservices communicate asynchronously by sending and receiving messages efficiently.
+[[Kafka]]
 
+# Kafka distributed event streaming
+
+> One-line: what / why for **Kafka distributed event streaming** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+Kafka is a distributed event streaming platform used for real-time data processing.
+- it helps microservices communicate asynchronously by sending and receiving messages efficiently.
 ### How kafka works
 kafka consist of four main components
-
 | Component | Description                                                    |
 | --------- | -------------------------------------------------------------- |
 | Producer  | sends message (events) to kafka topics.                        |
 | Topic     | A category where message are stored. Example `cart.item.added` |
 | Broker    | Kafka servers that manage topics and messages.                 |
 | Consumer  | Listens to topics and process messages.                        |
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

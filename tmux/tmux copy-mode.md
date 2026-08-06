@@ -4,6 +4,8 @@
 
 > Keyboard selection + copy from scrollback into tmux paste buffers — essential before yanking to system clipboard.
 
+---
+
 ## Index
 
 - [[#Mental model]]

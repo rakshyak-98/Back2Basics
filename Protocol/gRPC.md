@@ -1,21 +1,36 @@
 [[RPC]] [[HTTP]] [[Protobuf]]
 
-gRPC is an RPC framework operating fundamentally over HTTP/2, utilizing Protocol Buffers (Protobuf) as both its Interface Definition Language (IDL) and underlying message interchange format.
+# gRPC
 
 > gRPC discards JSON/XML in favor of binary Protobuf uses a tag-based encoding. It does not transmit field names.
 
-- Deserialization is extremely fast compared to JSON due to direct memory mapping capabilities and lack of string parsing.
-- CPU cost is heavily shifted toward bitwise operations (varint decoding) rather than lexical analysis.
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Interface Definition (Protobuf IDL)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+gRPC is an RPC framework operating fundamentally over HTTP/2, utilizing Protocol Buffers (Protobuf) as both its Interface Definition Language (IDL) and underlying message interchange format.
+- Deserialization is extremely fast compared to JSON due to direct memory mapping capabilities and lack of string parsing.
+- CPU cost is heavily shifted toward bitwise operations (varint decoding) rather than lexical analysis.
+
+## Standard config / commands
+
+…
 
 ## Interface Definition (Protobuf IDL)
 
 As a backend developer, your source of truth is the `.proto` file. You do not write routing boilerplate; you define the contract and generate the server stubs.
 
-### API contract implementation Details 
+### API contract implementation Details
 
 - Versioning: Package names must include versions to prevent breaking changes (e.g., `package api.v1;`)
 - Well-Know Type (WKT): Utilize `google/protobuf` packages for common types instead of primitives where nullable or semantic data is required.
@@ -126,3 +141,22 @@ func AuthInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServe
     return handler(newCtx, req)
 }
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

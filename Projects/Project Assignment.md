@@ -1,4 +1,23 @@
-# BOOKISH BUDDIES
+[[Projects]]
+
+# MEDIAL SDE REMOTE ASSIGNMENT
+
+> One-line: what / why for **MEDIAL SDE REMOTE ASSIGNMENT** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#**Assignment: Dynamic Post Page with OG Image Generation**]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 |Action|Type|Information|Frequency|Priority|
 |---|---|---|---|---|
 |Create classes|write|teacher, subject|4-5 per day|High|
@@ -8,11 +27,9 @@
 |Create Student profile|write|username, password||High|
 |Book class 3|write|teacher id, subject id|3 per day|low|
 
-# MEDIAL SDE REMOTE ASSIGNMENT 
+## Standard config / commands
 
-## Index
-
-- [[#**Assignment: Dynamic Post Page with OG Image Generation**]]
+…
 
 ## **Assignment: Dynamic Post Page with OG Image Generation**
 
@@ -51,3 +68,22 @@ Evaluation Criteria:
 EXAMPLE :-
 
 ![Screenshot 2024-08-04 at 2.45.16 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/04fb32a9-4a90-4fa0-a983-9dd437016d0d/debc219e-2e8a-48bf-8fb6-7217a7080864/Screenshot_2024-08-04_at_2.45.16_PM.png)
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

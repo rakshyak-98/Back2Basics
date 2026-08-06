@@ -4,6 +4,8 @@
 
 > One-line: map Let's Encrypt / Certbot failures to root cause and fix — **operational runbook**, not a log dump.
 
+---
+
 ## Index
 
 - [[#Mental model]]

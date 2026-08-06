@@ -4,6 +4,8 @@
 
 > One-line: flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pairs with Redux but works standalone.
 
+---
+
 ## Index
 
 - [[#Mental model]]

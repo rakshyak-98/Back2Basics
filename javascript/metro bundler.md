@@ -4,6 +4,8 @@
 
 > React Native's default JavaScript bundler — fast dev iteration via incremental transforms, not webpack-style whole-graph rebuilds.
 
+---
+
 ## Index
 
 - [[#Mental model]]

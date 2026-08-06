@@ -4,6 +4,8 @@
 
 > One-line: **persistent system configuration** under `/etc` — the first place to look when behavior differs after reboot or between hosts. **FHS + distro overlays (cloud-init, Ansible).**
 
+---
+
 ## Index
 
 - [[#Mental model]]

@@ -1,18 +1,37 @@
-> [!INFO]
-> `useEffect` runs **after render** when its dependency array value changes.
+[[Hooks]]
 
-React's render must stay pure (no side effect when component is rendering).
-`useEffect()` lets you run code after render, where side effect are allowed. 
+# react useEffect
 
-> [!NOTE]
-> - `useEffect()` runs after render.
+> One-line: what / why for **react useEffect** — source TBD.
+
+---
 
 ## Index
 
+- [[#Mental model]]
+- [[#Standard config / commands]]
 - [[#Order of `useEffect`]]
 - [[#How to Handle State Synchronization Between Multiple useEffect Hooks]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
+> [!INFO]
+> `useEffect` runs **after render** when its dependency array value changes.
+React's render must stay pure (no side effect when component is rendering).
+`useEffect()` lets you run code after render, where side effect are allowed.
+> [!NOTE]
+> - `useEffect()` runs after render.
+
+## Standard config / commands
+
+…
 
 ## Order of `useEffect`
+
 all `useEffect` hooks in a component run in the order they are written in the code, every time their dependency array changes (or on mount if empty).
 
 |Dependency array|When does it run?|Order relative to other effects|
@@ -54,3 +73,22 @@ useEffect(() => {
 
 > [!NOTE]
 > In React, when one `useEffect` updates a state value, any other `useEffect` that depends on that state will automatically run on the *next render*.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

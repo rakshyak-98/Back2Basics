@@ -4,12 +4,14 @@
 
 > Transaction guarantees: all-or-nothing writes, valid states, predictable concurrency, survive crashes — **Designing Data-Intensive Applications** (Kleppmann, Ch. 7).
 
+---
+
 ## Index
 
 - [[#Mental model]]
+- [[#Standard config / patterns]]
 - [[#Isolation levels & anomalies]]
 - [[#Engine defaults (know before you deploy)]]
-- [[#Standard config / patterns]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -29,6 +31,37 @@ ACID is four independent knobs — databases implement each differently:
 **Consistency is not magic** — the DB enforces *declared* rules (NOT NULL, CHECK). Business rules ("balance ≥ 0") still need app code or triggers.
 
 **Isolation is where apps break** — ORMs hide transactions; default levels differ; retries aren't automatic.
+
+## Standard config / patterns
+
+### Postgres — when READ COMMITTED isn't enough
+
+```sql
+BEGIN;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+-- ... read + write ...
+COMMIT;  -- may fail: ERROR: could not serialize access
+```
+
+**App must retry** on `40001` serialization failure — framework rarely does this for you.
+
+### Prevent lost updates (pick one)
+
+```sql
+-- 1. Pessimistic lock
+SELECT balance FROM accounts WHERE id = 1 FOR UPDATE;
+
+-- 2. Optimistic — compare version
+UPDATE accounts SET balance = 900, version = version + 1
+WHERE id = 1 AND version = 5;  -- 0 rows = retry
+
+-- 3. Atomic single statement
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+```
+
+### Idempotent retries
+
+Network timeout ≠ rollback. Client retries `COMMIT` or POST — use **idempotency keys** + unique constraints so duplicate commits don't double-charge.
 
 ## Isolation levels & anomalies
 
@@ -69,37 +102,6 @@ SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 SELECT @@transaction_isolation;
 SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
 ```
-
-## Standard config / patterns
-
-### Postgres — when READ COMMITTED isn't enough
-
-```sql
-BEGIN;
-SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
--- ... read + write ...
-COMMIT;  -- may fail: ERROR: could not serialize access
-```
-
-**App must retry** on `40001` serialization failure — framework rarely does this for you.
-
-### Prevent lost updates (pick one)
-
-```sql
--- 1. Pessimistic lock
-SELECT balance FROM accounts WHERE id = 1 FOR UPDATE;
-
--- 2. Optimistic — compare version
-UPDATE accounts SET balance = 900, version = version + 1
-WHERE id = 1 AND version = 5;  -- 0 rows = retry
-
--- 3. Atomic single statement
-UPDATE accounts SET balance = balance - 100 WHERE id = 1;
-```
-
-### Idempotent retries
-
-Network timeout ≠ rollback. Client retries `COMMIT` or POST — use **idempotency keys** + unique constraints so duplicate commits don't double-charge.
 
 ## Triage (when things break)
 

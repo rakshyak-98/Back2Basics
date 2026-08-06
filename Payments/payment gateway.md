@@ -4,6 +4,8 @@
 
 > Merchant-facing HTTP/API front door to payment networks — authorizes and captures without merchant touching card rails directly — **e-commerce integration model**.
 
+---
+
 ## Index
 
 - [[#Mental model]]
