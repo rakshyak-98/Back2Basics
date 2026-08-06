@@ -5,6 +5,13 @@ vite --config my-config.js;
 > [!NOTE]
 > Environment Variables _are_ automatically loaded later and exposed to application code via `import.meta.env` (with the default `VITE_` prefix filter)
 
+## Index
+
+- [[#ModuleRunner]]
+- [[#Vite allowed host error]]
+- [[#Vite image load issue when `base: "/custompage"`]]
+- [[#Manage multiple environment env file configuration]]
+
 ## ModuleRunner
 - A module runner is instantiated in the target runtime.
 - In dev mode, vite serves modules directly (ESM in browser). But Sometimes you need to execute a module inside Node:

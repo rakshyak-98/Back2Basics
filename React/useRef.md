@@ -1,4 +1,8 @@
 
+## Index
+
+- [[#How to forward ref to other component]]
+
 ## How to forward ref to other component
 
 ```jsx

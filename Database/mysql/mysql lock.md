@@ -15,6 +15,10 @@ LOCK TABLES table_name [READ | WRITE];
 - you can read & write
 - Ensures exclusive write access
 
+## Index
+
+- [[#Row locking]]
+
 ## Row locking
 
 ```sql

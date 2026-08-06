@@ -4,6 +4,15 @@
 
 > Utility-first CSS framework — compose designs from constrained class names; build step tree-shakes unused utilities for production.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Tailwind is **not** a component library. It generates atomic utility classes (`flex`, `pt-4`, `text-slate-600`) from a config file. At build time, it scans your source files and emits **only used** rules — keeping prod CSS small.

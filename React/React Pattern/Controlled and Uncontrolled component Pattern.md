@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#When to use:]]
+
 ## When to use:
 - Controlled: When you need to *respond to changes immediately* (form validation, conditional rendering).
 - Uncontrolled: When you don't need to track every input change.

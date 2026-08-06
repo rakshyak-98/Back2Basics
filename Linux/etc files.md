@@ -4,6 +4,15 @@
 
 > One-line: **persistent system configuration** under `/etc` — the first place to look when behavior differs after reboot or between hosts. **FHS + distro overlays (cloud-init, Ansible).**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `/etc` holds config consumed by daemons at start (or reload). Runtime state lives in `/var` and `/run`; binaries in `/usr/bin`. Many daemons **overwrite** or **include** fragments — editing the wrong file or missing a `systemctl reload` leaves you thinking you changed something when the running process didn't.

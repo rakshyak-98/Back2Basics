@@ -42,6 +42,10 @@ moment().toDate()                       // convert back to native Date
 - Wrapping an already formatted string in `new Date()` causes **double conversion bugs**
 - Prefer `moment(date, "YYYY-MM-DD")` over `moment(new Date(date))` to avoid timezone shifts
 
+## Index
+
+- [[#Time management]]
+
 ## Time management
 
 **Getting Current Time**

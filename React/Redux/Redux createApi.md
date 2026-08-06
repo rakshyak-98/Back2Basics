@@ -104,6 +104,10 @@ export default cartSlice.reducer;
 
 ```
 
+## Index
+
+- [[#Lazy query and Normal query hooks]]
+
 ## Lazy query and Normal query hooks
 
 > [!INFO]

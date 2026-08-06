@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The **MPD** is the **root document** for **[[DASH]]** playback. It describes **Periods** (timeline slices), **AdaptationSets** (video/audio/subtitle tracks), and **Representations** (bitrate rungs). Players fetch the MPD, pick a Representation, then request **segments** via `SegmentTemplate`, `SegmentList`, or `SegmentBase`.

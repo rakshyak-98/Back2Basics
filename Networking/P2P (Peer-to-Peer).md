@@ -14,4 +14,8 @@
 - adding new peers generally increases the system's load but also increases the system's processing and storage capacity.
 - there is no typical need to update any central servers to be able to deal with more users or more load.
 
+## Index
+
+- [[#P2P architecture]]
+
 ## P2P architecture

@@ -1,5 +1,9 @@
 user enters a subdomain in browser
 
+## Index
+
+- [[#DNS record]]
+
 ## DNS record
 
 | Type    | Name               | Purpose                                                        |

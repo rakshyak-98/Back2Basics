@@ -1,5 +1,11 @@
 a [preprocessor](https://en.wikipedia.org/wiki/Preprocessor) or a precompiler is a program that processes its input data to produce output that is used as input in another program.
 - output preprocessed form of the input data, used by compiler.
+
+## Index
+
+- [[#Lexical preprocessors]]
+- [[#Lexical toknization]]
+
 ## Lexical preprocessors
 are the lowest-level of preprocessors, they only require lexical analysis.
 - operate on the source text, prior to any parsing, by performing simple substitution of tokenized character sequence for other tokenized character sequences, according to user-defined rules.

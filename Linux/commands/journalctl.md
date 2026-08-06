@@ -4,6 +4,15 @@
 
 > One-line: query **systemd-journald** — indexed, structured logs for units, boots, kernel, and priorities. **Default first tool for "why did the service die?"**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured `journal` API calls. Entries are keyed by **unit**, **boot ID**, **priority**, **executable**, and custom fields (`_PID`, `_UID`, `_SYSTEMD_CGROUP`). Binary store — use `journalctl` to read, not raw `cat`.

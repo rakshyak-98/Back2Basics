@@ -25,6 +25,13 @@ Pointer = movable reference to a position in a data structure. A void revisiting
 - After sorting, same value repeated → skip to prevent same triplet.
 - sorting allows us to easily skip duplicate values and use the two-pointer technique effectively.
 
+## Index
+
+- [[#Two pointer: pointer placement rules]]
+- [[#Converging pointers (opposite ends)]]
+- [[#Sliding window (same direction)]]
+- [[#Fast and slow pointers]]
+
 ## Two pointer: pointer placement rules
 
 - Shrink search space.

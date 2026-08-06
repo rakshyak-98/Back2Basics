@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Allow multiple rendering strategies]]
+
 ## Allow multiple rendering strategies
 - Being able to use multiple rendering strategies is probably the main reason why we want to use NextJS
 ### NextJS

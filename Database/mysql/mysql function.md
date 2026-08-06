@@ -46,6 +46,12 @@ WHERE ROUTINE_TYPE = 'FUNCTION'
 SHOW FUNCTION STATUS WHERE Db = 'mysql';
 ```
 
+## Index
+
+- [[#Data conversion]]
+- [[#Procedure]]
+- [[#User define functions]]
+
 ## Data conversion
 
 ### Type conversion

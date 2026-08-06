@@ -1,5 +1,9 @@
 [rfc](https://datatracker.ietf.org/doc/html/rfc7519)
 
+## Index
+
+- [[#JSON Web Token (JWT)]]
+
 ## JSON Web Token (JWT)
 - URL-safe means of representing claims to be transferred between two parties.
 - the claims in a JWT are encoded as a JSON object that is used as the payload of a JSON Web Signature (JWS) structure or as the plain-text of  a JSON Web Encryption (JWE) structure.

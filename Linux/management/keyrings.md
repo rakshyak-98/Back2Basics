@@ -43,6 +43,11 @@ Disadvantages of GNOME Keyring:
 Complexity: May be confusing for users unfamiliar with password management.
 Limited CLI Support: Some advanced management features are easier in GUI than CLI.
 If you need more specific instructions or assistance with a particular task in GNOME Keyrings, feel free to ask!
+
+## Index
+
+- [[#Keyring work with OS]]
+
 ## Keyring work with OS
 After booting, the operating system (OS) can communicate with the GNOME Keyring to unlock it automatically without user interaction through several mechanisms. Here's how it typically works:
 1. Keyring Initialization at Login:

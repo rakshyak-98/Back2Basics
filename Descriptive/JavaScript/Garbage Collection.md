@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Garbage collection]]
+
 ## Garbage collection
 - memory management in JavaScript is performed automatically and invisibly to us.
 - the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on the execution.

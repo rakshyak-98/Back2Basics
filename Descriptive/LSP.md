@@ -17,6 +17,10 @@ When a user edits one or more source code files using a language server protocol
 ### Reference
 - [Language server protocol explained](https://www.youtube.com/watch?v=2GqpdfIAhz8)
 
+## Index
+
+- [[#Difference between Go to Reference, Definition, Implementation]]
+
 ## Difference between Go to Reference, Definition, Implementation
 
 | Feature              | Description                                                                    | Use case                                                                                      |

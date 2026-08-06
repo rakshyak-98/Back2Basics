@@ -4,6 +4,15 @@
 
 > One-line: **curated shell one-liners with interpretation** — the 80% you reach for during incidents, deploys, and log hunts. Not exhaustive; each line says *what it proves*.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.

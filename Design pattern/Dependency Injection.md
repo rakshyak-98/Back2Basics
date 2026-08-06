@@ -4,6 +4,15 @@
 
 > Supply dependencies from outside instead of hard-coding `new` inside a class — testability and modular wiring — **IoC container vs manual constructor inject**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Without DI:** class creates its own DB client → tight coupling, hard to mock.

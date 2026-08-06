@@ -5,6 +5,12 @@
 > [!NOTE]
 > In PostgreSQL, **creating a Foreign key constraint does not automatically create an index** on the referencing column.
 
+## Index
+
+- [[#Create user]]
+- [[#Constraints]]
+- [[#Restart the cluster]]
+
 ## Create user
 
 ```bash

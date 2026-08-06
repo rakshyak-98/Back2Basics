@@ -6,6 +6,10 @@
 > [!INFO]
 > Every number greater than 1 is either a prime or can be made by multiplying primes together (e.g., 12 = 2 x 2 x 3).
 
+## Index
+
+- [[#Euclid's Algorithm]]
+
 ## Euclid's Algorithm 
 
 - Instead of subtracting 18 from 28 repeatedly (which is slow), the modulo operator `%` jumps to the reminder, performing multiple "subtractions" in one step.

@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Production ships `app.js` (one line, mangled names). Browser loads optional `app.js.map`:

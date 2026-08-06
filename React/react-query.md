@@ -34,6 +34,10 @@ persistQueryClient({
 })
 ```
 
+## Index
+
+- [[#Server state]]
+
 ## Server state
 
 Server-state needs: -> all of these coordinated by single `QueryClient` instance

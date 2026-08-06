@@ -30,6 +30,19 @@ When we aim to **predict the rank of a student based on their NEET marks** we ar
 - Non-linear Relationships: Neural networks can capture complex, non-linear relationships between features and ranks.
 - Scalability: MLPs can be scaled with more layers to handle more sophisticated rank prediction problems.
 - Flexibility: Neural networks can be trained for both continuous rank prediction (regression) and ordinal rank prediction (classification).
+
+## Index
+
+- [[#Modal tanning]]
+- [[#How does a student score relates to score?]]
+- [[#How to know does distribution of marks happens?]]
+- [[#What are the factors contributing to rank?]]
+- [[#Can I use RAG in rank prediction?]]
+- [[#How to visualize relationships in the data?]]
+- [[#Why does the rank prediction will not supported with unsupervised learning?]]
+- [[#Bench mark for the model]]
+- [[#Linear model rank prediction calculation]]
+
 ## Modal tanning
 - ordinal labels
 - data cleaning

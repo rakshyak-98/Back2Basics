@@ -51,6 +51,11 @@ const addToCart = async (req, res) => {
 - Kafka decouples services, so Inventory Service automatically updates stock without needing a direct API call.
 - More services (e.g., Order, Discount) can consumer the same Kafka event to react accordingly.
 
+## Index
+
+- [[#Kafka Consumer]]
+- [[#Connection pooling not used (Explained Clearly)]]
+
 ## Kafka Consumer
 ```js
 

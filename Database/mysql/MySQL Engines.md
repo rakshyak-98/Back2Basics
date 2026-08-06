@@ -5,6 +5,11 @@
 
 > [!WARNING]
 > Don't try -> moving `.idb` without matching metadata (`.frm` or MySQL 8+ `data dictionary`) .
+
+## Index
+
+- [[#CSV]]
+
 ## CSV
 ```mysql
 CREATE TABLE my_table()

@@ -2,6 +2,23 @@
 
 # 🧠 40-Year Core Computer Science Knowledge Checklist
 
+## Index
+
+- [[#✅ 1. Algorithms & Data Structures]]
+- [[#✅ 2. Computer Architecture]]
+- [[#✅ 3. Operating Systems]]
+- [[#✅ 4. Compilers & Programming Languages]]
+- [[#✅ 5. Databases]]
+- [[#✅ 6. Networking]]
+- [[#✅ 7. Distributed Systems]]
+- [[#✅ 8. Cryptography & Security]]
+- [[#✅ 9. Theoretical Computer Science]]
+- [[#✅ 10. Software Engineering & Systems Design]]
+- [[#🧠 **Your CS Mastery Tracks (Pick 1 or Hybrid)**]]
+- [[#📈 40-Year Compounding Roadmap]]
+- [[#💸 Monetization Map Per Track]]
+- [[#🚧 Tactical Plan (Short-Term)]]
+
 ## ✅ 1. Algorithms & Data Structures
 - [ ] Sorting, searching, hashing (merge sort, quicksort, binary search)
 - [ ] Graph algorithms (BFS, DFS, Dijkstra, Kruskal, Prim, Bellman-Ford, A*)

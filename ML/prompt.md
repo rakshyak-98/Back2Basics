@@ -38,6 +38,9 @@ What do you want to work on today / this week?
 (or drop the next piece of code / question whenever you're ready)
 ```
 
+## Index
+
+- [[#Agent rules]]
 
 ## Agent rules
 

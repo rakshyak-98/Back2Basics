@@ -4,6 +4,15 @@
 
 > Link local project, preview deploy, and promote to production without leaving the terminal.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). Env vars pulled from dashboard or `vercel env pull`.

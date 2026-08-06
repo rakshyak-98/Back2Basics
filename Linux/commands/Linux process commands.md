@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#`top`]]
+
 ## `top`
 #### **Navigation & Display**
 - `h` → Help menu

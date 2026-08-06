@@ -10,6 +10,14 @@ ps -o pid,tty,cmd; # TTY shows `?` when no controlling tty.
 ls -l /proc/<pid>fd/0; # if not symlinked to `/dev/tty*`, no tty attached.
 ```
 
+## Index
+
+- [[#Process without controlling tty]]
+- [[#kill process with `SIGQUIT`]]
+- [[#Modern processors and RAM work together]]
+- [[#How do multi-core processors affect RAM usage and efficiency]]
+- [[#MIME]]
+
 ## Process without controlling tty
 - Detached from terminal, so:
 	- No interactive input/output.

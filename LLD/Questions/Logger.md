@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Problem Statement]]
+- [[#Assignment]]
+
 ## Problem Statement
 
 You are tasked with developing a logging module for a complex software application. The logging module needs to maintain a single log file throughout the application's execution to avoid file access conflicts and ensure consistency. To prevent multiple instances of the logging module and ensure thread-safe access to the log file, you need to implement the Singleton design pattern along with the logging functionality.

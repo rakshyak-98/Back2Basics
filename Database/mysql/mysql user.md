@@ -11,6 +11,11 @@ DROP USER 'username'@'host';
 DROP USER 'app'@'%';
 ```
 
+## Index
+
+- [[#For plugin (legacy clients)]]
+- [[#Allow private network host]]
+
 ## For plugin (legacy clients)
 
 ```sql

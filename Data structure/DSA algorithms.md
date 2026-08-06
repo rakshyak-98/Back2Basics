@@ -31,6 +31,14 @@ for each position `i` in the patterns, `LPS[i]` stores the length of the longest
 - find equilibrium point
 - this trick is always: pre computer total, then compare with running prefix.
 
+## Index
+
+- [[#Cancellation trick]]
+- [[#**Floyd's Tortoise and Hare** algorithm.]]
+- [[#Dutch National Flag algorithm]]
+- [[#DFS (Depth First Search)]]
+- [[#Expand around centre]]
+
 ## Cancellation trick
 - When you need to find an element that dominates, you can cancel out minority elements until only the dominant remains.
 

@@ -12,6 +12,11 @@ ctrl+b z; # Toggle focus on pane
 ctrl+<space>; # Toggle pane layout
 ```
 
+## Index
+
+- [[#Window]]
+- [[#Session]]
+
 ## Window
 
 ```text

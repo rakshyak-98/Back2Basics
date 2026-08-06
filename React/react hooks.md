@@ -2,6 +2,15 @@
 	- preventing its recreation on every render unless its dependency array changes.
 	- avoids expensive computations when passing functions as props to child components.
 
+## Index
+
+- [[#React ref hook]]
+- [[#Context provider]]
+- [[#Synchronizing with effect]]
+- [[#**Two Types of Logic in React Components**]]
+- [[#When should you use `useEffect` in React?]]
+- [[#Custom Hook: `useAuth` for Tracking User Authentication]]
+
 ## React ref hook
 ```ts
 const setRef = useCallback((divRef: HTMLDivElement | null) => {

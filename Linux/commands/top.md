@@ -8,6 +8,20 @@ vmstat;
 
 ---
 
+## Index
+
+- [[#Core layout (mental model)]]
+- [[#Navigation (interactive keys)]]
+- [[#Filtering (important for real usage)]]
+- [[#Threads / hierarchy]]
+- [[#Fields (must know)]]
+- [[#Practical workflow (how engineers use it)]]
+- [[#Optimization tricks]]
+- [[#Edge cases / gotchas]]
+- [[#Mental shortcut]]
+- [[#Check system load]]
+- [[#How analyze cpu utilization]]
+
 ## Core layout (mental model)
 - **Header** → system stats (load avg, CPU %, RAM)
 - **Process table** → per-process metrics

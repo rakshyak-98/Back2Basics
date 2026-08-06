@@ -11,6 +11,10 @@ npx prisma generate; # generat the prisma client
 
 > [!INFO] Prisma uses generated internal files to map your high-level API calls into SQL queries.
 
+## Index
+
+- [[#Customizing the Output Directory]]
+
 ## Customizing the Output Directory
 - You can specify a custom directory for the generated Prisma Client in the `schema.prisma` file:
 ```js

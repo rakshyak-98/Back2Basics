@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Keeping files/data in browser memory (not on disk)]]
+- [[#In-memory browser database like (SQLite in browser)]]
+
 ## Keeping files/data in browser memory (not on disk)
 
 - You upload an image in the browser -> it stays in RAM, never touches your hard drive.

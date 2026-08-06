@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#set the recommended (default) application for a mime type on your system]]
+
 ## set the recommended (default) application for a mime type on your system
 
 ```bash

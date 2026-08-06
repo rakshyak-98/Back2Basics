@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#UML Notation summary]]
+
 ## UML Notation summary
 
 | **Relationship Type** | **Arrow Style**              | **SOLID Semantic**                            |

@@ -7,6 +7,14 @@ navigator.mediaDevices.getUserMedia({vide: true, audio: true})
 	})
 ```
 
+## Index
+
+- [[#Querying media devices]]
+- [[#Listening for devices changes]]
+- [[#Media constraints]]
+- [[#Local playback]]
+- [[#Peer Connections]]
+
 ## Querying media devices
 - in more complex application, we will likely want to check all the connected cameras and microphones and provide the appropriate feedback to the user.
 ```js

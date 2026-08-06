@@ -4,6 +4,15 @@
 
 > eBPF-powered CNI: pod networking, kube-proxy replacement, NetworkPolicy enforcement, Hubble observability — **Kubernetes: Up and Running** (Burns et al.) + Cilium docs.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Cilium sits at the **data plane** of Kubernetes networking:

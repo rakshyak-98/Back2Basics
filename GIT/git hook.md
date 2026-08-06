@@ -4,6 +4,16 @@
 
 > One-line: scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Common hooks reference]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Hooks are executable scripts in `.git/hooks/` (or managed via tools). Client hooks run on **your** machine; server-side hooks run on receive (GitHub/GitLab use their own hook systems — not raw `.git/hooks` on server for hosted SaaS).

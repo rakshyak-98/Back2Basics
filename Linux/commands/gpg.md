@@ -103,6 +103,10 @@ openpgp standard - is the most widely used email encryption standard. It is defi
 - process of encoding binary data, such as cryptographic keys or messages, into a human-readable text format. 
 - This text format is designed to be easily exchanged and shared in contexts where binary data might not be appropriate (e.g.,emails, forums).
 
+## Index
+
+- [[#Dearmor Dearmor (or *dearmor*)]]
+
 ## Dearmor Dearmor (or *dearmor*) 
 - process of decoding ASCII-armored data back into its *original binary format*. 
 - This is done when you want to use the original binary data for cryptographic operations or other purposes.

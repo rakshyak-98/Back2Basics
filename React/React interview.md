@@ -41,6 +41,10 @@ function TestComponent({ id }) {
 3. **Missing Error Handling**
     - Network failures or invalid responses aren't handled, which could cause runtime errors.
 
+## Index
+
+- [[#Add fallback image]]
+
 ## Add fallback image
 
 ```js

@@ -11,6 +11,10 @@ Here’s how the **key authentication process** works step-by-step:
 
 ---
 
+## Index
+
+- [[#Step-by-Step Breakdown]]
+
 ## Step-by-Step Breakdown
 
 1. **Key Pair Generation**:  

@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Nginx terminates TLS and forwards requests to **PHP-FPM** over TCP or a **Unix socket**. FPM maintains a pool of worker processes; each worker handles one request at a time (unless you use async frameworks, which is rare in PHP).

@@ -2,6 +2,16 @@
 
 ---
 
+## Index
+
+- [[#What is NAT?]]
+- [[#The problem]]
+- [[#NAT traversal]]
+- [[#Example]]
+- [[#Technologies involved]]
+- [[#Real-world analogy]]
+- [[#Summary]]
+
 ## What is NAT?
 
 A **Network Address Translation (NAT)** device (usually your home/office router) maps **private IP addresses** to a **public IP address**.

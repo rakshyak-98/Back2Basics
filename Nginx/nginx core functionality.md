@@ -8,6 +8,10 @@ When `accept_mutex` disabled
 - The others get `EAGAIN` (or similar) and go back to sleep.
 This is called **thundering herd** problem (or wake-up storm).
 
+## Index
+
+- [[#What really happens step by step (when accept_mutex is off)]]
+- [[#How to view and monitor the kernel's connection listen queue]]
 
 ## What really happens step by step (when accept_mutex is off)
 

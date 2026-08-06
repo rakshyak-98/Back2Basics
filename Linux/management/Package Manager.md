@@ -68,6 +68,10 @@ when `apt-get update` is verifies if the same update indexes need downloading, i
 command [option] > [output file]
 ```
 
+## Index
+
+- [[#package architecture]]
+- [[#advance package tool (apt)]]
 
 ## package architecture
 

@@ -1,5 +1,18 @@
 Instructions for replacing the default Flutter launcher icon with the green recycling trash icon (`WasteManagement.png`).
 
+## Index
+
+- [[#Prerequisites]]
+- [[#Scope]]
+- [[#Step 1: Place the source icon in the Flutter project]]
+- [[#Step 2: Update `pubspec.yaml`]]
+- [[#Step 3: Generate platform icons]]
+- [[#Step 4: Rebuild and verify]]
+- [[#Step 5: Login screen branding (optional)]]
+- [[#Step 6: Web manifest theme colors (optional)]]
+- [[#Verification checklist]]
+- [[#Troubleshooting]]
+
 ## Prerequisites
 
 - Flutter SDK installed and working

@@ -13,6 +13,26 @@ Here is a detailed series of **copy-paste ready prompts** you can feed sequentia
 
 ---
 
+## Index
+
+- [[#🎯 **PHASE 1: FOUNDATIONS (Months 1-2)**]]
+- [[#**Prompt 1.1: Create your personalized Go roadmap**]]
+- [[#**Prompt 1.2: Daily Go concept drill (repeat weekly)**]]
+- [[#**Prompt 1.3: Weekly coding challenge**]]
+- [[#🚀 **PHASE 2: BACKEND + CONCURRENCY (Months 3-4)**]]
+- [[#**Prompt 2.1: API project kickoff**]]
+- [[#**Prompt 2.2: Concurrency masterclass**]]
+- [[#**Prompt 2.3: Code review simulator**]]
+- [[#🎤 **PHASE 3: INTERVIEW SIMULATION (Months 5-6)**]]
+- [[#**Prompt 3.1: Full 60-minute mock interview**]]
+- [[#**Prompt 3.2: System design practice**]]
+- [[#**Prompt 3.3: Tricky Go questions drill**]]
+- [[#🔄 **WEEKLY REVIEW & PROJECT DEMO**]]
+- [[#**Prompt 4.1: Weekly progress review**]]
+- [[#**Prompt 4.2: Portfolio storytelling**]]
+- [[#🚀 **FINAL PREP (Last 2 weeks)**]]
+- [[#**Prompt 5.1: War games - hardest questions**]]
+
 ## 🎯 **PHASE 1: FOUNDATIONS (Months 1-2)**
 
 ## **Prompt 1.1: Create your personalized Go roadmap**

@@ -4,6 +4,15 @@
 
 > React Native's default JavaScript bundler — fast dev iteration via incremental transforms, not webpack-style whole-graph rebuilds.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile dev loops**: watch files, transform on demand, serve over the dev server to the app.

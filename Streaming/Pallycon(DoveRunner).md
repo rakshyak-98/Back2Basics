@@ -12,6 +12,11 @@
     
 4. **License Request**: Your Android app then injects this token into the `pallycon-customdata-v2` HTTP header when making the request to `[https://license-global.pallycon.com/ri/licenseManager.do](https://license-global.pallycon.com/ri/licenseManager.do)`.
 
+## Index
+
+- [[#PallyCon DevConsole API]]
+- [[#Concurrent Stream Limiting Guide]]
+
 ## PallyCon DevConsole API
 
 Access to the PallyCon (now DoveRunner) DevConsole is granted through their official developer portal.

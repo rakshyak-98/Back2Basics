@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Installation]]
+
 ## Installation
 ```bash
 curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null

@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#mysql2 — Full Feature Reference]]
+
 ## mysql2 — Full Feature Reference
 
 > Latest version: **3.20.0** — a fast MySQL driver implementing core protocol, prepared statements, SSL and compression in native JS. No native bindings — installs cleanly on Linux, Mac, and Windows.

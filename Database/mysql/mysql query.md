@@ -14,6 +14,12 @@ SHOW FULL TABLE WHERE Table_type = "VIEW";
 SHOW FULL TABLE WHERE Table_type = "BASE TABLE";
 ```
 
+## Index
+
+- [[#Search table]]
+- [[#Format dates]]
+- [[#Extract database metadata]]
+
 ## Search table
 
 ```sql

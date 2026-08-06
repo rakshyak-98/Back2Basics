@@ -55,6 +55,10 @@ dig https://google.com; # wrong
 > [!INFO]
 > public resolvers -> DNS servers operated by third parties, open for anyone to use instead of your ISP's DNS. They translate domain names -> IP addresses.
 
+## Index
+
+- [[#Diagnose why domain doesn't show an ANSWER SECTION]]
+
 ## Diagnose why domain doesn't show an ANSWER SECTION
 
 ```bash

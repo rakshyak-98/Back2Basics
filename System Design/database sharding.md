@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Sharding** partitions rows across **multiple databases** by a **shard key** (user_id, tenant_id, geo). Each shard holds a **subset** of data; the application **routes** queries to the correct shard(s). Cross-shard joins and transactions become **expensive or impossible** — design around shard-local access patterns.

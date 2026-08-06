@@ -4,6 +4,15 @@
 
 > One-line: **controlled port and service discovery** — map what's listening before an incident becomes a breach audit. Scope and authorization first; `-A` on prod without approval is a career event.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 nmap sends crafted packets (TCP SYN, connect, UDP, etc.) and classifies responses: **open**, **closed** (RST), **filtered** (timeout/no response). Version detection (`-sV`) and scripts (`-sC`) add banner fingerprinting. You are generating traffic that IDS/SOC may alert on.

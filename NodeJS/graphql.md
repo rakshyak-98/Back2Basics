@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Components]]
+
 ## Components
 
 | Component         | Purpose                      |

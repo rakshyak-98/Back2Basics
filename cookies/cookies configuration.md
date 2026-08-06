@@ -32,6 +32,10 @@ document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 
 > [!NOTE] You can set/update a single cookie at a time using `document.cookie`
 
+## Index
+
+- [[#Browser cookie]]
+
 ## Browser cookie
 
 [cookies, document.cookie](https://javascript.info/cookie)

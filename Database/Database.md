@@ -2,6 +2,10 @@
 **Atomicity** means that data is either updated or not, not in between.
 **Durability** means that data is guaranteed to exist after certain point.
 
+## Index
+
+- [[#When updating time entry in table]]
+
 ## When updating time entry in table
 
 > [!NOTE]

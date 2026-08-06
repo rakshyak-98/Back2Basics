@@ -11,6 +11,11 @@ example.com
 └── SRV    -> server.example.com:8080
 ```
 
+## Index
+
+- [[#Records]]
+- [[#MX]]
+
 ## Records
 
 A Record (Address) -> Map a domain to an IPv4 address. Used for APIs Any IPv4 service

@@ -4,6 +4,15 @@
 
 > One-line: **modern display protocol** — clients allocate buffers and pass FDs to the compositor; no global X11 server drawing model. **Debug sockets and env vars, not WM internals.**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **X11:** clients send drawing requests to X server; any client can snoop/input with enough tricks.

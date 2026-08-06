@@ -4,6 +4,23 @@ Absolutely. Here’s a comprehensive PRD for CityDress AI, structured to cover s
 
 # Product Requirements Document (PRD)
 
+## Index
+
+- [[#CityDress AI]]
+- [[#1) Product Overview]]
+- [[#2) Target Users]]
+- [[#3) Key Features]]
+- [[#4) User Flows]]
+- [[#5) MVP Scope]]
+- [[#6) Success Metrics]]
+- [[#7) Monetization Strategy]]
+- [[#8) Technology & Architecture (High-Level)]]
+- [[#9) UX / UI Considerations]]
+- [[#10) Localization & Compliance]]
+- [[#11) Risks & Mitigations]]
+- [[#12) Roadmap (High-Level)]]
+- [[#13) Success Criteria for MVP Launch]]
+
 ## CityDress AI
 
 An online service that generates hyper-customized women's dresses aligned to user preferences and a specific exciting moment. Availability is restricted to the user’s current city (detected via GPS/IP). The platform combines AI-driven design, city-limited inventory and delivery, real-time try-on, and local pickup to deliver a seamless, location-aware shopping experience.

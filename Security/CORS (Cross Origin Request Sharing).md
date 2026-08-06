@@ -4,6 +4,15 @@
 
 > One-line: browser-enforced policy — server headers permit another origin to read responses; preflight validates "non-simple" requests — **Fetch spec / W3C**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 CORS is **not server access control** — it stops **browser JavaScript** on `https://evil.com` from reading responses from `https://api.example.com` unless the API explicitly allows it. curl/Postman ignore CORS.

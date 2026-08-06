@@ -4,6 +4,15 @@
 
 > SOLID adapted to Go's interfaces, composition, and small-package culture — not Java inheritance.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Go favors **composition over inheritance**. Interfaces are implicit (duck typing). SOLID still applies but looks different: small interfaces (ISP), struct embedding (OCP-ish), constructor functions (DIP via interfaces in main).

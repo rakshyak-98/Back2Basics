@@ -4,6 +4,16 @@
 
 > One-line: reverse proxy + static file server — configure locations correctly, validate with `nginx -t`, reload without dropping connections. **Config tree:** [[nginx config structure]].
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Process architecture]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Nginx is **not** an app server. It terminates HTTP, serves static files from disk, and forwards dynamic work to upstreams (Node, PHP-FPM, uWSGI) via `proxy_pass` or `fastcgi_pass`. One **master** (root) owns listen sockets; **workers** (unprivileged) handle requests concurrently.

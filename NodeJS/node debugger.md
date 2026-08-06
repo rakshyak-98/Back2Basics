@@ -1,4 +1,9 @@
 
+## Index
+
+- [[#Text only REPL-style debugger.]]
+- [[#How it works when running the debugger]]
+
 ## Text only REPL-style debugger.
 
 ``` bash

@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Configuration]]
+- [[#Exchange]]
+
 ## Configuration
 
 They will be **loaded in alphabetical order**. A common naming practice uses numerical prefixes in filenames to make it easier to reason about the order, or make sure a "defaults file" is always loaded first, regardless of how many extra files are generated at deployment time:

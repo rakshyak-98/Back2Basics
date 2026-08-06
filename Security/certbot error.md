@@ -4,6 +4,15 @@
 
 > One-line: map Let's Encrypt / Certbot failures to root cause and fix — **operational runbook**, not a log dump.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (error → cause → fix)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Certbot talks to an [[ACME server]] (Let's Encrypt by default) through **challenges** to prove domain control. Failures cluster into: **policy**, **DNS**, **HTTP reachability**, **rate limits**, **local misconfig**, and **renewal drift**.

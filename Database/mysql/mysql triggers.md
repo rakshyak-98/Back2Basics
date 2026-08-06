@@ -34,6 +34,10 @@ INSERT INTO hotel_audit (hotel_id, old_name, new_name, changed_at)
 VALUES (OLD.id, OLD.name, NEW.name, NOW());
 ```
 
+## Index
+
+- [[#View all the triggers]]
+
 ## View all the triggers
 ```sql
 SELECT TRIGGER_NAME FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA = DATABASE();

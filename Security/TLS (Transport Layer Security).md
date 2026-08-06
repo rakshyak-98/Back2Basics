@@ -4,6 +4,15 @@
 
 > One-line: encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 TLS sits above TCP. Handshake negotiates version, ciphers, and (usually) server identity via **X.509 certificate**. After handshake, application data (HTTP → HTTPS) is encrypted and integrity-protected.

@@ -10,6 +10,12 @@ plt.ylabel('Frequency')
 plt.show()
 ```
 
+## Index
+
+- [[#Density Plot (KDE- Kernel Density Estimate)]]
+- [[#Box plot]]
+- [[#Violin plot]]
+
 ## Density Plot (KDE- Kernel Density Estimate)
 - A smoothed curve representing the distribution of data, which is similar to a smoothed histogram.
 - better for showing data distribution in a more continuous and smooth way, ideal for visualizing probability distributions.

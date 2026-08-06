@@ -100,6 +100,10 @@ function TargetComponent() {
 - Use a context for global, reusable path tracking.
 - Avoid hardcoding paths; use constants for maintainability.
 
+## Index
+
+- [[#In next JS]]
+
 ## In next JS
 Tracking **two-step-back navigation** requires maintaining a history of previously visited paths because neither React Router nor Next.js directly provides this functionality. Here's how you can achieve it in **Next.js**:
 

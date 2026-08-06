@@ -4,6 +4,15 @@
 
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Lexical grammar** defines valid **tokens**. **Syntactic grammar** defines how tokens form statements and expressions. Two phases, one pipeline:

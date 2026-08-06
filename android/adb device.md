@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Setup Unauthorized device]]
+
 ## Setup Unauthorized device
 
 ```bash

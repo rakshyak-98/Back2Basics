@@ -113,6 +113,10 @@ It ensures that:
     ssh -T github-work
     ```
 
+## Index
+
+- [[#How does git identify the alias]]
+
 ## How does git identify the alias
 
 - Git itself doesn’t directly "know" the alias. Instead, **SSH** handles the alias through its configuration in the `~/.ssh/config` file. Here's how it works step-by-step:

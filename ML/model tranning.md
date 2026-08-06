@@ -1,3 +1,10 @@
+
+## Index
+
+- [[#Evaluation]]
+- [[#Test size]]
+- [[#Random state]]
+
 ## Evaluation
 - accuracy, precision, recall, F1 score, mean squared error.
 

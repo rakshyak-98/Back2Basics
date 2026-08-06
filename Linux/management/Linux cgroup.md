@@ -4,6 +4,18 @@
 
 > One-line: kernel resource envelopes for processes — v2 unified hierarchy is what Docker/K8s use for CPU, memory, and I/O limits.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#cgroup v2 — memory (containers)]]
+- [[#cgroup v2 — CPU]]
+- [[#Other controllers (brief)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **cgroups** (control groups) group processes and apply limits/priorities. Modern distros mount **cgroup v2** unified at `/sys/fs/cgroup`.

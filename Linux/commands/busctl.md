@@ -4,6 +4,15 @@
 
 > One-line: **systemd's D-Bus introspection CLI** — list services, call methods, monitor signals on system/session bus without raw `dbus-send` XML. **Ships with systemd; the operator-facing D-Bus debugger.**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 D-Bus is the IPC bus desktop and server daemons use to expose APIs (hostname changes, login events, NetworkManager, logind). **busctl** wraps libsystemd's bus API — same world as `systemctl`, `hostnamectl`, `loginctl`.

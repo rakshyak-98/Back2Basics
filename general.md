@@ -6,6 +6,13 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Start here]]
+- [[#How to use this vault]]
+- [[#Related]]
+
 ## Mental model
 
 **Back2Basics** is a staff-engineer field notebook: fast retrieval under incident pressure, not a tutorial site or man-page mirror.

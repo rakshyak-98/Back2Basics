@@ -29,6 +29,20 @@ To break the habit of jumping ahead, apply these three rules to your practice:
 
 # DSA Foundation Knowledge Roadmap
 
+## Index
+
+- [[#Overview: Building Strong Intuition for DSA]]
+- [[#Layer 0: Ancient Mathematical Thinking (2000 BCE onwards)]]
+- [[#Layer 1: Mathematical Foundations]]
+- [[#Layer 2: Computational Thinking Basics]]
+- [[#Layer 3: Basic Data Structures (1950s Foundation)]]
+- [[#Layer 4: Advanced Data Structures (Modern Era, 1960s-1980s)]]
+- [[#Layer 5: Algorithmic Paradigms & Techniques]]
+- [[#Layer 6: Analysis, Design & Advanced Topics]]
+- [[#Why This Order Matters]]
+- [[#Practical Application: Using This Roadmap]]
+- [[#Essential Takeaway]]
+
 ## Overview: Building Strong Intuition for DSA
 
 Based on the historical evolution of Data Structures and Algorithms (from 2000 BCE to modern times), here's a comprehensive roadmap organized into 6 layers. Each layer builds on the previous one, creating a strong foundation for understanding why algorithms work and which ones to use when.

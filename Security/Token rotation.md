@@ -4,6 +4,15 @@
 
 > **Limit blast radius of leaked credentials** — refresh/access tokens, API keys, session ids, and signing keys expire and are replaced on a schedule or after use. **RFC 6819 (OAuth 2.0 Threat Model)** + prod incidents from never-rotated JWT signing keys.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Long-lived secrets **will** leak (logs, git, browser, support tickets). Rotation means: **short TTL** + **refresh path** + **revocation/list** + **key versioning** so old material stops working without hard-downtime if done right.

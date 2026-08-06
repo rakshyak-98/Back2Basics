@@ -46,6 +46,10 @@ cd <app-name>
 
 ```
 
+## Index
+
+- [[#Create systemd service for auto-start]]
+
 ## Create systemd service for auto-start
 
 ```bash

@@ -4,6 +4,15 @@
 
 > One-line: glue Unix tools and business logic with **shell scripts** — automation, cron wrappers, deploy hooks, and incident one-offs. **Know when bash stops and Python starts.**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A shell script is a sequence of commands run by an interpreter (`bash`, `sh`). The shell expands variables, splits words, runs pipelines, and returns an **exit code** the next command (or CI) can test. Scripts inherit environment from parent; they don't magically load your interactive `.bashrc` unless sourced.

@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Hooks]]
+
 ## Hooks
 
 ```js

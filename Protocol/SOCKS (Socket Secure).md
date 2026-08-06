@@ -4,6 +4,15 @@
 
 > One-line: client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — debug egress and bypass paths — **RFC 1928**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Unlike HTTP proxies (URL-level), SOCKS hands the client a **tunnel** after authentication. The client then speaks the target protocol raw — SSH, HTTPS, DB, anything TCP.

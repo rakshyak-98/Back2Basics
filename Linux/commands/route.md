@@ -4,6 +4,15 @@
 
 > One-line: legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk, Linux Programming Interface**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The kernel holds one or more **routing tables** (main table by default). Each route maps a destination prefix to a **next hop** (gateway), **outgoing interface**, or local delivery. `route` reads/writes via the old ioctl API; `ip route` uses **netlink** (same API NetworkManager, systemd-networkd, and Cilium use).

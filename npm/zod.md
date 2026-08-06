@@ -74,6 +74,11 @@ const userCreateSchema = z.object({
 }))
 ```
 
+## Index
+
+- [[#Db query with validation]]
+- [[#Error handling]]
+
 ## Db query with validation
 
 ```js

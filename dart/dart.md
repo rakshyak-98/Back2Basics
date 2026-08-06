@@ -3,6 +3,9 @@
 
 - Map<String, dynamic>  -> This represents the structure of a standard JSON object (keys are Strings, values can by anything)
 
+## Index
+
+- [[#Factory constructor]]
 
 ## Factory constructor
 - is a specialized constructor that doesn't always create a new instance of its own class.

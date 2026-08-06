@@ -4,6 +4,16 @@
 
 > One-line: single-threaded JS + libuv thread pool — non-blocking I/O until you block the thread with CPU or sync I/O.
 
+## Index
+
+- [[#Mental model]]
+- [[#Six phases (one "tick")]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Node runs user JavaScript on **one thread**. libuv handles async I/O (network, fs, timers) via the event loop and a **thread pool** (default 4 workers for sync fs/crypto). When a callback runs, nothing else runs until it returns.

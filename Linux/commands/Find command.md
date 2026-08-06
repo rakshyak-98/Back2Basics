@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Only change permission of file in current directory]]
+
 ## Only change permission of file in current directory
 
 ```bash

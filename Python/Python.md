@@ -17,6 +17,17 @@ python3 -m pdb <"python file to debug">;
 - dashes are illegal in Python identifiers
 - The `sys.path` list contains all the directories that Python will search for modules when you try to import them.
 
+## Index
+
+- [[#Python version mapping (multiple python version)]]
+- [[#json]]
+- [[#encoding decoding]]
+- [[#Setup tool]]
+- [[#Sub process]]
+- [[#Thread process]]
+- [[#Deleting variables and garbage collection]]
+- [[#modules]]
+
 ## Python version mapping (multiple python version)
 
 ```bash

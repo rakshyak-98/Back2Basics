@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Middleware** runs between Mongoose API call and MongoDB operation. Hooks attach to **`save`**, **`validate`**, **`remove`**, and **`find*` query methods** — not all methods trigger all hook types.

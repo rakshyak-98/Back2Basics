@@ -4,6 +4,15 @@
 
 > One-line: **cleartext TCP client** — still the fastest manual probe for "does this port accept connections and speak text?" Mail debugging and legacy gear; never for secrets on untrusted networks.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `telnet host port` opens a **raw TCP session** and prints bytes to your terminal. It does not encrypt. For production checks, prefer [[nc]] `-zv` for port-only tests and `openssl s_client` for TLS. telnet shines when you need to **type protocol lines** (SMTP, HTTP/1.0, IMAP) interactively.

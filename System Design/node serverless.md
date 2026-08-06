@@ -6,6 +6,15 @@
 
 This draft doc serves as your blueprint: tech stack, phased plan, code patterns, and resources. Implement iteratively—commit to GitHub daily for version control. Total effort: 10-15 hours, assuming basic AWS CLI setup.
 
+## Index
+
+- [[#Tech Stack]]
+- [[#Architecture Overview]]
+- [[#Prototype Implementation Plan]]
+- [[#Staff-Level Critique of Common "Best Practices" That Fail at Scale]]
+- [[#High-Scale Implementation Failures]]
+- [[#Resources]]
+
 ## Tech Stack
 - **Runtime:** Node.js 20.x (V8 11.8+ for optimized async/await and crypto in Lambdas).
 - **Deployment:** Serverless Framework (v3+)—simpler than CDK for prototypes; handles IaC for Lambda + DynamoDB.

@@ -15,6 +15,10 @@ Alias=display-manager.service
 WantedBy=graphical.target
 ```
 
+## Index
+
+- [[#Window manager]]
+
 ## Window manager
 
 ### Wayland Enable

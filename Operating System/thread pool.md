@@ -8,6 +8,11 @@
 - When a thread finishes a task -> it goes back to the pool (idle) and waits for new work.
 - No repeated thread creation/destruction overhead.
 
+## Index
+
+- [[#Typical components of a thread pool]]
+- [[#Why thread pool exist]]
+
 ## Typical components of a thread pool
 
 1. **Work threads** -> the actual thread sitting idle or executing tasks.

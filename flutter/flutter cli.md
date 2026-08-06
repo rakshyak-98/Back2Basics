@@ -12,6 +12,10 @@ flutter run; # Users JIT (Just-In-Time) compilation
 flutter attach -d <DEVICE ID>;
 ```
 
+## Index
+
+- [[#Channel]]
+
 ## Channel
 
 A channel is a release stream of the Flutter SDK. Each channel receives updates at different speeds and stability levels.

@@ -4,6 +4,15 @@
 
 > Apache/PHP-FPM startup and runtime failures — read the error log line, fix the socket/port/config mismatch.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 PHP in production usually sits behind **Apache** (`mod_php` rare now) or **Nginx → PHP-FPM** (Unix socket or TCP). "No listening sockets" means the web server couldn't bind its port — often Apache still running or port 80/443 taken. PHP errors also surface in `error_log`, FPM pool logs, and HTTP 502 from Nginx when FPM is down.

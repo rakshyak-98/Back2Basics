@@ -30,6 +30,10 @@ vim.opt.rtp:prepend(lazypath)
 :checkhealth nvim-treesitter; # run healthcheck
 ```
 
+## Index
+
+- [[#Telescope]]
+
 ## Telescope
 
 ### ignore files

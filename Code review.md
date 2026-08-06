@@ -1,3 +1,10 @@
+
+## Index
+
+- [[#Good practice]]
+- [[#Security Risk – Path Traversal Vulnerability (Critical)]]
+- [[#API]]
+
 ## Good practice
 
 - input normalization (trim + lowercase)

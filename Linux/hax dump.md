@@ -4,6 +4,15 @@
 
 > One-line: **Hex dumps for binary inspection** — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **hex dump** shows offset, hex bytes, and often ASCII sidebar. Every protocol debug eventually reduces to "what bytes actually crossed the wire?" — TLS hides payload, but framing errors, wrong endianness, and truncated reads show up in dumps first.

@@ -4,6 +4,15 @@
 
 > Key-based SSH login for local or remote users — `authorized_keys`, strict permissions, optional `from=`/`command=` restrictions, `sshd_config` allowlists.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ```

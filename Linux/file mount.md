@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#How to mount a google driver in current file system]]
+
 ## How to mount a google driver in current file system
 ```bash
 sudo apt install gnome-control-center gnome-online-accounts

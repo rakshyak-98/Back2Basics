@@ -23,6 +23,10 @@ location ~ \.php$ {
 
 ```
 
+## Index
+
+- [[#Step-by step how FastCGI works]]
+
 ## Step-by step how FastCGI works
 
 1. Startup -> the FastCGI application processes are started separetly (manually or via a manager). They listen on a socket

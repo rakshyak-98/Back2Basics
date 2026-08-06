@@ -9,6 +9,10 @@ Some hackers uploaded a file that looks like an image but is actually malicious 
 
 ---
 
+## Index
+
+- [[#Render fewer hooks than expected]]
+
 ## Render fewer hooks than expected
 
 ```text

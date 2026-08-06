@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Re-encoding** (transcode) **decodes** a compressed stream to raw samples/frames, then **encodes** with a (usually) new codec, bitrate, or resolution. Each generation **loses information** — avoid unnecessary hops in the pipeline. **Remux** (`-c copy`) only changes container when codecs already match targets.

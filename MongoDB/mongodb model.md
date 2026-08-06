@@ -4,6 +4,15 @@
 
 > Schema + indexes + hooks that define document shape, constraints, and query paths — **Mongoose docs** + DBA review habits.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **model** is a compiled schema bound to a collection. The schema declares fields, types, defaults, validators, indexes, and middleware. MongoDB is schemaless at storage time; Mongoose enforces structure at the application layer unless you bypass it with `strict: false` or raw collection calls.

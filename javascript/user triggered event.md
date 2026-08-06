@@ -4,6 +4,15 @@
 
 > Browser events caused directly by user input — the gate for privileged APIs, popup blockers, and "did the user mean this?" security checks.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.

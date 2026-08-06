@@ -8,6 +8,15 @@ Variables make one config work across envs (dev/stage/prod) without editing reso
 
 ---
 
+## Index
+
+- [[#Declare inputs (`variables.tf`)]]
+- [[#How values are supplied (precedence)]]
+- [[#Locals (named expressions)]]
+- [[#Outputs (`outputs.tf`)]]
+- [[#Module variables]]
+- [[#Book takeaways]]
+
 ## Declare inputs (`variables.tf`)
 
 ```hcl

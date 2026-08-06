@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Problem Statement]]
+- [[#Assignment]]
+
 ## Problem Statement
 
 You are tasked with designing a connection pool for a database management module of a complex software application. The connection pool is responsible for managing database connections efficiently to avoid unnecessary overhead and ensure optimal resource usage. To prevent multiple instances of the connection pool manager and ensure thread-safe access to connections, you need to implement the Singleton design pattern along with the connection pool management functionality.

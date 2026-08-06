@@ -25,6 +25,18 @@ last; # info about previous user logins.
 fuser -all; # process using file.
 ```
 
+## Index
+
+- [[#Apt Package management]]
+- [[#service management]]
+- [[#Firewall]]
+- [[#Terminate process]]
+- [[#Hardware]]
+- [[#Archive]]
+- [[#Hardware]]
+- [[#Cat command]]
+- [[#Configurations]]
+
 ## Apt Package management
 
 

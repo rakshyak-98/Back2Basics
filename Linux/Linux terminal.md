@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Authorized shells list]]
+- [[#What is the difference between `xtermin-256color` and `dumb` when it is set to `TERM` in environment variables?]]
+
 ## Authorized shells list
 
 > [!NOTE]

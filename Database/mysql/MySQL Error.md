@@ -129,6 +129,10 @@ W: Some index files failed to download. They have been ignored, or old ones used
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
 ```
 
+## Index
+
+- [[#After MySQL installation service is failing]]
+
 ## After MySQL installation service is failing
 
 ```text

@@ -4,6 +4,15 @@
 
 > One-line: run scripts, eval snippets, and switch users/environments from the shell — know when `node` vs `npm run` vs `npx` applies.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle env. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.

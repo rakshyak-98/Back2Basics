@@ -1,3 +1,12 @@
+
+## Index
+
+- [[#Profiling and Monitoring]]
+- [[#Efficient code practices]]
+- [[#Caching]]
+- [[#Load Balancing]]
+- [[#Compression]]
+
 ## Profiling and Monitoring
 
 - have an build in profiler, [clinic.js](https://www.clinicjs.org/)

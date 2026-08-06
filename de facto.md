@@ -4,6 +4,13 @@
 
 > Practice or product so widely adopted it **behaves like** a standard — without formal standards-body ratification (contrast **de jure**).
 
+## Index
+
+- [[#Mental model]]
+- [[#Examples]]
+- [[#When it matters]]
+- [[#Related]]
+
 ## Mental model
 
 **De jure** = by law/spec (ISO, RFC, ECMA). **De facto** = by market habit (Git, Docker, `{json}` APIs). Interop often follows de facto before formal specs catch up (e.g. OAuth flows, S3 API shape). Risk: vendor lock-in, spec drift, sudden deprecation.

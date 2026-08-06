@@ -8,6 +8,10 @@ IPFS is a decentralized, [[P2P (Peer-to-Peer)]] file system that aims to make th
 - **Versioning**: IPFS allows you to track and version changes in files, similar to Git.
 - **File Duplication**: Files are only stored once across the network, reducing redundancy.
 
+## Index
+
+- [[#How IPFS Works]]
+
 ## How IPFS Works
 Content Addressing: a file is uploaded to IPFS, it is broken into smaller chunks (blocks). Each block is assigned a unique cryptographic hash (CID). These CIDs are used to identify and retrieve the file from the network
 

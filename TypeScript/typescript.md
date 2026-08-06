@@ -19,6 +19,11 @@ const person: MyType = {
 #### Ambient Modules
 - 
 
+## Index
+
+- [[#Namespaces]]
+- [[#Compilation]]
+
 ## Namespaces
 - used to organize and share code across multiple files.
 - allow you to group related functionality into a single unit and prevent naming conflicts.

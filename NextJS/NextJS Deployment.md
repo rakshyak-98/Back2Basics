@@ -68,6 +68,13 @@ Route (app)                                 Size  First Load JS
 ```
 - explains what `○` means -> the route is fully pre-rendered at build time.
 - These pages are not server-rendered, so they load faster and scale better.
+
+## Index
+
+- [[#Error]]
+- [[#Transfer only the `.next` folder to the server]]
+- [[#Deployment NextJS with pm2 + Nginx]]
+
 ## Error
 ### 🔹 `generateStaticParams()`
 

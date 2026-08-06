@@ -4,6 +4,15 @@
 
 > Online Transaction Processing — many small, concurrent read/write operations with latency SLOs; schema normalized, indexes hot — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / architecture]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 OLTP is the **operational path**: checkout, auth, inventory decrement, ticket update. Workload shape:

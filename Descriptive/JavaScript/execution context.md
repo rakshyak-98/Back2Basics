@@ -4,6 +4,15 @@
 
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Every time JS runs code, the engine creates an **execution context** on the **call stack**. Contexts nest: global first, then each function call, then blocks (let/const) in modern engines.

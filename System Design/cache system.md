@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **cache** stores **copies** of data closer to readers (memory, edge, CDN) to cut latency and load on origin (DB, API). Caches are **eventually consistent** by definition — the hard part is **when to expire** and **how to invalidate** without thundering herds.

@@ -4,6 +4,16 @@
 
 > One-line: PostgreSQL inferred **different data types** for the **same placeholder (`$n`)** in one statement — fix by splitting placeholders or adding explicit casts.
 
+## Index
+
+- [[#Mental model]]
+- [[#Common causes]]
+- [[#Triage (when things break)]]
+- [[#Fixes]]
+- [[#Gotchas]]
+- [[#Rule of thumb]]
+- [[#Related]]
+
 ## Mental model
 
 Prepared statements bind each `$n` to **one** PostgreSQL type for the whole query. The planner deduces that type from **every** occurrence of the placeholder. If `$2` appears once as `TEXT` and once as `INTEGER`, Postgres cannot pick a single type and raises this error.

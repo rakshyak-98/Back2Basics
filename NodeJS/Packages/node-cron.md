@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#`node-cron`]]
+
 ## `node-cron`
 - if you didn't save the reference, there is no way to stop or access it after it starts. it becomes garbage-managed, and you lose all control over it. It runs in the background as long as the Node process is alive.
 

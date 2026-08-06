@@ -6,6 +6,10 @@ A client sends `POST /orders` to create a resource. The request succeeds server-
 > [!NOTE]
 > The key must be client-generated per logical operation, not server-generated, since the whole point is that the client can safely resend the same key across retries of the same logical request.
 
+## Index
+
+- [[#Mechanism]]
+
 ## Mechanism
 
 1. Client generates a unique key (typically a UUID) per logical operation and sends it in a header, e.g.:

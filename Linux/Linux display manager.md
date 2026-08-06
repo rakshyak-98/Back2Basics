@@ -4,6 +4,15 @@
 
 > One-line: **Login greeter that starts your graphical session** — picks X11 vs Wayland and launches i3/GNOME/KDE. Breaks here looks like "boot loops to black screen" before any app runs.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The **display manager (DM)** runs as root early in boot, shows login UI, authenticates via PAM, then **execs user session** (startx, gnome-session, i3). It sets `$XDG_SESSION_TYPE`, `$DISPLAY` or `$WAYLAND_DISPLAY`, and often chooses the last session from `.xsession` or account settings.

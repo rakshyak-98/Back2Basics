@@ -6,6 +6,11 @@
 ```sql
 ```
 
+## Index
+
+- [[#User-defined session variable]]
+- [[#local variable (inside stored routines)]]
+
 ## User-defined session variable
 
 ```mysql

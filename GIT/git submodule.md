@@ -4,6 +4,15 @@
 
 > One-line: pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A submodule is a **gitlink**: parent repo records a path + exact commit SHA of nested repo. Cloning parent does not auto-fetch submodule contents unless `--recurse-submodules`.

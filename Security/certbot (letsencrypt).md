@@ -35,6 +35,12 @@ sudo certbot --apache -d example.com -d www.example.com;
 sudo certbot certonly --nginx -d example.com; # Get certificate only (no auto-config).
 ```
 
+## Index
+
+- [[#Renew certificate]]
+- [[#Webroot]]
+- [[#HTTP-01 Challenge]]
+
 ## Renew certificate
 
 ```bash

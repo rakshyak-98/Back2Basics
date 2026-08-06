@@ -2,6 +2,10 @@ To run a specific command on container restart, you should configure the `ENTRYP
 - `ENTRYPOINT` : used to define the main command or process that always runs in the container. It cannot be overridden at runtime unless specifically done with `docker run --entrypoint`
 - `CMD` : Used to provide default arguments to the `ENTRYPOINT` or to specify the command if no `ENTRYPOINT` is defined. Can be overridden at runtime with `docker urn <image> <command>`
 
+## Index
+
+- [[#Docker layered filesystem]]
+
 ## Docker layered filesystem
 - Docker uses a layered filesystem (also called Union Filesystem or UnionFS) to store images and containers in a very efficient, smart way. This is one of the core reasons Docker is fast, lightweight, and save disk space.
 

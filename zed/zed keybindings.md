@@ -2,6 +2,11 @@
 
 # Zed keybindings
 
+## Index
+
+- [[#Completions & inline ghost text]]
+- [[#Key bindings]]
+
 ## Completions & inline ghost text
 
 | Action | Linux / Windows | macOS |

@@ -168,6 +168,12 @@ GENERATED ALWAYS AS (
 ) STORED;
 ```
 
+## Index
+
+- [[#No Transaction Boundary Grouping]]
+- [[#Overlapping validity periods]]
+- [[#Multi-Tenancy Boundary Violations]]
+
 ## No Transaction Boundary Grouping
 
 It means the audit log records **what changed**, but **not which changes belonged to the same transaction**.

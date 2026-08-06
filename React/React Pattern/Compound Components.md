@@ -131,6 +131,11 @@ export default App;
 
 ```
 
+## Index
+
+- [[#Cart Provider pattern]]
+- [[#Implementation of a Tabs component]]
+
 ## Cart Provider pattern
 It's generally not recommended to place routing logic directly in the **Cart Provider** component. The **Cart Provider** should focus on managing the cart's state and actions (like adding/removing items, updating totals, etc.), not routing or navigation.
 

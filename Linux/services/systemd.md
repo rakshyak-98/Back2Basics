@@ -37,6 +37,13 @@ sudo strings /sbin/init | grep -i systemd
 
 A run-level is a categorization number that determines what services are started and what services are stopped.
 
+## Index
+
+- [[#Standard Linux Run-levels]]
+- [[#Learning systemd basics]]
+- [[#Target units]]
+- [[#Configure a Default runlevel or target unit]]
+
 ## Standard Linux Run-levels
 
 Run-levels are primarily used for managing the system’s state during different phases, such as booting, single-user mode, or normal operation.

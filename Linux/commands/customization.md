@@ -4,6 +4,15 @@
 
 > One-line: **`gnome-extensions`** — install, enable, and reset Shell extensions without hunting UUIDs in the GUI. Break/fix cycle when desktop behavior changes after upgrade.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 GNOME Shell extensions are **UUID-keyed bundles** under `~/.local/share/gnome-shell/extensions/` (user) or `/usr/share/gnome-shell/extensions/` (system). The CLI talks to Shell over D-Bus; if Shell isn't running (SSH session), most commands fail.

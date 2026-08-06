@@ -4,6 +4,15 @@
 
 > Type-safe DB access via generated client — `findMany`, relations, filters, and `include` for joins.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Prisma Client maps models in `schema.prisma` to SQL. **Relational loads** use `include` (eager) or nested `select`. Filters use object API (`where`, `orderBy`, `cursor`). Raw SQL escapes hatch via `$queryRaw`. Connection pooling: use PgBouncer-compatible settings for serverless.

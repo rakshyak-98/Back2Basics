@@ -4,6 +4,15 @@
 
 > Editor CLI + multi-root workflow — open correct folder, reuse window, remote URIs, and command palette IDs for automation and docs.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `code` CLI talks to a running VS Code (or Cursor-compatible) instance via IPC. Opening paths attaches folders to the **current window** or spawns new windows depending on flags and settings.

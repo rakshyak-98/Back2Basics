@@ -8,6 +8,10 @@ Different approaches to IPC have been tailored to different software requirement
 ### Reference
 [Inter-process communication (IPC)](https://en.wikipedia.org/wiki/Inter-process_communication)
 
+## Index
+
+- [[#How does process communicat through port with external requests outside of os]]
+
 ## How does process communicat through port with external requests outside of os
 
 Processes communicate with external requests outside of an operating system primarily through **network sockets** and **ports**. 

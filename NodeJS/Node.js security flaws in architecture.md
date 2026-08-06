@@ -4,6 +4,15 @@
 
 > One-line: single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Node services typically sit **directly on the internet** with:

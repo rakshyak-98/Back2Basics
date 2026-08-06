@@ -18,6 +18,10 @@
 - computed calls are crucial for implementing _polymorphism_ is __C language__.
 	- _Structures_ can contain function pointers, allowing different structures to have different implementations of the same operations.
 
+## Index
+
+- [[#`fsync`]]
+
 ## `fsync`
 - system call in operating systems that ensures data integrity by forcing data in memory buffers to be written to disk.
 - commonly used in prevent data loss during power failures or crashes by synchronizing file content with the storage device.

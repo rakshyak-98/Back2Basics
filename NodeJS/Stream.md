@@ -68,6 +68,10 @@ process.stdin.pipe(transform).pipe(process.stdout)
 > [!NOTE]
 > In javascript and web APIs, a blob represents immutable, raw data that can be read as text or binary and is commonly used for handling files and binary content in web application.
 
+## Index
+
+- [[#Buffering vs Streaming]]
+
 ## Buffering vs Streaming
 
 - **buffer mode** causes all the data coming from a resource to be collected into a buffer until the operation is completed, it is then passed back to the caller as one single blob of data.

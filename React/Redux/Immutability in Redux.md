@@ -51,6 +51,10 @@ console.log(baseState[1] === nextState[1])
 
 ```
 
+## Index
+
+- [[#Redux Toolkit and Immer]]
+
 ## Redux Toolkit and Immer
 Redux Toolkit's `createReduer` API uses [[Immer]] internally automatically. So, it's already safe to _mutate_ state inside of any case reducer function that is passed to `createReducer`
 

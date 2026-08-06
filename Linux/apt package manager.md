@@ -26,6 +26,10 @@ apt list --installed | grep <package name>;
 apt-cache rdepends <pkg name>;
 ```
 
+## Index
+
+- [[#Inspect package details]]
+
 ## Inspect package details 
 
 ```bash

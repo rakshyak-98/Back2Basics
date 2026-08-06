@@ -1,3 +1,14 @@
+
+## Index
+
+- [[#Configuration manager]]
+- [[#deb - indicates that it's binary package repository]]
+- [[#db-src - for source packages.]]
+- [[#[options] - are optional and can specify architecture or other APT parameters.]]
+- [[#<URI> - repository URL.]]
+- [[#<distribution> - release name (focal, bionic, buster).]]
+- [[#<component> - repository section (main, contrib, non-free).]]
+
 ## Configuration manager
 ```sh
 dconf dump /org/gnome/terminal;

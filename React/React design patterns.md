@@ -1,3 +1,20 @@
+
+## Index
+
+- [[#Provider Pattern]]
+- [[#Presentational Pattern]]
+- [[#Container Pattern]]
+- [[#Controlled Components]]
+- [[#UnControlled Components]]
+- [[#Compound Component]]
+- [[#Render Props pattern (Data Fetcher API aware components)]]
+- [[#Headless Components]]
+- [[#Context for Global state]]
+- [[#Higher Order components (HOC)]]
+- [[#Error Boundaries]]
+- [[#Props gatter pattern]]
+- [[#Component Pattern to handle Network request]]
+
 ## Provider Pattern
 
 ```jsx

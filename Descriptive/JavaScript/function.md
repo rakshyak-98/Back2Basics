@@ -4,6 +4,15 @@
 
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Functions are values: assign, pass, return, store on objects. Each **invocation** creates a new execution context; the function object persists and can hold its own properties.

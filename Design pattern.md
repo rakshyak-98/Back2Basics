@@ -4,6 +4,16 @@
 
 > Apply GoF patterns only where variation or collaboration is real — **Dive Into Design Patterns (Shvets / Refactoring.Guru)** + production Marketing-API refactors.
 
+## Index
+
+- [[#Mental model]]
+- [[#Decision table — which pattern when]]
+- [[#How to extend (project playbook)]]
+- [[#Triage (when patterns go wrong)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Patterns are **named solutions to recurring design problems**, not a checklist. In a multi-platform / multi-goal backend (e.g. Meta Marketing API), every pattern that earned its keep mapped to a **variation point**: goals change, platforms multiply, Graph quirks need adapters, launch needs a fixed algorithm with swappable steps.

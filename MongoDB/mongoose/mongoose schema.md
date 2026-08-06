@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#How to extend schema]]
+
 ## How to extend schema
 ### Using `discriminator()` allow multiple model types withing a single collection
 

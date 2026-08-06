@@ -5,6 +5,21 @@
 
 ---
 
+## Index
+
+- [[#Table of Contents]]
+- [[#Folder Structure]]
+- [[#Core Concepts]]
+- [[#Slice Rules]]
+- [[#Middleware Rules]]
+- [[#API Layer Rules]]
+- [[#Storage Abstraction]]
+- [[#Adding a New Feature]]
+- [[#Removing a Feature]]
+- [[#Dependency Map]]
+- [[#Common Pitfalls]]
+- [[#Refactoring History]]
+
 ## Table of Contents
 
 1. [Folder Structure](#folder-structure)

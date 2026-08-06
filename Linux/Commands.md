@@ -216,6 +216,27 @@ a `.bashrc` file is shell script that bash (bourne again shell) runs whenever it
 source ~/.bashrc; # to restart the .bashrc to detect changes in the file.
 ```
 
+## Index
+
+- [[#bash]]
+- [[#Environment variables]]
+- [[#tee]]
+- [[#tar]]
+- [[#sed]]
+- [[#ed editor]]
+- [[#xrandr]]
+- [[#getent]]
+- [[#curl]]
+- [[#mount]]
+- [[#tr]]
+- [[#flock]]
+- [[#vmstat]]
+- [[#ld]]
+- [[#busctl - list all the currently active buses (D-Bus services)]]
+- [[#`grep`]]
+- [[#**Key Options & Their Use Cases**]]
+- [[#`lsof`]]
+
 ## bash
 
 [https://cs50.harvard.edu/ap/2020/assets/pdfs/exit_codes.pdf](https://cs50.harvard.edu/ap/2020/assets/pdfs/exit_codes.pdf)

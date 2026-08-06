@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Generate random string]]
+
 ## Generate random string
 
 ```bash

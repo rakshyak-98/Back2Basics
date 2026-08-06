@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Inspect commit]]
+- [[#Add notes to the commit]]
+
 ## Inspect commit
 ```bash
 git show --stat <commit-hash>;

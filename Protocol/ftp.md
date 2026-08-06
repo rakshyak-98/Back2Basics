@@ -1,6 +1,11 @@
 - a separate data connection is established for transferring files.
 - Active Mode: the server connects back to the client to transfer data.
 - Passive Mode: the client establishes the data connection to the server, which is often more firewall-friendly
+
+## Index
+
+- [[#Setup ftp server]]
+
 ## Setup ftp server
 #### vsftpd
 - Very Secure FTP Daemon

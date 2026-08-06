@@ -56,6 +56,10 @@ Cart.RemoveButton = ({ id }) => {
 };
 ```
 
+## Index
+
+- [[#Implementation of a Tabs component]]
+
 ## Implementation of a Tabs component
 - It allows consumers to define `TabList`, Tab and `TabPanel` without explicit prop drilling.
 - The Tabs parent manages active state and exposes subcomponents.

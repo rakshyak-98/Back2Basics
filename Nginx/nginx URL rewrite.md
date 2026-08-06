@@ -7,6 +7,12 @@
 |`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
 |`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
 
+## Index
+
+- [[#Client side routers]]
+- [[#Force remove `.php` or `.html` (hide extension completely)]]
+- [[#"refresh adds a trailing slash and 404s" bug.]]
+
 ## Client side routers
 
 > [!INFO]

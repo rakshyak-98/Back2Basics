@@ -10,6 +10,10 @@
 
 # MEDIAL SDE REMOTE ASSIGNMENT 
 
+## Index
+
+- [[#**Assignment: Dynamic Post Page with OG Image Generation**]]
+
 ## **Assignment: Dynamic Post Page with OG Image Generation**
 
 Objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the post content.

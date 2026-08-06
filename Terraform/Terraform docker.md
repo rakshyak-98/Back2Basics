@@ -8,6 +8,14 @@ Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → c
 
 ---
 
+## Index
+
+- [[#Why practice with Docker]]
+- [[#Minimal project]]
+- [[#Run it]]
+- [[#Map to cloud thinking]]
+- [[#Book takeaways]]
+
 ## Why practice with Docker
 
 | Goal | Benefit |

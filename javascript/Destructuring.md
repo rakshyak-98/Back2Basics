@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Destructing assignment]]
+
 ## Destructing assignment
 - it _destructrizes_ by copying items into variables.
 - ignore elements using comma

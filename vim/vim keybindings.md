@@ -4,6 +4,18 @@
 
 > LSP-powered navigation (definition, references, implementation) plus jump-back — requires Neovim with a language server attached; plain Vim needs ctags or a plugin.
 
+## Index
+
+- [[#Mental model]]
+- [[#Go to (Neovim 0.11+ defaults)]]
+- [[#Go to (on LSP attach — buffer-local)]]
+- [[#Common manual mappings (`gd` style)]]
+- [[#Jump back after go to]]
+- [[#Without LSP (plain Vim / fallback)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Related]]
+
 ## Mental model
 
 **Go to** commands ask the [[Descriptive/LSP|LSP]] (or ctags) where a symbol lives, then jump the cursor there. Neovim 0.11+ ships **global** `gr*` maps at startup; **buffer-local** maps (`K`, `CTRL-]`, diagnostics) apply when an LSP client attaches.

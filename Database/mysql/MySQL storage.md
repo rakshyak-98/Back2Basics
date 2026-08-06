@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Benefits of using `MySQLStore` with `express-session`:]]
+
 ## Benefits of using `MySQLStore` with `express-session`:
 1. **Persistence across server restarts**  
     Sessions are stored in MySQL, so users remain logged in even if the server restarts or crashes.

@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Each cached disk block is represented by a **buffer head** (`struct buffer_head` in legacy terms; modern Linux ties this to the **page cache** and `bio` layer). The head is not the data — it is the **control record** for one logical block:

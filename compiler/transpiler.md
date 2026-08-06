@@ -4,6 +4,15 @@
 
 > Source-to-source translator — modern syntax down-levelled for older runtimes; runs at **build time**, not in user's browser (usually).
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **compiler** often targets machine code/bytecode; a **transpiler** targets another high-level language (TS→JS, ES2022→ES5). Developer runs it locally or in CI; deploy artifact is the output. Bundlers (Webpack, esbuild, Vite) chain transpile + bundle + minify.

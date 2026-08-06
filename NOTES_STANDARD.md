@@ -5,6 +5,15 @@
 
 ---
 
+## Index
+
+- [[#Why this format]]
+- [[#Note-taking algorithm (apply every rewrite)]]
+- [[#Canonical template]]
+- [[#Quality bar (pass/fail)]]
+- [[#Vault priorities (rewrite order)]]
+- [[#Retrieval map]]
+
 ## Why this format
 
 | Goal | How the note delivers it |

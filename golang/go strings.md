@@ -4,6 +4,15 @@
 
 > One-line: a Go `string` is a read-only slice of UTF-8 bytes — index and `len` count **bytes**, not characters; use `range`, `[]rune`, or `unicode/utf8` when you need rune-safe logic.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A Go `string` is **not** a sequence of characters. It is an immutable, read-only view over a **byte slice** whose bytes are expected to be valid **UTF-8**.

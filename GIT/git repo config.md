@@ -28,6 +28,11 @@ git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
 
+## Index
+
+- [[#Git clone]]
+- [[#Configure git refs]]
+
 ## Git clone
 
 ```bash

@@ -4,6 +4,15 @@
 
 > Keyboard selection + copy from scrollback into tmux paste buffers — essential before yanking to system clipboard.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 tmux maintains a scrollback per pane. **Copy-mode** enters a vi/emacs-like overlay to move, select, and yank text into a **paste buffer** (internal register). From there, paste into pane (`paste-buffer`) or sync to system clipboard (config-dependent). Copy-mode is not the same as shell `Ctrl+Shift+C`.

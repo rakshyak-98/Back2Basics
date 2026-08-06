@@ -23,6 +23,10 @@ failed to solve: cannot replace to directory /var/lib/docker/overlay2/x6ptivu3yy
 ```
 - the error indicates that docker is trying to copy a file over a directory, which is allowed. This usually happens when the `node_modules` directory already exist in the Docker image and the `COPY . .` command tries to overwrite it.
 
+## Index
+
+- [[#Package JSON file]]
+
 ## Package JSON file
 
 ```json

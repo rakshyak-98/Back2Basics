@@ -2,6 +2,13 @@ As a Staff Engineer with 30 years in the industry, I have seen technologies rise
 
 To reach this level as a self-taught programmer, you must move from being a "solver of problems" to a "shaper of the environment" where problems get solved.
 
+## Index
+
+- [[#1. The Staff Engineer Knowledge Matrix]]
+- [[#2. Skills & Acquisition for the Self-Taught]]
+- [[#3. The 4-Stage Roadmap to Staff]]
+- [[#4. Common Implementation Errors (The "Staff Level" Warnings)]]
+
 ## 1. The Staff Engineer Knowledge Matrix
 
 A Staff Engineer must possess a "T-shaped" depth in technical skills and a "comb-shaped" breadth in organizational context.

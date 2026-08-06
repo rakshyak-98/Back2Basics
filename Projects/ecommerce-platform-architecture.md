@@ -6,6 +6,21 @@
 
 ---
 
+## Index
+
+- [[#Scope & ambiguities]]
+- [[#Mental model]]
+- [[#Service dependency diagram]]
+- [[#Service catalog summary]]
+- [[#Per-service design]]
+- [[#Inter-service communication]]
+- [[#Event schema (CloudEvents-style envelope)]]
+- [[#Data consistency: saga + outbox]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Scope & ambiguities
 
 **In scope:** eight bounded services below plus cross-cutting platform pieces (API gateway, mesh, broker).

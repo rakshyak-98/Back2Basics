@@ -4,6 +4,15 @@
 
 > One-line: multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and config.

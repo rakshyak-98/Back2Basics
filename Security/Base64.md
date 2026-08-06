@@ -16,6 +16,10 @@ turn binary data (like images, files, PDFs) into plain text so it can be safely 
 
 It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (6 bits each)
 
+## Index
+
+- [[#Error (Payload too large)]]
+
 ## Error (Payload too large)
 - You're getting `PayloadTooLargeError` because you're sending base64-encoded images (data:image/...) in the request body as JSON.
 

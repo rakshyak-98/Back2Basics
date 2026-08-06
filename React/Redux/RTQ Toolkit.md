@@ -48,6 +48,11 @@ const result = dispatch(api.endpoints.login.initiate(payload));
 dispatch(api.util.removeMutationResult({ requestId: result.requestId }));
 ```
 
+## Index
+
+- [[#Create API slice]]
+- [[#By default, RTK Query does not directly modify other slices of your Redux state. However, you can sync in two main ways]]
+
 ## Create API slice
 
 > [!INFO] data sync in Redux Store

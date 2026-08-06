@@ -4,6 +4,10 @@
 
 > Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
 
+## Index
+
+- [[#Creating pods]]
+
 ## Creating pods
 
 Operational commands and YAML patterns → [[kubectl pod creation]].

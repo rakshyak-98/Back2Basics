@@ -88,6 +88,10 @@ unused write to field
 
 ---
 
+## Index
+
+- [[#Go tag]]
+
 ## Go tag
 
 struct tag -> it provides metadata that packages (like `encoding/json`)

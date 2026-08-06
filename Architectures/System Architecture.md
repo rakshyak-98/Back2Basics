@@ -1,6 +1,10 @@
 
 > [!NOTE] Please stop using builder patterns for JavaScript SDK
 
+## Index
+
+- [[#Modular architecture]]
+
 ## Modular architecture
 - Components and plugins are separate modules that need to be explicitly registered before they can be used.
 - the modular architecture allows for better tree-shaking (dead code elimination ) by bundlers like Web-pack.

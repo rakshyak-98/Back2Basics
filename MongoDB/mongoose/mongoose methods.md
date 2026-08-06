@@ -34,6 +34,11 @@ res.json({
 });
 ```
 
+## Index
+
+- [[#Custom sequences for categories (100xxx, 200xxx etc.)]]
+- [[#Mongoose plugin Solution for sequence]]
+
 ## Custom sequences for categories (100xxx, 200xxx etc.)
 - To generate category-based sequences, you need a separate counter per category.
 ```js

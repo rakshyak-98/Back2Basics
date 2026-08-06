@@ -4,6 +4,15 @@
 
 > Directives in context blocks compose request handling — inheritance, merge rules, and phase order determine which `location` wins.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Config is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`** walks filesystem then named location. **`proxy_pass`** forwards to upstream. Order of **processing phases** (not file order) matters for rewrite vs access.

@@ -4,6 +4,15 @@
 
 > One-line: query **NSS** (Name Service Switch) databases the same way libc does — one command for local files, LDAP, SSSS, DNS, and hosts. **The truth for "does this account exist?"**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and asks each configured source (files, systemd, sss, ldap, …). `getent` exposes that same resolution path — so it beats `grep /etc/passwd alice` when accounts live in LDAP/SSSD.

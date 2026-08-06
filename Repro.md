@@ -4,6 +4,13 @@
 
 > Minimal steps that **reliably** show whether a bug still exists — the human executable test for triage and QA handoff.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard repro template]]
+- [[#Quality bar]]
+- [[#Related]]
+
 ## Mental model
 
 A good repro removes ambiguity: **preconditions**, **steps**, **expected**, **actual**. If two engineers follow it and see different results, the repro isn't stable yet. Attach environment (OS, version, feature flags, data snapshot id).

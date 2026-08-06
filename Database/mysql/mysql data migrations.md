@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#How to do a table migration between database]]
+
 ## How to do a table migration between database
 
 #### If different server

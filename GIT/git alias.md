@@ -4,6 +4,15 @@
 
 > One-line: shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Git aliases live in config (`~/.gitconfig` or repo `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.

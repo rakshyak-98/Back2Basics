@@ -15,6 +15,11 @@ export HISTCONTROL=ignoreboth;
 history -a; # Appends the history of the current session to the history file
 ```
 
+## Index
+
+- [[#Command history expansion]]
+- [[#History manipulation]]
+
 ## Command history expansion
 ```shell
 !!; # Repeats the last executed command;

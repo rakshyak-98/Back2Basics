@@ -1,3 +1,11 @@
+
+## Index
+
+- [[#**Quick Summary Table**]]
+- [[#**1NF (First Normal Form)**]]
+- [[#**2NF (Second Normal Form)**]]
+- [[#**3NF (Third Normal Form)**]]
+
 ## **Quick Summary Table**
 
 | **Normal Form** | **Rules**                                               |

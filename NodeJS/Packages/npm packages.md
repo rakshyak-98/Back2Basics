@@ -27,6 +27,12 @@
 - [node-cron](https://www.npmjs.com/package/node-cron) -> 
 	- `node-cron` schedules tasks in-memory within the NodeJS process - not at the OS level.
 
+## Index
+
+- [[#yup]]
+- [[#CORS]]
+- [[#multer]]
+
 ## yup
 ```js
 import * as yup from 'yup';

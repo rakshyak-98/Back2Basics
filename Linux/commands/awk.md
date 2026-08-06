@@ -2,6 +2,10 @@
 awk 'pattern { action }' file:
 ```
 
+## Index
+
+- [[#How to print user and their belonging groups]]
+
 ## How to print user and their belonging groups
 
 ```bash

@@ -5,6 +5,14 @@
 
 ---
 
+## Index
+
+- [[#Brief introduction]]
+- [[#What I created]]
+- [[#Tech stack]]
+- [[#What I learned]]
+- [[#Summary]]
+
 ## Brief introduction
 
 I built a demo for playing **DRM-protected streams** in the browser. The system connects a **streaming media server** (origin), a **multi-DRM license provider** (Widevine), an **HTML5 adaptive player**, and a **Node.js/Express** backend.

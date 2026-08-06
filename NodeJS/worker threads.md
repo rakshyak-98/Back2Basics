@@ -4,6 +4,15 @@
 
 > One-line: true OS threads inside one Node process for CPU-heavy work — share memory optionally via `SharedArrayBuffer`; don't replace cluster for HTTP scaling.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Worker threads run JavaScript (or wasm) **in parallel** with the main thread's event loop. Message passing is default; shared memory is opt-in.

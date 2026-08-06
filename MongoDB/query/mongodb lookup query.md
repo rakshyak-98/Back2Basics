@@ -77,6 +77,11 @@
   },
 ]
 ```
+
+## Index
+
+- [[#Populate single object instead of array]]
+
 ## Populate single object instead of array
 you can use the `$lookup` stage followed by the `$unwind` stage.
 

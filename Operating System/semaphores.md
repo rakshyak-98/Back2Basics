@@ -17,6 +17,10 @@
 ### Binary semaphores
 - used to implement locks
 
+## Index
+
+- [[#Operations]]
+
 ## Operations
 
 - **`wait()` (historically `P()` or `down`):** This operation decrements the semaphore's value. If the value becomes zero (or is already zero), the calling thread is blocked and put to sleep until the resource becomes available.

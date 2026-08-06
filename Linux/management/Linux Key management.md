@@ -8,6 +8,12 @@ openssl genpkey -algorithm RSA -out private_key.pem # without pass phrase
 openssl ecparam -name secp256k1 -genkey -noout -out private_key.pem
 ```
 
+## Index
+
+- [[#Generate CSR]]
+- [[#verify certificate]]
+- [[#Keymanager]]
+
 ## Generate CSR
 
 ```bash

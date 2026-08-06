@@ -4,6 +4,15 @@
 
 > **Private Docker registry in AWS** — store images per region/account; IAM controls push/pull; integrates with ECS/EKS/Lambda/EC2. Not Docker Hub; not interchangeable without auth + URL change.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ECR holds **repositories** of **image manifests + layers** (OCI-compatible). Each region has its own registry endpoint: `{account}.dkr.ecr.{region}.amazonaws.com`. Pull/push uses **IAM** (or bot IAM user in legacy setups) + short-lived **authorization token** from `ecr:GetAuthorizationToken`.

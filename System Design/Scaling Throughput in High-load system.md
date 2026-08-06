@@ -6,6 +6,9 @@ For an architecture managing high-density media streams, standard REST/HTTP para
 - Asynchronous Processing -> Move state-heavy operations to a background queue. The API should return `202 Accepted` immediately, and the internal worker pool (using a pre-warmed pool of NVENC contexts) handles the heavy lifting.
 - Connection Reuse -> Use gRPC over HTTP/2. Unlike traditional REST/HTTP1.1, gRPC maintains connections, reducing the CPU cost of constant TCP/TLS handshakes and enabling multiplexing (sending multiple requests over one stream).
 
+## Index
+
+- [[#When API hits a throughput wall, analyze these specific indicators]]
 
 ## When API hits a throughput wall, analyze these specific indicators
 

@@ -8,6 +8,17 @@ Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the *
 
 ---
 
+## Index
+
+- [[#Why Terraform (Brikman)]]
+- [[#Building blocks (Winkler)]]
+- [[#Resource]]
+- [[#Data source (read-only)]]
+- [[#Modules (Brikman — “how to stay DRY”)]]
+- [[#Registry]]
+- [[#State (preview)]]
+- [[#Related graph]]
+
 ## Why Terraform (Brikman)
 
 | Approach           | Problem                                                  |

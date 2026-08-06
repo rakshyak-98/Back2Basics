@@ -40,6 +40,20 @@ Object.getOwnPropertyDescriptor(Array.prototype, "indexOf")
   configurable: true
 }
 ```
+
+## Index
+
+- [[#Modules]]
+- [[#How does JavaScript handle errors]]
+- [[#Event Loops]]
+- [[#Transpilers]]
+- [[#Hoisting]]
+- [[#Asynchronous programming]]
+- [[#Stream]]
+- [[#de-bouncing]]
+- [[#Throttling]]
+- [[#Memoize]]
+
 ## Modules
 modules are reusable blocks of code that can be imported into other files.
 - used to encapsulate related code into a single unit of code that can be used in other parts of the program.

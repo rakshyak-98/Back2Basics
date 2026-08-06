@@ -4,6 +4,15 @@
 
 > One-line: read/write paths via `node:fs` — choose sync vs promise vs stream based on size and startup cost; never block the event loop on large sync I/O.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:

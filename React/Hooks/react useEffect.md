@@ -7,6 +7,11 @@ React's render must stay pure (no side effect when component is rendering).
 > [!NOTE]
 > - `useEffect()` runs after render.
 
+## Index
+
+- [[#Order of `useEffect`]]
+- [[#How to Handle State Synchronization Between Multiple useEffect Hooks]]
+
 ## Order of `useEffect`
 all `useEffect` hooks in a component run in the order they are written in the code, every time their dependency array changes (or on mount if empty).
 

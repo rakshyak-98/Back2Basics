@@ -13,6 +13,13 @@ m -> SGR command applies the color/style. The terminal wouldn't know you're talk
 
 `\[\e[<style>;<foreground>;<background>m\]`
 
+## Index
+
+- [[#PS1]]
+- [[#Habamax dark]]
+- [[#Catppuccin Mocha palette]]
+- [[#Gruvbox theme]]
+
 ## PS1
 ```bash
 PS1='\[\e[38;5;109m\]\u\[\e[38;5;250m\]@\[\e[38;5;110m\]\h \[\e[38;5;144m\]\w\[\e[0m\]\n\$ '

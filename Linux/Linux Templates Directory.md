@@ -1,6 +1,10 @@
 The `~/Templates` directory in Linux is part of the XDG user directories standard.
 - It allow you to create custom file templates that appear in your file manager's right click context menu
 
+## Index
+
+- [[#How it works]]
+
 ## How it works
 
 - Any file you place in `~/Templates` becomes a template option.

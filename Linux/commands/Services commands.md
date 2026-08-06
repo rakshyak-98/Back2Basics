@@ -4,6 +4,15 @@
 
 > One-line: operator cheat sheet for **systemd units** and **D-Bus** introspection — start/stop, failed units, bus traffic. **Modern Linux service management.**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 [[systemd]] manages **units** (service, socket, timer, mount). `systemctl` talks to PID 1 over D-Bus. Failed units stay marked until reset. D-Bus ([[busctl]], `dbus-monitor`) is the wire protocol many daemons expose beyond systemd.

@@ -1,3 +1,11 @@
+
+## Index
+
+- [[#Use case for `http.createServer(app)`]]
+- [[#Enabling WebSockets]]
+- [[#Handling Both HTTP & HTTPS Requests]]
+- [[#Graceful shutdown]]
+
 ## Use case for `http.createServer(app)`
 
 - this approach is useful in scenarios where you need more control over the HTTP server beyond what `app.linsten(port)` provides in Express.

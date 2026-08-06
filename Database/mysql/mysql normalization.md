@@ -2,6 +2,20 @@ Below is **MySQL normalization rules**, **short**, **structured**, **interview-o
 
 ---
 
+## Index
+
+- [[#Database Normalization]]
+- [[#1NF – First Normal Form]]
+- [[#2NF – Second Normal Form]]
+- [[#3NF – Third Normal Form]]
+- [[#BCNF – Boyce-Codd Normal Form]]
+- [[#4NF – Fourth Normal Form]]
+- [[#5NF – Fifth Normal Form]]
+- [[#Normalization vs Performance]]
+- [[#Interview-Ready Summary]]
+- [[#Common Edge Cases]]
+- [[#One-Line Answer (if rushed)]]
+
 ## Database Normalization
 
 Goal: **reduce redundancy, avoid anomalies, ensure data consistency**

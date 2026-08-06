@@ -2,6 +2,13 @@ is the process of writing effective instructions for a model such that it consis
 
 Context, Task, Constraints, and Persona
 
+## Index
+
+- [[#LLM]]
+- [[#Chain of thought]]
+- [[#Temperature, Top P, Tokens, and Context window]]
+- [[#Top P]]
+
 ## LLM
 LLM are pattern predictors that generate one token at a time. They predict the next most likely token based on the input provided. The generation happens token by token with no planning ahead, meaning LLMs only think while they are typing. They will most often predict the next most likely token, but sometimes may predict other likely tokens instead.
 

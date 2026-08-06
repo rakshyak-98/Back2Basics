@@ -8,6 +8,12 @@ D-Bus (Desktop Bus)
 > [!INFO]
 > switchboard where applications, system services, and background daemons can easily talk to each other without needing to know low-level details like sockets, port or PIDs.
 
+## Index
+
+- [[#Message Bus Architecture]]
+- [[#Use cases]]
+- [[#How to view the methods a service offers]]
+
 ## Message Bus Architecture
 
 - D-Bus operates on a message bus model

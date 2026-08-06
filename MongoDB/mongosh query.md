@@ -98,6 +98,10 @@ agg = [
 db.collection.aggrigate(agg);
 ```
 
+## Index
+
+- [[#Populate reference]]
+
 ## Populate reference
 
 ### Formatting date in query

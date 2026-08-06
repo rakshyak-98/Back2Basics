@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **RTMP** maintains a **persistent TCP connection** from **encoder (publisher)** to **ingest server**, sending **FLV-muxed** H.264/AAC (typical). Low protocol overhead → **~2–5 s glass-to-glass** to origin before packaging. **Players no longer use RTMP** in browsers (Flash removed); CDNs terminate RTMP at ingest and deliver **HTTP segments** to viewers.

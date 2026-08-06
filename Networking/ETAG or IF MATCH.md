@@ -27,6 +27,10 @@ If-Match: "a1b2c3d4"
 - Current ETag matches `If-Match` -> apply update, return new resource + new ETag.
 - Current ETag does not match (resource changed since client read it) -> reject with `412 Precondition Failed`. **Client must re-fetch and retry**.
 
+## Index
+
+- [[#Implementation]]
+
 ## Implementation
 
 Server side needs:

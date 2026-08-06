@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Installation aws cli]]
+
 ## Installation aws cli
 [aws cli installation linux](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 ```shell

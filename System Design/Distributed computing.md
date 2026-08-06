@@ -3,6 +3,11 @@ significant challenges:
 1. maintaining concurrency of components
 2. overcoming the [lack of a global clock](#Clock Synchronization)
 
+## Index
+
+- [[#Clock synchronization]]
+- [[#Clock drift]]
+
 ## Clock synchronization
 is a topic of computer science and engineering that aims to coordinate otherwise independent clocks.
 - real clocks will differ after some amount to time due to clock drift.

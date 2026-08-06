@@ -4,6 +4,15 @@
 
 > One-line: Linux **log aggregation** — systemd-journald (structured, indexed) plus legacy syslog files under `/var/log`. **Start every service incident with journalctl, not grep of random files.**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Applications log to **stdout/stderr** (captured by journald for systemd units), **syslog** (`/dev/log` socket), or directly to files (`/var/log/app/`). journald stores binary journals under `/var/log/journal/` (persistent) or `/run/log/journal/` (volatile). Priority follows syslog severity: emerg → alert → crit → err → warning → notice → info → debug.

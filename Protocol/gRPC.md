@@ -7,6 +7,10 @@ gRPC is an RPC framework operating fundamentally over HTTP/2, utilizing Protocol
 - Deserialization is extremely fast compared to JSON due to direct memory mapping capabilities and lack of string parsing.
 - CPU cost is heavily shifted toward bitwise operations (varint decoding) rather than lexical analysis.
 
+## Index
+
+- [[#Interface Definition (Protobuf IDL)]]
+
 ## Interface Definition (Protobuf IDL)
 
 As a backend developer, your source of truth is the `.proto` file. You do not write routing boilerplate; you define the contract and generate the server stubs.

@@ -27,6 +27,19 @@
 **Phases**: `Client Request → Server Response (Set-Cookie) → Client Stores → Subsequent Requests → Server Reads → Expiry / Manual Deletion`
 
 ---
+
+## Index
+
+- [[#1. **Creation (Server → Client)**]]
+- [[#2. **Storage (Client Side)**]]
+- [[#3. **Transmission (Client → Server)**]]
+- [[#4. **Usage (Server Side)**]]
+- [[#5. **Updating / Deleting**]]
+- [[#6. **Access Control**]]
+- [[#7. **Client-Side Manual Cookie Control**]]
+- [[#8. **Common Gotchas**]]
+- [[#Cookie Flow Summary]]
+
 ## 1. **Creation (Server → Client)**
 ### Server sets a cookie:
 - **HTTP Header**:

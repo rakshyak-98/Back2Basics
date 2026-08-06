@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Permission]]
+
 ## Permission
 
 ```mysql

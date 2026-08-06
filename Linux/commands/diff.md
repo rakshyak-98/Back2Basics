@@ -4,6 +4,15 @@
 
 > One-line: **line and tree comparison** — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `diff` compares **file contents line-by-line** (default unified output). For directories, combine `-r` with `-q` for a fast "any difference?" answer. Exit code matters in scripts: `0` = identical, `1` = different, `2` = error.

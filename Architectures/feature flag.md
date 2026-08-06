@@ -31,6 +31,10 @@ if(featureFlags.isEnabled('new-checkout')){
                  └───────────┘ └───────────┘
 ```
 
+## Index
+
+- [[#The Flag Service]]
+
 ## The Flag Service
 
 An API that stores flag definitions, targeting rules, and percentage allocations. This is where the logic lives: "Enable `new-pricing` for 20% of users in a region who are on the Pro plan". The service evaluates rules and returns flag states for a given user context.

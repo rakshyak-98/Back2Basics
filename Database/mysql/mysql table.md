@@ -36,6 +36,17 @@ CREATE TABLE table_name (
 )
 ```
 
+## Index
+
+- [[#Query table]]
+- [[#Create JSON type column]]
+- [[#update field]]
+- [[#Add columns to an existing table]]
+- [[#Constraint]]
+- [[#Auto Update field value when update query run]]
+- [[#Set foreign key constraints]]
+- [[#Pick column from one table and insert into to another]]
+
 ## Query table
 ```mysql
 SELECT 

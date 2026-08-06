@@ -3,6 +3,12 @@
 ## Zip tracked files only
 git archive -o archive.zip HEAD
 ```
+
+## Index
+
+- [[#zip]]
+- [[#Count how many files are in zip]]
+
 ## zip
 ```bash
 zip -e output.zip folder/; # password protect zip.

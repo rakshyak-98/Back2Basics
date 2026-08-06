@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Populating faker data using `faker-js`]]
+
 ## Populating faker data using `faker-js`
 
 ```ts

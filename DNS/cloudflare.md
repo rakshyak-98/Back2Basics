@@ -4,6 +4,15 @@
 
 > **Authoritative DNS + reverse proxy (orange cloud) + WAF/CDN/DDoS** — changes where traffic terminates and who sees origin IP. **Cloudflare docs** + migration incidents when proxy hid real client IP or broke TLS.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Cloudflare sits between users and origin: as **DNS provider** (nameservers → Cloudflare) and optionally **HTTP proxy** (proxied records). Proxied traffic: client → Cloudflare edge → your origin. **OID** identifies objects in Cloudflare API (zones, records, rulesets).

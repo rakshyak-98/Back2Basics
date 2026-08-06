@@ -15,6 +15,12 @@ single-transaction=TRUE
 ```
 
 	
+
+## Index
+
+- [[#Constraint safe update]]
+- [[#Dump configuration]]
+
 ## Constraint safe update
 
 **in `.my.cnf`** file

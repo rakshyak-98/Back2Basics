@@ -5,6 +5,20 @@ The sample code under `python/src/` is currently a flat set of scripts. To reuse
 
 ---
 
+## Index
+
+- [[#Target Layout]]
+- [[#Step 1: Create `pyproject.toml`]]
+- [[#Step 2: Create the Package Directory]]
+- [[#Step 3: Add `__init__.py`]]
+- [[#Step 4: Fix Imports in `cpix_client.py`]]
+- [[#Step 5: Update the Sample Script]]
+- [[#Step 6: Install Locally]]
+- [[#Step 7: Use in Other Projects]]
+- [[#Checklist]]
+- [[#Requirements]]
+- [[#Notes]]
+
 ## Target Layout
 
 ```

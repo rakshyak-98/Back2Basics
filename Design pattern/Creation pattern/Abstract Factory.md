@@ -4,6 +4,15 @@
 
 > Create families of related products without binding to concrete classes — **Dive Into Design Patterns** (Marketing platform = campaign + adset + creative + ad + insights).
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 When products must match as a **set** (Meta campaign service with Meta adset service — never mix Meta + Google mid-pipeline), declare one factory interface with a create method per product. Each platform gets one concrete factory that returns the whole consistent family.

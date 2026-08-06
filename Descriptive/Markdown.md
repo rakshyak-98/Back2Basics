@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Read from markdown file]]
+
 ## Read from markdown file
 
 ```js

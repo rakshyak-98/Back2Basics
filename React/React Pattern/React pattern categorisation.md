@@ -134,6 +134,9 @@ In a large-scale React application with 2000+ components, Categorisation compone
 4. **Utilize Linting and Testing**:
     - Ensure SRP and ISP compliance through static analysis and unit tests.
 
+## Index
+
+- [[#Container-Presentational Pattern]]
 
 ## Container-Presentational Pattern
 - Container Component: Manages state, logic, and API calls. 

@@ -12,6 +12,10 @@ APNs certificate is Apple's way of authenticating your backend server to send pu
 
 - Without `google-service.json` `Firebase.initializeApp()` usually fails on Android, so you won't get FCM tokens, push notification or device registration after login.
 
+## Index
+
+- [[#What the file contains]]
+
 ## What the file contains
 
 It’s generated in the [Firebase Console](https://console.firebase.google.com/) when you register your Android app. It includes things like:

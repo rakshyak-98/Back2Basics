@@ -59,6 +59,10 @@ Return IP
 - **Public resolvers** = “smart cache middlemen” that find and remember answers.
 ---
 
+## Index
+
+- [[#Trace the full DNS resolution path from your cli]]
+- [[#Classic DNS propagation/resolver difference issue]]
 
 ## Trace the full DNS resolution path from your cli
 

@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#`useEffect` (Classic Client-Side Fetching)]]
+- [[#React Suspense with use Hook]]
+
 ## `useEffect` (Classic Client-Side Fetching)
 
 ```jsx

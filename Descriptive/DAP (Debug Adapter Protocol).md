@@ -1,5 +1,10 @@
 Protocol designed to standardise the way development tools (like VS Code, IntelliJ, or Vim) talk to debugger (like [[gdb]], [[LLDB]], or NodeJS runtime debuggers).
 
+## Index
+
+- [[#DAP Architecture]]
+- [[#How DAP communication flow]]
+
 ## DAP Architecture
 
 DAP acts as a universal "Translator" or intermediate layer between the Development Tool (client) and Debugger (Server/Adapter).

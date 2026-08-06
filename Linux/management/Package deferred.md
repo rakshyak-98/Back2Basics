@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Understanding Phased Updates]]
+
 ## Understanding Phased Updates
 - Ubuntu uses phased updates to distribute package upgrades incrementally, reducing the risk of widespread issues if a new package version has bugs.
 - When a package is in the phasing process, it may not be immediately available to all users, even after running `sudo apt update`

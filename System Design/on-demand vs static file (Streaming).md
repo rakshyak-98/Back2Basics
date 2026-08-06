@@ -1,5 +1,9 @@
 - where your system absorbs the most load: storage versus compute.
 
+## Index
+
+- [[#The Static file Approach]]
+
 ## The Static file Approach
 
 - In this model, the media file (e.g., `.mp3` `.mp4`) are entirely pre-processed, encoded, and saved to a storage system before the user ever hits "play".

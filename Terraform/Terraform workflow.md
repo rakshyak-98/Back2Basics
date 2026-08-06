@@ -6,6 +6,18 @@
 
 ---
 
+## Index
+
+- [[#Mental model (both books)]]
+- [[#The four commands]]
+- [[#Dependency graph (Winkler)]]
+- [[#What `init` does]]
+- [[#What `plan` / `apply` do]]
+- [[#State: why it exists (Brikman)]]
+- [[#Lifecycle meta-arguments (Winkler)]]
+- [[#Safe team loop (Brikman)]]
+- [[#Related]]
+
 ## Mental model (both books)
 
 ```txt

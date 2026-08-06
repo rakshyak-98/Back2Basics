@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Create custom function in mongoose schema]]
+
 ## Create custom function in mongoose schema
 
 #### Instance method ( Custom method for a single document)

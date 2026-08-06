@@ -8,6 +8,11 @@ if you want nginx to handle other languages, you have two main routes.
 > [!INFO]
 > You can run multiple handlers at once and let Nginx route based on file extensions or URL path.
 
+## Index
+
+- [[#Use the language's own FastCGI handler]]
+- [[#Reverse proxy to an application server]]
+
 ## Use the language's own FastCGI handler
 ```nginx
 location ~ \.py$ {

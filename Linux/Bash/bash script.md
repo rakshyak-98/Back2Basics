@@ -17,6 +17,17 @@ chmod +x myscript.sh;
 ./myscript.sh
 ```
 
+## Index
+
+- [[#Variables]]
+- [[#Output echo]]
+- [[#User input: read]]
+- [[#Command-line arguments]]
+- [[#Conditionals (if-else)]]
+- [[#Loop]]
+- [[#Function]]
+- [[#Arithmetic]]
+
 ## Variables
 
 ```bash

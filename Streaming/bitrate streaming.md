@@ -6,6 +6,15 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Bitrate streaming** means encoding the same content at **multiple bitrates/resolutions** so the player ([[ABR]]) switches renditions without rebuffering. The **ladder** is the set of rungs; the **manifest** (HLS/DASH) advertises `BANDWIDTH` + `RESOLUTION` per rung.

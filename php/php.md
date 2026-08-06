@@ -4,6 +4,15 @@
 
 > Server-side language runtime — install extensions, pair with FPM, tune for web workloads.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 PHP executes per request (FPM worker pool) or CLI (cron, Composer). The **SAPI** (FPM, CLI, Apache module) loads `php.ini` + conf.d snippets. Composer manages dependencies; autoload maps classes. Production = FPM behind Nginx/Apache, opcache on, errors to log not browser.

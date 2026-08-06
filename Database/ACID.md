@@ -4,6 +4,17 @@
 
 > Transaction guarantees: all-or-nothing writes, valid states, predictable concurrency, survive crashes — **Designing Data-Intensive Applications** (Kleppmann, Ch. 7).
 
+## Index
+
+- [[#Mental model]]
+- [[#Isolation levels & anomalies]]
+- [[#Engine defaults (know before you deploy)]]
+- [[#Standard config / patterns]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 ACID is four independent knobs — databases implement each differently:

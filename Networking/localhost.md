@@ -1,4 +1,11 @@
 
+## Index
+
+- [[#What localhost means to each devices]]
+- [[#Why you need your computer’s IP]]
+- [[#How to host localhost with HTTPS]]
+- [[#Frontend Nginx config]]
+
 ## What localhost means to each devices
 `localhost` always means the device running the app, not "my dev machine" or "where the API lives".
 

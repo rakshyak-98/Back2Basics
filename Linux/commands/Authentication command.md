@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#ssh]]
+- [[#gnupg]]
+
 ## ssh
 ```bash
 ssh-keyscan <hostname>;

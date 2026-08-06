@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Split context into State and Actions]]
+- [[#Dynamic Context Modules Pattern]]
+
 ## Split context into State and Actions
 
 - Separate frequently changing state from stable actions.

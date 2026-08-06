@@ -132,6 +132,12 @@ binary programs : understood by machine directly
 
 text based scripts : understood by human which need to interpret and convert to machine every it is executed.
 
+## Index
+
+- [[#install]]
+- [[#Wildcard]]
+- [[#`/opt` directory short fro Optional]]
+
 ## install
 
 ```bash

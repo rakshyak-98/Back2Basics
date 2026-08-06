@@ -87,6 +87,11 @@ export default defineConfig(({ mode }) => ({
 
 ```
 
+## Index
+
+- [[#PostCSS]]
+- [[#Why does `npm run dev` work]]
+
 ## PostCSS
 - anytime your `import "./style.css"` in your code, vite runs the file through PostCSS pipeline.
 

@@ -1,5 +1,9 @@
 Imagine replacing the entire user interface with a completely different one - for example, swapping a graphical GUI for a command-line interface, a web app for a mobile app, or a desktop view for a voice-assisted interface. If your functional logic remains unchanged and reusable without touching UI-specific code, you've achieved good separation. This test forces you to keep domain calculations, data processing, and rules isolated from how data is displayed or user input is handled.
 
+## Index
+
+- [[#Common Architectural Patterns]]
+
 ## Common Architectural Patterns
 
 ### MVC (Model View Controller)

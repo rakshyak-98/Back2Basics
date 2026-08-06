@@ -4,6 +4,15 @@
 
 > One-line: `stream {}` module proxies raw TCP/UDP — use for databases, MQTT, TLS passthrough, or non-HTTP protocols; separate from `http {}`.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 The **stream** context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client and upstream. Two common patterns:

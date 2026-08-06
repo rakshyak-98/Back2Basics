@@ -29,6 +29,10 @@ writable.on('error', (err) => {
 })
 ```
 
+## Index
+
+- [[#Paused and Flowing Modes]]
+
 ## Paused and Flowing Modes
 Readable streams have two main modes that affect the way we can consume them. They can be either in the paused mode, or in the flowing mode. These modes are sometimes referred to as pull and push modes.
 - All readable streams start in the paused mode by default

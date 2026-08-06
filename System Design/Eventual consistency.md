@@ -3,6 +3,12 @@ is a consistency model used in [[Distributed computing]] to achieve high availab
 - Eventual consistency, also called *optimistic replication*
 - weak guarantee
 Most stronger models, like [[linerizability]] are trivially eventually consistent.
+
+## Index
+
+- [[#BASE]]
+- [[#Conflict resolution]]
+
 ## BASE
 Basically-Available Soft-state Eventual consistency
 ### Basically available

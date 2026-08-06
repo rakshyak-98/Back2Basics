@@ -6,6 +6,10 @@
 
 > [!INFO] clang provides clear and more human-readable error messages compared to other compilers, especially in C++ projects.
 
+## Index
+
+- [[#In firefox]]
+
 ## In firefox
 **Static analysis tools** help identify potential issues in the Firefox codebase before they become runtime bugs.
 **Clang Static analyzer** tool helps to catch memory leaks, uninitialized variables, and other errors that may be hard to spot during normal development.

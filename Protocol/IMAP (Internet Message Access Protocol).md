@@ -4,6 +4,15 @@
 
 > One-line: mailbox protocol — messages stay on server; folders, flags, UID sync; clients use 143/STARTTLS or 993/IMAPS.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 IMAP lets MUAs **read and organize mail on the server** (unlike [[POP3 (Post Office Protocol v3)]] which typically downloads and deletes). Server holds canonical state; client syncs flags (`\Seen`, `\Deleted`), folders, and UIDs. Multiple devices see the same mailbox.

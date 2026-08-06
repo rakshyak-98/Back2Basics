@@ -1,5 +1,21 @@
 # Go Backend Projects: Brief Specifications
 
+## Index
+
+- [[#**Beginner (Syntax, Structs, Testing)**]]
+- [[#**1. CLI Todo App**]]
+- [[#**2. URL Shortener CLI**]]
+- [[#**3. File Stats Analyzer**]]
+- [[#**Intermediate (APIs, DB, Concurrency)**]]
+- [[#**4. REST Task API** (Gin + PostgreSQL)]]
+- [[#**5. Chat Server** (WebSockets)]]
+- [[#**6. Rate Limited API Gateway**]]
+- [[#**Advanced (Distributed Systems)**]]
+- [[#**7. Distributed KV Store** (gRPC)]]
+- [[#**8. Hotel Booking Service** (Microservices)]]
+- [[#**9. Log Aggregator**]]
+- [[#**Production Checklist** (All Projects)]]
+
 ## **Beginner (Syntax, Structs, Testing)**
 
 ## **1. CLI Todo App**

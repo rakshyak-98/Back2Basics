@@ -9,6 +9,17 @@
 9. User interface
 10. Control Transfer
 
+## Index
+
+- [[#Debugger Initialization]]
+- [[#Operating System interaction]]
+- [[#Process break]]
+- [[#Context Switching]]
+- [[#Debugging Events]]
+- [[#Exception handling]]
+- [[#User and kernel modes]]
+- [[#Control transfer]]
+
 ## Debugger Initialization
 
 debugger is launched and attaches to the target process.

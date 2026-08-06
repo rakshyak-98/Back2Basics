@@ -4,6 +4,15 @@
 
 > One-line: file copy over SSH — reuses sshd auth and encryption; prefer `rsync -e ssh` or SFTP for large/recursive transfers with resume.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 SCP wraps **SSH** transport: authenticate like `ssh`, then copy files over encrypted channel. Syntax mirrors `cp` with remote `user@host:path`. Not a separate daemon — **sshd** on port 22 (or custom).

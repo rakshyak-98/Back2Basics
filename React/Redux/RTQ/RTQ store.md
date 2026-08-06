@@ -1,4 +1,8 @@
 
+## Index
+
+- [[#Store]]
+
 ## Store
 
 ### attach api react query slice (`createApi`)

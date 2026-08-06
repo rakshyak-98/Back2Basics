@@ -32,6 +32,17 @@ ffmpeg -i video.mp4 -itsoffset 0.5 -i audio.aac -map 0:v -map 1:a -c copy output
 ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac -b:a 192k output.mp4
 ```
 
+## Index
+
+- [[#Open transport stream files with tmux new session]]
+- [[#Choose compression]]
+- [[#Goal]]
+- [[#Each option]]
+- [[#Complete lifecycle]]
+- [[#Real-world use cases]]
+- [[#Edge cases]]
+- [[#Why `ffmpeg` for TC channels]]
+
 ## Open transport stream files with tmux new session
 
 ```bash

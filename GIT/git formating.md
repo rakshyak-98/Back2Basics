@@ -4,6 +4,15 @@
 
 > One-line: `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.

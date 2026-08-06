@@ -4,6 +4,15 @@
 
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirror JSON, Slate tree) synced to a visible **editable surface**. Toolbar commands mutate that model; export/publish serializes to HTML/Markdown/PDF.

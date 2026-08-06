@@ -4,6 +4,15 @@
 
 > **Who can do what to which resource** — users, groups, roles, policies, permission boundaries, and SCPs (org level). **AWS IAM best practices** + audit findings from over-privileged CI roles.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 IAM is AWS's authorization graph: **principals** (users, roles, federated identities) assume **policies** (identity-based + resource-based) evaluated at API call time. **Roles** (with [[aws STS (Security Token Service)]]) are the production default; **users + access keys** are legacy/break-glass.

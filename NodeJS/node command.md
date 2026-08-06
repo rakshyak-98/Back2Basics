@@ -4,6 +4,15 @@
 
 > One-line: the `node` executable and common flags — version pinning, env preload, inspect, and one-liners when npm scripts aren't enough.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.

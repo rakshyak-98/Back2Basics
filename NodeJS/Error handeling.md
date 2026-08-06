@@ -6,6 +6,10 @@ try{
 }
 ```
 
+## Index
+
+- [[#Creating Custom Error]]
+
 ## Creating Custom Error
 
 create errors with a custom name is to extend the built-in `Error` class using ES6 class syntax

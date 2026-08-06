@@ -4,6 +4,15 @@
 
 > One-line: lightweight pub/sub for devices and IoT — broker-centric topics, QoS 0/1/2, small headers; not a drop-in for HTTP REST or chat at web scale without ops discipline.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **MQTT** (Message Queuing Telemetry Transport) uses a **broker** (Mosquitto, EMQX, AWS IoT Core). Clients **publish** to **topics** (`sensors/room1/temp`); subscribers receive by topic filter (`sensors/+/temp`, `#` wildcard). Connection is long-lived TCP (often TLS on 8883).

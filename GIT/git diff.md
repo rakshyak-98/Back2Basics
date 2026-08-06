@@ -40,6 +40,10 @@ git diff -- . ':!node_modules';
 git diff --diff-filter=R --name-only;
 ```
 
+## Index
+
+- [[#Ignore some kind of changes]]
+
 ## Ignore some kind of changes
 
 ```bash

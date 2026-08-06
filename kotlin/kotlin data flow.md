@@ -43,6 +43,11 @@ Why was it added?
 > [!INFO]
 > `viewModels<>()` is an Android KTX helper function that returns a property delegate for a ViewModel.
 
+## Index
+
+- [[#Data flow]]
+- [[#Adapter]]
+
 ## Data flow
 
 ```text

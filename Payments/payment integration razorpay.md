@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Payment Capture in Razorpay]]
+
 ## Payment Capture in Razorpay
 
 **Definition**:  

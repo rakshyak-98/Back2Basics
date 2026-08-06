@@ -12,6 +12,10 @@ CREATE TABLE my_table () ENGINE=InnoDB;
 | ✅ **MVCC**              | Multi-Version Concurrency Control — enables non-blocking reads            |
 | ✅ **Clustered index**   | Primary key data is physically ordered with the table (performance boost) |
 
+## Index
+
+- [[#MySQL storage Engines comparison: `InnoDB` `MyISM` `MEMORY`]]
+
 ## MySQL storage Engines comparison: `InnoDB` `MyISM` `MEMORY`
 
 |Feature|InnoDB|MyISAM|MEMORY|

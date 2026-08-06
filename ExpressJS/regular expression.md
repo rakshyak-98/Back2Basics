@@ -4,6 +4,15 @@
 
 > Express path patterns are **not** full JavaScript RegExp — anchoring, capture groups, and `*` semantics differ; misread routes cause 404s, open redirects, and ReDoS.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Express compiles route strings into an internal matcher (via `path-to-regexp`). A route like `/users/:id` is **anchored** to the full path segment unless you opt into regex or wildcards.

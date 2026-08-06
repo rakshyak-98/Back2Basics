@@ -4,6 +4,15 @@
 
 > W3C recommendations for perceivable, operable, understandable, robust web content — legal and UX baseline — **WCAG 2.2 + WAI**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 WCAG defines **success criteria** grouped under four principles (**POUR**):

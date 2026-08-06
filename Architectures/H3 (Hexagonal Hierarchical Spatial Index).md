@@ -1,6 +1,13 @@
 - **H3** is an open-source spatial indexing system developed by Uber, designed to **partition Earth into a uniform hexagonal grid hierarchy**, enabling fast geospatial analytics and location-based data aggregation [h3geo.org+13Uber+13Uber+13](https://www.uber.com/en-BG/blog/h3/?utm_source=chatgpt.com).
 - It provides a **discrete global grid system** (DGGS) that supports multi-resolution indexing from **resolution 0 (coarse) to 15 (fine)**, with each resolution subdividing parent cells into child cells (approx. 7 children per parent) [Uber+4t1nak.github.io+4Reddit+4](https://t1nak.github.io/blog/2020/h3intro/?utm_source=chatgpt.com).
 
+## Index
+
+- [[#Why Hexagons?]]
+- [[#Core Concepts & Indexing]]
+- [[#Use Cases & Advantages]]
+- [[#Limitations & Edge Cases]]
+
 ## Why Hexagons?
 - **Equidistant neighbors**: All six neighbors of any hexagon are equidistant—simplifying spatial computations and reducing directional bias common in square/triangular grids [giskernel.com+2h3geo.org+2docs.heavy.ai+2](https://h3geo.org/docs/highlights/aggregation/?utm_source=chatgpt.com).
 - **Consistent area**: Hexagons offer more uniform coverage and lower quantization error for geographic sampling, compared to latitude-longitude grids [Esri+9Uber+9Uber+9](https://www.uber.com/en-BG/blog/h3/?utm_source=chatgpt.com).

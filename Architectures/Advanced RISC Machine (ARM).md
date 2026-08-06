@@ -4,6 +4,15 @@
 
 > RISC ISA dominating mobile and cloud — load/store architecture, fixed-width instructions, power-efficient — **ARMv8-A / AArch64 ops debugging**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **ARM** (Advanced RISC Machine) uses **Reduced Instruction Set Computing**: simple instructions, register-register ops, explicit load/store to memory. **AArch64** (64-bit) is the modern server and mobile baseline.

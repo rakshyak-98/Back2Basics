@@ -12,6 +12,10 @@ Ingress -> Traffic that comes in from the internet.
 > - Cache packages (create your own yum repo or Docker registry inside VPC)
 > - Use CloudWatch -> set retention to 1-3 months instead of "never expire"
 
+## Index
+
+- [[#How to check Ingress Egress usage]]
+
 ## How to check Ingress Egress usage
 
 ```bash

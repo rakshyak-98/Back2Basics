@@ -10,6 +10,18 @@ Terraform core does not know EC2 or GCE — it loads the provider, then asks it 
 
 ---
 
+## Index
+
+- [[#Declare source + version]]
+- [[#Configure the provider]]
+- [[#Aliases (multi-region / multi-account)]]
+- [[#How Terraform talks to providers]]
+- [[#Auth reminders]]
+- [[#Inspect providers]]
+- [[#Resource vs data for a provider]]
+- [[#Non-cloud providers]]
+- [[#Book takeaways]]
+
 ## Declare source + version
 
 ```hcl

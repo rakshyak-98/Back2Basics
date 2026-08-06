@@ -49,6 +49,10 @@ export const userReducer = userSlice.reducer
 
 ```
 
+## Index
+
+- [[#Use in component]]
+
 ## Use in component
 ```js
 // in a React component

@@ -8,6 +8,15 @@ lsof -i -P -n | grep LISTEN
 nc -zv <domain name> <port>; # check if the server is reachable on port 443;
 ```
 
+## Index
+
+- [[#Socket Statistics]]
+- [[#List open files]]
+- [[#`tcpdump`]]
+- [[#`nc`]]
+- [[#nslookup]]
+- [[#DNS settings]]
+
 ## Socket Statistics
 - list all ports and their protocols
 ## List open files

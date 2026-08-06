@@ -4,6 +4,15 @@
 
 > One-line: run **verified sandboxed programs in the kernel** to observe or steer traffic, syscalls, and latency — without loading a kernel module. **Kerrisk / BPF docs + production observability practice.**
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 eBPF is a **JIT’d bytecode VM inside the kernel**. You attach small programs to hooks (kprobes, tracepoints, XDP, tc, cgroup, LSM, …); the **verifier** proves they terminate and cannot crash the kernel; maps pass data to user space.

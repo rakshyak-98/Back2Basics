@@ -24,6 +24,13 @@ pm2 delete <app name | id | all>;
 	
 > [!WARNING] your current process `<app name> ` will not auto restart unless saved.
 
+## Index
+
+- [[#Config file]]
+- [[#pm2 deployment system]]
+- [[#pm2 process PID]]
+- [[#Log rotation]]
+
 ## Config file
 
 ```js

@@ -4,6 +4,15 @@
 
 > One-line: decode FATAL connection failures — role/auth, socket vs TCP, pg_hba, SSL, and pool exhaustion.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Client connects → **libpq** resolves host/port → TCP or Unix socket → Postgres **postmaster** spawns backend → **authentication** (pg_hba) → database session.

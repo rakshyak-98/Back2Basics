@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Abstraction and Implementation Hierarchies]]
+
 ## Abstraction and Implementation Hierarchies
 In software design, separate abstraction and implementation hierarchies refer to 
 - decoupling the high level logic (abstraction) from its underlying details (implementation).

@@ -27,6 +27,15 @@ Think in terms of What you're Optimizing
 ### Logic
 - increase the steps
 
+## Index
+
+- [[#Array]]
+- [[#Sub-array]]
+- [[#Fixed size window size is predetermined]]
+- [[#Variable size window window expands or shrinks dynamically based on constraints]]
+- [[#Dynamic sliding window (Two Pointers)]]
+- [[#Sliding window with frequency count]]
+
 ## Array
 
 > [!INTO]

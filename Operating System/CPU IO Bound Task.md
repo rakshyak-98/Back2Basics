@@ -14,6 +14,9 @@ CPU-bound task and IO-bound tasks are two fundamentally different types of **Wor
 |Typical scaling strategy|• More CPU cores • Multiprocessing • Faster CPU • Optimize algorithm|• More concurrent connections • Async I/O • Connection pooling • Caching|
 |Real-world feel|8-core CPU → can run ~8 such tasks efficiently at the same time|8-core CPU → can easily handle hundreds or thousands of such tasks concurrently|
 
+## Index
+
+- [[#Why mixing CPU-bound + IO-bound tasks in one shared thread pool causes serious problem]]
 
 ## Why mixing CPU-bound + IO-bound tasks in one shared thread pool causes serious problem
 

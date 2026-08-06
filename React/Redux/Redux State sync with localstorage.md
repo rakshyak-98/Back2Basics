@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Two way sync strategy]]
+
 ## Two way sync strategy
 
 localstorage -> slice

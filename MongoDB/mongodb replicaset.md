@@ -4,6 +4,15 @@
 
 > Primary + secondaries + oplog for durability and automatic failover — **MongoDB Manual** (Kleppmann-style distributed ops).
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A replica set is a group of mongod processes that replicate the same data. One **primary** accepts writes; **secondaries** pull from the primary's **oplog** (capped collection of operations). **Arbiters** vote in elections but hold no data. Members heartbeat each other; primary loss triggers election (~seconds).

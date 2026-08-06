@@ -18,6 +18,10 @@ The result is an object type where every key from K maps to a value of type T
 interface Response<ResBody = any>
 ```
 
+## Index
+
+- [[#declare keyword]]
+
 ## declare keyword
 - it is used to tell the compiler that a variable or property exists but is defined elsewhere.
 ### Typescript name-space definition

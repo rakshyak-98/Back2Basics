@@ -4,6 +4,15 @@
 
 > Anonymous field embedding — promotes methods and fields for convenient delegation; **not** classical inheritance; conflicts resolve by explicit outer rules.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 Embedding places a type inside another **without a field name**. The outer type **promotes** the embedded type's exported methods and fields to the outer type's method set.

@@ -25,6 +25,10 @@ touch -- -file.txt;
 ```
 - This runs the `cd` and `ls` commands in a sub-shell, so the working directory in the current shell remains unchanged.
 
+## Index
+
+- [[#Command history expansion]]
+- [[#Configuration setup]]
 
 ## Command history expansion
 ```shell

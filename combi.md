@@ -4,6 +4,13 @@
 
 > Rofi **combi** mode merges window switcher, app launcher, and run dialog into one fuzzy search — muscle memory launcher on Linux desktops.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Related]]
+
 ## Mental model
 
 Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`window`, `drun`, `run`) into a single filtered list. User types; rofi ranks matches across modes. Configured via CLI flags or `~/.config/rofi/config.rasi`.

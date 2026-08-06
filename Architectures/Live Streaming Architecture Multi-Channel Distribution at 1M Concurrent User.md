@@ -1,3 +1,18 @@
+
+## Index
+
+- [[#Executive Summary]]
+- [[#Architecture Layers]]
+- [[#Data Flow Summary]]
+- [[#Performance Characteristics]]
+- [[#Scaling Considerations]]
+- [[#Failure Modes & Resilience]]
+- [[#Operational Metrics & Monitoring]]
+- [[#Security & DRM Considerations]]
+- [[#Cost Optimization]]
+- [[#Conclusion]]
+- [[#Rungs]]
+
 ## Executive Summary
 
 Streaming 1M+ concurrent users across multiple live TV channels requires a distributed edge-caching model that offloads compute-heavy operations (ingest, encoding, packaging) to centralized origin infrastructure while distributing bandwidth delivery across a global Content Delivery Network (CDN). The architecture prioritizes:

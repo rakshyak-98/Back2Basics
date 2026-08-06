@@ -4,6 +4,15 @@
 
 > PCI DSS self-assessment path when checkout is fully outsourced — merchant attests reduced cardholder-data environment — **PCI SSC SAQ programs**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **SAQ** = merchant self-assessment against PCI DSS controls. **GSS (Guest Service System)** path applies when **all** payment acceptance is delegated to a validated third party — aligns with minimal-scope questionnaires (commonly **SAQ A** or provider-specific guidance).

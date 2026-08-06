@@ -1,4 +1,11 @@
 # Creating a stack from scratch
+
+## Index
+
+- [[#A FINANCIAL SERVICES WEB APPLICATION]]
+- [[#Rapid Prototyping of a Collaborative task management tool]]
+- [[#Maintaning a Legacy Enterprise Dashboard]]
+
 ## A FINANCIAL SERVICES WEB APPLICATION
 - YOu're developing a comprehensive web application for a financial service company. FOr this scenario, you want something that's trustworthy, secure, and scalable and that won't ruffle any feathers in senior management. You can't go wrong with The Enterprise Stack:
   - Pure Reach with Typescript as the foundation

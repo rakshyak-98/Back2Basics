@@ -1,3 +1,9 @@
+
+## Index
+
+- [[#Creating slice]]
+- [[#What are selectors]]
+
 ## Creating slice
 **`createSlice`** is a utility function in Redux Toolkit that **automatically generates both actions and a reducer** for you. It simplifies the process of managing state by bundling the actions and reducer logic together.
 

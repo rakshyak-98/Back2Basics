@@ -11,6 +11,10 @@ DEALLOCATE PROCEDURE stmt;
 SHOW STATUS LIKE "Prepared%";
 ```
 
+## Index
+
+- [[#View all the prepared statement]]
+
 ## View all the prepared statement
 ```sql
 SELECT STATEMENT_ID, STATEMENT_NAME, SQL_TEXT FROM performance_schema.prepared_statements_instances;

@@ -35,6 +35,13 @@ id;
 # 100+; are for users.
 ```
 
+## Index
+
+- [[#Configuration]]
+- [[#add new user]]
+- [[#How to manage Permissions]]
+- [[#Users]]
+
 ## Configuration 
 
 - To differentiate `user` and `group`, we user `%` for specify the group.

@@ -45,6 +45,10 @@ When you see just ALL ALL=(ALL) ALL (without the second :ALL), it means:
 
 > Can run as any **user**, but **not** as any arbitrary group (the group stays the original user's primary group unless -g is explicitly used).
 
+## Index
+
+- [[#Extending sudoers file to include user specific sudoers config files]]
+
 ## Extending sudoers file to include user specific sudoers config files
 
 > [!WARNING]

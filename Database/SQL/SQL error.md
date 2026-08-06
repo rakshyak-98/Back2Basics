@@ -13,6 +13,10 @@ The JDBC driver (e.g., `com.mysql.cj.jdbc.Driver`) needs that public key to perf
 SELECT user, plugin FROM mysql.user;
 ```
 
+## Index
+
+- [[#Show query]]
+
 ## Show query
 ```sql
 SHOW DATABASES;

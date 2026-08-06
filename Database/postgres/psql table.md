@@ -42,6 +42,11 @@ psql "postgresql://drm_tester:admin@localhost:5432/drm_streaming" \
   -c 'CREATE SCHEMA IF NOT EXISTS ott;'
 ```
 
+## Index
+
+- [[#Table details]]
+- [[#Schema]]
+
 ## Table details
 
 Schema -> The namespace containing the table (e.g., `public` `sales` `auth`) Multiple schemas can have tables with the same name.

@@ -33,6 +33,13 @@ this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/se
 
 - you're importing a vendored/interval version of React from `Next.js` RSC (`react.js [app-rsc]`) instead of the public React module.
 
+## Index
+
+- [[#Pre-render Error with NextJS]]
+- [[#Static image not loading when hosted on AWS ec2 instance]]
+- [[#`Collecting page data  ...TypeError: Super expression must either be null or a function, not undefined`]]
+- [[#No refresh page show 404 Not found error]]
+
 ## Pre-render Error with NextJS
 ```txt
 Error occured prerendering path /menu-items.

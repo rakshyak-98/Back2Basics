@@ -1,5 +1,10 @@
 [Firebase Multicast Message](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)
 
+## Index
+
+- [[#Multicast Message]]
+- [[#FirebaseMessagingError: tokens list must not contain more than 500 items]]
+
 ## Multicast Message
 
 > [!INFO] A single `MulticastMessage` may contain up to 500 registration tokens.

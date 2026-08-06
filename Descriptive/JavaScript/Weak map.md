@@ -52,6 +52,12 @@ john = null; // overwrite the reference
 // john is removed from memory;
 ```
 
+## Index
+
+- [[#Differences between Length and Size]]
+- [[#Arrays]]
+- [[#Maps]]
+
 ## Differences between Length and Size
 
 ## Arrays

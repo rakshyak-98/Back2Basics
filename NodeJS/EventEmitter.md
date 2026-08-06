@@ -4,6 +4,15 @@
 
 > One-line: pub/sub inside a Node process — decouple producers from listeners; foundation of streams, HTTP, and most core APIs.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 `EventEmitter` is Node's observer pattern: objects **emit** named events; registered listeners run synchronously in registration order (unless `setImmediate`/`async` inside handler).

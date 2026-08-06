@@ -21,6 +21,10 @@ systemctl show -p FragmentPath <service name>;
 find /etc/systemd /run/systemd /lib/systemd /usr/lib/systemd -name "nginx.service" 2>/dev/null
 ```
 
+## Index
+
+- [[#Debugging]]
+
 ## Debugging
 ```bash
 systemctl list-units --failed;

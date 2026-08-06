@@ -9,6 +9,10 @@ HTTP Live Streaming (HLS) is an adaptive bitrate video streaming protocol develo
 > [!INFO]
 > Because HLS relies on standard HTTP traffic (and the TCP transport protocol), it effortlessly bypasses standard firewalls and content filters that might block specialized streaming protocols. It does not required specialized streaming servers.
 
+## Index
+
+- [[#HLS Architecture & Backend Flow]]
+
 ## HLS Architecture & Backend Flow
 
 HLS is fundamentally a stateless, HTTP-based file delivery system rather than a persistent socket connection. This makes it highly cacheable but requires a robust packaging pipeline.

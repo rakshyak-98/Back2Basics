@@ -8,6 +8,18 @@ Most day-to-day work is the [[Terraform workflow]] quartet. This note covers fla
 
 ---
 
+## Index
+
+- [[#Everyday commands]]
+- [[#Init flags]]
+- [[#Plan / apply flags]]
+- [[#Logging (provider troubleshooting)]]
+- [[#Provider / schema inspection]]
+- [[#State subcommands (careful)]]
+- [[#Useful env vars]]
+- [[#First-time failure checklist]]
+- [[#Book takeaways]]
+
 ## Everyday commands
 
 ```shell

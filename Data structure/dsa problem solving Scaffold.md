@@ -1,3 +1,14 @@
+
+## Index
+
+- [[#Read and Restate the problem (Understand Precisely)]]
+- [[#Examples and Edge Cases (Build Intuition)]]
+- [[#Brute Force Approach (Start Simple)]]
+- [[#Optimise step by step (Derive Batter Logic)]]
+- [[#Pseudocode (Solidify Logic Blocks)]]
+- [[#Implementation and Testing (Execute Precisely)]]
+- [[#Reflection (internalise patters)]]
+
 ## Read and Restate the problem (Understand Precisely)
 
 - Read the problem statement twice. Identify: What is the input? What is the output What are the constrains (e.g., time limits, array sizes, value ranges)?

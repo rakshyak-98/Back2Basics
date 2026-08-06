@@ -4,6 +4,15 @@
 
 > Construct a complex object step by step — same construction process, different representations — **Dive Into Design Patterns + wizard → launch request**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 When an object needs many optional fields, nested parts, or ordered assembly (wizard screens → launch DTO), a Builder accumulates pieces then `build()` validates and returns the product. Director/pipeline can replay the same steps for different builders.

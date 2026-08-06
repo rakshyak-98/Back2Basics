@@ -2,6 +2,10 @@
 - graphical windowing system for bitmap displays, commonly used on Unix-like operating system such as Linux and BSD.
 - it provide fundamental framework for building **graphical user Interface**, managing graphical display, and handling input devices like keyboards and mice.
 
+## Index
+
+- [[#Client Server Architecture]]
+
 ## Client Server Architecture
 - X use a client-server model
 - X server control the display, which the X clients are applications that request the server to display their windows.

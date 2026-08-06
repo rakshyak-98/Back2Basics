@@ -1,3 +1,10 @@
+
+## Index
+
+- [[#PTS]]
+- [[#TTY Device files]]
+- [[#Virtual TTY]]
+
 ## PTS
 A pseudo-TTY is a software-based implementation of a TTY that enables terminal emulators, such as GNOME terminal, Console, and xterm etc. to function. When you launch a terminal emulator, it requests a PTS from the operating system, which is then used for input/output operations.
 

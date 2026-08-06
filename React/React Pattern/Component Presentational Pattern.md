@@ -1,3 +1,8 @@
+
+## Index
+
+- [[#Why use this pattern?]]
+
 ## Why use this pattern?
 - Logic (Container) is separate from UI (Presentational)
 - `Cart.jsx` can be used elsewhere with different data.

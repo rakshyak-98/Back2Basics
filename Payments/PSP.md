@@ -4,6 +4,15 @@
 
 > End-to-end payments intermediary — merchant accounts, processing, and often gateway UX — **Stripe/Adyen/Square class of vendors**.
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 A **PSP** connects **payers** and **merchants**: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.

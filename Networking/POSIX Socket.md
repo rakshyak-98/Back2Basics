@@ -1,3 +1,15 @@
+
+## Index
+
+- [[#Overview]]
+- [[#Core Functions]]
+- [[#Data Structures]]
+- [[#Client vs Server Workflow]]
+- [[#Properties]]
+- [[#Common Edge Cases]]
+- [[#OS socket bind]]
+- [[#Functional Mechanics]]
+
 ## Overview
 - **Definition**: Standardized API (POSIX) for inter-process & network communication using sockets.  
 - **Origin**: Based on BSD sockets, adopted by POSIX for portability.  

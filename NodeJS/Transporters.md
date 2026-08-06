@@ -12,6 +12,10 @@ Transporters abstraction over data transmission they handle how data moves betwe
 > Transporters are application-layer abstractions responsible for managing network I/O state machines, connection pooling, protocol negotiation, and the serialization/deserialization of payloads between the runtime environment and the underlying network sockets.
 - They encapsulate the complexity of raw TCP/UDP/UDS socket management, providing a unified interface for data transmission across various protocols (HTTP, gRPC, AMQP, MQTT).
 
+## Index
+
+- [[#Architecture & Lifecycle Mechanics]]
+- [[#Microservice Transporters (Message Brokers & RPC)]]
 
 ## Architecture & Lifecycle Mechanics
 

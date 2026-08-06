@@ -27,6 +27,10 @@ A heap is a tree-based structure that lets you always get the min and max elemen
 +---------------------+
 ```
 
+## Index
+
+- [[#Heap out or memory]]
+
 ## Heap out or memory
 
  >[!INFO]
