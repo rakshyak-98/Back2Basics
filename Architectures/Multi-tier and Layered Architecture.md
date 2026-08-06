@@ -1,4 +1,4 @@
-[[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[Database application]] [[Microservice]] [[Orchestration layer]] [[SOLID]] [[KISS]]
+[[Clean Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[Database application]] [[Microservice]] [[Orchestration layer]] [[SOLID]] [[KISS]]
 
 # Multi-tier and Layered Architecture
 
@@ -130,6 +130,8 @@ Layers exist **inside** a monolith, microservice, or mobile app. Two common mode
 | **Repository/DAO** | Queries, mapping rows ↔ domain | Business policy ("can user withdraw?") |
 
 ### Clean Architecture (Martin — dependency direction inward)
+
+→ Full reference: [[Clean Architecture]] (layers, Dependency Rule, DIP, lineage, code sketches, design-review triage).
 
 Martin organizes by **policy stability**, not call order. Inner = most abstract; outer = mechanisms/details.
 
@@ -482,7 +484,7 @@ FAIL when:
 
 ## Related
 
-**Layers in this vault:** [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Database application]] · [[Orchestration layer]]
+**Layers in this vault:** [[Clean Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Database application]] · [[Orchestration layer]]
 
 **Distribution & scale:** [[Microservice]] · [[distributed system]] · [[database sharding]] · [[stateless]] · [[event-driven]]
 
