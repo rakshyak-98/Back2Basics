@@ -2,7 +2,7 @@
 
 # Unbound
 
-> One-line: what / why for **Unbound** — source TBD.
+> Unbound — an open-source recursive DNS resolver developed by NLnet Labs. It performs _recursive resolution_, _DNSSEC validation_, and _DNS caching_, allowing it to resolve domain names directly from
 
 ---
 

@@ -2,7 +2,7 @@
 
 # npm command
 
-> One-line: what / why for **npm command** — source TBD.
+> npm command — the -- separates npm args from script args.
 
 ---
 

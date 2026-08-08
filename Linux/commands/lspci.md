@@ -2,7 +2,7 @@
 
 # lspci
 
-> One-line: list **PCI/PCIe devices** attached to the CPU — NICs, GPUs, storage controllers, USB bridges. **First step for "does the kernel see my hardware?"**
+> lspci — the kernel discovers PCI devices at boot and exposes them in /sys/bus/pci/devices/. lspci reads that tree and resolves vendor/device IDs via the pci.ids database.
 
 ---
 

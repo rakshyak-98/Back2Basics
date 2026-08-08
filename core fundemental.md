@@ -1,6 +1,6 @@
 # 🧠 40-Year Core Computer Science Knowledge Checklist
 
-> One-line: what / why for **🧠 40-Year Core Computer Science Knowledge Checklist** — source TBD.
+> 40-Year Core Computer Science Knowledge Checklist — [ ] Sorting, searching, hashing (merge sort, quicksort, binary search)
 
 ---
 

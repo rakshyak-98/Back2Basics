@@ -2,7 +2,7 @@
 
 # react-query
 
-> One-line: what / why for **react-query** — source TBD.
+> react-query — hard refresh (Ctrl + F5) clear the cache — because JS runtime is destroyed.
 
 ---
 

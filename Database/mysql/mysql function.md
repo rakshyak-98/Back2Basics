@@ -2,7 +2,7 @@
 
 # mysql function
 
-> One-line: what / why for **mysql function** — source TBD.
+> mysql function — CREATE FUNCTION function_name (param1 TYPE, param2 TYPE, ...)
 
 ---
 

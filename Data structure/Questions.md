@@ -2,7 +2,7 @@
 
 # Questions
 
-> To get below `O(n)^2`, I need to remember what I've seen. A Hash Map provides `O(1)` average time lookups.
+> DSA practice problems — drill patterns until the approach is muscle memory.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # API handling (React)
 
-> How the browser talks to backends — shared client, auth injection, cancellation, and cache ownership — **Martin Fowler (API client patterns)** + TanStack Query / RTK Query docs.
+> API handling (React) — component → hook (useQuery / useMutation) → api client (axios/fetch) → server
 
 ---
 

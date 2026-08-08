@@ -2,7 +2,7 @@
 
 # SOLID
 
-> Program to an interface, not an implementation. Depend on abstractions, not on concrete classes
+> SOLID — five OOP design rules that keep modules easy to change and test.
 
 ---
 

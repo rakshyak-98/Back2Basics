@@ -2,7 +2,7 @@
 
 # PostgreSQL Error: `inconsistent types deduced for parameter $n`
 
-> One-line: PostgreSQL inferred **different data types** for the **same placeholder (`$n`)** in one statement — fix by splitting placeholders or adding explicit casts.
+> PostgreSQL inferred **different data types** for the **same placeholder (`$n`)** in one statement — fix by splitting placeholders or adding explicit casts.
 
 ---
 

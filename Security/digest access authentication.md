@@ -2,7 +2,7 @@
 
 # digest access authentication
 
-> One-line: what / why for **digest access authentication** — source TBD.
+> digest access authentication — one of the agreed-upon methods a web server can use to negotiate credentials, such as username and password, with a user's web browser.
 
 ---
 

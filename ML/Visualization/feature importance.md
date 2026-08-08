@@ -2,7 +2,7 @@
 
 # Feature importance
 
-> Quantify which inputs drive predictions — impurity/Gain (trees), coefficients (linear), SHAP (model-agnostic) — **interpretability vs correctness tradeoffs**.
+> Feature importance — "Importance" is not one number — definition depends on method:
 
 ---
 

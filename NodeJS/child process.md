@@ -2,7 +2,7 @@
 
 # child process
 
-> One-line: what / why for **child process** — source TBD.
+> child process — order of execution of a set of asynchronous tasks is not important.
 
 ---
 

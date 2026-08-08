@@ -2,7 +2,7 @@
 
 # re-export file
 
-> One-line: what / why for **re-export file** — source TBD.
+> re-export file — ├── index.ts ← the barrel / re-export file
 
 ---
 

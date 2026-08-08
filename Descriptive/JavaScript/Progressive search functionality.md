@@ -2,7 +2,7 @@
 
 # Progressive search functionality
 
-> Typeahead / live search UX: **debounce**, cancel stale requests, and index for snappy feel without melting the API.
+> Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
 ---
 

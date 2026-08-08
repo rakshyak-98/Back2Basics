@@ -2,7 +2,7 @@
 
 # Express middleware
 
-> One-line: what / why for **Express middleware** — source TBD.
+> Express middleware — they provide a way to execute code, modify the request and response objects, end the request-response cycle, and call the next middleware function in the
 
 ---
 

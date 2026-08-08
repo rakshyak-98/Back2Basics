@@ -2,7 +2,7 @@
 
 # How to attach stream to HTTP handlers
 
-> One-line: what / why for **How to attach stream to HTTP handlers** — source TBD.
+> How to attach stream to HTTP handlers — .pipe(res) sends data directly to the client, reducing memory usage.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # on-demand vs static file (Streaming)
 
-> One-line: what / why for **on-demand vs static file (Streaming)** — source TBD.
+> on-demand vs static file (Streaming) — where your system absorbs the most load: storage versus compute.
 
 ---
 

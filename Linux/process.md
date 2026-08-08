@@ -2,7 +2,7 @@
 
 # process
 
-> One-line: what / why for **process** — source TBD.
+> process — pts - first terminal pseudo terminal slave window. A pair of virtual terminal devices that allow a terminal emulator gnome-terminal to communicate with a program as
 
 ---
 

@@ -2,7 +2,7 @@
 
 # SSH authentication
 
-> One-line: what / why for **SSH authentication** — source TBD.
+> SSH authentication — decrypting the signed challenge with the public key.
 
 ---
 

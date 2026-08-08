@@ -2,7 +2,7 @@
 
 # ffprobe
 
-> One-line: what / why for **ffprobe** — source TBD.
+> ffprobe — pts_time — (Presentation Timestamp Time) is the time (in seconds) at which a frame (video) re-sample (audio) should be presented (played) to the user.
 
 ---
 

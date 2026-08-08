@@ -2,7 +2,7 @@
 
 # Bar code generate feature
 
-> One-line: what / why for **Bar code generate feature** — source TBD.
+> Bar code generate feature — short field notes on what it is and how to use it.
 
 ---
 

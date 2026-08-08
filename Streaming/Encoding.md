@@ -2,7 +2,7 @@
 
 # Encoding
 
-> Raw A/V → compressed bitstream for storage or delivery — **first permanent quality decision** in the pipeline.
+> Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
 ---
 

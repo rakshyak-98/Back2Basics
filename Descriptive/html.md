@@ -2,7 +2,7 @@
 
 # html
 
-> One-line: what / why for **html** — source TBD.
+> html — browser make a default request for favicon.ico on each page load.
 
 ---
 

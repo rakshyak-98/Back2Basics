@@ -2,7 +2,7 @@
 
 # Github cli (2)
 
-> One-line: what / why for **Github cli (2)** — source TBD.
+> Github cli (2) — short field notes on what it is and how to use it.
 
 ---
 

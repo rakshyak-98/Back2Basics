@@ -2,7 +2,7 @@
 
 # User web server gateway interface
 
-> One-line: what / why for **User web server gateway interface** — source TBD.
+> User web server gateway interface — uWSGI acts as a bridge between your web application and the web server (like Nginx or Apache). It takes care of communication
 
 ---
 

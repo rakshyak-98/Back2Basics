@@ -2,7 +2,7 @@
 
 # go functions
 
-> One-line: what / why for **go functions** — source TBD.
+> go functions — func add(a int, b int) int {
 
 ---
 

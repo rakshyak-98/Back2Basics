@@ -2,7 +2,7 @@
 
 # CGI
 
-> One-line: what / why for **CGI** — source TBD.
+> CGI — common Gateway Interface — is a standard protocol that allows a web server to interact with external programs (called CGI scripts or programs) to generate dynamic
 
 ---
 

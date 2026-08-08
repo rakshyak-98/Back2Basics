@@ -2,7 +2,7 @@
 
 # Linux process commands
 
-> One-line: what / why for **Linux process commands** — source TBD.
+> Linux process commands — c → Toggle full command path
 
 ---
 

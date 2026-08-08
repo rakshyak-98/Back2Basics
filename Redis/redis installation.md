@@ -2,7 +2,7 @@
 
 # redis installation
 
-> Install Redis as a managed service — bind address, auth/ACL, memory cap, and persistence before exposing beyond localhost.
+> redis installation — package / image ──► redis-server ──► reads redis.conf
 
 ---
 

@@ -2,7 +2,7 @@
 
 # React style inside component
 
-> CSS colocated with JSX — CSS Modules, styled-components, **`styled-jsx` (Next.js)** — scope styles to component without global leaks — **CSS-in-JS tradeoffs**.
+> React style inside component — CSS Modules (*.module.css) → build-time scoped class names (Vite default)
 
 ---
 

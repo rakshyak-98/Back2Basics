@@ -2,7 +2,7 @@
 
 # Redux createAsyncThunk
 
-> One-line: what / why for **Redux createAsyncThunk** — source TBD.
+> Redux createAsyncThunk — if (!res.ok) return thunkAPI.rejectWithValue('Fetch failed')
 
 ---
 

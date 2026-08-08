@@ -2,7 +2,7 @@
 
 # Fresh system sudo setup
 
-> One-line: **bootstrap a non-root admin safely** — sudo group, key-based SSH, visudo edits, and recovery paths before you lock yourself out. **First-boot checklist for VPS/bare metal.**
+> Fresh system sudo setup — install ──► create admin user ──► SSH key auth ──► verify sudo ──► harden sshd ──► disable root password login
 
 ---
 

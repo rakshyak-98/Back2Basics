@@ -2,7 +2,7 @@
 
 # dnsmasq
 
-> One-line: what / why for **dnsmasq** — source TBD.
+> dnsmasq — a lightweight network service that combines DNS forwarding, DNS caching, DHCP, and TFTP functionality into a single, compact application. It is widely used on home routers
 
 ---
 

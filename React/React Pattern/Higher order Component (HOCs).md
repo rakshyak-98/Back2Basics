@@ -2,7 +2,7 @@
 
 # Higher order Component (HOCs)
 
-> One-line: what / why for **Higher order Component (HOCs)** — source TBD.
+> Higher order Component (HOCs) — a Higher-Order component (HOC) is a function that takes a component and returns a new enhanced component.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Slack (ops & alerting)
 
-> **Team notification bus for on-call** — Incoming Webhooks, Bot tokens, Workflow Builder, and Slack CLI for deploy/CI signals. Not a product pitch; wiring alerts that don't spam or leak secrets.
+> Slack (ops & alerting) — slack receives HTTP POST (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: Alertmanager/PagerDuty/CI → Slack
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Check all locations for a specific unit
 
-> One-line: what / why for **Check all locations for a specific unit** — source TBD.
+> Check all locations for a specific unit — /etc/systemd/system/ # Administrator-created units (highest priority)
 
 ---
 

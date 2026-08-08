@@ -2,7 +2,7 @@
 
 # Payment gateway
 
-> Merchant-facing HTTP/API front door to payment networks — authorizes and captures without merchant touching card rails directly — **e-commerce integration model**.
+> Payment gateway — a payment gateway sits between merchant site/POS and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns auth/capture result.
 
 ---
 

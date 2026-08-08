@@ -2,7 +2,7 @@
 
 # go build
 
-> Compile Go packages/binaries with module-aware dependency resolution — `go.mod` is the source of truth.
+> go build — go modules (go.mod + go.sum) replace GOPATH-era vendoring chaos. go build resolves imports, compiles packages, links a static binary (by default). Cross-compile via
 
 ---
 

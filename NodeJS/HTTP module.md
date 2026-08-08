@@ -2,7 +2,7 @@
 
 # HTTP module
 
-> One-line: what / why for **HTTP module** — source TBD.
+> HTTP module — this approach is useful in scenarios where you need more control over the HTTP server beyond what app.linsten(port) provides in Express.
 
 ---
 

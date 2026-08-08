@@ -2,7 +2,7 @@
 
 # mysql concepts
 
-> One-line: what / why for **mysql concepts** — source TBD.
+> mysql concepts — await using and using leverage Explicit Resource Management to automatically call .end() or .release() when the variable goes out of scope, so you never forget
 
 ---
 

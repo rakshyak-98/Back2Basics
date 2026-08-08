@@ -2,7 +2,7 @@
 
 # address port
 
-> One-line: what / why for **address port** — source TBD.
+> address port — these terms describe the two endpoints of a network connection:
 
 ---
 

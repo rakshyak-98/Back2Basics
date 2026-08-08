@@ -2,7 +2,7 @@
 
 # payment integration razorpay
 
-> One-line: what / why for **payment integration razorpay** — source TBD.
+> payment integration razorpay — payment capture in Razorpay is the process of confirming and securing a payment after it has been authorized. It ensures that the authorized amount
 
 ---
 

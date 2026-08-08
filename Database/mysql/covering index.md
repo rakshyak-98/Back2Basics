@@ -2,7 +2,7 @@
 
 # covering index
 
-> Secondary index that contains **all columns the query needs** — InnoDB skips the clustered-index lookup — **High Performance MySQL** (Schwartz et al.).
+> covering index — innoDB secondary indexes store (index_cols…, PK) in a B+ tree. Non-covering query:
 
 ---
 

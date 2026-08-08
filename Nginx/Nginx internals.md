@@ -2,7 +2,7 @@
 
 # Nginx internals
 
-> Event-driven master/worker proxy — how requests flow through phases, upstream pools, and the filesystem — **nginx.org dev docs** + production 502 debugging.
+> Nginx internals — worker 1 worker 2 worker N (non-root, event loop each)
 
 ---
 

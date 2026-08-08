@@ -2,7 +2,7 @@
 
 # Estimator (ML / statistics)
 
-> An object that **learns parameters from data** via `fit` and **applies** them via `predict` / `transform` — scikit-learn's uniform API — **Pedregosa et al. (sklearn)**.
+> Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
 ---
 

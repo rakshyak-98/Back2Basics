@@ -2,7 +2,7 @@
 
 # AWS Networking
 
-> VPC + subnets + routing + SG/NACL — the **network shell** every AWS service lives in. **AWS Well-Architected (Reliability/Security)** + on-call VPC debug muscle memory.
+> AWS Networking — internet ──► IGW ──► public subnet (ALB, bastion)
 
 ---
 

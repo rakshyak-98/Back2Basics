@@ -2,7 +2,7 @@
 
 # CPU IO Bound Task
 
-> One-line: what / why for **CPU IO Bound Task** — source TBD.
+> CPU IO Bound Task — CPU-bound — your CPU is the one sweating
 
 ---
 

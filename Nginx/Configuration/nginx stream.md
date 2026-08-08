@@ -2,7 +2,7 @@
 
 # Nginx Stream (L4 TCP/UDP Proxy)
 
-> One-line: `stream {}` module proxies raw TCP/UDP — use for databases, MQTT, TLS passthrough, or non-HTTP protocols; separate from `http {}`.
+> Nginx Stream (L4 TCP/UDP Proxy) — the stream context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client
 
 ---
 

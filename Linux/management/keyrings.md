@@ -2,7 +2,7 @@
 
 # keyrings
 
-> One-line: what / why for **keyrings** — source TBD.
+> keyrings — managing GNOME Keyrings involves creating, accessing, and securing stored credentials, passwords, and other sensitive data. Here are key points to effectively manage GNOME Keyrings:
 
 ---
 

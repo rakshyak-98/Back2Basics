@@ -2,7 +2,7 @@
 
 # STDOUT
 
-> One-line: what / why for **STDOUT** — source TBD.
+> STDOUT — it is the best tool for debugging why a specific version of a program is (or isn't) being installed.
 
 ---
 

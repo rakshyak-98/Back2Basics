@@ -2,7 +2,7 @@
 
 # thread pool
 
-> One-line: what / why for **thread pool** — source TBD.
+> thread pool — a thread pool is a common pattern in concurrent/multithreaded programming.
 
 ---
 

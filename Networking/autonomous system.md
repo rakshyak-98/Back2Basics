@@ -2,7 +2,7 @@
 
 # Autonomous system
 
-> A network (or set of prefixes) under one administrative routing policy, identified globally by an **ASN** — the unit BGP uses to exchange reachability.
+> Autonomous system — an Autonomous System (AS) is how the Internet names who owns which IP blocks at the routing layer:
 
 ---
 

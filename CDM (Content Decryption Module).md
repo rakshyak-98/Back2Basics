@@ -2,7 +2,7 @@
 
 # CDM (Content Decryption Module)
 
-> One-line: what / why for **CDM (Content Decryption Module)** — source TBD.
+> CDM (Content Decryption Module) — decrypts DRM media inside a secure player sandbox.
 
 ---
 

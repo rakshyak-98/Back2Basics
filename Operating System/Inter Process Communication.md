@@ -2,7 +2,7 @@
 
 # Inter Process Communication
 
-> One-line: what / why for **Inter Process Communication** — source TBD.
+> Inter Process Communication — mechanisms provided by an operating system
 
 ---
 

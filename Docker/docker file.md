@@ -2,7 +2,7 @@
 
 # docker file
 
-> One-line: what / why for **docker file** — source TBD.
+> docker file — to run a specific command on container restart, you should configure the ENTRYPOINT or CMD block in the Dockerfile
 
 ---
 

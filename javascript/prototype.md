@@ -2,7 +2,7 @@
 
 # prototype
 
-> One-line: what / why for **prototype** — source TBD.
+> prototype — property points to constructor property of the function you create and not to the build-in Object().
 
 ---
 

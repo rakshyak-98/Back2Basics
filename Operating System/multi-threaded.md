@@ -2,7 +2,7 @@
 
 # multi-threaded
 
-> One-line: what / why for **multi-threaded** — source TBD.
+> multi-threaded — languages can leverage multiple CPU cores to perform parallel computation, significantly speeding up tasks that are computationally intensive, such as scientific calculations, data processing and rendering.
 
 ---
 

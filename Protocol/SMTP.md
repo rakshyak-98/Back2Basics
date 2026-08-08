@@ -2,7 +2,7 @@
 
 # SMTP
 
-> One-line: push protocol for MTA-to-MTA mail relay — submission on 587/TLS, legacy 25, implicit TLS 465 — **RFC 5321**.
+> SMTP — command/response between mail agents. Submission (client → MSA, port 587) differs from relay (MTA → MTA, port 25). Delivery authenticity is enforced separately via
 
 ---
 

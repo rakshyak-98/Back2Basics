@@ -2,7 +2,7 @@
 
 # React Application Architecture for Production
 
-> One-line: what / why for **React Application Architecture for Production** — source TBD.
+> React Application Architecture for Production — being able to use multiple rendering strategies is probably the main reason why we want to use NextJS
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Edge orchestration tools for industrial IoT
 
-> One-line: what / why for **Edge orchestration tools for industrial IoT** — source TBD.
+> Edge orchestration tools for industrial IoT — edge orchestration coordinates AI models, applications, and resources across distributed edge devices, enabling dynamic deployment, updates, monitoring, and scaling in real-time
 
 ---
 

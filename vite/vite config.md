@@ -2,7 +2,7 @@
 
 # vite config
 
-> One-line: what / why for **vite config** — source TBD.
+> vite config — a module runner is instantiated in the target runtime.
 
 ---
 

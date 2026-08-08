@@ -2,7 +2,7 @@
 
 # linker
 
-> One-line: what / why for **linker** — source TBD.
+> linker — takes one or more object code (generated be a compiler or an assembler) and combines them into a single executable file, library file or another object
 
 ---
 

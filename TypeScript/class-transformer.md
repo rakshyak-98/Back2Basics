@@ -2,7 +2,7 @@
 
 # class-transformer
 
-> One-line: what / why for **class-transformer** — source TBD.
+> class-transformer — import { plainToInstance, Exclude, Expose } from "class-transformer";
 
 ---
 

@@ -2,7 +2,7 @@
 
 # de facto standard
 
-> Practice or product so widely adopted it **behaves like** a standard — without formal standards-body ratification (contrast **de jure**).
+> De facto standard — so widely used it behaves like a standard without formal ratification.
 
 ---
 

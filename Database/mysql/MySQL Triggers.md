@@ -2,7 +2,7 @@
 
 # MySQL triggers
 
-> One-line: automatic SQL on INSERT/UPDATE/DELETE — audit, denormalization, validation; hidden logic that breaks migrations and surprises ORMs.
+> MySQL triggers — BEFORE INSERT trigger (validate, set defaults)
 
 ---
 

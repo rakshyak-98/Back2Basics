@@ -2,7 +2,7 @@
 
 # Nodemailer Transporter
 
-> One-line: configured SMTP (or SES/transport plugin) instance that sends mail — create once at boot, reuse for all messages; auth and TLS live on the transporter.
+> Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call transporter.sendMail(mailOptions) per message.
 
 ---
 

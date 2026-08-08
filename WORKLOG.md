@@ -1,6 +1,6 @@
 # Work Log — DRM Streaming Demo
 
-> One-line: what / why for **Work Log — DRM Streaming Demo** — source TBD.
+> Work Log — DRM Streaming Demo — project: Browser DRM playback demo (streaming origin + Widevine + license server)
 
 ---
 

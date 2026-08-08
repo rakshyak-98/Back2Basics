@@ -2,7 +2,7 @@
 
 # OS program
 
-> One-line: what / why for **OS program** — source TBD.
+> OS program — linux processes operate in two distinct areas: user space and kernel space. - user space is where user applications run, while kernel space is reserved
 
 ---
 

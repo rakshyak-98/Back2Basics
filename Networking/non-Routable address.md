@@ -2,7 +2,7 @@
 
 # non-Routable address
 
-> One-line: what / why for **non-Routable address** — source TBD.
+> non-Routable address — a non-routable address is an IP address that cannot be used for communication beyond its local network. These addresses are used for internal communication
 
 ---
 

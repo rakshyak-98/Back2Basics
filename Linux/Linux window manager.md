@@ -2,7 +2,7 @@
 
 # Linux window manager
 
-> One-line: what / why for **Linux window manager** — source TBD.
+> Linux window manager — configure: /etc/systemd/system/ or /usr/lib/systemd/system/ if it doesn't exist, you may need to reinstall the gdm3 package.
 
 ---
 

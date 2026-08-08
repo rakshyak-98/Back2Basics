@@ -2,7 +2,7 @@
 
 # Middleware
 
-> One-line: what / why for **Middleware** — source TBD.
+> Middleware — it's intended to be a lightweight alternative to more widely used redux async middleware like sagas and observable.
 
 ---
 

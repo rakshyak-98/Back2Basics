@@ -2,7 +2,7 @@
 
 # EditorConfig (editor config)
 
-> One-line: **`.editorconfig` — one repo-root file so every editor agrees on indent, charset, and EOL** — stops the PR wars between "tabs vs spaces" and fixes mixed line-ending CI failures.
+> `.editorconfig` — one repo-root file so every editor agrees on indent, charset, and EOL — stops the PR wars between "tabs vs spaces" and fixes mixed
 
 ---
 

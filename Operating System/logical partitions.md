@@ -2,7 +2,7 @@
 
 # logical partitions
 
-> One-line: what / why for **logical partitions** — source TBD.
+> logical partitions — a technology that allows a single physical server to be divided into multiple independent virtual environments.
 
 ---
 

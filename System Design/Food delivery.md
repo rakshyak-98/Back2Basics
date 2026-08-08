@@ -2,7 +2,7 @@
 
 # Food delivery
 
-> One-line: what / why for **Food delivery** — source TBD.
+> Food delivery — 100 million daily active users (DAU)
 
 ---
 

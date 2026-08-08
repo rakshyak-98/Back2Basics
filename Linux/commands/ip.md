@@ -2,7 +2,7 @@
 
 # ip
 
-> One-line: **iproute2** Swiss army knife — links, addresses, routes, neighbors, tunnels. **Modern replacement for ifconfig/route/netstat.** Kerrisk.
+> ip — network config is objects: link (interface), address (IP on link), route (forwarding decision), rule (PBR). ip talks netlink to the kernel — same API
 
 ---
 

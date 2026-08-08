@@ -2,7 +2,7 @@
 
 # symmetrical encryption
 
-> One-line: what / why for **symmetrical encryption** — source TBD.
+> symmetrical encryption — one key used to encrypt and decrypt between the participant.
 
 ---
 

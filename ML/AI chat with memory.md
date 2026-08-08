@@ -2,7 +2,7 @@
 
 # AI chat with memory
 
-> LLMs are stateless per request — "memory" is **context you re-inject** each turn (history, summaries, RAG chunks) — **OpenAI / Anthropic API docs**.
+> AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
 ---
 

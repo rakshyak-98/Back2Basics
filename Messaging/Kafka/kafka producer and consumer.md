@@ -2,7 +2,7 @@
 
 # kafka producer and consumer
 
-> One-line: what / why for **kafka producer and consumer** — source TBD.
+> kafka producer and consumer — a kafka producer is a component responsible for sending messages (events) to Kafka topics.
 
 ---
 

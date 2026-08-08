@@ -2,7 +2,7 @@
 
 # Next JS
 
-> One-line: what / why for **Next JS** — source TBD.
+> Next JS — error: Invalid src prop (https://picsum.photos/seed/DUeHUGir/1880/2247) on next/image, hostname "picsum.photos" is not configured under images in your next.config.js See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
 
 ---
 

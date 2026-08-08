@@ -2,7 +2,7 @@
 
 # Streaming
 
-> DRM (Digital Right Management) -> fits after ingestion and transcoding, but before playback by viewers.
+> Streaming hub — ingest, package, protect, and play live or on-demand video.
 
 ---
 

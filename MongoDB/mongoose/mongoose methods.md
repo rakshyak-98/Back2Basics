@@ -2,7 +2,7 @@
 
 # mongoose methods
 
-> One-line: what / why for **mongoose methods** — source TBD.
+> mongoose methods — avoid the overhead of Mongoose wrapper functions and features.
 
 ---
 

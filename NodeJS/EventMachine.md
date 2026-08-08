@@ -2,7 +2,7 @@
 
 # EventMachine
 
-> One-line: what / why for **EventMachine** — source TBD.
+> EventMachine — an event-driven I/O and light-weight concurrency library for Ruby. It provides event-driven I/O using the Reactor pattern, much like JBoss Netty, Apache MINA. Python
 
 ---
 

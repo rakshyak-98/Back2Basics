@@ -2,7 +2,7 @@
 
 # npm packages
 
-> One-line: what / why for **npm packages** — source TBD.
+> npm packages — lodash - JavaScript utility library
 
 ---
 

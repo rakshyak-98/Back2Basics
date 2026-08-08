@@ -2,7 +2,7 @@
 
 # and define "github-personal" in ~/.ssh/config with the right IdentityFile
 
-> One-line: what / why for **and define "github-personal" in ~/.ssh/config with the right IdentityFile** — source TBD.
+> and define "github-personal" in ~/.ssh/config with the right IdentityFile — use ssh-agent to hold your keys in memory. This prevents the need to type the passphrase
 
 ---
 

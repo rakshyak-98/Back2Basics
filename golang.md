@@ -1,6 +1,6 @@
 # golang
 
-> One-line: what / why for **golang** — source TBD.
+> Go language folder hub — syntax, concurrency, tooling, and project layout.
 
 ---
 

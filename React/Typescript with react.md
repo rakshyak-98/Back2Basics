@@ -2,7 +2,7 @@
 
 # Typescript with react
 
-> One-line: what / why for **Typescript with react** — source TBD.
+> Typescript with react — react has a built-in interface, Reducer that takes two type arguments: the state and the action interface, both of which are readily available.
 
 ---
 

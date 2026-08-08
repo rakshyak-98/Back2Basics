@@ -2,7 +2,7 @@
 
 # IIFC
 
-> One-line: what / why for **IIFC** — source TBD.
+> IIFC — it helps you wrap an amount of work your want to do without leaving any global variables behind.
 
 ---
 

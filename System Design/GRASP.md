@@ -2,7 +2,7 @@
 
 # GRASP
 
-> One-line: what / why for **GRASP** — source TBD.
+> GRASP — who does what. Which class or object is responsible for what action or role.
 
 ---
 

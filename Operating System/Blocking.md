@@ -2,7 +2,7 @@
 
 # Blocking
 
-> One-line: what / why for **Blocking** — source TBD.
+> Blocking — → Blocking Vs Non-Blocking · non-blocking
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Runtime
 
-> The executing phase of a program — allocation, calls, I/O, and dynamic dispatch happen here, not at compile/link time.
+> Runtime — compile time fixes types and layout (mostly). Runtime is everything that happens while the process is alive:
 
 ---
 

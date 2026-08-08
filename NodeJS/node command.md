@@ -2,7 +2,7 @@
 
 # node command
 
-> One-line: the `node` executable and common flags — version pinning, env preload, inspect, and one-liners when npm scripts aren't enough.
+> node command — node is the V8 runtime entrypoint. It loads your script (CJS or ESM per node package json "type"), applies V8 flags after --
 
 ---
 

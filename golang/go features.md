@@ -2,7 +2,7 @@
 
 # go features
 
-> One-line: what / why for **go features** — source TBD.
+> go features — // Override methods. This is method shadowing
 
 ---
 

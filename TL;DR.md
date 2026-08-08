@@ -2,7 +2,7 @@
 
 # TL;DR
 
-> **Too long; didn't read** — compressed summary up front; use in docs, PRs, and incident threads so busy readers get the decision in 10 seconds.
+> TL;DR — put outcome + key constraint first; details follow. In PRs: what changed and why. In runbooks: fix command before theory. In chat: answer the question in
 
 ---
 

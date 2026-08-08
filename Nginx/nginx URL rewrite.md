@@ -2,7 +2,7 @@
 
 # nginx URL rewrite
 
-> One-line: what / why for **nginx URL rewrite** — source TBD.
+> nginx URL rewrite — what happens when user goes to /about
 
 ---
 

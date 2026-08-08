@@ -2,7 +2,7 @@
 
 # PCI (Peripheral Component Interconnect)
 
-> One-line: what / why for **PCI (Peripheral Component Interconnect)** — source TBD.
+> PCI (Peripheral Component Interconnect) — PCI in computers most commonly stands for Peripheral Component Interconnect.
 
 ---
 

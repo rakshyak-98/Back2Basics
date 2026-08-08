@@ -2,7 +2,7 @@
 
 # Token bucket
 
-> One-line: what / why for **Token bucket** — source TBD.
+> Token bucket — controls data flow by allowing packets to be sent only if there are enough tokens in a bucket. Tokens are added at a fixed rate
 
 ---
 

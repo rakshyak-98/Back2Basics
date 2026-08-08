@@ -2,7 +2,7 @@
 
 # Manifest (streaming)
 
-> Index file telling the player **what to fetch next** — **playlist orchestration**, not the media itself.
+> Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
 ---
 

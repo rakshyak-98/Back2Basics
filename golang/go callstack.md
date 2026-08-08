@@ -2,7 +2,7 @@
 
 # go callstack
 
-> One-line: what / why for **go callstack** — source TBD.
+> go callstack — class stack unwinding — walking backward through the chain of function calls, exiting one function at a time until reaching the top.
 
 ---
 

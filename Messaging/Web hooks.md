@@ -2,7 +2,7 @@
 
 # Web hooks
 
-> One-line: what / why for **Web hooks** — source TBD.
+> Web hooks — → See webhook (canonical note).
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Compound Components 1
 
-> One-line: what / why for **Compound Components 1** — source TBD.
+> Compound Components 1 — instead of passing multiple props, the parent component manages the state, and child components communicate implicitly.
 
 ---
 

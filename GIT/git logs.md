@@ -2,7 +2,7 @@
 
 # Git log
 
-> One-line: traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
+> traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # interpreter
 
-> One-line: what / why for **interpreter** — source TBD.
+> interpreter — directly executes instructions written in a programming or scripting language without requiring them previously to have been compiled into a machine language program.
 
 ---
 

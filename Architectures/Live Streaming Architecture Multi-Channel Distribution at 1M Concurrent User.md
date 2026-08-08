@@ -2,7 +2,7 @@
 
 # Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User
 
-> One-line: what / why for **Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User** — source TBD.
+> Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User — streaming 1M+ concurrent users across multiple live TV channels requires a distributed edge-caching model that offloads compute-heavy operations
 
 ---
 

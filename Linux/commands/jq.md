@@ -2,7 +2,7 @@
 
 # jq
 
-> One-line: what / why for **jq** — source TBD.
+> jq — a lightweight and powerful command-line JSON processor.
 
 ---
 

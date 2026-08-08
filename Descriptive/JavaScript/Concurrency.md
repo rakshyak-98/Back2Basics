@@ -2,7 +2,7 @@
 
 # JavaScript concurrency
 
-> Cooperative multitasking on a single main thread — I/O overlaps, CPU work blocks everyone — **Event Loop + libuv model**.
+> JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
 ---
 

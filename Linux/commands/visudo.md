@@ -2,7 +2,7 @@
 
 # %group_name - syntax to define group permission
 
-> Can run as any **user**, but **not** as any arbitrary group (the group stays the original user's primary group unless -g is explicitly used).
+> %group_name - syntax to define group permission — visudo — safely edit the system's sudoers file /etc/sudoers.
 
 ---
 

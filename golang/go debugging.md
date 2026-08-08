@@ -2,7 +2,7 @@
 
 # project name is myproject
 
-> One-line: what / why for **project name is myproject** — source TBD.
+> project name is myproject — install Delve debugger for golang
 
 ---
 

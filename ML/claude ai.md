@@ -2,7 +2,7 @@
 
 # claude ai
 
-> One-line: what / why for **claude ai** — source TBD.
+> claude ai — error: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4: tool_use ids were found without tool_result blocks immediately after: toolu_018XLoNZDysSCZitFpMk8qf3. Each tool_use block must have a corresponding tool_result block in the next
 
 ---
 

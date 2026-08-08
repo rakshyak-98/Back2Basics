@@ -2,7 +2,7 @@
 
 # mysql normalization
 
-> One-line: what / why for **mysql normalization** — source TBD.
+> mysql normalization — below is MySQL normalization rules, short, structured, interview-oriented.
 
 ---
 

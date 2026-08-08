@@ -2,7 +2,7 @@
 
 # distributed system
 
-> One-line: what / why for **distributed system** — source TBD.
+> distributed system — where data must survive even when nodes fail. This is a classic distributed systems problem, and it's solved through a combination of replication, consensus, and
 
 ---
 

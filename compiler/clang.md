@@ -2,7 +2,7 @@
 
 # clang
 
-> One-line: what / why for **clang** — source TBD.
+> clang — a compiler front-end for the C, C++, Objective-C and Objective C++ programming languages.
 
 ---
 

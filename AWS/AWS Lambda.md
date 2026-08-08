@@ -2,7 +2,7 @@
 
 # AWS Lambda
 
-> **Event-driven compute that runs your handler, then stops billing** — configure memory/timeout/role correctly or you pay for cold starts, timeouts, and over-privileged roles. **AWS Lambda Developer Guide** + production bills from retry storms.
+> AWS Lambda — runs your function on events and bills only while it runs.
 
 ---
 

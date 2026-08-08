@@ -2,7 +2,7 @@
 
 # Source map
 
-> Maps **bundled/minified code** back to original TS/JS sources for stack traces and debugging — **Source Map v3 spec**.
+> Source map — production ships app.js (one line, mangled names). Browser loads optional app.js.map:
 
 ---
 

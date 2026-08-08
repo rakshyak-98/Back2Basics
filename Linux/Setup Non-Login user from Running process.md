@@ -2,7 +2,7 @@
 
 # Setup Non-Login user from Running process
 
-> One-line: what / why for **Setup Non-Login user from Running process** — source TBD.
+> Setup Non-Login user from Running process — create new user (with Login Disable)
 
 ---
 

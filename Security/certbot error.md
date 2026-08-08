@@ -2,7 +2,7 @@
 
 # Certbot error
 
-> One-line: map Let's Encrypt / Certbot failures to root cause and fix — **operational runbook**, not a log dump.
+> Certbot error — certbot talks to an ACME server (Let's Encrypt by default) through challenges to prove domain control. Failures cluster into: policy, DNS, HTTP reachability
 
 ---
 

@@ -2,7 +2,7 @@
 
 # express build
 
-> One-line: what / why for **express build** — source TBD.
+> express build — you must NOT bundle express, mongoose, cors, helmet, dotenv, morgan (and almost all other npm packages) when building a Node.js backend.
 
 ---
 

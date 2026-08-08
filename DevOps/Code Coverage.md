@@ -2,7 +2,7 @@
 
 # Code Coverage
 
-> Percentage of source lines/branches executed by tests — guide, not quality proof — **Istanbul/nyc + CI gates**.
+> Code Coverage — coverage tools instrument code (counters at branches/lines), run tests, report what executed.
 
 ---
 

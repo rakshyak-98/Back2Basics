@@ -2,7 +2,7 @@
 
 # write-ahead logging
 
-> One-line: what / why for **write-ahead logging** — source TBD.
+> write-ahead logging — merged into WAL (Write-Ahead Log) — mental model, fsync tuning, Postgres/MySQL triage, and production gotchas live there.
 
 ---
 

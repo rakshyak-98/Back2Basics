@@ -2,7 +2,7 @@
 
 # cli
 
-> One-line: what / why for **cli** — source TBD.
+> cli — ERROR 1698 (28000): Access denied for user 'root'@'localhost'
 
 ---
 

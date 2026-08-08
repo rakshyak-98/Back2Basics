@@ -2,7 +2,7 @@
 
 # GDB : The GNU Project Debugger
 
-> One-line: what / why for **GDB : The GNU Project Debugger** — source TBD.
+> GDB : The GNU Project Debugger — GDB : allows you to see what is going on inside another program while it executed, or what another program was
 
 ---
 

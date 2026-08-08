@@ -2,7 +2,7 @@
 
 # Unbuffered channel
 
-> One-line: what / why for **Unbuffered channel** — source TBD.
+> Unbuffered channel — an unbuffered channel in Go is a type of channel that does not store any data. It only allows communication between two go-routines when both
 
 ---
 

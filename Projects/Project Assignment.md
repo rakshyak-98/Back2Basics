@@ -2,7 +2,7 @@
 
 # MEDIAL SDE REMOTE ASSIGNMENT
 
-> One-line: what / why for **MEDIAL SDE REMOTE ASSIGNMENT** — source TBD.
+> MEDIAL SDE REMOTE ASSIGNMENT — objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the post content.
 
 ---
 

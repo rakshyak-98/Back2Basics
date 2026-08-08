@@ -2,7 +2,7 @@
 
 # Git patch files
 
-> One-line: export commits as mailbox patches (`format-patch`) and apply with `git am` — email-style workflow, offline review, and vendor branch maintenance without shared remote.
+> Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
 ---
 

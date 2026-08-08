@@ -2,7 +2,7 @@
 
 # RTMP (Real-Time Messaging Protocol)
 
-> TCP-based live publish protocol — **ingest workhorse**, phased out for **viewer playback** in favor of [[HLS]]/[[DASH]].
+> RTMP (Real-Time Messaging Protocol) — OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
 ---
 

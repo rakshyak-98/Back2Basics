@@ -2,7 +2,7 @@
 
 # NodeJS
 
-> One-line: what / why for **NodeJS** — source TBD.
+> NodeJS — dahl wanted to build a system that was:
 
 ---
 

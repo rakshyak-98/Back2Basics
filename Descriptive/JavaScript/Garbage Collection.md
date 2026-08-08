@@ -2,7 +2,7 @@
 
 # Garbage Collection
 
-> One-line: what / why for **Garbage Collection** — source TBD.
+> Garbage Collection — memory management in JavaScript is performed automatically and invisibly to us.
 
 ---
 

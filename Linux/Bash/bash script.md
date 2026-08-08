@@ -2,7 +2,7 @@
 
 # bash script
 
-> One-line: what / why for **bash script** — source TBD.
+> bash script — start every script with a shebang
 
 ---
 

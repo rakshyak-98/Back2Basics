@@ -2,7 +2,7 @@
 
 # go
 
-> One-line: what / why for **go** — source TBD.
+> go — package main tells the Go compiler: "The package is the entry point of an executable program". Without this Go treats the code as a
 
 ---
 

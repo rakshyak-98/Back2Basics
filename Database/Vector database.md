@@ -2,7 +2,7 @@
 
 # Vector database
 
-> One-line: what / why for **Vector database** — source TBD.
+> Vector database — utilize a segment-based, Log-Structured Merge (LSM) inspired architecture that decouples index structures, raw vector embedding, and scalar metadata to optimize for highly parallel read paths
 
 ---
 

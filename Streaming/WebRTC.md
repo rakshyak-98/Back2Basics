@@ -2,7 +2,7 @@
 
 # WebRTC
 
-> One-line: what / why for **WebRTC** — source TBD.
+> Browser P2P real-time A/V + data — media is encrypted UDP, not HTTP.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # endian
 
-> One-line: what / why for **endian** — source TBD.
+> endian — the most significant byte (MSB) of a mult-ibyte data value is stored at the lowest memory address.
 
 ---
 

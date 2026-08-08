@@ -2,7 +2,7 @@
 
 # Linux display manager
 
-> One-line: **Login greeter that starts your graphical session** — picks X11 vs Wayland and launches i3/GNOME/KDE. Breaks here looks like "boot loops to black screen" before any app runs.
+> Linux display manager — the display manager (DM) runs as root early in boot, shows login UI, authenticates via PAM, then execs user session (startx, gnome-session
 
 ---
 

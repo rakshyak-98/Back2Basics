@@ -2,7 +2,7 @@
 
 # SWC (Speedy Web Compiler)
 
-> **Rust-based** transpiler/minifier — Babel-compatible subset at much lower latency — powers Next.js, Vite (optional), Deno — **SWC project docs**.
+> SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS
 
 ---
 

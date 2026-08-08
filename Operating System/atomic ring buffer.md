@@ -2,7 +2,7 @@
 
 # atomic ring buffer
 
-> One-line: what / why for **atomic ring buffer** — source TBD.
+> atomic ring buffer — an atomic ring buffer (also known as a circular buffer or ring queue with atomic operations) is a data structure that combines the characteristics
 
 ---
 

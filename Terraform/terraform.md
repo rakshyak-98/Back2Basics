@@ -2,7 +2,7 @@
 
 # Terraform
 
-> Core notes from **Terraform: Up & Running** (Yevgeniy Brikman) and **Terraform in Action** (Scott Winkler).
+> Terraform — declare cloud resources as code and apply planned changes. **Brikman / Winkler**.
 
 ---
 

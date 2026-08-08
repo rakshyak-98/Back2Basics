@@ -2,7 +2,7 @@
 
 # MMAP
 
-> One-line: what / why for **MMAP** — source TBD.
+> MMAP — uses memory mapped files as its storage engine.
 
 ---
 

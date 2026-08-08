@@ -2,7 +2,7 @@
 
 # NextJS Deployment
 
-> One-line: what / why for **NextJS Deployment** — source TBD.
+> NextJS Deployment — executes getStaticProps() or getServerSideProps() of reach route.
 
 ---
 

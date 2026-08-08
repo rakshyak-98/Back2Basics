@@ -2,7 +2,7 @@
 
 # Linux resource management
 
-> One-line: what / why for **Linux resource management** — source TBD.
+> Linux resource management — the path /run/systemd/io.system.ManagedOOM Memory management feature provided by systemd
 
 ---
 

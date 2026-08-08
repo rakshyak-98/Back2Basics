@@ -2,7 +2,7 @@
 
 # AWS EFS (Elastic File System)
 
-> One-line: what / why for **AWS EFS (Elastic File System)** — source TBD.
+> EFS (Elastic File System) — shared NFS storage many EC2s can mount together.
 
 ---
 

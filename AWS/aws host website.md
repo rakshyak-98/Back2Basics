@@ -2,7 +2,7 @@
 
 # aws host website
 
-> One-line: what / why for **aws host website** — source TBD.
+> Host a static website from an S3 bucket with index and error documents.
 
 ---
 

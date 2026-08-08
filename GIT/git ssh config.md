@@ -2,7 +2,7 @@
 
 # git ssh config
 
-> One-line: what / why for **git ssh config** — source TBD.
+> git ssh config — bad owner or permissions on /home/mihir/.ssh/config
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Swarm network
 
-> One-line: what / why for **Swarm network** — source TBD.
+> Swarm network — a swarm network refers to a decentralized, P2P (Peer-to-Peer) network architecture where devices (or nodes) collaborate to achieve a common goal.
 
 ---
 

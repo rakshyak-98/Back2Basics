@@ -2,7 +2,7 @@
 
 # AAC (Advanced Audio Coding)
 
-> Default audio codec for HLS/DASH/fMP4 — **MPEG-4 Part 3 / ISO/IEC 14496-3**.
+> AAC (Advanced Audio Coding) — PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
 ---
 

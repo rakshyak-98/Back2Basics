@@ -2,7 +2,7 @@
 
 # Git Commands — Recovery & Debug
 
-> One-line: when history is wrong, refs are lost, or merges surprise you — reflog, bisect, and dry-run merge before you force-push.
+> when history is wrong, refs are lost, or merges surprise you — reflog, bisect, and dry-run merge before you force-push.
 
 ---
 

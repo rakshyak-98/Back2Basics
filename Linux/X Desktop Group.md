@@ -2,7 +2,7 @@
 
 # X Desktop Group
 
-> **XDG Base Directory Specification** — standard paths for config, data, cache, and runtime files on Linux — essential for portable CLI tools and CI.
+> X Desktop Group — ~/.config/ XDG_CONFIG_HOME — user settings (small, portable)
 
 ---
 

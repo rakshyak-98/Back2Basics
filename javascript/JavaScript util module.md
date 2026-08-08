@@ -2,7 +2,7 @@
 
 # JavaScript util module (Node.js)
 
-> Node **`node:util`** helpers — `promisify`, `inspect`, `types`, deprecation — bridge callback APIs to async/await — **Node.js docs**.
+> JavaScript util module (Node.js) — legacy Node core APIs are callback-last (err, result) =>. util.promisify wraps them into Promises for async/await composition with promise chains.
 
 ---
 

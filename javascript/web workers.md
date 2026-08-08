@@ -2,7 +2,7 @@
 
 # Web Workers
 
-> Run JavaScript off the main thread so UI stays responsive during CPU-heavy work — **HTML Living Standard / WHATWG**.
+> Web Workers — the browser's main thread owns the DOM, layout, paint, and the Event Loop. A Web Worker is a separate JS execution context with
 
 ---
 

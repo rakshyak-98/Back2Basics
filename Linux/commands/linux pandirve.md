@@ -2,7 +2,7 @@
 
 # USB pendrive (removable media)
 
-> One-line: **USB flash drive** prep — partition, FAT/exfat format, safe mount/unmount. Filename was a typo (`pandirve`); not pandoc. **Classic ops task on bare-metal and air-gapped hosts.**
+> USB pendrive (removable media) — USB block device appears as /dev/sdX (whole disk) and /dev/sdX1 (first partition). Kernel + udev may auto-mount under /media/$USER/. Manual workflow
 
 ---
 

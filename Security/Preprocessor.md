@@ -2,7 +2,7 @@
 
 # Preprocessor
 
-> One-line: what / why for **Preprocessor** — source TBD.
+> Preprocessor — a preprocessor or a precompiler is a program that processes its input data to produce output that is used as input in another program.
 
 ---
 

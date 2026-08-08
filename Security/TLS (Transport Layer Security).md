@@ -2,7 +2,7 @@
 
 # TLS (Transport Layer Security)
 
-> One-line: encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
+> encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
 
 ---
 

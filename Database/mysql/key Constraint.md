@@ -2,7 +2,7 @@
 
 # key Constraint
 
-> One-line: what / why for **key Constraint** — source TBD.
+> key Constraint — ADD CONSTRAINT unique_hotel_template_section UNIQUE (hotel_template_id, template_section_id);
 
 ---
 

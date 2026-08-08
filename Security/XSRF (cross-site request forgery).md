@@ -2,7 +2,7 @@
 
 # XSRF (cross-site request forgery)
 
-> One-line: what / why for **XSRF (cross-site request forgery)** — source TBD.
+> XSRF (cross-site request forgery) — the browser sends cookies every time you visit the site bank.com, even if the form was submitted from evil.com. So the bank recognizes
 
 ---
 

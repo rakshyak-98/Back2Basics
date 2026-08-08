@@ -2,7 +2,7 @@
 
 # git repo config
 
-> One-line: what / why for **git repo config** — source TBD.
+> git repo config — this tells Git: "When I do git pull (git merge without argument) while on this branch, fetch from origin and merge the
 
 ---
 

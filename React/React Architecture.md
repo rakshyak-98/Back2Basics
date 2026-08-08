@@ -2,7 +2,7 @@
 
 # React Architecture
 
-> How you **split UI, state, data, and boundaries** so the app scales past one team — **Kent C. Dodds / React docs / production postmortems**.
+> React Architecture — routes / layouts → URL → screen composition
 
 ---
 

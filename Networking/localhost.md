@@ -2,7 +2,7 @@
 
 # localhost
 
-> One-line: what / why for **localhost** — source TBD.
+> localhost — always means the device running the app, not "my dev machine" or "where the API lives".
 
 ---
 

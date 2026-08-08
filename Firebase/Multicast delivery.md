@@ -2,7 +2,7 @@
 
 # Multicast delivery
 
-> One-line: what / why for **Multicast delivery** — source TBD.
+> Multicast delivery — in FCM Token (Firebase Cloud Messaging Token) refers to the ability to send a single message to multiple devices by providing multiple FCM registration tokens
 
 ---
 

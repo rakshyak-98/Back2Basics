@@ -2,7 +2,7 @@
 
 # Callback
 
-> One-line: what / why for **Callback** — source TBD.
+> Callback — define an event handler for the user action events, this accepts a function, which will be called when the event is triggered.
 
 ---
 

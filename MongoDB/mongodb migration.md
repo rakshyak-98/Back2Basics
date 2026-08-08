@@ -2,7 +2,7 @@
 
 # mongodb migration
 
-> One-line: what / why for **mongodb migration** — source TBD.
+> mongodb migration — write scripts to update documents to the new schema.
 
 ---
 

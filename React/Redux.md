@@ -2,7 +2,7 @@
 
 # Redux
 
-> non-destructive updates, you can hold on to the history of your application state without doing much extra work: Just keep a collection of the previous state trees around. You can then do things like undo/redo for "free". so that you can replay it later, which can he hugely helpful when debugging.
+> Redux — centralized app state with pure reducers and a single dispatch path.
 
 ---
 

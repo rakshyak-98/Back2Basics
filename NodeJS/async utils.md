@@ -2,7 +2,7 @@
 
 # async utils
 
-> One-line: what / why for **async utils** — source TBD.
+> async utils — // Middleware (no more try/catch per route)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # CMAF (Common Media Application Format)
 
-> One fMP4 segment file for both HLS and DASH — **ISO/IEC 23000-19**; cuts origin storage ~50%.
+> CMAF (Common Media Application Format) — encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
 ---
 

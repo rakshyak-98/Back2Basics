@@ -2,7 +2,7 @@
 
 # mysql triggers
 
-> One-line: what / why for **mysql triggers** — source TBD.
+> mysql triggers — automatically executes when a specific table event occurs - like an INSERT UPDATE or DELETE.
 
 ---
 

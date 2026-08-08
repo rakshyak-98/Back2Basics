@@ -2,7 +2,7 @@
 
 # kafka
 
-> One-line: what / why for **kafka** — source TBD.
+> kafka — event streaming platform designed to handle real-time data feeds.
 
 ---
 

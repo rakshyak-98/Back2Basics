@@ -2,7 +2,7 @@
 
 # login shell
 
-> One-line: what / why for **login shell** — source TBD.
+> login shell — the first shell session that a user interacts with after logging into a system, and it typically reads specific configuration files to set up the
 
 ---
 

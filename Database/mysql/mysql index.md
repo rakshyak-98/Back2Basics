@@ -2,7 +2,7 @@
 
 # mysql index
 
-> One-line: what / why for **mysql index** — source TBD.
+> mysql index — HASH is only supported by MEMORY engine.
 
 ---
 

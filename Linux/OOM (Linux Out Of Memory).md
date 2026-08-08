@@ -2,7 +2,7 @@
 
 # OOM (Linux Out Of Memory)
 
-> One-line: when the kernel **cannot reclaim enough RAM**, it kills processes to keep the system alive — global OOM killer, cgroup limits, or `systemd-oomd`. **Kerrisk + container on-call.**
+> OOM (Linux Out Of Memory) — memory is not “free RAM = 0”. The kernel uses page cache aggressively. OOM fires when allocation cannot succeed after reclaim (swap
 
 ---
 

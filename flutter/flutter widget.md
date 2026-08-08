@@ -2,7 +2,7 @@
 
 # flutter widget
 
-> One-line: what / why for **flutter widget** — source TBD.
+> flutter widget — if MaterialPageRoute took a direct widget instance instead of a builder, you would have to create that screen's widget in memory before you even navigated
 
 ---
 

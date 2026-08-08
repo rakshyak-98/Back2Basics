@@ -2,7 +2,7 @@
 
 # AMD module
 
-> One-line: what / why for **AMD module** — source TBD.
+> AMD module — javaScript module format designed for browser based environment that require asynchronous loading of modules.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard`
 
-> One-line: what / why for **- if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard`** — source TBD.
+> - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard` — set shiftwidth=4 # indentation commands >>, << shift by 4
 
 ---
 

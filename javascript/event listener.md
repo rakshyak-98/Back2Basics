@@ -2,7 +2,7 @@
 
 # event listener
 
-> One-line: what / why for **event listener** — source TBD.
+> event listener — event system stores listeners in array-like list per event type
 
 ---
 

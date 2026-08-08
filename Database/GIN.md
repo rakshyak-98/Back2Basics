@@ -2,7 +2,7 @@
 
 # GIN
 
-> One-line: what / why for **GIN** — source TBD.
+> GIN — (Generalized Inverted Index) — PostgreSQL supports GIN on JSONB, you can efficiently search fields inside the JSON without extracting them into separate columns.
 
 ---
 

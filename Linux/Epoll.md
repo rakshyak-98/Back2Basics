@@ -2,7 +2,7 @@
 
 # epoll
 
-> One-line: Linux’s **scalable FD readiness notification** — O(1) wait on thousands of sockets instead of scanning all FDs every wake. **Stevens / Kerrisk.**
+> epoll — select / poll: every wake, kernel scans all watched FDs → O(n).
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Destructuring
 
-> One-line: what / why for **Destructuring** — source TBD.
+> Destructuring — it _destructrizes_ by copying items into variables.
 
 ---
 

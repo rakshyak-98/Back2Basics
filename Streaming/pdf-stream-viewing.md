@@ -2,7 +2,7 @@
 
 # pdf-stream-viewing
 
-> One-line: what / why for **pdf-stream-viewing** — source TBD.
+> pdf-stream-viewing — it is possible to display a PDF file while it is being streamed. This approach involves using a PDF viewer that can handle streaming data, allowing
 
 ---
 

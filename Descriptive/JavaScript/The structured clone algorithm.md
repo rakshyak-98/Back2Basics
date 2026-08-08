@@ -2,7 +2,7 @@
 
 # The structured clone algorithm
 
-> One-line: what / why for **The structured clone algorithm** — source TBD.
+> The structured clone algorithm — used to serialize and deserialize data structures in JavaScript.
 
 ---
 

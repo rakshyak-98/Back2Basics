@@ -2,7 +2,7 @@
 
 # OS File Descriptors
 
-> One-line: what / why for **OS File Descriptors** — source TBD.
+> OS File Descriptors — standard input (stdin): file descriptor 0
 
 ---
 

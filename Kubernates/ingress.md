@@ -2,7 +2,7 @@
 
 # ingress
 
-> HTTP/S routing into the cluster — **Ingress** = rules; **Ingress Controller** = program that implements them — **Kubernetes: Up and Running** (Burns et al.).
+> ingress — internet ──► LB / NodePort ──► Ingress Controller (nginx, traefik, cilium, ALB…)
 
 ---
 

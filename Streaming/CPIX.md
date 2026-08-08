@@ -2,7 +2,7 @@
 
 # CPIX
 
-> One-line: what / why for **CPIX** — source TBD.
+> CPIX — the CPIX endpoint response (XML format) contains the cryptographic material necessary to encrypt media.
 
 ---
 

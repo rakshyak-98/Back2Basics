@@ -2,7 +2,7 @@
 
 # Git branches
 
-> One-line: movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
+> movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
 
 ---
 

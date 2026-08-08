@@ -2,7 +2,7 @@
 
 # go interface
 
-> Go employs **structural subtyping** (implicit interface satisfaction) rather than nominal subtyping (explicit `implements` declarations). This design decision optimizes for dependency management, package decoupling, and retroactive abstraction at the compiler level.
+> Go interface — a method set; any type with those methods satisfies it implicitly.
 
 ---
 

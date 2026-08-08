@@ -2,7 +2,7 @@
 
 # go data structure
 
-> One-line: what / why for **go data structure** — source TBD.
+> go data structure — data structure where underneath each node there exist _at most_ two other nodes.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # - Network congestion
 
-> One-line: what / why for **- Network congestion** — source TBD.
+> - Network congestion — used to inspect connections, listening ports, routing table, interface statistics, and protocol statistics.
 
 ---
 

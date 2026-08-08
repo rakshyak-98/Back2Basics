@@ -2,7 +2,7 @@
 
 # SSH
 
-> One-line: what / why for **SSH** — source TBD.
+> SSH — server policy (/etc/ssh/sshd_config): sshd config
 
 ---
 

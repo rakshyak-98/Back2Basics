@@ -2,7 +2,7 @@
 
 # Manage cart with session id
 
-> One-line: what / why for **Manage cart with session id** — source TBD.
+> Manage cart with session id — here’s how you can structure your project:
 
 ---
 

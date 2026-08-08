@@ -2,7 +2,7 @@
 
 # Linux terminal
 
-> One-line: what / why for **Linux terminal** — source TBD.
+> Linux terminal — here's a side-by-side comparison of xterm-256color and dumb values for the TERM environment variable:
 
 ---
 

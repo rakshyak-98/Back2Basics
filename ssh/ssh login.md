@@ -2,7 +2,7 @@
 
 # Verify with the public key
 
-> One-line: what / why for **Verify with the public key** — source TBD.
+> Verify with the public key — TCP Connection — Your client connects to the server on port 22.
 
 ---
 

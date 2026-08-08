@@ -2,7 +2,7 @@
 
 # psql user acl
 
-> One-line: what / why for **psql user acl** — source TBD.
+> psql user acl — the Access Control List (ACL) for the drm_streaming database. It shows which roles have which privileges.
 
 ---
 

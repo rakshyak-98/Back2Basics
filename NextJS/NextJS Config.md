@@ -2,7 +2,7 @@
 
 # How to set global package which is been fetched at the client side
 
-> One-line: what / why for **How to set global package which is been fetched at the client side** — source TBD.
+> How to set global package which is been fetched at the client side — productionBrowserSourceMaps: true, // enable client side source map
 
 ---
 

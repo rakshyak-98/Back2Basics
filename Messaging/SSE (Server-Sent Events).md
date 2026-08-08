@@ -2,7 +2,7 @@
 
 # SSE (Server-Sent Events)
 
-> One-line: what / why for **SSE (Server-Sent Events)** — source TBD.
+> SSE (Server-Sent Events) — uni directional push from server to browser over HTTP.
 
 ---
 

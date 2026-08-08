@@ -2,7 +2,7 @@
 
 # apt package manager
 
-> One-line: what / why for **apt package manager** — source TBD.
+> apt package manager — see the package log file /var/log/dpkg.log
 
 ---
 

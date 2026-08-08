@@ -2,7 +2,7 @@
 
 # Render props
 
-> One-line: what / why for **Render props** — source TBD.
+> Render props — a render prop is a function prop that component uses to share reusable logic.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # renice
 
-> One-line: **Adjust CPU scheduling priority of running processes** — give batch jobs less CPU or unstick a critical worker without reboot. Nice only affects **CPU**; not I/O, not memory, not realtime.
+> renice — change CPU priority of a running process without restarting it.
 
 ---
 

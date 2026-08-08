@@ -2,7 +2,7 @@
 
 # mysql partitioning
 
-> One-line: what / why for **mysql partitioning** — source TBD.
+> mysql partitioning — merged into mysql data partition — RANGE/LIST/HASH partitioning, pruning, migration, and triage live there.
 
 ---
 

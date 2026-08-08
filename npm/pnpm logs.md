@@ -2,7 +2,7 @@
 
 # pnpm logs
 
-> One-line: what / why for **pnpm logs** — source TBD.
+> pnpm logs — pNPM, like npm, stores logs when commands fail or require debug information.
 
 ---
 

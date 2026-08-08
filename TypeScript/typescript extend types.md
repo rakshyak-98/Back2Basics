@@ -2,7 +2,7 @@
 
 # typescript extend types
 
-> One-line: what / why for **typescript extend types** — source TBD.
+> typescript extend types — create a file named express.d.ts in the root of your project or inside a @types folder.
 
 ---
 

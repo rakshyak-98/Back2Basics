@@ -2,7 +2,7 @@
 
 # MBR(Master Boot Record)
 
-> One-line: what / why for **MBR(Master Boot Record)** — source TBD.
+> MBR(Master Boot Record) — alias note: Master Boot Record — canonical note is MBR.
 
 ---
 

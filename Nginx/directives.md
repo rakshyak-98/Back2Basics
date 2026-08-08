@@ -2,7 +2,7 @@
 
 # directives
 
-> One-line: what / why for **directives** — source TBD.
+> directives — server — defines a virtual server
 
 ---
 

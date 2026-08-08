@@ -2,7 +2,7 @@
 
 # Next.js navigation
 
-> Client-side routing in the App/Pages router — when to use `Link`, `router`, or a real new tab.
+> Next.js navigation — next.js intercepts in-app navigation to avoid full page reloads. App Router uses next/navigation (useRouter, redirect, Link). Pages Router uses next/router. Opening a new
 
 ---
 

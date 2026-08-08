@@ -2,7 +2,7 @@
 
 # solid diagram
 
-> One-line: what / why for **solid diagram** — source TBD.
+> solid diagram — short field notes on what it is and how to use it.
 
 ---
 

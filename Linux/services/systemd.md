@@ -2,7 +2,7 @@
 
 # Understanding the Linux inti Deamon
 
-> One-line: what / why for **Understanding the Linux inti Deamon** — source TBD.
+> Understanding the Linux inti Deamon — dependent upon what init daemon is used by your Linux server.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # WebDAV
 
-> One-line: what / why for **WebDAV** — source TBD.
+> WebDAV — protocol provides a framework for users to create, change and move documents on a server.
 
 ---
 

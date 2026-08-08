@@ -2,7 +2,7 @@
 
 # generate private key
 
-> One-line: what / why for **generate private key** — source TBD.
+> generate private key — openssl genpkey -algorithm RSA -out private_key.pem -aes256 # with pass phrase
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Redux toolkit
 
-> One-line: what / why for **Redux toolkit** — source TBD.
+> Redux toolkit — store Configuration (configureStore): Simplifies the store creation process by automatically setting up middleware like redux-thunk.
 
 ---
 

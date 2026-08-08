@@ -2,7 +2,7 @@
 
 # Pkl environment variable management
 
-> Apple Pkl — typed config language that evaluates to JSON/YAML/properties — **env-specific config without stringly env soup**.
+> Pkl environment variable management — ▼ pkl eval -p env=production
 
 ---
 

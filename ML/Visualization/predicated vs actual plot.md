@@ -2,7 +2,7 @@
 
 # Predicted vs actual plot
 
-> Scatter of **y_true vs ŷ** — quick visual for calibration, bias, and heteroscedasticity — standard regression QA.
+> Predicted vs actual plot — perfect predictions lie on the diagonal y = x:
 
 ---
 

@@ -2,7 +2,7 @@
 
 # graphql
 
-> One-line: what / why for **graphql** — source TBD.
+> graphql — short field notes on what it is and how to use it.
 
 ---
 

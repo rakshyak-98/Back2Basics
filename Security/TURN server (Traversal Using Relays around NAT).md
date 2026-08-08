@@ -2,7 +2,7 @@
 
 # TURN server (Traversal Using Relays around NAT)
 
-> One-line: what / why for **TURN server (Traversal Using Relays around NAT)** — source TBD.
+> TURN server (Traversal Using Relays around NAT) — a protocol designed to help devices behind restrictive NAT's or firewall communicate by relaying their traffic through a server.
 
 ---
 

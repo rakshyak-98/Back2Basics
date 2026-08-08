@@ -2,7 +2,7 @@
 
 # File based configuration manager
 
-> One-line: what / why for **File based configuration manager** — source TBD.
+> File based configuration manager — you are tasked with creating a system-wide configuration manager for a complex software suite. The configuration manager is responsible for managing various configuration
 
 ---
 

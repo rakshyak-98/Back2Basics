@@ -2,7 +2,7 @@
 
 # embedded image
 
-> One-line: what / why for **embedded image** — source TBD.
+> embedded image — refer to graphics or pictures that are directly integrated into the source code of an email, web-page, or application, rather then being linked from an
 
 ---
 

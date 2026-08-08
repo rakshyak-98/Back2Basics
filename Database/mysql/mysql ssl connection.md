@@ -2,7 +2,7 @@
 
 # MySQL SSL/TLS connections
 
-> One-line: encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
+> encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
 
 ---
 

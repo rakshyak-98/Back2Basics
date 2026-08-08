@@ -2,7 +2,7 @@
 
 # partitioning
 
-> One-line: what / why for **partitioning** — source TBD.
+> partitioning — short field notes on what it is and how to use it.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # node-convict
 
-> One-line: schema-validated config with env/JSON/file layering — fail fast at boot when a knob is missing or wrong type.
+> node-convict — loads config from defaults → file → environment variables → CLI args (order configurable). Each key has a schema: type, format, default, env var
 
 ---
 

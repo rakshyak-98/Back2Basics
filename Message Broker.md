@@ -1,6 +1,6 @@
 # Message Broker
 
-> One-line: what / why for **Message Broker** — source TBD.
+> Message broker — middleware that queues or streams messages between producers and consumers.
 
 ---
 

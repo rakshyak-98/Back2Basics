@@ -2,7 +2,7 @@
 
 # BGP
 
-> One-line: path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
+> path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
 
 ---
 

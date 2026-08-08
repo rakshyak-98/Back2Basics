@@ -2,7 +2,7 @@
 
 # Singleton
 
-> One-line: what / why for **Singleton** — source TBD.
+> Singleton — make the class construction private member of the class.
 
 ---
 

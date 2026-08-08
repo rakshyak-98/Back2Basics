@@ -2,7 +2,7 @@
 
 # dsa modular arithmetics
 
-> One-line: what / why for **dsa modular arithmetics** — source TBD.
+> dsa modular arithmetics — modular arithmetic is often called "Clock Arithmetic". Think of a clock: if it 10:00 and you add 5 hours, it becomes 3:00, not 15:00.
 
 ---
 

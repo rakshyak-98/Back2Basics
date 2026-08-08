@@ -2,7 +2,7 @@
 
 # Blockchain
 
-> One-line: what / why for **Blockchain** — source TBD.
+> Blockchain — tari is an open-source blockchain protocol designed to redefine digital asset management and ownership. Built as a merge-mined sidechain of Monero, it inherits Monero's robust security
 
 ---
 

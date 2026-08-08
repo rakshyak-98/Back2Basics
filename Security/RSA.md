@@ -2,7 +2,7 @@
 
 # RSA
 
-> Widely deployed public-key algorithm — encrypt small secrets, TLS handshakes, and digital signatures; being supplemented by ECC/Ed25519 for performance.
+> RSA — uses math on large composites (factorization hardness):
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Zookeeper
 
-> One-line: what / why for **Zookeeper** — source TBD.
+> Zookeeper — a distributed coordination service used by kafka to manage metadata, leader election, and synchronization across brokers.
 
 ---
 

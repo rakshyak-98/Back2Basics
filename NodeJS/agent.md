@@ -2,7 +2,7 @@
 
 # agent
 
-> One-line: what / why for **agent** — source TBD.
+> agent — responsible for managing connection persistence and reuse of HTTP clients.
 
 ---
 

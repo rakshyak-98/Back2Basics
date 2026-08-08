@@ -2,7 +2,7 @@
 
 # LF and CRLF
 
-> One-line: what / why for **LF and CRLF** — source TBD.
+> LF and CRLF — the difference between \n (Line Feed) and \r (Carriage Return) lies in their historical use and behavior:
 
 ---
 

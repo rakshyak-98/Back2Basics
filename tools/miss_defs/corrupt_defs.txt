@@ -1,0 +1,628 @@
+CDM (Content Decryption Module).md
+open standard.md
+Message Broker.md
+Code review.md
+staff engineer.md
+WORKLOG.md
+ssh-keygen key validity.md
+core fundemental.md
+Linux.md
+AWS.md
+Broadcast.md
+Common Naming terms.md
+Useful prompt for learning with AI chat.md
+golang.md
+TL;DR.md
+interview.md
+Multicast.md
+Database/SQL Configurations.md
+Database/migration.md
+Database/Database.md
+Database/GIN.md
+Database/MMAP.md
+Database/mysql partitioning.md
+Database/OLAP.md
+Database/Browser engine.md
+Database/relocatable schema.md
+Database/Vector database.md
+Database/write-ahead logging.md
+Database/SQL normalization.md
+android/adb device.md
+GIT/git error.md
+GIT/git credential.md
+GIT/git commit template.md
+GIT/git ssh config.md
+GIT/git repo config.md
+GIT/git guidlines.md
+GIT/gpg sign.md
+GIT/git diff.md
+GIT/git commit.md
+NodeJS/Error handeling.md
+NodeJS/event emitter.md
+NodeJS/EventMachine.md
+NodeJS/worker.md
+NodeJS/Stream.md
+NodeJS/agent.md
+NodeJS/Runtime Errors.md
+NodeJS/node inspect.md
+NodeJS/npm command.md
+NodeJS/graphql.md
+NodeJS/Stream Events.md
+NodeJS/HTTP module.md
+NodeJS/Express middleware.md
+NodeJS/Buffers.md
+NodeJS/node error.md
+NodeJS/expressjs.md
+NodeJS/node environment configuration.md
+NodeJS/Node events driven.md
+NodeJS/node modules.md
+NodeJS/NodeJS.md
+NodeJS/async utils.md
+NodeJS/node debugger.md
+NodeJS/Optimization.md
+NodeJS/child process.md
+GitHub/Github action (2).md
+GitHub/Github cli (2).md
+ssh/ssh login.md
+ssh/ssh agent.md
+ssh/ssh private network.md
+ssh/SSH authentication.md
+Errors/Python.md
+vim/vim mark.md
+vim/vim config.md
+vim/vim commands.md
+Prisma/Prisma.md
+Streaming/SCTP (Stream Control Transmission Protocol).md
+Streaming/Manifest (streaming).md
+Streaming/pdf-stream-viewing.md
+Streaming/MPEG-TS.md
+Streaming/ICE (Interactive Connectivity Establishment).md
+Streaming/Pallycon(DoveRunner).md
+Streaming/DRM.md
+Streaming/AV1.md
+Streaming/flussonic.md
+Streaming/HLS vs. DASH.md
+Streaming/DASH.md
+Streaming/CAS (Conditional Access System).md
+Streaming/CPIX.md
+Streaming/How to attach stream to HTTP handlers.md
+Streaming/HLS.md
+Streaming/Network Information Service (NIS).md
+Streaming/streaming manifest file.md
+Streaming/ABR.md
+Streaming/offset.md
+Streaming/WebRTC.md
+Streaming/transcoding.md
+Streaming/IPTV.md
+Streaming/WebRTC Get Started Guide.md
+Streaming/SDP (Service Discovery Protocol).md
+Streaming/rendition.md
+Streaming/streaming license.md
+DevOps/Edge orchestration tools for industrial IoT.md
+DevOps/Architectural backend design principles.md
+DevOps/Slack.md
+DNS/Unbound.md
+DNS/Sub Domain.md
+DNS/name server.md
+DNS/public resolver.md
+DNS/LLMNR.md
+Feature implementation/Push notification integration.md
+Feature implementation/Manage cart with session id.md
+Feature implementation/Bar code generate feature.md
+Protocol/ftp.md
+Protocol/WebDAV.md
+Protocol/mail server.md
+Protocol/LDAP (Lightweight Directory Access Protocol).md
+Protocol/IRC.md
+Protocol/Relay server.md
+Descriptive/embedded image.md
+Descriptive/DAP (Debug Adapter Protocol).md
+Descriptive/How does debugger work.md
+Descriptive/LSP.md
+Descriptive/PDF (Portable Document Format).md
+Descriptive/LF and CRLF.md
+Descriptive/Markdown.md
+Descriptive/webdriver.md
+Descriptive/Javascript.md
+Descriptive/Debugger configuratoin.md
+Descriptive/Blockchain.md
+Descriptive/html.md
+Projects/Project Assignment.md
+Projects/online business PRD.md
+dart/dart.md
+Security/TOTP (Time based One Time Password).md
+Security/JWT.md
+Security/Base64.md
+Security/IDOR.md
+Security/ACME server.md
+Security/white-label auth-url.md
+Security/certbot (letsencrypt).md
+Security/digest access authentication.md
+Security/HTTP Strict Transport Security.md
+Security/TURN server (Traversal Using Relays around NAT).md
+Security/XSRF (cross-site request forgery).md
+Security/PKI.md
+Security/Preprocessor.md
+Security/openssl.md
+Security/STUN (Session Traversal Utilities for NAT).md
+Security/symmetrical encryption.md
+javascript/throttle.md
+javascript/self-defining functions.md
+javascript/UMD global.md
+javascript/mixin.md
+javascript/AMD module.md
+javascript/prototype.md
+javascript/primitive non-primitive values.md
+javascript/promise.md
+javascript/IIFC.md
+javascript/dataTransfer.md
+javascript/hoisting.md
+javascript/Destructuring.md
+javascript/Callback.md
+javascript/web worker.md
+javascript/referential equality.md
+javascript/markup.js.md
+javascript/javascript engine.md
+javascript/event listener.md
+Firebase/Multicast delivery.md
+Firebase/Firebase messaging.md
+Firebase/firebase reminders configuration.md
+pm2/pm2.md
+npm/moment.md
+npm/npm.md
+npm/mysql2.md
+npm/pnpm logs.md
+npm/zod.md
+npm/pnpm cli.md
+tmux/tmux.md
+vite/vite internal.md
+vite/vite config.md
+Operating System/bus.md
+Operating System/Electronic Control Unit (ECU).md
+Operating System/OS program.md
+Operating System/critical sections.md
+Operating System/logical partitions.md
+Operating System/Single-threaded.md
+Operating System/Stack trace.md
+Operating System/buffer lifecycle.md
+Operating System/MBR(Master Boot Record).md
+Operating System/Thread.md
+Operating System/multi-threaded.md
+Operating System/atomic ring buffer.md
+Operating System/Blocking.md
+Operating System/SMT threads.md
+Operating System/system call.md
+Operating System/thread-safe queue.md
+Operating System/RAM and Swap memory.md
+Operating System/TTY (teletypewriter).md
+Operating System/interpreter.md
+Operating System/endian.md
+Operating System/linker.md
+Operating System/thread pool.md
+Operating System/discriptors.md
+Operating System/Persistent Block Storage.md
+Operating System/Browser memory.md
+Operating System/Heap memory.md
+Operating System/Inter Process Communication.md
+Operating System/right buffer.md
+Operating System/stack pointer.md
+Operating System/Buffer cache.md
+Operating System/handle.md
+Operating System/CPU IO Bound Task.md
+Operating System/Data Direction Register (DDR).md
+Operating System/buffer.md
+Operating System/PCI (Peripheral Component Interconnect).md
+Messaging/Web hooks.md
+Messaging/SSE (Server-Sent Events).md
+Messaging/RabbitMQ.md
+ML/Mean Average Precision (MAP).md
+ML/rank prediction.md
+ML/sigmoid.md
+ML/claude ai.md
+ML/model tranning.md
+ML/GPT.md
+ML/scikitlearn.md
+ML/Perceptron.md
+ML/prompt enginerring.md
+ML/prompt.md
+nvim/nvim setup.md
+nvim/commands.md
+ExpressJS/Express-useragent.md
+ExpressJS/express error handler.md
+ExpressJS/express concepts.md
+ExpressJS/express build.md
+ExpressJS/express query handler.md
+cookies/cookies configuration.md
+cookies/cookie error.md
+cookies/cookies lifecycle.md
+Python/uwsgi.md
+Python/GIL (Global interpreter lock).md
+Python/ASGI.md
+Python/Python.md
+Python/create python package from source.md
+MongoDB/mongosh query.md
+MongoDB/mongodb sharding.md
+MongoDB/mongosh user management.md
+MongoDB/mongodb denormalization.md
+MongoDB/mongodb migration.md
+MongoDB/MongoDB data populate.md
+MongoDB/mongodb shell.md
+MongoDB/MongoDB query validation.md
+MongoDB/mongodb schema.md
+MongoDB/mongosh.md
+MongoDB/mongodb view.md
+MongoDB/mognodb indexing.md
+Design pattern/OOPS.md
+Design pattern/Abstraction.md
+Design pattern/Private Properties and Methods.md
+Design pattern/Singleton.md
+compiler/object code.md
+compiler/clang.md
+apache/apache command.md
+apache/apache configurations.md
+apache/CGI.md
+apache/fastCGI servers.md
+NextJS/Next js Build.md
+NextJS/NextJS Deployment.md
+NextJS/NextJS Config.md
+NextJS/NextJS Error.md
+NextJS/Next JS.md
+zed/zed keybindings.md
+zed/zed debugger.md
+Terraform/ecommerce-eks-layout.md
+Docker/docker OCI.md
+Docker/docker file.md
+Docker/docker container.md
+Docker/Swarm network.md
+Payments/payment integration razorpay.md
+Payments/Payment break down json.md
+Payments/Payment integration Strip.md
+Payments/razorpay integration.md
+Programming paradigram/purely declarative.md
+css/Animation.md
+css/scss.md
+css/tailwindcss Error.md
+css/CSS property.md
+kotlin/kotlin view.md
+kotlin/kotlin data flow.md
+Nginx/URL Rewriting.md
+Nginx/Nginx ingress.md
+Nginx/multi-domain.md
+Nginx/nginx core functionality.md
+Nginx/nginx config structure.md
+Nginx/nginx URL rewrite.md
+Nginx/nginx fastcgi.md
+Nginx/directives.md
+Nginx/static file.md
+Rendering performance/composite.md
+Rendering performance/critical rendering path.md
+RTQ/matcher.md
+RTQ/RTQ Concepts.md
+TypeScript/typescript error.md
+TypeScript/ambient modules.md
+TypeScript/typescript types.md
+TypeScript/typescript.md
+TypeScript/class-transformer.md
+TypeScript/typescript extend types.md
+TypeScript/Triple-Slash Directives.md
+React/react-query.md
+React/useRef.md
+React/react error.md
+React/Stack from scratch.md
+React/re-export file.md
+React/React data management.md
+React/Redux toolkit.md
+React/Separate functional logic from persentation components.md
+React/React Application Architecture for Production.md
+React/React feature implementations.md
+React/RSC (React Server Component boundaries).md
+React/Render props.md
+React/hydration.md
+React/React interview.md
+React/Data Fetching HOC component.md
+React/flux.md
+React/react style inside component.md
+React/react hooks.md
+React/react cache.md
+React/React code smells.md
+React/Typescript with react.md
+React/React design patterns.md
+React/Optimizing performance.md
+Linux/Commands.md
+Linux/systemd-hostnamed.md
+Linux/Error status code.md
+Linux/Linux terminal.md
+Linux/OOM (Linux Out Of Memory).md
+Linux/loggging.md
+Linux/alsa.md
+Linux/wayland.md
+Linux/system service unit files.md
+Linux/i3 Window Manager Starter Guide.md
+Linux/process.md
+Linux/apt package manager.md
+Linux/LSB (Linux Standard Base).md
+Linux/Scripting.md
+Linux/Linux configuration.md
+Linux/Setup Non-Login user from Running process.md
+Linux/eBPF.md
+Linux/Epoll.md
+Linux/file mount.md
+Linux/terminal config.md
+Linux/gnome Colorschem.md
+Linux/etc files.md
+Linux/Linux Process Theory.md
+Linux/terminal emulator.md
+Linux/login shell.md
+Linux/nvidia-smi.md
+Linux/CLI.md
+Linux/Linux window manager.md
+Linux/fresh system sudo setup.md
+Linux/media mount as read only.md
+Linux/SYSV (System V).md
+Linux/X Desktop Group.md
+Linux/Linux Templates Directory.md
+Linux/compositors.md
+Linux/apt config.md
+Linux/inittramfs.md
+AWS/AWS EC2.md
+AWS/AWS cli installation.md
+AWS/EBS (Elastic Block Store).md
+AWS/AMI (Amazon Machine Image).md
+AWS/aws host website.md
+AWS/AWS EFS (Elastic File System).md
+AWS/AWS cli commands.md
+AWS/AWS ECR.md
+AWS/IAM.md
+helm/cli.md
+helm/helm.md
+Proxy/Reverse Proxy.md
+System Design/solid diagram.md
+System Design/Real-time Subscription.md
+System Design/stateless.md
+System Design/Throughput.md
+System Design/autonomous program.md
+System Design/GRASP.md
+System Design/Token bucket.md
+System Design/race condition.md
+System Design/Data fetching Frontend.md
+System Design/remote data.md
+System Design/Eventual consistency.md
+System Design/Food delivery.md
+System Design/Scaling Throughput in High-load system.md
+System Design/distributed system.md
+System Design/Quorum.md
+System Design/Concurrent modification.md
+System Design/Distributed computing.md
+System Design/System design.md
+System Design/node serverless.md
+System Design/concurrent connection.md
+System Design/backpressure.md
+System Design/Authentication web application.md
+System Design/on-demand vs static file (Streaming).md
+System Design/event-driven.md
+System Design/Raft.md
+System Design/Serialization.md
+Kubernates/Kubernetes config.md
+Kubernates/Kubernetes services.md
+golang/go project.md
+golang/go-routines.md
+golang/go callstack.md
+golang/go data structure.md
+golang/go functions.md
+golang/go features.md
+golang/go error.md
+golang/go cli.md
+golang/go package.md
+golang/Makefile.md
+golang/go debugging.md
+golang/go.md
+golang/go learning.md
+golang/Unbuffered channel.md
+Networking/non-Routable address.md
+Networking/address port.md
+Networking/Packet Fragment.md
+Networking/NAT (Network Address Translation).md
+Networking/CIDR (Classless Inter-Domain Routing).md
+Networking/mime type.md
+Networking/POSIX Socket.md
+Networking/ICMP.md
+Networking/ETAG or IF MATCH.md
+Networking/auto-pong.md
+Networking/autonomous system.md
+Networking/NAT Traversal.md
+Networking/localhost.md
+Networking/Internal routing.md
+Networking/outbound ip.md
+Networking/Data transfer communication channels.md
+Networking/BSD Socket.md
+Networking/Egress and Ingress.md
+Networking/network gateway.md
+Networking/TCP.md
+Networking/IPFS (InterPlanetry File System).md
+Networking/P2P (Peer-to-Peer).md
+Data structure/dsa modular arithmetics.md
+Data structure/dsa problem solving Scaffold.md
+Data structure/ADT (Abstract Data Type).md
+Data structure/dsa intuition.md
+Data structure/DSA algorithms.md
+Data structure/array.md
+Data structure/Sorting algorithm.md
+Architectures/Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User.md
+Architectures/Idempotent-key.md
+Architectures/presentation layer.md
+Architectures/Orchestration layer.md
+Architectures/feature flag.md
+Architectures/When scaling to hundreds of concurrent channels.md
+Architectures/H3 (Hexagonal Hierarchical Spatial Index).md
+Architectures/frontend layered architecture.md
+Architectures/Service Layer.md
+Architectures/System Architecture.md
+flutter/flutter widget.md
+flutter/flutter debugging.md
+flutter/Flutter app icon change.md
+flutter/flutter cli.md
+Database/SQL/postgres.md
+Database/SQL/SQL.md
+Database/SQL/SQL error.md
+Database/postgres/psql user acl.md
+Database/postgres/psql table.md
+Database/postgres/psql essential.md
+Database/postgres/psql database dump.md
+Database/mysql/mysql user.md
+Database/mysql/mysql lock.md
+Database/mysql/mysql transaction.md
+Database/mysql/mysql table.md
+Database/mysql/mysql data migrations.md
+Database/mysql/mysql function.md
+Database/mysql/MySQL storage.md
+Database/mysql/Configuration.md
+Database/mysql/show query.md
+Database/mysql/mysql.md
+Database/mysql/MySQL Engines.md
+Database/mysql/mysql index.md
+Database/mysql/mysql events 1.md
+Database/mysql/mysql triggers.md
+Database/mysql/mysql connection.md
+Database/mysql/partitioning.md
+Database/mysql/variables.md
+Database/mysql/mysql concepts.md
+Database/mysql/cli.md
+Database/mysql/mysql normalization.md
+Database/mysql/mysql Programmable SQL.md
+Database/mysql/key Constraint.md
+Database/mysql/covering index.md
+Database/mysql/mysql engine.md
+Database/mysql/mysql query.md
+Database/mysql/mysql json.md
+Database/mysql/mysql Privileges.md
+Database/mysql/orm/sequalizer.md
+NodeJS/Stream/pipe.md
+NodeJS/Packages/Ajv (Another JSON validator).md
+NodeJS/Packages/ngrok.md
+NodeJS/Packages/npm packages.md
+NodeJS/Packages/node-cron.md
+DNS/servers/PoserDNS.md
+DNS/servers/CoreDNS.md
+DNS/servers/dnsmasq.md
+DNS/servers/DSN records.md
+Descriptive/JavaScript/Asynchronous.md
+Descriptive/JavaScript/this.md
+Descriptive/JavaScript/Call stack.md
+Descriptive/JavaScript/pre-parser.md
+Descriptive/JavaScript/Weak map.md
+Descriptive/JavaScript/Garbage Collection.md
+Descriptive/JavaScript/The structured clone algorithm.md
+Descriptive/Java/Basic.md
+Descriptive/JavaScript/canvas Object/fillReact.md
+javascript/Packages/Immer.md
+javascript/Packages/Intl Formattor.md
+javascript/javascript web api/JavaScript History API.md
+Operating System/Boot/Extensible Firmware interface (efi).md
+Operating System/Boot/UEFI (2).md
+Operating System/Boot/UEFI.md
+Messaging/Kafka/Kafka distributed event streaming.md
+Messaging/Kafka/kafka.md
+Messaging/Kafka/kafka producer and consumer.md
+Messaging/Kafka/Kafka configuration.md
+Messaging/Kafka/Kafka broker.md
+Messaging/Kafka/Zookeeper.md
+ML/Visualization/data visualization.md
+ML/Visualization/predicated vs actual plot.md
+ML/Visualization/Rank distribution.md
+ExpressJS/pacakges/Socket IO.md
+ExpressJS/pacakges/Express HPP.md
+ExpressJS/pacakges/uWebSocket.md
+ExpressJS/pacakges/graphql-yoga.md
+MongoDB/query/mongodb lookup query.md
+MongoDB/query/mongoDB Group query.md
+MongoDB/mongoose/mongoose.md
+MongoDB/mongoose/mongoose schema.md
+MongoDB/mongoose/mongoose methods.md
+MongoDB/mongoose/mongoose custome function.md
+Design pattern/Creation pattern/Abstract Factor.md
+React/Redux/Redux createApi.md
+React/Redux/Immutability in Redux.md
+React/Redux/Redux Thunk.md
+React/Redux/redux middleware.md
+React/Redux/redux toolkit features.md
+React/Redux/Redux State sync with localstorage.md
+React/Redux/redux persist.md
+React/Redux/Redux createAsyncThunk.md
+React/Redux/Redux createSlice.md
+React/React Pattern/Compound Components 1.md
+React/React Pattern/Compound Components.md
+React/React Pattern/Provider pattern.md
+React/React Pattern/Higher order Component (HOCs).md
+React/React Pattern/Component Presentational Pattern.md
+React/React Pattern/Controlled and Uncontrolled component Pattern.md
+React/React Pattern/Composite pattern.md
+React/React Pattern/data fetching component.md
+React/React Pattern/React pattern categorisation.md
+React/Hooks/react useEffect.md
+React/Redux/RTQ/Middleware.md
+React/Redux/RTQ/RTQ tags.md
+React/Redux/RTQ/RTQ store.md
+Linux/commands/SSH.md
+Linux/commands/awk.md
+Linux/commands/jq.md
+Linux/commands/getent.md
+Linux/commands/linux pandirve.md
+Linux/commands/fzf.md
+Linux/commands/busctl.md
+Linux/commands/systemctl.md
+Linux/commands/Services commands.md
+Linux/commands/nload.md
+Linux/commands/ffmpeg.md
+Linux/commands/ss.md
+Linux/commands/Authentication command.md
+Linux/commands/top.md
+Linux/commands/useradd.md
+Linux/commands/lspci.md
+Linux/commands/gsetting.md
+Linux/commands/linux groups.md
+Linux/commands/APT policy.md
+Linux/commands/zip.md
+Linux/commands/ffprobe.md
+Linux/commands/netstat.md
+Linux/commands/keyctl.md
+Linux/commands/journalctl.md
+Linux/commands/Linux network commands.md
+Linux/commands/gpg.md
+Linux/commands/dmidecode.md
+Linux/commands/Find command.md
+Linux/commands/gdb.md
+Linux/commands/lsof.md
+Linux/commands/tsp cli.md
+Linux/commands/ps.md
+Linux/commands/tee.md
+Linux/commands/dig.md
+Linux/commands/xrandr.md
+Linux/commands/ufw.md
+Linux/commands/crontab.md
+Linux/commands/Linux process commands.md
+Linux/services/D-Bus.md
+Linux/services/systemd.md
+Linux/window manager/X window system (X11).md
+Linux/Bash/Bash syntax.md
+Linux/Bash/bash script.md
+Linux/Bash/bash flags.md
+Linux/Bash/Bash history.md
+Linux/management/Linux out of memory daemon.md
+Linux/management/Package Manager.md
+Linux/management/Linux resource management.md
+Linux/management/Linux system management.md
+Linux/management/grub.md
+Linux/management/Package deferred.md
+Linux/management/Linux Key management.md
+Linux/management/systemctl.md
+Linux/management/Linux management.md
+Linux/management/Linux application management.md
+Linux/management/keyrings.md
+Linux/management/Linux file management.md
+Linux/FileManagement/source list file.md
+AWS/Networking/Route53.md
+LLD/Questions/File based configuration manager.md
+LLD/Questions/Logger.md
+LLD/Questions/Connection Pool.md
+Architectures/database/MVCC.md
+Architectures/database/OCC.md

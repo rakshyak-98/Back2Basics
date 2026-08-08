@@ -2,7 +2,7 @@
 
 # Packet Fragment
 
-> One-line: what / why for **Packet Fragment** — source TBD.
+> Packet Fragment — process of dividing a large data package into smaller units
 
 ---
 

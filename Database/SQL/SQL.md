@@ -2,7 +2,7 @@
 
 # SQL
 
-> One-line: what / why for **SQL** — source TBD.
+> SQL — SELECT * FROM user WHERE id = 3; DROP DATABASE test;
 
 ---
 

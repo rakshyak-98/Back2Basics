@@ -2,7 +2,7 @@
 
 # AWS Elastic IP (EIP)
 
-> **Static public IPv4 in a region** — survives stop/start, anchors DNS A records, and fronts NAT gateways. **AWS EC2 User Guide (Elastic IP addresses)** + billing surprises from orphaned or stopped-instance EIPs.
+> Elastic IP — static public IPv4 in a region that survives instance stop/start.
 
 ---
 

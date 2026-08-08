@@ -2,7 +2,7 @@
 
 # UMD global
 
-> One-line: what / why for **UMD global** — source TBD.
+> UMD global — before ESM existed, browsers didn't support imports.
 
 ---
 

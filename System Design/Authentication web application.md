@@ -2,7 +2,7 @@
 
 # Authentication web application
 
-> One-line: what / why for **Authentication web application** — source TBD.
+> Authentication web application — validating user identity, system validation, or a service validation.
 
 ---
 

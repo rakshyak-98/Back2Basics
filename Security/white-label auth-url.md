@@ -2,7 +2,7 @@
 
 # white-label auth-url
 
-> One-line: what / why for **white-label auth-url** — source TBD.
+> white-label auth-url — a white-lable auth-URL flow is a method for user authentication that utilizes an external service's login system while maintaining the look and feel of the
 
 ---
 

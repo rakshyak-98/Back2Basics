@@ -2,7 +2,7 @@
 
 # psql database dump
 
-> One-line: what / why for **psql database dump** — source TBD.
+> psql database dump — pg_dump -U <username> -d <database_name> -f inventory_db.dump # Dump in custom (compressed) format (recommended)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # How does debugger work
 
-> One-line: what / why for **How does debugger work** — source TBD.
+> How does debugger work — gain control over the target process.
 
 ---
 

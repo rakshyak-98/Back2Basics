@@ -2,7 +2,7 @@
 
 # Strategy pattern
 
-> Family of interchangeable algorithms behind one interface — pick at runtime — **Dive Into Design Patterns + ODAX/goal configs in Marketing API**.
+> Strategy pattern — encapsulate what varies. When behavior branches by type (payment gateway, campaign goal, compression codec), put each variant in its own class implementing a
 
 ---
 

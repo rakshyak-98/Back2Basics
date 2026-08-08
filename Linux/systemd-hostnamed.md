@@ -2,7 +2,7 @@
 
 # systemd-hostnamed
 
-> One-line: what / why for **systemd-hostnamed** — source TBD.
+> systemd-hostnamed — a lightweight system service (daemon) provided by systemd that manages the system's hostname and some related machine identification metadata.
 
 ---
 

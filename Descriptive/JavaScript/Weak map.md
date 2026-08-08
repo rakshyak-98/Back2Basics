@@ -2,7 +2,7 @@
 
 # Weak map
 
-> One-line: what / why for **Weak map** — source TBD.
+> Weak map — additional storage of data for objects which are store or managed at another place.
 
 ---
 

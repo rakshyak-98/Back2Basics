@@ -2,7 +2,7 @@
 
 # DSN records
 
-> One-line: what / why for **DSN records** — source TBD.
+> DSN records — DNS records are entries in a DNS database that tell the internet how to route traffic for a domain.
 
 ---
 

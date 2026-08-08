@@ -2,7 +2,7 @@
 
 # LSP
 
-> One-line: what / why for **LSP** — source TBD.
+> LSP — language Server Protocol, is an open source JSON-RPC-based protocol for use between source code editors or IDE and servers that provide "language intelligence tools"
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Database
 
-> One-line: what / why for **Database** — source TBD.
+> Database — durable shared storage with queries, transactions, and consistency rules.
 
 ---
 

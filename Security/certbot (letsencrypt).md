@@ -2,7 +2,7 @@
 
 # certbot (letsencrypt)
 
-> One-line: what / why for **certbot (letsencrypt)** — source TBD.
+> certbot (letsencrypt) — default config and log files path
 
 ---
 

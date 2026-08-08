@@ -2,7 +2,7 @@
 
 # Two pointer
 
-> Instead of looking at values directly, think: I have one or more fingers pointing at locations, and I move those fingers according to rules".
+> Two pointers — move indexes through a sequence to scan or pair items in linear time.
 
 ---
 

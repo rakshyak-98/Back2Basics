@@ -2,7 +2,7 @@
 
 # TOTP (Time based One Time Password)
 
-> One-line: what / why for **TOTP (Time based One Time Password)** — source TBD.
+> TOTP (Time based One Time Password) — when a user enables TOTP 2FA:
 
 ---
 

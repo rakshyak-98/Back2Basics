@@ -2,7 +2,7 @@
 
 # bus
 
-> One-line: what / why for **bus** — source TBD.
+> bus — a computer bus acts as the internal data highway, routing communication between system components. The CPU and main memory are tightly coupled via the system bus
 
 ---
 

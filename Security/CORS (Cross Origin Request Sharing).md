@@ -2,7 +2,7 @@
 
 # CORS (Cross Origin Request Sharing)
 
-> One-line: browser-enforced policy — server headers permit another origin to read responses; preflight validates "non-simple" requests — **Fetch spec / W3C**.
+> CORS (Cross Origin Request Sharing) — CORS is not server access control — it stops browser JavaScript on https://evil.com from reading responses from https://api.example.com unless the
 
 ---
 

@@ -2,7 +2,7 @@
 
 # psql table
 
-> One-line: what / why for **psql table** — source TBD.
+> psql table — in PostgreSQL, you must implement this behavior using a TRIGGER.
 
 ---
 

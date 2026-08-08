@@ -2,7 +2,7 @@
 
 # Separate functional logic from persentation components
 
-> One-line: what / why for **Separate functional logic from persentation components** — source TBD.
+> Separate functional logic from persentation components — imagine replacing the entire user interface with a completely different one - for example, swapping a graphical GUI for a command-line
 
 ---
 

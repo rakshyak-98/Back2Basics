@@ -2,7 +2,7 @@
 
 # mongodb shell
 
-> One-line: what / why for **mongodb shell** — source TBD.
+> mongodb shell — name: { bsonType: "string", description: "must be a string" },
 
 ---
 

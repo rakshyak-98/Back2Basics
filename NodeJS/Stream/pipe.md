@@ -2,7 +2,7 @@
 
 # pipe
 
-> One-line: what / why for **pipe** — source TBD.
+> pipe — () is used in NodeJS streams to read from a readable stream and write to a writable stream efficiently.
 
 ---
 

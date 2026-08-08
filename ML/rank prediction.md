@@ -2,7 +2,7 @@
 
 # rank prediction
 
-> One-line: what / why for **rank prediction** — source TBD.
+> rank prediction — involves predicting a continuous output or an ordinal label
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Service Worker
 
-> **Browser-owned background thread** for fetch interception, offline cache, push — separate lifecycle from page JS — **Service Worker spec / MDN**.
+> Service Worker — unlike web workers (page-spawned, die with tab), a service worker is registered per origin + scope:
 
 ---
 

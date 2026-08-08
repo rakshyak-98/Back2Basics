@@ -1,6 +1,6 @@
 # staff engineer
 
-> One-line: what / why for **staff engineer** — source TBD.
+> Staff engineer — technical leadership through scope, influence, and craft over titles.
 
 ---
 

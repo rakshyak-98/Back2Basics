@@ -2,7 +2,7 @@
 
 # Orchestration (DevOps)
 
-> Coordinate ordered steps, retries, and failure handling across services — central workflow vs scattered scripts — **CI/CD + runtime workflow engines**.
+> Orchestration (DevOps) — orchestration sequences tasks/services to achieve a workflow. Contrast choreography (each service reacts to events without central brain) — see Architectures/Orchestration layer for distributed-systems
 
 ---
 

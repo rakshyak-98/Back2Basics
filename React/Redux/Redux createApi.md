@@ -2,7 +2,7 @@
 
 # Redux createApi
 
-> One-line: what / why for **Redux createApi** — source TBD.
+> Redux createApi — like the Redux core and Redux Toolkit, RTK Query's primary functionality is UI-agnostic and can be used with any UI layer. RTK Query also includes
 
 ---
 

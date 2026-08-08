@@ -2,7 +2,7 @@
 
 # flux
 
-> One-line: what / why for **flux** — source TBD.
+> flux — an application architecture used in React for managing data flow.
 
 ---
 

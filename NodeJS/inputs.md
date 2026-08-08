@@ -2,7 +2,7 @@
 
 # Node.js stdin / readline inputs
 
-> One-line: read interactive CLI input line-by-line via `readline` — wrap stdin/stdout; handle SIGINT and backpressure for REPL-style tools.
+> Node.js stdin / readline inputs — CLI tools get input from process.stdin (readable stream) and write to process.stdout. The readline module provides an Interface that emits
 
 ---
 

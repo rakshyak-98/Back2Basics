@@ -2,7 +2,7 @@
 
 # WebAssembly (Wasm)
 
-> **Portable binary IR** run near-native speed in browser/Node — compile from Rust/C/C++/Go — sandboxed, no direct DOM — **WebAssembly spec**.
+> WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module
 
 ---
 

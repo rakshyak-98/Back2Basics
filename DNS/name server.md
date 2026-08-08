@@ -2,7 +2,7 @@
 
 # name server
 
-> One-line: what / why for **name server** — source TBD.
+> name server — a Name Server is a DNS server that stores and serves authoritative DNS records for a domain.
 
 ---
 

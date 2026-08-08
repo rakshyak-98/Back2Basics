@@ -2,7 +2,7 @@
 
 # Residual plot
 
-> Plot **residual (y − ŷ) vs ŷ** (or vs feature) — primary diagnostic for regression misspecification — **ESL / regression diagnostics**.
+> Residual plot — residuals should look like random noise around zero:
 
 ---
 

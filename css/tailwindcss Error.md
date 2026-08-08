@@ -2,7 +2,7 @@
 
 # tailwindcss Error
 
-> One-line: what / why for **tailwindcss Error** — source TBD.
+> tailwindcss Error — [plugin:@tailwindcss/vite:generate:serve] Cannot apply unknown utility class w-3. Are you using CSS modules or similar and missing @reference? https://tailwindcss.com/docs/functions-and-directives#reference-directive
 
 ---
 

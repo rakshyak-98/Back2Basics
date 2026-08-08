@@ -2,7 +2,7 @@
 
 # Egress and Ingress
 
-> One-line: what / why for **Egress and Ingress** — source TBD.
+> Egress and Ingress — egress — Traffic that leaves VPC and goes out to the internet.
 
 ---
 

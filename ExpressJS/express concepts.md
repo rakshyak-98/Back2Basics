@@ -2,7 +2,7 @@
 
 # express concepts
 
-> One-line: what / why for **express concepts** — source TBD.
+> express concepts — groups all HTTP methods for a single path to avoid repetition.
 
 ---
 

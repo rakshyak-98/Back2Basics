@@ -2,7 +2,7 @@
 
 # Vercel deployment
 
-> **Git-push serverless hosting** for Next.js/static SPAs — edge CDN, serverless functions, env vars per environment. **Vercel docs** + classic SPA refresh 404 and env mismatch debug.
+> Vercel deployment — vercel builds from Git (or CLI vercel deploy) → static assets on global CDN + serverless functions (/api/*, Next.js routes). Routing is filesystem-based
 
 ---
 

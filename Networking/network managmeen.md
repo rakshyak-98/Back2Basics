@@ -2,7 +2,7 @@
 
 # NetworkManager (network managmeen)
 
-> One-line: default Linux userspace daemon that owns interface bring-up, DHCP, Wi-Fi, DNS, and routing — replaces manual `ifup`/static scripts on most desktops and servers.
+> NetworkManager (network managmeen) — networkManager (NM) sits between kernel netlink and admin intent (CLI, GUI, cloud-init):
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Creating a stack from scratch
 
-> One-line: what / why for **Creating a stack from scratch** — source TBD.
+> Creating a stack from scratch — YOu're developing a comprehensive web application for a financial service company. FOr this scenario, you want something that's trustworthy, secure, and scalable
 
 ---
 

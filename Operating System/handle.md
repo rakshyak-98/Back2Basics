@@ -2,7 +2,7 @@
 
 # handle
 
-> One-line: what / why for **handle** — source TBD.
+> Handle — OS opaque ID for an open resource (file, socket, process) used by syscalls.
 
 ---
 

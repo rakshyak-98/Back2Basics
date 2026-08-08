@@ -2,7 +2,7 @@
 
 # mime type
 
-> One-line: what / why for **mime type** — source TBD.
+> mime type — automatically mounted at boot, you can add an entry to /etc/fstab file.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # connection churn (connection chrun)
 
-> Filename typo: **chrun** → **churn**. TCP/HTTP connection lifecycle storms: keepalives, LB idle timeouts, client pools, `TIME_WAIT` — the usual “works then exhausts ports or CPU” failure.
+> connection churn (connection chrun) — churn = high rate of short-lived TCP connections (HTTP/1.0-style close per request, health checks, misconfigured pools) or idle timeout mismatch (LB
 
 ---
 

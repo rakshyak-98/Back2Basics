@@ -2,7 +2,7 @@
 
 # RabbitMQ
 
-> One-line: what / why for **RabbitMQ** — source TBD.
+> RabbitMQ — they will be loaded in alphabetical order. A common naming practice uses numerical prefixes in filenames to make it easier to reason about the order, or
 
 ---
 

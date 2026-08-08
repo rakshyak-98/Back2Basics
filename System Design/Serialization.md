@@ -2,7 +2,7 @@
 
 # Serialization
 
-> One-line: what / why for **Serialization** — source TBD.
+> Serialization — converting data (such as objects, database records, or responses) into a format that can be easily transferred over a network, stored, or processed.
 
 ---
 

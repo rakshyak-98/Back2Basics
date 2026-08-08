@@ -2,7 +2,7 @@
 
 # NTP sync
 
-> One-line: keep host clocks aligned to UTC via NTP so TLS, JWT, Kerberos, DB expiry, and distributed logs stay trustworthy — **Stevens UNP + Kerrisk LPI**.
+> keep host clocks aligned to UTC via NTP so TLS, JWT, Kerberos, DB expiry, and distributed logs stay trustworthy — **Stevens UNP + Kerrisk LPI**.
 
 ---
 

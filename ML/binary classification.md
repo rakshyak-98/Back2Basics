@@ -2,7 +2,7 @@
 
 # Binary classification
 
-> Predict one of two labels (spam/ham, fraud/legit) — optimize threshold on **precision/recall tradeoff**, not raw accuracy — **Hastie, Tibshirani, Friedman (ESL)**.
+> Binary classification — score(x) → probability p → if p ≥ τ then positive else negative
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Ordinal classification
 
-> Classes have a **natural order** (1★–5★, mild/moderate/severe) — respect ordering in loss and metrics, don't treat as nominal — **ordinal regression literature**.
+> Ordinal classification — nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode rank structure:
 
 ---
 

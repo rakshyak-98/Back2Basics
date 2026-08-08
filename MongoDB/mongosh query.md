@@ -2,7 +2,7 @@
 
 # mongosh query
 
-> One-line: what / why for **mongosh query** — source TBD.
+> mongosh query — { $regex: search, $options: "i" }
 
 ---
 

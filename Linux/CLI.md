@@ -2,7 +2,7 @@
 
 # CLI
 
-> One-line: the Linux **command-line interface** — compose small tools via pipes, redirect streams, and automate with shell; the operator's primary debugger. **Kernighan & Pike, POSIX shell**.
+> CLI — everything is a file descriptor: stdin (0), stdout (1), stderr (2). Programs read stdin, write stdout, errors to stderr. The shell connects them with pipes (|)
 
 ---
 

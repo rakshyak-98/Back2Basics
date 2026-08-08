@@ -2,7 +2,7 @@
 
 # system call
 
-> One-line: what / why for **system call** — source TBD.
+> system call — these functions allow user programs to request services from the kernel, such as file operations, process control, and communication between processes.
 
 ---
 

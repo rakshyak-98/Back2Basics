@@ -2,7 +2,7 @@
 
 # CRF (Constant Rate Factor)
 
-> Quality-target video encode — **x264/x265/VP9/AV1** trade bits for consistent visual quality per scene.
+> CRF (Constant Rate Factor) — CRF 18 ──► high quality, large files (archival-ish VoD)
 
 ---
 

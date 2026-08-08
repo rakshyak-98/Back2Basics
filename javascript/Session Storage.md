@@ -2,7 +2,7 @@
 
 # Session Storage
 
-> Browser `sessionStorage` API — tab-scoped key/value store; security and storage choice vs `localStorage` and cookies — **WHATWG HTML / OWASP**.
+> Session Storage — sessionStorage is a Storage object tied to a top-level browsing context (tab/window). Data survives page reloads and SPA navigations within the same tab
 
 ---
 

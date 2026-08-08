@@ -3,7 +3,7 @@
 
 # cookies configuration
 
-> One-line: what / why for **cookies configuration** — source TBD.
+> cookies configuration — set-Cookie: sessionToken=abc123; Expires=Wed, 09 Jun 2024 10:18:14 GMT
 
 ---
 

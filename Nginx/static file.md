@@ -2,7 +2,7 @@
 
 # static file
 
-> One-line: what / why for **static file** — source TBD.
+> static file — try_files — checks the filesystem for one or more paths in order.
 
 ---
 

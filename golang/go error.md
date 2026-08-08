@@ -2,7 +2,7 @@
 
 # go error
 
-> One-line: what / why for **go error** — source TBD.
+> go error — panic: runtime error: invalid memory address or nil pointer dereference
 
 ---
 

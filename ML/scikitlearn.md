@@ -2,7 +2,7 @@
 
 # scikitlearn
 
-> One-line: what / why for **scikitlearn** — source TBD.
+> scikitlearn — data shuffling is important (do prior of split)
 
 ---
 

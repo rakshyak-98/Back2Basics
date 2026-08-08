@@ -2,7 +2,7 @@
 
 # zod
 
-> One-line: what / why for **zod** — source TBD.
+> zod — message: 'Confirm password is required when setting a password',
 
 ---
 

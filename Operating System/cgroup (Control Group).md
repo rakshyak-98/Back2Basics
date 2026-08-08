@@ -2,7 +2,7 @@
 
 # cgroup (Control Group)
 
-> Kernel mechanism to group processes and apply CPU, memory, I/O, and pids limits — foundation for systemd slices, Docker, and Kubernetes QoS.
+> cgroup (Control Group) — cgroups answer: *which processes share a budget, and what happens when they exceed it?*
 
 ---
 

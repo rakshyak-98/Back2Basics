@@ -2,7 +2,7 @@
 
 # Payment break down json
 
-> One-line: what / why for **Payment break down json** — source TBD.
+> Payment break down json — "lengthOfStay": "At check in, the front desk will verify your check-out date. Rates quoted are based on check-in date and length of stay.
 
 ---
 

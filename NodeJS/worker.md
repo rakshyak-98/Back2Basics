@@ -2,7 +2,7 @@
 
 # worker
 
-> One-line: what / why for **worker** — source TBD.
+> worker — merged into worker threads — OS threads inside one Node process, pools, SharedArrayBuffer, and when to use vs clustering / child process.
 
 ---
 

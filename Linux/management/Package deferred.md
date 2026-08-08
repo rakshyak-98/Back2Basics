@@ -2,7 +2,7 @@
 
 # Package deferred
 
-> One-line: what / why for **Package deferred** — source TBD.
+> Package deferred — ubuntu uses phased updates to distribute package upgrades incrementally, reducing the risk of widespread issues if a new package version has bugs.
 
 ---
 

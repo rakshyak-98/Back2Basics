@@ -2,7 +2,7 @@
 
 # PDF (Portable Document Format)
 
-> One-line: what / why for **PDF (Portable Document Format)** — source TBD.
+> PDF (Portable Document Format) — called _portable_ because it preserves the layout, formatting, fonts and images of a document regardless of the software, hardware, or operating system used
 
 ---
 

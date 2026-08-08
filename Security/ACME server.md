@@ -2,7 +2,7 @@
 
 # ACME server
 
-> One-line: what / why for **ACME server** — source TBD.
+> ACME server — the remote server (rub by a Certificate Authority) that Certbot talks to using the ACME protocol.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Pallycon(DoveRunner)
 
-> One-line: what / why for **Pallycon(DoveRunner)** — source TBD.
+> Pallycon(DoveRunner) — pallycon-customdata-v2 — token is a server-side generated, cryptographically signed authentication string and authorizes your application to request a decryption key from the PallyCon License Server. You
 
 ---
 

@@ -2,7 +2,7 @@
 
 # dsa problem solving Scaffold
 
-> One-line: what / why for **dsa problem solving Scaffold** — source TBD.
+> dsa problem solving Scaffold — read the problem statement twice. Identify: What is the input? What is the output What are the constrains (e.g., time limits, array sizes
 
 ---
 

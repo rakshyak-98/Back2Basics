@@ -2,7 +2,7 @@
 
 # Non-blocking I/O
 
-> Syscall returns immediately with data, partial data, or `EAGAIN`/`EWOULDBLOCK` — caller polls or uses an event loop — **Stevens**.
+> Non-blocking I/O — blocking: read(fd) sleeps until data arrives — thread tied up, scheduler switches away.
 
 ---
 

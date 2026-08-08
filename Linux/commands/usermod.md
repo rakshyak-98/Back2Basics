@@ -2,7 +2,7 @@
 
 # usermod
 
-> One-line: **mutate existing POSIX accounts** — shell, home, groups, login name. Always verify with `getent`; `/etc/passwd` alone lies when LDAP/sssd is in play.
+> usermod — → /etc/passwd + shadow + group
 
 ---
 

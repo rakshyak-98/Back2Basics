@@ -2,7 +2,7 @@
 
 # MongoDB query validation
 
-> One-line: what / why for **MongoDB query validation** — source TBD.
+> MongoDB query validation — the explain() method provides detailed insights into query execution, including index usage, scanned documents, and execution time.
 
 ---
 

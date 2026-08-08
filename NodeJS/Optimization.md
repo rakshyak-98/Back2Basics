@@ -2,7 +2,7 @@
 
 # Optimization
 
-> One-line: what / why for **Optimization** — source TBD.
+> Optimization — have an build in profiler, clinic.js
 
 ---
 

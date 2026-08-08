@@ -2,7 +2,7 @@
 
 # Network Information Service (NIS)
 
-> One-line: what / why for **Network Information Service (NIS)** — source TBD.
+> Network Information Service (NIS) — whereas DNS focuses on simplification by using workstation names instead of addresses.
 
 ---
 

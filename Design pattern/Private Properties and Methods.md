@@ -2,7 +2,7 @@
 
 # Private Properties and Methods
 
-> One-line: what / why for **Private Properties and Methods** — source TBD.
+> Private Properties and Methods — just a name given to the public methods that have access to the private member.
 
 ---
 

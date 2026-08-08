@@ -2,7 +2,7 @@
 
 # BSD
 
-> One-line: what / why for **BSD** — source TBD.
+> BSD — communication in Unix-like operating systems.
 
 ---
 

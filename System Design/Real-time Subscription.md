@@ -2,7 +2,7 @@
 
 # Real-time Subscription
 
-> One-line: what / why for **Real-time Subscription** — source TBD.
+> Real-time Subscription — a real-time subscription is a mechanism where a client subscribes to updates from a server and automatically receives new data as soon as it's available
 
 ---
 

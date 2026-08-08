@@ -2,7 +2,7 @@
 
 # throttle
 
-> One-line: what / why for **throttle** — source TBD.
+> throttle — control the rate of data transfer to prevent congestion, ensure fair resource distribution, and maintain Quality of Service (QoS).
 
 ---
 

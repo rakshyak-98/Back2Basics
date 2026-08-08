@@ -2,7 +2,7 @@
 
 # Design Patterns
 
-> Apply GoF patterns only where variation or collaboration is real — **Dive Into Design Patterns (Shvets / Refactoring.Guru)** + production Marketing-API refactors.
+> Design patterns — reusable object designs; use only where variation is real. **Shvets**.
 
 ---
 

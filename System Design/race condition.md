@@ -2,7 +2,7 @@
 
 # race condition
 
-> One-line: what / why for **race condition** — source TBD.
+> race condition — their reason to pause the data event. In callback-based code, when the event handler returns, the runtime can fire the next data event if it
 
 ---
 

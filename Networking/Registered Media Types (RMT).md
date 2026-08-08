@@ -2,7 +2,7 @@
 
 # Registered Media Types (RMT)
 
-> IANA-maintained identifiers for content formats — HTTP `Content-Type` / `Accept` values that tell clients how to parse the body.
+> Registered Media Types (RMT) — media types (MIME types) are type/subtype plus optional parameters:
 
 ---
 

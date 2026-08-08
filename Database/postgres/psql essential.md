@@ -2,7 +2,7 @@
 
 # psql essential
 
-> One-line: what / why for **psql essential** — source TBD.
+> psql essential — \c database_name -- connect to database;
 
 ---
 

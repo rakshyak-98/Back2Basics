@@ -2,7 +2,7 @@
 
 # Shell Linux
 
-> One-line: what / why for **Shell Linux** — source TBD.
+> Shell Linux — remove prompt for default key-rings password on login
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Decision tree
 
-> Greedy, axis-aligned splits that partition feature space into leaf predictions — **Hastie / ESL** + production ML triage.
+> Decision tree — a decision tree asks a sequence of yes/no questions on one feature at a time until a leaf assigns a class (classification) or
 
 ---
 

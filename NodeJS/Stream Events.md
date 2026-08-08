@@ -2,7 +2,7 @@
 
 # Stream Events
 
-> One-line: what / why for **Stream Events** — source TBD.
+> Stream Events — we can use stream methods like read and write in combination with stream event listeners to consume streams.
 
 ---
 

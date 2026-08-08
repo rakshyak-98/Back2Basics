@@ -2,7 +2,7 @@
 
 # ambient modules
 
-> One-line: what / why for **ambient modules** — source TBD.
+> ambient modules — in typescript a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
 
 ---
 

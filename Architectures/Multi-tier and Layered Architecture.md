@@ -2,7 +2,7 @@
 
 # Multi-tier and Layered Architecture
 
-> **Tiers** = where code runs (physical/deployment). **Layers** = how code is organized (logical/modules). A 3-tier web app can still be a spaghetti monolith inside the middle tier — **Martin, Cockburn, Microsoft App Arch Guide**.
+> Tiers are where code runs; layers are how code is organized — keep them separate.
 
 ---
 

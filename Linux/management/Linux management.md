@@ -2,7 +2,7 @@
 
 # Linux management
 
-> One-line: what / why for **Linux management** — source TBD.
+> Linux management — system user - individual, or (system) process acting on behalf of an individual, authorized to access a system.
 
 ---
 

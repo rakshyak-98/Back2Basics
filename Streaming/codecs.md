@@ -2,7 +2,7 @@
 
 # Codecs
 
-> Compress/decompress algorithms for A/V — **encoder choice drives compatibility, cost, and ladder design**.
+> Codecs — a codec (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at ingest, transcode, and playback — mismatches force expensive
 
 ---
 

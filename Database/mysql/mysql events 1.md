@@ -2,7 +2,7 @@
 
 # mysql events 1
 
-> One-line: what / why for **mysql events 1** — source TBD.
+> mysql events 1 — SHOW CREATE EVENT my_event\G; -- view definition
 
 ---
 

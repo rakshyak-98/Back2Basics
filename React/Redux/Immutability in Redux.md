@@ -2,7 +2,7 @@
 
 # Immutability in Redux
 
-> One-line: what / why for **Immutability in Redux** — source TBD.
+> Immutability in Redux — in order to update values immutably, your code must make copies of existing objects / array and then modify the copies.
 
 ---
 

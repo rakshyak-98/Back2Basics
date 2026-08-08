@@ -2,7 +2,7 @@
 
 # Transporters
 
-> Transporters are application-layer abstractions responsible for managing network I/O state machines, connection pooling, protocol negotiation, and the serialization/deserialization of payloads between the runtime environment and the underlying network sockets.
+> Transporters — abstraction over data transmission they handle how data moves between systems / components.
 
 ---
 

@@ -1,6 +1,6 @@
 # Linux
 
-> One-line: what / why for **Linux** — source TBD.
+> Linux folder hub — kernel, shell, processes, filesystems, and ops commands.
 
 ---
 

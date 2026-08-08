@@ -2,7 +2,7 @@
 
 # kotlin view
 
-> One-line: what / why for **kotlin view** — source TBD.
+> kotlin view — binding is a ViewBinding object that provides type-safe access to UI element from your layout XML file.
 
 ---
 

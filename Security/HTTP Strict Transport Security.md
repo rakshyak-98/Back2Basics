@@ -2,7 +2,7 @@
 
 # HTTP Strict Transport Security
 
-> One-line: what / why for **HTTP Strict Transport Security** — source TBD.
+> HTTP Strict Transport Security — policy mechanism that helps to protect websites against [main-in-the-middle-attacks]
 
 ---
 

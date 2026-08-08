@@ -2,7 +2,7 @@
 
 # web worker
 
-> One-line: what / why for **web worker** — source TBD.
+> web worker — short field notes on what it is and how to use it.
 
 ---
 

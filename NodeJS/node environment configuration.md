@@ -2,7 +2,7 @@
 
 # node environment configuration
 
-> One-line: what / why for **node environment configuration** — source TBD.
+> node environment configuration — const environment = process.env.NODE_ENV || 'development';
 
 ---
 

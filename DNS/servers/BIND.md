@@ -2,7 +2,7 @@
 
 # BIND (named) — Operations
 
-> One-line: authoritative/recursive DNS via `named` — edit `named.conf`, validate zones, reload without restart, know recursion vs authority.
+> BIND (named) — Operations — BIND 9 runs as named. Two roles (don't mix blindly on public internet):
 
 ---
 

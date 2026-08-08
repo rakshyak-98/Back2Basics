@@ -2,7 +2,7 @@
 
 # crontab
 
-> One-line: per-user job scheduler — minute/hour/day/month/weekday triggers for scripts and one-liners. **Still everywhere; systemd timers are the modern alternative on server distros.**
+> crontab — cron reads /var/spool/cron/crontabs/<user> (or /etc/cron.d/* for system jobs). The crond daemon wakes every minute, checks whether any entry's five fields match *now*, and spawns
 
 ---
 

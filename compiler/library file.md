@@ -2,7 +2,7 @@
 
 # library file
 
-> Static (`.a`) vs shared (`.so` / `.dylib` / `.dll`) native libraries — how SEs link C/C++/Rust deps in CI and production.
+> library file — source → Object (.o) → Archive (.a) OR Shared (.so)
 
 ---
 

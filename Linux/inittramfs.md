@@ -2,7 +2,7 @@
 
 # inittramfs
 
-> One-line: what / why for **inittramfs** — source TBD.
+> inittramfs — after extracting, the kernel checks to see if rootfs contains a file *init*, and if so it executes it as PID 1.
 
 ---
 

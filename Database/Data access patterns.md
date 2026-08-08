@@ -2,7 +2,7 @@
 
 # Data access patterns
 
-> How the app reads/writes drives schema, indexes, caching, and consistency — staff design-review lens — **Designing Data-Intensive Applications** (Kleppmann).
+> Data access patterns — schema follows access paths, not ER diagrams drawn once. Ask every feature:
 
 ---
 

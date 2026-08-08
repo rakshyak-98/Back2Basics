@@ -2,7 +2,7 @@
 
 # Compliance Reporting to Broadcasters
 
-> Auditable reconciliation of entitlements + consumption → licensed Content IDs — **rights / royalty enforcement**, not analytics vanity metrics.
+> Compliance Reporting to Broadcasters — compliance reporting is the contractual data pipeline that proves how licensed content was sold, entitled, and consumed per Content ID (CID)
 
 ---
 

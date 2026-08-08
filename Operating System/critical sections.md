@@ -2,7 +2,7 @@
 
 # critical sections
 
-> One-line: what / why for **critical sections** — source TBD.
+> critical sections — a code block which prevent race condition to access shared resource.
 
 ---
 

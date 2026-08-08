@@ -2,7 +2,7 @@
 
 # Extensible Firmware interface (efi)
 
-> One-line: what / why for **Extensible Firmware interface (efi)** — source TBD.
+> Extensible Firmware interface (efi) — EFI servers as a modern replacement for the traditional BIOS (Basic Input/Output System) firmware interface.
 
 ---
 

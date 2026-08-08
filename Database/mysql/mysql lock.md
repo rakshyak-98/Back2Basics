@@ -2,7 +2,7 @@
 
 # mysql lock
 
-> One-line: what / why for **mysql lock** — source TBD.
+> mysql lock — LOCK TABLES — manually locks entire tables to control concurrency.
 
 ---
 

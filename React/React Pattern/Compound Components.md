@@ -2,7 +2,7 @@
 
 # Compound Components
 
-> One-line: what / why for **Compound Components** — source TBD.
+> Compound Components — a Class Management component composed of smaller components like ClassHeader ClassBody and ClassFooter.
 
 ---
 

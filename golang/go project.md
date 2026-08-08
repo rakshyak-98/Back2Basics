@@ -2,7 +2,7 @@
 
 # Go Backend Projects: Brief Specifications
 
-> One-line: what / why for **Go Backend Projects: Brief Specifications** — source TBD.
+> Go Backend Projects: Brief Specifications — add/list/delete/complete todos - Persist to JSON file - Flag parsing (go flags) - Input validation, pretty table output - 100%
 
 ---
 

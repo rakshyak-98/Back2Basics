@@ -2,7 +2,7 @@
 
 # Orchestration layer
 
-> Workflow **orchestration** vs **choreography** — where Temporal, Airflow, Camunda, and step functions sit — **distributed systems design**.
+> Orchestration layer — orchestration: a central coordinator drives steps, knows global state, retries, timeouts, compensations. Choreography: each service reacts to events with no central brain — flow emerges
 
 ---
 

@@ -2,7 +2,7 @@
 
 # RAM and Swap memory
 
-> One-line: what / why for **RAM and Swap memory** — source TBD.
+> RAM and Swap memory — RAM is your "active workspace" it holds the data and instruction for every application you have open right now.
 
 ---
 

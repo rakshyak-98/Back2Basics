@@ -2,7 +2,7 @@
 
 # DASH
 
-> One-line: what / why for **DASH** — source TBD.
+> DASH — dynamic Adaptive Streaming over HTTP (officially known as MPEG-DASH)
 
 ---
 

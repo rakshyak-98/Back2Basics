@@ -2,7 +2,7 @@
 
 # webdriver
 
-> One-line: what / why for **webdriver** — source TBD.
+> webdriver — every DOM element is represented in WebDriver by a unique identifying reference, known as a web element.
 
 ---
 

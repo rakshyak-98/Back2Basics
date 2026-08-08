@@ -2,7 +2,7 @@
 
 # DSA algorithms
 
-> One-line: what / why for **DSA algorithms** — source TBD.
+> DSA algorithms — time complexity grows linearly with two independent factors, multiply them to get the overall time complexity.
 
 ---
 

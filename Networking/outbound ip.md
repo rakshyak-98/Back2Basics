@@ -2,7 +2,7 @@
 
 # outbound ip
 
-> One-line: what / why for **outbound ip** — source TBD.
+> outbound ip — IP address used by server/device when sending traffic out to the internet.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # typescript error
 
-> One-line: what / why for **typescript error** — source TBD.
+> typescript error — the error can be fixed by adding the export {} statement at the end of the file. This turns the file into a module, which
 
 ---
 

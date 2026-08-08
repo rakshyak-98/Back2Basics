@@ -2,7 +2,7 @@
 
 # APT policy
 
-> One-line: what / why for **APT policy** — source TBD.
+> APT policy — command is used to check the installed and available versions of package, along with their priority (pinning) and source repositories.
 
 ---
 

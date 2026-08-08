@@ -2,7 +2,7 @@
 
 # rendition
 
-> One-line: what / why for **rendition** — source TBD.
+> rendition — a rendition is a single encoded output variant of source video, typically differing in resolution, bitrate, or codec, produced for adaptive bitrate (ABR) streaming.
 
 ---
 

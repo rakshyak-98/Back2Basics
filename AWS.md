@@ -1,6 +1,6 @@
 # AWS
 
-> One-line: what / why for **AWS** — source TBD.
+> Amazon Web Services folder hub — cloud compute, storage, networking, and IAM notes.
 
 ---
 

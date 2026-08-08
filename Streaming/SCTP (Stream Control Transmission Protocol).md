@@ -2,7 +2,7 @@
 
 # SCTP (Stream Control Transmission Protocol)
 
-> Message-oriented transport used inside **WebRTC data channels** — **ordered/unordered delivery** over DTLS, not your HLS ingest path.
+> SCTP (Stream Control Transmission Protocol) — SCTP sits above IP, offering multiple streams with optional reliable ordered delivery — unlike TCP's single byte stream. In WebRTC, SCTP runs
 
 ---
 

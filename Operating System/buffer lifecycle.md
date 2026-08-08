@@ -2,7 +2,7 @@
 
 # buffer lifecycle
 
-> One-line: what / why for **buffer lifecycle** — source TBD.
+> buffer lifecycle — buffer in the kernel go through the following lifecycle
 
 ---
 

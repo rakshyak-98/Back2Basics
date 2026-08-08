@@ -2,7 +2,7 @@
 
 # RTQ Concepts
 
-> One-line: what / why for **RTQ Concepts** — source TBD.
+> RTQ Concepts — wraps createStore to provide simplified configuration with good defaults — automatically combines slice reducers, adds middleware, includes redux-thunk by default, and enables the Redux DevTools
 
 ---
 

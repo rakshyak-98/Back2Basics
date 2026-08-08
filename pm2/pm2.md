@@ -2,7 +2,7 @@
 
 # pm2
 
-> One-line: what / why for **pm2** — source TBD.
+> pm2 — start npm --name <app name> -- start
 
 ---
 

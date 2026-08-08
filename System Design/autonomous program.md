@@ -2,7 +2,7 @@
 
 # autonomous program
 
-> One-line: what / why for **autonomous program** — source TBD.
+> autonomous program — an autonomous program is a software system that operates independently without continuous human intervention. It can make decisions, adapt to inputs, and execute tasks based
 
 ---
 

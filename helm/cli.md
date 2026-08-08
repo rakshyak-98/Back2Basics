@@ -2,7 +2,7 @@
 
 # cli
 
-> One-line: what / why for **cli** — source TBD.
+> cli — helm repo add <namespace> <url> <flag>;
 
 ---
 

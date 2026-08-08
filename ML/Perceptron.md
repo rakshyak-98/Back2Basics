@@ -2,7 +2,7 @@
 
 # Perceptron
 
-> One-line: what / why for **Perceptron** — source TBD.
+> Perceptron — finding an appropriate learning rate requires some experimentation.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Nginx files (paths and log rotation)
 
-> Where config, logs, and runtime state live on disk — first stop when nginx -t passes but site wrong or logs vanish. **Full `/etc/nginx/` tree:** [[nginx config structure]].
+> Nginx files (paths and log rotation) — package layout varies Debian (/etc/nginx/) vs RHEL (/etc/nginx/ similar) but patterns hold: main config includes snippets and sites-enabled. See
 
 ---
 

@@ -2,7 +2,7 @@
 
 # React build
 
-> Turn TS/JSX into optimized static assets — dev server vs production bundle, env injection, source maps — **Vite / CRA / Next docs**.
+> React build — source (TSX, CSS) → bundler (Vite/webpack/esbuild) → chunks + hashed filenames → CDN
 
 ---
 

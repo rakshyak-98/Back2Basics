@@ -2,7 +2,7 @@
 
 # OOPS
 
-> One-line: what / why for **OOPS** — source TBD.
+> OOPS — block of memory created when the constructor of a function is invoked.
 
 ---
 

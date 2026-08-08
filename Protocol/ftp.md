@@ -2,7 +2,7 @@
 
 # ftp
 
-> One-line: what / why for **ftp** — source TBD.
+> ftp — a separate data connection is established for transferring files.
 
 ---
 

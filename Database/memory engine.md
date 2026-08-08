@@ -2,7 +2,7 @@
 
 # MEMORY storage engine (MySQL)
 
-> One-line: table data lives in RAM only — microsecond reads for temp/session data; gone on restart; strict type/size limits.
+> MEMORY storage engine (MySQL) — mySQL MEMORY (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents —
 
 ---
 

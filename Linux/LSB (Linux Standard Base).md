@@ -2,7 +2,7 @@
 
 # LSB (Linux Standard Base)
 
-> One-line: what / why for **LSB (Linux Standard Base)** — source TBD.
+> LSB (Linux Standard Base) — while it's not a kernel "module" in the way a hardware drive is, it is a core standard (and a corresponding set of
 
 ---
 

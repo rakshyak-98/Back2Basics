@@ -2,7 +2,7 @@
 
 # hoisting
 
-> One-line: what / why for **hoisting** — source TBD.
+> hoisting — that variable and function declarations are moved to the top of the code before it runs. This lets you use them before they are actually written
 
 ---
 

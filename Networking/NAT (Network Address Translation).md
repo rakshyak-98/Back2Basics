@@ -2,7 +2,7 @@
 
 # NAT (Network Address Translation)
 
-> One-line: what / why for **NAT (Network Address Translation)** — source TBD.
+> NAT (Network Address Translation) — network Address Translation — modifies IP headers in transit, remapping address spaces by overwriting source/destination IP addresses and/or port numbers in
 
 ---
 

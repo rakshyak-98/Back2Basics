@@ -2,7 +2,7 @@
 
 # firebase reminders configuration
 
-> One-line: what / why for **firebase reminders configuration** — source TBD.
+> firebase reminders configuration — exports.sendClassReminders = functions.pubsub.schedule("every 5 minutes").onRun(async () => {
 
 ---
 

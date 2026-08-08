@@ -2,7 +2,7 @@
 
 # HES Architecture
 
-> **HES** acronym is ambiguous in this vault (no prior mentions) — commonly **Home Energy System**, **Head-End System** (utilities/AMI), or **Health Examination System**. Below: **high-availability edge service** pattern applicable to meter gateways, clinic edge nodes, or IoT aggregators — define your domain acronym in the project README.
+> HES Architecture — │ Edge / HES tier │
 
 ---
 

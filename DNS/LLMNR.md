@@ -2,7 +2,7 @@
 
 # LLMNR
 
-> One-line: what / why for **LLMNR** — source TBD.
+> LLMNR — a protocol used for local network name resolution when DNS is unavailable.
 
 ---
 

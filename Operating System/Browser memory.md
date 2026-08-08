@@ -2,7 +2,7 @@
 
 # Browser memory
 
-> One-line: what / why for **Browser memory** — source TBD.
+> Browser memory — you upload an image in the browser — it stays in RAM, never touches your hard drive.
 
 ---
 

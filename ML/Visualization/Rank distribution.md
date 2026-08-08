@@ -2,7 +2,7 @@
 
 # Rank distribution
 
-> Histogram/KDE of **predicted scores or ranks** — detect collapse, saturation, and train/serve skew in ranking systems.
+> Rank distribution — a ranker should produce a spread of scores so sorting separates good from bad items. Healthy distribution:
 
 ---
 

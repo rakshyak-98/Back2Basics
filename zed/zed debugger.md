@@ -2,7 +2,7 @@
 
 # zed debugger
 
-> One-line: what / why for **zed debugger** — source TBD.
+> zed debugger — console is in 'commands' mode, prefix expressions with '?'.
 
 ---
 

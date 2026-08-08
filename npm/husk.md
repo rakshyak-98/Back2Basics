@@ -2,7 +2,7 @@
 
 # Husky (filename: husk.md)
 
-> Git hooks manager for Node repos — enforce lint/test/format at commit/push without relying on developer memory — **Husky v9+**.
+> Husky (filename: husk.md) — husky installs scripts into .husky/ that Git invokes on events (pre-commit, pre-push, commit-msg). It bridges npm lifecycle and Git hooks so CI
 
 ---
 

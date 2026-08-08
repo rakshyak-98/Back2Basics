@@ -2,7 +2,7 @@
 
 # network gateway
 
-> One-line: what / why for **network gateway** — source TBD.
+> network gateway — routes traffic from a local network to destinations outside the network, such as the internet.
 
 ---
 

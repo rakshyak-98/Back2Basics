@@ -2,7 +2,7 @@
 
 # Dart functions
 
-> First-class, closable functions with optional/named params, cascade-friendly syntax, and nested functions for encapsulation — know closure capture and `=>` vs block bodies.
+> Dart functions — functions are objects: assign to variables, pass as args, return from functions. Dart is single-threaded event-loop async (flutter isolates for parallelism).
 
 ---
 

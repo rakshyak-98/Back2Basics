@@ -2,7 +2,7 @@
 
 # Take snapshot
 
-> Capture process memory or execution state at a point in time — for debugging, profiling, or checkpoint/restore.
+> Take snapshot — a snapshot freezes state so you can inspect offline or resume later:
 
 ---
 

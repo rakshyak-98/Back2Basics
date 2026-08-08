@@ -2,7 +2,7 @@
 
 # Static members (class-level state and methods)
 
-> Belong to the type, not instances — one shared slot in memory; no virtual dispatch; common for factories, constants, and caches; abuse causes test pain and hidden global state.
+> Belong to the type, not instances — one shared slot in memory; no virtual dispatch; common for factories, constants, and caches; abuse causes test pain and
 
 ---
 

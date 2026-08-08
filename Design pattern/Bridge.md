@@ -2,7 +2,7 @@
 
 # Bridge pattern
 
-> Decouple abstraction from implementation so both evolve independently — two hierarchies joined by composition — **GoF + device/remote mental model**.
+> Bridge pattern — without Bridge, one class dimension multiplies subclasses (BasicRemote+TV, BasicRemote+Radio, …). Bridge splits:
 
 ---
 

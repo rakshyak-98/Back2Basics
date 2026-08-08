@@ -2,7 +2,7 @@
 
 # stateless
 
-> One-line: what / why for **stateless** — source TBD.
+> stateless — server that streams data to clients without storing any session/state between requests or clients.
 
 ---
 

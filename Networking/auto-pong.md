@@ -2,7 +2,7 @@
 
 # auto-pong
 
-> One-line: what / why for **auto-pong** — source TBD.
+> auto-pong — in networking, auto-pong typically refers to an automatic response mechanism where a system or protocol sends a pong reply when it receives a ping request.
 
 ---
 

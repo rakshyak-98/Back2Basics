@@ -2,7 +2,7 @@
 
 # Reverse Proxy
 
-> One-line: what / why for **Reverse Proxy** — source TBD.
+> Reverse Proxy — a reverse proxy is used by the server-side to accept request from clients on behalf of the actual server, hiding the server's identity. The response
 
 ---
 

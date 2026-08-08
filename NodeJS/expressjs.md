@@ -2,7 +2,7 @@
 
 # expressjs
 
-> One-line: what / why for **expressjs** — source TBD.
+> expressjs — may store any value that you want, but certain names can be used to configure the behavior of the server.
 
 ---
 

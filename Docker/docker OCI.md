@@ -2,7 +2,7 @@
 
 # commit changes in the container to new image.
 
-> One-line: what / why for **commit changes in the container to new image.** — source TBD.
+> commit changes in the container to new image. — OCI - Open Container Initiative. OCI runtime is a specification for running containerised applications.
 
 ---
 

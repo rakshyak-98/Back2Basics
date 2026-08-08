@@ -2,7 +2,7 @@
 
 # react hooks
 
-> One-line: what / why for **react hooks** — source TBD.
+> react hooks — preventing its recreation on every render unless its dependency array changes.
 
 ---
 

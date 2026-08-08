@@ -2,7 +2,7 @@
 
 # LDAP (Lightweight Directory Access Protocol)
 
-> One-line: what / why for **LDAP (Lightweight Directory Access Protocol)** — source TBD.
+> LDAP (Lightweight Directory Access Protocol) — application protocol for accessing and maintaining distributed directory information services over an Internet protocol network.
 
 ---
 

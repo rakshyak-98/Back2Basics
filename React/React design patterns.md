@@ -2,7 +2,7 @@
 
 # React design patterns
 
-> One-line: what / why for **React design patterns** — source TBD.
+> React design patterns — a function that takes a component and returns an enhanced version. Less common now due to hooks, but still useful for legacy code or
 
 ---
 

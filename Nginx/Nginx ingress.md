@@ -2,7 +2,7 @@
 
 # Nginx ingress
 
-> One-line: what / why for **Nginx ingress** — source TBD.
+> Nginx ingress — acts as a load balancer and Reverse Proxy for kubernetes cluster.
 
 ---
 

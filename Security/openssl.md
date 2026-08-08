@@ -2,7 +2,7 @@
 
 # openssl
 
-> One-line: what / why for **openssl** — source TBD.
+> openssl — common Name (CN) — shop.localhost (important).
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Advanced RISC Machine (ARM)
 
-> RISC ISA dominating mobile and cloud — load/store architecture, fixed-width instructions, power-efficient — **ARMv8-A / AArch64 ops debugging**.
+> Advanced RISC Machine (ARM) — ARM (Advanced RISC Machine) uses Reduced Instruction Set Computing: simple instructions, register-register ops, explicit load/store to memory. AArch64 (64-bit) is the
 
 ---
 

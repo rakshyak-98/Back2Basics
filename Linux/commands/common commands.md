@@ -2,7 +2,7 @@
 
 # Common commands — daily ops cheat sheet
 
-> One-line: **curated shell one-liners with interpretation** — the 80% you reach for during incidents, deploys, and log hunts. Not exhaustive; each line says *what it proves*.
+> curated shell one-liners with interpretation — the 80% you reach for during incidents, deploys, and log hunts. Not exhaustive; each line says *what it proves*.
 
 ---
 

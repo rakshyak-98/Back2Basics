@@ -2,7 +2,7 @@
 
 # git guidlines
 
-> One-line: what / why for **git guidlines** — source TBD.
+> git guidlines — feat: add new inventory endpoint
 
 ---
 

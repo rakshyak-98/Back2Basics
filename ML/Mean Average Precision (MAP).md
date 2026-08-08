@@ -2,7 +2,7 @@
 
 # Mean Average Precision (MAP)
 
-> Ranking metric: average of **per-query Average Precision** — rewards relevant items ranked high — **IR evaluation (Manning, Raghavan, Schütze)**.
+> Mean Average Precision (MAP) — for each query, you have a ranked list of items. Relevance is binary (or graded in nDCG). Precision@k = relevant in top k
 
 ---
 

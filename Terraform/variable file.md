@@ -2,7 +2,7 @@
 
 # variable file
 
-> Inputs, locals, outputs, tfvars — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
+> Inputs, locals, outputs, tfvars — make one config work across envs. **Brikman / Winkler**.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # DSA Foundation Knowledge Roadmap
 
-> One-line: what / why for **DSA Foundation Knowledge Roadmap** — source TBD.
+> DSA Foundation Knowledge Roadmap — a computer, however is a state machine, it has no intuition and cannot "look ahead". It only knows the exact values of its
 
 ---
 

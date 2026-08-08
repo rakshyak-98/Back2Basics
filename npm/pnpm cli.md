@@ -2,7 +2,7 @@
 
 # pnpm cli
 
-> One-line: what / why for **pnpm cli** — source TBD.
+> pnpm cli — pnpm approve-builds — is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
 
 ---
 

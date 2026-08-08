@@ -2,7 +2,7 @@
 
 # typescript
 
-> One-line: what / why for **typescript** — source TBD.
+> typescript — can define global level types, without importing them and still use them in your code.
 
 ---
 

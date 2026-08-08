@@ -2,7 +2,7 @@
 
 # Throughput
 
-> One-line: what / why for **Throughput** — source TBD.
+> Throughput — measure of the actual data (bits/payload) successfully transferred from a source to a destination over a specific network path or through a processing pipeline
 
 ---
 

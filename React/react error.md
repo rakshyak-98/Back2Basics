@@ -2,7 +2,7 @@
 
 # react error
 
-> One-line: what / why for **react error** — source TBD.
+> react error — x-Content-Type-Options — "Hey browser trust the file type I told you (like .js or .css) Don't try to be smart and guess different type."
 
 ---
 

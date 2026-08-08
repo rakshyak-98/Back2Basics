@@ -2,7 +2,7 @@
 
 # Kafka distributed event streaming
 
-> One-line: what / why for **Kafka distributed event streaming** — source TBD.
+> Kafka distributed event streaming — kafka is a distributed event streaming platform used for real-time data processing.
 
 ---
 

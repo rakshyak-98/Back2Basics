@@ -2,7 +2,7 @@
 
 # IRC
 
-> One-line: what / why for **IRC** — source TBD.
+> IRC — a text based chat system for instant messaging.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # SYSV (System V)
 
-> One-line: what / why for **SYSV (System V)** — source TBD.
+> SYSV (System V) — unix System V is one of the first commercial versions of the Unix operating system.
 
 ---
 

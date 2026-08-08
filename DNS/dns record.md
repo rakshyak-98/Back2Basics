@@ -2,7 +2,7 @@
 
 # DNS record
 
-> Name → type → value mapping in a zone — A/AAAA/CNAME/TXT/MX with TTL controlling cache stickiness.
+> DNS record — resolvers cache answers per TTL (seconds). Lower TTL before changes = faster global cutover. CNAME can't apex @ on all providers (use ALIAS/ANAME
 
 ---
 

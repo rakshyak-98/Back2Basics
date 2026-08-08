@@ -2,7 +2,7 @@
 
 # [ Apply the changes ]
 
-> One-line: what / why for **[ Apply the changes ]** — source TBD.
+> [ Apply the changes ] — services start sequentially, causing slow boot times. With systemctl services can start in parallel when possible
 
 ---
 

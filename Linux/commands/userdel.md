@@ -2,7 +2,7 @@
 
 # userdel
 
-> One-line: remove a local user account from `/etc/passwd` and optionally home + mail spool — offboarding and cleanup; irreversible without backups. **Kerrisk**.
+> userdel — removes the account line from /etc/passwd, /etc/shadow, and /etc/group (primary group entry if it was user-private). Files owned by the UID remain on disk
 
 ---
 

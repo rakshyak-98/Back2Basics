@@ -2,7 +2,7 @@
 
 # prompt
 
-> One-line: what / why for **prompt** — source TBD.
+> prompt — from now on in every conversation we have:
 
 ---
 

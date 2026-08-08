@@ -2,7 +2,7 @@
 
 # Base clock speed
 
-> Minimum guaranteed operating frequency (GHz) under nominal thermal/power spec — not the same as turbo/boost peak.
+> Base clock speed — cPUs advertise base clock (guaranteed all-core floor under TDP) and max turbo (short-burst peak on few cores):
 
 ---
 

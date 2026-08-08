@@ -2,7 +2,7 @@
 
 # Buffers
 
-> One-line: what / why for **Buffers** — source TBD.
+> Buffers — create readable stream fro the file input.txt and reads the file in chunks instead of loading the whole file into memory at once.
 
 ---
 

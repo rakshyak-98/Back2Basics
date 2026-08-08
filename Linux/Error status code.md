@@ -2,7 +2,7 @@
 
 # Error status code
 
-> One-line: what / why for **Error status code** — source TBD.
+> Error status code — in Linux and Unix-like systems, exit codes (also known as exit statuses or return codes) are numeric values returned by a command or a
 
 ---
 

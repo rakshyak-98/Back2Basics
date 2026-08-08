@@ -2,7 +2,7 @@
 
 # ASGI
 
-> One-line: what / why for **ASGI** — source TBD.
+> ASGI — web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
 
 ---
 

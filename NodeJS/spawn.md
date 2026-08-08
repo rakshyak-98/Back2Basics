@@ -2,7 +2,7 @@
 
 # spawn
 
-> One-line: run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
+> run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
 
 ---
 

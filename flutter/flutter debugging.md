@@ -2,7 +2,7 @@
 
 # flutter debugging
 
-> One-line: what / why for **flutter debugging** — source TBD.
+> flutter debugging — short field notes on what it is and how to use it.
 
 ---
 

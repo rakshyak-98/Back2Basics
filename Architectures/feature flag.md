@@ -2,7 +2,7 @@
 
 # feature flag
 
-> One-line: what / why for **feature flag** — source TBD.
+> feature flag — instead of shipping a feature directly to all users, you wrap it behind a conditional check that can be toggled on or off remotely.
 
 ---
 

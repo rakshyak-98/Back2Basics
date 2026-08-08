@@ -2,7 +2,7 @@
 
 # theme
 
-> One-line: what / why for **theme** — source TBD.
+> theme — gsettings set org.freedesktop.ibus.panel.emoji hotkey '@as []'
 
 ---
 

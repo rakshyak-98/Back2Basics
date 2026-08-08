@@ -2,7 +2,7 @@
 
 # URL Rewriting
 
-> One-line: what / why for **URL Rewriting** — source TBD.
+> URL Rewriting — a technique used by web servers (like Apache, Nginx, IIS, etc.) or web frameworks to transform a "pretty" or user-friendly URL into a different internal
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Github action (2)
 
-> One-line: what / why for **Github action (2)** — source TBD.
+> Github action (2) — short field notes on what it is and how to use it.
 
 ---
 

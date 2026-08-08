@@ -2,7 +2,7 @@
 
 # React pattern categorisation
 
-> One-line: what / why for **React pattern categorisation** — source TBD.
+> React pattern categorisation — in a large-scale React application with 2000+ components, Categorisation components by their responsibilities and aligning them with suitable design patterns ensures maintainability, scalability, and
 
 ---
 

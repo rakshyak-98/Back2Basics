@@ -2,7 +2,7 @@
 
 # Data Fetching HOC component
 
-> One-line: what / why for **Data Fetching HOC component** — source TBD.
+> Data Fetching HOC component — import React, { useState, useEffect } from 'react';
 
 ---
 

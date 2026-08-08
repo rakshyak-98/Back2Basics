@@ -2,7 +2,7 @@
 
 # Memento
 
-> Capture and restore an object's internal state without exposing it — undo/draft snapshots — **Dive Into Design Patterns + campaign draft memento**.
+> Memento — draft (originator) ──createMemento──► Memento ──stored by──► History
 
 ---
 

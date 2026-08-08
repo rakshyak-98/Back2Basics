@@ -2,7 +2,7 @@
 
 # ELF (Executable and Linkable Format)
 
-> One-line: the standard **binary object format** for executables, shared libraries, and relocatable objects on Linux — what `file`, the dynamic linker, and debuggers consume. **System V ABI / gABI**.
+> ELF (Executable and Linkable Format) — source.c ──compile──► .o (relocatable ELF)
 
 ---
 

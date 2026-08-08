@@ -2,7 +2,7 @@
 
 # Git Hooks
 
-> One-line: scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
+> scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
 ---
 

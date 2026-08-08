@@ -2,7 +2,7 @@
 
 # Audio: copied without transcoding
 
-> One-line: what / why for **Audio: copied without transcoding** — source TBD.
+> Audio: copied without transcoding — ffmpeg is a command-line multimedia processing tool. It can read, write, convert, process, and stream audio and video.
 
 ---
 

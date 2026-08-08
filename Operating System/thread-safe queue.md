@@ -2,7 +2,7 @@
 
 # thread-safe queue
 
-> One-line: what / why for **thread-safe queue** — source TBD.
+> thread-safe queue — a thread-safe queue (also called a concurrent queue or synchronised queue) is a queue data structure that can be safely used (enqueued and dequeued) by
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Mediator
 
-> Central colleague that coordinates widgets/modules so they do not refer to each other — **Dive Into Design Patterns + campaign wizard steps**.
+> Mediator — creativeStep ──► CampaignWizardMediator ──► updates peers
 
 ---
 

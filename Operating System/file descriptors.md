@@ -2,7 +2,7 @@
 
 # File descriptors
 
-> Per-process integer handles to open kernel objects (files, sockets, pipes, epoll sets) — **Stevens / Kerrisk**.
+> File descriptors — every open I/O object in Unix is a file descriptor (fd): a small non-negative integer index into the process's fd table. Each slot
 
 ---
 

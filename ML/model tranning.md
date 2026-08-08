@@ -2,7 +2,7 @@
 
 # model tranning
 
-> One-line: what / why for **model tranning** — source TBD.
+> model tranning — accuracy, precision, recall, F1 score, mean squared error.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # vim commands
 
-> One-line: what / why for **vim commands** — source TBD.
+> vim commands — ctrl-a (increment number under cursor)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # mysql2
 
-> One-line: what / why for **mysql2** — source TBD.
+> mysql2 — short field notes on what it is and how to use it.
 
 ---
 

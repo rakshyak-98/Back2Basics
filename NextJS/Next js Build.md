@@ -2,7 +2,7 @@
 
 # Next js Build
 
-> One-line: what / why for **Next js Build** — source TBD.
+> Next js Build — the compiler literally replaces the text process.env.API_URL with the actual string value
 
 ---
 

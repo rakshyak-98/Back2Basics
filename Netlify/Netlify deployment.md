@@ -2,7 +2,7 @@
 
 # Netlify deployment
 
-> Git-connected or CLI deploy with `netlify.toml` — build command, publish dir, and Next.js plugin for SSR/ISR.
+> Netlify deployment — netlify runs your build command, publishes publish directory to CDN, and optionally runs serverless functions at the edge. Next.js needs @netlify/plugin-nextjs for App
 
 ---
 

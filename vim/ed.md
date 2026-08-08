@@ -2,7 +2,7 @@
 
 # ed
 
-> ed myfile.txt
+> ed — 1 # go to first line
 
 ---
 

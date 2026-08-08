@@ -2,7 +2,7 @@
 
 # Command pattern
 
-> Encapsulate an action as an object — invoker, undo, queue, and log requests — **GoF + UI/action systems**.
+> Command pattern — client ──creates──► Command ──passed to──► Invoker ──calls──► Receiver
 
 ---
 

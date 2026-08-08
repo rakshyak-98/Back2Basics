@@ -2,7 +2,7 @@
 
 # Rolling buffer
 
-> Fixed-capacity circular queue — new writes advance the head and overwrite the oldest slot; bounded memory for streams without realloc/GC churn.
+> Rolling buffer — also called ring buffer or circular buffer. One contiguous array + read/write indices modulo capacity:
 
 ---
 

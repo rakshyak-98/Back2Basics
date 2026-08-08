@@ -2,7 +2,7 @@
 
 # kotlin data flow
 
-> One-line: what / why for **kotlin data flow** — source TBD.
+> kotlin data flow — by lets one object handle that logic of property on behalf of another object.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # streaming license
 
-> One-line: what / why for **streaming license** — source TBD.
+> streaming license — server generates a PallyCon/DoveRunner v2 license token for Widevine. It is not the same as CPIX getKey token. It is the value sent
 
 ---
 

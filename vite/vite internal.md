@@ -2,7 +2,7 @@
 
 # vite internal
 
-> One-line: what / why for **vite internal** — source TBD.
+> vite internal — you can not directly use process.env like in Webpack setup. Instead vite uses import.meta.env to access environment variables.
 
 ---
 

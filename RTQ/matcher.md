@@ -2,7 +2,7 @@
 
 # matcher
 
-> One-line: what / why for **matcher** — source TBD.
+> matcher — in Redux Toolkit, multiple matchers for the same event do run sequentially, but splitting them into separate matchers here provides no benefit because:
 
 ---
 

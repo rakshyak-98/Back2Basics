@@ -2,7 +2,7 @@
 
 # node debugger
 
-> One-line: what / why for **node debugger** — source TBD.
+> node debugger — if request is set to "launch", VS Code starts a new Node.js process with debugging enabled (equivalent to running node --inspect or node --inspect-brk).
 
 ---
 

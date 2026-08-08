@@ -2,7 +2,7 @@
 
 # nginx config structure
 
-> One-line: **`/etc/nginx/` layout on Debian/Ubuntu** — how `nginx.conf` includes sites, snippets, and param files into one effective config tree. **Package `nginx` + `nginx-common`.**
+> nginx config structure — nginx does not run "one big file." The master config (nginx.conf) sets global defaults, then include pulls in everything else at parse
 
 ---
 

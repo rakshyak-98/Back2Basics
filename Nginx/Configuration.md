@@ -2,7 +2,7 @@
 
 # Nginx Configuration
 
-> One-line: reverse proxy + static file server — configure locations correctly, validate with `nginx -t`, reload without dropping connections. **Config tree:** [[nginx config structure]].
+> reverse proxy + static file server — configure locations correctly, validate with `nginx -t`, reload without dropping connections. **Config tree:** [[nginx config structure]].
 
 ---
 

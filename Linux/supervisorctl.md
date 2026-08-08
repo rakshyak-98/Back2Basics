@@ -2,7 +2,7 @@
 
 # supervisorctl
 
-> One-line: **Supervisord process control** — keep worker processes (Celery, gunicorn, custom daemons) alive when systemd units aren't the chosen layer. `reread` vs `update` trips everyone once.
+> Supervisord process control — keep worker processes (Celery, gunicorn, custom daemons) alive when systemd units aren't the chosen layer. `reread` vs `update` trips everyone once.
 
 ---
 

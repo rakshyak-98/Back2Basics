@@ -2,7 +2,7 @@
 
 # Bash syntax
 
-> One-line: what / why for **Bash syntax** — source TBD.
+> Bash syntax — mkdir new_dir && cd new_dir # conditional execution
 
 ---
 

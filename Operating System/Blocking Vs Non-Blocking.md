@@ -2,7 +2,7 @@
 
 # Blocking vs Non-Blocking
 
-> Two axes engineers conflate: **thread blocking** (scheduler) vs **I/O readiness** (fd returns `EAGAIN`) — **Node docs + Stevens**.
+> Blocking vs Non-Blocking — non-blocking + reactor: [Event loop]──read(EAGAIN)──epoll──►read──►work
 
 ---
 

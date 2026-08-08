@@ -2,7 +2,7 @@
 
 # fillReact
 
-> One-line: what / why for **fillReact** — source TBD.
+> fillReact — "does not change the current path" means that invoking fillReact() doesn't affect any existing path that has been defined using other drawing methods, such as moveTo()
 
 ---
 

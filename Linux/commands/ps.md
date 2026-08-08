@@ -2,7 +2,7 @@
 
 # ps
 
-> One-line: what / why for **ps** — source TBD.
+> ps — doesn't receive terminal-generates signals (SITINT, SIGHUP on logout etc.)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # MPEG-TS
 
-> One-line: what / why for **MPEG-TS** — source TBD.
+> MPEG-TS — TS ingest refers to ingesting an MPEG-TS (Transport Stream) — feed into a media server or streaming pipeline
 
 ---
 

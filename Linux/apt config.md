@@ -2,7 +2,7 @@
 
 # apt config
 
-> One-line: what / why for **apt config** — source TBD.
+> apt config — short field notes on what it is and how to use it.
 
 ---
 

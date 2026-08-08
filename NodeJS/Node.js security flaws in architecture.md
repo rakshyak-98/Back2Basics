@@ -2,7 +2,7 @@
 
 # Node.js Security — Architectural Flaws
 
-> One-line: single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
+> single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
 ---
 

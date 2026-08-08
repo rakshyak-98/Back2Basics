@@ -2,7 +2,7 @@
 
 # Nginx Automated Config Deployment
 
-> One-line: CI/CD or app servers write configs to `/tmp`, validate, then sudo-copy into `sites-available` — never let unprivileged processes write directly to `/etc/nginx`.
+> Nginx Automated Config Deployment — automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:
 
 ---
 

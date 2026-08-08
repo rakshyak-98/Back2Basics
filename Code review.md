@@ -1,6 +1,6 @@
 # Code review
 
-> One-line: what / why for **Code review** — source TBD.
+> Code review — check correctness, security, and clarity before merging a change.
 
 ---
 

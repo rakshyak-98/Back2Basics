@@ -2,7 +2,7 @@
 
 # nc (netcat)
 
-> One-line: **Swiss-army TCP/UDP socket tool** — prove connectivity, banner-grab, and one-shot port checks faster than full scans. Not a replacement for proper TLS or auth testing.
+> nc (netcat) — nc opens a raw socket (client or listener). For ops, the common pattern is connect probe: did SYN get SYN-ACK (port open) or
 
 ---
 

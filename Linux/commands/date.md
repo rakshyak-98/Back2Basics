@@ -2,7 +2,7 @@
 
 # date
 
-> One-line: **GNU date arithmetic and formatting** — compute timestamps for certs, TTLs, cron windows, and log correlation. `-d` is GNU-specific; don't assume on Alpine/BusyBox.
+> date — reads/writes the system clock (via timedatectl / NTP underneath). For scripting, you care about format strings (+%s, +%Y-%m-%d) and relative parsing (-d "+7 days").
 
 ---
 

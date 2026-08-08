@@ -2,7 +2,7 @@
 
 # mysql transaction
 
-> One-line: what / why for **mysql transaction** — source TBD.
+> mysql transaction — -- or if you made a mistake.
 
 ---
 

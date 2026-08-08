@@ -2,7 +2,7 @@
 
 # Push notification integration
 
-> One-line: what / why for **Push notification integration** — source TBD.
+> Push notification integration — APNs certificate is Apple's way of authenticating your backend server to send push notification to ISO devices.
 
 ---
 

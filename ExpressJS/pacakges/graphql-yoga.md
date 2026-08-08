@@ -2,7 +2,7 @@
 
 # graphql-yoga
 
-> One-line: what / why for **graphql-yoga** — source TBD.
+> graphql-yoga — const { createYoga } = require("graphql-yoga");
 
 ---
 

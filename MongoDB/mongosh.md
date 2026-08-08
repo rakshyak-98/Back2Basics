@@ -2,7 +2,7 @@
 
 # mongosh
 
-> One-line: what / why for **mongosh** — source TBD.
+> mongosh — { $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
 
 ---
 

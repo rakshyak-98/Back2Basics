@@ -2,7 +2,7 @@
 
 # Sorting algorithm
 
-> One-line: what / why for **Sorting algorithm** — source TBD.
+> Sorting algorithm — for (let i = 0; i < n - 1; i++) {
 
 ---
 

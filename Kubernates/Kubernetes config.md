@@ -2,7 +2,7 @@
 
 # You are essentially reading from or writing to etcd through the kubernetes API server.
 
-> One-line: what / why for **You are essentially reading from or writing to etcd through the kubernetes API server.** — source TBD.
+> You are essentially reading from or writing to etcd through the kubernetes API server. — etcd — highly reliable, distributed key-value store that serves as the central data
 
 ---
 

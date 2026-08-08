@@ -2,7 +2,7 @@
 
 # Linux configuration
 
-> One-line: what / why for **Linux configuration** — source TBD.
+> Linux configuration — XDG_ prefix used to denote a set of environment variables defined by the XDG Base Directory Specification.
 
 ---
 

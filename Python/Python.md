@@ -2,7 +2,7 @@
 
 # Python
 
-> One-line: what / why for **Python** — source TBD.
+> Python — 3 -m pdb <"python file to debug">;
 
 ---
 

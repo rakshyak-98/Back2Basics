@@ -2,7 +2,7 @@
 
 # vim mark
 
-> One-line: what / why for **vim mark** — source TBD.
+> vim mark — short field notes on what it is and how to use it.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # nvidia-smi
 
-> One-line: what / why for **nvidia-smi** — source TBD.
+> nvidia-smi — quick check - list of NVIDIA GPUs in the system
 
 ---
 

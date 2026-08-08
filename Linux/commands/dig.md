@@ -2,7 +2,7 @@
 
 # dig
 
-> One-line: what / why for **dig** — source TBD.
+> dig — the domain or specific record type (A, AAA, CNAME) is missing.
 
 ---
 

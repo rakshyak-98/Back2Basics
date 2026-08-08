@@ -2,7 +2,7 @@
 
 # Base64
 
-> One-line: what / why for **Base64** — source TBD.
+> Base64 — turn binary data (like images, files, PDFs) into plain text so it can be safely sent over the internet or stored in places that only allow
 
 ---
 

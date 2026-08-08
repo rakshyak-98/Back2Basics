@@ -2,7 +2,7 @@
 
 # Top-Level Domain (TLD)
 
-> **Rightmost DNS label** in a name (`example.com` → TLD is `com`) — delegated by root, operated by registry, sold by registrars. Matters for DNSSEC, resolver behavior, and policy (who can register what).
+> TLD (top-level domain) — rightmost DNS label (`com`, `org`) under the root.
 
 ---
 

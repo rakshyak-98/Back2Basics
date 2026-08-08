@@ -2,7 +2,7 @@
 
 # Product Requirements Document (PRD)
 
-> One-line: what / why for **Product Requirements Document (PRD)** — source TBD.
+> Product Requirements Document (PRD) — absolutely. Here’s a comprehensive PRD for CityDress AI, structured to cover strategy, product, and execution details you can hand to engineers, designers, and
 
 ---
 

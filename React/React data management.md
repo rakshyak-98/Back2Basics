@@ -2,7 +2,7 @@
 
 # React data management
 
-> Decision tree: **server state vs client state** — where TanStack Query, RTK Query, Zustand, and Context belong — **staff-level frontend architecture**.
+> React data management — split state by source of truth and lifecycle:
 
 ---
 

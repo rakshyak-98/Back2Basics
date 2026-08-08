@@ -2,7 +2,7 @@
 
 # IPFS (InterPlanetry File System)
 
-> One-line: what / why for **IPFS (InterPlanetry File System)** — source TBD.
+> IPFS (InterPlanetry File System) — IPFS is a decentralized, P2P (Peer-to-Peer) file system that aims to make the we faster, safer, and more open. It allows users to
 
 ---
 

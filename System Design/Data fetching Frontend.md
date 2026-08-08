@@ -2,7 +2,7 @@
 
 # Data fetching Frontend
 
-> One-line: what / why for **Data fetching Frontend** — source TBD.
+> Data fetching Frontend — // Handle token refresh or logout
 
 ---
 

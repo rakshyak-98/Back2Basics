@@ -2,7 +2,7 @@
 
 # AMI (Amazon Machine Image)
 
-> One-line: what / why for **AMI (Amazon Machine Image)** — source TBD.
+> AMI (Amazon Machine Image) — disk image template used to launch an EC2 instance.
 
 ---
 

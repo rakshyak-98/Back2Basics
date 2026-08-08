@@ -2,7 +2,7 @@
 
 # Mongoose middleware
 
-> Pre/post hooks on document and query lifecycle — powerful cross-cutting layer that hides bugs when misused — **Mongoose docs + production scars**.
+> Mongoose middleware — middleware runs between Mongoose API call and MongoDB operation. Hooks attach to save, validate, remove, and **find* query methods** — not all methods
 
 ---
 

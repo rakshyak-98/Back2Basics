@@ -2,7 +2,7 @@
 
 # Linux Templates Directory
 
-> One-line: what / why for **Linux Templates Directory** — source TBD.
+> Linux Templates Directory — the ~/Templates directory in Linux is part of the XDG user directories standard.
 
 ---
 

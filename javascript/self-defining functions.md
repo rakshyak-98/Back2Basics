@@ -2,7 +2,7 @@
 
 # self-defining functions
 
-> One-line: what / why for **self-defining functions** — source TBD.
+> self-defining functions — this pattern is useful when your function has some initial preparatory work to do and it need to do it only once.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Why it is http:// Instead of ws:// in the Web Socket server setup?
 
-> One-line: what / why for **Why it is http:// Instead of ws:// in the Web Socket server setup?** — source TBD.
+> Why it is http:// Instead of ws:// in the Web Socket server setup? — webSocket start as an HTTP request and then upgrade to the WebSocket
 
 ---
 

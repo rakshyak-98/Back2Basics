@@ -2,7 +2,7 @@
 
 # Disk IOPS
 
-> Input/output operations per second — counts discrete read/write ops, not bytes; the limit that crushes random-workload databases before bandwidth caps.
+> Disk IOPS — IOPS = completed I/O operations per second (reads + writes, often reported separately). Distinct from throughput (MB/s):
 
 ---
 

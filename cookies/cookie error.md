@@ -2,7 +2,7 @@
 
 # Cookie errors (cross-origin dev & prod)
 
-> **Browser blocked the cookie** — almost always SameSite/Secure/domain mismatch, missing CORS credentials, or third-party cookie phaseout — not "cookies broken."
+> Cookie errors (cross-origin dev & prod) — browser stores cookie for api.example.com
 
 ---
 

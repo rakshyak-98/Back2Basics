@@ -2,7 +2,7 @@
 
 # public resolver
 
-> One-line: what / why for **public resolver** — source TBD.
+> public resolver — s (like 8.8.8.8 or 1.1.1.1) don’t store domain → IP mappings permanently.
 
 ---
 

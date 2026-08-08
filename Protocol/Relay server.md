@@ -2,7 +2,7 @@
 
 # Relay server
 
-> One-line: what / why for **Relay server** — source TBD.
+> Relay server — a relay server is a server that forwards data between two or more devices or systems that cannot communicate directly.
 
 ---
 

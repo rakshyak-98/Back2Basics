@@ -2,7 +2,7 @@
 
 # Node.js Event Loop
 
-> One-line: single-threaded JS + libuv thread pool — non-blocking I/O until you block the thread with CPU or sync I/O.
+> Node event loop — one JS thread plus libuv; never block it with heavy sync work.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Express-useragent
 
-> One-line: what / why for **Express-useragent** — source TBD.
+> Express-useragent — a middleware for Express JS that parses user-agent strings from incoming HTTP requests.
 
 ---
 

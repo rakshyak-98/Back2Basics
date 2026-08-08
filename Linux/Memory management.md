@@ -2,7 +2,7 @@
 
 # Linux Memory Management
 
-> One-line: virtual memory = per-process address spaces + page cache + swap — OOM kills when overcommit meets real RAM pressure.
+> virtual memory = per-process address spaces + page cache + swap — OOM kills when overcommit meets real RAM pressure.
 
 ---
 

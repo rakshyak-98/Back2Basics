@@ -2,7 +2,7 @@
 
 # primitive non-primitive values
 
-> One-line: what / why for **primitive non-primitive values** — source TBD.
+> primitive non-primitive values — simple data types like integers, floats, characters, booleans, and some immutable types like null undefined
 
 ---
 

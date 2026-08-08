@@ -2,7 +2,7 @@
 
 # Linux out of memory daemon
 
-> One-line: what / why for **Linux out of memory daemon** — source TBD.
+> Linux out of memory daemon — systemd-oomd is a user-space Out-Of-Memory (OOM) killer that monitors system memory and takes action when the system is under memory pressure. It
 
 ---
 

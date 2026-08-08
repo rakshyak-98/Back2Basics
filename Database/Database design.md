@@ -2,7 +2,7 @@
 
 # Database design
 
-> An **Independent scalar value** is a single stored field whose value is **not automatically derived or constrained by other fields** allowing it to become inconsistent with related data.
+> Database design — tables, keys, and constraints that keep data correct and queryable.
 
 ---
 

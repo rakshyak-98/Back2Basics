@@ -2,7 +2,7 @@
 
 # i3wm — developer minimal setup
 
-> **Keyboard-driven tiling WM on X11** — minimal RAM, predictable layout, one text config. Classic i3 is X11-only; on Wayland use Sway (same key model, different config).
+> i3wm — developer minimal setup — i3 is a tiling window manager, not a desktop environment. It tiles windows into a tree of containers — no overlap by
 
 ---
 

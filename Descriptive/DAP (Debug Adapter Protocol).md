@@ -2,7 +2,7 @@
 
 # DAP (Debug Adapter Protocol)
 
-> One-line: what / why for **DAP (Debug Adapter Protocol)** — source TBD.
+> DAP (Debug Adapter Protocol) — protocol designed to standardise the way development tools (like VS Code, IntelliJ, or Vim) talk to debugger (like gdb, LLDB, or NodeJS runtime
 
 ---
 

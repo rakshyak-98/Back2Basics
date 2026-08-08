@@ -2,7 +2,7 @@
 
 # Python
 
-> One-line: what / why for **Python** — source TBD.
+> Python — the StaleElementReferenceError occurs when the web element you are trying to interact with is no longer present in the DOM, or the reference to it is
 
 ---
 

@@ -2,7 +2,7 @@
 
 # mysql Privileges
 
-> One-line: what / why for **mysql Privileges** — source TBD.
+> mysql Privileges — short field notes on what it is and how to use it.
 
 ---
 

@@ -1,6 +1,6 @@
 # Common Naming terms
 
-> One-line: what / why for **Common Naming terms** — source TBD.
+> Common Naming terms — daemon: Used for background processes that run continuously.
 
 ---
 

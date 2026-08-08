@@ -2,7 +2,7 @@
 
 # IDOR (Insecure Direct Object Reference)
 
-> **Authorization bug**: client supplies object id (URL/body); server checks authentication but **not ownership** — attacker swaps id and reads/writes someone else's data. Includes auto-increment enumeration.
+> IDOR (Insecure Direct Object Reference) — IDOR is a broken access control pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any
 
 ---
 

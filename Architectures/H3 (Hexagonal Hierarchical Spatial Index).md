@@ -2,7 +2,7 @@
 
 # H3 (Hexagonal Hierarchical Spatial Index)
 
-> One-line: what / why for **H3 (Hexagonal Hierarchical Spatial Index)** — source TBD.
+> H3 (Hexagonal Hierarchical Spatial Index) — h3 is an open-source spatial indexing system developed by Uber, designed to partition Earth into a uniform hexagonal grid hierarchy, enabling fast
 
 ---
 

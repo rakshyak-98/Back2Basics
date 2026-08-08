@@ -2,7 +2,7 @@
 
 # System bus
 
-> High-speed interconnect between CPU, memory, and I/O — defines bandwidth and latency ceilings for the whole machine.
+> System bus — the system bus is the plumbing that moves addresses, data, and control between major components:
 
 ---
 

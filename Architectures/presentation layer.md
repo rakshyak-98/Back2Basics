@@ -2,7 +2,7 @@
 
 # presentation layer
 
-> One-line: what / why for **presentation layer** — source TBD.
+> presentation layer — the Presentation Layer should interact exclusively with Service Layer
 
 ---
 

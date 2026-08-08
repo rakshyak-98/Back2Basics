@@ -2,7 +2,7 @@
 
 # mysql json
 
-> One-line: what / why for **mysql json** — source TBD.
+> mysql json — SELECT JSON_OBJECT('id', id, 'name', name) FROM users;
 
 ---
 

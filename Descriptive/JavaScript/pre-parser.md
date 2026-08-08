@@ -2,7 +2,7 @@
 
 # pre-parser
 
-> One-line: what / why for **pre-parser** — source TBD.
+> pre-parser — also known as the initial phase of parsing.
 
 ---
 

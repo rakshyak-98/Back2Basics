@@ -2,7 +2,7 @@
 
 # Call stack
 
-> One-line: what / why for **Call stack** — source TBD.
+> Call stack — function gets added to call stack when they are invoked.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # node modules
 
-> One-line: what / why for **node modules** — source TBD.
+> node modules — node.js does not use traditional linkers like those found in compiled languages (e.g C or C++) due to its architecture and the nature of JavaScript
 
 ---
 

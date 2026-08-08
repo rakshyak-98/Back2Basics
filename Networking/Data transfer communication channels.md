@@ -2,7 +2,7 @@
 
 # Data transfer communication channels
 
-> One-line: what / why for **Data transfer communication channels** — source TBD.
+> Data transfer communication channels — definition: Application layer protocol for transferring data over the web.
 
 ---
 

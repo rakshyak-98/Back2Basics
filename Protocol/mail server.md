@@ -2,7 +2,7 @@
 
 # mail server
 
-> One-line: what / why for **mail server** — source TBD.
+> mail server — handles sending, receiving, routing, and storing of email messages across the internet.
 
 ---
 

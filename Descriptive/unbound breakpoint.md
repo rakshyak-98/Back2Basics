@@ -2,7 +2,7 @@
 
 # Unbound breakpoint
 
-> Debugger set a breakpoint but cannot map it to executable code yet — common with source maps, wrong path, or unloaded modules — **VS Code / Chrome DevTools playbook**.
+> Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
 ---
 

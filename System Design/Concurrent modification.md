@@ -2,7 +2,7 @@
 
 # Concurrent modification
 
-> One-line: what / why for **Concurrent modification** — source TBD.
+> Concurrent modification — any resource where multiple actors (users, services, or automated jobs) can read-modify-write the same record independently, with a gap between read and write.
 
 ---
 

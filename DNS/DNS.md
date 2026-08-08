@@ -2,7 +2,7 @@
 
 # DNS
 
-> One-line: distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
+> distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
 
 ---
 

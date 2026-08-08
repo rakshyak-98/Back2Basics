@@ -2,7 +2,7 @@
 
 # Browser engine
 
-> One-line: what / why for **Browser engine** — source TBD.
+> Browser engine — also known as Layout engine or rendering engine
 
 ---
 

@@ -2,7 +2,7 @@
 
 # express query handler
 
-> One-line: what / why for **express query handler** — source TBD.
+> express query handler — const { query, validationResult } = require("express-validation");
 
 ---
 

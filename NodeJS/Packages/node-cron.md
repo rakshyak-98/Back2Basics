@@ -2,7 +2,7 @@
 
 # node-cron
 
-> One-line: what / why for **node-cron** — source TBD.
+> node-cron — if you didn't save the reference, there is no way to stop or access it after it starts. it becomes garbage-managed, and you lose all control
 
 ---
 

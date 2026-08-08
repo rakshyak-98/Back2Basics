@@ -2,7 +2,7 @@
 
 # moment
 
-> One-line: what / why for **moment** — source TBD.
+> moment — ("2026-03-24") // parse from string
 
 ---
 

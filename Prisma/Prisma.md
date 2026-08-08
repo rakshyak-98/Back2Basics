@@ -2,7 +2,7 @@
 
 # Prisma
 
-> One-line: what / why for **Prisma** — source TBD.
+> Prisma — the Prisma client is generated as a set of TypeScript or JavaScript files and is located in the node_modules directory.
 
 ---
 

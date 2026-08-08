@@ -2,7 +2,7 @@
 
 # Cache system
 
-> Fast read path in front of slow/expensive source — **TTL, invalidation, and stampede control** define correctness.
+> Cache system — a cache stores copies of data closer to readers (memory, edge, CDN) to cut latency and load on origin (DB, API). Caches are
 
 ---
 

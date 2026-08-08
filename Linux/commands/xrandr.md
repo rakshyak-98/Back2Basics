@@ -2,7 +2,7 @@
 
 # xrandr
 
-> One-line: what / why for **xrandr** — source TBD.
+> xrandr — used to interact with the X Window System
 
 ---
 

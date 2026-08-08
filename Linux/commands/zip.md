@@ -2,7 +2,7 @@
 
 # zip
 
-> One-line: what / why for **zip** — source TBD.
+> zip — short field notes on what it is and how to use it.
 
 ---
 

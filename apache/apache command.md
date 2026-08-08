@@ -2,7 +2,7 @@
 
 # apache command
 
-> One-line: what / why for **apache command** — source TBD.
+> apache command — enables the Apache module named mod_rewrite.
 
 ---
 

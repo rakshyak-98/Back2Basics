@@ -2,7 +2,7 @@
 
 # QUIC
 
-> UDP-based transport with built-in TLS 1.3, multiplexing, and faster handshakes — **HTTP/3 foundation**.
+> QUIC — (Quick UDP Internet Connections) moves transport into user space over UDP, integrating encryption and stream multiplexing. Designed to fix TCP head-of-line blocking and slow
 
 ---
 

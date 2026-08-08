@@ -2,7 +2,7 @@
 
 # git commit template
 
-> One-line: what / why for **git commit template** — source TBD.
+> git commit template — git config to use custom commit template
 
 ---
 

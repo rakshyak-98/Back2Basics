@@ -2,7 +2,7 @@
 
 # docker container
 
-> One-line: what / why for **docker container** — source TBD.
+> docker container — backup entire image with layers/history. Saves image to .tar (good for transfer to another machine)
 
 ---
 

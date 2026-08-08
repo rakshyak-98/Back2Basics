@@ -2,7 +2,7 @@
 
 # vite error
 
-> npx vite build
+> vite error — the issue is now 100% clear: you are running npm run build, which executes npx vite build, but npx is still trying to
 
 ---
 

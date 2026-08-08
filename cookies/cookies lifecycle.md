@@ -2,7 +2,7 @@
 
 # cookies lifecycle
 
-> One-line: what / why for **cookies lifecycle** — source TBD.
+> cookies lifecycle — session — deleted when tab/session ends
 
 ---
 

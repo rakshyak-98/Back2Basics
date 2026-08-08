@@ -2,7 +2,7 @@
 
 # mysql connection
 
-> One-line: what / why for **mysql connection** — source TBD.
+> mysql connection — one TCP connection to MySQL, reused for all queries.
 
 ---
 

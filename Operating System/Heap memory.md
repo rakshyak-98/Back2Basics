@@ -2,7 +2,7 @@
 
 # Heap memory
 
-> One-line: what / why for **Heap memory** — source TBD.
+> Heap memory — a heap is a tree-based structure that lets you always get the min and max element in O(1) and insert/remove in O(log n).
 
 ---
 

@@ -2,7 +2,7 @@
 
 # event-driven
 
-> One-line: what / why for **event-driven** — source TBD.
+> event-driven — flow of program is determined by external events.
 
 ---
 

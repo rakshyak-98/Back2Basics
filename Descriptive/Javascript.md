@@ -2,7 +2,7 @@
 
 # Javascript
 
-> One-line: what / why for **Javascript** — source TBD.
+> Javascript — tasks are handled sequentially within the same thread because of stack based programming language.
 
 ---
 

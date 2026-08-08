@@ -2,7 +2,7 @@
 
 # PoserDNS
 
-> One-line: what / why for **PoserDNS** — source TBD.
+> PoserDNS — powerDNS is an open-source DNS server platform designed for high-performance, scalable DNS infrastructure. Rather than combining all DNS functions into a single daemon, it separates authoritative
 
 ---
 

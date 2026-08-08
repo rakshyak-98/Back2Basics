@@ -2,7 +2,7 @@
 
 # GIL (Global interpreter lock)
 
-> One-line: what / why for **GIL (Global interpreter lock)** — source TBD.
+> GIL (Global interpreter lock) — global interpreter lock : A global interpreter lock is a mechanism used in computer-language interpreters to synchronise the execution of threads so that
 
 ---
 

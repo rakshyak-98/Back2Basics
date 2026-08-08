@@ -2,7 +2,7 @@
 
 # Optimizing performance
 
-> One-line: what / why for **Optimizing performance** — source TBD.
+> Optimizing performance — a functional component will render for one of three reasons:
 
 ---
 

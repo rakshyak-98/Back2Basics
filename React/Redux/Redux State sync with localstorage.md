@@ -2,7 +2,7 @@
 
 # Redux State sync with localstorage
 
-> One-line: what / why for **Redux State sync with localstorage** — source TBD.
+> Redux State sync with localstorage — on state change, via middleware or listenerMiddleware
 
 ---
 

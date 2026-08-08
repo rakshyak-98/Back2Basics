@@ -2,7 +2,7 @@
 
 # ecommerce platform architecture
 
-> Reference microservice architecture for a multi-vendor e-commerce backend (Go/Node, Postgres/Mongo/Redis, Kafka, EKS) — **staff design review baseline**, not a product backlog.
+> ecommerce platform architecture — client ──► API Gateway (REST) ──► BFF (optional) ──► domain services
 
 ---
 

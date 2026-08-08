@@ -2,7 +2,7 @@
 
 # Variable (JavaScript)
 
-> **Named binding** in a lexical environment — holds a value (primitive or reference) — mutability rules depend on `var` / `let` / `const` — **ECMA-262**.
+> Variable (JavaScript) — a variable is not the value itself — it's an identifier bound in an Environment Record (Lexical environment):
 
 ---
 

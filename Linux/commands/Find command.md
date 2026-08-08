@@ -2,7 +2,7 @@
 
 # Find command
 
-> One-line: what / why for **Find command** — source TBD.
+> Find command — delete .log files, descending into subdirs first.
 
 ---
 

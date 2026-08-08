@@ -2,7 +2,7 @@
 
 # Single-threaded
 
-> One-line: what / why for **Single-threaded** — source TBD.
+> Single-threaded — it is possible for a single-threaded programming language to spawn a child process. The ability to spawn a child process is a feature of the underlying
 
 ---
 

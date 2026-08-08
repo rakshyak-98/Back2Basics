@@ -2,7 +2,7 @@
 
 # Service Layer
 
-> One-line: what / why for **Service Layer** — source TBD.
+> Service Layer — a Service Layer is a design pattern used in software architecture to act as an intermediary between the presentation layer (UI/API controllers) and
 
 ---
 

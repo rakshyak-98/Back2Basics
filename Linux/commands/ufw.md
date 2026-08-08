@@ -2,7 +2,7 @@
 
 # ufw
 
-> One-line: what / why for **ufw** — source TBD.
+> ufw — each file defines one or more application profiles
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Stream
 
-> One-line: what / why for **Stream** — source TBD.
+> Stream — non-blocking and memory efficient for large file transfers.
 
 ---
 

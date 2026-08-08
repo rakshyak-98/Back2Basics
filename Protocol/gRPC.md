@@ -2,7 +2,7 @@
 
 # gRPC
 
-> gRPC discards JSON/XML in favor of binary Protobuf uses a tag-based encoding. It does not transmit field names.
+> gRPC — an RPC framework operating fundamentally over HTTP/2, utilizing Protocol Buffers (Protobuf) as both its Interface Definition Language (IDL) and underlying message interchange format.
 
 ---
 

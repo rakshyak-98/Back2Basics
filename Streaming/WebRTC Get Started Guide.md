@@ -2,7 +2,7 @@
 
 # WebRTC Get Started Guide
 
-> One-line: what / why for **WebRTC Get Started Guide** — source TBD.
+> Capture devices → local preview → peer connection — fix constraints before you debug ICE.
 
 ---
 

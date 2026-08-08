@@ -2,7 +2,7 @@
 
 # Eventual consistency
 
-> One-line: what / why for **Eventual consistency** — source TBD.
+> Eventual consistency — a consistency model used in Distributed computing to achieve high availability that informally guarantees
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Distributed computing
 
-> One-line: what / why for **Distributed computing** — source TBD.
+> Distributed computing — a distributed system is a system whose components are located on different network computers, which communicate and coordinate their actions by passing messages to one
 
 ---
 

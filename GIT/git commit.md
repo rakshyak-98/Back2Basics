@@ -2,7 +2,7 @@
 
 # git commit
 
-> One-line: what / why for **git commit** — source TBD.
+> git commit — snapshot of the index; the unit of Git history.
 
 ---
 

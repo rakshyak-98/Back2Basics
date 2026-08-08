@@ -2,7 +2,7 @@
 
 # Redux Thunk
 
-> One-line: what / why for **Redux Thunk** — source TBD.
+> Redux Thunk — you don't need explicit Thunk middleware configuration in the latest React Redux Toolkit (RTK) till (2024).
 
 ---
 

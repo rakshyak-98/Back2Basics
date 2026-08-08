@@ -2,7 +2,7 @@
 
 # OR
 
-> One-line: what / why for **OR** — source TBD.
+> OR — echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.bsahrc
 
 ---
 

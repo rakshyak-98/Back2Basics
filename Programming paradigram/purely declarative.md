@@ -2,7 +2,7 @@
 
 # Purely declarative
 
-> Describe **what** result you want; runtime chooses **how** — SQL, regex, HTML/CSS, Prolog-style rules.
+> Purely declarative — imperative: step-by-step mutations. Declarative: state the desired outcome or relation. Engine optimizes execution (query planner, layout engine, regex NFA). You trade control of execution order
 
 ---
 

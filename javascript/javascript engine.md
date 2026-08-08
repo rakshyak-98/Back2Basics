@@ -2,7 +2,7 @@
 
 # JavaScript engine
 
-> Parses JS → bytecode/IR → executes on **call stack** + **heap**, coordinated by the **event loop** — V8 (Chrome/Node), SpiderMonkey (Firefox), JavaScriptCore (Safari).
+> JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
 
 ---
 

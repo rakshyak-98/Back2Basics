@@ -2,7 +2,7 @@
 
 # 100+; are for users.
 
-> NOTE: we can limit the functionality of the elevated user.
+> 100+; are for users. — user, user with elevated privileges, root.
 
 ---
 

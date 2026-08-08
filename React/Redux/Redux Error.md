@@ -2,7 +2,7 @@
 
 # Redux Error (common fixes)
 
-> Recurring Redux / RTK / Immer failures in dev and prod — MapSet, serializable checks, mutations — **Redux Toolkit docs + Immer**.
+> Redux Error (common fixes) — state tree → plain objects/arrays (serializable)
 
 ---
 

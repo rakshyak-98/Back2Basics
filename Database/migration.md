@@ -2,7 +2,7 @@
 
 # migration
 
-> One-line: what / why for **migration** — source TBD.
+> migration — merged into database migration — versioned schema changes, up/down workflow, and production gotchas live there.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # go-routines
 
-> One-line: what / why for **go-routines** — source TBD.
+> go-routines — a go-routine is a lightweight, concurrent thread of execution in Go.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # node error
 
-> One-line: what / why for **node error** — source TBD.
+> node error — error: The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeo
 
 ---
 

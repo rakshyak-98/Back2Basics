@@ -2,7 +2,7 @@
 
 # pandas
 
-> Columnar DataFrame library for load → transform → analyze → export workflows in Python.
+> pandas — Python tables (DataFrames) for load, clean, analyze, and export.
 
 ---
 

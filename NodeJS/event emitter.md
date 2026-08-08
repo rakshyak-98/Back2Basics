@@ -2,7 +2,7 @@
 
 # event emitter
 
-> One-line: what / why for **event emitter** — source TBD.
+> event emitter — merged into EventEmitter — mental model, listener limits, stream integration, and production triage live there.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # or sudo service mysql start
 
-> Why "\_gateway" appears ? Most cloud providers put a NAT gateway or proxy in front of your connection. From MySQL server's point of view the connection is comming from a host literally called  `_gateway`
+> MySQL errors — crashed tables, access denied, and when to repair vs restore.
 
 ---
 

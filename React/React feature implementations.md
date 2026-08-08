@@ -2,7 +2,7 @@
 
 # How to track user has come from certain path sequence?
 
-> One-line: what / why for **How to track user has come from certain path sequence?** — source TBD.
+> How to track user has come from certain path sequence? — to determine if a user has navigated to a React component from a certain path, you can
 
 ---
 

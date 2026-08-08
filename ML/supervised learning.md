@@ -2,7 +2,7 @@
 
 # Supervised learning
 
-> Learn a mapping **X → y** from labeled examples; generalize to unseen data via train/val/test discipline — **Hastie et al. (ESL)**.
+> Supervised learning — you have pairs (xᵢ, yᵢ). The algorithm picks a function class (linear, tree, neural net) and minimizes empirical risk + regularization on training
 
 ---
 

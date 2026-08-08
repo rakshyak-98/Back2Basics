@@ -2,7 +2,7 @@
 
 # postgres
 
-> One-line: what / why for **postgres** — source TBD.
+> postgres — pg has two ways to connect to a database: a client and a pool.
 
 ---
 

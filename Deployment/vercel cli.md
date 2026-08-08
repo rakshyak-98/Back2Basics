@@ -2,7 +2,7 @@
 
 # Vercel CLI
 
-> Link local project, preview deploy, and promote to production without leaving the terminal.
+> Vercel CLI — link, preview-deploy, and promote a project from the terminal.
 
 ---
 

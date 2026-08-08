@@ -2,7 +2,7 @@
 
 # Zed keybindings
 
-> One-line: what / why for **Zed keybindings** — source TBD.
+> Zed keybindings — when the LSP popup and a ghost prediction conflict, hold alt to preview inline and hide the menu. See [[zed config#Inline ghost completions (VS Code
 
 ---
 

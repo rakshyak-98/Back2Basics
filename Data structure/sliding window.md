@@ -2,7 +2,7 @@
 
 # Sliding window
 
-> Two-pointer technique over a contiguous subarray/substring — turn O(n²) brute force into O(n) by expanding/shrinking one window instead of restarting from every index.
+> Sliding window — arr: [ 2, 1, 5, 1, 3, 2 ] target sum ≤ 7
 
 ---
 

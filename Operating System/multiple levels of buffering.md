@@ -2,7 +2,7 @@
 
 # Multiple levels of buffering
 
-> Data copies and queues between app, libc, kernel page cache, block layer, and device — each layer trades latency for throughput — **Stevens / Kleppmann**.
+> Multiple levels of buffering — i/O is rarely one hop. A single write() may touch five buffers before bits reach NAND:
 
 ---
 

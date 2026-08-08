@@ -2,7 +2,7 @@
 
 # SQL Configurations (MySQL / Postgres)
 
-> **Server knobs that survive reboot** — connection limits, memory, replication, SSL, and logging. Tune for workload (OLTP vs batch), not copy-paste "my.cnf from blog."
+> SQL Configurations (MySQL / Postgres) — client ──► max_connections / pool ──► buffer pool / shared_buffers ──► disk (WAL, redo)
 
 ---
 

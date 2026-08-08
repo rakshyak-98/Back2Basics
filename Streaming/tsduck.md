@@ -2,7 +2,7 @@
 
 # `-I ip` joins the MPTS source. `zap` filters to the specified service_id's PIDs and rebuilds a clean PAT/PMT scoped to that one channel. `-O ip` sends the resulting SPTS to its own multicast address/port.
 
-> One-line: what / why for **`-I ip` joins the MPTS source. `zap` filters to the specified service_id's PIDs and rebuilds a clean PAT/PMT scoped to that one channel. `-O ip` sends the resulting SPTS to its own multicast address/port.** — source TBD.
+> TSDuck — CLI tools to capture, filter, and rewrite MPEG-TS streams.
 
 ---
 

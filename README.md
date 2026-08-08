@@ -1,4 +1,6 @@
 # Back2Basics
+> Staff-engineer field notes — fast lookup for debug, configs, and mental models.
+
 
 Staff-engineer **field notes** — fast retrieval for debugging, standard configs, and solid mental models.
 

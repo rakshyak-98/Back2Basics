@@ -2,7 +2,7 @@
 
 # Network management (streaming)
 
-> Diagnose bitrate paths, packet loss, and connection health on live pipelines — **ss/tcpdump/iperf**, not generic IT network admin.
+> Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
 ---
 

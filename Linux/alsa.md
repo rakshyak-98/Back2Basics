@@ -2,7 +2,7 @@
 
 # alsa
 
-> One-line: what / why for **alsa** — source TBD.
+> alsa — primary sound system for Linux providing an interface between audio applications and sound harware.
 
 ---
 

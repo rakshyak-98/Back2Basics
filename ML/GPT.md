@@ -2,7 +2,7 @@
 
 # GPT
 
-> One-line: what / why for **GPT** — source TBD.
+> GPT — globally Unique Identifiers, Each partition in a GPT scheme is assigned a unique identifier, which helps in managing and recognizing partitions across different systems and operating
 
 ---
 

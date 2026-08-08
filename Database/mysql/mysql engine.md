@@ -2,7 +2,7 @@
 
 # mysql engine
 
-> One-line: what / why for **mysql engine** — source TBD.
+> mysql engine — ENGINE=InnoDB — is the default and most advanced storage engine in MySQL, whey you set
 
 ---
 

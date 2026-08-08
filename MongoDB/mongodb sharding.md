@@ -2,7 +2,7 @@
 
 # MongoDB sharding
 
-> Horizontal partition of a collection across shard replica sets, routed by **mongos** via a **shard key** — scale writes/storage past one primary, not day-one default.
+> MongoDB sharding — a sharded cluster has three roles: Documents land on shards by shard key ranges (or hashes).
 
 ## Mental model
 

@@ -2,7 +2,7 @@
 
 # npm
 
-> One-line: what / why for **npm** — source TBD.
+> npm — it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual versions being
 
 ---
 

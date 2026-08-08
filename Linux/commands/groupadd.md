@@ -2,7 +2,7 @@
 
 # groupadd
 
-> One-line: create a new **group** entry in `/etc/group` (and `/etc/gshadow` if shadow groups enabled) — shared permissions, sudo rules, and service ACLs. **Kerrisk**.
+> groupadd — groups are numeric GID + name mappings. File permissions use UID for owner, GID for group (ls -l third column). Users gain group membership
 
 ---
 

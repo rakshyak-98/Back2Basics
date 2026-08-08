@@ -2,7 +2,7 @@
 
 # MySQL table partitioning
 
-> Split one logical table into physical partitions (by RANGE/LIST/HASH/KEY) — prune scans on time/tenant keys; **not** a substitute for indexing or sharding.
+> MySQL table partitioning — partitioning divides rows by a partition key expression. Optimizer partition pruning skips irrelevant partitions on queries that constrain the key.
 
 ---
 

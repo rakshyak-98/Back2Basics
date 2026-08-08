@@ -1,6 +1,6 @@
 # Vault INDEX — Fast Retrieval
 
-> Start here under pressure. Each link is meant to be **operational**, not encyclopedic.
+> Symptom → note map — start here under pressure to find the right playbook fast.
 > Note format: [[NOTES_STANDARD]]
 
 ---

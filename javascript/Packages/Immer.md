@@ -2,7 +2,7 @@
 
 # Immer
 
-> One-line: what / why for **Immer** — source TBD.
+> Immer — javaScript library helps manage immutable data structures.
 
 ---
 

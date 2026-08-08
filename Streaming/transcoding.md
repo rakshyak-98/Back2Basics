@@ -2,7 +2,7 @@
 
 # transcoding
 
-> One-line: what / why for **transcoding** — source TBD.
+> transcoding — the direct digital-to-digital conversion of one media file format (audio or video) into another.
 
 ---
 

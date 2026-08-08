@@ -2,7 +2,7 @@
 
 # Kafka broker
 
-> One-line: what / why for **Kafka broker** — source TBD.
+> Kafka broker — a broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
 
 ---
 

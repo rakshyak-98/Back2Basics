@@ -2,7 +2,7 @@
 
 # File structure (NGINX source layout)
 
-> How NGINX organizes its C source tree — where event I/O, core utilities, and modules live — **NGINX internals + reading upstream source under incident pressure**.
+> File structure (NGINX source layout) — ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
 
 ---
 

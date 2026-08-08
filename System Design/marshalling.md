@@ -2,7 +2,7 @@
 
 # Marshalling
 
-> Convert in-memory structures ↔ wire/storage bytes across process boundaries — **schema + version discipline** prevent silent corruption.
+> Marshalling — (synonymous with serialization in most teams) transforms runtime objects into bytes for network, disk, or IPC, and unmarshals back on the receiver. Boundaries: different
 
 ---
 

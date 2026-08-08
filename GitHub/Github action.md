@@ -2,7 +2,7 @@
 
 # GitHub Actions
 
-> Event-driven CI/CD defined in YAML under `.github/workflows/` — jobs run on [[Github runner]] instances.
+> GitHub Actions — trigger (push, PR, cron, dispatch)
 
 ---
 

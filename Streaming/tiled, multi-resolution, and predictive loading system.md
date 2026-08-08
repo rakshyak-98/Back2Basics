@@ -2,7 +2,7 @@
 
 # tiled, multi-resolution, and predictive loading system
 
-> Deep-zoom / tiled media streaming: pyramid levels, viewport fetch, and prefetch — maps, PDF viewers, microscopy, satellite imagery.
+> tiled, multi-resolution, and predictive loading system — full image 16k×16k — never ship whole file to client
 
 ---
 

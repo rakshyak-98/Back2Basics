@@ -2,7 +2,7 @@
 
 # Bash sourcing other scripts
 
-> One-line: **`source` / `.` loads a script into the current shell** — libraries, env, and functions without a fork. Wrong path resolution breaks cron, systemd, and CI the moment cwd changes.
+> Bash sourcing other scripts — sourcing executes commands in the current shell context. Exported vars, functions, and cd persist. Executing ./script.sh runs a subshell (usually) —
 
 ---
 

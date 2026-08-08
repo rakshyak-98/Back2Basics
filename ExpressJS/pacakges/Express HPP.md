@@ -2,7 +2,7 @@
 
 # Express HPP
 
-> One-line: what / why for **Express HPP** — source TBD.
+> Express HPP — an attack technique where an attacker injects multiple parameters with the same name in an HTTP request to manipulate backed logic.
 
 ---
 

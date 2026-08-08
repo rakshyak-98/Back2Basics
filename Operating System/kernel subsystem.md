@@ -2,7 +2,7 @@
 
 # Kernel subsystem
 
-> Major in-kernel modules (VFS, MM, scheduler, net stack, block layer) that user space reaches only via [[system call]] — **Kerrisk / Love**.
+> Kernel subsystem — the Linux kernel is not one blob — it's subsystems with defined boundaries, sharing locks, caches, and the same address space (kernel mode).
 
 ---
 

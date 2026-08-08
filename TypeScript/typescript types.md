@@ -2,7 +2,7 @@
 
 # typescript types
 
-> One-line: what / why for **typescript types** — source TBD.
+> typescript types — record utility type in TypeScript create an object type with specified keys and value types.
 
 ---
 

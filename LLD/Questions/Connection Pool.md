@@ -2,7 +2,7 @@
 
 # Connection Pool
 
-> One-line: what / why for **Connection Pool** — source TBD.
+> Connection Pool — you are tasked with designing a connection pool for a database management module of a complex software application. The connection pool is responsible for managing
 
 ---
 

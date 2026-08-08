@@ -2,7 +2,7 @@
 
 # TTY (teletypewriter)
 
-> One-line: what / why for **TTY (teletypewriter)** — source TBD.
+> TTY (teletypewriter) — a pseudo-TTY is a software-based implementation of a TTY that enables terminal emulators, such as GNOME terminal, Console, and xterm etc. to function. When you
 
 ---
 

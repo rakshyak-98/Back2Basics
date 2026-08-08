@@ -2,7 +2,7 @@
 
 # Byte stream
 
-> Ordered sequence of bytes as the transport primitive for media — **Unix I/O + container framing**, not a protocol.
+> Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
 ---
 

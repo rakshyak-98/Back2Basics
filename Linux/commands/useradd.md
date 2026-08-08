@@ -2,7 +2,7 @@
 
 # useradd
 
-> One-line: what / why for **useradd** — source TBD.
+> useradd — create a Linux login account with home, shell, and group defaults.
 
 ---
 

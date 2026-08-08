@@ -2,7 +2,7 @@
 
 # SDP (Service Discovery Protocol)
 
-> One-line: what / why for **SDP (Service Discovery Protocol)** — source TBD.
+> SDP (Service Discovery Protocol) — as SDP Server is a component in a Bluetooth device that advertises available services (like audio sink, file transfer, serial port, etc.) to
 
 ---
 

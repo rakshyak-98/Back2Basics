@@ -2,7 +2,7 @@
 
 # Display server
 
-> One-line: **The process that owns the framebuffer and multiplexes GUI clients** — every pixel and input event passes through it. When the screen freezes, blame the server stack before the app.
+> Display server — owns the screen and input; GUI apps draw through it.
 
 ---
 

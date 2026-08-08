@@ -2,7 +2,7 @@
 
 # markup.js
 
-> One-line: what / why for **markup.js** — source TBD.
+> markup.js — a JavaScript library designed for creating and manipulating HTML templates.
 
 ---
 

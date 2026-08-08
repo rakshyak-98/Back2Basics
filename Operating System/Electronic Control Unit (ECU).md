@@ -2,7 +2,7 @@
 
 # Electronic Control Unit (ECU)
 
-> One-line: what / why for **Electronic Control Unit (ECU)** — source TBD.
+> Electronic Control Unit (ECU) — withing the context of automotive and embedded systems, an Electronic Control Unit is a specialized microcontroller or microprocessor- based module that managers and
 
 ---
 

@@ -2,7 +2,7 @@
 
 # mongoose custome function
 
-> One-line: what / why for **mongoose custome function** — source TBD.
+> mongoose custome function — use schema.methods to define methods for individual documents.
 
 ---
 

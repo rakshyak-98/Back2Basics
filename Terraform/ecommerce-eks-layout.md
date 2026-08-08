@@ -2,7 +2,7 @@
 
 # ecommerce eks layout
 
-> Terraform + Helm module boundaries for the e-commerce platform on **AWS EKS** — extends [[Terraform setup]] with env accounts, namespaces, and per-service charts.
+> ecommerce eks layout — environments/ # one state per env (dev, test, staging, prod)
 
 ---
 

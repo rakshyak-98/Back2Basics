@@ -1,6 +1,6 @@
 # Indexing
 
-> One-line: what / why for **Indexing** — source TBD.
+> Indexing — what is functional dependency means ?
 
 ---
 

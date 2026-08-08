@@ -2,7 +2,7 @@
 
 # Facade
 
-> One simple entry point over a noisy subsystem — keep routes/controllers dumb — **Dive Into Design Patterns + ServicesManageApi**.
+> Facade — marketing (or any) subsystem has factories, validators, pipelines, adapters. App layers should not know that graph. Facade exposes a small stable API (launchCampaign, getInsights)
 
 ---
 

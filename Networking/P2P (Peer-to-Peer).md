@@ -2,7 +2,7 @@
 
 # P2P (Peer-to-Peer)
 
-> One-line: what / why for **P2P (Peer-to-Peer)** — source TBD.
+> P2P (Peer-to-Peer) — useful in situations where there is no infrastructure.
 
 ---
 

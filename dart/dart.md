@@ -2,7 +2,7 @@
 
 # dart
 
-> One-line: what / why for **dart** — source TBD.
+> dart — factory — Unlike a normal constructor, a factory constructor can return an existing instance or even a subclass. In this context, it's used to return a
 
 ---
 

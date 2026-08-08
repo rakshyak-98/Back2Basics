@@ -2,7 +2,7 @@
 
 # mongoose schema
 
-> One-line: what / why for **mongoose schema** — source TBD.
+> mongoose schema — example Base User Schema with Admin and Manager Variants
 
 ---
 

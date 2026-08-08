@@ -2,7 +2,7 @@
 
 # NVENC (NVIDIA Encoder)
 
-> Hardware H.264/HEVC/AV1 encode on NVIDIA GPUs — **offload live/VoD from CPU**, with rate-control tradeoffs.
+> NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
 ---
 

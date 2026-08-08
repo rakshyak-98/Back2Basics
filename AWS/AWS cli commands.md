@@ -2,7 +2,7 @@
 
 # AWS cli commands
 
-> One-line: what / why for **AWS cli commands** — source TBD.
+> AWS CLI commands — common identity, IAM, and EC2 queries from the terminal.
 
 ---
 

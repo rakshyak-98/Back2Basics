@@ -2,7 +2,7 @@
 
 # ssh allow local system with key
 
-> Key-based SSH login for local or remote users — `authorized_keys`, strict permissions, optional `from=`/`command=` restrictions, `sshd_config` allowlists.
+> ssh allow local system with key — client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
 
 ---
 

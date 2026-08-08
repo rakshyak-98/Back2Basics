@@ -2,7 +2,7 @@
 
 # Ajv (Another JSON validator)
 
-> One-line: what / why for **Ajv (Another JSON validator)** — source TBD.
+> Ajv (Another JSON validator) — a fast and flexible JavaScript library for JSON Schema validation.
 
 ---
 

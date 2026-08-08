@@ -2,7 +2,7 @@
 
 # Service masking
 
-> One-line: **`systemctl mask`** — make a unit **impossible** to start (symlink to `/dev/null`). Stronger than disable; use when packages, sockets, or user sessions keep resurrecting a service.
+> Service masking — enabled → starts at boot (wanted by target)
 
 ---
 

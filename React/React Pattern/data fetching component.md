@@ -2,7 +2,7 @@
 
 # data fetching component
 
-> One-line: what / why for **data fetching component** — source TBD.
+> data fetching component — short field notes on what it is and how to use it.
 
 ---
 

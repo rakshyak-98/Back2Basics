@@ -2,7 +2,7 @@
 
 # mixin
 
-> One-line: what / why for **mixin** — source TBD.
+> mixin — class containing methods that can be used by other classes without a need to inherit from it.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Data Direction Register (DDR)
 
-> One-line: what / why for **Data Direction Register (DDR)** — source TBD.
+> Data Direction Register (DDR) — crucial component in micro-controller architecture, particularly in AVR and ARM systems.
 
 ---
 

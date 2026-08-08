@@ -2,7 +2,7 @@
 
 # sequalizer
 
-> One-line: what / why for **sequalizer** — source TBD.
+> sequalizer — ensure that plain text passwords never touch database storage
 
 ---
 

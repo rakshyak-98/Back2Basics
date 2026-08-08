@@ -2,7 +2,7 @@
 
 # useRef
 
-> One-line: what / why for **useRef** — source TBD.
+> useRef — short field notes on what it is and how to use it.
 
 ---
 

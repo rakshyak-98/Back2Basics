@@ -1,6 +1,6 @@
 # Useful prompt for learning with AI chat
 
-> One-line: what / why for **Useful prompt for learning with AI chat** — source TBD.
+> Useful prompt for learning with AI chat — _What are the most important facts, dates, or formulas related to (topic)? Help me create a memorization technique to remember
 
 ---
 

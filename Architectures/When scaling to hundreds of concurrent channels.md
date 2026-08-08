@@ -2,7 +2,7 @@
 
 # When scaling to hundreds of concurrent channels
 
-> One-line: what / why for **When scaling to hundreds of concurrent channels** — source TBD.
+> When scaling to hundreds of concurrent channels — socket monitoring use ss -ntu to count active established connections.
 
 ---
 

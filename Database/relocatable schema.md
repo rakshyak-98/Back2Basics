@@ -2,7 +2,7 @@
 
 # relocatable schema
 
-> One-line: what / why for **relocatable schema** — source TBD.
+> relocatable schema — a relocatable schema is a database schema design that allows the schema objects (tables, views, stored procedures, etc.) to be moved or relocated to a
 
 ---
 

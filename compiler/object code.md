@@ -2,7 +2,7 @@
 
 # object code
 
-> One-line: what / why for **object code** — source TBD.
+> object code — a product of a compiler.
 
 ---
 

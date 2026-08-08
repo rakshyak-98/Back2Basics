@@ -2,7 +2,7 @@
 
 # MySQL connection pool (app-side)
 
-> One-line: reuse TCP+auth sessions via `mysql2`/`createPool` — cap concurrency, always release; raw `createConnection` per request causes races and `PROTOCOL_CONNECTION_LOST`.
+> MySQL connection pool (app-side) — without pool: req A ──conn──► START TX ... (held)
 
 ---
 

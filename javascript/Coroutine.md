@@ -2,7 +2,7 @@
 
 # Coroutine
 
-> Generators also known as semi-co-routines are a subset of co-routines.
+> Coroutine — allow execution to be suspended resumed well suited for
 
 ---
 

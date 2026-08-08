@@ -2,7 +2,7 @@
 
 # Desktop/laptop/server, Manufacturer, Asset tag, serial number
 
-> One-line: what / why for **Desktop/laptop/server, Manufacturer, Asset tag, serial number** — source TBD.
+> Desktop/laptop/server, Manufacturer, Asset tag, serial number — reads the system DMI (Desktop Management Interface) / SMBIOS (System Management BIOS) table and displays hardware information stored by
 
 ---
 

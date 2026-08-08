@@ -2,7 +2,7 @@
 
 # mongoDB Group query
 
-> One-line: what / why for **mongoDB Group query** — source TBD.
+> mongoDB Group query — to group based on two keys, you need to structure _id as an object containing both fields in the $group stage.
 
 ---
 

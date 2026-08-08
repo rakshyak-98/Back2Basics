@@ -2,7 +2,7 @@
 
 # ss
 
-> One-line: **socket statistics from the kernel** — faster, richer `netstat` replacement for listening ports, TCP state, queues, and process ownership. **First tool for “what is connected to what?”**
+> ss — socket stats from the kernel; faster, richer replacement for netstat.
 
 ---
 

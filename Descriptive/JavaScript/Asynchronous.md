@@ -2,7 +2,7 @@
 
 # Asynchronous
 
-> One-line: what / why for **Asynchronous** — source TBD.
+> Asynchronous — things can happen independently of the main program flow.
 
 ---
 

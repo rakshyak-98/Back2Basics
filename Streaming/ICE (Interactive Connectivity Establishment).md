@@ -2,7 +2,7 @@
 
 # ICE (Interactive Connectivity Establishment)
 
-> One-line: what / why for **ICE (Interactive Connectivity Establishment)** — source TBD.
+> ICE (Interactive Connectivity Establishment) — server configuration is a method used in WebRTC and other real-time communication protocols
 
 ---
 

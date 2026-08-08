@@ -2,7 +2,7 @@
 
 # IM (Information Management) production systems
 
-> Enterprise MAM/PAM for broadcast — **metadata, workflow, and asset lifecycle** from ingest to playout and compliance.
+> IM (Information Management) production systems — information Management (IM) in broadcast is Media Asset Management (MAM) plus workflow orchestration: log content, attach metadata/CIDs, manage versions/rights, route
 
 ---
 

@@ -2,7 +2,7 @@
 
 # redux middleware
 
-> Functions **`dispatch → action → middleware chain → reducer`** — intercept, async, logging — **Redux middleware contract**.
+> redux middleware — middleware₁ (can call next(action), delay, swallow)
 
 ---
 

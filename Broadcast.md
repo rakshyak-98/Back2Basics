@@ -1,6 +1,6 @@
 # Broadcast
 
-> One-line: what / why for **Broadcast** — source TBD.
+> Broadcast — one sender to every device on the same LAN broadcast domain.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Internal routing
 
-> One-line: what / why for **Internal routing** — source TBD.
+> Internal routing — if you and the target device reside on the same private IP network and you cannot configure your router, you can communicate directly within the
 
 ---
 

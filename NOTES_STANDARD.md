@@ -1,6 +1,6 @@
 # Notes Standard — Staff Engineer Field Notes
 
-> Algorithm used by top 1% operators: **retrieve fast, debug fast, configure correctly**.
+> How to write notes in this vault — retrieve fast, debug fast, configure correctly.
 > Source bar: production incident muscle memory + books (Brikman, Stevens, Kerrisk, Kleppmann, Burns) + battle stories from staff/principal eng knowledge transfer — **not** man-page dumps.
 
 ---

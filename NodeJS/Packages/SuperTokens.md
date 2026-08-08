@@ -2,7 +2,7 @@
 
 # SuperTokens (Node SDK)
 
-> One-line: managed/session-based auth SDK — handles login, refresh, anti-CSRF, and session validation middleware for Express/Fastify; self-host or SaaS core.
+> SuperTokens (Node SDK) — superTokens splits auth into a Core service (session store, refresh rotation) and your API (SDK middleware). Sessions live in httpOnly cookies +
 
 ---
 

@@ -2,7 +2,7 @@
 
 # RTQ Toolkit
 
-> - RTK Query uses a keying system `queryKey` to store and update API responses. - Query keying system ensures different API calls update the correct store data. - You don't need to manually manage Redux state-RTK Query handles it for you.
+> RTK Query — cache API responses by query key and keep UI data in sync.
 
 ---
 

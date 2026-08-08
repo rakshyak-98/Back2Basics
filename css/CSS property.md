@@ -2,7 +2,7 @@
 
 # CSS property
 
-> One-line: what / why for **CSS property** — source TBD.
+> CSS property — if you change the <p> element’s display property to inline, the ::first-letter pseudo-element will not work because ::first-letter only applies to block-level elements.
 
 ---
 

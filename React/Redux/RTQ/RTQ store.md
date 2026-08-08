@@ -2,7 +2,7 @@
 
 # RTQ store
 
-> One-line: what / why for **RTQ store** — source TBD.
+> RTQ store — short field notes on what it is and how to use it.
 
 ---
 

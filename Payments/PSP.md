@@ -2,7 +2,7 @@
 
 # PSP (Payment Service Provider)
 
-> End-to-end payments intermediary — merchant accounts, processing, and often gateway UX — **Stripe/Adyen/Square class of vendors**.
+> PSP (Payment Service Provider) — a PSP connects payers and merchants: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
 
 ---
 

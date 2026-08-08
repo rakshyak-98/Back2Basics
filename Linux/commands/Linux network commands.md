@@ -2,7 +2,7 @@
 
 # Linux network commands
 
-> One-line: what / why for **Linux network commands** — source TBD.
+> Linux network commands — list all ports and their protocols
 
 ---
 

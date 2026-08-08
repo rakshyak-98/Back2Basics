@@ -2,7 +2,7 @@
 
 # PHP-FPM
 
-> FastCGI Process Manager: the worker pool between Nginx/Apache and PHP — **production default for PHP on Linux**.
+> PHP-FPM — client ──► Nginx ──► [FPM master] ──► worker pool ──► PHP script ──► DB
 
 ---
 

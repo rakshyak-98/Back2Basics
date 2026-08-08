@@ -2,7 +2,7 @@
 
 # Buffer head
 
-> Per-block metadata wrapper in the kernel page cache — tracks dirty state, device/block identity, and LRU position for writeback and eviction.
+> Buffer head — page (4 KiB may hold multiple blocks)
 
 ---
 

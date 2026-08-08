@@ -2,7 +2,7 @@
 
 # POSIX Socket
 
-> One-line: what / why for **POSIX Socket** — source TBD.
+> POSIX Socket — definition: Standardized API (POSIX) for inter-process & network communication using sockets.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # tmux
 
-> One-line: what / why for **tmux** — source TBD.
+> tmux — window → full screen workspace
 
 ---
 

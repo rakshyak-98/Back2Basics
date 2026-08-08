@@ -2,7 +2,7 @@
 
 # ICMP
 
-> One-line: what / why for **ICMP** — source TBD.
+> ICMP — used for network diagnostics (ping, traceroute).
 
 ---
 

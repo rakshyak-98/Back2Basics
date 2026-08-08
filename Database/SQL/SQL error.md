@@ -2,7 +2,7 @@
 
 # Error: `Public Key Retrieval is not allowed`
 
-> One-line: what / why for **Error: `Public Key Retrieval is not allowed`** — source TBD.
+> Error: `Public Key Retrieval is not allowed` — mySQL 8+ default to the caching_sha2_password and plugin, which requires the client to encrypt the password using the server's public
 
 ---
 

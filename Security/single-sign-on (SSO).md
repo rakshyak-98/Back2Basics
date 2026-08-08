@@ -2,7 +2,7 @@
 
 # Single-sign-on (SSO)
 
-> One-line: one identity provider (IdP) login federates access to many apps via signed assertions — **SAML 2.0** or **OIDC/OAuth 2.0**.
+> Single-sign-on (SSO) — user ──► App (SP) ──redirect──► IdP login
 
 ---
 

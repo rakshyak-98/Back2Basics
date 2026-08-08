@@ -2,7 +2,7 @@
 
 # Stack trace
 
-> One-line: what / why for **Stack trace** — source TBD.
+> Stack trace — top frame — the real place where the error happened
 
 ---
 

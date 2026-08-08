@@ -2,7 +2,7 @@
 
 # Scaling Throughput in High-load system
 
-> One-line: what / why for **Scaling Throughput in High-load system** — source TBD.
+> Scaling Throughput in High-load system — for an architecture managing high-density media streams, standard REST/HTTP paradigms often fail due to header overhead and connection churn.
 
 ---
 

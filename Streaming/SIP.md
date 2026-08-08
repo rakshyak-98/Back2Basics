@@ -2,7 +2,7 @@
 
 # SIP (Session Initiation Protocol)
 
-> VoIP/media signaling — REGISTER, INVITE, RTP path setup, NAT debugging for streaming engineers — **RFC 3261 ops view**.
+> SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # go package
 
-> One-line: what / why for **go package** — source TBD.
+> go package — a go package is a go source file that begins with the package keyword followed by the name of the package.
 
 ---
 

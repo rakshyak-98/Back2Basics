@@ -2,7 +2,7 @@
 
 # TCP
 
-> One-line: what / why for **TCP** — source TBD.
+> TCP — stream-Oriented Abstraction: Operates as a continuous byte stream. Application-layer write boundaries are entirely discarded at the transport layer.
 
 ---
 

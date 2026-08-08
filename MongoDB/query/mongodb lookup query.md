@@ -2,7 +2,7 @@
 
 # mongodb lookup query
 
-> One-line: what / why for **mongodb lookup query** — source TBD.
+> mongodb lookup query — // Join orders with users based on userId field
 
 ---
 

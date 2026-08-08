@@ -2,7 +2,7 @@
 
 # ETAG or IF MATCH
 
-> One-line: what / why for **ETAG or IF MATCH** — source TBD.
+> ETAG or IF MATCH — eTag/if-Match implements optimistic concurrency control, preventing lost updates when multiple clients read and modify the same resource concurrently.
 
 ---
 

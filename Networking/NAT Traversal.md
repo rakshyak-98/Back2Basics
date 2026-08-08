@@ -2,7 +2,7 @@
 
 # NAT Traversal
 
-> One-line: what / why for **NAT Traversal** — source TBD.
+> NAT Traversal — the process of enabling two devices behind NATs to communicate with each other.
 
 ---
 

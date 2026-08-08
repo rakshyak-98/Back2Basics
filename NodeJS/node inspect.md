@@ -2,7 +2,7 @@
 
 # node inspect
 
-> One-line: what / why for **node inspect** — source TBD.
+> node inspect — short field notes on what it is and how to use it.
 
 ---
 

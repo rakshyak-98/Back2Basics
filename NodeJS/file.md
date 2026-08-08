@@ -2,7 +2,7 @@
 
 # Node.js `file` module patterns
 
-> One-line: read/write paths via `node:fs` — choose sync vs promise vs stream based on size and startup cost; never block the event loop on large sync I/O.
+> Node.js `file` module patterns — node has no separate file package — file I/O lives in node:fs. Three API surfaces:
 
 ---
 

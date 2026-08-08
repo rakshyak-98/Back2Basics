@@ -2,7 +2,7 @@
 
 # terminal config
 
-> One-line: what / why for **terminal config** — source TBD.
+> terminal config — gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 
 ---
 

@@ -2,7 +2,7 @@
 
 # TFTP
 
-> Although UDP is unreliable, TFTP adds reliability by:  - Numbering each data block - Requiring an ACK for every block - Retransmitting a block if its ACK is not received before a timeout
+> TFTP (Trivial File Transfer Protocol) — simple UDP file transfer with block ACKs.
 
 ---
 

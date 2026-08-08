@@ -2,7 +2,7 @@
 
 # How to manipulate memory directly
 
-> Direct memory access patterns — `mmap`, pointers, unsafe escape hatches — and when **not** to touch raw memory — **Stevens / Rustonomicon / Go unsafe rules**.
+> How to manipulate memory directly — normal code uses managed abstractions: language runtime, GC, copy-on-write pages. Direct memory means you hold a raw address into process
 
 ---
 

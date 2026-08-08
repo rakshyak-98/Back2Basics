@@ -2,7 +2,7 @@
 
 # MySQL columns
 
-> One-line: column DDL — types, nullability, defaults, order, and comments; full definition required on MODIFY; plan for online schema change.
+> column DDL — types, nullability, defaults, order, and comments; full definition required on MODIFY; plan for online schema change.
 
 ---
 

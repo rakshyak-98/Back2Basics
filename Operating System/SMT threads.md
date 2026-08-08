@@ -2,7 +2,7 @@
 
 # SMT threads
 
-> One-line: what / why for **SMT threads** — source TBD.
+> SMT threads — SMT — Simultaneous Multi-threading. SMT is the technology that lets one physical CPU core run two (or more) threads at the same time. Intel calls
 
 ---
 

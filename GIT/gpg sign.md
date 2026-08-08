@@ -2,7 +2,7 @@
 
 # GPG sign (Git commits & tags)
 
-> One-line: cryptographically **sign Git commits/tags** with your GPG key — proves authorship and integrity for supply-chain and release audit. **Fix "no secret key" before enabling signing in CI or globally.**
+> GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
 ---
 

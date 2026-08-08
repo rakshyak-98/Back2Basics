@@ -2,7 +2,7 @@
 
 # nmap
 
-> One-line: **controlled port and service discovery** — map what's listening before an incident becomes a breach audit. Scope and authorization first; `-A` on prod without approval is a career event.
+> controlled port and service discovery — map what's listening before an incident becomes a breach audit. Scope and authorization first; `-A` on prod without approval is
 
 ---
 

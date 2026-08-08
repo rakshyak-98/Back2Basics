@@ -2,7 +2,7 @@
 
 # EBS (Elastic Block Store)
 
-> One-line: what / why for **EBS (Elastic Block Store)** — source TBD.
+> EBS (Elastic Block Store) — durable block disk attached to one EC2 instance.
 
 ---
 

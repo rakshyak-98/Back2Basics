@@ -2,7 +2,7 @@
 
 # Buffer cache
 
-> One-line: what / why for **Buffer cache** — source TBD.
+> Buffer cache — the buffer cache is a kernel subsystem that manages buffers in memory to optimize disk I/O performance.
 
 ---
 

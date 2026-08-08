@@ -2,7 +2,7 @@
 
 # mysql
 
-> One-line: what / why for **mysql** — source TBD.
+> mysql — then convert the CSV output to JSON using this tool
 
 ---
 

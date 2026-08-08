@@ -2,7 +2,7 @@
 
 # Kubernetes services
 
-> One-line: what / why for **Kubernetes services** — source TBD.
+> Kubernetes services — in Kubernetes, a service is a method for exposing a network application that is running as one or more Pods in your cluster.
 
 ---
 

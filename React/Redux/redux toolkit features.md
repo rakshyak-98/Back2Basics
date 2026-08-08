@@ -2,7 +2,7 @@
 
 # redux toolkit features
 
-> One-line: what / why for **redux toolkit features** — source TBD.
+> redux toolkit features — short field notes on what it is and how to use it.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # MySQL storage
 
-> One-line: what / why for **MySQL storage** — source TBD.
+> MySQL storage — sessions are stored in MySQL, so users remain logged in even if the server restarts or crashes.
 
 ---
 

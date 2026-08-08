@@ -2,7 +2,7 @@
 
 # Basic
 
-> One-line: what / why for **Basic** — source TBD.
+> Basic — aggregation - relationship between two objects, where one object contains other object.
 
 ---
 

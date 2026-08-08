@@ -2,7 +2,7 @@
 
 # MVCC
 
-> One-line: what / why for **MVCC** — source TBD.
+> MVCC — instead of locking or rolling back on concurrent read/writes, MVCC treats the database as an append-only structure where each mutation creates a new tuple
 
 ---
 

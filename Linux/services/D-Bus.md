@@ -2,7 +2,7 @@
 
 # D-Bus
 
-> One-line: what / why for **D-Bus** — source TBD.
+> D-Bus — an Inter-process communication (IPC) system primarily used in Linux and Unix-like operating systems.
 
 ---
 

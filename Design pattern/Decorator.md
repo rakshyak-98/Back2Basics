@@ -2,7 +2,7 @@
 
 # Decorator
 
-> Wrap an object to add behavior without changing its interface — stack concerns — **Dive Into Design Patterns + logging/retry around Graph client**.
+> Decorator — instead of subclassing MetaClient into LoggingMetaClient, RetryMetaClient, LoggingRetryMetaClient, … wrap the same interface:
 
 ---
 

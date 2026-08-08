@@ -2,7 +2,7 @@
 
 # Node events driven
 
-> One-line: what / why for **Node events driven** — source TBD.
+> Node events driven — // Most built-in modules already use it internally (http, fs, stream, process, etc.)
 
 ---
 

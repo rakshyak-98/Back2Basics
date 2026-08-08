@@ -2,7 +2,7 @@
 
 # lsof
 
-> One-line: what / why for **lsof** — source TBD.
+> lsof — list St Open Files — shows all open files on the system and which process have them open.
 
 ---
 

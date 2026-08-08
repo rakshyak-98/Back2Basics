@@ -2,7 +2,7 @@
 
 # Git aliases
 
-> One-line: shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
+> shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
 ---
 

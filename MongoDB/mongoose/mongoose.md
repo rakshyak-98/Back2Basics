@@ -2,7 +2,7 @@
 
 # mongoose
 
-> One-line: what / why for **mongoose** — source TBD.
+> mongoose — interprets the connection string and manages how to communicate with the database.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # nginx fastcgi
 
-> One-line: what / why for **nginx fastcgi** — source TBD.
+> nginx fastcgi — if you want nginx to handle other languages, you have two main routes.
 
 ---
 

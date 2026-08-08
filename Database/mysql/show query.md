@@ -2,7 +2,7 @@
 
 # show query
 
-> One-line: what / why for **show query** — source TBD.
+> show query — show view table for current database
 
 ---
 

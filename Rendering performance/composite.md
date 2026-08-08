@@ -2,7 +2,7 @@
 
 # composite
 
-> One-line: what / why for **composite** — source TBD.
+> composite — compositing is where the painted parts of the page are put together for displaying on screen.
 
 ---
 

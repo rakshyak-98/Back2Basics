@@ -2,7 +2,7 @@
 
 # fsync
 
-> Force dirty data (and often metadata) for a file from kernel buffers to stable storage — **Stevens / Kleppmann**.
+> fsync — write() returning success means data reached kernel page cache, not necessarily the physical medium. fsync(fd) (or fdatasync, sync_file_range) is the contract boundary: "make this
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Data structure
 
-> - mostly has to do with the number of times the algorithm needs to access its input data to do its job.
+> Data structure — how values are laid out in memory so reads and updates stay cheap.
 
 ---
 

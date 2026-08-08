@@ -2,7 +2,7 @@
 
 # Markdown
 
-> One-line: what / why for **Markdown** — source TBD.
+> Markdown — short field notes on what it is and how to use it.
 
 ---
 

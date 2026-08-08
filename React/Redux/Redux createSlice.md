@@ -2,7 +2,7 @@
 
 # Redux createSlice
 
-> One-line: what / why for **Redux createSlice** — source TBD.
+> Redux createSlice — createSlice is a utility function in Redux Toolkit that automatically generates both actions and a reducer for you. It simplifies the process of managing state
 
 ---
 

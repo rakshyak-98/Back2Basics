@@ -2,7 +2,7 @@
 
 # terminal emulator
 
-> One-line: what / why for **terminal emulator** — source TBD.
+> terminal emulator — use a communication mechanism called a TTY (teletypewriter) (psuedo-tty), which consists of two ends: the master (or primary) side, managed by the terminal emulator, and
 
 ---
 

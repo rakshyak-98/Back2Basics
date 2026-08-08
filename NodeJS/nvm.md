@@ -2,7 +2,7 @@
 
 # nvm (Node Version Manager)
 
-> One-line: per-user Node version switching via shell hooks — install multiple runtimes; pin version per project with `.nvmrc`; fix PATH before systemd/cron runs node.
+> nvm (Node Version Manager) — nvm installs Node versions under ~/.nvm/versions/node/ and replaces node/npm on PATH when you nvm use. Shell startup sources nvm.sh to define
 
 ---
 

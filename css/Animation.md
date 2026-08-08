@@ -2,7 +2,7 @@
 
 # Animation
 
-> Browser animation performance: stay on the **compositor** (transform/opacity), avoid **layout thrash** — **Paul Lewis / high-performance animations** + Chrome rendering pipeline.
+> Animation — JS → Style → Layout → Paint → Composite
 
 ---
 

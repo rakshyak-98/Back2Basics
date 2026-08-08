@@ -2,7 +2,7 @@
 
 # DNS rebinding
 
-> One-line: attacker rotates DNS answers to turn the browser into a proxy to internal IPs — bypasses naive same-origin checks — **CWE-350**.
+> attacker rotates DNS answers to turn the browser into a proxy to internal IPs — bypasses naive same-origin checks — **CWE-350**.
 
 ---
 

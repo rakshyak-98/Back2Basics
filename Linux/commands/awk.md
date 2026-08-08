@@ -2,7 +2,7 @@
 
 # awk
 
-> One-line: what / why for **awk** — source TBD.
+> awk — 'pattern { action }' file:
 
 ---
 

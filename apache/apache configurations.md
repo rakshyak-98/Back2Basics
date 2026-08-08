@@ -2,7 +2,7 @@
 
 # apache configurations
 
-> One-line: what / why for **apache configurations** — source TBD.
+> apache configurations — if you are using something else like /var/www/myproject/public, make sure it's set correctly.
 
 ---
 

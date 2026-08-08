@@ -2,7 +2,7 @@
 
 # package.json
 
-> One-line: project manifest — scripts, dependency graph, engine constraints, and module type; enforce Node/npm versions in CI and prod.
+> package.json — npm's contract with the repo: dependencies (runtime), devDependencies (build/test), scripts (automation entrypoints), engines (supported Node/npm), and type (module vs CommonJS default).
 
 ---
 

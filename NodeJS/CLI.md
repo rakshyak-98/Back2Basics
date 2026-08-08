@@ -2,7 +2,7 @@
 
 # Node.js CLI
 
-> One-line: run scripts, eval snippets, and switch users/environments from the shell — know when `node` vs `npm run` vs `npx` applies.
+> Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PATH to local node_modules/.bin and injects npm lifecycle env. npx runs package
 
 ---
 

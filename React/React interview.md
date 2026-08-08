@@ -2,7 +2,7 @@
 
 # React interview
 
-> One-line: what / why for **React interview** — source TBD.
+> React interview — import { useCallback, useEffect, useState } from "react";
 
 ---
 

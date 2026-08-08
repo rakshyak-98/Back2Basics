@@ -2,7 +2,7 @@
 
 # 1. When git runs a command like `git push` it internally calls.
 
-> One-line: what / why for **1. When git runs a command like `git push` it internally calls.** — source TBD.
+> 1. When git runs a command like `git push` it internally calls. — create auth token from GitHub personal access token
 
 ---
 

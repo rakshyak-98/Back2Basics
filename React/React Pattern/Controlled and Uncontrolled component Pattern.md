@@ -2,7 +2,7 @@
 
 # Controlled and Uncontrolled component Pattern
 
-> One-line: what / why for **Controlled and Uncontrolled component Pattern** — source TBD.
+> Controlled and Uncontrolled component Pattern — controlled: When you need to *respond to changes immediately* (form validation, conditional rendering).
 
 ---
 

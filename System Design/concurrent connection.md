@@ -2,7 +2,7 @@
 
 # concurrent connection
 
-> One-line: what / why for **concurrent connection** — source TBD.
+> concurrent connection — in the context of media streaming and infrastructure architecture, a concurrent connection is as active, sustained session between a client (or source) and a server
 
 ---
 

@@ -2,7 +2,7 @@
 
 # flussonic
 
-> One-line: what / why for **flussonic** — source TBD.
+> flussonic — receives stream — Takes your UDP input udp://<private ip>:<port>>
 
 ---
 

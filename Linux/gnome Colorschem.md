@@ -2,7 +2,7 @@
 
 # gnome Colorschem
 
-> One-line: what / why for **gnome Colorschem** — source TBD.
+> gnome Colorschem — m — SGR command applies the color/style. The terminal wouldn't know you're talking about graphics attributes (color, bold, underline, etc.)
 
 ---
 

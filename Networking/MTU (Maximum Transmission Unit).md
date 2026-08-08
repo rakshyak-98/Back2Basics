@@ -2,7 +2,7 @@
 
 # MTU (Maximum Transmission Unit)
 
-> MTU is the maximum size (in bytes) of a single network packet that can be transmitted over a network without fragmentation.
+> MTU (Maximum Transmission Unit) — largest packet size a link sends without fragmenting.
 
 ---
 

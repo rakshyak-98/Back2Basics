@@ -2,7 +2,7 @@
 
 # One-level storage system
 
-> Classic OS mental model: disk and RAM are one addressable store via virtual memory — **Multics / early UNIX teaching canon**; explains page cache behavior today.
+> One-level storage system — the one-level store illusion: programmers see a single large virtual address space. The OS + MMU map virtual pages to RAM frames
 
 ---
 

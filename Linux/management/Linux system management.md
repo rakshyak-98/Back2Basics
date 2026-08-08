@@ -2,7 +2,7 @@
 
 # [service]
 
-> One-line: what / why for **[service]** — source TBD.
+> [service] — limiting resources - is valuable in environments with multiple users and system performance issues.
 
 ---
 

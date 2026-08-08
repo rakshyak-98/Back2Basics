@@ -2,7 +2,7 @@
 
 # commands
 
-> One-line: what / why for **commands** — source TBD.
+> commands — prepend method is used to add a new directory to the beginning of the runtime path.
 
 ---
 

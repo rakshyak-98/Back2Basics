@@ -2,7 +2,7 @@
 
 # Makefile
 
-> One-line: what / why for **Makefile** — source TBD.
+> Makefile — .PHONY is used in a Makefile to declare phony targets.
 
 ---
 

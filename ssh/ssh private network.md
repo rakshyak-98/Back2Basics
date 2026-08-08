@@ -2,7 +2,7 @@
 
 # ssh private network
 
-> One-line: what / why for **ssh private network** — source TBD.
+> ssh private network — ip addr show | grep inet
 
 ---
 

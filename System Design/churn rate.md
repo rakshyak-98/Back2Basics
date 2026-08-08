@@ -2,7 +2,7 @@
 
 # Churn rate
 
-> Percent of customers/users lost in a period — **retention KPI**, drives infra downsizing and revenue models.
+> Churn rate — (attrition) measures how many customers stop paying or actively leave in a time window, expressed as a percentage of the starting cohort. It
 
 ---
 

@@ -2,7 +2,7 @@
 
 # mongosh user management
 
-> One-line: what / why for **mongosh user management** — source TBD.
+> mongosh user management — read: Read-only access to a database.
 
 ---
 

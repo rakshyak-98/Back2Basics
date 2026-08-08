@@ -2,7 +2,7 @@
 
 # array
 
-> One-line: what / why for **array** — source TBD.
+> array — why zero-based indexing — primarily due to memory efficiency and pointer arithmetic in lower level implementation like C, which influenced most modern languages.
 
 ---
 

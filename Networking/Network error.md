@@ -2,7 +2,7 @@
 
 # Network error
 
-> Browser and client-visible failures when a request never completes cleanly — distinct from HTTP 4xx/5xx (those *did* complete).
+> Network error — s happen before or instead of an HTTP response:
 
 ---
 

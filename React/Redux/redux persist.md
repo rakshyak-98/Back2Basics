@@ -2,7 +2,7 @@
 
 # redux persist
 
-> One-line: what / why for **redux persist** — source TBD.
+> redux persist — persistGate is a component from redux-persist/integration/react that delays rendering of the app until the persisted state is rehydrates (restored from storage).
 
 ---
 

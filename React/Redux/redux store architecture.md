@@ -2,7 +2,7 @@
 
 # Store Architecture Guide
 
-> Reference document for maintaining and extending the Redux store after refactoring. Last updated: March 2026
+> Redux store layout — how slices, middleware, and selectors stay maintainable.
 
 ---
 

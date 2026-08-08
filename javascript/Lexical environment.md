@@ -2,7 +2,7 @@
 
 # Lexical environment
 
-> Internal record holding **bindings** (variables, functions) + link to **outer** environment — scope is lexical, not dynamic — **ECMA-262 spec / You Don't Know JS**.
+> Lexical environment — each scope (function, block, module) has a Lexical Environment:
 
 ---
 

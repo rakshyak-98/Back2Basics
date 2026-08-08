@@ -2,7 +2,7 @@
 
 # Route53
 
-> AWS **authoritative DNS + health-checked routing + private zones** — not just "create an A record." **Route53 Developer Guide** + prod cutover war stories.
+> Route53 — hosts hosted zones (public on the internet, or private associated with VPCs). Records answer queries; routing policies (weighted, latency, failover, geolocation) steer traffic. Health checks remove
 
 ---
 

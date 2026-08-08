@@ -2,7 +2,7 @@
 
 # hax dump *(filename typo — see hexdump / xxd below)*
 
-> One-line: **Hex dumps for binary inspection** — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
+> Hex dumps for binary inspection — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
 
 ---
 

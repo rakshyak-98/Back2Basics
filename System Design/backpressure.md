@@ -2,7 +2,7 @@
 
 # backpressure
 
-> One-line: what / why for **backpressure** — source TBD.
+> backpressure — prevent the queue or buffer from overflowing. This mechanism is often called *backpressure* in network applications.
 
 ---
 

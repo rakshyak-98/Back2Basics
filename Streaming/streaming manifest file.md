@@ -2,7 +2,7 @@
 
 # streaming manifest file
 
-> One-line: what / why for **streaming manifest file** — source TBD.
+> streaming manifest file — even if you load the manifest via:
 
 ---
 

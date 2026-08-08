@@ -2,7 +2,7 @@
 
 # prompt enginerring
 
-> One-line: what / why for **prompt enginerring** — source TBD.
+> prompt enginerring — the process of writing effective instructions for a model such that it consistently generates content that meets your requirements. Because the content generate from a
 
 ---
 

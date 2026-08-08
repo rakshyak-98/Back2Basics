@@ -2,7 +2,7 @@
 
 # For ext4:
 
-> One-line: what / why for **For ext4:** — source TBD.
+> For ext4: — a USB drive mounting as read-only usually indicates that the operating system has restricted write access to protect the data from potential corruption or physical
 
 ---
 

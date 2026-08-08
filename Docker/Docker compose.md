@@ -2,7 +2,7 @@
 
 # Docker compose
 
-> Multi-container apps as declarative YAML — `docker compose` v2 is a Docker CLI plugin, not a separate Python binary — Compose spec + **Docker Deep Dive** (Poulton).
+> Docker compose — compose orchestrates one host / one stack (dev, CI, small prod). Not a cluster scheduler — that's Kubernetes.
 
 ---
 

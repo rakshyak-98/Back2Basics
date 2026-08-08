@@ -2,7 +2,7 @@
 
 # UEFI (2)
 
-> One-line: what / why for **UEFI (2)** — source TBD.
+> UEFI (2) — this partitioning schema is compatible with older BIOS systems. If you plan to boot from the USB on a machine that uses Legacy BIOS, MBR
 
 ---
 

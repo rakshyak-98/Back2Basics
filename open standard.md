@@ -1,6 +1,6 @@
 # open standard
 
-> One-line: what / why for **open standard** — source TBD.
+> Open standard — documented rule set anyone can implement without vendor lock-in.
 
 ---
 

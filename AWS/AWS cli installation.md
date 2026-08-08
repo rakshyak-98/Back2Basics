@@ -2,7 +2,7 @@
 
 # AWS cli installation
 
-> One-line: what / why for **AWS cli installation** — source TBD.
+> Install AWS CLI v2 on Linux and set region, keys, and output format.
 
 ---
 

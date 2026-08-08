@@ -2,7 +2,7 @@
 
 # helm
 
-> One-line: what / why for **helm** — source TBD.
+> helm — the kind field is not part of the basic required fields, but it can be added to specify the type of chart. The kind field should
 
 ---
 

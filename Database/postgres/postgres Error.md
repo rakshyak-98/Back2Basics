@@ -2,7 +2,7 @@
 
 # PostgreSQL connection errors
 
-> One-line: decode FATAL connection failures — role/auth, socket vs TCP, pg_hba, SSL, and pool exhaustion.
+> PostgreSQL connection errors — client connects → libpq resolves host/port → TCP or Unix socket → Postgres postmaster spawns backend → authentication (pg_hba) → database session.
 
 ---
 

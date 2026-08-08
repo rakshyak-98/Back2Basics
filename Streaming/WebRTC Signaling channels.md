@@ -2,7 +2,7 @@
 
 # WebRTC Signaling channels
 
-> Out-of-band exchange of SDP + ICE candidates — **no media on signaling**; required before peer connection.
+> Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
 ---
 

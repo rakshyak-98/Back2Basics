@@ -2,7 +2,7 @@
 
 # dataTransfer
 
-> One-line: what / why for **dataTransfer** — source TBD.
+> dataTransfer — e.dataTransfer — available on all-related events. The data carrier object that lives during the entire drag gesture.
 
 ---
 

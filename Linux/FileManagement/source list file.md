@@ -2,7 +2,7 @@
 
 # source list file
 
-> One-line: what / why for **source list file** — source TBD.
+> source list file — deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian jammy nginx
 
 ---
 

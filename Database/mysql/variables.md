@@ -2,7 +2,7 @@
 
 # variables
 
-> One-line: what / why for **variables** — source TBD.
+> variables — short field notes on what it is and how to use it.
 
 ---
 

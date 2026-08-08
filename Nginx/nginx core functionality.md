@@ -2,7 +2,7 @@
 
 # nginx core functionality
 
-> One-line: what / why for **nginx core functionality** — source TBD.
+> nginx core functionality — all workers processes get simultaneously notified about a new incoming connection.
 
 ---
 

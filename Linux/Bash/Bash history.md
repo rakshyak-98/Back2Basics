@@ -2,7 +2,7 @@
 
 # Bash history
 
-> One-line: what / why for **Bash history** — source TBD.
+> Bash history — hISTIGNORE: Excludes certain commands from being saved in history.
 
 ---
 

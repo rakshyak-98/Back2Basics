@@ -2,7 +2,7 @@
 
 # mongodb view
 
-> One-line: what / why for **mongodb view** — source TBD.
+> mongodb view — the view is defined using an aggregation pipeline for flexible transformations.
 
 ---
 

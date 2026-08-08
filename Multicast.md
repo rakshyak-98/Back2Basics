@@ -2,7 +2,7 @@
 
 # Multicast
 
-> One-line: what / why for **Multicast** — source TBD.
+> Multicast — one sender to many interested receivers on a multicast group.
 
 ---
 

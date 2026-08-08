@@ -2,7 +2,7 @@
 
 # Runtime Errors
 
-> One-line: what / why for **Runtime Errors** — source TBD.
+> Runtime Errors — await is only valid in async functions and the top level bodies of modules
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Sigmoid
 
-> Maps ℝ → (0,1): **σ(z) = 1 / (1 + e⁻ᶻ)** — turns scores into probabilities for [[binary classification]] — **logistic regression**.
+> Sigmoid — the sigmoid is a smooth S-curve saturating at 0 and 1. In logistic regression:
 
 ---
 

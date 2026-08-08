@@ -2,7 +2,7 @@
 
 # Node.js Clustering
 
-> One-line: fork one process per CPU core to use all cores — each worker has its own event loop; share nothing unless you add Redis/DB.
+> Node.js Clustering — node cluster uses cluster module (or PM2) to fork multiple Node processes bound to the same port via SO_REUSEPORT / master handoff. Each
 
 ---
 

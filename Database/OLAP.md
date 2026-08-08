@@ -2,7 +2,7 @@
 
 # OLAP (Online Analytical Processing)
 
-> **Read-heavy analytics** — scans, aggregates, GROUP BY across dimensions — optimized for dashboards and BI, not row-by-row checkout. Contrast [[OLTP]]: many small writes, index-point lookups, [[ACID]] transactions.
+> OLAP (Online Analytical Processing) — OLTP answers "create this order now" (few rows, ms latency). OLAP answers "revenue by region last 36 months" (millions–billions of rows, seconds OK).
 
 ---
 

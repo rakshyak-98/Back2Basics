@@ -2,7 +2,7 @@
 
 # HLS
 
-> One-line: what / why for **HLS** — source TBD.
+> HLS — HTTP Live Streaming (HLS) is an adaptive bitrate video streaming protocol developed by apple. It is the industry standard of delivering both live and on-demand audio
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Referential equality
 
-> **`===` for objects/functions** — same reference means "unchanged" to React memoization — **React reconciliation**.
+> Referential equality — primitives compared by value; objects, arrays, functions by reference:
 
 ---
 

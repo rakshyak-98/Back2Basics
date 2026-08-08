@@ -2,7 +2,7 @@
 
 # Summery
 
-> One-line: what / why for **Summery** — source TBD.
+> Summery — fork() creates a copy of the parent process, and exec() replaces the child process's memory with a new program. The combination of fork() and exec() is
 
 ---
 

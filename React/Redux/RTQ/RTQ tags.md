@@ -2,7 +2,7 @@
 
 # RTQ tags
 
-> RTK Query **cache labels** — `providesTags` on queries, `invalidatesTags` on mutations — automatic refetch graph — **RTK Query docs**.
+> RTQ tags — each cached query entry can provide tags { type, id? }. Mutations invalidate tags → RTK refetches all queries that provided matching tags.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Configuration
 
-> One-line: what / why for **Configuration** — source TBD.
+> Configuration — short field notes on what it is and how to use it.
 
 ---
 

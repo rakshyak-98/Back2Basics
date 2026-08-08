@@ -2,7 +2,7 @@
 
 # Analog interface
 
-> Connection that carries continuously varying signals (voltage, current, pressure) — contrast with digital discrete levels (0/1).
+> Analog interface — real world Analog front-end Digital domain
 
 ---
 

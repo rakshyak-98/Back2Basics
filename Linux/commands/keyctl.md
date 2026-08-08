@@ -2,7 +2,7 @@
 
 # keyctl
 
-> One-line: **inspect and manipulate kernel keyrings** — the in-kernel credential store used by NFS, Kerberos, module signing, `request_key`, and some crypto stacks. Not GnuPG. **Kerrisk keyutils.**
+> keyctl — linux key retention service holds opaque blobs (keys) in keyrings attached to user, session, process, or thread. User-space sees them via keyutils (keyctl, keyctl(1)).
 
 ---
 

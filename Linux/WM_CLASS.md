@@ -2,7 +2,7 @@
 
 # WM_CLASS
 
-> One-line: **X11 window identity string** — how WMs and tools distinguish two Firefox windows or force rules per app instance. Set via `.desktop` `StartupWMClass` when matching fails.
+> X11 window identity string — how WMs and tools distinguish two Firefox windows or force rules per app instance. Set via `.desktop` `StartupWMClass` when matching fails.
 
 ---
 

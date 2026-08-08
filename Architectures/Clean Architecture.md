@@ -2,7 +2,7 @@
 
 # Clean Architecture
 
-> Isolate business rules from frameworks, UI, and databases by enforcing inward-only source dependencies — **Robert C. Martin** (*Clean Architecture*, 2017; [blog, 2012](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)).
+> Clean Architecture — a dependency-management pattern, not a deployment diagram. Martin unified Hexagonal (Cockburn), Onion (Palermo), Screaming Architecture, DCI (Coplien/Reenskaug), and BCE (Jacobson) into one actionable
 
 ---
 

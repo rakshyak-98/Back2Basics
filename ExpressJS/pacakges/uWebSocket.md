@@ -2,7 +2,7 @@
 
 # uWebSocket
 
-> One-line: what / why for **uWebSocket** — source TBD.
+> uWebSocket — used for real-time applications that require efficient networking, such as chat applications, trading platforms, multiplayer games.
 
 ---
 

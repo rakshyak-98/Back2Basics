@@ -2,7 +2,7 @@
 
 # go learning
 
-> One-line: what / why for **go learning** — source TBD.
+> go learning — here is a detailed series of copy-paste ready prompts you can feed sequentially to any AI agent (like me, Claude, or ChatGPT) over the next
 
 ---
 

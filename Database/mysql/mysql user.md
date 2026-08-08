@@ -2,7 +2,7 @@
 
 # mysql user
 
-> One-line: what / why for **mysql user** — source TBD.
+> mysql user — CREATE USER 'username'@'host' IDENTIFIED BY 'password';
 
 ---
 

@@ -2,7 +2,7 @@
 
 # TenStack Query
 
-> One-line: what / why for **TenStack Query** — source TBD.
+> TenStack Query — if you make a mutation toward a single specific resource, and you know that it will update only that specific resource, you could directly update
 
 ---
 

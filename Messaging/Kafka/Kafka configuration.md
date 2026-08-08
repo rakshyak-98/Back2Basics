@@ -2,7 +2,7 @@
 
 # Kafka configuration
 
-> One-line: what / why for **Kafka configuration** — source TBD.
+> Kafka configuration — kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of the modes
 
 ---
 

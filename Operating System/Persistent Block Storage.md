@@ -2,7 +2,7 @@
 
 # Persistent Block Storage
 
-> One-line: what / why for **Persistent Block Storage** — source TBD.
+> Persistent Block Storage — refers to a storage system that retains data even after the associated compute resource (e.g., a virtual machine) is stopped or restarted.
 
 ---
 

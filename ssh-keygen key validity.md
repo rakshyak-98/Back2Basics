@@ -1,6 +1,6 @@
 # ssh-keygen key validity
 
-> One-line: what / why for **ssh-keygen key validity** — source TBD.
+> An SSH key works only if the server trusts the public key — generation alone is not enough.
 
 ---
 

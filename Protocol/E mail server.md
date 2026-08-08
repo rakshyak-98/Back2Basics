@@ -2,7 +2,7 @@
 
 # E mail server
 
-> One-line: the MTA/MDA/MUA stack that accepts, routes, stores, and retrieves mail — debug deliverability at each hop.
+> E mail server — email crosses distinct roles. Confusing them causes misconfigured ports and wrong logs.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # promise
 
-> One-line: what / why for **promise** — source TBD.
+> promise — why to switch to the promise-based API
 
 ---
 

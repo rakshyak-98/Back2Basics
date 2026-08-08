@@ -2,7 +2,7 @@
 
 # Firebase messaging
 
-> One-line: what / why for **Firebase messaging** — source TBD.
+> Firebase messaging — the current code has a logic flaw: it limits the token list to 500 (slice(0, 500)) but does not handle tokens beyond 500 or split
 
 ---
 

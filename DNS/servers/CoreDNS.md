@@ -2,7 +2,7 @@
 
 # CoreDNS
 
-> One-line: what / why for **CoreDNS** — source TBD.
+> CoreDNS — an open-source DNS server written in Go and designed around a highly modular plugin architecture. It is best known as the default DNS service for Kubernetes
 
 ---
 

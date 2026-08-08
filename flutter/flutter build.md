@@ -2,7 +2,7 @@
 
 # Flutter build and release
 
-> Compile Dart to native ARM/x64 binaries and platform bundles — debug fast, profile jank, release with obfuscation, signing, and store-ready artifacts.
+> Flutter build and release — dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/wasm (web)
 
 ---
 

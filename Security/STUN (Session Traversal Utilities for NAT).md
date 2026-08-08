@@ -2,7 +2,7 @@
 
 # STUN (Session Traversal Utilities for NAT)
 
-> One-line: what / why for **STUN (Session Traversal Utilities for NAT)** — source TBD.
+> STUN (Session Traversal Utilities for NAT) — learn your public IP:port so peers can try a direct path.
 
 ---
 

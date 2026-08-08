@@ -2,7 +2,7 @@
 
 # tee
 
-> One-line: what / why for **tee** — source TBD.
+> tee — writes to both stdout and Files
 
 ---
 

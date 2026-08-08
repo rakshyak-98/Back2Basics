@@ -2,7 +2,7 @@
 
 # Debugger configuratoin
 
-> One-line: what / why for **Debugger configuratoin** — source TBD.
+> Debugger configuratoin — "name": "Next.js: debug full stack",
 
 ---
 

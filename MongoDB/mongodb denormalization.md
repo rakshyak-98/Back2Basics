@@ -2,7 +2,7 @@
 
 # mongodb denormalization
 
-> One-line: what / why for **mongodb denormalization** — source TBD.
+> mongodb denormalization — the choice of design pattern depends on:
 
 ---
 

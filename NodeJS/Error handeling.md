@@ -2,7 +2,7 @@
 
 # Error handeling
 
-> One-line: what / why for **Error handeling** — source TBD.
+> Error handeling — create errors with a custom name is to extend the built-in Error class using ES6 class syntax
 
 ---
 

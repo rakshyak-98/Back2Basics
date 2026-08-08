@@ -2,7 +2,7 @@
 
 # Idempotent-key
 
-> One-line: what / why for **Idempotent-key** — source TBD.
+> Idempotent-key — idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique
 
 ---
 

@@ -2,7 +2,7 @@
 
 # set disk IO priority
 
-> One-line: what / why for **set disk IO priority** — source TBD.
+> set disk IO priority — environmentFile=/etc/my-node-app/env # You can still add/override individual vars Environment= OVERRIDE_VAR=something-else
 
 ---
 

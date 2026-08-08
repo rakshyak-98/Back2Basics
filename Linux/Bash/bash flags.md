@@ -2,7 +2,7 @@
 
 # bash flags
 
-> One-line: what / why for **bash flags** — source TBD.
+> bash flags — short field notes on what it is and how to use it.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # RSC (React Server Component boundaries)
 
-> One-line: what / why for **RSC (React Server Component boundaries)** — source TBD.
+> RSC (React Server Component boundaries) — they are compile-time enfo[]()rced boundaries that separate Server Components from Client Components in Next.js (App Router) using React Server Components (RSC).
 
 ---
 

@@ -2,7 +2,7 @@
 
 # react useEffect
 
-> One-line: what / why for **react useEffect** — source TBD.
+> react useEffect — react's render must stay pure (no side effect when component is rendering).
 
 ---
 

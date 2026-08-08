@@ -2,7 +2,7 @@
 
 # Payment integration Strip
 
-> One-line: what / why for **Payment integration Strip** — source TBD.
+> Payment integration Strip — const handleCheckout = async () => {
 
 ---
 

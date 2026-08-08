@@ -2,7 +2,7 @@
 
 # linux groups
 
-> One-line: what / why for **linux groups** — source TBD.
+> linux groups — getent group <group> — getent group only shows users who have this group as a supplementary.
 
 ---
 

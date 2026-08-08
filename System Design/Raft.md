@@ -2,7 +2,7 @@
 
 # Raft
 
-> One-line: what / why for **Raft** — source TBD.
+> Raft — a consensus algorithm designed for distributed systems. It enables a cluster of servers (nodes) to agree on a shared state, even in the presence of failures
 
 ---
 

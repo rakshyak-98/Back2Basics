@@ -2,7 +2,7 @@
 
 # ngrok
 
-> One-line: what / why for **ngrok** — source TBD.
+> ngrok — you will get a public URL like
 
 ---
 

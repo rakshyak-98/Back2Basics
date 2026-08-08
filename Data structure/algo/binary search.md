@@ -2,7 +2,7 @@
 
 # Binary search
 
-> Halve sorted search space each step — O(log n) find/insert boundary; loop invariant is the hard part.
+> Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
 ---
 

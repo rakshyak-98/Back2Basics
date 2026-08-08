@@ -2,7 +2,7 @@
 
 # ethtool
 
-> NIC driver ioctl tool — inspect link state, speed/duplex, ring sizes, offload features, and driver stats at the hardware edge.
+> ethtool — talks to the NIC driver, not just the kernel routing stack:
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Windowing system
 
-> One-line: **GUI stack that turns pixels into windows, icons, and input** — WIMP (windows, icons, menus, pointer) plus toolkits. Know the layers before blaming "Linux graphics."
+> GUI stack that turns pixels into windows, icons, and input — WIMP (windows, icons, menus, pointer) plus toolkits. Know the layers before blaming "Linux graphics."
 
 ---
 

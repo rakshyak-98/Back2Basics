@@ -2,7 +2,7 @@
 
 # scss
 
-> SCSS in 2026: still valuable for **design tokens, mixins, and partials** — but lean on native CSS where it caught up — **Sass team + modern CSS spec**.
+> scss — = CSS + variables, nesting, mixins, functions, @use modules. Build step compiles to plain CSS.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # encrypt file using the public key save as ASCII-armored format.
 
-> One-line: what / why for **encrypt file using the public key save as ASCII-armored format.** — source TBD.
+> encrypt file using the public key save as ASCII-armored format. — gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --export > localkey.gpg
 
 ---
 

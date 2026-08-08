@@ -2,7 +2,7 @@
 
 # ADT (Abstract Data Type)
 
-> One-line: what / why for **ADT (Abstract Data Type)** — source TBD.
+> ADT (Abstract Data Type) — a data structure by its behavior rather than its implementation.
 
 ---
 

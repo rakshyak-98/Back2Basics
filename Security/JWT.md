@@ -2,7 +2,7 @@
 
 # JWT
 
-> One-line: what / why for **JWT** — source TBD.
+> JWT — signed token can verify the integrity of the claims contained withing it, while encrypted tokens hide those claims.
 
 ---
 

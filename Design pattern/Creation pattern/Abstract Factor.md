@@ -2,7 +2,7 @@
 
 # Abstract Factor
 
-> One-line: what / why for **Abstract Factor** — source TBD.
+> Abstract Factor — → Design pattern/Creation pattern/Abstract Factory
 
 ---
 

@@ -2,7 +2,7 @@
 
 # mysql table
 
-> One-line: what / why for **mysql table** — source TBD.
+> mysql table — -- copies schema, indexes, column definitions
 
 ---
 

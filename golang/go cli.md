@@ -2,7 +2,7 @@
 
 # go cli
 
-> One-line: what / why for **go cli** — source TBD.
+> go cli — run your go program and capture its memory map
 
 ---
 

@@ -2,7 +2,7 @@
 
 # connection pooling
 
-> Reuse open DB connections instead of TCP+auth per request — cuts latency and protects the server from connection storms — **HikariCP / PgBouncer docs** + Kleppmann.
+> connection pooling — without pool: Request → connect → auth → query → disconnect (expensive)
 
 ---
 

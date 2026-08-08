@@ -2,7 +2,7 @@
 
 # Intl Formattor
 
-> One-line: what / why for **Intl Formattor** — source TBD.
+> Intl Formattor — the Intl module provides built-in internationalization support for formatting numbers, dates, times, strings, and lists based on locale.
 
 ---
 

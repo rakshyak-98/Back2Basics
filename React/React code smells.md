@@ -2,7 +2,7 @@
 
 # React code smells
 
-> One-line: what / why for **React code smells** — source TBD.
+> React code smells — a single component that handles too much logic, rendering and state management.
 
 ---
 

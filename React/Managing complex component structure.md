@@ -2,7 +2,7 @@
 
 # Managing complex component structure
 
-> Decompose large UIs with **Provider, Compound, Summary (hooks)** patterns — contain complexity without prop drilling — **patterns.dev / React docs**.
+> Managing complex component structure — complex UI = state + composition + data fetching tangled in one file. Three levers:
 
 ---
 

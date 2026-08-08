@@ -2,7 +2,7 @@
 
 # HLS vs. DASH
 
-> One-line: what / why for **HLS vs. DASH** — source TBD.
+> HLS vs. DASH — HLS (HTTP Live Streaming) and DASH (Dynamic Adaptive Streaming over HTTP) are both adaptive bitrate streaming protocols, but they have distinct differences:
 
 ---
 

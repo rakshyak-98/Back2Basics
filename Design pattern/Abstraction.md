@@ -2,7 +2,7 @@
 
 # Abstraction
 
-> One-line: what / why for **Abstraction** — source TBD.
+> Abstraction — it allows interaction with an object through a defined interface, ensuring that only the specified behaviors are accessible, even if additional functionalities exist in the concrete
 
 ---
 

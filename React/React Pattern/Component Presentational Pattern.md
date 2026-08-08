@@ -2,7 +2,7 @@
 
 # Component Presentational Pattern
 
-> One-line: what / why for **Component Presentational Pattern** — source TBD.
+> Component Presentational Pattern — logic (Container) is separate from UI (Presentational)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # JavaScript History API
 
-> One-line: what / why for **JavaScript History API** — source TBD.
+> JavaScript History API — no, the browser API does not store the state of all the visited paths by default.
 
 ---
 

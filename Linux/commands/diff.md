@@ -2,7 +2,7 @@
 
 # diff
 
-> One-line: **line and tree comparison** — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
+> line and tree comparison — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
 
 ---
 

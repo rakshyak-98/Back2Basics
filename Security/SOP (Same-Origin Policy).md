@@ -2,7 +2,7 @@
 
 # SOP (Same-Origin Policy)
 
-> **Origin** = **Scheme** (protocol) + **Host** (domain) + **Port**
+> SOP (Same-Origin Policy) — browser blocks page scripts from reading other origins.
 
 ---
 

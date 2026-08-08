@@ -2,7 +2,7 @@
 
 # adb device
 
-> One-line: what / why for **adb device** — source TBD.
+> adb device — short field notes on what it is and how to use it.
 
 ---
 

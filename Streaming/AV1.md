@@ -2,7 +2,7 @@
 
 # AV1
 
-> One-line: what / why for **AV1** — source TBD.
+> AV1 — an open, royalty-free video codec developed by the Alliance for Open Media (AOMedia -- includes Google, Netflix, Amazon, Microsoft, Intel, Nvidia, among others).
 
 ---
 

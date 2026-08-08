@@ -2,7 +2,7 @@
 
 # mongodb schema
 
-> One-line: what / why for **mongodb schema** — source TBD.
+> mongodb schema — dynamic Schema: MongoDB does not enforce a fixed schema at the database level. This means you can add or remove fields from documents without affecting
 
 ---
 

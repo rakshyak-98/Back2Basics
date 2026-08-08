@@ -2,7 +2,7 @@
 
 # Logger
 
-> One-line: what / why for **Logger** — source TBD.
+> Logger — you are tasked with developing a logging module for a complex software application. The logging module needs to maintain a single log file throughout the application's
 
 ---
 

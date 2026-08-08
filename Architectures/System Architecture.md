@@ -2,7 +2,7 @@
 
 # System Architecture
 
-> One-line: what / why for **System Architecture** — source TBD.
+> System Architecture — components and plugins are separate modules that need to be explicitly registered before they can be used.
 
 ---
 

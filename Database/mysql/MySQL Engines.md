@@ -2,7 +2,7 @@
 
 # MySQL Engines
 
-> One-line: what / why for **MySQL Engines** — source TBD.
+> MySQL Engines — .idb — is the InnoDB data file used by MySQL to store individual table data and indexes when innodb_file_per_table=ON (default in MySQL 5.6+).
 
 ---
 

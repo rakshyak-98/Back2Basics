@@ -2,7 +2,7 @@
 
 # KMS (Key Management Service)
 
-> **Managed encryption keys** — envelope encryption for AWS services and your apps; keys never leave HSM in plaintext. **AWS KMS docs** + outages when key policy and IAM both had to align.
+> KMS (Key Management Service) — managed keys for encrypting data; keys stay in the HSM.
 
 ---
 

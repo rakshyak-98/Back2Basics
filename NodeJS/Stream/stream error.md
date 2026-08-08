@@ -2,7 +2,7 @@
 
 # stream error
 
-> pipeline( fs.createReadStream(file), zlib.createGzip(), fs.createWriteStream(file.concat(".gz")));
+> Node stream errors — handle `error` events and prefer `pipeline` so sockets close cleanly.
 
 ---
 

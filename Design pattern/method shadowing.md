@@ -2,7 +2,7 @@
 
 # Method shadowing (embedding / inheritance)
 
-> Same-named method on outer and inner type — **which implementation runs depends on the static type of the reference**, not the "logical" OOP hierarchy; source of subtle bugs in Go embedding and Java hiding.
+> Method shadowing — same method name on outer and inner types; the static type picks which runs.
 
 ---
 

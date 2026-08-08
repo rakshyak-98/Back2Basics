@@ -2,7 +2,7 @@
 
 # DRM
 
-> One-line: what / why for **DRM** — source TBD.
+> DRM — set up a License Server (or use a DRM-as-a-Service)
 
 ---
 

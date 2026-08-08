@@ -2,7 +2,7 @@
 
 # Kotlin syntax (quick reference)
 
-> JVM-null-safe language — `?.`, `!!`, `val`/`var`, and extension functions; use this note for day-one reading code, not full language spec.
+> Kotlin syntax (quick reference) — kotlin targets JVM/JS/Native. val immutable reference, var mutable. Nullability enforced at compile time: String vs String?.
 
 ---
 

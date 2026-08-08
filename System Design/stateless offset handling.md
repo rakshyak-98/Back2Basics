@@ -2,7 +2,7 @@
 
 # Stateless offset handling
 
-> Kafka consumer offset patterns for "stateless" services — commits, rebalance, duplicates, and exactly-once illusions — **Kleppmann / Kafka ops canon**.
+> Stateless offset handling — a consumer's offset is its cursor in a partition log. Stateless here means: no durable local DB for progress — the broker
 
 ---
 

@@ -2,7 +2,7 @@
 
 # mysql Programmable SQL
 
-> One-line: what / why for **mysql Programmable SQL** — source TBD.
+> mysql Programmable SQL — PREPARE stmt FROM 'UPDATE table_name set column_name = ? where id = 1';
 
 ---
 

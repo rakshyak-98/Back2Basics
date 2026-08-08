@@ -2,7 +2,7 @@
 
 # CAS (Conditional Access System)
 
-> Pay-TV security layer that **controls who may decrypt encrypted broadcast/IPTV streams** — ECM/EMM + smart card/secure client, not browser [[DRM]].
+> CAS (Conditional Access System) — a security system that controls who is allowed to watch encrypted content. It is primarily used by pay-TV operators (DTH, Cable, IPTV) to
 
 ---
 

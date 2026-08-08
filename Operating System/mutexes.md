@@ -2,7 +2,7 @@
 
 # Mutexes
 
-> Mutual-exclusion lock: one holder at a time for a [[critical sections]] — **Kerrisk / concurrent programming canon**.
+> Mutexes — thread A mutex Thread B
 
 ---
 

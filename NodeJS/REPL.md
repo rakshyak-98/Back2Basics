@@ -2,7 +2,7 @@
 
 # node repl
 
-> watch
+> Node REPL — interactive prompt to try JavaScript without writing a file.
 
 ---
 

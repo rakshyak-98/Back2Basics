@@ -2,7 +2,7 @@
 
 # frontend layered architecture
 
-> One-line: what / why for **frontend layered architecture** — source TBD.
+> frontend layered architecture — ├── public/ # Static assets (e.g., index.html, favicon)
 
 ---
 

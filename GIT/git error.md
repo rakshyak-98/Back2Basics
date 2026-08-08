@@ -2,7 +2,7 @@
 
 # git error
 
-> One-line: what / why for **git error** — source TBD.
+> git error — drwxr-xr-x 2 root root 4096 Jul 3 18:35 test/
 
 ---
 

@@ -2,7 +2,7 @@
 
 # OCC
 
-> One-line: what / why for **OCC** — source TBD.
+> OCC — (Optimistic Concurrency Control) — executes transactions across three strictly ordered phases without acquiring exclusive or shared locks on the underlying data records.
 
 ---
 

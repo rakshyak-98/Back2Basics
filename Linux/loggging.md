@@ -2,7 +2,7 @@
 
 # Logging (journal & syslog)
 
-> One-line: Linux **log aggregation** — systemd-journald (structured, indexed) plus legacy syslog files under `/var/log`. **Start every service incident with journalctl, not grep of random files.**
+> Logging (journal & syslog) — applications log to stdout/stderr (captured by journald for systemd units), syslog (/dev/log socket), or directly to files (/var/log/app/). journald stores binary
 
 ---
 

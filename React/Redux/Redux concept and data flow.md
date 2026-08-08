@@ -2,7 +2,7 @@
 
 # Redux concept and data flow
 
-> A basic idea behind Redux: a single centralized place to contain the global state in your application, and specific patterns to follow when updating that state to make the code predictable.
+> Redux — one store, actions in, reducers out; predictable state updates.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # MPD (Media Presentation Description)
 
-> DASH manifest XML — **ISO/IEC 23009-1** index for adaptive HTTP streaming; player reads this before any segment.
+> MPD (Media Presentation Description) — the MPD is the root document for DASH playback. It describes Periods (timeline slices), AdaptationSets (video/audio/subtitle tracks), and Representations (bitrate rungs).
 
 ---
 

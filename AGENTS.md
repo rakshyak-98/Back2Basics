@@ -1,4 +1,6 @@
 # AGENTS.md
+> Guide for Cursor agents working in this vault — what the repo is and how to edit notes safely.
+
 
 ## Index
 

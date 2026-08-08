@@ -2,7 +2,7 @@
 
 # hydration
 
-> One-line: what / why for **hydration** — source TBD.
+> hydration — process by which client-side JavaScript framework takes over a server-rendered HTML page and make it interactive by attaching event listeners to the HTML element.
 
 ---
 

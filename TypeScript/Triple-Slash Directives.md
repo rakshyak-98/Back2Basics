@@ -2,7 +2,7 @@
 
 # Triple-Slash Directives
 
-> One-line: what / why for **Triple-Slash Directives** — source TBD.
+> Triple-Slash Directives — single-line comments containing a single XML tag.
 
 ---
 

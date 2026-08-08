@@ -2,7 +2,7 @@
 
 # mysql data migrations
 
-> One-line: what / why for **mysql data migrations** — source TBD.
+> mysql data migrations — short field notes on what it is and how to use it.
 
 ---
 

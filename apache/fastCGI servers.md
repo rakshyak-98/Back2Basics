@@ -2,7 +2,7 @@
 
 # fastCGI servers
 
-> One-line: what / why for **fastCGI servers** — source TBD.
+> fastCGI servers — fast Common Gateway Interface — binary protocol that improves upon the original CGI by providing a high-performance, language-agnostic way for web servers to interface with
 
 ---
 

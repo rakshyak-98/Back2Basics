@@ -2,7 +2,7 @@
 
 # Authentication command
 
-> One-line: what / why for **Authentication command** — source TBD.
+> Authentication command — you can add the output to your `known_hosts file
 
 ---
 

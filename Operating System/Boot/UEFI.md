@@ -2,7 +2,7 @@
 
 # UEFI
 
-> One-line: what / why for **UEFI** — source TBD.
+> UEFI — define interface between computer's firmware and its operating system.
 
 ---
 

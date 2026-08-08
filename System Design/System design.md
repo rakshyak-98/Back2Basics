@@ -2,7 +2,7 @@
 
 # System design
 
-> One-line: what / why for **System design** — source TBD.
+> System design — in software design, separate abstraction and implementation hierarchies refer to
 
 ---
 

@@ -2,7 +2,7 @@
 
 # CIDR (Classless Inter-Domain Routing)
 
-> One-line: what / why for **CIDR (Classless Inter-Domain Routing)** — source TBD.
+> CIDR (Classless Inter-Domain Routing) — it is the modern way to write IP addresses and their network masks in a compact form — instead of the old "Class
 
 ---
 

@@ -2,7 +2,7 @@
 
 # tsp cli
 
-> One-line: what / why for **tsp cli** — source TBD.
+> tsp cli — tsp -I ip <mpts_ip>:<port> -P analyze # Output report listing each service in the MPTS with its service_id
 
 ---
 

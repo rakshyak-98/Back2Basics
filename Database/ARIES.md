@@ -2,7 +2,7 @@
 
 # ARIES
 
-> One-line: industry-standard WAL recovery algorithm ( steal + no-force ) — analysis → redo → undo after crash; underpins SQL Server, Db2, and many enterprise engines.
+> industry-standard WAL recovery algorithm ( steal + no-force ) — analysis → redo → undo after crash; underpins SQL Server, Db2, and many enterprise engines.
 
 ---
 

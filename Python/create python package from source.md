@@ -2,7 +2,7 @@
 
 # Python Package Setup
 
-> One-line: what / why for **Python Package Setup** — source TBD.
+> Python Package Setup — this guide explains how to turn the python/ folder into an installable package for use in other projects.
 
 ---
 

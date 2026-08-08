@@ -2,7 +2,7 @@
 
 # Routing table
 
-> One-line: kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
+> kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
 
 ---
 

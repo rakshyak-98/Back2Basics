@@ -2,7 +2,7 @@
 
 # Express Error Handler
 
-> One-line: four-argument middleware `(err, req, res, next)` must be registered **last** — centralize status codes, hide stacks in prod, never leak internals.
+> Express Error Handler — express distinguishes error-handling middleware by arity (4 params). Calling next(err) or throwing inside async route (with wrapper) skips normal middleware and jumps to error
 
 ---
 

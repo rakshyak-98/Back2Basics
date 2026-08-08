@@ -2,7 +2,7 @@
 
 # Securing a hash key authentication
 
-> Operational playbook for shared MAC/API secrets — generate strong material, store safely, rotate, and detect compromise.
+> Securing a hash key authentication — hash-key authentication = server and client share a secret used to compute HMAC (Hash based Message Authentication Codes) or compare
 
 ---
 

@@ -2,7 +2,7 @@
 
 # npm error
 
-> Allow the **old generation** to grow up to **4096 MB (4 GB)**. Most long-lived objects eventually end up here.
+> npm error — [baseline-browser-mapping] The data in this module is over two months old. To ensure accurate Baseline data, please update: npm i baseline-browser-mapping@latest -D
 
 ---
 

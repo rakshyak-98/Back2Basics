@@ -2,7 +2,7 @@
 
 # offset
 
-> One-line: what / why for **offset** — source TBD.
+> offset — how far to move — from a known starting place.
 
 ---
 

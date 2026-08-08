@@ -2,7 +2,7 @@
 
 # X window system (X11)
 
-> One-line: what / why for **X window system (X11)** — source TBD.
+> X window system (X11) — also known as X or X11
 
 ---
 

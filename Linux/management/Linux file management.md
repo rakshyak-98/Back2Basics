@@ -2,7 +2,7 @@
 
 # \\; end of the -exec command is necessary to terminate the -exec option.
 
-> One-line: what / why for **\\; end of the -exec command is necessary to terminate the -exec option.** — source TBD.
+> \\; end of the -exec command is necessary to terminate the -exec option. — apt package manager uses lock files to prevent multiple processes from accessing
 
 ---
 

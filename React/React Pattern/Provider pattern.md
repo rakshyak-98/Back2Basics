@@ -2,7 +2,7 @@
 
 # Provider pattern
 
-> One-line: what / why for **Provider pattern** — source TBD.
+> Provider pattern — separate frequently changing state from stable actions.
 
 ---
 

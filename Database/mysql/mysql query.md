@@ -2,7 +2,7 @@
 
 # mysql query
 
-> One-line: what / why for **mysql query** — source TBD.
+> mysql query — \G — in MySQL CLI the \G is not the same as semicolon. It's a command terminator that changes the output format.
 
 ---
 

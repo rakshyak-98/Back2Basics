@@ -2,7 +2,7 @@
 
 # Architectural backend design principles
 
-> One-line: what / why for **Architectural backend design principles** — source TBD.
+> Architectural backend design principles — standardize the interface for backend for communicating with other services.
 
 ---
 

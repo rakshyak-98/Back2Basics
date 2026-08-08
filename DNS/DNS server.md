@@ -2,7 +2,7 @@
 
 # DNS server
 
-> Yes.  A single machine can run:  - DNS server (port 53) - HTTP server (port 80) - HTTPS server (port 443) - SSH server (port 22) - Database (port 5432)  Each service is just a different process listening on a different port.
+> DNS server — answers name lookups so clients find IP addresses for a host.
 
 ---
 

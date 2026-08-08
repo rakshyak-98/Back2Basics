@@ -2,7 +2,7 @@
 
 # Linked list
 
-> Nodes chained by `next` (and optionally `prev`) pointers — O(1) insert/delete at known node; O(n) indexed access.
+> Linked list — don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 
 ---
 

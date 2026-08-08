@@ -2,7 +2,7 @@
 
 # stack pointer
 
-> One-line: what / why for **stack pointer** — source TBD.
+> stack pointer — grow toward lower memory addresses
 
 ---
 

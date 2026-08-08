@@ -2,7 +2,7 @@
 
 # Node.js run as a non-privileged user
 
-> One-line: never run app servers as root — bind high ports or use capabilities/setcap; delegate privileged ops to systemd; load nvm/env in service units explicitly.
+> Node.js run as a non-privileged user — node apps should run as a dedicated low-privilege user (node, app, www-data). Root-owned processes that parse untrusted input are
 
 ---
 

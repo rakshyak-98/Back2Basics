@@ -2,7 +2,7 @@
 
 # database migration
 
-> One-line: versioned, reversible schema changes applied in order — single source of truth for DDL; never edit applied migrations.
+> versioned, reversible schema changes applied in order — single source of truth for DDL; never edit applied migrations.
 
 ---
 

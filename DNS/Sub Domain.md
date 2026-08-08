@@ -2,7 +2,7 @@
 
 # Sub Domain
 
-> One-line: what / why for **Sub Domain** — source TBD.
+> Sub Domain — user enters a subdomain in browser
 
 ---
 

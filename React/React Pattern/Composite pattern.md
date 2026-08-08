@@ -2,7 +2,7 @@
 
 # Composite pattern
 
-> One-line: what / why for **Composite pattern** — source TBD.
+> Composite pattern — the beauty of the composite pattern is that it allows for a harmonious symphony of distinct functionalities, each encapsulated in its own component yet all
 
 ---
 

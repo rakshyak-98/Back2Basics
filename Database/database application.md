@@ -2,7 +2,7 @@
 
 # Database application (app ↔ DB layer)
 
-> **Programs that issue queries and enforce data rules** — ORM, query builder, repository layer, transactions, and connection lifecycle. The "application" in "database application" is your service code, not the RDBMS binary.
+> Database application — app code that queries data and enforces business rules.
 
 ---
 

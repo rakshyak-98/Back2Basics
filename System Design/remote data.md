@@ -2,7 +2,7 @@
 
 # remote data
 
-> One-line: what / why for **remote data** — source TBD.
+> remote data — query keys: uniquely identify and manage cache data
 
 ---
 

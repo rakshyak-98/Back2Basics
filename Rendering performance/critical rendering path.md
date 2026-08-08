@@ -2,7 +2,7 @@
 
 # critical rendering path
 
-> One-line: what / why for **critical rendering path** — source TBD.
+> critical rendering path — a crucial sequence of steps that web browsers follow to convert HTML, CSS and JavaScript into a visual representation on the screen.
 
 ---
 

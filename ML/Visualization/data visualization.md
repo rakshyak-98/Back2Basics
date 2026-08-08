@@ -2,7 +2,7 @@
 
 # Histogram
 
-> One-line: what / why for **Histogram** — source TBD.
+> Histogram — displays the frequency distribution of a dataset
 
 ---
 

@@ -2,7 +2,7 @@
 
 # SQL normalization
 
-> One-line: what / why for **SQL normalization** — source TBD.
+> SQL normalization — each cell contains a single value (atomic).
 
 ---
 

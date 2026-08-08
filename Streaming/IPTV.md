@@ -2,7 +2,7 @@
 
 # IPTV
 
-> One-line: what / why for **IPTV** — source TBD.
+> IPTV — stands for Internet Protocol Television. It's a system for delivering television content over internet networks (IP-based) instead of traditional broadcast, satellite, or cable methods.
 
 ---
 

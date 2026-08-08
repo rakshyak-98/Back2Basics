@@ -2,7 +2,7 @@
 
 # MBR (Master Boot Record)
 
-> Legacy first-sector boot layout: tiny partition table + boot code — **being replaced by GPT/UEFI on modern iron**.
+> MBR (Master Boot Record) — MBR is the first 512-byte sector (LBA 0) of a disk. Classic layout:
 
 ---
 

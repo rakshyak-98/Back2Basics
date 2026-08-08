@@ -2,7 +2,7 @@
 
 # tsconfig
 
-> to change the `lib` compiler, update the `tsconfig.json` file. The `lib` option specifies a list of built-in TypeScript library files to include in the compilation.
+> `tsconfig.json` — TypeScript compiler options, libs, paths, and project roots.
 
 ---
 

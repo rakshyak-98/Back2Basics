@@ -2,7 +2,7 @@
 
 # compositors
 
-> One-line: what / why for **compositors** — source TBD.
+> compositors — refers to a software component that manages the rendering of graphical elements on the screen.
 
 ---
 

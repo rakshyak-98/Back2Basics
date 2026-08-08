@@ -2,7 +2,7 @@
 
 # NextJS Error
 
-> One-line: what / why for **NextJS Error** — source TBD.
+> NextJS Error — error comes from Next.js v13+ App Router
 
 ---
 

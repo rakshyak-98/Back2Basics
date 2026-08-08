@@ -2,7 +2,7 @@
 
 # flutter cli
 
-> One-line: what / why for **flutter cli** — source TBD.
+> flutter cli — a channel is a release stream of the Flutter SDK. Each channel receives updates at different speeds and stability levels.
 
 ---
 

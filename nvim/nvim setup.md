@@ -2,7 +2,7 @@
 
 # nvim setup
 
-> One-line: what / why for **nvim setup** — source TBD.
+> nvim setup — short field notes on what it is and how to use it.
 
 ---
 

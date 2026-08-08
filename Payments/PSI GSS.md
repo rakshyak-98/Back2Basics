@@ -2,7 +2,7 @@
 
 # PSI GSS (PCI Guest Service System)
 
-> PCI SSC program: outsource entire payment page/checkout to qualified provider — dramatically shrink merchant PCI scope — **PCI DSS SAQ selection**.
+> PSI GSS (PCI Guest Service System) — PSI GSS (Payment Card Industry Guest Service System) describes when a merchant uses a third-party hosted checkout such that
 
 ---
 

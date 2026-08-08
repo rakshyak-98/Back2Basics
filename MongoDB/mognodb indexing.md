@@ -2,7 +2,7 @@
 
 # mognodb indexing
 
-> One-line: what / why for **mognodb indexing** — source TBD.
+> mognodb indexing — indexes created on a single field of a document.
 
 ---
 

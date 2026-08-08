@@ -2,7 +2,7 @@
 
 # Thread
 
-> One-line: what / why for **Thread** — source TBD.
+> Thread — ) is the smallest sequence of programmed instructions that can be managed independently by a scheduler, which is typically a part of the operating system.
 
 ---
 

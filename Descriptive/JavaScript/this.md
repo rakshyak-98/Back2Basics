@@ -2,7 +2,7 @@
 
 # this
 
-> One-line: what / why for **this** — source TBD.
+> this — the value of this is the object the one used to call the method.
 
 ---
 

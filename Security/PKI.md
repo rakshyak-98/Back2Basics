@@ -2,7 +2,7 @@
 
 # PKI
 
-> One-line: what / why for **PKI** — source TBD.
+> PKI — a system for the creation, storage, and distribution of digital certificates
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Buffer flags
 
-> State bits on kernel or driver buffers — track lifecycle (mapped, queued, dirty, done) so producers/consumers agree on who owns the memory.
+> Buffer flags — buffers move through a state machine. Flags encode that state without extra syscalls:
 
 ---
 

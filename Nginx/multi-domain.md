@@ -2,7 +2,7 @@
 
 # Optional: redirects HTTP -> HTTPS
 
-> One-line: what / why for **Optional: redirects HTTP -> HTTPS** — source TBD.
+> Optional: redirects HTTP -> HTTPS — you can ping api.localhost and it'll look back to your machine.
 
 ---
 

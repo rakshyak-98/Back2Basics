@@ -2,7 +2,7 @@
 
 # razorpay integration
 
-> One-line: what / why for **razorpay integration** — source TBD.
+> razorpay integration — user clicks "Pay" on the Frontend.
 
 ---
 

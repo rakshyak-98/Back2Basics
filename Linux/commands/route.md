@@ -2,7 +2,7 @@
 
 # route
 
-> One-line: legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk, Linux Programming Interface**.
+> legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk
 
 ---
 

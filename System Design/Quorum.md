@@ -2,7 +2,7 @@
 
 # Quorum
 
-> One-line: what / why for **Quorum** — source TBD.
+> Quorum — a Quorum is simply the minimum number of nodes that must agree for an operation (read or write) to be considered valid.
 
 ---
 

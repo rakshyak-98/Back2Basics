@@ -2,7 +2,7 @@
 
 # git diff
 
-> One-line: what / why for **git diff** — source TBD.
+> git diff — show unstaged, staged, or commit-to-commit file changes.
 
 ---
 

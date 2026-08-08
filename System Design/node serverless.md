@@ -2,7 +2,7 @@
 
 # Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling
 
-> One-line: what / why for **Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling** — source TBD.
+> Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — goal: Build a minimal viable prototype of an event-driven serverless task manager by weekend (target
 
 ---
 

@@ -2,7 +2,7 @@
 
 # top
 
-> One-line: what / why for **top** — source TBD.
+> top — = real-time process monitor (CPU, RAM, load)
 
 ---
 

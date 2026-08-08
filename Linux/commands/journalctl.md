@@ -2,7 +2,7 @@
 
 # journalctl
 
-> One-line: query **systemd-journald** — indexed, structured logs for units, boots, kernel, and priorities. **Default first tool for "why did the service die?"**
+> journalctl — journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured journal API calls. Entries are keyed by unit, boot ID, priority, executable
 
 ---
 

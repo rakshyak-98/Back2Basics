@@ -2,7 +2,7 @@
 
 # nload
 
-> One-line: real-time **per-interface bandwidth** graph in the terminal — quick "who is saturating the NIC?" without Prometheus. **Legacy but still useful on jump boxes.**
+> nload — polls /proc/net/dev (or pcap on some builds) and draws moving averages for incoming and outgoing throughput per interface. One screen, two graphs — not
 
 ---
 
