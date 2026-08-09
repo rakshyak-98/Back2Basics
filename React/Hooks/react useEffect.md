@@ -1,8 +1,8 @@
-[[Hooks]]
+[[Hooks]] [[react hooks]] [[Optimizing performance]]
 
 # react useEffect
 
-> react useEffect — react's render must stay pure (no side effect when component is rendering).
+> Run side effects after paint — fetch, subscriptions, DOM — keep render pure.
 
 ---
 
@@ -10,8 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Order of `useEffect`]]
-- [[#How to Handle State Synchronization Between Multiple useEffect Hooks]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,76 +18,74 @@
 
 ## Mental model
 
-> [!INFO]
-> `useEffect` runs **after render** when its dependency array value changes.
-React's render must stay pure (no side effect when component is rendering).
-`useEffect()` lets you run code after render, where side effect are allowed.
-> [!NOTE]
-> - `useEffect()` runs after render.
+**Say it in one breath:** Render computes UI. `useEffect` runs after that commit when deps change; cleanup runs before the next effect and on unmount.
+
+```txt
+render (pure) → commit DOM → useEffect(fn)
+fn deps change → cleanup() → fn() again
+unmount → cleanup()
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Deps array** | When to re-run | “`[]` = mount once; omit = every render (rare).” |
+| **Cleanup** | Undo the effect | “Abort fetch, remove listener, clear timer.” |
+| **Strict Mode** | Dev double-invoke | “Mount→cleanup→mount — proves cleanup works.” |
 
 ## Standard config / commands
 
-…
-
-## Order of `useEffect`
-
-all `useEffect` hooks in a component run in the order they are written in the code, every time their dependency array changes (or on mount if empty).
-
-|Dependency array|When does it run?|Order relative to other effects|
-|---|---|---|
-|`useEffect(() => {}, [])`|Only once → after **first render** (mount)|In code order|
-|`useEffect(() => {}, [dep1])`|After **every render** when `dep1` changed (including first render)|In code order|
-|`useEffect(() => {}, [a, b])`|After render when **a** OR **b** changed|In code order|
-|`useEffect(() => {}, deps)`|After render when **any** dependency changed (shallow comparison)|In code order|
-|`useEffect(() => { return cleanup }, ...)`|Cleanup runs **before** next effect and on unmount|Cleanup also in code order|
-
-> [!WARNING]
-> You should avoid using `` for purely derived (computed) state like splitting a full name. Instead, compute it directly in the render or with `useMemo`.
-
-### Call fetch api in `useEffect`
-
-```js
+```tsx
 useEffect(() => {
-  const controller = new AbortController(); // For fetch
-  fetch('/api/data', { signal: controller.signal })
-    .then(res => res.json())
+  const c = new AbortController()
+  fetch('/api', { signal: c.signal })
+    .then((r) => r.json())
     .then(setData)
-    .catch(err => {
-      if (err.name !== 'AbortError') console.error(err);
-    });
-
-  return () => controller.abort(); // Cancels the first request on simulated unmount
-}, []);
-
+    .catch((e) => { if (e.name !== 'AbortError') console.error(e) })
+  return () => c.abort()
+}, [])
 ```
 
-- The first fetch gets aborted during the simulation → only the second completes.
-- Safe and mirrors real cleanup needs.
+| Deps | When it runs |
+|------|----------------|
+| `[]` | After first paint only |
+| `[a, b]` | When `a` or `b` changes (shallow) |
+| cleanup return | Before re-run + unmount |
 
-> [!INFO]
-> - If it's a POST or mutating request, move it to an event handler (not a mount effect).
-> - GET requests are usually safe to duplicate (same result, no side effects).
+Effects in one component run **in source order**.
 
-## How to Handle State Synchronization Between Multiple useEffect Hooks
-
-> [!NOTE]
-> In React, when one `useEffect` updates a state value, any other `useEffect` that depends on that state will automatically run on the *next render*.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Infinite loop | Effect sets state that’s a dep | Remove dep or derive without effect |
+| Stale props/state | Missing dep | Add dep or use functional update / ref |
+| Double fetch in dev | Strict Mode | Idempotent + abort cleanup |
+| Race: old response wins | No abort | AbortController on cleanup |
+| Sync A→B in effect | Derived data | Compute in render / `useMemo` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Don’t use effects for derived state** — `fullName = first + last` belongs in render.
+
+> [!WARNING]
+> **Mutating POSTs** — prefer event handlers; GET-on-mount is the common effect case.
+
+---
 
 ## When NOT to use
 
-…
+- **Transforming props → state** — derive or remount with `key`.
+- **Data fetching at scale** — [[react-query]] owns cache/dedupe better.
+
+---
 
 ## Related
 
-[[…]]
+[[react hooks]] [[react-query]] [[Optimizing performance]] [[useRef]]

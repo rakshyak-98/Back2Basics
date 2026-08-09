@@ -1,8 +1,8 @@
-[[Linux]]
+[[Linux]] [[terminal emulator]] [[CLI]] [[login shell]]
 
 # Linux terminal
 
-> Linux terminal — here's a side-by-side comparison of xterm-256color and dumb values for the TERM environment variable:
+> A Linux terminal is the text I/O path to a shell — local emulator, TTY/getty, or SSH session over a pty.
 
 ---
 
@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Authorized shells list]]
-- [[#What is the difference between `xtermin-256color` and `dumb` when it is set to `TERM` in environment variables?]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,62 +17,73 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** bytes on a pty; line discipline handles canonical mode/signals; apps query size via `TIOCGWINSZ`.
+
+```txt
+SSH/emulator → pty slave → shell → child cmds
+                 │
+            stty / termios
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **TTY** | Terminal device | “`tty` prints the device path.” |
+| **pty** | Pseudo-terminal | “SSH and GUI terminals use ptys.” |
+| **job control** | fg/bg/Ctrl-Z | “Shell manages process groups.” |
+| **signals** | Ctrl-C → SIGINT | “Line discipline generates signals.” |
+| **raw vs canonical** | Char vs line mode | “TUIs switch to raw.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Authorized shells list
-
-> [!NOTE]
-> added new shell will not work if shell is not in your authorized shells list `/etc/shells`, of if you don't have permission to use `chsh`.
-
+```bash
+tty
+stty -a
+stty size
+script -q /tmp/session.log   # record
+# reset broken terminal
+reset
+tput remcup; tput clear
 ```
-```
 
-## What is the difference between `xtermin-256color` and `dumb` when it is set to `TERM` in environment variables?
+| Knob | Why it matters |
+|------|----------------|
+| `stty sane` | Recover after binary dump |
+| `COLUMNS`/`LINES` | Some apps skip ioctl |
 
-Here's a side-by-side comparison of `xterm-256color` and `dumb` values for the `TERM` environment variable:
-
-| **Feature**               | **xterm-256color**                                                                     | **dumb**                                                                      |
-| ------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| **Description**           | Represents a modern terminal with 256 colors and advanced features.                    | Represents a very basic terminal with minimal functionality.                  |
-| **Capabilities**          | Supports 256 colors, cursor movement, text formatting, and advanced control sequences. | Minimal: no colors, no cursor movement, and no advanced features.             |
-| **Common Usage**          | Used for interactive, color-rich terminal applications.                                | Used for basic environments like log files, cron jobs, or very simple output. |
-| **Terminal Features**     | Supports advanced terminal operations like splits, bold text, and underlines.          | Plain text only, no formatting or enhancements.                               |
-| **Applications Behavior** | Applications can render rich UI elements, colors, and animations.                      | Applications default to plain, unformatted text output.                       |
-| **Examples**              | Interactive tools like `htop`, `vim`, or `tmux`.                                       | Minimal tools like `cat` or scripts that need no interaction.                 |
-| **Environment**           | Found in modern terminals like `xterm`, `gnome-terminal`, or `iTerm2`.                 | Used in restricted or non-terminal environments (e.g., CI/CD logs).           |
-
-### Example:
-1. **When `TERM=xterm-256color`:**
-   - Running `ls` with `--color=auto` displays files with color-coded output.
-   - Applications like `vim` show syntax highlighting.
-
-2. **When `TERM=dumb`:**
-   - Running `ls` will not colorize the output, even with `--color=auto`.
-   - `vim` might fall back to a very basic interface or refuse to start with an error.
-
-### Summary:
-- **`xterm-256color`**: Rich and interactive terminal experience.
-- **`dumb`**: Bare-bones, plain text-only functionality for compatibility or minimal environments.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Garbled screen | Binary / bad terminfo | `reset`; fix `$TERM` |
+| No job control | Not a tty | Allocate pty (`ssh -t`) |
+| Backspace prints `^H` | Erase char | `stty erase ^?` |
+| Resize broken | SIGWINCH ignored | Fix app; update ncurses |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Redirected stdin is not a TTY** — prompts and sudo may fail; use `ssh -t` or `script`.
+
+> [!WARNING]
+> **`kill` vs terminal signals** — Ctrl-C hits the foreground process group, not arbitrary PIDs.
+
+---
 
 ## When NOT to use
 
-…
+- **Machine APIs** — prefer SSH+command, agents, or HTTP over interactive terminals.
+- **Binary protocols** — don’t shove them through a cooked TTY.
+
+---
 
 ## Related
 
-[[…]]
+[[terminal emulator]] [[terminal config]] [[CLI]] [[login shell]] [[SSH]]

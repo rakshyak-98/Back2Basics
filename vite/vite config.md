@@ -9,15 +9,16 @@
 ## Index
 
 - [[#Mental model]]
-- [[#ModuleRunner]]
-- [[#Vite allowed host error]]
-- [[#Vite image load issue when `base: "/custompage"`]]
-- [[#Manage multiple environment env file configuration]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** vite config — I can explain the job, the config, and the top failure without jargon.
+
 
 ```bash
 vite --config my-config.js;
@@ -25,121 +26,49 @@ vite --config my-config.js;
 > [!NOTE]
 > Environment Variables _are_ automatically loaded later and exposed to application code via `import.meta.env` (with the default `VITE_` prefix filter)
 
-## ModuleRunner
+### Interview map (words you can say)
 
-- A module runner is instantiated in the target runtime.
-- In dev mode, vite serves modules directly (ESM in browser). But Sometimes you need to execute a module inside Node:
-	- Server Side Rendering (SSR).
-	- Testing (Vitest).
-	- Running plugins that need evaluation.
-The ModuleRunner provides this execution environment.
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **vite config** | This note’s core idea | “I explain vite config in plain words.” |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
 
-> [!NOTE]
-> module runner doesn't support CJS in config files, but external CJS packages should work as usual.
+---
 
-```js
-/** @type {import('vite').UserConfig} */
-export default {
-	// ...
-}
-```
-Since vite ships with TypeScript typings, you can leverage your IDE's intellisense with jsdoc type hints.
+## Standard config / commands
 
-Alternative you can use the `defineConfig` helper which should provide intellisense without the need for jsdoc annotations
-```js
-import { defineConfig } from "vite";
-export default defineConifg({
-	// ..
-})
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
-### Conditional Config
-```js
-export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
-  if (command === 'serve') {
-    return {
-      // dev specific config
-    }
-  } else {
-    // command === 'build'
-    return {
-      // build specific config
-    }
-  }
-})
-```
+---
 
-## Vite allowed host error
+## Triage (when things break)
 
-[server-allowed-hosts](https://vite.dev/config/server-options#server-allowedhosts)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
 
-## Vite image load issue when `base: "/custompage"`
-
-|What you write in code|How Vite treats it during build|Result when `base: "/admin/"`|
-|---|---|---|
-|`import logo from './logo.png'`|Asset import → Vite fingerprints + rewrites the URL|Becomes `/admin/assets/logo-abc123.png` → works|
-|`src="/login-page-image.jpg"` (string)|Plain string → Vite treats it as an **absolute URL**|Stays exactly `/login-page-image.jpg` → 404|
-|`src="./some-image.png"` (relative)|Only rewritten if imported as asset|Stays `./some-image.png` → broken in subpath|
-|`new URL('./image.png', import.meta.url)`|Treated as real asset → gets fingerprinted + prefixed|Becomes `/admin/assets/image-xyz.png` → works|
-
-## Manage multiple environment env file configuration
-
-```text
-.env                  # shared by all modes
-.env.local            # local overrides (gitignored)
-.env.development      # default dev
-.env.production       # default prod
-.env.staging          # your custom mode
-.env.testing
-.env.demo
-```
-
-> Package json script
-
-```json
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:staging": "vite build --mode staging",
-    "build:testing": "vite build --mode testing",
-    "build:demo": "vite build --mode demo",
-
-    "preview": "vite preview",
-    "preview:staging": "vite preview --mode staging"
-  }
-}
-```
-
-
-### Typescript support
-
-```ts
-// vite-env.d.ts or env.d.ts
-/// <reference types="vite/client" />
-
-interface ImportMetaEnv {
-  readonly VITE_APP_ENV: string
-  readonly VITE_API_BASE_URL: string
-  readonly VITE_SENTRY_DSN?: string
-  readonly VITE_FEATURE_FLAG_NEW_UI?: string
-  // add more...
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
-```
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer words you can say aloud in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip when a simpler existing approach already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[vite]]

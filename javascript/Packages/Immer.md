@@ -1,8 +1,8 @@
-[[Packages]]
+[[javascript]] [[Packages/npm packages]] [[Redux/Immutability in Redux]]
 
-# Immer
+# Packages/Immer
 
-> Immer — javaScript library helps manage immutable data structures.
+> Write “mutating” updates that produce immutable next state — Immer uses a draft proxy (powers RTK reducers).
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -17,33 +18,67 @@
 
 ## Mental model
 
-[doc](https://immerjs.github.io/immer/)
-JavaScript library helps manage immutable data structures.
-- It allows you to work with immutable data by using mutable syntax while ensuring that the original data remains unchanged.
-> [!INFO] Immer uses drafts to represent temporary objects that you can mutate directly. Once the mutation is complete, Immer returns a new immutable state.
-- Immer uses structural sharing to ensure that only modified parts of the data are updated, making it highly efficient compared to copying large data structures.
-> [!NOTE] Immer works by tracking attempts to mutate
-> - any existing drafted state must be a JS object and array in order for Immer to see the attempted changes.
+**Say it in one breath:** `produce(state, draft => { draft.x = 1 })` returns a new state tree with structural sharing; you never mutate the original.
+
+```txt
+base → draft proxy → produce → next (immutable)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **draft** | Temporary mutable view | “Mutate draft; Immer records patches.” |
+| **produce** | Main API | “Recipe function updates draft.” |
+| **structural sharing** | Unchanged branches reuse refs | “Cheap React/Redux compares.” |
 
 ## Standard config / commands
 
-…
+```js
+import { produce } from 'immer'
+
+const next = produce(state, (draft) => {
+  draft.user.name = 'Ada'
+  draft.tags.push('admin')
+})
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `current(draft)` | Read plain object mid-recipe |
+| `original(draft)` | Base snapshot |
+| Freeze (dev) | Catch accidental mutates of result |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| “Cannot assign to read only” | Mutating outside produce | Only mutate draft |
+| Returned undefined oddly | Recipe returned a value + mutated | Either mutate *or* return new root |
+| Perf issues | Huge trees / frequent produce | Normalize; split state |
+| Class instances weird | Proxies + classes | Prefer plain objects |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Don’t mutate `original` or freeze results** — only the draft.
+
+> [!WARNING]
+> **Returning a new object from recipe replaces root** — don’t mix with draft mutations carelessly.
+
+---
 
 ## When NOT to use
 
-…
+- **Trivial one-field updates** — spread may be enough.
+- **Hot per-frame game state** — proxy cost may matter; measure.
+
+---
 
 ## Related
 
-[[…]]
+[[Redux/Immutability in Redux]] [[Redux toolkit]] [[mixin]]

@@ -42,6 +42,16 @@ The kernel holds one or more **routing tables** (main table by default). Each ro
 | `route add -net 10.0.0.0/8 gw 10.0.0.1` | `ip route add 10.0.0.0/8 via 10.0.0.1` |
 | `route del default` | `ip route del default` |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **route / ip route** | Where packets go | “Prefer ip route on modern Linux.” |
+| **default** | 0.0.0.0/0 gateway | “No default = no internet.” |
+| **metric** | Route preference | “Lower metric wins.” |
+| **on-link** | No gateway needed | “Direct L2 on that iface.” |
+| **policy routing** | Rules by mark/src | “ip rule + multiple tables.” |
+
 ## Standard config / commands
 
 ```bash

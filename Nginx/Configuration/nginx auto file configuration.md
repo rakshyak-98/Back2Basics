@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:
+**Say it in one breath:** Generate vhost files from templates, `nginx -t`, then reload — never edit live conf blindly in deploy scripts.
+
 
 ```
 App writes /tmp/site.conf  →  sudo nginx -t  →  sudo cp to sites-available  →  symlink  →  reload

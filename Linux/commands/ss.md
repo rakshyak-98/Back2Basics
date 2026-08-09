@@ -33,6 +33,16 @@ Client ──SYN──► LISTEN (ss -lnt)
 | Default on modern distros | iproute2 | often symlink/deprecated |
 | Process column (`-p`) | Needs root/CAP | Same |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ss** | Socket stats from kernel | “ss is the modern netstat — ask the kernel who’s listening.” |
+| **LISTEN / ESTAB** | Socket states | “CLOSE-WAIT means the app forgot to close.” |
+| **Recv-Q / Send-Q** | Unread / unacked bytes | “High Recv-Q = slow app; high Send-Q = slow peer/net.” |
+| **-luntp** | Listen, UDP, numeric, TCP, process | “ss -luntp is my first port inventory.” |
+| **TIME-WAIT** | Post-close hold | “TIME-WAIT storms eat ephemeral ports.” |
+
 ## Standard config / commands
 
 **Flags mnemonic:** `-l` listen, `-a` all (listen + established), `-n` numeric, `-t` TCP, `-u` UDP, `-p` process, `-i` TCP info.

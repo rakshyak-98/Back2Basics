@@ -171,16 +171,24 @@ resource "aws_instance" "web" {
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
+| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
+| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
+| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
+| Wrong backend | `backend` block vs old state | `init -migrate-state` |
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Apply without saved plan** — interactive apply can diverge from reviewed CI plan; use `-out`.
+
+> [!WARNING]
+> **force-unlock casually** — two applies can corrupt state; confirm the other run is dead first.
 
 ## When NOT to use
 
-…
+- **Hotfix outside Terraform** — then import or accept drift; don’t fight both consoles.
+- **Destroy in prod without plan review** — always `plan` destroy first.
 
 ## Related
 
@@ -188,3 +196,4 @@ resource "aws_instance" "web" {
 - First project plumbing → [[Terraform setup]]
 - Provider RPC / aliases → [[terraform provider]]
 - Logs & schema → [[Terraform CLI]]
+- Variables → [[variable file]]

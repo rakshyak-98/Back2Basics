@@ -1,8 +1,8 @@
-[[System Design]]
+[[System Design]] [[JWT]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]]
 
 # Authentication web application
 
-> Authentication web application — validating user identity, system validation, or a service validation.
+> Web authentication — prove who the user is (session, token, or IdP), then enforce authz on every request.
 
 ---
 
@@ -10,7 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Login Form Flow]]
+- [[#Login form flow]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,97 +18,95 @@
 
 ## Mental model
 
-[full Stack authentication](https://firtman.github.io/authentication/)
-validating user identity, system validation, or a service validation.
-Credentials -> identify user on server side.
-SSO -> same credential with different web apps.
-2FA -> user name and password is 1FA, otp is 2FA.
-MFA -> 2 or more factor of authentication.
-passkey ->
-OAuth 2.0 -> keep user logged, login with thrid party authentication.
-JWT -> format metadata for credentials.
-OTP -> receive an one time password. Web OTP.
-Public Key Cryptography ->
-Custom AUth -> user/pass, WebAuthn
-Identity Providers -> OpenID, SAML2.0, Sign in with (My server won't store any data from you).
-Identity As a Service IDaaS ->
-### Authentication on the web
-#### Risk
-- man in the middle attacks, attack through the network.
-- key loggers, (install custom keyboard downloaded).
-- Easy to guess password.
-- Web Server and DBs attacks.
-- phishing and Social Engineering Attacks.
-#### HTTP Auth/Logins Forms
-- HTTP support basic auth.
-- HTTPS -> encryption at the middle not on the server.
+**Say it in one breath:** Credentials → server verifies → issues session cookie or tokens → browser sends them → server checks on each call. MFA adds a second factor; SSO moves verify to an IdP.
+
+```txt
+Browser ──HTTPS──► App
+   │ login form / OIDC redirect
+   ▼
+IdP or local user store → session / JWT → APIs
+```
+
+| Term | Plain |
+|------|-------|
+| AuthN | Who are you? |
+| AuthZ | What may you do? |
+| Session cookie | Server-side session id |
+| JWT | Signed claims client carries |
+| OAuth/OIDC | Delegate login to IdP |
+| Passkey/WebAuthn | Phishing-resistant public-key auth |
+| TOTP/MFA | Second factor |
+
+Threats: MITM (use HTTPS), phishing, credential stuffing, XSS stealing tokens, CSRF on cookie sessions.
+
+---
 
 ## Standard config / commands
 
-…
-
-## Login Form Flow
-
-Registration
-Login
-Recover password
-
--  connect labels for each element
-- don't use placeholder as labels
-- using html semantics
-- one SPAs, form names different for registration and logic forms, password manager don't know on which page you are.
-- one SPAs, use submit form event and submission will be triggered by a pushState (onClick event have problem with password managers). Password manager might won't save the password.
-- let the user make the password visible.
-- Help password managers with autocomplete HTML attributes.
-
-
-### Enhanced login form
-`autocomplete` -> new-password, or current-password depend on the page is it login page or password recovery page.
-
-> [!INFO] Login form
-```html
-<input type="email" autocomplete="username" />
-<input type="email" autocomplete="current-password" />
+```txt
+Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax; Path=/
 ```
 
-> [!INFO] Registration form
-```html
-<input type="email" autocomplete="username" />
-<input type="password" autocomplete="new-password" />
+```js
+// Sketch: local session
+app.post('/login', async (req, res) => {
+  const user = await verifyPassword(req.body)
+  req.session.userId = user.id
+  res.redirect('/app')
+})
 ```
 
+| Pattern | Use |
+|---------|-----|
+| Cookie session | Classic SSR apps |
+| Bearer JWT | APIs / mobile |
+| BFF | SPA + httpOnly cookies |
+| OIDC | Workforce / social login |
 
-> [!INFO]
-> make the label element block element for usebality
-```html
-<form>
-	<fieldset>
-		<label for="register_eamil">Your Email</label>
-		<input id="register_eamil" autocomplete="username" />
-		<label for="register_eamil">Your Password</label>
-		<input id="register_eamil" autocomplete="new-password" />
-	</fieldset>
-</form>
-```
+## Login form flow
 
- > [!NOTE]
- > return response message from the server saying that the credential is wrong instead of the let the user know what was miss typed as any non existing user can guess the credentials.
+1. GET form (CSRF token if cookie session).
+2. POST credentials over HTTPS.
+3. Verify hash ([[yashcrypt]] / argon2); optional MFA.
+4. Establish session; regenerate session id.
+5. Subsequent requests carry cookie or `Authorization`.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Login works, API 401 | Cookie domain/Secure/SameSite | Align site + HTTPS |
+| CSRF on state change | Missing token / SameSite | [[XSRF (cross-site request forgery)]] |
+| SSO redirect loop | `redirect_uri`, clock | Fix IdP app config |
+| JWT forever valid | No `exp` / no revoke | Short TTL + refresh rotation |
+| MFA codes fail | NTP skew | Sync time; widen window slightly |
+| Session fixation | Id not rotated at login | Regenerate session id |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **HTTPS terminates elsewhere** — app must still set `Secure` cookies correctly behind proxy (`X-Forwarded-Proto`).
+
+> [!WARNING]
+> **XSS + localStorage JWT** — prefer httpOnly cookies or strict CSP.
+
+> [!WARNING]
+> **AuthN ≠ AuthZ** — logged-in user still needs object-level checks ([[IDOR]]).
+
+---
 
 ## When NOT to use
 
-…
+- **Public read-only content** — no auth tax.
+- **Service-to-service** — mTLS or signed tokens, not human login forms.
+- **Building your own crypto password protocol** — use vetted libs + IdP when possible.
+
+---
 
 ## Related
 
-[[…]]
+[[JWT]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]] [[Authentication terms]]

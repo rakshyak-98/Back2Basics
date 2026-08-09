@@ -2,7 +2,7 @@
 
 # npm error
 
-> npm error — [baseline-browser-mapping] The data in this module is over two months old. To ensure accurate Baseline data, please update: npm i baseline-browser-mapping@latest -D
+> npm error — [baseline-browser-mapping] The data in this module is over two months old. To ensure accurate Baseline data, please update: npm i…
 
 ---
 
@@ -16,6 +16,9 @@
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** npm error — plain job, how I run it, how I know it’s broken.
+
 
 ```text
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
@@ -42,73 +45,49 @@ V8 allocates a heap with a maximum size
 Your application stores objects in the heap
        ↓
 Heap becomes full
-       ↓
-Garbage Collector tries to free memory
-       ↓
-Still insufficient memory
-       ↓
-"JavaScript heap out of memory"
-```
-### Why increase `--max-old-space-size`?
-Some operations legitimately need lots of memory:
-- Large frontend builds (`vite`, `webpack`, `next build`)
-- TypeScript compilation
-- Large monorepos
-- Processing huge JSON/CSV files
-- Generating source maps
-- Static site generation
-Default limits may be too small for these workloads.
-Example:
-```text
-100 files     → OK
-10,000 files  → More memory required
-```
-### Why not make it unlimited by default?
-Tradeoffs:
-- One process could consume all RAM.
-- The OS may start using swap heavily.
-- Other applications become slow.
-- The system may become unresponsive.
-- Memory leaks would be harder to detect.
-The limit acts as a safety boundary.
-### `--max-old-space-size` specifically
-V8 divides memory into generations.
-```text
-Heap
-├── Young generation
-└── Old generation
-```
-`--max-old-space-size=4096`
-means:
-### Important
-Increasing memory is often a **symptom workaround**, not always the real fix.
-If your build suddenly requires much more memory than before, investigate:
-- Memory leaks
-- Huge dependencies
-- Large assets
-- Inefficient build configuration
-- Infinite object creation
-Use more memory **only when the workload genuinely requires it**.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **npm error** | Core idea of this note | “I can explain npm error without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[npm]]

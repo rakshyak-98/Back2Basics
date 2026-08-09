@@ -40,6 +40,16 @@ xdotool getwindowfocus getwindowname
 xdotool search --class 'firefox'
 ```
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **WM_CLASS** | X11 app identity | “WM rules match class/instance.” |
+| **instance vs class** | Two strings | “i3 for_window uses class.” |
+| **xprop** | Inspect window | “xprop | grep WM_CLASS.” |
+| **Wayland** | app_id instead | “Different ID on Wayland.” |
+| **floating rules** | Force float/tile | “Match class → floating enable.” |
+
 ## Standard config / commands
 
 **i3 window rules (`~/.config/i3/config`):**

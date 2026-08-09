@@ -1,23 +1,16 @@
-[[mysql]]
+[[mysql]] [[mysql index]] [[key Constraint]] [[mysql json]]
 
 # mysql table
 
-> mysql table — -- copies schema, indexes, column definitions
+> Create, copy, alter, and constrain tables — `LIKE` vs `AS SELECT`, JSON columns, FKs, and `ON UPDATE` timestamps.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
+- [[#Interview map (words you can say)]]
 - [[#Standard config / commands]]
-- [[#Query table]]
-- [[#Create JSON type column]]
-- [[#update field]]
-- [[#Add columns to an existing table]]
-- [[#Constraint]]
-- [[#Auto Update field value when update query run]]
-- [[#Set foreign key constraints]]
-- [[#Pick column from one table and insert into to another]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -25,288 +18,86 @@
 
 ## Mental model
 
-### Create table from existing table
-```sql
-RENAME TABLE
-    faqs TO hotel_faqs,
-    rooms TO hotel_rooms,
-    testimonials TO hotel_testimonials;
--- copies schema, indexes, column definitions
--- no data
-CREATE TABLE new_table LIKE old_table;
--- copies columns and data
--- no indexes, constraints, triggers.
-CREATE TABLE new_table AS SELECT * FROM old_table;
--- copy structure + data + indexes
-CREATE TABLE new_table LIKE old_table;
-INSERT INTO new_table SELECT * FROM old_table;
+**Say it in one breath:** A table is rows + indexes + constraints; cloning with `LIKE` keeps indexes; `AS SELECT` copies data but drops most constraints — pick deliberately.
+
+```txt
+CREATE TABLE …          ── define columns + keys
+CREATE … LIKE old       ── structure + indexes, no data
+CREATE … AS SELECT      ── data + weak structure
+ALTER TABLE …           ── add columns / constraints
 ```
-### Create table
-```mysql
-CREATE TABLE table_name (
-	column1 datatype constraints,
-	column2 datatype constraints,
-)
-```
-```mysql
-	CREATE TABLE users(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
-	role VARCHAR(50) DEFAULT 'guest'
-)
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **LIKE** | Clone DDL | “Indexes come along; data does not.” |
+| **AS SELECT** | CTAS | “Fast copy; redo indexes/FKs after.” |
+| **AUTO_INCREMENT PK** | Surrogate key | “InnoDB clusters on the PK.” |
+| **ON UPDATE CURRENT_TIMESTAMP** | Auto bump column | “MySQL column attribute; Postgres needs a trigger.” |
+| **JSON column** | Document in a cell | “Validate JSON; index generated paths.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Query table
-
-```mysql
-SELECT
-	table_schema,
-	table_name,
-	table_rows
-FROM information_schema.tables
-WHERE table_schema = 'your_database_name'
-	AND table_rows > 1000;
-```
-
-## Create JSON type column
-
 ```sql
-create table table_name(
-	content JSON
-)
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  role VARCHAR(50) DEFAULT 'guest',
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE new_table LIKE old_table;
+INSERT INTO new_table SELECT * FROM old_table;
+
+CREATE TABLE new_table AS SELECT * FROM old_table;  -- no indexes/FKs
+
+ALTER TABLE t ADD COLUMN content JSON NULL;
+UPDATE t SET content = JSON_SET(content, '$.a', 'x') WHERE id = 1;
+
+RENAME TABLE faqs TO hotel_faqs, rooms TO hotel_rooms;
 ```
 
-```sql
-insert into table_name (content) values ('{"name": "test user"}');
-update table_name set content = '{"name": "james"}' where id = 1;
-```
+| Knob | Why it matters |
+|------|----------------|
+| Engine (InnoDB) | FKs, transactions, crash safety |
+| PK design | Clustering + secondary index payload |
+| Online DDL | Large ALTER can lock; plan windows / OSC |
 
-## update field
-
-```mysql
-update <tablename> Set <columnname> = <value> <condition>;
-update employee Set name = "ram" where emp_id = 1000;
-```
-### update nested object value
-```sql
-UPDATE table_name
-SET content = JSON_SET(
-	content,
-	'$.content.images.image2.url', 'http://example.com/1.png',
-	'$.content.images.image2.url', 'http://example.com/1.png'
-)
-WHERE id = 1;
-```
-
-```mysql
-UPDATE your_table
-SET json_column = JSON_REMOVE(json_column, '$.yourKey')
-WHERE your_condition;
-```
-
-### update array field value
-```sql
-UPDATE section
-SET content = JSON_SET(
-  content,
-  '$.content.offers[0].title',
-  'Updated Offer Title'
-)
-WHERE id = 1;
-
-UPDATE section
-SET content = JSON_SET(
-  content,
-  '$.content.offers[2].image.url',
-  'https://example.com/new-image.jpg'
-)
-WHERE id = 1;
-
-```
-
-> [!INFO]
-> replace the entire array
-```sql
-UPDATE section
-SET content = JSON_SET(
-  content,
-  '$.content.offers',
-  JSON_ARRAY(
-    JSON_OBJECT(
-      'title', 'New Offer Title',
-      'image', JSON_OBJECT(
-        'alt', 'New Alt',
-        'url', 'https://example.com/new-offer.jpg',
-        'width', 800,
-        'height', 400
-      ),
-      'descriptionLines', JSON_ARRAY('Line 1', 'Line 2')
-    )
-  )
-)
-WHERE id = 1;
-```
-
-### Insert object into an array of Object for JSON type column
-
-```mysql
-update
-  sub_section
-set
-  content = JSON_ARRAY_APPEND(
-    content,
-    '$',
-    JSON_OBJECT(
-      'image',
-      JSON_OBJECT[]()(
-        'alt', 'KSUP room', 'url', 'https://quickimagetools.com/uploads/image_6855171736d464.12303213.png',
-        'width', 500, 'height', 400
-      ),
-      'title',
-      'KSUP (KING superior)',
-      'desc
-      'A warm and elegant room with modern amenities...'
-    )
-  )
-where
-  id = 11;
-```
-
-### Table insert
-
-> [!WARNING]
-> Loses indexes, constraints - recreate manually if needed.
-```mysql
--- Copy structure + insert data
-INSERT INTO target_db.table_name SELECT * FROM source_db.table_name;
-```
-
-## Add columns to an existing table
-
-```mysql
-ALTER TABLE users
-ADD (
-	age INT
-	is_active BOOLEAN DEFAULT TRUE,
-	last_login TIMESTAMP
-)
-```
-
-```mysql
-ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
-ALTER TABLE table_name CHANGE COLUMN old_name TO new_name data_type;
-
-```
-### Re-arrange columns
-```mysql
-ALTER TABLE table_name MODIFY column_name data_type AFTER other_column;
-ALTER TABLE table_name MODIFY column_name data_tyep FIRST;
-```
-
-## Constraint
-
-```mysql
-ALTER TABLE hkAppNotification
-ADD CONSTRAINT unique_floor_shift_department
-UNIQUE (floorNumber, shiftName, department);
-```
-> [!NOTE]
-> If **any of the 3 columns can be NULL**, then uniqueness is not guaranteed across rows with NULLs (as per SQL standard: `NULL != NULL`).
-
-## Auto Update field value when update query run
-
-```mysql
-CREATE TABLE my_table (
-	id INT PRIMARY KEY,
-	updated_at TIMESTAMP DEFUALT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
-)
-```
-
-- remove the constraint from existing table
-```mysql
-ALTER TABLE your_table
-MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-```
-- `DEFAULT_GENERATED` -> is a metadata flag shown in `INFORMATION_SCHEMA.COLUMNS` to indicate that a column's default value was automatically generated by the system.
-
-```mysql
-SELECT COLUMN_NAME, COLUMN_DEFAULT, EXTRA, GENERATION_EXPRESSION, IS_GENERATED, COLUMN_DEFAULT_GENERATED
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME = 'users';
-```
-
-### Data insert in table from other table
-```mysql
-INSERT INTO hkAppNotification (jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile)
-SELECT jobType, floorNumber, department, shiftName, level1Mobile, level2Mobile, level3Mobile, hodMobile
-FROM hkAppNotification
-WHERE department = 15;
-```
-
-### How to define constraints
-```mysql
-CREATE TABLE orders (
-	order_id INT PRIMARY KEY,
-	custoemr_id INT
-	FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-)
-
-```
-
-## Set foreign key constraints
-
-```mysql
-ALTER TABLE table_naem ADD CONSTRAINT FOREIGN KEY
-```
-
-### Altering an existing table
-```mysql
-ALTER TABLE orders
-ADD CONSTRAINT fk_customer
-FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-
-```
-
-```mysql
-ALTER TABLE table_name DROP COLUMN column_name;
-```
-
-- multiple drop statement
-```sql
-ALTER TABLE PMSnPOSTransactions
-    -- Guest & reservation identification
-    DROP COLUMN guestName,
-    DROP COLUMN guestCompany,
-    DROP COLUMN companyGroup,
-```
-
-## Pick column from one table and insert into to another
-
-```sql
-INSERT IGNORE INTO target_table (target_column)
-SELECT source_column
-FROM source_table;
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Missing indexes after copy | Used AS SELECT | `LIKE`+INSERT or recreate indexes |
+| Can’t add FK | Orphans / type mismatch | Clean data; match types |
+| ALTER locks forever | Table size / algorithm | pt-osc / instant DDL where supported |
+| JSON update noop | Wrong path / type | `JSON_SET` path; verify with `->>` |
+| renamed table breaks app | Hardcoded names | Migrate app + views together |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`AS SELECT` is not a full clone** — triggers, FKs, and indexes usually vanish.
+
+> [!WARNING]
+> **Wide ALTER on hot tables** — can block writes; treat as an incident-class change.
+
+---
 
 ## When NOT to use
 
-…
+- **Document-only workloads** — a document store may fit better than giant JSON tables.
+- **Unbounded growth without partition/archive plan** — design retention first ([[mysql data partition]]).
+
+---
 
 ## Related
 
-[[…]]
+[[mysql index]] [[key Constraint]] [[mysql json]] [[mysql data partition]] [[mysql]]

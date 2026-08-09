@@ -1,21 +1,17 @@
-[[commands]]
+[[commands]] [[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]]
 
 # Linux network commands
 
-> Linux network commands — list all ports and their protocols
+> Pocket kit for “is it listening, reachable, or DNS?” — `ss`/`lsof` for sockets, `nc`/`tcpdump` to probe, `dig`/resolvectl for names.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Socket Statistics]]
-- [[#List open files]]
-- [[#`tcpdump`]]
-- [[#`nc`]]
-- [[#nslookup]]
-- [[#DNS settings]]
+- [[#Sockets & listeners]]
+- [[#Probe & capture]]
+- [[#DNS]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -23,136 +19,109 @@
 
 ## Mental model
 
-```bash
-netstat -tuln; # to show all active TCP & UDP Connections (with servers);
-ss -tuln
-lsof -i -P -n | grep LISTEN
-```
-```bash
-nc -zv <domain name> <port>; # check if the server is reachable on port 443;
-```
+**Say it in one breath:** inventory with `ss`, ownership with `lsof`, path with `ip`/`ping`, app reachability with `nc`, packets with `tcpdump`, names with `dig`.
 
-## Standard config / commands
-
-…
-
-## Socket Statistics
-
-- list all ports and their protocols
-
-## List open files
-
-- list all open files related to network ports, showing which services are using which ports
-
-### `netstat`
 ```txt
-Active Internet connections (w/o servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 ubuntu-Latitude-5:40422 20.189.173.8:https      ESTABLISHED
-tcp        0      0 ubuntu-Latitude-5:45274 140.227.186.35.bc:https ESTABLISHED
-tcp        0      0 ubuntu-Latitude-5:40404 93.243.107.34.bc.:https ESTABLISHED
-tcp        0      0 ubuntu-Latitude-5:56124 lb-140-82-113-26-:https ESTABLISHED
-tcp        0      0 ubuntu-Latitude-5:45068 13.67.9.5:https         ESTABLISHED
-tcp6       0      0 ubuntu-Latitude-5:53746 2620:1ec:bdf::58:https  ESTABLISHED
-tcp6       0      0 ubuntu-Latitude-5:45970 2606:4700:8392:7c:https ESTABLISHED
-tcp6       0      0 ubuntu-Latitude-5:39062 2606:4700:8392:7c:https ESTABLISHED
-```
-- showing active TCP connections without servers (listening sockets excluded).
-
-`Proto` -> Protocol (TCP/TCP6)
-`Recv-Q ` -> Received queue (data waiting to be processed)
-`Send-Q` -> Sent queue (data waiting to be acknowledged)
-`Local Address` -> Your system's IP + port
-`Foreign Address` -> Remote system's IP + port
-`State` -> connection state
-
-`-a` -> show all sockets (listening and non-listening)
-`-t` -> show TCP
-`-u` -> show UDP
-`-l` -> show listening ports (servers)
-`-n` -> show numeric address (skip DNS resolution)
-`-p` -> show process name/PID
-
-## `tcpdump`
-
-```shell
-tcpdump -i any port 80 or port 443;
-```
-- capture HTTP(S) traffic, including WebSockets.
-- look for `Upgrade: WebSocket` in HTTP headers.
-
-### `iptables`
-
-```shell
-iptables -L # Displays the current firewall ruleset.
-iptables -F # Flushes (deletes) all firewall rules.
-iptables -A # Appends a new rule to the end of the firewall ruleset.
-iptables -I # Inserts a new rule at a specific position in the firewall ruleset.
-iptables -D # Deletes a specific rule from the firewall ruleset.
-iptables -P # Sets the default policy for a chain (ACCEPT, DROP, or REJECT).
-iptables -N # Creates a new user-defined chain.
-iptables -E # Renames a user-defined chain.
-iptables -Z # Resets the packet and byte counters for a chain.
-iptables-save # Saves the current firewall ruleset to a file.
-iptables-restore # Restores a saved firewall ruleset from a file.
+Listen?  ss -lntup / lsof -i
+Reach?   nc -zv host port
+Route?   ip route get 1.1.1.1
+Name?    dig +short / resolvectl
+Packets? tcpdump -ni eth0 port 443
 ```
 
-## `nc`
+### Interview map (words you can say)
 
-```shell
-nc google.com 80; # Connect to google.com on port 80
-```
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`ss -lntup`** | Listeners + process | “First command on ‘port already in use’.” |
+| **`Recv-Q` / `Send-Q`** | Bytes waiting | “High Send-Q → peer not reading; Recv-Q → local app slow.” |
+| **`nc -zv`** | TCP connect probe | “Firewall vs process down — one packet tells you.” |
+| **`tcpdump`** | Packet trace | “Prove SYN leaves and SYN-ACK returns.” |
+| **`resolvectl`** | systemd-resolved status | “Stub vs real resolvers on modern Ubuntu.” |
 
-```shell
-nc -l -p 1234; # listen on port 1234
+---
 
-nc -l -p <port> > incomming.txt; # Receiver
-nc <host ip> <port> < file.txt; # Sender
-```
-
-```shell
-nc -z -v host_ip 20-100  # Scan ports 20 to 100
-```
-
-```shell
-nc -l -p <port> -e /bin/bash; # bind shell
-```
-
-## nslookup
+## Sockets & listeners
 
 ```bash
-nslookup <domain.name>; # omit schema, port, and path
+ss -lntup                          # prefer over netstat
+ss -tan
+sudo lsof -i -P -n | grep LISTEN
+sudo netstat -tuln                 # legacy; see [[netstat]]
+
+# Column cheat (ss/netstat style)
+# Proto  Recv-Q  Send-Q  Local  Foreign  State
 ```
 
-## DNS settings
+| Flag family | Meaning |
+|-------------|---------|
+| `-l` | Listening |
+| `-t`/`-u` | TCP/UDP |
+| `-n` | Numeric |
+| `-p` | Process |
 
-```shell
-system-resolve --status;
+---
+
+## Probe & capture
+
+```bash
+nc -zv example.com 443
+nc -z -v host 20-100
+nc -l -p 1234                      # listener lab
+# file copy lab: nc -l -p PORT > in.txt   /   nc host PORT < out.txt
+
+sudo tcpdump -ni any port 80 or port 443
+
+# iptables glance (host firewall)
+sudo iptables -L -n
+# Prefer [[ufw]] status on Ubuntu desktops/servers that use it
 ```
 
-```yaml
-Global
-	Protocols: -LLMR -mDNS -DNSOverTLS DNSSEC=no/unsupported
-	resolv.conf mode: stub
+---
+
+## DNS
+
+```bash
+dig +short example.com
+nslookup example.com
+resolvectl status                  # was systemd-resolve
 ```
 
-- [[LLMNR]] and [[mDNS]] Disabled -> local name resolution (for finding devices on the network) is off.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Connection refused | `ss -lnt` on target | Start service / fix bind address |
+| Timeout | `nc -zv`; tcpdump SYN | Security group / [[ufw]] / route |
+| Works by IP, not name | `dig`; resolvectl | Fix resolvers / search domain |
+| Port in use | `ss -lntp 'sport = :8080'` | Stop PID or change port |
+| High TIME-WAIT / churn | `ss -s` | See [[ss]] / connection churn notes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`nc -e` bind shells are malware patterns** — many distros disable `-e`; don’t “test” that on shared hosts.
+
+> [!WARNING]
+> **`netstat` may be missing** — install net-tools or use [[ss]].
+
+> [!WARNING]
+> **Cloud firewall ≠ host firewall** — open both paths.
+
+---
 
 ## When NOT to use
 
-…
+- **Deep TCP internals** — prefer [[ss]] `-ti` and dedicated notes.
+- **Service mesh / K8s NetworkPolicy debug** — `kubectl` + CNI tools.
+- **Long-term metrics** — exporters, not one-shot `ss`.
+
+---
 
 ## Related
 
-[[…]]
+[[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]] [[commands]]

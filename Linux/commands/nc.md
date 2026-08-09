@@ -30,6 +30,16 @@ Listener: nc -lk 8080    →  accept connections (debug/mock server)
 | GNU netcat    | `-z`      | `-l -p PORT` | `-p` required on listen |
 | `ncat` (nmap) | `-z`      | `-l`         | `--ssl`, `--proxy       |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **nc / ncat** | TCP/UDP swiss army | “nc -vz host port = reachability.” |
+| **-l** | Listen | “nc -l -p 9999 for quick sink.” |
+| **-z** | Scan only | “No data — just connect test.” |
+| **UDP** | -u flag | “UDP ‘success’ is weaker than TCP.” |
+| **timeout** | Hang prevention | “nc -w 3 for scripts.” |
+
 ## Standard config / commands
 
 **Port reachability (daily debug):**

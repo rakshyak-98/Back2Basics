@@ -17,7 +17,8 @@
 
 ## Mental model
 
-One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and config.
+**Say it in one breath:** One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and config.
+
 
 ```
 repo/.git/          ← bare or main git dir

@@ -1,8 +1,8 @@
-[[React]]
+[[React]] [[React Architecture]] [[React Application Architecture for Production]]
 
 # Creating a stack from scratch
 
-> Creating a stack from scratch — YOu're developing a comprehensive web application for a financial service company. FOr this scenario, you want something that's trustworthy, secure, and scalable
+> Pick foundation + data + styling from constraints — risk, speed, or legacy — not fashion.
 
 ---
 
@@ -10,9 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#A FINANCIAL SERVICES WEB APPLICATION]]
-- [[#Rapid Prototyping of a Collaborative task management tool]]
-- [[#Maintaning a Legacy Enterprise Dashboard]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -20,49 +17,68 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Stack choice is a constraint match: regulated enterprise wants boring/typed; prototype wants batteries included; legacy wants minimal churn.
+
+```txt
+Constraints → Foundation → Data layer → Styling
+enterprise     React+TS      Apollo/RTK    styled / DS
+prototype      Remix         Supabase+SWR  Ant Design
+legacy         CRA/Vite      Redux         CSS Modules
+```
+
+### Interview map (words you can say)
+
+| Scenario | Bias | Why |
+|----------|------|-----|
+| **Financial / regulated** | React+TS, explicit data layer | Auditability, hiring pool, fewer magic frameworks |
+| **Investor prototype** | Remix/Next + BaaS + SWR | Ship features; UI uniqueness secondary |
+| **Legacy dashboard** | Keep Redux + CSS Modules | Change surface area small |
 
 ## Standard config / commands
 
-…
+| Stack | Foundation | Data | Style |
+|-------|------------|------|-------|
+| Enterprise | React + TypeScript | Apollo or RTK Query | Design system / styled-components |
+| Prototype | Remix (or Next) | Supabase + SWR | Ant Design |
+| Legacy maintain | CRA → Vite migrate later | Redux | CSS Modules |
 
-## A FINANCIAL SERVICES WEB APPLICATION
+```txt
+Decide:
+1) SSR needed? → Next/Remix : Vite SPA
+2) GraphQL org standard? → Apollo : REST + RTK Query/react-query
+3) Design system exists? → use it : don’t invent one in week one
+```
 
-- YOu're developing a comprehensive web application for a financial service company. FOr this scenario, you want something that's trustworthy, secure, and scalable and that won't ruffle any feathers in senior management. You can't go wrong with The Enterprise Stack:
-  - Pure Reach with Typescript as the foundation
-  - Apollo as the data-fetching and management library
-  - Styled-compnents as the styling library
-
-## Rapid Prototyping of a Collaborative task management tool
-
-- you need to prototype the core features quickly to attract potential investors and users. For this task, you want something that has a lot of magic built in and can very easily scale up and move fast. You don't mind if the design looks a bit derivative, as speed and features and making early investors satisfied with the progress - are more important than a unique user interface. YOu should check out the prototype sttack
-  - Remix as the foundation
-  - Supabase as the backend
-  - Stale-While-Revalidate (SWR) as the data-fetching library
-  - Ant Design as the styling library
-
-## Maintaning a Legacy Enterprise Dashboard
-
-- responsible for maintaining a legacy enterprise dashboard built using older technologies. The Old School stack:
-  - Create React App (CRA) as the foundation
-  - Redux as teh data management library
-  - CSS Module as the styling library
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Prototype stuck in Ant defaults | Product needs brand | Swap UI kit early or budget redesign |
+| Enterprise rejected Remix | Risk/compliance | Stick to React+TS + known libs |
+| Legacy can’t hire CRA experts | Tooling frozen | Vite migration plan; keep Redux |
+| Two data libraries | Apollo + React Query | Pick one cache story |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **“Comprehensive web app” ≠ maximal stack** — every library is an ops surface.
+
+> [!WARNING]
+> **CRA is maintenance mode** — new work should plan Vite/Next exit.
+
+---
 
 ## When NOT to use
 
-…
+- **Copying a blog’s “perfect stack”** — ignore if constraints differ.
+- **Rewriting legacy for fashion** — stabilize first.
+
+---
 
 ## Related
 
-[[…]]
+[[React Architecture]] [[React Application Architecture for Production]] [[React project config]] [[React build]]

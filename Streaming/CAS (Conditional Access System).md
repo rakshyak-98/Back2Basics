@@ -2,7 +2,7 @@
 
 # CAS (Conditional Access System)
 
-> CAS (Conditional Access System) — a security system that controls who is allowed to watch encrypted content. It is primarily used by pay-TV operators (DTH, Cable, IPTV) to
+> CAS controls who can watch scrambled pay-TV — headend encrypts; only entitled STBs get the control word.
 
 ---
 
@@ -23,51 +23,72 @@
 
 ## Mental model
 
-**CAS (Conditional Access System)** is a security system that **controls who is allowed to watch encrypted content**. It is primarily used by **pay-TV operators** (DTH, Cable, IPTV) to ensure only authorized subscribers can decrypt and view channels.
+**Say it in one breath:** Scramble the channel at the headend; send short-lived keys in ECMs; EMMs say which subscribers may unlock them.
+
+```txt
+Video source → Encoder → Scrambler
+                              │
+                    Encrypted TS + ECM/EMM
+                              │
+                         CAS server
+                              │
+              Broadcast / [[IPTV]] multicast
+                              │
+              STB + smart card / secure client
+                              │
+              Entitled? → CW → decrypt → watch
+```
 
 | Purpose | What CAS does |
 |---------|---------------|
-| Encrypt TV channels | Scrambler encrypts MPEG-TS (or similar) at headend |
+| Encrypt TV channels | Scrambler encrypts [[MPEG-TS]] (or similar) at headend |
 | Authenticate subscribers | Smart card / secure client proves entitlement |
 | Prevent unauthorized viewing | No valid CW → black screen |
 | Support packages / PPV | EMM grants or revokes channel rights |
 
-```text
-Video Source
-      │
-      ▼
-Encoder
-      │
-      ▼
-Scrambler/Encryptor
-      │
-      ├── Encrypted Video
-      │
-      └── ECM/EMM generated
-             │
-             ▼
-        CAS Server
-             │
-             ▼
-Streaming Server / Broadcast
-             │
-             ▼
-STB / Player + Smart Card / Secure Client
-             │
-      Requests decryption key
-             │
-             ▼
-CAS verifies subscription
-             │
-             ▼
-Video decrypted if authorized
-```
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **CAS** | Pay-TV access control | “Only entitled STBs decrypt the scrambled channel.” |
+| **CW** | Short-lived stream key | “Control word rotates every few seconds.” |
+| **ECM** | Message carrying encrypted CW | “Comes with the channel; needed to decrypt *now*.” |
+| **EMM** | Subscriber rights update | “Turns packages on/off for a card or client.” |
+| **Scrambler** | Headend encryptor | “Clear encode → scrambled TS out.” |
+| **[[DRM]]** | OTT/CDM cousin | “Browsers use DRM; classic STBs use CAS.” |
+
+### How the story goes (4 steps)
+
+1. **Scramble** — headend encrypts the service.
+2. **Signal** — ECMs carry the current CW; EMMs carry entitlements.
+3. **Authorize** — STB/card checks package rights.
+4. **Decrypt** — entitled client gets CW and plays; otherwise black screen.
 
 ---
 
 ## Standard config / commands
 
-…
+Ops knobs live in the CAS vendor console + scrambler — there is no universal open CLI. Typical checks from the transport side:
+
+```bash
+# Confirm ECM/EMM PIDs present in the TS (TSDuck / analyzer)
+tsp -I ip <mpts>:<port> -P analyze -O drop
+# Look for CAT / ECM PIDs related to the scrambled service
+
+ffprobe -hide_banner udp://@<addr>:<port>   # programs present?
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| ECM PID / cycle | Missing or slow ECM ⇒ no CW ⇒ black screen |
+| EMM delivery path | New subs stay dark until EMM reaches the box |
+| CW rotation period | Too slow helps pirates; too fast stresses STB |
+| CAS ID / box pairing | Card swapped to wrong STB fails decrypt |
+| Scrambler algorithm | Must match STB CAS client (vendor stack) |
+
+Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → force EMM → STB pairing logs.
+
+---
 
 ## Components
 
@@ -93,7 +114,7 @@ Video decrypted if authorized
 
 The **Control Word** is the short-lived symmetric key used to decrypt the stream.
 
-```text
+```txt
 Encrypted Stream
         +
 Control Word
@@ -143,7 +164,7 @@ If the subscription expires:
 
 For [[IPTV]], the flow is:
 
-```text
+```txt
 Live Encoder
       │
 Scrambler
@@ -225,4 +246,4 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 
 ## Related
 
-[[DRM]] [[IPTV]] [[MPEG-TS]] [[Multicast]] [[EME]] [[Streaming]] [[ingestion]] [[Compliance Reporting to Broadcasters]]
+[[DRM]] [[IPTV]] [[MPEG-TS]] [[Multicast]] [[EME]] [[Streaming]] [[ingestion]] [[Compliance Reporting to Broadcasters]] [[tsduck]]

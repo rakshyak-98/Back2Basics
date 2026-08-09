@@ -31,6 +31,16 @@ gnome-extensions list → UUID → info / disable / reset
 | `reset` | Restore extension default settings |
 | `install` | From local zip (must be compatible Shell version) |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **dotfiles** | Shell/editor config | “Keep in git; symlink in.” |
+| **.bashrc vs .profile** | Interactive vs login | “Know which shell sources what.” |
+| **alias** | Shortcuts | “alias rm='rm -i' for safety.” |
+| **PS1** | Prompt | “Show git branch / exit code.” |
+| **XDG dirs** | Config locations | “Prefer ~/.config.” |
+
 ## Standard config / commands
 
 ```bash

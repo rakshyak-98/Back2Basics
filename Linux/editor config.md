@@ -37,6 +37,16 @@ Developer opens file → plugin applies nearest matching section
 | `trim_trailing_whitespace` | true | Clean diffs |
 | `insert_final_newline` | true | POSIX text file; git diff noise |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **editorconfig** | Shared indent/style | “Same tabs across vim/VS Code.” |
+| **.editorconfig** | Repo root file | “Commit it — not editor-specific.” |
+| **indent_style** | tab vs space | “Match language norms.” |
+| **charset** | utf-8 default | “Avoid latin1 surprises.” |
+| **end_of_line** | lf vs crlf | “lf on Linux/mac; watch Windows clones.” |
+
 ## Standard config / commands
 
 **Production-safe baseline for polyglot repo:**

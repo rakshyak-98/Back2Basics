@@ -32,6 +32,16 @@ GNOME Settings ──┘ (same daemon — conflict if both "own" power)
 | `remove MAC` | Forget device |
 | `info MAC` | RSSI, UUIDs, connected state |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **bluetoothctl** | BlueZ interactive CLI | “power on → scan → pair → trust → connect.” |
+| **agent** | Pairing PIN handler | “agent on before pair.” |
+| **trust** | Auto-reconnect | “Trust after pair for headphones.” |
+| **rfkill** | Block radios | “rfkill list if soft-blocked.” |
+| **systemctl bluetooth** | Daemon | “bluetooth.service must be up.” |
+
 ## Standard config / commands
 
 ```bash

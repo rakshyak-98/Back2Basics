@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Git aliases live in config (`~/.gitconfig` or repo `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
+**Say it in one breath:** Git aliases live in config (`~/.gitconfig` or repo `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
+
 
 ```
 git st  →  alias.st = status -sb

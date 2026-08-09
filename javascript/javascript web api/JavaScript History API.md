@@ -1,8 +1,8 @@
-[[javascript web api]]
+[[javascript]] [[event listener]]
 
 # JavaScript History API
 
-> JavaScript History API — no, the browser API does not store the state of all the visited paths by default.
+> History API — push/replace URL + state in the session history stack without full reloads (SPA routing).
 
 ---
 
@@ -17,42 +17,74 @@
 
 ## Mental model
 
-No, the browser API does not store the state of all the visited paths by default.
-- Different browser components manage navigation history in specific ways:
-### Browser history API (`window.history`)
-- Stores: a stack of visited URLs within the session (limited to same-origin policies).
-- Access: you can navigate backward (`history.back()`), forward (`history.forward`), or move withing the stack (`history.go(n)`).
-> [!INFO] doesn't persist state beyond the sesison.
-### IndexedDB / Cache API
-- Stores: Persistent structured data across sessions.
-- User Case: Web apps that need offline support.
-```js
-history.pushState({page: 1}, "Page 1", "/page1")
-history.replaceState({ page: 2}, "Page 2", "/page2")
-window.addEventListener("popstate", (event) => {
-	console.log("Navigated to state:", event.state)
-})
+**Say it in one breath:** `history.pushState` / `replaceState` change the URL and stash a state object; Back/Forward fires `popstate`. The browser does **not** keep a full app snapshot of every visit unless you put it in `state` (and size is limited).
+
+```txt
+pushState → stack grows
+replaceState → mutate current entry
+Back/Forward → popstate (state from entry)
 ```
+
+| Piece | Role |
+|-------|------|
+| `history.state` | Data for current entry |
+| `pushState(state, '', url)` | New entry |
+| `popstate` | User navigated history |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+history.pushState({ page: 1 }, '', '/page1')
+history.replaceState({ page: 2 }, '', '/page2')
+
+window.addEventListener('popstate', (e) => {
+  render(e.state)
+})
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Same-origin URL | Cross-origin push throws |
+| State size | Browsers cap ~640KB–few MB |
+| Title arg | Ignored in modern browsers |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Back doesn’t restore UI | Only listened to clicks | Handle `popstate` |
+| Full reload on nav | Used `location.href` | `pushState` + client router |
+| State `null` | Never passed / lost | Always pass serializable state |
+| SecurityError | Cross-origin URL | Same origin only |
+| Duplicate entries | push on every render | `replaceState` for query tweaks |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`popstate` does not fire on `pushState`** — only on Back/Forward (and some browser UI).
+
+> [!WARNING]
+> **State must be structured-cloneable** — no functions/DOM nodes.
+
+> [!WARNING]
+> **Refresh loads from server** — deep links need server fallback to `index.html`.
+
+---
 
 ## When NOT to use
 
-…
+- **Full document navigations** — normal links are fine.
+- **Storing huge caches** — IndexedDB / Cache API.
+- **Auth tokens in history.state** — security smell; use memory/httpOnly cookies.
+
+---
 
 ## Related
 
-[[…]]
+[[event listener]] [[Session Storage]] [[ServiceWorker]] [[javascript]]

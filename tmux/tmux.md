@@ -10,14 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Window]]
-- [[#Session]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** tmux — plain job, how I run it, how I know it’s broken.
+
 
 - Session → multiple windows
 - Window → full screen workspace
@@ -31,74 +32,48 @@ ctrl+b z; # Toggle focus on pane
 ctrl+<space>; # Toggle pane layout
 ```
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **tmux** | Core idea of this note | “I can explain tmux without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
+
 ## Standard config / commands
 
-…
-
-## Window
-
-```text
-C-b c // new window
-C-b n // next window
-C-b p // previous window
-C-b <number> // jump to window
-C-b , // rename window
-C-b & // kill window
-```
-
-```text
-C-b % // vertical split
-C-b ****" // horizontal split
-C-b o // switch pane
-C-b x // kill pane
-C-b z // zoom/unzoom pane
-```
-
-## Session
-
-```text
-ctrl + b s // switch session
-C-b d // detach the current session
-ctrl + b :
-tmux switch-client -t <session-name>
-rename-session my_session;
-```
-
 ```bash
-tmux rename-session -t 0 my_session_name
-tmux new-session -d -s <session name>;
-
-# Kill session
-tmux ls | cut -d: -f1 | xargs -n1 tmux kill-session -t;
+# reproduce with minimal input
+# compare working vs broken env
 ```
 
- **Loop to create multiple sessions**
-```bash
-port=5000
-
-	for file in *.ts; do
-    tmux new-session -d -s "stream_${port}" \
-        "ffmpeg -re -stream_loop -1 -i '$file' -c copy -f mpegts udp://127.0.0.1:${port}?pkt_size=1316"
-
-    ((port++))
-done
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[tmux]]

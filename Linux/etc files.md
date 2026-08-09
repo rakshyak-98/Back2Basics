@@ -35,6 +35,16 @@ systemd ──► /etc/systemd/system/*.service (overrides)
 | Defaults | `/etc/default/grub` | Sourced by scripts, not daemon directly |
 | systemd override | `/etc/systemd/system/nginx.service.d/` | `systemctl daemon-reload` after edit |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **/etc** | Host config tree | “/etc is the system’s knobs.” |
+| **passwd / shadow** | Users / password hashes | “shadow is root-only — don’t chmod it open.” |
+| **fstab** | Mount at boot | “Bad fstab = unbootable.” |
+| **resolv.conf** | DNS resolvers | “Often overwritten by systemd-resolved.” |
+| **sysctl.conf** | Kernel tunables | “Persist with /etc/sysctl.d/.” |
+
 ## Standard config / commands
 
 **SSH hardening** (break-glass: keep console/session open while testing):

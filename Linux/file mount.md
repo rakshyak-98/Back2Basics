@@ -1,8 +1,8 @@
-[[Linux]]
+[[Linux]] [[media mount as read only]] [[fstab]]
 
 # file mount
 
-> file mount — if you see this error do this
+> Mount attaches a filesystem (disk, ISO, NFS, bind) onto a directory — the tree is how userland sees storage.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#How to mount a google driver in current file system]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,51 +17,77 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** device + fstype + options → directory; `/etc/fstab` makes it permanent; `findmnt` shows truth.
+
+```txt
+/dev/sdX1 ──mount──► /data
+UUID=…   ──fstab──► reboot-safe
+bind /a  ──mount --bind──► /b
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **mount point** | Empty dir target | “Don’t hide real files under a mount.” |
+| **fstab** | Boot mounts | “Bad fstab can make the box unbootable.” |
+| **UUID/LABEL** | Stable identity | “Prefer UUID over `/dev/sdX`.” |
+| **bind mount** | Remap a directory | “Same inode tree, second path.” |
+| **nofail / x-systemd** | Boot resilience | “Network mounts need `_netdev`.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## How to mount a google driver in current file system
-
 ```bash
-sudo apt install gnome-control-center gnome-online-accounts
-sudo apt insall rclone
+lsblk -f
+sudo mount /dev/sdb1 /mnt/data
+sudo mount -t nfs server:/export /mnt/nfs
+sudo mount --bind /var/lib/docker /mnt/docker-view
+findmnt
+findmnt -T /var
+# fstab line:
+# UUID=… /data ext4 defaults,nofail 0 2
+sudo mount -a
+sudo umount /mnt/data
 ```
 
-```bash
-# 1. Open gnome online accounts
-gnome-control-center online-accounts;
-```
+| Knob | Why it matters |
+|------|----------------|
+| `defaults,nofail` | Boot continues if disk missing |
+| `_netdev` | Wait for network before NFS |
 
-if you see this error do this
-```txt
-Running gnome-control-center is only supported under GNOME and Unity, exiting
-```
-
-
-### rclone
-- for users who prefer command line interfaces or need advanced file management capabilities.
-
-also view
-[configuring Rclone YT](https://www.youtube.com/watch?v=n7yB1x2vhKw)
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Target busy | `lsof`/`fuser -m` | Close files; lazy `umount -l` last resort |
+| Wrong device after reboot | `/dev/sd` order | Switch fstab to UUID |
+| NFS hang on boot | Missing `_netdev` | Add option; use automount |
+| Permission weird | uid mapping / root_squash | Align IDs; check export opts |
+| “already mounted” | `findmnt` | Umount or mount elsewhere |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Mount hides existing dir contents** — files under the mount point are invisible until umount.
+
+> [!WARNING]
+> **`umount -l` lazy** — detaches namespace now; I/O may still finish — don’t yank disks yet.
+
+---
 
 ## When NOT to use
 
-…
+- **Copying data** — mount isn’t backup; use [[rsync]].
+- **App config** — don’t mount over busy program dirs without stopping the service.
+
+---
 
 ## Related
 
-[[…]]
+[[media mount as read only]] [[rsync]] [[lsof]] [[Linux file management]]

@@ -1,8 +1,8 @@
-[[Linux]]
+[[systemd]] [[systemctl]] [[D-Bus]]
 
 # systemd-hostnamed
 
-> systemd-hostnamed — a lightweight system service (daemon) provided by systemd that manages the system's hostname and some related machine identification metadata.
+> systemd-hostnamed is the daemon behind `hostnamectl` — static/pretty/transient hostname via D-Bus.
 
 ---
 
@@ -17,54 +17,73 @@
 
 ## Mental model
 
-is a lightweight system service (daemon) provided by `systemd`  that manages the system's **hostname** and some related machine identification metadata.
-- it runs in the background (but only activates when needed and shuts down when idle) and provides a standardized, safe way to query and change the hostname from user programs, graphical interface, or command-line tools, without requiring direct root access to edit files like `/etc/hostname`
-it handles three kind of host-names (a concept introduced by systemd)
-| Hostname type          | Stored in             | Purpose / Lifetime                   | Priority | Typical source / setter                             |
-| ---------------------- | --------------------- | ------------------------------------ | -------- | --------------------------------------------------- |
-| **Static hostname**    | `/etc/hostname`       | Permanent, configured by admin       | Highest  | You edit the file or use `hostnamectl set-hostname` |
-| **Transient hostname** | Kernel (runtime only) | Temporary, can change during runtime | Medium   | DHCP lease, mDNS, cloud metadata, admin             |
-| **Pretty hostname**    | `/etc/machine-info`   | Human-friendly name (display name)   | —        | Graphical tools, `hostnamectl --pretty`             |
-- it also exposes a few more properties via D-Bus.
-	- machine ID
-	- Boot ID
-	- Operating system info (from `/etc/os-release`)
-	- Kernel name/release
-	- Chassis type/icon name/ etc. (from `/etc/machine-info`)
-> [!NOTE]
-> Most users never interact with `systemd-hostnamed` directly - instead you use the client tool `hostnamectl`
-```bash
-hostnamectl status;
+**Say it in one breath:** `hostnamectl` → D-Bus → hostnamed; `/etc/hostname` is what survives reboot.
+
+```txt
+hostnamectl ──D-Bus──► systemd-hostnamed
+                              │
+                              ├─ /etc/hostname (static)
+                              └─ kernel utsname (runtime)
 ```
-```bash
-sudo hostnamectl set-hostname my-new-server
-sudo hostnamectl set-hostname 'Awesome Laptop' --pretty
-```
-> [!INFO]
-> `hostnamectl` talks to `systemd-hostnamed` over D-bus (interface `org.freedesktop.hostname1`)
-> - `systemd-hostnamed` then safely updates the files + kernel hostname
-> - it enforces validation (valid characters, length, no forbidden names)
-> - it supports `polkit` authorization -> GUI tools (GNOME settings, KDE, Cockpit, etc.) can change hostname without running as root.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **static hostname** | `/etc/hostname` | “What comes back after reboot.” |
+| **pretty hostname** | Human display name | “Can have spaces — not for DNS.” |
+| **transient** | Runtime-only | “DHCP/cloud may set it.” |
+| **hostnamectl** | CLI front-end | “Prefer over hand-editing files.” |
+| **chassis** | desktop/server/vm | “Hint for UI/power policy.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+hostnamectl
+sudo hostnamectl set-hostname api-prod-01
+sudo hostnamectl set-hostname "API Prod 01" --pretty
+cat /etc/hostname
+hostname -f
+systemctl status systemd-hostnamed
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `set-hostname` | Updates static + runtime |
+| `--pretty` | UI label only |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Name reverts after reboot | cloud-init / DHCP | Pin in cloud-init; stop overwrite |
+| hostnamectl fails | hostnamed down | `systemctl status systemd-hostnamed` |
+| Apps see old name | Cache / hosts | Restart app; fix `/etc/hosts` |
+| FQDN wrong | `/etc/hosts` | Align IP ↔ hostname entries |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Pretty ≠ DNS** — never put spaces in the static hostname.
+
+> [!WARNING]
+> **Cloud images** often rewrite hostname every boot via cloud-init.
+
+---
 
 ## When NOT to use
 
-…
+- **DNS search domains** — that’s resolved/NetworkManager.
+- **Container/pod names** — namespace-local; hostnamed won’t rename a pod.
+
+---
 
 ## Related
 
-[[…]]
+[[systemd]] [[systemctl]] [[D-Bus]] [[NTP sync]]

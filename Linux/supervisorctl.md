@@ -35,6 +35,16 @@ supervisorctl → UNIX socket → supervisord
 | `status` | RUNNING / STOPPED / FATAL |
 | `tail -f <name> stdout` | Stream logs |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **supervisord** | Process babysitter | “Not systemd — app-level process manager.” |
+| **supervisorctl** | CLI to daemon | “start/stop/status/tail.” |
+| **program:** | Config stanza | “One [program:x] per process.” |
+| **autostart** | On supervisord boot | “autostart=true ≠ system boot unless service.” |
+| **stdout_logfile** | Capture output | “Without it, crashes are silent.” |
+
 ## Standard config / commands
 
 **Minimal program stanza:**

@@ -1,18 +1,19 @@
-[[Database]]
+[[Database]] [[SQL normalization]] [[OLTP]] [[ACID]] [[Data access patterns]] [[database migration]] [[Database mistakes]]
 
 # Database design
 
-> Database design — tables, keys, and constraints that keep data correct and queryable.
+> Tables, keys, and constraints that keep facts correct and queries honest — schema is a contract, not just storage.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#No Transaction Boundary Grouping]]
+- [[#Interview map (words you can say)]]
+- [[#Standard patterns]]
+- [[#Transaction correlation (audit)]]
 - [[#Overlapping validity periods]]
-- [[#Multi-Tenancy Boundary Violations]]
+- [[#Multi-tenancy boundaries]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -20,262 +21,160 @@
 
 ## Mental model
 
-```md
-//// Docs: https://dbml.dbdiagram.io/docs
-//// -- LEVEL 1
-//// -- Schemas, Tables and References
-// Creating tables
-// You can define the tables with full schema names
-Table ecommerce.merchants {
-	id int
-	country_code int
-	merchant_name varchar
-	"created at" varchar
-	admin_id int [ref: > U.id, not null]
-	Indexes {
-		(id, country_code) [pk]
-	}
-}
-// If schema name is omitted, it will default to "public" schema.
-Table users as U {
-	id int [pk, increment] // auto-increment
-	full_name varchar
-	created_at timestamp
-	country_code int
-}
-Table countries {
-	code int [pk]
-	name varchar
-	continent_name varchar
-}
-// Creating references
-// You can also define relaionship separately
-// > many-to-one; < one-to-many; - one-to-one; <> many-to-many
-Ref: U.country_code > countries.code
-Ref: ecommerce.merchants.country_code > countries.code
-//----------------------------------------------//
-//// -- LEVEL 2
-//// -- Adding column settings
-Table ecommerce.order_items {
-	order_id int [ref: > ecommerce.orders.id] // inline relationship (many-to-one)
-	product_id int
-	quantity int [default: 1] // default value
-	Indexes {
-		(order_id, product_id) [pk]
-	}
-}
-Ref: ecommerce.order_items.product_id > ecommerce.products.id
-Table ecommerce.orders {
-id int [pk] // primary key
-user_id int [not null, unique]
-status varchar
-created_at varchar [note: 'When order created'] // add column note
-}
-//----------------------------------------------//
-//// -- Level 3
-//// -- Enum, Indexes
-// Enum for 'products' table below
-Enum ecommerce.products_status {
-	out_of_stock
-	in_stock
-	running_low [note: 'less than 20'] // add column note
-}
-// Indexes: You can define a single or multi-column index
-Table ecommerce.products {
-	id int [pk]
-	name varchar
-	merchant_id int [not null]
-	price int
-	status ecommerce.products_status created_at datetime [default: `now()`]
-	Indexes {
-		(merchant_id, status) [name:'product_status']
-		id [unique]
-	}
-}
-Table ecommerce.product_tags {
-	id int [pk]
-	name varchar
-}
-Table ecommerce.merchant_periods {
-	id int [pk]
-	merchant_id int
-	country_code int
-	start_date datetime
-	end_date datetime
-}
-Ref: ecommerce.products.merchant_id > ecommerce.merchants.id // many-to-one
-Ref: ecommerce.product_tags.id <> ecommerce.products.id // many-to-many
-//composite foreign key
-Ref: ecommerce.merchant_periods.(merchant_id, country_code) > ecommerce.merchants.(id, country_code)
-Ref user_orders: ecommerce.orders.user_id > public.users.id
+**Say it in one breath:** Good design makes illegal states hard to store — keys, FKs, CHECKs, and clear transaction boundaries do more than clever app code.
+
+```txt
+Entities → tables
+Relationships → FKs / join tables
+Invariants → PRIMARY/UNIQUE/CHECK/EXCLUDE
+Access paths → indexes matching real queries ([[Data access patterns]])
+Change → migrations ([[database migration]])
 ```
-### Independent scalar value
-- the value is stored as its own column. It is treated like a normal value that can be set independently
-| subtotal | tax | discount | total_amount |
-| -------- | --- | -------- | ------------ |
-| 100      | 10  | 5        | 105          |
-- Here `total_amount` is an **independent scalar value** because it is stored directly, rather than always being computed.
-- rather then a mathematically enforced derivative of its components the database simply stores whatever value is provided.
-- Since the database is not enforcing the relationship, it may accept inconsistent data.
-> [!NOTE]
-> Instead of storing `total_amount` independently compute it whenever needed, or use a generated/computed column so the database guarantees consistency. This prevents mathematically invalid rows from being stored.
-#### Pattern A : Deterministic Check Constraints
+
+Normalize for [[OLTP]] write correctness ([[SQL normalization]]); denormalize only with an owned sync story.
+
+## Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Primary key** | Stable row identity | “Surrogate `id` plus unique business keys where needed.” |
+| **Foreign key** | Child must point at a real parent | “DB enforces orphans can’t land.” |
+| **Invariant** | Rule that must always hold | “Prefer CHECK/generated column over hope.” |
+| **Expand-contract** | Compatible schema evolve | “Add nullable → dual-write → backfill → enforce.” |
+| **Tenant key** | Every row knows its customer | “Filter + constraint; never trust client alone.” |
+| **Temporal overlap** | Two periods share time | “Use the interval overlap predicate + EXCLUDE.” |
+
+---
+
+## Standard patterns
+
+### Independent scalar vs derived amount
+
+Storing `total_amount` as a free column lets `100 - 5 + 10 ≠ 105` rows exist.
+
 ```sql
--- Enforce invariant on orders table
-ALTER TABLE orders ADD CONSTRAINT chk_orders_amount_payable
-CHECK (
-  amount_payable = (base_amount - COALESCE(discount_amount, 0.00))
-);
--- Enforce invariant on invoices table
-ALTER TABLE invoices ADD CONSTRAINT chk_invoices_total_amount
+-- Pattern A: CHECK invariant
+ALTER TABLE invoices ADD CONSTRAINT chk_invoices_total
 CHECK (
   total_amount = (
     subtotal
-    - COALESCE(discount_amount, 0.00)
-    + COALESCE(tax_amount, 0.00)
+    - COALESCE(discount_amount, 0)
+    + COALESCE(tax_amount, 0)
   )
 );
-```
-#### Pattern B : Stored Generated columns
-Instead of forcing the application to pass the computed `total_amount` over the network, remove it from the `INSERt/UPDATE` payload entirely. The database derives and stores the aggregate mathematically during the write operation.
-```sql
--- Drop the application-provided columns
-ALTER TABLE orders DROP COLUMN amount_payable;
-ALTER TABLE invoices DROP COLUMN total_amount;
--- Replace with storage-layer generated columns
-ALTER TABLE orders ADD COLUMN amount_payable DECIMAL(10,2)
-GENERATED ALWAYS AS (
-  base_amount - COALESCE(discount_amount, 0.00)
-) STORED;
-ALTER TABLE invoices ADD COLUMN total_amount DECIMAL(10,2)
-GENERATED ALWAYS AS (
-  subtotal - COALESCE(discount_amount, 0.00) + COALESCE(tax_amount, 0.00)
-) STORED;
+
+-- Pattern B: generated column (Postgres / MySQL 8+)
+ALTER TABLE invoices
+  DROP COLUMN total_amount,
+  ADD COLUMN total_amount DECIMAL(12,2)
+    GENERATED ALWAYS AS (
+      subtotal - COALESCE(discount_amount, 0) + COALESCE(tax_amount, 0)
+    ) STORED;
 ```
 
-## Standard config / commands
+Line-item `unit_price` on an order is often a **historical snapshot** (correct denorm) — document that; don’t “fix” it by always joining live `products.price`.
 
-…
-
-## No Transaction Boundary Grouping
-
-It means the audit log records **what changed**, but **not which changes belonged to the same transaction**.
-	- Group all audit entries that belong to the same business transaction.
-	- Although for different tables changed, they all belong to the same business transaction.
-
-```sql
-BEGIN;
-
-UPDATE orders
-SET status = 'PAID'
-WHERE id = 101;
-
-INSERT INTO payment_transactions (...);
-
-INSERT INTO entitlements (...);
-
-COMMIT;
-```
-- Nothing indicates these 3 audit rows came from **the same transaction**
-
-Question you cannot answer:
-- Did these three changes happen together?
-- Were they committed atomically?
-- Was payment inserted before entitlement?
-- Did another transaction modify data between them?
-- Which audit rows belong to one user action?
-
-### With `transaction_correlation_id`
-
-When `transaction_correlation_id` is stored in an `audit_log` table, its purpose is **not to identify the audit record itself**, but to group all audit entries that belong to the same business transaction.
-
-> [!NOTE]
-> The `transaction_correlation_id` should be created once, at the beginning of the business operation, before the database transaction starts (or immediately after it begins), and then passed unchanged throughout the entire request.
+### Sketch schema (DBML mental model)
 
 ```txt
-HTTP Request
-     │
-Generate UUID
-     │
-Store in request context
-     │
-Pass to all repositories/services
-
-Reason:
-
-- Same ID can be used in:
-    - database
-    - application logs
-    - HTTP logs
-    - Kafka messages
-    - microservices
-    - audit logs
+users(id PK) ──< orders(user_id FK)
+orders ──< order_items(order_id, product_id) >── products
+merchants ──< products
 ```
 
+Indexes follow **equality → range → ORDER BY** for hot queries; see [[covering index]] / [[mysql index]].
 
-Audit table:
+---
 
-| log_id | transaction_correlation_id | table                |
-| -----: | -------------------------- | -------------------- |
-|      1 | TX-89AF                    | orders               |
-|      2 | TX-89AF                    | payment_transactions |
-|      3 | TX-89AF                    | entitlements         |
-Now auditor can query:
-```sql
-SELECT *
-FROM audit_log
-WHERE transaction_correlation_id = 'TX-89AF';`
-```
+## Transaction correlation (audit)
 
-Result
+Audit rows without a shared id cannot prove which changes were one business COMMIT.
+
 ```txt
-orders UPDATE
-payment_transactions INSERT
-entitlements INSERT
+HTTP request → generate correlation UUID → request context
+       → same id on DB audit rows, app logs, outbox messages
 ```
-This proves these changes were part of one **atomic database transaction**.
 
-**Why it matters:**
-- Auditing: Verify all expected changes occurred together.
-- Compliance: Demonstrate atomicity during investigations.
-- Debugging: Reconstruct a complete business operation.
-- Forensics: Detect partial updates or unexpected changes.
+```sql
+INSERT INTO audit_log (transaction_correlation_id, table_name, ...)
+VALUES ('TX-89AF', 'orders', ...);
+-- same TX-89AF on payment_transactions + entitlements rows
+```
 
-> [!NOTE]
-> Without a transaction correlation ID, auditors must infer relationships using timestamps, user IDs, or session IDs, Which are unreliable because multiple transactions can occur within the same time window or session.
+Create the id **once** at the start of the operation; pass it unchanged. Timestamps alone are not correlation under concurrency.
+
+---
 
 ## Overlapping validity periods
 
-occur when two or more distinct timeframes (or date ranges) share a common segment of time.
+Two intervals `[start_a, end_a)` and `[start_b, end_b)` overlap iff:
 
-This concept frequently arises in database management, scheduling, HR systems, and software engineering (often referred to as temporal data). Managing validity periods effectively is crucial because overlaps can cause system conflicts, such as billing a customer twice for the same subscription or assigning two employees to a mutually exclusive shift.
+```txt
+start_a < end_b  AND  start_b < end_a
+```
 
-### Understanding the Overlap logic
+(Use `<=` if your intervals are closed; be consistent.)
 
-The most common challenge with validity periods is writing the logic to detect if an overlap exists.
+```sql
+-- Reject overlapping subscriptions per customer (Postgres)
+ALTER TABLE subscriptions ADD CONSTRAINT subs_no_overlap
+EXCLUDE USING gist (
+  customer_id WITH =,
+  tstzrange(start_at, end_at, '[)') WITH &&
+);
+```
 
-A common mistake is trying to check if the start or end date of one period falls strictly inside the other. This often misses edge cases where one period completely engulfs another. The most robust, foolproof way to check if two periods, Period A and Period B overlap is to use this simple formula:
-Period A starts before (or when) Period B ends AND Period A and Period B ends after (or when) Period B starts.
+Billing twice for the same window is almost always a missing overlap constraint, not a “rare race.”
 
-## Multi-Tenancy Boundary Violations
+---
 
-In a multi-tenant SaaS application, every row of tenant-specific data must belong to exactly one tenant, unless the table is explicitly designed to hold globally shared reference data.
+## Multi-tenancy boundaries
+
+Every tenant-owned row needs `tenant_id` (or equivalent) **in the row and in the query**.
+
+| Failure | Fix |
+|---------|-----|
+| `WHERE id = $1` without tenant | Always `AND tenant_id = $tenant` |
+| Shared “global” lookup table mixed with tenant data | Separate schemas/tables; explicit shared flag |
+| Unique email global in multi-tenant SaaS | `UNIQUE (tenant_id, email)` unless product requires global |
+
+RLS (Postgres row-level security) helps defense-in-depth; still pass tenant in the app.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Math-wrong invoice totals | Free-form total column | CHECK or generated column |
+| Audit cannot reconstruct one checkout | No correlation id | Add `transaction_correlation_id` |
+| Double subscription / double booking | Overlap logic | EXCLUDE / app transaction + overlap predicate |
+| Customer A sees Customer B data | Missing tenant predicate | Composite unique keys; forced tenant filter; tests |
+| Migration locks production | Single huge DDL | Expand-contract; online schema tools ([[database migration]], [[Alter table]]) |
+| ORM model ≠ DB | Drift | Migrations as source of truth |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **App-only invariants** — if the rule matters (money, tenancy, uniqueness), put a constraint in the DB. Two writers will bypass app checks.
+
+> [!WARNING]
+> **Soft deletes without unique care** — `UNIQUE(email)` blocks re-create after soft delete; use partial unique indexes (`WHERE deleted_at IS NULL`).
+
+- **Wide “god” tables** — every feature adds a column; split bounded contexts when churn hurts.
+- **FK `ON DELETE CASCADE`** — convenient until one delete wipes a tree; prefer explicit.
+- **No transaction around multi-table writes** — design assumed atomicity you never coded ([[ACID]]).
+
+---
 
 ## When NOT to use
 
-…
+- **Document soup for every entity** — JSONB everywhere loses constraints; use for genuinely schemaless payloads.
+- **Premature sharding** — fix indexes and design first ([[OLTP]]).
+- **Copying OLAP star schema into OLTP** — wrong write shape.
 
 ## Related
 
-[[…]]
+[[SQL normalization]] [[Database]] [[OLTP]] [[ACID]] [[OCC]] [[Data access patterns]] [[database migration]] [[Alter table]] [[Database mistakes]] [[connection pooling]] [[covering index]]

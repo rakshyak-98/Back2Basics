@@ -17,8 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
+
 ```
-Client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
                                               │
                                               ├── pubkey auth OK → shell / forced command
                                               └── AllowUsers / Match rules

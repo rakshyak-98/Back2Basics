@@ -1,8 +1,8 @@
-[[Data structure]]
+[[Data structure]] [[ADT (Abstract Data Type)]] [[DSA algorithms]]
 
 # Data structure
 
-> Data structure — how values are laid out in memory so reads and updates stay cheap.
+> Data structures store data with different access costs — pick for the operations you run most.
 
 ---
 
@@ -10,12 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Array]]
-- [[#Sub-array]]
-- [[#Fixed size window size is predetermined]]
-- [[#Variable size window window expands or shrinks dynamically based on constraints]]
-- [[#Dynamic sliding window (Two Pointers)]]
-- [[#Sliding window with frequency count]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -23,248 +17,67 @@
 
 ## Mental model
 
-> [!INFO]
-  Algorithm complexity
-- an `O(n)` algorithm, which needs to access its input only once.
-Pattern recognition practice
-- What type of problem is this? (counting, finding, max/min, searching).
-- Have I seen something similar before?
-- What data structure naturally fits this problem?
-Break the problem into constraints -> Every problem has constraints that defines the answer.
-- What is limiting the result?
-- What is the ceilling (maximum possible)?
-- What is the floor (minimum required)?
-Think in terms of What you're Optimizing
-(this builds the habit of seeing the mathematical relationship behind a problem)
-- Am I maximizing or minimizing something?
-- What variables affect the result?
-- What happens at the extremes? (all same type, all different types)
-> [!INFO]
->  `O(n!)`
-> - the worst algorithms, however, are the ones with an `O(n!)` running time.
-> - Which makes them almost unusable for inputs with more than 300 elements.
-### Logic
-- increase the steps
+**Say it in one breath:** Arrays for index access, hash maps for keyed lookup, trees/heaps for ordered extremes, graphs for relationships.
+
+```txt
+ops you need → structure → complexity tradeoffs
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Access vs update** | Read pattern vs write | “Optimize the hot path.” |
+| **Amortized** | Average over ops | “Dynamic array append.” |
+| **Locality** | Cache friendliness | “Arrays beat pointer chasing.” |
+| **ADT vs impl** | Behavior vs layout | “Queue can be ring buffer.” |
+
+---
 
 ## Standard config / commands
 
-…
+```text
+need O(1) avg lookup     → hash map
+need sorted order        → balanced tree / skip list
+need min/max fast        → heap
+need FIFO                → queue / deque
+need relationships       → graph (adj list)
+```
 
-## Array
-
-> [!INTO]
-> [!INFO]
-> getting data at a specific index, take the width of the type multiply it by the offset puts it at the memory addressing go in and grab that.
-> Array not good for implementing for **enqueue** or **dequeue**.
-
-- direct index access `O(1)`
-- deleting an element from the array can be done in O(1) by swapping the element to be deleted with the last element in the array and then removing the last element.
-- fixed size, contiguous memory allocation.
-
-- insertion/Deletion `O(n)` because of shifting elements. Inserting or deleting elements in an array requires manually shifting all other elements, which typically involves writing for loop to move elements and create space for the new value.
-
-> [!NOTE]
-> Array allocate all memory upfront, meaning if you want space for 1000 times, you reserve all that memory immediately. Linked lists, in contrast, allocate memory dynamically, creating nodes only when elements are inserted.
-
-> [!INFO]
-> Getting data at a specific index involves multiplying the width (size in bytes) of the type by the index offset, then adding it to the base memory address to locate the desired element. The system then goes to that calculated address and retrieves the data.
-
-## Sub-array
-
-- a sub-array is a contiguous segment of an array. For an array of size N, a sub-array can start at any index from 0 to N -1.
-- counting sub-array : from each start index i (where i ranges from 0 to N - 1), the sub-array can end at any index j (where j ranges from i to N - 1).
-- the number of choices from the ending index j for a given starting index i in N - i.
+| Knob | Why it matters |
+|------|----------------|
+| Op mix | Wrong structure = death by a thousand cuts |
+| Memory | Pointer-heavy structures cost RAM |
+| Concurrency | Most classic DS aren’t thread-safe |
 
 ---
-### 1. Difference Between Stack and Queue
-
-**Stack**: Follows LIFO (Last In, First Out).
-**Queue**: Follows FIFO (First In, First Out).
-
-#### Implementation in JavaScript:
-
-- **Stack**: Use an array and `push`/`pop` methods.
-- **Queue**: Use an array and `push`/`shift` methods.
-
-#### Use Cases:
-
-- **Stack**: Undo/Redo functionality, parsing expressions.
-- **Queue**: Task scheduling, print queues.
-
----
-
-### 2. Linked List in JavaScript
-
-> [!NOTE]
-> Linked list can only perform linear search, which means traversing each element sequentially until the desired item is found. There is no possibility of binary search or direct random access.
-
-> [!INFO]
-> A linked list is ideal for scenarios like an async request queue, where you need to efficiently push and pop elements from the head or tail without the performance overhead of shifting array indices.
-
-**Types**: Singly Linked List, Doubly Linked List, Circular Linked List.
-- sequence of nodes where each node points to the next.
-- Access `O(1)` direct index access.
-- insertion/Deletion `O(1)` if pointer is known.
-
-> [!INFO]
-> Linked list are useful when frequent insertion/deletion is required without concern for random access.
-
-#### Implementation:
-
-- Node structure: `{value, next}` (Doubly: `{value, next, prev}`).
-
-#### Operations:
-
-- **Insertion**: At head, tail, or specific index.
-- **Deletion**: Remove specific node or at index.
-
----
-
-### 3. Binary Search Tree (BST)
-
-- **Concept**: Hierarchical data structure; left child < parent, right child > parent.
-#### Implementation:
-- Node structure: `{value, left, right}`.
-- Operations: Recursive or iterative for search, insert, delete.
-#### Time Complexities:
-- **Search/Insert/Delete**: O(log n) average, O(n) worst-case (unbalanced).
----
-### 4. Hash Table in JavaScript
-**Concept**: Key-value storage with hashing.
-#### Collision Resolution:
-- Separate Chaining: Linked lists at each bucket.
-- Open Addressing: Linear probing, quadratic probing, or double hashing.
-#### Dynamic Resizing:
-- Expand and rehash when load factor > threshold.
-
----
-
-### 5. Sorting Algorithms
-**Types**: Bubble Sort, Quick Sort, Merge Sort, Heap Sort.
-#### Quick Sort:
-- Recursive; Pivot-based partitioning.
-- Time: O(n log n) avg, O(n²) worst.
-- Space: O(log n).
-#### Merge Sort:
-- Divide and conquer; merge sorted halves.
-- Time: O(n log n).
-- Space: O(n).
-
----
-### 6. Dynamic Programming
-**Concept**: Optimize by storing overlapping subproblems.
-#### Knapsack Problem:
-- Define DP array: `dp[w]` for max value with weight `w`.
-#### Examples:
-- Longest Common Subsequence, Fibonacci, Matrix Chain Multiplication.
-
----
-### 7. Graph Traversal
-**Concept**: Explore all nodes in a graph.
-#### DFS:
-- Recursive or stack-based; explore deeper first.
-#### BFS:
-- Queue-based; explore all neighbors before moving deeper.
-#### Use Cases:
-- **DFS**: Pathfinding, cycle detection.
-- **BFS**: Shortest path, level order traversal.
-
----
-
-### 8. Detecting Cycles in Directed Graphs
-**Algorithms**:
-- DFS with a visited stack.
-- Kahn's Algorithm (Topological Sort).
-#### Implementation:
-- Use adjacency list and maintain visited/recursion stack.
----
-
-### 9. Priority Queue and Heap
-**Heap**: Binary tree; min-heap or max-heap properties.
-#### Implementation:
-- Use array and parent/child indices.
-- Insert: Bubble-up; Remove: Bubble-down.
-#### Use Cases:
-- Task scheduling, Dijkstra's shortest path algorithm.
-
----
-
-### 10. Trie (Prefix Tree)
-
-**Concept**: Tree structure for string storage.
-#### Operations:
-- Insert, search, and delete words.
-#### Use Case:
-- Efficient autocomplete and dictionary operations.
-
-> [!INFO] Overlapping sub-problems cause exponential time complexity `O(2^n)`
-> - if you see repeated sub-problems, think [[Memoization (Top-Down DP)]]
-
-### Memoization (Optimized recursion)
-- store results in a hashmap time `O(n)` and space `O(n)`
-- convert naive recursion into [[Memoization (Top-Down DP)]] to optimize.
-
-### Tabulation (Bottom-up DP)
-- start from `n=1` and `n=2` and build up using iteration.
-- time complexity `O(n)` space `O(n)`
-- if recursion was too much space, flip it into [[Bottom-UP DP]]
-
-### Space optimized fibonacci
-- instead of storing `O(n)` results, only keep track of the last two values.
-- time complexity `O(n)` space complexity `O(1)`
-- if a problem follows fibonacci recurrence, reduce it to a two-variable approach.
-
-### Matrix exponentiation
-- converts fibonacci relation into matrix multiplication.
-- if a recurrence is linear, consider Matrix Exponentiation for `O(log n)` time.
-
-# Sliding window
-useful for solving problems involving contiguous subarray or sub-strings efficiently by avoiding redundant computations. Instead of using a brute-force `O(n^2)` approach, it efficiently slides a window over the input to achieve `O(n)` complexity.
-
-## Fixed size window size is predetermined
-
-- complexity -> time `O(n)` / space `O(1)`.
-### algorithm
-- initialize two pointers `left=0` and `right=0`
-- expand `right` until the window reaches size `k`.
-- compute result `sum` `max` etc.
-- slide the window by moving `left` and `right` together.
-
-## Variable size window window expands or shrinks dynamically based on constraints
-
-- used when the window size is not fixed and depends on conditions
-### algorithm
-- expand `right` until the condition is met.
-- contract `left` while the condition remains valid.
-- keep track of the best answer.
-
-## Dynamic sliding window (Two Pointers)
-
-used when the window must be adjusted dynamically based on a condition. (Find the longest substring without repeating characters)
-### algorithm
-- expand `right` and store characters in a hashmap.
-- if a duplicate exists, shrink `left` until it's valid.
-- track the longest valid window.
-
-## Sliding window with frequency count
-
-used when dealing with counting elements inside a dynamic window (anagram matching).
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Hot loop slow | wrong Big-O | Change structure |
+| GC pressure | many tiny nodes | Contiguous arrays |
+| Ordering bugs | unstable map iteration | Use ordered structure |
+| Memory blow | unbounded cache | Bound + eviction |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Premature cleverness** — array + scan beats fancy trees at small n.
+
+> [!WARNING]
+> **Language defaults** — “list” in Python is array; LinkedList in Java is nodes.
+
+---
 
 ## When NOT to use
 
-…
+- **Tiny n** — simplest container wins.
+- **When a database index already solves it** — don’t rebuild in app memory casually.
 
 ## Related
 
-[[…]]
+[[ADT (Abstract Data Type)]] [[array]] [[linked list]] [[DSA algorithms]]

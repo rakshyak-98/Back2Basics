@@ -1,8 +1,8 @@
-[[Data structure]]
+[[Data structure]] [[Data structure]]
 
 # ADT (Abstract Data Type)
 
-> ADT (Abstract Data Type) — a data structure by its behavior rather than its implementation.
+> An ADT describes behavior (ops + rules) — not the concrete bytes in memory.
 
 ---
 
@@ -17,32 +17,66 @@
 
 ## Mental model
 
-- A data structure by its behavior rather than its implementation.
-- it specifies the operations that can be performed on the data and the rules for those operations, without dictating how the data is stored or how the operations are implemented.
-### Key Characteristics of ADTs
-- Encapsulation -> ADTs hide the internal representation and only expose operations.
-- Abstraction -> Users interact with the ADT without knowing its underlying implementation.
-- Well-defined Operations -> ADTs specify a set of operations, such as insert, delete, search etc.
+**Say it in one breath:** Stack/Queue/Map are ADTs; array/linked-list/hash-table are implementations you can swap if the ops stay the same.
+
+```txt
+ADT (what)  →  data structure (how)
+Stack.push/pop  →  array or linked list
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Interface** | Allowed operations | “push/pop/peek only.” |
+| **Invariant** | Must always hold | “LIFO for stack.” |
+| **Encapsulation** | Hide representation | “Callers don’t see nodes.” |
+| **Complexity** | Cost of ops | “Pick impl for the hot op.” |
+
+---
 
 ## Standard config / commands
 
-…
+```text
+Stack ADT: push, pop, peek, isEmpty
+Queue ADT: enqueue, dequeue, front
+Map ADT: get, set, delete, contains
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Op set | Wrong ADT = awkward code |
+| Complexity table | Interview + prod choice |
+| Thread-safety | Not in classic ADT — add explicitly |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| API leaks nodes | encapsulation broken | Return values/copies |
+| Wrong complexity | using list as array | Swap implementation |
+| Invariant broken | peek empty | Define empty behavior |
+| “ADT too slow” | bad impl | Profile; change structure |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Naming ADT as the impl** — “we used a Stack” doesn’t say array vs list costs.
+
+> [!WARNING]
+> **Mutating through leaked internals** — breaks invariants silently.
+
+---
 
 ## When NOT to use
 
-…
+- **One-off scripts** — concrete arrays are fine.
+- **When the representation *is* the product** — e.g. teaching memory layouts.
 
 ## Related
 
-[[…]]
+[[Data structure]] [[array]] [[DSA algorithms]]

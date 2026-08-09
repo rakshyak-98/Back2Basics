@@ -2,7 +2,7 @@
 
 # go build
 
-> go build — go modules (go.mod + go.sum) replace GOPATH-era vendoring chaos. go build resolves imports, compiles packages, links a static binary (by default). Cross-compile via
+> `go build` compiles a module into a binary — modules replace GOPATH; cross-compile with `GOOS`/`GOARCH`.
 
 ---
 
@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Go modules (`go.mod` + `go.sum`) replace GOPATH-era vendoring chaos. `go build` resolves imports, compiles packages, links a static binary (by default). Cross-compile via `GOOS`/`GOARCH`. Build cache lives in `$GOCACHE` — clean builds are rare after first compile.
+**Say it in one breath:** `go.mod` pins deps; `go build` resolves imports, compiles packages, and links a binary. Cache in `$GOCACHE` makes rebuilds fast.
+
 
 ```
 go.mod (module path + require)

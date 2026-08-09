@@ -17,8 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Master (root) reads config and owns listen sockets; workers handle connections with an event loop.
+
 ```txt
-                    master (root, reads config)
                          │
            ┌─────────────┼─────────────┐
            ▼             ▼             ▼

@@ -2,7 +2,7 @@
 
 # npm
 
-> npm — it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual versions being
+> npm — it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual…
 
 ---
 
@@ -10,13 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Package JSON file]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** npm — plain job, how I run it, how I know it’s broken.
+
 
 ```bash
 npm root -g; # get the global npm node_modules location
@@ -36,42 +38,49 @@ npm install --legacy-peer-deps; # force install peer dependencies
 [+] Running 0/16] COPY . .:
  ⠸ Service frontend  Building                                                                              110.3s
 failed to solve: cannot replace to directory /var/lib/docker/overlay2/x6ptivu3yyft92itkfpyjjb86/merged/usr/src/app/node_modules/@aws-sdk/client-cloudfront with file
-```
-- the error indicates that docker is trying to copy a file over a directory, which is allowed. This usually happens when the `node_modules` directory already exist in the Docker image and the `COPY . .` command tries to overwrite it.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **npm** | Core idea of this note | “I can explain npm without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Package JSON file
-
-```json
-{
-  "dependencies": {
-    "my-lib": "^1.0.0"
-  },
-  "resolutions": {
-    "lodash": "^4.17.21"
-  }
-}
+```bash
+# version + config path
+# dry-run when available
 ```
-- `resolutions` field is a Yarn feature that lets you force specific versions of sub-dependencies, even if those package aren't directly in your `dependencies`.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[npm]]

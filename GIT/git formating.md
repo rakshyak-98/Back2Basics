@@ -17,7 +17,8 @@
 
 ## Mental model
 
-`git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.
+**Say it in one breath:** `git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.
+
 
 ```
 git log --pretty=format:"%h %ad | %an | %s" --date=short

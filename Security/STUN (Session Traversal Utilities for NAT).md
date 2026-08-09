@@ -1,8 +1,8 @@
-[[Security]]
+[[Security]] [[NAT Traversal]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]]
 
 # STUN (Session Traversal Utilities for NAT)
 
-> STUN (Session Traversal Utilities for NAT) — learn your public IP:port so peers can try a direct path.
+> STUN asks a public server “how does the internet see me?” — you get a public IP:port to share for a direct path.
 
 ---
 
@@ -17,51 +17,116 @@
 
 ## Mental model
 
-- Identifies NAT type (e.g., Full Cone, Symmetric).
-- maps the public port to the private port on a device.
-Session -> A communication session between two endpoints.
-Traversal -> Crossing or working through NATs.
-Utilities -> Helper functions.
-for NAT -> The problem STUN is solving.
-When a client (e.g., a WebRTC application or VoIP client) communicates with a STUN server, the primary goal is to discover its public IP address and port. Once this information is obtained, the client uses it to establish direct peer-to-peer (P2P) connections by sharing the public facing details with other peers.
-### Why this is Important?
-Without STUN, the devices would have no way to knowing how to reach each other directly because NAT/firewalls hid private IP addresses.
-Sharing public-facing IP and port information via STUN is critical step in bypassing NAT and ensuring peer-to-peer connectivity.
-### How  it works?
-#### Client discovers public details:
-- The client sends request to a STUN server.
-- The STUN server responds with the client's public IP and port as seen from outside the NAT.
-- Example: If the client's private IP is `192.168.1.10:4000`, the public IP and port might be `203.0.113.5:6000`.
-#### Sharing public details:
-- The client shares this public IP and port with other peers during a signaling process (e.g., using [[SDP (Service Discovery Protocol)]] via protocols like [[SIP]] or [[WebRTC signaling channels]])
-- the signaling process doesn't involve STUN but relies on a separate signaling server to exchange connection metadata between peers.
-#### Peers Establish a direct connection:
-- The receiving peer attempts to establish a connection to the provided public IP and port.
-- If both peers use STUN, They each discover their public-facing details and attempt to reach each other directly.
-- Example: Peer A sends packets to Peer B's public IP/port, and Peer B does the same for Peer A.
-#### Testing and NAT hole punching
-- During connection attempts, both peers send packets to each other simultaneously to punch a hole in their respective NATs, allowing direct traffic flow.
-- If successful, data packets bypass the signaling server, resulting in faster and more efficient communication.
+**Say it in one breath:** Your app sends a tiny UDP request to a STUN server; the reply contains your **server-reflexive** address (public IP:port as seen outside the NAT). You share that via signaling; peers try to punch through. STUN does **not** carry media.
+
+```txt
+Client (private 192.168.1.10:4000)
+        │  Binding Request (UDP)
+        ▼
+   STUN server (public)
+        │  Binding Response: XOR-MAPPED-ADDRESS = 203.0.113.5:6000
+        ▼
+Client now has an srflx candidate for [[ICE (Interactive Connectivity Establishment)]]
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Binding** | The STUN request/response that asks “what is my mapped address?” | “I send a Binding request; STUN echoes my public face.” |
+| **srflx** (server-reflexive) | Public IP:port STUN saw | “srflx is how the internet sees this socket.” |
+| **NAT type** | How the mapping behaves (full cone vs symmetric, etc.) | “Symmetric NAT often breaks STUN-only paths.” |
+| **Hole punch** | Both sides send so NATs allow return traffic | “STUN gives the address; punching still has to work.” |
+| **Signaling** | Side channel that swaps addresses/SDP | “STUN discovers; signaling shares; ICE picks.” |
+
+### STUN vs TURN (one line each)
+
+| Tool | Job |
+|------|-----|
+| **STUN** | Discover public IP:port — no media relay |
+| **TURN** ([[TURN server (Traversal Using Relays around NAT)]]) | Relay media when direct/punch fails |
+
+> [!INFO]
+> STUN helps you **find** your public face. TURN **carries** media. ICE **chooses** the path.
+
+### How the story goes
+
+1. Client binds a local UDP socket and queries STUN.
+2. STUN returns mapped address → becomes an ICE **srflx** candidate.
+3. Peers exchange candidates over [[WebRTC Signaling channels]] / [[SDP (Session Description Protocol)]].
+4. Connectivity checks try the pair; if NAT is too hostile, fall back to TURN.
+
+---
 
 ## Standard config / commands
 
-…
+```js
+const pc = new RTCPeerConnection({
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    // Prefer your own STUN in prod; public ones are best-effort
+  ],
+})
+
+pc.onicecandidate = (e) => {
+  // Look for typ srflx in candidate.candidate
+  if (e.candidate) signaling.send(e.candidate)
+}
+```
+
+```bash
+# coturn ships a client for Binding tests
+turnutils_stunclient stun.l.google.com
+# Or: stunclient / stun from package managers
+
+# In Chrome: chrome://webrtc-internals → look for srflx candidates
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| UDP to STUN host:3478 (or 19302) | No UDP out → no srflx |
+| Own STUN vs public | Public STUN can rate-limit or fail; ops wants control |
+| Dual-stack | Missing IPv6 STUN → half the paths missing |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| No `srflx` candidates | UDP blocked / wrong iceServers | Open outbound UDP; fix STUN URL; test with `turnutils_stunclient` |
+| Works on LAN only | Only `host` candidates | Add working STUN; then TURN for hard NATs |
+| srflx present, ICE still fails | Symmetric NAT / firewall | Deploy [[TURN server (Traversal Using Relays around NAT)]] |
+| Wrong public IP in candidate | Multiple NATs / VPN | Test off VPN; use STUN that sees the path you care about |
+| Intermittent Binding timeout | Flaky UDP / CGNAT | Retry; add TURN; prefer stable network path |
+| Corporate “connecting” forever | UDP 3478 filtered | Try TURN over TCP/TLS 443 |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **STUN ≠ relay** — discovering an address does not mean peers can reach it. Symmetric NAT and strict firewalls need TURN.
+
+> [!WARNING]
+> **STUN does not traverse for you** — it only reports the mapping. Hole punching and ICE checks still must succeed.
+
+> [!WARNING]
+> **Public STUN is not an SLA** — fine for demos; production wants your own STUN/TURN (or a paid edge).
+
+> [!WARNING]
+> **VPN / split tunnel** — mapped address may be the VPN egress, not the path your peer expects.
+
+---
 
 ## When NOT to use
 
-…
+- **You already force all media through a media server / SFU with public IPs** — path discovery is simpler; STUN optional.
+- **One-to-many OTT** — use [[HLS]] / [[DASH]]; not peer NAT punch.
+- **You need guaranteed connectivity across corporate NATs** — plan TURN first; STUN alone is not enough.
+
+---
 
 ## Related
 
-[[…]]
+[[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[NAT (Network Address Translation)]] [[NAT Traversal]] [[WebRTC]] [[WebRTC Signaling channels]] [[SDP (Session Description Protocol)]] [[P2P (Peer-to-Peer)]]

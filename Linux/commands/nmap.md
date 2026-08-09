@@ -35,6 +35,16 @@ Your host ──SYN scan──► target:port
 | All ports | `-p-` | Slow; use in maintenance window |
 | Fast top ports | `-F` | Top 100; good first pass |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **nmap** | Port / host scanner | “nmap -sV host for service versions.” |
+| **-sS / -sT** | SYN vs connect | “SYN needs root; connect doesn’t.” |
+| **-p** | Port list | “-p 22,80,443 or -p-.” |
+| **-Pn** | Skip ping | “When ICMP blocked.” |
+| **legal** | Only authorized nets | “Scanning without OK is an incident.” |
+
 ## Standard config / commands
 
 **Internal inventory (authorized):**

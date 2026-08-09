@@ -2,21 +2,23 @@
 
 # git repo config
 
-> git repo config — this tells Git: "When I do git pull (git merge without argument) while on this branch, fetch from origin and merge the
+> git repo config — know what it does, how to configure it, and how it fails in production.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Configure git refs]]
-- [[#Git clone]]
+- [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** git repo config is infra/security tooling — least privilege, clear config, observable failures.
+
 
 ```shell
 gpg --full-generate-key; # generate gpg key
@@ -42,75 +44,49 @@ git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
 
-## Configure git refs
+### Interview map (words you can say)
 
-```ini
-[branch "your-current-branch"]
-    remote = origin
-    merge = refs/heads/main
-```
-- this tells Git: "When I do `git pull` (`git merge` without argument) while on this branch, fetch from `origin` and merge the branch called `main` from the remote"
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **git repo config** | Core idea of this note | “I can explain git repo config without jargon.” |
+| **least privilege** | Only needed access | “Grant the smallest role that works.” |
+| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
+| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
 
-> [!INFO]
-> - if the remote main branch name changed (`master` -> `main` or you renamed it)
+---
 
-```bash
-git branch --set-upstream-to=origin/main; # safest & cleanest (set tracking to remote main)
-```
-- This automatically sets `remote = origin` `merge = refs/heads/main`
-
-Manually with config
+## Standard config / commands
 
 ```bash
-git config branch.<your branch name>.remote origin;
-git config branch.<your branch name>.merge refs/heads/main;
+# status
+# check version, auth, and recent changes
 ```
 
-```bash
-git config --get-branch.$(git branch --show-current).merge;
-```
-
-Want `git pull` command to `rebase` instead of merge
-
-```bash
-git config branch.<your-branch-name>.rebase true;
-git config --global pull.rebase true; # merges / interactive / false
-```
-
-(When things are messy) Full reset
-
-```bash
-git branch --unset-upstream;
-git branch --set-upstream-to=origin/main
-```
-
-```bash
-git fetch --prune origin; # clean up deleted remote branches
-git branch --set-upstream-to=origin/main;
-git pull;
-```
-
-## Git clone
-
-```bash
-git clone -b <branch> --single-branch --depth 1 <repo-url>;
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth fail | clock / creds / IAM | Sync time; fix policy |
+| TLS error | cert chain / SNI | Fix certs and CA bundle |
+| Deploy down | rollback / health | Roll back; check probes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Never commit long-lived secrets.
+
+---
 
 ## When NOT to use
 
-…
+- Don’t build custom infra when managed services meet the SLO.
+
+---
 
 ## Related
 
-[[…]]
+[[GIT]]

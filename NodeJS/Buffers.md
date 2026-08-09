@@ -1,8 +1,8 @@
-[[NodeJS]]
+[[NodeJS]] [[Stream]] [[primitive non-primitive values]]
 
 # Buffers
 
-> Buffers — create readable stream fro the file input.txt and reads the file in chunks instead of loading the whole file into memory at once.
+> Fixed-size bytes in memory outside the V8 string heap — binary I/O, crypto, and stream chunks.
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -17,86 +18,69 @@
 
 ## Mental model
 
-```js
-let buffer = new ArrayBuffer(16):
-console.log(buffer.byteLength); // output 16
-```
-### Copy content of one file to another
-- create readable stream fro the file `input.txt` and reads the file in chunks instead of loading the whole file into memory at once.
-```js
-const fs = require('fs');
-const readable = fs.createReadStream('input.txt', { highWaterMark: 16 * 1024 });
-const writable = fs.createWriteStream('output.txt');
-readable.pipe(writable);
-readable.on('error', err => console.error('Read error:', err));
-writable.on('error', err => console.error('Write error:', err));
-writable.on('finish', () => {
-  console.log('File copy completed successfully');
-});
-```
-- `highWaterMark` controls buffer size (default: `64KB` for files, `16KB` for sockets).
-- `redable.pipe(writable)` -> connects the two stream using `.pipe()`
-	- Readable stream reads a chunk (up to 16 KB) from `input.txt`
-	- Automatically writes that chunk to `writable` stream.
-	- When writable is busy (buffer full), readable resumes.
-	- Repeats until the entire file is copied.
-	- When readable ends -> automatically calls `writable.end()` -> close output file cleanly.
-#### Buffer status
-```js
-const stream = fs.createWritableStream('output.txt');
-const canWrite = stream.write(Buffer.alloc(1024));
-console.log("Can write more ?", carWrite);
-if (!stream.write(data)){
-	stream.once('drain', () => {
-		console.log("Buffer drained, writing more data...");
-	})
-}
-```
-- if `write()` returns `false`, the internal buffer is full (wait for `drain` event).
-> [!INFO] consumers and streams
-> - Large files -> Control buffer size to avoid memory issues.
-> - Slow consumers -> Backpressure prevents overload.
-> - Socket streams -> Use small buffers for real-time data transfer.
-### How does the `byteLength` is calculated
-the `.byteLength` of an `ArrayBuffer` or a TypedArray in JavaScript is calculated based on the total number of bytes allocated in memory when `ArrayBuffer` is created.
-#### TypedArray `.byteLength`
-- for TypedArray (e.g., `Uint8Array` `Float32Array`) `.byteLength` is calculated as
+**Say it in one breath:** A `Buffer` is a Uint8Array-backed slab of raw bytes. Streams give you Buffers (or strings if decoded); don’t confuse with browser `ArrayBuffer` alone — Node wraps it.
+
 ```txt
-byteLength = number of elements x bytes per element
-byteLength = length x BYTES_PER_ELEMENT
+file/socket → Buffer chunks → process → write Buffer
 ```
-```js
-console.log(Float32Array.BYTES_PER_ELEMENT); // ouptut 4
-console.log(new Float32Array(5).byteLength); // output 5 x 4 = 20
-```
-### Convert buffer to string
-```js
-fs = require('fs');
-fs.readdirSync("./");
-file = fs.readfileSync("./img.png");
-Buffer.isBuffer(file);
-file.toString("base64");
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Buffer** | Byte array | “Binary-safe; strings are UTF-8 views.” |
+| **alloc vs allocUnsafe** | Zeroed vs faster dirty | “Unsafe can leak old memory — zero first if needed.” |
+| **highWaterMark** | Stream chunk target size | “Controls Buffer sizes from reads.” |
 
 ## Standard config / commands
 
-…
+```js
+const a = Buffer.from('hello', 'utf8')
+const b = Buffer.alloc(16) // zero-filled
+console.log(a.toString('hex'))
+
+// Prefer streaming large files — Buffers for pieces, not whole GB
+import fs from 'node:fs'
+fs.createReadStream('in.bin', { highWaterMark: 16 * 1024 })
+  .pipe(fs.createWriteStream('out.bin'))
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Encoding (`utf8`, `base64`, `hex`) | Wrong encoding corrupts data |
+| `Buffer.concat` | Join chunks — watch total size |
+| `subarray` | View, not copy — mutations alias |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Garbled text | Wrong encoding | Match producer encoding |
+| OOM | Concatenating all chunks | Stream / limit size |
+| Security scare | `allocUnsafe` without fill | Use `alloc` or fill |
+| Partial JSON parse | Split across chunks | Accumulate until complete frame |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`allocUnsafe`** — faster but may contain old heap data; never return to clients without overwriting.
+
+> [!WARNING]
+> **Mixing string and Buffer** in crypto/hash — be explicit about encoding.
+
+---
 
 ## When NOT to use
 
-…
+- **Pure text APIs** — strings are fine until you hit binary.
+- **Huge files in one Buffer** — use [[Stream]].
+
+---
 
 ## Related
 
-[[…]]
+[[Stream]] [[Stream/pipe]] [[HTTP module]]

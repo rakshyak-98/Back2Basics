@@ -32,6 +32,16 @@ lsblk ──► /dev/sdb1 ──► mkfs.vfat ──► mount ──► cp data 
 > [!WARNING]
 > **Triple-check device node** — `mkfs` on `/dev/sdb` vs `/dev/sdb1` wipes wrong scope. Use `lsblk`, by-id paths in scripts.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **pandoc** | Doc converter | “Markdown → PDF/DOCX/HTML.” |
+| **from / to** | -f -t formats | “Explicit -f/-t beats guessing.” |
+| **filters** | Lua/JSON transforms | “Filters reshape AST.” |
+| **citeproc** | Citations | “Bibliography via --citeproc.” |
+| **templates** | Output chrome | “--template for branded PDF.” |
+
 ## Standard config / commands
 
 ```bash

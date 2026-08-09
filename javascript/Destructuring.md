@@ -1,8 +1,8 @@
-[[javascript]]
+[[javascript]] [[prototype]]
 
 # Destructuring
 
-> Destructuring — it _destructrizes_ by copying items into variables.
+> Unpack values from arrays/objects into bindings — shorter than manual indexing; defaults and rest supported.
 
 ---
 
@@ -10,7 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Destructing assignment]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,39 +18,65 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Pattern on the left mirrors structure on the right. Nested patterns dig deeper; rename with `:` ; collect leftovers with `...rest`.
+
+```txt
+const { a: x = 1, ...rest } = obj
+const [first, , third] = arr
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **rename** | `a: b` | “Bind prop `a` as `b`.” |
+| **default** | `= value` | “When nullish/undefined (objects: undefined).” |
+| **rest** | `...r` | “Remaining props/items.” |
 
 ## Standard config / commands
 
-…
+```js
+function f({ id, name = 'anon' } = {}) { /* … */ }
+const { data: { items = [] } = {} } = response
+const [head, ...tail] = list
+```
 
-## Destructing assignment
+| Knob | Why it matters |
+|------|----------------|
+| `= {}` on params | Allow `f()` with no args |
+| Computed keys | `[key]: value` |
+| Array holes | Skip with commas |
 
-- it _destructrizes_ by copying items into variables.
-- ignore elements using comma
-- work with any iterable on the right-side
-- we can use any _assignables_ on the left side `[user.name, user.surname] = "john smith"`
-- absent values are considered undefined. `let [firstName, lastName] = [];`
-- for potentially missing properties we can set default values using `=` `let {widht = 100, height = 100, title = {title: "Menue"};`
-- `({title, widht, height} = {title: "Menu", width: 100, height: 100})`
-
-> [!NOTE] JavaScript assumes that we have a code block `{key: value, ...}`, that's why there's an error. To show JavaScript that it's not a code block, we can wrap the expression in parentheses `(...)`;
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Cannot destructure undefined | Null source | Default `= {}` / optional chain |
+| Got `undefined` not default | `null` prop | Defaults only for `undefined` |
+| Rest dropped keys | Needed them | Don’t omit in rest pattern |
+| Confusion with TS types | `: Type` vs rename | Careful colon meaning |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Defaults don’t run for `null`** — only `undefined`.
+
+> [!WARNING]
+> **Parameter destructuring + no default** — `f(undefined)` throws.
+
+---
 
 ## When NOT to use
 
-…
+- **Deep optional trees** — readability dies; intermediate vars help.
+- **Huge objects once** — sometimes explicit access is clearer.
+
+---
 
 ## Related
 
-[[…]]
+[[promise]] [[prototype]]

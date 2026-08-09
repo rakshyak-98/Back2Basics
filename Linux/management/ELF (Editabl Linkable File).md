@@ -36,6 +36,16 @@ execve ──► kernel maps PT_LOAD segments ──► ld.so ──► main()
 
 Key concepts: **symbols** (functions/variables), **relocations** (addresses fixed at link/load), **SONAME** (`libcurl.so.4`).
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ELF** | Linux binary format | “Executables and .so share ELF.” |
+| **PT_INTERP** | Dynamic linker path | “Wrong interpreter = won’t start.” |
+| **readelf / objdump** | Inspect | “readelf -d for needed libs.” |
+| **ldd** | Shared lib deps | “Never ldd untrusted binaries.” |
+| **RPATH / RUNPATH** | Embedded lib search | “Overrides vs LD_LIBRARY_PATH.” |
+
 ## Standard config / commands
 
 ```bash

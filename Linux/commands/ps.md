@@ -1,19 +1,15 @@
-[[commands]]
+[[Commands]] [[process]] [[top]] [[lsof]]
 
 # ps
 
-> ps — doesn't receive terminal-generates signals (SITINT, SIGHUP on logout etc.)
+> `ps` snapshots processes right now — PID, state, TTY, CPU, memory, and command line.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Process without controlling tty]]
-- [[#kill process with `SIGQUIT`]]
-- [[#Modern processors and RAM work together]]
-- [[#How do multi-core processors affect RAM usage and efficiency]]
-- [[#MIME]]
+- [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -21,95 +17,105 @@
 
 ## Mental model
 
-> [!INFO]
-> Process without controlling TTY -> process not associated with any terminal (keyboard, screen).
-> [!INFO]
-> Normally, when you log in via terminal/SSH, a controlling terminal (tty) is assigned to your session.
-> - this tty handles input/output signals, job control.
-```bash
-ps -o pid,tty,cmd; # TTY shows `?` when no controlling tty.
-ls -l /proc/<pid>fd/0; # if not symlinked to `/dev/tty*`, no tty attached.
+**Say it in one breath:** `ps` reads `/proc` once and prints a table; it is not live like `top` — re-run it when state changes.
+
+```txt
+ps ──► /proc/<pid>/… ──► one snapshot
+              │
+     pid, stat, tty, rss, cmd, …
 ```
 
-## Process without controlling tty
+### Interview map (words you can say)
 
-- Detached from terminal, so:
-	- No interactive input/output.
-	- Doesn't receive terminal-generates signals (`SITINT`, `SIGHUP` on logout etc.)
-	- Runs independently of any user session.
-- Daemons (`sshd` `cron` `systemd` ) usually started by `init`/`systemd` without tty.
-- Background jobs disowned (`nohup command` & `disown`).
-- Processes launched with `setsid` -> new session, no controlling tty.
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Snapshot** | One moment in time | “`ps` doesn’t refresh; `top` does.” |
+| **TTY `?`** | No controlling terminal | “Daemons and `nohup`/`setsid` jobs show `?`.” |
+| **STAT** | Process state letter | “`R` runnable, `S` sleep, `D` disk, `Z` zombie.” |
+| **RSS vs VSZ** | Resident RAM vs virtual size | “High VSZ alone is not a leak — watch RSS.” |
+| **BSD vs UNIX flags** | `ps aux` vs `ps -ef` | “Both work; pick one style and stick to it.” |
+| **`forest` / tree** | Parent–child view | “Find which supervisor owns the workers.” |
 
-## kill process with `SIGQUIT`
+### No controlling TTY
 
-```bash
-kill -s 3 <pid>; # send SIGQUIT signal
-```
-- the process won't show on `ps aux | grep <process sub string>;` you need to find the child process which was running instead of the process you signal `SIGQUIT`
-- if the process is not still bind to the port (not released). Find and kill the child process
+- Detached from a terminal: no interactive I/O; no terminal-generated `SIGINT` / logout `SIGHUP` (unless something else signals).
+- Common for: `systemd` services, `cron`, `nohup … &`, `disown`, `setsid`.
+- Check: `ps -o pid,tty,cmd` → `?`, or `ls -l /proc/<pid>/fd/0` not linked to `/dev/tty*` / `pts`.
 
-```bash
-sudo apt install strace;
-```
+---
+
+## Standard config / commands
 
 ```bash
-strace -c <command>; # trace system call and signals
-strace <path of executable file>;
+# Everyday views
+ps aux                          # BSD style: USER PID %CPU %MEM … COMMAND
+ps -ef                          # UNIX style: UID PID PPID C STIME TTY TIME CMD
+ps -eo pid,ppid,user,stat,tty,rss,pcpu,cmd --sort=-rss | head
+
+# One process / user / tree
+ps -p <pid> -o user,pid,ppid,stat,tty,wchan:20,cmd
+ps -u "$USER" -o pid,stat,cmd
+ps -efH                         # hierarchy
+pstree -p <pid>
+
+# Threads of a process
+ps -L -p <pid> -o pid,tid,psr,stat,pcpu,cmd
+
+# Memory map helpers (often next after ps)
+cat /proc/<pid>/maps | head
+pmap -x <pid>
+
+# Signals when you must stop something
+kill -s TERM <pid>
+kill -s QUIT <pid>              # SIGQUIT = 3
 ```
 
-```bash
-cat /proc/<pid>/maps; # memory map of the process
-```
+| Knob | Why it matters |
+|------|----------------|
+| `-o` custom columns | Add `wchan`, `rss`, `etime` for triage |
+| `--sort=-%cpu` / `-rss` | Find hogs without interactive `top` |
+| `-L` / `-T` | Thread-level CPU (Java/Go thread storms) |
+| `TTY` | Session-bound vs daemon |
 
-```text
-7fff17093000-7fff170b4000 rw-p 00000000 00:00 0 [stack]
-```
-- the line containing the `[stack]` in the path column shows the memory region used for the stack.
-- the start and end addresses of the stack are shown in the *first column*, separated by a hyphen.
-- the permissions are shown in the second column. For the stack, it's typically `rw-p` (read, write, private).
-
-```bash
-pmap <pid>
-```
-
-## Modern processors and RAM work together
-
-- CPUS, operate at much higher clock speeds than RAM.
-- CPU might run at speed exceeding 4 GHz, RAM typically operates at lower frequencies, such as 2133 MHz or higher depending on the generation (DDR4, DDR5).
-- this discrepancy creates challenges in synchronization, as the CPU utilize techniques like caching and prefetching, which allow them to anticipate data needs and reduce the frequency of direct RAM access.
-- modern processors use multiple levels of cache (L1, L2 and ... L3) to store frequently accessed data closer to the CPU.
-- these reduce the ned to fetch data from RAM.
-- prefetching where CPUs predict which data will be neede dnext and load it into chache before it is requested by the processor. This proactive approach helps bridge the speed gap between the CPU and RAM, allowing for smoother processing.
-- Not all RAM is compatible with all CPUs. Each CPU has specific memory specifications, including supported RAM types and maximum speeds. For example, a CPU designed for DDR4 memory will not support DDR5, and if faster RAM is installed, it will typically downclock to match the maximum speed supported by the CPU
-
-## How do multi-core processors affect RAM usage and efficiency
-
-- Shared Memory Architecture: In multi-core systems, all cores typically share the same main memory (RAM). This shared memory model allows for efficient communication and data sharing between cores. However, it also introduces potential contention for memory access, particularly when multiple cores attempt to read from or write to the same memory location simultaneously
-- Cache Hierarchies: Each core usually has its own private cache (L1), with shared caches (L2 and L3) between cores. This hierarchy helps mitigate the memory bottleneck by storing frequently accessed data closer to the processor. When a core accesses data, it first checks its cache before reaching out to the slower main RAM. This caching mechanism is crucial for maintaining high efficiency in multi-core systems, as it reduces the number of direct accesses to RAM
-- Software Optimization: To fully utilize multi-core processors, software must be optimized for parallel processing. Applications that are not designed to take advantage of multiple cores may not see significant performance improvements, regardless of the hardware capabilities
-
-## MIME
-
-- MIME is a standard used to define the nature of the content being transferred over the internet.
-- Originally developed for email, MIME type tell the browser or email client what type of content is being delivered so that it can handle it appropriately.
-- this standard allows for the transmission of different types of files (like images, video, text, etc) vie email or web portocols.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| “Process gone” but port busy | `ps` + `lsof -i :<port>` | Child or restarted PID; kill listener |
+| High CPU, unclear who | `ps -eo pid,pcpu,cmd --sort=-pcpu \| head` | Then `top -H -p <pid>` / `perf` |
+| Memory climb | `ps -o pid,rss,vsz,cmd -p <pid>` over time | Leak vs cache; confirm with `/proc/<pid>/smaps` |
+| Zombies | `ps -eo pid,ppid,stat,cmd \| awk '$3~/Z/'` | Fix parent reaping |
+| TTY signals don’t stop job | `TTY` is `?` | Send signal by PID; not Ctrl-C on another terminal |
+| `grep` shows itself | Pattern matches `grep` | Use `pgrep -af` or `[g]rep` trick |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`ps` is stale the moment it prints** — for live contention use [[top]] / `pidstat` / `perf`.
+
+> [!WARNING]
+> **`VSZ` scares juniors** — virtual size includes mapped libs and reservations; **RSS** (and proportional `PSS`) matter for RAM pressure.
+
+> [!WARNING]
+> **SIGQUIT may leave children** — after quitting a supervisor, find leftover workers with `ps --ppid` / `pstree` and free the port with [[lsof]].
+
+> [!WARNING]
+> **Permissions** — other users’ full cmdlines may be hidden; use root/`CAP_SYS_PTRACE` carefully.
+
+---
 
 ## When NOT to use
 
-…
+- **Don’t use `ps` as a continuous dashboard** — use [[top]], `htop`, or metrics scrapers.
+- **Don’t use `ps` to find open files or sockets** — use [[lsof]] or `ss` ([[ss]]).
+- **Don’t parse `ps` in scripts if `/proc` APIs suffice** — unstable columns across locales; prefer `pgrep`/`pidof` or read `/proc`.
+
+---
 
 ## Related
 
-[[…]]
+[[process]] [[Linux Process Theory]] [[top]] [[lsof]] [[Linux process commands]] [[file descriptors]] [[OOM (Linux Out Of Memory)]] [[ss]] [[gdb]]

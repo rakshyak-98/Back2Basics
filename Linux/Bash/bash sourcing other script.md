@@ -32,6 +32,16 @@
 
 **Critical:** always resolve paths relative to **the sourced file**, not `$PWD`.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **source / .** | Run in current shell | “source loads vars into this shell.” |
+| **subshell** | ( ) or script exec | “Running ./x.sh won’t keep exports.” |
+| **BASH_SOURCE** | Caller path | “Locate sibling files relative to script.” |
+| **return vs exit** | In sourced files | “exit kills the parent shell — use return.” |
+| **set -a** | Auto-export | “Useful when sourcing env files.” |
+
 ## Standard config / commands
 
 **Safe library load (production pattern):**

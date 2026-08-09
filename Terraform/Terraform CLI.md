@@ -159,12 +159,15 @@ Workflow context: [[Terraform workflow]]
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`terraform state` is sharp** — prefer import/moved blocks in code; state surgery is last resort with backups.
+
+> [!WARNING]
+> **TRACE logs leak secrets** — never leave `TF_LOG=TRACE` on in CI artifacts.
 
 ## When NOT to use
 
-…
+- **One-off cloud click-ops** — CLI shines when the config is code; skip Terraform for a single manual sandbox resource if the team agrees.
 
 ## Related
 
-[[…]]
+[[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[terraform]] [[variable file]]

@@ -1,16 +1,15 @@
-[[Bash]]
+[[Bash]] [[Bash syntax]] [[bash script]]
 
 # Bash history
 
-> Bash history — hISTIGNORE: Excludes certain commands from being saved in history.
+> Bash history stores commands you ran — search, redo, and (carefully) avoid logging secrets.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Command history expansion]]
-- [[#History manipulation]]
+- [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,74 +17,89 @@
 
 ## Mental model
 
+**Say it in one breath:** session list in memory, file usually `~/.bash_history`; expansions like `!!` replay; `HISTCONTROL`/`HISTIGNORE` filter what gets saved.
+
+```txt
+typed command ──► maybe save (HISTIGNORE / ignorespace)
+                     ↓
+              history list ──► ~/.bash_history (on exit / history -a)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`!!` / `!-2`** | Last / Nth prior | “Redo without retyping.” |
+| **`!$` / `!^`** | Last / first arg of prior | “Reuse paths quickly.” |
+| **`HISTCONTROL=ignoreboth`** | Skip dups + leading-space | “Space-prefix keeps secrets out of history.” |
+| **`HISTIGNORE`** | Pattern denylist | “Don’t save `ls`/`cd` noise.” |
+| **`history -a` / `-r`** | Append / read file | “Share history across sessions deliberately.” |
+
+---
+
+## Standard config / commands
+
 ```bash
-history -r ~/.bash_history-*.tmp; # load bash history
-```
-### **Ignoring Commands in History**
-- **`HISTIGNORE`**: Excludes certain commands from being saved in history.
-```shell
-export HISTIGNORE="ls:cd:pwd"; # prevent from being saved to history.
-export HISTCONTROL=ignoreboth;
-```
-- `HISTORYCONTROL` Controls what gets saved to history
- `ignorespace`, `ignoredups`, `ignoreboth`
-```shell
-history -a; # Appends the history of the current session to the history file
+history
+history -a                          # append live session → file
+history -r                          # read file into session
+fc -l
+fc -e nano 123                      # edit entry 123
+
+# Expansions (interactive)
+!!
+!-2
+!?install
+!$                                  # last arg of previous
+!^                                  # first arg
+^old^new^                           # quick substitute
+!!:s/old/new/
+
+# ~/.bashrc knobs
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoreboth       # ignorespace + ignoredups
+export HISTIGNORE="ls:cd:pwd:history"
+export HISTCONTROL=ignoredups:erasedups
 ```
 
-## Command history expansion
+Leading space before a command → often omitted from history when `ignorespace`/`ignoreboth` is set — useful for ` export API_KEY=…`.
 
-```shell
-!!; # Repeats the last executed command;
-!-2 # Executes the second-to-last command in history;
-```
-
-```shell
-echo ${my_var:-"default value"}  # Prints "default value" if my_var is unset.
-echo ${my_var:0:3}  # Extracts the first 3 characters from my_var.
-```
-
-## History manipulation
-
-```shell
-HISTORYCONTROL=ignoredups:erasedups; # Avoid duplicate history entries.
-```
-
-```shell
-!?install; # executes the last command that contains the word "install"
-^git^git-lfs; # Replaces the first occurrence of git with git-lfs in the last executed command
-```
-
-```shell
-!!:s/old/new/ # replace old with new in the last command.
-^old^new^ # quick replace old with new in the last command.
-```
-#### Previous command arguments
-```shell
-!$; # last argument of the previous command.
-!^ # first argument of the previous comamnd.
-```
-
-```shell
-fc -l; # list history commands
-fc -e nano n # edit history entry n in nano.
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| History empty in new shell | HISTFILE / permissions | `echo "$HISTFILE"`; fix mode |
+| Secrets in history | Pasted passwords | `history -d N`; rotate secret; enable ignoreboth |
+| Missing commands from other tmux panes | No share config | `history -a` / `PROMPT_COMMAND` append patterns |
+| `!!` literal in script | History off in non-interactive | Don’t rely on it in scripts |
+| Duplicates forever | No erasedups | Set `ignoredups:erasedups` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **History is plaintext** — never assume `~/.bash_history` is safe; lock down home perms.
+
+> [!WARNING]
+> **`history -c` clears memory, not always the file** — truncate `HISTFILE` if you mean it.
+
+> [!WARNING]
+> **Shared NFS homes** — concurrent writers can clobber history; accept loss or use careful append strategies.
+
+---
 
 ## When NOT to use
 
-…
+- **Audit of who ran what on a server** — central auditd/SIEM, not per-user bash history.
+- **Structured runbooks** — real scripts in git ([[bash script]]).
+- **Password managers** — don’t paste secrets into the shell if you can avoid it.
+
+---
 
 ## Related
 
-[[…]]
+[[Bash syntax]] [[bash script]] [[bash flags]] [[Bash]]

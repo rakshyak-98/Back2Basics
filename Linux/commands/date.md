@@ -32,6 +32,16 @@ epoch ──date -d @N──► human (debug logs)
 | `+%Y-%m-%dT%H:%M:%SZ` | ISO-8601 UTC (with `-u`) |
 | `-d @EPOCH` | Epoch → human |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **date** | Print/set time | “date -u for UTC.” |
+| **+format** | strftime | “date +%F_%H%M%S for stamps.” |
+| **-d** | Parse string | “date -d 'yesterday'.” |
+| **TZ** | Timezone env | “TZ=UTC date.” |
+| **timedatectl** | systemd time | “Prefer for set-timezone.” |
+
 ## Standard config / commands
 
 ```bash

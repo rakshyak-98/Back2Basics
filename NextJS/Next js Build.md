@@ -1,8 +1,8 @@
-[[NextJS]]
+[[NextJS]] [[Next JS]] [[NextJS Config]]
 
 # Next js Build
 
-> Next js Build — the compiler literally replaces the text process.env.API_URL with the actual string value
+> `next build` — compiles the app into `.next` (static + server chunks); `next start` serves the production build.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Generate Static files]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,52 +17,59 @@
 
 ## Mental model
 
-> [!WARNING]
-> The next js build process, when converting to static files, bakes in environment variables, meaning it cannot read `process.env` at runtime.
-- the compiler literally replaces the text `process.env.API_URL` with the actual string value
-- When you run a Node.js server, the environment variables live in the server's RAM. When you serve static files via Nginx, the code is running in the **user's browser RAM**. Since the user's browser has no access to your server's terminal or PM2 variables.
+**Say it in one breath:** Build analyzes routes, bundles server/client, prerenders where possible. Failures here are type/import/config issues—fix before deploy.
+
+```txt
+next build → .next/ → next start (or platform adapter)
+```
+
+---
 
 ## Standard config / commands
 
-…
-
-## Generate Static files
-
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-	output: "export",
-  poweredByHeader: false,
-  images: {
-    // domains: ["theoterra.com"],
-    remotePatterns: [
-      {
-        hostname: "theoterra.com",
-        pathname: "**"
-      }
-    ]
-  }
-};
-
-module.exports = nextConfig;
-
+```bash
+npm run build
+npm run start
+# Docker often:
+# output: 'standalone' then node server.js
 ```
+
+| Knob | Why it matters |
+|------|----------------|
+| `ANALYZE=true` | Bundle size |
+| CI cache `.next/cache` | Speed |
+| `typescript.ignoreBuildErrors` | Don’t enable |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Build OOM | Huge pages | Increase mem; split |
+| Type errors | `tsc` | Fix types |
+| Dynamic server usage | Static expectation | Mark dynamic |
+| Missing env at build | Used at build time | Provide CI env |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Build-time env ≠ runtime env** — know which.
+
+> [!WARNING]
+> **Ignoring TS errors** — ships broken contracts.
+
+---
 
 ## When NOT to use
 
-…
+- **Dev iteration** — `next dev`.
+- **Non-Next React SPA** — Vite build.
+
+---
 
 ## Related
 
-[[…]]
+[[Next JS]] [[NextJS Config]] [[express build]]

@@ -1,16 +1,16 @@
-[[mysql]]
+[[mysql]] [[mysql connection]] [[connection pooling]]
 
 # MySQL storage
 
-> MySQL storage — sessions are stored in MySQL, so users remain logged in even if the server restarts or crashes.
+> Store Express (or similar) sessions in MySQL so logins survive process restarts and shared app instances.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
+- [[#Interview map (words you can say)]]
 - [[#Standard config / commands]]
-- [[#Benefits of using `MySQLStore` with `express-session`:]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,51 +18,88 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** In-memory session stores die with the Node process; a MySQL session table is shared durable state behind a load balancer — slower than Redis, fine for moderate traffic.
+
+```txt
+Browser cookie ──► Node (express-session) ──► MySQL sessions table
+                         ▲
+              multiple app instances share one store
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Session store** | Where server-side session blobs live | “Cookie holds the id; MySQL holds the data.” |
+| **MySQLStore** | `express-mysql-session` adapter | “Survives restart; horizontal scale-friendly.” |
+| **clearExpired** | Periodic DELETE of old rows | “Without it the sessions table grows forever.” |
+| **trust proxy** | Honor `X-Forwarded-*` | “Needed for Secure cookies behind nginx.” |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+const session = require('express-session')
+const MySQLStore = require('express-mysql-session')(session)
 
-## Benefits of using `MySQLStore` with `express-session`:
+const store = new MySQLStore({
+  host: '127.0.0.1',
+  user: 'app',
+  password: '…',
+  database: 'app',
+  createDatabaseTable: true,
+  clearExpired: true,
+  checkExpirationInterval: 900000,
+})
 
-1. **Persistence across server restarts**
-    Sessions are stored in MySQL, so users remain logged in even if the server restarts or crashes.
-2. **Scalability**
-    Multiple Node.js instances can share sessions via a single MySQL store, enabling horizontal scaling behind a load balancer.
-3. **Centralized session management**
-    Session data can be inspected, revoked, or managed directly through MySQL queries or admin tools.
-4. **Memory efficiency**
-    Sessions are not stored in Node.js memory, reducing memory usage and avoiding memory leaks in long-running processes.
-5. **Automatic cleanup support**
-    `express-mysql-session` can auto-clear expired sessions using `clearExpired` and `checkExpirationInterval` options.
+app.set('trust proxy', 1)
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store,
+  cookie: { secure: true, httpOnly: true, sameSite: 'lax' },
+}))
+```
 
-### When not to use MySQLStore:
-- For high throughput or low-latency apps, MySQL is slower than Redis.
-- JWTs are a better fit for stateless APIs.
-- In-memory stores like Redis are more performant for frequent session reads/writes.
+| Knob | Why it matters |
+|------|----------------|
+| `createDatabaseTable` | Auto-creates sessions table if missing |
+| `clearExpired` | Prevents unbounded table growth |
+| DB grants | Store needs INSERT/UPDATE/DELETE/SELECT |
 
-### Edge cases:
-- The session table must exist or be auto-created with `createDatabaseTable: true`.
-- The MySQL user must have read/write access to the session table.
-- Monitor table size if sessions are long-lived or traffic is high.
-- Use `app.set('trust proxy', 1)` and configure cookies if behind a proxy like nginx or Heroku.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Logged out after deploy | Memory store still in use | Point `store` at MySQLStore |
+| Session lost across instances | Each box has own memory store | Shared MySQL/Redis store |
+| Table missing / access denied | Grants + `createDatabaseTable` | GRANT; create table once |
+| Cookie not set behind TLS terminator | `secure` + no trust proxy | `trust proxy` + Secure cookie |
+| Sessions table huge | Expiration cleanup off | Enable `clearExpired` / TTL job |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **MySQL ≠ Redis for hot sessions** — high QPS session churn prefers Redis; MySQL is persistence/simplicity.
+
+> [!WARNING]
+> **Don’t put secrets only in the cookie** — server store still needs a strong `secret` and HTTPS.
+
+---
 
 ## When NOT to use
 
-…
+- **Stateless APIs** — prefer [[JWT]] / opaque tokens with no server session.
+- **Very high session read/write rate** — use Redis (or similar) as the session store.
+
+---
 
 ## Related
 
-[[…]]
+[[mysql connection]] [[connection pooling]] [[mysql]] [[JWT]]

@@ -10,14 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Decision table — which pattern when]]
-- [[#How to extend (project playbook)]]
-- [[#Triage (when patterns go wrong)]]
+- [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** Design Patterns — I can explain the job, the config, and the top failure without jargon.
+
 
 Patterns are **named solutions to recurring design problems**, not a checklist. In a multi-platform / multi-goal backend (e.g. Meta Marketing API), every pattern that earned its keep mapped to a **variation point**: goals change, platforms multiply, Graph quirks need adapters, launch needs a fixed algorithm with swappable steps.
 
@@ -37,76 +38,51 @@ Client / REST
       → Chain of Responsibility (validation)
       → Strategy (goal / algorithm)
       → Abstract Factory (platform service family)
-      → Adapter + Decorator/Proxy (vendor IO)
-      → Observer (side-effects)
-```
+      → Adapter + Decorator/Pr
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Design Patterns** | This note’s core idea | “I explain Design Patterns in plain words.” |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
+```
 
-## Decision table — which pattern when
+---
 
-| You see this variation… | Reach for | Not this |
-|-------------------------|-----------|----------|
-| Algorithm family swapped at runtime (goals, pay methods) | [[Design pattern/Strategy pattern]] | `if/switch` on goal id everywhere |
-| Product *family* differs by platform (campaign/adset/ad) | [[Design pattern/Creation pattern/Abstract Factory]] | Platform `if` inside every service |
-| Single product type chosen by config | [[Design pattern/Factory Method]] | Scattered `new ConcreteX()` |
-| Complex object built step-wise from wizard fields | [[Design pattern/Builder]] | 12-arg constructor |
-| Incompatible vendor payload ↔ domain model | [[Design pattern/Adapter]] | Controllers touching Graph fields |
-| Two independent hierarchies (API vs transport) | [[Design pattern/Bridge]] | Class explosion |
-| Cross-cutting: log, retry, auth around a client | [[Design pattern/Decorator]] · Proxy | Subclass per concern combo |
-| App needs one simple entry to a subsystem | [[Design pattern/Facade]] | Routes calling 8 services |
-| Ordered checks until one fails / all pass | [[Design pattern/Chain of Responsibility]] | God `validateEverything()` |
-| Fixed algorithm, steps overridden per platform | [[Design pattern/Template Method]] | Copy-paste launch flows |
-| Side-effects after an event (metrics, audit) | [[Design pattern/Observer]] | Pipeline knowing every subscriber |
-| Action as object (queue, undo, audit) | [[Design pattern/Command]] | Inline side-effects in controller |
-| Need test doubles / swap impl | [[Design pattern/Dependency Injection]] | Hard-coded `new` in class bodies |
-
-## How to extend (project playbook)
-
-When the variation point is already patterned, **extend at the registration seam** — do not invent a parallel structure:
-
-| Change request | Extension point |
-|----------------|-----------------|
-| New campaign **goal** | New `GoalStrategy` + register in strategy map |
-| New ad **platform** | New platform factory + pipeline subclass; register in factory method |
-| New launch **check** | Append validation handler to the chain |
-| New launch **side-effect** | Subscribe on the event bus (Observer) |
-| Complex request assembly | Builder step, not ad-hoc object mutation |
-| Graph client concerns | Decorator / Proxy wrap — never subclass per combo |
-| App entry to Marketing APIs | Keep one Facade; do not bypass from routes |
-
-Document the pattern → module map in-repo when you add or relocate a pattern (keeps the next engineer from inventing a twin).
-
-## Triage (when patterns go wrong)
+## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Every feature touches 15 files | Pattern tax with no variation | Collapse to plain functions ([[System Design/KISS]]) |
-| Still editing `switch(goal)` in 6 places | Strategy not registered / bypassed | One registry; ban direct switches |
-| Controllers know Meta field names | Facade/Adapter skipped | Route → Facade → Adapter only |
-| `MetaClient` subclass tree | Inheritance for cross-cutting | Decorator stack |
-| God service: validate + map + HTTP + orchestrate | Missing SRP / Template Method | Split pipeline steps |
-| Tests can't mock Graph | Concrete client constructed inside | [[Design pattern/Dependency Injection]] at composition root |
-| "We have all 23 GoF patterns" | Pattern tourism | Delete unused; keep map of *real* variation only |
+| Broken / unexpected | Reproduce + logs | Fix config or code path |
+| Works only locally | Env / secrets / versions | Align environments |
+| Intermittent | race / timeout / retry | Add backoff; fix shared state |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> **Pattern first, problem second** produces unreadable code. Apply a pattern only when you have a real variation or collaboration problem — not because the book lists it.
+> Prefer words you can say aloud in an interview.
 
-- **Composition root matters** — factories and DI wiring belong in one place (`main` / runtime module); business modules must not `new` vendor clients.
-- **Interfaces that mirror one vendor** are not interfaces — they leak Meta/Graph into the domain. Adapter owns the translation.
-- **Observer vs pipeline** — if every subscriber is required for correctness, it's not a side-effect; put it in the Template Method steps.
-- **Singleton for "convenience"** — process-wide wiring (Graph version, event bus) is fine; hiding mutable global state is not.
+---
 
 ## When NOT to use
 
-- Trivial CRUD with one vendor and one code path — patterns add indirection without payoff.
-- "Future platforms" with no second platform scheduled — YAGNI; extract Factory when the second arrives.
-- Forcing every GoF pattern into a greenfield app — start with Facade + Strategy at real seams only.
+- Skip when a simpler existing approach already fits.
+
+---
 
 ## Related
 
-[[Design pattern/Strategy pattern]] [[Design pattern/Facade]] [[Design pattern/Adapter]] [[Design pattern/Decorator]] [[Design pattern/Factory Method]] [[Design pattern/Creation pattern/Abstract Factory]] [[Design pattern/Builder]] [[Design pattern/Chain of Responsibility]] [[Design pattern/Template Method]] [[Design pattern/Observer]] [[Design pattern/Command]] [[Design pattern/Bridge]] [[Design pattern/Dependency Injection]] [[System Design/SOLID]] [[System Design/KISS]]
+[[System Design/SOLID]] [[System Design/KISS]] [[System Design/DRY]] [[Design pattern/Dependency Injection]]

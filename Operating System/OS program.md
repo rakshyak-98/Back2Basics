@@ -1,8 +1,8 @@
-[[Operating System]]
+[[Operating System]] [[system call]] [[file descriptors]] [[Buffer cache]]
 
 # OS program
 
-> OS program — linux processes operate in two distinct areas: user space and kernel space. - user space is where user applications run, while kernel space is reserved
+> User programs run in user space — they ask the kernel (via syscalls) for files, memory, and devices.
 
 ---
 
@@ -17,44 +17,92 @@
 
 ## Mental model
 
-### Interaction between user space and kernel space
-#### Overview of User space and kernel space
-- Linux processes operate in two distinct areas: **user space** and **kernel space**. - user space is where user applications run, while kernel space is reserved for the core functions of the operating system.
-- when a program need to perform operations that require OS services - like printing to the console. It must transition from user space to kernel space via **system calls**.
-- when a program invokes a function like `printf()` in `c`, it ultimately translates into a system call that communicates with the kernel. The sequence typically involves.
-1. Library function call: The program calls a standard library function (e.g., `printf()`)
-2. Buffering: the data is buffered in user space until a newline character is encountered or the buffer is full.
-3. System call invocation: The buffered data is sent to the kernel using a system call, often `write()`, which takes the [[descriptors]] as arguments.
-#### Transitioning to kernel space
-- the transition from user space to kernel space involves several steps:
-1. Context switch: The CPU switches from user mode to kernel mode, allowing the execution of privileged instructions.
-2. Handling system call: the kernel receives the system call request, identifies it, and executes the corresponding handler.
-3. Data Transfer: the kernel processes the data and writes it to the appropriate device driver associated with `stdout`.
-### Device driver and output handling
-- At a lower level, when writing output to stdout, the kernel interacts with devices that manage hardware devices like terminals or consoles:
-1. Device Driver Invocation: The write operation invokes methods defined in the device driver for handling character output.
-2. Interrupts and buffers: the driver may use interrupts to manage data flow efficiently, ensuring that output is processed without blocking other operations.
-3. Final output: Eventually, characters are sent to the terminal device, where they are rendered on the screen.
+**Say it in one breath:** App code + libc live in user mode; privileged work happens only after a syscall traps into kernel mode.
+
+```txt
+printf("hi\n")
+   → libc buffers in user space
+   → write(1, …) syscall
+   → kernel → tty/driver → screen
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **User space** | Unprivileged app memory | “Can’t touch devices directly.” |
+| **Kernel space** | Trusted OS code | “Drivers and syscall handlers live here.” |
+| **Syscall** | Controlled entry | “Trap, handle, return.” |
+| **libc** | C library wrappers | “`printf` may buffer before `write`.” |
+| **fd** | Handle to a kernel object | “`1` is stdout.” |
+| **Context switch** | Mode/process change | “Syscall isn’t always a full process switch.” |
+
+### How the story goes
+
+1. **Run** — loader maps binary; CPU in user mode.
+2. **Need service** — open/read/write/mmap/clone…
+3. **Trap** — kernel validates, does work (maybe sleep).
+4. **Return** — value or `errno`; app continues.
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# See a program’s kernel interactions
+strace -f -o /tmp/t ./app
+lsof -p <pid>
+cat /proc/<pid>/maps
+# stdout is fd 1 — prove it
+ls -l /proc/self/fd
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `strace` | Map user calls → syscalls |
+| `/proc/pid/fd` | Live descriptor table |
+| ulimit / cgroup | Caps on what the program may consume |
+| seccomp | Which syscalls are allowed |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| No console output | libc buffer not flushed | newline, `fflush`, or `write` |
+| Hang in “program” | `strace` shows blocking syscall | Fix peer/fd/timeout |
+| Permission denied | uid/caps/LSM | Fix creds or path |
+| Works as root only | Capability needed | Drop root; add specific cap |
+| Crash only under load | Stack/heap / fd exhaustion | Limits + leak fix |
+| Container differs | seccomp / mounts | Adjust profile / volumes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Buffered stdio lies** — crash before flush loses the last prints; use line buffering or `write`.
+
+> [!WARNING]
+> **“Kernel space” isn’t a place apps mmap for fun** — only via defined interfaces (`/dev`, syscalls).
+
+> [!WARNING]
+> **Threads share fd table** — one close surprises another thread ([[multi-threaded]]).
+
+> [!WARNING]
+> **Signal + syscall** — `EINTR` retries needed on some paths.
+
+---
 
 ## When NOT to use
 
-…
+- **In-kernel modules for app logic** — keep policy in user space; smaller blast radius.
+- **Busy-spin on devices from userland** — use proper drivers / `poll`/`epoll`.
+- **Bypassing the kernel with `/dev/mem` in prod** — last resort, not a product architecture.
+
+---
 
 ## Related
 
-[[…]]
+[[system call]] [[file descriptors]] [[discriptors]] [[Buffer cache]] [[fsync]] [[TTY (teletypewriter)]]

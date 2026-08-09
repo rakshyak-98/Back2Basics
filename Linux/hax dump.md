@@ -31,6 +31,16 @@ Offset   Hex bytes                    ASCII
 | `od -Ax -tx1z` | POSIX | Minimal systems without hexdump |
 | Wireshark | Packet hex pane | Full capture + decode |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **hexdump / xxd** | Bytes as hex | “xxd file | head to peek magic.” |
+| **endian** | Byte order | “Multi-byte fields need endian care.” |
+| **magic numbers** | File signatures | “ELF starts 7f 45 4c 46.” |
+| **-C** | Canonical hex+ASCII | “hexdump -C for readable.” |
+| **od** | Octal dump classic | “od -An -tx1 for scripts.” |
+
 ## Standard config / commands
 
 ```bash

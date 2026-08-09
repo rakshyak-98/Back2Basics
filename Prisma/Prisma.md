@@ -10,13 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Customizing the Output Directory]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** Prisma — plain job, how I run it, how I know it’s broken.
+
 
 [Prisma doc Manifesto](https://www.prisma.io/blog/prisma-orm-manifesto?ref=dailydev)
 The Prisma client is generated as a set of TypeScript or JavaScript files and is located in the `node_modules` directory.
@@ -27,42 +29,49 @@ npx prisma generate; # generat the prisma client
 ```
 - Read the `schema.prisma` file.
 - Regenerate the Prisma Client files.
-> [!INFO] Prisma uses generated internal files to map your high-level API calls into SQL queries.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Prisma** | Core idea of this note | “I can explain Prisma without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Customizing the Output Directory
-
-- You can specify a custom directory for the generated Prisma Client in the `schema.prisma` file:
-```js
+```bash
+# reproduce with minimal input
+# compare working vs broken env
 ```
 
-```ts
-Withoug<T, U>;
-```
-- in typescript (used by Prisma) `Without<T, U>` is a utility type that removes keys of `U` from `T` by setting them to `never`.
-
-```ts
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never};
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[Prisma]]

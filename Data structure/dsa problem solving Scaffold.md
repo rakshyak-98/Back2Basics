@@ -1,8 +1,8 @@
-[[Data structure]]
+[[Data structure]] [[dsa intuition]] [[DSA algorithms]]
 
 # dsa problem solving Scaffold
 
-> dsa problem solving Scaffold — read the problem statement twice. Identify: What is the input? What is the output What are the constrains (e.g., time limits, array sizes
+> A repeatable scaffold for interview DSA — clarify, pattern-match, complexity, then code + tests.
 
 ---
 
@@ -10,13 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Read and Restate the problem (Understand Precisely)]]
-- [[#Examples and Edge Cases (Build Intuition)]]
-- [[#Brute Force Approach (Start Simple)]]
-- [[#Optimise step by step (Derive Batter Logic)]]
-- [[#Pseudocode (Solidify Logic Blocks)]]
-- [[#Implementation and Testing (Execute Precisely)]]
-- [[#Reflection (internalise patters)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -24,69 +17,65 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Restate → examples → brute force → improve with a pattern → complexity → code edge cases.
+
+```txt
+1 clarify I/O  2 examples  3 brute  4 pattern  5 code  6 test
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Constraints** | n, value ranges | “Pick O(n) vs O(n log n).” |
+| **Brute force** | Correct slow | “Baseline before optimize.” |
+| **Pattern** | two pointers / sliding… | “Name the tool.” |
+| **Invariants** | What loop keeps true | “Explain why it works.” |
+
+---
 
 ## Standard config / commands
 
-…
+```text
+Ask: sorted? duplicates? in-place? mutable?
+Examples: empty, one, two, duplicates, negatives
+Complexity target from constraints (n=1e5 → ~O(n log n) max)
+```
 
-## Read and Restate the problem (Understand Precisely)
+| Knob | Why it matters |
+|------|----------------|
+| Constraints | Kill impossible approaches early |
+| Edge checklist | Empty/dupes/overflow |
+| Speak invariants | Interviewer follows |
 
-- Read the problem statement twice. Identify: What is the input? What is the output What are the constrains (e.g., time limits, array sizes, value ranges)?
-- Restate it in your own words, as simply as possible. This exposes misunderstandings.
-- Question: Why? Vague understanding leads to broken logic. Force yourself to articulate in clearly.
-
-## Examples and Edge Cases (Build Intuition)
-
-- Pick 2-3 small, concrete examples. Work them out manually on paper (or mentally, but describe it). What happens step by step?
-- Identify edge cases: Empty input? Maximum/minimum values? Duplicates? Sorted/unsorted?
-- Question: Derive patterns here. What repeats? What breaks naive assumptions?
-
-## Brute Force Approach (Start Simple)
-
-- Outline the simplest way to solve it, even if inefficient. What data structures? What loops or recursions?
-- Analyse: Time Complexity? Space Complexity? Why is it brute force?
-- Questions: This anchors your logic - optimise later, but prove you can solve it first.
-
-## Optimise step by step (Derive Batter Logic)
-
-- Identify bottlenecks in brute force. Where can you reduce redundency?
-- Brainstorm patters: Sorting? Hashing? Two Pointers? Divide and conquer? Dynamic programming? Greedy?
-- Build incrementally: Improve one aspect at a time. Justify why each change works.
-- Question: Push for proof - why does this pattern apply? Use examples to validate.
-
-## Pseudocode (Solidify Logic Blocks)
-
-- Write high-level pseudocode. Break into functions or blocks. No syntax yet-just logic
-- Walk through with an example. Does it match?
-- Question: This is where mental blocks form - make each line explainable.
-
-## Implementation and Testing (Execute Precisely)
-
-- Code it in your language of choice (tell me which).
-- Test with examples and edges. Fix bugs logically, not by guessing.
-- Analyse final complexities.
-
-## Reflection (internalise patters)
-
-- What patterns did you derive? How does this relate to similar problems (e.g., sliding window for arrays)?
-- What tripped you? How to avoid next time?
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Stuck coding | no brute first | Write slow correct |
+| TLE | complexity vs n | Better pattern |
+| WA | edges | empty/dupes/off-by-one |
+| Can’t explain | no invariant | State loop promise |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Jumping to optimal** — if you can’t prove it, start brute and optimize.
+
+> [!WARNING]
+> **Silent assumptions** — sorted input, unique keys, fit in int.
+
+---
 
 ## When NOT to use
 
-…
+- **Prod bugfix with known root cause** — scaffold is for unknown problems.
+- **Pure systems design** — different checklist.
 
 ## Related
 
-[[…]]
+[[dsa intuition]] [[algo/Two pointer]] [[sliding window]] [[DSA algorithms]]

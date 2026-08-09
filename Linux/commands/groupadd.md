@@ -35,6 +35,16 @@ usermod -aG devops alice ──► alice in supplementary groups
 | `gpasswd -a user group` | Add member |
 | `gpasswd -d user group` | Remove member |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **groupadd** | Create group | “groupadd deploy.” |
+| **-g** | Set GID | “Match GID across fleet.” |
+| **-r** | System group | “For daemons.” |
+| **/etc/group** | Membership file | “getent group to verify.” |
+| **usermod -aG** | Add members | “groupadd creates; usermod joins.” |
+
 ## Standard config / commands
 
 ```bash

@@ -1,8 +1,8 @@
-[[Docker]]
+[[Docker]] [[docker cli]] [[docker file]] [[Docker compose]]
 
 # docker container
 
-> docker container — backup entire image with layers/history. Saves image to .tar (good for transfer to another machine)
+> Container — a running (or created) instance of an image: isolated process + writable layer + optional mounts/ports.
 
 ---
 
@@ -10,8 +10,8 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Snap shot a container]]
-- [[#Run container with working director]]
+- [[#Snapshot a container]]
+- [[#Run with working directory]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,86 +19,92 @@
 
 ## Mental model
 
-```bash
-docker run [OPTIONS] image_name[:tag];
+**Say it in one breath:** `docker run` = create + start from an image. Lifecycle: create → start → stop → rm. Data in the writable layer dies with `rm` unless volumes.
+
+```txt
+image (immutable) → container (writable layer + namespaces)
 ```
-```bash
-docker run hello-world;
-docker run -it --rm ubuntu bash; # interactive terminal, remove when stopped
-docker run -d --name my-nginx -p 8080:80 nginx:latest;
-docker run -d -e MYSQL_ROOT_PASSWORD=secret123 --name mydb mysql:8.0;
-```
-```bash
-docker run -it -v $(pwd):/app python:3.11 bash; # Mount current directory into container
-```
-```bash
-docker create --name my-container -p 9000:80 nginx; # Create container (but don't start it).
-docker start my-container;
-docker start -ai my-container; # start and attach terminal
-```
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+docker run hello-world
+docker run -it --rm ubuntu bash
+docker run -d --name my-nginx -p 8080:80 nginx:latest
+docker run -d -e MYSQL_ROOT_PASSWORD=secret --name mydb mysql:8.0
+docker run -it -v "$(pwd)":/app python:3.11 bash
 
-## Snap shot a container
+docker create --name my-container -p 9000:80 nginx
+docker start my-container
+docker start -ai my-container
+```
+
+| Flag | Why |
+|------|-----|
+| `-d` | Detached |
+| `-p host:container` | Publish port |
+| `-v` / `--mount` | Persist or share files |
+| `--rm` | Auto-delete on exit |
+| `-e` / `--env-file` | Config |
+
+## Snapshot a container
 
 ```bash
-# Basic (recommended)
 docker commit my-dev-container my-snapshot:2026-01-20
+docker commit --author "you@email.com" -m "debug tools" c123 myproject/snap:debug
 
-# Or with more metadata (very useful)
-docker commit \
-  --author "Rakshyak <you@email.com>" \
-  --message "Snapshot after installing nodejs + custom config" \
-  my-dev-container \
-  myproject/snapshot:debug-20260120
-
+docker save -o backup.tar image:tag          # full image layers
+docker import container-export.tar new:flat  # flat filesystem import
 ```
 
-Backup entire image with layers/history. Saves image to `.tar` (good for transfer to another machine)
+Prefer Dockerfile rebuilds over `commit` for prod.
+
+## Run with working directory
 
 ```bash
-docker save -o backup.tar image:tag
+docker run -it -w /app ubuntu:24.04 bash
 ```
 
-Restore from export tar
+`-w` sets cwd (created if missing).
 
-```bash
-docker import container.tar newimage:flat;
-```
-
-## Run container with working director
-
-```text
-docker run [options] \
-  -w /path/inside/container \
-  image-name \
-  your-command [args]
-```
-
-```bash
-docker run -it -w /app ubuntu:24.04 bash;
-```
-- start with interactive bash shell
-- Working directory is `/app` (created automatically if missing)
-- `-it` interactive + pseudo-TTY
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Exits immediately | `docker logs`; CMD | Fix entrypoint; run `-it` to debug |
+| Port already allocated | `ss -tlnp` | Change `-p` or stop conflict |
+| Can’t reach published port | bound to localhost only / firewall | `-p 0.0.0.0:…`; check UFW |
+| Data lost after rm | No volume | Use named volume / bind mount |
+| Permission denied on bind | UID mismatch | Match user or chown |
+| `name already in use` | Stale container | `docker rm -f name` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`commit` is not a build system** — unreproducible; use Dockerfile.
+
+> [!WARNING]
+> **`-p 80:80` needs root or cap** in hardened setups — map high host ports.
+
+> [!WARNING]
+> **`docker import` vs `load`** — import flattens; load restores layered `save`.
+
+---
 
 ## When NOT to use
 
-…
+- **Multi-service local stacks** — [[Docker compose]].
+- **Cluster scheduling** — Kubernetes/ECS.
+- **Baking secrets into commit** — never.
+
+---
 
 ## Related
 
-[[…]]
+[[docker cli]] [[docker file]] [[Docker compose]] [[docker OCI]]

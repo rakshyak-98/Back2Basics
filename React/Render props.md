@@ -1,8 +1,8 @@
-[[React]]
+[[React]] [[React Pattern/Higher order Component (HOCs)]] [[React Pattern/Provider pattern]]
 
 # Render props
 
-> Render props — a render prop is a function prop that component uses to share reusable logic.
+> Pass a function as a child/prop that receives state — the parent owns logic; the caller owns the UI.
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -17,105 +18,70 @@
 
 ## Mental model
 
-- A render prop is a function prop that component uses to share reusable logic.
-- Instead of wrapping components (like HOCs), the parent component controls rendering.
-- Used for logic reuse, such as authentication, state management, and event handling.
-Instead of maintaining cart state in multiple places, we create a CartProvider component that shares cart logic via a render prop.
-```jsx
-import { useState } from "react";
-const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const addItem = (item) => setCart([...cart, item]);
-  const removeItem = (id) => setCart(cart.filter((item) => item.id !== id));
-  return children({ cart, addItem, removeItem });
-};
-export default CartProvider;
+**Say it in one breath:** Component runs reusable logic, then calls `children(state)` or `render(state)` so the consumer decides markup.
+
+```txt
+<Mouse>
+  {({ x, y }) => <Cursor x={x} y={y} />}
+</Mouse>
 ```
-##### With context API
-```jsx
-import { createContext, useState, useContext } from "react";
-const CartContext = createContext();
-export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const addItem = (item) => setCart([...cart, item]);
-  const removeItem = (id) => setCart(cart.filter((item) => item.id !== id));
-  return (
-    <CartContext.Provider value={{ cart, addItem, removeItem }}>
-      {children}
-    </CartContext.Provider>
-  );
-};
-export const useCart = () => useContext(CartContext);
-```
-```jsx
-const ShoppingCart = () => {
-  return (
-    <CartProvider>
-      {({ cart, addItem, removeItem }) => (
-        <div>
-          <h2>Your Shopping Cart</h2>
-          {cart.length === 0 ? <p>Cart is empty</p> : null}
-          <ul>
-            {cart.map((item) => (
-              <li key={item.id}>
-                {item.name} <button onClick={() => removeItem(item.id)}>Remove</button>
-              </li>
-            ))}
-          </ul>
-          <button onClick={() => addItem({ id: Date.now(), name: "New Item" })}>
-            Add Item
-          </button>
-        </div>
-      )}
-    </CartProvider>
-  );
-};
-export default ShoppingCart;
-```
-##### Using the context
-```jsx
-import { useCart } from "./CartContext";
-const ShoppingCart = () => {
-  const { cart, addItem, removeItem } = useCart();
-  return (
-    <div>
-      <h2>Your Shopping Cart</h2>
-      {cart.length === 0 ? <p>Cart is empty</p> : null}
-      <ul>
-        {cart.map((item) => (
-          <li key={item.id}>
-            {item.name} <button onClick={() => removeItem(item.id)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => addItem({ id: Date.now(), name: "New Item" })}>
-        Add Item
-      </button>
-    </div>
-  );
-};
-export default ShoppingCart;
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Render prop** | Function prop that returns UI | “Logic in wrapper; UI inverted to caller.” |
+| **children as function** | Same idea with `children` | “Common React idiom before hooks.” |
+| **vs HOC** | Composition vs wrap | “Render props avoid name clashes on props.” |
 
 ## Standard config / commands
 
-…
+```tsx
+function CartProvider({ children }: { children: (api: CartApi) => React.ReactNode }) {
+  const [cart, setCart] = useState<Item[]>([])
+  const addItem = (item: Item) => setCart((c) => [...c, item])
+  return <>{children({ cart, addItem })}</>
+}
+
+// Today: prefer a hook + optional context
+function useCart() { /* … */ }
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Function identity | Inline `children={() => …}` re-creates each render |
+| Context alternative | Avoid nesting hell for app-wide state |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Nested pyramid | Many render-prop providers | Switch to hooks/context |
+| Extra re-renders | New function child each time | Stabilize or use context |
+| Prop name clash | `render` vs `children` | Pick one convention |
+| Hard to type | Generics on render fn | Type the API object explicitly |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Hooks largely replaced this** — custom hooks are clearer for most logic reuse.
+
+> [!WARNING]
+> **Don’t mix with HOCs casually** — wrapping order and prop collisions get messy.
+
+---
 
 ## When NOT to use
 
-…
+- **New code with hooks** — `useX()` is the default.
+- **Simple prop passing** — no need for a render function.
+
+---
 
 ## Related
 
-[[…]]
+[[React Pattern/Higher order Component (HOCs)]] [[React Pattern/Provider pattern]] [[react hooks]]

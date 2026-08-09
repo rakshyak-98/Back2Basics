@@ -1,8 +1,8 @@
-[[Operating System]]
+[[Operating System]] [[Heap memory]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[cgroup (Control Group)]]
 
 # RAM and Swap memory
 
-> RAM and Swap memory — RAM is your "active workspace" it holds the data and instruction for every application you have open right now.
+> RAM is fast working memory for live pages; swap is disk-backed overflow so the machine can keep running when RAM is full — slowly.
 
 ---
 
@@ -17,40 +17,106 @@
 
 ## Mental model
 
-RAM -> Primary working memory
-- RAM is your "active workspace" it holds the data and instruction for every application you have open right now.
-Swap -> backup storage for RAM pages that are not currently needed.
-- Swap is a dedicated area on your hard drive or SSD that acts as an extension of your RAM. it is virtual memory. It Prevent your system from crashing why you run out of physical RAM.
-OS manages both automatically.
-- The OS manages this process through a mechanism called **Paging**.
-	- Prioritization -> OS keeps the most frequently and recently used data in Physical RAM.
-	- The Eviction process -> When you open a new, memory-hungry application (like a heavy IDE) and your RAM is full, the OS looks for "cold" data, information that hasn't been accessed for a while.
-	- Swapping out -> The OS moves that "cold" data from your RAM to the Swap partition on your disk. This frees up space in your fast RAM for the new task.
-	- Swapping IN -> if you click back on the application that was moved to Swap, the OS must move that data to the RAM (often moving other data out to make room). This causes a brief delay, which is why your computer might feel "leggy" if you are low on RAM.
-Process requests memory -> OS gives virtual memory (not physical RAM immediately)
-Memory is divided into pages. Each page can live in RAM or Swap.
+**Say it in one breath:** The OS gives processes virtual pages; hot pages stay in RAM, cold ones may go to swap, and when RAM is gone the OOM killer or alloc failures take over.
+
+```txt
+Process thinks:        Reality:
+  virtual pages   →    RAM (fast)  or  Swap (disk, slow)
+                              │
+                              └─ under pressure: reclaim → swap out → OOM
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **RAM** | Physical DRAM holding live pages | “Working set must fit in RAM for latency.” |
+| **Swap** | Disk space used as overflow for pages | “Swap prevents instant death; it does not make more RAM.” |
+| **Page** | Fixed-size chunk (often 4 KiB) | “The unit the kernel moves between RAM and swap.” |
+| **Working set** | Pages you actually touch | “If working set > RAM, you thrash.” |
+| **Anonymous memory** | Heap/stack — not file-backed | “Anon pages go to swap; file pages can be dropped and reread.” |
+| **OOM killer** | Kernel picks a process to kill | “Last resort when reclaim cannot free enough.” |
+
 > [!INFO]
-> Memory management (How data is stored/moved) and Process Synchronization (how task coordinate). While memory management (RAM/Swap) handles where the data lives, **Semaphores** handle the order and safety of process trying to access that data.
+> Memory placement ([[RAM and Swap memory]]) is not synchronization ([[semaphores]]). One answers “where does the page live?”; the other answers “who may touch shared state now?”
+
+### How the story goes (4 steps)
+
+1. **Fault** — process touches a virtual address; kernel maps a physical page (or allocates one).
+2. **Pressure** — free RAM drops; reclaim starts (drop clean file cache first).
+3. **Swap out** — cold anonymous pages written to swap device/file.
+4. **Swap in / OOM** — touch again → read from disk (lag), or kill if still stuck — [[OOM (Linux Out Of Memory)]].
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+free -h
+swapon --show
+cat /proc/meminfo | egrep 'MemTotal|MemAvailable|SwapTotal|SwapFree|Dirty|Cached'
+
+# Who is using RAM / swap
+smem -tk 2>/dev/null || ps aux --sort=-rss | head
+grep VmSwap /proc/*/status 2>/dev/null | sort -k2 -n | tail
+
+# Kernel reclaim / swap activity
+vmstat 1
+sar -B 1 5          # paging stats if sysstat installed
+cat /proc/sys/vm/swappiness   # 0–100; higher → more eager to swap
+
+# Add a swap file (lab / emergency — prefer sized disk for prod)
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `vm.swappiness` | Bias toward reclaiming file cache vs swapping anon |
+| Swap size | Too small → earlier OOM; too large → long thrash before death |
+| cgroup `memory.max` | Container “RAM” ceiling — swap may be separate (`memory.swap.max`) |
+| `MemAvailable` | Better “can I start another job?” signal than free alone |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| System “laggy”, disk busy | `vmstat` si/so columns climbing | Add RAM or cut working set; swap is a symptom |
+| Alloc fails / process killed | `dmesg` OOM; `free -h` | Raise memory, lower limits, or fix leak |
+| Swap full, RAM not | Huge anon caches / leaks | Find `VmSwap` offenders; restart or patch |
+| Container OOM, host fine | cgroup memory.max | Raise limit or shrink app — see [[cgroup (Control Group)]] |
+| After deploy, cache dropped | Large streaming reads | Expected; watch `MemAvailable`, not just free |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Swap is not capacity planning.** It buys time and avoids hard fails; latency collapses once you thrash.
+
+> [!WARNING]
+> **`free` looks “used” because of page cache.** Prefer `MemAvailable`. Cache is reclaimable; anon+swap pressure is not free lunch.
+
+> [!WARNING]
+> **Disabled swap + tight cgroup** → sharp OOM kills with little warning. Some prod setups still prefer no swap for predictability — know the trade.
+
+> [!WARNING]
+> **Hibernation needs swap ≥ RAM** on many setups. Unrelated to “performance swap,” but ops tickets confuse the two.
+
+---
 
 ## When NOT to use
 
-…
+- **Latency-critical in-memory services** — size RAM for the working set; do not “fix with swap.”
+- **As a substitute for fixing leaks** — swap hides the leak until the box is unusable.
+- **Tiny embedded / real-time** — often no swap device by design.
+
+---
 
 ## Related
 
-[[…]]
+[[Heap memory]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[cgroup (Control Group)]] [[Buffer cache]] [[Linux out of memory daemon]]

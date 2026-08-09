@@ -1,8 +1,8 @@
-[[Networking]]
+[[Networking]] [[P2P (Peer-to-Peer)]]
 
-# IPFS (InterPlanetry File System)
+# IPFS (InterPlanetary File System)
 
-> IPFS (InterPlanetry File System) — IPFS is a decentralized, P2P (Peer-to-Peer) file system that aims to make the we faster, safer, and more open. It allows users to
+> IPFS finds files by content hash (CID), not by server URL — peers share blocks like a P2P CDN.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#How IPFS Works]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,46 +17,95 @@
 
 ## Mental model
 
-IPFS is a decentralized, [[P2P (Peer-to-Peer)]] file system that aims to make the we faster, safer, and more open. It allows users to store and share files in a distributed network of computers rather than relying on a central server.
-- enables content-addressed file storage, meaning each file is identified by its unique hash, ensuring data integrity and availability across the network.
-### Key features
-- **Decentralized**: No central server stores the data. Instead, files are distributed across a network of nodes.
-- **Content Addressing**: Each file is assigned a unique identifier (CID), generated based on its contents. This ensures the file’s integrity (i.e., it cannot be altered without changing its CID).
-- **P2P Network**: Files are stored across multiple nodes in the network, and users can retrieve files from the closest available node, improving speed and reliability.
-- **Versioning**: IPFS allows you to track and version changes in files, similar to Git.
-- **File Duplication**: Files are only stored once across the network, reducing redundancy.
+**Say it in one breath:** You ask for a CID; the network finds whoever has those blocks and streams them to you.
+
+```txt
+File → chunk → hash each block → root CID
+                │
+                ├─ store / pin on nodes
+                └─ retrieve by CID (DHT + peers)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **CID** (content ID) | Hash naming the bytes | “Same content → same CID; change bytes → new CID.” |
+| **Content addressing** | Locate by hash, not hostname | “URL is where; CID is what.” |
+| **Pin** | Keep blocks from GC | “Unpinned data can vanish when nodes leave.” |
+| **Gateway** | HTTP front to IPFS | “Browsers hit `ipfs.io/ipfs/<CID>` without a local node.” |
+| **DHT** | Map CID → providers | “Lookup finds who has the blocks.” |
+
+### How a fetch works (4 steps)
+
+1. **Split** — file becomes blocks; each gets a hash.
+2. **Name** — root CID identifies the whole DAG.
+3. **Find** — DHT / peer discovery → nodes that have the blocks.
+4. **Get** — pull blocks from nearest peers; verify hashes.
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# Install / start a local node (Kubo)
+ipfs init
+ipfs daemon
 
-## How IPFS Works
+# Add and pin
+ipfs add ./report.pdf          # prints CID
+ipfs pin add <CID>
 
-Content Addressing: a file is uploaded to IPFS, it is broken into smaller chunks (blocks). Each block is assigned a unique cryptographic hash (CID). These CIDs are used to identify and retrieve the file from the network
+# Fetch
+ipfs cat <CID> > report.pdf
+ipfs get <CID>
 
-Storing Files: The file is distributes across multiple nodes in the IPFS network. A node can store the file locally or cache it temporarily. Other nodes retrieve the file using its CID.
+# Via public gateway (no local daemon)
+curl -L "https://ipfs.io/ipfs/<CID>" -o report.pdf
+```
 
-Retrieving Files: To access a file, you provide the CID (hash of the file). The IPFS network searches for the file by its CID and retrieves it from the nearest available node.
+| Knob | Why it matters |
+|------|----------------|
+| Pin / remote pin | Persistence — free peers are not a backup |
+| Gateway vs local | Gateways are convenient; you trust their availability |
+| Private swarm | Don’t put secrets on public IPFS without encryption |
+| Garbage collection | Unpinned blocks disappear under disk pressure |
 
-Distributed Hash Table (DHT): IPFS uses a [[DHT]] to store mappings between CIDs and the nodes that store the data. This allows efficient file retrieval in the decentralized network.
-
-Pinning: To ensure files remain accessible, they can be "pinned" on a node. This prevents the file from being garbage collected.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `ipfs cat` hangs | No providers / daemon down | `ipfs daemon`; pin on a durable node or pinning service |
+| Gateway 404 / timeout | Content never pinned / GC’d | Re-add + pin; don’t rely on one upload |
+| Wrong file for CID | You mutated then re-used old CID | New bytes ⇒ new CID — update links |
+| Slow first fetch | Cold DHT / far peers | Warm cache; use a closer gateway or co-located pin |
+| Can’t reach private data | Published on public network | Encrypt payload; or private IPFS / permissioned store |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Upload ≠ forever** — without a pin (yours or a service), content can disappear.
+
+> [!WARNING]
+> **CID is integrity, not secrecy** — anyone with the CID can fetch public data.
+
+> [!WARNING]
+> **Gateway trust** — HTTP gateways can lie or go down; verify CID when it matters.
+
+---
 
 ## When NOT to use
 
-…
+- **Mutable “latest” APIs** — use object storage + CDN, or IPNS carefully; raw CIDs are immutable.
+- **Low-latency interactive apps** — DHT lookup is not a Redis round-trip.
+- **Compliance / delete-on-request** — global copies are hard to erase; prefer controlled storage.
+
+---
 
 ## Related
 
-[[…]]
+[[Networking]] [[P2P (Peer-to-Peer)]] [[Data transfer communication channels]]

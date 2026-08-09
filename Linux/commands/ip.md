@@ -35,6 +35,16 @@ ip neigh ──► ARP/NDP cache
 | `arp -n` | `ip neigh show` |
 | `netstat -rn` | `ip route` + [[ss]] |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ip** | Address, route, link, neigh | “ip replaces ifconfig/route.” |
+| **ip addr** | Show/add addresses | “ip a is the quick view.” |
+| **ip route** | Routing table | “default via = gateway.” |
+| **ip link** | Up/down interfaces | “ip link set eth0 up.” |
+| **netns** | Network namespace | “Containers = netns + veth.” |
+
 ## Standard config / commands
 
 **Links:**

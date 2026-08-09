@@ -1,8 +1,8 @@
-[[connection churn]] [[pre-warmed pool]]
+[[System Design]] [[Throughput]] [[backpressure]] [[gRPC]] [[concurrent connection]]
 
 # Scaling Throughput in High-load system
 
-> Scaling Throughput in High-load system — for an architecture managing high-density media streams, standard REST/HTTP paradigms often fail due to header overhead and connection churn.
+> High-load throughput — when REST-per-call and connection churn choke media/control planes, batch, async, and multiplex instead.
 
 ---
 
@@ -10,7 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#When API hits a throughput wall, analyze these specific indicators]]
+- [[#When the API hits a wall]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,39 +18,74 @@
 
 ## Mental model
 
-For an architecture managing high-density media streams, standard REST/HTTP paradigms often fail due to header overhead and connection churn.
-- Batching -> If your API handles configuration for 300 channels, never expose an endpoint that requires 300 individual serial requests. Implement Bulk Endpoints to process state changes in a single transaction, significantly reducing SerDes overhead.
-- Asynchronous Processing -> Move state-heavy operations to a background queue. The API should return `202 Accepted` immediately, and the internal worker pool (using a pre-warmed pool of NVENC contexts) handles the heavy lifting.
-- Connection Reuse -> Use gRPC over HTTP/2. Unlike traditional REST/HTTP1.1, gRPC maintains connections, reducing the CPU cost of constant TCP/TLS handshakes and enabling multiplexing (sending multiple requests over one stream).
+**Say it in one breath:** Dense control planes (hundreds of channels/encoders) die on per-item HTTP and TLS handshakes. Bulk APIs, `202` + workers, and HTTP/2/gRPC reuse fix the shape of the work.
+
+```txt
+Bad:  300× PUT /channel/i   (SerDes + handshake tax)
+Good: PUT /channels:batch   → queue → pre-warmed worker pool
+```
+
+| Lever | Effect |
+|-------|--------|
+| Batching | Fewer requests, one transaction |
+| Async (`202`) | API not blocked on NVENC/GPU |
+| gRPC / HTTP/2 | Multiplex; less churn |
+| Pre-warmed pools | Avoid cold session open |
+
+---
 
 ## Standard config / commands
 
-…
+```txt
+POST /jobs  → 202 + job_id
+GET  /jobs/{id}  → status
+# Workers pull queue with bounded concurrency
+```
 
-## When API hits a throughput wall, analyze these specific indicators
+## When the API hits a wall
 
-|**Component**|**Metric to Monitor**|**High-Load Indicator**|
-|---|---|---|
-|**NIC**|PPS (Packets Per Second)|Kernel interrupt saturation (>50% CPU on softirq)|
-|**API Server**|Context Switches|High `cs` rates (indicating thread contention)|
-|**GPU/Engine**|NVENC API Latency|Time to open a new session (the "cold start" problem)|
-|**Memory**|GC (Garbage Collection)|High memory churn caused by allocating new request objects|
+| Component | Metric | High-load signal |
+|-----------|--------|------------------|
+| NIC | PPS | Softirq CPU high |
+| API | Context switches | Thread contention |
+| GPU/encoder | Session open latency | Cold-start spike |
+| Memory | GC | Per-request alloc churn |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| CPU in handshake/TLS | Conn churn | Keepalive; gRPC; pool clients |
+| API timeout, workers idle | Sync fan-out | 202 + queue |
+| Encoder pool empty | Cold NVENC | Pre-warm; limit concurrency |
+| Good average, bad p99 | Lock / GC | Profile; object reuse |
+| Softirq storm | PPS | Batch packets; fewer short conns |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Bulk endpoints without partial failure model** — define per-item errors.
+
+> [!WARNING]
+> **Unbounded queues** — async without [[backpressure]] just delays OOM.
+
+> [!WARNING]
+> **gRPC everywhere dogma** — public browsers may still need REST/JSON gateway.
+
+---
 
 ## When NOT to use
 
-…
+- **Low QPS CRUD** — plain REST is fine.
+- **Tiny payloads rare calls** — batching adds complexity for nothing.
+- **Strict sync user UX that must finish in-request** — keep sync but optimize path.
+
+---
 
 ## Related
 
-[[…]]
+[[Throughput]] [[backpressure]] [[concurrent connection]] [[Token bucket]] [[marshalling]]

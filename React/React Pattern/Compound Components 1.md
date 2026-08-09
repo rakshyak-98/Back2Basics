@@ -1,8 +1,8 @@
-[[React Pattern]]
+[[React Pattern]] [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]]
 
 # Compound Components 1
 
-> Compound Components 1 — instead of passing multiple props, the parent component manages the state, and child components communicate implicitly.
+> Parent owns shared state; children read it via context — Tabs/Cart without prop drilling.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Implementation of a Tabs component]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,146 +17,84 @@
 
 ## Mental model
 
-Instead of passing multiple props, the parent component manages the state, and child components communicate implicitly.
-### How it works
-We break the component into self-contained components
-```js Cart.jsx
-import { createContext, useContext, useState } from "react";
-const CartContext = createContext();
-const Cart = ({ children }) => {
-  const [items, setItems] = useState([
-    { id: 1, name: "React Book", price: 30 },
-    { id: 2, name: "JavaScript Guide", price: 25 }
-  ]);
-  const removeItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
-  };
-  const total = items.reduce((sum, item) => sum + item.price, 0);
-  return (
-    <CartContext.Provider value={{ items, removeItem, total }}>
-      <div>
-        <h2>Shopping Cart</h2>
-        {children}
-      </div>
-    </CartContext.Provider>
-  );
-};
+**Say it in one breath:** Compound components are a mini API (`Tabs`, `Tabs.Tab`, `Tabs.Panel`) that share state through context so callers compose JSX freely.
+
+```txt
+<Tabs>                 ← state + Provider
+  <Tabs.List>…</Tabs.List>
+  <Tabs.Panel />       ← useContext
+</Tabs>
 ```
-```js Cart.Item.jsx
-Cart.Item = ({ item }) => {
-  return (
-    <div>
-      {item.name} - ${item.price}
-      <Cart.RemoveButton id={item.id} />
-    </div>
-  );
-};
-```
-```js Cart.Total.jsx
-Cart.Total = () => {
-  const { total } = useContext(CartContext);
-  return <h3>Total: ${total}</h3>;
-};
-```
-```js Cart.RemoveButton.jsx
-Cart.RemoveButton = ({ id }) => {
-  const { removeItem } = useContext(CartContext);
-  return <button onClick={() => removeItem(id)}>Remove</button>;
-};
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Compound** | Related components, one state | “Implicit coupling via context.” |
+| **Static children** | `Tabs.Tab = …` | “Discoverable API on the parent.” |
+| **Index / value** | Which panel is active | “Controlled or uncontrolled.” |
 
 ## Standard config / commands
 
-…
+```tsx
+const TabsCtx = createContext<{ active: number; setActive: (n: number) => void } | null>(null)
 
-## Implementation of a Tabs component
+function Tabs({ children, defaultIndex = 0 }: { children: React.ReactNode; defaultIndex?: number }) {
+  const [active, setActive] = useState(defaultIndex)
+  return <TabsCtx.Provider value={{ active, setActive }}>{children}</TabsCtx.Provider>
+}
 
-- It allows consumers to define `TabList`, Tab and `TabPanel` without explicit prop drilling.
-- The Tabs parent manages active state and exposes subcomponents.
-
-Tabs (Parent): Manages active state.
-Tabs.List: Holds multiple `Tab` elements.
-Tabs.Tab: Represents an individual tab button.
-Tabs.panel: Displays the content of the active tab.
-
-```js Tabs.jsx
-import { createContext, useContext, useState } from "react";
-
-const TabsContext = createContext();
-
-const Tabs = ({ children }) => {
-  const [activeTab, setActiveTab] = useState(0);
-
+Tabs.Tab = function Tab({ index, children }: { index: number; children: React.ReactNode }) {
+  const ctx = useContext(TabsCtx)!
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div>{children}</div>
-    </TabsContext.Provider>
-  );
-};
-```
-
-```js Tab.List
-Tabs.List = ({ children }) => <div>{children}</div>;
-```
-
-```js Tabs.Tab
-Tabs.Tab = ({ index, children }) => {
-  const { activeTab, setActiveTab } = useContext(TabsContext);
-
-  return (
-    <button
-      onClick={() => setActiveTab(index)}
-      style={{ fontWeight: activeTab === index ? "bold" : "normal" }}
-    >
+    <button type="button" onClick={() => ctx.setActive(index)} aria-selected={ctx.active === index}>
       {children}
     </button>
-  );
-};
+  )
+}
+
+Tabs.Panel = function Panel({ index, children }: { index: number; children: React.ReactNode }) {
+  const ctx = useContext(TabsCtx)!
+  return ctx.active === index ? <div>{children}</div> : null
+}
 ```
 
-```js Tabs.Panel.jsx
-Tabs.Panel = ({ index, children }) => {
-  const { activeTab } = useContext(TabsContext);
+| Knob | Why it matters |
+|------|----------------|
+| Context null check | Throw if used outside parent |
+| Controlled `value`/`onChange` | Forms & URL sync |
+| `index` vs `id` | Prefer stable ids in real UIs |
 
-  return activeTab === index ? <div>{children}</div> : null;
-};
-```
-
-```js App.jsx
-import Tabs from "./Tabs";
-
-const App = () => (
-  <Tabs>
-    <Tabs.List>
-      <Tabs.Tab index={0}>Tab 1</Tabs.Tab>
-      <Tabs.Tab index={1}>Tab 2</Tabs.Tab>
-      <Tabs.Tab index={2}>Tab 3</Tabs.Tab>
-    </Tabs.List>
-
-    <Tabs.Panel index={0}>Content for Tab 1</Tabs.Panel>
-    <Tabs.Panel index={1}>Content for Tab 2</Tabs.Panel>
-    <Tabs.Panel index={2}>Content for Tab 3</Tabs.Panel>
-  </Tabs>
-);
-
-export default App;
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `useContext` null | Child outside provider | Nest under `<Tabs>` |
+| All panels show/none | Index mismatch | Align Tab/Panel indices |
+| Re-render storm | Huge context value | Split state/dispatch contexts |
+| Can’t deep-link tab | Uncontrolled only | Controlled + search params |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Children must be under the provider** — cloning/mapping outside loses context.
+
+> [!WARNING]
+> **Duplicate of [[React Pattern/Compound Components]]** — same idea; keep one canonical Tabs example in reviews.
+
+---
 
 ## When NOT to use
 
-…
+- **One-off layout** — plain props are clearer.
+- **Unrelated siblings** — don’t force a compound API.
+
+---
 
 ## Related
 
-[[…]]
+[[React Pattern/Compound Components]] [[React Pattern/Provider pattern]] [[React Pattern/Composite pattern]] [[React Pattern/Summary pattern]]

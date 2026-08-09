@@ -1,8 +1,8 @@
-[[pacakges]]
+[[ExpressJS]] [[Socket IO]] [[express concepts]]
 
 # uWebSocket
 
-> uWebSocket — used for real-time applications that require efficient networking, such as chat applications, trading platforms, multiplayer games.
+> µWebSockets.js — high-performance Node WebSocket/HTTP library; lower-level and faster than Express+ws for realtime fanout.
 
 ---
 
@@ -17,51 +17,64 @@
 
 ## Mental model
 
-used for real-time applications that require efficient networking, such as chat applications, trading platforms, multiplayer games.
-- fast due to its efficient event loop and memory management.
-- popular alternative to frameworks like [[Socket IO]]
-- support secure WebSocket connections (`wss://`) with SSL/TLS
-```shell
-npm install uWebSockets.js
+**Say it in one breath:** Native-ish performance server for WS/HTTP. Different API from Express—don’t expect middleware ecosystem drop-in.
+
+```txt
+uWS.App().ws('/ws', handlers).listen(port)
 ```
-```js
-const uWS = require('uWebSockets.js');
-uWS.App().ws('/*', {
-  open: (ws) => {
-    console.log('A client connected!');
-  },
-  message: (ws, message, isBinary) => {
-    ws.send(message, isBinary);
-  },
-  close: (ws, code, message) => {
-    console.log('A client disconnected');
-  }
-}).listen(9001, (token) => {
-  if (token) {
-    console.log('Listening on port 9001');
-  }
-});
-```
+
+---
 
 ## Standard config / commands
 
-…
+```js
+import uWS from 'uWebSockets.js'
+uWS.App()
+  .ws('/ws', {
+    open: (ws) => ws.send('hi'),
+    message: (ws, message, isBinary) => ws.send(message, isBinary),
+  })
+  .listen(9001, (token) => {
+    if (!token) throw new Error('bind failed')
+  })
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Backpressure | `getBufferedAmount` |
+| SSL app | `uWS.SSLApp` |
+| Pub/sub topics | Built-in topic broadcast |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Install fail | Native build | Toolchain/prebuilds |
+| Express habits fail | Different API | Port handlers deliberately |
+| Memory growth | Slow consumers | Backpressure; drop |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Not Express middleware compatible** out of the box.
+
+> [!WARNING]
+> **Binary vs string** — check `isBinary`.
+
+---
 
 ## When NOT to use
 
-…
+- **CRUD apps with big middleware needs** — Express/Fastify.
+- **Socket.IO features (rooms fallbacks)** — Socket.IO.
+- **Beginners learning HTTP** — Express first.
+
+---
 
 ## Related
 
-[[…]]
+[[Socket IO]] [[express concepts]] [[SSE (Server-Sent Events)]]

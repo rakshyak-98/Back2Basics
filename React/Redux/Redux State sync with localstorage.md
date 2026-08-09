@@ -1,8 +1,8 @@
-[[Redux]]
+[[Redux]] [[Redux/redux persist]] [[Redux/redux middleware]]
 
-# Redux State sync with localstorage
+# Redux State sync with localStorage
 
-> Redux State sync with localstorage — on state change, via middleware or listenerMiddleware
+> Persist a slice across reloads — hydrate on store create, write on change via middleware.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Two way sync strategy]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,132 +17,79 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Read localStorage into `preloadedState` once; on matching actions, write the slice back. Prefer `listenerMiddleware` over saving every action.
+
+```txt
+boot → JSON.parse → preloadedState
+action → reducer → listener → localStorage.setItem
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **preloadedState** | Seed store at create | “Hydrate before first render.” |
+| **listenerMiddleware** | Run side effects on actions | “Save only auth login/logout.” |
+| **Two-way sync** | Storage ↔ slice | “Init read; change write.” |
 
 ## Standard config / commands
 
-…
-
-## Two way sync strategy
-
-localstorage -> slice
-	- on app init, manual `dispatch(setx(...))`
-
-slice -> localstorage
-	- on state change, via `middleware` or `listenerMiddleware`
-
-### Read from localStorage on App load
-```js
-const savedAuth = localStorage.getItem('auth')
-const preloadedState = saveAuth ? { auth: JSON.parse(savedAuth)} : undefined;
-
-export const store = configureStore({
-	reducer: { auth: authReducer },
-	preloadedState,
-})
-
-```
-
-[initializing state](https://redux.js.org/usage/structuring-reducers/initializing-state)
-there are two main ways to initialize state from you application.
-- `createStore` method on accept an options `preloadedState` value as its second argument.
-
-> [!INFO] Reducers can also specify an initial value by looking for an incoming state argument that is `undefined`, and returning the value they'
-
-
-### Custom middleware
-```js
-const localStorageMiddleware = store => next => action => {
-	const result = next(aciton)
-	const state = store.getState()
-	localStorage.setItem('auth', JSON.stringify(state.auth))
-	return result
-}
-
-export const store = configureStore({
-	reducer: { auth: authReducer },
-	middleware: (getDefault) => getDefault().concat(localStorageMiddleware)
-})
-
-```
-
-### RTK create listener middleware
-`matcher` and `actionCreator`
-```js
-import { createListenerMiddleware } from "@reduxjs/toolkit"
-import { setCredentials, logout } from "./authSlice"
+```ts
+const raw = localStorage.getItem('auth')
+const preloadedState = raw ? { auth: JSON.parse(raw) } : undefined
 
 const listener = createListenerMiddleware()
-
 listener.startListening({
-	matcher: isAnyOf(setCredentials, logout),
-	effect: async (_, api) => {
-		const state = api.getState()
-		localStorage.setItem('auth', JSON.stringify(state.auth))
-	}
-})
-
-```
-- a way to specify when that callback should run based on dispatched actions or state changes.
-
-```js
-configureStore({
-	reducer: { auth: authReducer },
-	middleware: (getDefault) => getDefault().prepend(listener.middleware)
-})
-
-```
-
-> [!INFO] you don't need to call `stopListening()` manually for typical use case in `createListenerMiddleware`
-> - if you're using `listenerMiddleware.startListening({})`, it attaches a global, long-lived listener tied to the middleware life-cycle.
-> 	- it auto cleans on store teardown.
-> 	- no manual `stopListening()` needed unless you dynamically register / un-register listeners at runtime.
-##### Manual control (for dynamic listeners)
-```js
-const unsubscribe = listenerMiddleware.startListening({
-	actionCreator: someAction,
-	effect: async(action, api) => {...}
-})
-
-unsubscribe() // return value from listenerMiddleware.startListening
-```
-
-### Attach multiple listeners
-```js
-import { createListenerMiddleware } from "@reduxjs/toolkit";
-
-const listenerMiddleware = createListenerMiddleware()
-listenerMiddleware.startListening({
-  actionCreator: actionOne,
-  effect: async (action, api) => {
-    // handle actionOne
+  matcher: isAnyOf(setCredentials, logout),
+  effect: (_a, api) => {
+    localStorage.setItem('auth', JSON.stringify(api.getState().auth))
   },
-});
+})
 
-listenerMiddleware.startListening({
-  actionCreator: actionTwo,
-  effect: async (action, api) => {
-    // handle actionTwo
-  },
-});
-
+export const store = configureStore({
+  reducer: { auth: authReducer },
+  preloadedState,
+  middleware: (gDM) => gDM().prepend(listener.middleware),
+})
 ```
+
+| Knob | Why it matters |
+|------|----------------|
+| Narrow matcher | Avoid writing on every keystroke |
+| `prepend` listener | Runs before serializable checks when needed |
+| Try/catch parse | Corrupt JSON must not crash boot |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Always empty after refresh | Forgot `preloadedState` | Pass hydrated object to `configureStore` |
+| Writes on every action | Broad middleware | Match specific actions / `isAnyOf` |
+| Crash on boot | Bad JSON | try/catch; clear key |
+| Stale write after reset | Closed over old state | Read `api.getState()` inside effect |
+| Multi-tab drift | Only one-way | `storage` event or [[Redux/redux persist]] |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Don’t store tokens in localStorage if XSS is in scope** — prefer httpOnly cookies / session strategy.
+
+> [!WARNING]
+> **Static `startListening` needs no `stopListening`** — only dynamic listeners return unsubscribe.
+
+---
 
 ## When NOT to use
 
-…
+- **Full app persistence** — use [[Redux/redux persist]] with whitelist/blacklist.
+- **Server-secret state** — never put secrets in localStorage.
+
+---
 
 ## Related
 
-[[…]]
+[[Redux/redux persist]] [[Redux/redux middleware]] [[Redux/redux store architecture]] [[Redux toolkit]]

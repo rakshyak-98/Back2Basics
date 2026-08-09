@@ -1,8 +1,8 @@
-[[Networking]]
+[[Networking]] [[NAT (Network Address Translation)]] [[ICE (Interactive Connectivity Establishment)]]
 
 # NAT Traversal
 
-> NAT Traversal — the process of enabling two devices behind NATs to communicate with each other.
+> NAT traversal gets two peers behind NATs talking — discover public addresses, try direct, else relay.
 
 ---
 
@@ -10,13 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#What is NAT?]]
-- [[#The problem]]
-- [[#NAT traversal]]
-- [[#Example]]
-- [[#Technologies involved]]
-- [[#Real-world analogy]]
-- [[#Summary]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -24,174 +17,83 @@
 
 ## Mental model
 
-**NAT traversal** is the process of enabling two devices behind NATs to communicate with each other.
+**Say it in one breath:** Private IPs cannot be dialed from the internet. Traversal means learn your public face, try to punch a hole, and if that fails send media through a relay.
+
+```txt
+User A (LAN) ---- NAT A ---- Internet ---- NAT B ---- User B (LAN)
+                     ▲                        ▲
+                     └──── need a path both sides accept ────┘
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Hole punching** | Both sides send outbound so NATs open mappings | “We poke both NATs so return packets are allowed.” |
+| **STUN** | Ask a server your public IP:port | “STUN shows how the internet sees me.” |
+| **ICE** | Try many address pairs; pick one that works | “ICE finds a working path.” |
+| **TURN** | Relay when direct fails | “TURN carries media when punch fails.” |
+| **Symmetric NAT** | Mapping changes per remote peer | “Symmetric NAT usually forces TURN.” |
+
+### How the story goes (3 steps)
+
+1. **Discover** — each peer asks [[STUN (Session Traversal Utilities for NAT)]] for its public IP:port.
+2. **Try direct** — [[ICE (Interactive Connectivity Establishment)]] checks candidate pairs (host → srflx).
+3. **Relay** — if checks fail, use [[TURN server (Traversal Using Relays around NAT)]].
+
+Phone analogy: desk extension = private IP; main company number = public IP; receptionist = STUN; operator = TURN.
+
+---
 
 ## Standard config / commands
 
-…
+WebRTC (browser):
 
-## What is NAT?
-
-A **Network Address Translation (NAT)** device (usually your home/office router) maps **private IP addresses** to a **public IP address**.
-
-Example:
-
-```text
-Internet
-     |
-Public IP: 203.0.113.10
-     |
-+------------------+
-|   NAT Router     |
-+------------------+
-     |
-----------------------------
-|                          |
-192.168.1.10           192.168.1.20
-Browser A              Browser B
+```js
+const pc = new RTCPeerConnection({
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'turn:turn.example.com:3478', username: 'u', credential: 'p' },
+  ],
+})
 ```
 
-The devices have **private IPs**, which are **not reachable directly** from the Internet.
+Debug: `chrome://webrtc-internals` → ICE candidate types (host / srflx / relay).
 
 ---
-
-## The problem
-
-Suppose two users want to start a WebRTC call.
-
-```text
-User A
-192.168.1.10
-      |
-     NAT A
-      |
- Internet
-      |
-     NAT B
-      |
-192.168.2.15
-User B
-```
-
-Neither knows how to directly reach the other's private IP.
-
-Even if they exchange:
-
-```text
-A: 192.168.1.10
-B: 192.168.2.15
-```
-
-these addresses are only valid inside their own local networks.
-
----
-
-## NAT traversal
-
-NAT traversal is the set of techniques used to overcome this problem.
-
-Typical steps:
-
-1. Discover the public IP and port (**STUN**).
-
-2. Attempt a direct connection (**ICE**).
-
-3. If direct communication fails, relay traffic through **TURN**.
-
-
----
-
-## Example
-
-Without NAT traversal:
-
-```text
-Browser A  X------X  Browser B
-```
-
-Connection fails.
-
-With NAT traversal:
-
-```text
-Browser A
-     |
-   STUN
-     |
-Learns public IP
-
-Then
-
-Browser A <-------------> Browser B
-        Direct connection
-```
-
-If that still fails:
-
-```text
-Browser A ---> TURN ---> Browser B
-```
-
----
-
-## Technologies involved
-
-| Technology | Purpose                                             |
-| ---------- | --------------------------------------------------- |
-| **STUN**   | Discover public IP and port                         |
-| **ICE**    | Try different connection paths                      |
-| **TURN**   | Relay traffic when direct connection isn't possible |
-
----
-
-## Real-world analogy
-
-Imagine two people inside office buildings.
-
-- **Private IP** = their desk extension number.
-
-- **Public IP** = the company's main phone number.
-
-- **NAT traversal** = figuring out how they can call each other despite each being behind a company phone system.
-
-    - Ask the receptionist for the external number (**STUN**).
-
-    - Try calling directly (**ICE**).
-
-    - If direct calls aren't allowed, route the call through an operator (**TURN**).
-
-
----
-
-## Summary
-
-- **NAT traversal** = techniques for enabling communication through NAT devices.
-
-- It is needed because devices behind NAT are not directly reachable from the Internet.
-
-- Common protocols:
-
-    - **STUN** → discover public address.
-
-    - **ICE** → find the best connection path.
-
-    - **TURN** → relay traffic if direct connectivity fails.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Works same Wi‑Fi only | Only host candidates | Add STUN; confirm UDP egress |
+| Stuck connecting | No relay candidates | Deploy TURN with short-lived creds |
+| One side behind corp firewall | UDP 3478/443 blocked | TURN over TCP/TLS 443 |
+| High latency / cost | All pairs are relay | Fix firewall; prefer `iceTransportPolicy: 'all'` |
+| Works then dies on network switch | Binding gone | ICE restart |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **STUN alone is not enough** — it discovers addresses; it does not relay media.
+
+> [!WARNING]
+> **Signaling ≠ traversal** — your WebSocket only swaps SDP/candidates; STUN/TURN URLs live in the peer connection config.
+
+> [!WARNING]
+> **CGNAT / symmetric NAT** — expect ~5–15% of users to need TURN in production.
+
+---
 
 ## When NOT to use
 
-…
+- **Client → your public server only** — normal TCP/TLS; no peer punch required.
+- **One-to-many OTT** — [[HLS]] / [[DASH]] via CDN, not P2P traversal.
+
+---
 
 ## Related
 
-[[…]]
+[[NAT (Network Address Translation)]] [[ICE (Interactive Connectivity Establishment)]] [[STUN (Session Traversal Utilities for NAT)]] [[TURN server (Traversal Using Relays around NAT)]] [[P2P (Peer-to-Peer)]] [[WebRTC]] [[UDP]]

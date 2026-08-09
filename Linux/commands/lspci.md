@@ -34,6 +34,16 @@ lspci ──► /sys/bus/pci ──► vendor:device ID ──► human name (pc
 | `-s <slot>` | Single device (`0000:03:00.0`) |
 | `-n` | Numeric IDs only (no pci.ids lookup) |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **lspci** | List PCI devices | “lspci -nnk shows IDs + driver.” |
+| **-k** | Kernel driver | “Who bound this GPU/NIC?” |
+| **-v** | Verbose | “IRQ, memory BARs.” |
+| **vendor:device** | Hardware IDs | “Match firmware/driver quirks.” |
+| **rescan** | Hotplug | “echo 1 > …/rescan after add.” |
+
 ## Standard config / commands
 
 ```bash

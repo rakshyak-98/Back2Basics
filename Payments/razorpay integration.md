@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** razorpay integration — plain job, how I run it, how I know it’s broken.
+
+
 ### **The High-Level Architecture Flow**
 1. **User clicks "Pay"** on the Frontend.
 2. **Frontend calls Backend** to create a new "Order".
@@ -33,40 +36,49 @@
 - Selects items to purchase
 - Clicks pay button
 - Creates a `transaction_id` or `checkout_id`
-2. **Create Order from Server**
-- Use Razorpay Orders API to create an order
-- Razorpay processes details and returns an `order_id`
-3. **Pass Order ID to Checkout**
-- `order_id` is passed to client-side integration
-- Razorpay Checkout UI displays payment methods
-4. **Collect Payment Details**
-- Customer selects payment option
-- Payment details secured and stored by Razorpay as tokens
-5. **Bank Authentication**
-- Razorpay sends authentication request to customer's bank
-- Bank authorizes amount deduction
-> [!INFO] The `transaction_id` or `checkout_id` is created from **your backend API**, not directly by Razorpay. When creating an order, you'll generate this identifier in your server-side code before interacting with Razorpay
-- ref: [stackoverflow razorpay how to get the order id](https://stackoverflow.com/questions/67243677/django-razorpay-how-to-get-the-order-id-after-payment-is-complete)
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **razorpay integration** | Core idea of this note | “I can explain razorpay integration without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[Payments]]

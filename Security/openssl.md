@@ -1,8 +1,8 @@
-[[Security]]
+[[Security]] [[TLS (Transport Layer Security)]] [[read pem file]] [[PKI]] [[DER]]
 
 # openssl
 
-> openssl — common Name (CN) — shop.localhost (important).
+> OpenSSL — the Swiss-army CLI for keys, CSRs, certs, and TLS debugging on the box.
 
 ---
 
@@ -18,86 +18,93 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Generate key → make CSR (or self-sign) → inspect/verify PEMs → probe remote TLS with `s_client`. Trust store often `/etc/ssl/certs/ca-certificates.crt`.
+
+```txt
+private key ──► CSR ──► CA signs ──► leaf.crt
+                 │
+                 └── self-sign (lab only) ──► cert.pem
+```
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# Self-signed lab cert (no passphrase on key)
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem \
+  -days 365 -nodes -subj "/CN=localhost"
+
+# Nginx-style local HTTPS
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/nginx/certs/shop.localhost.key \
+  -out /etc/nginx/certs/shop.localhost.crt \
+  -subj "/CN=shop.localhost"
+# Common Name / SAN must match the hostname you type in the browser
+
+# Key + CSR + self-sign
+openssl genpkey -algorithm RSA -out privatekey.pem -aes256
+openssl req -key privatekey.pem -new -out request.csr
+openssl x509 -req -days 365 -in request.csr -signkey privatekey.pem -out certificate.crt
+
+# Inspect
+openssl req -in request.csr -text -noout
+openssl x509 -in certificate.crt -text -noout
+openssl x509 -in certificate.crt -noout -subject -issuer -fingerprint -dates
+openssl verify -CAfile ca_bundle.crt certificate.crt
+
+# Live TLS
+openssl s_client -connect example.com:443 -servername example.com </dev/null | openssl x509 -noout -dates -subject
+```
+
+| Flag | Why it matters |
+|------|----------------|
+| `-nodes` | No passphrase on private key (needed for unattended nginx) |
+| `-subj "/CN=…"` | Non-interactive; still prefer SANs for modern clients |
+| `-servername` | SNI — right cert on multi-vhost hosts |
 
 ## Generate random string
 
 ```bash
-openssl rand -hex 32;
+openssl rand -hex 32
 ```
 
-`/etc/ssl/certs/ca-certificates.crt`
-
-### Generate certificate
-
-```shell
-openssl genpkey -algorithm RSA -out privatekey.pem -aes256; # generate private key
-openssl rsa -in privatekey.pem -pubout -out public.key
-
-openssl req -key privatekey.pem -new -out request.csr; # create CSR
-openssl x509 -req -days 365 -in request.csr -signkey private.key -out certificate.crt; # self signed certificate
-```
-
-```shell
-openssl req -in request.csr -text -noout;
-openssl x509 -in certificate.crt -text -noout;
-```
-
-```shell
-openssl x509 -in certificate.cert -notout -subject;
-openssl x509 -in certificate.cert -noout -issuer;
-openssl x509 -in certificate.crt -noout -fingerprint;
-```
-
-```shell
-openssl verify -CAfile ca_bunle.crt certificate.crt;
-```
-
-
-### Generate self signed certificate
-
-```bash
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"
-```
-
-```bash
-sudo mkdir -p /etc/nginx/certs;
-
-sudo openssl req -x509 -nodes -days 365 \
-	-newkey rsa:2048 \
-	-keyout /etc/nginx/certs/shop.localhost.key \
-	-out /etc/nginx/certs/shop.localhost.crt
-```
-- `Common Name (CN)` -> shop.localhost (important).
-- others you can skip with Enter.
-- `-nodes` -> don't encrypt the private key with a passphrase.
-
-> [!INFO]
-> Normally, when you generate a private key with `openssl` it asks for a password to protect it.
-
-This gives you
-`/etc/nginx/certs/shop.localhost.crt` (certificate)
-`/etc/nginx/certs/shop.localhost.key` (private key)
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `unable to load Private Key` | Passphrase; PEM vs DER; wrong file | `-nodes` or supply pass; convert format |
+| Browser name mismatch | CN/SAN vs URL | Reissue with correct CN/SAN |
+| `verify error:num=20` | Missing intermediate / wrong CAfile | Pass full chain; fix `-CAfile` |
+| `s_client` shows wrong cert | SNI missing | Add `-servername` |
+| Permission denied reading key | File mode / user | `chmod 600`; run service as owner |
+| Typo `private.key` vs `privatekey.pem` | Path in docs vs disk | Align filenames in scripts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Self-signed ≠ trusted** — fine for lab; browsers warn; production needs a public CA or your distributed private root.
+
+> [!WARNING]
+> **`-aes256` on keys** — nginx/apache will hang waiting for a passphrase unless you unlock or use `-nodes`.
+
+> [!WARNING]
+> **CN alone is fragile** — add SANs (`subjectAltName`) for Chrome/modern TLS clients.
+
+---
 
 ## When NOT to use
 
-…
+- **Public prod certs** — use [[certbot (letsencrypt)]] / ACME, not hand-rolled OpenSSL + email CSR unless required.
+- **App-level crypto APIs** — prefer language libs (crypto, NaCl); don’t shell out to openssl in hot paths.
+- **Password hashing** — use Argon2/bcrypt/yescrypt, not ad-hoc OpenSSL digests.
+
+---
 
 ## Related
 
-[[…]]
+[[read pem file]] [[PKI]] [[TLS (Transport Layer Security)]] [[DER]] [[Root certificate]] [[certbot (letsencrypt)]]

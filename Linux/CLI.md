@@ -40,6 +40,16 @@ Keyboard ──stdin──► command ──stdout──► pipe ──► next 
 symptom ──► ss/journalctl/ps ──► grep/awk ──► fix ──► re-check
 ```
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **shell** | User ↔ kernel via commands | “CLI is the ops API of Linux.” |
+| **stdin/stdout/stderr** | Three streams | “2>&1 merges errors into out.” |
+| **pipeline** | cmd | cmd | “Small tools compose.” |
+| **exit status** | 0 success | “Scripts must check failures.” |
+| **man / --help** | Docs on box | “man 5 for file formats.” |
+
 ## Standard config / commands
 
 **Navigation & inspection:**

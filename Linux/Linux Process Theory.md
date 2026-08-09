@@ -1,8 +1,8 @@
-[[Linux]]
+[[Linux]] [[process]] [[system call]] [[Stack Frame]]
 
-# Summery
+# Linux Process Theory
 
-> Summery — fork() creates a copy of the parent process, and exec() replaces the child process's memory with a new program. The combination of fork() and exec() is
+> Linux starts a new program with fork then exec — copy the parent, then replace the child’s memory with the new binary.
 
 ---
 
@@ -17,88 +17,120 @@
 
 ## Mental model
 
-`fork()` creates a copy of the parent process, and `exec()` replaces the child process's memory with a new program. The combination of `fork()` and `exec()` is the standard way to create and execute a new process in linux.
-### Linux creates a new process using the following steps:
-- **The parent process calls the `fork()` system call** to create a child process. The `fork()` call creates an exact copy of the parent process, including its memory space, registers, open files, etc.
-- **After the `fork()`, both the parent and child processes continue executing from the instruction after the `fork()`** call. The child process is an exact duplicate of the parent at this point.
-- **The child process then calls the `exec()` system call** (or one of its variants like `execve()`). The `exec()` call replaces the child process's memory with a new program that is to be executed. This is like the child process eating its brain and turning into a completely new program.
-- **The `exec()` call loads the executable file into the child process's memory** and sets up the initial stack and heap. It also sets up the argument vector (`argv`) and environment variables (`envp`) on the process's stack.
-- **Finally, the kernel passes control to the entry point of the new program**, usually the `_start` label. The child process now executes the instructions of the new program it was exec'd to.
-### To prepare the stack for a new process in Linux, the kernel follows a series of steps after the `execve()` system call is invoked. Here’s an overview of the process:
-1. **Receive the `execve(path, argv, envp)` Call**: The kernel receives the system call. The kernel first validates the parameters and checks if the executable file specified by `path` exists and is executable.
-1. **Memory Layout Preparation** the kernel prepares the memory layout for the new process. This includes defining regions for the text (code), data, heap, and stack segments. The stack segement is particularly crucial as it will hold local variables, function parameters, and control information.
-1. **Stack Memory Allocation** The kernel allocates a specific amount of memory for the stack. This allocation is typically done using the `mmap()` system call which reserves a region of virtual memory for the stack. The size of the stack is determined by system limits, often set by the `ulmit` command.
-	1. **Allocate Stack Memory**: The kernel allocates memory for the stack of the new process. This memory is reserved for function calls, local variables, and other temporary data.
-1. **Stack Growth Direction** In Linux, the stack grows downwards. This means that the initial stack pointer is set to a high memory address, and as new data is pushed onto the stack, it moves towards lower memory addresses. This design allows for efficient use of memory as the stack and heap can grow towards each other.
-1. **Setting up the initial Stack Frame**
-	1. **Argument Vector** (`argv`) the command-line arguments passed to the program are pushed onto the stack. This includes the program name and any additional parameters.
-	2. **Environment Variables**(`envp`) the environment variables are also pushed onto the stack, allowing the new process to access its environment.
-	3. **Return Address** the kernel set up a return address that points to the entry point of the program, typically the `_start` function.
-1. **Initializing the Stack Pointer** the stack pointer (`rsp` on `x86_64` architecture) is initialized to point to the top of the newly allocated stack memory. This pointer will be used by the CPU to manage function calls and local variable storage.
-1.  **Setting up the Process Control Block (PCB)** the kernel updates the PCB for the new process, which includes information about the stack pointer, program counter, and other relevant state information.
-1. **Load the Executable**: The kernel reads the executable file and loads its various sections (like text, data, and bss) into the appropriate memory locations. The stack is now ready to support the execution of this new program.
-1. **Transferring Control** finally, the kernel transfers control to the entry point of the new program by jumping to the address specified in the stack. The program begins execution with its stack properly initialized, ready to handle function calls and local variables.
-### Signals
-**Event Notification**: Signals are used to inform a process about important events, such as user requests (e.g., pressing Ctrl+C to terminate a process) or system events (e.g., segmentation faults). Each signal corresponds to a specific event and can be sent from one process to another or from the kernel to a process- .
-- **Signal Handling**: When a signal is sent to a process, it can either ignore it, handle it with a user-defined function (signal handler), or let the default action occur (such as terminating the process). The process can set up custom handlers for specific signals using functions like `sigaction()` .
-- **Signal Lifecycle**: Signals undergo three stages: generation, delivery, and processing. A signal is generated by a process or the kernel, delivered to the target process, and then processed according to the defined action (default or custom handler).
-- **Process States**: Signals can affect process states. For instance, a process in an interruptible sleep state can wake up to handle signals, while one in uninterruptible sleep will not. This allows for dynamic process management based on signal reception.
-To understand the connections between each point of interaction between the kernel and a program, we can break down the interactions into several key areas. Each point relates to others through the overall architecture and functionality of the operating system. Here’s a detailed exploration of these interactions:
-### 1. **System Calls**
-- **Connection to User Space**: Programs interact with the kernel primarily through system calls. These calls serve as the interface between user space (where applications run) and kernel space (where the operating system operates).
-- **Linking Points**: System calls are essential for requesting services from the kernel, such as file operations, process control, and memory management. They bridge user applications and the kernel's functionalities, ensuring that user programs can access hardware and system resources securely.
-### 2. **Memory Management**
-- **Virtual Memory**: The kernel manages memory allocation for processes, including stack and heap memory. Each process operates in its own virtual address space, which the kernel maps to physical memory.
-- **Linking Points**: Memory management is crucial for ensuring that processes do not interfere with each other. The kernel's role in managing memory allocation and deallocation is linked to system calls for memory operations (e.g., `malloc`, `free`) and to process isolation, which enhances security and stability.
-### 3. **Process Scheduling**
-- **Execution Control**: The kernel schedules processes for execution based on priority and resource availability. It decides which process runs at any given time, managing CPU time efficiently.
-- **Linking Points**: Scheduling is interconnected with system calls related to process management (e.g., `fork`, `exec`, `wait`). It ensures that processes can be created, executed, and terminated, maintaining an orderly execution flow.
-### 4. **Inter-Process Communication (IPC)**
-- **Data Exchange**: The kernel facilitates communication between processes through mechanisms like pipes, message queues, and shared memory.
-- **Linking Points**: IPC is essential for multi-process applications where processes need to share data or synchronize actions. The kernel’s role in managing these communication channels links directly to system calls that create and manage IPC resources.
-### 5. **Device Management**
-- **Hardware Interaction**: The kernel interacts with hardware devices through device drivers, which are specific to each type of hardware. Drivers translate generic I/O requests from the kernel into device-specific commands.
-- **Linking Points**: Device management is linked to system calls for file and device operations (e.g., `open`, `read`, `write`). The kernel’s ability to abstract hardware complexities allows user programs to interact with devices without needing to understand the underlying hardware specifics.
-### 6. **Signal Handling**
-- **Event Notification**: Signals are used by the kernel to notify processes of asynchronous events (e.g., interrupts, termination requests).
-- **Linking Points**: Signal handling is interconnected with process control and scheduling. When a signal is received, the kernel may change the execution context of a process, invoking signal handlers defined by user applications, which directly relates to system calls for signal management (e.g., `signal`, `sigaction`).
-### 7. **Security and Access Control**
-- **Protection Mechanisms**: The kernel enforces security policies and access rights for processes, ensuring that they can only access resources they are permitted to.
-- **Linking Points**: Security measures are linked to system calls that request access to resources (e.g., file access). The kernel checks permissions before allowing operations, ensuring that user programs cannot perform unauthorized actions.
-### 8. **Kernel Modules and Extensions**
-- **Dynamic Functionality**: The kernel can be extended with modules that add functionality without requiring a reboot. These modules can handle new hardware or provide additional system services.
-- **Linking Points**: Kernel modules interact with the kernel through defined interfaces, linking back to the core kernel functionalities. They can also interact with user programs through system calls, enhancing the kernel's capabilities dynamically.
-### Conclusion
-The interaction points between the kernel and user programs are deeply interconnected, forming a cohesive system that manages resources, enforces security, and facilitates communication. Understanding these connections helps in grasping how operating systems function and how applications can efficiently utilize system resources while maintaining security and stability. Each interaction point not only serves its purpose but also supports and enhances the functionality of others, creating a robust operating environment.
-Citations:
-[1] https://en.wikipedia.org/wiki/Kernel_%28operating_system%29
-[2] https://docs.oracle.com/cd/E19253-01/817-5789/emjjp/index.html
-[3] https://sysprog21.github.io/lkmpg/
-[4] https://www.reddit.com/r/C_Programming/comments/sag4c4/how_does_the_kernel_interacts_with_the_hardware/
-[5] https://forum.osdev.org/viewtopic.php?t=40595
-[6] https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/KernelMechanics.html
-[7] https://www.linkedin.com/pulse/linux-incident-response-understanding-heap-stack-taz-wake-dxwoe
-[8] https://iq.thc.org/how-does-linux-start-a-process
+**Say it in one breath:** `fork` clones the running process; `execve` loads a new program into that PID; the kernel builds the stack with `argv`/`envp` and jumps to `_start`.
+
+```txt
+Parent                    Child
+  │                         │
+  ├─ fork() ───────────────►│  (same code, COW memory, shared open fds)
+  │                         │
+  │                    execve(path, argv, envp)
+  │                         │  wipe address space → load ELF
+  │                         │  stack: argc / argv / envp / auxv
+  │                         └─ jump to _start → main
+  │
+  └─ waitpid() ◄── exit status
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **fork** | Duplicate this process | “Child starts as a copy; PID differs; COW avoids full memcpy.” |
+| **execve** | Replace memory with a new program | “Same PID, new code — fork+exec is how shells run commands.” |
+| **COW** | Copy-on-write pages | “Pages stay shared until one side writes.” |
+| **PCB / task_struct** | Kernel’s process record | “Scheduler and signals hang off the task struct.” |
+| **Signal** | Async event to a process | “Ctrl-C is SIGINT; handlers run between syscalls.” |
+| **Stack grows down** | High address → lower on push | “Heap grows up; they meet in the middle of the VA space.” |
+
+### How the story goes (fork → exec → stack)
+
+1. **fork** — parent calls `fork`/`clone`; child returns `0`, parent gets child PID; memory is COW-shared.
+2. **execve** — kernel checks path + execute bits; maps text/data/bss; tears down old mappings.
+3. **Stack setup** — allocate stack (`mmap`-backed region); push `argv`, `envp`, ELF aux vector; set `rsp`.
+4. **Enter user code** — program counter → `_start` (libc) → `main`.
+5. **Signals** — generated → pending → delivered; interruptible sleeps can wake; `D` state does not.
+
+### Kernel ↔ program touch points (keep short)
+
+| Area | Job |
+|------|-----|
+| **System calls** | Only safe door into the kernel ([[system call]]) |
+| **Memory** | Per-process VA; page faults; heap/stack ([[Memory management]]) |
+| **Scheduling** | Who runs next on which CPU |
+| **IPC** | Pipes, shm, sockets ([[Inter Process Communication]]) |
+| **Devices** | Drivers behind `open`/`read`/`write` |
+| **Signals** | Async notify / kill / job control |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# Watch fork/exec/wait live
+strace -f -e trace=process,execve -o /tmp/trace.txt ./my-app
+
+# Limits that shape new processes
+ulimit -a
+ulimit -s          # stack size (KB)
+cat /proc/<pid>/limits
+
+# After exec: confirm binary + args
+ps -p <pid> -o pid,ppid,cmd
+tr '\0' ' ' < /proc/<pid>/cmdline; echo
+readlink /proc/<pid>/exe
+
+# Signal surface
+kill -l
+cat /proc/<pid>/status | grep -E 'Sig|State|PPid'
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `ulimit -s` / `RLIMIT_STACK` | Stack overflow vs large recursive workloads |
+| `RLIMIT_NPROC` | “fork: Resource temporarily unavailable” |
+| `CLONE_*` flags | Threads vs processes (shared VM vs separate) |
+| `strace -f` | Follow children through fork/exec |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `fork failed: EAGAIN` | `ulimit -u`; cgroup pids.max | Raise nproc / fix leak of child processes |
+| Exec fails (`ENOENT` / `EACCES`) | `ls -l` path; shebang; arch (ELF) | Fix path, mode `+x`, interpreter, or wrong ISA |
+| Child zombies pile up | Parent never `wait`s | Add reaper / `SIGCHLD` handler; use double-fork carefully |
+| Segfault right after start | Stack/argv huge; bad ELF | Check `ulimit -s`; `readelf -h`; ASLR / loader errors in `dmesg` |
+| Signal ignored | Custom handler / mask | Inspect `SigBlk`/`SigIgn` in `/proc/<pid>/status` |
+| “Works in shell, fails under systemd” | Env / cwd / limits differ | Compare `systemctl show` Environment + Limits |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **fork alone is not “run a program”** — without `exec`, the child keeps running the parent’s code. Shells and supervisors always pair them.
+
+> [!WARNING]
+> **Threads + fork** — only the calling thread survives in the child; locks held by other threads stay locked forever. Prefer `posix_spawn` or exec soon after fork.
+
+> [!WARNING]
+> **Signals during `D` state** — uninterruptible sleep (often disk/NFS) will not run your handler until I/O completes.
+
+> [!WARNING]
+> **Stack size is a soft trap** — deep recursion or huge locals blow the stack while RSS still looks small.
+
+---
 
 ## When NOT to use
 
-…
+- **Don’t fork a huge multi-threaded server per request** — use a thread pool, async I/O ([[Epoll]]), or a worker process pool started once.
+- **Don’t teach “new process = full memory copy”** — COW makes fork cheap until writes; still costly if the parent dirties all pages.
+- **Don’t use raw signal handlers for complex logic** — keep them async-signal-safe; prefer `signalfd` / self-pipe patterns in servers.
+
+---
 
 ## Related
 
-[[…]]
+[[process]] [[system call]] [[Thread]] [[Stack Frame]] [[stack pointer]] [[Memory management]] [[Inter Process Communication]] [[file descriptors]] [[Epoll]] [[OOM (Linux Out Of Memory)]] [[ELF (Editabl Linkable File)]]

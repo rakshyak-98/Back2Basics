@@ -1,8 +1,8 @@
-[[Docker]]
+[[Docker]] [[docker cli]] [[Docker Runtime Security]] [[Docker compose]]
 
 # docker file
 
-> docker file — to run a specific command on container restart, you should configure the ENTRYPOINT or CMD block in the Dockerfile
+> Dockerfile — recipe of layers: `FROM` base, `RUN`/`COPY` changes, `ENTRYPOINT`/`CMD` as the process that runs.
 
 ---
 
@@ -18,163 +18,100 @@
 
 ## Mental model
 
-To run a specific command on container restart, you should configure the `ENTRYPOINT` or `CMD` block in the `Dockerfile`
-- `ENTRYPOINT` : used to define the main command or process that always runs in the container. It cannot be overridden at runtime unless specifically done with `docker run --entrypoint`
-- `CMD` : Used to provide default arguments to the `ENTRYPOINT` or to specify the command if no `ENTRYPOINT` is defined. Can be overridden at runtime with `docker urn <image> <command>`
+**Say it in one breath:** Each instruction usually adds a layer. Build caches layers until a line changes. `ENTRYPOINT` is the main process; `CMD` supplies default args (overridable).
+
+```txt
+FROM → RUN → COPY → … → ENTRYPOINT/CMD
+  layer   layer   layer
+```
+
+| Instruction | Role |
+|-------------|------|
+| `FROM` | Base (or stage); may appear multiple times (multi-stage) |
+| `RUN` | Execute at build time |
+| `COPY`/`ADD` | Bring files into image (`COPY` preferred) |
+| `ENTRYPOINT` | Fixed main binary (override with `--entrypoint`) |
+| `CMD` | Default args / command if no entrypoint |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Docker layered filesystem
-
-- Docker uses a layered filesystem (also called Union Filesystem or UnionFS) to store images and containers in a very efficient, smart way. This is one of the core reasons Docker is fast, lightweight, and save disk space.
-
- > [!NOTE]
- > Every like in your Dockerfile creates a new layer
-
 ```dockerfile
-FROM ubuntu:22.04           → Layer 1 (base image)
-RUN apt update              → Layer 2
-RUN apt install python3     → Layer 3
-COPY . /app                 → Layer 4
-CMD ["python3", "/app/main.py"] → Layer 5
-```
-
-### Types of Union Filesystem Docker uses (Behind the scenes)
-
-Docker supports multiple drivers (you usually don't change this unless needed)
-
-```bash
-docker info --format '{{.Driveri}'
-```
-
-| Storage Driver | Filesystem   | Most Common Use Case                  |
-| -------------- | ------------ | ------------------------------------- |
-| overlay2       | overlayfs    | Default on modern Linux (recommended) |
-| aufs           | AUFS         | Older Ubuntu/Debian                   |
-| btrfs, zfs     | Native       | When you use those filesystems        |
-| fuse-overlayfs | For rootless | Rootless Docker/Podman                |
-
-- docker file must begin with `FROM` (specifies the parent image). The `FROM` instruction initializes a new build stage and sets the Base image for subsequent instructions. Each `FROM` instruction clears any state created by previous instructions.
-- Optionally a name can be given to a build stage by adding `AS name` to the `FROM` instructions.
-- docker runs instruction synchronously.
-- The `CMD` command represents an argument list for the `ENTRYPOINT`.
-
-`FROM` can appear multiple times within a single `dockerfile` .
-
-```docker
-ARG  CODE_VERSION=latest
-FROM base:${CODE_VERSION}
-CMD  /code/run-app
-
-FROM extras:${CODE_VERSION}
-CMD  /code/run-extras
-```
-
-```bash
-FROM [--platform=<platform>] <image> [AS <name>]
-FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
-FROM [--platform=<platform>] <image>[@<digest>] [AS <name>]
-```
-
-RUN
-
-```bash
-RUN /bin/bash -c 'source $HOME/.bashrc; \\
-echo $HOME'
-RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
-RUN ["/bin/bash", "-c", "echo hello"]
-```
-
-```python
-### reducing the image files
-
-#dockerfile.prod
-#build stage
-FROM node:14.16.0-alipine3.13 as <label>
+# Multi-stage slim prod
+FROM node:20-alpine AS build
 WORKDIR /app
-COPY package*.josn ./
-RUN num install
+COPY package*.json ./
+RUN npm ci
 COPY . .
 RUN npm run build
 
-#stage 2
-FROM <webserver> # nginx:1.12-alipine as production stage
-RUN addgroup app && adduser -S -G app app
-RUN mkdir /app && chown app:app /app
-USER app
+FROM node:20-alpine
 WORKDIR /app
-COPY --from=build-stage /app/build /usr/share/nginx/html
-EXPOSE 80
-ENTRYPOINT ['nginx', '-g', 'demon off;'] #from nginx doc
+ENV NODE_ENV=production
+COPY --from=build /app/dist ./dist
+USER node
+CMD ["node", "dist/server.js"]
 ```
 
-```toml
-[Unit]
-Description=Docker Application Container Engine
-Documentation=https://docs.docker.com
-BindsTo=containerd.service
-After=network-online.target firewalld.service containerd.service
-Wants=network-online.target
-Requires=docker.socket
-
-[Service]
-Type=notify
-# the default is not to use systemd for cgroups because the delegate issues still
-# exists and systemd currently does not support the cgroup feature set required
-# for containers run by docker
-ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
-ExecReload=/bin/kill -s HUP $MAINPID
-TimeoutSec=0
-RestartSec=2
-Restart=always
-
-# Note that StartLimit* options were moved from "Service" to "Unit" in systemd 229.
-# Both the old, and new location are accepted by systemd 229 and up, so using the old location
-# to make them work for either version of systemd.
-StartLimitBurst=3
-
-# Note that StartLimitInterval was renamed to StartLimitIntervalSec in systemd 230.
-# Both the old, and new name are accepted by systemd 230 and up, so using the old name to make
-# this option work for either version of systemd.
-StartLimitInterval=60s
-
-# Having non-zero Limit*s causes performance problems due to accounting overhead
-# in the kernel. We recommend using cgroups to do container-local accounting.
-LimitNOFILE=infinity
-LimitNPROC=infinity
-LimitCORE=infinity
-
-# Comment TasksMax if your systemd version does not supports it.
-# Only systemd 226 and above support this option.
-TasksMax=infinity
-
-# set delegate yes so that systemd does not reset the cgroups of docker containers
-Delegate=yes
-
-# kill only the docker process, not all processes in the cgroup
-KillMode=process
-
-[Install]
-WantedBy=multi-user.target
+```bash
+docker build -t myapp:1.0 .
+docker build --target build -t myapp:build .
+docker info --format '{{.Driver}}'   # usually overlay2
 ```
+
+| Knob | Why it matters |
+|------|----------------|
+| Order: deps COPY before app COPY | Cache `npm ci` when only app code changes |
+| `.dockerignore` | Keeps secrets/node_modules out of context |
+| Non-root `USER` | Runtime security baseline |
+
+## Docker layered filesystem
+
+Union mounts (overlay2) stack layers; containers add a thin writable layer. Shared bases save disk.
+
+| Driver | Typical use |
+|--------|-------------|
+| overlay2 | Default modern Linux |
+| fuse-overlayfs | Rootless |
+| btrfs/zfs | When host uses those |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `COPY failed: file not found` | Context / `.dockerignore` | Fix path; build from right dir |
+| Cache never busts / always busts | Layer order | Put volatile COPY last |
+| Image huge | Intermediate junk | Multi-stage; alpine/distroless; squash carefully |
+| Container ignores my command | ENTRYPOINT+CMD combo | Understand exec-form JSON arrays |
+| Wrong arch on Apple/ARM | Platform | `--platform=linux/amd64` or multi-arch build |
+| Build needs secrets | Secret in layer history | BuildKit secrets; never `ENV PASS=` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`ADD` remote URLs / auto-tar** — surprising; prefer `COPY` + explicit `RUN curl`.
+
+> [!WARNING]
+> **Shell vs exec form** — `CMD npm start` vs `CMD ["npm","start"]` signal handling differs.
+
+> [!WARNING]
+> **Every `RUN` is a layer** — chain `apt-get update && install && clean` in one `RUN`.
+
+---
 
 ## When NOT to use
 
-…
+- **Config that changes per env** — inject at runtime (env/files), don’t bake 12 images.
+- **Windows apps on Linux daemons** — wrong base OS.
+- **Huge mutable data** — volumes, not image layers.
+
+---
 
 ## Related
 
-[[…]]
+[[docker cli]] [[docker container]] [[Docker compose]] [[Docker Runtime Security]] [[AWS ECR]]

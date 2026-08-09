@@ -1,8 +1,8 @@
-[[algo]]
+[[Data structure]] [[sliding window]] [[dsa problem solving Scaffold]]
 
 # Two pointer
 
-> Two pointers — move indexes through a sequence to scan or pair items in linear time.
+> Two pointers walk a sequence from ends or in tandem — linear passes instead of nested loops when order helps.
 
 ---
 
@@ -10,10 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Two pointer: pointer placement rules]]
-- [[#Converging pointers (opposite ends)]]
-- [[#Sliding window (same direction)]]
-- [[#Fast and slow pointers]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -21,136 +17,70 @@
 
 ## Mental model
 
-Pointer = movable reference to a position in a data structure. A void revisiting elements.
-- Each step resolves one conflict (too big / too small) deterministically.
-- Eliminates dominated states: once a pointer moves, all skipped states are provably invalid.
-> Monotonic property -> A property is monotonic if it changes in only one direction (once it increases, it never decreases or vice versa).
-- this enables one-way decisions.
-**When it fails**
-- array is not sorted.
-- Unsorted data with no monotonic rule.
-- Global constraints needing lookahead.
-- Multiple independent conditions.
-**Edge cases**
-- Equal values → non-strict monotonically.
-- Floating-point precision breaks monotonic checks.
-- Data mutation invalidates monotonic assumptions.
-**Sorted two pointer array**
-- Ordered values let us decide which way to move pointer.
-- After sorting, same value repeated → skip to prevent same triplet.
-- sorting allows us to easily skip duplicate values and use the two-pointer technique effectively.
+**Say it in one breath:** Move the pointer that can still fix the invariant (sum too big → move right-end left on sorted arrays).
+
+```txt
+L →→→    ←←← R     or    L,R both →→ (fast/slow, window)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Opposite ends** | sorted pair/sum | “Shrink from the large side.” |
+| **Same direction** | remove dups / windows | “Read & write pointers.” |
+| **Fast/slow** | cycle detection | “Floyd.” |
+| **Invariant** | what stays true | “Say it every move.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Two pointer: pointer placement rules
-
-- Shrink search space.
-- compare element from both ends.
-
-### Pointer at first + last
-- use when global comparison across range is needed.
-- Decision depends on sum/difference/ordering of two elements.
-- You want to shrink search space from both side.
-
-**Movement rule**
-- Compare `a[l]` and `a[r]`
-- Move **one pointer inward** based on condition
-- Each move strictly reduces range → O(n)
-
-### Pointer at first + next
-- use when local adjacency/pair enumeration in needed.
-- Need to examine all pairs in order.
-- One pointer is anchor, other explores ahead.
-- Window grows/slides forward.
-
-**Movement rule**
-- Fix `i`
-- Move `j` forward
-- When condition breaks → move `i`, reset or adjust `j`
-
-```text
-Initialize pointers p1, p2
-while pointers within bounds:
-  evaluate condition using p1, p2
-  move exactly one (or both) pointers based on monotonic rule
-  maintain invariant
-
-```
-
-## Converging pointers (opposite ends)
-
 ```js
-function twoSumSorted(arr, target) {
-  let l = 0
-  let r = arr.length - 1
-
-  while (l < r) {
-    const sum = arr[l] + arr[r]
-    if (sum === target) return [l, r]
-    if (sum > target) r--
-    else l++
-  }
-
-  return []
+// two-sum on sorted
+let l = 0, r = a.length - 1
+while (l < r) {
+  const s = a[l] + a[r]
+  if (s === t) return [l, r]
+  if (s < t) l++
+  else r--
 }
 ```
 
-## Sliding window (same direction)
+| Knob | Why it matters |
+|------|----------------|
+| Sorted? | Opposite-end needs order |
+| `l < r` vs `<=` | Duplicates / mid |
+| Monotonic window | Sliding window cousin |
 
-```js
-function twoSumSorted(arr, target) {
-  let l = 0
-  let r = arr.length - 1
-
-  while (l < r) {
-    const sum = arr[l] + arr[r]
-    if (sum === target) return [l, r]
-    if (sum > target) r--
-    else l++
-  }
-
-  return []
-}
-
-```
-
-## Fast and slow pointers
-
-- cycle detection middle finding.
-
-```js
-function removeDuplicates(nums) {
-  let slow = 0
-
-  for (let fast = 0; fast < nums.length; fast++) {
-    if (fast === 0 || nums[fast] !== nums[fast - 1]) {
-      nums[slow] = nums[fast]
-      slow++
-    }
-  }
-
-  return slow
-}
-
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Infinite loop | pointer never moves | Ensure progress each branch |
+| Missed pairs | duplicates | Skip dups deliberately |
+| Wrong on unsorted | used opposite ends | Sort copy or other pattern |
+| Off-by-one | bounds | Draw array + indices |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Two pointers ≠ always O(n)** — if you binary search inside, say the real cost.
+
+> [!WARNING]
+> **Mutating while iterating** — read/write pointers need clear roles.
+
+---
 
 ## When NOT to use
 
-…
+- **Unordered hashable pair without sort need** — hash set may be simpler.
+- **Graph problems** — BFS/DFS, not array pointers.
 
 ## Related
 
-[[…]]
+[[sliding window]] [[Prefix sum]] [[dsa problem solving Scaffold]]

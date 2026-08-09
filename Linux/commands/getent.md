@@ -34,6 +34,16 @@ app / login ──► libc NSS ──► files │ sss │ ldap │ ...
 | `services` | Port ↔ service name |
 | `ethers`, `protocols`, `rpc` | Network tables |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **getent** | Query NSS databases | “getent sees LDAP/sssd, not just files.” |
+| **passwd** | User lookup | “getent passwd user — exists?” |
+| **group** | Group lookup | “getent group sudo.” |
+| **hosts** | Name → IP via NSS | “getent hosts vs dig — different paths.” |
+| **nsswitch.conf** | Lookup order | “files ldap dns order matters.” |
+
 ## Standard config / commands
 
 ```bash

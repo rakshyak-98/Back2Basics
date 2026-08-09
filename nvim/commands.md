@@ -10,13 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Telescope]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** commands — plain job, how I run it, how I know it’s broken.
+
 
 ```bash
 :Lazy update
@@ -33,54 +35,49 @@ print(vim.inspect(package.loaded['sg.nvim']));
 vim.opt.rtp:prepend(lazypath)
 ```
 - `prepend` method is used to add a new directory to the beginning of the runtime path.
-> [!NOTE] `rtp` stands for runtime path. The runtime path is a list of directories that Neovim searches when looking for files, plugins and configurations.
-- the runtime path determines where Neovim looks for its resources, such as plugins, syntax files, and other configuration files.
-### Treesitter
-#### Error is decoration provider treesitter/highlighter.win
-- indicates a problem with the query parsing, specifically related to an invalid node type.
-```bash
-:TSUpdate; # update the treesitter parsers
-:TSInstall <language>; # check installed package
-:checkhealth nvim-treesitter; # run healthcheck
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **commands** | Core idea of this note | “I can explain commands without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Telescope
-
-### ignore files
-
-```lua
-require('telescope').setup{
-    defaults = {
-        file_ignore_patterns = { 'node_modules/', '.git/', '*.log', '*.tmp' },  -- Add patterns to ignore
-        -- other default options can be added here
-    },
-    pickers = {
-        find_files = {
-            -- You can also override specific picker options here if needed
-        },
-    },
-}
+```bash
+# reproduce with minimal input
+# compare working vs broken env
 ```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[vim keybindings]]] [[[nvim setup]]

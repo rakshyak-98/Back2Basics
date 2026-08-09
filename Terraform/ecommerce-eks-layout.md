@@ -40,7 +40,12 @@ helm/
 
 ## Standard config / commands
 
-…
+```bash
+cd live/dev
+terraform init
+terraform plan
+terraform apply
+```
 
 ## AWS / cluster strategy
 

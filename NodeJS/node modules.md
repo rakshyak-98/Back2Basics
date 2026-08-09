@@ -1,8 +1,8 @@
-[[NodeJS]]
+[[NodeJS]] [[node package json]] [[npm command]]
 
 # node modules
 
-> node modules — node.js does not use traditional linkers like those found in compiled languages (e.g C or C++) due to its architecture and the nature of JavaScript
+> Each file is a module — dependencies resolve at runtime via `require` / `import`, not a C-style linker.
 
 ---
 
@@ -17,33 +17,67 @@
 
 ## Mental model
 
-Node.js does not use traditional linkers like those found in compiled languages (e.g C or C++) due to its architecture and the nature of JavaScript an an interpreted language.
-#### Dynamic Module loading
-- employs a *dynamic module loading system* through the `require()` function, which allows modules to be loaded at *runtime*.
-- Node.js allows modules to loaded dynamically  at runtime using the `require()` function. This means that modules are not all loaded upfront; instead, they are loaded as needed, which can lead to more efficient memory usage and faster startup time.
-### CommonJS Module System
-- Node.js uses the CommonJS module system, which is designed to work seamlessly with JavaScript's *asynchronous* and *event-driven* nature. In this system, each file is treated as a separate module, and the `exports` and `require` objects facilitate the sharing of functionality between them.
-- this functionality eliminates the need for a linker since module dependencies are resolved at runtime rather than at compile time.
+**Say it in one breath:** CommonJS loads on first `require` and caches the `exports`; ESM is static/`import` with live bindings. No separate link step — resolution is at load time.
+
+```txt
+app.js ──require/import──► ./lib.js (cached after first load)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **require cache** | Singleton per resolved path | “Mutating exports affects everyone.” |
+| **CJS vs ESM** | `require` vs `import` | “TLA and `__dirname` differ.” |
+| **exports** | Public surface | “Only export what callers need.” |
 
 ## Standard config / commands
 
-…
+```js
+// CommonJS
+const fs = require('node:fs')
+module.exports = { ok: true }
+
+// ESM (package.json "type": "module" or .mjs)
+import fs from 'node:fs'
+export const ok = true
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `"type": "module"` | Default parse mode |
+| `node:` prefix | Built-ins, unambiguous |
+| Conditional exports | Package entry points |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| ERR_REQUIRE_ESM | CJS requiring ESM | Dynamic `import()` or convert |
+| Duplicate copies | Nested node_modules | Deduplicate; check peer deps |
+| Stale mock in tests | require cache | `delete require.cache[…]` |
+| Wrong file | Extension / exports map | Check `package.json` exports |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Circular requires** — partial exports; redesign or lazy require.
+
+> [!WARNING]
+> **Global leaks** — assignment without `const`/`let`/`var` still pollutes in sloppy mode.
+
+---
 
 ## When NOT to use
 
-…
+- **Browser bundles** — bundler graph differs; don’t assume Node resolution.
+
+---
 
 ## Related
 
-[[…]]
+[[node package json]] [[npm command]] [[Runtime Errors]]

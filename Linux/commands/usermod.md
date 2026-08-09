@@ -35,6 +35,16 @@ NSS (sssd/LDAP) → usermod may not apply — use directory tools
 | `-G g1,g2` | **Replace** all supp groups | Drops sudo if forgotten |
 | `-L` / `-U` | Lock/unlock password | PAM still applies |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **usermod** | Change existing user | “usermod -aG docker user — note -a.” |
+| **-aG** | Append groups | “Without -a you wipe groups.” |
+| **-L / -U** | Lock/unlock | “Locks password; keys may remain.” |
+| **-d -m** | Move home | “-m moves files with home.” |
+| **-s** | Shell | “usermod -s /usr/sbin/nologin.” |
+
 ## Standard config / commands
 
 ```bash

@@ -17,7 +17,8 @@
 
 ## Mental model
 
-A Go `string` is **not** a sequence of characters. It is an immutable, read-only view over a **byte slice** whose bytes are expected to be valid **UTF-8**.
+**Say it in one breath:** A Go `string` is **not** a sequence of characters. It is an immutable, read-only view over a **byte slice** whose bytes are expected to be valid **UTF-8**.
+
 
 ```txt
 string "aé"

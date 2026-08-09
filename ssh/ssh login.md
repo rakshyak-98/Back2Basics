@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Verify with the public key is infra/security tooling — least privilege, clear config, observable failures.
+
+
 ```bash
 ssh user@server.example.com
 ```
@@ -31,47 +34,50 @@ ssh user@server.example.com
 ssh-keygen -t ed25519 -C "you@example.com"
 ```
 - private keys stays with you, the server needs to know who it should trust so, you copy your public key `~/.ssh/authorized_key` of your account on the server.
-> [!INFO]
-- Now, the server knows: "If someone claims to be Alice, I'll challenge them using this specific public key. If they can prove ownership of the private key, I'll let them in."
-**You can approximate this process on the command line without SSH itself**
-```bash
-openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048;
-openssl rsa -in private.pem -pubout -out public.pem;
-```
-```bash
-echo "IAmARandomSring123456" > challenge.txt;
-```
-```bash
-openssl dgst -sha256 -sign private.pem -out signature.bin challenge.txt;
-```
-```bash
-openssl dgst -sha256 -verify public.pem signature.bin challenge.txt;
-```
-> [!INFO]
-> - Only someone with the private key can produce a valid signature
-> - Anyone with the public key can check_signature, but they can't forge them.
-> - The server never needs to see or store your private key.
-> - Replay attacks are foiled because each challenge is random and temporary.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Verify with the public key** | Core idea of this note | “I can explain Verify with the public key without jargon.” |
+| **least privilege** | Only needed access | “Grant the smallest role that works.” |
+| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
+| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# status
+# check version, auth, and recent changes
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth fail | clock / creds / IAM | Sync time; fix policy |
+| TLS error | cert chain / SNI | Fix certs and CA bundle |
+| Deploy down | rollback / health | Roll back; check probes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Never commit long-lived secrets.
+
+---
 
 ## When NOT to use
 
-…
+- Don’t build custom infra when managed services meet the SLO.
+
+---
 
 ## Related
 
-[[…]]
+[[ssh]]

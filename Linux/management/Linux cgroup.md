@@ -35,6 +35,16 @@ v1 (legacy): separate hierarchies per controller (`memory`, `cpuacct`, …). v2:
 
 ---
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **cgroup** | Kernel resource control groups | “cgroups cap CPU/mem per service or container.” |
+| **v1 vs v2** | Hierarchy models | “v2 is unified; prefer it on modern kernels.” |
+| **memory.max** | Hard memory cap | “Hit max → OOM in that cgroup.” |
+| **CPUQuota** | systemd CPU % limit | “CPUQuota=200% = two cores worth.” |
+| **slice** | systemd grouping | “Services hang under slices for shared limits.” |
+
 ## Standard config / commands
 
 ### Detect version

@@ -1,8 +1,8 @@
-[[TypeScript]]
+[[TypeScript]] [[typescript]] [[typescript types]]
 
 # tsconfig
 
-> `tsconfig.json` — TypeScript compiler options, libs, paths, and project roots.
+> `tsconfig.json` — compiler project file: roots, `strict` flags, module settings, path aliases, incremental build info.
 
 ---
 
@@ -17,34 +17,85 @@
 
 ## Mental model
 
-#### change the lib compiler
-### ts config not able to detect `types` modules
-> if already have the `@types` package installed in your `node_modules`, but TypeScript is still unable to find them, you might need to add a `typeRoot` or `types` field in you `tsconfig.node.json` to explicitly specify where TypeScript should look for type definitions.
-`tsBuildInfoFile`: option in the `tsconfig.json` file
-- specifies the location where TypeScript should store incremental compilation information.
-- these files helps typescript speed up subsequent compilations by storing information about the previous compilations.
-- the `tsBuildInfoFile` option allows you to specify the path where this incremental compilation information should be stored.
-> [!INFO] by compilation information is stored in a file named `.tsbuildinfo` in the same directory as the `tsconfig.json` file.
+**Say it in one breath:** One config (or solution-style references) tells `tsc` what to include and how strict to be. Bundlers may typecheck separately — keep options aligned.
+
+```txt
+include/exclude → parse → typecheck → emit?
+```
+
+| Area | Knobs |
+|------|-------|
+| Safety | `strict`, `noUncheckedIndexedAccess` |
+| Modules | `module`, `moduleResolution`, `verbatimModuleSyntax` |
+| Output | `outDir`, `declaration`, `noEmit` |
+| DX | `paths`, `baseUrl`, `incremental` |
+
+---
 
 ## Standard config / commands
 
-…
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node"],
+    "tsBuildInfoFile": ".cache/tsbuildinfo"
+  },
+  "include": ["src"]
+}
+```
+
+```bash
+npx tsc -p tsconfig.json --noEmit
+npx tsc -b  # project references
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `typeRoots` / `types` | Which `@types` load |
+| `paths` | Aliases — bundler must mirror |
+| `incremental` + `tsBuildInfoFile` | Faster rebuilds |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Can’t find `@types` | `types`/`typeRoots` too narrow | Remove empty `types: []` or add names |
+| Path alias fails at runtime | Only TS knows paths | Bundler/`subpath` exports |
+| IDE ≠ CLI errors | Wrong tsconfig root | Point VS Code at right config |
+| Slow CI | No incremental cache | Cache `tsbuildinfo` |
+| Emit into repo mess | Accidental emit | `noEmit` or clean `outDir` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`paths` is not Node resolution** — runtime needs real resolution.
+
+> [!WARNING]
+> **`skipLibCheck`** — speeds CI; hides some `.d.ts` issues.
+
+> [!WARNING]
+> **Multiple tsconfigs** — app vs node vs test; don’t mix casually.
+
+---
 
 ## When NOT to use
 
-…
+- **One-off `tsc` file** — `--allowJs` script maybe.
+- **Fighting the bundler** — let Vite/webpack own emit; use `noEmit`.
+- **Loosening `strict` to silence** — fix types.
+
+---
 
 ## Related
 
-[[…]]
+[[typescript]] [[typescript error]] [[ambient modules]] [[Triple-Slash Directives]]

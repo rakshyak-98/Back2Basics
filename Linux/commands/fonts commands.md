@@ -31,6 +31,16 @@ Install .ttf → fc-cache -f → app restart (sometimes required)
 | `fc-cache` | Rebuild caches after install/remove |
 | `fc-scan` | Low-level scan of a directory (debug) |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **fc-list** | List fonts | “fc-list : family | sort.” |
+| **fc-cache** | Rebuild cache | “After install fonts → fc-cache -fv.” |
+| **~/.local/share/fonts** | User fonts | “No root needed.” |
+| **fc-match** | What will render | “fc-match 'DejaVu Sans'.” |
+| **Pango/Qt** | App stacks | “Apps may bypass fontconfig quirks.” |
+
 ## Standard config / commands
 
 ```bash

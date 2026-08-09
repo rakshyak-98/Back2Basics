@@ -17,7 +17,8 @@
 
 ## Mental model
 
-**sdist** (source tarball) may compile C extensions on install. **wheel** ships pre-built artifacts for a platform tag (`cp312-manylinux_x86_64`). `pip` prefers wheels when tag matches. You build wheels in CI; consumers install in seconds.
+**Say it in one breath:** A wheel is a prebuilt package for a platform tag; pip prefers it over an sdist that must compile.
+
 
 ```
 pyproject.toml / setup.py → build backend → dist/*.whl → pip install

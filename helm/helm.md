@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Deployment]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,58 +17,58 @@
 
 ## Mental model
 
+**Say it in one breath:** helm is infra/security tooling — least privilege, clear config, observable failures.
+
+
 ```bash
 helm list
 helm get values
 ```
 - The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **helm** | Core idea of this note | “I can explain helm without jargon.” |
+| **least privilege** | Only needed access | “Grant the smallest role that works.” |
+| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
+| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
+
+---
+
 ## Standard config / commands
 
-…
+```bash
+# status
+# check version, auth, and recent changes
+```
 
-## Deployment
-
-Helm is package manager for kubernetes.
-- tool to install, upgrade, and manage complex applications on Kubernetes (like the Nginx Ingress Controller). Instead of manually applying many YAML files, Helm uses a pre-packaged bundle called a Chart.
-
-Chart -> contains all the necessary Deployment, Services, ConfigMaps, RBAC roles, etc. in one place.
-
-### Deploy controller
-
-installing and running the actual software (application) that will implement and enforce your ingress rules.
-
-> [!NOTE]
-> You can create hundreds of Ingress YAML files, but nothing will work until you deploy the ingress controller.
-
-### What happens when you deploy the controller
-
-When you deploy the Nginx Ingress Controller, Kubernetes creates the following:
-	- a deployment (one or more pods) running the NGINX web server.
-	- A service (NodePort or LoadBalancer) to expose the controller.
-	- RBAC permissions, ConfigMaps, and other supporting resources.
-	- The controller starts watching all ingress resources in the cluster.
-
-Once deployed, the controller automatically:
-	- reads your YAML file.
-	- Configure NGINX accordingly
-	- Routes external traffic to your backend service (`/v1` `/v2` etc.).
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth fail | clock / creds / IAM | Sync time; fix policy |
+| TLS error | cert chain / SNI | Fix certs and CA bundle |
+| Deploy down | rollback / health | Roll back; check probes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Never commit long-lived secrets.
+
+---
 
 ## When NOT to use
 
-…
+- Don’t build custom infra when managed services meet the SLO.
+
+---
 
 ## Related
 
-[[…]]
+[[helm]]

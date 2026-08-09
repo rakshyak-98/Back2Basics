@@ -1,4 +1,4 @@
-[[Streaming]]
+[[Streaming]] [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[WebRTC Signaling channels]] [[TURN server (Traversal Using Relays around NAT)]]
 
 # WebRTC Get Started Guide
 
@@ -10,11 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Querying media devices]]
-- [[#Listening for devices changes]]
-- [[#Media constraints]]
-- [[#Local playback]]
-- [[#Peer Connections]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -22,133 +17,175 @@
 
 ## Mental model
 
-[getting-started/media-devices](https://webrtc.org/getting-started/media-devices)
-```js
-navigator.mediaDevices.getUserMedia({vide: true, audio: true})
-	.then( stream => {
-			console.log("Got MediaStream: ", stream)
-	})
+**Say it in one breath:** Before ICE and signaling matter, you must open the right camera/mic, apply constraints that the device can meet, show a local preview, then attach tracks to an `RTCPeerConnection`.
+
+```txt
+enumerateDevices / devicechange
+        │
+        ▼
+getUserMedia(constraints) ──► MediaStream
+        │
+        ├──► <video>.srcObject = stream   (local preview)
+        └──► pc.addTrack(track, stream)   (send to peer)
+                    │
+                    ▼
+         offer/answer + ICE  ([[WebRTC Signaling channels]],
+                              [[ICE (Interactive Connectivity Establishment)]])
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **enumerateDevices** | List cameras/mics/speakers | “I pick deviceId after listing inputs.” |
+| **devicechange** | Hot-plug event | “USB cam plugged in — refresh the dropdown.” |
+| **constraints** | What you ask the device for | “Exact deviceId + min width/height + echoCancellation.” |
+| **MediaStream** | Bundle of tracks | “Tracks go to preview and to the PeerConnection.” |
+| **srcObject** | Attach stream to `<video>` | “Local preview is not the remote peer yet.” |
+| **addTrack** | Publish to the PC | “Tracks must exist before createOffer.” |
+
+### Order that saves hours
+
+1. **Secure context** — HTTPS or `localhost` (getUserMedia blocked otherwise).
+2. **List devices** — after a permission grant, labels appear.
+3. **Open with constraints** — match a real `deviceId`; avoid impossible min size.
+4. **Preview locally** — prove capture before blaming ICE.
+5. **PeerConnection** — STUN/TURN + signaling; see [[WebRTC]] and [[ICE (Interactive Connectivity Establishment)]].
+
+---
 
 ## Standard config / commands
 
-…
+### Capture + local preview
 
-## Querying media devices
-
-- in more complex application, we will likely want to check all the connected cameras and microphones and provide the appropriate feedback to the user.
 ```js
-function getConnectedDevices(type, callback){
-	navigator.mediaDevices.enumerateDevices().then(devices => {
-		const filtered = devices.filter(device => device.kind === type);
-		callback(filtered);
-	})
+async function playLocalPreview() {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: { echoCancellation: true },
+    video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+  })
+  document.querySelector('video#localVideo').srcObject = stream
+  return stream
 }
-
-getConnectedDevices('videoinput', cameras => console.log("Cameras found", cameras));
 ```
 
-## Listening for devices changes
-
-- most computers support plugging in various devices during runtime. It could be a webcam connected by USB, a Bluetooth headset, or a set of external speakers. In order to properly support this, a web application should listen for the changes of media devices.
-
-> [!INFO] this is done by adding a listener to `navigator.mediaDevices` for the `devicechange` event.
+### List cameras / mics
 
 ```js
-function updateCameraList(cameras) {
-	const listElement = document.querySelector('select#availableCameras")
-	 listElement.innerHTML = '';
-	 cameras.map(camera => {
-		 const cameraOption = document.createElement('option');
-		 cameraOption.label = camera.label;
-		 cameraOption.value = camera.deviceId;
-	 }).forEach(cameraOption => listElement.add(camerOption));
+async function getConnectedDevices(kind) {
+  const devices = await navigator.mediaDevices.enumerateDevices()
+  return devices.filter((d) => d.kind === kind) // 'videoinput' | 'audioinput' | 'audiooutput'
 }
 
-async function getConnectedDevices(type){
-	const devices = await navigator.mediaDevices.enumerateDevices();
-	return devices.filter(device => device.kind === type);
+const cameras = await getConnectedDevices('videoinput')
+console.log(cameras.map((c) => ({ id: c.deviceId, label: c.label })))
+```
+
+### devicechange (hot-plug)
+
+```js
+async function refreshCameraSelect() {
+  const cameras = await getConnectedDevices('videoinput')
+  const select = document.querySelector('select#availableCameras')
+  select.innerHTML = ''
+  for (const camera of cameras) {
+    const opt = document.createElement('option')
+    opt.value = camera.deviceId
+    opt.textContent = camera.label || `Camera ${camera.deviceId.slice(0, 8)}`
+    select.add(opt)
+  }
 }
 
-const videoCameras = getConnectedDevices('videoinput');
-updateCameraList(videoCameras);
-navigator.mediaDevices.addEventListener('devicechange', event => {
-	const newCameraList = getConnectedDevices('video');
-	updateCameraList(newCameraList);
+navigator.mediaDevices.addEventListener('devicechange', () => {
+  refreshCameraSelect().catch(console.error)
 })
 ```
 
-## Media constraints
-
-> [!NOTE] it is recommended that applications that use the `getUserMedia()` API first check the existing devices and then specifies a constraint that matches the exact device using the `deviceId` constraint.
-- we can enable echo cancellation on microphones or set a specific or minimum width and height of the video from the camera.
+### Open a specific camera
 
 ```js
-async function getConnectedDevices(type) {
-	const devices = await navigator.mediaDevices.enumerateDevices();
-	return devices.filter(device => device.kind === type);
-}
-
-async function openCamera(cameraId, minWidth, minHeight){
-	const constraints = {
-		'audio': {'echoCancallation': true},
-		'video': {
-			'deviceId': cameraId;
-			'width': {'min': minWidth},
-			'height': {'min': minHeight}
-		}
-	}
-	return await navigator.mediaDevices.getUserMedia(constraints);
-}
-
-const cameras = getConnectedDevices('videoinput')
-if(cameras && cameras.length > 0){
-	const stream = openCamera(cameras[0].deviceId, 1280, 720);
+async function openCamera(cameraId, minWidth, minHeight) {
+  return navigator.mediaDevices.getUserMedia({
+    audio: { echoCancellation: true },
+    video: {
+      deviceId: { exact: cameraId },
+      width: { min: minWidth, ideal: minWidth },
+      height: { min: minHeight, ideal: minHeight },
+    },
+  })
 }
 ```
 
-## Local playback
-
-- Once a media device has opened we have a `MediaStream` available, we can assign it to a video or audio element to play the stream locally.
+### PeerConnection (after capture works)
 
 ```js
-async function playVideoFromCamers(){
-	try{
-		const constraints = {'video': true, 'audio': true}
-		const stream = await navigator.mediaDevices.getUserMedia(constraints);
-		const videoElement = document.querySelector('video#localVideo');
-		videoElement.srcObject = stream;
-	}catch(error) {
-		console.error('Error opening video camera.', error)
-	}
-}
+const pc = new RTCPeerConnection({
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'turn:turn.example.com:3478', username: 'u', credential: 'p' },
+  ],
+})
+
+stream.getTracks().forEach((t) => pc.addTrack(t, stream))
+pc.onicecandidate = (e) => e.candidate && signaling.send({ type: 'candidate', candidate: e.candidate })
+
+const offer = await pc.createOffer()
+await pc.setLocalDescription(offer)
+signaling.send({ type: 'offer', sdp: pc.localDescription })
 ```
 
-## Peer Connections
+| Knob | Why it matters |
+|------|----------------|
+| `deviceId: { exact }` | Pins the camera the user selected |
+| `ideal` vs `min` | `min` fails hard if unsupported; `ideal` negotiates down |
+| `echoCancellation` | Stops laptop mic hearing speaker output |
+| STUN + TURN in `iceServers` | Capture OK ≠ connect OK across NATs |
 
-- deals with connecting two applications on different computers to communicate using a peer-to-peer protocol. The Communication between peers can be video, audio or arbitrary binary data (for clients supporting the `RTCDataChannel` API).
-- In order to discover how two peers can connect, both client need to provide an ICE Server configuration.
-	- This is either STUN or a TURN-server, and their role is to provide ICE candidates to each client which is then transferred to the remote peer.
+Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` only after PC exists.
 
-> [!INFO] This transferring of ICE candidates is commonly called signaling.
-
-### Signaling
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `getUserMedia` NotAllowedError | Permissions / insecure origin | HTTPS; user gesture; reset site permissions |
+| `OverconstrainedError` | Impossible width/height or bad deviceId | Soften to `ideal`; re-enumerate after grant |
+| Empty device labels | Called enumerate before permission | Call getUserMedia once, then enumerate |
+| Black `<video>` | `srcObject` not set / muted autoplay | Set `srcObject`; `video.play()`; muted for autoplay policy |
+| Works in preview, remote silent | Tracks not on PC / signaling | `addTrack` before offer; fix [[WebRTC Signaling channels]] |
+| Stuck connecting | ICE only | See [[ICE (Interactive Connectivity Establishment)]]; add TURN |
+| Camera list stale after USB plug | No `devicechange` listener | Refresh enumerateDevices on event |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Typos in constraints kill capture** — `video` not `vide`; `echoCancellation` not `echoCancallation`. Failures look like “WebRTC broken” but never reach ICE.
+
+> [!WARNING]
+> **Labels are blank until permission** — privacy rule; design UX around a first grant.
+
+> [!WARNING]
+> **Stopping tracks** — `track.stop()` releases the hardware LED; forgetting leaves the camera “on” after hangup.
+
+> [!WARNING]
+> **Replace track mid-call** — use `sender.replaceTrack()` (or renegotiate); don’t assume a new getUserMedia alone updates the remote.
+
+> [!WARNING]
+> **Signaling ≠ media** — local preview success does not prove STUN/TURN; configure [[TURN server (Traversal Using Relays around NAT)]] for production.
+
+---
 
 ## When NOT to use
 
-…
+- **Server-side only ingest** — [[RTMP]] / SRT / WHIP into origin; no browser getUserMedia.
+- **VOD progressive download** — plain HTTP file/Byte stream; not a PeerConnection.
+- **Debugging ICE first** — if local preview fails, fix devices/constraints before touching candidates.
+
+---
 
 ## Related
 
-[[…]]
+[[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[SCTP (Stream Control Transmission Protocol)]] [[SDP (Session Description Protocol)]]

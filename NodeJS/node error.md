@@ -1,8 +1,8 @@
-[[NodeJS]]
+[[NodeJS]] [[Error handeling]] [[Runtime Errors]] [[mysql/mysql connection]]
 
 # node error
 
-> node error — error: The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeo
+> Common Node + MySQL disconnect: idle connection killed by server `wait_timeout` — use a pool that replaces dead sockets.
 
 ---
 
@@ -17,87 +17,78 @@
 
 ## Mental model
 
-```text
-Error: The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeo
+**Say it in one breath:** A long-held single connection goes idle longer than MySQL’s timeout; next query hits a dead socket. Pools discard dead conns and open fresh ones.
+
+```txt
+app ── stale conn ──► MySQL wait_timeout ──► PROTOCOL_CONNECTION_LOST
+         prefer: createPool → auto replace
 ```
-> [!INFO]
-> use `mysql/pool` instead of a single long-lived connection `mysql.createConnection`.
-- Your Node.js app holds onto a MySQL connection (or pool) for a long time.
-- No queries are sent for longer than wait_timeout seconds (default usually 8 hours / 28800 s, but sometimes much lower — especially on hosted/cloud DBs).
-> [!INFO]
-> - When your app later tries to use that stale connection → boom, this error.
-### Quick Fixes (choose one or combine)
-1. **Use a connection pool + handle disconnects** (most recommended for production-like local dev)
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **wait_timeout** | Server closes idle sessions | “Cloud DBs often set this low.” |
+| **Pool** | Borrow/return connections | “Survives idle better than one conn.” |
+| **PROTOCOL_CONNECTION_LOST** | Socket died mid-use | “Retry once or let pool refresh.” |
+
+## Standard config / commands
+
 ```js
-const mysql = require('mysql2'); // or 'mysql' — but mysql2 is better
+import mysql from 'mysql2/promise'
+
 const pool = mysql.createPool({
   host: 'localhost',
-  user: 'your_user',
-  password: 'your_pass',
-  database: 'your_db',
+  user: 'u',
+  password: 'p',
+  database: 'db',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-  // Very helpful:
-  connectTimeout: 10000,
-  // Optional but useful in dev:
-  // timezone: 'Z',
-});
-// Optional: better error handling + auto-reconnect logic
-pool.on('error', (err) => {
-  console.error('Pool error:', err);
-  if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'ER_CLIENT_INTERACTION_TIMEOUT') {
-    console.log('MySQL connection lost — pool should recover automatically');
-  }
-});
-// How to use it (promise style - recommended)
-async function queryExample() {
-  try {
-    const [rows] = await pool.promise().query('SELECT 1');
-    return rows;
-  } catch (err) {
-    if (err.code === 'ER_CLIENT_INTERACTION_TIMEOUT' || err.code === 'PROTOCOL_CONNECTION_LOST') {
-      // You can retry once here if needed
-      console.log('Retrying after timeout...');
-      // or just let it fail and next request will get fresh conn from pool
-    }
-    throw err;
-  }
-}
+  connectTimeout: 10_000,
+})
+
+const [rows] = await pool.query('SELECT 1')
 ```
-### The pool automatically:
-- Discards dead connections
-- Creates new ones when needed
-- Survives `nodemon` restarts much better
-### Mysql
-```ini
-[mysqld]
-wait_timeout        = 86400
-interactive_timeout = 86400
-```
+
 ```sql
 SHOW VARIABLES LIKE '%timeout%';
 ```
 
-## Standard config / commands
+| Knob | Why it matters |
+|------|----------------|
+| `connectionLimit` | Cap DB load |
+| Pool `error` handler | Log lost connections |
+| Server timeouts | Align with pool idle behavior |
 
-…
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Disconnect after idle | Single `createConnection` | Switch to pool |
+| Errors after nodemon | Stale handles | Pool; don’t keep global conn across restarts |
+| Still timing out | Server timeout tiny | Raise `wait_timeout` or ping/keepalive |
+| Too many conns | Limit × replicas | Lower `connectionLimit` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **One global connection in serverless** — cold starts + timeouts; prefer short-lived or external pooler.
+
+> [!WARNING]
+> **Swallowing pool errors** — always log `PROTOCOL_CONNECTION_LOST` / timeout codes.
+
+---
 
 ## When NOT to use
 
-…
+- This note is a **failure playbook**, not a library — for app errors see [[Error handeling]].
+
+---
 
 ## Related
 
-[[…]]
+[[Error handeling]] [[Runtime Errors]] [[mysql/mysql connection]]

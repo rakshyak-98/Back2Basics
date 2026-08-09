@@ -1,8 +1,8 @@
-[[Data structure]]
+[[Data structure]] [[DSA algorithms]]
 
 # dsa modular arithmetics
 
-> dsa modular arithmetics — modular arithmetic is often called "Clock Arithmetic". Think of a clock: if it 10:00 and you add 5 hours, it becomes 3:00, not 15:00.
+> Modular arithmetic is math on remainders — wrap indices, hash, and contest math under a modulus.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Euclid's Algorithm]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,42 +17,64 @@
 
 ## Mental model
 
-- modular arithmetic is often called "Clock Arithmetic". Think of a clock: if it 10:00 and you add 5 hours, it becomes 3:00, not 15:00. This is because a clock works in Modulo 12.
-- The cycle -> imagine a circle with 5 points (0, 1, 2, 3, 4) if you take 17 steps around that circle, you land on 2.
-	- in DSA we use this to keep numbers within a certain range (like hash tables) or to check for patterns without dealing with massive integers.
-> [!INFO]
-> Every number greater than 1 is either a prime or can be made by multiplying primes together (e.g., 12 = 2 x 2 x 3).
+**Say it in one breath:** Work mod `m` so values stay in `0…m-1`; watch negative mods and overflow before `%`.
+
+```txt
+(a + b) mod m = ((a mod m) + (b mod m)) mod m
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **mod** | Remainder | “Clock math.” |
+| **Congruent** | Same remainder | `a ≡ b (mod m)` |
+| **Inverse** | Multiply to 1 | “Exists if gcd(a,m)=1.” |
+| **Wrap index** | Circular buffers | `(i+1) % n` |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+const mod = (x, m) => ((x % m) + m) % m // positive remainder
+const add = (a, b, m) => mod(a + b, m)
+```
 
-## Euclid's Algorithm
+| Knob | Why it matters |
+|------|----------------|
+| Prime modulus | Inverses exist for all non-0 |
+| BigInt | Avoid overflow in JS/Java |
+| Order of ops | Overflow before mod lies |
 
-- Instead of subtracting 18 from 28 repeatedly (which is slow), the modulo operator `%` jumps to the reminder, performing multiple "subtractions" in one step.
-
-> [!NOTE]
-> Forgetting that `GCD(0, 0)` is mathematically undefined. Most implementations return 0 or throw an error, but failing to check for "Division of Zero" during the modulo step can crash a program.
-
-
-> [!WARNING]
-> GCD is an integer theory concept; passing `4.5` will lead to infinite loops or logic errors.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Negative remainder | language `%` | Positive mod helper |
+| Wrong contest answer | overflow | BigInt / long + mod |
+| No inverse | gcd≠1 | Different modulus / method |
+| Off-by-wrap | index -1 | `mod(i-1, n)` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Language `%` on negatives** — JS/C differ in sign of remainder.
+
+> [!WARNING]
+> **`(a*b)%m` with 32-bit ints** — multiply can overflow; cast wide first.
+
+---
 
 ## When NOT to use
 
-…
+- **Plain floats** — rounding ≠ modular rings.
+- **Crypto without a library** — don’t roll your own.
 
 ## Related
 
-[[…]]
+[[DSA algorithms]] [[dsa problem solving Scaffold]]

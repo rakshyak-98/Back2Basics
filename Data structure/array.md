@@ -1,8 +1,8 @@
-[[Data structure]]
+[[Data structure]] [[ADT (Abstract Data Type)]]
 
 # array
 
-> array — why zero-based indexing — primarily due to memory efficiency and pointer arithmetic in lower level implementation like C, which influenced most modern languages.
+> An array is a contiguous block of same-size slots — index `i` means `base + i * size` (that’s why zero-based is natural).
 
 ---
 
@@ -17,30 +17,65 @@
 
 ## Mental model
 
-- Why zero-based indexing -> primarily due to memory efficiency and pointer arithmetic in lower level implementation like C, which influenced most modern languages.
-Offset from Base Address -> Arrays are stored in contiguous memory blocks. The first element is the array's base address (offset 0). To access the i-th element, the compiler simply computes `base + i * element_size` no subtraction needed.
-> [!NOTE]
-> A 1-based index require `base + (i - 1) * element_size`, adding an unnecessary operation that slows things down, especially in loops or large-scale access.
+**Say it in one breath:** Random access O(1); insert/delete in the middle is O(n) because you shift elements.
+
+```txt
+base → [0][1][2]…[n-1]   address(i) = base + i*elem_size
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Contiguous** | Neighbors in memory | “Great cache locality.” |
+| **Zero-based** | First offset is 0 | “No extra subtract in address math.” |
+| **Dynamic array** | Resizable buffer | “Amortized append O(1).” |
+| **vs linked list** | Trade access vs insert | “Arrays win reads; lists win middle insert.” |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+const a = [10, 20, 30]
+a.push(40)        // end
+a.splice(1, 0, 15) // middle insert — shifts
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Capacity growth | Realloc cost |
+| Typed arrays | Dense numeric data |
+| Bounds checks | Safety vs speed |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| OOB / segfault | index vs length | Validate bounds |
+| Slow inserts | middle splice loop | Use better structure |
+| Memory blow | huge sparse use | Map/dict instead |
+| Off-by-one | loop `<= n` | Prefer half-open `[lo, hi)` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **JS “arrays” are objects** — holes and mixed types change performance.
+
+> [!WARNING]
+> **Assuming O(1) insert** — only at the end for dynamic arrays.
+
+---
 
 ## When NOT to use
 
-…
+- **Frequent middle insert/delete** — list / gap buffer / rope.
+- **Sparse keys** — hash map.
 
 ## Related
 
-[[…]]
+[[ADT (Abstract Data Type)]] [[linked list]] [[Data structure]]

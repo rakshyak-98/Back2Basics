@@ -1,8 +1,8 @@
-[[React]]
+[[React]] [[React Pattern/Higher order Component (HOCs)]] [[react-query]]
 
 # Data Fetching HOC component
 
-> Data Fetching HOC component — import React, { useState, useEffect } from 'react';
+> Wrap a presentational list with fetch/loading/error — HOC owns the request; child gets `data`.
 
 ---
 
@@ -17,134 +17,86 @@
 
 ## Mental model
 
-```js
-// withDataFetching.js
-import React, { useState, useEffect } from 'react';
-// Optional: Simple loading spinner component
-const DefaultLoading = () => <div>Loading...</div>;
-const DefaultError = ({ error }) => <div>Error: {error.message}</div>;
-function withDataFetching(WrappedComponent, fetchConfig) {
-  // fetchConfig can be:
-  // - a string URL
-  // - or an object: { url, method = 'GET', headers = {}, body = null, dependencies = [] }
-  return function WithDataFetching(props) {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    // Normalize config
-    const config = typeof fetchConfig === 'string'
-      ? { url: fetchConfig }
-      : fetchConfig;
-    const {
-      url,
-      method = 'GET',
-      headers = {},
-      body = null,
-      dependencies = [], // extra deps for useEffect
-      LoadingComponent = DefaultLoading,
-      ErrorComponent = DefaultError,
-    } = config;
-    useEffect(() => {
-      let mounted = true;
-      const fetchData = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-          const response = await fetch(url, {
-            method,
-            headers: {
-              'Content-Type': 'application/json',
-              ...headers,
-            },
-            body: body ? JSON.stringify(body) : null,
-          });
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const result = await response.json();
-          if (mounted) {
-            setData(result);
-            setLoading(false);
-          }
-        } catch (err) {
-          if (mounted) {
-            setError(err);
-            setLoading(false);
-          }
-        }
-      };
-      fetchData();
-      return () => {
-        mounted = false; // cleanup to prevent state update on unmounted component
-      };
-    }, [url, method, JSON.stringify(body), JSON.stringify(headers), ...dependencies]);
-    // Render logic
-    if (loading) {
-      return <LoadingComponent />;
-    }
-    if (error) {
-      return <ErrorComponent error={error} />;
-    }
-    // Pass data, loading, error, and refetch capability
-    return (
-      <WrappedComponent
-        {...props}
-        data={data}
-        loading={loading}
-        error={error}
-        refetch={() => {
-          // Force re-run effect by changing a dummy dependency if needed
-          // Or just call the fetch again manually
-        }}
-      />
-    );
-  };
-}
-export default withDataFetching;
+**Say it in one breath:** `withDataFetching(Comp, url)` returns a component that fetches, then renders `Comp` with `data` — or loading/error UI.
+
+```txt
+HOC mounts → fetch(url) → loading | error | <Wrapped data={…} />
+unmount → ignore / abort
 ```
-### Example usage
-```js
-// UserList.js
-import React from 'react';
-function UserList({ data, loading, error }) {
-  // data is already handled by HOC, but we can still use props safely
-  if (!data) return null;
-  return (
-    <div>
-      <h2>Users</h2>
-      <ul>
-        {data.map(user => (
-          <li key={user.id}>
-            {user.name} ({user.email})
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-// Wrap it with the HOC
-export default withDataFetching(UserList, 'https://jsonplaceholder.typicode.com/users');
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **HOC** | Function → enhanced component | “Compose behavior without editing child.” |
+| **Mounted flag / abort** | Stop setState after unmount | “Cleanup prevents warnings/races.” |
+| **Injected props** | `data`, `error`, `refetch` | “Child stays presentational.” |
 
 ## Standard config / commands
 
-…
+```tsx
+function withDataFetching<P>(Wrapped: React.ComponentType<P & { data: unknown }>, url: string) {
+  return function WithData(props: P) {
+    const [data, setData] = useState(null)
+    const [error, setError] = useState<Error | null>(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+      const c = new AbortController()
+      setLoading(true)
+      fetch(url, { signal: c.signal })
+        .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json() })
+        .then(setData)
+        .catch((e) => { if (e.name !== 'AbortError') setError(e) })
+        .finally(() => setLoading(false))
+      return () => c.abort()
+    }, [url])
+
+    if (loading) return <div>Loading...</div>
+    if (error) return <div>Error: {error.message}</div>
+    return <Wrapped {...props} data={data} />
+  }
+}
+
+export default withDataFetching(UserList, '/api/users')
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `url` dep | Refetch when endpoint changes |
+| Abort cleanup | Race-safe |
+| Loading/Error slots | Swap UI without touching child |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Wrapper hell / prop collisions | Nested HOCs | Prefer hooks / [[react-query]] |
+| Stale data on nav | No abort | AbortController |
+| `JSON.stringify` in deps | Unstable objects | Stabilize config or use hook |
+| Child ignores loading | Assumes data always set | Keep gate in HOC |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **HOCs obscure the tree in DevTools** — name the inner function (`WithDataFetching`).
+
+> [!WARNING]
+> **Static config HOCs don’t get props-driven URLs cleanly** — hooks usually win.
+
+---
 
 ## When NOT to use
 
-…
+- **New code** — custom hook or [[react-query]] instead of fetch HOCs.
+- **Auth/logging cross-cuts** — still OK for true cross-cutting; not for every GET.
+
+---
 
 ## Related
 
-[[…]]
+[[React Pattern/Higher order Component (HOCs)]] [[React Pattern/data fetching component]] [[react-query]] [[Hooks/react useEffect]]

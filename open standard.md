@@ -1,3 +1,5 @@
+[[open standard.md]]
+
 # open standard
 
 > Open standard — documented rule set anyone can implement without vendor lock-in.
@@ -8,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#JSON Web Token (JWT)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -16,42 +17,53 @@
 
 ## Mental model
 
+**Say it in one breath:** open standard — plain job, how I run it, how I know it’s broken.
+
+
 [rfc](https://datatracker.ietf.org/doc/html/rfc7519)
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **open standard** | Core idea of this note | “I can explain open standard without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
 
-## JSON Web Token (JWT)
-
-- URL-safe means of representing claims to be transferred between two parties.
-- the claims in a JWT are encoded as a JSON object that is used as the payload of a JSON Web Signature (JWS) structure or as the plain-text of  a JSON Web Encryption (JWE) structure.
-- these enable the claims to be digitally signed or integrity protected with a Message Authentication Code (MAX) and/or encrypted.
-
-### JWT claims
-- JWT claims Set represents a JSON object whose members are the claims conveyed by the JWT.
-- The Claim Names within a JWT Claims Set must be unique.
-- JWT parsers must either reject JWTs with duplicate Claims Names or use a JSON parser that returns only the lexically last duplicate member name, as specified in [here](https://datatracker.ietf.org/doc/html/rfc7519#section-15.12).
-- there are three classes of JWT Claim Names:
-	- Registered Claim Names
-	-  Public Claim Names
-	- Private Claim Names
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[open standard.md]]

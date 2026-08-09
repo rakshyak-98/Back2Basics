@@ -1,16 +1,16 @@
-[[mysql]]
+[[mysql]] [[cli]] [[mysql connection]] [[MySQL Engines]]
 
-# or sudo service mysql start
+# MySQL Error
 
-> MySQL errors — crashed tables, access denied, and when to repair vs restore.
+> Decode common MySQL failures — crashed tables, access denied, socket perms, client bind mistakes, apt key, and service start.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
+- [[#Interview map (words you can say)]]
 - [[#Standard config / commands]]
-- [[#After MySQL installation service is failing]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,148 +18,84 @@
 
 ## Mental model
 
+**Say it in one breath:** Read the SQLSTATE/error number first; match class (auth, file/socket, storage engine, client API); fix the layer that owns it — don’t `REPAIR` InnoDB like MyISAM.
+
 ```txt
-ERROR 145 (HY000): Table './mydb/mytable' is marked as crashed
+Client error ──► auth / socket / bind API
+Server error ──► table/engine / config / privileges
+Install error ──► mysqld won’t start (journalctl)
 ```
-- table fails to query
-> [!WARNING]
-> backup the `.MYD` and `.MYI` files before running repair.
-> Does not fix `.ibd` corruption, use physical recovery tools for that.
-```text
-ERROR 1045 (28000): Access denied for user 'root'@'_gateway' (using password: YES)
-```
-- because there is no user account that matches
-> Solution
-> - create a user that is allowed from anywhere
-### Bonus: If this is AWS RDS / Aurora
-> [!NOTE]
-> RDS does **not** allow real root remote login at all for security reasons. You must:
-1. Create a new DB user in the RDS console or with SQL
-2. Make sure the RDS security group allows your IP (or 0.0.0.0/0 if public)
-3. Connect with that new user, not root
-```text
-ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (13)
-```
-- means the MySQL client is trying to connect via the Unix socket file, but it cannot access it — specifically error code 13 = Permission denied.
-> [!NOTE]
-> Here the socket file exists, but your user mst does not have permission to read/write to it or to the parent directory.
-```text
-* Starting MySQL database server mysqld                                                                      su: warning: cannot change directory to /nonexistent: No such file or directory
-```
-- The mysql server process (`mysqld`) is started as the dedicated system user `mysql` (a non-login service account).
-- In a clean Ubuntu installation, the `mysql` user is intentionally created without a real home directory
-	- Home dir in `/etc/passwd` is set to `/nonexistent`
-	- Shell is usually `/usr/sbin/nologin` or `/bin/false`
-> [!INFO]
-> - When the startup script (via `systemd` or `SysV` init) uses su (or sudo -u mysql) to switch to the mysql user and start `mysqld`, `su` tries to `cd` to the user's home directory first.
-> - Since /nonexistent does not exist → you get the warning.
-How to remove this warning
-```bash
-sudo systemctl stop mysql    # or sudo service mysql stop
-sudo usermod -d /var/lib/mysql mysql
-sudo usermod -s /usr/sbin/nologin mysql   # or /bin/false
-sudo systemctl start mysql
-```
-```text
-Error: Bind parameters must be array if namedPlaceholders parameter is not enabled",
-            " at PromisePool.execute (/home/mihir/GitHub/Templates/backend/node_modules/mysql2/lib/promise/pool.js:54:22)",
-" at query (file:///home/mihir/GitHub/Templates/backend/index.js:1778:31)",
-" at createHotel (file:///home/mihir/GitHub/Templates/backend/index.js:3062:31)",
-on this line: const createHotel = (data) => query("INSERT INTO Hotels SET ?", data);
-```
-> [!NOTE]
-> Named placeholders are disabled by default in `mysql2` (for security/compatibility reasons).
-> - if you pass an object without enabling `namedPlaceholders: true` in the pool config -> boom, this exact error.
-- this error is common when people switch to `mysql2/promise` or `pool.execute` and try to the old `mysql2` object shorthand style for INSERT/UPDATE
-```js
-const createHotel = (data) => query("INSERT INTO Hotels SET ?", data);
-```
-- `mysql2` `execute()` does not support passing an object directory for `SET ?` unless you enable a special option.
-> [!INFO]
-> User `pool.query()` instead of `execute()`
-- **Question mark placeholders (?)** → always expect **array** of values
-```sql
-INSERT INTO Hotels (name, city, price) VALUES (?, ?, ?)
-```
-→ Second arg: ['Grand', 'Bengaluru', 5000]
-- **Named placeholders (:name)** → expect **object** with keys
-```sql
-INSERT INTO Hotels SET name = :name, city = :city, price = :price
-```
-→ Second arg: { name: 'Grand', city: 'Bengaluru', price: 5000 }
-FIX
-```js
-const pool = mysql.createPool({
-  // ... your other config ...
-  namedPlaceholders: true,   // ← Add this line!
-});
-```
-```text
-W: Failed to fetch http://repo.mysql.com/apt/ubuntu/dists/jammy/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY B7B3B788A8D3785C
-W: Some index files failed to download. They have been ignored, or old ones used instead.
-```
-- add the missing GPG key
-```bash
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **1045** | Access denied | “Wrong user@host or password.” |
+| **2002** | Can’t reach socket/TCP | “Server down or socket perms.” |
+| **145 / crashed** | MyISAM mark crashed | “Backup then REPAIR; not for InnoDB .ibd.” |
+| **namedPlaceholders** | mysql2 object binds | “execute() wants arrays unless enabled.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## After MySQL installation service is failing
-
-```text
-Warning: Unable to start the server.
-Job for mysql.service failed because the control process exited with error code.
-See "systemctl status mysql.service" and "journalctl -xeu mysql.service" for details.
-invoke-rc.d: initscript mysql, action "start" failed.
-● mysql.service - MySQL Community Server
-     Loaded: loaded (/usr/lib/systemd/system/mysql.service; enabled; preset: enabled)
-     Active: activating (auto-restart) (Result: exit-code) since Thu 2026-04-30 10:34:48 IST; 28ms ago
-    Process: 14515 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCESS)
-    Process: 14523 ExecStart=/usr/sbin/mysqld (code=exited, status=1/FAILURE)
-   Main PID: 14523 (code=exited, status=1/FAILURE)
-     Status: "Server shutdown complete"
-      Error: 22 (Invalid argument)
-        CPU: 1.044s
-dpkg: error processing package mysql-server-8.0 (--configure):
- installed mysql-server-8.0 package post-installation script subprocess returned error exit status 1
-dpkg: dependency problems prevent configuration of mysql-server:
- mysql-server depends on mysql-server-8.0; however:
-  Package mysql-server-8.0 is not configured yet.
-
-dpkg: error processing package mysql-server (--configure):
- dependency problems - leaving unconfigured
-No apport report written because the error message indicates its a followup error from a previous failure.
-                                                                                                          Errors w
-ere encountered while processing:
- mysql-server-8.0
- mysql-server
-E: Sub-process /usr/bin/dpkg returned an error code (1)
-
+```bash
+sudo systemctl status mysql
+journalctl -xeu mysql.service
+# socket warning /nonexistent home for mysql user:
+sudo usermod -d /var/lib/mysql mysql
+sudo usermod -s /usr/sbin/nologin mysql
 ```
 
-- This error indicates that the MySQL post-installation script failed because the database service couldn't start during configuration. Specially `mysqld` exited with `status=1/FAILURE` and `Error: 22 (Invalid argument)`.
+```js
+// mysql2: prefer query for SET ? object shorthand, or:
+const pool = mysql.createPool({ namedPlaceholders: true, /* … */ })
+// ? placeholders → array; :name → object
+```
 
-> [!INFO]
-> The most common reasons for this specific failure is MySQL 8.0 are permission issues, corrupt log files, or conflicting configuration settings in `my.cnf`.
+```bash
+# apt NO_PUBKEY for MySQL repo (example key)
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Engine of table | REPAIR helps MyISAM; InnoDB needs restore/recovery |
+| RDS | No remote root; SG + app user |
+| `pool.query` vs `execute` | Object `SET ?` behaves differently |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Table marked as crashed | Engine MyISAM? | Backup `.MYD`/`.MYI`; `REPAIR TABLE` |
+| Access denied root@_gateway | No matching user@host | CREATE USER for that host; RDS: app user |
+| Socket error (13) | Perms on sock/dir | Fix group/perms; use TCP `-h 127.0.0.1` |
+| mysql.service Error 22 | `journalctl`, my.cnf | Fix config/datadir perms; clear bad args |
+| Bind parameters must be array | mysql2 execute + object | Array binds, `query()`, or `namedPlaceholders` |
+| apt NO_PUBKEY | Repo key missing | Import vendor key |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **REPAIR TABLE ≠ InnoDB fix** — don’t treat `.ibd` corruption like MyISAM.
+
+> [!WARNING]
+> **`su` /nonexistent warning** — mysql system user home; usually harmless but noisy; set home to datadir if needed.
+
+---
 
 ## When NOT to use
 
-…
+- **Guessing REPAIR on production InnoDB** — restore from backup / use vendor recovery.
+- **Disabling auth to “unblock”** — fix the account/SG instead.
+
+---
 
 ## Related
 
-[[…]]
+[[cli]] [[mysql connection]] [[mysql user]] [[MySQL Engines]] [[Configuration]]

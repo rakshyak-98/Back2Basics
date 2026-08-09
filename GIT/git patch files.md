@@ -17,7 +17,8 @@
 
 ## Mental model
 
-`git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only applies diff to working tree).
+**Say it in one breath:** `git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only.
+
 
 ```
 feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.patch

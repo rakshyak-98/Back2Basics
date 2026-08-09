@@ -32,6 +32,16 @@ systemctl ──D-Bus──► systemd ──► unit files ──► processes
 | D-Bus API | [[busctl]] | Hostname, login, NM APIs |
 | Legacy | `service` | SysV wrapper on some distros |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **systemctl** | Start/stop/enable units | “enable ≠ start — boot vs now.” |
+| **status** | Active + recent logs | “systemctl status is first look.” |
+| **daemon-reload** | Reread unit files | “After edit unit → daemon-reload.” |
+| **mask** | Block start forever | “mask > disable for must-not-run.” |
+| **journalctl -u** | Unit logs | “Pair status with -xe / -u logs.” |
+
 ## Standard config / commands
 
 **systemd — daily ops:**

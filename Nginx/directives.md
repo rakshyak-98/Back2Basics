@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** directives is infra/security tooling — least privilege, clear config, observable failures.
+
+
 server ->  defines a **virtual server**
 - group all config block for a domain/port.
 listen -> defines which IP/PORT this server listens on.
@@ -39,73 +42,50 @@ server {
 }
 ```
 auth_basic / auth_basic_user_file -> Enables HTTP basic authentication
-```nginx
-server {
-	auth_basic "Restricted";
-	auth_basic_user_file /etc/nginx/.htpasswd;
-}
-```
-proxy_cache/proxy_cache_valid -> caches proxied responses
-```nginx
-proxy_cache my_cache;
-proxy_cache_valid 200 1h;
-```
-> [!NOTE]
-> Nginx directives are grouped by context (where they're allowed)
-> `http {}` -> global HTTP settings.
-> `server {}` -> per domain.
-> `location {}` -> per path.
-> `upstream {}` -> backend groups.
-> [!INFO]
->  - When a request comes in, Nginx looks at the `Host` header (the domain part of the URL).
->  - It matches that value against the `server_name` in your config.
->  - If it matches, Nginx uses the `server {}` block to process the request.
-> [!NOTE]
-> if no `server_name` matches, Nginx falls back to the first `server {}` block for that port.
-> Matching is case-insensitive.
-> You can use regex, but wildcards are faster.
-### Variants
-**Wildcards** -> matches `foo.example.com`, `bar.example.com`
-```ini
-server_name *.example.com;
-```
-Multiple names
-```ini
-server_name example.com www.example.com;
-```
-Default server (catch-all)
-```ini
-server {
-	listen 80 default_server;
-	server_name;
-}
-```
-### Static files
-`try_files` -> it checks for the existence of files in a specified order and uses the first found file for request processing.
-```nginx
-try_files file1 file2 file3 ... fallback;
-```
-- nginx tries each argument in order until it finds an existing file or reaches the final fallback.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **directives** | Core idea of this note | “I can explain directives without jargon.” |
+| **least privilege** | Only needed access | “Grant the smallest role that works.” |
+| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
+| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# status
+# check version, auth, and recent changes
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth fail | clock / creds / IAM | Sync time; fix policy |
+| TLS error | cert chain / SNI | Fix certs and CA bundle |
+| Deploy down | rollback / health | Roll back; check probes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Never commit long-lived secrets.
+
+---
 
 ## When NOT to use
 
-…
+- Don’t build custom infra when managed services meet the SLO.
+
+---
 
 ## Related
 
-[[…]]
+[[How does directive work#try_files]]

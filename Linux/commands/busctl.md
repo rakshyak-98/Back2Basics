@@ -41,6 +41,16 @@ Client ──► D-Bus daemon (/run/dbus/system_bus_socket)
 | `dbus-monitor` | Raw traffic tap |
 | `gdbus` | GLib helper (GNOME stack) |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **D-Bus** | IPC message bus | “systemd and desktop talk over D-Bus.” |
+| **busctl** | Introspect/call | “busctl tree / call for debugging.” |
+| **system vs session** | Bus scopes | “system bus needs root often.” |
+| **introspect** | List methods | “Discover API before calling.” |
+| **monitor** | Watch messages | “busctl monitor for race hunts.” |
+
 ## Standard config / commands
 
 ```bash

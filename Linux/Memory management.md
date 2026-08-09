@@ -36,6 +36,16 @@ Each process sees a **virtual address space** (heap, mmap, stack). Physical RAM 
 
 ---
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **RSS** | Resident set — RAM pages held | “RSS is what’s in RAM now.” |
+| **page cache** | File data cached in RAM | “Cache looks ‘used’ but is reclaimable.” |
+| **swap** | Overflow to disk | “Swap thrash feels like freeze.” |
+| **anon vs file** | Heap vs mmap files | “Anon pressure is the scary kind.” |
+| **vm.swappiness** | Swap aggressiveness | “Lower = prefer reclaim cache first.” |
+
 ## Standard config / commands
 
 ### Inspect process memory

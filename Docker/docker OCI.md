@@ -1,8 +1,8 @@
-[[Docker]]
+[[Docker]] [[docker container]] [[docker file]] [[docker cli]]
 
-# commit changes in the container to new image.
+# docker OCI
 
-> commit changes in the container to new image. — OCI - Open Container Initiative. OCI runtime is a specification for running containerised applications.
+> OCI (Open Container Initiative) — shared specs for image format and runtime so Docker, containerd, Podman, and CRI-O interoperate; `docker commit` is a practical escape hatch, not the OCI ideal.
 
 ---
 
@@ -17,40 +17,71 @@
 
 ## Mental model
 
-```bash
-docker commit <container id> <new-image-name>;
-docker port <container id>; # test docker port
+**Say it in one breath:** OCI **image-spec** = layers + config JSON. OCI **runtime-spec** = how to start a bundle (runc). Engines speak OCI so an image built with BuildKit runs under containerd.
+
+```txt
+Dockerfile → OCI image → registry
+                 ↓
+         runtime (runc) → container process
 ```
-OCI - Open Container Initiative. OCI runtime is a specification for running containerised applications.
-- specifies the runtime behavior of containers.
-- manage the lifecycle of containers, including starting, stopping, and removing containers.
-- provides a way to configure the resources that are available to a container, such as CPU, memory, and network resources.
-```bash
-docker ps --format "{{.Names}}\\t {{.Ports}}"
-docker inspect --format='{{json .NetworkSettings.Ports}}' mycontainer
-```
-> [!NOTE]
-> Keep in mind that even if a port is exposed in a container, it may not be accessible from outside the host machine if the container is not connected to the host network or if the firewall is blocking traffic to that port.
+
+`docker commit` snapshots a container’s writable layer into a new image — handy for debug, bad for supply chain.
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+docker commit <container> myfix:debug
+docker port <container>
+docker ps --format '{{.Names}}\t{{.Ports}}'
+docker inspect --format='{{json .NetworkSettings.Ports}}' mycontainer
+
+# Prefer rebuild
+docker build -t myfix:1.2 .
+```
+
+| Concept | Meaning |
+|---------|---------|
+| Image index / manifest | Multi-arch pointers |
+| Runtime bundle | rootfs + `config.json` for runc |
+| Exposed vs published | Dockerfile `EXPOSE` ≠ host publish (`-p`) |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Port listed but closed externally | Not published / firewall | `-p`; host SG/firewall |
+| Commit image missing files | Data was in a volume | Volumes aren’t in commit |
+| “OCI runtime create failed” | runc / cgroup / seccomp | `docker info`; dmesg; profile |
+| Arch mismatch | arm64 vs amd64 | Match platform; multi-arch manifest |
+| Registry pull reject | Non-OCI / schema1 legacy | Re-push modern manifest |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Commit includes hacks and secrets** from the live container — don’t ship it.
+
+> [!WARNING]
+> **`EXPOSE` is documentation** — does not open host ports.
+
+> [!WARNING]
+> **OCI ≠ Docker-only** — Podman/CRI-O use the same specs with different UX.
+
+---
 
 ## When NOT to use
 
-…
+- **Prod image creation** — Dockerfile + CI, not commit.
+- **App networking policy** — service mesh / K8s NetworkPolicy, not OCI itself.
+- **VM-level isolation needs** — strong multi-tenant → VMs or gVisor/Firecracker.
+
+---
 
 ## Related
 
-[[…]]
+[[docker container]] [[docker file]] [[docker cli]] [[Docker Runtime Security]] [[AWS ECR]]

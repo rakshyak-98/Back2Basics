@@ -2,7 +2,7 @@
 
 # payment integration razorpay
 
-> payment integration razorpay — payment capture in Razorpay is the process of confirming and securing a payment after it has been authorized. It ensures that the authorized amount
+> payment integration razorpay — payment capture in Razorpay is the process of confirming and securing a payment after it has been authorized. It ensures that…
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Payment Capture in Razorpay]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,77 +17,51 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** payment integration razorpay — plain job, how I run it, how I know it’s broken.
+
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **payment integration razorpay** | Core idea of this note | “I can explain payment integration razorpay without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Payment Capture in Razorpay
-
-**Definition**:
-Payment capture in Razorpay is the process of confirming and securing a payment after it has been authorized. It ensures that the authorized amount is deducted from the customer's account and transferred to the merchant's account.
+```bash
+# version + config path
+# dry-run when available
+```
 
 ---
-
-### Key Points:
-
-1. **Authorization & Capture Flow**:
-
-    - **Authorization**: The payment amount is blocked on the customer's card or bank account.
-    - **Capture**: The merchant confirms the payment, ensuring the amount is actually debited.
-2. **Automatic vs Manual Capture**:
-
-    - **Automatic**: Payments are captured automatically upon successful authorization.
-    - **Manual**: Merchants can capture payments later through the Razorpay dashboard or API.
-3. **Time Limit**:
-
-    - Payments must be captured within 5 days of authorization.
-    - If not captured, the payment is automatically reversed to the customer.
-4. **APIs for Manual Capture**:
-
-    - Razorpay provides an API to capture payments (`POST /payments/:payment_id/capture`).
-        Example:
-
-        ```json
-        {
-          "amount": 1000
-        }
-        ```
-
-5. **Use Cases**:
-
-    - **E-commerce**: Ensuring product availability before capturing payments.
-    - **Subscription Services**: Verifying customer details before finalizing the charge.
-
----
-
-### Advantages:
-
-- **Prevents Fraud**: Ensures funds are authorized before transfer.
-- **Better Control**: Manual capture allows businesses to confirm orders first.
-- **Reduced Risk**: Funds can be refunded if the capture isn't processed.
-
-### Disadvantages:
-
-- **Delay in Settlement**: Manual capture may cause delays in payment settlement.
-- **Reversal Risk**: Authorization expires if not captured in time.
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[Payments]]

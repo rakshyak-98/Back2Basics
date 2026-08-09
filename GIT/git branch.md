@@ -17,7 +17,8 @@
 
 ## Mental model
 
-A **branch** is a named pointer to a commit. `HEAD` usually points at a branch (detached HEAD when it points directly to SHA). **Remote-tracking branches** (`origin/main`) mirror last-fetched remote state — local `main` tracks them via upstream config.
+**Say it in one breath:** A **branch** is a named pointer to a commit. `HEAD` usually points at a branch (detached HEAD when it points directly to SHA). **Remote-tracking branches** (`origin/main`) mirror last-fetched.
+
 
 ```
 origin/main ──► commit C

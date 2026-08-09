@@ -1,8 +1,8 @@
-[[Descriptive]]
+[[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]]
 
 # LSP
 
-> LSP — language Server Protocol, is an open source JSON-RPC-based protocol for use between source code editors or IDE and servers that provide "language intelligence tools"
+> LSP (Language Server Protocol) gives editors completions, go-to-def, and diagnostics via a language server process.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Difference between Go to Reference, Definition, Implementation]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,51 +17,66 @@
 
 ## Mental model
 
-[Language Server Protocol](https://en.wikipedia.org/wiki/Language_Server_Protocol), is an open source JSON-RPC-based protocol for use between source code editors or IDE and servers that provide "language intelligence tools"
-- features like *code completion*, *syntax highlighting* and marking of warnings and errors as well as refactoring routines.
-- goal of the protocol is to allow programming language support independently.
-- native search-and-replace could introduce errors. Can replace the partial matches. It can rename identically-named variables in other scopes.
-compiler or interpreters for a specific programming language are typically unable to provide these language services.
-- compiler goal either transforming the source code into object code or immediately executing the code.
-- in order to provide instant feedback to the user, the editing tool must be able to very quickly evaluate the syntactical and semantical consequences of a specific modification.
-The LSP allow for decoupling language services from the editor so that the services may be contained within a general-purpose *language servers*.
-### Technical overview
-When a user edits one or more source code files using a language server protocol enabled tool
-- tool acts as a client that consumes the *language services* provided by a *language server*.
-- the tool may be text editor or IDE and the language service could be refactoring, code completion etc.
-1. client informs the server about what the user is doing, opening a file or inserting a character at a specific text position.
-2. the client can also request the server to perform a language service, to format a specified range in the text document.
-3. the server answer's client's request with an appropriate response. The formatting request is answered either by a response that transfers the formatted text to the client or by an error response containing details about the error.
-### Reference
-- [Language server protocol explained](https://www.youtube.com/watch?v=2GqpdfIAhz8)
+**Say it in one breath:** Editor speaks JSON-RPC to a server that understands the language — one server, many editors.
+
+```txt
+Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **language server** | Analysis process | “gopls for Go.” |
+| **diagnostics** | Squiggles | “Push as you type.” |
+| **capabilities** | What server supports | “Negotiate on init.” |
+| **vs DAP** | Debug ≠ language smarts | “DAP for breakpoints.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# examples
+gopls version
+pylsp --help
+# editor: install extension that starts the server
+```
 
-## Difference between Go to Reference, Definition, Implementation
+| Knob | Why it matters |
+|------|----------------|
+| Root / workspace | Wrong root → missing imports |
+| `settings.json` | Server config |
+| Memory | Big monorepos need tuning |
 
-| Feature              | Description                                                                    | Use case                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| Go to reference      | Find all occurrences of a symbol in the code.                                  | Locate all usages of a variable of function across the project.                               |
-| Go to Definition     | Navigates to where the symbol is defined                                       | Jump to the exact line where a function, class or variable is defined.                        |
-| Go to Implementation | Navigates tot he concrete implementation(s) of a method, function or interface | For an interface, jump to the class that implements it. For a virtual function, find override |
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| No completions | server not started | Install/enable extension |
+| Wrong diagnostics | bad root | Open correct workspace folder |
+| Stale types | server crash/cache | Restart LSP |
+| Slow IDE | huge project | Exclude build dirs |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Multiple language servers** — fight over the same file type.
+
+> [!WARNING]
+> **LSP isn’t runtime** — green squiggles ≠ tests passed.
+
+---
 
 ## When NOT to use
 
-…
+- **Tiny throwaway script in notepad** — overkill.
+- **Formatting only** — formatter CLI may suffice.
 
 ## Related
 
-[[…]]
+[[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]]

@@ -1,26 +1,16 @@
-[[useradd]] [[getent]] [[passwd]] [[userdel]] [[usermod]] [[gpasswd]] [[groups]] [[chage]] [[chmod]] [[su]] [[groupadd]]
+[[Linux]] [[useradd]] [[usermod]] [[userdel]] [[passwd]] [[linux groups]] [[visudo]] [[getent]] [[chage]]
 
-# 100+; are for users.
+# user management
 
-> 100+; are for users. — user, user with elevated privileges, root.
+> Linux user management is accounts + groups + sudo — who can log in, own files, and elevate.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Configuration]]
-- [[#GID]]
-- [[#/sbin/nologin; user no need to have login. No actoin perform intrectively.]]
-- [[#/usr/sbin/nogin;]]
-- [[#the other file or magic file]]
-- [[#sensitive information about the user, like passwrd, other configuration.]]
-- [[#* no password set.]]
-- [[#! password never set.]]
-- [[#add new user]]
-- [[#it is good practice to append.]]
-- [[#How to manage Permissions]]
-- [[#Users]]
+- [[#Files that define a user]]
+- [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -28,161 +18,105 @@
 
 ## Mental model
 
-user, user with elevated privileges, root.
-```bash
-visudo; # configure elevated privileges
-```
-| Group name    | Typical GID | Purpose                          | Typical members  |
-| ------------- | ----------- | -------------------------------- | ---------------- |
-| wheel or sudo | 10          | Allow sudo access                | Admins           |
-| docker        | ~998        | Allow use of Docker without root | Developers       |
-| adm           |             | Read logs in /var/log            | Monitoring users |
-| audio, video  |             | Access sound card, webcam        | Desktop users    |
-| users         | 100         | Legacy “all normal users” group  | Everyone         |
-```bash
-whoami;
-id;
-```
-- group : abstract combines many users in similar entity (for the same privileges, purpose, actions etc.).
-```bash
+**Say it in one breath:** UIDs in passwd, secrets in shadow, membership in group, elevation in sudoers — humans usually UID ≥1000.
 
-## Configuration
-
-- To differentiate `user` and `group`, we user `%` for specify the group.
-- `pos1` - applies to all hosts
-- `post2` - user can use all commands as all users
-- `post2` - user can use commands as all groups
-- `pos4` - user can use all commands
-4 files involved in configuration of users.
-
-### `passwd`
-
-```bash
-# username; name of the user
-# password; x means pasword encrypted and stored in different file.
-# description; can have real first and last name. Role in organization.
-# homedir; home directory of the user, where logs and data store.
-# shell; find all the available shells /etc/shells
-
-## GID
-
+```txt
+identity  /etc/passwd   name:x:UID:GID:gecos:home:shell
+secrets   /etc/shadow   name:hash:aging fields…
+groups    /etc/group    name:x:GID:members
+elevate   /etc/sudoers(+.d)   via [[visudo]]
 ```
 
-## /sbin/nologin; user no need to have login. No actoin perform intrectively.
+### Interview map (words you can say)
 
-## /usr/sbin/nogin;
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **UID ≥1000** | Normal login users (typical) | “System accounts sit below; don’t recycle UIDs casually.” |
+| **`x` in passwd** | Password lives in shadow | “World-readable passwd, root-only shadow.” |
+| **`!` / `*` in shadow** | Locked / no password | “Service accounts shouldn’t have a login password.” |
+| **nologin / false** | Non-interactive shell | “Daemons don’t get a bash.” |
+| **`-aG`** | Append supplementary groups | “Without `-a` you wipe group membership.” |
 
-```
+---
 
-### `shadow`
+## Files that define a user
 
-```bash
+| File | Holds |
+|------|-------|
+| `/etc/passwd` | Login name, UID, primary GID, home, shell |
+| `/etc/shadow` | Password hash, aging, lock flags |
+| `/etc/group` | Group names, GIDs, supplementary members |
+| `/etc/gshadow` | Group passwords/admins (rare day-to-day) |
+| `/etc/shells` | Legal login shells |
+| `/etc/skel` | Template for new homes |
 
-## the other file or magic file
+Shells: `/bin/bash` for humans; `/usr/sbin/nologin` or `/bin/false` for system users.
 
-## sensitive information about the user, like passwrd, other configuration.
+---
 
-## * no password set.
-
-## ! password never set.
-
-```
-
-### `group`
-
-there is possibility to have password set for groups.
-
-- **adm**: Allows reading many system log files in /var/log/ (e.g., for monitoring and troubleshooting). Historically tied to old log directories like /var/adm.
-- **cdrom**: Grants access to optical drives (CD/DVD/Blu-ray) for mounting and using them without root privileges.
-- **sudo**: Permits full administrative access via the sudo command (run commands as root after entering your password). This is the primary group for system administration on modern Ubuntu.
-- **dip** (Dial-Up Internet Protocol): Historically allowed access to modem/PPP connections and related config files for dial-up internet. Less relevant today but still included for compatibility.
-- **plugdev**: Allows mounting and unmounting removable/external storage devices (e.g., USB drives, external hard disks) via tools like udisks/polkit, often without needing a password prompt.
-- **lpadmin**: Enables full management of printers via CUPS (add/remove printers, configure queues, manage print jobs—including those from other users).
-- **sambashare**: Facilitates sharing files/folders over the local network using Samba (e.g., easier setup for Windows-compatible file sharing).
-
-## add new user
+## Standard config / commands
 
 ```bash
-sudo adduser devopsuser;
-sudo usermod -aG sudo devopsuser; # add to sudo group
-```
+whoami
+id
+getent passwd alice
+getent group sudo
 
-```bash
-useradd -d -m -s /bin/sh -c "SDE team" <user>; # create fresh user
-
-## it is good practice to append.
-
-usermod -aG <group>;
-userdel -rf <user>; # delete home directory also otherwise not deleted.
-```
-
-## How to manage Permissions
-
-| Category           | Meaning                      | Who it applies to                           |
-| ------------------ | ---------------------------- | ------------------------------------------- |
-| **u** (user/owner) | The user who owns the file   | Usually the creator of the file             |
-| **g** (group)      | The group that owns the file | All users who are members of that group     |
-| **o** (others)     | Everyone else on the system  | Users not owner and not in the owning group |
-
-## Users
-
-user groups - are used to give several access permissions.
-
-`/etc/passwd` - information about user home directory.
-
-passwords are stored in the `/etc/shadow`
-
-```bash
-useradd -m john # create a user john with home directory.
-usermod -s /bin/bash john; #setting the shell for the john user.
-useradd -d $USER <dir name># set the home directory for the user account.
-useradd -g [groupname] [username];
-useradd -e [yyyy-mm-dd] [username]; # new user account with expiration date.
-useradd -c [comment_for_user] [username]; # set user comment.
-```
-
-### Create admin user
-
-```shell
+# Create admin-ish user (Ubuntu)
+sudo adduser devopsuser
+sudo usermod -aG sudo devopsuser
+# or primitives:
 sudo useradd -m -s /bin/bash admin1
 sudo passwd admin1
 sudo usermod -aG sudo admin1
+
+# Lifecycle
+sudo passwd -l alice          # lock
+sudo passwd -u alice          # unlock
+sudo chage -l alice           # aging
+sudo userdel -r alice         # remove home too
+
+# Permissions reminder
+# u=owner  g=group  o=others   — chmod/chown
 ```
 
-```shell
-sudo useradd -m developer
-sudo passwd developer
-sudo usermod -aG developers developer
-```
+Useful groups: `sudo` (admin), `docker`, `adm` (logs), `plugdev`, `lpadmin`.
 
-> [!WARNING]
-> Always use `usermod -aG` not `-G`, when adding new user to an existing supplementary group. Using `-G` alone replaces all supplementary groups.
-
-```shell
-# Lock a compromised account
-sudo passwd -l testuser
-```
-
-```shell
-# Delete inactive user completely
-sudo userdel -r olduser
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth fails after create | No password / locked | `passwd`; check shadow `!` |
+| sudo denied | Groups + sudoers | `id`; `sudo -l`; [[visudo]] |
+| Permission on shared dir | Primary vs supplementary | Shared group + `chmod g+s` or ACLs |
+| Orphan files after delete | Forgot migration | `find / -user UID`; change ownership first |
+| Can’t SSH | Shell nologin / no home | `usermod -s`; create home |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`usermod -G` without `-a` resets supplementary groups** — instant loss of `sudo`/`docker`.
+
+> [!WARNING]
+> **Deleting a user without `-r` leaves a home full of private data** — and UIDs may be reused later.
+
+> [!WARNING]
+> **UID reuse** — new user inheriting old UID owns leftover files. Prefer never reuse in short windows.
+
+---
 
 ## When NOT to use
 
-…
+- **Central IdP** — use SSSD/LDAP; keep local root break-glass only.
+- **App tenancy** — application users ≠ `/etc/passwd` rows.
+- **Containers** — prefer numeric USER in image; don’t manage host users per pod.
+
+---
 
 ## Related
 
-[[…]]
+[[useradd]] [[usermod]] [[userdel]] [[passwd]] [[linux groups]] [[visudo]] [[getent]] [[chage]] [[Linux]]

@@ -27,7 +27,11 @@ Variables make one config work across envs (dev/stage/prod) without editing reso
 
 ## Standard config / commands
 
-…
+```bash
+terraform plan -var-file=env/prod.tfvars
+terraform apply -var-file=env/prod.tfvars
+# or: TF_VAR_region=us-east-1 terraform plan
+```
 
 ## Declare inputs (`variables.tf`)
 
@@ -197,17 +201,25 @@ Module overview: [[terraform]]
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Missing required var | `terraform plan` error | Pass `-var`, tfvars, or env `TF_VAR_` |
+| Wrong value wins | precedence order | Remember CLI > tfvars > env > default |
+| Sensitive still logged | provider debug logs | Avoid TRACE; mark sensitive; scrub CI logs |
+| Type mismatch | variable type vs value | Fix type or cast in locals |
+| Module can't see root var | not passed into module | Pass explicitly in module block |
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Precedence surprises** — CLI `-var` beats tfvars; env `TF_VAR_` beats defaults. Know the order before debugging “wrong value.”
+
+> [!WARNING]
+> **`sensitive = true` is not encryption** — it only redacts CLI UI; state and some logs can still hold the value.
 
 ## When NOT to use
 
-…
+- **Hard-coding one-env throwaways** — a literal is fine until you need a second env.
+- **Secrets as plain tfvars in git** — use a secret store / CI injection instead.
 
 ## Related
 
-[[…]]
+[[Terraform setup]] [[Terraform workflow]] [[terraform]] [[terraform provider]] [[Terraform CLI]]

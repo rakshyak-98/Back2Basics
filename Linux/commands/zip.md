@@ -1,8 +1,8 @@
-[[commands]]
+[[commands]] [[rsync]]
 
 # zip
 
-> zip — short field notes on what it is and how to use it.
+> zip packs files into a portable `.zip` archive — common for sharing; not the best long-term backup format.
 
 ---
 
@@ -10,9 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Zip tracked files only]]
-- [[#zip]]
-- [[#Count how many files are in zip]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -20,67 +17,89 @@
 
 ## Mental model
 
-```bash
+**Say it in one breath:** `zip` creates/updates an archive; `unzip` / `zipinfo` inspect and extract.
+
+```txt
+dirs/files ──► zip -r archive.zip ──► .zip
+                     ↑ update / -x exclude
+.git tree ──► git archive -o out.zip HEAD   (tracked only)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`-r`** | Recurse directories | “Without `-r` you only zip the folder name, not contents.” |
+| **`-x`** | Exclude globs | “Drop `node_modules` and `*.log`.” |
+| **`-e`** | Encrypt (password) | “Zip crypto is weak — don’t use for secrets at rest.” |
+| **`unzip -l`** | List without extract | “Peek before you land a zip bomb.” |
+| **`git archive`** | Tracked tree only | “Clean release zip without junk.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# Create
+zip -r archive.zip source_dir
+zip -r out.zip dir1 dir2 -x "*.log" "*.tmp" "excluded_dir/*"
+zip -e secret.zip folder/          # password prompt (weak)
 
-## Zip tracked files only
+# Update / comment
+zip existing.zip file1 file2
+zip -z archive.zip                 # add archive comment
 
+# Inspect / extract
+unzip -l archive.zip
+zipinfo -1 archive.zip | wc -l     # file count
+unzip archive.zip -d /tmp/out
+unzip -j archive.zip               # junk paths (flat)
+
+# Git-tracked only
 git archive -o archive.zip HEAD
 ```
 
-## zip
+| Tool | Job |
+|------|-----|
+| `zip` | Create/update |
+| `unzip` | Extract/list |
+| `zipinfo` | Detailed listing |
 
-```bash
-zip -e output.zip folder/; # password protect zip.
-zip -z output.zip; # add comment to zip folder.
-zip -r archive.zip source_dir -x "excluded_dir/*";
-```
-
-```sh
-zip -r output.zip folder_name1 folder_name2;
-```
-- `-r` includes sub-folders files
-
-```sh
-zip existin.zip file1 file2; # add files to existing zip.
-zip -r otuput.zip folder/ -x "*.log" "*.tmp";
-```
-- `-x` exclude files/patterns
-
-```sh
-unzip -l output.zip; # list contents of zip file.
-```
-
-```bash
-unzip -l archive.zip; # see inside .zip archive
-unzip -j <file path to unzip>;
-unzip -r archive.zip source_dir -x "excluded_dir/*" "**/dist/*";
-```
-
-## Count how many files are in zip
-
-```bash
-zipinfo -1 <zipfile>;
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Empty / tiny archive of a folder | Forgot `-r` | `zip -r` |
+| Paths wrong on Windows | Absolute paths | zip from parent; prefer relative paths |
+| “Need PK compat” errors | Corrupt / partial download | Re-transfer; `unzip -t archive.zip` |
+| Permission denied on extract | Target dir perms | `-d` writable path; don’t extract as root into `/` |
+| Huge unexpected size | Included build artifacts | `-x` or `git archive` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Zip encryption is not modern crypto** — use age/gpg/openssl for real confidentiality.
+
+> [!WARNING]
+> **Symlinks and Unix perms** — zip is lossy vs `tar`; modes and owners often don’t survive round-trip.
+
+> [!WARNING]
+> **Zip bombs** — always `unzip -l` / size-check untrusted archives.
+
+---
 
 ## When NOT to use
 
-…
+- **Backups with ownership/ACLs** — `tar` / [[rsync]].
+- **Incremental sync** — [[rsync]].
+- **Secrets** — [[gpg]] or age, not `zip -e`.
+
+---
 
 ## Related
 
-[[…]]
+[[rsync]] [[gpg]] [[Find command]] [[commands]]

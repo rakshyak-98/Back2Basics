@@ -1,8 +1,8 @@
-[[Streaming]]
+[[Streaming]] [[Byte stream]] [[How to attach stream to HTTP handlers]]
 
 # pdf-stream-viewing
 
-> pdf-stream-viewing — it is possible to display a PDF file while it is being streamed. This approach involves using a PDF viewer that can handle streaming data, allowing
+> Stream a PDF into the browser — render pages as bytes arrive (PDF.js + HTTP range), don’t wait for the whole file.
 
 ---
 
@@ -17,74 +17,121 @@
 
 ## Mental model
 
-it is possible to display a PDF file while it is being streamed. This approach involves using a PDF viewer that can handle streaming data, allowing the document to be rendered progressively as chunks of data are received. Here’s how it can be done:
-Key Points:
-1. PDF Viewer Libraries:
-Use JavaScript libraries like PDF.js, which can render PDFs in the browser. It supports rendering parts of the PDF as they are loaded, making it suitable for streaming.
-2. Streaming Techniques:
-Use Range Requests: The server can handle requests for specific byte ranges of the PDF file. When the viewer requests a range, the server responds with that portion, enabling partial loading.
-Implement progressive loading: As the PDF data is downloaded, the viewer displays the already-loaded pages while the rest continues to load.
-3. Server Configuration:
-Ensure the server is configured to support byte-range requests. This is often the default for most modern web servers.
-Example Implementation Using PDF.js:
-Here’s a simple example of how you could set this up using PDF.js:
-1. Include PDF.js: Add PDF.js to your HTML file:
-<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
-2. HTML Structure: Create a container for displaying the PDF:
-<canvas id="pdf-canvas"></canvas>
-3. JavaScript to Load PDF: Use the following script to load the PDF:
-const url = 'path/to/your/pdf/file.pdf'; // URL of the PDF file
-// Load PDF.js
-const loadingTask = pdfjsLib.getDocument(url);
-loadingTask.promise.then(pdf => {
-    console.log('PDF loaded');
-    // Fetch the first page
-    pdf.getPage(1).then(page => {
-        console.log('Page loaded');
-        const scale = 1.5;
-        const viewport = page.getViewport({ scale: scale });
-        // Prepare canvas using PDF page dimensions
-        const canvas = document.getElementById('pdf-canvas');
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        // Render PDF page into canvas context
-        const renderContext = {
-            canvasContext: context,
-            viewport: viewport
-        };
-        page.render(renderContext);
-    });
-}, reason => {
-    console.error(reason);
-});
-Advantages:
-Improved User Experience: Users can begin viewing the document before the entire file is downloaded.
-Reduced Load Time: Only the necessary data is downloaded initially, saving bandwidth.
-Disadvantages:
-Complex Implementation: Requires careful handling of streaming and rendering logic.
-Browser Compatibility: Not all browsers may handle streaming equally, although most modern browsers support it.
-This approach allows for a smooth user experience while accessing large PDF files without needing to wait for the entire file to download. If you have further questions or need clarification, feel free to ask!
+**Say it in one breath:** The viewer asks for byte ranges; the server returns pieces; PDF.js paints pages that are already complete.
+
+```txt
+Browser (PDF.js)
+      │  Range: bytes=0-65535
+      ▼
+HTTP server (Accept-Ranges: bytes)
+      │  206 Partial Content
+      ▼
+PDF.js parses xref / pages ──► canvas render
+      │
+      └─ more ranges as user scrolls
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Range request** | Client asks for a byte slice | “We fetch only the pages needed.” |
+| **206 Partial Content** | Server honors the range | “No 206 ⇒ progressive view falls back to full download.” |
+| **PDF.js** | Mozilla’s JS PDF engine | “Renders to canvas; talks HTTP range under the hood.” |
+| **Linearized PDF** | “Fast web view” layout | “Hint table up front — first page shows sooner.” |
+| **Object stream / xref** | Where page objects live | “Broken xref ⇒ blank pages even if bytes arrived.” |
+
+### How the story goes (4 steps)
+
+1. **Serve** — host PDF with range support (most static servers do).
+2. **Prefer linearized** — distill/fast-web-view when generating large docs.
+3. **Load** — `pdfjsLib.getDocument(url)` (or your worker setup).
+4. **Render** — `getPage(n)` → viewport → canvas as the user navigates.
+
+> [!INFO]
+> This is document progressive loading, not media [[ABR]]. Same HTTP range idea as video segment fetches, different parser.
+
+---
 
 ## Standard config / commands
 
-…
+```html
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+<canvas id="pdf-canvas"></canvas>
+```
+
+```js
+const url = '/docs/report.pdf'
+
+const loadingTask = pdfjsLib.getDocument(url)
+loadingTask.promise.then((pdf) => {
+  return pdf.getPage(1)
+}).then((page) => {
+  const scale = 1.5
+  const viewport = page.getViewport({ scale })
+  const canvas = document.getElementById('pdf-canvas')
+  const ctx = canvas.getContext('2d')
+  canvas.height = viewport.height
+  canvas.width = viewport.width
+  return page.render({ canvasContext: ctx, viewport }).promise
+}).catch(console.error)
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `Accept-Ranges: bytes` | Enables 206; without it PDF.js downloads all |
+| CDN / proxy buffering | Some proxies strip ranges — first page stalls |
+| WorkerSrc for PDF.js | Keeps parse off the UI thread |
+| Linearized (“fast web view”) | Faster time-to-first-page on big files |
+| Auth on ranges | Signed URLs must allow multiple range GETs |
+
+Check ranges:
+
+```bash
+curl -I https://example.com/doc.pdf | grep -i accept-ranges
+curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Spins until 100% then shows | No Accept-Ranges / 200 only | Enable ranges on origin or CDN |
+| Blank first page, large file | Not linearized; xref at end | Re-save as Fast Web View / linearized |
+| Works locally, fails behind auth | Cookie / signed URL on worker fetch | Pass `httpHeaders` / withCredentials in getDocument |
+| CORS errors in console | PDF host ≠ app origin | CORS + Expose-Headers for Content-Range |
+| Random page failures | Truncated object / bad upload | Re-upload; verify Content-Length; checksum |
+| Mobile OOM on huge PDF | Full raster at high scale | Lower scale; render visible pages only |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`<iframe src="file.pdf">` is not streaming control** — browser plugin behavior varies; PDF.js gives you progressive + UX control.
+
+> [!WARNING]
+> **Gzip on PDFs** — some stacks break range + Content-Encoding; prefer identity encoding for ranged PDFs.
+
+> [!WARNING]
+> **“Streaming” PDF ≠ media stream** — don’t wire this into [[HLS]] handlers; it’s HTTP file progressive load ([[Byte stream]] / static).
+
+> [!WARNING]
+> **Worker and file URL mismatch** — wrong `workerSrc` silently falls back to main-thread jank.
+
+---
 
 ## When NOT to use
 
-…
+- **Tiny PDFs** — single GET is simpler; range complexity buys nothing.
+- **Print-faithful desktop app** — native viewers / print pipelines beat canvas.
+- **You need searchable server-side text extract** — use a PDF library on the backend, not PDF.js alone.
+- **DRM’d or encrypted PDFs with proprietary plugins** — PDF.js may not unlock vendor schemes.
+
+---
 
 ## Related
 
-[[…]]
+[[Byte stream]] [[How to attach stream to HTTP handlers]] [[Streaming]]

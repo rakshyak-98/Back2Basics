@@ -33,6 +33,16 @@ nice -n 19 cpu_hog    →  start heavy job deprioritized
 
 **Separate knobs:** `ionice` for disk; `chrt` for realtime scheduling; cgroups for hard limits ([[Linux cgroup]]).
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **nice** | CPU priority hint (-20..19) | “Lower nice = more CPU when contended.” |
+| **renice** | Change running process | “renice existing; nice at launch.” |
+| **ionice** | Disk I/O priority | “CPU nice won’t fix disk thrash.” |
+| **CAP_SYS_NICE** | Need root for negative nice | “Only root can raise priority.” |
+| **cgroup** | Hard limits vs nice hints | “Nice is soft; CPUQuota is hard.” |
+
 ## Standard config / commands
 
 ```bash

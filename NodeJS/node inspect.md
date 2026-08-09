@@ -1,8 +1,8 @@
-[[NodeJS]]
+[[NodeJS]] [[node debugger]] [[REPL]]
 
 # node inspect
 
-> node inspect — short field notes on what it is and how to use it.
+> Built-in CLI debugger — `node inspect script.js`; step with `n`/`s`/`c`, inspect with `repl`.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Node REPL debugger operation]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,50 +17,66 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Process pauses on `debugger;` or breakpoints; you step and print from a text UI instead of VS Code.
+
+```txt
+node inspect app.js → break → n/s/c/bt/repl → continue
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **next / step / out** | Over / into / return | “CLI stepping without an IDE.” |
+| **backtrace (`bt`)** | Call stack | “How we got here.” |
+| **repl** | Eval in frame | “Print locals live.” |
 
 ## Standard config / commands
 
-…
+```bash
+node inspect app.js
+# in debugger:
+#   c / n / s / o / bt / l / repl / watch('x') / b 12 / q
+```
 
-## Node REPL debugger operation
+```js
+debugger // pause when inspector attached
+```
 
-| Command                | Shortcut   | What it does                                        | Example use case                            |
-| ---------------------- | ---------- | --------------------------------------------------- | ------------------------------------------- |
-| `continue`             | `c`        | Continue running until next `debugger;` or end      | Skip to the next breakpoint                 |
-| `next`                 | `n`        | Step over (next line, don't enter functions)        | Move line-by-line without diving into calls |
-| `step`                 | `s`        | Step into (enter function calls)                    | Debug inside a function                     |
-| `out`                  | `o`        | Step out (finish current function and return)       | Get out of a deep call stack                |
-| `pause`                |            | Pause execution right now (like Ctrl+C but cleaner) | Force a break when running                  |
-| `backtrace`            | `bt`       | Show call stack (where you are)                     | Understand how you got here                 |
-| `list`                 | `l`        | Show surrounding source code (default 5 lines)      | `l 10` → show around line 10                |
-| `list(10)`             |            | Show more context (e.g. 10 lines before/after)      | See bigger chunk of code                    |
-| `repl`                 |            | Enter REPL mode (inspect & run JS expressions)      | Check variable values (see below)           |
-| `watch('x')`           |            | Auto-print value of expression on every stop        | `watch('sum')` to monitor a variable        |
-| `unwatch('x')`         |            | Stop watching an expression                         | Clean up watchers                           |
-| `break <line>`         | `b <line>` | Set breakpoint at line number                       | `b 12` → break at line 12                   |
-| `break fnName`         |            | Set breakpoint at function start                    | `break calculate`                           |
-| `clearBreak <num>`     |            | Remove breakpoint (see list with `breakpoints`)     |                                             |
-| `breakpoints`          |            | List all active breakpoints                         |                                             |
-| `exec <code>`          |            | Run JS code in current context (rarely needed)      |                                             |
-| `help`                 | `h`        | Show all available commands                         | Quick reference                             |
-| `.exit` / `quit` / `q` |            | Exit the debugger                                   | Finish session                              |
+| Cmd | Why it matters |
+|-----|----------------|
+| `c` continue | Next breakpoint |
+| `n` / `s` / `o` | Step over / in / out |
+| `watch('expr')` | Auto-print on stop |
+| `break <line>` | Set breakpoint |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Never pauses | No `debugger;` / break | Add statement or `b <line>` |
+| Can’t see vars | Not in `repl` | Enter `repl`; exit with Ctrl+C |
+| Wrong file | Sourcemaps / cwd | Run entry you expect |
+| Prefer GUI | CLI friction | [[node debugger]] / DevTools |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Different from `--inspect`** — `node inspect` is the legacy CLI; CDP is `--inspect` + DevTools/VS Code.
+
+---
 
 ## When NOT to use
 
-…
+- **Day-to-day IDE debug** — VS Code [[node debugger]] is faster.
+- **Prod** — don’t leave `debugger;` in shipped code.
+
+---
 
 ## Related
 
-[[…]]
+[[node debugger]] [[REPL]] [[node command]]

@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** firebase reminders configuration — plain job, how I run it, how I know it’s broken.
+
+
 ```sh
 npm install firebase-admin firebase-functions nodemailer
 ```
@@ -43,35 +46,49 @@ exports.sendClassReminders = functions.pubsub.schedule("every 5 minutes").onRun(
     to: doc.data().userEmail,
     subject: `Reminder: Your class '${doc.data().className}' starts soon!`,
     text: `Your class starts at ${doc.data().startTime}. Be ready!`
-  }));
-  emails.forEach(async (email) => {
-    await transporter.sendMail(email);
-  });
-  return null;
-});
-```
-### Execution flow of Firebase Firestore reminder code
-- the code will be triggered by a Cloud Scheduler (or a Firebase Cloud Function with a CRON job)
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **firebase reminders configuration** | Core idea of this note | “I can explain firebase reminders configuration without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[Firebase]]

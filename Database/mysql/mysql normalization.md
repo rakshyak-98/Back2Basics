@@ -1,26 +1,16 @@
-[[mysql]]
+[[mysql]] [[SQL normalization]] [[Database design]]
 
 # mysql normalization
 
-> mysql normalization — below is MySQL normalization rules, short, structured, interview-oriented.
+> Normalize relational schemas to cut redundancy and update anomalies — 1NF→BCNF (and beyond) as interview vocabulary; denormalize only with a measured reason.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
+- [[#Interview map (words you can say)]]
 - [[#Standard config / commands]]
-- [[#Database Normalization]]
-- [[#1NF – First Normal Form]]
-- [[#2NF – Second Normal Form]]
-- [[#3NF – Third Normal Form]]
-- [[#BCNF – Boyce-Codd Normal Form]]
-- [[#4NF – Fourth Normal Form]]
-- [[#5NF – Fifth Normal Form]]
-- [[#Normalization vs Performance]]
-- [[#Interview-Ready Summary]]
-- [[#Common Edge Cases]]
-- [[#One-Line Answer (if rushed)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -28,166 +18,84 @@
 
 ## Mental model
 
-Below is **MySQL normalization rules**, **short**, **structured**, **interview-oriented**.
+**Say it in one breath:** Put each fact in one place; keys determine attributes; if a column depends on only part of a composite key or on another non-key, split tables.
+
+```txt
+1NF  atomic cells, no repeating groups
+2NF  no partial dependency on composite PK
+3NF  no transitive dependency (A→B→C)
+BCNF every determinant is a candidate key
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **1NF** | Atomic values | “No comma-separated phones in one cell.” |
+| **2NF** | Full composite key dependency | “product_name doesn’t belong on order_line PK.” |
+| **3NF** | No non-key → non-key | “city→state goes to a lookup.” |
+| **BCNF** | Stricter 3NF | “Overlapping candidate keys fixed.” |
+| **Anomaly** | Insert/update/delete pain | “Why we normalize.” |
+| **Denormalize** | Add redundancy for read speed | “Only with a known query + refresh plan.” |
+
+---
 
 ## Standard config / commands
 
-…
+No special MySQL knob — design + constraints:
 
-## Database Normalization
+```sql
+-- 2NF fix sketch: split product attrs off order_items
+CREATE TABLE products (
+  product_id INT PRIMARY KEY,
+  product_name VARCHAR(200) NOT NULL
+);
+CREATE TABLE order_items (
+  order_id INT NOT NULL,
+  product_id INT NOT NULL,
+  qty INT NOT NULL,
+  PRIMARY KEY (order_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+```
 
-Goal: **reduce redundancy, avoid anomalies, ensure data consistency**
-
----
-
-## 1NF – First Normal Form
-
-Rule:
-- Atomic values (no arrays, lists)
-- No repeating groups
-- Each row uniquely identifiable (PK)
-
-Bad:
-- `phones = "123,456"`
-
-
-Good:
-- Separate table or rows
-
-Use when:
-- Data is stored in tabular relational form
-
+| Form | Smell |
+|------|-------|
+| 1NF | Arrays/lists in a cell |
+| 2NF | Attr depends on part of composite PK |
+| 3NF | Attr depends on another attr |
+| 4NF/5NF | Multi-valued / join dependency (rare in interviews) |
 
 ---
-
-## 2NF – Second Normal Form
-
-Rule:
-- Must be in 1NF
-- No **partial dependency** on composite primary key
-
-Meaning:
-- Non-key column must depend on **full primary key**, not part of it
-
-Example issue:
-- PK = `(order_id, product_id)`
-- `product_name` depends only on `product_id`
-
-
-Fix:
-- Move product data to `products` table
-
----
-
-## 3NF – Third Normal Form
-
-Rule:
-- Must be in 2NF
-- No **transitive dependency**
-
-Meaning:
-- Non-key column must not depend on another non-key column
-
-Example issue:
-- `user_id → city → state`
-
-Fix:
-- Separate `city/state` mapping table
-
----
-
-## BCNF – Boyce-Codd Normal Form
-
-Rule:
-- Stronger 3NF
-- Every determinant must be a **candidate key**
-
-
-When needed:
-- Multiple candidate keys
-- Functional dependency anomalies still exist in 3NF
-
-Rare but important for correctness
-
----
-
-## 4NF – Fourth Normal Form
-
-Rule:
-- No **multi-valued dependencies**
-
-Example issue:
-- One user has multiple skills AND multiple hobbies stored together
-
-
-Fix:
-- Separate independent multi-valued attributes
-
-## 5NF – Fifth Normal Form
-
-Rule:
-- No **join dependency**
-- Decompose until lossless join only
-
-Used when:
-- Extremely complex relationships
-- Rare in real systems
----
-
-## Normalization vs Performance
-
-Reality:
-- 3NF is enough for **most systems**
-- BCNF/4NF only when correctness demands it
-
-- Denormalization is common for:
-    - Read-heavy systems
-    - Analytics
-    - Reporting
----
-
-## Interview-Ready Summary
-
-- 1NF: atomic values
-- 2NF: no partial dependency
-- 3NF: no transitive dependency
-- BCNF: determinant = candidate key
-- 4NF: no multi-valued dependency
-- 5NF: no join dependency
----
-
-## Common Edge Cases
-
-- Over-normalization → too many joins
-- Indexing required after normalization
-- Denormalization acceptable with controlled writes
-- ORM-generated schemas often violate 3NF
----
-
-## One-Line Answer (if rushed)
-
-> MySQL normalization means structuring tables to eliminate redundancy and anomalies, typically up to 3NF, while higher forms are applied only when data correctness requires it.
-
-If you want:
-- Normalization **with examples**
-- Real-world **ecommerce schema**
-- When **not** to normalize
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Update one fact in many rows | Redundant columns | Extract table + FK |
+| Can’t insert without fake deps | Partial dependency | Split to 2NF |
+| Inconsistent derived fields | Transitive deps | 3NF lookup tables |
+| Join explosion / slow reads | Over-normalized hot path | Controlled denormalize + index |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Normalization ≠ MySQL feature** — it’s design; MySQL only enforces what you declare (PK/UNIQUE/FK).
+
+> [!WARNING]
+> **JSON columns** — easy 1NF violations; index generated paths if you filter them.
+
+---
 
 ## When NOT to use
 
-…
+- **Reporting cubes** — star/snowflake or warehouse models ([[OLAP]]), not OLTP 5NF purity.
+- **Read-heavy caches** — denormalized projections with clear ownership.
+
+---
 
 ## Related
 
-[[…]]
+[[SQL normalization]] [[Database design]] [[key Constraint]] [[OLTP]] [[OLAP]]

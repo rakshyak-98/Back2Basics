@@ -37,6 +37,16 @@ $HOME
 
 ---
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **XDG** | Freedesktop base dirs | “Config in ~/.config, not ~/dotscatter.” |
+| **XDG_RUNTIME_DIR** | Per-session sockets | “Wayland/Pulse sockets live here.” |
+| **desktop entry** | .desktop launchers | “Apps register via .desktop files.” |
+| **mimeapps.list** | Default apps | “xdg-open uses this map.” |
+| **autostart** | Session startup apps | “~/.config/autostart/.” |
+
 ## Standard config / commands
 
 ### Environment defaults

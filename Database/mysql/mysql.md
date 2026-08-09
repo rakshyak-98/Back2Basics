@@ -1,8 +1,8 @@
-[[mysql]]
+[[Database]] [[mysql connection]] [[cli]] [[mysql query]] [[mysql dump]]
 
 # mysql
 
-> mysql — then convert the CSV output to JSON using this tool
+> MySQL is the SQL server you talk to for rows — store, query, and change data over a connection.
 
 ---
 
@@ -10,10 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Range]]
-- [[#Dates]]
-- [[#List matching]]
-- [[#View]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -21,260 +17,109 @@
 
 ## Mental model
 
-```mysql
-pager less -S; # -S no wrap, set a pager for output result;
-nopager; # to reset the pager to stdout (default);
-tee <file to log to>; # everyting you will type is directed to the file;
-```
-```bash
-mysql --auto-rehash -u user -p db_name; # enable auto complete
-```
-### Import DB
-- before execution create database
-```bash
-mymysql -u <username> -p <db name> < <sql file>;
-mymysql -u root -p testDB < db.sql;
-```
-```bash
-mysqldump --user=user --passwrod=pass --host=localhost \ --skip-comments --no-create-info --tab=/tmp --fields-terminated-by=',' dbname tablename;
-```
-> [!INFO]
-> then convert the CSV output to JSON using a tool like
-- Then convert the CSV output to JSON using this tool
-```bash
-cat /tmp/tablename.txt | jq -R -s -c 'split("\n")' | map(split(","))'
-```
- ```mysql
-SHOW databases;
-SHOW COLUMNS FROM <table>;
-SHOW INDEX FROM <table>;
-SHOW tables;
-```
-```mysql
-SELECT VERSION();
-SELECT DATABASE();
-```
-```mysql
-SELECT * FROM table_name/G; -- Each column shown on its own line
-```
-> [!INFO]
-> User `pager` to Customise output (like CSV, JSON, no-wrap)
+**Say it in one breath:** Client opens a session → sends SQL → server plans/executes → returns rows or an error; engines (usually InnoDB) own storage and locks.
+
 ```txt
-EXPLAIN SELECT * FROM table_name where condition;
+App / mysql CLI
+  │  TCP (+TLS)
+  ▼
+mysqld ──► parse → optimize → execute
+              │
+              ├─ buffer pool / indexes
+              └─ InnoDB tablespace + redo ([[write-ahead logging]])
 ```
-```mysql
-DROP VIEW <viewname>;
-```
-```mysql
-SELECT DATABASE(); # view current database.
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Session** | One client connection’s state | “Variables and temp tables live on the connection.” |
+| **Schema / database** | Namespace of tables | “USE db picks the default schema for unqualified names.” |
+| **InnoDB** | Default storage engine | “Transactions, row locks, crash recovery — default for prod.” |
+| **Primary key** | Clustered row identity | “InnoDB stores rows by PK; secondary indexes point at it.” |
+| **EXPLAIN** | Plan without running the full cost story | “I check type / key / rows before tuning.” |
+| **Slow query log** | Queries over a time threshold | “Production truth for what actually hurts.” |
+
+### How the story goes (4 steps)
+
+1. **Connect** — user@host + auth plugin ([[cli]], [[mysql connection]]).
+2. **Qualify** — pick database; tables live under it.
+3. **Run SQL** — DML/DDL; engine handles locks/WAL.
+4. **Observe** — `SHOW` / `EXPLAIN` / `performance_schema` when slow or wrong.
+
+---
 
 ## Standard config / commands
 
-…
-
-
-### Standard config / commands
-
-
-…
-
-
-### Standard config / commands
-
-
-…
-
-
-### Standard config / commands
-
-
-…
-
-## Range
+```bash
+mysql -u user -p -h 127.0.0.1 db_name
+mysql --auto-rehash -u user -p db_name   # tab-complete table/column names
+mysql -u user -p db_name < dump.sql      # import (create DB first)
+```
 
 ```mysql
-SELECT * FROM reservations
-ORDER BY check_in
-LIMIT 10 OFFSET 20;
+SHOW DATABASES;
+USE db_name;
+SHOW TABLES;
+SHOW COLUMNS FROM t;
+SHOW INDEX FROM t;
+SELECT VERSION(), DATABASE(), CURRENT_USER();
+SELECT * FROM t\G          -- vertical rows (many columns)
+EXPLAIN SELECT ...;
+pager less -S;             -- no-wrap pager; nopager to reset
 ```
 
-## Dates
+| Knob | Why it matters |
+|------|----------------|
+| Host `127.0.0.1` vs `localhost` | `localhost` often uses Unix socket; IP forces TCP |
+| `pager` / `\G` | Wide result sets stay readable in ops |
+| Import via stdin | Idempotent restore path; prefer `--single-transaction` dumps for InnoDB |
+
+Table size:
 
 ```mysql
-SELECT DATE_SUB(CURDATE(), interval 1 day);
-```
-### Cascade
-```mysql
-```
-### Transaction
-```mysql
-START Transaction;
-update user set name = "Alice" WHERE id 1000;
-select * from users where id = 1000;
--- decide if OK
-commit;
--- if not ok
-rollback;
-```
-```mysql
-SELECT id, name, role, shift CASE
-    WHEN role = 'admin' AND shift = 'Morning' THEN email
-    WHEN role = 'manager' AND department = 'IT' THEN department
-    ELSE NULL
-  END AS conditional_info,
-  CASE
-    WHEN role = 'guest' OR shift = 'Night' THEN 'Restricted'
-    ELSE 'Allowed'
-  END AS access_status
-FROM users;
-```
-```mysql
-SHOW INDEX FROM jobDepartment WHERE Column_name = 'id';
-```
-```mysql
-ALTER TABLE jobDepartment ADD PRIMARY KEY (id);
--- or if primary key exists on another column and you want unique only:
-ALTER TABLE jobDepartment ADD UNIQUE INDEX uq_id (id);
-```
-### How to update to column in single query
-```txt
-	UPDATE <table name>
-SET
-	<column> = <value>,
-	<column2> = <value2>,
-	<column3> = <vlaue3>,
-<condition>
-```
-
-## List matching
-
-```mysql
-SELECT col1
-	FROM table
-WHERE column_name IN ('val1', 'val2', 'val3');
-```
-
-## View
-
-```mysql
-SHOW FULL TABLES
-WHERE Table_type = "VIEW";
-```
-```mymysql
-SHOW CREATE VIEW view_name;
-```
-```mysql
-CREATE VIEW active_housekeepings_jobgs AS
-SELECT id, jobDepartment, createdTime
-FROM <tablename>;
-where <condition>;
-```
-```mysql
-FOREIGN KEY (...) REFERENCES ... ON DELETE CASCADE ON UPDATE CASCADE
-```
-- `CASCADE` -> auto delete/update child rows
-- `SET NULL` -> sets child to `NULL` on parent delete
-- `RESTRICT/NO ACTIOn` -> blocks delete/update
-### `ERROR 1553 (HY000): Cannot drop index 'customerNumber': needed in a foreign key constraint`
-- you're trying to drop an index that is automatically created to enforce a foreign key constraint.
-- drop the foreign key first, then the index
-```mysql
-SELECT CONSTRAINT_NAME
-FROM information_schema.KEY_COLUMN_USAGE
-WHERE TABLE_NAME = 'your_table' AND COLUMN_NAME = 'your_table_column_name'
-```
-```mysql
-SHOW CREATE TABLE your_table;
-```
-#### Drop the foreign key constraint
-```mysql
-ALTER TABLE your_table DROP FOREIGN KEY fk_name;
-```
-### View size of a table
-```mysql
-SELECT
-  table_schema AS database_name,
-  table_name,
+SELECT table_name,
   ROUND((data_length + index_length) / 1024 / 1024, 2) AS size_mb
-FROM
-  information_schema.tables
-WHERE
-  table_schema = 'your_database' AND table_name = 'your_table';
+FROM information_schema.tables
+WHERE table_schema = 'your_db' AND table_name = 'your_table';
 ```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Access denied | `plugin` on `mysql.user`; socket vs TCP | Fix auth plugin / use correct host ([[cli]]) |
+| Can’t find table | `SELECT DATABASE();` + `SHOW TABLES` | `USE` right schema; check grants |
+| Query “hangs” | `SHOW PROCESSLIST`; locks | Kill blocker; fix missing index / long txn |
+| Import fails mid-file | FK / duplicate key errors | `SET FOREIGN_KEY_CHECKS=0` only for trusted dump; then re-enable |
+| Results wrap / unreadable | Terminal width | `pager less -S` or `\G` |
+| Wrong plan | `EXPLAIN` + stats | Add/fix index; avoid functions on indexed cols |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
-
-
-### Gotchas
-
+> **`localhost` ≠ TCP** — on Linux, `localhost` often means socket; remote-style grants (`user@%`) won’t match.
 
 > [!WARNING]
-> …
-
-
-### Gotchas
-
+> **Dropping an FK index** — InnoDB needs the supporting index; drop the foreign key first (`SHOW CREATE TABLE`).
 
 > [!WARNING]
-> …
+> **Views look like tables** — `SHOW FULL TABLES WHERE Table_type = 'VIEW'` before `DROP`.
 
-
-### Gotchas
-
-
-> [!WARNING]
-> …
+---
 
 ## When NOT to use
 
-…
+- **Document / graph / pure cache workloads** — Mongo / Neo4j / Redis fit better than forcing MySQL.
+- **Analytics scans over huge history** — warehouse / columnar (or read replicas + careful design), not a hot OLTP primary.
+- **“Just a file DB for one laptop script”** — SQLite is simpler unless you already need MySQL ops.
 
-
-### When NOT to use
-
-
-…
-
-
-### When NOT to use
-
-
-…
-
-
-### When NOT to use
-
-
-…
+---
 
 ## Related
 
-[[…]]
-
-
-### Related
-
-
-[[…]]
-
-
-### Related
-
-
-[[…]]
-
-
-### Related
-
-
-[[…]]
+[[cli]] [[mysql connection]] [[mysql query]] [[mysql index]] [[mysql transaction]] [[mysql engine]] [[mysql dump]] [[ACID]] [[write-ahead logging]]

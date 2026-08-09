@@ -1,8 +1,8 @@
-[[TypeScript]]
+[[TypeScript]] [[typescript]] [[Triple-Slash Directives]]
 
 # ambient modules
 
-> ambient modules — in typescript a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
+> Ambient modules — `declare module` / `.d.ts` that describe JS libraries TypeScript can’t see types for.
 
 ---
 
@@ -17,43 +17,76 @@
 
 ## Mental model
 
-- in typescript a feature that allows developers to define the structure and types of external JavaScript libraries without implementing them.
-- particularly useful for integrating third-party libraries that do not have TypeScript definitions or were not originally written in TypeScript.
-- also know as declarative modules, enable you to describe the shape and structure of an external module.
-#### How to declare an Ambient Module
-- to declare an ambient module you use the `declare module` syntax followed by the module name.
-```typescript
-declare moudle `example-module` {
-	export function exampleFunction(param: string): number;
-	export const exampleVariable: string;
-}
+**Say it in one breath:** Ambient decls invent types for existing JS. Global (`declare var`) vs module (`declare module 'pkg'`). Prefer DefinitelyTyped or the package’s own types when available.
+
+```txt
+import 'pkg' ──needs──► node_modules/pkg/*.d.ts  or  declare module 'pkg'
 ```
-##### Using ambient module
-```typescript
-import { exmapleFunction, exampleVariable } from 'exmaple-module';
-cosnt result = exampleFunction('test');
-console.log(exampleVariable)
-```
+
+| Form | Use |
+|------|-----|
+| `declare module 'x'` | Untyped package |
+| `declare global` | Globals / augmentation |
+| `export {}` | Force file to be a module |
+
+---
 
 ## Standard config / commands
 
-…
+```ts
+// types/shim.d.ts
+declare module 'untyped-lib' {
+  export function doThing(x: string): number
+}
+
+declare global {
+  interface Window {
+    APP_CONFIG: { api: string }
+  }
+}
+export {}
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `typeRoots` | Where ambient packs live |
+| `allowJs` + checkJs | Type existing JS |
+| Package `types` field | Official entry |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Could not find declaration | Untyped pkg | `@types/*` or shim |
+| Shim ignored | Outside include | Add to `include`/`typeRoots` |
+| Duplicate identifier | Double globals | Narrow scope; modules |
+| Wrong shapes | Stale shim | Sync with runtime |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Ambient ≠ implementing** — runtime still must provide the value.
+
+> [!WARNING]
+> **Wildcard `declare module '*'`** — hides missing deps.
+
+> [!WARNING]
+> **Global pollution** — prefer module forms.
+
+---
 
 ## When NOT to use
 
-…
+- **Package already ships types** — don’t override casually.
+- **Your own TS code** — normal exports.
+- **Runtime validation** — still need Zod/etc.
+
+---
 
 ## Related
 
-[[…]]
+[[Triple-Slash Directives]] [[tsconfig]] [[typescript error]]

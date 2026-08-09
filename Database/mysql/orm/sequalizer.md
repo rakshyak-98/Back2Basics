@@ -1,16 +1,16 @@
-[[orm]]
+[[orm]] [[mysql]] [[mysql connection]]
 
 # sequalizer
 
-> sequalizer — ensure that plain text passwords never touch database storage
+> Sequelize model hooks — run code around validate/save so invariants (slug, password hash) stay in one place.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
+- [[#Interview map (words you can say)]]
 - [[#Standard config / commands]]
-- [[#Hooks]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,88 +18,85 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Hooks fire on model lifecycle events; bulk `update`/`destroy` skip them unless `individualHooks: true`; hash passwords in `beforeSave` only when `changed('password')`.
+
+```txt
+save/validate ──► beforeSave hook ──► DB write
+bulk update ──► hooks skipped (default) ──► need individualHooks
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Hook** | Lifecycle callback on the model | “Hash password in beforeSave, not in every route.” |
+| **individualHooks** | Run hooks per row on bulk ops | “Default bulk update skips hooks.” |
+| **changed(field)** | Dirty check | “Avoid double-hashing on profile update.” |
+| **addHook** | Attach after init | “Same as hooks: { … } in init.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Hooks
-
 ```js
-const { Model, DataTypes } = require('sequelize');
-
-class Product extends Model {}
-
-Product.init({
-  name: DataTypes.STRING,
-  price: DataTypes.FLOAT,
-  slug: DataTypes.STRING
-}, {
-  sequelize,
-  modelName: 'product'
-});
-
-// Using addHook for specific events
-Product.addHook('beforeValidate', (product, options) => {
+Product.addHook('beforeValidate', (product) => {
   if (product.name) {
-    // Automatically creating a URL-friendly slug
-    product.slug = product.name.toLowerCase().replace(/ /g, '-');
+    product.slug = product.name.toLowerCase().replace(/ /g, '-')
   }
-});
-```
-
-> [!NOTE]
-> **`individualHooks: true`**: When performing updates or deletes on multiple rows (e.g., `User.update({ status: 'active' }, { where: { id: 1 } })`), standard hooks won't run. Developers often forget they must pass `{ individualHooks: true }` in the options to trigger them.
-
-> [!WARNING]
-> Putting heavy business logic (like sending emails or generating PDFs) inside hooks. This couples your database layer to your service layer. If a migration runs or a seed script executes, you might accidentally trigger thousands of emails.
-
-**Ensure that plain text passwords never touch database storage**
-```js
-const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
-
-class User extends Model {}
+})
 
 User.init({
   username: DataTypes.STRING,
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
+  password: { type: DataTypes.STRING, allowNull: false },
 }, {
   sequelize,
   modelName: 'user',
   hooks: {
-    beforeSave: async (user, options) => {
-      // 'changed' is a Sequelize method to check if the field was modified
+    beforeSave: async (user) => {
       if (user.changed('password')) {
-        const saltRounds = 10;
-        user.password = await bcrypt.hash(user.password, saltRounds);
+        user.password = await bcrypt.hash(user.password, 10)
       }
-    }
-  }
-});
+    },
+  },
+})
 ```
 
-- **Double Hashing**: If you have a hash logic in `beforeCreate` AND `beforeUpdate`, and you don't check if the field has changed, you might hash the already-hashed string during a profile update. This makes the password impossible to verify during login.
+| Knob | Why it matters |
+|------|----------------|
+| `individualHooks: true` | Bulk update/destroy runs per-row hooks |
+| `changed('password')` | Prevents hashing an already-hashed value |
+| Hook body weight | Keep light — no email/PDF in hooks |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Slug/hash missing on bulk update | Hooks skipped | `individualHooks: true` or loop saves |
+| Login fails after profile edit | Double bcrypt | Guard with `changed('password')` |
+| Seeds send emails | Side effects in hooks | Move I/O out; feature-flag hooks |
+| Hook order surprises | Multiple hooks same event | Document order; consolidate |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Bulk ops ≠ instance hooks** — the #1 Sequelize production footgun.
+
+> [!WARNING]
+> **Migrations/seeds fire hooks** — don’t put notifications inside `beforeCreate`.
+
+---
 
 ## When NOT to use
 
-…
+- **Cross-service workflows** — use domain services/outbox, not model hooks.
+- **Query-heavy logic** — hooks that query half the DB on every save will melt.
+
+---
 
 ## Related
 
-[[…]]
+[[mysql connection]] [[mysql]] [[database seeding]] [[migration]]

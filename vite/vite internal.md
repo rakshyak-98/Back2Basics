@@ -10,14 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#PostCSS]]
-- [[#Why does `npm run dev` work]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** vite internal — plain job, how I run it, how I know it’s broken.
+
 
 ### Environment variable
 ```js
@@ -53,79 +54,49 @@ server: {
 - the purpose of this code is to redirect these API requests to a different server, in this case `http://jsonplaceholder.typeicode.com`.
 - often used during development to avoid issues with Cross-Origin Resource Sharing or to simulate a back-end server that isn't running locally.
 - when a request is made to a URL starting with `/api` on local development server, vite will intercept this request and forward it to the specified target URL.
-- the `changeOrigin: true`  setting tells the proxy to change the origin of the request to match the target server, which can help prevent certain CORS issues.
-- the `rewrite` function will remove the `/api` prefix from the path before forwarding the request to the target.
-#### Set base path for deployment
-if deploying a sub-directory
-```ts
-import { defaultConifg } from 'vite';
-import react from "@vitejs/plugin-react";
-export default defineConfig({
-	plugins: [react()],
-	base: '/my-app/', // change this based on your deployment URL
-})
-```
-```ts
-export default defineConfig({
-	build: {
-		target: 'esnext',
-		minify: 'terser',
-		sourcemap: false, // disable source maps (set to `true` if debugging )
-	}
-})
-```
-### `Source map error: No sources are declared in this source map. Resource URL: [http://localhost:8080/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=16298d72](http://localhost:8080/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=16298d72 "http://localhost:8080/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=16298d72") Source Map URL: chunk-WOOG5QLI.js.map`
-> [!INFO] the browser is trying to access a source amp, but vite isn't properly serving it.
-```ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-export default defineConfig(({ mode }) => ({
-  plugins: [react()],
-  server: {
-    port: 8080, // Ensure the correct port is used
-  },
-  build: {
-    sourcemap: mode === 'development', // Enable source maps in development
-  },
-  optimizeDeps: {
-		// fixs missing source maps for dependiencies like `node_modules/.vite/deps/*`
-    esbuildOptions: {
-      sourcemap: mode === 'development', // Ensure dependencies also get source maps.
-    },
-  },
-}));
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **vite internal** | Core idea of this note | “I can explain vite internal without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
 
-## PostCSS
-
-- anytime your `import "./style.css"` in your code, vite runs the file through PostCSS pipeline.
-
-> [!INFO]
-> vite looks for PostCSS config in your project root: `postcss.config.js` `postcss.config.cjs` `postcss.config.mjs` `postcss.config.json` or inline config inside `vite.config.js` under `css.postcss`
-
-## Why does `npm run dev` work
-
--
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[vite]]

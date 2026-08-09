@@ -1,8 +1,8 @@
-[[Security]]
+[[Security]] [[C]] [[gcc]]
 
 # Preprocessor
 
-> Preprocessor — a preprocessor or a precompiler is a program that processes its input data to produce output that is used as input in another program.
+> Preprocessor — text transform before the real compiler: macros, includes, and conditional compilation (`#define`, `#include`, `#ifdef`).
 
 ---
 
@@ -11,7 +11,7 @@
 - [[#Mental model]]
 - [[#Standard config / commands]]
 - [[#Lexical preprocessors]]
-- [[#Lexical toknization]]
+- [[#Lexical tokenization]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,44 +19,87 @@
 
 ## Mental model
 
-a [preprocessor](https://en.wikipedia.org/wiki/Preprocessor) or a precompiler is a program that processes its input data to produce output that is used as input in another program.
-- output preprocessed form of the input data, used by compiler.
+**Say it in one breath:** `cpp` / the compiler’s `-E` stage rewrites source into a translation unit the parser sees — no types yet, just tokens and includes expanded.
+
+```txt
+source.c ──#include / #define / #if──► preprocessed.c ──► compile
+```
+
+| Tool | Job |
+|------|-----|
+| **Lexical preprocessor** | Token paste/substitution (C preprocessor) |
+| **Lexer / tokenizer** | Split text into identifiers, operators, literals |
+| **Parser** | Build AST from tokens |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# See what the compiler actually compiles
+gcc -E main.c -o main.i
+clang -E -dM main.c          # dump macros
+cpp -I./include main.c
+```
+
+```c
+#include "config.h"
+#ifdef DEBUG
+  #define LOG(...) fprintf(stderr, __VA_ARGS__)
+#else
+  #define LOG(...)
+#endif
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `-I` paths | Missing headers → expand fail |
+| `#pragma once` / include guards | Duplicate symbol / redefinition |
+| `-DFOO=1` | Define from CLI / build system |
 
 ## Lexical preprocessors
 
-are the lowest-level of preprocessors, they only require lexical analysis.
-- operate on the source text, prior to any parsing, by performing simple substitution of tokenized character sequence for other tokenized character sequences, according to user-defined rules.
+Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
 
-## Lexical toknization
+## Lexical tokenization
 
-is conversion of a text into (semantically or syntactically) meaningful lexical tokens belong to categories defined by a 'lexer' program.
-- in case of programming language, the categories include identifiers, operators, grouping symbols and data types.
-- a rule-based program, performing lexical tokenization, is called tokenizer, or scanner.
-- scanner is also a term for the first stage of lexer.
-- lexers and parsers used for compilers, but can be used for prettyprinters or linters.
-Lexing can be divided in two stages:
-1. scanning, segments input string into syntactic units called lexemes and categories into toke classes.
-2. evaluating, which converts lexemes into processed values.
+Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `No such file or directory` include | `-I` / wrong quotes | Fix path; `"local"` vs `<system>` |
+| Mysterious expanded code | Macro side effects | `gcc -E`; prefer inline functions |
+| Redefinition errors | Double include | Include guards / `#pragma once` |
+| `#ifdef` branch wrong | `-D` flags in build | Print `clang -E -dM`; align CMake/Make |
+| Pasting errors `##` | Invalid token paste | Fix macro; avoid complex `##` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Macros don’t respect types or scopes** — prefer `static inline` / `constexpr` in C++.
+
+> [!WARNING]
+> **Multi-eval arguments** — `MAX(++i, a)` can increment twice; use functions.
+
+> [!WARNING]
+> **Huge `-E` output** — includes expand everything; don’t commit preprocessed files.
+
+---
 
 ## When NOT to use
 
-…
+- **Business logic configuration** — use real config languages, not `#ifdef` forests.
+- **New languages with modules** — rely on the module system instead of include soup.
+- **Security policy** — preprocessor can’t enforce runtime authz.
+
+---
 
 ## Related
 
-[[…]]
+[[C]] [[gcc]] [[Makefile]]

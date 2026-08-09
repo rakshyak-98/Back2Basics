@@ -1,8 +1,8 @@
-[[React Pattern]]
+[[React Pattern]] [[React Pattern/Provider pattern]] [[React Pattern/Compound Components 1]]
 
 # Compound Components
 
-> Compound Components — a Class Management component composed of smaller components like ClassHeader ClassBody and ClassFooter.
+> Build a feature UI from named parts that share one context — state in the parent, markup flexible for the caller.
 
 ---
 
@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Cart Provider pattern]]
-- [[#Implementation of a Tabs component]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,376 +17,87 @@
 
 ## Mental model
 
-A Class Management component composed of smaller components like `ClassHeader` `ClassBody` and `ClassFooter`.
-```ts
-import React, { createContext, useContext, useState } from "react";
-// Context for managing class data
-const ClassContext = createContext();
-export const ClassManagement = ({ children }) => {
-    const [students, setStudents] = useState([
-        { id: 1, name: "Alice" },
-        { id: 2, name: "Bob" },
-    ]);
-    const [isClassActive, setIsClassActive] = useState(false);
-    const addStudent = (student) => setStudents((prev) => [...prev, student]);
-    const removeStudent = (id) =>
-        setStudents((prev) => prev.filter((student) => student.id !== id));
-    const toggleClass = () => setIsClassActive((prev) => !prev);
-    return (
-        <ClassContext.Provider
-            value={{
-                students,
-                isClassActive,
-                addStudent,
-                removeStudent,
-                toggleClass,
-            }}
-        >
-            <div className="class-management">{children}</div>
-        </ClassContext.Provider>
-    );
-};
-// Hook for consuming context
-export const useClass = () => useContext(ClassContext);
+**Say it in one breath:** Export a provider root plus parts (`Header`, `Body`, `Footer`) that call `useX()`. Callers compose parts; you don’t drill ten props.
+
+```txt
+ClassManagement (Provider + state)
+  ├─ ClassHeader  → useClass()
+  ├─ ClassBody    → useClass()
+  └─ ClassFooter  → useClass()
 ```
-```ts
-export const ClassHeader = () => {
-    const { isClassActive, toggleClass } = useClass();
-    return (
-        <header className="class-header">
-            <h2>Class Status: {isClassActive ? "Active" : "Inactive"}</h2>
-            <button onClick={toggleClass}>
-                {isClassActive ? "End Class" : "Start Class"}
-            </button>
-        </header>
-    );
-};
-```
-```ts
-export const ClassBody = () => {
-    const { students, removeStudent } = useClass();
-    return (
-        <div className="class-body">
-            <h3>Students</h3>
-            <ul>
-                {students.map((student) => (
-                    <li key={student.id}>
-                        {student.name}{" "}
-                        <button onClick={() => removeStudent(student.id)}>
-                            Remove
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
-```
-```ts
-export const ClassHeader = () => {
-    const { isClassActive, toggleClass } = useClass();
-    return (
-        <header className="class-header">
-            <h2>Class Status: {isClassActive ? "Active" : "Inactive"}</h2>
-            <button onClick={toggleClass}>
-                {isClassActive ? "End Class" : "Start Class"}
-            </button>
-        </header>
-    );
-};
-```
-```ts
-export const ClassBody = () => {
-    const { students, removeStudent } = useClass();
-    return (
-        <div className="class-body">
-            <h3>Students</h3>
-            <ul>
-                {students.map((student) => (
-                    <li key={student.id}>
-                        {student.name}{" "}
-                        <button onClick={() => removeStudent(student.id)}>
-                            Remove
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
-```
-```ts
-import React from "react";
-import { ClassManagement, ClassHeader, ClassBody, ClassFooter } from "./ClassComponents";
-const App = () => {
-    return (
-        <ClassManagement>
-            <ClassHeader />
-            <ClassBody />
-            <ClassFooter />
-        </ClassManagement>
-    );
-};
-export default App;
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Compound** | Parts share implicit state | “Like `<select>` + `<option>`.” |
+| **Provider vs router** | State ≠ navigation | “Don’t put `router.push` in the cart provider.” |
+| **useClass hook** | Typed context consumer | “Throw if missing provider.” |
 
 ## Standard config / commands
 
-…
+```tsx
+const ClassCtx = createContext<null | ClassValue>(null)
+export function useClass() {
+  const v = useContext(ClassCtx)
+  if (!v) throw new Error('useClass outside ClassManagement')
+  return v
+}
 
-## Cart Provider pattern
+export function ClassManagement({ children }: { children: React.ReactNode }) {
+  const [students, setStudents] = useState<{ id: number; name: string }[]>([])
+  const value = {
+    students,
+    addStudent: (s: { id: number; name: string }) => setStudents((p) => [...p, s]),
+    removeStudent: (id: number) => setStudents((p) => p.filter((s) => s.id !== id)),
+  }
+  return <ClassCtx.Provider value={value}>{children}</ClassCtx.Provider>
+}
 
-It's generally not recommended to place routing logic directly in the **Cart Provider** component. The **Cart Provider** should focus on managing the cart's state and actions (like adding/removing items, updating totals, etc.), not routing or navigation.
+// Checkout: keep routing outside the provider
+function ProceedToCheckout() {
+  const { proceed } = useCart()
+  const router = useRouter()
+  return <button onClick={() => { proceed(); router.push('/checkout') }}>Checkout</button>
+}
+```
 
-### **Why it's not ideal:**
-
-1. **Separation of Concerns**:
-
-    - The **Cart Provider** is responsible for state management (cart-related data), while routing should be handled separately. Mixing concerns can make your code harder to maintain and test.
-2. **Reusability**:
-
-    - Keeping routing logic in the provider would make the provider tightly coupled to the routing logic, limiting the ability to reuse the **Cart Provider** component in different routes or contexts.
-3. **Testability**:
-
-    - It's easier to test the cart functionality if it's decoupled from navigation. Combining both in the same component might make unit testing more complicated.
+| Knob | Why it matters |
+|------|----------------|
+| Hook guard | Fail fast outside tree |
+| Thin provider | State/actions only — no routing |
+| Part components | Optional; callers can use hook directly |
 
 ---
-
-### **Better Approach:**
-
-Instead of putting routing logic in the **Cart Provider**, consider using a **separate component** for navigation after the checkout button is clicked. You can use **React Router** (or **Next.js's `useRouter`**) to handle the routing outside the provider.
-
----
-
-### **Implementation Example:**
-
-#### **1. CartProvider Component** (Focus on Cart State)
-
-```jsx
-import React, { createContext, useContext, useState } from "react";
-
-const CartContext = createContext();
-
-export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([]);
-    const [totalAmount, setTotalAmount] = useState(0);
-
-    const addToCart = (item) => {
-        setCartItems((prev) => [...prev, item]);
-        setTotalAmount((prev) => prev + item.price);
-    };
-
-    const proceedToCheckout = () => {
-        // Logic to proceed (e.g., prepare cart data for checkout)
-    };
-
-    return (
-        <CartContext.Provider value={{ cartItems, totalAmount, addToCart, proceedToCheckout }}>
-            {children}
-        </CartContext.Provider>
-    );
-};
-
-export const useCart = () => useContext(CartContext);
-```
-
-#### **2. ProceedToCheckout Component** (Handles Routing Logic)
-
-```jsx
-import React from "react";
-import { useRouter } from "next/router"; // Using Next.js's routing hook
-import { useCart } from "./CartProvider";
-
-const ProceedToCheckout = () => {
-    const { totalAmount, proceedToCheckout } = useCart();
-    const router = useRouter();
-
-    const handleProceed = () => {
-        proceedToCheckout(); // Any final preparations (e.g., data verification)
-        router.push("/checkout"); // Navigate to the checkout page
-    };
-
-    return (
-        <div>
-            <button onClick={handleProceed}>Proceed to Checkout</button>
-            {totalAmount > 0 && <p>Total Amount: {totalAmount}</p>}
-        </div>
-    );
-};
-
-export default ProceedToCheckout;
-```
-
-#### **3. Usage in App Component**
-
-```jsx
-import { CartProvider } from "./CartProvider";
-import ProceedToCheckout from "./ProceedToCheckout";
-
-const App = () => {
-    return (
-        <CartProvider>
-            {/* Other components */}
-            <ProceedToCheckout />
-        </CartProvider>
-    );
-};
-
-export default App;
-```
-
----
-
-### **Advantages of This Approach:**
-
-1. **Clean Separation**: Cart logic and routing are handled separately, maintaining the separation of concerns.
-2. **Testability**: Both the cart state logic and the routing logic are easier to test independently.
-3. **Maintainability**: Routing logic is now isolated, so it’s easier to update or change the routing logic in the future without affecting the cart provider.
-
----
-
-Instead of passing multiple props, the parent component manages the state, and child components communicate implicitly.
-
-### How it works
-We break the component into self-contained components
-
-```js Cart.jsx
-import { createContext, useContext, useState } from "react";
-
-const CartContext = createContext();
-
-const Cart = ({ children }) => {
-  const [items, setItems] = useState([
-    { id: 1, name: "React Book", price: 30 },
-    { id: 2, name: "JavaScript Guide", price: 25 }
-  ]);
-
-  const removeItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
-  }; const total = items.reduce((sum, item) => sum + item.price, 0); return (
-    <CartContext.Provider value={{ items, removeItem, total }}>
-      <div>
-        <h2>Shopping Cart</h2>
-        {children}
-      </div>
-    </CartContext.Provider>
-  );
-};
-```
-
-```js Cart.Item.jsx
-Cart.Item = ({ item }) => {
-  return (
-    <div>
-      {item.name} - ${item.price}
-      <Cart.RemoveButton id={item.id} />
-    </div>
-  );
-};
-```
-
-```js Cart.Total.jsx
-Cart.Total = () => {
-  const { total } = useContext(CartContext);
-  return <h3>Total: ${total}</h3>;
-};
-```
-
-```js Cart.RemoveButton.jsx
-Cart.RemoveButton = ({ id }) => {
-  const { removeItem } = useContext(CartContext);
-  return <button onClick={() => removeItem(id)}>Remove</button>;
-};
-```
-
-## Implementation of a Tabs component
-
-- It allows consumers to define `TabList`, Tab and `TabPanel` without explicit prop drilling.
-- The Tabs parent manages active state and exposes subcomponents.
-
-Tabs (Parent): Manages active state.
-Tabs.List: Holds multiple `Tab` elements.
-Tabs.Tab: Represents an individual tab button.
-Tabs.panel: Displays the content of the active tab.
-
-```jsx Tabs.jsx
-import { createContext, useContext, useState } from "react";
-
-const TabsContext = createContext();
-
-const Tabs = ({ children }) => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div>{children}</div>
-    </TabsContext.Provider>
-  );
-};
-```
-
-```jsx
-Tabs.List = ({ children }) => (<div>{children}</div>);
-```
-
-```jsx
-Tabs.Tab = ({ index, children }) => {
-  const { activeTab, setActiveTab } = useContext(TabsContext);
-
-  return (
-    <button
-      onClick={() => setActiveTab(index)}
-      style={{ fontWeight: activeTab === index ? "bold" : "normal" }}
-    >
-      {children}
-    </button>
-  );
-};
-```
-
-```jsx
-Tabs.Panel = ({ index, children }) => {
-  const { activeTab } = useContext(TabsContext);
-
-  return activeTab === index ? <div>{children}</div> : null;
-};
-```
-
-```jsx App.jsx
-import Tabs from "./Tabs";
-
-const App = () => (
-  <Tabs>
-    <Tabs.List>
-      <Tabs.Tab index={0}>Tab 1</Tabs.Tab>
-      <Tabs.Tab index={1}>Tab 2</Tabs.Tab>
-      <Tabs.Tab index={2}>Tab 3</Tabs.Tab>
-    </Tabs.List>
-
-    <Tabs.Panel index={0}>Content for Tab 1</Tabs.Panel>
-    <Tabs.Panel index={1}>Content for Tab 2</Tabs.Panel>
-    <Tabs.Panel index={2}>Content for Tab 3</Tabs.Panel>
-  </Tabs>
-);
-
-export default App;
-```
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Hook throws | Missing provider | Wrap with `ClassManagement` |
+| Provider hard to reuse | Router inside provider | Move navigation to leaf |
+| Extra re-renders | New object every render | `useMemo` value or split contexts |
+| Parts unused API | Over-compounded | Flatten to props |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Cart/provider + routing mixed** — breaks testability and reuse; navigate in a child.
+
+> [!WARNING]
+> **Duplicated ClassHeader/Body samples in old notes** — one definition each.
+
+---
 
 ## When NOT to use
 
-…
+- **Simple prop tree (2–3 levels)** — pass props.
+- **Global app state** — Redux/Zustand, not a feature compound.
+
+---
 
 ## Related
 
-[[…]]
+[[React Pattern/Compound Components 1]] [[React Pattern/Provider pattern]] [[React Pattern/Composite pattern]] [[React Pattern/Component Presentational Pattern]]

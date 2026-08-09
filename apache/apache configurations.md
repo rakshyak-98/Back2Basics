@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** apache configurations — plain job, how I run it, how I know it’s broken.
+
+
 ```bash
 sudo a2enmod rewrite;
 sudo systemctl restart apache2;
@@ -26,47 +29,49 @@ cat /etc/apache2/envvars; # see here for apache group and user.
 export APACHE_RUN_USER=www-data
 export APACHE_RUN_GROUP=www-data
 ```
-> [!NOTE]
-> change the user and group of the files so `apache2` can access those files. Otherwise you will get permission error.
-```bash
-sudo chown -R www-data:www-data /path/to/folder
-sudo chmod -R 755 /path/to/folder
-sudo chown -R www-data:www-data /var/lib/php/sessions
-sudo chown -R www-data:www-data /var/www/html/your-project-folder
-```
-> [!NOTE]
-> On Ubuntu, www-data is the default user and group for web services like Apache and PHP-FPM, making it a convention for web-related file ownership.
-> [!NOTE]
-> Check your Apache config file `/etc/apache2/sites-enabled/000-default.conf`
-```txt
-DocumentRoot /var/www/html
-```
-- if you are using something else like `/var/www/myproject/public`, make sure it's set correctly.
-> [!NOTE]
-> missing `.htaccess` or Rewrite Rules
-> - if you are using `Codelgniter`  `Laravel` or another framework, a missing `.htaccess` can cause routes to break.
-### Apache rewrite rules
-- this is handled by `.htaccess` file in the root of the porject.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **apache configurations** | Core idea of this note | “I can explain apache configurations without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[apache]]

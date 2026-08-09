@@ -1,8 +1,8 @@
-[[DNS]]
+[[DNS]] [[DNS server]] [[public resolver]] [[BIND]] [[PoserDNS]]
 
 # Unbound
 
-> Unbound — an open-source recursive DNS resolver developed by NLnet Labs. It performs _recursive resolution_, _DNSSEC validation_, and _DNS caching_, allowing it to resolve domain names directly from
+> Unbound — validating recursive DNS resolver: walks the hierarchy, caches answers, checks DNSSEC — not an authoritative zone host.
 
 ---
 
@@ -17,37 +17,98 @@
 
 ## Mental model
 
-Unbound is an open-source recursive DNS resolver developed by NLnet Labs. It performs _recursive resolution_, _DNSSEC validation_, and _DNS caching_, allowing it to resolve domain names directly from the DNS hierarchy rather than relying on an upstream public resolver. It is widely used by network administrators, privacy-conscious users, ISPs, and infrastructure providers because of its focus on security, performance, and standards compliance. ([NLnet Labs](https://www.nlnetlabs.nl/projects/unbound/about/?utm_source=chatgpt.com "Unbound - About"))
-### Core Capabilities
-Unbound's primary role is to act as a **validating recursive resolver**. When a client requests a domain name, Unbound can query the DNS root servers, top-level domain servers, and authoritative servers directly to obtain an answer. It then caches results to accelerate future lookups and validates DNSSEC signatures to help protect against DNS spoofing and cache-poisoning attacks. ([NLnet Labs](https://www.nlnetlabs.nl/projects/unbound/about/?utm_source=chatgpt.com "Unbound - About"))
-### Security and Privacy Features
-A major reason organizations choose Unbound is its strong support for modern DNS security standards. It supports **DNSSEC**, **DNS-over-TLS (DoT)**, and **DNS-over-HTTPS (DoH)**, enabling encrypted DNS traffic and authenticated responses. It also implements privacy-focused techniques such as query name minimization, which reduces the amount of information revealed during the resolution process. ([NLnet Labs](https://www.nlnetlabs.nl/projects/unbound/about/?utm_source=chatgpt.com "Unbound - About"))
-### Deployment and Performance
-Unbound is designed to be lightweight and efficient. It runs on Linux, BSD systems, macOS, and Windows, and is included in the base system of several BSD operating systems. Because it is focused specifically on recursive resolution rather than authoritative DNS hosting, many administrators consider it simpler and leaner than full DNS suites such as BIND for resolver workloads. ([NLnet Labs](https://www.nlnetlabs.nl/projects/unbound/about/?utm_source=chatgpt.com "Unbound - About"))
-### Common Uses
-Many self-hosted and home-network setups combine Unbound with DNS filtering tools. For example, it is frequently deployed alongside Pi-hole to provide both ad-blocking and fully recursive DNS resolution without depending on third-party DNS providers. It is also commonly used by enterprises, ISPs, and large-scale infrastructure operators as a high-performance recursive DNS layer. ([Pi-hole Documentation](https://docs.pi-hole.net/guides/dns/unbound/?utm_source=chatgpt.com "unbound - Pi-hole documentation"))
-### Related Software
-These projects often appear in the same DNS infrastructure discussions as Unbound. BIND and PowerDNS provide broader DNS server functionality, while NSD—also developed by NLnet Labs—focuses on authoritative DNS service, complementing Unbound's recursive resolver role. ([Wikipedia](https://de.wikipedia.org/wiki/Unbound?utm_source=chatgpt.com "Unbound"))
+**Say it in one breath:** Clients ask Unbound; Unbound queries root → TLD → auth NS (or your forwarders), validates DNSSEC when present, and caches — you stop depending on ISP DNS.
+
+```txt
+Stub → Unbound (recurse + DNSSEC + cache)
+            ├─→ root / TLD / auth   (full recurse)
+            └─→ optional forward-zone → upstream
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Recursive resolver** | Finds answers for clients | “Unbound is recursive-only by design.” |
+| **DNSSEC validation** | Cryptographic authenticity | “SERVFAIL on bogus signatures — good.” |
+| **qname minimization** | Ask parents less of the name | “Privacy: don’t leak full QNAME early.” |
+| **DoT / DoH** | Encrypted DNS to upstream or clients | “TLS on 853 / HTTPS for DNS.” |
+| **NSD** | NLnet Labs *authoritative* sibling | “Pair NSD + Unbound for split roles.” |
+
+Common home lab: Pi-hole → Unbound (filter then recurse).
+
+---
 
 ## Standard config / commands
 
-…
+```txt
+# /etc/unbound/unbound.conf.d/local.conf (sketch)
+server:
+  interface: 127.0.0.1
+  access-control: 127.0.0.0/8 allow
+  access-control: 10.0.0.0/8 allow
+  hide-identity: yes
+  hide-version: yes
+  qname-minimisation: yes
+  auto-trust-anchor-file: "/var/lib/unbound/root.key"
+
+forward-zone:
+  name: "."
+  forward-tls-upstream: yes
+  forward-addr: 1.1.1.1@853#cloudflare-dns.com
+# Or omit forward-zone for full recursion from root
+```
+
+```bash
+unbound-checkconf
+systemctl reload unbound
+dig @127.0.0.1 example.com
+unbound-control status
+unbound-control dump_cache | head
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `access-control` | Without it, easy to become an open resolver |
+| Full recurse vs forward | Forward is simpler behind firewalls; full recurse needs outbound 53 |
+| `val-permissive-mode` | Disabling hard fail weakens DNSSEC — know why you flip it |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| SERVFAIL only on signed domains | DNSSEC clock / anchor | NTP sync; update root key; check `unbound-host -v` |
+| Timeout | Outbound 53/853 blocked | Allow egress; or configure forwarders |
+| Works on 8.8.8.8 not Unbound | Local ACL / listen | Fix `interface` + `access-control` |
+| Stale records | Cache | `unbound-control flush_zone example.com` |
+| High CPU | Attack / spam queries | Rate limits; dig into top talkers |
+| Pi-hole “DNS not available” | Unbound not listening | Start Unbound before Pi-hole upstream test |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Unbound does not host your `example.com` zone** — publish zones on auth ([[BIND]] / PowerDNS / NSD).
+
+> [!WARNING]
+> **DNSSEC SERVFAIL looks like “internet broken”** — middleboxes that break signatures need fixing, not `val-permissive` forever.
+
+> [!WARNING]
+> **Open `interface: 0.0.0.0` + allow any** — you will be used for amplification.
+
+---
 
 ## When NOT to use
 
-…
+- **Authoritative hosting** — use NSD/BIND/PowerDNS.
+- **Kubernetes Service discovery** — [[CoreDNS]].
+- **Tiny appliance that only needs DHCP + a few static names** — [[dnsmasq]] may be enough.
+
+---
 
 ## Related
 
-[[…]]
+[[DNS]] [[DNS server]] [[public resolver]] [[BIND]] [[PoserDNS]] [[CoreDNS]] [[dnsmasq]] [[name server]] [[unbound variable]]

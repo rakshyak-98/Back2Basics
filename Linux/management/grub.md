@@ -32,6 +32,16 @@ UEFI/BIOS ──► GRUB ──► vmlinuz + initrd ──► systemd (PID 1)
 | `/boot/grub/grub.cfg` | Generated output |
 | `/boot/efi/EFI/*/grubx64.efi` | UEFI binary on ESP |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **GRUB** | Bootloader | “GRUB loads kernel + initramfs.” |
+| **grub.cfg** | Generated menu | “Edit /etc/default/grub, then update-grub.” |
+| **GRUB_CMDLINE_LINUX** | Kernel cmdline | “root=, quiet, nomodeset live here.” |
+| **update-grub** | Regen config | “After edit defaults → update-grub.” |
+| **rescue** | Boot recovery | “e at menu to edit once.” |
+
 ## Standard config / commands
 
 ```bash

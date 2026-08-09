@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw PAN never touches your disk if integrated correctly.
+**Say it in one breath:** Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw.
+
 
 ```
 Browser (Stripe.js) ──PaymentMethod id──► Your API ──► Stripe API

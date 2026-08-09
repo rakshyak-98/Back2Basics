@@ -10,14 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Error]]
-- [[#Transfer only the `.next` folder to the server]]
-- [[#Deployment NextJS with pm2 + Nginx]]
+- [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** NextJS Deployment — I can explain the job, the config, and the top failure without jargon.
+
 
 > [!NOTE]
 > No, NextJS cannot be deployed like a plan React (CRA) project with a static `index.html`
@@ -45,109 +46,51 @@
 ```
 - performs tree-shaking, minification, dead-code removal.
 - Deduplicates and chunks JS/CSS assets.
-- Optimizes fonts and images.
-```txt
-Route (app)                                 Size  First Load JS
-┌ ○ /                                    25.4 kB         126 kB
-└ ○ /_not-found                            977 B         102 kB
-```
-- `Route (app)` Lists each app route build using the App router `app/` directory.
-- `Size` raw size of the static.
-- `First Load JS` JS sent or first load of the page, including page + shared chunks.
-- `○` → **Static HTML** (SSG).
-- `●` → **Server-Side Rendered** (SSR).
-- `λ` → **API route**.
-- `⊕` → **ISR (Incremental Static Regeneration)**.
-- `◌` → **Edge functions**.
-```txt
-+ First Load JS shared by all             101 kB
-  ├ chunks/4bd1b696-9d0cc6a253e018b5.js  53.2 kB
-  ├ chunks/684-0c284bc1235c0e67.js       45.9 kB
-  └ other shared chunks (total)          1.93 kB
-```
-- `First load JS share by all` -> JS used across all pages. Loaded once on first navigation.
-- `chunks/...` -> Auto-generated JS chunks. Includes things like shared components, layout, dependencies.
-- `other shared chunks` -> smaller utility / runtime files shared by all routes.
-```txt
-○  (Static)  prerendered as static content
-```
-- explains what `○` means -> the route is fully pre-rendered at build time.
-- These pages are not server-rendered, so they load faster and scale better.
+- Optimizes fon
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **NextJS Deployment** | This note’s core idea | “I explain NextJS Deployment in plain words.” |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Error
-
-### 🔹 `generateStaticParams()`
-
-It’s a **Next.js-specific function** used in **App Router** for dynamic routes (e.g., `[id]`) when doing **static site generation** (`output: 'export'` or `getStaticPaths` in old Pages Router).
-
----
-
-### 🔧 Purpose:
-
-Tells Next.js at **build time** what params (`id`, `slug`, etc.) to pre-render.
-
----
-
-### 📍Location:
-
-Must be **exported** from the same file as the route:
-`/app/blog-details/[id]/page.tsx`
-
-```ts
-export async function generateStaticParams() {
-  return [{ id: '1' }, { id: '2' }];
-}
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
 ---
 
-### 🧠 Notes:
+## Triage (when things break)
 
-- Runs at **build time only**
-- Equivalent of `getStaticPaths` (Pages Router)
-- Required for **static export** if using `[param]` routes
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
 
-## Transfer only the `.next` folder to the server
-
-> [!INFO]
-> No, your NextJS frontend app will not be able to run if you
-> - Run `next build` (creates `.next`).
-> - then delete `node_modules).`
-> The `.next` directory contains the compiled output, but not the runtime dependencies.
-- when you run `next start` it needs:
-- `next` package itself
-- other dependencies (e.g., React, middleware, API handlers)
-All of these are in `node_modules`
-
-Exceptions (Not Applicable to development)
-`next export` [read more](https://nextjs.org/docs/app/guides/static-exports)
-
-## Deployment NextJS with pm2 + Nginx
-
-- NextJS need server (Node.js) to run;
-
-> [!INFO]
-> However your NextJS project doesn't use any server-side features like `getServerSideProps`, API routes or middleware, you can export it sa static HTML.
-
-```js next.ocn
-const nextConfig = {
-	output: "exprot"
-}
-```
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer words you can say aloud in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip when a simpler existing approach already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[NextJS]]

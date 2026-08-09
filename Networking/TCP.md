@@ -1,8 +1,8 @@
-[[Byte stream]] [[SSH]]
+[[Networking]] [[Byte stream]] [[UDP]] [[SSH]]
 
 # TCP
 
-> TCP — stream-Oriented Abstraction: Operates as a continuous byte stream. Application-layer write boundaries are entirely discarded at the transport layer.
+> TCP is a reliable ordered byte stream between two hosts — handshake, acks, retransmit; not message frames.
 
 ---
 
@@ -17,57 +17,90 @@
 
 ## Mental model
 
-### Transmission Control Protocol (TCP) Architecture
-#### Protocol Primitives & Characteristics
-- **Stream-Oriented Abstraction:** Operates as a continuous byte stream. Application-layer write boundaries are entirely discarded at the transport layer.
-- **Connection-Oriented (Stateful):** Requires explicit state synchronization for setup (3-way handshake) and teardown (4-way handshake).
-- **Full-Duplex:** Establishes independent, bi-directional transmit (TX) and receive (RX) channels over a single connection.
-- **Multiplexing:** Identifies unique connections using the standard 4-tuple: `(Source IP, Source Port, Destination IP, Destination Port)`.
-- **Underlying Application Substrate:** Serves as the transport foundation for protocols requiring guaranteed delivery (e.g., HTTPS, SSH).
-#### Reliability & Control Mechanisms
-- **Guaranteed, Ordered Delivery:** Utilizes sequence (SEQ) numbers and acknowledgment (ACK) numbers to track byte offsets, ensuring in-order delivery to the application space.
-- **Error Recovery:** Transparently handles out-of-order segments, packet loss, and data corruption via retransmission (e.g., Retransmission Timeout, Fast Retransmit).
-- **Flow Control:** Receiver dynamically advertises its available buffer capacity (Receive Window, `rwnd`) to throttle the sender, preventing application buffer exhaustion.
-#### Buffer & Memory Management
-- **TCP Send Buffer (TX):**
-    - Data is queued here via application syscalls (`write()`, `send()`).
-    - The OS/TCP stack segments the byte stream into Maximum Segment Sizes (MSS) for IP encapsulation.
-    - Multiple consecutive application writes may be coalesced into a single TCP segment, or a single write may be fragmented across multiple segments.
-    - Application threads block (or return `EAGAIN`/`EWOULDBLOCK`) if the TX buffer is full.
-- **TCP Receive Buffer (RX):**
-    - Segments are collected, reordered, and buffered upon arrival.
-    - Data is exposed to the application layer stream (`read()`, `recv()`) as it becomes contiguous.
-- **Boundary Enforcement (Application Layer Responsibility):** Because TCP is stream-based, protocols relying on it _must_ implement application-level framing (e.g., `Content-Length` headers, delimited payloads) to parse discrete messages out of the continuous stream.
-#### Protocol Encapsulation (Layer 4)
-- **TCP over IP:** TCP headers and payload (Segments) are encapsulated within IP Packets. IP fragment boundaries have zero correlation to original application write boundaries.
-- **Comparison to UDP:** UDP operates at the same layer and provides multiplexing (ports) over IP, but retains the Layer 3 datagram (packet-based) model without state, flow control, or delivery guarantees.
-#### Connection Teardown (State Machine)
-- **Half-Close Capability:** Because channels are independent, each direction is terminated separately, allowing a peer to stop transmitting while continuing to receive.
-- **Termination Sequence (4-Way Handshake):**
-    1. Active closer transmits a `FIN` control flag.
-    2. Passive closer acknowledges with an `ACK`. (The remote application receives an `EOF` on its next `read()` operation).
-    3. Passive closer transmits its own `FIN` when its application channel is closed.
-    4. Active closer responds with a final `ACK`.
+**Say it in one breath:** TCP gives you a pipe of bytes that arrive in order. Your app must split messages; the kernel splits packets.
+
+```txt
+App write("HELLO") write("WORLD")
+        │
+   TCP send buffer → segments (SEQ/ACK) → IP packets
+        │
+   Peer TCP reorders / buffers → App read() sees a byte stream
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Byte stream** | No message boundaries | “TCP won’t preserve my write() sizes.” |
+| **3-way handshake** | SYN → SYN-ACK → ACK | “We sync sequence numbers before data.” |
+| **SEQ / ACK** | Byte offsets | “ACKs say how far the receiver got.” |
+| **rwnd** | Receiver window | “Flow control stops me overrunning the peer.” |
+| **cwnd** | Congestion window | “Congestion control slows me on loss.” |
+| **Retransmit** | Resend lost data | “Loss triggers RTO or fast retransmit.” |
+| **4-tuple** | src IP/port + dst IP/port | “That uniquely IDs the connection.” |
+| **Half-close** | FIN one direction | “I can stop sending and still receive.” |
+
+### Reliability in plain steps
+
+1. **Connect** — three-way handshake builds shared state.
+2. **Send** — data gets SEQ numbers; peer ACKs contiguous bytes.
+3. **Recover** — loss → retransmit; reorder → hold until gap fills.
+4. **Pace** — `rwnd` (peer buffer) + `cwnd` (network) limit in-flight data.
+5. **Close** — each side FIN/ACKs (four-way); TIME-WAIT holds the old tuple.
+
+vs [[UDP]]: UDP keeps datagram edges, no connect state, no delivery guarantee — better for latency-sensitive media when the app handles loss.
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+ss -tan | head
+ss -ti dst :443          # TCP info: rtt, cwnd, retrans
+tcpdump -ni any tcp port 443
+# Kernel knobs (careful in prod)
+sysctl net.ipv4.tcp_fin_timeout
+sysctl net.core.somaxconn
+```
+
+App framing examples: HTTP `Content-Length` / chunked; length-prefix RPC; newline JSON lines.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Connect hangs | SYN dropped / firewall | Path MTU, SG rules, `ss -tan` SYN-SENT |
+| Stall under load | Zero window / buffer full | Raise buffers; fix slow consumer |
+| High latency after loss | Retrans / CUBIC vs BBR | Tune CC; check wifi loss |
+| Message parse errors | Assumed write==read sizes | Add framing on the stream |
+| Port reuse fails | TIME-WAIT | `SO_REUSEADDR`; shorter workloads |
+| Reset (RST) | Peer closed / wrong state | Check crash, idle LB timeout |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Nagle + delayed ACK** — small writes can feel laggy; batch writes or `TCP_NODELAY` when needed.
+
+> [!WARNING]
+> **Head-of-line blocking** — one lost packet blocks later bytes in that stream (HTTP/2 pain → HTTP/3/QUIC).
+
+> [!WARNING]
+> **Load balancer idle timeout** — silent middlebox close; use app keepalives.
+
+---
 
 ## When NOT to use
 
-…
+- **Live A/V with loss tolerance** — often [[UDP]] + codec concealment (WebRTC).
+- **Tiny request/response where UDP + app retry is enough** — DNS-like patterns (with care).
+- **Multicast discovery** — TCP is point-to-point.
+
+---
 
 ## Related
 
-[[…]]
+[[UDP]] [[Byte stream]] [[BSD Socket]] [[POSIX Socket]] [[SSH]] [[ICMP]] [[MTU (Maximum Transmission Unit)]] [[half-open connections]]

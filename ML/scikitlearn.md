@@ -1,8 +1,8 @@
-[[ML]]
+[[ML]] [[model tranning]] [[data preprocessing]]
 
 # scikitlearn
 
-> scikitlearn — data shuffling is important (do prior of split)
+> scikit-learn is the go-to Python library for classical ML — estimators, pipelines, and metrics with a fit/predict API.
 
 ---
 
@@ -10,14 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#How does regression model perform in rank prediction?]]
-- [[#why we have to calculate sample mean and standard deviation?]]
-- [[#What is multiclass classification?]]
-- [[#what are the step before doing perceptron?]]
-- [[#what is **one-versus-rest** (**OvR**)?]]
-- [[#How to find where does a model start to capture over-fit data sets on test and generalized data set?]]
-- [[#How to find ranking loss?]]
-- [[#What is the difference between regression and classification?]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -25,61 +17,71 @@
 
 ## Mental model
 
-Learning algorithms for classification
-- data shuffling is important (do prior of split)
-- feature scaling for optimal performance
+**Say it in one breath:** Everything is an estimator — `fit` on train, `transform`/`predict` on new data; wrap steps in a `Pipeline` to avoid leakage.
+
+```txt
+Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Estimator** | Objects with fit | “Classifier/regressor API.” |
+| **Transformer** | fit/transform | “Scaler, encoder.” |
+| **Pipeline** | Chain steps | “One fit for all.” |
+| **CV** | Cross-validate | “`cross_val_score` / GridSearch.” |
+
+---
 
 ## Standard config / commands
 
-…
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+pipe = Pipeline([
+  ('scale', StandardScaler()),
+  ('clf', LogisticRegression(max_iter=1000)),
+])
+pipe.fit(X_train, y_train)
+pipe.score(X_test, y_test)
+```
 
-## How does regression model perform in rank prediction?
+| Knob | Why it matters |
+|------|----------------|
+| Pipeline | Scaler stats from train only |
+| `n_jobs` | Parallel CV |
+| `class_weight` | Imbalance |
 
-## why we have to calculate sample mean and standard deviation?
-
-## What is multiclass classification?
-
-## what are the step before doing perceptron?
-
-## what is **one-versus-rest** (**OvR**)?
-
-## How to find where does a model start to capture over-fit data sets on test and generalized data set?
-
-## How to find ranking loss?
-
-## What is the difference between regression and classification?
-
-### sample mean
-### standard deviation
-#### Gradient descent
-### Adaline
-#### Dimensionality Reduction
-#### Vector array
-#### Supervised learning data sets
-#### Hyperparameter Tuning
-#### linear activation function
-#### Mean Squared Error (MSE)
-#### ReLU, Sigmoid
-#### loss minimum
-#### model hyperparameters
-#### transformer
-#### polynomial features
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Shape errors | column mismatch | Same columns; ColumnTransformer |
+| ConvergenceWarning | max_iter / scale | Scale features; raise iters |
+| Leakage | preprocess outside pipeline | Put all steps inside |
+| Slow GridSearch | huge grid | RandomSearch; fewer params |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **fit on full dataset then split** — leaks; always split first.
+
+> [!WARNING]
+> **sparse vs dense** — some models need one or the other after encoding.
+
+---
 
 ## When NOT to use
 
-…
+- **Deep learning on GPU** — PyTorch/TF.
+- **Huge distributed training** — Spark/XGBoost distributed stacks.
 
 ## Related
 
-[[…]]
+[[model tranning]] [[data preprocessing]] [[Random forest]] [[Gradient boosting]]

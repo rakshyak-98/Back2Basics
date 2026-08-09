@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Create Pool connection]]
-- [[#Connection shutdown]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,73 +17,51 @@
 
 ## Mental model
 
-> [!NOTE]
-> - in the `mysql2` package when you run DDL statements the response is a `RequestHeader`, not rows.
+**Say it in one breath:** mysql2 — plain job, how I run it, how I know it’s broken.
+
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **mysql2** | Core idea of this note | “I can explain mysql2 without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Create Pool connection
-
-```js
-
-const pool = mysql.createPool({
-  port: process.env.DB_PORT,
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  connectTimeout: 10000,
-  idleTimeout: 60000,
-  enableKeepAlive: true
-});
-
+```bash
+# version + config path
+# dry-run when available
 ```
 
-## Connection shutdown
-
-```js
-
-(async () => {
-  try {
-    const connection = await pool.getConnection();
-    console.log(
-      `MySQL pool initialized | Connected to: ${process.env.DB_DATABASE}`
-    );
-    connection.release();
-  } catch (err) {
-    console.error("Failed to initialize MySQL pool:", err);
-    process.exit(1);
-  }
-})();
-
-process.on("SIGTERM", async () => {
-  console.log("Shutting down... closing DB Pool");
-  await pool.end();
-  process.exit(0);
-});
-
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[npm]]

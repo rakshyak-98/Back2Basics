@@ -1,8 +1,8 @@
-[[Operating System]]
+[[Operating System]] [[thread pool]] [[Blocking]] [[multi-threaded]]
 
 # CPU IO Bound Task
 
-> CPU IO Bound Task — CPU-bound — your CPU is the one sweating
+> CPU-bound burns cores on compute; I/O-bound spends time waiting on disk, network, or users.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Why mixing CPU-bound + IO-bound tasks in one shared thread pool causes serious problem]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,44 +17,97 @@
 
 ## Mental model
 
-CPU-bound -> your CPU is the one sweating
-IO-bound -> your CPU is mostly sitting and waiting for someone/something else.
-CPU-bound task and IO-bound tasks are two fundamentally different types of **Workloads** that behave very differently when it comes to performance, concurrency, threading, asyncio, multiprocessing etc.
-|Aspect|CPU-bound task|IO-bound task|
-|---|---|---|
-|Main bottleneck|CPU (computation)|Waiting for I/O (disk, network, database, API)|
-|What the program spends most time doing|Doing calculations, processing data|Waiting (sleeping / blocked)|
-|Typical examples|• Video encoding / transcoding • Machine learning training / inference • Image processing (filters, resizing) • Scientific simulations • Cryptography / hashing • Complex mathematical computations • Compression / decompression|• Serving web requests • Reading/writing large files • Database queries • Making HTTP API calls • Downloading / uploading files • Waiting for user input • Network communication (sockets) • Reading logs / streaming data|
-|Threading helps?|Usually **no** (or very little)|**Yes** — very effective|
-|Multiprocessing helps?|**Yes** — usually the best solution|Helps sometimes, but often overkill|
-|asyncio / async-await helps?|Usually **no** or very little|**Yes** — often excellent solution|
-|GIL impact (in Python)|Severe limitation — only one thread makes progress|Almost no impact — threads can wait in parallel|
-|Typical scaling strategy|• More CPU cores • Multiprocessing • Faster CPU • Optimize algorithm|• More concurrent connections • Async I/O • Connection pooling • Caching|
-|Real-world feel|8-core CPU → can run ~8 such tasks efficiently at the same time|8-core CPU → can easily handle hundreds or thousands of such tasks concurrently|
+**Say it in one breath:** Match concurrency tool to the bottleneck — processes/SIMD for CPU; threads/async for waits.
+
+```txt
+CPU-bound:  encode / hash / ML  →  needs cores (multiprocess)
+IO-bound:   HTTP / DB / disk    →  needs concurrency while waiting
+```
+
+| Aspect | CPU-bound | I/O-bound |
+|--------|-----------|-----------|
+| Bottleneck | ALU / cache | Wait time |
+| Threads help? | Little (GIL/contended) | Yes |
+| Processes help? | Yes | Sometimes overkill |
+| Async helps? | Rarely | Often |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **CPU-bound** | Compute limited | “More cores or better algo.” |
+| **I/O-bound** | Wait limited | “Overlap waits with concurrency.” |
+| **GIL** | Python one-bytecode-thread | “Threads won’t speed CPU Python.” |
+| **Backpressure** | Slow consumers | “Bound queues or you OOM.” |
+| **Pool split** | Separate executors | “Don’t mix encode + HTTP in one pool.” |
+| **Amdahl** | Serial fraction | “8 cores ≠ 8× if 30% serial.” |
+
+### How the story goes
+
+1. **Measure** — CPU% high vs mostly idle/`epoll_wait`.
+2. **Classify** — CPU vs I/O vs both.
+3. **Pick** — process pool / C extension vs async/thread pool.
+4. **Isolate** — never let CPU hogs occupy the I/O worker pool.
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# See wait vs run
+pidstat -u -d 1
+perf top
+# Python patterns
+# concurrent.futures.ProcessPoolExecutor  → CPU
+# asyncio + httpx / ThreadPoolExecutor    → I/O
+```
 
-## Why mixing CPU-bound + IO-bound tasks in one shared thread pool causes serious problem
+| Knob | Why it matters |
+|------|----------------|
+| Pool size ≈ cores | CPU workers |
+| Pool size ≫ cores | I/O workers (cap!) |
+| Queue maxsize | Protect memory |
+| cgroup CPU quota | Noisy neighbor |
 
-- The CPU-bound tasks hog the threads -> IO-bound tasks get queued even though many threads are actually idle but blocked on I/O
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Latency↑ under “light” CPU job | Shared thread pool | Split CPU vs I/O executors |
+| 100% one core, Python | GIL + threads | Processes or native code |
+| Idle CPUs, slow API | Blocking I/O on event loop | Async drivers or worker threads |
+| OOM with “more threads” | Unbounded queue | Bound + reject |
+| No speedup after N cores | Amdahl / memory BW | Profile; reduce sharing |
+| DB pool exhausted | I/O workers > DB conns | Align pool sizes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Mixing pools** — one JPEG encode can stall hundreds of waiting HTTP handlers.
+
+> [!WARNING]
+> **“Async CPU”** — `await` doesn’t parallelize math; it only yields.
+
+> [!WARNING]
+> **Hyper-threading** — logical CPUs ≠ full speedup ([[SMT threads]]).
+
+> [!WARNING]
+> **I/O looks CPU** — JSON parse / compression after download is CPU-bound.
+
+---
 
 ## When NOT to use
 
-…
+- **Tiny total work** — thread/process spawn costs dominate; do it inline.
+- **Already one bottleneck service** — fix the DB/index before fan-out workers.
+- **Real-time hard deadlines** — need scheduling class / isolation, not just “more async”.
+
+---
 
 ## Related
 
-[[…]]
+[[thread pool]] [[Blocking]] [[non-blocking]] [[multi-threaded]] [[SMT threads]] [[Single-threaded]]

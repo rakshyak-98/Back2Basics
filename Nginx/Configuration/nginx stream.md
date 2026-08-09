@@ -17,7 +17,8 @@
 
 ## Mental model
 
-The **stream** context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client and upstream. Two common patterns:
+**Say it in one breath:** `stream {}` is L4 — Nginx forwards bytes (TCP/UDP) without parsing HTTP.
+
 
 ```
 Client ──TCP──► Nginx:5432 ──TCP──► PostgreSQL:5432   (TCP proxy)

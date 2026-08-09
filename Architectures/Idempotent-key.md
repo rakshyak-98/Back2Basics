@@ -1,8 +1,8 @@
-[[Architectures]]
+[[Architectures]] [[System Design/Concurrent modification]]
 
 # Idempotent-key
 
-> Idempotent-key — idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique
+> Idempotency key lets a client safely retry a write — same key returns the first result, not a duplicate.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Mechanism]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,60 +17,79 @@
 
 ## Mental model
 
-Idempotent request key validation prevents duplicate resource creation when a client retries a request (due to timeout, network failure, or duplicate submission) by using a unique key to detect and reject/duplicate repeat attempts.
-**Problem it solves**
-A client sends `POST /orders` to create a resource. The request succeeds server-side, but the response is lost (network drop, timeout). The client retries the same POST. Without protection, this creates a second, duplicate resource — a data integrity violation.
-> [!NOTE]
-> The key must be client-generated per logical operation, not server-generated, since the whole point is that the client can safely resend the same key across retries of the same logical request.
+**Say it in one breath:** Client sends a unique key per logical op; server stores key→response and replays it on retry.
+
+```txt
+POST + Idempotency-Key
+   │
+   ├─ new key → process, store response
+   ├─ in-flight → 409 / wait
+   └─ seen done → return stored response (no re-create)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Idempotency-Key** | Client retry token | “UUID per checkout attempt.” |
+| **Request hash** | Detect key reuse with new body | “Same key + different payload = 422.” |
+| **TTL** | How long we remember | “24h is common for payments.” |
+| **In-flight** | First request still running | “Don’t start a second charge.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Mechanism
-
-1. Client generates a unique key (typically a UUID) per logical operation and sends it in a header, e.g.:
-
-```
+```http
 POST /orders
 Idempotency-Key: 7c9e6679-7425-40de-944b-e07fc1f90ae7
 ```
 
-2. Server checks if that key has been seen before:
-	- **Not seen**: process the request normally, store `(key, result, status)`, return the result.
-	- **Seen, still processing**: return 409 Conflict or block/wait (request is in-flight).
-	- **Seen, already completed**: return the stored response from the original request instead of re-executing the operation. Do not re-create the resource.
-
 ```sql
 CREATE TABLE idempotency_keys (
-  key             UUID PRIMARY KEY,
-  request_hash    TEXT NOT NULL,      -- hash of request body, detects key reuse with different payload
-  status          TEXT NOT NULL,      -- 'processing' | 'completed' | 'failed'
-  response_body   JSONB,
+  key UUID PRIMARY KEY,
+  request_hash TEXT NOT NULL,
+  status TEXT NOT NULL, -- processing|completed|failed
+  response_body JSONB,
   response_status INT,
-  created_at      TIMESTAMPTZ DEFAULT now(),
-  expires_at      TIMESTAMPTZ         -- TTL, e.g. 24h
+  expires_at TIMESTAMPTZ
 );
 ```
 
-> [!NOTE]
-> - Store the request payload hash alongside the key. If the same key arrives with a different body, that's a client-side bug (key reused across different logical operations) — reject rather than silently applying one or the other.
+| Knob | Why it matters |
+|------|----------------|
+| Client-generated key | Server can’t invent it after a lost response |
+| Hash of body | Stops accidental key reuse |
+| TTL + purge | Table doesn’t grow forever |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Duplicate orders | Missing key / ignored | Require header; reject bare POST |
+| 409 forever | Stuck `processing` | TTL reclaim; heartbeat |
+| Wrong replay | Key reused for new body | Compare hash; 422 |
+| Key missing on mobile retry | Client regenerated UUID | Persist key until success |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Server-generated keys don’t help** — the client must resend the *same* key after timeout.
+
+> [!WARNING]
+> **Only POST/PATCH that create side effects** — GET is already idempotent.
+
+---
 
 ## When NOT to use
 
-…
+- **Pure reads** — no need.
+- **Ops that must intentionally create many** — bulk create without keys is fine if duplicates are wanted.
 
 ## Related
 
-[[…]]
+[[System Architecture]] [[feature flag]] [[Service Layer]]

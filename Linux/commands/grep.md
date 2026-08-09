@@ -37,6 +37,16 @@ file / pipe ──► grep PATTERN ──► matching lines ──► wc / head 
 | `-n` | Line numbers |
 | `-A/-B/-C` | Context lines after/before/around match |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **grep** | Match lines by regex | “grep -R pattern . for trees.” |
+| **-E / -F** | ERE vs fixed | “-F for literal strings.” |
+| **-v** | Invert | “Exclude noise lines.” |
+| **-n / -H** | Line numbers / filename | “Needed in pipelines.” |
+| **ripgrep** | Faster recursive | “rg often replaces grep -R.” |
+
 ## Standard config / commands
 
 ```bash

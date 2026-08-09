@@ -17,7 +17,8 @@
 
 ## Mental model
 
-A **PSP** connects **payers** and **merchants**: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
+**Say it in one breath:** A **PSP** connects **payers** and **merchants**: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
+
 
 ```
 Customer payment ──► PSP ──► Acquiring bank ──► Card schemes ──► Issuing bank

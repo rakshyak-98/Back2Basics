@@ -1,8 +1,8 @@
-[[Descriptive]]
+[[Descriptive]] [[LSP]] [[Debugger configuratoin]]
 
 # DAP (Debug Adapter Protocol)
 
-> DAP (Debug Adapter Protocol) — protocol designed to standardise the way development tools (like VS Code, IntelliJ, or Vim) talk to debugger (like gdb, LLDB, or NodeJS runtime
+> DAP is how editors talk to debuggers — breakpoints, stacks, and variables over a standard protocol (cousin of LSP).
 
 ---
 
@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#DAP Architecture]]
-- [[#How DAP communication flow]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,50 +17,64 @@
 
 ## Mental model
 
-Protocol designed to standardise the way development tools (like VS Code, IntelliJ, or Vim) talk to debugger (like [[gdb]], [[LLDB]], or NodeJS runtime debuggers).
+**Say it in one breath:** IDE ↔ debug adapter ↔ real debugger/runtime; one protocol, many languages.
+
+```txt
+VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Adapter** | Protocol translator | “vscode-js-debug speaks DAP.” |
+| **Launch/attach** | Start or join | “Same as debugger config.” |
+| **Stopped event** | Hit breakpoint | “UI shows stack.” |
+| **vs LSP** | Debug ≠ IntelliSense | “Different servers.” |
+
+---
 
 ## Standard config / commands
 
-…
+```json
+// launch.json request shapes map to DAP launch/attach
+{ "type": "pwa-node", "request": "attach", "port": 9229 }
+```
 
-## DAP Architecture
+| Knob | Why it matters |
+|------|----------------|
+| Adapter extension | Must match language |
+| Port / pipe | How IDE connects |
+| Path mappings | Remote/container debug |
 
-DAP acts as a universal "Translator" or intermediate layer between the Development Tool (client) and Debugger (Server/Adapter).
-By using DAP, the ecosystem collapses from an M x N problem to an M + N problem. Any editor that implements the DAP client can debug any language that provides a DAP-compliant adapter.
-
-## How DAP communication flow
-
-DAP operates as a request-response protocol, typically running over JSON-RPC.
-
-1. Client (IDE/Editor) -> Sends JSON requests to the debug adapter (e.g., `setBreakpoints`, `next`)
-2. Debug Adapter -> Receives these generic requests and translates them into language specific commands that the actual runtime/debugger understands (e.g., GDB commands or V8 inspector protocols).
-3. Debugger (Runtime) -> Executes the low-level instructions and returns the state (call stack, variable values) back through the adapter.
-
-
-> Decoupling -> IDE Developers don't need to know the internals of how a specific language runtime handles memory or stack frames.
-> Consistency -> Features like breakpoints, variable inspection, and watch windows look and behave identically, regardless of whether you are debugging C++, Python or Rust.
-> Portability -> You can write a single Debug Adapter once, and it will immediately work in any IDE that support DAP.
-
-| **Protocol** | **Purpose**           | **Key Functionalities**                                                   |
-| ------------ | --------------------- | ------------------------------------------------------------------------- |
-| **LSP**      | **Code Intelligence** | Autocomplete, "Go to Definition," linting, refactoring.                   |
-| **DAP**      | **Runtime Execution** | Breakpoints, stepping through code, variable inspection, memory analysis. |
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Adapter missing | extension | Install debugger extension |
+| Can’t connect | port | Open debug port; firewall |
+| Unbound BP | path map | Align remote paths |
+| No variables | optimize-out | Debug build / less optimize |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **LSP green ≠ DAP ready** — language server doesn’t set breakpoints.
+
+> [!WARNING]
+> **Container path mismatch** — breakpoints need `localRoot`/`remoteRoot`.
+
+---
 
 ## When NOT to use
 
-…
+- **Log-only investigation** — sometimes enough.
+- **Prod pausing** — prefer tracing/metrics.
 
 ## Related
 
-[[…]]
+[[LSP]] [[Debugger configuratoin]] [[How does debugger work]]

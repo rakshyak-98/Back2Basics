@@ -17,7 +17,8 @@
 
 ## Mental model
 
-`npm run <script>` executes the command in a shell with `node_modules/.bin` on PATH. Lifecycle hooks (`prestart`, `postinstall`) run automatically around named scripts. Arguments after `--` pass through to the underlying command without npm interpreting them.
+**Say it in one breath:** `npm run <script>` executes the command in a shell with `node_modules/.bin` on PATH. Lifecycle hooks (`prestart`, `postinstall`) run automatically around named scripts. Arguments after `--` pass through to.
+
 
 ```
 package.json scripts → npm run dev → nodemon (local bin)

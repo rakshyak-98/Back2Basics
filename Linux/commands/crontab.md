@@ -38,6 +38,16 @@
 
 Environment is **sparse**: often only `HOME`, `LOGNAME`, `SHELL`, `PATH=/usr/bin:/bin`. Always use absolute paths for scripts and binaries.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **crontab** | Per-user schedule | “crontab -e edits your jobs.” |
+| **minute hour dom mon dow** | Five fields | “* * * * * = every minute — careful.” |
+| **PATH** | Thin cron env | “Use absolute paths in cron.” |
+| **/etc/cron.d** | System drop-ins | “Prefer files over root crontab for packages.” |
+| **MAILTO** | Cron email | “Silence with MAILTO="" if noisy.” |
+
 ## Standard config / commands
 
 ```bash

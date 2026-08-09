@@ -9,13 +9,16 @@
 ## Index
 
 - [[#Mental model]]
-- [[#Trace the full DNS resolution path from your cli]]
-- [[#Classic DNS propagation/resolver difference issue]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** public resolver — I can explain the job, the config, and the top failure without jargon.
+
 
 ### **1. Public resolver’s job**
 Public resolvers (like `8.8.8.8` or `1.1.1.1`) **don’t store domain → IP mappings permanently**.
@@ -36,53 +39,51 @@ When you query `dig @8.8.8.8 example.com`, Google DNS performs this chain:
 ### **3. Next requests**
 When anyone else asks the same resolver for `example.com` within that TTL window,
 it returns the **cached IP**, avoiding the full lookup chain.
-### **4. Summary logic**
-```
-User query → Public Resolver
-   ↓
-Cache hit? yes → return
-        no → ask Root → TLD → Authoritative
-   ↓
-Store in cache (TTL)
-   ↓
-Return IP
-```
-### **5. Key separation**
-- **Authoritative servers** = “source of truth” (where domain owner defines A/CNAME/MX records).
-- **Public resolvers** = “smart cache middlemen” that find and remember answers.
+### **4. Sum
 
-## Trace the full DNS resolution path from your cli
+### Interview map (words you can say)
 
-**Run a full trace**
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **public resolver** | This note’s core idea | “I explain public resolver in plain words.” |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
+
+---
+
+## Standard config / commands
+
 ```bash
-dig +trace <domain>;
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
-## Classic DNS propagation/resolver difference issue
+---
 
-`nslookup <domain> <public dns server>` -> NXDOMAIN
-google public DNS (`8.8.8.8`) does not yet have the record cached or the record hasn't propagated to it.
+## Triage (when things break)
 
-`nslookup <domain> 1.1.1.1` -> resolves correctly
-	- Cloudflare DNS `1.1.1.1` has already received the update record.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Apply/deploy fail | plan / events | Fix IAM or syntax |
+| TLS/DNS wrong | dig / openssl | Fix records and certs |
+| Secret leak risk | repo scan | Rotate; use secret store |
 
-> [!INFO]
-> - DNS changes propagate asynchronously
-> - Each resolver caches records based on TTL.
-> - Some resolvers query authoritative servers sooner than other.
-> - NXDOMAIN on 8.8.8.8 means either
-> 	- Had cached an old non-existent state (before the A record was added), or
-> 	- Hasn't queried the authoritative nameservers yet.
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer words you can say aloud in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip when a simpler existing approach already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[DNS]]

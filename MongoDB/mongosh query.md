@@ -1,8 +1,8 @@
-[[MongoDB]]
+[[MongoDB]] [[mongosh]] [[mognodb indexing]]
 
 # mongosh query
 
-> mongosh query — { $regex: search, $options: "i" }
+> Everyday find/aggregate patterns in mongosh — filter, project, sort, explain.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Populate reference]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,148 +17,73 @@
 
 ## Mental model
 
-### search query
-```js
-{ $regex: search, $options: "i" }
+**Say it in one breath:** `find` for simple filters; `aggregate` for pipelines; always `explain` when it’s slow.
+
+```txt
+filter → project → sort → limit   (+ index)
 ```
-### Find the type reference
-```js
-const mongoose = require('mongoose');
-// Replace 'YourModel' with your Mongoose model
-YourModel.find({ category: { $type: 'objectId' } })
-YourModel.find({
-  category: {
-    $type: 'objectId'  // Matches fields of type ObjectId
-  },
-  $expr: {
-    $not: { $isArray: "$category" }  // Ensures category is not an array
-  }
-})
-```
-### `$expr`
-To fetch documents where the `reportingManager` field contains more than one `ObjectId`, you can use the `$expr` operator to check the length of the array. Here's the query:
-```javascript
-db.collectionName.find({
-  $expr: { $gt: [{ $size: "$reportingManager" }, 1] }
-})
-```
-### Explanation:
-1. **`$size`**: Calculates the size of the `reportingManager` array for each document.
-2. **`$gt`**: Checks if the size is greater than 1.
-3. **`$expr`**: Allows evaluating these expressions within the query.
-To remove keys (fields) from a document in MongoDB, you can use the `$unset` operator. Here's the query to remove one or more keys from a document:
-### Example:
-```javascript
-db.collectionName.update(
-  { _id: ObjectId("documentId") }, // Filter condition
-  { $unset: { key1: "", key2: "" } } // Fields to remove
-)
-```
-### Explanation:
-- **`$unset`**: This operator removes the specified fields from the document.
-- **`key1`, `key2`**: Replace these with the actual field names you want to remove. You can remove multiple fields by adding more key-value pairs (keys as field names and values as empty strings).
-### `$elementMatch`
-```js
-{ "numbers": { "$elemMatch": { "$gt": 5, "$lt": 10 } } }
-```
-- Array `[3,6,11]` matches because `6` satisfies both `$gt` and `$lt`.
-query operator used to match one or more elements of an array that satisfy all the specified conditions in a single query.
-- matches individual elements of an array.
-- ensures all conditions are met by the same element in the array.
-- can be used in query filters and projections.
-### Sub-documents query element match
-```js
-db.collection.find({ "tasks": { "$elemMatch": { "task": "coding", "hours": { "$gt": 3 } } } })
-```
-##### Projection example
-```js
-db.collection.find({}, { "tasks": { "$elemMatch": { "hours": { "$gt": 3 } } } })
-db.collection.find({}, { tasks: { $elemMatch: { priority: "high" } } })
-```
-### Date difference
-```js
-agg = [
-  {
-    '$addFields': {
-      dateDifferenceInMilliseconds: { '$subtract': [ '$endDate', '$startDate' ] }
-    }
-  },
-  {
-    '$project': {
-      dateDifferenceInDays: { '$divide': [ '$dateDifferenceInMilliseconds', 86400000 ] },
-      startDate: 1,
-      endDate: 1
-    }
-  },
-  { '$match': { dateDifferenceInDays: { '$gt': 1 } } }
-]
-db.collection.aggrigate(agg);
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Filter** | `$eq` / `$in` / ranges | “Equality first for indexes.” |
+| **Projection** | Fields returned | “Cut payload.” |
+| **Cursor** | Batched results | “Don’t `toArray` huge sets.” |
+| **explain** | Winning plan | “IXSCAN or COLLSCAN.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Populate reference
-
-### Formatting date in query
 ```js
-{
-	$project: {
-		programTitle: "$program.programTitle",
-		programType: "$program.programType",
-		status: "$status",
-		appliedOn: {
-			$dateToString: {
-				format: "%B %d %Y",
-				date: "$createdAt",
-			},
-		},
-		universityName: "$program.university.name",
-	},
-}
-```
+db.orders.find({ status: 'paid', total: { $gte: 100 } }, { userId: 1, total: 1 })
+  .sort({ createdAt: -1 }).limit(50)
 
-### Ensuring that the field is explicitly set to `null` if it does not exist?
-
-### Add computed fields using aggregation pipelines
-- mongoDB `$addFields` stage can be used to create computed fields dynamically.
-```js
-db.users.aggregate([
-	{
-		$addFields: {
-			fullName: { $concat: ["$firstName", " ", "$lastName"] }
-		}
-	}
+db.orders.aggregate([
+  { $match: { status: 'paid' } },
+  { $group: { _id: '$userId', spend: { $sum: '$total' } } },
+  { $sort: { spend: -1 } },
+  { $limit: 20 },
 ])
+
+db.orders.find({ status: 'paid' }).explain('executionStats')
 ```
-##### using view in mongoDB
-- mongoDB views allow storing read-only computed fields.
-```js
-db.createView("userView", "users", {
-	{
-		$addFields: {
-			fullName: { $concat: ["$firstName", " ", "$lastname" ]}
-		}
-	}
-})
-```
+
+| Knob | Why it matters |
+|------|----------------|
+| `$match` early | Shrink pipeline data |
+| Covered query | Index has all fields |
+| Hint | Force index when planner errs |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| COLLSCAN | explain | Add index |
+| Slow sort | sort stage in memory | Index sort keys |
+| Huge RAM in shell | `toArray` | iterate cursor |
+| Wrong results | operator typo | `$eq` vs assignment mistakes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`find({a: {$gt: 1, $lt: 5}})`** — combine range ops on one field carefully; know index bounds.
+
+> [!WARNING]
+> **Regex `/^foo/` can use index; `/foo/` often can’t.**
+
+---
 
 ## When NOT to use
 
-…
+- **App production path** — driver with timeouts/pools.
+- **Giant reporting** — warehouse / secondary + aggregate carefully.
 
 ## Related
 
-[[…]]
+[[mognodb indexing]] [[query/mongoDB Group query]] [[query/mongodb lookup query]]

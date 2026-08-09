@@ -10,14 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Data flow]]
-- [[#Adapter]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** kotlin data flow — plain job, how I run it, how I know it’s broken.
+
 
 `by` lets one object handle that logic of property on behalf of another object.
 ```kotlin
@@ -51,52 +52,49 @@ val config by lazy {
 Why was it added?
 - To avoid repeating common property behavior.
 - instead of implementing these in every class, Kotlin lets you resuse them through delegation.
-> [!INFO]
-> `viewModels<>()` is an Android KTX helper function that returns a property delegate for a ViewModel.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **kotlin data flow** | Core idea of this note | “I can explain kotlin data flow without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Data flow
-
-```text
-ViewModel: _bookingList.postValue(response)
-    ↓
-Fragment: bookingList.observe() receives it
-    ↓
-Data is available in the response object
-    ↓
-forEach loop just prints it (debugging only)
+```bash
+# reproduce with minimal input
+# compare working vs broken env
 ```
 
-## Adapter
-
-An adapter is a bridge between data and the UI list (RecyclerView/ListView). When you update the adapter, it reference what's displayed on screen.
-
-```text
-Data (List of bookings)
-    ↓
-Adapter (converts data to UI views)
-    ↓
-RecyclerView (displays the views)
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[kotlin]]

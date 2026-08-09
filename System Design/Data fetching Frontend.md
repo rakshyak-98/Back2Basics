@@ -1,8 +1,8 @@
-[[System Design]]
+[[System Design]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]]
 
 # Data fetching Frontend
 
-> Data fetching Frontend — // Handle token refresh or logout
+> Frontend data fetching — load remote state into the UI with caching, dedupe, and clear loading/error paths (not ad-hoc `useEffect` soup).
 
 ---
 
@@ -17,88 +17,78 @@
 
 ## Mental model
 
-### API Service layer
-d
-```js
-import axios from 'axios';
-const apiClient = axios.create({
-	baseURL: process.env.BASE_URL,
-	timeout: 10000,
-	haders: { "Content-Type": "application/json" },
-})
-apiClint.interceptos.request.use(
-	(config) => {
-		config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-		return config;
-	},
-	(error) => Promise.reject(error)
-);
-apiClient.interceptors.response.use(
-	(response) => response.data,
-	async (error) => {
-		if(error.response?.status === 401){
-			// Handle token refresh or logout
-		}
-		return Promise.reject(error);
-	}
-)
-export default apiClient;
+**Say it in one breath:** Treat the server as source of truth; the client holds a cache keyed by query. Deduplicate in-flight requests; invalidate on mutations.
+
+```txt
+UI → query hook → cache → network → API
+         ↑ invalidate / setQueryData
 ```
-### Data fetching layer (React Query hook)
-```js
-import { userQuery } from "@tanstack/request/query"
-import apiClient from "./apiClient"
-const FIVE_MINUTES = 5 * 60 * 1000
-const NO_OF_RETRY = 2
-const fetchProducts = async () => {
-	return await apiClient.get("/products")
-}
-export const useProducts = () => {
-	return useQuery({
-		queryKey: ["products"],
-		queryFn: fetchProducts,
-		staleTime: FIVE_MINUTES, // Cache data form 5 min
-		refetchOnWindowsFocus: false,
-		retry: NO_OF_RETRY,
-	})
-}
-```
-- Encapsulate data fetching logic with caching, re-validation, background update.
-### UI component
-```jsx
-import { useProducts } from "@hooks/useProducts";
-const ProductList = () => {
-	const { data, isLoading, isError } = useProduct();
-	if(isLoading) return <p> Loading... </p>;
-	if(isError) return <p>Failed to load products.</p>;
-	return (
-		<ul>
-			{data.map((product) => {<li key={product.id}>{product.name}</li>})}
-		</ul>
-	)
-}
-export default ProductList;
-```
+
+| Layer | Job |
+|-------|-----|
+| API service module | URLs, auth headers, typed errors |
+| Cache (React Query/SWR) | Stale-while-revalidate |
+| UI | Loading / empty / error states |
+
+---
 
 ## Standard config / commands
 
-…
+```ts
+// Conceptual React Query
+const { data, error, isLoading } = useQuery({
+  queryKey: ['user', id],
+  queryFn: () => api.getUser(id),
+  staleTime: 30_000,
+})
+
+useMutation({
+  mutationFn: api.updateUser,
+  onSuccess: () => qc.invalidateQueries({ queryKey: ['user', id] }),
+})
+```
+
+| Knob | Why |
+|------|-----|
+| `staleTime` | Avoid refetch storms |
+| `retry` | Flaky mobile nets |
+| Suspense/boundaries | Consistent UX |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Double fetch StrictMode | Effect without cache | Use Query/SWR; or abort |
+| Stale UI after POST | No invalidate | Invalidate/setQueryData |
+| Waterfalls | Serial awaits | Parallel + consolidate endpoints |
+| Auth flicker | Race token refresh | Single refresh mutex |
+| CORS only in browser | See CORS note | Fix API headers |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`useEffect` fetch without cleanup** — setState on unmounted; race on id change.
+
+> [!WARNING]
+> **Cache key incompleteness** — missing filter ⇒ wrong data reuse.
+
+> [!WARNING]
+> **Global state for server data** — duplicates cache responsibility.
+
+---
 
 ## When NOT to use
 
-…
+- **Fully static site** — bake data at build.
+- **Local-only UI state** — form drafts stay in component state.
+- **Binary streaming media** — players/MSE, not JSON hooks.
+
+---
 
 ## Related
 
-[[…]]
+[[cache system]] [[Real-time Subscription]] [[Authentication web application]] [[ETAG or IF MATCH]]

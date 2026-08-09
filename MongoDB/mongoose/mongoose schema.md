@@ -1,8 +1,8 @@
-[[mongoose]]
+[[mongoose/mongoose]] [[mongodb schema]] [[mongoose/mongoose methods]]
 
 # mongoose schema
 
-> mongoose schema — example Base User Schema with Admin and Manager Variants
+> A Mongoose schema declares paths, types, indexes, and options — the contract for a model.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#How to extend schema]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,86 +17,67 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Paths map to document fields; type + validators run before save; indexes can be declared beside paths.
+
+```txt
+Schema({ email: String, … }) → Model → collection
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Path** | One field definition | “`email: { type: String }`.” |
+| **required / enum** | Built-in validators | “Fail save early.” |
+| **ref** | Point at another model | “For populate.” |
+| **timestamps** | createdAt/updatedAt | “`{ timestamps: true }`.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## How to extend schema
-
-### Using `discriminator()` allow multiple model types withing a single collection
-
-- Example Base `User` Schema with `Admin` and `Manager` Variants
 ```js
-const mongoose = require("mongoose");
-
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    role: { type: String, required: true, enum: ["admin", "manager"] }
-});
-
-// Base Model
-const User = mongoose.model("User", userSchema);
-
-// Admin Schema (inherits User)
-const Admin = User.discriminator("Admin", new mongoose.Schema({
-    adminLevel: Number
-}));
-
-// Manager Schema (inherits User)
-const Manager = User.discriminator("Manager", new mongoose.Schema({
-    department: String
-}));
-
-const admin = new Admin({ name: "Alice", email: "alice@example.com", role: "admin", adminLevel: 2 });
-admin.save();
-
-const manager = new Manager({ name: "Bob", email: "bob@example.com", role: "manager", department: "HR" });
-manager.save();
-
+const schema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true, index: true },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  profile: { bio: String },
+}, { timestamps: true, strict: true })
 ```
 
-> [!INFO] Best for storing all roles in one collection while keeping role-specific fields.
+| Knob | Why it matters |
+|------|----------------|
+| `strict: false` | Keep unknown keys |
+| `select: false` | Hide secrets by default |
+| Nested schemas | Subdocuments |
 
-### Using mongoose plugins (Reusable fields & methods)
-[[Mongoose plugin]], [[mongoose methods]]
-```js
-function timestampPlugin(schema) {
-    schema.add({ createdAt: { type: Date, default: Date.now } });
-}
-
-const userSchema = new mongoose.Schema({ name: String });
-userSchema.plugin(timestampPlugin);
-
-const User = mongoose.model("User", userSchema);
-
-```
-
-### Enforce a constant `role` value for each discriminator model
-- disable modification using `immutable: true` or schema validation
-```js
-const Manager = User.discriminator("Manager", new mongoose.Schema({ permissions: [{ resource: String, actions: [String] }] }));
-
-Manager.schema.path("role").default("Manager").immutable(true);
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| CastError | wrong type | Fix input or SchemaType |
+| unique not enforced | index missing | `syncIndexes()` |
+| Mixed type chaos | `Schema.Types.Mixed` | Narrow types |
+| Huge nested docs | unbounded arrays | Cap / bucket |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`unique: true` is an index** — not a validator; racey without the index built.
+
+> [!WARNING]
+> **Changing schema ≠ migrating data** — old docs stay until you rewrite.
+
+---
 
 ## When NOT to use
 
-…
+- **Schemaless event blobs** — Mixed carefully or native driver.
+- **One-off import** — skip elaborate schemas.
 
 ## Related
 
-[[…]]
+[[mongoose/mongoose]] [[mongoose/mongoose methods]] [[MongoDB query validation]]

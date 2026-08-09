@@ -31,6 +31,16 @@ telnet web 80   →  GET / HTTP/1.0  →  headers back
 | `openssl s_client -connect host:465` | TLS from the start (SMTPS, HTTPS debug) |
 | `curl -v telnet://host:80` | HTTP with less typing |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **telnet** | Raw TCP client | “telnet host 25 to talk SMTP by hand.” |
+| **banner grab** | See service hello | “Quick sanity, not a scanner.” |
+| **escape** | Ctrl-]  | “Quit stuck sessions.” |
+| **TLS** | Not encrypted | “Use openssl s_client for TLS.” |
+| **nc vs telnet** | Modern alternative | “Prefer nc for scripting.” |
+
 ## Standard config / commands
 
 **Mail server smoke test (port 25, cleartext):**

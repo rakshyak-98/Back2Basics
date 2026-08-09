@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but patterns hold: **main config** includes **snippets** and **sites-enabled**. See [[nginx config structure]] for every file under `/etc/nginx/`. Logs go to `/var/log/nginx/` unless redirected. **logrotate** truncates logs without dropping open FDs if postrotate sends `USR1` to nginx.
+**Say it in one breath:** Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but patterns hold: **main config** includes **snippets** and **sites-enabled**. See [[nginx config structure]] for every file under `/etc/nginx/`. Logs.
+
 
 ```
 /etc/nginx/nginx.conf → sites-enabled/* → access.log / error.log

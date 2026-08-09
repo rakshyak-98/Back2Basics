@@ -1,8 +1,8 @@
-[[React]]
+[[React]] [[react hooks]]
 
 # useRef
 
-> useRef — short field notes on what it is and how to use it.
+> Holds a mutable box that survives renders without re-rendering — DOM nodes or “remember this value.”
 
 ---
 
@@ -10,7 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#How to forward ref to other component]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,56 +18,73 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** `useRef` gives you `.current` you can read/write anytime; changing it does **not** schedule a re-render (unlike `useState`).
+
+```txt
+render → same ref object
+           └─ .current  ← mutate freely (DOM | timer id | previous value)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ref** | Mutable box React keeps across renders | “I store the DOM node without causing a re-render.” |
+| **`.current`** | The actual value | “Focus via `inputRef.current.focus()`.” |
+| **forwardRef** | Pass a parent ref into a child | “Wrapper must forwardRef or the ref never reaches the input.” |
 
 ## Standard config / commands
 
-…
+```tsx
+const inputRef = useRef<HTMLInputElement>(null)
+const countRef = useRef(0) // mutable counter, no re-render
 
-## How to forward ref to other component
+useEffect(() => {
+  inputRef.current?.focus()
+}, [])
 
-```jsx
-// ✅ WITH forwardRef - ref reaches input
-const InputWrapper = React.forwardRef((props, ref) => (
-  <div>
-    <label>{props.label}</label>
-    <input ref={ref} {...props} />  {/* ref forwarded to input */}
-  </div>
-));
-
-// Parent works perfectly
-function Parent() {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const focusInput = () => {
-    inputRef.current?.focus();  // ✅ Works!
-    inputRef.current?.select();
-  };
-
-  return (
-    <div>
-      <InputWrapper ref={inputRef} label="Name" />
-      <button onClick={focusInput}>Focus Input</button>
-    </div>
-  );
-}
+// Forward to child
+const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
+  <input ref={ref} {...props} />
+))
 ```
+
+| Knob | Why it matters |
+|------|----------------|
+| `useRef(null)` + DOM | After mount, `.current` is the element |
+| Mutable non-UI value | Timers, previous props, AbortController |
+| `forwardRef` | Required when wrapping native elements |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `ref.current` is null | Called before mount / wrong element | Use in `useEffect` or event handler |
+| Parent ref never hits input | Child is a function component | Wrap with `forwardRef` |
+| UI stale after mutating ref | Expected re-render | Use `useState` for UI-driving values |
+| Stale closure with ref | Read `.current` inside effect | Prefer reading `.current` at call time |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Ref ≠ state** — mutating `.current` never re-renders. Use state when the screen must update.
+
+> [!WARNING]
+> **forwardRef types** — generics often collapse to `unknown`; augment or type the returned component explicitly.
+
+---
 
 ## When NOT to use
 
-…
+- **Value drives UI** — use `useState` / `useReducer`.
+- **Derived from props** — compute during render; don’t mirror into a ref unless you need “previous.”
+
+---
 
 ## Related
 
-[[…]]
+[[react hooks]] [[Hooks/react useEffect]] [[Typescript with react]]

@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Private Properties and Methods is a design idea — I trade something off and I can name the failure mode.
+
+
 ```javascript
 function Gadget(){
 	this.name = "iPod";
@@ -44,44 +47,50 @@ toy.getName(); // iPod
 >[!WARNING] When you're directly returning a private variable from a privileged method this variable happens to be an object or array, then outside code can modify the private variable because it's passed by reference.
 - solve this by returning a new object containing only some of the data that could be interesting to the consumer of the object.
 #### Object Literals and Privacy
-```javascript
-let myObj = (() => {
-	let name = "my, oh my"
-	myObj = {
-		getName: () => {
-			return name;
-		}
-	}
-})
-myObj.getName(); // "my, oh my"
-```
-#### Prototypes and Privacy
->[!INFO]] drawback of the private member when used with constructors is that they are recreated every time the constructor is invoked to create a new object.
-- add common properties and methods to the prototype property of the constructor.
-- this way the common parts are shared among all the instances created with the same constructor.
-#### Private Static Members
-- shared by all the objects created with the same constructor function.
-- not accessible outside the constructor.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Private Properties and Methods** | Core idea of this note | “I can explain Private Properties and Methods without jargon.” |
+| **scalability** | Handle more load | “Scale reads and writes differently.” |
+| **availability** | Stay up on failure | “Redundancy plus health checks.” |
+| **consistency** | Same data everywhere | “Pick C or A under partition.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# sketch
+# actors, data stores, failure domains
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Hot key / hotspot | metrics by key | Shard or cache |
+| Cascading failure | timeouts/bulkheads | Add limits and backoff |
+| Split brain | fencing / quorum | Use consensus or single writer |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Draw the failure mode before the happy path.
+
+---
 
 ## When NOT to use
 
-…
+- Don’t over-design a CRUD app into Kafka+K8s on day one.
+
+---
 
 ## Related
 
-[[…]]
+[[Design pattern]]

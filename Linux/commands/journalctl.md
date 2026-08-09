@@ -35,6 +35,16 @@ systemd unit ──► journald ──► /var/log/journal/ (or /run/log/journal
 | Follow   | `-f`                          |
 | Field    | `_EXE=`, `_UID=`, `_COMM=`    |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **journald** | systemd binary logs | “journalctl -u svc -b is boot-scoped.” |
+| **-u** | Filter by unit | “Always scope to the service.” |
+| **-f** | Follow | “tail -f for systemd.” |
+| **-p err** | Priority filter | “Noise down to errors.” |
+| **vacuum** | Size/time retention | “journalctl --vacuum-size=500M.” |
+
 ## Standard config / commands
 
 ```bash

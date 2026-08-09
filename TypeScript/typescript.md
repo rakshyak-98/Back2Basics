@@ -1,8 +1,8 @@
-[[TypeScript]]
+[[TypeScript]] [[tsconfig]] [[javascript]]
 
 # typescript
 
-> typescript — can define global level types, without importing them and still use them in your code.
+> TypeScript — JavaScript plus a type layer erased at compile time; catches interface mistakes before runtime.
 
 ---
 
@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Namespaces]]
-- [[#Compilation]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,102 +17,76 @@
 
 ## Mental model
 
-### Types
-- Can define global level types, without importing them and still use them in your code.
-#### Global types
-> [!NOTE]
-> `declare` is specific to TypeScript only
-```typescript
-declare type MyType = {
-	name: string;
-	age: number
-}
+**Say it in one breath:** You annotate shapes; `tsc` (or bundler) typechecks and emits JS. Types don’t exist at runtime unless you add schemas (Zod) or emit decorators metadata.
+
+```txt
+.ts ──typecheck──► errors?
+    ──emit──► .js (types erased)
 ```
-```typescript
-const person: MyType = {
-	name: "john",
-	age: 32
-}
-```
-#### Ambient Modules
--
+
+| Piece | Job |
+|-------|-----|
+| Types | Static contracts |
+| `tsconfig` | Strictness / module mode |
+| Declaration `.d.ts` | Types for JS libs |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Namespaces
-
-- used to organize and share code across multiple files.
-- allow you to group related functionality into a single unit and prevent naming conflicts.
-
-## Compilation
-
-- TypeScript can perform incremental compilation, which means it only re-compiles files that have change since the last compilation.
-
-the `node_modules/.tmp` directory is used to store temporary files generated during the build process.
-
-### How does typescript identifies types declarations
-```shell
-tsc --traceResolution; # see how TypeScript resolves types.
-tsc --explainFiles; # see which files TypeScript includes in the compilation.
-tsc --showConfig; # to check type roots.
+```bash
+npm i -D typescript
+npx tsc --init
+npx tsc -p tsconfig.json --noEmit
 ```
 
-```json
-{
-	"compilerOptions": {
-		"traceResolution": true
-	}
+```ts
+type User = { id: string; email: string }
+function greet(u: User) {
+  return u.email
 }
 ```
-- Enable verbose logging in `tsconfig.json`.
 
-### Reference directives
-[triple-slash directives](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html)
-```ts
-/// <reference types="..." />
-```
-- used to include type definitions from external declaration files.
-- they ensure that TypeScript correctly resolves types from the specified pacakges.
+| Knob | Why it matters |
+|------|----------------|
+| `strict` | Real safety |
+| `moduleResolution bundler` | Modern apps |
+| `noEmit` | Typecheck-only in CI |
 
-> [!INFO] `dom.iterables`
-> - By default, some DOM collections (like `NodeList`) do not support iteration methods like `forEach` `map` or `spread syntax`. Enabling `dom.iterable` allow you to use these methods safely.
-
-```ts
-// tsconfig.json
-{
-  "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"]
-  }
-}
-
-const elements = document.querySelectorAll("div");
-elements.forEach(el => console.log(el)); // ✅ Works fine
-
-```
-
-```ts
-const elements: NodeList = document.querySelectorAll("div");
-elements.forEach(el => console.log(el)); // ❌ TypeScript error!
-
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Works in JS, fails `tsc` | Implicit any / null | Fix types; enable strict gradually |
+| Runtime still blows | Types lie / `as` casts | Validate at boundaries |
+| Slow typecheck | Huge `any` graphs | Project references; simpler types |
+| Dual package hazard | CJS/ESM mix | Fix `module`/`exports` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`any` disables the point** — prefer `unknown` + narrow.
+
+> [!WARNING]
+> **Assertion `as T` is unchecked** — trust ≠ proof.
+
+> [!WARNING]
+> **Enum pitfalls** — prefer string unions for most APIs.
+
+---
 
 ## When NOT to use
 
-…
+- **10-line script** — plain JS fine.
+- **Runtime validation needs** — add Zod/io-ts; TS alone isn’t enough.
+- **Teaching JS basics** — learn values first.
+
+---
 
 ## Related
 
-[[…]]
+[[tsconfig]] [[typescript types]] [[typescript error]] [[javascript]]

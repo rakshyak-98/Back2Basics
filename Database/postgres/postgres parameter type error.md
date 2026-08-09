@@ -10,15 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Common causes]]
-- [[#Fixes]]
-- [[#Rule of thumb]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** PostgreSQL Error: `inconsistent types deduced for parameter $n` — I can explain the job, the config, and the top failure without jargon.
+
 
 Prepared statements bind each `$n` to **one** PostgreSQL type for the whole query. The planner deduces that type from **every** occurrence of the placeholder. If `$2` appears once as `TEXT` and once as `INTEGER`, Postgres cannot pick a single type and raises this error.
 
@@ -27,156 +27,48 @@ $params ──► $2 used in SET status (text) ──┐
             $2 used in WHERE version (int) ─┴──► type conflict → ERROR
 ```
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **PostgreSQL Error: `inconsistent types deduced for parameter $n`** | This note’s core idea | “I explain PostgreSQL Error: `inconsistent types deduced for parameter $n` in plain words.” |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
+
+---
+
 ## Standard config / commands
 
-…
-
-## Common causes
-
-### 1. Same parameter used for different column types
-
-```sql
-UPDATE products
-SET status = $2          -- TEXT
-WHERE id = $1
-  AND version = $2;      -- INTEGER
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
-### 2. `CASE` expression
-
-```sql
-CASE
-    WHEN $2 THEN ...
-END
-```
-
-Later:
-
-```sql
-SET status = $2
-```
-
-`$2` is expected to be both **BOOLEAN** and **TEXT**.
-
-### 3. `COALESCE`
-
-```sql
-SET status = COALESCE($2, status)
-```
-
-Later:
-
-```sql
-WHERE version = $2
-```
-
-`$2` becomes both **TEXT** and **INTEGER**.
-
-### 4. `NULL` parameter
-
-```ts
-client.query(sql, [id, null]);
-```
-
-If PostgreSQL cannot infer the type from the SQL context, the parameter type becomes ambiguous.
-
-### 5. `VALUES` / `UNION`
-
-```sql
-VALUES ($1, $2)
-UNION
-SELECT id, true;
-```
-
-`$2` is inferred as **BOOLEAN**, even if intended to be another type.
-
-## Fixes
-
-### Use different placeholders
-
-```sql
-UPDATE products
-SET status = $2
-WHERE version = $3;
-```
-
-Parameters:
-
-```ts
-[id, status, version]
-```
-
-### Explicit type casting
-
-```sql
-$2::text
-$2::uuid
-$2::integer
-$2::boolean
-```
-
-### Pass the correct JavaScript type
-
-Instead of:
-
-```ts
-["1"]
-```
-
-Use:
-
-```ts
-[1]
-```
-
-Or convert explicitly:
-
-```ts
-Number(value)
-```
-
-## Rule of thumb
-
-- Each placeholder (`$1`, `$2`, `$3`, ...) should represent **one logical value**.
-- Reuse a placeholder **only if every occurrence expects the same PostgreSQL type**.
-- If the same value is needed in different type contexts, use separate placeholders or explicit casts.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `inconsistent types deduced for parameter $n` | Print SQL + param array | Find every `$n` occurrence |
-| Same value, different columns | Column types in schema | Use separate placeholders (`$2`, `$3`) |
-| `null` in params | Context around `$n` | Cast (`$2::text`) or pass typed value |
-| `CASE` / `COALESCE` / `UNION` | Branches infer different types | Split placeholders or cast |
+| Slow | EXPLAIN / slow log | Index or rewrite |
+| Auth/connect fail | pg_hba / users | Fix grants and bind |
+| Bad migration | backup + version | Roll forward carefully |
 
-### Debugging steps
-
-1. Print the SQL query.
-2. Print the parameter array.
-3. Find every occurrence of the reported placeholder (`$2`, `$3`, etc.).
-4. Verify every occurrence expects the **same PostgreSQL data type**.
-
-Example:
-
-```sql
-UPDATE products
-SET status = $2
-WHERE id = $1
-   OR version = $2;
-```
+---
 
 ## Gotchas
 
 > [!WARNING]
-> **Reuse is only safe when every occurrence expects the same PG type** — even logically "the same value" needs separate placeholders across type contexts.
+> Prefer words you can say aloud in an interview.
 
-> [!WARNING]
-> **`null` without context** — Postgres cannot always infer type; cast the placeholder or use separate params per branch.
+---
 
 ## When NOT to use
 
-…
+- Skip when a simpler existing approach already fits.
+
+---
 
 ## Related
 

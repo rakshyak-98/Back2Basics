@@ -1,16 +1,16 @@
-[[mysql]]
+[[mysql]] [[variables]] [[mysql function]] [[mysql triggers]]
 
 # mysql Programmable SQL
 
-> mysql Programmable SQL — PREPARE stmt FROM 'UPDATE table_name set column_name = ? where id = 1';
+> Dynamic SQL and stored routines inside MySQL — `PREPARE`/`EXECUTE`, procedures, functions, triggers, events.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
+- [[#Interview map (words you can say)]]
 - [[#Standard config / commands]]
-- [[#View all the prepared statement]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,71 +18,78 @@
 
 ## Mental model
 
-[PREPARE statement](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html)
-```mysql
-PREPARE stmt FROM 'UPDATE table_name set column_name = ? where id = 1';
-SET @json = '[]';
-EXECUTE stmt USING @json;
-DEALLOCATE PROCEDURE stmt;
+**Say it in one breath:** `PREPARE` builds a statement with `?` placeholders; `EXECUTE … USING @vars` runs it; stored routines are reusable code living in the server (procedures/functions/triggers/events).
+
+```txt
+PREPARE stmt FROM 'UPDATE t SET c = ? WHERE id = ?'
+SET @a = 1; SET @b = 2;
+EXECUTE stmt USING @a, @b;
+DEALLOCATE PREPARE stmt;
 ```
-```mysql
-SHOW STATUS LIKE "Prepared%";
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Prepared statement** | Parse once, bind later | “Placeholders beat string concat.” |
+| **Stored procedure** | Callable batch of SQL | `CALL proc(…)` |
+| **Function** | Returns one value in expressions | “Usable in SELECT list.” |
+| **Trigger / Event** | On DML / on schedule | See sibling notes |
+| **Session `@var`** | Bind values for EXECUTE | “Literals not allowed directly in USING.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## View all the prepared statement
-
 ```sql
-SELECT STATEMENT_ID, STATEMENT_NAME, SQL_TEXT FROM performance_schema.prepared_statements_instances;
+PREPARE stmt FROM 'UPDATE table_name SET column_name = ? WHERE id = 1';
+SET @json = '[]';
+EXECUTE stmt USING @json;
+DEALLOCATE PREPARE stmt;
 
-SELECT STATEMENT_NAME, SQL_TEXT FROM
-performance_schema.prepared_statements_instances;
+SHOW STATUS LIKE 'Prepared%';
+SELECT STATEMENT_NAME, SQL_TEXT
+FROM performance_schema.prepared_statements_instances;
 ```
 
-> [!NOTE]
-> - **No**, you **cannot** use literals directly in the `EXECUTE ... USING` statement like this
-```mysql
-EXECUTE stmt USING 10, 2, Home; -- this is invalid.
-```
-- have to assign literals to variables.
-```mysql
-SET @a = 10;
-SET @b = 2;
-SET @c = 'Home';
-EXECUTE stmt USING @a, @b, @c;
+| Kind | Job |
+|------|-----|
+| PREPARE/EXECUTE | Dynamic SQL with binds |
+| Procedure | Multi-statement workflows |
+| Function | Scalar in SQL expressions |
+| Trigger / Event | Auto / scheduled SQL |
+| View | Named SELECT abstraction |
 
-```
-
-| Name                        | MySQL Term / Category        | Description                                     |
-| --------------------------- | ---------------------------- | ----------------------------------------------- |
-| `PREPARE`, `EXECUTE`        | **Prepared Statements**      | Runtime dynamic SQL with placeholders           |
-| `Stored Procedure`          | **Stored Routine**           | Reusable block of SQL with input/output params  |
-| `Function`                  | **Stored Function**          | Returns a single value; used in SQL expressions |
-| `Trigger`                   | **Trigger**                  | Auto-run SQL on table events (`INSERT`, etc.)   |
-| `Event`                     | **Event Scheduler / Event**  | Scheduled SQL tasks                             |
-| `View`                      | **View (Virtual Table)**     | Query abstraction; read-only or updatable       |
-| `User-defined Variable`     | **Session Variable**         | Temporary scoped variable prefixed with `@`     |
-| `Control Flow` (`IF`, etc.) | **Flow Control Constructs**  | Logic inside procedures/functions               |
-| `EXECUTE IMMEDIATE`         | Not in SQL; MySQL Shell only | Used in `mysqlsh`, not standard MySQL SQL       |
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| EXECUTE USING literal fails | Docs require user vars | `SET @a=…; EXECUTE … USING @a` |
+| Prepared leak | Status `Prepared_stmt_count` | DEALLOCATE; fix app not to leak |
+| Dynamic table name | Can’t bind identifiers | Whitelist names; build carefully |
+| Routine missing | Wrong schema | `SHOW PROCEDURE STATUS` / ROUTINES |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Identifiers can’t be `?`** — only values. Table/column names need careful whitelisting.
+
+> [!WARNING]
+> **`EXECUTE IMMEDIATE`** — MySQL Shell / other dialects; not classic mysqld SQL.
+
+---
 
 ## When NOT to use
 
-…
+- **App-owned business logic** — keep orchestration in the service layer when you need testability/deploy independence.
+- **Building SQL via string concat of user input** — use binds or reject.
+
+---
 
 ## Related
 
-[[…]]
+[[mysql function]] [[mysql triggers]] [[mysql events 1]] [[variables]] [[mysql]]

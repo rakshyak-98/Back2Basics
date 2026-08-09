@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Go favors **composition over inheritance**. Interfaces are implicit (duck typing). SOLID still applies but looks different: small interfaces (ISP), struct embedding (OCP-ish), constructor functions (DIP via interfaces in main).
+**Say it in one breath:** Go favors composition over inheritance — small interfaces (ISP), embedding (OCP-ish), constructors that take interfaces (DIP).
+
 
 | Principle | Go expression |
 |-----------|---------------|

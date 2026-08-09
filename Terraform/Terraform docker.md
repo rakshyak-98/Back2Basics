@@ -26,7 +26,17 @@ Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → c
 
 ## Standard config / commands
 
-…
+```shell
+terraform init && terraform apply -auto-approve
+curl -I http://localhost:8080
+terraform destroy -auto-approve
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Docker daemon up | Provider talks to local socket |
+| Image pin (`var.nginx_tag`) | Reproducible pulls |
+| Port map | Host 8080 → container 80 |
 
 ## Why practice with Docker
 
@@ -142,17 +152,25 @@ Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Cannot connect to Docker | Daemon / socket perms | Start Docker; fix group/`DOCKER_HOST` |
+| Port already allocated | `ss -lptn 'sport = :8080'` | Change `external` port or stop conflict |
+| Image pull fail | Network / tag | Fix tag; retry pull |
+| Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
+| Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Local state only** — fine for learning; teams need remote state ([[Terraform setup]]).
+
+> [!WARNING]
+> **docker ≠ production cloud** — patterns transfer; quotas, IAM, and blast radius do not.
 
 ## When NOT to use
 
-…
+- **Real prod containers** — use k8s/ECS + CI, not Terraform Docker day-to-day.
+- **Learning Linux networking** — compose may teach faster than HCL.
 
 ## Related
 
-[[…]]
+[[Terraform setup]] [[terraform provider]] [[terraform]] [[Terraform workflow]] [[variable file]] [[Terraform CLI]]

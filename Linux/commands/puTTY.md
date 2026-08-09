@@ -33,6 +33,16 @@ Plink → CLI equivalent for scripts/cron on Windows
 | Plink | Non-interactive SSH (`plink user@host command`) |
 | PSCP / PSFTP | File copy (legacy; prefer `scp`/`sftp` via OpenSSH on WSL) |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **PuTTY** | Windows SSH client | “ppk keys ≠ OpenSSH format.” |
+| **plink / pscp** | CLI cousins | “Scriptable from Windows.” |
+| **Pageant** | SSH agent | “Load keys once.” |
+| **puttygen** | Key tool | “Convert ppk ↔ pem.” |
+| **host key** | TOFU prompt | “Verify fingerprint out-of-band.” |
+
 ## Standard config / commands
 
 **First-time connect:** verify host key fingerprint out-of-band (don't blindly "Accept"). Save session only after confirming fingerprint matches ops runbook.

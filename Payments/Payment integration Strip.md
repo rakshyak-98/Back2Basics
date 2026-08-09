@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Payment integration Strip — plain job, how I run it, how I know it’s broken.
+
+
 ```ts
   const handleCheckout = async () => {
     Swal.fire({
@@ -42,76 +45,49 @@
           )
           if (status !== 200) {
             const errorMsg = results?.message || `HTTP error! status: ${status}`
-            Swal.fire('Error', errorMsg, 'error')
-            return
-          }
-          // console.debug(results)
-          if (results?.success?.data?.url) {
-            Swal.fire({
-              title: 'Redirecting...',
-              html: `
-                <p>You will be redirected to the payment page shortly.</p>
-                <div style="display: flex; justify-content: center; align-items: center; height: 100px; margin-top: 10px;">
-                  <div style="display: flex; gap: 10px;">
-                    <div class="pulsing-dot" style="width: 15px; height: 15px; background-color: #007bff; border-radius: 50%; animation: pulse 1s infinite;"></div>
-                    <div class="pulsing-dot" style="width: 15px; height: 15px; background-color: #007bff; border-radius: 50%; animation: pulse 1s infinite 0.2s;"></div>
-                    <div class="pulsing-dot" style="width: 15px; height: 15px; background-color: #007bff; border-radius: 50%; animation: pulse 1s infinite 0.4s;"></div>
-                  </div>
-                </div>
-                <style>
-                  @keyframes pulse {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.5); opacity: 0.5; }
-                  }
-                </style>
-              `,
-              showConfirmButton: false,
-              allowOutsideClick: false,
-              didOpen: () => {
-                setTimeout(() => {
-                  window.location.href = results.success.data.url
-                }, 1500)
-              },
-            })
-          } else {
-            Swal.fire('Error', 'No checkout URL received.', 'error')
-          }
-        } catch (error) {
-          console.error('Checkout Error:', error)
-          Swal.fire(
-            'Error',
-            'Something went wrong! Please try again later.',
-            'error'
-          )
-        } finally {
-          setIsLoading(false)
-        }
-      } else {
-        Swal.fire('Cancelled', 'Payment process was cancelled.', 'info')
-      }
-    })
-  }
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Payment integration Strip** | Core idea of this note | “I can explain Payment integration Strip without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[Payments]]

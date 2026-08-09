@@ -17,7 +17,8 @@
 
 ## Mental model
 
-A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object vs int vs category affects memory and speed. Prefer explicit dtypes on ingest for prod pipelines.
+**Say it in one breath:** A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object vs int vs category affects.
+
 
 ## Standard config / commands
 

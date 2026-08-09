@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Merge finds the **merge base** (common ancestor) and integrates two tips into one. Three-way merge compares base → each branch and combines changes.
+**Say it in one breath:** Merge finds the **merge base** (common ancestor) and integrates two tips into one. Three-way merge compares base → each branch and combines changes.
+
 
 ```
       o---o---o  feature

@@ -30,6 +30,16 @@ Install ──► create admin user ──► SSH key auth ──► verify sudo
 
 Root should remain for break-glass; daily work as unprivileged user + `sudo`.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **sudo** | Run as root with audit | “Prefer sudo over lingering root shell.” |
+| **visudo** | Safe sudoers edit | “Never edit sudoers with plain vim.” |
+| **%sudo / %wheel** | Admin group | “Add user to sudo group, not NOPASSWD everywhere.” |
+| **/etc/sudoers.d** | Drop-in rules | “Ship policy as files, not one giant sudoers.” |
+| **NOPASSWD** | No password prompt | “OK for automation; bad for interactive admins.” |
+
 ## Standard config / commands
 
 **1. Create admin user (Ubuntu/Debian example):**

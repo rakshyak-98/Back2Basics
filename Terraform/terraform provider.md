@@ -155,17 +155,25 @@ Same pattern — `required_providers` + `provider` block:
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
+| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
+| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
+| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
+| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Unpinned provider** — “latest” drifts between CI and laptop.
+
+> [!WARNING]
+> **Alias forgotten** — resource lands in the default region/account silently.
 
 ## When NOT to use
 
-…
+- **Read-only inventory scripts** — cloud SDK / CLI may be simpler than a full provider graph.
+- **Provider with no API you own** — don’t wrap every SaaS click in Terraform.
 
 ## Related
 
-[[…]]
+[[Terraform setup]] [[terraform]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]

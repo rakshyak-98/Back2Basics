@@ -10,97 +10,58 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Creating Custom Error]]
+- [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
 
-```js
-try{
-	...
-}catch(error){
-	console.log(error.name);
-}
-```
+**Say it in one breath:** Error handeling — I can explain the job, the config, and the top failure without jargon.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Error handeling** | This note’s core idea | “I explain Error handeling in plain words.” |
+| **idea** | What it is for | “One sentence, no jargon.” |
+| **check** | How I verify | “I name the command or signal I look at.” |
+| **fail** | How it breaks | “I name the top production failure.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Creating Custom Error
-
-create errors with a custom name is to extend the built-in `Error` class using ES6 class syntax
-
-```js
-class ValidationError extends Error {
-	constructor(message){
-		super(message);
-		this.name = "ValidationError"
-		// Optional: clean up stack trace (hides internal constructor calls)
-		Error.captureStackTrace(this, this.constructor);
-	}
-}
-
-class NotFoundError extens Error {
-	constructor(message = 'Resource Not Found'){
-		super(message);
-		this.name = this.constructor.name;
-		Error.captureStackTrace(this, this.constructor);
-	}
-}
-
-class UnauthorizedError extends Error {
-	constructor(message = "Unauthorized") {
-		super(message);
-		this.name = this.constructor.name;
-		this.statusCode = 401;
-		Error.captureStackTrace(this. this.contructor);
-	}
-}
-
-
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
 ```
 
-> [!NOTE]
-> `ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor`
-> - this comes when you access `this.constructor.name` before calling `super(message)`
+---
 
-```js
-class AppError extens Error {
-	constructor(statusCode, message, isOperational = true){
-		super(message); //
-		this.name = this.constructor.name;
-		this.statusCode = stausCode;
-		this.isOperational = isOperational;
-		Error.captureStackTrace(this, this.constructor);
-	}
-}
+## Triage (when things break)
 
-class BadRequestError extends AppError {
-	constructor(message= "Bad Request"){
-		super(400, message);
-	}
-}
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
 
-class ForbiddenError extends AppError {
-	constructor(message = "Forbidden" ){
-		super(403, message);
-	}
-}
-
-```
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer words you can say aloud in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip when a simpler existing approach already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[NodeJS]]

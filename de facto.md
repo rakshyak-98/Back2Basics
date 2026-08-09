@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Examples]]
-- [[#When it matters]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,42 +17,53 @@
 
 ## Mental model
 
+**Say it in one breath:** de facto standard — plain job, how I run it, how I know it’s broken.
+
+
 **De jure** = by law/spec (ISO, RFC, ECMA). **De facto** = by market habit (Git, Docker, `{json}` APIs). Interop often follows de facto before formal specs catch up (e.g. OAuth flows, S3 API shape). Risk: vendor lock-in, spec drift, sudden deprecation.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **de facto standard** | Core idea of this note | “I can explain de facto standard without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
 
-## Examples
-
-| De facto | Notes |
-|----------|-------|
-| Git | Not the only VCS; default for OSS/commercial |
-| Linux on servers | Not the only UNIX; dominant cloud image |
-| JSON REST | Not the only API style; OpenAPI documents reality |
-| `docker run` | OCI replaced single vendor runtime story |
-
-## When it matters
-
-- **Integration** — "everyone supports S3 API" beats obscure standard.
-- **Hiring/tooling** — de facto skills transfer vs niche spec compliance.
-- **Risk** — single implementer defines behavior until commoditized.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[Release cycle]] [[general]] [[Protocol/open api specification]]
+[[de facto]]] [[[Release cycle]]] [[[general]]

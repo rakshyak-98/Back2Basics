@@ -1,8 +1,8 @@
-[[NodeJS]]
+[[NodeJS]] [[clustering]] [[worker]] [[Event Loop]] [[node debugger]]
 
 # Optimization
 
-> Optimization — have an build in profiler, clinic.js
+> Make Node faster and safer under load — find the bottleneck first (CPU, I/O, GC), then cache, cluster, or compress.
 
 ---
 
@@ -10,11 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Profiling and Monitoring]]
-- [[#Efficient code practices]]
-- [[#Caching]]
-- [[#Load Balancing]]
-- [[#Compression]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -22,54 +17,70 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Profile before tuning. Event-loop delay ⇒ CPU/sync work; high latency with idle CPU ⇒ I/O/DB; multi-core idle ⇒ scale out processes.
+
+```txt
+measure → locate (loop / DB / GC) → fix (async, cache, cluster, CDN)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Event-loop lag** | JS thread busy | “Sync work or huge JSON kills p99.” |
+| **Cluster / LB** | Multi-process | “One loop ≈ one core.” |
+| **Cache** | Skip repeat work | “Redis/HTTP cache before rewriting code.” |
 
 ## Standard config / commands
 
-…
+```bash
+node --prof app.js
+npx clinic doctor -- node app.js
+npx autocannon -c 100 -d 20 http://localhost:3000
+```
 
-## Profiling and Monitoring
+```js
+// gzip at reverse proxy or app
+app.use(compression())
+```
 
-- have an build in profiler, [clinic.js](https://www.clinicjs.org/)
-- monitoring tool: [Relic](https://newrelic.com/), [AppDynamics](https://www.appdynamics.com/), [pm2](https://pm2.io/) application performance in real-time.
-- Logging and monitoring to identify slow endpoints or functions.
-- use benchmarking tools like [autocannon](https://github.com/mcollina/autocannon?tab=readme-ov-file#readme), [wrk](https://github.com/giltene/wrk2?tab=readme-ov-file#readme) to measure the performance of application under different loads.
+| Knob | Why it matters |
+|------|----------------|
+| clinic / `--prof` | Find hot functions |
+| [[clustering]] / PM2 | Use cores |
+| Redis / HTTP cache | Cut DB and origin load |
+| Nginx gzip | Smaller responses |
 
-## Efficient code practices
-
-- Avoid blocking the event loop.
-- Use clustering: Utilize the node.js cluster module to take advantage of multi-core systems by creating child process.
-- optimizing data base queries.
-- use tools like [node-inspect](https://nodejs.org/en/learn/getting-started/debugging) or [heapdump](https://github.com/paypal/heap-dump-tool) to identify and fix memory leaks in your application.
-
-## Caching
-
-- In-memory caching: Use in-memory caching solutions [Redis](https://redis.io/docs/latest/) or [Memcached](https://docs.memcached.org/) to store frequently accessed data.
-- HTTP caching: Implement HTTP caching headers to reduce the load on server.
-
-## Load Balancing
-
-- User load balancer like [Nginx](https://nginx.org/en/) or [HAProxy](https://www.haproxy.org/) to distribute incoming traffic across multiple servers.
-
-## Compression
-
-- Gzip compression: Enable gzip compression to reduce the size of the response body and improve load time.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| High lag, 1 core pegged | Sync CPU / JSON | Async; [[worker]]; stream |
+| Slow DB | Query plans | Indexes; pool; cache |
+| Memory climb | Heap snapshot | Bound caches; fix leaks |
+| One box saturated | Single process | Cluster + LB |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Micro-optimizing without a profile** — usually wrong bottleneck.
+
+> [!WARNING]
+> **Cache without TTL/invalidation** — serves stale or grows forever.
+
+---
 
 ## When NOT to use
 
-…
+- **Premature cluster** — fix the hot path first.
+- **App-level gzip only** — often better at the edge/proxy.
+
+---
 
 ## Related
 
-[[…]]
+[[clustering]] [[worker]] [[Event Loop]] [[node inspect]]

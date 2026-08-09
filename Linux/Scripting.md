@@ -35,6 +35,16 @@ set -euo pipefail
 | Deploy rsync/tar glue | Libraries, test suites |
 | Quick incident fixes | Anything > ~200 lines |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **shebang** | #!/bin/bash interpreter line | “Without shebang, shell guesses wrong.” |
+| **set -euo pipefail** | Fail fast flags | “Production scripts start with set -euo pipefail.” |
+| **quoting** | $var vs "$var" | “Unquoted vars split on spaces — bugs.” |
+| **exit code** | 0 ok, non-zero fail | “Check $? or use if cmd; then.” |
+| **cron PATH** | Minimal env | “Cron scripts need full paths.” |
+
 ## Standard config / commands
 
 **Minimal production template:**

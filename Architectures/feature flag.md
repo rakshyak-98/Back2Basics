@@ -1,8 +1,8 @@
-[[Architectures]]
+[[Architectures]] [[System Architecture]]
 
 # feature flag
 
-> feature flag — instead of shipping a feature directly to all users, you wrap it behind a conditional check that can be toggled on or off remotely.
+> Feature flags turn code paths on/off remotely — ship dark, open to cohorts, kill fast.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#The Flag Service]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,65 +17,69 @@
 
 ## Mental model
 
-instead of shipping a feature directly to all users, you wrap it behind a conditional check that can be toggled on or off remotely.
-```js
-if(featureFlags.isEnabled('new-checkout')){
-	showNewCheckout();
-} else {
-	showOldCheckout();
-}
+**Say it in one breath:** Wrap the new path in a check; a flag service (or config) decides who sees it without redeploying.
+
+```txt
+Dashboard → Flag service → SDKs (poll/SSE)
+                              ↓
+                     if (flag) newPath else oldPath
 ```
-- The flag's value is controlled externally through a dashboard, API, or configuration service, not hardcoded in source code.
-```
-┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
-│  Dashboard  │────>│  Flag Service    │────>│  Database   │
-│  (Web UI)   │     │  (API Server)    │     │  (Postgres) │
-└─────────────┘     └──────────────────┘     └─────────────┘
-                              │
-                       ┌──────┴──────┐
-                       │             │
-                  SSE/Polling    REST API
-                       │             │
-                 ┌─────v─────┐ ┌─────v─────┐
-                 │ Client SDK│ │ Server SDK│
-                 │ (Browser) │ │ (Node/Go) │
-                 └─────┬─────┘ └─────┬─────┘
-                       │             │
-                 ┌─────v─────┐ ┌─────v─────┐
-                 │ Your App  │ │ Your API  │
-                 │ (Frontend)│ │ (Backend) │
-                 └───────────┘ └───────────┘
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Flag** | Remote boolean/variant | “Checkout_v2 for 5% of users.” |
+| **Targeting** | Who gets it | “User id, % rollout, plan tier.” |
+| **Kill switch** | Instant off | “Disable without rollback.” |
+| **Stale cache** | SDK holds old value | “Short TTL; listen for updates.” |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+if (featureFlags.isEnabled('new-checkout', { userId })) {
+  showNewCheckout()
+} else {
+  showOldCheckout()
+}
+```
 
-## The Flag Service
+| Knob | Why it matters |
+|------|----------------|
+| Default when service down | Fail closed vs open — pick per flag |
+| Server + client checks | Don’t trust UI-only gates for authz |
+| Cleanup tickets | Flags rot into permanent branches |
 
-An API that stores flag definitions, targeting rules, and percentage allocations. This is where the logic lives: "Enable `new-pricing` for 20% of users in a region who are on the Pro plan". The service evaluates rules and returns flag states for a given user context.
-
-There are two fundamental approaches to flag evaluation
-
-**Server side evaluation** ->  backend sends the user context to the flag service (or evaluates locally with a cached ruleset) and returns the computed flag values. The rules and logic never leave your server.
-
-**Client side evaluation** -> browser SDK receives the evaluated flag values from the flag service (not the raw rules). The client knows what's enabled for the current user but doesn't see other user's configurations or your targeting logic.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Flag ignored | Wrong key / env | Match project + environment |
+| Flip doesn’t propagate | SDK cache | Force refresh; lower TTL |
+| Partial cohort weirdness | Sticky bucketing | Consistent hash on user id |
+| “Temporary” flag forever | Code archaeology | Remove flag + dead path |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Flags are not security** — hide UI, still enforce authz server-side.
+
+> [!WARNING]
+> **Combinatorial explosion** — too many overlapping flags = untestable matrix.
+
+---
 
 ## When NOT to use
 
-…
+- **Config that rarely changes** — env vars / config files may be enough.
+- **Permanent product differences** — that’s packaging/plans, not a forever flag.
 
 ## Related
 
-[[…]]
+[[System Architecture]] [[frontend layered architecture]] [[Idempotent-key]]

@@ -31,6 +31,16 @@
 | `ip -s link` | Counter snapshot | Scripting, no TUI |
 | `sar -n DEV` | Historical (sysstat) | Post-incident |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **nload** | Live bandwidth graphs | “nload eth0 for instant traffic.” |
+| **in/out** | RX/TX rates | “Spot saturation quickly.” |
+| **iftop / bmon** | Alternatives | “iftop shows per-flow.” |
+| **iface down** | No data | “Wrong device name → empty.” |
+| **remote SSH** | Over own link | “Measuring the link you use skews it.” |
+
 ## Standard config / commands
 
 ```bash

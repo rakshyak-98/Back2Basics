@@ -1,8 +1,8 @@
-[[JavaScript]]
+[[Javascript]] [[JavaScript/Call stack]] [[promise]]
 
 # Asynchronous
 
-> Asynchronous — things can happen independently of the main program flow.
+> Async JS schedules work for later — callbacks, promises, async/await on the event loop, not OS threads by default.
 
 ---
 
@@ -17,49 +17,67 @@
 
 ## Mental model
 
-- things can happen independently of the main program flow.
-- this thing runs in a cycle so fast that it's impossible to notice.
-- programs internally use interrupts, a signal that's emitted to the processor to gain the attention of the system.
-- when a program is waiting for a response from the network, it cannot halt the processor until the request finishes.
-- async operations handled by using threads, spawning a new process.
-in the current consumer computers, every program runs for a specific time slot and then it stops its execution to let another program continue their execution.
-### functions
-1. initiator style / input
-2. middleware
-3. terminator
-### State management
-Functions may or may not be state dependent.
-- State dependency arises when the input or other variable of a function relies on an outside function.
-#### strategies for state management
-1. passing in variables directly to function
-2. acquiring a variable value from a cache, session, file, database, network or other outside source.
-> [!Warning] Managing state with global variable is ant-pattern that makes impossible to guarantee state.
-- Making HTTP request using `fetch()`.
-- Accessing a user's camera or microphone using `getUserMedia()`.
-- Asking a user to select files using `showOpenFilePicker()`.
-### Reference
-- [Mixu's Node book](http://book.mixu.net/node/ch7.html)
-- [async-flow-control](https://nodejs.org/en/learn/asynchronous-work/asynchronous-flow-control)
+**Say it in one breath:** Start I/O, return to the loop; when ready, a microtask/task runs a fresh stack. `await` pauses the async function, not the whole runtime.
+
+```txt
+call stack empty → microtasks → next macrotask (timers, I/O)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Event loop** | Schedules turns | “One turn at a time.” |
+| **Microtask** | Promise jobs | “Run before next render/timer.” |
+| **async/await** | Promise syntax | “Awaitable thenables.” |
+| **Concurrency vs parallelism** | Interleave vs multi-core | “Workers for CPU parallel.” |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+async function load() {
+  const res = await fetch('/api')
+  return res.json()
+}
+load().catch(console.error)
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Error handling | Rejected promises |
+| Cancellation | AbortController |
+| Queue choice | micro vs macro ordering |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| UnhandledRejection | missing catch | catch / tryawait |
+| Race UI | unordered awaits | sequence or lock |
+| Starvation | long sync | chunk work |
+| Zalgo | sync sometimes callback | Always async or always sync |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **await in a loop** — serializes; use `Promise.all` when safe.
+
+> [!WARNING]
+> **Floating promises** — fire-and-forget without catch hides failures.
+
+---
 
 ## When NOT to use
 
-…
+- **Pure CPU crunch on main thread** — worker.
+- **Truly parallel shared-memory needs** — careful Atomics / WASM / native.
 
 ## Related
 
-[[…]]
+[[promise]] [[JavaScript/Call stack]] [[event listener]]

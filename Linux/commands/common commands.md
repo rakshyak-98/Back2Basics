@@ -19,6 +19,16 @@
 
 These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
+| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
+| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
+| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
+| **ps / top** | Processes | “ps aux | grep then kill.” |
+
 ## Standard config / commands
 
 ### Navigation & paths

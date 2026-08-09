@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Git attaches an OpenPGP signature to commit or tag objects. Verifiers use your **public** key (`gpg --list-keys`) to confirm the signature matches your identity. Signing requires a **private** key in your agent's keyring — passphrase-protected by default.
+**Say it in one breath:** Git attaches an OpenPGP signature to commit or tag objects. Verifiers use your **public** key (`gpg --list-keys`) to confirm the signature matches your identity. Signing requires a **private**.
+
 
 ```
 git commit -S ──► gpg signs hash ──► signature embedded in commit

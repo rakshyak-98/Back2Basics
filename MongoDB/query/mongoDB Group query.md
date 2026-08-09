@@ -1,8 +1,8 @@
-[[query]]
+[[MongoDB]] [[mongosh query]] [[query/mongodb lookup query]]
 
 # mongoDB Group query
 
-> mongoDB Group query — to group based on two keys, you need to structure _id as an object containing both fields in the $group stage.
+> `$group` aggregates rows into buckets — sum, count, push — like SQL GROUP BY.
 
 ---
 
@@ -17,81 +17,72 @@
 
 ## Mental model
 
-### Grouping related fields
-```js
-{
-	$group: {
-		_id: "$student",
-		programs: { $addToSet: "$result" },
-		totalFees: { $sum: "$result.applicationFee" },
-		quantity: { $count: {} },
-	},
-},
+**Say it in one breath:** `$match` first to cut data, then `$group` by `_id` key, then `$sort`/`$limit` the buckets.
+
+```txt
+$match → $group(_id, accumulators) → $sort → $project
 ```
-#### Group on two keys
-```shell
-[
-  {
-    "$group": {
-      "_id": {
-        "student": "$student",
-        "otherKey": "$someOtherField"
-      },
-      "applications": { "$push": "$program" }
-    }
-  }
-]
-```
-- to group based on two keys, you need to structure `_id` as an object containing both fields in the `$group` stage.
-### If you need both count and grouping
-```js
-[
-  { $match: { role: "UNIVERSITY" } },
-  {
-    $facet: {
-      totalCount: [{ $count: "totalResults" }],
-      groupedData: [{ $group: { _id: "$country" } }]
-    }
-  }
-]
-```
-- `$facet` allow multiple operations in parallel:
-this approach is useful when you need both the total count and the grouped results without making two separate queries.
-- if you want both the grouped data and the total count in one query.
-```js
-[
-  { $match: { role: "UNIVERSITY" } },
-  {
-    $facet: {
-      totalCount: [
-        { $group: { _id: "$country" } },
-        { $count: "totalGroups" }
-      ],
-      groupedData: [{ $group: { _id: "$country" } }]
-    }
-  }
-]
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`_id`** | Group key | “Null = one bucket for all.” |
+| **`$sum` / `$avg`** | Accumulators | “Spend per user.” |
+| **`$push` / `$addToSet`** | Collect values | “Watch memory.” |
+| **allowDiskUse** | Spill to disk | “Big groups.” |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+db.orders.aggregate([
+  { $match: { status: 'paid' } },
+  { $group: {
+      _id: '$customerId',
+      total: { $sum: '$amount' },
+      n: { $sum: 1 },
+  }},
+  { $sort: { total: -1 } },
+  { $limit: 50 },
+])
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Early `$match` | Uses indexes; less memory |
+| Compound `_id` | `{ day, country }` multi-key |
+| `$project` after | Shape output |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Exceeded memory limit | huge `$push` | `$addToSet` sparingly; allowDiskUse; pre-match |
+| Wrong totals | null fields | `$ifNull`; filter nulls |
+| Slow group | no match | Index + match first |
+| Too many groups | high-cardinality key | Bucket differently |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`$push` entire docs** — easy OOM; push only needed fields.
+
+> [!WARNING]
+> **Grouping on unbound fields** — cardinality explosion.
+
+---
 
 ## When NOT to use
 
-…
+- **Simple counts with a filter** — `countDocuments` may suffice.
+- **Realtime per-request heavy groups** — precompute / rollups.
 
 ## Related
 
-[[…]]
+[[mongosh query]] [[query/mongodb lookup query]] [[mongodb view]]

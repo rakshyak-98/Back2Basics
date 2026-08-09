@@ -17,8 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Before:  main ──A──B──C
+
 ```txt
-Before:  main ──A──B──C
               └──x──y  (your branch)
 
 After rebase onto main:

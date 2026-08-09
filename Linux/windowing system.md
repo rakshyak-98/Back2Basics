@@ -35,6 +35,16 @@ App → GTK/Qt → Wayland/X11 protocol → compositor/WM → display server →
 
 **WIMP** — windows, icons, menus, pointer — describes the interaction model most DEs use; tiling WMs (i3, Sway) still fit under the same stack with different WM rules.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **windowing system** | Windows on a display | “WM + display server stack.” |
+| **WM** | Place/decorate windows | “i3 tiles; GNOME shells.” |
+| **compositing** | Effects/vsync | “Tear-free needs compositor.” |
+| **X11 vs Wayland** | Two models | “Wayland is the default future.” |
+| **remote display** | VNC/RDP/Waypipe | “X11 forwarding is legacy.” |
+
 ## Standard config / commands
 
 **Identify your stack:**

@@ -17,7 +17,8 @@
 
 ## Mental model
 
-netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to go up a directory, `%` to create file, `d` to bookmark. It respects `netrw_liststyle` (thin/thick/long/tree).
+**Say it in one breath:** netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to.
+
 
 ## Standard config / commands
 

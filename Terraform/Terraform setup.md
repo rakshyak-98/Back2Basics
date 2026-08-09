@@ -278,17 +278,25 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `terraform` not found | PATH / install | Reinstall CLI; check `terraform version` |
+| Provider auth fail | Cloud creds / SSO | Fix profile/role; never commit keys |
+| Backend init fail | Bucket / lock table / perms | Create backend resources; fix IAM |
+| Version clash | `required_version` vs binary | Upgrade CLI or relax constraint |
+| Wrong account | Profile / assume_role | Confirm `aws sts get-caller-identity` |
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Local state on a shared repo** — two applies corrupt ownership; use remote + lock.
+
+> [!WARNING]
+> **Keys in `.tfvars`** — Brikman: secrets via env / CI / vault only.
 
 ## When NOT to use
 
-…
+- **Exploring a single console resource** — click first, then codify.
+- **No cloud account yet** — practice with [[Terraform docker]] first.
 
 ## Related
 
-[[…]]
+[[terraform]] [[terraform provider]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]] [[ecommerce-eks-layout]]

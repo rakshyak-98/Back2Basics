@@ -17,43 +17,54 @@
 
 ## Mental model
 
+**Say it in one breath:** SSE — plain job, how I run it, how I know it’s broken.
+
+
 - uni directional push from server to browser over HTTP.
 - server pushes events -> client auto-receives over single long-lived connection.
-> [!INFO] Built in browser support : `EventSource` API
-- Browser -> opens persistent HTTP connection
-- backend -> writes to it using `text/event-stream`
-- One way communication (server -> client only).
-- Uses standard HTTP.
-- Browser automatically reconnects if connection drops.
-- Data format: `text/event-stream`.
-- Lightweight compared to WebSockets when only server updates are needed.
-| Feature        | SSE             | WebSocket                        |
-| -------------- | --------------- | -------------------------------- |
-| Direction      | Server → Client | Bidirectional                    |
-| Protocol       | HTTP            | WebSocket                        |
-| Auto Reconnect | Yes             | Manual                           |
-| Simplicity     | Simple          | More complex                     |
-| Best For       | Live updates    | Chat, gaming, collaborative apps |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **SSE** | Core idea of this note | “I can explain SSE without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[Messaging]]

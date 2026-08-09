@@ -1,8 +1,8 @@
-[[NodeJS]]
+[[NodeJS]] [[node inspect]] [[node command]]
 
-# node repl
+# REPL
 
-> Node REPL — interactive prompt to try JavaScript without writing a file.
+> Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.
 
 ---
 
@@ -17,50 +17,69 @@
 
 ## Mental model
 
-```bash
-.load <file path>;
-.save session.js
+**Say it in one breath:** Type an expression, get a result; `.load` / `.save` move code between the session and files. Not a real script file — `require.main` / paths behave differently.
+
+```txt
+$ node → > 1+1 → 2
 ```
-```bash
-```
-Read-Eval-Print-Loop.
-- interactive shell.
-- allows to execute JavaScript code.
-- view the output immediately.
-if `require.main` is `undefined` in your NodeJS REPL, you're likely in REPL mode started with `node` directly, and not from a script file, so `require.main` is not set.
-```js
-const { pathToFileURL } = require('url');
-const { argv } = process;
-const fs = require('fs')
-const __filename = argv[0] || fs.replpathSync('.');
-pathTOFileURL(__filename).href;
-```
-> [!NOTE] `require.main.filename` returns the path of the file that started the REPL session (usually some internal Node REPL).
-> - you won't get the current `command's virtula file` because REPL isn't a real file.
-```mjs
-// exmaple.mjs
-console.log(import.meta.url);
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **REPL** | Interactive eval | “Explore APIs quickly.” |
+| **`.load` / `.save`** | File ↔ session | “Persist a scratchpad.” |
+| **`require.main`** | Entry script | “Often unset / odd in REPL.” |
 
 ## Standard config / commands
 
-…
+```bash
+node                 # start REPL
+.help
+.load ./scratch.js
+.save session.js
+.exit
+```
+
+```js
+// ESM tip outside REPL
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `NODE_REPL_HISTORY` | Persist command history |
+| `_` | Last result |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `__dirname` missing | ESM context | Build from `import.meta.url` |
+| `require.main` weird | REPL isn’t a file | Don’t rely on it for path logic |
+| Top-level await | Old Node / mode | Newer Node REPL supports TLA |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Side effects stick** — vars and listeners remain until exit.
+
+---
 
 ## When NOT to use
 
-…
+- **Automated tests** — real files + test runner.
+- **Long scripts** — write a `.js` and `node` it.
+
+---
 
 ## Related
 
-[[…]]
+[[node command]] [[node inspect]] [[Runtime Errors]]

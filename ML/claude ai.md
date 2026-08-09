@@ -1,8 +1,8 @@
-[[ML]]
+[[ML]] [[prompt]] [[GPT]] [[prompt enginerring]]
 
 # claude ai
 
-> claude ai — error: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4: tool_use ids were found without tool_result blocks immediately after: toolu_018XLoNZDysSCZitFpMk8qf3. Each tool_use block must have a corresponding tool_result block in the next
+> Claude is Anthropic’s chat/tool model — same message loop as other LLMs, strict about `tool_use` ↔ `tool_result` pairing.
 
 ---
 
@@ -17,33 +17,65 @@
 
 ## Mental model
 
-```text
-Error: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.4: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_018XLoNZDysSCZitFpMk8qf3. Each `tool_use` block must have a corresponding `tool_result` block in the next message."},"request_id":"req_011CYYJdG5Hrm8eASvwh19fo"}
+**Say it in one breath:** Send messages; if Claude returns `tool_use`, your next message must include matching `tool_result` blocks immediately after.
+
+```txt
+user → assistant (tool_use) → user (tool_result) → assistant (answer)
 ```
-- it means claude returned a `tool_use` block but your code didn't send back a `tool_result` for it.
-```text
-Error: 429 {"type":"error","error":{"type":"rate_limit_error","message":"This request would exceed your organization's rate limit of 10,000 input tokens per minute (org: 8bdf8921-d1f0-461a-aa8c-83ebf25f39ae, model: claude-opus-4-5-20251101). For details, refer to: https://docs.claude.com/en/api/rate-limits. You can see the response headers for current usage. Please reduce the prompt length or the maximum tokens requested, or try again later. You may also contact sales at https://www.anthropic.com/contact-sales to discuss your options for a rate limit increase."},"request_id":"req_011CYYRzSbTRCSGijrV661t9"}
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **tool_use** | Model requests a tool | “Must pair with tool_result.” |
+| **tool_result** | Your execution output | “Same id as tool_use.” |
+| **Rate limit** | Tokens per minute | “Backoff; shrink context.” |
+| **Messages API** | Official shape | “Roles + content blocks.” |
+
+---
 
 ## Standard config / commands
 
-…
+```text
+# Fix tool pairing
+messages[n]   assistant: tool_use id=toolu_123
+messages[n+1] user:      tool_result tool_use_id=toolu_123  ← required next
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Max tokens | Avoid truncated tool JSON |
+| Cache / prompt size | Cost and rate limits |
+| Idempotent tools | Safe retries on 429 |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| tool_use without tool_result | message order | Insert results before next call |
+| 429 rate_limit_error | TPM headers | Backoff; shorten prompts |
+| 400 invalid_request | schema/content blocks | Match API content types |
+| Empty assistant | max_tokens too low | Raise limit |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Dropping tool_results when “simplifying” history** — Claude 400s on orphan tool_use ids.
+
+> [!WARNING]
+> **Retrying the whole transcript after a partial tool** — can double side effects; make tools idempotent.
+
+---
 
 ## When NOT to use
 
-…
+- **No-tool plain completion** — still fine; just don’t half-implement tools.
+- **Hard realtime <100ms** — LLMs aren’t that path.
 
 ## Related
 
-[[…]]
+[[prompt enginerring]] [[GPT]] [[prompt]]

@@ -39,6 +39,16 @@ App (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
 
 **i3 note:** classic **i3 is X11-only**. On Wayland stacks use **Sway** (i3-like) — see [[i3 Window Manager Starter Guide]] for tiling concepts; runtime differs.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Wayland** | Compositor = display server | “No separate X server — compositor is it.” |
+| **compositor** | Mutter/KWin/Sway | “App talks to compositor directly.” |
+| **XWayland** | X11 compat | “Legacy apps run nested.” |
+| **wl-clipboard** | Copy/paste tools | “X clipboards don’t always apply.” |
+| **screenshare** | PipeWire portals | “Needs xdg-desktop-portal.” |
+
 ## Standard config / commands
 
 ```bash

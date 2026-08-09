@@ -1,8 +1,8 @@
-[[MongoDB]]
+[[MongoDB]] [[query/mongodb lookup query]] [[mongosh query]]
 
 # mongodb view
 
-> mongodb view — the view is defined using an aggregation pipeline for flexible transformations.
+> A MongoDB view is a saved aggregation pipeline — read-only, always reflects the source collection.
 
 ---
 
@@ -17,46 +17,67 @@
 
 ## Mental model
 
-> [!INFO] Views reflect changes made to the underlying collection.
-- the view is defined using an aggregation pipeline for flexible transformations.
-- avoids repeating aggregation logic for recurring queries.
-### Limitations
-- No indexing views cannot have indexes. Queries on views depend on the indexes of the source collection.
-- read-only you can't update data through views.
-- Complex pipelines in views may slow down queries.
-```js
-db.createView(
-	"orderSummaryView",
-	"orders",
-	[
-		{$group: {_id: "$customerId", totalSpent: {$sum: "$amount" }}},
-		{$sort: {totalSpend: -1}}
-	]
-)
+**Say it in one breath:** Name a pipeline once; every `find` on the view re-runs it against live data — no extra storage (unless materialized).
+
+```txt
+orders ──$group/$sort──► orderSummaryView (read-only)
 ```
-- use indexes on the source collection to optimize view performance.
-- limit the complexity of aggregation pipelines to avoid performance degradation.
-- user views for read-heavy workloads where dynamic updates to the project are needed.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **View** | Named pipeline | “Reuse the same aggregation.” |
+| **On-demand** | Computed at read | “Slow if pipeline is heavy.” |
+| **No indexes on view** | Uses source indexes | “Index the underlying collection.” |
+| **Materialized view** | Stored result (Atlas/ondemand) | “Trade freshness for speed.” |
+
+---
 
 ## Standard config / commands
 
-…
+```js
+db.createView('orderSummaryView', 'orders', [
+  { $group: { _id: '$customerId', totalSpent: { $sum: '$amount' } } },
+  { $sort: { totalSpent: -1 } },
+])
+db.orderSummaryView.find().limit(20)
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Pipeline cost | Runs every query |
+| Source indexes | Only lever for speed |
+| Permissions | Grant read on view, not raw |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| View query slow | `explain` on view | Simplify pipeline; index source |
+| Can’t update via view | By design | Write to source collection |
+| Wrong totals | Pipeline bug / nulls | Fix `$group`; handle missing fields |
+| View missing | Wrong DB | `db.getCollectionNames()` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Views are not caches** — heavy `$lookup` views will hurt under load.
+
+> [!WARNING]
+> **Typo in field names** — aggregation silently yields empty groups.
+
+---
 
 ## When NOT to use
 
-…
+- **Write path** — views are read-only.
+- **Hot, simple filters** — a normal collection + index is clearer.
 
 ## Related
 
-[[…]]
+[[mongosh query]] [[query/mongoDB Group query]] [[query/mongodb lookup query]]

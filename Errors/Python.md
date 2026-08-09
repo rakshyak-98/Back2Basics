@@ -17,34 +17,55 @@
 
 ## Mental model
 
+**Say it in one breath:** Python — plain job, how I run it, how I know it’s broken.
+
+
 ### `StaleElementReferenceError`
 The `StaleElementReferenceError` occurs when the web element you are trying to interact with is no longer present in the DOM, or the reference to it is no longer valid (e.g., the DOM has been refreshed or changed).
 This can happen when navigating through different pages or elements within a page (such as opening new folders in Google Drive) because the previously found element is no longer available
-> [!INFO] The **stale element reference** error is a [WebDriver error](https://developer.mozilla.org/en-US/docs/Web/WebDriver/Errors) that occurs because the referenced [web element](https://developer.mozilla.org/en-US/docs/Web/WebDriver/WebElement "This is a link to an unwritten page") is no longer attached to the [DOM](https://developer.mozilla.org/en-US/docs/Glossary/DOM).
-### Solution:
-You need to handle this by re-fetching the elements after each navigation or action (like clicking folders). To do this, we will:
-1. Re-fetch the folder elements after navigating back or after clicking on a new folder.
-2. Add more robust error handling for `StaleElementReferenceError` by retrying the operation when it occurs.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Python** | Core idea of this note | “I can explain Python without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[Errors]]

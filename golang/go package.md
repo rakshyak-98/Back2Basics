@@ -1,8 +1,8 @@
-[[golang]]
+[[golang]] [[go]] [[go project]]
 
 # go package
 
-> go package — a go package is a go source file that begins with the package keyword followed by the name of the package.
+> Package — one directory of `.go` files compiled together; uppercase identifiers are exported across import boundaries.
 
 ---
 
@@ -17,37 +17,76 @@
 
 ## Mental model
 
-a go package is a go source file that begins with the `package` keyword followed by the name of the package.
-> [!INFO] Apart from the packages of the go standard library, there exist external packages that can be imported using their full address and that should be downloaded before their first use.
-- each file start with a `package` declaration.
-- `go.mod` it is used as the base path for imports within the module.
-- A package is a collection of Go course files in the same directory that are compiled together.
-- the import path is the unique identifier for a package. It is typically the directory path relative to the `GOPATH` or module root.
-> [!NOTE] Each directory of your project determines the package structure. Each directory corresponds to a package.
-> [!INFO] the visibility of (variables, functions, types, etc.) is determined by their capitalization.
-- Identifiers that start with an uppercase letter are exported (public), while those that start with a lowercase letter are unexported (private)
-- Go modules are a way to manage dependencies. A module is a collection of related Go package that are versioned together.
-the `go.mod` file at the root of the module defines the module path and its dependencies.
+**Say it in one breath:** `package foo` at the top of every file in `…/foo`. Importers use the module path + folder. Modules (`go.mod`) version a set of packages.
+
+```txt
+module github.com/acme/app
+import "github.com/acme/app/internal/auth"
+```
+
+| Rule | Meaning |
+|------|---------|
+| One package / directory | Compilation unit |
+| `Foo` vs `foo` | Exported vs private |
+| `internal/` | Only parent tree may import |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+go list ./...
+go doc encoding/json
+go get golang.org/x/sync@latest
+```
+
+```go
+package auth // directory auth/
+
+func Public() {}  // exported
+func private() {} // same package only
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `go.mod` module path | Base of all imports |
+| `replace` | Local forks |
+| `_` import | Side-effect init only |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `undefined: foo.Bar` | Unexported / wrong import | Capitalize or same package |
+| Init cycle / import cycle | `go list -f '{{.ImportPath}}'` | Break cycle |
+| Wrong package name | File mismatch in dir | Unify name |
+| Stale deps | Old sum/mod | `go mod tidy` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`init()` order** — dependency order; keep `init` tiny.
+
+> [!WARNING]
+> **Test package `foo_test`** — external test sees only exports.
+
+> [!WARNING]
+> **Blank import** — only for registering drivers (`database/sql`).
+
+---
 
 ## When NOT to use
 
-…
+- **Micro-packages of one tiny func** — prefer cohesive packages.
+- **Export everything “just in case”** — keep API small.
+- **Circular “utils” bags** — name by domain.
+
+---
 
 ## Related
 
-[[…]]
+[[go]] [[go cli]] [[go interface]] [[go functions]]

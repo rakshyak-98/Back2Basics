@@ -1,8 +1,8 @@
-[[Networking]]
+[[Networking]] [[TCP]] [[UDP]] [[webSocket]] [[P2P (Peer-to-Peer)]]
 
 # Data transfer communication channels
 
-> Data transfer communication channels — definition: Application layer protocol for transferring data over the web.
+> Pick the channel that matches the job — request/response, push, queue, or peer media — not one protocol for everything.
 
 ---
 
@@ -17,78 +17,99 @@
 
 ## Mental model
 
-### **1. HTTP/HTTPS**
-- **Definition**: Application layer protocol for transferring data over the web.
-- **Use Case**: REST APIs, web browsing.
-- **Advantage**: Widely supported; secure with HTTPS.
-- **Disadvantage**: Stateless; requires additional mechanisms for persistent communication (e.g., cookies or tokens).
-### **2. WebRTC**
-- **Definition**: Real-time communication protocol for peer-to-peer (P2P) audio, video, and data sharing.
-- **Use Case**: Video conferencing, P2P file sharing.
-- **Advantage**: Low latency; works without a server after initial connection.
-- **Disadvantage**: Complex setup.
-### **3. Message Queues**
-- **Definition**: Middleware that provides asynchronous communication through message brokers like RabbitMQ, Kafka, or Redis.
-- **Use Case**: Task queues, event-driven architectures.
-- **Advantage**: Decouples producers and consumers.
-- **Disadvantage**: Overhead of managing broker infrastructure.
-### **4. Shared Memory**
-- **Definition**: Allows processes on the same machine to share a common memory space for direct data exchange.
-- **Use Case**: High-speed data transfer in local systems.
-- **Advantage**: Extremely fast for local communication.
-- **Disadvantage**: Limited to single-system communication.
-### **5. Remote Procedure Call (RPC)**
-- **Definition**: Enables a program to execute a function on a remote machine as if it were local.
-- **Use Case**: Distributed systems, microservices (e.g., gRPC, Thrift).
-- **Advantage**: Simplifies cross-network function execution.
-- **Disadvantage**: Requires specific protocols and serialization.
-### **6. Pipes**
-- **Definition**: OS-level channel for inter-process communication (IPC).
-    - **Named Pipes**: Work between unrelated processes.
-    - **Anonymous Pipes**: Used by parent-child processes.
-- **Use Case**: Local process-to-process communication.
-- **Advantage**: Simple and lightweight.
-- **Disadvantage**: Only works within the same system.
-### **7. Email**
-- **Definition**: Communication channel using SMTP, POP3, or IMAP protocols.
-- **Use Case**: Notifications, data exchange.
-- **Advantage**: Persistent; works offline.
-- **Disadvantage**: High latency.
-### **8. SignalR/Server-Sent Events (SSE)**
-- **Definition**: Channels for real-time web applications using HTTP protocols.
-- **Use Case**: Live data updates, stock tickers.
-- **Advantage**: Works seamlessly over HTTP.
-- **Disadvantage**: Limited to specific use cases compared to WebSockets.
-### **9. Bluetooth**
-- **Definition**: Wireless technology for short-range data transfer.
-- **Use Case**: IoT devices, file sharing.
-- **Advantage**: No internet needed.
-- **Disadvantage**: Limited range and bandwidth.
-### **10. File Transfer Protocols**
-- **Definition**: Protocols like FTP, SFTP, or SCP for transferring files.
-- **Use Case**: Uploading/downloading files.
-- **Advantage**: Handles large files efficiently.
-- **Disadvantage**: Not real-time; requires manual or scheduled transfer.
+**Say it in one breath:** Channels differ by who starts, whether they stay open, and where the data lives (wire, broker, or shared memory).
+
+```txt
+Same machine          Across network
+─────────────         ────────────────
+pipes / shm    →      HTTP / gRPC / WS
+Unix sockets   →      queues / WebRTC / FTP
+```
+
+### Interview map (words you can say)
+
+| Channel | Plain job | Say in interview |
+|---------|-----------|------------------|
+| **HTTP/HTTPS** | Request/response over the web | “Default for APIs; add auth and TLS.” |
+| **WebSocket** | Long-lived bidirectional bytes | “Push without polling; still one TCP.” |
+| **SSE** | Server → browser event stream | “Simpler than WS when client only listens.” |
+| **gRPC / RPC** | Call a remote function | “Typed contracts; great service-to-service.” |
+| **Message queue** | Async handoff via broker | “Decouple producer and consumer.” |
+| **WebRTC** | P2P A/V + data after ICE | “Low latency media; NAT traversal required.” |
+| **Pipes / Unix socket** | Local IPC | “Fastest same-host path; no internet.” |
+| **SFTP/SCP** | Bulk file copy | “Batch transfer, not chatty APIs.” |
+
+### Decision cheat sheet
+
+| Need | Prefer |
+|------|--------|
+| CRUD API / browsers | HTTPS |
+| Live UI updates | WebSocket or SSE |
+| Work fan-out / buffer | Queue (Kafka/SQS/…) |
+| Same-host speed | Unix domain socket / shm |
+| Browser P2P media | WebRTC |
+| Big file drop | Object storage + HTTPS, or SFTP |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# Is something listening?
+ss -tlnp | head
+
+# HTTP quick check
+curl -sS -o /dev/null -w '%{http_code}\n' https://example.com/
+
+# WebSocket smoke (if wscat installed)
+# wscat -c wss://example.com/ws
+
+# Local IPC: Unix socket
+ss -xlnp | grep my.sock
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| TLS termination | Encrypt on the wire; pin ciphers at LB |
+| Timeouts / keepalives | Idle channels die without heartbeats |
+| Backpressure | Queues and WS need size limits |
+| Authn on upgrade | WS/SSE must check cookies/JWT at handshake |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| “Real-time” feels polled | Using HTTP GET loops | Switch to WS/SSE or push via queue→WS |
+| Lost messages under load | No broker / no ack | Introduce a queue; don’t rely on one TCP |
+| Browser can’t P2P | ICE/TURN missing | See [[ICE (Interactive Connectivity Establishment)]] |
+| Fast locally, dead remote | Bound to localhost / wrong channel | Expose HTTPS or Unix→TCP carefully |
+| Huge payloads over WS | Wrong tool | Object store + URL; keep WS for control |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **HTTP is not a queue** — retries and fan-out need a broker or you lose work on crash.
+
+> [!WARNING]
+> **WebSocket ≠ WebRTC** — WS is client↔server TCP; WebRTC is peer media over ICE/UDP.
+
+> [!WARNING]
+> **Shared memory doesn’t cross machines** — scale-out forces a network channel.
+
+---
 
 ## When NOT to use
 
-…
+- **One golden hammer** — don’t put file sync, RPC, and chat all on raw WebSockets.
+- **Email as a data bus** — high latency; use queues for systems, email for humans.
+- **Bluetooth for datacenter backends** — short-range IoT only.
+
+---
 
 ## Related
 
-[[…]]
+[[Networking]] [[TCP]] [[UDP]] [[webSocket]] [[P2P (Peer-to-Peer)]] [[ICE (Interactive Connectivity Establishment)]] [[half-open connections]]

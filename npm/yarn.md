@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Yarn resolves dependencies from `package.json`, writes `yarn.lock` (Classic v1) or `.yarn/cache` (Berry v2+). `yarn install` is CI's first step. Commands mirror npm with different flags. Berry adds Plug'n'Play (no `node_modules`) unless `nodeLinker: node-modules`.
+**Say it in one breath:** Yarn resolves dependencies from `package.json`, writes `yarn.lock` (Classic v1) or `.yarn/cache` (Berry v2+). `yarn install` is CI's first step. Commands mirror npm with different flags. Berry adds Plug'n'Play.
+
 
 ## Standard config / commands
 

@@ -37,6 +37,16 @@ Host ──UDP/123──► pool.ntp.org / corporate NTP / hypervisor
 
 **One sync daemon per host.** `timedatectl` is the control plane; it enables/disables sync but does not replace chrony/timesyncd.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **NTP** | Network Time Protocol | “Skewed clocks break TLS and auth.” |
+| **chrony / systemd-timesyncd** | Common clients | “chrony for servers; timesyncd for desktops.” |
+| **stratum** | Distance from true time | “Lower stratum = closer to reference.” |
+| **step vs slew** | Jump vs gradual adjust | “Large offset may step once at boot.” |
+| **RTC** | Hardware clock | “hwclock syncs BIOS time.” |
+
 ## Standard config / commands
 
 ### Verify sync state (always start here)

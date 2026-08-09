@@ -2,7 +2,7 @@
 
 # Zed keybindings
 
-> Zed keybindings — when the LSP popup and a ghost prediction conflict, hold alt to preview inline and hide the menu. See [[zed config#Inline ghost completions (VS Code
+> Zed keybindings — when the LSP popup and a ghost prediction conflict, hold alt to preview inline and hide the menu. See [[zed config#Inline ghost…
 
 ---
 
@@ -10,8 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Completions & inline ghost text]]
-- [[#Key bindings]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -19,68 +17,51 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Zed keybindings — plain job, how I run it, how I know it’s broken.
+
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Zed keybindings** | Core idea of this note | “I can explain Zed keybindings without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Completions & inline ghost text
-
-| Action | Linux / Windows | macOS |
-|--------|-----------------|-------|
-| Accept edit prediction (ghost text) | `tab` (no menu) · `alt-l` · `alt-tab` | `tab` · `alt-tab` |
-| Accept next word of prediction | `alt-k` | `ctrl-cmd-right` |
-| Accept next line of prediction | `alt-j` | `ctrl-cmd-down` |
-| Show / cycle edit prediction | `alt-\` · `alt-tab` / `alt-shift-tab` | `alt-tab` / `alt-shift-tab` |
-| Toggle edit predictions (buffer) | `ctrl-shift-e` | `ctrl-cmd-e` |
-| LSP completion menu | `ctrl-space` | `ctrl-space` |
-| Accept LSP menu item | `tab tab` | `tab tab` |
-| Dismiss menu / prediction | `escape` | `escape` |
-
-When the LSP popup and a ghost prediction conflict, **hold `alt`** to preview inline and hide the menu. See [[zed config#Inline ghost completions (VS Code Copilot-style)]].
-
-## Key bindings
-
-```text
-] c next change
-[ c previous change
-
-g ] next problem
-g [ previous problem
+```bash
+# reproduce with minimal input
+# compare working vs broken env
 ```
 
-### GO to
-| Command                                  | Default Shortcut |
-| ---------------------------------------- | ---------------- |
-| Go to definition                         | `g d`            |
-| Go to declaration                        | `g D`            |
-| Go to type definition                    | `g y`            |
-| Go to implementation                     | `g I`            |
-| Rename (change definition)               | `c d`            |
-| Go to All references to the current word | `g A`            |
-| Find symbol in current file              | `g s`            |
-| Find symbol in entire project            | `g S`            |
-| Go to next diagnostic                    | `g ]` or `] d`   |
-| Go to previous diagnostic                | `g [` or `[ d`   |
-| Show inline error (hover)                | `g h`            |
-| Open the code actions menu               | `g .`            |
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[zed config]]] [[[Descriptive/vscode]]

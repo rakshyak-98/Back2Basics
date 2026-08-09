@@ -17,8 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** Proxy to a Unix socket instead of TCP loopback — same host, fewer ports, tighter permissions.
+
 ```
-Client → Nginx :443 → unix:/var/run/my-api/app.sock → Node/Express
 ```
 
 Unix sockets avoid TCP overhead on same host (~20–30% throughput gain in typical benchmarks). Tradeoff: socket file permissions and cleanup on restart.

@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** 1. When git runs a command like `git push` it internally calls. is infra/security tooling — least privilege, clear config, observable failures.
+
+
 ### reset the credential manager
 ```bash
 git config --global --unset credentila.*; # remove the set credential helper
@@ -36,56 +39,50 @@ git config --global credential.helper cache;
 ```bash
 printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 ```
-> [!INFO]
-> When accessing `https://github.com`, ask the GitHub CLI (gh) to provide credentials.
-> [!INFO]
-> credential.helper -> controls how Git remembers (or not) those credentials.
-> `store` -> stores them permanently in `~/.git-credentials` in plain text.
-> `gpt` -> Encrypts credentials with GPG (custom setup).
-> [!NOTE]
-> git doesn't allow direct removal of just one value from a __multi-value section__ like this
-```ini
-[credential "https://github.com"]
-helper =
-helper = !/usr/bin/gh auth git-credential
-```
-- remove the full section
-```bash
-git config --global --remove-section credential."https://github.com";
-```
-- Re-add only the correct value
-```bash
-git config --global credential."https://github.com".helper '!/usr/bin/gh auth git-credential'
-```
-### Pre-host credential control
-- only affects `https://github.com`. All other Git Hosts (e.g., GitLab, Bitbucket) still use default helper (like `cache` or `store`).
-```bash
-git credential fill;
-```
-- and because of your config, Git delegates that to `credential.helper`
-```bash
-/usr/bin/gh auth git-credential;
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **1. When git runs a command like `git push` it internally calls.** | Core idea of this note | “I can explain 1. When git runs a command like `git push` it internally calls. without jargon.” |
+| **least privilege** | Only needed access | “Grant the smallest role that works.” |
+| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
+| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# status
+# check version, auth, and recent changes
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Auth fail | clock / creds / IAM | Sync time; fix policy |
+| TLS error | cert chain / SNI | Fix certs and CA bundle |
+| Deploy down | rollback / health | Roll back; check probes |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Never commit long-lived secrets.
+
+---
 
 ## When NOT to use
 
-…
+- Don’t build custom infra when managed services meet the SLO.
+
+---
 
 ## Related
 
-[[…]]
+[[GIT]]

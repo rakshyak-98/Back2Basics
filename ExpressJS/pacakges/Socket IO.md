@@ -1,8 +1,8 @@
-[[pacakges]]
+[[ExpressJS]] [[express concepts]] [[WebRTC]] [[SSE (Server-Sent Events)]]
 
-# Why it is http:// Instead of ws:// in the Web Socket server setup?
+# Socket IO
 
-> Why it is http:// Instead of ws:// in the Web Socket server setup? — webSocket start as an HTTP request and then upgrade to the WebSocket
+> Socket.IO — realtime library with fallbacks (WebSocket first); events, rooms, and reconnect—broader than raw WS.
 
 ---
 
@@ -17,36 +17,66 @@
 
 ## Mental model
 
-- WebSocket start as an HTTP request and then upgrade to the WebSocket protocol.
-- The client sends an HTTP request and then upgrade to the WebSocket protocol.
-- The client sends an HTTP handshake request `Upgrade: websocket` header.
-- The server responds with `101` Switching Protocols, establishing a WebSocket connection.
-> [!INFO] A pure WebSocket server can only handle WebSocket connections. Using an HTTP server allows us to support both WebSocket and REST API endpoints in a single applicatoin.
-> [!INFO] Using http as the base server ensures that express (which handles routes, authentication, and middleware) can still manage requests before the WebSocket upgrade happens.
-if we start a raw WebSocket server `ws://`, we lose the ability to use Express middleware (CORS, authentication, etc.)
-> [!INFO] Many reverse proxies (NGINX, AWS, ALB, Cloudflare) expect WebSocket to start as HTTP.
-> [!INFO] If you use WebSockets over HTTP polling (long polling via HTTP requests) instead of `ws://`, Express middleware will apply because every request is an HTTP request.
-- However, native WebSocket `ws://` do not trigger express middleware, so you must handle authentication separately.
+**Say it in one breath:** Client and server share event names. Engine.IO negotiates transport. Not identical to browser `WebSocket` API—need matching Socket.IO client.
+
+```txt
+client emit ──► server on
+server to(room).emit ──► clients
+```
+
+---
 
 ## Standard config / commands
 
-…
+```js
+import { createServer } from 'http'
+import { Server } from 'socket.io'
+const httpServer = createServer(app)
+const io = new Server(httpServer, { cors: { origin: '*' } })
+io.on('connection', (socket) => {
+  socket.join('lobby')
+  socket.on('chat', (msg) => io.to('lobby').emit('chat', msg))
+})
+httpServer.listen(3000)
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| CORS | Browser clients |
+| Adapter (Redis) | Multi-node rooms |
+| Auth middleware | `socket.handshake` |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Connect loop | Version mismatch | Align major versions |
+| Works single node only | Sticky/adapter | Redis adapter + sticky |
+| CORS errors | Origin | Configure cors |
+| Auth missing | Handshake | Middleware reject |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Socket.IO ≠ WS** — different protocol framing.
+
+> [!WARNING]
+> **Horizontal scale** — need pub/sub adapter.
+
+---
 
 ## When NOT to use
 
-…
+- **Simple one-way server push** — SSE.
+- **Binary media P2P** — WebRTC.
+- **Standards-only WS clients** — `ws` library.
+
+---
 
 ## Related
 
-[[…]]
+[[uWebSocket]] [[SSE (Server-Sent Events)]] [[express concepts]]

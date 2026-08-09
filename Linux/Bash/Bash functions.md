@@ -32,6 +32,16 @@ deploy_app        →  runs in same shell — can mutate cwd, env, exports
 | Speed | no fork for logic | fork per invocation |
 | Shebang | N/A | `#!/usr/bin/env bash` |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **function** | Named reusable block | “Prefer functions over copy-paste.” |
+| **local** | Scoped vars | “Without local, you leak globals.” |
+| **$@ / "$@"** | All args safely | “Always quote "$@".” |
+| **return** | Function exit status | “return N; exit kills the shell.” |
+| **declare -f** | List functions | “declare -f name to inspect.” |
+
 ## Standard config / commands
 
 ```bash

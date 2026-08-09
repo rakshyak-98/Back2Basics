@@ -28,7 +28,30 @@ Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the *
 
 ## Standard config / commands
 
-…
+```hcl
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    aws = { source = "hashicorp/aws", version = "~> 5.0" }
+  }
+}
+
+provider "aws" { region = var.region }
+
+resource "aws_s3_bucket" "logs" {
+  bucket = "${var.env}-app-logs"
+}
+```
+
+```shell
+terraform init && terraform plan -out=tfplan && terraform apply tfplan
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `required_providers` pin | Same plugin on laptop and CI |
+| `resource` vs `data` | Manage vs read-only lookup |
+| Module `version` | Avoid surprise upstream breaks |
 
 ## Why Terraform (Brikman)
 
@@ -165,16 +188,24 @@ Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` ca
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| No config files | Empty dir | Add `.tf`, then `terraform init` |
+| Provider not found | `required_providers` / network | Pin source; re-`init` |
+| Unexpected replace | Force-new attr changed | Plan carefully; use `lifecycle` |
+| State drift | Manual console edits | `plan` then import or adopt |
+| Module version jump | Unpinned `source` | Pin `version = "~> x.y"` |
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **State is the source of truth for ownership** — deleting state ≠ deleting cloud resources.
+
+> [!WARNING]
+> **Data sources refresh on plan** — they can change outputs without changing infra.
 
 ## When NOT to use
 
-…
+- **Day-2 app deploys** — prefer CI + container/orchestrator, not Terraform for every image tag.
+- **One irreversible click** — sometimes the console + runbook is safer than half-baked HCL.
 
 ## Related graph
 

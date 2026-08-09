@@ -32,6 +32,16 @@ kernel ──► journald (-k) / dmesg
 | Kernel | `journalctl -k`, `dmesg` | OOM, driver, hardware |
 | Live follow | `journalctl -f` | Deploy watch, incident stream |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **syslog / journal** | System log pipelines | “Modern = journald; rsyslog may forward.” |
+| **/var/log** | Text logs | “App logs often still here.” |
+| **logrotate** | Rotate/compress | “Without rotate, disks fill.” |
+| **facility/severity** | syslog classes | “auth.err vs local0.info.” |
+| **stdout in containers** | 12-factor logs | “Don’t write only to files in k8s.” |
+
 ## Standard config / commands
 
 **journalctl — primary interface (see [[journalctl]] for full playbook):**

@@ -17,36 +17,53 @@
 
 ## Mental model
 
+**Say it in one breath:** kotlin view — plain job, how I run it, how I know it’s broken.
+
+
 `binding` is a ViewBinding object that provides type-safe access to UI element from your layout XML file.
-> [!INFO]
-> Instead of using `findViewById()`, you use `binding.viewName` to access views
-```kotlin
-val progressBar = findViewById<ProgressBar>(R.id.progressBar);
-progressBar.visibility = View.GONE
-binding.progressBar.visibility = View.GONE; // Direct access
-```
-### Recycler View
-A Recycler View is a container that displays a list of items on the screen efficiently. It `recycles` views as you scroll.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **kotlin view** | Core idea of this note | “I can explain kotlin view without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[kotlin]]

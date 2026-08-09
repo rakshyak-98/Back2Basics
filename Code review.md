@@ -1,3 +1,5 @@
+[[Code review.md]]
+
 # Code review
 
 > Code review — check correctness, security, and clarity before merging a change.
@@ -8,9 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Good practice]]
-- [[#Security Risk – Path Traversal Vulnerability (Critical)]]
-- [[#API]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,71 +17,51 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** Code review — plain job, how I run it, how I know it’s broken.
+
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Code review** | Core idea of this note | “I can explain Code review without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Good practice
-
-- input normalization (trim + lowercase)
-- Separate helper for directory existence check
-- Rich returned object with metadata
-- Propagating original error via `cause` + context properties.
-- `stdio: "inherit"` -> useful for seeing real-time output during debugging
-- Warning instead of crash on `chmod` failure
-
-## Security Risk – Path Traversal Vulnerability (Critical)
-
-```
-const templateDir = path.resolve(__dirname, "app-builds", templateName);
+```bash
+# reproduce with minimal input
+# compare working vs broken env
 ```
 
-**Problem**: templateName comes from the user / caller / external input.
-
-If someone passes:
-
-- templateName = "../../../../etc/passwd"
-- templateName = "../../secrets"
-- templateName = "..%2F..%2F..%2F"
-
-→ path.resolve() will happily climb out of your project root and give access to **any file on the filesystem** the Node.js process has permission to read.
-
-This is a **classic path traversal vulnerability** — very common in file upload / template systems.
-
-## API
-
-- Security No Auth/Validation -> open write access api. Bloating your DB with malicious data
-- Add middleware for auth (JWT) + zod schema validation. Never trust `req.body`.
-- Missing body size limits, rate limiting (spam risk).
-
-
-### Command Injection Vulnerabilities
-
-```javascript
-// Line: execFileAsync("rsync", ["-a", "--delete", `${src}/`, `${dest}/`])
-```
-
-While `execFile` is safer than `exec`, the `--delete` flag with `rsync` is dangerous. If an attacker controls the source directory, they could delete all files in the destination.
-
-**Recommendation:** Validate that `src` exists and is within expected boundaries before executing.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[Code review.md]]

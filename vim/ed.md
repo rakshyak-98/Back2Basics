@@ -17,6 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** ed — plain job, how I run it, how I know it’s broken.
+
+
 | Command      | Description           |
 | ------------ | --------------------- |
 | `e filename` | Open file for editing |
@@ -38,53 +41,49 @@
 | `.`     | End input mode                         |
 | Command | Description         |
 | ------- | ------------------- |
-| `d`     | Delete current line |
-| `N,Md`  | Delete lines N to M |
-| Command          | Description                         |
-| ---------------- | ----------------------------------- |
-| `s/old/new/`     | Replace first match in current line |
-| `s/old/new/g`    | Replace all matches in current line |
-| `N,Ms/old/new/g` | Replace in range N to M             |
-| Command    | Description        |
-| ---------- | ------------------ |
-| `/pattern` | Search forward     |
-| `?pattern` | Search backward    |
-| `n`        | Repeat last search |
-| Command | Description             |
-| ------- | ----------------------- |
-| `p`     | Print current line      |
-| `N,Mp`  | Print lines N to M      |
-| `n`     | Print with line numbers |
-```bash
-1    # go to first line
-a    # append lines
-hello
-world
-.    # finish input
-1s/hello/hi/    # replace in line 1
-w               # save file
-q               # quit
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ed** | Core idea of this note | “I can explain ed without jargon.” |
+| **idempotent** | Safe to retry | “Retries must not double-charge.” |
+| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Make retries safe or you will duplicate side effects.
+
+---
 
 ## When NOT to use
 
-…
+- Avoid the tool if a simpler built-in covers the job.
+
+---
 
 ## Related
 
-[[…]]
+[[vim]]

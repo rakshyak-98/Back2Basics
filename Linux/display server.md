@@ -37,6 +37,16 @@ Input devices ──► Display server ──► GPU/compositor ──► monito
 - **Display manager** — login greeter (GDM, LightDM) — starts *before* your session.
 - **Desktop environment** — full product (GNOME, KDE).
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **display server** | Owns screen + input | “Xorg or Wayland compositor.” |
+| **protocol** | App ↔ server | “Apps don’t poke GPU alone.” |
+| **compositor** | Draw final frame | “Wayland merges server+compositor.” |
+| **DRM/KMS** | Kernel modeset | “Talks to the monitor.” |
+| **seat** | Keyboard/mouse/screen set | “logind manages seats.” |
+
 ## Standard config / commands
 
 **Identify what you're running:**

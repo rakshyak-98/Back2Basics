@@ -1,8 +1,8 @@
-[[ML]]
+[[ML]] [[prompt]] [[prompt enginerring]] [[claude ai]]
 
 # GPT
 
-> GPT — globally Unique Identifiers, Each partition in a GPT scheme is assigned a unique identifier, which helps in managing and recognizing partitions across different systems and operating
+> GPT-style models predict the next token — chat APIs wrap that into messages, tools, and completions.
 
 ---
 
@@ -17,34 +17,71 @@
 
 ## Mental model
 
-- GUID Partition Table
-- Globally Unique Identifiers, Each partition in a GPT scheme is assigned a unique identifier, which helps in managing and recognizing partitions across different systems and operating environments.
-- partitioning scheme that addresses the limitations of the older Master Boot Record system.
-- GPT is integral to the [[OS Boot/UEFI]] standard, replacing the traditional BIOS.
-- GPT can handle drives larger than 2 terabytes supporting sizes up to 9.4 zettabytes due to its use of 64-bit logical block addressing.
-> [!INFO] [[MBR]] is limited to a maximum of 2TB.
-- GPT allows for a significantly higher number of partitions. While MBR limits users to four primary partitions (or up to 26 if using extended partitions).
-> [!INFO] GPT support up to 128 partitions without the need for extended or [[logical partitions]].
+**Say it in one breath:** You send messages; the model continues; you constrain with system prompts, tools, and decoding knobs.
+
+```txt
+messages[] → API → assistant tokens (+ optional tool_calls)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Tokens** | Chunks of text | “Cost and context are token-based.” |
+| **Context window** | Max tokens in play | “Truncate or summarize history.” |
+| **Temperature** | Randomness | “0 for extractive tasks.” |
+| **Tool/function call** | Structured side effect | “Model proposes; app executes.” |
+
+---
 
 ## Standard config / commands
 
-…
+```python
+# sketch
+client.chat.completions.create(
+  model='gpt-4.1-mini',
+  temperature=0,
+  messages=[
+    {'role': 'system', 'content': 'Be concise.'},
+    {'role': 'user', 'content': question},
+  ],
+)
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Model choice | Quality/cost/latency |
+| `response_format` | JSON mode |
+| Seed (when available) | Repro experiments |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Context exceeded | token count | Trim history; summarize |
+| 429 rate limit | headers | Backoff; smaller prompts |
+| Unstable JSON | free-form | schema / JSON mode |
+| Stale answers | no tools/RAG | Ground with retrieval |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Training cutoff** — doesn’t know your private docs unless you pass them.
+
+> [!WARNING]
+> **Confident wrong** — verify critical facts outside the model.
+
+---
 
 ## When NOT to use
 
-…
+- **Strict deterministic logic** — write code.
+- **Tiny classify with tons of labels** — classical model may win.
 
 ## Related
 
-[[…]]
+[[prompt enginerring]] [[claude ai]] [[prompt]]

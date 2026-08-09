@@ -1,16 +1,15 @@
-[[Bash]]
+[[Bash]] [[bash script]] [[bash flags]] [[Bash history]]
 
 # Bash syntax
 
-> Bash syntax — mkdir new_dir && cd new_dir # conditional execution
+> Bash syntax is how the shell parses words, expansions, and control operators — so pipelines and scripts do what you meant.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#Configuration setup]]
-- [[#Command history expansion]]
+- [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,119 +17,97 @@
 
 ## Mental model
 
-### Command manipulation
+**Say it in one breath:** the shell splits into words, expands (`$`, globs, `!!`), then runs — operators like `&&` / `|` connect commands, not strings.
+
+```txt
+line ──► tokenize ──► expand ──► redirections ──► execute
+         "…" / '…'     $VAR `…`  > >> <   && || | ; ( )
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`&&` / `\|\|`** | Conditional chain | “Next runs only if previous succeeded / failed.” |
+| **`$(…)` / `` `…` ``** | Command substitution | “Prefer `$()` — nests cleanly.” |
+| **`[[ … ]]`** | Bash test | “Safer than `[` for strings and patterns.” |
+| **`--`** | End of options | “Protects filenames starting with `-`.” |
+| **Subshell `(…)`** | Nested environment | “`cd` inside doesn’t move the parent shell.” |
+| **`${var:-default}`** | Default if unset | “Parameter expansion beats sprawling ifs.” |
+
+---
+
+## Standard config / commands
+
 ```bash
-fc -ln -1; # show the last command ( no line number );
-fc -ln -2 -1; # show the last two commands;
-fc -e nano; # edit previous command with neno;
-```
-```shell
-echo "Today is ${date}"
-mkdir new_dir && cd new_dir # conditional execution
-diff <(ls dir1) <(ls dir2);
-```
-```bash
-touch -- -file.txt;
-```
-> [!NOTE]
-> end of the options marker.
-> after `--` all args treated as positional.
-> prevents `-file.txt` interpreted as a option flag.
-```
-(cd /tmp && ls); # Executes commands in a separate subshell
-```
-- This runs the `cd` and `ls` commands in a sub-shell, so the working directory in the current shell remains unchanged.
+# Chains / grouping
+mkdir -p new_dir && cd new_dir
+cmd1 || echo "failed"
+(cd /tmp && ls)                 # cwd restored after
 
-## Configuration setup
+# End of options
+touch -- -file.txt
+rm -- -file.txt
 
-[[Kafka configuration]]
-```shell
-if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
-    info "** Starting Kafka setup **"
-    /opt/bitnami/scripts/kafka/setup.sh
-    info "** Kafka setup finished! **"
-fi
-```
-- this script checks if a specific script (`run.sh`) is part of the command line arguments, and if so, it runs a kafka setup script.
+# Process substitution
+diff <(ls dir1) <(ls dir2)
 
-```shell
-if [[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]; then
-```
-- `$*` -> represents all command-line arguments passed to the script.
-- `[[ "$*" = *"/opt/bitnami/scripts/kafka/run.sh"* || "$*" = *"/run.sh"* ]]` checks if any argument contains `/opt/bitnami/scripts/kafka/run.sh` or `run.sh`
-- the `*` wildcard makes it a sub-string match.
+# Parameter expansion
+echo "${my_var:-default}"
+echo "${my_var:0:3}"
 
-## Command history expansion
+# History expansion (interactive)
+!!
+!-2
 
-```shell
-!!; # Repeats the last executed command;
-!-2 # Executes the second-to-last command in history;
+# Safe script header trio — see [[bash flags]]
+set -euo pipefail
 ```
 
-```shell
-echo ${my_var:-"default value"}  # Prints "default value" if my_var is unset.
-echo ${my_var:0:3}  # Extracts the first 3 characters from my_var.
-```
+| Construct | Job |
+|-----------|-----|
+| `"$var"` | Expand but keep as one word |
+| `'$var'` | Literal |
+| `${#arr[@]}` | Array length |
+| `$(( … ))` | Integer arithmetic |
 
-In Bash, **set flags** (or options) allow you to change the behavior of the shell. You can enable or disable these flags using the `set` command. Here’s a list of some commonly used set flags in Bash:
+`fc` helpers: `fc -ln -1` (last command), `fc -e nano` (edit prior).
 
-### Common Bash Set Flags
-
-1. **`-e`**: Exit immediately if a command exits with a non-zero status. This is useful for error handling in scripts.
-
-2. **`-u`**: Treat unset variables as an error when substituting. This helps catch mistakes where a variable might not be initialized.
-
-3. **`-o pipefail`**: This causes a pipeline to return the exit status of the last command that returned a non-zero status, or zero if no command fails. This helps in error detection in pipelines.
-
-4. **`-x`**: Print each command before executing it. This is useful for debugging.
-
-5. **`-n`**: Read commands but do not execute them. This is a way to check for syntax errors in scripts.
-
-6. **`-v`**: Print shell input lines as they are read. This is another debugging tool.
-
-7. **`-f`**: Disable file name generation (globbing). This prevents wildcard expansion.
-
-8. **`-h`**: Remember and perform hash lookup on commands. This speeds up the execution of commands by avoiding repeated searches in the path.
-
-9. **`-p`**: Use the `privileged` mode, which is often used in setuid scripts to execute with the privileges of the script's owner.
-
-10. **`-a`**: Mark variables and functions to be exported automatically to the environment of subsequently executed commands.
-
-### How to Use Set Flags
-You can enable or disable these flags using the `set` command as follows:
-```bash
-set -e      # Enable exit on error
-set +e      # Disable exit on error
-set -u      # Enable error on unset variables
-set +u      # Disable error on unset variables
-```
-
-### Example
-	Here’s a simple example of using flags in a script:
-```bash
-#!/bin/bash
-set -euo pipefail  # Exit on error, unset vars error, and fail on pipe errors
-
-# Example commands
-echo "This script will exit on error."
-ls non_existent_file  # This will cause the script to exit
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Word-splitting bugs | Unquoted `$var` | Always quote: `"$var"` |
+| Glob ate my args | Unquoted `*` | Quotes or `set -f` temporarily |
+| `-file` parsed as flag | Leading dash | Insert `--` |
+| `cd` “stuck” in scripts | Subshell vs source | `(cd …)` vs plain `cd` deliberately |
+| `[[ = ]]` surprises | Pattern vs string | Use `==` carefully; quote the right side if literal |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`[ $var = x ]` breaks on empty/spaces** — use `[[ "$var" == x ]]` or quote inside `[`.
+
+> [!WARNING]
+> **`$*` vs `$@`** — `"$@"` preserves argument boundaries; `"$*"` joins.
+
+> [!WARNING]
+> **History expansion in scripts** is usually off — `!!` is an interactive habit.
+
+---
 
 ## When NOT to use
 
-…
+- **Heavy data munging** — Python; keep bash as the glue.
+- **POSIX-strict `/bin/sh` scripts** — avoid Bashisms (`[[`, arrays) or set `#!/bin/bash`.
+- **Complex JSON** — [[jq]].
+
+---
 
 ## Related
 
-[[…]]
+[[bash script]] [[bash flags]] [[Bash history]] [[tee]] [[Bash]]

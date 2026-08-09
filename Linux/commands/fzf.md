@@ -34,6 +34,16 @@ find / ls / history ──► fzf ──► selected line ──► cd / vim / k
 
 Install: `apt install fzf` (Debian/Ubuntu) — enable shell hooks via `/usr/share/doc/fzf/examples/key-bindings.bash`.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **fzf** | Fuzzy finder | “Pipe anything into fzf to pick.” |
+| **Ctrl-R** | History search | “fzf history beats plain reverse-i-search.” |
+| **--preview** | Side preview | “Preview files before open.” |
+| **bind** | Key actions | “Custom binds for kill/git.” |
+| **exit codes** | 1 = no match | “Scripts must handle cancel.” |
+
 ## Standard config / commands
 
 ```bash

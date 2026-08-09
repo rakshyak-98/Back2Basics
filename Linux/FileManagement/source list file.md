@@ -1,8 +1,8 @@
-[[FileManagement]]
+[[FileManagement]] [[apt package manager]] [[apt config]] [[keyrings]]
 
 # source list file
 
-> source list file — deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian jammy nginx
+> An APT sources line tells apt where packages come from — URI, suite, components, and which key verifies them.
 
 ---
 
@@ -17,66 +17,73 @@
 
 ## Mental model
 
-### Source list file config
+**Say it in one breath:** `deb [options] URI suite component…` is one repo; `signed-by=` pins trust.
+
 ```txt
-deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian jammy nginx
+deb [arch=amd64 signed-by=/usr/share/keyrings/foo.gpg] https://ex/apt jammy main
+ │    options                                           suite          component
+ type
 ```
-```text
-`deb [arch=amd64 signed-by=/usr/share/keyrings/example.gpg] [https://repo.example.com/debian](https://repo.example.com/debian) stable main`
-```
-- `deb`
-	- this is a binary package source (as opposed to `deb-src` for source code).
-	- Compiled binaries (`.deb` flies).
-	- Points to pre-compiled binary packages.
-- `deb-src`
-	- Original source code, patches, and build instructions.
-	- Inspecting code modifying software, or compiling from scratch.
-	- Points to the original source code and debianisation files.
-### Options (Optional, in [] brackets)
-these define specific constraints for the repository.
-- `arch=` -> Restricts the repository to specific architectures (e.g., `amd64`, `arm64`).
-- `[signed-by=...]` -> path to the gpg key used to verify the packages. This is the modern, secure way to handle keys instead of using `apt-key`.
-- `http://` -> URL of the APT repository (from package org).
-- `jammy` -> code name for Ubuntu 22.04 (APT uses Debian-style naming).
-- `nginx` -> the distribution/component (like `main`, `contrib`)  here it is nginx specific package.
-| Part        | Meaning                                                    | Example                                   |
-| ----------- | ---------------------------------------------------------- | ----------------------------------------- |
-| `deb`       | Binary packages (most common). `deb-src` = source packages | `deb`                                     |
-| `[options]` | Extra settings (arch, signed-by, trusted=yes, etc.)        | `[arch=amd64 signed-by=...]`              |
-| `URL`       | The repository base URL                                    | `https://dl.google.com/linux/chrome/deb/` |
-| `suite`     | Release/codename (stable, noble, bookworm, etc.)           | `stable` or `noble`                       |
-| `component` | Section (main, universe, multiverse, non-free, etc.)       | `main`                                    |
-> [!INFO]
-> `main` component -> sub folder under distribution `/dists/jammy/main/binary-amd64/`
-> when you run `apt update` APT tries to download
-```bash
-https://my.repo.com/apt/dists/jammy/Release
-https://my.repo.com/apt/dists/jammy/main/binary-amd64/Packages.gz
-```
-- `jammy` to select the `dists/<distribution>` folder
-- `main` (component) to pick which subfolder(s) to load packages from
-> [!NOTE]
-> APT does not "determine" these — **you must specify both**, and the server must have a matching structure under `/dists`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **deb** | Binary packages | “deb-src is source — rare on servers.” |
+| **suite** | Codename (jammy) | “Must exist under `/dists/<suite>/`.” |
+| **component** | main/universe/… | “Selects which Packages indexes to fetch.” |
+| **signed-by** | Keyring path | “Replaces `apt-key add`.” |
+| **apt update** | Fetch Release/Packages | “Broken line → update fails.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# /etc/apt/sources.list.d/nginx.list
+deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+  http://nginx.org/packages/debian bookworm nginx
+
+sudo apt-get update
+apt-cache policy nginx
+sudo mv /etc/apt/sources.list.d/bad.list{,.disabled}
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `signed-by=` | Modern trust pin |
+| `arch=` | Avoid foreign-arch noise |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| `NO_PUBKEY` / signed-by errors | Keyring path | Install keyring; fix path |
+| 404 on update | Suite/URI | Match codename; check vendor docs |
+| Wrong version | Multiple repos | `apt-cache policy`; pin preferences |
+| apt-key warnings | Legacy trust | Migrate to keyrings + signed-by |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`trusted=yes`** disables signature checks — never on production.
+
+> [!WARNING]
+> **Syntax errors block all updates** — disable a bad `.list` quickly.
+
+---
 
 ## When NOT to use
 
-…
+- **One random binary** — prefer vendor packages or a container, not a shady PPA.
+- **Air-gapped fleets** — use a local mirror, not one-off list edits.
+
+---
 
 ## Related
 
-[[…]]
+[[apt package manager]] [[apt config]] [[keyrings]] [[Package Manager]]

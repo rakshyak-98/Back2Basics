@@ -1,8 +1,8 @@
-[[Streaming]]
+[[Streaming]] [[DRM]] [[CPIX]] [[streaming license]] [[EME]]
 
 # Pallycon(DoveRunner)
 
-> Pallycon(DoveRunner) — pallycon-customdata-v2 — token is a server-side generated, cryptographically signed authentication string and authorizes your application to request a decryption key from the PallyCon License Server. You
+> PallyCon (now DoveRunner) is multi-DRM SaaS — your backend mints a signed token so the player can ask for decryption keys.
 
 ---
 
@@ -19,51 +19,153 @@
 
 ## Mental model
 
-`pallycon-customdata-v2` -> token is a server-side generated, cryptographically signed authentication string and authorizes your application to request a decryption key from the PallyCon License Server. You do not get this token from the client-side code the library itself;
-**You must implement an authentication flow in your backend to retrieve it.**
-### The Authentication Architecture
-1. **Application Auth**: Before the player initiates a license request, your app authenticates the user against your own backend (e.g., via a standard OAuth2 or JWT session).
-2. **Token Generation**: Upon successful user authentication, your backend communicates with the **PallyCon DevConsole API** (or your own internal token service) to generate a valid DRM license token.
-3. **Token Delivery**: Your backend returns this token to the client app (your Android/Kotlin code).
-4. **License Request**: Your Android app then injects this token into the `pallycon-customdata-v2` HTTP header when making the request to `[https://license-global.pallycon.com/ri/licenseManager.do](https://license-global.pallycon.com/ri/licenseManager.do)`.
+**Say it in one breath:** User logs into *your* app; *your* server builds a DoveRunner license token; the player sends that token to DoveRunner’s license URL and the CDM unlocks the stream.
+
+```txt
+User ──► Your app auth (OAuth / JWT / session)
+              │
+              ▼
+        Your backend ──► mint pallycon-customdata-v2
+              │              (Site ID + Site Key + policy)
+              ▼
+        Player sets header on license request
+              │
+              ▼
+   https://license-global.pallycon.com/ri/licenseManager.do
+              │
+              ▼
+        CDM gets keys ──► decrypt [[HLS]]/[[DASH]]
+```
+
+You do **not** generate this token in client JS/Kotlin alone with the site key exposed. Site Key stays on the server.
+
+Packaging keys often come via [[CPIX]]; playback auth is the separate [[streaming license]] token.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **DoveRunner / PallyCon** | Hosted multi-DRM + KMS | “We outsource Widevine/PlayReady/FairPlay licenses.” |
+| **pallycon-customdata-v2** | Signed license request token | “Backend mints it; player only forwards it.” |
+| **Site ID / Site Key** | Account credentials for token crypto | “Site Key never ships in the APK.” |
+| **Content ID** | Your asset id in their system | “Token content id must match packaged asset.” |
+| **CSL** | Concurrent stream limiting | “License renewal counts how many devices play at once.” |
+| **License renewal** | Short license lifetime, refresh mid-play | “Lets the server see ‘still playing’ vs stopped.” |
+
+### Auth story (4 steps)
+
+1. **App auth** — prove the user to *your* backend.
+2. **Token generation** — backend builds `pallycon-customdata-v2` (DevConsole API or your token service).
+3. **Token delivery** — return token to the player over your API.
+4. **License request** — player calls DoveRunner license URL with that header; CDM decrypts.
+
+---
 
 ## Standard config / commands
 
-…
+```txt
+License URL (global):
+  https://license-global.pallycon.com/ri/licenseManager.do
+
+Header:
+  pallycon-customdata-v2: <server-minted-token>
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Site ID + Site Key | Identity for token HMAC/AES — server only |
+| Content ID | Must match encrypted asset / CPIX content |
+| DRM type (Widevine / FPS / PlayReady) | Match client CDM |
+| Playback policy (duration, HDCP, security level) | Enforced at license issue |
+| License URL region | Use vendor-documented endpoint for your tenants |
+
+Player config sketch (concept):
+
+```js
+// Token from YOUR API — never invent Site Key in the browser
+const { drmToken } = await api.getDrmToken({ contentId })
+
+player.configure({
+  drm: {
+    servers: {
+      'com.widevine.alpha':
+        'https://license-global.pallycon.com/ri/licenseManager.do',
+    },
+  },
+})
+// Attach pallycon-customdata-v2 on license requests (player-specific hook)
+```
+
+---
 
 ## PallyCon DevConsole API
 
-Access to the PallyCon (now DoveRunner) DevConsole is granted through their official developer portal.
+Access is through DoveRunner’s developer portal.
 
 > [!INFO]
-> **DevConsole Utilities**: Inside the console, look for the **DRM Tools** or **License Token Generator** section. This provides an interface to input your `Site ID` and `Site Key` (found in your account dashboard) to generate test tokens for specific `Content ID` values.
+> **DevConsole utilities** — DRM Tools / License Token Generator: enter **Site ID**, **Site Key**, and **Content ID** to mint **test** tokens. Production tokens still belong in your backend service.
+
+Use console tokens for integration tests only; rotate Site Keys if they leak into mobile builds or CI logs.
+
+---
 
 ## Concurrent Stream Limiting Guide
 
-[link](https://docs.doverunner.com/content-security/multi-drm/license/csl-guide/)
+Docs: [CSL guide](https://docs.doverunner.com/content-security/multi-drm/license/csl-guide/)
 
-CSL -> is one of DoveRunner Multi-DRM service features that can identify and limit the number of streams being played simultaneously per user account through DRM `license renewal`.
+**CSL** (Concurrent Stream Limiting) caps how many streams one account can play at once by watching **DRM license renewal**.
 
-DRM License Renewal -> is a function that enables periodic license renewal requests and responses during content playback by setting the license duration shorter than the length of content (eg 10 minutes). This allows the DRM server to accurately determine whether the stream has finished playing and control the number of 'simultaneous plays'.
+**License renewal** — set license duration shorter than the title (e.g. 10 minutes). While the user watches, the CDM refreshes; when they stop, renewals stop and a slot frees.
 
 > [!NOTE]
-> CSl feature is not application to VOD download/.
+> CSL does **not** apply to offline VOD download / persistent licenses the same way — don’t promise CSL for download-to-go without reading current DoveRunner limits.
+
+| Idea | Plain meaning |
+|------|----------------|
+| Short license + renew | Server sees active playback |
+| Cap N devices | N’th license denied or oldest kicked (per policy) |
+| Account id in token | CSL keys off user identity you put in the token |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| License 401 / invalid token | Token age, Site Key, content id | Remint server-side; verify Site ID; NTP on token host |
+| Encrypt works, play fails | Player missing `pallycon-customdata-v2` | Wire license request filter / header |
+| Safari only fails | FairPlay cert / HLS key path | Enable FPS in DoveRunner + packager |
+| “Too many streams” | CSL + renewals | Raise limit, end stale sessions, check renewal interval |
+| Token from DevConsole works, app fails | App builds token wrong | Diff policy JSON / encryption of customdata vs docs |
+| Keys from CPIX OK, license rejects | Content id mismatch | Align packaging content id with token `cid` |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Site Key in the client** — attackers mint their own tokens. Keep crypto on the server.
+
+> [!WARNING]
+> **CPIX getKey ≠ license token** — packaging keys and playback tokens are different credentials ([[CPIX]] vs [[streaming license]]).
+
+> [!WARNING]
+> **CSL without renewal** — long-lived licenses cannot count concurrent plays accurately.
+
+> [!WARNING]
+> **Name change** — docs say DoveRunner; older notes/samples still say PallyCon. Same product family; check current base URLs.
+
+---
 
 ## When NOT to use
 
-…
+- **No DRM requirement** — signed CDN URLs may be enough.
+- **You already run a full in-house multi-DRM stack** — don’t add a second license path.
+- **CAS-only broadcast STBs** — use [[CAS (Conditional Access System)]]; DoveRunner is OTT/CDM-oriented.
+- **Offline-first download with CSL expectations** — CSL is streaming/renewal oriented.
+
+---
 
 ## Related
 
-[[…]]
+[[DRM]] [[streaming license]] [[CPIX]] [[EME]] [[CDM (Content Decryption Module)]] [[flussonic]] [[HLS]] [[DASH]]

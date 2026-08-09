@@ -2,7 +2,7 @@
 
 # OOM (Linux Out Of Memory)
 
-> OOM (Linux Out Of Memory) — memory is not “free RAM = 0”. The kernel uses page cache aggressively. OOM fires when allocation cannot succeed after reclaim (swap
+> OOM kills a process when the kernel cannot free enough memory after reclaim — not when `free` simply looks low.
 
 ---
 
@@ -34,6 +34,16 @@ malloc/page fault ──► reclaim (cache, swap) ──► still fail?
 | cgroup v2 `memory.max` | Cgroup (container/pod) | First process in cgroup over limit — often PID 1 in container |
 | `systemd-oomd` | Managed cgroups | Memory pressure metrics → kills cgroup ([[Linux out of memory daemon]]) |
 | `memory.high` (v2) | Throttle before hard kill | Slows allocator; may avoid OOM if tuned |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **OOM killer** | Kernel picks a victim under memory pressure | “OOM isn’t free=0 — reclaim failed.” |
+| **oom_score_adj** | Bias who dies (-1000..1000) | “Protect sshd/etcd with negative adj.” |
+| **memory.max** | cgroup hard limit | “Container OOM is exit 137, not host panic.” |
+| **systemd-oomd** | Pressure-based kill | “oomd kills earlier than global OOM.” |
+| **MemAvailable** | Usable RAM estimate | “Trust MemAvailable, not free.” |
 
 ## Standard config / commands
 

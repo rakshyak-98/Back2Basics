@@ -17,8 +17,9 @@
 
 ## Mental model
 
+**Say it in one breath:** `git blame` maps each line to the last commit that touched it — who changed what and when.
+
 ```txt
-file.c line 42 → commit abc1234 (2024-03-01, alice) → "fix timeout"
 ```
 
 `git blame` walks **blob history** backward via `git log -L` mechanics — shows **last modifying commit per line**, not who originally wrote the logic if it moved.

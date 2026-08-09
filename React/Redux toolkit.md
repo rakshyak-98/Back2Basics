@@ -1,8 +1,8 @@
-[[React]]
+[[React]] [[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createApi]]
 
 # Redux toolkit
 
-> Redux toolkit — store Configuration (configureStore): Simplifies the store creation process by automatically setting up middleware like redux-thunk.
+> Official Redux batteries — `configureStore`, `createSlice`, Immer, thunks, and optional RTK Query with less boilerplate.
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -17,173 +18,77 @@
 
 ## Mental model
 
-1. Store Configuration (`configureStore`): Simplifies the store creation process by automatically setting up middleware like redux-thunk.
-2. State Slices (`createSlice`): A slice is a single unit of Redux state, containing actions and a reducer in one place.
-3. Asynchronous Actions (`createAsyncThunk`): Handles `async` logic, like API requests, with automatic action creation for pending, fulfilled, and rejected states.
-> [!INFO] **Immer Integration:** Uses `Immer.js` for writing mutable code that gets converted to immutable updates internally.
-> [!INFO] Many ESLint configs include the [no-param-reassign](https://eslint.org/docs/rules/no-param-reassign) rule, which may also warn about mutations to nested fields.
-> [!INFO] `dispatch(thunk).unwrap()` converts it to a real Promise.
-> - `dispatch(thunk)` normally returns a Redux action (not a real promise).
-- with `unwrap()` returns `Promise` with real `payload` and throw `error`.
-```js
-// Without unwrap
-const action = await dispatch(fetchPosts());
-if (fetchPosts.fulfilled.match(action)) {
-  console.log('Success', action.payload);
-} else {
-  console.error('Failed');
-}
-// With unwrap (cleaner)
-try {
-  const posts = await dispatch(fetchPosts()).unwrap();
-  console.log('Success', posts);
-} catch (err) {
-  console.error('Failed', err);
-}
+**Say it in one breath:** RTK is how you write Redux in 2024+ — slices generate actions, Immer lets “mutating” reducers, store comes with sane middleware.
+
+```txt
+createSlice → reducer + actions
+configureStore → store (+ thunk, checks)
+createApi → optional server cache
 ```
-> [!WARNING] In Immer powered reducers, no-param-reassign is not helpful
-- To resolve this, you can tell the ESLint rule to ignore mutations and assignment to a parameter named `state` only in slice files:
-```js
-// @filename .eslintrc.js
-module.exports = {
-  // add to your ESLint config definition
-  overrides: [
-    {
-      // feel free to replace with your preferred file pattern - eg. 'src/**/*Slice.ts'
-      files: ['src/**/*.slice.ts'],
-      // avoid state param assignment
-      rules: { 'no-param-reassign': ['error', { props: false }] },
-    },
-  ],
-}
-```
-### Cross component state sync
-> [!WARNING]
-> any component using `useSelector()` auto-subscribe to the store. When the slice updates, all connected components re-render.
-### What Triggers re-render?
-- Component uses `useSelector(...)`.
-- Selector returns new references or different value.
-- Redux store emits change -> selector runs -> value changed -> re-render.
-- not splitting state into multiple slices.
-```js
-const selectorItems = createSelector(state => state.itmes, items => items)
-const items = useSelector(selectItems)
-```
-### Sync state across multiple slices
-> [!INFO] each slice is isolated -> can't modify another slice
-### Sync via
-##### Share action pattern
-```js
-// actions/globalActions.js
-import {createAction} from "@reduxjs/toolkit";
-export const userLoggedOut = createAction("use/logout")
-```
-```js
-// userSlice.js
-import { useLoggedOut } from "../actions/globalActions";
-extraReducers: (builder) => {
-	builder.addCase(userLoggedOut, (state) => {
-		state.info = null;
-	})
-}
-```
-```js
-// settingSlice.js
-extraReducers: (builder) => {
-	builder.addCase(userLoggedOut, (state) => {
-		state.theme = 'light'
-	})
-}
-```
-#### Create listener middleware (RTK-native)
-> [!INFO] prefer `listenerMiddleware` or central orchestration logic.
-|                                                          |     |
-| -------------------------------------------------------- | --- |
-| Prefer listenerMiddleware or central orchestration logic |     |
-```js
-import { createListenerMiddleware } from "@reduxjs/toolkit"
-import { userLoggedOut} from "./actions/globalActions"
-const listenerMiddleware = createListenerMiddleware();
-listenerMiddleware.startListening({
-	actionCreator: userLoggedOut,
-	effect: async (actions, listenerApi) => {
-		listenerApi.dispatch(clearCache());
-		listenerApi.dispatch(resetForms());
-	}
-})
-```
-```js
-// store.js
-import { counterReducer, authReducer } from "@/app/slice";
-import { listenerMiddleware } from "@/app/middleware";
-configureStore({
-	reducer: {
-		counter: counterReducer,
-		auth: authReducer,
-	},
-	middleware: (getDefault) => getDefault().prepend(listenerMiddleware.middleware)
-})
-// typescript
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-```
-### Sync API slice
-```js
-import { myAPi } from "../services/myApi"
-extraReduers: (builder) => {
-	builder.addMather(
-		myApi.endpoints.getUser.matchFulfilled,
-		(state, action) => {
-			state.user = actions.payload
-		}
-	)
-}
-```
-- `onQueryStarted` hook (preferred for side effects dispatch)
-```ts
-getUser: builder.query<User, void>({
-	async onQueryStarted(_, {dispatch, queryFulfilled}){
-		try{
-			const { data } = await queryFulfilled;
-			dispatch(userSlice.actions.setUsers(data))
-		}catch {}
-	}
-})
-```
-###### create listener middleware
-```ts
-listenerMiddleware.startListening({
-	matcher: myAPi.endpoints.getUser.matchFulfilled,
-	effect: async (action, api) => {
-		api.dispatch(setUser(action.payload))
-	}
-})
-```
-### How to normalise nested data in Redux TookKit
-- Avoid deep nesting -> improves performance.
-- Reduces duplication.
-> [!INFO]
-> Tool to use [normaliser](https://www.npmjs.com/package/normalizr)
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **createSlice** | Reducer + action creators | “One file owns the feature state.” |
+| **configureStore** | Store factory | “Defaults beat hand `createStore`.” |
+| **Immer** | Draft mutations | “Writable syntax, immutable result.” |
+| **RTK Query** | Data fetching layer | “Caching/deduping like React Query.” |
 
 ## Standard config / commands
 
-…
+```ts
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    incremented(state) { state.value += 1 },
+  },
+})
+
+export const store = configureStore({
+  reducer: { counter: counterSlice.reducer },
+})
+export const { incremented } = counterSlice.actions
+export type RootState = ReturnType<typeof store.getState>
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `getDefaultMiddleware()` | Keep thunk when customizing |
+| `serializableCheck` | Catch bad state shapes in dev |
+| Slice `name` | Prefixes action types |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Thunks rejected as non-plain | Middleware overridden | `.concat` onto defaults |
+| Unexpected mutation errors | Wrote outside slice / non-draft | Only mutate drafts in reducers |
+| Action type typos | Hand-written strings | Use slice action creators |
+| Boilerplate returning | Not using slices/Query | Adopt RTK patterns |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Replacing middleware array** drops thunk and checks — always extend defaults.
+
+> [!WARNING]
+> **Don’t fight Immer** — returning a new object *and* mutating the draft incorrectly yields odd state.
+
+---
 
 ## When NOT to use
 
-…
+- **No shared client state** — skip Redux entirely.
+- **Only remote cache** — TanStack Query alone may be enough.
+
+---
 
 ## Related
 
-[[…]]
+[[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createAsyncThunk]] [[Redux/Redux createApi]] [[Redux/Redux Thunk]]

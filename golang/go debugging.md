@@ -1,8 +1,8 @@
-[[golang]]
+[[golang]] [[go cli]] [[go error]] [[go callstack]]
 
-# project name is myproject
+# go debugging
 
-> project name is myproject — install Delve debugger for golang
+> Debug Go — race detector, Delve, pprof, and logging beats printf-only when concurrency bites.
 
 ---
 
@@ -17,62 +17,78 @@
 
 ## Mental model
 
-### setup debugger
-- prerequisite
-	- install Delve debugger for golang
-```bash
-go install github.com/go-delve/delve/cmd/dlv@latest
+**Say it in one breath:** Start with failing test + `-race`. For hangs, dump goroutines. For CPU/mem, pprof. For stepping, Delve (`dlv`).
+
+```txt
+repro → go test -race → pprof/goroutine → dlv if needed
 ```
-```bash
-cat go.mod; # check for module: "module github.com/username/myproject"
-```
-> [!NOTE] The `+incompatible` suffix in the version string indicates that the package does not use Go modules and does not have a `go.mod` file in its repository.
-- - `+incompatible` suffix to indicate this incompatibility.
-- This does not affect the functionality of the package itself; it just serves as a warning that the package may not fully support module semantics.
-> [!NOTE] include debugging symbols in the binary. These symbols provide essential information to the debugger about the structure and flow of your code. Without these symbols, the debugger would not be able to provide meaningful insights into the state of your program during execution.
-```bash
-go build -gcflags="all=-N -l" -o <my-app>
-```
-```json
-{
-	"configuration": [
-		{
-		}
-	]
-}
-```
-### Debugger
-```bash
-sudo apt install delve; # install go debugger
-```
-```bash
-break main.main; # break at main function
-stack; # stdout the current stack frame
-locals; # view current stack frame variables reference
-print <variable>; # view the variable ref or value
-```
-#### Why the `// indirect` tag appears?
-- in Go the `// indirect` suffix in `go.mod` means that these dependencies are not directly used in code but are required by other dependencies (often called *transitive dependencies*)
+
+| Tool | Job |
+|------|-----|
+| `-race` | Data races |
+| `pprof` | CPU/heap/goroutines |
+| `dlv` | Breakpoints |
+| `GODEBUG` | Runtime traces |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+go test -race ./...
+go test -run TestFoo -v -count=1
+
+go test -cpuprofile=cpu.out ./pkg
+go tool pprof cpu.out
+
+import _ "net/http/pprof"
+# then: go tool pprof http://localhost:6060/debug/pprof/profile
+
+dlv test ./pkg -- -test.run TestFoo
+dlv exec ./bin/app
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `-count=1` | Disable test cache |
+| `GOTRACEBACK=all` | Fuller panic stacks |
+| `http/pprof` | Prod-safe only behind auth |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Flaky concurrent test | `-race` | Fix shared state |
+| Deadlock hang | goroutine pprof | Missing unlock / chan peer |
+| Memory climb | heap pprof | Find retainers |
+| Can’t hit breakpoint | Optimized build | `gcflags` all=-N -l |
+| Works in test not prod | Env / GOMAXPROCS | Match configs |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Race detector slows runs** — CI sample + local on concurrent pkgs.
+
+> [!WARNING]
+> **pprof without auth on public IP** — don’t.
+
+> [!WARNING]
+> **Optimizations hide vars in dlv** — disable for debug builds.
+
+---
 
 ## When NOT to use
 
-…
+- **Printf forever** — fine for tiny scripts; not for races.
+- **Production `dlv attach` casually** — prefer metrics/pprof first.
+- **Ignoring failures that “retry works”** — usually a race.
+
+---
 
 ## Related
 
-[[…]]
+[[go cli]] [[go-routines]] [[go callstack]] [[go error]]

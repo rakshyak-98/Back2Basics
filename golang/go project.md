@@ -1,27 +1,16 @@
-[[golang]]
+[[golang]] [[go learning]] [[go]] [[go-routines]]
 
-# Go Backend Projects: Brief Specifications
+# go project
 
-> Go Backend Projects: Brief Specifications — add/list/delete/complete todos - Persist to JSON file - Flag parsing (go flags) - Input validation, pretty table output - 100%
+> Go practice projects — climb CLI → HTTP/SQL → concurrency → distributed; each has a clear scope and test bar.
 
 ---
 
 ## Index
 
 - [[#Mental model]]
-- [[#**Beginner (Syntax, Structs, Testing)**]]
-- [[#**1. CLI Todo App**]]
-- [[#**2. URL Shortener CLI**]]
-- [[#**3. File Stats Analyzer**]]
-- [[#**Intermediate (APIs, DB, Concurrency)**]]
-- [[#**4. REST Task API** (Gin + PostgreSQL)]]
-- [[#**5. Chat Server** (WebSockets)]]
-- [[#**6. Rate Limited API Gateway**]]
-- [[#**Advanced (Distributed Systems)**]]
-- [[#**7. Distributed KV Store** (gRPC)]]
-- [[#**8. Hotel Booking Service** (Microservices)]]
-- [[#**9. Log Aggregator**]]
-- [[#**Production Checklist** (All Projects)]]
+- [[#Standard config / commands]]
+- [[#Project ladder]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -29,112 +18,88 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** One project at a time with README “why”, table-driven tests, and graceful shutdown. Prefer boring stdlib until the project forces a library.
 
-## **Beginner (Syntax, Structs, Testing)**
+```txt
+CLI → REST+DB → WS/gateway → KV/gRPC
+```
 
-## **1. CLI Todo App**
-
-text
-
-`- Add/list/delete/complete todos   - Persist to JSON file - Flag parsing (go flags) - Input validation, pretty table output - 100% unit tests`
-
-**Files**: `main.go`, `todo.go`, `store.go`, `cmd/*.go`
-
-## **2. URL Shortener CLI**
-
-text
-
-`- Shorten/expand URLs (base62 encoding) - In-memory LRU cache (100 entries) - Validate URLs, collision handling - Stats: total short/expand calls - Benchmark encoding`
-
-**Files**: `main.go`, `shortener.go`, `lru.go`
-
-## **3. File Stats Analyzer**
-
-text
-
-`- Scan directory recursively - Concurrent file scanning (10 goroutines) - Stats: files by type/size/age - JSON/CSV output - Graceful shutdown (SIGINT)`
-
-**Files**: `main.go`, `scanner.go`, `stats.go`
-
-## **Intermediate (APIs, DB, Concurrency)**
-
-## **4. REST Task API** (Gin + PostgreSQL)
-
-text
-
-`Endpoints: - POST/GET/PUT/DELETE /tasks - GET /tasks?user_id=123&status=done&limit=20 - POST /auth/login (JWT)`
-
-**Tech**: Gin, GORM, PostgreSQL, JWT middleware, Docker
-**Tests**: Integration + unit (80% coverage)
-
-## **5. Chat Server** (WebSockets)
-
-text
-
-`- Join/leave rooms - Send/receive messages (broadcast) - Message history (100 latest) - Rate limiting per user`
-
-**Tech**: gorilla/websocket, channels + mutex, Redis (optional)
-
-## **6. Rate Limited API Gateway**
-
-text
-
-`- Proxy to backend services - Token bucket (100 req/min per IP) - Metrics endpoint (/metrics) - Graceful shutdown`
-
-**Tech**: http.Client, Redis, Prometheus metrics
-
-## **Advanced (Distributed Systems)**
-
-## **7. Distributed KV Store** (gRPC)
-
-text
-
-`- Put/Get/Delete keys (TTL support) - Leader election (Raft/etcd) - 3-node cluster (Docker Compose) - List keys, consistent reads`
-
-**Tech**: gRPC, Raft, boltdb
-
-## **8. Hotel Booking Service** (Microservices)
-
-text
-
-`Services: rooms, bookings, notifications - Saga pattern for distributed transactions - Kafka events - PostgreSQL + Redis cache`
-
-**Tech**: Docker Compose, Kafka, gRPC/REST
-
-## **9. Log Aggregator**
-
-text
-
-`- Tail multiple log files - Parse JSON logs, extract metrics - Buffer → HTTP sink (batch upload) - Retry failed uploads`
-
-**Tech**: fsnotify, buffered channels, gzip compression
+| Level | Focus |
+|-------|-------|
+| Beginner | Structs, files, flags, tests |
+| Intermediate | HTTP, SQL, auth, concurrency |
+| Advanced | gRPC, multi-service, durability |
 
 ---
 
-## **Production Checklist** (All Projects)
+## Standard config / commands
 
-text
+```bash
+go mod init github.com/you/proj
+mkdir -p cmd/app internal
+go test ./... -race
+docker compose up -d # when Postgres required
+```
 
-`✅ Docker + docker-compose ✅ 80%+ test coverage (go test ./...) ✅ Graceful shutdown (context) ✅ Config via env vars ✅ README: build/run/benchmark ✅ GitHub Actions CI ✅ Architecture diagram (mermaid)`
+| Knob | Why it matters |
+|------|----------------|
+| `internal/` | Keep API surface small |
+| Context on servers | Cancel on SIGINT |
+| Idempotent writes | Booking/payment style tasks |
 
-**Start order**: 1→9. Each takes 4-12 hours. Deploy to Fly.io. Perfect interview portfolio!
+---
+
+## Project ladder
+
+| # | Project | Must include |
+|---|---------|--------------|
+| 1 | CLI todo | JSON persist, flags, table output, unit tests |
+| 2 | URL shortener CLI | base62, LRU, benchmarks |
+| 3 | File stats | Concurrent walk, SIGINT shutdown, JSON/CSV |
+| 4 | REST tasks API | CRUD filters, JWT, Postgres, integration tests |
+| 5 | Chat server | Rooms, broadcast, rate limit |
+| 6 | API gateway | Auth + rate limit + proxy |
+| 7 | KV store | gRPC, replication or Raft-lite |
+| 8 | Booking service | Idempotent book, services split |
+| 9 | Log aggregator | Ingest + query + backpressure |
+
+**Production checklist (all):** structured logs, `-race` clean, health endpoint, config via env, README with failure modes.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Scope creep | Feature list grows | Cut to table above |
+| Untestable main | Logic in `main` | Move to `internal` |
+| Flaky concurrent tests | Timing asserts | Channels/`sync` + race |
+| DB tests fragile | Shared DB | Testcontainers / tx rollback |
+| “Done” without README | No decisions recorded | Write why section |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Framework shopping** — finish one stdlib HTTP service first.
+
+> [!WARNING]
+> **Skipping graceful shutdown** — leaks in WS/chat projects.
+
+> [!WARNING]
+> **No idempotency on book/pay** — instant production bug.
+
+---
 
 ## When NOT to use
 
-…
+- **Resume spam of 9 half-apps** — ship 3 polished ones.
+- **Rewriting Kubernetes for learning** — too wide.
+- **Copying entire starter kits** — you won’t learn.
+
+---
 
 ## Related
 
-[[…]]
+[[go learning]] [[go cli]] [[go-routines]] [[gRPC]]

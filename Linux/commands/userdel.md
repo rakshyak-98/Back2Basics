@@ -31,6 +31,16 @@ userdel ──► /etc/passwd, shadow, group
 | `-f` | Force removal even if user logged in (dangerous) |
 | (none) | Account gone; files owned by old UID become numeric orphan |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **userdel** | Remove account | “userdel -r removes home too.” |
+| **-r** | Remove home/mail | “Irreversible — backup first.” |
+| **running processes** | Must stop first | “Kill/jobs of user before delete.” |
+| **UID reuse** | Danger | “Old files may get new owner.” |
+| **group leftover** | Primary group | “groupdel if unused.” |
+
 ## Standard config / commands
 
 ```bash

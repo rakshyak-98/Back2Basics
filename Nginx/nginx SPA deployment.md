@@ -17,7 +17,8 @@
 
 ## Mental model
 
-SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.
+**Say it in one breath:** SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.
+
 
 ```
 Browser GET /dashboard

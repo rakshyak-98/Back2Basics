@@ -1,8 +1,8 @@
-[[mysql]]
+[[mysql]] [[ACID]] [[mysql lock]] [[write-ahead logging]]
 
 # mysql transaction
 
-> mysql transaction — -- or if you made a mistake.
+> A transaction bundles multiple writes so they all commit or all roll back — one unit of work for correctness.
 
 ---
 
@@ -17,118 +17,104 @@
 
 ## Mental model
 
-> [!INFO]
-> - Only use transactions when you have multiple write operations (INSERT, UPDATE, DELETE) that must succeed or fail together as a single unit of work.
-```sql
-START TRANSACTION;
-DELET FROM tabnle_name
-WHERE condition_column = 'value';
--- if everything is correct.
-COMMIT;
--- or if you made a mistake.
-ROLLBACK;
+**Say it in one breath:** `START TRANSACTION` → do related writes → `COMMIT` (durable) or `ROLLBACK` (undo); isolation + locks decide what others see meanwhile.
+
+```txt
+BEGIN
+  write A
+  write B   ── if B fails → ROLLBACK (A undone)
+COMMIT      ── both durable (InnoDB redo)
 ```
-```sql
--- Example values (replace with actual)
-SET @hotel_id         = 123;
-SET @new_template_id  = 7;          -- the template we want to switch TO
-SET @now              = NOW();      -- or use application-provided timestamp
-START TRANSACTION;
--- 1. Mark the CURRENT template as deactivated (if any exists)
-UPDATE HotelTemplates
-SET
-    deactivated_on = @now
-WHERE
-    hotel_id       = @hotel_id
-    AND deactivated_on IS NULL;     -- only the currently active one has NULL
--- 2. Make sure we have a row for the NEW template
---    (either insert new or update if it was used before and deactivated)
-INSERT INTO HotelTemplates (
-    hotel_id,
-    template_id,
-    activated_on,
-    deactivated_on
-)
-VALUES (
-    @hotel_id,
-    @new_template_id,
-    @now,
-    NULL
-)
-ON DUPLICATE KEY UPDATE
-    -- If the hotel used this template before → reactivate it
-    activated_on   = @now,
-    deactivated_on = NULL;
--- 3. Update the official current pointer in Hotels table
-UPDATE Hotels
-SET current_template_id = @new_template_id
-WHERE id = @hotel_id;
-COMMIT;
-```
-COALESCE -> Give me the hotel value if it exists, otherwise give me the template value.
-```sql
--- Example: Get content for a specific hotel page + section
--- (this is the most important query pattern you'll need)
-SELECT
-    COALESCE(
-        hsh.heading_text,
-        tsh.heading_text
-    ) AS effective_heading,
-    COALESCE(
-        hsd.description_text,
-        tsd.description_text
-    ) AS effective_description,
-    COALESCE(
-        hsi.image_url,
-        tsi.image_url
-    ) AS effective_image_url,
-    -- You can also add flags if helpful
-    CASE WHEN hsh.id IS NOT NULL THEN 'custom' ELSE 'template_default' END AS source_heading,
-    CASE WHEN hsd.id IS NOT NULL THEN 'custom' ELSE 'template_default' END AS source_description
-FROM HotelPages hp
-JOIN TemplatePages tp ON tp.id = hp.template_page_id
-LEFT JOIN HotelSections hs
-    ON hs.hotel_page_id = hp.id
-LEFT JOIN TemplatePageSections tps
-    ON tps.template_page_id = tp.id
-    AND tps.template_section_id = hs.template_section_id   -- match by logical section
-LEFT JOIN HotelSectionHeadings hsh ON hsh.hotel_section_id = hs.id
-    AND hsh.order_index = 1   -- or whatever position you're interested in
-LEFT JOIN TemplateSectionHeadings tsh
-    ON tsh.template_page_section_id = tps.id
-    AND tsh.order_index = 1
-LEFT JOIN HotelSectionDescriptions hsd ON hsd.hotel_section_id = hs.id
-LEFT JOIN TemplateSectionDescriptions tsd ON tsd.template_page_section_id = tps.id
-LEFT JOIN HotelSectionImages hsi ON hsi.hotel_section_id = hs.id
-    AND hsi.order_index = 1
-LEFT JOIN TemplateSectionImages tsi ON tsi.template_page_section_id = tps.id
-    AND tsi.order_index = 1
-WHERE
-    hp.hotel_id = 123
-    AND tp.page_name = 'home'          -- or whatever page
-    AND hs.is_active = 1
-ORDER BY COALESCE(hs.order_index, tps.order_index);
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Atomicity** | All or nothing | “Two updates succeed together or neither does.” |
+| **Isolation** | How much you see of others | “We pick a level; default REPEATABLE READ on InnoDB.” |
+| **COMMIT** | Make changes durable | “After commit, crash recovery still has them.” |
+| **ROLLBACK** | Discard uncommitted work | “Error path always rolls back the connection’s txn.” |
+| **Autocommit** | Each statement is its own txn | “Multi-step logic needs an explicit transaction.” |
+| **Long transaction** | Open too long | “Holds locks + undo; starves others.” |
+
+### When you need one
+
+Use a transaction when **multiple writes must succeed or fail together**. Single-statement DML is already atomic under InnoDB autocommit.
+
+---
 
 ## Standard config / commands
 
-…
+```sql
+START TRANSACTION;   -- or BEGIN
+UPDATE ...;
+INSERT ...;
+COMMIT;              -- or ROLLBACK;
+```
+
+```sql
+SELECT @@autocommit, @@transaction_isolation;
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+```
+
+Node-style (one borrowed pool connection):
+
+```js
+const conn = await pool.getConnection()
+try {
+  await conn.beginTransaction()
+  await conn.execute('UPDATE ...')
+  await conn.execute('INSERT ...')
+  await conn.commit()
+} catch (e) {
+  await conn.rollback()
+  throw e
+} finally {
+  conn.release()
+}
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| Isolation level | RR vs RC changes phantoms / gap locks |
+| Autocommit OFF | Easy to leave uncommitted work |
+| Same connection | Session txn state is per connection |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Partial update visible | Autocommit / missing BEGIN | Wrap related writes in one txn |
+| Locks pile up | Long open txn in `PROCESSLIST` | Commit sooner; don’t wait on network inside txn |
+| Deadlock | InnoDB status | Retry; consistent ordering |
+| “Forgot to commit” | Session still in txn | `COMMIT`/`ROLLBACK`; fix app paths |
+| Rollback didn’t undo DDL | MySQL DDL often implicit commit | Don’t mix DDL mid-txn expecting undo |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **DDL often commits implicitly** — `ALTER`/`CREATE` can end your transaction without an explicit `COMMIT`.
+
+> [!WARNING]
+> **Pool + txn** — never return a connection to the pool before commit/rollback.
+
+> [!WARNING]
+> **Read-only multi-statement “consistency”** — still may need a txn (or snapshot isolation) if you need a stable view across queries.
+
+---
 
 ## When NOT to use
 
-…
+- **Single independent INSERT/UPDATE** — autocommit is enough.
+- **Wrapping a long report / ETL in one txn** — huge undo + lock risk; batch with smaller units.
+- **Holding a txn open across user confirmation UI** — lock duration becomes user latency.
+
+---
 
 ## Related
 
-[[…]]
+[[ACID]] [[mysql lock]] [[mysql]] [[mysql connection]] [[write-ahead logging]] [[OLTP]]

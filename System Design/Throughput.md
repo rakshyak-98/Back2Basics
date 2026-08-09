@@ -1,8 +1,8 @@
-[[System Design]]
+[[System Design]] [[Latency]] [[backpressure]] [[Scaling Throughput in High-load system]]
 
 # Throughput
 
-> Throughput — measure of the actual data (bits/payload) successfully transferred from a source to a destination over a specific network path or through a processing pipeline
+> Throughput — how much successful work per time (RPS, TPS, Mbps) while latency and errors stay acceptable.
 
 ---
 
@@ -17,36 +17,75 @@
 
 ## Mental model
 
-measure of the actual data (bits/payload) successfully transferred from a source to a destination over a specific network path or through a processing pipeline per unit of time.
-### API architecture
-In API architecture, **throughput** is defined as the number of requests per second (RPS) or transactions per second (TPS) a system can handle while maintaining acceptable latency and error rates. It is the metric of system capacity under load.
-**The Throughput Hierarchy**
-- Network/Connection layer -> The number of TCP handshakes and TLS negotiations the load balancer or web server can handle.
-	- Bottleneck context switching and memory limits for open file descriptors.
-- Application/Logic Layer -> The speed at which your code processes the request payload.
-	- Bottleneck Serialization/Deserialization (SerDes) costs, specifically JSON/Protobuf parsing overhead.
-- Resource / I/O Layer -> The interaction with external state (e.g., writing to a DB or triggering an NVENC session)
-	- Bottleneck Blocking calls; if an API endpoint waits for a GPU handle to be allocated, that request block an execution thread, limiting total system throughput.
+**Say it in one breath:** Capacity under load. Raise throughput by removing the bottleneck layer — not by guessing.
+
+```txt
+NIC / LB  →  app workers  →  DB / disk / GPU
+  PPS          RPS              IOPS / sessions
+```
+
+| Layer | Metric | Typical choke |
+|-------|--------|---------------|
+| Network | PPS, bandwidth | Softirq, fd limits |
+| App | RPS, CPU | SerDes, locks, GC |
+| I/O | DB QPS, queue depth | Connections, disk |
+
+Little’s Law: `concurrency ≈ throughput × latency`.
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# Rough load signal
+hey -z 30s -c 50 https://api/… 
+# or vegeta, k6
+ss -s
+pidstat -u 1
+```
+
+| Knob | Effect |
+|------|--------|
+| Pool sizes | Too small → wait; too big → stampede |
+| Batching | Fewer round-trips |
+| Caching | Cut origin work |
+| Async offload | API returns 202; workers absorb |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| RPS flat, CPU low | Lock / pool wait | Find blocker; raise pool carefully |
+| RPS flat, CPU high | Hot code / GC | Profile; reduce allocs |
+| Good RPS, awful p99 | Tail saturation | QoS; shed load; cache |
+| Errors climb with load | Dependency timeout | Backpressure; bulkhead |
+| Softirq high | PPS storm | Batching; kernel tune; fewer conns |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Peak RPS with 50% errors is not throughput** — count *successful* work.
+
+> [!WARNING]
+> **Optimizing non-bottleneck** — measure first.
+
+> [!WARNING]
+> **Latency vs throughput trade** — batching helps RPS, can hurt p99.
+
+---
 
 ## When NOT to use
 
-…
+- **Ultra-low QPS admin tools** — optimize clarity, not RPS.
+- **One-shot batch jobs** — wall-clock & cost matter more than RPS.
+- **Comparing Mbps across compressions** — normalize payload.
+
+---
 
 ## Related
 
-[[…]]
+[[Scaling Throughput in High-load system]] [[backpressure]] [[concurrent connection]] [[Token bucket]]

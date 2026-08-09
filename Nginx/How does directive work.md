@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Config is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`** walks filesystem then named location. **`proxy_pass`** forwards to upstream. Order of **processing phases** (not file order) matters for rewrite vs access.
+**Say it in one breath:** Config is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`**.
+
 
 ```
 request → server_name match → location longest prefix / regex → directives (try_files, proxy_pass, …)

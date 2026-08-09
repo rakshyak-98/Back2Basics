@@ -36,6 +36,16 @@ src   dest/   → creates dest/src/ (whole dir)
 | `--delete` | Delete extraneous dest files          |
 | `-e ssh`   | Remote shell (custom key/port)        |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **-a** | Archive mode — preserve meta | “Always -a for backups unless you know why not.” |
+| **trailing /** | Contents vs directory | “Slash on src means contents into dest.” |
+| **--delete** | Mirror — remove extras | “--delete with wrong paths wipes prod.” |
+| **-n** | Dry run | “Always dry-run on production first.” |
+| **-e ssh** | Remote over SSH | “rsync over SSH is the boring deploy path.” |
+
 ## Standard config / commands
 
 **Safe backup pattern:**

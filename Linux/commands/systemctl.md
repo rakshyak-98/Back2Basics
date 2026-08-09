@@ -1,8 +1,8 @@
-[[commands]]
+[[commands]] [[systemd]] [[Services commands]] [[journalctl]] [[Service masking]]
 
-# Check all locations for a specific unit
+# systemctl
 
-> Check all locations for a specific unit — /etc/systemd/system/ # Administrator-created units (highest priority)
+> `systemctl` controls systemd units — start/stop/enable/status — the everyday service remote control.
 
 ---
 
@@ -10,61 +10,83 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Debugging]]
+- [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
 
-```bash
-systemctl cat <service name>; # Find all unit files for a service.
-systemctl show -p FragmentPath <service name>;
+**Say it in one breath:** `start` is now; `enable` is boot; `status` + `journalctl -u` is debug; `daemon-reload` after unit edits.
+
+```txt
+systemctl start|stop|restart UNIT
+systemctl enable|disable UNIT     # boot links
+systemctl status UNIT             # active + recent logs
+systemctl daemon-reload           # reread units
 ```
-> [!INFO]
-> Unit files location (Priority Order)
-```bash
-1. /etc/systemd/system/          # Administrator-created units (highest priority)
-2. /run/systemd/system/          # Runtime units
-3. /lib/systemd/system/          # Distribution packages (lowest priority)
-4. /usr/lib/systemd/system/      # Alternative distribution location
-1. ~/.config/systemd/user/       # User-specific units
-2. /etc/systemd/user/           # Administrator-provided user units
-3. /usr/lib/systemd/user/       # Distribution user units
-find /etc/systemd /run/systemd /lib/systemd /usr/lib/systemd -name "nginx.service" 2>/dev/null
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **enable ≠ start** | Boot vs now | “Need both for ‘always on’.” |
+| **active / failed** | Runtime state | “`status` shows the last lines.” |
+| **mask** | Block start | “Stronger than disable.” |
+| **daemon-reload** | Reload unit files | “After every unit change.” |
+| **--user** | User manager | “Session services, not system.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Debugging
-
 ```bash
-systemctl list-units --failed;
-```
-```bash
-systemctl list-dependencies <service name>; ## list dependencies of a service.
-systemctl list-dependencies --reverse nginx.service; # list what depends on this service.
-```
-
-```bash
-systemctl show -p Wants,Requires,After,Before <service name>;
+systemctl status nginx --no-pager
+sudo systemctl restart nginx
+sudo systemctl enable --now nginx
+systemctl is-enabled nginx
+systemctl list-units --failed
+sudo systemctl daemon-reload
+systemctl cat nginx
+journalctl -u nginx -b --no-pager | tail
 ```
 
-```bash
-systemd-analyze critical-chain <service name>;
-```
+| Knob | Why it matters |
+|------|----------------|
+| `--now` | enable/disable + start/stop together |
+| `--no-pager` | Scripts and SSH |
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| inactive (dead) | `status` + journal | Fix ExecStart/env; start |
+| failed | exit code in status | Read journal; fix config |
+| Changes ignored | unit edit | `daemon-reload` + restart |
+| Starts then dies | Restart loop | `Restart=` storm; fix crash |
+| masked | `is-enabled` | `unmask` if intentional undo |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **`restart` during package unpack** can race dpkg — wait for apt to finish.
+
+> [!WARNING]
+> **`--user` units** need linger for headless: `loginctl enable-linger`.
+
+---
 
 ## When NOT to use
 
-…
+- **Non-systemd systems** — OpenRC/sysv use other tools.
+- **Inside app containers without systemd** — use the orchestrator, not systemctl.
+
+---
 
 ## Related
 
-[[…]]
+[[systemd]] [[Services commands]] [[journalctl]] [[Service masking]] [[system service unit files]]

@@ -1,8 +1,8 @@
-[[Networking]]
+[[Networking]] [[HTTP]]
 
 # mime type
 
-> mime type — automatically mounted at boot, you can add an entry to /etc/fstab file.
+> MIME type labels what bytes are — browser/OS picks how to open, render, or download them.
 
 ---
 
@@ -10,7 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#set the recommended (default) application for a mime type on your system]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,65 +17,99 @@
 
 ## Mental model
 
-…
+**Say it in one breath:** `type/subtype` (e.g. `text/html`, `application/json`) tells the client what the payload is so it can pick a handler.
+
+```txt
+Server ── Content-Type: application/json ──► Browser/app
+              │
+              └─ wrong type ⇒ wrong handler (download vs render vs reject)
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **MIME / media type** | `type/subtype` label | “Declares content format for the client.” |
+| **Content-Type** | HTTP header carrying MIME | “Server’s claim about the body.” |
+| **charset** | Text encoding param | “`text/html; charset=utf-8` avoids mojibake.” |
+| **octet-stream** | Opaque binary | “Unknown bytes — often forces download.” |
+| **xdg-mime** | Desktop default app for a type | “Linux maps MIME → `.desktop` handler.” |
+
+### Common types
+
+| MIME | Typical use |
+|------|-------------|
+| `text/html` | Web pages |
+| `application/json` | APIs |
+| `application/octet-stream` | Generic binary / force save |
+| `multipart/form-data` | File uploads |
+| `image/png`, `video/mp4` | Media |
+
+---
 
 ## Standard config / commands
 
-…
-
-## set the recommended (default) application for a mime type on your system
-
 ```bash
-xdg-mime query default mime/type;
-xdg-mime default vim.desktop text/plain;
+# Linux: which app opens a MIME type
+xdg-mime query default text/plain
+xdg-mime query default inode/directory   # file manager
+xdg-mime default vim.desktop text/plain
+
+gio mime text/plain                      # GNOME alternative
+
+# System maps
+# /etc/mime.types
+# /usr/share/mime/
 ```
 
-### mime type
-
-- `/etc/mime.types`
-- `/usr/share/mime` -> system wide
--
-
-```bash
-xdg-mime query default inode/directory; # get the information of file manager
-gio mime <mime-type>;
+```http
+HTTP/1.1 200 OK
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="report.pdf"
 ```
 
+| Knob | Why it matters |
+|------|----------------|
+| `Content-Type` | Wrong type ⇒ XSS risk (serving HTML as text/plain vs text/html) or broken players |
+| `Content-Disposition: attachment` | Force download even for viewable types |
+| `application/octet-stream` | Safe default when type unknown |
+| Extension vs sniffing | Prefer explicit header; don’t trust filename alone |
 
-#### Make the mount permanent
-
-- automatically mounted at boot, you can add an entry to `/etc/fstab` file.
-```txt
-tmpfs <path> tmpfs size=100M 0 0
-```
-
-```bash
-df -h; #verify the mount
-```
-
-`application/octet-stream` -> generic MIME type for arbitrary binary data. Used when the actual file type is **unknown** or **not declared**.
-
-application -> indicates non-text data (application-level content).
-octet-stream -> sequence of 8-bit bytes (no specific format/encoding).
-
-> [!INFO]
-> use to force download in browsers. Many servers send this type with a `Content-Disposition: attachment` header to trigger file save dialog.
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Browser downloads JSON | `Content-Type` is `octet-stream` or missing | Serve `application/json` |
+| File opens in wrong app | `xdg-mime query default <type>` | `xdg-mime default app.desktop type` |
+| CORS / API client rejects | Unexpected MIME | Align `Accept` / `Content-Type` with API contract |
+| PDF inline vs download | Disposition + type | `inline` vs `attachment`; keep `application/pdf` |
+| Upload rejected | Server MIME allowlist | Whitelist real types; don’t trust client-only |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Extension ≠ MIME** — rename `.txt` to `.html` does not make it HTML; servers must set `Content-Type`.
+
+> [!WARNING]
+> **Sniffing is dangerous** — browsers that ignore declared type can turn “text” into executable HTML. Prefer `X-Content-Type-Options: nosniff`.
+
+> [!WARNING]
+> **Desktop MIME ≠ HTTP MIME** — `/usr/share/mime` for local apps; HTTP still needs correct response headers.
+
+---
 
 ## When NOT to use
 
-…
+- **Auth / trust decisions based only on MIME** — validate content; MIME is a claim.
+- **Serving user uploads as `text/html`** — XSS; store and serve with safe types + disposition.
+- **Inventing custom types without a registry need** — prefer standard types + versioning in the API schema.
+
+---
 
 ## Related
 
-[[…]]
+[[Networking]] [[HTTP]] [[https]]

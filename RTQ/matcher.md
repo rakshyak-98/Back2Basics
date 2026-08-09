@@ -2,7 +2,7 @@
 
 # matcher
 
-> matcher — in Redux Toolkit, multiple matchers for the same event do run sequentially, but splitting them into separate matchers here provides no benefit because:
+> matcher — in Redux Toolkit, multiple matchers for the same event do run sequentially, but splitting them into separate matchers here provides no benefit…
 
 ---
 
@@ -16,6 +16,9 @@
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** matcher — plain job, how I run it, how I know it’s broken.
+
 
 In Redux Toolkit, multiple matchers for the same event **do run sequentially**, but splitting them into separate matchers here provides **no benefit** because:
 1. Both matchers react to the **same event**
@@ -35,33 +38,49 @@ But in your code both matchers read directly from `action.payload`, not from eac
 ```js
 .addMatcher(
   api.endpoints.getHotelDetailsWebBooking.matchFulfilled,
-  (state, action) => {
-    state.locations = action.payload?.data;
-    state.selectedHotel = action.payload?.data[0]; // same source
-  }
-)
-```
-So it's safe to merge — it was likely just written that way out of habit or copy-paste, not intentional sequencing.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **matcher** | Core idea of this note | “I can explain matcher without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
 
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[RTQ]]

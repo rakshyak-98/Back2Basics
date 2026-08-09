@@ -45,6 +45,16 @@ Container tree (one workspace):
 
 ---
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **i3** | Tiling WM — keyboard-first | “i3 tiles windows; no floating desktop.” |
+| **mod key** | Usually Alt or Super | “Every bind starts with $mod.” |
+| **workspace** | Virtual desktop | “Apps live on numbered workspaces.” |
+| **config** | ~/.config/i3/config | “Reload with $mod+Shift+r.” |
+| **i3bar / i3status** | Status bar | “Bar is separate from the WM.” |
+
 ## Standard config / commands
 
 ### Minimal install (Debian/Ubuntu)

@@ -1,8 +1,8 @@
-[[Visualization]]
+[[ML]] [[model tranning]]
 
-# Histogram
+# data visualization
 
-> Histogram — displays the frequency distribution of a dataset
+> Viz checks whether the data and model make sense — plots before metrics, residual plots after fit.
 
 ---
 
@@ -10,9 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Density Plot (KDE- Kernel Density Estimate)]]
-- [[#Box plot]]
-- [[#Violin plot]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -20,72 +17,66 @@
 
 ## Mental model
 
-- displays the frequency distribution of a dataset
-- best for showing how data is spread across intervals (bins)
-```python
-import matplotlib.pyplot as plt
-plt.hist(data, bins=20, alpha=0.7)
-plt.title('Data distribution (Histogram)')
-plt.xlabel('Data values')
-plt.ylabel('Frequency')
-plt.show()
+**Say it in one breath:** Look at distributions, class balance, and errors — a bad chart beats a wrong AUC story.
+
+```txt
+EDA plots → train → residual / pred-vs-actual → decide next feature
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Histogram / KDE** | Distribution shape | “Skew, outliers, multimodality.” |
+| **Scatter** | Relationship | “Non-linear? clusters?” |
+| **Confusion matrix** | Class errors | “Which classes confuse.” |
+| **Residual** | y − ŷ | “Structure left = missing signal.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Density Plot (KDE- Kernel Density Estimate)
-
-- A smoothed curve representing the distribution of data, which is similar to a smoothed histogram.
-- better for showing data distribution in a more continuous and smooth way, ideal for visualizing probability distributions.
-
 ```python
-import seaborn as sns
-sns.kdeplot(data)
-plt.title('Data distribution (Density Plot)')
-plt.xlabel('Data values')
-plt.show()
+import matplotlib.pyplot as plt
+plt.hist(y, bins=30); plt.title('label distribution')
+plt.scatter(y_true, y_pred, alpha=0.3); plt.xlabel('actual'); plt.ylabel('pred')
+plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 ```
 
-## Box plot
+| Knob | Why it matters |
+|------|----------------|
+| Alpha / sample | Huge N overplots |
+| Log scales | Heavy tails |
+| Color by segment | Hidden cohorts |
 
-- summarizes data distribution with minimum, first quartile, median, third quartile, and maximum.
-- useful for identifying outliers and comparing distributions across categories.
-
-```python
-import seaborn as sns
-sns.boxplot(data=data)
-plt.title('Data distribution (box plot)')
-plt.show()
-```
-
-## Violin plot
-
-- combines a box plot with a KDE plot, showing shape and data summary.
-- offers a deeper understanding of the distribution, combining box plot features with KDE.
-
-```python
-import seaborn as sns
-sns.violinplot(data=data)
-plt.show();
-```
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Metric high, plot ugly | leakage / wrong target | Inspect preds |
+| One bar dominates | imbalance | Resample / other metric |
+| Fan-shaped residuals | heteroscedasticity | Transform target / model |
+| Overplot ink | millions of points | Hexbin / sample |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Default axes lie** — truncated y-axis exaggerates tiny effects.
+
+> [!WARNING]
+> **Chart without sample size** — pretty nonsense.
+
+---
 
 ## When NOT to use
 
-…
+- **Automated nightly metrics only** — still sample-plot failures.
+- **Huge dashboards nobody reads** — fewer sharper plots.
 
 ## Related
 
-[[…]]
+[[Visualization/Residual plot]] [[Visualization/predicated vs actual plot]] [[model tranning]]

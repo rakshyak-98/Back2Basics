@@ -32,6 +32,16 @@ rsync -avnc          → checksum-level dry-run (heavier, authoritative for sync
 | Side-by-side | `diff -y file1 file2` | Human scan |
 | Binary | `diff -q a.bin b.bin` | Don't dump hex to terminal |
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **diff** | Compare files | “diff -u old new for patches.” |
+| **-u** | Unified format | “What git shows.” |
+| **diff -r** | Recursive dirs | “Compare trees before sync.” |
+| **patch** | Apply diff | “patch -p1 < fix.diff.” |
+| **exit 1** | Differences found | “Not always an error in CI.” |
+
 ## Standard config / commands
 
 ```bash

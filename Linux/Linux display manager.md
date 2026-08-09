@@ -33,6 +33,16 @@ boot → systemd graphical.target → gdm/lightdm/sddm
 
 **Not a display server** — DM *starts* the session that talks to Xorg/Wayland compositor ([[display server]]).
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **DM** | Login greeter + session start | “gdm/sddm/lightdm start your desktop.” |
+| **X / Wayland session** | Display server choice | “DM picks session from .desktop.” |
+| **autologin** | Skip greeter | “Useful for kiosks; bad for laptops.” |
+| **startx** | Manual X start | “No DM — just startx.” |
+| **systemd user** | Session bus | “DM starts user systemd + D-Bus.” |
+
 ## Standard config / commands
 
 **See active DM (Debian/Ubuntu):**

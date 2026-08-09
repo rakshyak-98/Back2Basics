@@ -1,8 +1,8 @@
-[[commands]]
+[[commands]] [[user management]] [[sudo]] [[linux groups]]
 
-# %group_name - syntax to define group permission
+# visudo
 
-> %group_name - syntax to define group permission — visudo — safely edit the system's sudoers file /etc/sudoers.
+> visudo edits sudoers safely — locks the file and rejects syntax errors so you don’t lock everyone out of root.
 
 ---
 
@@ -10,7 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Extending sudoers file to include user specific sudoers config files]]
+- [[#sudoers.d layout]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,91 +18,46 @@
 
 ## Mental model
 
-`visudo` -> safely edit the system's `sudoers` file `/etc/sudoers`.
-```bash
-sudo -lU <user>;
-sudo -u developer sudo nginx -t;
-sudo EDITOR=vi visudo -f <file path>;
+**Say it in one breath:** never `vim /etc/sudoers` raw — visudo validates; rules say *who* may run *what* *as whom* on *which hosts*.
+
+```txt
+who   where  =  (as_whom:as_group)  what
+alice ALL=(ALL:ALL) NOPASSWD: /bin/systemctl restart myapp
+
+%group  → rule applies to group members
+/etc/sudoers.d/*  read in lexical order (later can override)
 ```
-> [!NOTE]
-> `sudo -k` this option does not require a password, and was added to allow a user to revoke sudo permissions
-```bash
-sudo -k;
-```
-> [!WARNING]
-> sudo reads `/etc/sudoers.d/*` in lexical order (alphabetical).
-- Located at `/etc/sudoers`
-> [!NOTE]
-> - Controls the privileges and permissions for users and groups to execute administrative commands.
-> - The `sudo` command is used to execute `visudo` with superuser (root) privileges since editing the `sudoers` file requires administrative access.
-```bash
-john   ALL=(root)   /usr/bin/apt-get
-```
-```text
-who   where   =   (as_whom : as_which_group)   what
-```
-| Position                                    | Value | Meaning                                                            |
-| ------------------------------------------- | ----- | ------------------------------------------------------------------ |
-| 1. Who (User_List)                          | ALL   | **Any user** (including root, normal users, system users, etc.)    |
-| 2. Where (Host_List)                        | ALL   | On **any host** (this rule applies no matter what machine name is) |
-| 3. As whom (Runas_List – user part)         | ALL   | Can run commands **as any user** (root, any other account, etc.)   |
-| 4. As which group (Runas_List – group part) | ALL   | Can run commands **as any group** (using `-g` option)              |
-| 5. What (Cmnd_List)                         | ALL   | Can run **any command** (with or without arguments)                |
-When you see just ALL ALL=(ALL) ALL (without the second :ALL), it means:
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`visudo`** | Safe sudoers editor | “Syntax check before commit — prevents lockout.” |
+| **`%sudo`** | Group rule | “Percent means group.” |
+| **`NOPASSWD:`** | No password prompt | “OK for narrow commands; dangerous with `ALL`.” |
+| **`Cmnd_Alias`** | Named command sets | “Grant logs without granting shell.” |
+| **`sudo -l`** | Effective privileges | “What *this* user can actually run.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Extending sudoers file to include user specific sudoers config files
-
-> [!WARNING]
-> Allowing per-user sudoers files in home directories would be a **major security risk**:
-> - Users could edit their own files to grant themselves unlimited privileges.
-> - Malicious scripts or compromised accounts could modify these files undetected
-
-1. `user_or_group`: user or group to whom the rule applies. It can be a specific user (e.g., "john"), a group name (e.g., "%developers"), or the keyword "ALL," representing all users.
-2. `host`: This field defines the system or host-names where the rule is valid. It can be the name of a specific host (e.g., "localhost") or the keyword "ALL," indicating the rule applies to all hosts.
-3. `(runas_user)`: This optional field specifies the user as whom the command should be run. If omitted, the command is executed as the root user. For example, if you want to allow a user to run a specific command as another user (e.g., "www-data"), you would include "(www-data)" in this field.
-4. `commands`: This field contains the commands or command patterns that the user or group is allowed to run. It can be a specific command (e.g., `/usr/bin/apt-get`), a command with wildcard patterns (e.g., `/usr/bin/*`), or the keyword `ALL` allowing the user or group to run any command.
-
-> [!NOTE]
-> - the `/etc/sudoers` file should only be edited using the `visudo` command which ensures the file is edited by one user at a time and performs syntax checks.
-
-> [!WARNING]
-> - Errors or bad syntax in the `/etc/sudoers` may result in locking out all users.
-
 ```bash
-<username> <hostname>(user:group) command
-# username - specifies the user the rule applies to
-# hostname - the machine the rule applies to
-# user:group - user and group the rule applies to usually ALL
-# command - the command user is allow to run
-# NOPASSWD - allow the user to run the specified command without a password
+sudo visudo
+sudo EDITOR=vi visudo
+sudo visudo -f /etc/sudoers.d/50-dev-team
 
-# to allow user john to run the /usr/bin/foo and /usr/bin/bar commands as root witthout a password
-john ALL=NOPASSWD: /usr/bin/foo /usr/bin/bar
-%sudo	ALL=(ALL:ALL) NOPASSWD:ALL # allow sudo command to run without password
+sudo -l
+sudo -lU alice
+sudo -k                    # forget cached credentials
+sudo -u www-data id
 ```
 
-### Sudoers file naming
-
-> [!NOTE]
-> Use `zz-` prefix for your temporary/test rule so they win precedence.
-
-|Prefix|Purpose|Example filename|
-|---|---|---|
-|`00-`|Very early overrides / defaults|`00-defaults`|
-|`10-`|Group definitions / aliases|`10-groups`, `10-cmnd-aliases`|
-|`20-`|Service accounts / automation users|`20-deployer-nopasswd`|
-|`50-`|Per-team / per-role rules|`50-dev-team`, `50-monitoring`|
-|`90-` / `zz-`|Last-resort overrides / catch-all|`zz-emergency-root`, `zz-nginx-reload`|
-
-### Sudoers file pattern
+Example drop-in:
 
 ```text
 # /etc/sudoers.d/50-dev-team
-User_Alias DEV_TEAM = alice,bob,charlie
+User_Alias DEV_TEAM = alice, bob, charlie
 
 Cmnd_Alias LOGS_AND_STATUS = /usr/bin/journalctl *, \
                              /usr/bin/tail -f /var/log/*
@@ -111,24 +66,66 @@ Cmnd_Alias SERVICE_CONTROL = /bin/systemctl status *, \
                              /bin/systemctl restart myapp.service
 
 DEV_TEAM ALL=(ALL) NOPASSWD: LOGS_AND_STATUS
-DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL   # password for restarts
+DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 ```
+
+| Position | Example | Meaning |
+|----------|---------|---------|
+| Who | `alice` / `%devs` / `ALL` | User or group |
+| Where | `ALL` | Hosts (mostly ALL on single machines) |
+| Runas | `(ALL:ALL)` | Target user/group |
+| What | `/usr/bin/apt` / `ALL` | Allowed commands |
+
+---
+
+## sudoers.d layout
+
+```text
+00-defaults     early Defaults
+10-aliases      User_Alias / Cmnd_Alias
+20-automation   CI / deploy NOPASSWD (narrow!)
+50-teams        human roles
+90- / zz-       emergency overrides (last wins)
+```
+
+> [!WARNING]
+> Never point sudoers at files in a user’s home — they could grant themselves `ALL`.
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Locked out / parse error | Broken sudoers | Root console; fix with `visudo` / `pkexec` / live USB |
+| User “in sudo group” but denied | `sudo -lU` | Group membership not refreshed — re-login; check `%sudo` line |
+| Wrong file wins | Lexical order | Rename with `zz-` / `50-` prefixes |
+| NOPASSWD not applied | Alias mismatch | Full path required; no unexpected args |
+| `sudo -u` fails | Runas list | Allow `(www-data)` explicitly |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Bad sudoers can lock out all sudo** — only edit via visudo; keep a root session open while testing.
+
+> [!WARNING]
+> **`NOPASSWD: ALL` is root with extra steps** — scope commands tightly.
+
+> [!WARNING]
+> **Wildcards in command paths are tricky** — `/usr/bin/*` may be broader than you think; prefer aliases.
+
+---
 
 ## When NOT to use
 
-…
+- **App RBAC** — application authz, not sudoers.
+- **Containers as non-root by design** — drop capabilities; don’t sprinkle NOPASSWD.
+- **Windows** — different privilege model.
+
+---
 
 ## Related
 
-[[…]]
+[[user management]] [[linux groups]] [[useradd]] [[commands]]

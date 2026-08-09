@@ -36,6 +36,16 @@ login attempt ──► PAM ──► /etc/shadow hash compare
 
 Lock (`-l`) ≠ disable account — SSH keys may still work. Full disable → `usermod -L` + `usermod -s /sbin/nologin` or `chage -E 1`.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **passwd** | Change password | “passwd user as root; passwd alone for self.” |
+| **/etc/shadow** | Hash storage | “Never email /etc/shadow.” |
+| **chage** | Age/expiry | “chage -l user for policy.” |
+| **passwd -l** | Lock account | “Locks hash — SSH keys may still work.” |
+| **PAM** | Auth stack | “passwd respects PAM rules.” |
+
 ## Standard config / commands
 
 ```bash

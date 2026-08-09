@@ -1,8 +1,8 @@
-[[Redux]]
+[[Redux]] [[Packages/Immer]] [[Redux toolkit]]
 
 # Immutability in Redux
 
-> Immutability in Redux — in order to update values immutably, your code must make copies of existing objects / array and then modify the copies.
+> Never mutate the state tree in place — return new objects/arrays so React-Redux can detect changes by reference.
 
 ---
 
@@ -10,7 +10,7 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Redux Toolkit and Immer]]
+- [[#Interview map (words you can say)]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -18,100 +18,77 @@
 
 ## Mental model
 
-in order to update values immutably, your code must make copies of existing objects / array and then modify the copies.
-> [!NOTE] A critical rule of immutable updates is that you must make a copy of every level of nesting that needs to be updated.
-```js
-function handwrittenReducer(state, action) {
-  return {
-    ...state,
-    first: {
-      ...state.first,
-      second: {
-        ...state.first.second,
-        [action.someId]: {
-          ...state.first.second[action.someId],
-          fourth: action.someValue,
-        },
-      },
-    },
-  }
-}
+**Say it in one breath:** Copy every nested level you change. RTK uses Immer so you *write* mutating syntax while it produces immutable updates.
+
+```txt
+state.user.name = 'Ada'          // ❌ outside Immer
+return { ...state, user: { ...state.user, name: 'Ada' } }  // ✅
+// RTK createSlice: OK to "mutate" draft
 ```
-> [!INFO] [[Immer]] is a library that simplifies the process of writing immutable update logic
-```js
-import { produce } from 'immer'
-const baseState = [
-  {
-    todo: 'Learn typescript',
-    done: true,
-  },
-  {
-    todo: 'Try immer',
-    done: false,
-  },
-]
-const nextState = produce(baseState, (draftState) => {
-  // "mutate" the draft array
-  draftState.push({ todo: 'Tweet about it' })
-  // "mutate" the nested state
-  draftState[1].done = true
-})
-console.log(baseState === nextState)
-// false - the array was copied
-console.log(baseState[0] === nextState[0])
-// true - the first item was unchanged, so same reference
-console.log(baseState[1] === nextState[1])
-// false - the second item was copied and updated
-```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Immutable update** | New reference for changed path | “Shallow copy each nesting level.” |
+| **Immer draft** | Proxy you can “mutate” | “RTK reducers use drafts under the hood.” |
+| **Structural sharing** | Unchanged branches keep refs | “Selectors skip work when ref equal.” |
 
 ## Standard config / commands
 
-…
+```ts
+// Hand-written
+return { ...state, items: state.items.map((i) => (i.id === id ? { ...i, done: true } : i)) }
 
-## Redux Toolkit and Immer
-
-Redux Toolkit's `createReduer` API uses [[Immer]] internally automatically. So, it's already safe to _mutate_ state inside of any case reducer function that is passed to `createReducer`
-
-```js
-const todosReducer = createReducer([], (builder) => {
-  builder.addCase('todos/todoAdded', (state, action) => {
-    // "mutate" the array by calling push()
-    state.push(action.payload)
-  })
-})
-
-```
-> [!INFO] `createSlice` uses `createReducer` inside so it's also safe to _mutate_ state there as well
-
-```js
-const todosSlice = createSlice({
+// RTK + Immer
+createSlice({
   name: 'todos',
-  initialState: [],
+  initialState: { items: [] as Todo[] },
   reducers: {
-    todoAdded(state, action) {
-      state.push(action.payload)
+    toggle(state, action: PayloadAction<string>) {
+      const t = state.items.find((i) => i.id === action.payload)
+      if (t) t.done = !t.done // draft mutation OK
     },
   },
 })
-
 ```
-- this works because the _mutating_ logic is wrapped in Immer's `produce` method internally when it executes.
+
+| Knob | Why it matters |
+|------|----------------|
+| Spread nesting | Miss a level → accidental shared mutation |
+| `immutableCheck` middleware | Catches mutations in dev |
+| Don’t return draft *and* mutate oddly | Prefer mutate draft *or* return new state |
+
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| UI doesn’t update | Mutated in place | Copy path / use RTK slice |
+| Dev “invariant failed” mutation | Something wrote to state | Find write outside reducer |
+| Nested field update lost | Spread only top level | Copy each nesting level |
+| Huge spreads painful | Deep trees | Normalize state; use Immer |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Mutating outside reducers** (in components) breaks time-travel and subscriptions.
+
+> [!WARNING]
+> **Arrays: `push` on real state** — only safe on Immer drafts inside `createSlice`.
+
+---
 
 ## When NOT to use
 
-…
+- **Local component state** — normal `useState` replace is enough; no Redux immutability ceremony.
+- **Hand-rolling deep copies everywhere** — use RTK/Immer instead.
+
+---
 
 ## Related
 
-[[…]]
+[[Redux toolkit]] [[Redux/Redux createSlice]] [[Packages/Immer]]

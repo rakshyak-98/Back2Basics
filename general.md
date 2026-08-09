@@ -10,14 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Start here]]
-- [[#How to use this vault]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** general — plain job, how I run it, how I know it’s broken.
+
 
 **Back2Basics** is a staff-engineer field notebook: fast retrieval under incident pressure, not a tutorial site or man-page mirror.
 
@@ -35,27 +36,22 @@ Every note follows [[NOTES_STANDARD]] — mental model first, then commands, the
 
 ---
 
-## Standard config / commands
+### Interview map (words you can say)
 
-…
-
-## Start here
-
-| Need | Open |
-|------|------|
-| Symptom → note map | [[INDEX]] |
-| Note format & quality bar | [[NOTES_STANDARD]] |
-| Repo purpose & conventions | [[README]] |
-| Staff-level scope & skills | [[staff engineer]] |
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **general** | Core idea of this note | “I can explain general without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
 
 ---
 
-## How to use this vault
+## Standard config / commands
 
-1. **On-call:** open [[INDEX]] → triage row → run checks in that note's table.
-2. **Design review:** read mental model + "When NOT to use" before proposing tech.
-3. **New note:** copy template from [[NOTES_STANDARD]]; link siblings with `[[wikilinks]]`.
-4. **Rewrite thin stubs:** prioritize P0/P1 in [[NOTES_STANDARD]] vault priorities.
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
 
 ---
 
@@ -63,17 +59,25 @@ Every note follows [[NOTES_STANDARD]] — mental model first, then commands, the
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[INDEX]] · [[NOTES_STANDARD]] · [[README]] · [[staff engineer]] · [[we]]
+[[INDEX]]] [[[NOTES_STANDARD]]] [[[README]]] [[[staff engineer]]

@@ -40,6 +40,16 @@ request_key / add_key / keyctl
 
 **Do not confuse with:** apt `/usr/share/keyrings/*.gpg` (Debian repo trust) or GNOME Keyring / GnuPG — see [[Linux Key management]] for **OpenSSL/GPG file keys**. `keyctl` is **kernel keyutils**.
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **keyring** | In-kernel key store | “Keys can live in kernel, not files.” |
+| **keyctl** | Userspace control | “keyctl show / add / pipe.” |
+| **session keyring** | Per-login keys | “Gone at logout unless linked.” |
+| **user keyring** | Per-UID | “Shared across sessions of user.” |
+| **timeout** | Key expiry | “Short-lived creds via keyctl timeout.” |
+
 ## Standard config / commands
 
 ```bash

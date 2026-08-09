@@ -2,7 +2,7 @@
 
 # MEDIAL SDE REMOTE ASSIGNMENT
 
-> MEDIAL SDE REMOTE ASSIGNMENT — objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the post content.
+> MEDIAL SDE REMOTE ASSIGNMENT — objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the…
 
 ---
 
@@ -10,13 +10,15 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#**Assignment: Dynamic Post Page with OG Image Generation**]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
 - [[#Related]]
 
 ## Mental model
+
+**Say it in one breath:** MEDIAL SDE REMOTE ASSIGNMENT — plain job, how I run it, how I know it’s broken.
+
 
 |Action|Type|Information|Frequency|Priority|
 |---|---|---|---|---|
@@ -27,63 +29,48 @@
 |Create Student profile|write|username, password||High|
 |Book class 3|write|teacher id, subject id|3 per day|low|
 
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **MEDIAL SDE REMOTE ASSIGNMENT** | Core idea of this note | “I can explain MEDIAL SDE REMOTE ASSIGNMENT without jargon.” |
+| **mental model** | How it works in one line | “Explain it without jargon first.” |
+| **failure mode** | How it breaks | “Say what you check first.” |
+
+---
+
 ## Standard config / commands
 
-…
+```bash
+# reproduce with minimal input
+# compare working vs broken env
+```
 
-## **Assignment: Dynamic Post Page with OG Image Generation**
-
-Objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the post content.
-
-Requirements:
-
-1. Post Page:
-    - Develop a simple post page using React or Vue.js.
-    - Include fields for title, content, and optionally an image, use any social media post design.
-2. OG Image Generation:
-    - Create a system to dynamically generate an og:image (1200x630 pixels) using the post content.
-    - The og:image should include the post title, a snippet of the content, and any associated image. It should replicate the design of post itself
-3. Integration:
-    - Automatically add the og:image meta tag to the post page's HTML.
-    - Ensure the generated image URL is accessible.
-4. Styling:
-    - Style the og:image to be visually appealing and readable.
-    - Include branding elements (e.g., logo or color scheme).
-5. Performance:
-    - Optimize the image generation process for speed.
-
-Deliverables:
-
-1. A functional post page that generates appropriate og:images.
-2. Source code for the implementation.
-3. Brief documentation explaining how the system works.
-
-Evaluation Criteria:
-
-- Functionality of the post page and og:image generation
-- Visual quality of the generated og:images
-- Code quality and organization
-- Performance of the image generation process
-
-EXAMPLE :-
-
-![Screenshot 2024-08-04 at 2.45.16 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/04fb32a9-4a90-4fa0-a983-9dd437016d0d/debc219e-2e8a-48bf-8fb6-7217a7080864/Screenshot_2024-08-04_at_2.45.16_PM.png)
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Unexpected result | inputs / versions | Reproduce minimal case |
+| Works on one machine | env drift | Diff config and versions |
+| Silent failure | logs / metrics | Add checks and alerts |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> Prefer simple words you can say in an interview.
+
+---
 
 ## When NOT to use
 
-…
+- Skip it when a simpler existing tool already fits.
+
+---
 
 ## Related
 
-[[…]]
+[[Projects]]

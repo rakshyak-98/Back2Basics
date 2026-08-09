@@ -1,8 +1,8 @@
-[[management]]
+[[management]] [[keyrings]] [[gpg]] [[keyctl]]
 
-# generate private key
+# Linux Key management
 
-> generate private key — openssl genpkey -algorithm RSA -out private_key.pem -aes256 # with pass phrase
+> Linux key management spans file-based secrets (gpg, PEM) and in-kernel keyrings (`keyctl`) — know which layer holds the credential.
 
 ---
 
@@ -10,9 +10,6 @@
 
 - [[#Mental model]]
 - [[#Standard config / commands]]
-- [[#Generate CSR]]
-- [[#verify certificate]]
-- [[#Keymanager]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
 - [[#When NOT to use]]
@@ -20,75 +17,75 @@
 
 ## Mental model
 
-```bash
-openssl genpkey -algorithm RSA -out private_key.pem -aes256 # with pass phrase
-openssl genpkey -algorithm RSA -out private_key.pem # without pass phrase
-openssl ecparam -name secp256k1 -genkey -noout -out private_key.pem
+**Say it in one breath:** long-lived trust in files/HSM; short-lived session creds in kernel keyrings; agents (ssh-agent/gpg-agent) broker use.
+
+```txt
+disk:  *.pem / gpg homedir / keyrings/*.gpg
+kernel: keyctl session/user keyrings
+agents: ssh-agent, gpg-agent
 ```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **keyring (APT)** | Repo trust keys | “Verify apt metadata.” |
+| **keyctl** | Kernel keys CLI | “RAM-backed secrets possible.” |
+| **gpg-agent** | Private key broker | “Pins passphrase cache.” |
+| **ssh-agent** | SSH key broker | “Forward carefully.” |
+| **permissions** | 600 / root | “Secret files must not be world-readable.” |
+
+---
 
 ## Standard config / commands
 
-…
-
-## Generate CSR
-
 ```bash
-openssl req -new -newkey rsa:2048 -nodes -keyout private.pem -out .csr
-
+# file perms
+sudo install -m 600 -o root -g root key.pem /etc/ssl/private/
+# kernel
+keyctl show
+keyctl add user mysecret pass:s3cr3t @u
+# gpg
+gpg --list-secret-keys
+# ssh
+ssh-add -l
 ```
 
-## verify certificate
+| Knob | Why it matters |
+|------|----------------|
+| Mode bits | Leak via `644` is common |
+| Agent lifetime | Cached passphrases |
 
-```bash
-openssl verify -CAfile /path/to/your/chain.crt /home/rakshyak/build/csr.crt
-
-openssl req -text -noout -verify -in <csr.crt>;
-
-openssl rsa -in <private.key> -check; # to check made with rsa algo.
-
-openssl req -inform DER -in csr.der -out csr.pem -outform pem;
-
-opemssl rsa -in private.der -out private.pem -outform pem;
-```
-
-SHA256 key fingerprints or SHA256 hash, or checksum are used to verify the authenticity and integrity of cryptographic keys.
-
-- ref
-[https://www.freecodecamp.org/news/the-ultimate-guide-to-ssh-setting-up-ssh-keys/](https://www.freecodecamp.org/news/the-ultimate-guide-to-ssh-setting-up-ssh-keys/)
-
-[https://www.youtube.com/watch?v=33dEcCKGBO4](https://www.youtube.com/watch?v=33dEcCKGBO4)
-
-
-you need different ssh key to pull from different git repository.
-
-```bash
-ssh-keygen -t rsa -b 4096 -C 'comment'; # generate public and private key.
-ssh-add id_rsa;
-ssh-keygen -lf <filename>; # get the fingureprint of the key private/public.
-```
-t - type of algorithm
-b - bits size
-C - comment
-
-> [!NOTE] fixed-length string of characters, typically represented in hexadecimal format.
-
-## Keymanager
+---
 
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| … | … | … |
+| Permission denied reading key | Owner/mode | `chown`/`chmod 600` |
+| NO_PUBKEY apt | Keyring | Fix signed-by keyring |
+| ssh asks passphrase always | Agent empty | `ssh-add`; check `SSH_AUTH_SOCK` |
+| keyctl gone after logout | Session keyring | Link to user keyring / persist design |
+
+---
 
 ## Gotchas
 
 > [!WARNING]
-> …
+> **Secrets in world-readable git** — rotate immediately; chmod can’t un-leak.
+
+> [!WARNING]
+> **SSH agent forwarding** extends trust to the remote host.
+
+---
 
 ## When NOT to use
 
-…
+- **App secrets at scale** — use a secrets manager (Vault/SOPS/cloud KMS).
+- **Embedding keys in images** — inject at runtime.
+
+---
 
 ## Related
 
-[[…]]
+[[keyrings]] [[keyctl]] [[gpg]] [[SSH]]

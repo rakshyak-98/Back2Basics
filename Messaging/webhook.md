@@ -17,7 +17,8 @@
 
 ## Mental model
 
-Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick** (ack, then process async).
+**Say it in one breath:** Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick**.
+
 
 ```
 Publisher                    Your service
