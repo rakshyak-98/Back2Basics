@@ -99,7 +99,7 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -minrate 3000k -maxrate 3000k -bufsi
 | ABR switch flicker | GOP misaligned | Re-encode with fixed GOP; `-sc_threshold 0` |
 | Blurry on motion | CRF too high / low bitrate cap | Raise cap or lower CRF on that rung |
 | Audio sync drift | Separate audio renditions | Use same segment boundaries; packaged audio per variant |
-| Live uplink unstable | Encoder CBR exceeding link | Drop rung count; [[NVENC]] hardware; SRT with ARQ |
+| Live uplink unstable | Encoder CBR exceeding link | Drop rung count; [[NVENC]] hardware; [[SRT]] with ARQ |
 
 ```bash
 ffprobe -show_streams -select_streams v manifest.m3u8

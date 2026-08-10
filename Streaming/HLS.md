@@ -21,7 +21,7 @@
 **Say it in one breath:** Package many qualities into segments, publish an `.m3u8` menu, let the CDN cache GETs — no special streaming socket to the viewer.
 
 ```txt
-Ingest (RTMP / SRT / file)
+Ingest ([[RTMP]] / [[SRT]] / [[RTSP]] / file)
         │
    encode + package ──► segments (.ts or fMP4 .m4s)
         │
@@ -44,7 +44,7 @@ Ingest (RTMP / SRT / file)
 
 ### How the story goes (4 steps)
 
-1. **Ingest** — publisher pushes [[RTMP]] / SRT / file into the packager.
+1. **Ingest** — publisher pushes [[RTMP]] / [[SRT]] / [[RTSP]] pull / file into the packager.
 2. **Ladder** — encode [[ABR]] [[rendition]]s; segment on aligned GOPs.
 3. **Manifest** — write master + media `.m3u8` ([[Manifest (streaming)]]).
 4. **Deliver** — CDN serves HTTP; player adapts quality from buffer + bandwidth.
@@ -149,7 +149,7 @@ Needs CMAF-style chunks and a player that understands LL tags.
 ## When NOT to use
 
 - **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
-- **Publisher → ingest only** — [[RTMP]] / SRT into origin; HLS is usually the **egress** format.
+- **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
 - **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
 
 ---

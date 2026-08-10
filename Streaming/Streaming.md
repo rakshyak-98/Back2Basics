@@ -1,4 +1,4 @@
-[[ingestion]] [[HLS]] [[DASH]] [[ABR]] [[WebRTC]] [[RTMP]]
+[[ingestion]] [[HLS]] [[DASH]] [[ABR]] [[WebRTC]] [[RTMP]] [[SRT]] [[RTSP]]
 
 # Streaming
 
@@ -21,7 +21,7 @@
 
 ```txt
 Publisher (OBS / encoder / file)
-        │  [[ingestion]]  ([[RTMP]] / SRT / upload)
+        │  [[ingestion]]  ([[RTMP]] / [[SRT]] / [[RTSP]] / upload)
         ▼
    Encode / transcode  ([[Encoding]] [[transcoding]] [[rendition]])
         │
@@ -140,4 +140,4 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 
 ## Related
 
-[[ingestion]] [[Encoding]] [[transcoding]] [[ABR]] [[rendition]] [[bitrate streaming]] [[HLS]] [[DASH]] [[HLS vs. DASH]] [[CMAF]] [[Manifest (streaming)]] [[streaming manifest file]] [[MPD]] [[MPEG-TS]] [[RTMP]] [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[DRM]] [[EME]] [[OBS]] [[flussonic]]
+[[ingestion]] [[Encoding]] [[transcoding]] [[ABR]] [[rendition]] [[bitrate streaming]] [[HLS]] [[DASH]] [[HLS vs. DASH]] [[CMAF]] [[Manifest (streaming)]] [[streaming manifest file]] [[MPD]] [[MPEG-TS]] [[RTMP]] [[SRT]] [[RTSP]] [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[DRM]] [[EME]] [[OBS]] [[flussonic]]

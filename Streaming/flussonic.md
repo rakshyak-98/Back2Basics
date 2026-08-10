@@ -21,7 +21,7 @@
 
 ```txt
 Encoder / headend
-   │  udp://host:port  (or SRT / RTMP)
+   │  udp://host:port  (or [[SRT]] / [[RTMP]] / [[RTSP]])
    ▼
 Flussonic
    ├─ (optional) fetch keys from DoveRunner KMS  → aes_key, iv, key_id
@@ -38,7 +38,7 @@ Player ── license request ──► DoveRunner ──► decrypt + play
 
 | Word | Plain meaning | Say in interview |
 |------|---------------|------------------|
-| **Ingest** | How live bytes enter Flussonic | “UDP MPEG-TS multicast or SRT from the encoder.” |
+| **Ingest** | How live bytes enter Flussonic | “UDP [[MPEG-TS]] multicast, [[SRT]], or [[RTMP]] from the encoder.” |
 | **Package** | Remux/segment for OTT | “We output DASH/HLS the CDN and players understand.” |
 | **DRM encrypt** | Scramble samples with KMS keys | “Flussonic encrypts; it does not authorize viewers.” |
 | **PSSH** | DRM init data in the manifest/init | “Player needs PSSH to start a license request.” |
