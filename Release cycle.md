@@ -28,7 +28,7 @@ Feature branches ──► trunk/main (continuous integration)
 | **Rollback** | Revert artifact or flip flag — time-bound decision |
 | **Change advisory** | High-risk windows blocked (Black Friday, fiscal close) |
 
-**Deploy ≠ release:** code can sit in prod behind a flag at 0% until product turns it on.
+**Deploy ≠ release:** code can sit in production behind a flag at 0% until product turns it on.
 
 ---
 
@@ -139,7 +139,7 @@ git revert <commit> && redeploy
 ## When NOT to use
 
 - **Early startup (<10 engineers)** — continuous deploy + flags may beat heavy train process.
-- **Regulated freeze windows** — train still runs internally; prod promote waits.
+- **Regulated freeze windows** — train still runs internally; production promote waits.
 - **Feature flags for every bugfix** — overhead; simple fixes go straight out with monitoring.
 
 ---

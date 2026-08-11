@@ -77,7 +77,7 @@ session.endSession()
 
 ## When NOT to use
 
-- **App data path** — use a driver, not the shell.
+- **application data path** — use a driver, not the shell.
 - **CI automation** — prefer mongosh non-interactive + scripts.
 
 ## Related

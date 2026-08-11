@@ -118,7 +118,7 @@ curl -i 'https://api.example.com/users' \
 > **Error responses must include CORS headers** or the browser hides the real 401/403 body from JS — looks like generic CORS failure.
 
 - **`withCredentials: true`** forbids `Access-Control-Allow-Origin: *` — must echo requesting origin.
-- **Preflight cache** (`Max-Age`) masks config fixes — hard refresh or wait cache expiry when testing.
+- **Preflight cache** (`Max-Age`) masks configuration fixes — hard refresh or wait cache expiry when testing.
 - **Multiple origins** — dynamic `origin` callback; never reflect arbitrary `Origin` without allowlist (security hole).
 - **WebSocket** has separate origin check at handshake — see [[webSocket]].
 
@@ -126,7 +126,7 @@ curl -i 'https://api.example.com/users' \
 
 - Server-to-server calls → no CORS needed.
 - Same-origin SPA + API → serve both from one host or use reverse proxy path (`/api` → backend).
-- "Fix" CORS by disabling browser security — dev-only Chrome flags don't help users.
+- "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
 
 ## Related
 

@@ -72,11 +72,11 @@ dconf load /org/gnome/ < gnome.dconf
 
 ## When NOT to use
 
-- **Non-GNOME desktops** — KDE uses different config stores.
+- **Non-GNOME desktops** — KDE uses different configuration stores.
 - **Server automation** — no GUI schemas; use files/systemd instead.
 
 ---
 
 ## Related
 
-[[gnome Colorschem]] [[X Desktop Group]] [[D-Bus]] [[editor config]]
+[[gnome Colorschem]] [[X Desktop Group]] [[D-Bus]] [[editor configuration]]

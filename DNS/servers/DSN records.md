@@ -114,7 +114,7 @@ send to alice@example.com
 
 ## When NOT to use
 
-- **App config that changes every second** — use a service registry; DNS TTL is a poor control plane.
+- **application configuration that changes every second** — use a service registry; DNS TTL is a poor control plane.
 - **Secrets** — TXT is world-readable; don’t put passwords in DNS.
 - **Geo traffic steering beyond basics** — need GSLB/Anycast product, not one A record.
 

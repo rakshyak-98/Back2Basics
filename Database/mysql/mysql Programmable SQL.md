@@ -75,7 +75,7 @@ FROM performance_schema.prepared_statements_instances;
 
 ## When NOT to use
 
-- **App-owned business logic** — keep orchestration in the service layer when you need testability/deploy independence.
+- **application-owned business logic** — keep orchestration in the service layer when you need testability/deploy independence.
 - **Building SQL via string concat of user input** — use binds or reject.
 
 ---

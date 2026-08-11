@@ -8,7 +8,7 @@
 
 ## Mental model
 
-[SuperTokens](https://supertokens.com/docs/nodejs) splits auth into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
+[SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
 
 ```
 Browser ──login──► API (supertokens-node SDK) ──► SuperTokens Core
@@ -107,7 +107,7 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 
 - **Pure SPA + opaque API tokens only** — simpler OAuth2 provider (Auth0, Cognito) may fit.
 - **Machine-to-machine only** — client credentials flow, not session cookies.
-- **Already deep into custom JWT** — migration cost vs incremental hardening.
+- **Already deep into custom JWT** — migration cost versus incremental hardening.
 
 ## Related
 

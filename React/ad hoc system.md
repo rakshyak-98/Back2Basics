@@ -86,7 +86,7 @@ function useExport() {
 ## When NOT to use
 
 - **Shared across 3+ features** — invest in [[React Architecture]] and [[React data management]].
-- **Auth, billing, permissions** — never one-off; centralize and audit.
+- **authentication, billing, permissions** — never one-off; centralize and audit.
 - **Design system components** — use tokens + shared library, not inline styles per screen.
 
 ---

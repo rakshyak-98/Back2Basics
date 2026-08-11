@@ -8,16 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** mysql2 — plain job, how I run it, how I know it’s broken.
-
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **mysql2** | Core idea of this note | “I can explain mysql2 without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+**Say it in one breath:** mysql2 — short field notes on what it is and how to use it.
 
 ---
 

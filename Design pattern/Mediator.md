@@ -51,7 +51,7 @@ class CampaignWizardMediator {
 ## When NOT to use
 
 - Two components — direct callback is fine.
-- Global app event bus for everything — prefer [[Design pattern/Observer]] with clear event names, not one mega-mediator.
+- Global application event bus for everything — prefer [[Design pattern/Observer]] with clear event names, not one mega-mediator.
 
 ## Related
 

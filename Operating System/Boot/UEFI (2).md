@@ -31,7 +31,7 @@ UEFI           →    GPT + ESP (FAT)  → *.efi on ESP
 
 1. **Know the target** — BIOS-only, UEFI-only, or both.
 2. **Partition** — MBR or GPT accordingly.
-3. **Install bootloader** — `i386-pc` vs `x86_64-efi`.
+3. **Install bootloader** — `i386-pc` versus `x86_64-efi`.
 4. **Test** — on real firmware; VMs lie if misconfigured.
 
 ---
@@ -87,7 +87,7 @@ sudo grub-install --target=x86_64-efi --efi-directory=/mnt/esp --removable
 
 ## When NOT to use
 
-- **Cloud disk templates** — follow image (Gen2 UEFI vs Gen1 BIOS); don’t invent hybrids.
+- **Cloud disk templates** — follow image (Gen2 UEFI versus Gen1 BIOS); don’t invent hybrids.
 - **Embedded raw flash** — may use neither classic MBR nor GPT.
 - **You already standardized on UEFI-only fleet** — always GPT+ESP; skip MBR path.
 

@@ -26,7 +26,7 @@ Client                         Server
 | **Payload** | Claims (`sub`, `exp`, roles) | “Assertions — trusted only after verify.” |
 | **Signature** | HMAC or RSA/ECDSA over header+payload | “Tamper seal.” |
 
-**Access vs refresh:** short-lived access JWT in memory/`Authorization`; longer refresh in HttpOnly cookie → `POST /refresh` mints a new pair. Stateless until you add a denylist or rotate keys.
+**Access versus refresh:** short-lived access JWT in memory/`Authorization`; longer refresh in HttpOnly cookie → `POST /refresh` mints a new pair. Stateless until you add a denylist or rotate keys.
 
 ---
 

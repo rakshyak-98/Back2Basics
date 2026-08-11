@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Each instruction usually adds a layer. Build caches layers until a line changes. `ENTRYPOINT` is the main process; `CMD` supplies default args (overridable).
+**Say it in one breath:** Each instruction usually adds a layer. Build caches layers until a line changes. `ENTRYPOINT` is the main process; `CMD` supplies default arguments (overridable).
 
 ```txt
 FROM → RUN → COPY → … → ENTRYPOINT/CMD
@@ -96,7 +96,7 @@ Union mounts (overlay2) stack layers; containers add a thin writable layer. Shar
 
 ## When NOT to use
 
-- **Config that changes per env** — inject at runtime (env/files), don’t bake 12 images.
+- **configuration that changes per environment** — inject at runtime (environment/files), don’t bake 12 images.
 - **Windows apps on Linux daemons** — wrong base OS.
 - **Huge mutable data** — volumes, not image layers.
 

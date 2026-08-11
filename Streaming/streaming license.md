@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Your backend mints a short-lived license token after user auth; the player sends it to the DRM license server; the CDM gets content keys.
+**Say it in one breath:** Your backend mints a short-lived license token after user authentication; the player sends it to the DRM license server; the CDM gets content keys.
 
 ```txt
 Auth OK → mint license token → player license request + token → keys → decrypt
@@ -69,7 +69,7 @@ Mint tokens only on the server (Site ID + Site Key). Set validity short (minutes
 ## When NOT to use
 
 - **Clear (unencrypted) streams** — no license path.
-- **Internal tools with trusted network only** — simpler auth may suffice (still encrypt if needed).
+- **Internal tools with trusted network only** — simpler authentication may suffice (still encrypt if needed).
 
 ---
 

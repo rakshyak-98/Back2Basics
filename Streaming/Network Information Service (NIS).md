@@ -10,7 +10,7 @@
 
 **Say it in one breath:** Like a tiny shared phone book for Unix labs — one server holds maps (passwd, hosts, etc.); clients query it. DNS names machines; NIS also shared users and other maps.
 
-Why this note sits under Streaming historically: naming collision / legacy ops next to media stacks — it is **not** part of HLS/WebRTC.
+Why this note sits under Streaming historically: naming collision / legacy operations next to media stacks — it is **not** part of HLS/WebRTC.
 
 ### Interview map (words you can say)
 
@@ -62,7 +62,7 @@ Modern replacement: LDAP / FreeIPA / Active Directory + SSSD — not new NIS dom
 ## When NOT to use
 
 - **Any greenfield identity** — LDAP/OIDC/SAML.
-- **Internet-facing auth** — never.
+- **Internet-facing authentication** — never.
 
 ---
 

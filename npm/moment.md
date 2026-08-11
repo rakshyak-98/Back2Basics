@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** moment — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** moment — ("2026-03-24") // parse from string
 
 **Parsing**
 ```js
@@ -40,13 +39,6 @@ diff(b, "days")                         // difference in days
 ```js
 moment().toDate()                       // convert back to native Date
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **moment** | Core idea of this note | “I can explain moment without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

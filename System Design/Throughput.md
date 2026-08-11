@@ -71,7 +71,7 @@ pidstat -u 1
 
 ## When NOT to use
 
-- **Ultra-low QPS admin tools** — optimize clarity, not RPS.
+- **Ultra-low QPS administrator tools** — optimize clarity, not RPS.
 - **One-shot batch jobs** — wall-clock & cost matter more than RPS.
 - **Comparing Mbps across compressions** — normalize payload.
 

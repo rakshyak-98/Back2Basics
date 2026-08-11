@@ -117,7 +117,7 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
 - **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
 - **Split analytics before playback SLO met** — observability yes, service boundary no.
-- **Separate team microservice for config flags** — use platform feature flags.
+- **Separate team microservice for configuration flags** — use platform feature flags.
 
 ---
 

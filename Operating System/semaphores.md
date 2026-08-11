@@ -36,7 +36,7 @@ T1 signal → 1  (wakes T4)
 
 ### How the story goes (4 steps)
 
-1. **Init** — create with initial count = number of permits (1 for mutual exclusion, N for a pool).
+1. **initialize** — create with initial count = number of permits (1 for mutual exclusion, N for a pool).
 2. **Enter** — `wait` before the [[critical sections|critical section]].
 3. **Work** — touch the shared resource under that permit.
 4. **Leave** — `signal` exactly once per successful wait (or you leak permits / deadlock).

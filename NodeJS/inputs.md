@@ -16,7 +16,7 @@ Keyboard / pipe ──► stdin ──► readline Interface ──► 'line' ev
 prompt ───────────────────────┴──► stdout
 ```
 
-For password input, use `readline` with muted output or a dedicated package. For one-shot args, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactive prompts in scripts.
+For password input, use `readline` with muted output or a dedicated package. For one-shot arguments, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactive prompts in scripts.
 
 ## Standard config / commands
 

@@ -72,7 +72,7 @@ JSON.parse(buf.toString('utf8'))
 ## When NOT to use
 
 - **Same-process calls** — pass objects, don’t serialize.
-- **Ad-hoc debug only** — `pprint` fine; still don’t invent formats for prod.
+- **Ad-hoc debug only** — `pprint` fine; still don’t invent formats for production.
 - **Huge media** — send by reference (S3 URL), don’t embed.
 
 ---

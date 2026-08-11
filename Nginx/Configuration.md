@@ -1,4 +1,4 @@
-[[Nginx]] [[web server]] [[directives]] [[nginx SPA deployment]] [[nginx fastcgi]] [[nginx config structure]]
+[[Nginx]] [[web server]] [[directives]] [[nginx SPA deployment]] [[nginx fastcgi]] [[nginx configuration structure]]
 
 # Nginx Configuration
 
@@ -88,8 +88,8 @@ location /api/ { limit_req zone=api burst=20 nodelay; proxy_pass http://api; }
 
 ## When NOT to use
 
-- **App business logic in Nginx** — keep in the app.
-- **DB connection pooling** — use PgBouncer / app pool.
+- **application business logic in Nginx** — keep in the application.
+- **DB connection pooling** — use PgBouncer / application pool.
 - **Sole WAF** — `limit_req` ≠ SQLi protection.
 
 ---

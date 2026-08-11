@@ -89,7 +89,7 @@ const withAuth = (token) => (req) => fetch(req, {
 > [!WARNING]
 > Functions are **mutable objects** — reassigning `parseConfig = null` does not remove it from closures that already captured the old reference.
 
-- **`function.length`:** count of params before first default/rest — not always runtime arity.
+- **`function.length`:** count of parameters before first default/rest — not always runtime arity.
 - **Generator/async:** return iterators/promises; different error paths.
 - **Strict mode** in modules and classes — silent global leaks become errors.
 

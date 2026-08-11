@@ -126,7 +126,7 @@ git config core.hooksPath          # should be .husky or default with husky shim
 
 - **Non-Node repos** — use `pre-commit` framework (Python) or native `.git/hooks`.
 - **Heavy integration tests in pre-commit** — wrong stage; use CI.
-- **Library consumed as dependency** — don't run `prepare`/husky for npm package consumers (`prepare` should be dev-only pattern).
+- **Library consumed as dependency** — don't run `prepare`/husky for npm package consumers (`prepare` should be development-only pattern).
 
 ---
 

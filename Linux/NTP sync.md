@@ -134,7 +134,7 @@ ss -ulnp | grep :123
 - **Docker `--privileged` / `CAP_SYS_TIME`** — container can change **host** clock; almost never grant this.
 - **NTP amplification (UDP 123)** — do not expose NTP to the internet unless hardened (`ntpd` `restrict`, chrony `allow`/`deny`). See [[UDP]].
 - **Public pool abuse** — thousands of hosts hitting `pool.ntp.org` without `iburst` discipline can get rate-limited; use vendor NTP (AWS `169.254.169.123`, Azure, GCP) or internal stratum-1/2.
-- **`hwclock` vs system clock** — BIOS/RTC drifts; `hwclock --systohc` after NTP stable if dual-boot or offline boots matter.
+- **`hwclock` versus system clock** — BIOS/RTC drifts; `hwclock --systohc` after NTP stable if dual-boot or offline boots matter.
 
 ## When NOT to use
 

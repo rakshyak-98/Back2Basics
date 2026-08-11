@@ -75,7 +75,7 @@ See [[WAL (Write-Ahead Log)]] for `fsync`, `synchronous_commit`, `innodb_flush_l
 
 ## When NOT to use
 
-- **Not an app-level pattern** — you don't implement ARIES; you tune the engine that already does.
+- **Not an application-level pattern** — you don't implement ARIES; you tune the engine that already does.
 - **Embedded SQLite** — simpler recovery; still WAL-based but not full ARIES paper.
 
 ## Related

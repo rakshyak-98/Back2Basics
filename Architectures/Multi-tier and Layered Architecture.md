@@ -25,7 +25,7 @@ Multi-level architecture is two orthogonal axes:
 | **Tier**  | Process, machine, network, security zone         | *Where does this run?*       |
 | **Layer** | Package, module, namespace, dependency direction | *Who may call whom in code?* |
 
-**Strict vs relaxed layering:** In a **strict** layered system, layer *N* talks only to layer *N−1*. In a **relaxed** system, upper layers may skip intermediate layers (faster to build, harder to change). Most production code is relaxed — document which skips are allowed.
+**Strict versus relaxed layering:** In a **strict** layered system, layer *N* talks only to layer *N−1*. In a **relaxed** system, upper layers may skip intermediate layers (faster to build, harder to change). Most production code is relaxed — document which skips are allowed.
 
 **Dependency rule (Martin / hexagonal / clean):** Source dependencies point **inward** only — toward higher-level **policies**. Outer rings (HTTP, DB, queues) depend on inner rings (use cases, entities) — never the reverse. Flow of control can go outward; compile-time deps cannot. Crossing that gap uses **Dependency Inversion** ([[SOLID]] DIP): inner layer defines the interface (port); outer layer implements it (adapter).
 
@@ -145,7 +145,7 @@ Browser ──HTTPS──► App server(s) ──TCP──► Database
 
 **Why it won:** Each tier scales and patches independently; DB never exposed to the internet; business rules live in one place.
 
-**Typical production layout:** Web tier in DMZ → app tier on private subnet → DB tier with no outbound internet. Firewall between each hop ([[Security group]] patterns).
+**Typical production layout:** Web tier in DMZ → application tier on private subnet → DB tier with no outbound internet. Firewall between each hop ([[Security group]] patterns).
 
 ### 4. N-tier (extended physical separation)
 
@@ -169,7 +169,7 @@ Client → CDN/Edge → API Gateway → BFF → Microservices → DAL → DB/Cac
 
 ## Logical layers (inside one deployable)
 
-Layers exist **inside** a monolith, microservice, or mobile app. Two common models — do not conflate them.
+Layers exist **inside** a monolith, microservice, or mobile application. Two common models — do not conflate them.
 
 ### Traditional layered (top-down call stack)
 
@@ -222,7 +222,7 @@ Martin organizes by **policy stability**, not call order. Inner = most abstract;
 | **Interface adapters** | Convert data between use-case format and external format (HTTP, SQL rows, message payloads) | Changes when delivery mechanism changes |
 | **Frameworks & drivers** | Glue to Spring, Express, Postgres, Kafka — minimal code here | Most volatile — "the web is a detail; the database is a detail" |
 
-**Key Martin corrections vs traditional layered:**
+**Key Martin corrections versus traditional layered:**
 
 | Traditional habit | Martin's rule |
 |-------------------|---------------|
@@ -291,7 +291,7 @@ A system built this way should be ([Clean Architecture, Ch. 22](https://blog.cle
 | **Dependency rule** | Adapters depend on ports; entities and use cases never depend on adapters |
 | **DIP at boundaries** | When use case must call presenter/repo, it calls an **interface in its own layer**; outer class implements it — deps oppose flow of control |
 
-**What crosses boundaries:** Only **simple data structures** — structs, DTOs, function args, plain maps. Never pass entities tied to outer frameworks, and never pass **database row structures** inward (Martin's explicit anti-pattern).
+**What crosses boundaries:** Only **simple data structures** — structs, DTOs, function arguments, plain maps. Never pass entities tied to outer frameworks, and never pass **database row structures** inward (Martin's explicit anti-pattern).
 
 ### Screaming Architecture (Martin)
 
@@ -303,7 +303,7 @@ A system built this way should be ([Clean Architecture, Ch. 22](https://blog.cle
 | "It's a Rails app" | "It's a health-care / accounting / streaming system" |
 | New hire asks "where are the use cases?" | New hire finds use cases in top-level package names |
 
-Good architecture **defers** framework, DB, and web-server decisions. You should be able to deliver as console app, web app, or thick client without rewriting core policy.
+Good architecture **defers** framework, DB, and web-server decisions. You should be able to deliver as console application, web application, or thick client without rewriting core policy.
 
 **Payoff:** Domain tests without containers; swap Postgres for in-memory; change REST to gRPC by new adapter only; frameworks become replaceable details.
 
@@ -313,7 +313,7 @@ Good architecture **defers** framework, DB, and web-server decisions. You should
 
 ## Microservices (distribution-level multi-tier)
 
-Microservices are **not** a replacement for layers — each service is usually a **small layered or hexagonal app** deployed independently.
+Microservices are **not** a replacement for layers — each service is usually a **small layered or hexagonal application** deployed independently.
 
 ```txt
                     DISTRIBUTION (between services)

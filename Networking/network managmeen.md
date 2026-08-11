@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**NetworkManager (NM)** sits between **kernel netlink** and **admin intent** (CLI, GUI, cloud-init):
+**NetworkManager (NM)** sits between **kernel netlink** and **administrator intent** (CLI, GUI, cloud-initialize):
 
 ```txt
 cloud-init / nmcli / GUI
@@ -21,7 +21,7 @@ cloud-init / nmcli / GUI
 
 Competes conceptually with **systemd-networkd**, **ifupdown**, **netplan** (Ubuntu renders into NM or networkd). On many distros **NM is the source of truth** — hand-editing `/etc/network/interfaces` gets overwritten on reboot.
 
-**Service impact:** "I added a route but it vanished" → NM policy or cloud-init reapplied profile.
+**Service impact:** "I added a route but it vanished" → NM policy or cloud-initialize reapplied profile.
 
 ---
 

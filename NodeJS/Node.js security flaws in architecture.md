@@ -10,7 +10,7 @@
 
 Node services typically sit **directly on the internet** with:
 
-- One language/runtime handling auth, business logic, and serialization
+- One language/runtime handling authentication, business logic, and serialization
 - **npm dependency graph** — transitive packages run with full process privileges
 - **Dynamic `require()`** and eval-adjacent patterns (`vm`, template engines)
 - No memory-safe guarantee — native addons and V8 alike
@@ -148,7 +148,7 @@ Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 ## When NOT to use
 
 - **Rolling custom crypto** — use libsodium/WebCrypto wrappers; never DIY JWT "for simplicity".
-- **Disabling helmet/CORS "temporarily" in prod** — becomes permanent.
+- **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
 
 ---
 

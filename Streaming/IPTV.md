@@ -48,7 +48,7 @@ Middleware + EPG          [[CAS (Conditional Access System)]] / [[DRM]]
 1. **Encode** — headend makes H.264/HEVC + audio into [[MPEG-TS]] (or files for VOD).
 2. **Protect** — scramble with [[CAS (Conditional Access System)]] (STB) or encrypt with [[DRM]] (OTT).
 3. **Deliver** — live often [[Multicast]] on LAN/ISP; VOD/ABR over HTTPS CDN.
-4. **Play** — STB or app reads EPG, joins/pulls stream, decrypts, renders.
+4. **Play** — STB or application reads EPG, joins/pulls stream, decrypts, renders.
 
 ---
 

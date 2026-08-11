@@ -74,7 +74,7 @@ journalctl -u nginx -b --no-pager | tail
 ## When NOT to use
 
 - **Non-systemd systems** — OpenRC/sysv use other tools.
-- **Inside app containers without systemd** — use the orchestrator, not systemctl.
+- **Inside application containers without systemd** — use the orchestrator, not systemctl.
 
 ---
 

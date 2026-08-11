@@ -105,12 +105,12 @@ curl -s -H "Authorization: Bearer $CF_TOKEN" \
 - **CNAME at `@`** is invalid in plain DNS — registrars offering "CNAME flattening" hide this; know your provider's behavior.
 - **NS at apex must match parent delegation** — mismatch = lame delegation intermittent failures.
 - **TTL 86400 during migration** = up to 24h pain; lower TTL **before** cutover, not after.
-- **Split-horizon zones** (internal vs external) drift easily — treat as two zones with sync discipline.
+- **Split-horizon zones** (internal versus external) drift easily — treat as two zones with sync discipline.
 
 ## When NOT to use
 
 - Single static host entry on one machine → `/etc/hosts` or local [[dnsmasq]] stub.
-- Global anycast without understanding secondary sync → managed DNS (Route53, Cloudflare) reduces ops load.
+- Global anycast without understanding secondary sync → managed DNS (Route53, Cloudflare) reduces operations load.
 
 ## Related
 

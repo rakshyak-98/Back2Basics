@@ -30,7 +30,7 @@ Physical core
 
 ### How the story goes
 
-1. **Enumerate** — topology: cores vs threads.
+1. **Enumerate** — topology: cores versus threads.
 2. **Schedule** — OS places tasks on logical CPUs.
 3. **Contend** — siblings fight for caches/ports under load.
 4. **Tune** — pin, or turn SMT off for noisy/sensitive workloads.

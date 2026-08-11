@@ -80,7 +80,7 @@ curl -s https://api.example.com | tee /dev/stderr | jq .
 ## When NOT to use
 
 - **Only save, never show** — plain `>` / `>>`.
-- **Structured logging in apps** — app logger + log shipper, not ad-hoc tee in prod entrypoints.
+- **Structured logging in apps** — application logger + log shipper, not ad-hoc tee in production entrypoints.
 - **Binary streams you must not duplicate** — tee copies bytes; watch disk.
 
 ---

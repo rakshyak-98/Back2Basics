@@ -107,7 +107,7 @@ ORMs ([[Prisma]], Sequelize-style clients) still need parameterization — never
 
 - **NULL semantics** — `= NULL` is unknown; use `IS NULL`. Three-valued logic surprises `NOT IN (…, NULL)`.
 - **Implicit casts** — `WHERE indexed_col = '123'` may disable index use depending on types ([[postgres parameter type error]]).
-- **Pool + session state** — `SET` / temp tables / last insert id may not stick in transaction-pooling mode ([[connection pooling]]).
+- **Pool + session state** — `SET` / temporary tables / last insert id may not stick in transaction-pooling mode ([[connection pooling]]).
 
 ---
 

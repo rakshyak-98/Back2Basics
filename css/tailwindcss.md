@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Tailwind is **not** a component library. It generates atomic utility classes (`flex`, `pt-4`, `text-slate-600`) from a config file. At build time, it scans your source files and emits **only used** rules — keeping prod CSS small.
+Tailwind is **not** a component library. It generates atomic utility classes (`flex`, `pt-4`, `text-slate-600`) from a configuration file. At build time, it scans your source files and emits **only used** rules — keeping production CSS small.
 
 ```
 Source files ──► Tailwind scanner (content globs)
@@ -20,7 +20,7 @@ Source files ──► Tailwind scanner (content globs)
               PostCSS pipeline ──► single bundled stylesheet
 ```
 
-v4 shift: CSS-first config with `@import "tailwindcss"` and `@theme` blocks (vs v3 `tailwind.config.js`).
+v4 shift: CSS-first configuration with `@import "tailwindcss"` and `@theme` blocks (versus v3 `tailwind.config.js`).
 
 ## Standard config / commands
 
@@ -128,7 +128,7 @@ location /assets/ {
 
 - **Email templates** — poor client support for utility-class HTML; use inline styles.
 - **Heavy bespoke design system with zero utility markup** — consider CSS modules or tokens-only approach.
-- **No build step allowed** — Tailwind v4 still needs compilation; raw CDN is dev/prototype only.
+- **No build step allowed** — Tailwind v4 still needs compilation; raw CDN is development/prototype only.
 
 ## Related
 

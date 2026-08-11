@@ -19,7 +19,7 @@ Your app ──links/includes──► GPL library
                 NO (mere aggregation) ──► your app license unchanged
 ```
 
-**Community Edition** servers (MySQL CE historically, many forks) often ship under GPL — using them as **separate processes** vs **linked libraries** changes compliance posture. Legal interpretation varies — escalate to counsel for product decisions.
+**Community Edition** servers (MySQL CE historically, many forks) often ship under GPL — using them as **separate processes** versus **linked libraries** changes compliance posture. Legal interpretation varies — escalate to counsel for product decisions.
 
 Versions:
 - **GPLv2** — no explicit patent grant; "system library" exception wording differs.
@@ -51,7 +51,7 @@ docker sbom myimage:tag | rg -i 'gpl'
 1. Inventory GPL/AGPL components in shipped artifact.
 2. Provide **Corresponding Source** (build scripts, lockfiles, instructions).
 3. Include LICENSE texts and copyright notices.
-4. Document how users obtain source (repo URL, offer for physical media if applicable).
+4. Document how users obtain source (repository URL, offer for physical media if applicable).
 5. Do **not** impose extra restrictions contradicting GPL.
 
 ### Safer integration patterns (engineering — not legal advice)

@@ -77,4 +77,4 @@ tput remcup; tput clear
 
 ## Related
 
-[[terminal emulator]] [[terminal config]] [[CLI]] [[login shell]] [[SSH]]
+[[terminal emulator]] [[terminal configuration]] [[CLI]] [[login shell]] [[SSH]]

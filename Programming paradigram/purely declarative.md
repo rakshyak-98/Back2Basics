@@ -74,7 +74,7 @@ EXPLAIN ANALYZE SELECT ...;
 ## When NOT to use
 
 - Don't use declarative DSL for procedural algorithms (sort implementation) — use a general language.
-- Don't SQL everything in app strings — ORM/query builder for structure + safety.
+- Don't SQL everything in application strings — ORM/query builder for structure + safety.
 
 ## Related
 

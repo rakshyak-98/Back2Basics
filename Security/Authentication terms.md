@@ -68,7 +68,7 @@ authn_success user_id=... method=oidc
 authz_denied  user_id=... resource=... action=delete
 ```
 
-**Why separate AuthN/AuthZ:** passing login doesn't imply admin — check permissions every request.
+**Why separate AuthN/AuthZ:** passing login doesn't imply administrator — check permissions every request.
 
 ---
 

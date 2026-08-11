@@ -16,7 +16,7 @@ Request ──► AuthN (who) ──► IAM policy eval ──► Allow/Deny ─
                 └── SCP (org max)    └── resource policy (S3/KMS/Lambda)
 ```
 
-**Deny always wins.** Permission boundary caps what a role/user can ever receive even if admin attaches `AdministratorAccess`.
+**Deny always wins.** Permission boundary caps what a role/user can ever receive even if administrator attaches `AdministratorAccess`.
 
 ## Standard config / commands
 

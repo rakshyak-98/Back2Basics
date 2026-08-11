@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** ASGI — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** ASGI — web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
 
 Asynchronous Server Gateway Interface (ASGI)
 web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
@@ -20,13 +19,6 @@ web servers to forward request to asynchronous-capable python programming langua
 >A thread pool can be used to run the synchronous WSGI applications away from the async event loop
 >
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ASGI** | Core idea of this note | “I can explain ASGI without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

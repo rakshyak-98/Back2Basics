@@ -8,13 +8,13 @@
 
 ## Mental model
 
-**Say it in one breath:** Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — I can explain the job, the configuration, and the top failure without jargon.
 
 
 **Author:** Rakshyak (@rakshak_sat)
 **Date:** March 10, 2026
 **Goal:** Build a minimal viable prototype of an event-driven serverless task manager by weekend (target: deploy and test by March 15, 2026). This will demonstrate auto-scaling Lambdas triggered by DynamoDB Streams for task creation/updates, processing notifications via SNS. Focus on infrastructure patterns for high-scale reliability in Bengaluru's cloud-heavy ecosystem (e.g., AWS Mumbai region for low latency).
-This draft doc serves as your blueprint: tech stack, phased plan, code patterns, and resources. Implement iteratively—commit to GitHub daily for version control. Total effort: 10-15 hours, assuming basic AWS CLI setup.
+This draft document serves as your blueprint: tech stack, phased plan, code patterns, and resources. Implement iteratively—commit to GitHub daily for version control. Total effort: 10-15 hours, assuming basic AWS CLI setup.
 
 ### Interview map (words you can say)
 

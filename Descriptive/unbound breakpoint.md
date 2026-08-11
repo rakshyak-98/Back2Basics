@@ -79,7 +79,7 @@ module.exports = {
 
 ## When NOT to use
 
-- Don't fight unbound breakpoints in minified prod without source maps — use logging/tracing ([[Linux/loggging]]) instead.
+- Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/loggging]]) instead.
 
 ## Related
 

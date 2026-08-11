@@ -23,7 +23,7 @@ row written
 AFTER INSERT trigger (audit log, counter update)
 ```
 
-MySQL allows **one trigger per timing/event/table** (before 5.7 had limits; 8.0+ multiple with different names). Logic in triggers is **invisible to app code** — hard to test and version.
+MySQL allows **one trigger per timing/event/table** (before 5.7 had limits; 8.0+ multiple with different names). Logic in triggers is **invisible to application code** — hard to test and version.
 
 ## Standard config / commands
 

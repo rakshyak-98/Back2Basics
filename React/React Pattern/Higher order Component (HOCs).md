@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** `withX(Comp) => EnhancedComp`. Props flow through the wrapper; today hooks usually replace HOCs for app code.
+**Say it in one breath:** `withX(Comp) => EnhancedComp`. Props flow through the wrapper; today hooks usually replace HOCs for application code.
 
 ```txt
 withAuth(Cart) → checks token → renders Cart or login wall

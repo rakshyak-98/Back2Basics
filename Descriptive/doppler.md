@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Doppler stores secrets in **projects** × **configs** (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.
+Doppler stores secrets in **projects** × **configs** (development/staging/production). The CLI or SDK injects values at runtime — nothing sensitive lives in the repository.
 
 ```
 Developer / CI
@@ -91,7 +91,7 @@ doppler configure unset config
 
 ## When NOT to use
 
-- Static, non-sensitive config (feature flags, public URLs) — use normal config files or [[NodeJS/node-convict]].
+- Static, non-sensitive configuration (feature flags, public URLs) — use normal configuration files or [[NodeJS/node-convict]].
 - Air-gapped or strict data-residency without Doppler region support — use [[Security/KMS]] or Vault on-prem.
 - One-off local scripts where `.env.local` (gitignored) is simpler and the team agrees.
 

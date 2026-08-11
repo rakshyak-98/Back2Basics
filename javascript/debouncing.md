@@ -17,7 +17,7 @@ keystroke h → reset timer 300ms
 (stop)      → fire search("teh")
 ```
 
-vs [[throttle]]: throttle fires at most once per window **during** continuous events (scroll).
+versus [[throttle]]: throttle fires at most once per window **during** continuous events (scroll).
 
 | Use debounce | Use throttle |
 |--------------|--------------|

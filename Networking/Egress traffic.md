@@ -87,7 +87,7 @@ kubectl top pod -A --sort-by=network
 
 ## When NOT to use
 
-Don't NAT **everything** if instances need direct inbound (public ALB on app tier) — split tiers: public LB ingress, private app egress via NAT.
+Don't NAT **everything** if instances need direct inbound (public ALB on application tier) — split tiers: public LB ingress, private application egress via NAT.
 
 ---
 

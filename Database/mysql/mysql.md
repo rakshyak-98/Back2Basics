@@ -33,7 +33,7 @@ mysqld ──► parse → optimize → execute
 
 ### How the story goes (4 steps)
 
-1. **Connect** — user@host + auth plugin ([[cli]], [[mysql connection]]).
+1. **Connect** — user@host + authentication plugin ([[cli]], [[mysql connection]]).
 2. **Qualify** — pick database; tables live under it.
 3. **Run SQL** — DML/DDL; engine handles locks/WAL.
 4. **Observe** — `SHOW` / `EXPLAIN` / `performance_schema` when slow or wrong.
@@ -107,7 +107,7 @@ WHERE table_schema = 'your_db' AND table_name = 'your_table';
 
 - **Document / graph / pure cache workloads** — Mongo / Neo4j / Redis fit better than forcing MySQL.
 - **Analytics scans over huge history** — warehouse / columnar (or read replicas + careful design), not a hot OLTP primary.
-- **“Just a file DB for one laptop script”** — SQLite is simpler unless you already need MySQL ops.
+- **“Just a file DB for one laptop script”** — SQLite is simpler unless you already need MySQL operations.
 
 ---
 

@@ -73,7 +73,7 @@ export function ShellToggle() {
 ## When NOT to use
 
 - **Flat static pages** — composition without shared state is enough.
-- **Global app store needs** — Redux/Zustand, not a local composite.
+- **Global application store needs** — Redux/Zustand, not a local composite.
 
 ---
 

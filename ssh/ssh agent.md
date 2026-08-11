@@ -1,34 +1,29 @@
 [[ssh]]
 
-# and define "github-personal" in ~/.ssh/config with the right IdentityFile
+# ssh agent
 
-> and define "github-personal" in ~/.ssh/config with the right IdentityFile — use ssh-agent to hold your keys in memory. This prevents the need to type the…
+> ssh agent — background process that holds decrypted private keys in memory so you type the key passphrase once per login session.
 
 ---
 
 ## Mental model
 
-**Say it in one breath:** and define "github-personal" in ~/.ssh/config with the right IdentityFile is infra/security tooling — least privilege, clear config, observable failures.
+**Say it in one breath:** You run `ssh-agent`, load keys with `ssh-add`, and every `ssh` connection reuses those decrypted keys until you log out or kill the agent.
 
+`ssh-agent` stores private keys in memory after you unlock them with `ssh-add`. The keys stay encrypted on disk; only the agent process holds the decrypted material for outgoing SSH connections.
 
-use `ssh-agent` to hold your keys in memory. This prevents the need to type the passphrase repeatedly while keeping the key encrypted on the disk.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **and define "github-personal" in ~/.ssh/config with the right IdentityFile** | Core idea of this note | “I can explain and define "github-personal" in ~/.ssh/config with the right IdentityFile without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
+Define which key to use per host in `~/.ssh/config` (for example `IdentityFile ~/.ssh/id_ed25519_github` under `Host github.com`).
 
 ---
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+ssh-add -l
+ssh-add -d ~/.ssh/id_ed25519    # remove one key
+kill $SSH_AGENT_PID             # stop agent
 ```
 
 ---
@@ -37,22 +32,23 @@ use `ssh-agent` to hold your keys in memory. This prevents the need to type the 
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Could not open a connection to your authentication agent | Agent not running | Start `ssh-agent`; `eval` in shell |
+| Permission denied still | Wrong key not loaded | `ssh-add -l`; add correct `IdentityFile` |
+| Passphrase asked every time | Agent not started in login shell | Add agent start to shell profile or desktop keyring |
+| Agent forwards in untrusted host | `ForwardAgent yes` | Disable agent forwarding except jump hosts you trust |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Keys in the agent are **decrypted in memory** — lock screen when away from the machine.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not run ssh-agent forwarding into untrusted servers.
 
 ---
 

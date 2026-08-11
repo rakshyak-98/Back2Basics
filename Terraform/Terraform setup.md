@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Setup = install CLI → pin versions → configure [[terraform provider]] → auth → (optional) remote state → first [[Terraform workflow]].
+Setup = install CLI → pin versions → configure [[terraform provider]] → authentication → (optional) remote state → first [[Terraform workflow]].
 
 ## Install CLI
 
@@ -178,7 +178,7 @@ provider "azurerm" {
 }
 ```
 
-Auth: `az login`, SP env (`ARM_CLIENT_ID` …), or managed identity. Backend: Azure Blob.
+authentication: `az login`, SP environment (`ARM_CLIENT_ID` …), or managed identity. Backend: Azure Blob.
 
 ### Kubernetes
 ```hcl
@@ -227,7 +227,7 @@ project-root/
         └── outputs.tf
 ```
 
-All root `*.tf` files are merged into one config (order of files does not matter).
+All root `*.tf` files are merged into one configuration (order of files does not matter).
 
 ### Environments (Brikman)
 
@@ -239,7 +239,7 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 
 1. Install Terraform
 2. Pick cloud: AWS or GCP section above → `versions.tf` + `providers.tf`
-3. Auth (env / ADC / role) — never commit secrets
+3. authentication (environment / ADC / role) — never commit secrets
 4. Optional remote `backend.tf` (S3 or GCS)
 5. `terraform init` → download plugins ([[Terraform CLI]])
 6. `terraform plan` → `terraform apply` ([[Terraform workflow]])

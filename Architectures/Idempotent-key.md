@@ -79,7 +79,7 @@ CREATE TABLE idempotency_keys (
 ## When NOT to use
 
 - **Pure reads** — no need.
-- **Ops that must intentionally create many** — bulk create without keys is fine if duplicates are wanted.
+- **operations that must intentionally create many** — bulk create without keys is fine if duplicates are wanted.
 
 ## Related
 

@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
 ## When NOT to use
 
 - **Value drives UI** — use `useState` / `useReducer`.
-- **Derived from props** — compute during render; don’t mirror into a ref unless you need “previous.”
+- **Derived from props** — compute during render; don’t mirror into a reference unless you need “previous.”
 
 ---
 

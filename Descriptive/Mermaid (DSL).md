@@ -60,7 +60,7 @@ sequenceDiagram
 ```mermaid
 graph TD
   A[Symptom: 502] --> B{Upstream up?}
-  B -->|no| C[Fix app pool]
+  B -->|no| C[Fix application pool]
   B -->|yes| D[Check Nginx timeout]
 ```
 ```
@@ -128,4 +128,4 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 
 ## Related
 
-[[INDEX]] · [[NOTES_STANDARD]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace app]]
+[[INDEX]] · [[NOTES_STANDARD]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace application]]

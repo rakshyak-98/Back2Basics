@@ -88,7 +88,7 @@ lsof -i -P -n
 
 ## When NOT to use
 
-- **New app protocols in C sockets by default** — use mature libraries (TLS, HTTP/2, QUIC) unless you must own bytes.
+- **New application protocols in C sockets by default** — use mature libraries (TLS, HTTP/2, QUIC) unless you must own bytes.
 - **Confusing BSD-the-OS hardening docs with the socket API** — OpenBSD ≠ `socket(2)` man page on Linux.
 - **Teaching only “mandatory client/server”** — datagram and Unix sockets break that mental trap.
 

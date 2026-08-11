@@ -8,28 +8,20 @@
 
 ## Mental model
 
-**Say it in one breath:** nginx fastcgi is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** nginx fastcgi — if you want nginx to handle other languages, you have two main routes.
 
 [fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
 if you want nginx to handle other languages, you have two main routes.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **nginx fastcgi** | Core idea of this note | “I can explain nginx fastcgi without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
-```bash
-# status
-# check version, auth, and recent changes
+```nginx
+location ~ \.php$ {
+    include fastcgi_params;
+    fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}
 ```
 
 ---
@@ -38,22 +30,23 @@ if you want nginx to handle other languages, you have two main routes.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| 502 Bad Gateway | php-fpm socket down | `systemctl status php8.2-fpm`; socket path |
+| File download instead of execute | missing `fastcgi_pass` | PHP must pass to FPM not `root` |
+| PATH_INFO broken | split path info rules | Use documented `try_files` + fastcgi pattern |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> `SCRIPT_FILENAME` must be the **real filesystem path** PHP can open.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Prefer php-fpm over legacy `mod_php` in Apache for isolation.
+
 
 ---
 

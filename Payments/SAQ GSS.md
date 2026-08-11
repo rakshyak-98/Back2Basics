@@ -57,7 +57,7 @@ Pair with [[Payments/PSI GSS]] for technical architecture that qualifies.
 Officer signs attestation that:
 
 - Listed controls implemented
-- No prohibited storage of sensitive authentication data (CVV post-auth)
+- No prohibited storage of sensitive authentication data (CVV post-authentication)
 - Service providers PCI compliant
 
 ## Triage (when things break)
@@ -77,7 +77,7 @@ Officer signs attestation that:
 
 - **E-commerce + call center** mixed models — phone capture may blow GSS eligibility.
 - **Multi-PSP** — each must be in scope documentation.
-- **Logs/traces** accidentally capturing query params with tokens — rotate and redact.
+- **Logs/traces** accidentally capturing query parameters with tokens — rotate and redact.
 
 ## When NOT to use
 

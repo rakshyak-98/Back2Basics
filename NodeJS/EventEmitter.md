@@ -114,7 +114,7 @@ emitter.on('error', (err) => console.error(err));
 
 - **Cross-process messaging** — use [[child process]] IPC, Redis pub/sub, or a message broker.
 - **Request/response with one caller** — Promises/async functions are clearer than emit/wait hacks.
-- **Global event bus for all app state** — becomes undebuggable; prefer explicit DI or state store.
+- **Global event bus for all application state** — becomes undebuggable; prefer explicit DI or state store.
 
 ## Related
 

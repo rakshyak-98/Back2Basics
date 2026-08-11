@@ -94,4 +94,4 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 
 ## Related
 
-[[Model/Linear regression]] · [[regression]] · [[Visualization/Residual plot]] · [[Visualization/predicated vs actual plot]] · [[data preprocessing]]
+[[Model/Linear regression]] · [[regression]] · [[Visualization/Residual plot]] · [[Visualization/predicated versus actual plot]] · [[data preprocessing]]

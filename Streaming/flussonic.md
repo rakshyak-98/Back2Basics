@@ -49,7 +49,7 @@ Without Flussonic encryption, the stream is clear. Without license tokens, anyon
 
 ### License token story (4 steps)
 
-1. Player wants `content_id` — your app already authenticated the user.
+1. Player wants `content_id` — your application already authenticated the user.
 2. Your backend builds a short-lived token (user, device, content, expiry, rights) and **HMAC-signs** with the site key.
 3. Player sends license request + token (+ PSSH) to DoveRunner.
 4. DoveRunner validates signature and policy → returns decryption license to the CDM.

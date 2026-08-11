@@ -110,7 +110,7 @@ sudo pg_ctlcluster 16 main stop
 
 - **Simple embedded single-file needs** — SQLite.
 - **Pure cache / ephemeral keys** — Redis.
-- **Destroy/recreate clusters to “fix” prod** — restore + diagnose instead.
+- **Destroy/recreate clusters to “fix” production** — restore + diagnose instead.
 
 ---
 

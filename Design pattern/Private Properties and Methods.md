@@ -39,14 +39,6 @@ toy.getName(); // iPod
 - solve this by returning a new object containing only some of the data that could be interesting to the consumer of the object.
 #### Object Literals and Privacy
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Private Properties and Methods** | Core idea of this note | “I can explain Private Properties and Methods without jargon.” |
-| **scalability** | Handle more load | “Scale reads and writes differently.” |
-| **availability** | Stay up on failure | “Redundancy plus health checks.” |
-| **consistency** | Same data everywhere | “Pick C or A under partition.” |
 
 ---
 
@@ -78,7 +70,7 @@ toy.getName(); // iPod
 
 ## When NOT to use
 
-- Don’t over-design a CRUD app into Kafka+K8s on day one.
+- Don’t over-design a CRUD application into Kafka+K8s on day one.
 
 ---
 

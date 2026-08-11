@@ -73,7 +73,7 @@ docker service inspect web --pretty
 ## When NOT to use
 
 - **Single-host compose** — bridge + [[Docker compose]] is enough.
-- **Large multi-tenant prod** — Kubernetes/ECS usually win.
+- **Large multi-tenant production** — Kubernetes/ECS usually win.
 - **Non-Docker P2P storage** — don’t confuse with BitTorrent/Ethereum Swarm.
 
 ---

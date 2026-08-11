@@ -16,7 +16,7 @@
                                               └── AllowUsers / Match rules
 ```
 
-**Pubkey auth** trusts **possession of private key** + **server's authorized_keys list**. Password auth is separate — disable in prod after keys work.
+**Pubkey authentication** trusts **possession of private key** + **server's authorized_keys list**. Password authentication is separate — disable in production after keys work.
 
 ```
 ~/.ssh/authorized_keys   permissions 600
@@ -76,7 +76,7 @@ restrict,port-forwarding ssh-ed25519 AAAA... tunnel-user
 
 ### sshd_config — allow specific users
 
-→ Full directive reference: [[sshd config]]
+→ Full directive reference: [[sshd configuration]]
 
 ```ini
 # /etc/ssh/sshd_config — validate with sudo sshd -t after edit
@@ -99,8 +99,8 @@ sudo sshd -t && sudo systemctl reload sshd   # never restart blindly on remote b
 
 ### AllowUsers vs AllowGroups
 
-- **AllowUsers** — if set, *only* listed users may SSH (others rejected before auth completes messaging).
-- Omit AllowUsers = any local user with valid auth method allowed (subject to PermitRootLogin etc.).
+- **AllowUsers** — if set, *only* listed users may SSH (others rejected before authentication completes messaging).
+- Omit AllowUsers = any local user with valid authentication method allowed (subject to PermitRootLogin etc.).
 
 ### Local system login (`127.0.0.1`)
 
@@ -149,8 +149,8 @@ Common log lines:
 > [!WARNING]
 > **World-readable authorized_keys or home** — sshd ignores keys silently (secure default).
 
-- **Cloud images** — default user (`ubuntu`, `ec2-user`) with cloud-init injected key; manual keys additive.
-- **Duplicate keys / paste corruption** — line break mid-key breaks auth; one line per key.
+- **Cloud images** — default user (`ubuntu`, `ec2-user`) with cloud-initialize injected key; manual keys additive.
+- **Duplicate keys / paste corruption** — line break mid-key breaks authentication; one line per key.
 - **`ssh-copy-id`** — convenient but verify permissions after; overwrites doesn't merge carefully.
 - **SELinux** — `restorecon -Rv ~/.ssh` if context wrong on RHEL.
 - **ForceCommand + SFTP** — use `internal-sftp` subsystem pattern for chrooted SFTP, not random shell script.

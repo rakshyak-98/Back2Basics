@@ -73,7 +73,7 @@ obj.f.bind({ n: 2 })() // 2
 
 ## When NOT to use
 
-- **Pure functions** — pass args; avoid `this`.
+- **Pure functions** — pass arguments; avoid `this`.
 - **Most modern React** — function components + hooks.
 
 ## Related

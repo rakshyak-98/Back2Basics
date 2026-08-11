@@ -18,7 +18,7 @@ Each email ─────┴──► sendMail({ from, to, subject, html })
                          └── SMTP session (587 STARTTLS or 465 SMTPS)
 ```
 
-Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display vs bounce address). Production apps pool one transporter; don't create per request.
+Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
 
 ## Standard config / commands
 
@@ -109,7 +109,7 @@ createTransport({ ..., logger: true, debug: true });
 
 ## When NOT to use
 
-- **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from app servers.
+- **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from application servers.
 - **Receiving mail** — transporter is outbound only; use [[IMAP (Internet Message Access Protocol)]] / [[POP3 (Post Office Protocol v3)]] for inbound.
 
 ## Related

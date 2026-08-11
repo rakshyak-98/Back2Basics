@@ -82,7 +82,7 @@ terraform init -migrate-state    # after backend change
 
 ## What `plan` / `apply` do
 
-1. Load config + [[variable file]] values
+1. Load configuration + [[variable file]] values
 2. Refresh state against cloud (unless `-refresh=false`)
 3. Compute actions: create / update / replace / destroy
 4. Apply: call [[terraform provider]], then write state
@@ -173,7 +173,7 @@ resource "aws_instance" "web" {
 ## When NOT to use
 
 - **Hotfix outside Terraform** — then import or accept drift; don’t fight both consoles.
-- **Destroy in prod without plan review** — always `plan` destroy first.
+- **Destroy in production without plan review** — always `plan` destroy first.
 
 ## Related
 

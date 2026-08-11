@@ -68,7 +68,7 @@ app.use(compression())
 ## When NOT to use
 
 - **Premature cluster** — fix the hot path first.
-- **App-level gzip only** — often better at the edge/proxy.
+- **application-level gzip only** — often better at the edge/proxy.
 
 ---
 

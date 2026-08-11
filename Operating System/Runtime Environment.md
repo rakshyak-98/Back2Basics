@@ -22,7 +22,7 @@ Components:
 - **Dynamic linker** (`ld.so`) + shared libs (`libc`, `libstdc++`)
 - **Language VM** (JVM, .NET, V8 for Node, BEAM)
 - **OS interface** — syscalls, [[file descriptors]], [[Linux cgroup]] limits
-- **Config/env** — `PATH`, `LD_LIBRARY_PATH`, `JAVA_HOME`, timezone, DNS
+- **configuration/environment** — `PATH`, `LD_LIBRARY_PATH`, `JAVA_HOME`, timezone, DNS
 
 **"Works on my machine"** = runtime mismatch (glibc version, missing `.so`, wrong Node LTS).
 
@@ -95,7 +95,7 @@ ldd --version
 
 ## When NOT to use
 
-Don't bundle an entire VM for every microservice if a **static binary or distroless** image with pinned deps suffices — balance reproducibility vs image size.
+Don't bundle an entire VM for every microservice if a **static binary or distroless** image with pinned deps suffices — balance reproducibility versus image size.
 
 ---
 

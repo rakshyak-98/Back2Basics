@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** TCP gives you a pipe of bytes that arrive in order. Your app must split messages; the kernel splits packets.
+**Say it in one breath:** TCP gives you a pipe of bytes that arrive in order. Your application must split messages; the kernel splits packets.
 
 ```txt
 App write("HELLO") write("WORLD")
@@ -39,7 +39,7 @@ App write("HELLO") write("WORLD")
 4. **Pace** — `rwnd` (peer buffer) + `cwnd` (network) limit in-flight data.
 5. **Close** — each side FIN/ACKs (four-way); TIME-WAIT holds the old tuple.
 
-vs [[UDP]]: UDP keeps datagram edges, no connect state, no delivery guarantee — better for latency-sensitive media when the app handles loss.
+versus [[UDP]]: UDP keeps datagram edges, no connect state, no delivery guarantee — better for latency-sensitive media when the application handles loss.
 
 ---
 
@@ -54,7 +54,7 @@ sysctl net.ipv4.tcp_fin_timeout
 sysctl net.core.somaxconn
 ```
 
-App framing examples: HTTP `Content-Length` / chunked; length-prefix RPC; newline JSON lines.
+application framing examples: HTTP `Content-Length` / chunked; length-prefix RPC; newline JSON lines.
 
 ---
 
@@ -87,7 +87,7 @@ App framing examples: HTTP `Content-Length` / chunked; length-prefix RPC; newlin
 ## When NOT to use
 
 - **Live A/V with loss tolerance** — often [[UDP]] + codec concealment (WebRTC).
-- **Tiny request/response where UDP + app retry is enough** — DNS-like patterns (with care).
+- **Tiny request/response where UDP + application retry is enough** — DNS-like patterns (with care).
 - **Multicast discovery** — TCP is point-to-point.
 
 ---

@@ -14,7 +14,7 @@ An **MCP host** (Cursor, Claude Desktop) runs **MCP clients** that connect to **
 Host (IDE) → MCP Client ↔ transport ↔ MCP Server (git, DB, browser, …)
 ```
 
-Spec evolves — streamable HTTP supersedes early SSE-only patterns for remote servers.
+specification evolves — streamable HTTP supersedes early SSE-only patterns for remote servers.
 
 ## Standard config / commands
 

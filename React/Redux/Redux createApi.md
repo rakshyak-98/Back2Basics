@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** `createApi` describes how to talk to your backend. Queries cache by endpoint+args; mutations invalidate tags so lists refetch. Hooks are React sugar over the same API slice.
+**Say it in one breath:** `createApi` describes how to talk to your backend. Queries cache by endpoint+arguments; mutations invalidate tags so lists refetch. Hooks are React sugar over the same API slice.
 
 ```txt
 createApi({ baseQuery, tagTypes, endpoints })

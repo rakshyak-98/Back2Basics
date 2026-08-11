@@ -51,7 +51,7 @@ lscpu
 # Compare benchmark under load vs idle
 ```
 
-**Why care in K8s:** Bursty jobs on same node raise package temp → **shared frequency drop** for all pods on socket.
+**Why care in K8s:** Bursty jobs on same node raise package temporary → **shared frequency drop** for all pods on socket.
 
 ---
 

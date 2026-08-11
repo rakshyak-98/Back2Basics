@@ -42,13 +42,13 @@ SHOW COLUMNS FROM table_name;
 SHOW INDEX FROM table_name;
 ```
 
-JDBC (dev / trusted network):
+JDBC (development / trusted network):
 
 ```txt
 jdbc:mysql://host:3306/db?allowPublicKeyRetrieval=true&useSSL=false
 ```
 
-Prefer prod:
+Prefer production:
 
 ```txt
 jdbc:mysql://host:3306/db?sslMode=REQUIRED
@@ -91,7 +91,7 @@ jdbc:mysql://host:3306/db?sslMode=REQUIRED
 
 - **Disabling SSL to “make JDBC work” on the public internet** — fix certs instead.
 - **Treating this note as a general SQL error catalog** — it’s the MySQL 8 + JDBC public-key failure mode.
-- **Changing auth plugins without understanding clients** — breaks other apps mid-flight.
+- **Changing authentication plugins without understanding clients** — breaks other apps mid-flight.
 
 ---
 

@@ -24,8 +24,6 @@ Each process sees a **virtual address space** (heap, mmap, stack). Physical RAM 
 
 **RSS** (resident set) ≈ RAM actually used by process. **VSZ** ≈ virtual size (often much larger).
 
----
-
 ### Interview map (words you can say)
 
 | Word | Plain meaning | Say in interview |
@@ -110,7 +108,7 @@ See [[OOM (Linux Out Of Memory)]] and [[Linux cgroup]] for container limits.
 | Memory overhead | Lower | +(~MB × thread count) for stacks |
 | Communication | N/A | Shared heap — needs sync ([[mutexes]]) |
 
-Stack ops are fast (LIFO, compiler-managed). Thread stacks are allocated at thread creation — configure if deep recursion expected.
+Stack operations are fast (LIFO, compiler-managed). Thread stacks are allocated at thread creation — configure if deep recursion expected.
 
 ---
 

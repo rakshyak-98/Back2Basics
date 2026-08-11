@@ -54,7 +54,7 @@ mount --bind /mnt/fast-disk/pgdata /var/lib/postgresql/data
 # App sees same path; bits on different device
 ```
 
-**Why bind mounts:** migrate data without reconfiguring app paths — common in container volume patterns.
+**Why bind mounts:** migrate data without reconfiguring application paths — common in container volume patterns.
 
 ---
 

@@ -1,4 +1,4 @@
-[[Linux configuration]] [[Linux terminal]] [[terminal config]]
+[[Linux configuration]] [[Linux terminal]] [[terminal configuration]]
 
 # Font commands (fontconfig)
 
@@ -73,15 +73,15 @@ sudo fc-cache -fv
 > [!WARNING]
 > **Flatpak/Snap** — host fonts don't always propagate. Use `flatpak override --user --filesystem=~/.local/share/fonts` or install font inside sandbox.
 
-- **X11 vs Wayland** — font rendering differs (Xft, Cairo, subpixel). Same `fc-match` can look different; not always a fontconfig bug.
+- **X11 versus Wayland** — font rendering differs (Xft, Cairo, subpixel). Same `fc-match` can look different; not always a fontconfig bug.
 - **Clearing cache blindly** — `rm -rf ~/.cache/fontconfig` fixes corruption but forces full rebuild on next login.
 
 ## When NOT to use
 
-- **Choosing a font for design** — use a font book or app UI; `fc-list` is for ops/debug.
-- **PDF/print embedding** — fontconfig doesn't embed; that's app-specific (LibreOffice, LaTeX).
+- **Choosing a font for design** — use a font book or application UI; `fc-list` is for operations/debug.
+- **PDF/print embedding** — fontconfig doesn't embed; that's application-specific (LibreOffice, LaTeX).
 - **Windows/macOS font sync** — different stack entirely.
 
 ## Related
 
-[[Linux configuration]] [[Linux terminal]] [[terminal config]] [[wayland]] [[x11]]
+[[Linux configuration]] [[Linux terminal]] [[terminal configuration]] [[wayland]] [[x11]]

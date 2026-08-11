@@ -1,4 +1,4 @@
-[[Pods]] [[kubectl]] [[Kubernetes config]] [[Kubernetes services]] [[ingress]]
+[[Pods]] [[kubectl]] [[Kubernetes configuration]] [[Kubernetes services]] [[ingress]]
 
 # kubectl pod creation
 
@@ -25,7 +25,7 @@ A **Pod** is the smallest deployable unit: one or more containers that share net
 | `kubectl run` (no dry-run)                 | Quick throwaway pod in dev — avoid in prod                                |
 | `kubectl create -f`                        | One-shot create; fails on duplicate name (no upsert)                      |
 
-**Bare Pod vs Deployment:** a standalone Pod is not self-healing. Node loss or eviction does not recreate it. Production workloads almost always go through **Deployment** (or StatefulSet / Job). Bare Pods are for debug, batch one-offs, operators, or learning.
+**Bare Pod versus Deployment:** a standalone Pod is not self-healing. Node loss or eviction does not recreate it. Production workloads almost always go through **Deployment** (or StatefulSet / Job). Bare Pods are for debug, batch one-offs, operators, or learning.
 
 ## Standard config / commands
 
@@ -158,7 +158,7 @@ spec:
       image: myreg/api:1.2.3
 ```
 
-Init containers run to completion (or failure) in order before any main container starts.
+initialize containers run to completion (or failure) in order before any main container starts.
 
 ### apply vs create
 
@@ -216,11 +216,11 @@ kubectl get pod -n $NS $POD -o jsonpath='{.status.conditions[*].message}{"\n"}'
 
 ## When NOT to use
 
-- **Production app tiers** — create a **Deployment** (or StatefulSet) instead; bare Pod creation is for debug, Jobs, or operator-managed objects.
-- **Replacing GitOps** — manual `kubectl run` in prod drifts from Argo/Flux source; fix the repo.
+- **Production application tiers** — create a **Deployment** (or StatefulSet) instead; bare Pod creation is for debug, Jobs, or operator-managed objects.
+- **Replacing GitOps** — manual `kubectl run` in production drifts from Argo/Flux source; fix the repository.
 - **Scaling** — bare Pods don’t scale; use Deployment `replicas` or HPA.
 - **Stateful identity** — ordered storage + stable network ID → StatefulSet, not a hand-crafted Pod.
 
 ## Related
 
-[[Pods]] [[kubectl]] [[Kubernetes config]] [[Kubernetes services]] [[ingress]] [[Cilium]] [[Docker compose]]
+[[Pods]] [[kubectl]] [[Kubernetes configuration]] [[Kubernetes services]] [[ingress]] [[Cilium]] [[Docker compose]]

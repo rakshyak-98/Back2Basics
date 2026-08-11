@@ -30,7 +30,7 @@ Power on → UEFI POST → discover disks
 
 ### How the story goes
 
-1. **POST** — init CPU/RAM/devices.
+1. **POST** — initialize CPU/RAM/devices.
 2. **Discover** — GPT + ESP; network boot optional (HTTP/PXE variants).
 3. **Load** — run selected `.efi` (shim → GRUB → Linux EFI stub).
 4. **Hand off** — ExitBootServices; kernel owns the machine.
@@ -94,7 +94,7 @@ sudo parted /dev/sda print   # expect gpt + esp flag
 
 - **Ancient hardware with BIOS-only** — stay on MBR + CSM (or replace hardware).
 - **Tiny embedded with custom ROM** — may not speak UEFI at all.
-- **You only needed partition layout** — see [[UEFI (2)]] / [[MBR]] for MBR vs GPT choice.
+- **You only needed partition layout** — see [[UEFI (2)]] / [[MBR]] for MBR versus GPT choice.
 
 ---
 

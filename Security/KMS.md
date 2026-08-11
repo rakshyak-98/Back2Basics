@@ -87,7 +87,7 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 
 ## When NOT to use
 
-- **App-level secrets in env vars without envelope** — use Secrets Manager/SSM Parameter Store **with** KMS CMK.
+- **application-level secrets in environment variables without envelope** — use Secrets Manager/SSM Parameter Store **with** KMS CMK.
 - **Password hashing** — KMS encrypt ≠ bcrypt/Argon2; use for **encryption at rest**, not password storage.
 - **High-frequency per-field encrypt on hot path without cache** — cost + latency; batch or use AES-GCM with rotated data keys.
 

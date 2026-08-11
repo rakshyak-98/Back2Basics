@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** 1. When git runs a command like `git push` it internally calls. is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** 1. When git runs a command like `git push` it internally calls. — create authentication token from GitHub personal access token
 
 ### reset the credential manager
 ```bash
@@ -17,8 +16,8 @@ git config --global --unset credentila.*; # remove the set credential helper
 git clone <https remote repo url>;
 git pull; # git will ask the username and auth token.
 ```
-- create auth token from [GitHub personal access token](https://github.com/settings/tokens)
-- paste the auth token password.
+- create authentication token from [GitHub personal access token](https://github.com/settings/tokens)
+- paste the authentication token password.
 ```bash
 git config --global credential.helper cache;
 ```
@@ -31,22 +30,13 @@ git config --global credential.helper cache;
 printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **1. When git runs a command like `git push` it internally calls.** | Core idea of this note | “I can explain 1. When git runs a command like `git push` it internally calls. without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+git config --global credential.helper cache
+git config --global --unset credential.helper
+git credential reject   # paste host=... protocol=https
 ```
 
 ---
@@ -55,22 +45,24 @@ printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Repeated password prompts | Helper not configured | Set `credential.helper` or use SSH remote |
+| Stored wrong password | Cached credentials | `git credential reject`; clear OS keychain entry |
+| Token works in browser not git | Using account password not PAT | Create personal access token; use as password |
+| HTTPS 401 after password change | Stale cache | Unset helper cache; re-authenticate |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Git credential helpers store secrets on disk or in the OS keychain — lock your workstation.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not embed tokens in remote URLs committed to the repository.
+
 
 ---
 

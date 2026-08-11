@@ -53,7 +53,7 @@ Video source → Encoder → Scrambler
 
 ## Standard config / commands
 
-Ops knobs live in the CAS vendor console + scrambler — there is no universal open CLI. Typical checks from the transport side:
+operations knobs live in the CAS vendor console + scrambler — there is no universal open CLI. Typical checks from the transport side:
 
 ```bash
 # Confirm ECM/EMM PIDs present in the TS (TSDuck / analyzer)

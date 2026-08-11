@@ -8,7 +8,7 @@
 
 ## Mental model
 
-A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome vs Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.
+A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome versus Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.
 
 ```
 Parent (overflow:hidden, width: 40%)

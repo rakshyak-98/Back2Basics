@@ -19,7 +19,7 @@ App / API ─────┼───►│ MongoDB     │  flexible documents
                └───►│ S3 + Athena │  cold analytics
 ```
 
-**Heterogeneous** = different data models, query languages, consistency models ([[ACID]] vs [[BASE]]), ops tooling. Cohesion comes from **application layer** (API, events, ETL) — not a single SQL dialect.
+**Heterogeneous** = different data models, query languages, consistency models ([[ACID]] versus [[BASE]]), operations tooling. Cohesion comes from **application layer** (API, events, ETL) — not a single SQL dialect.
 
 ## Standard config / commands
 

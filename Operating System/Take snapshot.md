@@ -104,7 +104,7 @@ lvcreate -L1G -s -n db_snap /vg/db_lv
 
 ## When NOT to use
 
-Do not snapshot instead of proper logging/metrics for routine ops. Snapshots are for **incidents**, capacity planning, or migration — not continuous telemetry.
+Do not snapshot instead of proper logging/metrics for routine operations. Snapshots are for **incidents**, capacity planning, or migration — not continuous telemetry.
 
 ---
 

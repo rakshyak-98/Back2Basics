@@ -24,7 +24,7 @@ Round 2: tree fixes what round 1 missed
 Final: weighted sum of M small trees
 ```
 
-**vs [[Random forest]]:** RF trains trees **in parallel** on bootstrap samples + random features (bagging). GBDT trains **sequentially**, each tree correcting prior bias — often higher accuracy, more tuning sensitivity.
+**versus [[Random forest]]:** RF trains trees **in parallel** on bootstrap samples + random features (bagging). GBDT trains **sequentially**, each tree correcting prior bias — often higher accuracy, more tuning sensitivity.
 
 **Loss linkage:** regression → MSE residuals; binary classification → log-loss → residuals on log-odds; ranking → LambdaRank-style gradients.
 

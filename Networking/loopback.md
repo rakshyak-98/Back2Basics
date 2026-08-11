@@ -16,13 +16,13 @@ App connects to 127.0.0.1:5432
 ```
 
 Uses:
-- Local services (DB, Redis, dev servers)
+- Local services (DB, Redis, development servers)
 - Health checks bound to localhost only
-- **DNS resolving to loopback** — `/etc/hosts` dev entries (`127.0.0.1 myapp.local`)
+- **DNS resolving to loopback** — `/etc/hosts` development entries (`127.0.0.1 myapp.local`)
 
 Distinct from **[[localhost]]** hostname convention — loopback is the interface/address family.
 
-**Security angle:** remote attacker can't reach `127.0.0.1` on your machine directly, but **DNS rebinding** and **SSRF** can trick *your browser or app* into hitting local services.
+**Security angle:** remote attacker can't reach `127.0.0.1` on your machine directly, but **DNS rebinding** and **SSRF** can trick *your browser or application* into hitting local services.
 
 ---
 
@@ -55,7 +55,7 @@ getent hosts api.local.test
 curl -v http://127.0.0.1:8080/health
 ```
 
-**Why bind localhost:** expose admin/metrics only to local reverse proxy or SSH tunnel — not the LAN.
+**Why bind localhost:** expose administrator/metrics only to local reverse proxy or SSH tunnel — not the LAN.
 
 ---
 
@@ -85,7 +85,7 @@ curl -v http://127.0.0.1:8080/health
 
 ## When NOT to use
 
-Don't rely on loopback binding alone in **multi-tenant hosts** — containers share kernel; use network namespaces and auth.
+Don't rely on loopback binding alone in **multi-tenant hosts** — containers share kernel; use network namespaces and authentication.
 
 ---
 

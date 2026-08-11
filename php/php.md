@@ -68,7 +68,7 @@ memory_limit = 256M
 
 ## When NOT to use
 
-- Don't use built-in PHP dev server (`php -S`) in production — no FPM isolation or robustness.
+- Don't use built-in PHP development server (`php -S`) in production — no FPM isolation or robustness.
 - Don't install every extension "just in case" — attack surface and memory.
 
 ## Related

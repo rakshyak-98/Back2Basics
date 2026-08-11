@@ -21,7 +21,7 @@ Host kernel
         └── read-only rootfs + tmpfs/volumes for writes
 ```
 
-**Goal:** compromise of app → contained to least privilege; no host root, no new privs, no sensitive syscalls.
+**Goal:** compromise of application → contained to least privilege; no host root, no new privs, no sensitive syscalls.
 
 ## Standard config / commands
 
@@ -155,7 +155,7 @@ networks:
 > **`--privileged` disables seccomp + caps** — equivalent to near-root on host. Ban in prod policy.
 
 - **Root in container + breakout CVE** — kernel bug + root = host compromise; non-root raises bar.
-- **Writable `/tmp` exec** — mount `tmpfs` with `noexec` where possible.
+- **Writable `/tmp` execute** — mount `tmpfs` with `noexec` where possible.
 - **Image secrets in layers** — `ENV API_KEY=` baked forever; use runtime inject + `.dockerignore`.
 - **LSM disabled hosts** — seccomp ≠ MAC; AppArmor/SELinux adds profile on top.
 - **K8s `securityContext` wins** — don't harden compose but leave K8s pods wide open.

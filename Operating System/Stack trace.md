@@ -33,7 +33,7 @@ BOTTOM at runMain (node:…)            ← process entry
 1. **Capture** — exception, abort, `SIGSEGV`, or debugger break.
 2. **Unwind** — walk frame pointers / DWARF / language metadata.
 3. **Symbolize** — resolve to function names and source lines.
-4. **Interpret** — top = what failed; middle = app path; bottom = runtime boot.
+4. **Interpret** — top = what failed; middle = application path; bottom = runtime boot.
 
 ---
 

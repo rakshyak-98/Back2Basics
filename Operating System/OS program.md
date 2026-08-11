@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** App code + libc live in user mode; privileged work happens only after a syscall traps into kernel mode.
+**Say it in one breath:** application code + libc live in user mode; privileged work happens only after a syscall traps into kernel mode.
 
 ```txt
 printf("hi\n")
@@ -33,7 +33,7 @@ printf("hi\n")
 1. **Run** — loader maps binary; CPU in user mode.
 2. **Need service** — open/read/write/mmap/clone…
 3. **Trap** — kernel validates, does work (maybe sleep).
-4. **Return** — value or `errno`; app continues.
+4. **Return** — value or `errno`; application continues.
 
 ---
 
@@ -88,9 +88,9 @@ ls -l /proc/self/fd
 
 ## When NOT to use
 
-- **In-kernel modules for app logic** — keep policy in user space; smaller blast radius.
+- **In-kernel modules for application logic** — keep policy in user space; smaller blast radius.
 - **Busy-spin on devices from userland** — use proper drivers / `poll`/`epoll`.
-- **Bypassing the kernel with `/dev/mem` in prod** — last resort, not a product architecture.
+- **Bypassing the kernel with `/dev/mem` in production** — last resort, not a product architecture.
 
 ---
 

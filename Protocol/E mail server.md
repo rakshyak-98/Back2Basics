@@ -68,7 +68,7 @@ dig +short -x $(curl -s ifconfig.me)     # reverse PTR for sending IP
 - [ ] **DMARC** policy (`p=none` → monitor, then `quarantine`/`reject`)
 - [ ] **PTR/rDNS** matches SMTP EHLO hostname
 - [ ] **TLS cert** valid for submission/IMAP hostnames
-- [ ] **Firewall**: 25/587/993 open as needed; block 25 outbound on app servers not sending mail
+- [ ] **Firewall**: 25/587/993 open as needed; block 25 outbound on application servers not sending mail
 - [ ] **Relay policy**: authenticated users only on 587; no open relay on 25
 - [ ] **Queue monitoring** + alert on backlog depth
 
@@ -98,7 +98,7 @@ dig +short -x $(curl -s ifconfig.me)     # reverse PTR for sending IP
 ## When NOT to use
 
 - Product email at scale → managed [[SMTP]] relay (SES, SendGrid) beats running your own MTA reputation.
-- Dev-only fake SMTP → Mailhog/Mailpit locally; don't point at production MX.
+- development-only fake SMTP → Mailhog/Mailpit locally; don't point at production MX.
 
 ## Related
 

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**ARM** (Advanced RISC Machine) uses **Reduced Instruction Set Computing**: simple instructions, register-register ops, explicit load/store to memory. **AArch64** (64-bit) is the modern server and mobile baseline.
+**ARM** (Advanced RISC Machine) uses **Reduced Instruction Set Computing**: simple instructions, register-register operations, explicit load/store to memory. **AArch64** (64-bit) is the modern server and mobile baseline.
 
 ```
 Program Counter (PC) → fetch instruction → decode → execute → writeback
@@ -49,7 +49,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t myapp:latest .
 ### AWS Graviton (cost/perf)
 
 - Choose `m7g` / `c7g` instance families — verify binary has **arm64** build
-- Same app, ~20–40% better price-performance for many workloads vs x86
+- Same application, ~20–40% better price-performance for many workloads versus x86
 
 ### Debug register / PC (gdb)
 

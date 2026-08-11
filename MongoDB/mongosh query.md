@@ -72,7 +72,7 @@ db.orders.find({ status: 'paid' }).explain('executionStats')
 
 ## When NOT to use
 
-- **App production path** — driver with timeouts/pools.
+- **application production path** — driver with timeouts/pools.
 - **Giant reporting** — warehouse / secondary + aggregate carefully.
 
 ## Related

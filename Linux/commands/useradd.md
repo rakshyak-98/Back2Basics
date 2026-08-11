@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** writes `/etc/passwd` (+ shadow/group); flags decide home, shell, system vs login user.
+**Say it in one breath:** writes `/etc/passwd` (+ shadow/group); flags decide home, shell, system versus login user.
 
 ```txt
 useradd ──► passwd/shadow/group entries

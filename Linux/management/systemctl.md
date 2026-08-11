@@ -31,7 +31,7 @@ systemctl <verb> <unit>
 ### How the story goes (4 steps)
 
 1. **Inspect** — `status`, `is-active`, `cat`.
-2. **Change config** — edit unit or drop-in.
+2. **Change configuration** — edit unit or drop-in.
 3. **daemon-reload** — teach systemd the new text.
 4. **restart / enable** — apply runtime and boot policy.
 

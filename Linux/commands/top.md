@@ -125,7 +125,7 @@ ps aux --sort=-%cpu | head
 
 - **Don’t rely on `top` for multi-day trends** — use Prometheus/Node exporter, `sar`, or cloud metrics.
 - **Don’t debug socket/file leaks in `top`** — use [[lsof]] / [[file descriptors]].
-- **Don’t renice randomly in prod** — document policy; cgroups are the real limiter ([[cgroup (Control Group)]]).
+- **Don’t renice randomly in production** — document policy; cgroups are the real limiter ([[cgroup (Control Group)]]).
 
 ---
 

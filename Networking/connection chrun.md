@@ -110,9 +110,9 @@ ss -tan state time-wait | wc -l
 
 ## When NOT to use
 
-- **Long-lived WebSocket/gRPC streams** — churn doc is wrong frame; debug read idle and proxy timeouts instead.
+- **Long-lived WebSocket/gRPC streams** — churn document is wrong frame; debug read idle and proxy timeouts instead.
 - **UDP “connections”** — no TIME_WAIT; different tools (`ss -u`).
-- **Tuning `fin_timeout` to 5** globally — can break legit slow closes; fix app reuse first.
+- **Tuning `fin_timeout` to 5** globally — can break legit slow closes; fix application reuse first.
 
 ## Related
 

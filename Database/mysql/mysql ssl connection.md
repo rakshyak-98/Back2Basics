@@ -8,7 +8,7 @@
 
 ## Mental model
 
-MySQL supports TLS on connection (like Postgres `sslmode`). Server presents certificate; client verifies CA (`ssl-ca`). **Mutual TLS** adds client cert (`ssl-cert`, `ssl-key`) for auth.
+MySQL supports TLS on connection (like Postgres `sslmode`). Server presents certificate; client verifies CA (`ssl-ca`). **Mutual TLS** adds client cert (`ssl-cert`, `ssl-key`) for authentication.
 
 ```
 App (mysql2/pg driver) ──TLS──► MySQL server
@@ -103,8 +103,8 @@ Download combined CA bundle from provider; use `ssl: { ca: rdsCa }` in driver.
 
 ## When NOT to use
 
-- **Local dev on localhost socket only** — optional; still good practice.
-- **Performance micro-optimization on private VPC** — TLS overhead usually negligible vs query cost.
+- **Local development on localhost socket only** — optional; still good practice.
+- **Performance micro-optimization on private VPC** — TLS overhead usually negligible versus query cost.
 
 ## Related
 

@@ -35,9 +35,9 @@ IO-bound:   HTTP / DB / disk    →  needs concurrency while waiting
 
 ### How the story goes
 
-1. **Measure** — CPU% high vs mostly idle/`epoll_wait`.
-2. **Classify** — CPU vs I/O vs both.
-3. **Pick** — process pool / C extension vs async/thread pool.
+1. **Measure** — CPU% high versus mostly idle/`epoll_wait`.
+2. **Classify** — CPU versus I/O versus both.
+3. **Pick** — process pool / C extension versus async/thread pool.
 4. **Isolate** — never let CPU hogs occupy the I/O worker pool.
 
 ---

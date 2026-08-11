@@ -101,14 +101,14 @@ dig +short 113.0.0.203.zen.spamhaus.org   # reverse IP octets for some RBLs
 > [!WARNING]
 > **Forwarding breaks SPF** — forwarded mail fails SPF at final recipient; DKIM often survives if not rewritten.
 
-- **Envelope vs header From** — DMARC checks alignment on visible From domain.
+- **Envelope versus header From** — DMARC checks alignment on visible From domain.
 - **Multiple DKIM selectors** during key rotation — publish both public keys until old mail expires.
 - **Port 25 blocked on AWS/GCP default** — use submission API (SES) or request removal.
 - **Greylisting** causes first delivery delay 5–15 min — normal, not always fixable.
 
 ## When NOT to use
 
-- App transactional at scale → provider API (SES, Postmark) beats self-hosted MTA ops.
+- application transactional at scale → provider API (SES, Postmark) beats self-hosted MTA operations.
 - Internal alerts only → Slack/webhook may beat email deliverability fight.
 
 ## Related

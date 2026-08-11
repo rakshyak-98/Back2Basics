@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, auth, and isolation per tenant**.
+**Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, authentication, and isolation per tenant**.
 
 ```txt
 Publisher (OBS, encoder, partner)

@@ -8,11 +8,10 @@
 
 ## Mental model
 
-**Say it in one breath:** directives is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** directives — server — defines a virtual server
 
 server ->  defines a **virtual server**
-- group all config block for a domain/port.
+- group all configuration block for a domain/port.
 listen -> defines which IP/PORT this server listens on.
 server_name ->
 - is how Nginx decides which `server {...}` block should handle an incoming request.
@@ -34,22 +33,20 @@ server {
 ```
 auth_basic / auth_basic_user_file -> Enables HTTP basic authentication
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **directives** | Core idea of this note | “I can explain directives without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
-```bash
-# status
-# check version, auth, and recent changes
+See [[Configuration]] for full examples. Minimal server block:
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /var/www/html;
+    index index.html;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
 ```
 
 ---
@@ -58,22 +55,24 @@ auth_basic / auth_basic_user_file -> Enables HTTP basic authentication
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Wrong server block chosen | `server_name` mismatch; default_server | Check `nginx -T`; SNI and listen order |
+| 404 on existing file | `root`/`alias` path wrong | `namei -l /path`; permissions for `www-data` |
+| Proxy returns 502 | upstream down; bad `proxy_pass` URL | `curl` backend; trailing slash rules |
+| Config test fails | typo in directive name | `nginx -t` shows file:line |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> `alias` replaces the matched location path — `root` appends the full URI.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not put TLS certificates only in the default_server block if you serve many names.
+
 
 ---
 

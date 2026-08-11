@@ -72,7 +72,7 @@ func private() {} // same package only
 
 ## When NOT to use
 
-- **Micro-packages of one tiny func** — prefer cohesive packages.
+- **Micro-packages of one tiny function** — prefer cohesive packages.
 - **Export everything “just in case”** — keep API small.
 - **Circular “utils” bags** — name by domain.
 

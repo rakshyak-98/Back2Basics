@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Master (root) reads config and owns listen sockets; workers handle connections with an event loop.
+**Say it in one breath:** Master (root) reads configuration and owns listen sockets; workers handle connections with an event loop.
 
 ```txt
                          │
@@ -23,7 +23,7 @@ Client TCP → worker accept → HTTP parse → phase handlers → content handl
 
 **One worker per core** (typical) — each runs **non-blocking event loop** ([[Epoll]] on Linux). No thread-per-request; high concurrency with fixed memory.
 
-**Master:** bind ports, read config, manage workers. **Workers:** handle connections. `reload` = graceful config swap without dropping established connections (mostly).
+**Master:** bind ports, read configuration, manage workers. **Workers:** handle connections. `reload` = graceful configuration swap without dropping established connections (mostly).
 
 **Key subsystems:**
 
@@ -35,7 +35,7 @@ Client TCP → worker accept → HTTP parse → phase handlers → content handl
 | `ngx_stream_*` | L4 TCP/UDP proxy |
 | `ngx_event` | accept, read/write timers |
 
-**Request phases (HTTP):** post-read → server rewrite → find config → rewrite → pre-access → access → content → log. Modules hook phases (auth, rate limit, `try_files`, `proxy_pass`).
+**Request phases (HTTP):** post-read → server rewrite → find configuration → rewrite → pre-access → access → content → log. Modules hook phases (authentication, rate limit, `try_files`, `proxy_pass`).
 
 ---
 
@@ -155,8 +155,8 @@ proxy_next_upstream_tries 2;
 
 ## When NOT to use
 
-- **Application business logic** — nginx is proxy/static; use app server for code execution.
-- **Complex auth without modules** — OpenResty/lua or delegate to auth service.
+- **Application business logic** — nginx is proxy/static; use application server for code execution.
+- **Complex authentication without modules** — OpenResty/lua or delegate to authentication service.
 - **Long-lived bidirectional gRPC without HTTP/2 tuning** — verify grpc module settings or use dedicated proxy.
 
 ---

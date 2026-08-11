@@ -65,7 +65,7 @@ if (!Array.prototype.at) {
 }
 ```
 
-Prefer spec-accurate implementations from core-js over hand-rolled shims.
+Prefer specification-accurate implementations from core-js over hand-rolled shims.
 
 ### Check support before shipping
 
@@ -93,7 +93,7 @@ Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Nod
 
 - **`Object.prototype` pollution** from bad polyfills breaks `for...in` — never patch Object.prototype casually.
 - **Frozen environments** (SES, some embeds) forbid polyfills — target native only.
-- **polyfill.io supply-chain history** — self-host or npm, don't trust blind CDN in prod.
+- **polyfill.io supply-chain history** — self-host or npm, don't trust blind CDN in production.
 
 ## When NOT to use
 

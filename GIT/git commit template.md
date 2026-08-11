@@ -8,10 +8,9 @@
 
 ## Mental model
 
-**Say it in one breath:** git commit template is infra/security tooling — least privilege, clear config, observable failures.
+**Say it in one breath:** git commit template — git config to use custom commit template
 
-
-**Git config to use custom commit template**
+**Git configuration to use custom commit template**
 ```bash
 git config --global commit.template ~/.config/git/commit-template
 ```
@@ -34,22 +33,12 @@ See also: #456
 - chore       → maintenance (gitignore, scripts, rename...)
 - revert      → revert previous commit
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **git commit template** | Core idea of this note | “I can explain git commit template without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+git config --global commit.template ~/.config/git/commit-template
+cat ~/.config/git/commit-template
 ```
 
 ---
@@ -58,22 +47,23 @@ See also: #456
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Template not applied | Wrong path; not global | `git config --get commit.template`; use absolute path |
+| Editor opens empty | Template path typo | Verify file exists and is readable |
+| Template shows in log | Committed template file by mistake | Keep template outside repository or in dotfiles only |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> The template pre-fills the editor — it does not enforce format unless hooks do.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Skip a template when a project mandates commitizen or another enforced format.
+
 
 ---
 

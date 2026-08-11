@@ -8,7 +8,7 @@
 
 ## Mental model
 
-`package.json` is npm's contract with the repo: **dependencies** (runtime), **devDependencies** (build/test), **scripts** (automation entrypoints), **engines** (supported Node/npm), and **type** (`module` vs CommonJS default).
+`package.json` is npm's contract with the repository: **dependencies** (runtime), **devDependencies** (build/test), **scripts** (automation entrypoints), **engines** (supported Node/npm), and **type** (`module` versus CommonJS default).
 
 ```
 package.json
@@ -111,7 +111,7 @@ echo "22.16.0" > .nvmrc
 ## When NOT to use
 
 - **Monorepo workspace root** — use workspaces field; per-package manifests in packages/*.
-- **Application secrets** — never put secrets in package.json; use env/secret manager.
+- **Application secrets** — never put secrets in package.json; use environment/secret manager.
 
 ## Related
 

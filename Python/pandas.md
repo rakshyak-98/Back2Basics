@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object vs int vs category affects.
+**Say it in one breath:** A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object versus int versus category affects.
 
 
 ## Standard config / commands

@@ -77,4 +77,4 @@ stty size
 
 ## Related
 
-[[Linux terminal]] [[terminal config]] [[CLI]] [[Bash syntax]]
+[[Linux terminal]] [[terminal configuration]] [[CLI]] [[Bash syntax]]

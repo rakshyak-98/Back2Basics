@@ -8,7 +8,7 @@
 
 ## Mental model
 
-OpenAPI (Swagger) describes **paths, schemas, auth, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
+OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
 
 ```txt
 ┌─────────────┐     openapi.yaml      ┌─────────────┐
@@ -28,7 +28,7 @@ OpenAPI (Swagger) describes **paths, schemas, auth, and errors** in YAML/JSON. I
 | **Runtime validation** | Reject bad requests at boundary (ajv, express-openapi-validator) |
 | **Diff (oasdiff, openapi-diff)** | CI gate on breaking changes |
 
-**Contract-first:** write spec → review → generate stubs → implement. **Code-first:** annotate controllers → export spec — faster to start, drifts unless CI enforces sync.
+**Contract-first:** write specification → review → generate stubs → implement. **Code-first:** annotate controllers → export specification — faster to start, drifts unless CI enforces sync.
 
 ---
 
@@ -163,7 +163,7 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 
 - **Internal-only service** with one caller and shared monorepo — protobuf/ts types may suffice.
 - **Streaming / WebSocket-primary APIs** — OpenAPI support is awkward; document separately.
-- **Early prototype** — don't codegen before shape stabilizes; sketch spec yes, gate no.
+- **Early prototype** — don't codegen before shape stabilizes; sketch specification yes, gate no.
 
 ---
 

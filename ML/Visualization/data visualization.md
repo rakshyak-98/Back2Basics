@@ -70,4 +70,4 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 
 ## Related
 
-[[Visualization/Residual plot]] [[Visualization/predicated vs actual plot]] [[model tranning]]
+[[Visualization/Residual plot]] [[Visualization/predicated versus actual plot]] [[model tranning]]

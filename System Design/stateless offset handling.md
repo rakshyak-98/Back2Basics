@@ -128,7 +128,7 @@ kafka-consumer-groups.sh --describe --group my-service | awk '$6 > 10000 {print}
 ## When NOT to use
 
 - **Commit-before-process** for money movement — unacceptable loss window.
-- **Offset reset in prod** without replay capacity — can DDoS your own DB.
+- **Offset reset in production** without replay capacity — can DDoS your own DB.
 - **Kafka transactions** to fix non-idempotent HTTP webhooks — fix the handler instead.
 
 ---

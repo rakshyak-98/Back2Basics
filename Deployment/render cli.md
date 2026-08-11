@@ -15,7 +15,7 @@ local terminal → render CLI → Render API → service (build/deploy/logs/ssh)
 CI: RENDER_API_KEY + service ID → deploys create --wait --confirm
 ```
 
-Config lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFIG_PATH`).
+configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFIG_PATH`).
 
 ## Standard config / commands
 
@@ -101,9 +101,9 @@ Pin the CLI binary version in CI (GitHub releases) so upgrades don’t break pip
 
 ## When NOT to use
 
-- Don’t trigger prod deploys from a laptop as the only gate — prefer Git + required checks, or CI calling `deploys create --wait`.
-- Don’t use the CLI as a substitute for IaC ownership of the whole stack — use Blueprints (`render.yaml`) for multi-service layout; CLI for day-2 ops.
-- Don’t put API keys in the repo — secrets manager / CI secrets only.
+- Don’t trigger production deploys from a laptop as the only gate — prefer Git + required checks, or CI calling `deploys create --wait`.
+- Don’t use the CLI as a substitute for IaC ownership of the whole stack — use Blueprints (`render.yaml`) for multi-service layout; CLI for day-2 operations.
+- Don’t put API keys in the repository — secrets manager / CI secrets only.
 
 ## Related
 

@@ -21,7 +21,7 @@ Client                          Server / Proxy
   │  ◄──── framed messages ────►   │  (TCP stays open)
 ```
 
-Browsers only speak `ws://` / `wss://`. They **cannot** use standard HTTP proxy env vars for WebSocket — needs HTTP CONNECT tunnel or [[SOCKS (Socket Secure)]].
+Browsers only speak `ws://` / `wss://`. They **cannot** use standard HTTP proxy environment variables for WebSocket — needs HTTP CONNECT tunnel or [[SOCKS (Socket Secure)]].
 
 ## Standard config / commands
 

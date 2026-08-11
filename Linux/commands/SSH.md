@@ -1,4 +1,4 @@
-[[Linux]] [[sshd config]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]]
+[[Linux]] [[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # SSH
 
@@ -67,7 +67,7 @@ ssh -L 8080:localhost:80 user@host
 ssh -R 8080:localhost:3000 user@host
 ```
 
-Server policy: [[sshd config]] (`/etc/ssh/sshd_config`) — `PasswordAuthentication`, `PermitRootLogin`, `AllowUsers`, ciphers.
+Server policy: [[sshd configuration]] (`/etc/ssh/sshd_config`) — `PasswordAuthentication`, `PermitRootLogin`, `AllowUsers`, ciphers.
 
 | Knob | Why it matters |
 |------|----------------|
@@ -108,12 +108,12 @@ Server policy: [[sshd config]] (`/etc/ssh/sshd_config`) — `PasswordAuthenticat
 
 ## When NOT to use
 
-- **Public machine-to-machine APIs** — HTTPS + app auth; don’t expose SSH broadly.
-- **Bulk file sync as primary transport** — consider object storage; `scp`/`rsync`-over-SSH for ops, not CDN.
+- **Public machine-to-machine APIs** — HTTPS + application authentication; don’t expose SSH broadly.
+- **Bulk file sync as primary transport** — consider object storage; `scp`/`rsync`-over-SSH for operations, not CDN.
 - **Interactive root over password on the open internet** — keys + allowlists + bastion.
 
 ---
 
 ## Related
 
-[[sshd config]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[nc]] [[puTTY]] [[ufw]]
+[[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[nc]] [[puTTY]] [[ufw]]

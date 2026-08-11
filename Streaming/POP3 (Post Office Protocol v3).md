@@ -23,7 +23,7 @@ MUA ── TCP 995 ──► MDA (Dovecot/Courier)
 | **Transaction** | `LIST`, `UIDL`, `RETR n`, `DELE n` |
 | **Update** | Deletes committed on `QUIT` |
 
-**vs IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
+**versus IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
 
 ---
 

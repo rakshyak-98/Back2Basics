@@ -124,7 +124,7 @@ sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer
 
 ## When NOT to use
 
-- **Application log files only** (legacy nginx file) → tail/grep path from config.
+- **Application log files only** (legacy nginx file) → tail/grep path from configuration.
 - **Years of retention** → ship to SIEM; journal is local ring buffer.
 - **Cross-host correlation** → centralized logging; journal is per-host.
 

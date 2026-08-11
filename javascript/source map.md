@@ -1,4 +1,4 @@
-[[React build]] [[SWC]] [[javascript engine]] [[React project config]] [[Security/content security policy]]
+[[React build]] [[SWC]] [[javascript engine]] [[React project configuration]] [[Security/content security policy]]
 
 # Source map
 
@@ -62,7 +62,7 @@ Set `build.sourcemap: 'hidden'` so maps aren't served to users.
 }
 ```
 
-Bundler consumes TS maps or generates its own — avoid double-confusion; usually let Vite own prod maps.
+Bundler consumes TS maps or generates its own — avoid double-confusion; usually let Vite own production maps.
 
 ### Verify in DevTools
 
@@ -101,4 +101,4 @@ Settings → enable source maps → trigger error → stack links to original fi
 
 ## Related
 
-[[SWC]] · [[React build]] · [[React project config]] · [[javascript engine]] · [[Security/content security policy]]
+[[SWC]] · [[React build]] · [[React project configuration]] · [[javascript engine]] · [[Security/content security policy]]

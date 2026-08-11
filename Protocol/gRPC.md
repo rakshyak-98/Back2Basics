@@ -85,7 +85,7 @@ grpcurl -d '{"sku":"ABC","quantity":1}' localhost:50051 inventory.v1.InventoryAP
 
 ## Interface Definition (Protobuf IDL)
 
-- **Version in package** — `api.v1` vs `api.v2`; don’t break wire fields (tag numbers).
+- **Version in package** — `api.v1` versus `api.v2`; don’t break wire fields (tag numbers).
 - **Well-known types** — prefer `google.protobuf.Timestamp` / wrappers for nullability.
 - **Errors** — `google.golang.org/grpc/status` + `errdetails` for field violations.
 
@@ -131,7 +131,7 @@ return nil, st.Err()
 ## When NOT to use
 
 - **Public browser APIs without a gateway** — prefer REST/JSON or GraphQL; add grpc-web only if you must.
-- **Simple webhooks / human-debugged HTTP** — curl-friendly JSON wins for ops speed.
+- **Simple webhooks / human-debugged HTTP** — curl-friendly JSON wins for operations speed.
 - **File download at CDN scale** — object storage + HTTPS, not unary RPCs of multi-GB blobs.
 
 ---

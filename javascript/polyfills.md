@@ -15,7 +15,7 @@ Syntax (optional chaining, class fields)  → transpiler ([[SWC]], Babel)
 APIs (Promise.finally, structuredClone)   → polyfill script
 ```
 
-Polyfill = shim that mimics spec behavior if `if (!Feature) { implement }`.
+Polyfill = shim that mimics specification behavior if `if (!Feature) { implement }`.
 
 ```txt
 Transpile:  ?.  →  long helper code (syntax)

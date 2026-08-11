@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Every native Linux program is an **ELF file**: headers describe segments (loaded into memory) and sections (linking/debug). The kernel exec's the file; **ld.so** (dynamic linker) loads `NEEDED` shared libraries from `DT_RPATH`, `LD_LIBRARY_PATH`, and default paths.
+Every native Linux program is an **ELF file**: headers describe segments (loaded into memory) and sections (linking/debug). The kernel execute's the file; **ld.so** (dynamic linker) loads `NEEDED` shared libraries from `DT_RPATH`, `LD_LIBRARY_PATH`, and default paths.
 
 ```
 source.c ──compile──► .o (relocatable ELF)
@@ -106,7 +106,7 @@ readelf -s hello | grep main
 
 - **Scripts** (#!) — kernel executes interpreter, not ELF of script itself.
 - **Java/.NET/JVM bytecode** — different format; only the JVM/runtime is ELF.
-- **Static analysis of app logic** → source + tests, not ELF headers alone.
+- **Static analysis of application logic** → source + tests, not ELF headers alone.
 
 ## Related
 

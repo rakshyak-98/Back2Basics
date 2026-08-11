@@ -110,7 +110,7 @@ pthread_join(t, NULL);
 
 - **Don’t thread-per-connection at huge C10k** without care — prefer [[Epoll]] / async or a bounded [[thread pool]].
 - **Don’t use threads when you need fault isolation** — use processes/containers.
-- **Don’t share mutable structures “temporarily” without sync** — temporary becomes prod data races.
+- **Don’t share mutable structures “temporarily” without sync** — temporary becomes production data races.
 
 ---
 

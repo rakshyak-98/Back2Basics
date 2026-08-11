@@ -24,7 +24,7 @@ HTTPS provides:
 
 Not provided: **authorization**, **XSS protection**, **DDoS immunity**.
 
-HTTP/1.1 vs HTTP/2 vs HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
+HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
 
 ---
 

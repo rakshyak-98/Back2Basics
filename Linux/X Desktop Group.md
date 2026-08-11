@@ -17,7 +17,7 @@
 
 **Before XDG:** dotfile explosion in `$HOME` (`.foo`, `.barrc`) — backup tools and corporate homedir sync suffered.
 
-**Spec:** freedesktop.org — apps **should** read env vars; fall back to defaults above.
+**specification:** freedesktop.org — apps **should** read environment variables; fall back to defaults above.
 
 ```txt
 $HOME
@@ -25,8 +25,6 @@ $HOME
 ├── .local/share/myapp/state.db
 └── .cache/myapp/downloads/
 ```
-
----
 
 ### Interview map (words you can say)
 
@@ -129,7 +127,7 @@ RUN mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME
 
 ## When NOT to use
 
-- **System-wide daemon config** — `/etc/myapp/` + `/etc/myapp/conf.d/` (FHS), not user XDG.
+- **System-wide daemon configuration** — `/etc/myapp/` + `/etc/myapp/conf.d/` (FHS), not user XDG.
 - **macOS primary target** — use `~/Library/Application Support` (or cross-platform dirs crate).
 - **Windows** — `%APPDATA%`, `%LOCALAPPDATA%` via known-folder API.
 

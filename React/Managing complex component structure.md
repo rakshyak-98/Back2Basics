@@ -107,7 +107,7 @@ export function CheckoutPage({ cartId }: { cartId: string }) {
 
 - **Two-level prop pass** — plain props faster than Context ceremony.
 - **Single-use modal** — local `useState` enough.
-- **Cross-app global everything** — [[Redux]] / [[zustand]] with selectors instead of mega-Provider.
+- **Cross-application global everything** — [[Redux]] / [[zustand]] with selectors instead of mega-Provider.
 
 ---
 

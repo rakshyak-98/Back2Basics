@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Kafka configuration — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Kafka configuration — kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of…
 
 ```txt
 kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of the modes is configured.
@@ -30,13 +29,6 @@ bitnami/kafka:latest
 ```
 - create docker network first then run this command
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Kafka configuration** | Core idea of this note | “I can explain Kafka configuration without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

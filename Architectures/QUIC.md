@@ -87,13 +87,13 @@ tc qdisc add dev eth0 root netem loss 1%
 > [!WARNING]
 > **Middleboxes that block UDP** — corporate networks may force HTTP/2 fallback; always serve h2/h1 too.
 
-- **0-RTT data** — replay attack surface; disable for auth-changing POST.
+- **0-RTT data** — replay attack surface; disable for authentication-changing POST.
 - **Load balancer stickiness** — QUIC connection != TCP connection; use compatible LB (CDN).
 - **Debugging** — `tcpdump` shows encrypted UDP; use qlog / Chrome net-internals.
 
 ## When NOT to use
 
-- Internal east-west microservice mesh on trusted LAN — gRPC over HTTP/2 may be simpler ops.
+- Internal east-west microservice mesh on trusted LAN — gRPC over HTTP/2 may be simpler operations.
 - Legacy clients only — maintain dual stack until analytics show negligible h3 need.
 
 ## Related

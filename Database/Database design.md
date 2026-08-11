@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Good design makes illegal states hard to store — keys, FKs, CHECKs, and clear transaction boundaries do more than clever app code.
+**Say it in one breath:** Good design makes illegal states hard to store — keys, FKs, CHECKs, and clear transaction boundaries do more than clever application code.
 
 ```txt
 Entities → tables
@@ -125,7 +125,7 @@ Every tenant-owned row needs `tenant_id` (or equivalent) **in the row and in the
 | Shared “global” lookup table mixed with tenant data | Separate schemas/tables; explicit shared flag |
 | Unique email global in multi-tenant SaaS | `UNIQUE (tenant_id, email)` unless product requires global |
 
-RLS (Postgres row-level security) helps defense-in-depth; still pass tenant in the app.
+RLS (Postgres row-level security) helps defense-in-depth; still pass tenant in the application.
 
 ---
 

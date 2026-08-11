@@ -23,7 +23,7 @@ process fd table          kernel open-file table
 
 - **fd ≠ file**: `dup()`, `fork()`, and some language runtimes share one `struct file` across multiple fd numbers.
 - **Limits are per-process** (soft/hard `RLIMIT_NOFILE`) and sometimes per-container via cgroups.
-- **Leaked fds** (never closed connections, temp files, `Timer` handles in Node) accumulate until `EMFILE` — "too many open files" — often under load, not at startup.
+- **Leaked fds** (never closed connections, temporary files, `Timer` handles in Node) accumulate until `EMFILE` — "too many open files" — often under load, not at startup.
 
 **Service impact:** Node/Go/Java accept loops, DB connection pools, and reverse proxies are fd-heavy. One leaked socket per request × 10k RPS = outage in minutes.
 
@@ -86,7 +86,7 @@ strace -e trace=open,openat,socket,accept,dup,dup2,close -p PID
 
 - Docker `--ulimit nofile=65535:65535` or Compose `ulimits`.
 - K8s: no first-class fd limit; inherits node + container runtime defaults (often 1M on modern nodes, but **verify** — old images defaulted to 1024).
-- Sidecars + app in one pod = **shared fd budget** on the cgroup/process tree depending on runtime.
+- Sidecars + application in one pod = **shared fd budget** on the cgroup/process tree depending on runtime.
 
 ---
 

@@ -76,7 +76,7 @@ SHOW VARIABLES LIKE '%timeout%';
 
 ## When NOT to use
 
-- This note is a **failure playbook**, not a library — for app errors see [[Error handeling]].
+- This note is a **failure playbook**, not a library — for application errors see [[Error handeling]].
 
 ---
 

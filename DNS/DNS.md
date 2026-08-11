@@ -26,7 +26,7 @@ Transport:
 - **TCP/53** for truncated responses (TC bit set) or zone transfers (AXFR).
 - **DNS-over-HTTPS/TLS** on recursive path (browser/OS dependent).
 
-**Key record types for ops:**
+**Key record types for operations:**
 
 | Type | Use |
 |------|-----|
@@ -112,13 +112,13 @@ options edns0 trust-ad
 
 - **CNAME at apex** (example.com) is invalid in traditional DNS — use ALIAS/ANAME at provider or flatten.
 - **Negative caching** (NXDOMAIN) respects SOA minimum TTL — typo domains stay "broken" for minutes.
-- **Split-horizon**: same name, different answer inside vs outside — debug from both vantage points.
+- **Split-horizon**: same name, different answer inside versus outside — debug from both vantage points.
 - **systemd-resolved stub** on 127.0.0.53 — tools may show different path than `dig @127.0.0.53`.
 
 ## When NOT to use
 
 - Service-to-service naming inside a cluster → platform DNS (K8s, Consul) is faster to iterate.
-- Storing non-DNS data in TXT beyond reasonable size — use a real config store.
+- Storing non-DNS data in TXT beyond reasonable size — use a real configuration store.
 
 ## Related
 

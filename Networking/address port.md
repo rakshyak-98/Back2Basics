@@ -87,8 +87,8 @@ cat /proc/sys/net/ipv4/ip_local_port_range
 ## When NOT to use
 
 - **Hard-coding client ports** — let the OS assign ephemeral ports unless a firewall demands otherwise.
-- **Using port as auth** — security groups help; they are not credentials.
-- **Assuming peer port stable behind CGNAT** — mappings churn; identify users at the app layer.
+- **Using port as authentication** — security groups help; they are not credentials.
+- **Assuming peer port stable behind CGNAT** — mappings churn; identify users at the application layer.
 
 ---
 

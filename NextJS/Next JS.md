@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Routes live under `app/` (App Router) or `pages/`. Server Components render on server by default; mark client interactivity with `"use client"`.
+**Say it in one breath:** Routes live under `app/` (application Router) or `pages/`. Server Components render on server by default; mark client interactivity with `"use client"`.
 
 ```txt
 request → Next server → RSC/SSR/HTML → hydrate client islands
@@ -68,4 +68,4 @@ npm run build && npm start
 
 ## Related
 
-[[NextJS Config]] [[Next js Build]] [[RSC (React Server Component boundaries)]] [[React]]
+[[NextJS configuration]] [[Next js Build]] [[RSC (React Server Component boundaries)]] [[React]]

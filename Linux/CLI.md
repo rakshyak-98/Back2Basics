@@ -140,7 +140,7 @@ help cd                      # shell builtins
 
 - **Heavy data transformation at scale** → Python/awk scripts, DB, dedicated tools.
 - **GUI-only tasks** → desktop settings (unless [[gsetting]] / D-Bus).
-- **Immutable infra** → config management API, not manual SSH edits (still CLI, different workflow).
+- **Immutable infra** → configuration management API, not manual SSH edits (still CLI, different workflow).
 
 ## Related
 

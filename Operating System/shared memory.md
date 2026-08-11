@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Shared memory** maps the same physical pages into multiple address spaces. After setup, reads/writes are normal memory ops — **no kernel copy per access** (unlike pipe/socket).
+**Shared memory** maps the same physical pages into multiple address spaces. After setup, reads/writes are normal memory operations — **no kernel copy per access** (unlike pipe/socket).
 
 ```txt
 Process A                Process B

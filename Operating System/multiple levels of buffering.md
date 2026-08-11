@@ -26,7 +26,7 @@ I/O is rarely one hop. A single `write()` may touch **five buffers** before bits
 | Block layer queue | Kernel | Ordered with flush/FUA commands |
 | Device write cache | Drive/RAID | `hdparm -W`; BBU; power loss window |
 
-**Why layers exist:** speed mismatch (CPU vs network vs disk), batching (fewer syscalls), and copy avoidance where possible (`sendfile`, `splice`).
+**Why layers exist:** speed mismatch (CPU versus network versus disk), batching (fewer syscalls), and copy avoidance where possible (`sendfile`, `splice`).
 
 **Durability rule:** success at layer N does **not** imply durability at layer N+k. DBs use [[WAL (Write-Ahead Log)]] + ordered fsync precisely because of this stack.
 
@@ -69,7 +69,7 @@ setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &sz, sizeof sz);
 open(path, O_WRONLY | O_DIRECT);
 ```
 
-**Node:** `socket.setNoDelay(true)` (Nagle off) vs kernel TCP buffers still apply. `fs.writeFile` → libuv → page cache.
+**Node:** `socket.setNoDelay(true)` (Nagle off) versus kernel TCP buffers still apply. `fs.writeFile` → libuv → page cache.
 
 **Go:** `bufio.Writer` — explicit `Flush()`. `TCPConn` buffer sizes via `SetWriteBuffer`.
 
@@ -126,7 +126,7 @@ sysctl vm.dirty_ratio vm.dirty_background_ratio
 
 - Don't disable all buffering for throughput workloads — you'll syscall yourself to death.
 - Don't use `O_DIRECT` without measuring — misalignment penalties hurt; DB engines know their path.
-- Don't stack redundant app buffers (256KB user buffer + 256KB stdio + huge TCP window) without reason.
+- Don't stack redundant application buffers (256KB user buffer + 256KB stdio + huge TCP window) without reason.
 
 ---
 

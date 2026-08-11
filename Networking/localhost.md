@@ -122,7 +122,7 @@ server: {
 
 - **Production service URLs** — use real DNS names, not localhost.
 - **Cross-device demos with only localhost** — use LAN IP, Tailscale, or a tunnel.
-- **Assuming `localhost` bypasses auth** — still authenticate; loopback is not a security boundary for multi-user hosts.
+- **Assuming `localhost` bypasses authentication** — still authenticate; loopback is not a security boundary for multi-user hosts.
 
 ---
 

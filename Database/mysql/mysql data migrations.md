@@ -77,7 +77,7 @@ SET hk.department = jd.id;
 
 ## When NOT to use
 
-- **Schema versioning for the app** — use a migration tool ([[migration]]), not one-off dumps as process.
+- **Schema versioning for the application** — use a migration tool ([[migration]]), not one-off dumps as process.
 - **Zero-downtime large DDL** — use online schema change tools / expand-contract.
 
 ---

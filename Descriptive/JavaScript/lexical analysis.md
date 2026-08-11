@@ -77,7 +77,7 @@ const café = 1; // valid IdentifierName (Unicode ID_Start / ID_Continue)
 > [!WARNING]
 > **HTML `<script>`** parsing can treat `<!--` or `-->` as comment start in legacy browsers — avoid those sequences inside scripts in HTML.
 
-- **Strict mode** reserved words (`let`, `yield`) tokenize differently in sloppy vs module code.
+- **Strict mode** reserved words (`let`, `yield`) tokenize differently in sloppy versus module code.
 - **JSON is not JS lexically** — no comments, trailing commas, unquoted keys.
 - **Minifiers** rename identifiers but must preserve token boundaries — broken source maps show lexical phase errors as wrong lines.
 

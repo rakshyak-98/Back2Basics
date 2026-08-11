@@ -15,7 +15,7 @@
 App writes /tmp/site.conf  →  sudo nginx -t  →  sudo cp to sites-available  →  symlink  →  reload
 ```
 
-Nginx reload is graceful (workers finish in-flight requests). **Always** `nginx -t` before reload — bad config can block new workers.
+Nginx reload is graceful (workers finish in-flight requests). **Always** `nginx -t` before reload — bad configuration can block new workers.
 
 ---
 
@@ -76,7 +76,7 @@ sudo cp /etc/nginx/sites-available/site.conf.bak /etc/nginx/sites-available/site
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Keep previous config versioned in git or object storage.
+Keep previous configuration versioned in git or object storage.
 
 ---
 
@@ -108,7 +108,7 @@ Keep previous config versioned in git or object storage.
 ## When NOT to use
 
 - **Kubernetes ingress** — use Ingress controller or Gateway API; don't shell out to host Nginx from pods.
-- **Multi-host fleet** — Ansible/Terraform managing `/etc/nginx` beats per-app sudo from runtime.
+- **Multi-host fleet** — Ansible/Terraform managing `/etc/nginx` beats per-application sudo from runtime.
 
 ---
 

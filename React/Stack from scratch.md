@@ -72,4 +72,4 @@ Decide:
 
 ## Related
 
-[[React Architecture]] [[React Application Architecture for Production]] [[React project config]] [[React build]]
+[[React Architecture]] [[React Application Architecture for Production]] [[React project configuration]] [[React build]]

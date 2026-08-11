@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** - if you see -clipboard , your Vim is physically incapable of use `set clipboard` — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard` — set shiftwidth=4 # indentation commands >>, << shift by 4
 
 ```bash
 ```
@@ -43,13 +42,6 @@ syntax on
 filetype indent on
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **- if you see -clipboard , your Vim is physically incapable of use `set clipboard`** | Core idea of this note | “I can explain - if you see -clipboard , your Vim is physically incapable of use `set clipboard` without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

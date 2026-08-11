@@ -69,7 +69,7 @@ Checklist per question:
 ## When NOT to use
 
 - **On-call incident** — use runbooks, not puzzle mode.
-- **Prod feature with clear CRUD** — don’t force interview patterns.
+- **production feature with clear CRUD** — don’t force interview patterns.
 
 ## Related
 

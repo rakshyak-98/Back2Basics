@@ -17,7 +17,7 @@ GRANT USAGE ON SCHEMA public TO app_user
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO app_user
 ```
 
-Default superuser `postgres` is for admin — apps use scoped role. Peer auth on Unix socket maps OS user → PG role (common source of "role does not exist" errors).
+Default superuser `postgres` is for administrator — apps use scoped role. Peer authentication on Unix socket maps OS user → PG role (common source of "role does not exist" errors).
 
 ## Standard config / commands
 
@@ -95,8 +95,8 @@ Reload after edit: `SELECT pg_reload_conf();`
 
 ## When NOT to use
 
-- **IAM DB auth (RDS/IAM)** — token-based user still maps to PG role; different connection flow.
-- **Row-level security** — complements grants; see app-specific policies.
+- **IAM DB authentication (RDS/IAM)** — token-based user still maps to PG role; different connection flow.
+- **Row-level security** — complements grants; see application-specific policies.
 
 ## Related
 

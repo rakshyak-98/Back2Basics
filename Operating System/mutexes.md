@@ -17,9 +17,9 @@ Thread A          mutex          Thread B
    │ unlock() ────►[1→0 free]────► wakes, acquires
 ```
 
-**Mutex vs semaphore:** mutex is **ownership** — only the locker may unlock. Counting [[semaphores]] signal resource *pool* size (N connections available).
+**Mutex versus semaphore:** mutex is **ownership** — only the locker may unlock. Counting [[semaphores]] signal resource *pool* size (N connections available).
 
-**Kernel vs userspace:**
+**Kernel versus userspace:**
 - **Pthread mutex** — may use futex: fast path in userspace atomic, syscall only on contention.
 - **Go `sync.Mutex`** — similar; don't copy if locked.
 - **Java `synchronized` / `ReentrantLock`** — JVM monitors + optional fairness.
@@ -122,7 +122,7 @@ go tool pprof http://localhost:6060/debug/pprof/mutex
 ## When NOT to use
 
 - Don't mutex a read-mostly map — use RCU, immutable snapshots, or sharded locks.
-- Don't replace DB transactions with app mutexes across processes — use ACID + row locks.
+- Don't replace DB transactions with application mutexes across processes — use ACID + row locks.
 - Don't spin-lock around anything that may take > ~few hundred nanoseconds routinely.
 
 ---

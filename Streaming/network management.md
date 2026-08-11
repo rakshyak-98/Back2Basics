@@ -123,8 +123,8 @@ sudo nft list ruleset | grep -E '1935|443'
 ## When NOT to use
 
 - **Application codec debug** — use `ffprobe`, not packet capture first.
-- **DRM license logic** — network shows 403; root cause is [[EME]]/auth.
-- **Full corporate LAN redesign** — escalate to netops; streaming ops prove hop + metric.
+- **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
+- **Full corporate LAN redesign** — escalate to netops; streaming operations prove hop + metric.
 
 ---
 

@@ -32,7 +32,7 @@ Documents land on shards by **shard key** ranges (or hashes). The **balancer** m
 
 ## Standard config / commands
 
-All admin below runs against **mongos** (`mongosh` → cluster router), not a single shard primary.
+All administrator below runs against **mongos** (`mongosh` → cluster router), not a single shard primary.
 
 ### 1. Deploy topology (lab sketch)
 
@@ -74,7 +74,7 @@ db.app.events.createIndex({ tenantId: 1, createdAt: 1 })
 sh.shardCollection('app.events', { tenantId: 1, createdAt: 1 })
 ```
 
-Connection string (app → mongos):
+Connection string (application → mongos):
 
 ```
 mongodb://user:pass@mongos1:27017,mongos2:27017/app?authSource=admin

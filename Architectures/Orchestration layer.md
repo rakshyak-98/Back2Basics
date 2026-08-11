@@ -122,7 +122,7 @@ Choreograph when:
 
 ## When NOT to use
 
-- **Single CRUD service** — domain logic in app code suffices.
+- **Single CRUD service** — domain logic in application code suffices.
 - **Sync request/response chain < 3 hops** — direct calls + [[Idempotent-key]].
 - **Replace [[kafka]]** with Airflow — different problems; often complement (Airflow consumes Kafka).
 

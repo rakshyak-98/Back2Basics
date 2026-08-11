@@ -105,7 +105,7 @@ dmesg | grep -i '03:00.0'
 - **USB peripherals** → `lsusb`.
 - **CPU/RAM inventory** → [[dmidecode]].
 - **Block device health** → `smartctl`, `nvme cli`.
-- **Network config** → [[ip]], [[ss]] — lspci only finds the card.
+- **Network configuration** → [[ip]], [[ss]] — lspci only finds the card.
 
 ## Related
 

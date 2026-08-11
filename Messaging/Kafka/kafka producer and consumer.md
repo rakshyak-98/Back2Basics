@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** kafka producer and consumer — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** kafka producer and consumer — a kafka producer is a component responsible for sending messages (events) to Kafka topics.
 
 A kafka producer is a component responsible for sending messages (events) to Kafka topics.
 - used to notify other microservices (e.g., Inventory, Order, and Discount services).
@@ -27,13 +26,6 @@ const kafka = new Kafka({
 })
 const producer = kafka.producer();
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **kafka producer and consumer** | Core idea of this note | “I can explain kafka producer and consumer without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

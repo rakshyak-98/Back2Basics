@@ -16,7 +16,7 @@ The DNS tree is hierarchical: **root (`.`)** → **TLD** (`.com`, `.org`, `.uk`)
                   └── NS glue at parent points to authoritative servers
 ```
 
-**gTLD** (`.com`, `.dev`) vs **ccTLD** (`.uk`, `.de`) — ccTLD often has residency/eligibility rules. **Public suffix** list defines cookie/site boundaries (`co.uk` is suffix, not registrable `uk` alone).
+**gTLD** (`.com`, `.dev`) versus **ccTLD** (`.uk`, `.de`) — ccTLD often has residency/eligibility rules. **Public suffix** list defines cookie/site boundaries (`co.uk` is suffix, not registrable `uk` alone).
 
 ## Standard config / commands
 
@@ -79,7 +79,7 @@ whois example.com | grep -i 'Name Server\|Registrar'
 ## When NOT to use
 
 - **Debating TLD for infra** — pick one registered domain; use subdomains for envs (`staging.example.com`).
-- **Deep TLD policy research in ops runbooks** — registrar support for disputes; ops cares about NS and TTL.
+- **Deep TLD policy research in operations runbooks** — registrar support for disputes; operations cares about NS and TTL.
 
 ## Related
 

@@ -54,7 +54,7 @@ git config core.hooksPath .husky
 npm run lint-staged || exit 1
 ```
 
-**commit-msg** — enforce Conventional Commits:
+**commit-message** — enforce Conventional Commits:
 
 ```bash
 #!/bin/sh
@@ -102,7 +102,7 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 | `post-merge` | After merge | `npm install` if lockfile changed |
 | `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
 
-Server-side (self-hosted bare repo): `pre-receive`, `update`, `post-receive`.
+Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
 
 ---
 

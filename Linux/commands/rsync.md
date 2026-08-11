@@ -103,7 +103,7 @@ rsync -avP src/ dest/   # -P = --partial --progress
 > [!WARNING]
 > **NFS + `-a`** — permission mapping lies across UID domains. Use `--numeric-ids` or consistent UID/GID maps.
 
-- **Running rsync while app writes** — inconsistent backup; quiesce DB ([[WAL (Write-Ahead Log)]] snapshot) or use filesystem snapshot + rsync snapshot mount.
+- **Running rsync while application writes** — inconsistent backup; quiesce DB ([[WAL (Write-Ahead Log)]] snapshot) or use filesystem snapshot + rsync snapshot mount.
 - **Cron without `-n` review** — typo in path deletes at 3am.
 - **`-z` on LAN** — CPU cost; often slower on 10G local.
 

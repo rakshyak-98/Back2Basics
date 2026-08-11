@@ -75,7 +75,7 @@ aws ec2 describe-instances --filters Name=instance-state-name,Values=running
 ## When NOT to use
 
 - **Declarative infra at scale** — Terraform/CloudFormation.
-- **App runtime AWS access** — SDK + role, not shelling out to CLI.
+- **application runtime AWS access** — SDK + role, not shelling out to CLI.
 - **Audited break-glass only** — still log; prefer SSO short sessions.
 
 ---

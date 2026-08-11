@@ -17,7 +17,7 @@ Repo migrations/          Database
 └── 003_index_orders.sql
 ```
 
-Workflow: **generate → define → run → track**. Lack of migrations → schema drift between dev/staging/prod and undebuggable deploy failures.
+Workflow: **generate → define → run → track**. Lack of migrations → schema drift between development/staging/production and undebuggable deploy failures.
 
 ## Standard config / commands
 
@@ -102,7 +102,7 @@ flyway info
 
 ## When NOT to use
 
-- **Throwaway local DB** — `schema:drop` / recreate OK in dev only.
+- **Throwaway local DB** — `schema:drop` / recreate OK in development only.
 - **Blue/green with dual schema** — advanced; still track changes but deploy strategy differs.
 
 ## Related

@@ -16,7 +16,7 @@ C source  ──compiler──►  asm  ──assembler──►  .o  ──link
                               └── inline asm, hand-tuned hot paths
 ```
 
-Each **ISA** (x86-64, ARM64, RISC-V) has its own syntax (AT&T vs Intel for x86). Registers, calling conventions, and stack layout are part of the language contract ([[Stack Frame]]).
+Each **ISA** (x86-64, ARM64, RISC-V) has its own syntax (AT&T versus Intel for x86). Registers, calling conventions, and stack layout are part of the language contract ([[Stack Frame]]).
 
 Use assembly when you need:
 - Boot / bring-up / kernels

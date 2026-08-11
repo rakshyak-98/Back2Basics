@@ -8,16 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** vim mark — plain job, how I run it, how I know it’s broken.
-
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **vim mark** | Core idea of this note | “I can explain vim mark without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+**Say it in one breath:** vim mark — short field notes on what it is and how to use it.
 
 ---
 

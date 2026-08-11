@@ -117,7 +117,7 @@ curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 ## When NOT to use
 
 - **Tiny PDFs** — single GET is simpler; range complexity buys nothing.
-- **Print-faithful desktop app** — native viewers / print pipelines beat canvas.
+- **Print-faithful desktop application** — native viewers / print pipelines beat canvas.
 - **You need searchable server-side text extract** — use a PDF library on the backend, not PDF.js alone.
 - **DRM’d or encrypted PDFs with proprietary plugins** — PDF.js may not unlock vendor schemes.
 

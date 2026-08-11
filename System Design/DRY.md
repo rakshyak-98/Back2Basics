@@ -121,7 +121,7 @@ Not: "these 3 lines look similar" on first sight
 ## When NOT to use
 
 - **Exploratory prototype** — duplication acceptable until pattern stabilizes.
-- **Cross-team library for one constant** — copy or config service.
+- **Cross-team library for one constant** — copy or configuration service.
 - **Identical syntax, different domain meaning** — forcing merge creates wrong coupling.
 
 ---

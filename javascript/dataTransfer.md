@@ -78,7 +78,7 @@ zone.addEventListener('drop', (e) => {
 
 ## When NOT to use
 
-- **Complex app DnD** — pointer events + state may be simpler than HTML5 DnD.
+- **Complex application DnD** — pointer events + state may be simpler than HTML5 DnD.
 - **Large binary pipelines** — upload APIs, not drag strings.
 - **Mobile** — HTML5 DnD support is weak; use touch UX.
 

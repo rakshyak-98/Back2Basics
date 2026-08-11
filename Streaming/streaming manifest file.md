@@ -39,7 +39,7 @@ But the body may contain:
 - MPD `<Location>http://127.0.0.1/...` or `http://FLUSSONIC_ORIGIN/...`
 - HLS absolute `http://...` for child playlists / segments
 
-Then Shaka (and friends) use **those** hosts for refreshes and segments → proxy, auth, and CORS logic disappear. `127.0.0.1` may only exist **inside** the origin container — the user’s browser cannot reach it.
+Then Shaka (and friends) use **those** hosts for refreshes and segments → proxy, authentication, and CORS logic disappear. `127.0.0.1` may only exist **inside** the origin container — the user’s browser cannot reach it.
 
 ### Why rewrite fixes it
 
@@ -118,7 +118,7 @@ See also [[How to attach stream to HTTP handlers]].
 
 ## When NOT to use
 
-- **Public CDN with correct public BaseURL** — no app proxy; publish absolute **public** HTTPS URLs on purpose.
+- **Public CDN with correct public BaseURL** — no application proxy; publish absolute **public** HTTPS URLs on purpose.
 - **Relative manifests already** — don’t add a rewrite layer for sport.
 - **WebRTC** — no HLS/DASH manifest; different stack ([[WebRTC]]).
 

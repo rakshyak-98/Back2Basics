@@ -16,7 +16,7 @@ fs (callback)              ← legacy; still used by streams
 fs sync (*Sync)            ← boot/config only; blocks event loop
 ```
 
-Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type info without extra `stat` calls.
+Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type information without extra `stat` calls.
 
 Without encoding, `readFile` returns a **Buffer** (binary-safe). With `'utf8'`, returns string.
 

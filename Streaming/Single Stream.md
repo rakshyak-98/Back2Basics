@@ -57,7 +57,7 @@ live on;
 drop_idle_publisher 10s;
 ```
 
-Document behavior for ops — "single stream per key" policy.
+Document behavior for operations — "single stream per key" policy.
 
 ### Downstream ABR from single ingest (server-side)
 

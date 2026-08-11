@@ -64,7 +64,7 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 ## When NOT to use
 
 - **Log-only investigation** — sometimes enough.
-- **Prod pausing** — prefer tracing/metrics.
+- **production pausing** — prefer tracing/metrics.
 
 ## Related
 

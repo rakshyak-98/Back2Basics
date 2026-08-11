@@ -71,10 +71,10 @@ infocmp "$TERM" >/dev/null && echo ok
 ## When NOT to use
 
 - **Ephemeral containers** — bake need-to-haves; skip personal themes.
-- **Non-interactive automation** — no prompt config required.
+- **Non-interactive automation** — no prompt configuration required.
 
 ---
 
 ## Related
 
-[[terminal emulator]] [[Linux terminal]] [[Bash history]] [[editor config]]
+[[terminal emulator]] [[Linux terminal]] [[Bash history]] [[editor configuration]]

@@ -8,25 +8,16 @@
 
 ## Mental model
 
-**Say it in one breath:** Pods is infra/security tooling — least privilege, clear config, observable failures.
+**Say it in one breath:** Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
 
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Pods** | Core idea of this note | “I can explain Pods without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+kubectl get pods -A -o wide
+kubectl describe pod my-pod -n default
+kubectl logs my-pod -c app
+kubectl delete pod my-pod --grace-period=0 --force   # last resort
 ```
 
 ---
@@ -35,25 +26,27 @@
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| CrashLoopBackOff | `kubectl logs --previous`; probe failures | Fix exit code; adjust command or probes |
+| ImagePullBackOff | image name; pull secret | `kubectl describe pod`; fix registry auth |
+| Pending | CPU/memory; PVC bind | `kubectl describe node`; check requests and storage class |
+| Running but not Ready | readiness probe failing | Hit probe path from inside cluster |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Restarting a Pod **creates a new identity** — IP and in-memory state are lost unless volumes back them.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not run more than one main process per container — use sidecars for helpers.
+
 
 ---
 
 ## Related
 
-[[kubectl]]] [[[kubectl pod creation]]] [[[Kubernetes services]]] [[[ingress]]
+[[kubectl]] · [[kubectl pod creation]] · [[Kubernetes services]] · [[ingress]]

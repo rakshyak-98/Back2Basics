@@ -31,7 +31,7 @@ Sibling of [[mDNS]] (`.local` / Bonjour). LLMNR is the Microsoft-oriented path; 
 
 ### Docker / DNS aside
 
-Containers inherit `/etc/resolv.conf` unless you set daemon or network DNS. LLMNR on the host does **not** fix container resolution — fix [[DNS server]] / Docker DNS config instead.
+Containers inherit `/etc/resolv.conf` unless you set daemon or network DNS. LLMNR on the host does **not** fix container resolution — fix [[DNS server]] / Docker DNS configuration instead.
 
 ---
 

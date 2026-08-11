@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Each MySQL connection is a **server session** (memory, temp tables, transaction state). **Pool** maintains N open connections; app **borrows** for query duration and **releases** back.
+Each MySQL connection is a **server session** (memory, temporary tables, transaction state). **Pool** maintains N open connections; application **borrows** for query duration and **releases** back.
 
 ```
 Without pool:  req A ──conn──► START TX ... (held)

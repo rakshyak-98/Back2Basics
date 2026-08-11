@@ -119,7 +119,7 @@ Never trust unmarshaled input without validation
 ## When NOT to use
 
 - **Same process, same language** — pass object references; no marshal.
-- **Shared memory ring buffer** — fixed binary layout OK with strict schema doc.
+- **Shared memory ring buffer** — fixed binary layout OK with strict schema document.
 - **JSON for high-frequency numeric telemetry** — protobuf/MessagePack bandwidth.
 
 ---

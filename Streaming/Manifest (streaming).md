@@ -126,7 +126,7 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
 - **Progressive MP4 only** — single URL, no manifest; no ABR.
 - **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
-- **Embedding segment list in app** — manifests exist to update without app release.
+- **Embedding segment list in application** — manifests exist to update without application release.
 
 ---
 

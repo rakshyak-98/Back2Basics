@@ -108,7 +108,7 @@ systemctl --user show-environment 2>/dev/null
 ## When NOT to use
 
 - **Don’t force every script to be a login shell** — slower, order-dependent, and surprises CI.
-- **Don’t stuff secrets only in interactive rc files** — use a secrets manager or restricted env for services ([[system service unit files]]).
+- **Don’t stuff secrets only in interactive rc files** — use a secrets manager or restricted environment for services ([[system service unit files]]).
 - **Don’t equate “login shell” with “root”** — any user can have a login shell; privilege is separate.
 
 ---

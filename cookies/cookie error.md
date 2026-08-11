@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Cookies are set by `Set-Cookie` on a **response** and sent on **matching requests** per domain/path/SameSite/Secure rules. Cross-origin SPA (frontend `localhost:3000`, API `localhost:4000`) is **not** same-site; production subdomain splits (`app.example.com` vs `api.example.com`) are **same-site** but still **cross-origin** for CORS.
+Cookies are set by `Set-Cookie` on a **response** and sent on **matching requests** per domain/path/SameSite/Secure rules. Cross-origin SPA (frontend `localhost:3000`, API `localhost:4000`) is **not** same-site; production subdomain splits (`app.example.com` versus `api.example.com`) are **same-site** but still **cross-origin** for CORS.
 
 ```
 Browser stores cookie for api.example.com

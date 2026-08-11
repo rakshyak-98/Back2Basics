@@ -69,7 +69,7 @@ jobs:
 
 ### Disable CodeQL (repo setting path)
 
-Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in prod repos).
+Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in production repos).
 
 ## Triage (when things break)
 
@@ -94,7 +94,7 @@ Settings → Code security → Code scanning → disable tool (prefer fixing fin
 ## When NOT to use
 
 - Don't run long-lived servers in Actions — use deploy targets (k8s, Lambda, VM).
-- Don't replace proper secret manager (Vault, AWS SM) with hundreds of repo secrets for shared infra creds.
+- Don't replace proper secret manager (Vault, AWS SM) with hundreds of repository secrets for shared infra credentials.
 
 ## Related
 

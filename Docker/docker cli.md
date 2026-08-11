@@ -32,7 +32,7 @@ docker buildx build --check .             # dry parse without full build
 docker run --rm -i hadolint/hadolint < Dockerfile   # lint (not "urn")
 ```
 
-Common lint failures: missing `.dockerignore`, `latest` tag in prod, root user, unpinned base image.
+Common lint failures: missing `.dockerignore`, `latest` tag in production, root user, unpinned base image.
 
 ### Build
 
@@ -85,7 +85,7 @@ docker volume ls
 docker volume inspect mydata
 ```
 
-**Ephemeral vs persistent:** container writable layer dies with `docker rm`; volumes and bind mounts survive.
+**Ephemeral versus persistent:** container writable layer dies with `docker rm`; volumes and bind mounts survive.
 
 ### Image transfer
 
@@ -154,7 +154,7 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 
 ## When NOT to use
 
-- **Production orchestration at scale** — [[Docker compose]] for dev; Kubernetes/systemd for prod HA.
+- **Production orchestration at scale** — [[Docker compose]] for development; Kubernetes/systemd for production HA.
 - **Rootful Docker for untrusted code** — use rootless mode or sandbox ([[Docker Runtime Security]]).
 - **Long-term log storage** — ship to journal/Loki; `docker logs` rotates with container.
 

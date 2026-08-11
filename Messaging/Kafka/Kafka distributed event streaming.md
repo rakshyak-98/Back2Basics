@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Kafka distributed event streaming — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Kafka distributed event streaming — kafka is a distributed event streaming platform used for real-time data processing.
 
 Kafka is a distributed event streaming platform used for real-time data processing.
 - it helps microservices communicate asynchronously by sending and receiving messages efficiently.
@@ -22,13 +21,6 @@ kafka consist of four main components
 | Broker    | Kafka servers that manage topics and messages.                 |
 | Consumer  | Listens to topics and process messages.                        |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Kafka distributed event streaming** | Core idea of this note | “I can explain Kafka distributed event streaming without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -32,7 +32,7 @@ Thread A running on CPU 2
 - Time slice expired (CFS `sched_latency`).
 - Blocking syscall (`read`, `mutex`, `futex`).
 - Voluntary yield / `sched_yield`.
-- Preemption of long-running kernel work (config dependent).
+- Preemption of long-running kernel work (configuration dependent).
 
 **SMT ([[SMT threads]]):** two logical CPUs share one core — switching between siblings is cheaper than cross-core, but still contends execution units.
 
@@ -76,7 +76,7 @@ cat /sys/fs/cgroup/.../cpu.max
 
 **Node:** single main thread — low **thread** switching; still kernel switches for async I/O completion.
 
-**Go:** GOMAXPROCS threads vs goroutines — M:N scheduler multiplexes many goroutines onto fewer OS threads.
+**Go:** GOMAXPROCS threads versus goroutines — M:N scheduler multiplexes many goroutines onto fewer OS threads.
 
 **Java:** massive thread pools (Tomcat 500 threads) → measurable `cs` in `vmstat` under load.
 

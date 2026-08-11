@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Express distinguishes error-handling middleware by **arity (4 params)**. Calling `next(err)` or throwing inside async route (with wrapper) skips normal middleware and jumps to error handler.
+Express distinguishes error-handling middleware by **arity (4 parameters)**. Calling `next(err)` or throwing inside async route (with wrapper) skips normal middleware and jumps to error handler.
 
 ```
 Request → parsers → routes → 404 factory → GLOBAL ERROR HANDLER (4 args)

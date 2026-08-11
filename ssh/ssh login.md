@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Verify with the public key is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** Verify with the public key — TCP Connection — Your client connects to the server on port 22.
 
 ```bash
 ssh user@server.example.com
@@ -26,22 +25,14 @@ ssh-keygen -t ed25519 -C "you@example.com"
 ```
 - private keys stays with you, the server needs to know who it should trust so, you copy your public key `~/.ssh/authorized_key` of your account on the server.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Verify with the public key** | Core idea of this note | “I can explain Verify with the public key without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+ssh user@host
+ssh -i ~/.ssh/id_ed25519 user@host
+ssh -p 2222 user@host
+ssh -J jump@bastion user@internal
 ```
 
 ---
@@ -50,22 +41,24 @@ ssh-keygen -t ed25519 -C "you@example.com"
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Connection refused | sshd down; wrong port | `ss -tlnp | grep 22`; check firewall |
+| Permission denied (publickey) | Key not on server | Install public key in `~/.ssh/authorized_keys` |
+| Too many authentication failures | Client offers too many keys | `IdentitiesOnly yes` in `~/.ssh/config` |
+| Hangs after password | DNS reverse lookup delay | Server `UseDNS no` (administrator setting) |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> SSH authenticates **the client key to the server** — username must exist on the server OS.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not enable password authentication on internet-facing servers if key-based login is available.
+
 
 ---
 

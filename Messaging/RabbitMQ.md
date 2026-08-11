@@ -8,16 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** RabbitMQ — plain job, how I run it, how I know it’s broken.
-
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **RabbitMQ** | Core idea of this note | “I can explain RabbitMQ without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
+**Say it in one breath:** RabbitMQ — they will be loaded in alphabetical order. A common naming practice uses numerical prefixes in filenames to make it easier to reason about the…
 
 ---
 

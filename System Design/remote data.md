@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Treat remote data as eventually present: loading, error, stale, and fresh are first-class states — not just “null vs object.”
+**Say it in one breath:** Treat remote data as eventually present: loading, error, stale, and fresh are first-class states — not just “null versus object.”
 
 ```txt
 UI local cache  ←get/put→  API  ←→  DB

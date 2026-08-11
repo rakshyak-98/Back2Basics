@@ -18,7 +18,7 @@ Logical table
 └── metadata JSON
 ```
 
-App migrations should match ORM models; production alters go through [[database migration]] with expand-contract for zero-downtime.
+application migrations should match ORM models; production alters go through [[database migration]] with expand-contract for zero-downtime.
 
 ## Standard config / commands
 

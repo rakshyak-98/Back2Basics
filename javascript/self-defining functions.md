@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Detect capability once (feature detect / init), then reassign the function name to a slim version so every later call pays less.
+**Say it in one breath:** Detect capability once (feature detect / initialize), then reassign the function name to a slim version so every later call pays less.
 
 ```txt
 call #1: detect → redefine fn → run
@@ -71,7 +71,7 @@ function request(url) {
 
 - **Hot paths with clear branches** — ordinary `if` is fine and debuggable.
 - **React render** — never redefine during render.
-- **Security-sensitive init** — explicit setup function.
+- **Security-sensitive initialize** — explicit setup function.
 
 ---
 

@@ -14,7 +14,7 @@ Preprocessing runs **before** the learner sees data. Order matters:
 load → clean types → handle missing → encode categoricals → scale (if needed) → split → fit
 ```
 
-Fit transformers on **training data only**; apply same params to val/test. Putting `fit` on full dataset before split = **leakage** (val scores lie).
+Fit transformers on **training data only**; apply same parameters to value/test. Putting `fit` on full dataset before split = **leakage** (value scores lie).
 
 | Step | Tree models | Linear / SVM / NN |
 |------|-------------|-------------------|

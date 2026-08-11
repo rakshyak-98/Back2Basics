@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** OCI **image-spec** = layers + config JSON. OCI **runtime-spec** = how to start a bundle (runc). Engines speak OCI so an image built with BuildKit runs under containerd.
+**Say it in one breath:** OCI **image-specification** = layers + configuration JSON. OCI **runtime-specification** = how to start a bundle (runc). Engines speak OCI so an image built with BuildKit runs under containerd.
 
 ```txt
 Dockerfile → OCI image → registry
@@ -67,8 +67,8 @@ docker build -t myfix:1.2 .
 
 ## When NOT to use
 
-- **Prod image creation** — Dockerfile + CI, not commit.
-- **App networking policy** — service mesh / K8s NetworkPolicy, not OCI itself.
+- **production image creation** — Dockerfile + CI, not commit.
+- **application networking policy** — service mesh / K8s NetworkPolicy, not OCI itself.
 - **VM-level isolation needs** — strong multi-tenant → VMs or gVisor/Firecracker.
 
 ---

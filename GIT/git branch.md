@@ -19,7 +19,7 @@ local main ───► commit C (tracking origin/main)
 feature ──────► commit D (ahead 2)
 ```
 
-Creating a branch is instant (new ref). **Merging/rebasing** moves history; deleting branch removes ref only, not commits until GC.
+Creating a branch is instant (new reference). **Merging/rebasing** moves history; deleting branch removes reference only, not commits until GC.
 
 ## Standard config / commands
 

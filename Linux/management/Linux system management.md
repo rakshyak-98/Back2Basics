@@ -69,7 +69,7 @@ sudo needrestart   # if installed
 ## When NOT to use
 
 - **Pets that should be cattle** — rebuild from image instead of endless surgery.
-- **App deploys** — separate from OS management pipelines.
+- **application deploys** — separate from OS management pipelines.
 
 ---
 

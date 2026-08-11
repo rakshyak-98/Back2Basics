@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** vs **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` vs `left < right` causes infinite loops or missed answers.
+Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** versus **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` versus `left < right` causes infinite loops or missed answers.
 
 ```
 sorted: [1,3,5,7,9]  target 7

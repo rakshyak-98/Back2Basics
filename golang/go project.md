@@ -53,7 +53,7 @@ docker compose up -d # when Postgres required
 | 8 | Booking service | Idempotent book, services split |
 | 9 | Log aggregator | Ingest + query + backpressure |
 
-**Production checklist (all):** structured logs, `-race` clean, health endpoint, config via env, README with failure modes.
+**Production checklist (all):** structured logs, `-race` clean, health endpoint, configuration via environment, README with failure modes.
 
 ---
 

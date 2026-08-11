@@ -48,7 +48,7 @@ docker save -o backup.tar image:tag          # full image layers
 docker import container-export.tar new:flat  # flat filesystem import
 ```
 
-Prefer Dockerfile rebuilds over `commit` for prod.
+Prefer Dockerfile rebuilds over `commit` for production.
 
 ## Run with working directory
 
@@ -56,7 +56,7 @@ Prefer Dockerfile rebuilds over `commit` for prod.
 docker run -it -w /app ubuntu:24.04 bash
 ```
 
-`-w` sets cwd (created if missing).
+`-w` sets current working directory (created if missing).
 
 ---
 

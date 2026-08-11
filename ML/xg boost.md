@@ -17,7 +17,7 @@ Obj = Σ loss(yᵢ, ŷᵢ) + Σ Ω(tree_k)
 
 **Second-order approximation:** uses gradient **and** Hessian for faster, stabler splits.
 
-**Histogram algorithm:** bin continuous features → O(#bins) split search vs exact sort — huge win on wide data.
+**Histogram algorithm:** bin continuous features → O(#bins) split search versus exact sort — huge win on wide data.
 
 **Sparsity:** learns default direction for missing values per split — no impute required (but document missing semantics).
 

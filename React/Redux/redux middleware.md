@@ -26,7 +26,7 @@ store => next => action => { /* ... */ return next(action); }
 
 Middleware powers **async** ([[Redux/Redux Thunk]], RTK Query), **analytics**, **crash reporting**, and **router sync**. It must stay **predictable** — side effects belong here or in listeners, not in reducers ([[Redux/redux reducers]]).
 
-RTK default middleware (dev): `redux-thunk` + serializable/immutable invariant checks.
+RTK default middleware (development): `redux-thunk` + serializable/immutable invariant checks.
 
 ---
 

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in config. Only load what you need: fewer modules = smaller attack surface and memory.
+Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in configuration. Only load what you need: fewer modules = smaller attack surface and memory.
 
 ```
 httpd binary

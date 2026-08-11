@@ -1,4 +1,4 @@
-[[Projects]] [[marketplace app]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
+[[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
 
 # ecommerce platform architecture
 
@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** ecommerce platform architecture — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** ecommerce platform architecture — I can explain the job, the configuration, and the top failure without jargon.
 
 
 ```txt
@@ -27,8 +27,6 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 ```
 
 **Money and catalog are separate failure domains.** Never hold catalog locks while waiting on PSP. Emit facts after local commit (outbox), consume with idempotent handlers.
-
----
 
 ### Interview map (words you can say)
 
@@ -75,4 +73,4 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 
 ## Related
 
-[[Projects]] [[marketplace app]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
+[[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]

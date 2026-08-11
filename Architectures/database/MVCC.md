@@ -26,7 +26,7 @@ VACUUM / purge  →  removes versions no one can see
 | **VACUUM** | Reclaim dead versions | “Without vacuum, tables bloat.” |
 | **Writers vs readers** | Don’t block each other (usually) | “Readers don’t block writers under MVCC.” |
 
-vs locking: fewer read/write stalls; cost is version storage + cleanup (VACUUM / undo purge).
+versus locking: fewer read/write stalls; cost is version storage + cleanup (VACUUM / undo purge).
 
 ---
 

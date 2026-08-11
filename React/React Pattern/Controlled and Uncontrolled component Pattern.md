@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Controlled = `value` + `onChange` every keystroke. Uncontrolled = `defaultValue` + ref/`FormData` on submit.
+**Say it in one breath:** Controlled = `value` + `onChange` every keystroke. Uncontrolled = `defaultValue` + reference/`FormData` on submit.
 
 ```txt
 Controlled:   state ──value──► <input> ──onChange──► setState

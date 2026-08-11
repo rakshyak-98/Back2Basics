@@ -85,7 +85,7 @@ ssh -R 8080:localhost:3000 user@public-server.example
 
 ## When NOT to use
 
-- **Port-forwarding every hobby service** — prefer Tailscale/Cloudflare Tunnel for admin UIs.
+- **Port-forwarding every hobby service** — prefer Tailscale/Cloudflare Tunnel for administrator UIs.
 - **Assuming the gateway is a firewall policy engine** — many home routers are weak; don’t rely on them for zero-trust.
 - **Hard-coding gateway IPs in apps** — use the OS route table; apps should dial destinations, not next hops.
 

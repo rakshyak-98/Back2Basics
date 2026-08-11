@@ -86,7 +86,7 @@ GRANT USAGE ON SCHEMA sales TO analyst;
 ## When NOT to use
 
 - **One schema forever with three tables** — `public` is fine; don’t invent namespaces for sport.
-- **App-enforced updated_at only** — races; prefer trigger or DB default patterns you control.
+- **application-enforced updated_at only** — races; prefer trigger or DB default patterns you control.
 
 ---
 

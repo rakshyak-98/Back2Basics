@@ -90,7 +90,7 @@ GET /v1/items?limit=50&cursor=eyJpZCI6MTIzfQ
 Response meta: { "next_cursor": "...", "has_more": true }
 ```
 
-Offset pagination OK for admin UIs; degrades on large tables ([[database sharding]]).
+Offset pagination OK for administrator UIs; degrades on large tables ([[database sharding]]).
 
 ### Versioning
 

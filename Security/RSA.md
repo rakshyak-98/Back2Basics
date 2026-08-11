@@ -16,13 +16,13 @@ Encrypt: ciphertext = plaintext^e mod n   (small messages only)
 Sign: signature = hash^d mod n            (with PKCS#1 v1.5 or PSS padding)
 ```
 
-Roles in prod:
-- **TLS cert keys** (RSA 2048/4096) — declining vs ECDSA
+Roles in production:
+- **TLS cert keys** (RSA 2048/4096) — declining versus ECDSA
 - **Legacy JWT RS256**
 - **Key encapsulation** — wrap AES key (RSA-OAEP)
 
 Limits:
-- **Slow** vs ECDSA/Ed25519 at sign/verify
+- **Slow** versus ECDSA/Ed25519 at sign/verify
 - **Size** — 2048-bit keys, ciphertext max ~190 bytes for OAEP-SHA256
 - **Padding critical** — raw RSA malleable
 

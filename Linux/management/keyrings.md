@@ -77,4 +77,4 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 
 ## Related
 
-[[source list file]] [[apt config]] [[gpg]] [[Linux Key management]]
+[[source list file]] [[apt configuration]] [[gpg]] [[Linux Key management]]

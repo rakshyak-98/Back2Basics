@@ -110,7 +110,7 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ## When NOT to use
 
 - Don't hand-edit routes on managed instances (EKS nodes, GKE nodes) — fix the CNI/cloud route table instead.
-- Don't add static routes for every microservice; use service mesh or DNS-based discovery for app-level routing.
+- Don't add static routes for every microservice; use service mesh or DNS-based discovery for application-level routing.
 
 ## Related
 

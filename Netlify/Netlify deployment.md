@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for App Router features (not plain static export). Env vars live in Netlify UI per context (production/deploy-preview).
+Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for application Router features (not plain static export). environment variables live in Netlify UI per context (production/deploy-preview).
 
 ```
 git push → Netlify build → plugin adapts Next → CDN + functions
@@ -73,7 +73,7 @@ netlify deploy --prod
 ## When NOT to use
 
 - Don't use Netlify static hosting alone for heavy WebSocket/long-polling backends — dedicated server or specialized host.
-- Don't commit `.env` — use Netlify env UI or secrets.
+- Don't commit `.env` — use Netlify environment UI or secrets.
 
 ## Related
 

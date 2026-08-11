@@ -88,7 +88,7 @@ event_scheduler=ON
 
 ## When NOT to use
 
-- **App-level jobs with retries/backoff** — use a real worker/queue.
+- **application-level jobs with retries/backoff** — use a real worker/queue.
 - **Multi-primary / unclear ownership** — events can double-fire; prefer one scheduler outside the DB.
 
 ---

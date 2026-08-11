@@ -16,7 +16,7 @@ Package / image ──► redis-server ──► reads redis.conf
                          └── RDB/AOF under dir /var/lib/redis
 ```
 
-**Default upstream packages** expose `6379` with **protected-mode** if no password and bind not restricted — fine for dev trap, dangerous if firewall wrong.
+**Default upstream packages** expose `6379` with **protected-mode** if no password and bind not restricted — fine for development trap, dangerous if firewall wrong.
 
 ## Standard config / commands
 
@@ -100,7 +100,7 @@ redis-cli ACL LIST
 redis-cli CONFIG REWRITE
 ```
 
-App connection string:
+application connection string:
 
 ```
 redis://app:SECRET@127.0.0.1:6379/0
@@ -121,7 +121,7 @@ bind 10.0.1.50
 protected-mode yes
 ```
 
-Never `bind 0.0.0.0` without auth, firewall, and TLS consideration.
+Never `bind 0.0.0.0` without authentication, firewall, and TLS consideration.
 
 ### Post-install verify
 
@@ -163,7 +163,7 @@ sudo chmod 640 /etc/redis/redis.conf
 - ** systemd `Type=notify`** — Redis supports `supervised systemd`; wrong `daemonize yes` breaks notify.
 - **THP (transparent huge pages)** — Redis docs say disable on Linux for latency (`never` in sysfs).
 - **Overcommit memory** — fork for RDB needs `vm.overcommit_memory=1` on Linux (see official FAQ).
-- **Package upgrade** — config diff in `/etc/redis/redis.conf.dpkg-old`; merge don't blind overwrite.
+- **Package upgrade** — configuration diff in `/etc/redis/redis.conf.dpkg-old`; merge don't blind overwrite.
 - **Docker sidecar** — bind `127.0.0.1` in container ≠ host; use network namespace or shared volume unix socket.
 
 ## When NOT to use

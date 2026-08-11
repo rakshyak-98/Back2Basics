@@ -22,7 +22,7 @@ LBA 0 (512 bytes)
 - **Partition table:** max **4 primary** partitions (or 3 primary + 1 extended → logical drives).
 - **Signature `0xAA55`:** BIOS validates before boot.
 
-**Limits that matter in prod:**
+**Limits that matter in production:**
 - **2 TiB** max addressable per partition (32-bit LBA × 512).
 - **4 primary slots** — workarounds via extended partitions (fragile).
 - **No checksum** — corrupted table boots wrong partition or not at all.
@@ -65,7 +65,7 @@ sudo sfdisk /dev/sda < sda-layout.txt   # after disk swap / recovery
 ### Cloud / VM images
 
 - AWS legacy BIOS AMIs often still MBR-style; newer Nitro + UEFI use GPT.
-- P2V migrations: Windows may need `bcdboot` repair if MBR vs GPT mismatch.
+- P2V migrations: Windows may need `bcdboot` repair if MBR versus GPT mismatch.
 
 ---
 

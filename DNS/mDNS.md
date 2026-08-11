@@ -68,7 +68,7 @@ sudo systemctl restart systemd-resolved
 > **mDNS crosses trust boundaries poorly.** A compromised LAN device can spoof `printer.local` or `_ssh._tcp.local`. Never treat mDNS answers as authenticated.
 
 - **Not routable by default** — routers don't forward 224.0.0.251; cross-subnet needs explicit reflector/proxy.
-- **`.local` vs `.localdomain`** — macOS/iOS use `.local` for mDNS; don't register `.local` in public [[DNS zone]].
+- **`.local` versus `.localdomain`** — macOS/iOS use `.local` for mDNS; don't register `.local` in public [[DNS zone]].
 - **Docker bridge** isolates multicast — container won't see host mDNS without `network_mode: host` or macvlan.
 - **Wi-Fi multicast-to-unicast** conversion on some APs breaks discovery unless vendor fix enabled.
 

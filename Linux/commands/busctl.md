@@ -23,7 +23,7 @@ Client ──► D-Bus daemon (/run/dbus/system_bus_socket)
 | System | `/run/dbus/system_bus_socket` | Machine-wide (`--system`, default for root) |
 | Session | `$DBUS_SESSION_BUS_ADDRESS` | Per-user desktop (`--user`) |
 
-**vs related tools:**
+**versus related tools:**
 
 | Tool | Role |
 |------|------|
@@ -123,7 +123,7 @@ journalctl -u dbus -u NetworkManager --since "10 min ago"
 - **Simple service restart** → [[systemctl]].
 - **GNOME-specific APIs** → sometimes easier with `gdbus`.
 - **Remote machines** → SSH + busctl locally; D-Bus doesn't tunnel by default.
-- **Performance tracing** → eBPF, app metrics — not bus introspection.
+- **Performance tracing** → eBPF, application metrics — not bus introspection.
 
 ## Related
 

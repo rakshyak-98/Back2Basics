@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** ed — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** ed — 1 # go to first line
 
 | Command      | Description           |
 | ------------ | --------------------- |
@@ -33,13 +32,6 @@
 | Command | Description         |
 | ------- | ------------------- |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ed** | Core idea of this note | “I can explain ed without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

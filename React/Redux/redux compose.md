@@ -58,7 +58,7 @@ export const store = configureStore({
 });
 ```
 
-RTK's `getDefaultMiddleware` already includes thunk + invariant checks in dev.
+RTK's `getDefaultMiddleware` already includes thunk + invariant checks in development.
 
 ---
 

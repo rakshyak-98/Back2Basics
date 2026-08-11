@@ -68,7 +68,7 @@ nmap -oA /tmp/scan-hostname -sV -p 1-1024 hostname
 ndiff scan1.xml scan2.xml
 ```
 
-**Don't on prod without approval:**
+**Don't on production without approval:**
 
 ```bash
 nmap -A -T4 target    # -A = OS detect + version + scripts + traceroute — noisy
@@ -100,9 +100,9 @@ nmap --script=vuln    # intrusive; change state on fragile services
 
 ## When NOT to use
 
-- **App-layer health** — use HTTP checks, synthetic monitoring, not port open alone.
+- **application-layer health** — use HTTP checks, synthetic monitoring, not port open alone.
 - **Continuous monitoring** — use dedicated CMDB/service discovery, not cron nmap of /16.
-- **Local "what port is my app on"** — [[ss]] `-lntp` is instant and non-invasive.
+- **Local "what port is my application on"** — [[ss]] `-lntp` is instant and non-invasive.
 
 ## Related
 

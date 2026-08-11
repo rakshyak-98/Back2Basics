@@ -100,7 +100,7 @@ UNLOCK TABLES;
 ## When NOT to use
 
 - **`LOCK TABLES` for modern InnoDB OLTP** — use transactions + row locks.
-- **Holding locks across user think-time / HTTP round-trips** — lock in DB, decide in app quickly, or use optimistic patterns.
+- **Holding locks across user think-time / HTTP round-trips** — lock in DB, decide in application quickly, or use optimistic patterns.
 - **Table WRITE locks for “safety” on every write path** — kills concurrency.
 
 ---

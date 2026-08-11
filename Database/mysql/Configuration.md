@@ -99,8 +99,8 @@ SET sql_safe_updates = 1;
 
 ## When NOT to use
 
-- **Putting prod root passwords in world-readable config** — use IAM/secrets + least privilege.
-- **Copying laptop `.my.cnf` into containers as the security model** — inject env/secrets at runtime.
+- **Putting production root passwords in world-readable configuration** — use IAM/secrets + least privilege.
+- **Copying laptop `.my.cnf` into containers as the security model** — inject environment/secrets at runtime.
 - **Tuning random buffer sizes without metrics** — measure first ([[SQL Configurations]]).
 
 ---

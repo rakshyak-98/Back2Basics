@@ -79,8 +79,8 @@ SHOW GRANTS FOR 'nodeuser'@'192.168.3.106';
 
 ## When NOT to use
 
-- **One shared DB user for all humans** — use SSO/ops jump + per-person accounts.
-- **Embedding root in the app** — create a narrow app account.
+- **One shared DB user for all humans** — use SSO/operations jump + per-person accounts.
+- **Embedding root in the application** — create a narrow application account.
 
 ---
 

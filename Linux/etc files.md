@@ -8,7 +8,7 @@
 
 ## Mental model
 
-`/etc` holds config consumed by daemons at start (or reload). Runtime state lives in `/var` and `/run`; binaries in `/usr/bin`. Many daemons **overwrite** or **include** fragments — editing the wrong file or missing a `systemctl reload` leaves you thinking you changed something when the running process didn't.
+`/etc` holds configuration consumed by daemons at start (or reload). Runtime state lives in `/var` and `/run`; binaries in `/usr/bin`. Many daemons **overwrite** or **include** fragments — editing the wrong file or missing a `systemctl reload` leaves you thinking you changed something when the running process didn't.
 
 ```
 Package install ──► /etc/default|/etc/sysconfig (defaults)
@@ -139,7 +139,7 @@ dpkg-query -W -f='${Conffiles}\n' openssh-server   # package-owned conffiles
 
 - **Runtime tuning without persistence** → `sysctl -w`, `ip route` — know they'll vanish.
 - **Secrets in plain `/etc`** → prefer secret store, systemd `LoadCredential`, vault.
-- **Application config in Docker** → image/env/volume strategy, not host `/etc` mix.
+- **Application configuration in Docker** → image/environment/volume strategy, not host `/etc` mix.
 
 ## Related
 

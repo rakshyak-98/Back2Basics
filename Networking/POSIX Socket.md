@@ -96,7 +96,7 @@ ss -tnp
 
 ## When NOT to use
 
-- **Raw sockets for app protocols** — prefer HTTP/gRPC libraries unless you own the wire format.
+- **Raw sockets for application protocols** — prefer HTTP/gRPC libraries unless you own the wire format.
 - **Blocking sockets in a single-thread server** — one slow client stalls everyone.
 - **AF_INET for same-host IPC when AF_UNIX fits** — Unix sockets are simpler and skip NAT/firewall noise.
 

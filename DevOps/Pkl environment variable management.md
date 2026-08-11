@@ -106,14 +106,14 @@ pkl repl
 > [!WARNING]
 > **Pkl is not a secret store** — pair with [[Descriptive/doppler]] or vault for credentials; Pkl references env vars at eval time.
 
-- **Eval in prod on every start** — cache rendered config or bake into image at build.
+- **Eval in production on every start** — cache rendered configuration or bake into image at build.
 - **Team learning curve** — new DSL; document REPL workflow for onboarding.
 - **Version pin** — pin Pkl CLI in CI for reproducible eval.
 
 ## When NOT to use
 
-- Single static `config.json` with no env variance — overhead unjustified.
-- Org already standardized on [[Terraform/variable file]] + tfvars for infra-only config.
+- Single static `config.json` with no environment variance — overhead unjustified.
+- Org already standardized on [[Terraform/variable file]] + tfvars for infra-only configuration.
 
 ## Related
 

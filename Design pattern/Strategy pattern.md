@@ -79,13 +79,13 @@ Pull methods that vary out of the context class into strategy classes. Context p
 > **Inheritance for reuse** is the classic smell Strategy replaces: one superclass, override everywhere, change ripples to all subclasses.
 
 - Runtime swap needs a setter or new context — don't mutate shared singleton strategies with request state.
-- Strategy ≠ State — State transitions are internal; Strategy is chosen by the caller/config.
+- Strategy ≠ State — State transitions are internal; Strategy is chosen by the caller/configuration.
 - Tiny two-branch `if` is fine; extract Strategy when a third variant or second call site appears.
 
 ## When NOT to use
 
 - One algorithm, no planned variants.
-- Variants differ only by data (config object / lookup table), not behavior.
+- Variants differ only by data (configuration object / lookup table), not behavior.
 
 ## Related
 

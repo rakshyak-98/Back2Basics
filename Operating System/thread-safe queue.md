@@ -29,7 +29,7 @@ producers ──put──► [ thread-safe queue ] ──get──► workers
 
 ### How the story goes
 
-1. **Create** — bound size + policy (block vs throw).
+1. **Create** — bound size + policy (block versus throw).
 2. **Produce** — `put` waits or fails if full.
 3. **Consume** — `get` waits if empty.
 4. **Shutdown** — poison pills or `close()` that wakes waiters.

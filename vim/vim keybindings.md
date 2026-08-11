@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Vim / Neovim keybindings — go to — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Vim / Neovim keybindings — go to — I can explain the job, the configuration, and the top failure without jargon.
 
 
 **Go to** commands ask the [[Descriptive/LSP|LSP]] (or ctags) where a symbol lives, then jump the cursor there. Neovim 0.11+ ships **global** `gr*` maps at startup; **buffer-local** maps (`K`, `CTRL-]`, diagnostics) apply when an LSP client attaches.

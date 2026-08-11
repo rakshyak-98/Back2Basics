@@ -79,7 +79,7 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 ## When NOT to use
 
 - **One-off local HTTPS demo** — self-signed or `mkcert` is enough; full PKI is overhead.
-- **Encrypting app payloads at rest** — use [[KMS]] / envelope encryption, not X.509 PKI.
+- **Encrypting application payloads at rest** — use [[KMS]] / envelope encryption, not X.509 PKI.
 - **API keys between trusted backends on private net** — mTLS is stronger, but HMAC/API keys may be simpler if threat model allows.
 
 ---

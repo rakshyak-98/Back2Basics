@@ -114,7 +114,7 @@ Rule: **equality → equality → range → ORDER BY columns** in one index.
 - **Secondary index includes PK implicitly** — `(user_id)` index already carries PK for lookup; covering means *non-PK SELECT list* cols.
 - **Low-cardinality leading column** — index `(status, user_id)` when `status` has 3 values → optimizer may ignore.
 - **Duplicate indexes** — `(a,b)` makes `(a)` redundant for reads but MySQL won't auto-drop; maintenance cost doubles.
-- **`ORDER BY` mismatch** — `DESC` vs index ASC may filesort unless 8.0+ descending indexes defined.
+- **`ORDER BY` mismatch** — `DESC` versus index ASC may filesort unless 8.0+ descending indexes defined.
 
 ## When NOT to use
 

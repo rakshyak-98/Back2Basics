@@ -59,7 +59,7 @@ server {
 }
 ```
 
-App behind proxy must trust `X-Forwarded-Proto` only from known hop — see [[Node.js security flaws in architecture]].
+application behind proxy must trust `X-Forwarded-Proto` only from known hop — see [[Node.js security flaws in architecture]].
 
 ### Let's Encrypt (certbot)
 

@@ -83,7 +83,7 @@ chmod +x myscript.sh
 ./myscript.sh
 ```
 
-File tests: `-f` file, `-d` dir, `-e` exists. Number ops: `-eq -ne -lt -gt -le -ge`.
+File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -gt -le -ge`.
 
 ---
 
@@ -116,7 +116,7 @@ File tests: `-f` file, `-d` dir, `-e` exists. Number ops: `-eq -ne -lt -gt -le -
 
 - **Complex data / HTTP / JSON APIs as core logic** — Python/Go; bash as wrapper.
 - **Performance-critical loops over huge files** — awk/compiled tools.
-- **Secrets in the script body** — inject via env/files with mode 600.
+- **Secrets in the script body** — inject via environment/files with mode 600.
 
 ---
 

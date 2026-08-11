@@ -80,7 +80,7 @@ dist/
     index-d4e5f6.css
 ```
 
-Ensure `root` points at `dist/`, not repo root.
+Ensure `root` points at `dist/`, not repository root.
 
 ---
 
@@ -127,7 +127,7 @@ curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.
 
 ## When NOT to use
 
-- **SSR/SSG frameworks (Next.js, Nuxt SSR)** — need server-side routing or hybrid config, not pure SPA fallback. See [[Configuration]] for Next.js proxy pattern.
+- **SSR/SSG frameworks (Next.js, Nuxt SSR)** — need server-side routing or hybrid configuration, not pure SPA fallback. See [[Configuration]] for Next.js proxy pattern.
 - **Multiple SPAs on one host** — use separate `root` + `server_name` or careful prefix locations, not one catch-all.
 
 ---

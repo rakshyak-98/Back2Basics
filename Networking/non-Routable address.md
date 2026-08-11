@@ -90,7 +90,7 @@ ss -tlnp | grep ':8080'
 
 - **Publishing a service to the world** — need a public IP, LB, or tunnel — not RFC1918 alone.
 - **Cross-org peering without a plan** — colliding `10/8` blocks; design non-overlapping CIDRs first.
-- **As a substitute for auth** — “it’s internal” is not an access-control model.
+- **As a substitute for authentication** — “it’s internal” is not an access-control model.
 
 ---
 

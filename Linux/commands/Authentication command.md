@@ -67,7 +67,7 @@ git commit -S -m "signed"
 git log --show-signature
 ```
 
-Deeper encrypt/sign ops: [[gpg]].
+Deeper encrypt/sign operations: [[gpg]].
 
 ---
 
@@ -98,9 +98,9 @@ Deeper encrypt/sign ops: [[gpg]].
 
 ## When NOT to use
 
-- **App-level OAuth/OIDC** — different layer than SSH host trust.
+- **application-level OAuth/OIDC** — different layer than SSH host trust.
 - **TLS cert management** — certbot/ACME, not ssh-keyscan.
-- **Full GPG keyring ops** — see dedicated [[gpg]] note.
+- **Full GPG keyring operations** — see dedicated [[gpg]] note.
 
 ---
 

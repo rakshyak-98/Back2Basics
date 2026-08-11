@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Standardize how services talk (errors, auth, timeouts), keep modules replaceable, and cut unnecessary hops. Consistency beats clever one-offs.
+**Say it in one breath:** Standardize how services talk (errors, authentication, timeouts), keep modules replaceable, and cut unnecessary hops. Consistency beats clever one-offs.
 
 ```txt
 Client → Edge/API → Service A → (events|RPC) → Service B → DB
@@ -84,7 +84,7 @@ Checklist per new service
 ## When NOT to use
 
 - **Throwaway prototypes** — ship; retrofit principles when retained.
-- **Single small app** — modular monolith may beat microservices.
+- **Single small application** — modular monolith may beat microservices.
 - **Vendor lock-in “platforms” that fight your contracts** — adapt principles, don’t cargo-cult tools.
 
 ---

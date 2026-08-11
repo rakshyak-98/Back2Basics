@@ -154,7 +154,7 @@ kubectl -n kube-system logs ds/cilium -c cilium-agent --tail=100
 
 - **Tiny single-node lab** — flannel/canal simpler; Cilium shines at policy + observability scale.
 - **Non-Kubernetes bare metal** — Cilium exists but different install; don't assume kube chart.
-- **Replacing app auth with NP** — network segmentation complements, doesn't replace mTLS/authZ.
+- **Replacing application authentication with NP** — network segmentation complements, doesn't replace mTLS/authZ.
 
 ## Related
 

@@ -89,7 +89,7 @@ const readCb = callbackify(async () => readFileP("x"));
 ## When NOT to use
 
 - **New code with native promise APIs** — `fs/promises`, `dns/promises`.
-- **Browser / Deno client** — no Node util module.
+- **Browser / Deno client** — no Node utility module.
 - **EventEmitter → Promise** — `events.once(emitter, 'event')` (Node 15+).
 
 ---

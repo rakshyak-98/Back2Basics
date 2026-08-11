@@ -85,7 +85,7 @@ cat /proc/bus/input/devices
 
 ## When NOT to use
 
-- **App IPC** — use sockets/queues; don’t romanticize hardware buses.
+- **application IPC** — use sockets/queues; don’t romanticize hardware buses.
 - **Network fabric design** — Ethernet/InfiniBand notes, not this.
 - **Choosing a DB** — storage protocol ≠ motherboard bus lecture.
 

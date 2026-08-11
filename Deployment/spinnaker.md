@@ -28,7 +28,7 @@ CI builds image → trigger Spinnaker pipeline
 | **Server group** | Homogeneous instances (ASG, K8s replica set abstraction) |
 | **Artifact** | Docker image, jar, deb — versioned reference from CI |
 
-**Orchestration vs execution:** Spinnaker orchestrates; clusters (EKS, GKE, Titus) execute. Clouddriver caches cloud state — stale cache causes scary UI drift.
+**Orchestration versus execution:** Spinnaker orchestrates; clusters (EKS, GKE, Titus) execute. Clouddriver caches cloud state — stale cache causes scary UI drift.
 
 ---
 
@@ -130,7 +130,7 @@ kubectl -n spinnaker logs deploy/orca --tail=200
 
 - **Single small K8s cluster** — Argo CD + Helm sufficient.
 - **Serverless-only, few functions** — CI deploy per function adequate.
-- **Team without dedicated platform ops** — Spinnaker maintenance will stall feature work.
+- **Team without dedicated platform operations** — Spinnaker maintenance will stall feature work.
 
 ---
 

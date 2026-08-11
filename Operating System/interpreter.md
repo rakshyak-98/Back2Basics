@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Parse or load code → walk AST / bytecode → dispatch ops; JIT may later compile hot paths to machine code.
+**Say it in one breath:** Parse or load code → walk AST / bytecode → dispatch operations; JIT may later compile hot paths to machine code.
 
 ```txt
 source ──► parse/AST ──► bytecode ──► interpret loop
@@ -87,7 +87,7 @@ java -XX:+PrintCompilation    # HotSpot JIT activity
 
 - **Hard realtime / tiny MCU** — prefer compiled firmware.
 - **Ship one static binary with no runtime** — Go/Rust AOT style.
-- **Max cold-start on edge** — AOT or wasm with pre-init; avoid huge JIT warmups.
+- **Max cold-start on edge** — AOT or wasm with pre-initialize; avoid huge JIT warmups.
 
 ---
 

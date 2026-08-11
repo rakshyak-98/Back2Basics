@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Stack/Queue/Map are ADTs; array/linked-list/hash-table are implementations you can swap if the ops stay the same.
+**Say it in one breath:** Stack/Queue/Map are ADTs; array/linked-list/hash-table are implementations you can swap if the operations stay the same.
 
 ```txt
 ADT (what)  →  data structure (how)

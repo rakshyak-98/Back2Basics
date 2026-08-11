@@ -105,8 +105,8 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 > **Orchestration becomes single point of failure** — HA the controller (Airflow metadata DB, Temporal cluster).
 
 - **Refactoring hint:** avoid orchestration until workflow complexity justifies it — don't DAG a bash one-liner.
-- **Secrets in DAG repo** — use vault/CI secrets, not plain text Variables.
-- **Long synchronous pipelines** — block releases; split verify vs promote stages.
+- **Secrets in DAG repository** — use vault/CI secrets, not plain text Variables.
+- **Long synchronous pipelines** — block releases; split verify versus promote stages.
 
 ## When NOT to use
 

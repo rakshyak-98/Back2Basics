@@ -13,7 +13,7 @@ Without pool:  Request → connect → auth → query → disconnect   (expensiv
 With pool:     Request → borrow conn → query → return conn       (amortized)
 ```
 
-Each DB connection consumes **RAM on server** (Postgres ~5–10MB each) and **FDs** on both sides. Spawning 500 app threads ≠ 500 DB connections — pool caps concurrency to what DB tolerates.
+Each DB connection consumes **RAM on server** (Postgres ~5–10MB each) and **FDs** on both sides. Spawning 500 application threads ≠ 500 DB connections — pool caps concurrency to what DB tolerates.
 
 ```txt
          ┌─────────────┐
@@ -23,10 +23,10 @@ App ───► │ Pool (app   │ ───► Postgres (max_connections = 10
 ```
 
 **Pool types:**
-- **Client-side** (HikariCP, pgxpool, SQLAlchemy) — inside app process
-- **Server-side** (PgBouncer, RDS Proxy, ProxySQL) — shared across many app instances
+- **Client-side** (HikariCP, pgxpool, SQLAlchemy) — inside application process
+- **Server-side** (PgBouncer, RDS Proxy, ProxySQL) — shared across many application instances
 
-**Transaction vs session pooling:** session mode safe for prepared statements/temp tables; transaction mode higher density but breaks session-scoped features.
+**Transaction versus session pooling:** session mode safe for prepared statements/temporary tables; transaction mode higher density but breaks session-scoped features.
 
 ---
 
@@ -83,7 +83,7 @@ default_pool_size = 25
 listen_port = 6432
 ```
 
-App connects to `6432`, not direct Postgres `5432`.
+application connects to `6432`, not direct Postgres `5432`.
 
 ### Verify pool health
 

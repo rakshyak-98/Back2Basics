@@ -1,4 +1,4 @@
-[[commands]] [[apt package manager]] [[apt config]]
+[[commands]] [[apt package manager]] [[apt configuration]]
 
 # APT policy
 
@@ -58,7 +58,7 @@ apt policy nginx
 #         100 /var/lib/dpkg/status
 ```
 
-Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/` — see [[apt config]].
+Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/` — see [[apt configuration]].
 
 ```bash
 apt-cache policy nginx    # older synonym-ish via apt-cache
@@ -102,4 +102,4 @@ apt list -a nginx         # all known versions
 
 ## Related
 
-[[apt package manager]] [[apt config]] [[gpg]] [[commands]]
+[[apt package manager]] [[apt configuration]] [[gpg]] [[commands]]

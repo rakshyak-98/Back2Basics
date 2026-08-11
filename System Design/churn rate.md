@@ -25,7 +25,7 @@ Revenue churn may differ if downgrades count separately
 | **Net revenue churn** | Includes expansion | Can be negative (good) |
 | **Logo vs dollar** | Enterprise vs SMB mix | One whale ≠ many logos |
 
-Distinguish **voluntary** (cancel button) vs **involuntary** (failed payment) — fix paths differ.
+Distinguish **voluntary** (cancel button) versus **involuntary** (failed payment) — fix paths differ.
 
 ---
 

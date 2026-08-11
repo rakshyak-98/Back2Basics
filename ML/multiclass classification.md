@@ -23,7 +23,7 @@ Softmax / multinomial: Single model, K outputs summing to 1 (logistic extension)
 - **Probabilities:** must sum to 1 — calibrate if used for ranking or thresholds
 - **Top-k:** return k highest classes (search, catalog)
 
-**Imbalance:** macro vs micro vs weighted F1 — pick metric matching business cost (rare class recall vs overall accuracy).
+**Imbalance:** macro versus micro versus weighted F1 — pick metric matching business cost (rare class recall versus overall accuracy).
 
 ---
 

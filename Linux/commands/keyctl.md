@@ -29,7 +29,7 @@ request_key / add_key / keyctl
 | **Key type** | `user`, `logon`, `encrypted`, `asymmetric`, `dns_resolver`, … |
 | **Session keyring** | Per-login session; default for `request_key` helpers |
 
-**Do not confuse with:** apt `/usr/share/keyrings/*.gpg` (Debian repo trust) or GNOME Keyring / GnuPG — see [[Linux Key management]] for **OpenSSL/GPG file keys**. `keyctl` is **kernel keyutils**.
+**Do not confuse with:** apt `/usr/share/keyrings/*.gpg` (Debian repository trust) or GNOME Keyring / GnuPG — see [[Linux Key management]] for **OpenSSL/GPG file keys**. `keyctl` is **kernel keyutils**.
 
 ### Interview map (words you can say)
 
@@ -119,7 +119,7 @@ journalctl -k | grep -i 'request_key\|keyctl'
 ## When NOT to use
 
 - **Managing TLS cert files or GPG keys** — use [[Linux Key management]], `gpg`, `openssl`.
-- **Storing app secrets in prod** — use vault/KMS; kernel keyrings are for OS/integration contracts (NFS, IMA, module sig).
+- **Storing application secrets in production** — use vault/KMS; kernel keyrings are for OS/integration contracts (NFS, IMA, module sig).
 - **Daily password/keyring unlock prompts on GNOME** — that’s **GNOME Keyring** / PAM, not `keyctl` CLI.
 
 ## Related

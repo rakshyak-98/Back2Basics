@@ -21,8 +21,6 @@
 
 v1 (legacy): separate hierarchies per controller (`memory`, `cpuacct`, …). v2: one tree, all controllers.
 
----
-
 ### Interview map (words you can say)
 
 | Word | Plain meaning | Say in interview |
@@ -158,7 +156,7 @@ cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.current
 cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.max
 ```
 
-Path varies by distro (cgroup driver: systemd vs cgroupfs).
+Path varies by distro (cgroup driver: systemd versus cgroupfs).
 
 ---
 

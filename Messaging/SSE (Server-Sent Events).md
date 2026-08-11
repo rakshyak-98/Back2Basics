@@ -8,19 +8,11 @@
 
 ## Mental model
 
-**Say it in one breath:** SSE — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** SSE (Server-Sent Events) — uni directional push from server to browser over HTTP.
 
 - uni directional push from server to browser over HTTP.
 - server pushes events -> client auto-receives over single long-lived connection.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **SSE** | Core idea of this note | “I can explain SSE without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

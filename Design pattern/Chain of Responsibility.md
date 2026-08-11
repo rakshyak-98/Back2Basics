@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Ordered checks: auth → goal → page → creative → budget. Each handler does one job; on success calls `next`, on failure short-circuits with an error. Open for extension: append a handler without editing others.
+Ordered checks: authentication → goal → page → creative → budget. Each handler does one job; on success calls `next`, on failure short-circuits with an error. Open for extension: append a handler without editing others.
 
 ```
 LaunchValidationChain

@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Payment integration Strip — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Payment integration Strip — const handleCheckout = async () => {
 
 ```ts
   const handleCheckout = async () => {
@@ -37,13 +36,6 @@
           if (status !== 200) {
             const errorMsg = results?.message || `HTTP error! status: ${status}`
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Payment integration Strip** | Core idea of this note | “I can explain Payment integration Strip without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

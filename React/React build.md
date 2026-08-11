@@ -1,4 +1,4 @@
-[[React project config]] [[Optimizing performance]] [[source map]] [[SWC]] [[Deployment/vercel deployment]]
+[[React project configuration]] [[Optimizing performance]] [[source map]] [[SWC]] [[Deployment/vercel deployment]]
 
 # React build
 
@@ -20,7 +20,7 @@ Prod: minify, tree-shake, code-split, asset hash
 | **Next.js** | Webpack/Turbopack + RSC pipeline |
 | **CRA (legacy)** | webpack — migrate to Vite |
 
-Build output must match **runtime env**: `import.meta.env.VITE_*` baked at build time, not read dynamically from shell at runtime (unless SSR injects).
+Build output must match **runtime environment**: `import.meta.env.VITE_*` baked at build time, not read dynamically from shell at runtime (unless SSR injects).
 
 ---
 
@@ -97,11 +97,11 @@ next build && next start
 
 ## When NOT to use
 
-- **SSR/RSC app** — don't treat as pure SPA build; use framework pipeline (Next).
+- **SSR/RSC application** — don't treat as pure SPA build; use framework pipeline (Next).
 - **Library package** — publish ESM/CJS via tsup/rollup, not SPA `index.html` build.
 
 ---
 
 ## Related
 
-[[React project config]] · [[source map]] · [[SWC]] · [[Deployment/vercel deployment]] · [[Optimizing performance]]
+[[React project configuration]] · [[source map]] · [[SWC]] · [[Deployment/vercel deployment]] · [[Optimizing performance]]

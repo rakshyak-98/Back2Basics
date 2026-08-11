@@ -14,9 +14,9 @@ dev ──► test ──► staging ──► production ──► live (traffi
   └─ fast └─ gate ───┴─ soak ─────┴─ change ─────┴─ canary / blue-green
 ```
 
-All five exist **in parallel** (separate clusters or namespaces + accounts). Promotion is **artifact-based** — same immutable image digest advances; config differs per env.
+All five exist **in parallel** (separate clusters or namespaces + accounts). Promotion is **artifact-based** — same immutable image digest advances; configuration differs per environment.
 
-**`live` definition (resolved):** not a sixth infrastructure clone — **production cluster** namespaces `prod` + `live-canary` (or Argo Rollouts `canary` strategy) receiving weighted traffic after prod deploy gate passes.
+**`live` definition (resolved):** not a sixth infrastructure clone — **production cluster** namespaces `prod` + `live-canary` (or Argo Rollouts `canary` strategy) receiving weighted traffic after production deploy gate passes.
 
 ---
 
@@ -31,8 +31,8 @@ All five exist **in parallel** (separate clusters or namespaces + accounts). Pro
 | **Feature flags** | defaults on | CI overrides | QA matrix | default off until [[Release cycle]] train |
 
 **Rules:**
-- Never copy prod secrets into dev ([[Terraform setup]] — no keys in `.tfvars` git).
-- GitHub OIDC → IAM role per env for deploy ([[Github runner]]).
+- Never copy production secrets into development ([[Terraform setup]] — no keys in `.tfvars` git).
+- GitHub OIDC → IAM role per environment for deploy ([[Github runner]]).
 - Sealed Secrets or External Secrets Operator sync from Secrets Manager.
 
 ---
@@ -47,7 +47,7 @@ All five exist **in parallel** (separate clusters or namespaces + accounts). Pro
 | **production** | `commerce-prod` | EKS `prod` / ns `prod` | Stable serving (100% stable ReplicaSet) | Multi-AZ, 3+ nodes per pool, HA Kafka, RDS Multi-AZ |
 | **live** | `commerce-prod` (same) | ns `live-canary` or Rollout | Canary 5→25→100% or blue-green validation | Same nodes as prod; extra canary pods only |
 
-**Isolation:** separate AWS accounts for prod vs non-prod ([[AWS STS (Security Token Service)]] boundaries). Network: VPC peering only where needed (e.g. shared observability).
+**Isolation:** separate AWS accounts for production versus non-production ([[AWS STS (Security Token Service)]] boundaries). Network: VPC peering only where needed (e.g. shared observability).
 
 **Scaling rules (HPA examples):**
 
@@ -58,7 +58,7 @@ All five exist **in parallel** (separate clusters or namespaces + accounts). Pro
 | Notification | 1 worker | 2 workers | Workers scale on Kafka consumer lag |
 | Flash sale (Promotions) | manual | load test profile | Pre-warm Redis; HPA max raised via runbook |
 
-Cluster autoscaler: `min`/`max` node pools per env in [[ecommerce-eks-layout]] Terraform.
+Cluster autoscaler: `min`/`max` node pools per environment in [[ecommerce-eks-layout]] Terraform.
 
 ---
 
@@ -73,7 +73,7 @@ Cluster autoscaler: `min`/`max` node pools per env in [[ecommerce-eks-layout]] T
 
 **Blocked promote if:**
 - Schema registry compatibility check fails
-- Terraform plan drift on env workspace without approval
+- Terraform plan drift on environment workspace without approval
 - [[Release cycle]] rollback criteria would have fired on staging soak
 
 ---
@@ -151,7 +151,7 @@ jobs:
 | production | Rolling (stable RS) | PDB `minAvailable: 1`; readiness strict |
 | live | **Canary** (Argo Rollouts) or **blue-green** | 5% → 25% → 100% over 24h ([[Release cycle]]) |
 
-**Database migrations:** Helm pre-upgrade hook or Job; **expand/contract** only — no destructive `down` in prod ([[Release cycle]] warning).
+**Database migrations:** Helm pre-upgrade hook or Job; **expand/contract** only — no destructive `down` in production ([[Release cycle]] warning).
 
 ---
 
@@ -208,7 +208,7 @@ helm rollback payment 42 -n prod
 
 ## When NOT to use
 
-- **Single service MVP** — one workflow, one namespace, skip Argo Rollouts until second prod deploy.
+- **Single service MVP** — one workflow, one namespace, skip Argo Rollouts until second production deploy.
 - **No SLOs** — canary is theater; define payment success + p99 first ([[Release cycle]]).
 
 ---

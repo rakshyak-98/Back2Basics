@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** long-lived trust in files/HSM; short-lived session creds in kernel keyrings; agents (ssh-agent/gpg-agent) broker use.
+**Say it in one breath:** long-lived trust in files/HSM; short-lived session credentials in kernel keyrings; agents (ssh-agent/gpg-agent) broker use.
 
 ```txt
 disk:  *.pem / gpg homedir / keyrings/*.gpg
@@ -72,7 +72,7 @@ ssh-add -l
 
 ## When NOT to use
 
-- **App secrets at scale** — use a secrets manager (Vault/SOPS/cloud KMS).
+- **application secrets at scale** — use a secrets manager (Vault/SOPS/cloud KMS).
 - **Embedding keys in images** — inject at runtime.
 
 ---

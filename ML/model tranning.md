@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Fit on train, tune on validation, report once on test — leaking test into training lies about prod.
+**Say it in one breath:** Fit on train, tune on validation, report once on test — leaking test into training lies about production.
 
 ```txt
 raw → preprocess (fit on train only) → train → validate → test once

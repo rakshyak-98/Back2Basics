@@ -102,7 +102,7 @@ sudo nmap -p 25,587,465 localhost
 
 ## When NOT to use
 
-- **Remote admin** — use [[SSH]]; telnetd on servers should be absent/disabled.
+- **Remote administrator** — use [[SSH]]; telnetd on servers should be absent/disabled.
 - **Encrypted service validation** — openssl/curl, not cleartext telnet.
 - **Automated monitoring** — use health checks; telnet scripts are brittle.
 

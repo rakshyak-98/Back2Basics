@@ -138,7 +138,7 @@ Numbers vary by hardware and payload — directionally correct for same-host pro
 ## When NOT to use
 
 - **Multi-host upstreams** — unix sockets are local only; use TCP or HTTP upstream.
-- **Quick local dev** — TCP port is simpler; switch to socket in production.
+- **Quick local development** — TCP port is simpler; switch to socket in production.
 
 ---
 

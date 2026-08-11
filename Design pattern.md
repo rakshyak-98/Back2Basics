@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Design Patterns — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Design Patterns — I can explain the job, the configuration, and the top failure without jargon.
 
 
 Patterns are **named solutions to recurring design problems**, not a checklist. In a multi-platform / multi-goal backend (e.g. Meta Marketing API), every pattern that earned its keep mapped to a **variation point**: goals change, platforms multiply, Graph quirks need adapters, launch needs a fixed algorithm with swappable steps.

@@ -110,7 +110,7 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 
 ## When NOT to use
 
-- **App RBAC** — application authz, not sudoers.
+- **application RBAC** — application authz, not sudoers.
 - **Containers as non-root by design** — drop capabilities; don’t sprinkle NOPASSWD.
 - **Windows** — different privilege model.
 

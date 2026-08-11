@@ -121,7 +121,7 @@ END
 
 ## When NOT to use
 
-- **Heavy ETL or cross-system orchestration** — use [[Airflow]], cron + app worker, or CDC pipeline.
+- **Heavy ETL or cross-system orchestration** — use [[Airflow]], cron + application worker, or CDC pipeline.
 - **Exactly-once distributed semantics** — events are single-node; use external queue with acks.
 - **User-visible scheduling** — no UI; prefer application scheduler with audit trail.
 

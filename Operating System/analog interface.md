@@ -19,7 +19,7 @@ radio carrier →     mixer / IF strip    →     demod → bits
 ```
 
 Engineering concerns:
-- **SNR** — noise floor vs signal
+- **SNR** — noise floor versus signal
 - **Bandwidth** — Nyquist: sample ≥ 2× highest frequency
 - **Linearity** — gain errors across range
 - **Ground loops** — shared return paths inject hum
@@ -54,7 +54,7 @@ arecord -D hw:0,0 -f S16_LE -r 44100 -c 2 test.wav
 # Check: clipping, DC offset, ringing on lines
 ```
 
-**Why differential pairs:** USB Ethernet, audio balanced XLR reject common-mode noise vs single-ended GPIO-adjacent wiring.
+**Why differential pairs:** USB Ethernet, audio balanced XLR reject common-mode noise versus single-ended GPIO-adjacent wiring.
 
 ---
 

@@ -16,7 +16,7 @@ Polynomial: add xᵢ², xᵢxⱼ → [[Model/Polynomial regression]]
 Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
 ```
 
-**Explanatory vs predictive:** OLS coefficients interpret causally only under strong assumptions; [[Gradient boosting]] may predict better but is harder to explain.
+**Explanatory versus predictive:** OLS coefficients interpret causally only under strong assumptions; [[Gradient boosting]] may predict better but is harder to explain.
 
 | Variant | Use when |
 |---------|----------|
@@ -65,7 +65,7 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 | Predictions outside bounds | Unbounded linear head | Clip; beta regression; classify buckets |
 | Train RMSE ↓, val flat | Overfit | Regularize; fewer features; simpler model |
 
-Use [[Visualization/Residual plot]] and [[Visualization/predicated vs actual plot]] after every serious regression build.
+Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual plot]] after every serious regression build.
 
 ---
 

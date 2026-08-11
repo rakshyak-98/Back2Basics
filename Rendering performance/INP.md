@@ -90,7 +90,7 @@ const worker = new Worker('/worker.js');
 
 ## When NOT to use
 
-- Don't chase sub-50 ms INP on internal admin tools with 5 users — focus on critical revenue paths first.
+- Don't chase sub-50 ms INP on internal administrator tools with 5 users — focus on critical revenue paths first.
 
 ## Related
 

@@ -42,8 +42,8 @@ Properties engineers care about:
 ```
 
 - **Anchor hash on-chain, data off-chain** — store document hash in contract event; blob in S3/IPFS.
-- **Wallet/signing** — user keys in HSM/browser wallet; server never holds user seed in prod.
-- **Idempotency** — tx nonce management; retry with same nonce vs replacement.
+- **Wallet/signing** — user keys in HSM/browser wallet; server never holds user seed in production.
+- **Idempotency** — tx nonce management; retry with same nonce versus replacement.
 
 ### Read contract (Ethereum JSON-RPC)
 
@@ -106,7 +106,7 @@ contract.on('Transfer', (from, to, value, event) => {
 
 ## When NOT to use
 
-- **CRUD app with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
+- **CRUD application with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
 - **Sub-second latency requirements** — chain finality is seconds to minutes.
 - **GDPR right-to-erasure** — conflicts with immutability; keep PII off-chain.
 

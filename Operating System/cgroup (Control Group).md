@@ -58,7 +58,7 @@ docker run -m 512m --cpus=1.5 myimage
 docker inspect --format '{{.HostConfig.Memory}}' CONTAINER
 ```
 
-**Why cgroups beat ulimit alone:** apply to **process tree**, survive fork/exec, integrate with orchestrators.
+**Why cgroups beat ulimit alone:** apply to **process tree**, survive fork/execute, integrate with orchestrators.
 
 ---
 
@@ -88,7 +88,7 @@ docker inspect --format '{{.HostConfig.Memory}}' CONTAINER
 
 ## When NOT to use
 
-Don't hand-roll cgroup filesystem writes in production if **systemd/K8s/Docker** already manage hierarchy — fighting the init system breaks delegation.
+Don't hand-roll cgroup filesystem writes in production if **systemd/K8s/Docker** already manage hierarchy — fighting the initialize system breaks delegation.
 
 ---
 

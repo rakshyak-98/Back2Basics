@@ -8,20 +8,12 @@
 
 ## Mental model
 
-**Say it in one breath:** Multicast delivery — plain job, how I run it, how I know it’s broken.
+**Say it in one breath:** Multicast delivery — in FCM Token (Firebase Cloud Messaging Token) refers to the ability to send a single message to multiple devices by providing multiple…
 
-
-[`sendEachForMulticast(MulticastMessage message)`](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage))
+[`sendEachForMulticast(MulticastMessage message)`](https://firebase.google.com/docs/reference/administrator/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage))
 Multicast delivery in [[FCM Token (Firebase Cloud Messaging Token)]] refers to the ability to send a single message to multiple devices by providing multiple FCM registration tokens in one API call.
 - this is useful for targeting a specific set to devices without creating a topic or group.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Multicast delivery** | Core idea of this note | “I can explain Multicast delivery without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

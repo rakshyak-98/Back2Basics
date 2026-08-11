@@ -57,7 +57,7 @@ node --inspect-brk app.js   # waits for debugger before user code
 # Chrome → chrome://inspect
 ```
 
-**Why `--inspect-brk`:** attach before top-level module side effects run — critical for debugging init-order bugs.
+**Why `--inspect-brk`:** attach before top-level module side effects run — critical for debugging initialize-order bugs.
 
 ---
 

@@ -76,7 +76,7 @@ run: build
 
 ## When NOT to use
 
-- **Trivial one-package repo** — raw `go test` is enough.
+- **Trivial one-package repository** — raw `go test` is enough.
 - **Polyglot Bazel monorepo** — use the monorepo tool.
 - **Replacing `go.mod`** — never.
 

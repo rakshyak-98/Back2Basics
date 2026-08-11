@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Kafka broker — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Kafka broker — a broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
 
 A broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
 | feature              | Description                                                       |
@@ -23,13 +22,6 @@ A broker in Apache Kafka is server that acts as an intermediary between producer
 The term _topic_ in kafka is inspired by publish-subscribe messaging systems.
 - it represents a logical channel where messages are categorized, similar to how topics work in forums or newsletters.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Kafka broker** | Core idea of this note | “I can explain Kafka broker without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

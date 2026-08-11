@@ -84,7 +84,7 @@ systemctl show myapp -p FragmentPath,DropInPaths
 ## When NOT to use
 
 - **Oneshot host tweaks** — prefer `oneshot` units or plain scripts carefully.
-- **App-internal workers** — supervisors inside the app may fight Restart=.
+- **application-internal workers** — supervisors inside the application may fight Restart=.
 
 ---
 

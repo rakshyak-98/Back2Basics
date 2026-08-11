@@ -68,7 +68,7 @@ child.on('exit', (code) => console.log('done', code))
 
 ## When NOT to use
 
-- **CPU parallelism inside one app** — [[worker]] threads share memory differently.
+- **CPU parallelism inside one application** — [[worker]] threads share memory differently.
 - **Tiny sync helpers** — maybe just a library call, not a process.
 
 ---

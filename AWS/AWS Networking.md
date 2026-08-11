@@ -80,9 +80,9 @@ aws ec2 create-network-insights-path --source i-xxx --destination i-yyy --protoc
 ## When NOT to use
 
 - **Default VPC for production** — no blast-radius separation, CIDR collisions when peering.
-- **Public IPs on app/database tiers** — use ALB + private subnets; bastion or SSM Session Manager for admin.
+- **Public IPs on application/database tiers** — use ALB + private subnets; bastion or SSM Session Manager for administrator.
 - **NACL micromanagement** — start with SG-only; add NACLs for explicit deny (compliance) or subnet-level guardrails.
-- **One NAT GW for multi-AZ prod HA** — AZ failure kills all private egress.
+- **One NAT GW for multi-AZ production HA** — AZ failure kills all private egress.
 
 ## Related
 

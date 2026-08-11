@@ -81,7 +81,7 @@ DROP TRIGGER IF EXISTS after_hotel_update_create_pages;
 
 ## When NOT to use
 
-- **Emails, HTTP, PDFs** — don’t hide I/O in triggers; use app/outbox.
+- **Emails, HTTP, PDFs** — don’t hide I/O in triggers; use application/outbox.
 - **Complex multi-table workflows** — prefer explicit transactions in the service.
 
 ---

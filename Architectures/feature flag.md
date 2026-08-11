@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Wrap the new path in a check; a flag service (or config) decides who sees it without redeploying.
+**Say it in one breath:** Wrap the new path in a check; a flag service (or configuration) decides who sees it without redeploying.
 
 ```txt
 Dashboard → Flag service → SDKs (poll/SSE)
@@ -68,7 +68,7 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 
 ## When NOT to use
 
-- **Config that rarely changes** — env vars / config files may be enough.
+- **configuration that rarely changes** — environment variables / configuration files may be enough.
 - **Permanent product differences** — that’s packaging/plans, not a forever flag.
 
 ## Related

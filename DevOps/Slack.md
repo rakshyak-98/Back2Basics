@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).
+Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. operations stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).
 
 ```
 Prometheus/CI ──► webhook POST JSON ──► #alerts channel
@@ -16,13 +16,13 @@ Prometheus/CI ──► webhook POST JSON ──► #alerts channel
                          └── optional: threads, @channel, Block Kit for context
 ```
 
-Separate **noisy dev channel** from **prod paging channel**; use **severity routing** (warning → Slack, critical → PagerDuty + Slack).
+Separate **noisy development channel** from **production paging channel**; use **severity routing** (warning → Slack, critical → PagerDuty + Slack).
 
 ## Standard config / commands
 
 ### Incoming Webhook (fastest path)
 
-1. Slack app → Incoming Webhooks → Add to workspace → pick channel.
+1. Slack application → Incoming Webhooks → Add to workspace → pick channel.
 2. Store URL in secret manager (not git).
 
 ```bash

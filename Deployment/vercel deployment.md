@@ -20,7 +20,7 @@ User refresh /deep link ──► must rewrite to index or SSR route
 
 ### SPA fallback (Vite/CRA — fix refresh 404)
 
-`vercel.json` at repo root:
+`vercel.json` at repository root:
 ```json
 {
   "rewrites": [
@@ -29,7 +29,7 @@ User refresh /deep link ──► must rewrite to index or SSR route
 }
 ```
 
-Next.js App Router: file-based routing — **no catch-all rewrite** unless custom static export.
+Next.js application Router: file-based routing — **no catch-all rewrite** unless custom static export.
 
 ### Next.js (recommended path)
 

@@ -130,7 +130,7 @@ RUN yes | sdkmanager --licenses && \
 
 ## When NOT to use
 
-- **Local dev with Android Studio** — Studio SDK Manager UI is easier; same packages underneath.
+- **Local development with Android Studio** — Studio SDK Manager UI is easier; same packages underneath.
 - **iOS builds** — Xcode / `xcodebuild`, not sdkmanager.
 - **Installing arbitrary APKs on device** — `adb install`, not sdkmanager.
 

@@ -34,7 +34,7 @@ App                         Kernel
 
 1. **Open / create** — syscall returns a handle (`open`, `socket`, `CreateFile`).
 2. **Operate** — `read`/`write`/`ioctl` with that ID.
-3. **Duplicate / share** — `dup`, inherit-on-exec, or pass over SCM_RIGHTS.
+3. **Duplicate / share** — `dup`, inherit-on-execute, or pass over SCM_RIGHTS.
 4. **Close** — release; resources free when the last reference dies.
 
 ---

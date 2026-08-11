@@ -98,7 +98,7 @@ npx stryker run   # mutates code; tests should fail — finds weak assertions
 ## When NOT to use
 
 - Don't block merge on 95% global threshold for legacy codebase — ratchet gradually.
-- Don't measure coverage on config-only or infra repos — meaningless signal.
+- Don't measure coverage on configuration-only or infra repos — meaningless signal.
 
 ## Related
 

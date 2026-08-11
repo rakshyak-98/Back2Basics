@@ -23,7 +23,7 @@ Rough ceiling (order of magnitude):
 | NVMe | 100k–1M+ |
 | EBS gp3 | provisioned IOPS (3k–16k+ per volume) |
 
-Queue depth (`nr_requests`, app concurrency) multiplies effective IOPS until device or CPU saturates.
+Queue depth (`nr_requests`, application concurrency) multiplies effective IOPS until device or CPU saturates.
 
 **Service impact:** Postgres/MySQL with fsync-heavy commits, etcd, and metrics backends hit **IOPS and latency** before raw bandwidth.
 

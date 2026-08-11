@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Payment break down json — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Payment break down json — "lengthOfStay": "At check in, the front desk will verify your check-out date. Rates quoted are based on check-in date and length…
 
 ```json
 {
@@ -44,13 +43,6 @@
             "pnd": null,
             "promoCode": null,
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Payment break down json** | Core idea of this note | “I can explain Payment break down json without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -1,4 +1,4 @@
-[[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace app]]
+[[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace application]]
 
 # Command pattern
 
@@ -98,7 +98,7 @@ function undo() { history.pop()?.undo(); }
 ## When NOT to use
 
 - Simple one-shot function call with no undo/queue/logging — YAGNI.
-- Entire app as Command objects — prefer plain functions until undo/queue appears.
+- Entire application as Command objects — prefer plain functions until undo/queue appears.
 
 ## Related
 

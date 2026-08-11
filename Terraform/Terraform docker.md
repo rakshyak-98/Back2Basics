@@ -154,7 +154,7 @@ Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
 
 ## When NOT to use
 
-- **Real prod containers** — use k8s/ECS + CI, not Terraform Docker day-to-day.
+- **Real production containers** — use k8s/ECS + CI, not Terraform Docker day-to-day.
 - **Learning Linux networking** — compose may teach faster than HCL.
 
 ## Related

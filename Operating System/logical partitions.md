@@ -89,8 +89,8 @@ lsblk
 
 ## When NOT to use
 
-- **Simple Linux containers** — [[cgroup (Control Group)]] / pods are enough for app isolation.
-- **One app, one cheap VM** — public cloud VM without LPAR ceremony.
+- **Simple Linux containers** — [[cgroup (Control Group)]] / pods are enough for application isolation.
+- **One application, one cheap VM** — public cloud VM without LPAR ceremony.
 - **Need process-level only** — namespaces, not firmware partitions.
 
 ---

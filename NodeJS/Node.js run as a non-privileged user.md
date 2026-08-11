@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate admin tools — not `sudo` from the app.
+Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
 
 ```
 Bad:  root → node app.js (listening 3000)

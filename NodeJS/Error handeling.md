@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Error handeling — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Error handeling — I can explain the job, the configuration, and the top failure without jargon.
 
 ### Interview map (words you can say)
 

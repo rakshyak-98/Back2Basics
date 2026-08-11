@@ -64,7 +64,7 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 ## When NOT to use
 
 - **Analytics joins** — aggregation `$lookup`.
-- **Data always read together** — embed instead of ref.
+- **Data always read together** — embed instead of reference.
 
 ## Related
 

@@ -33,7 +33,7 @@ Clean Architecture is a **dependency-management** pattern, not a deployment diag
 | **DIP at boundary** | Inner layer defines interface (port); outer layer implements (adapter) |
 | **Composition root** | Outermost wiring point where concrete adapters are injected ([[Design pattern/Dependency Injection]]) |
 
-**Control flow vs compile-time deps:** A use case may *call* a database (outward control flow), but it calls an **interface it owns**; the Postgres adapter implements that interface. Source deps oppose control flow at boundaries — classic [[SOLID]] Dependency Inversion.
+**Control flow versus compile-time deps:** A use case may *call* a database (outward control flow), but it calls an **interface it owns**; the Postgres adapter implements that interface. Source deps oppose control flow at boundaries — classic [[SOLID]] Dependency Inversion.
 
 **Martin's five properties** of a well-architected system ([Ch. 22](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)):
 
@@ -73,7 +73,7 @@ Circles are **schematic** — you may need more than four. The Dependency Rule a
 - Can be objects with methods, or plain data + functions — Martin is explicit either works
 - Hold **invariants** ("account balance cannot go negative", "order total must match line items")
 - Zero imports from outer layers — no ORM annotations, no HTTP types, no SDK clients
-- In a single-app context without an enterprise, entities = the app's core business objects
+- In a single-application context without an enterprise, entities = the application's core business objects
 
 **Not:** anemic structs with all logic pushed to a "service god class". Entities should enforce critical rules; use cases **orchestrate**, not replace, entity behavior.
 
@@ -174,7 +174,7 @@ See [[Design pattern/Dependency Injection]] for wiring patterns and test doubles
 | "It's a Rails app" | "It's an accounting / streaming / healthcare system" |
 | New hire asks "where are use cases?" | Use cases visible in top-level package names |
 
-Good architecture **defers** framework and DB decisions. You should be able to deliver as console app, web app, or thick client without rewriting core policy.
+Good architecture **defers** framework and DB decisions. You should be able to deliver as console application, web application, or thick client without rewriting core policy.
 
 ---
 
@@ -310,7 +310,7 @@ If business-rule tests require Docker, the Dependency Rule is already violated.
 | Infra volatility | Expect DB/framework swaps | Stack locked for project life |
 | Team size | Boundaries prevent stepping on each other | Solo dev, < 3 engineers |
 
-**Martin's bar:** Earn structure when **testability and longevity** justify ~2–3× more types/files. Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)): relaxed layers, remove interfaces with only one impl, merge one-liner pass-through controllers.
+**Martin's bar:** Earn structure when **testability and longevity** justify ~2–3× more types/files. Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)): relaxed layers, remove interfaces with only one implementation, merge one-liner pass-through controllers.
 
 ---
 
@@ -384,7 +384,7 @@ FAIL:
 | Challenge is ops/scale, not domain rules | Vertical slicing, CQRS, or event-driven may fit better ([Rentea](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)) |
 | Every operation is `repository.save(entity)` | Anemic use cases — structure without logic |
 
-**Pragmatic path:** Start with simple layered monolith (handler → service → repo). Extract ports and use-case packages when tests fight Docker, rules outlive framework churn, or a second delivery channel appears. Easier to add boundaries later than delete empty ones.
+**Pragmatic path:** Start with simple layered monolith (handler → service → repository). Extract ports and use-case packages when tests fight Docker, rules outlive framework churn, or a second delivery channel appears. Easier to add boundaries later than delete empty ones.
 
 ---
 

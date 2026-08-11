@@ -24,7 +24,7 @@ Test set        → report once (never tune on this)
 | **Ordinal** | Ordered classes | [[ordinal classification]] |
 | **Ranking** | Relevance order | LambdaMART, [[Normalized Discounted Cumulative Gain (NDCG)]] |
 
-**Distribution shift** (train 2022, deploy 2026) breaks supervised assumptions — monitor features and labels in prod.
+**Distribution shift** (train 2022, deploy 2026) breaks supervised assumptions — monitor features and labels in production.
 
 ---
 

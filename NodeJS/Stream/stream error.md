@@ -72,7 +72,7 @@ await pipeline(
 
 ## When NOT to use
 
-- **Happy-path only demos** — still add error paths before prod.
+- **Happy-path only demos** — still add error paths before production.
 
 ---
 

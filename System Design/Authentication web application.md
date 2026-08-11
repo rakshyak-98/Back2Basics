@@ -91,7 +91,7 @@ app.post('/login', async (req, res) => {
 
 ## When NOT to use
 
-- **Public read-only content** — no auth tax.
+- **Public read-only content** — no authentication tax.
 - **Service-to-service** — mTLS or signed tokens, not human login forms.
 - **Building your own crypto password protocol** — use vetted libs + IdP when possible.
 

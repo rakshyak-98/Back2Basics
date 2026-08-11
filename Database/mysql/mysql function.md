@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Functions are for computing a scalar inside `SELECT`; procedures are for multi-statement work with optional OUT params — functions must not do arbitrary DML/txn control the way procedures can.
+**Say it in one breath:** Functions are for computing a scalar inside `SELECT`; procedures are for multi-statement work with optional OUT parameters — functions must not do arbitrary DML/txn control the way procedures can.
 
 ```txt
 SELECT tax(price) FROM items;     ── function
@@ -87,7 +87,7 @@ SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
 
 ## When NOT to use
 
-- **Business workflows with side effects** — app service + transaction.
+- **Business workflows with side effects** — application service + transaction.
 - **Replacing simple CAST** — don’t write a UDF for `CAST(x AS UNSIGNED)`.
 
 ---

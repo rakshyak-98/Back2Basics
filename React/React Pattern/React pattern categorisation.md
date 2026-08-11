@@ -70,8 +70,8 @@ App-wide deps → Provider → Theme, Auth
 
 ## When NOT to use
 
-- **Greenfield tiny app** — composition + hooks cover 90%.
-- **Forcing a factory** — only when config truly drives component choice.
+- **Greenfield tiny application** — composition + hooks cover 90%.
+- **Forcing a factory** — only when configuration truly drives component choice.
 
 ---
 

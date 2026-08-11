@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** vim commands — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** vim commands — ctrl-a (increment number under cursor)
 
 ```bash
 vim -R ; # start vim in Read-only mode.
@@ -31,7 +30,7 @@ q: (open command history)
 "ap (paste from register 'a')
 ```
 ### mark
- [mark doc](https://vim.fandom.com/wiki/Using_marks)
+ [mark document](https://vim.fandom.com/wiki/Using_marks)
 ```vim
 ma (set mark 'a')
 'a (jump to line of mark 'a')
@@ -47,13 +46,6 @@ colorscheme habamax
 ```
 ### Enable system clipboard
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **vim commands** | Core idea of this note | “I can explain vim commands without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 
