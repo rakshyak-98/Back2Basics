@@ -32,23 +32,23 @@ docker inspect --format='{{json .NetworkSettings.Ports}}' mycontainer
 docker build -t myfix:1.2 .
 ```
 
-| Concept | Meaning |
-|---------|---------|
-| Image index / manifest | Multi-arch pointers |
-| Runtime bundle | rootfs + `config.json` for runc |
-| Exposed vs published | Dockerfile `EXPOSE` ≠ host publish (`-p`) |
+| Concept                | Meaning                                   |
+| ---------------------- | ----------------------------------------- |
+| Image index / manifest | Multi-arch pointers                       |
+| Runtime bundle         | rootfs + `config.json` for runc           |
+| Exposed vs published   | Dockerfile `EXPOSE` ≠ host publish (`-p`) |
 
 ---
 
 ## Triage (when things break)
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Port listed but closed externally | Not published / firewall | `-p`; host SG/firewall |
-| Commit image missing files | Data was in a volume | Volumes aren’t in commit |
-| “OCI runtime create failed” | runc / cgroup / seccomp | `docker info`; dmesg; profile |
-| Arch mismatch | arm64 vs amd64 | Match platform; multi-arch manifest |
-| Registry pull reject | Non-OCI / schema1 legacy | Re-push modern manifest |
+| Symptom                           | Check                    | Fix                                 |
+| --------------------------------- | ------------------------ | ----------------------------------- |
+| Port listed but closed externally | Not published / firewall | `-p`; host SG/firewall              |
+| Commit image missing files        | Data was in a volume     | Volumes aren’t in commit            |
+| “OCI runtime create failed”       | runc / cgroup / seccomp  | `docker info`; dmesg; profile       |
+| Arch mismatch                     | arm64 vs amd64           | Match platform; multi-arch manifest |
+| Registry pull reject              | Non-OCI / schema1 legacy | Re-push modern manifest             |
 
 ---
 

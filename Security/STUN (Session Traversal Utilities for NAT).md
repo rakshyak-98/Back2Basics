@@ -22,20 +22,20 @@ Client now has an srflx candidate for [[ICE (Interactive Connectivity Establishm
 
 ### Interview map (words you can say)
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Binding** | The STUN request/response that asks “what is my mapped address?” | “I send a Binding request; STUN echoes my public face.” |
-| **srflx** (server-reflexive) | Public IP:port STUN saw | “srflx is how the internet sees this socket.” |
-| **NAT type** | How the mapping behaves (full cone vs symmetric, etc.) | “Symmetric NAT often breaks STUN-only paths.” |
-| **Hole punch** | Both sides send so NATs allow return traffic | “STUN gives the address; punching still has to work.” |
-| **Signaling** | Side channel that swaps addresses/SDP | “STUN discovers; signaling shares; ICE picks.” |
+| Word                         | Plain meaning                                                    | Say in interview                                        |
+| ---------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------- |
+| **Binding**                  | The STUN request/response that asks “what is my mapped address?” | “I send a Binding request; STUN echoes my public face.” |
+| **srflx** (server-reflexive) | Public IP:port STUN saw                                          | “srflx is how the internet sees this socket.”           |
+| **NAT type**                 | How the mapping behaves (full cone vs symmetric, etc.)           | “Symmetric NAT often breaks STUN-only paths.”           |
+| **Hole punch**               | Both sides send so NATs allow return traffic                     | “STUN gives the address; punching still has to work.”   |
+| **Signaling**                | Side channel that swaps addresses/SDP                            | “STUN discovers; signaling shares; ICE picks.”          |
 
 ### STUN vs TURN (one line each)
 
-| Tool | Job |
-|------|-----|
-| **STUN** | Discover public IP:port — no media relay |
-| **TURN** ([[TURN server (Traversal Using Relays around NAT)]]) | Relay media when direct/punch fails |
+| Tool                                                           | Job                                      |
+| -------------------------------------------------------------- | ---------------------------------------- |
+| **STUN**                                                       | Discover public IP:port — no media relay |
+| **TURN** ([[TURN server (Traversal Using Relays around NAT)]]) | Relay media when direct/punch fails      |
 
 > [!INFO]
 > STUN helps you **find** your public face. TURN **carries** media. ICE **chooses** the path.
