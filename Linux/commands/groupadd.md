@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Groups are numeric **GID** + name mappings. File permissions use UID for owner, GID for group (`ls -l` third column). Users gain group membership via primary group (set at `useradd`) or secondary groups (`usermod -aG`). `groupadd` only creates the group — it does not add members.

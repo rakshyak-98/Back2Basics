@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Resolvers follow NS delegations until they hit a name server that is **authoritative** for `example.com` and returns A/MX/TXT from that zone — not a recursive cache guessing.

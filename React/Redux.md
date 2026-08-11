@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Interview map (words you can say)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** UI dispatches → reducers compute new state immutably → subscribers re-render. Prefer Redux Toolkit (`configureStore`, `createSlice`) over hand-rolled boilerplate.

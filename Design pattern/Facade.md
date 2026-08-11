@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Marketing (or any) subsystem has factories, validators, pipelines, adapters. App layers should not know that graph. Facade exposes a small stable API (`launchCampaign`, `getInsights`) and wires the internals.

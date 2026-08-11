@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Linux CFS scheduler uses **nice** (-20 to 19) as a weight hint: lower number = more CPU time when contended. Default nice is 0. **`renice` changes running processes**; `nice` launches new ones. Root can lower nice (raise priority); unprivileged users can only increase nice (be nicer to others).

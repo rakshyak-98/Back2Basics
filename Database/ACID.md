@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / patterns]]
-- [[#Isolation levels & anomalies]]
-- [[#Engine defaults (know before you deploy)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 ACID is four independent knobs — databases implement each differently:

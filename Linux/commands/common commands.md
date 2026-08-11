@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.

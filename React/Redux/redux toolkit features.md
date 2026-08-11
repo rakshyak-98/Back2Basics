@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** RTK is Redux with batteries — `configureStore` defaults, `createSlice` + Immer, async via `createAsyncThunk` or RTK Query, lists via entity adapters.

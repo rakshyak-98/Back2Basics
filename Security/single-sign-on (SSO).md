@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 SSO separates **authentication** (who you are) from **app sessions**. User authenticates once at the IdP (Okta, Azure AD, Google Workspace, Keycloak); the app receives a **signed token or assertion** and creates a local session.

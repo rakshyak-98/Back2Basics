@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Source → **frontend** (parse, AST) → **optimizer** → **backend** (codegen for x86/ARM/WASM). Different hardware (x86, ARM, RISC-V) needs different instruction streams; compilers hide that. Interpreted languages still often compile to bytecode (JVM, CPython `.pyc`) — JIT bridges compile time and runtime.

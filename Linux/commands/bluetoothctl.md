@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 BlueZ exposes devices over **D-Bus** (`org.bluez`). `bluetoothctl` is the REPL front-end: power adapter, scan, pair, trust, connect. Desktop environments (GNOME/KDE) also talk to BlueZ — **two controllers fighting** causes Busy errors.

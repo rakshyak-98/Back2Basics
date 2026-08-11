@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Clients ask Unbound; Unbound queries root → TLD → auth NS (or your forwarders), validates DNSSEC when present, and caches — you stop depending on ISP DNS.

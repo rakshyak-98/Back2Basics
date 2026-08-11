@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **OBS** composes **scenes** (camera, display, browser, images), **encodes** in real time, and **publishes** via **[[RTMP]]** (or RTMPS) to an **ingest** endpoint, or **records** locally. It is a **single-publisher client** — not a CDN, packager, or DRM layer. Production stacks receive OBS at **[[ingestion]]**, then transcode/package to **[[HLS]]/[[DASH]]**.

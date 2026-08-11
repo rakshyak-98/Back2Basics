@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 At build time, page is static HTML. After deploy, first request (or revalidate interval) can trigger **background regeneration**. Users get **stale** page immediately while fresh version builds — then CDN serves new static file. Distinct from SSR (every request) and pure SSG (rebuild all).

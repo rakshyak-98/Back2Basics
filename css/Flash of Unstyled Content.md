@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 The browser parses HTML incrementally. If CSS arrives **after** first paint, content renders with **user-agent defaults** (or wrong theme), then **reflows** when rules apply.

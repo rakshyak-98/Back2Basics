@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured `journal` API calls. Entries are keyed by **unit**, **boot ID**, **priority**, **executable**, and custom fields (`_PID`, `_UID`, `_SYSTEMD_CGROUP`). Binary store — use `journalctl` to read, not raw `cat`.

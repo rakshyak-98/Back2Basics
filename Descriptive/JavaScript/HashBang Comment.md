@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `#!` (hash-bang) at **byte 0, line 1** tells the kernel which program executes the file when run as `./script.js`. The JavaScript engine treats it as a **single-line comment** and removes it before parse.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Airflow defines **DAGs** (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The **scheduler** parses DAGs, creates **DagRuns**, queues **TaskInstances**. **Workers** (executor-dependent) execute operators.

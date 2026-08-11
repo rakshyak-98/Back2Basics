@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). App servers (Node, PHP-FPM.

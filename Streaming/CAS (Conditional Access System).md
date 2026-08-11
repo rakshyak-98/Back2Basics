@@ -6,21 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Components]]
-- [[#Standard flow / example]]
-- [[#CAS vs DRM]]
-- [[#CAS in IPTV]]
-- [[#CAS in OTT]]
-- [[#Popular CAS vendors]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Scramble the channel at the headend; send short-lived keys in ECMs; EMMs say which subscribers may unlock them.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** On drag (or copy), you write MIME-typed strings/files into `event.dataTransfer`; the drop target reads them. Browsers restrict reads until drop/paste for security.

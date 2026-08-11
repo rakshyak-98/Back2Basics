@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `ss` reads `/proc/net/*` and netlink — same truth the kernel uses for TCP/UDP state. No DNS, no guessing from `/proc/<pid>/fd` alone.

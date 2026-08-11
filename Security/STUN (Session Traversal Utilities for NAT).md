@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Your app sends a tiny UDP request to a STUN server; the reply contains your **server-reflexive** address (public IP:port as seen outside the NAT). You share that via signaling; peers try to punch through. STUN does **not** carry media.

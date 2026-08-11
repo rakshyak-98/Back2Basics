@@ -6,21 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / structure]]
-- [[#Physical tiers (deployment models)]]
-- [[#Logical layers (inside one deployable)]]
-- [[#Hexagonal / Clean Architecture (ports and adapters)]]
-- [[#Microservices (distribution-level multi-tier)]]
-- [[#Decision table: which model when?]]
-- [[#Validation: Robert C. Martin alignment]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Multi-level architecture is two orthogonal axes:

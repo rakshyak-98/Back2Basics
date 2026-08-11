@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Before ICE and signaling matter, you must open the right camera/mic, apply constraints that the device can meet, show a local preview, then attach tracks to an `RTCPeerConnection`.

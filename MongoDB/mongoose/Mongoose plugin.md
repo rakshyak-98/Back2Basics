@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A plugin is a function `(schema, options) => void` registered on a schema before `mongoose.model()`. Global plugins apply to every schema. Plugins compose: one adds soft-delete, another adds pagination, another adds audit fields.

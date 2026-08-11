@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `child_process.spawn(command, args[], options)` starts a **child process** and returns a `ChildProcess` with `.stdin`, `.stdout`, `.stderr` streams. Unlike `exec`, **no shell** is invoked unless `shell: true` — safer and faster for fixed binaries.

@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Sockets & listeners]]
-- [[#Probe & capture]]
-- [[#DNS]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** inventory with `ss`, ownership with `lsof`, path with `ip`/`ping`, app reachability with `nc`, packets with `tcpdump`, names with `dig`.

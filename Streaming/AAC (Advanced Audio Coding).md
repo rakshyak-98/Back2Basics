@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **AAC** is a **lossy** perceptual audio codec: it throws away information humans rarely hear, yielding smaller files than MP3 at the same bitrate. In streaming stacks it sits inside **fMP4/CMAF segments** alongside H.264/HEVC/AV1 video; players decode AAC in software or hardware.

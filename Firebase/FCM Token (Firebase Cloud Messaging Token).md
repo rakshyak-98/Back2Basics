@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Client SDK asks FCM for a registration token. Your backend stores `(userId, fcmToken, platform)`. FCM uses token + Firebase project credentials to deliver to Google/Apple push infrastructure. Tokens **expire and refresh** — listen for refresh callbacks and update DB.

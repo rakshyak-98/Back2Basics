@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **CRF** tells the encoder **how hard to compress** (quality target), not a fixed bitrate. Complex scenes get **more bits**; static scenes get **fewer** — average file size **varies by content**. Scale: lower CRF = higher quality (x264 typical range **18–28**, sane default **23**).

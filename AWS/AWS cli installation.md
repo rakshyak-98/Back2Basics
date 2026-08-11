@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Installation aws cli]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** CLI reads `~/.aws/credentials` + `config` (or env/instance role), signs API calls, prints JSON/table. v2 is the current installer path on Linux.

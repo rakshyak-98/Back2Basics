@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Normal failures are `return err`. Check with `if err != nil`. Wrap with `%w` for `errors.Is`/`As`. Nil pointer deref and friends become **panics** with a stack — fix the bug, don’t `recover` everywhere.

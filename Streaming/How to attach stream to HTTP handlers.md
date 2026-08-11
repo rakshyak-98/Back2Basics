@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** In Node HTTP/Express, a stream is a chunked pipe. `.pipe(res)` (or `pipeline`) pushes file/proxy bytes to the client as they arrive so memory stays flat.

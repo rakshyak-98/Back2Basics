@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Every Linux host has a **system clock** (wall time, `CLOCK_REALTIME`) and a **monotonic clock** (`CLOCK_MONOTONIC`) used for timeouts. NTP sync only disciplines **wall time**. Clients periodically exchange UDP packets with upstream **stratum** servers; lower stratum = closer to a reference clock (GPS, atomic).

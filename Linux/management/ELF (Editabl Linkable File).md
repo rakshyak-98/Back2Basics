@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Every native Linux program is an **ELF file**: headers describe segments (loaded into memory) and sections (linking/debug). The kernel exec's the file; **ld.so** (dynamic linker) loads `NEEDED` shared libraries from `DT_RPATH`, `LD_LIBRARY_PATH`, and default paths.

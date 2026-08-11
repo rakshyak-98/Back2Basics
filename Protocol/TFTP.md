@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Client asks for a file (RRQ) or to write one (WRQ) on UDP/69; server switches to a new port and sends fixed-size blocks that the client ACKs — no login, no encryption, almost no code.

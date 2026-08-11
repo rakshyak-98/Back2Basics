@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 ACID optimizes **single-node transactional correctness**. BASE describes many **distributed / NoSQL** designs that prefer availability under partition ([[CAP theorem]] intuition): respond even when stale; accept that replicas converge **eventually**.

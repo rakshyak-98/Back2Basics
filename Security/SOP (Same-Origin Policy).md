@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Origin = scheme + host + port. Same origin → free access. Different origin → JS cannot read the result unless the other side opts in ([[CORS (Cross Origin Request Sharing)]]).

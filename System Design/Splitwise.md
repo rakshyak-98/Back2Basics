@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Splitwise-like** apps track **who paid** and **who owes whom** in **groups**. Core insight: store **atomic expenses** (who paid, split among whom) then **derive balances**; optionally **simplify debts** so A→B→C becomes A→C. Not a payment processor — **ledger + settlement tracking** unless integrated with Stripe/UPI.

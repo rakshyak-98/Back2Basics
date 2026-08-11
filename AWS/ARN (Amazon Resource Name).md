@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Every AWS resource that policies reference gets an **ARN**: partition, service, region (sometimes empty), account, resource path. IAM evaluates **string match** on ARNs in policies; typos and missing account ids are silent until runtime.

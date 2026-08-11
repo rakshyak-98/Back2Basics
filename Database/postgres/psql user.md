@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Postgres uses **roles**. A role with `LOGIN` is a user. Roles can **inherit** membership in other roles (group pattern). Permissions attach to roles on databases, schemas, tables, sequences.

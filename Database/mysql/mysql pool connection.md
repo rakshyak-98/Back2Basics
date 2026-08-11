@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Each MySQL connection is a **server session** (memory, temp tables, transaction state). **Pool** maintains N open connections; app **borrows** for query duration and **releases** back.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Resolvers cache answers per **TTL** (seconds). Lower TTL before changes = faster global cutover. **CNAME** can't apex `@` on all providers (use ALIAS/ANAME at Route53/Cloudflare). **TXT** for SPF/DKIM/verification. Propagation = old TTL expiring everywhere, not instant magic.

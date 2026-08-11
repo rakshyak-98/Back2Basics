@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Migrations are timestamped scripts with **up** (apply) and **down** (rollback) steps. A tracking table (`schema_migrations`, `flyway_schema_history`, `_prisma_migrations`) records what's applied so each environment converges to the same shape.

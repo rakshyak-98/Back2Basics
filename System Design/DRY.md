@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **DRY** means every piece of **knowledge** (business rule, schema, validation) should have **one authoritative representation**. Change the rule once — it propagates everywhere. Confusing DRY with **"never duplicate code"** leads to premature abstractions that couple unrelated features.

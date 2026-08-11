@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Firmware (BIOS or UEFI) loads GRUB from the ESP (EFI System Partition) or MBR. GRUB reads `/boot/grub/grub.cfg` (generated — **do not hand-edit**) from templates in `/etc/default/grub` and `/etc/grub.d/*`. Kernel parameters on the linux line affect every boot until regenerated.

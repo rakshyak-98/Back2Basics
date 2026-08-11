@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** AES-GCM (or ChaCha20-Poly1305) with a shared key turns plaintext into ciphertext + auth tag. Key distribution is the hard part — often done via asymmetric key exchange, then symmetric for the session.

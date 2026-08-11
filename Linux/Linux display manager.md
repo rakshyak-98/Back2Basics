@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 The **display manager (DM)** runs as root early in boot, shows login UI, authenticates via PAM, then **execs user session** (startx, gnome-session, i3). It sets `$XDG_SESSION_TYPE`, `$DISPLAY` or `$WAYLAND_DISPLAY`, and often chooses the last session from `.xsession` or account settings.

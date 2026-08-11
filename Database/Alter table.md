@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `ALTER TABLE` changes table metadata and sometimes **rewrites the whole table** (MySQL InnoDB). Operations range from instant metadata-only (add column with default in MySQL 8+) to hours-long rebuilds on large tables.

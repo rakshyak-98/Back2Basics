@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Churn** = high rate of **short-lived TCP connections** (HTTP/1.0-style close per request, health checks, misconfigured pools) or **idle timeout mismatch** (LB closes while client still thinks connection is open).

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** The OS gives processes virtual pages; hot pages stay in RAM, cold ones may go to swap, and when RAM is gone the OOM killer or alloc failures take over.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` vs `String?`.

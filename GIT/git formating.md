@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.

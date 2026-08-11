@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).

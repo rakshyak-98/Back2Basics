@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** In WebRTC/SIP, SDP is the **session contract** each side proposes; signaling carries it, then [[ICE (Interactive Connectivity Establishment)]] uses the ICE bits inside to find a path. It is **not** Bluetooth Service Discovery Protocol and **not** NIS.

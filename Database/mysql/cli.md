@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `mysql` speaks the wire protocol; on Debian/Ubuntu, OS `root` often uses `auth_socket`, so `mysql -u root -p` fails until you change the plugin or use `sudo`.

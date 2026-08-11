@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **INP** captures **worst-case** (or high percentile) delay between interaction (click, tap, key) and when the browser **paints the next frame** showing feedback. Target: **≤ 200 ms** good, **200–500 ms** needs improvement, **> 500 ms** poor.

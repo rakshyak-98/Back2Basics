@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Clients ask a DNS server “what’s the A for `api.example.com`?” — an **authoritative** server answers from its zone; a **recursive** server walks the hierarchy (or forwards) and caches.

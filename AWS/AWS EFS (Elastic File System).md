@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Create filesystem → mount targets in subnets → `mount -t nfs4`. Shared home dirs, CMS uploads, lift-and-shift apps that need a real filesystem — not a block device.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Next.js intercepts in-app navigation to avoid full page reloads. **App Router** uses `next/navigation` (`useRouter`, `redirect`, `Link`). **Pages Router** uses `next/router`. Opening a new browser tab/window is **not** SPA navigation — use `<a target="_blank">` or `window.open`, not `router.push`.

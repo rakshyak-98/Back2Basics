@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 eBPF is a **JIT’d bytecode VM inside the kernel**. You attach small programs to hooks (kprobes, tracepoints, XDP, tc, cgroup, LSM, …); the **verifier** proves they terminate and cannot crash the kernel; maps pass data to user space.

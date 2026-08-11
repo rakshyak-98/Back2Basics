@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / patterns]]
-- [[#Time, expiry, and clocks]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A database turns “bytes on disk + concurrent clients” into **atomic commits**, **durable history**, and **queryable structure** so the app does not reinvent crash recovery and locking.

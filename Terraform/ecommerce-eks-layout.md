@@ -6,20 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#AWS / cluster strategy]]
-- [[#Sample Terraform directory structure]]
-- [[#Sample Helm directory structure]]
-- [[#Terraform ↔ Helm handoff]]
-- [[#CI integration touchpoints]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 ```txt

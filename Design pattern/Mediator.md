@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Wizard steps (goal → creative → budget → review) must enable/disable each other. Without Mediator, every step imports every other step. Mediator owns the collaboration graph; colleagues talk only to the mediator.

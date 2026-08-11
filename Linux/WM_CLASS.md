@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Every X11 window carries **`WM_CLASS`** (two strings: **instance** and **class**, often identical). Window managers (i3, Openbox), compositors via XWayland, and tools like `xprop` use it for **focus rules, workspaces, borders, and pin-to-key**. Wayland-native apps use different identifiers (`app_id`); XWayland apps still expose WM_CLASS.

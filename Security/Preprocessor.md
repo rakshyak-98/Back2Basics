@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Lexical preprocessors]]
-- [[#Lexical tokenization]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `cpp` / the compiler’s `-E` stage rewrites source into a translation unit the parser sees — no types yet, just tokens and includes expanded.

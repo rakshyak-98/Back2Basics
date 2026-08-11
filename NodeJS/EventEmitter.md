@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `EventEmitter` is Node's observer pattern: objects **emit** named events; registered listeners run synchronously in registration order (unless `setImmediate`/`async` inside handler).

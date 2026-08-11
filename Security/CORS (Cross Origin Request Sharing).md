@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 CORS is **not server access control** — it stops **browser JavaScript** on `https://evil.com` from reading responses from `https://api.example.com` unless the API explicitly allows it. curl/Postman ignore CORS.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Controller holds job config, queue, and UI. **Agents** (static VMs, Docker, K8s pods) run build steps. **Pipeline** = Groovy DSL (`Jenkinsfile`) or declarative stages calling shell, git, docker, etc.

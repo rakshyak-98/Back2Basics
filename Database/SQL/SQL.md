@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** SQL is the interface to tables — `SELECT`/`INSERT`/`UPDATE`/`DELETE` plus DDL — executed inside transactions with isolation rules ([[ACID]]).

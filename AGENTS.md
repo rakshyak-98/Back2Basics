@@ -2,10 +2,6 @@
 > Guide for Cursor agents working in this vault — what the repo is and how to edit notes safely.
 
 
-## Index
-
-- [[#Cursor Cloud specific instructions]]
-
 ## Cursor Cloud specific instructions
 
 This repository (`Back2Basics`) is a **documentation/knowledge-base vault**, not a

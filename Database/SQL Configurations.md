@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 RDBMS config layers: **defaults** → **`my.cnf` / `postgresql.conf`** → **runtime `SET` (session)** → **per-user/DB overrides**. Some need restart (`max_connections`, `shared_buffers`); some hot-reload. Wrong combo = OOM, replication lag, or silent full-table scans.

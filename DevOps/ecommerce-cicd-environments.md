@@ -6,20 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Config & secrets per environment]]
-- [[#Environment topology]]
-- [[#Promotion gates (dev → test → staging → prod → live)]]
-- [[#CI/CD pipeline]]
-- [[#Deployment strategy per environment]]
-- [[#Rollback strategy]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 ```txt

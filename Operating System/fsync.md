@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `write()` returning success means data reached **kernel page cache**, not necessarily the **physical medium**. `fsync(fd)` (or `fdatasync`, `sync_file_range`) is the contract boundary: "make this file's persisted state recoverable after crash/power loss."

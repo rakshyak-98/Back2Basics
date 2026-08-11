@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A consumer's **offset** is its cursor in a partition log. **Stateless** here means: no durable local DB for progress — the broker (or coordinator) stores committed offsets in `__consumer_offsets`. On restart/rebalance, processing resumes from last commit.

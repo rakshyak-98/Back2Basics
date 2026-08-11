@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **SCTP** sits **above IP**, offering **multiple streams** with optional **reliable ordered** delivery — unlike TCP's single byte stream. In **[[WebRTC]]**, SCTP runs **inside DTLS** (UDP) as **SCTP-over-DTLS**, carrying **DataChannel** messages (chat, game state, file transfer) **separate from** SRTP audio/video.

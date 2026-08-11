@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 When products must match as a **set** (Meta campaign service with Meta adset service — never mix Meta + Google mid-pipeline), declare one factory interface with a create method per product. Each platform gets one concrete factory that returns the whole consistent family.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** RTK Query stores responses under `state[reducerPath].queries` keyed by endpoint+args. Mutations invalidate tags; hooks expose `data` / loading / error. Memory cache clears on full reload unless you persist.

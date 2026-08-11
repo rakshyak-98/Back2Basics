@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Browser JS gives you **Map/Set** (O(1) avg keyed ops), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.

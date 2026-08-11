@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Records]]
-- [[#MX]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A name is not an IP — records are typed answers (`A`, `MX`, `TXT`, …) stored on authoritative servers and cached by resolvers for a TTL.

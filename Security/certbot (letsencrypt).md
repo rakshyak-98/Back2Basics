@@ -6,18 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Renew certificate]]
-- [[#Webroot]]
-- [[#HTTP-01 Challenge]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Certbot talks to an [[ACME server]], completes HTTP-01 or DNS-01, writes certs under `/etc/letsencrypt/live/<name>/`, and a timer runs `certbot renew`.

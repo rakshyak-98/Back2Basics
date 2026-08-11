@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `passwd` updates the encrypted password field in `/etc/shadow` (users can't read it; root can). PAM stacks (`/etc/pam.d/`) decide when password checks apply — SSH with `PasswordAuthentication no` never hits `passwd`'s verify path for remote login.

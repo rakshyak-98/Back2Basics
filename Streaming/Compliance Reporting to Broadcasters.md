@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Compliance reporting** is the **contractual data pipeline** that proves how licensed content was **sold, entitled, and consumed** per **Content ID (CID)** and **Broadcaster Network ID**. Studios and rights holders use it for **revenue share, minimum guarantees, and geo/format restrictions**. Errors become legal exposure — design for **immutability, idempotency, and late-arriving data**.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick**.

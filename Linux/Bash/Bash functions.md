@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Functions run in the **current shell** (no new process unless you call external commands). Variables are global by default — **`local` is mandatory** for parameters and temps. Exit status is `return N` (0–255) or last command's status. Functions are defined before use; order matters in sourced files.

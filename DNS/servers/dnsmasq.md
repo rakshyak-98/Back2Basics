@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Clients use dnsmasq as their DNS; it answers local names / DHCP hostnames from cache and forwards the rest upstream — often the same process that handed out the DHCP lease.

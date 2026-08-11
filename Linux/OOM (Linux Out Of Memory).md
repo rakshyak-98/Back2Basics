@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Memory is not “free RAM = 0”. The kernel uses page cache aggressively. OOM fires when **allocation cannot succeed** after reclaim (swap, drop cache, shrink slabs) — not simply when `free` looks low.

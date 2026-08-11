@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Interface Definition (Protobuf IDL)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Client and server share a Protobuf schema; the client calls `ReserveStock`; bytes ride HTTP/2 (multiplexed streams, binary framing) — not JSON REST by default.

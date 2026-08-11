@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for App Router features (not plain static export). Env vars live in Netlify UI per context (production/deploy-preview).

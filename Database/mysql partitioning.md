@@ -6,11 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** This filename is a redirect. Use [[mysql data partition]] for create/alter, pruning, and “query scans every partition” triage.

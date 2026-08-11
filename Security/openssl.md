@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Generate random string]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Generate key → make CSR (or self-sign) → inspect/verify PEMs → probe remote TLS with `s_client`. Trust store often `/etc/ssl/certs/ca-certificates.crt`.

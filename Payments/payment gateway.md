@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A **payment gateway** sits between merchant site/[[POS]] and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns auth/capture result.

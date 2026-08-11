@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirror JSON, Slate tree) synced to a visible **editable surface**. Toolbar commands mutate that model; export/publish serializes to HTML/Markdown/PDF.

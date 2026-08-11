@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Shared memory** maps the same physical pages into multiple address spaces. After setup, reads/writes are normal memory ops — **no kernel copy per access** (unlike pipe/socket).

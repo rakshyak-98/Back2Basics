@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#SSH trust & keys]]
-- [[#GPG for commits / files]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** SSH proves *server* identity via `known_hosts` and *user* via keypairs; GPG proves *you* signed or encrypted data.

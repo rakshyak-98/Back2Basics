@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 After a successful launch you want metrics, audit log, webhook, cache invalidate. Subject (`LaunchEventBus`) emits; observers subscribe. Adding a side-effect = new subscription — subject stays closed (OCP).

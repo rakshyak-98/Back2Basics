@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **display server** sits between hardware (GPU, monitor, keyboard) and **clients** (Firefox, terminal, IDE). Clients don't draw directly on VRAM; they speak a **display protocol** (X11, Wayland) to the server, which composites and presents frames.

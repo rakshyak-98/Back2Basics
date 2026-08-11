@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** OCI **image-spec** = layers + config JSON. OCI **runtime-spec** = how to start a bundle (runc). Engines speak OCI so an image built with BuildKit runs under containerd.

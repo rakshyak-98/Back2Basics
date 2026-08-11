@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.

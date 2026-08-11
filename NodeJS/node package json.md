@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `package.json` is npm's contract with the repo: **dependencies** (runtime), **devDependencies** (build/test), **scripts** (automation entrypoints), **engines** (supported Node/npm), and **type** (`module` vs CommonJS default).

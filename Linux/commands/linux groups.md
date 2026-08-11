@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** primary group lives in `/etc/passwd`; supplementary members are listed in `/etc/group` — both phrases “add user to group” / “add group to user” mean the same `usermod -aG`.

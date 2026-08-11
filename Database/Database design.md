@@ -6,19 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard patterns]]
-- [[#Transaction correlation (audit)]]
-- [[#Overlapping validity periods]]
-- [[#Multi-tenancy boundaries]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Good design makes illegal states hard to store — keys, FKs, CHECKs, and clear transaction boundaries do more than clever app code.

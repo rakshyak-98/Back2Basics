@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 USB block device appears as `/dev/sdX` (whole disk) and `/dev/sdX1` (first partition). Kernel + udev may **auto-mount** under `/media/$USER/`. Manual workflow: identify device → unmount if busy → partition (optional) → mkfs → mount → sync before physical remove.

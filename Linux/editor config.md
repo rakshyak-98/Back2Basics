@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 [EditorConfig](https://editorconfig.org) is a **declarative INI-style file** committed at repo root. Plugins in VS Code, IntelliJ, Vim, etc. read it on save/open. It overrides personal editor defaults **within that project** — not global IDE settings. Prettier/ESLint can still conflict if not aligned.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).

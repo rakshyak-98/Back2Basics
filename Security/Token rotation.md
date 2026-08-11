@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Long-lived secrets **will** leak (logs, git, browser, support tickets). Rotation means: **short TTL** + **refresh path** + **revocation/list** + **key versioning** so old material stops working without hard-downtime if done right.

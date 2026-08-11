@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Framer Motion wraps DOM nodes as **`motion.div`** etc. Animate by changing props (`animate`, `initial`, `exit`) or **variants** (named state maps).

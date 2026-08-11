@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** “Mail server” is a role bundle: submission/relay ([[SMTP]]), mailbox store, and retrieval ([[IMAP (Internet Message Access Protocol)]] / POP3) — often split across MSA/MTA/MDA. See [[E mail server]] for the role diagram.

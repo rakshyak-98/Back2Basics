@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **KISS** pushes teams to choose **understandable** solutions over clever ones. Every abstraction, service boundary, and config flag has **operational cost** — on-call must debug it at 3 AM. Simple code is **easier to read, test, change, and delete**; complexity hides bugs and slows onboarding.

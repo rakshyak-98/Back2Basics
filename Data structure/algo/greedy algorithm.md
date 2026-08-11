@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 At each step, pick the best-looking option now without backtracking. Fast (often O(n log n) from sorting). Proof burden is on you: exchange argument or matroid. Classic wins: interval scheduling, Huffman, Dijkstra (non-negative weights), activity selection.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Line discipline turns bytes into canonical input; `/dev/ttyN` are virtual consoles; `/dev/pts/N` are pts slaves for terminal apps/SSH.

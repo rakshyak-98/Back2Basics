@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 On login, phpMyAdmin stores `$_SESSION['PMA_token']` (name may vary by version). Every mutating form includes this token. Server compares submitted token to session; mismatch → rejected. Token rotates on login/session regenerate. It's **session CSRF protection**, not API auth.

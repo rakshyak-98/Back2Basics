@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** FTP uses one TCP session for commands (usually :21) and another for the file bytes — that second connection is why NATs and firewalls hate FTP unless you pick the right mode.

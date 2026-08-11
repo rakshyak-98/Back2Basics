@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 ECR holds **repositories** of **image manifests + layers** (OCI-compatible). Each region has its own registry endpoint: `{account}.dkr.ecr.{region}.amazonaws.com`. Pull/push uses **IAM** (or bot IAM user in legacy setups) + short-lived **authorization token** from `ecr:GetAuthorizationToken`.

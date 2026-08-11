@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Normal code uses **managed abstractions**: language runtime, GC, copy-on-write pages. **Direct memory** means you hold a raw address into process virtual memory — reading/writing bytes with no bounds checker, or mapping file bytes into your address space without `read()` copies.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 PuTTY is a **GUI terminal + connection manager** (not a shell). It implements SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and optionally credentials — treat saved sessions as secrets on shared PCs.

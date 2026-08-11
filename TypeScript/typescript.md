@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** You annotate shapes; `tsc` (or bundler) typechecks and emits JS. Types don’t exist at runtime unless you add schemas (Zod) or emit decorators metadata.

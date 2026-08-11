@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 An EC2 instance is compute on shared hardware (or Dedicated Host) with **ENI(s)** in a subnet. Launch = AMI + instance type + key pair/instance profile + [[Security group]]. Storage = root + optional [[EBS (Elastic Block Store)]] volumes. **Terminate ≠ delete all billable artifacts.**

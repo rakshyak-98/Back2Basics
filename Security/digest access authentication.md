@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Server sends `WWW-Authenticate: Digest` with a nonce; client responds with `Authorization: Digest` containing hashes of username/realm/password/nonce/URI. Better than Basic-over-HTTP; weaker than Bearer/OIDC today.

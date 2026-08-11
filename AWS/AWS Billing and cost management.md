@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 AWS bills per account (consolidated billing in Organizations). **Cost Explorer** aggregates usage; **Bills** shows line items by service (EC2, S3, data transfer). Free Tier is per-service limits, not one global bucket. Untagged resources make chargeback impossible.

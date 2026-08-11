@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Registration and DNS hosting are **separate**. GoDaddy holds the domain registration; **whoever hosts the nameservers** controls A/CNAME/ALIAS records.

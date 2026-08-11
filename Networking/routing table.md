@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Cloud route table mapping]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Each entry stores a **destination prefix** and a **target** (gateway, interface, or local delivery). The kernel picks the **most specific** matching route; on tie, lowest **metric** wins.

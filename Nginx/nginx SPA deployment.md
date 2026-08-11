@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.

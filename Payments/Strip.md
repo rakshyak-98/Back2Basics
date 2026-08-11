@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw.

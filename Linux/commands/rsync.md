@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 rsync compares file lists and transfers **changed blocks** (rolling checksum). Archive mode `-a` preserves permissions, times, symlinks, recursion — your default for backups. **Source/dest slash semantics** determine whether you copy *contents* or the *directory itself*.

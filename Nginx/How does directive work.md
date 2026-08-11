@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Config is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`**.

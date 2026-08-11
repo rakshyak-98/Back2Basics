@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Compilers, linkers, and the dynamic loader agree on register use, stack alignment, and symbol rules — that agreement is the ABI; on Linux ELF it’s usually labeled “UNIX - System V.”

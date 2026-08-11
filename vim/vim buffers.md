@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Opening a file loads a **buffer** (text + metadata). Buffers can be hidden (not shown in a window) or active (displayed). Windows are views onto buffers; one buffer.

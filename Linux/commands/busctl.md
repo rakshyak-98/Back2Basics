@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 D-Bus is the IPC bus desktop and server daemons use to expose APIs (hostname changes, login events, NetworkManager, logind). **busctl** wraps libsystemd's bus API — same world as `systemctl`, `hostnamectl`, `loginctl`.
