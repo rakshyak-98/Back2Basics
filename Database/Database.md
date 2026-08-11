@@ -122,4 +122,4 @@ WHERE token = $1 AND expires_at > now();
 
 ## Related
 
-[[ACID]] [[WAL (Write-Ahead Log)]] [[MVCC]] [[OCC]] [[OLTP]] [[OLAP]] [[BASE]] [[Database design]] [[database migration]] [[connection pooling]] [[Data access patterns]] [[Database mistakes]]
+[[ACID]] [[WAL (Write-Ahead Log)]] [[MVCC]] [[OCC]] [[OLTP]] [[OLAP]] [[BASE]] [[Database design]] [[database migration]] [[connection pooling]] [[Data access patterns]] [[Database mistakes]] [[Horizontal vs Vertical Scaling]]
