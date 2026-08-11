@@ -1,4 +1,4 @@
-[[Streaming]] [[RTMP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
+[[Streaming]] [[RTMP]] [[SRT]] [[RTSP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
 
 # Ingestion
 
@@ -23,7 +23,7 @@
 Publisher (OBS, encoder, partner)
         │
    ┌────┴────┬──────────┬──────────┐
- RTMP    SRT/WebRTC   S3 upload   API pull
+ [[RTMP]]    [[SRT]]/WebRTC   S3 upload   API pull
    │        │              │           │
    └────────┴──────────────┴───────────┘
                     │
@@ -34,7 +34,8 @@ Publisher (OBS, encoder, partner)
 
 | Input type | Typical protocol | Latency | Ops note |
 |------------|------------------|---------|----------|
-| **Live encoder** | [[RTMP]], SRT | seconds | Persistent connection |
+| **Live encoder** | [[RTMP]], [[SRT]] | seconds | Persistent connection |
+| **IP camera / NVR** | [[RTSP]] | seconds–minutes | Pull PLAY; often transcode to [[HLS]] |
 | **Browser** | WebRTC WHIP | sub-second | Signaling + TURN |
 | **VoD file** | HTTPS multipart | minutes | Async job queue |
 | **Broadcast feed** | UDP MPEG-TS | seconds | Multicast / Zixi |
@@ -146,4 +147,4 @@ Max bitrate enforcement at ingest (drop or disconnect)
 
 ## Related
 
-[[RTMP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]
+[[RTMP]] [[SRT]] [[RTSP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]

@@ -117,7 +117,7 @@ timeout 10 ffplay rtmp://ingest/live/key
 > **RTMP URL to viewers** — security risk + no browser support; always HTTP manifests outbound.
 
 > [!WARNING]
-> **Single TCP head-of-line blocking** — bad Wi-Fi stalls entire stream; SRT may be better for lossy uplinks.
+> **Single TCP head-of-line blocking** — bad Wi-Fi stalls entire stream; [[SRT]] may be better for lossy uplinks.
 
 > [!WARNING]
 > **Stream key = password** — anyone with key can hijack channel.
@@ -140,4 +140,4 @@ timeout 10 ffplay rtmp://ingest/live/key
 
 ## Related
 
-[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[network management]] [[How to attach stream to HTTP handlers]]
+[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[SRT]] [[RTSP]] [[network management]] [[How to attach stream to HTTP handlers]]
