@@ -75,4 +75,4 @@ Why separate: swap Postgres → Aurora, or REST → gRPC, without rewriting busi
 
 ## Related
 
-[[SOLID]] [[API design]] [[Distributed computing]] [[cache system]] [[Quorum]]
+[[SOLID]] [[API design]] [[Distributed computing]] [[cache system]] [[Quorum]] [[Horizontal vs Vertical Scaling]]
