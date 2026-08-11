@@ -25,7 +25,7 @@
 | **Ops** | Backup/restore > SLA window | Smaller shards |
 | **Write QPS** | Single primary maxed | Shard writes |
 
-**Shard key choice is permanent-ish** — resharding is a major migration ([[migration]]).
+**Shard key choice is permanent-ish** — resharding is a major [[scaling data migration]].
 
 ---
 
@@ -134,4 +134,4 @@ Alert on shard skew (one shard 2× others)
 
 ## Related
 
-[[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]] [[Eventual consistency]] [[mysql partitioning]]
+[[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]] [[Eventual consistency]] [[mysql partitioning]] [[Horizontal vs Vertical Scaling]] [[scaling data migration]]
