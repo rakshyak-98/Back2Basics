@@ -131,7 +131,7 @@ But it is important not to conclude that **SQL databases cannot horizontally sca
 2. Tune queries + indexes ([[covering index]], [[connection pooling]])
 3. Read replicas for read-heavy workloads
 4. Cache hot keys ([[cache system]])
-5. Shard when single primary write QPS or disk is the limit ([[database sharding]])
+5. Shard when single primary write QPS or disk is the limit ([[database sharding]] — plan [[scaling data migration]])
 ```
 
 ### Before sharding relational data
@@ -183,4 +183,4 @@ If yes to transactions across shards → distributed SQL, saga, or redesign — 
 
 ## Related
 
-[[System design]] [[database sharding]] [[ACID]] [[BASE]] [[mysql]] [[postgres]] [[connection pooling]] [[cache system]] [[Eventual consistency]] [[Distributed computing]]
+[[System design]] [[database sharding]] [[scaling data migration]] [[ACID]] [[BASE]] [[mysql]] [[postgres]] [[connection pooling]] [[cache system]] [[Eventual consistency]] [[Distributed computing]]

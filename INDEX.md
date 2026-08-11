@@ -54,7 +54,7 @@
 
 ### Data stores
 - Semantics: [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[OLTP]] · [[OLAP]]
-- Scaling: [[Horizontal vs Vertical Scaling]] · [[database sharding]] · [[connection pooling]]
+- Scaling: [[Horizontal vs Vertical Scaling]] · [[database sharding]] · [[scaling data migration]] · [[connection pooling]]
 - MySQL/Postgres: [[mysql]] · [[covering index]] · [[psql essential]]
 - Redis: [[redis-cli]] · [[redis installation]]
 - Mongo: [[WiredTiger storage engine]] · [[MongoDB]]
