@@ -31,7 +31,7 @@ DDRB bit2 = 0  →  PB2 is INPUT   (PINB samples; pull-ups optional)
 1. **Mux** — assign pin to GPIO (not alternate peripheral) if required.
 2. **Direction** — set DDR bit.
 3. **Level / pull** — set PORT for output level or input pull-up.
-4. **Use** — read PIN or toggle PORT in the app/ISR.
+4. **Use** — read PIN or toggle PORT in the application/ISR.
 
 ---
 

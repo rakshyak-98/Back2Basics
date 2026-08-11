@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** One config (or solution-style references) tells `tsc` what to include and how strict to be. Bundlers may typecheck separately — keep options aligned.
+**Say it in one breath:** One configuration (or solution-style references) tells `tsc` what to include and how strict to be. Bundlers may typecheck separately — keep options aligned.
 
 ```txt
 include/exclude → parse → typecheck → emit?

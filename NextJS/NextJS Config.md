@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** One config file shapes build + runtime behavior. Prefer documented options over undocumented experimental flags in prod.
+**Say it in one breath:** One configuration file shapes build + runtime behavior. Prefer documented options over undocumented experimental flags in production.
 
 ```txt
 next.config.* ──build/runtime──► output + routing behavior
@@ -61,8 +61,8 @@ module.exports = nextConfig
 
 ## When NOT to use
 
-- **App logic** — keep out of config; use code.
-- **Secrets** — env, not config committed.
+- **application logic** — keep out of configuration; use code.
+- **Secrets** — environment, not configuration committed.
 
 ---
 

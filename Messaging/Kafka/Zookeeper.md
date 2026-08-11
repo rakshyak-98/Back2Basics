@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Zookeeper — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Zookeeper — a distributed coordination service used by kafka to manage metadata, leader election, and synchronization across brokers.
 
 is a [[distributed coordination service]] used by kafka to manage metadata, leader election, and synchronization across brokers.
 | Function                 | Description                                                     |
@@ -22,13 +21,6 @@ is a [[distributed coordination service]] used by kafka to manage metadata, lead
 ### How does kafka brokers register with Zookeeper when they start?
 ### How does Zookeeper assigns a controller broker to manage partition leader?
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Zookeeper** | Core idea of this note | “I can explain Zookeeper without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

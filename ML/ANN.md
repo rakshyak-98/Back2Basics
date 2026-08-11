@@ -96,7 +96,7 @@ model = nn.Sequential(
 
 - **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
 - **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
-- **Hard latency SLA on CPU** — deep nets vs single [[Decision tree]] inference cost.
+- **Hard latency SLA on CPU** — deep nets versus single [[Decision tree]] inference cost.
 
 ---
 

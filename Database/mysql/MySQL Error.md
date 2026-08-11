@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Read the SQLSTATE/error number first; match class (auth, file/socket, storage engine, client API); fix the layer that owns it — don’t `REPAIR` InnoDB like MyISAM.
+**Say it in one breath:** Read the SQLSTATE/error number first; match class (authentication, file/socket, storage engine, client API); fix the layer that owns it — don’t `REPAIR` InnoDB like MyISAM.
 
 ```txt
 Client error ──► auth / socket / bind API
@@ -82,7 +82,7 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
 ## When NOT to use
 
 - **Guessing REPAIR on production InnoDB** — restore from backup / use vendor recovery.
-- **Disabling auth to “unblock”** — fix the account/SG instead.
+- **Disabling authentication to “unblock”** — fix the account/SG instead.
 
 ---
 

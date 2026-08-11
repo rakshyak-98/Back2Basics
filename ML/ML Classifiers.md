@@ -51,7 +51,7 @@ for name, clf in candidates.items():
 
 1. Stratified split (or time split for temporal data).
 2. [[data preprocessing]] inside Pipeline.
-3. Metric aligned to cost ([[binary classification]] PR-AUC vs accuracy).
+3. Metric aligned to cost ([[binary classification]] PR-AUC versus accuracy).
 4. Persist with `joblib` + training data hash + schema version.
 
 ---

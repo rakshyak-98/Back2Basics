@@ -21,7 +21,7 @@ let user = { id: 1 }  → binding "user" → reference to object in heap
 | `let` | Block | Yes | TDZ until line runs |
 | `const` | Block | No rebinding | TDZ; object contents mutable |
 
-Primitives ([[primitive non-primitive values]]) copy by value; objects copy **reference** — two vars can alias same object.
+Primitives ([[primitive non-primitive values]]) copy by value; objects copy **reference** — two variables can alias same object.
 
 ---
 

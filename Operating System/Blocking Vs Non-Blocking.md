@@ -21,11 +21,11 @@ Non-blocking + reactor:    [Event loop]──read(EAGAIN)──epoll──►rea
                            (few threads, many connections)
 ```
 
-**Node canonical rule:** only the main JavaScript thread must never do **long blocking** work (sync fs, `bcrypt` sync, huge JSON parse). libuv hides **non-blocking** network/disk behind a thread pool for some ops.
+**Node canonical rule:** only the main JavaScript thread must never do **long blocking** work (sync fs, `bcrypt` sync, huge JSON parse). libuv hides **non-blocking** network/disk behind a thread pool for some operations.
 
 **Go:** goroutine blocking on `conn.Read` blocks an OS thread from the pool — cheap until GOMAXPROCS threads all block.
 
-**Java:** thread-per-request **blocking** servlets vs Netty **non-blocking** — thread count vs complexity tradeoff.
+**Java:** thread-per-request **blocking** servlets versus Netty **non-blocking** — thread count versus complexity tradeoff.
 
 ---
 
@@ -105,7 +105,7 @@ See [[non-blocking]] for `fcntl O_NONBLOCK`, epoll, and `EAGAIN` handling.
 
 ## When NOT to use
 
-- Don't rewrite blocking CRUD app to epoll for ideology — measure connection count and team expertise.
+- Don't rewrite blocking CRUD application to epoll for ideology — measure connection count and team expertise.
 - Don't use non-blocking disk patterns without [[fsync]] / durability design for stateful writes.
 
 ---

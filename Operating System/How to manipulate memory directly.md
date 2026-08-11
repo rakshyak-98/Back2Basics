@@ -123,7 +123,7 @@ valgrind --tool=memcheck ./app
 
 - **Default application code** — `read`, `WriteFile`, ORM, serde — correct and safe.
 - **Network I/O** — use sockets/streams; don't mmap sockets.
-- **"Performance" without profiling** — copy cost rarely dominates vs JSON parse/DB query.
+- **"Performance" without profiling** — copy cost rarely dominates versus JSON parse/DB query.
 - **Cross-language ownership** — raw pointers across FFI without documented lifetime = outage.
 
 ---

@@ -101,7 +101,7 @@ await stripe.paymentIntents.create(params, {
 
 - **Webhook order not guaranteed** — design idempotent handlers; store event IDs.
 - **Amount in cents** — off-by-100 bugs are common.
-- **Radar + 3DS** — EU PSD2 requires SCA; test with Stripe test cards triggering auth.
+- **Radar + 3DS** — EU PSD2 requires SCA; test with Stripe test cards triggering authentication.
 - **Connect** — platform liability for negative balances; read reserves docs.
 
 ## When NOT to use

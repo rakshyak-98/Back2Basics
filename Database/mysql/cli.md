@@ -93,8 +93,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ## When NOT to use
 
-- **Interactive CLI as the app’s data access** — use a driver + pool.
-- **Changing prod root to `mysql_native_password` for convenience** — create least-privilege users instead.
+- **Interactive CLI as the application’s data access** — use a driver + pool.
+- **Changing production root to `mysql_native_password` for convenience** — create least-privilege users instead.
 - **Blind `FOREIGN_KEY_CHECKS=0` in application paths** — dumps/migrations only.
 
 ---

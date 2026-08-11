@@ -105,12 +105,12 @@ sudo systemctl restart bluetooth
 > **Pairing in SSH session** — need `agent on` and often physical confirm on device; no PIN UI over SSH.
 
 - **Multiple adapters** — `select ADAPTER_MAC` in bluetoothctl before pair.
-- **BLE vs classic** — IoT uses `bluetoothctl menu gatt`; different workflow from headphones.
+- **BLE versus classic** — IoT uses `bluetoothctl menu gatt`; different workflow from headphones.
 
 ## When NOT to use
 
 - **Wi-Fi debugging** — unrelated stack; use `nmcli`, `iw`.
-- **Production server hardening** — disable/mask BT entirely; no pairing on prod.
+- **Production server hardening** — disable/mask BT entirely; no pairing on production.
 - **Bulk fleet provisioning** — use MDM/vendor tools, not manual bluetoothctl.
 
 ## Related

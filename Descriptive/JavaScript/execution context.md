@@ -90,7 +90,7 @@ let a = 1;
 > Closures keep the **entire lexical environment** alive — capturing large objects in nested callbacks causes memory leaks in long-lived servers.
 
 - **`var` hoists to function context; `let`/`const` hoist to block** — different TDZ behavior.
-- **Eval** can mutate outer lexical env in non-strict legacy code — avoid.
+- **Eval** can mutate outer lexical environment in non-strict legacy code — avoid.
 - **Async functions** suspend, pop stack, resume later — context restored via continuation, not same stack frame.
 - **Multiple globals:** iframes, workers, Node vm — separate contexts, separate globals.
 

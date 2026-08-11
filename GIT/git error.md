@@ -8,25 +8,16 @@
 
 ## Mental model
 
-**Say it in one breath:** git error is infra/security tooling — least privilege, clear config, observable failures.
+**Say it in one breath:** git error — drwxr-xr-x 2 root root 4096 Jul 3 18:35 test/
 
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **git error** | Core idea of this note | “I can explain git error without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+git status
+git remote -v
+GIT_TRACE=1 git fetch
+git config --list --show-origin
 ```
 
 ---
@@ -35,22 +26,24 @@
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Permission denied (publickey) | SSH key loaded; remote URL | `ssh -T git@github.com`; fix `~/.ssh/config` |
+| Repository not found | Remote URL; access token scope | Verify org/repo name and credentials |
+| Failed to push (non-fast-forward) | Remote has new commits | `git pull --rebase` then push |
+| Unable to index file | File permissions; line endings | `chmod`; check `core.autocrlf` |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Read the **first error line** in the message — later lines are often cascading noise.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not force-push to shared branches to silence errors — coordinate with the team.
+
 
 ---
 

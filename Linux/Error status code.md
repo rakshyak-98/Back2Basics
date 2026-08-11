@@ -111,7 +111,7 @@ if (WIFSIGNALED(status)) sig  = WTERMSIG(status);
 
 - **Rich error detail** — use stderr messages / structured logs; status is a coarse summary.
 - **Cross-machine RPC** — map to HTTP/gRPC codes explicitly; don’t leak raw Unix statuses.
-- **Distinguishing 50 app failures** — stick to small reserved sets; document them.
+- **Distinguishing 50 application failures** — stick to small reserved sets; document them.
 
 ---
 

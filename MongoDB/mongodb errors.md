@@ -8,7 +8,7 @@
 
 ## Mental model
 
-MongoDB errors fall into a few buckets: **wire/auth** (can't connect), **write concern / topology** (not primary, election), **schema/validation** (document shape), **index/constraints** (duplicate key), and **query/update syntax** (wrong operator shape). The message usually names the bucket; the fix is in the operator or topology state.
+MongoDB errors fall into a few buckets: **wire/authentication** (can't connect), **write concern / topology** (not primary, election), **schema/validation** (document shape), **index/constraints** (duplicate key), and **query/update syntax** (wrong operator shape). The message usually names the bucket; the fix is in the operator or topology state.
 
 ## Standard config / commands
 

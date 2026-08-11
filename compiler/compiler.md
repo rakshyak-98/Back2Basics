@@ -61,7 +61,7 @@ ldd app                     # shared libs (dynamic link)
 
 ## When NOT to use
 
-- Don't hand-write assembly for whole app unless extreme hot path — maintainability cost.
+- Don't hand-write assembly for whole application unless extreme hot path — maintainability cost.
 - Don't `-O3` blindly on latency-sensitive code without profiling — can regress.
 
 ## Related

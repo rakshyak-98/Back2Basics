@@ -70,7 +70,7 @@ npm cache clean --force
 
 ## When NOT to use
 
-- **Other package managers** — pnpm/yarn if the repo standard says so; don’t mix casually.
+- **Other package managers** — pnpm/yarn if the repository standard says so; don’t mix casually.
 
 ---
 

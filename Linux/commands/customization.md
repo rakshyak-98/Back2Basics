@@ -76,7 +76,7 @@ sudo apt install gnome-shell-extension-manager
 > **Wayland + XWayland extensions** — some patches (window rules) behave differently than on pure X11. Test after [[wayland]] migration.
 
 - **`gnome-extensions install` needs login session** — use `sudo -u desktopuser` with `DBUS_SESSION_BUS_ADDRESS` if automating (fragile).
-- **System extensions vs user** — `-system` flag for packaged extensions; don't mix install paths.
+- **System extensions versus user** — `-system` flag for packaged extensions; don't mix install paths.
 - **Extension "reset"** — clears extension prefs, not Shell core settings.
 
 ## When NOT to use

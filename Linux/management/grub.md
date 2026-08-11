@@ -112,7 +112,7 @@ sudo update-grub
 
 - **systemd-boot on Arch/minimal UEFI** — no GRUB; different path.
 - **Container/VM image** — provider/kernel cmdline set in hypervisor.
-- **Runtime kernel tuning** → `sysctl`, not GRUB (except params that must be boot-time).
+- **Runtime kernel tuning** → `sysctl`, not GRUB (except parameters that must be boot-time).
 
 ## Related
 

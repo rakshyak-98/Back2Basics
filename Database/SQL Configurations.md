@@ -8,7 +8,7 @@
 
 ## Mental model
 
-RDBMS config layers: **defaults** → **`my.cnf` / `postgresql.conf`** → **runtime `SET` (session)** → **per-user/DB overrides**. Some need restart (`max_connections`, `shared_buffers`); some hot-reload. Wrong combo = OOM, replication lag, or silent full-table scans.
+RDBMS configuration layers: **defaults** → **`my.cnf` / `postgresql.conf`** → **runtime `SET` (session)** → **per-user/DB overrides**. Some need restart (`max_connections`, `shared_buffers`); some hot-reload. Wrong combo = OOM, replication lag, or silent full-table scans.
 
 ```
 Client ──► max_connections / pool ──► buffer pool / shared_buffers ──► disk (WAL, redo)
@@ -16,7 +16,7 @@ Client ──► max_connections / pool ──► buffer pool / shared_buffers �
                                               └── slow query log when over threshold
 ```
 
-Always size with **connection pool** in front ([[connection pooling]]) — 500 app threads ≠ 500 DB connections.
+Always size with **connection pool** in front ([[connection pooling]]) — 500 application threads ≠ 500 DB connections.
 
 ## Standard config / commands
 
@@ -37,7 +37,7 @@ log_bin = mysql-bin               # replication / PITR
 server-id = 1
 ```
 
-Encrypted connections ([MySQL encrypted connections](https://dev.mysql.com/doc/refman/8.0/en/using-encrypted-connections.html)):
+Encrypted connections ([MySQL encrypted connections](https://development.mysql.com/document/refman/8.0/en/using-encrypted-connections.html)):
 ```ini
 require_secure_transport = ON       # prod: reject plaintext
 ssl_ca = /etc/mysql/ssl/ca.pem
@@ -92,7 +92,7 @@ SELECT ssl, version, cipher FROM pg_stat_ssl WHERE pid = pg_backend_pid();
 
 ### Connection pooling (mandatory at scale)
 
-- **PgBouncer** (Postgres) / **ProxySQL** (MySQL) / RDS Proxy — transaction pooling for stateless app queries.
+- **PgBouncer** (Postgres) / **ProxySQL** (MySQL) / RDS Proxy — transaction pooling for stateless application queries.
 
 ## Triage (when things break)
 

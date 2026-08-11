@@ -1,4 +1,4 @@
-[[WM_CLASS]] [[Linux window manager]] [[window manager/X window system (X11)]] [[wayland]] [[Linux display manager]] [[zed config]]
+[[WM_CLASS]] [[Linux window manager]] [[window manager/X window system (X11)]] [[wayland]] [[Linux display manager]] [[zed configuration]]
 
 # i3wm — developer minimal setup
 
@@ -33,8 +33,6 @@ Container tree (one workspace):
 | **$mod** | Modifier key — use **Mod4** (Super) so Alt stays free for apps |
 
 **Developer workflow default:** browser + editor + terminal on separate workspaces; scratchpad or floating for popups; `assign` rules so apps land on the right workspace via [[WM_CLASS]].
-
----
 
 ### Interview map (words you can say)
 
@@ -84,7 +82,7 @@ i3 -c ~/.config/i3/config -C            # validate syntax before reload
 
 ### Developer minimal `~/.config/i3/config`
 
-Copy-paste baseline — **Mod4**, vim-style `hjkl`, named workspaces, dev autostart, common float rules.
+Copy-paste baseline — **Mod4**, vim-style `hjkl`, named workspaces, development autostart, common float rules.
 
 ```bash
 # ── variables ─────────────────────────────────────────────
@@ -337,7 +335,7 @@ i3-msg -t get_workspaces          # debug workspace state
 > **Picom + NVIDIA** — common tear/black flash; try `picom --backend glx` or disable vsync in driver config.
 
 - **Mod1 (Alt) as $mod** fights browser shortcuts — default to **Mod4**.
-- **`i3-msg restart`** vs **`reload`** — restart re-reads everything including autostart; reload is lighter.
+- **`i3-msg restart`** versus **`reload`** — restart re-reads everything including autostart; reload is lighter.
 - **Gaps + fullscreen** — gaps hidden in fullscreen; expected.
 
 ---
@@ -352,12 +350,12 @@ i3-msg -t get_workspaces          # debug workspace state
 | Team needs GUI settings app | GNOME + pop-shell or KDE |
 | Gaming-first, anti-cheat quirks | Test before daily-driving; some titles dislike bare X11 compositors |
 
-**Rule of thumb:** i3 shines for keyboard-heavy dev work on stable X11 — one config file, git-trackable, fast. Invest setup time once; pay off on every workspace switch.
+**Rule of thumb:** i3 shines for keyboard-heavy development work on stable X11 — one configuration file, git-trackable, fast. Invest setup time once; pay off on every workspace switch.
 
 ---
 
 ## Related
 
-[[WM_CLASS]] · [[Linux window manager]] · [[window manager/X window system (X11)]] · [[wayland]] · [[Linux display manager]] · [[zed config]] · [[Linux/Commands]]
+[[WM_CLASS]] · [[Linux window manager]] · [[window manager/X window system (X11)]] · [[wayland]] · [[Linux display manager]] · [[zed configuration]] · [[Linux/Commands]]
 
 **Upstream:** [i3 user guide](https://i3wm.org/docs/userguide.html) · `man i3`

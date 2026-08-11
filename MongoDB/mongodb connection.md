@@ -8,7 +8,7 @@
 
 ## Mental model
 
-The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes auth, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
+The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes authentication, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
 
 ```
 App → Driver pool → Primary (writes)
@@ -71,7 +71,7 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 
 ## When NOT to use
 
-- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + auth + network ACL.
+- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authentication + network ACL.
 - Don't create one connection per request — always pool via driver/mongoose.
 
 ## Related

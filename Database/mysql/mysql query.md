@@ -52,7 +52,7 @@ SELECT * FROM t WHERE JSON_TYPE(jcol) = 'ARRAY';
 SELECT COALESCE(override_col, default_col) AS effective FROM ...;
 ```
 
-Dates (ops-friendly):
+Dates (operations-friendly):
 
 ```sql
 SELECT DATE_FORMAT(MAX(trxnDate), '%d %b %Y, %W') AS last_day
@@ -95,7 +95,7 @@ FROM transactions;
 ## When NOT to use
 
 - **Building production APIs with ad-hoc `SHOW` strings** — use migrations + typed queries.
-- **Formatting dates in SQL for every UI locale** — prefer app-layer i18n when possible.
+- **Formatting dates in SQL for every UI locale** — prefer application-layer i18n when possible.
 - **Scanning all of `information_schema` on a busy primary** — use replicas / tighter filters.
 
 ---

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** User logs into *your* app; *your* server builds a DoveRunner license token; the player sends that token to DoveRunner’s license URL and the CDM unlocks the stream.
+**Say it in one breath:** User logs into *your* application; *your* server builds a DoveRunner license token; the player sends that token to DoveRunner’s license URL and the CDM unlocks the stream.
 
 ```txt
 User ──► Your app auth (OAuth / JWT / session)
@@ -28,7 +28,7 @@ User ──► Your app auth (OAuth / JWT / session)
 
 You do **not** generate this token in client JS/Kotlin alone with the site key exposed. Site Key stays on the server.
 
-Packaging keys often come via [[CPIX]]; playback auth is the separate [[streaming license]] token.
+Packaging keys often come via [[CPIX]]; playback authentication is the separate [[streaming license]] token.
 
 ### Interview map (words you can say)
 
@@ -43,7 +43,7 @@ Packaging keys often come via [[CPIX]]; playback auth is the separate [[streamin
 
 ### Auth story (4 steps)
 
-1. **App auth** — prove the user to *your* backend.
+1. **application authentication** — prove the user to *your* backend.
 2. **Token generation** — backend builds `pallycon-customdata-v2` (DevConsole API or your token service).
 3. **Token delivery** — return token to the player over your API.
 4. **License request** — player calls DoveRunner license URL with that header; CDM decrypts.
@@ -68,7 +68,7 @@ Header:
 | Playback policy (duration, HDCP, security level) | Enforced at license issue |
 | License URL region | Use vendor-documented endpoint for your tenants |
 
-Player config sketch (concept):
+Player configuration sketch (concept):
 
 ```js
 // Token from YOUR API — never invent Site Key in the browser

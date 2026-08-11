@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Git aliases live in config (`~/.gitconfig` or repo `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
+**Say it in one breath:** Git aliases live in configuration (`~/.gitconfig` or repository `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
 
 
 ```
@@ -89,7 +89,7 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 
 ## When NOT to use
 
-- **Complex multi-step automation** — shell script in repo `scripts/` with tests.
+- **Complex multi-step automation** — shell script in repository `scripts/` with tests.
 - **Override built-in commands** — avoid aliasing `commit`/`push` to dangerous defaults.
 
 ## Related

@@ -1,4 +1,4 @@
-[[NextJS]] [[Next JS]] [[NextJS Config]]
+[[NextJS]] [[Next JS]] [[NextJS configuration]]
 
 # Next js Build
 
@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Build analyzes routes, bundles server/client, prerenders where possible. Failures here are type/import/config issues—fix before deploy.
+**Say it in one breath:** Build analyzes routes, bundles server/client, prerenders where possible. Failures here are type/import/configuration issues—fix before deploy.
 
 ```txt
 next build → .next/ → next start (or platform adapter)
@@ -56,11 +56,11 @@ npm run start
 
 ## When NOT to use
 
-- **Dev iteration** — `next dev`.
+- **development iteration** — `next dev`.
 - **Non-Next React SPA** — Vite build.
 
 ---
 
 ## Related
 
-[[Next JS]] [[NextJS Config]] [[express build]]
+[[Next JS]] [[NextJS configuration]] [[express build]]

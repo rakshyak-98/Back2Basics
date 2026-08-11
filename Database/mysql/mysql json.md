@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** `JSON` type validates JSON on write; path expressions pull fields; aggregators build nested payloads for APIs without app-side stitching.
+**Say it in one breath:** `JSON` type validates JSON on write; path expressions pull fields; aggregators build nested payloads for APIs without application-side stitching.
 
 ```txt
 row JSON column ──► -> '$.key' (JSON) / ->> '$.key' (text)

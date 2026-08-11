@@ -36,13 +36,13 @@ Plink → CLI equivalent for scripts/cron on Windows
 
 ## Standard config / commands
 
-**First-time connect:** verify host key fingerprint out-of-band (don't blindly "Accept"). Save session only after confirming fingerprint matches ops runbook.
+**First-time connect:** verify host key fingerprint out-of-band (don't blindly "Accept"). Save session only after confirming fingerprint matches operations runbook.
 
-**SSH key auth (production path):**
+**SSH key authentication (production path):**
 
 1. PuTTYgen → Generate → save private `.ppk` (password-protect).
 2. Copy public key text → append to server `~/.ssh/authorized_keys`.
-3. PuTTY → Connection → SSH → Auth → Credentials → Private key file.
+3. PuTTY → Connection → SSH → authentication → Credentials → Private key file.
 4. Connection → Data → Auto-login username.
 5. Save session.
 
@@ -86,7 +86,7 @@ plink -batch -i key.ppk user@host "systemctl is-active nginx"
 
 - **`.ppk` is PuTTY-specific** — Linux `ssh` needs OpenSSH format unless using `puttygen -O private-openssh`.
 - **Copy/paste** — right-click paste (not Ctrl+V) in classic PuTTY window.
-- **WSL vs PuTTY** — on Windows 10+, `ssh` in WSL is often simpler and matches Linux ops docs ([[SSH]]).
+- **WSL versus PuTTY** — on Windows 10+, `ssh` in WSL is often simpler and matches Linux operations docs ([[SSH]]).
 
 ## When NOT to use
 

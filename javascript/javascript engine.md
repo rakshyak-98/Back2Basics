@@ -80,7 +80,7 @@ Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for miss
 
 ## When NOT to use
 
-- **Choosing framework** — engine differences rarely matter vs architecture.
+- **Choosing framework** — engine differences rarely matter versus architecture.
 - **Security boundaries** — sandbox with CSP/isolation, not "pick V8 version".
 
 ---

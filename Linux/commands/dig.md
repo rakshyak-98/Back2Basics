@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** You query a resolver (or an authoritative NS) for a name + type; look at `status` and the `ANSWER SECTION` before blaming the app.
+**Say it in one breath:** You query a resolver (or an authoritative NS) for a name + type; look at `status` and the `ANSWER SECTION` before blaming the application.
 
 ```txt
 dig example.com A
@@ -36,7 +36,7 @@ dig example.com A
 ### How the story goes (4 steps)
 
 1. **Ask** — `dig name [type]` (hostname only — no `https://`).
-2. **Read status** — NXDOMAIN vs NOERROR.
+2. **Read status** — NXDOMAIN versus NOERROR.
 3. **Read answer** — A/AAAA/CNAME/MX/… present?
 4. **Isolate cache** — `@8.8.8.8`, `@1.1.1.1`, then `@` authoritative NS; `+trace` if needed.
 

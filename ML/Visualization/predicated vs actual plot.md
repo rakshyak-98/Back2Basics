@@ -62,7 +62,7 @@ plt.plot(lims, lims, "r--")
 
 ### Residual companion
 
-Always pair with [[Visualization/Residual plot]] — actual vs predicted hides structure in errors when scale is large.
+Always pair with [[Visualization/Residual plot]] — actual versus predicted hides structure in errors when scale is large.
 
 ---
 
@@ -90,7 +90,7 @@ Always pair with [[Visualization/Residual plot]] — actual vs predicted hides s
 
 ## When NOT to use
 
-- **Classification** — confusion matrix / ROC, not y vs ŷ scatter.
+- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
 - **High-dimensional output** — per-target subplots or aggregate metrics.
 - **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
 

@@ -138,11 +138,11 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 
 **Common root causes:**
 
-- Service `targetPort` ≠ container `containerPort` (8080 vs 80).
-- App binds `127.0.0.1` only — not reachable from controller pod network.
-- Readiness probe passes localhost but app broken on real traffic path.
+- Service `targetPort` ≠ container `containerPort` (8080 versus 80).
+- application binds `127.0.0.1` only — not reachable from controller pod network.
+- Readiness probe passes localhost but application broken on real traffic path.
 - TLS secret missing/wrong → 502 on HTTPS, HTTP works.
-- Annotation typo (`nginx.ingress.kubernetes.io/backend-protocol: HTTPS` when app is HTTP).
+- Annotation typo (`nginx.ingress.kubernetes.io/backend-protocol: HTTPS` when application is HTTP).
 - Timeout too low — long requests → 502 at 60s default.
 
 ```bash

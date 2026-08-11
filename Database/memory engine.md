@@ -8,7 +8,7 @@
 
 ## Mental model
 
-MySQL **MEMORY** (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents — **full loss on restart/crash**. Optimizer may still use MEMORY for internal temp tables.
+MySQL **MEMORY** (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents — **full loss on restart/crash**. Optimizer may still use MEMORY for internal temporary tables.
 
 ```
 DISK (InnoDB)     vs     MEMORY

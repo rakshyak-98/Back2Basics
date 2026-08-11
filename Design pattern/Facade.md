@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Marketing (or any) subsystem has factories, validators, pipelines, adapters. App layers should not know that graph. Facade exposes a small stable API (`launchCampaign`, `getInsights`) and wires the internals.
+Marketing (or any) subsystem has factories, validators, pipelines, adapters. application layers should not know that graph. Facade exposes a small stable API (`launchCampaign`, `getInsights`) and wires the internals.
 
 ```
 Flutter / REST controllers

@@ -10,7 +10,7 @@
 
 **Without DI:** class creates its own DB client → tight coupling, hard to mock.
 
-**With DI:** caller passes interface → swap impl in tests, config, or runtime.
+**With DI:** caller passes interface → swap implementation in tests, configuration, or runtime.
 
 ```
 ┌─────────────┐     constructs      ┌──────────────┐
@@ -100,11 +100,11 @@ Each middleware receives `(req, res, next)` — deps wired when registering rout
 
 - **DI ≠ singleton** — container may return new instance per resolve unless scoped.
 - **Over-injection** — 15-arg constructor signals missing facade or wrong boundary.
-- **Dynamic `import()` for lazy DI** — track async init or first request fails.
+- **Dynamic `import()` for lazy DI** — track async initialize or first request fails.
 
 ## When NOT to use
 
-- Pure functions with no external IO — pass args directly, no container.
+- Pure functions with no external IO — pass arguments directly, no container.
 - Script < 100 lines — manual wiring is clearer.
 
 ## Related

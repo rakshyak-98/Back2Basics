@@ -8,25 +8,19 @@
 
 ## Mental model
 
-**Say it in one breath:** git ssh config is infra/security tooling — least privilege, clear config, observable failures.
+**Say it in one breath:** git ssh configuration — bad owner or permissions on /home/mihir/.ssh/config
 
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **git ssh config** | Core idea of this note | “I can explain git ssh config without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+# ~/.ssh/config
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_github
+  IdentitiesOnly yes
+chmod 600 ~/.ssh/config
 ```
 
 ---
@@ -35,22 +29,24 @@
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Bad owner or permissions on ~/.ssh/config | File mode or ownership | `chmod 600 ~/.ssh/config`; owned by your user |
+| Wrong key offered | Multiple keys; no IdentitiesOnly | Set `IdentityFile` per Host block |
+| Host key verification failed | DNS or MITM; rotated host key | Verify fingerprint; update `known_hosts` |
+| Connection timed out | Firewall; wrong HostName | `ssh -vT git@github.com` |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> SSH config `Host` is a **label** — it does not have to match the real DNS name.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not disable `StrictHostKeyChecking` in production automation.
+
 
 ---
 

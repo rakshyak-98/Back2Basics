@@ -18,7 +18,7 @@ Browser target: complete JS + layout + paint within ~10 ms (60 Hz)
                  leaves headroom for compositor + system
 ```
 
-Device refresh is constant; **app frame rate varies** — animation smooth only if work fits budget.
+Device refresh is constant; **application frame rate varies** — animation smooth only if work fits budget.
 
 ## Standard config / commands
 

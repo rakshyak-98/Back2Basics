@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** kafka — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** kafka — event streaming platform designed to handle real-time data feeds.
 
 - event streaming platform designed to handle real-time data feeds.
 - used for building data pipelines, stream analytics, and integration across systems.
@@ -22,13 +21,6 @@
 **ZooKeeper (or Kafka Raft)**: Coordinates brokers and maintains cluster metadata.
 ### kafka docker contianer
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **kafka** | Core idea of this note | “I can explain kafka without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -71,7 +71,7 @@ sysctl net.core.somaxconn
 
 - **Pure batch jobs** — connections short; optimize CPU/IO instead.
 - **Serverless with tiny concurrency** — different scaling story.
-- **One admin user** — ignore micro-tuning.
+- **One administrator user** — ignore micro-tuning.
 
 ---
 

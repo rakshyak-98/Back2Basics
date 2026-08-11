@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Interfaces/APIs describe *what*; adapters/DB/engines do *how*. Interviews and prod both fail when those layers glue together.
+**Say it in one breath:** Interfaces/APIs describe *what*; adapters/DB/engines do *how*. Interviews and production both fail when those layers glue together.
 
 ```txt
 Use-case / domain  →  ports (interfaces)

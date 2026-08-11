@@ -80,7 +80,7 @@ function AppLayout() {
 
 ### Protected route
 
-Wrap with `RequireAuth` that reads auth hook → `<Navigate to="/login" />` or `<Outlet />`.
+Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login" />` or `<Outlet />`.
 
 ---
 
@@ -108,7 +108,7 @@ Wrap with `RequireAuth` that reads auth hook → `<Navigate to="/login" />` or `
 
 ## When NOT to use
 
-- **File-based routing only** — Next.js App Router owns routes; don't fight framework.
+- **File-based routing only** — Next.js application Router owns routes; don't fight framework.
 - **Hash routing (`#/`)** — only legacy embeds without server rewrite support.
 
 ---

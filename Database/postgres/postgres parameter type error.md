@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** PostgreSQL Error: `inconsistent types deduced for parameter $n` — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** PostgreSQL Error: `inconsistent types deduced for parameter $n` — I can explain the job, the configuration, and the top failure without jargon.
 
 
 Prepared statements bind each `$n` to **one** PostgreSQL type for the whole query. The planner deduces that type from **every** occurrence of the placeholder. If `$2` appears once as `TEXT` and once as `INTEGER`, Postgres cannot pick a single type and raises this error.

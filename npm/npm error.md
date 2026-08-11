@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** npm error — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** npm error — [baseline-browser-mapping] The data in this module is over two months old. To ensure accurate Baseline data, please update: npm i…
 
 ```text
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
@@ -37,13 +36,6 @@ Your application stores objects in the heap
        ↓
 Heap becomes full
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **npm error** | Core idea of this note | “I can explain npm error without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

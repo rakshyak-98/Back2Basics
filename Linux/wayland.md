@@ -67,8 +67,8 @@ pgrep -a Xwayland
 
 1. Session type (`XDG_SESSION_TYPE`).
 2. Compositor name (`echo $XDG_CURRENT_DESKTOP`, `pgrep -a sway|mutter|kwin|weston`).
-3. App toolkit backend (`GDK_BACKEND`, `QT_QPA_PLATFORM`).
-4. Missing features → often **Xwayland** vs native Wayland port issue, not “Wayland broken”.
+3. application toolkit backend (`GDK_BACKEND`, `QT_QPA_PLATFORM`).
+4. Missing features → often **Xwayland** versus native Wayland port issue, not “Wayland broken”.
 
 ```bash
 # PipeWire / portal (screen share on modern GNOME/KDE)
@@ -98,8 +98,8 @@ systemctl --user status pipewire wireplumber xdg-desktop-portal
 ## When NOT to use
 
 - **Deep WM customization guide** — use compositor docs (Sway, Mutter, KDE).
-- **Server/headless ops** — no display protocol; irrelevant except CI screenshots.
-- **Replacing X11 knowledge overnight** — mixed fleets run both for years; know both env vars.
+- **Server/headless operations** — no display protocol; irrelevant except CI screenshots.
+- **Replacing X11 knowledge overnight** — mixed fleets run both for years; know both environment variables.
 
 ## Related
 

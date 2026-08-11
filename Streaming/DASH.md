@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Player downloads an XML MPD, picks a Representation, then GETs init + media segments — quality can change mid-play.
+**Say it in one breath:** Player downloads an XML MPD, picks a Representation, then GETs initialize + media segments — quality can change mid-play.
 
 ```txt
 GET manifest.mpd  ([[MPD]])

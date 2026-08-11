@@ -15,7 +15,7 @@ User-Agent: Mozilla/5.0 (...) Chrome/120.0.0.0 Safari/537.36
 ```
 
 Purposes:
-- **Server adaptation** — mobile vs desktop templates (declining; prefer responsive CSS)
+- **Server adaptation** — mobile versus desktop templates (declining; prefer responsive CSS)
 - **Analytics** — browser/OS market share
 - **Bot/scraper detection** — rate limits, CAPTCHA
 - **API client identification** — mobile apps often use library defaults

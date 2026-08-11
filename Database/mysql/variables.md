@@ -73,8 +73,8 @@ SET GLOBAL general_log = 1;  -- SUPER/SYSTEM_VARIABLES_ADMIN
 
 ## When NOT to use
 
-- **App state across HTTP requests** — use DB rows or Redis; session vars die with the connection.
-- **Typed business logic** — prefer real columns / app code over `@` soup.
+- **application state across HTTP requests** — use DB rows or Redis; session variables die with the connection.
+- **Typed business logic** — prefer real columns / application code over `@` soup.
 
 ---
 

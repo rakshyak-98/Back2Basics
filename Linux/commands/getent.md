@@ -67,7 +67,7 @@ sudo getent shadow alice
 getent --help
 ```
 
-**vs raw file grep:**
+**versus raw file grep:**
 
 ```bash
 grep alice /etc/passwd          # files only — misses SSSD/LDAP
@@ -107,7 +107,7 @@ cat /etc/nsswitch.conf
 ## When NOT to use
 
 - **DNS-only troubleshooting** → `dig`, `resolvectl query`.
-- **Active Directory admin** → `ldapsearch`, `adcli`, `realm`.
+- **Active Directory administrator** → `ldapsearch`, `adcli`, `realm`.
 - **Edit accounts** → [[useradd]], [[usermod]], [[passwd]] — getent is read-only.
 
 ## Related

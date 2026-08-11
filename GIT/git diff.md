@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** git diff is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** git diff — show unstaged, staged, or commit-to-commit file changes.
 
 ```bash
 git diff --name-only;
@@ -17,7 +16,7 @@ git diff --cached --name-only;
 git diff main.. --name-only;
 git diff --name-status;
 ```
-- compare file in different brach
+- compare one file between two branches
 ```bash
 git diff branch1 branch2 -- <file path>;
 ```
@@ -46,22 +45,16 @@ git diff -- . ':!node_modules';
 git diff --diff-filter=R --name-only;
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **git diff** | Core idea of this note | “I can explain git diff without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+git diff                            # unstaged changes
+git diff --cached                   # staged changes
+git diff HEAD                       # staged + unstaged
+git diff main..feature              # commits on feature not on main
+git diff branch1 branch2 -- path/   # one file between branches
+git diff --stat
 ```
 
 ---
@@ -70,22 +63,24 @@ git diff --diff-filter=R --name-only;
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Empty diff but file changed | Line endings / assume-unchanged | `git diff --ignore-cr-at-eol`; `git update-index` |
+| Diff shows whole file | File mode or encoding flip | Check `core.filemode`; normalize encoding |
+| Cannot diff binary | Expected for images/binaries | `git diff --numstat`; use external diff tool |
+| Wrong comparison range | `..` versus `...` syntax | `A..B` = reachable from B not A; `A...B` = symmetric difference since merge base |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> `git diff` without flags shows **working tree versus index** — not last commit.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not rely on diff alone for merge conflict resolution — open conflicted files and read conflict markers.
+
 
 ---
 

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** LSB = old compatibility layer; modern ops speak systemd units and FHS paths, not LSB runlevels.
+**Say it in one breath:** LSB = old compatibility layer; modern operations speak systemd units and FHS paths, not LSB runlevels.
 
 ```txt
 legacy: /etc/init.d/foo start   (LSB headers)
@@ -71,7 +71,7 @@ systemctl cat ssh
 
 ## When NOT to use
 
-- **New services** — write systemd units, not LSB init scripts.
+- **New services** — write systemd units, not LSB initialize scripts.
 - **Container images** — skip LSB tooling; use `/etc/os-release`.
 
 ---

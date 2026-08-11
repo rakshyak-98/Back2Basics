@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and config.
+**Say it in one breath:** One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and configuration.
 
 
 ```
@@ -45,7 +45,7 @@ git worktree remove --force ../project-dirty
 git worktree prune
 ```
 
-Each linked worktree stores a `.git` **file** (not dir) pointing at main repo: `gitdir: /path/to/main/.git/worktrees/feature`.
+Each linked worktree stores a `.git` **file** (not dir) pointing at main repository: `gitdir: /path/to/main/.git/worktrees/feature`.
 
 ### Typical workflow
 

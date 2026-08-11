@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** firebase reminders configuration — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** firebase reminders configuration — exports.sendClassReminders = functions.pubsub.schedule("every 5 minutes").onRun(async () => {
 
 ```sh
 npm install firebase-admin firebase-functions nodemailer
@@ -38,13 +37,6 @@ exports.sendClassReminders = functions.pubsub.schedule("every 5 minutes").onRun(
     subject: `Reminder: Your class '${doc.data().className}' starts soon!`,
     text: `Your class starts at ${doc.data().startTime}. Be ready!`
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **firebase reminders configuration** | Core idea of this note | “I can explain firebase reminders configuration without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -91,7 +91,7 @@ journalctl -k -b
 
 ## When NOT to use
 
-- **App logs** — stdout/journal user facilities, not `printk`.
+- **application logs** — stdout/journal user facilities, not `printk`.
 - **Long-term audit** — ship to SIEM; don’t rely on the ring.
 - **Userspace ring buffers** — see [[atomic ring buffer]] / [[Rolling Buffer]].
 

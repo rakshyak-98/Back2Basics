@@ -15,9 +15,9 @@ password + salt + params → yescrypt → fixed hash stored in DB
 Login: recompute and constant-time compare
 ```
 
-vs fast hashes (SHA256, MD5): offline attacker tries billions/sec.
+versus fast hashes (SHA256, MD5): offline attacker tries billions/sec.
 
-vs **bcrypt/argon2/scrypt**: yescrypt adds **ROM-dependent** and **memory-hard** phases — parallel GPUs/ASICs need proportional RAM per guess.
+versus **bcrypt/argon2/scrypt**: yescrypt adds **ROM-dependent** and **memory-hard** phases — parallel GPUs/ASICs need proportional RAM per guess.
 
 Used where:
 - Linux **libxcrypt** `$y$` hashes (glibc 2.36+)
@@ -56,7 +56,7 @@ const hash = await bcrypt.hash(password, 12);
 await bcrypt.compare(password, hash);
 ```
 
-**Why app-layer KDF:** you control cost params per hardware generation; not tied to `/etc/shadow` format.
+**Why application-layer KDF:** you control cost parameters per hardware generation; not tied to `/etc/shadow` format.
 
 ---
 

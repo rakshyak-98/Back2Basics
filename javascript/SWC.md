@@ -67,7 +67,7 @@ npx swc src -d dist
 
 ### Next.js (default)
 
-Next uses SWC internally — custom Babel only if `.babelrc` present (disables SWC for that app).
+Next uses SWC internally — custom Babel only if `.babelrc` present (disables SWC for that application).
 
 ### Jest
 

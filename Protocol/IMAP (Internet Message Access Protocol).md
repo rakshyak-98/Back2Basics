@@ -18,7 +18,7 @@ Client ──IMAP──► MDA (Dovecot, Cyrus, Exchange)
    └── IDLE (push)    └── APPEND sent mail
 ```
 
-Modern flow: **587 [[SMTP]]** to send, **993 IMAPS** to read. Auth: LOGIN/PLAIN over TLS, OAuth2 (Gmail/365).
+Modern flow: **587 [[SMTP]]** to send, **993 IMAPS** to read. authentication: LOGIN/PLAIN over TLS, OAuth2 (Gmail/365).
 
 ## Standard config / commands
 
@@ -93,7 +93,7 @@ mail_location = maildir:~/Maildir
 ## When NOT to use
 
 - **Offline-first archive download only** — POP3 or one-shot migration tool simpler.
-- **Transactional app notifications** — use webhooks/API, not mailbox polling.
+- **Transactional application notifications** — use webhooks/API, not mailbox polling.
 
 ## Related
 

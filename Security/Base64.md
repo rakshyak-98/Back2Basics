@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Base64 — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Base64 — I can explain the job, the configuration, and the top failure without jargon.
 
 
 turn binary data (like images, files, PDFs) into plain text so it can be safely sent over the internet or stored in places that only allow text.

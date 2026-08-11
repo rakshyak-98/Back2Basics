@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Clients ask Unbound; Unbound queries root → TLD → auth NS (or your forwarders), validates DNSSEC when present, and caches — you stop depending on ISP DNS.
+**Say it in one breath:** Clients ask Unbound; Unbound queries root → TLD → authentication NS (or your forwarders), validates DNSSEC when present, and caches — you stop depending on ISP DNS.
 
 ```txt
 Stub → Unbound (recurse + DNSSEC + cache)

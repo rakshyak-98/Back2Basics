@@ -91,7 +91,7 @@ javap -c Hello.class | less
 
 ## When NOT to use
 
-Greenfield app logic in Forth-style RPN hurts readability for teams — use stack IR **under** a conventional language (JVM, WASM), not as your primary source syntax unless domain fits (DSL calculators, PostScript).
+Greenfield application logic in Forth-style RPN hurts readability for teams — use stack IR **under** a conventional language (JVM, WASM), not as your primary source syntax unless domain fits (DSL calculators, PostScript).
 
 ---
 

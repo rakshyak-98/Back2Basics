@@ -99,7 +99,7 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 
 - **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
 - **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
-- **Small config blobs** — object storage + HTTP GET beats custom streaming parsers.
+- **Small configuration blobs** — object storage + HTTP GET beats custom streaming parsers.
 
 ---
 

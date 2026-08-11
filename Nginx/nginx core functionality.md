@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** nginx core functionality is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** nginx core functionality — all workers processes get simultaneously notified about a new incoming connection.
 
 `accept_mutex`
 When `accept_mutex` disabled
@@ -19,23 +18,10 @@ When `accept_mutex` disabled
 - The others get `EAGAIN` (or similar) and go back to sleep.
 This is called **thundering herd** problem (or wake-up storm).
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **nginx core functionality** | Core idea of this note | “I can explain nginx core functionality without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
-```bash
-# status
-# check version, auth, and recent changes
-```
+Roles: reverse proxy, static file server, TLS termination, load balancer (`upstream`).
 
 ---
 
@@ -43,22 +29,23 @@ This is called **thundering herd** problem (or wake-up storm).
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| High worker CPU | SSL renegotiation; gzip on huge files | Tune `worker_connections`; offload TLS |
+| Slow static files | disk IO; sendfile off | Enable `sendfile`; check filesystem |
+| Upstream flapping | health checks missing | `max_fails` and `fail_timeout` in upstream |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Nginx handles many connections with **few worker processes** — mis-tuned `worker_connections` causes 502 storms.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not use Nginx alone for WebSocket-heavy apps without proper `proxy_read_timeout` tuning.
+
 
 ---
 

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** `mount -o ro` (and often `noload` for ext) blocks writers; still verify with `findmnt` before trusting it.
+**Say it in one breath:** `mount -o ro` (and often `noload` for external) blocks writers; still verify with `findmnt` before trusting it.
 
 ```txt
 block device ──mount -o ro,noload──► /mnt/usb

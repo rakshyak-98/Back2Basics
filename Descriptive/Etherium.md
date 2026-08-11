@@ -122,7 +122,7 @@ gwei = 10⁹ wei (fee display)
 
 ## When NOT to use
 
-- **Centralized ledger sufficient** — Postgres + audit log beats chain ops/cost.
+- **Centralized ledger sufficient** — Postgres + audit log beats chain operations/cost.
 - **High-frequency micro-payments** — L2 or off-chain payment channels; L1 gas prohibitive.
 - **Private enterprise data on-chain** — permissions chain or no chain; public mempool leaks intent.
 
@@ -130,4 +130,4 @@ gwei = 10⁹ wei (fee display)
 
 ## Related
 
-[[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS (Transport Layer Security)]] · [[marketplace app]]
+[[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS (Transport Layer Security)]] · [[marketplace application]]

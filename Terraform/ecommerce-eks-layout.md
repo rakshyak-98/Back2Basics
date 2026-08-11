@@ -20,7 +20,7 @@ helm/
     services/       # one chart per microservice (+ order)
 ```
 
-**Terraform owns** cloud resources (network, cluster, databases, broker, IAM). **Helm owns** workload manifests (Deployments, HPA, Rollouts, ConfigMaps). **GitOps** (Argo CD) syncs Helm releases from env branches or OCI chart versions.
+**Terraform owns** cloud resources (network, cluster, databases, broker, IAM). **Helm owns** workload manifests (Deployments, HPA, Rollouts, ConfigMaps). **GitOps** (Argo CD) syncs Helm releases from environment branches or OCI chart versions.
 
 ---
 
@@ -43,9 +43,9 @@ terraform apply
 | production | `commerce-prod` | `prod` | `prod/infra/terraform.tfstate` |
 | live (slice) | `commerce-prod` (same) | `live-canary` | no extra state — Helm only |
 
-**Account layout:** `commerce-dev` (dev+test optional), `commerce-staging`, `commerce-prod` — separate IAM boundaries per [[ecommerce-cicd-environments]].
+**Account layout:** `commerce-dev` (development+test optional), `commerce-staging`, `commerce-prod` — separate IAM boundaries per [[ecommerce-cicd-environments]].
 
-**Node pools (prod example):**
+**Node pools (production example):**
 - `system` — tainted; ingress, CoreDNS, Argo
 - `general` — app microservices
 - `promotions-burst` — optional pool with higher max for flash sales (scale via Karpenter or CA)
@@ -147,7 +147,7 @@ module "irsa_payment" {
 }
 ```
 
-Pin versions per [[Terraform setup]] — separate `terraform.tfvars` per env; never share prod secrets.
+Pin versions per [[Terraform setup]] — separate `terraform.tfvars` per environment; never share production secrets.
 
 ---
 
@@ -218,7 +218,7 @@ templates/
   servicemonitor.yaml
 ```
 
-**Rollout vs Deployment:** payment, order, catalog use **Argo Rollout** in prod/live; dev uses simple Deployment.
+**Rollout versus Deployment:** payment, order, catalog use **Argo Rollout** in production/live; development uses simple Deployment.
 
 ### Values layering example (`payment` prod)
 
@@ -323,7 +323,7 @@ Use **External Secrets Operator** — Terraform creates Secrets Manager entries;
 
 ## When NOT to use
 
-- **Local/docker-compose only** — use [[Terraform docker]] + compose for dev; skip EKS module until integration env needed.
+- **Local/docker-compose only** — use [[Terraform docker]] + compose for development; skip EKS module until integration environment needed.
 - **ECS instead of EKS** — replace `modules/eks` with ECS/Fargate module; Helm section becomes task definitions.
 
 ---

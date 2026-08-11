@@ -123,7 +123,7 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 
 - **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
 - **Film grain VoD mastering** — software encode preserves detail better at same size.
-- **One short clip monthly** — GPU fleet overhead not worth ops.
+- **One short clip monthly** — GPU fleet overhead not worth operations.
 
 ---
 

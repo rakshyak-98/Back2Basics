@@ -53,9 +53,9 @@ eval "$(aws sts assume-role ... --query 'Credentials.[AccessKeyId,SecretAccessKe
 
 ### Instance / pod identity (no keys on disk)
 
-- **EC2 instance profile** → IMDS delivers rotating role creds (prefer IMDSv2: `HttpTokens: required`).
+- **EC2 instance profile** → IMDS delivers rotating role credentials (prefer IMDSv2: `HttpTokens: required`).
 - **EKS IRSA** → OIDC trust to `sts:AssumeRoleWithWebIdentity`.
-- **Lambda** → execution role creds injected by runtime.
+- **Lambda** → execution role credentials injected by runtime.
 
 ### SSO / Identity Center
 
@@ -97,8 +97,8 @@ aws sts get-caller-identity --profile prod   # shows assumed SSO role ARN
 ## When NOT to use
 
 - **Long-lived IAM user access keys for apps** — use roles + STS; keys for break-glass humans only, rotated and scoped.
-- **Embedding AssumeRole in every micro-request** — cache creds until ~5 min before expiry; use SDK default credential chain.
-- **One mega-role for all environments** — separate roles per env/account; STS makes splitting cheap.
+- **Embedding AssumeRole in every micro-request** — cache credentials until ~5 min before expiry; use SDK default credential chain.
+- **One mega-role for all environments** — separate roles per environment/account; STS makes splitting cheap.
 
 ## Related
 

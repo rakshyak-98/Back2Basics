@@ -8,7 +8,7 @@
 
 ## Mental model
 
-A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread vs event loop**, **stateless vs session**, **HTTP vs WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
+A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread versus event loop**, **stateless versus session**, **HTTP versus WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
 
 ```txt
 Client ──► load balancer ──► server pool
@@ -130,7 +130,7 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 
 ## When NOT to use
 
-- **Pure static site** — object storage + CDN, no app server.
+- **Pure static site** — object storage + CDN, no application server.
 - **Heavy GPU transcode** — worker process, not HTTP request thread ([[Encoding]]).
 - **Long batch ETL** — job queue worker, not synchronous HTTP server.
 

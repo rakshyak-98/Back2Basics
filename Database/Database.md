@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** A database turns “bytes on disk + concurrent clients” into **atomic commits**, **durable history**, and **queryable structure** so the app does not reinvent crash recovery and locking.
+**Say it in one breath:** A database turns “bytes on disk + concurrent clients” into **atomic commits**, **durable history**, and **queryable structure** so the application does not reinvent crash recovery and locking.
 
 ```txt
 App(s) ──► connections / pool ──► query planner ──► buffer pool

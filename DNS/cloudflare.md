@@ -24,7 +24,7 @@ User ──► CF edge (TLS, cache, WAF) ──► origin (ALB, nginx, Vercel)
 
 1. Add site in Cloudflare dashboard → import/copy DNS records.
 2. Change registrar **NS** to Cloudflare-assigned nameservers.
-3. Choose proxied vs DNS-only per record (A/AAAA/CNAME).
+3. Choose proxied versus DNS-only per record (A/AAAA/CNAME).
 
 ### SSL/TLS modes (critical)
 
@@ -42,7 +42,7 @@ set_real_ip_from 173.245.48.0/20;  # + all CF ranges from https://www.cloudflare
 real_ip_header CF-Connecting-IP;
 ```
 
-App logs: use `CF-Connecting-IP`, not `$remote_addr` (which is CF edge).
+application logs: use `CF-Connecting-IP`, not `$remote_addr` (which is CF edge).
 
 ### Wrangler CLI (Workers, Pages, R2)
 
@@ -96,7 +96,7 @@ curl -I https://example.com --resolve example.com:443:ORIGIN_IP  # bypass CF tes
 ## When NOT to use
 
 - **Internal-only services** — no public DNS/proxy needed; use private DNS ([[Route53]] private zone, [[mDNS]]).
-- **WebSockets/long polling without config** — works on CF but verify timeout/cache rules.
+- **WebSockets/long polling without configuration** — works on CF but verify timeout/cache rules.
 - **Replacing WAF on complex custom protocols** — CF is HTTP-centric; raw TCP needs Spectrum (paid).
 
 ## Related

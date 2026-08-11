@@ -71,8 +71,8 @@ blkid
 
 ## When NOT to use
 
-- **Debugging app services** — get past pivot to real root first.
-- **Cloud user-data issues** — cloud-init is after real root, not initramfs.
+- **Debugging application services** — get past pivot to real root first.
+- **Cloud user-data issues** — cloud-initialize is after real root, not initramfs.
 
 ---
 

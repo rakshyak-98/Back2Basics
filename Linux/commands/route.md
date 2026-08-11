@@ -81,7 +81,7 @@ route add default gw 192.168.1.1      # ephemeral — lost on reboot
 route add -net 172.16.0.0/12 gw 10.0.0.254
 ```
 
-Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`, or cloud-init — not bare CLI on production hosts unless you know they won't reboot.
+Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`, or cloud-initialize — not bare CLI on production hosts unless you know they won't reboot.
 
 ## Triage (when things break)
 

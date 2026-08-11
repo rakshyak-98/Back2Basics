@@ -111,8 +111,8 @@ iostat -x 1
 
 ## When NOT to use
 
-- **Don’t “disable the cache” to make benchmarks look stable** — use proper sync flags or `direct I/O` only when the app owns caching (DB).
-- **Don’t treat buffer cache as an app API** — apps use `read`/`write`/`mmap`/`fsync`; cache is kernel policy.
+- **Don’t “disable the cache” to make benchmarks look stable** — use proper sync flags or `direct I/O` only when the application owns caching (DB).
+- **Don’t treat buffer cache as an application API** — apps use `read`/`write`/`mmap`/`fsync`; cache is kernel policy.
 - **Don’t tune dirty_* blindly on shared hosts** — can starve neighbors; measure first.
 
 ---

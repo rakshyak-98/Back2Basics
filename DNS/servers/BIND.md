@@ -173,7 +173,7 @@ sudo ss -ulnp | grep :53
 
 ## When NOT to use
 
-- **Simple public DNS for a startup** — managed DNS (Route53, Cloudflare) reduces BIND ops burden.
+- **Simple public DNS for a startup** — managed DNS (Route53, Cloudflare) reduces BIND operations burden.
 - **Recursive resolver for office** — consider Unbound or dedicated resolver distro; BIND can do it but harden carefully.
 
 ---

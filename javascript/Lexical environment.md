@@ -97,7 +97,7 @@ Debug scope in DevTools **Scope** panel during breakpoint — practical view of 
 
 ## When NOT to use
 
-- **Explaining to juniors** — start with "scope chain" intuition; spec terms second.
+- **Explaining to juniors** — start with "scope chain" intuition; specification terms second.
 - **Performance micro-hacks** — engines optimize closures; don't flatten scopes manually without profiling.
 
 ---

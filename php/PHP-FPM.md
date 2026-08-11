@@ -160,7 +160,7 @@ sudo journalctl -u php8.3-fpm -f
 
 - **CLI/cron scripts** — invoke `php` directly, not FPM.
 - **Long-lived WebSockets in PHP** — wrong tool; use Node/Go or a dedicated WS gateway.
-- **ondemand in prod** — first-request latency after idle spikes; use dynamic.
+- **ondemand in production** — first-request latency after idle spikes; use dynamic.
 
 ---
 

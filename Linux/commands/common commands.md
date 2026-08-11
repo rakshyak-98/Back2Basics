@@ -106,11 +106,11 @@ id; groups; whoami                    # Effective user + supplementary groups
 > **`grep -R` on /** — IO storm. Scope to `/var/log`, app dir, or use `-m 1` to cap matches.
 
 - **`cd -` in scripts** — `$OLDPWD` is shell state; don't rely on it in non-interactive cron without explicit cd.
-- **`du` vs `df` mismatch** — deleted but open files (`lsof \| grep deleted`); restart process or reboot.
+- **`du` versus `df` mismatch** — deleted but open files (`lsof \| grep deleted`); restart process or reboot.
 
 ## When NOT to use
 
-- **Production config changes** — use config management + review, not ad-hoc one-liners from this sheet.
+- **Production configuration changes** — use configuration management + review, not ad-hoc one-liners from this sheet.
 - **Security audit** — need dedicated tools ([[nmap]], [[ss]], policy scanners), not find/grep alone.
 
 ## Related

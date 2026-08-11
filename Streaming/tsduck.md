@@ -83,7 +83,7 @@ wait
 | `analyze` / `tables` | Confirm PAT/PMT before automating zap maps |
 | PCR / continuity | Zap should preserve continuity; watch CC errors |
 
-Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare bitrate in vs out.
+Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare bitrate in versus out.
 
 ---
 

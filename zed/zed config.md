@@ -1,4 +1,4 @@
-[[Descriptive/vscode]] [[editor config]] [[Linux/CLI]] [[zed keybindings]]
+[[Descriptive/vscode]] [[editor configuration]] [[Linux/CLI]] [[zed keybindings]]
 
 # Zed config
 
@@ -25,7 +25,7 @@ Typing []in in Go
   Edit predictions  → grey ghost text inline, Tab to accept ← VS Code Copilot feel
 ```
 
-When both would show, Zed prioritizes the LSP menu in `eager` mode. **Hold `alt`** to preview the inline edit prediction and hide the menu ([Zed edit prediction UX](https://zed.dev/edit-prediction)).
+When both would show, Zed prioritizes the LSP menu in `eager` mode. **Hold `alt`** to preview the inline edit prediction and hide the menu ([Zed edit prediction UX](https://zed.development/edit-prediction)).
 
 ## Standard config / commands
 
@@ -151,7 +151,7 @@ zed ssh://user@192.168.1.10/etc/nginx/nginx.conf
 
 After this, `tab tab` still accepts the highlighted LSP completion when the menu is open.
 
-**Limitation (important):** This gives inline ghost text for **edit predictions** (AI), not for gopls type lists (`int` vs `int16`). For LSP symbol completion you still use `ctrl-space` → popup, or pick from the menu. There is no Zed equivalent of VS Code rendering the top LSP match as inline ghost today.
+**Limitation (important):** This gives inline ghost text for **edit predictions** (AI), not for gopls type lists (`int` versus `int16`). For LSP symbol completion you still use `ctrl-space` → popup, or pick from the menu. There is no Zed equivalent of VS Code rendering the top LSP match as inline ghost today.
 
 → Full keybinding reference: [[zed keybindings]]
 
@@ -190,4 +190,4 @@ After this, `tab tab` still accepts the highlighted LSP completion when the menu
 
 ## Related
 
-[[Descriptive/vscode]] [[editor config]] [[zed keybindings]] [[npm/husk]]
+[[Descriptive/vscode]] [[editor configuration]] [[zed keybindings]] [[npm/husk]]

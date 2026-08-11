@@ -21,7 +21,7 @@ Mezzanine / live source
 Player picks codec it can decode (+ [[ABR]] within that family)
 ```
 
-Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, Nvidia, …) backs the codec. Royalty-free licensing is the business pitch; **encode cost and client decode** are the ops pitch.
+Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, Nvidia, …) backs the codec. Royalty-free licensing is the business pitch; **encode cost and client decode** are the operations pitch.
 
 ### Interview map (words you can say)
 
@@ -35,7 +35,7 @@ Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, 
 
 ### How the story goes (4 steps)
 
-1. **Decide target** — VOD savings vs live latency/cost.
+1. **Decide target** — VOD savings versus live latency/cost.
 2. **Pick encoder** — SVT-AV1/libaom software, or Ada+ [[NVENC]] for HW.
 3. **Package** — signal codec in [[HLS]]/[[DASH]]; keep aligned GOPs if ABR.
 4. **Fallback** — always publish a widely decodable rung (usually H.264).
@@ -71,7 +71,7 @@ ffprobe -hide_banner out_av1.mp4   # confirm codec_name=av1
 | Fallback renditions | STB/browser gaps — don’t ship AV1-only |
 | Packaging labels | Wrong codec string ⇒ player never selects the rung |
 
-Debug: `ffprobe` codec → chrome://media-internals or player codec log → compare bitrate at matched VMAF vs H.264 rung.
+Debug: `ffprobe` codec → chrome://media-internals or player codec log → compare bitrate at matched VMAF versus H.264 rung.
 
 ---
 

@@ -27,7 +27,7 @@ Historical **shared parallel bus** (FSB) is largely replaced by **point-to-point
 - **DMI** — CPU to PCH
 - **PCIe** — CPU/root complex to peripherals
 
-**Effective bandwidth** is always less than line rate — protocol overhead, contention, NUMA remote memory, and small I/O ops matter more than peak Gbps on the spec sheet.
+**Effective bandwidth** is always less than line rate — protocol overhead, contention, NUMA remote memory, and small I/O operations matter more than peak Gbps on the specification sheet.
 
 ---
 
@@ -55,7 +55,7 @@ sudo lspci -s 0000:01:00.0 -vv | grep LnkSta
 mbw -n 10 256
 ```
 
-**Why NUMA matters:** on multi-socket boxes, memory attached to another socket crosses the **inter-socket bus** — 2–3× latency vs local.
+**Why NUMA matters:** on multi-socket boxes, memory attached to another socket crosses the **inter-socket bus** — 2–3× latency versus local.
 
 ---
 

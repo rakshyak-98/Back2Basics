@@ -73,7 +73,7 @@ ffmpeg -hwaccel cuda -i in.mp4 \
 | HW encoder gen | [[NVENC]] feature set differs (AV1 needs Ada+) |
 | Audio codec | AAC is the usual web/OTT default |
 
-Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -benchmark` CPU vs NVENC → spot A/V drift with `-async` / properly synced encodes.
+Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -benchmark` CPU versus NVENC → spot A/V drift with `-async` / properly synced encodes.
 
 ---
 

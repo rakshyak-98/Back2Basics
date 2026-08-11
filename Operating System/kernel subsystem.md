@@ -126,7 +126,7 @@ cat /sys/block/nvme0n1/queue/scheduler
 
 ## When NOT to use
 
-- Don't treat "kernel subsystem" as something you micro-manage daily — fix app + config first, kernel tunables second, custom modules last.
+- Don't treat "kernel subsystem" as something you micro-manage daily — fix application + configuration first, kernel tunables second, custom modules last.
 - Don't load out-of-tree drivers on production without rollback kernel.
 
 ---

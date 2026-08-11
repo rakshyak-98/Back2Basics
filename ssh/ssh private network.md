@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** ssh private network is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** ssh private network — ip addr show | grep inet
 
 ```bash
 ip addr show | grep inet
@@ -34,22 +33,13 @@ sudo ufw reload; # reload
 sudo ufw status numbered; # verify the rule
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ssh private network** | Core idea of this note | “I can explain ssh private network without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+ip route
+ssh -J bastion.internal user@10.0.5.20
+# ~/.ssh/config ProxyJump bastion.internal
 ```
 
 ---
@@ -58,22 +48,24 @@ sudo ufw status numbered; # verify the rule
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Timeout to private IP | No route; VPN down | Connect VPN; verify route to RFC1918 range |
+| Bastion works; inner host fails | Security group; inner sshd | Open port 22 on inner SG; check inner sshd |
+| Wrong source IP seen on inner host | Jump not used | Use `ProxyJump` or `-J` |
+| MTU black hole | VPN plus small MTU | Lower interface MTU on client |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Private IPs are **not routable on the public internet** — you need VPN or a jump host.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not expose private RFC1918 addresses directly to the internet with port forwarding.
+
 
 ---
 

@@ -20,7 +20,7 @@ Seller ──► Listing / Inventory ──────────────�
 **Hard problems are orthogonal to CRUD:**
 - **Double sale** of last unit (inventory concurrency)
 - **Payment success, order create fail** (distributed transaction)
-- **Seller payout vs chargeback window** (ledger timing)
+- **Seller payout versus chargeback window** (ledger timing)
 - **Search ranking gaming** (trust/abuse)
 
 Design for **eventual consistency** with explicit user-visible states — not one giant ACID transaction across Stripe + Postgres + search index.
@@ -128,7 +128,7 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 
 - **Single merchant store** — Shopify/WooCommerce; skip two-sided payout complexity.
 - **Classifieds (no payment on platform)** — trust/messaging only; narrower scope.
-- **Real-time auction without ops** — sniping, shill bidding need dedicated fraud team.
+- **Real-time auction without operations** — sniping, shill bidding need dedicated fraud team.
 
 ---
 

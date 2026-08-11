@@ -76,7 +76,7 @@ chmod +x ~/.xsession
 # LightDM: choose "i3" or "default xsession" in greeter session menu
 ```
 
-**Force X11 vs Wayland (GNOME greeter):** gear icon → "GNOME on Xorg" vs "GNOME".
+**Force X11 versus Wayland (GNOME greeter):** gear icon → "GNOME on Xorg" versus "GNOME".
 
 **Disable DM for headless server:**
 
@@ -111,7 +111,7 @@ cat ~/.xsession-errors
 > [!WARNING]
 > **Editing default-display-manager without disable/enable** — two DMs fighting for VT — flicker, lockout.
 
-- **Auto-login** — convenience vs physical security; LightDM `autologin-user=` in config drop-in.
+- **Auto-login** — convenience versus physical security; LightDM `autologin-user=` in configuration drop-in.
 - **Remote servers** — DM wastes RAM; use multi-user.target.
 
 ## When NOT to use

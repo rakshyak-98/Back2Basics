@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Insert breakpoints (software INT or hardware). On hit, freeze thread, map PC → source via debug info/sourcemaps, show frames/vars, then continue/step.
+**Say it in one breath:** Insert breakpoints (software INT or hardware). On hit, freeze thread, map PC → source via debug information/sourcemaps, show frames/variables, then continue/step.
 
 ```txt
 run → hit BP → inspect → step/continue

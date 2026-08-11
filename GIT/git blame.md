@@ -113,4 +113,4 @@ VS Code / Cursor: GitLens or built-in blame gutter
 
 ## Related
 
-[[git rebase]] · [[git error]] · [[git worktree]] · [[git ssh config]]
+[[git rebase]] · [[git error]] · [[git worktree]] · [[git ssh configuration]]

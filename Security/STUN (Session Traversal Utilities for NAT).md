@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Your app sends a tiny UDP request to a STUN server; the reply contains your **server-reflexive** address (public IP:port as seen outside the NAT). You share that via signaling; peers try to punch through. STUN does **not** carry media.
+**Say it in one breath:** Your application sends a tiny UDP request to a STUN server; the reply contains your **server-reflexive** address (public IP:port as seen outside the NAT). You share that via signaling; peers try to punch through. STUN does **not** carry media.
 
 ```txt
 Client (private 192.168.1.10:4000)

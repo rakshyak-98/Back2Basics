@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted app logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
+**WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted application logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
 
 ```txt
 Browser A                    Signaling server                 Browser B
@@ -135,7 +135,7 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 
 - **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
 - **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
-- **Unauthenticated public rooms** — toll fraud / scraping; always auth.
+- **Unauthenticated public rooms** — toll fraud / scraping; always authentication.
 
 ---
 

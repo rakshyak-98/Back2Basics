@@ -17,7 +17,7 @@ Subsets of n elements:             2^n
 Permutations of n distinct:        n!
 ```
 
-Always verify: **distinct vs identical**, **ordered vs unordered**, **contiguous vs any subsequence**.
+Always verify: **distinct versus identical**, **ordered versus unordered**, **contiguous versus any subsequence**.
 
 ## Standard config / commands
 

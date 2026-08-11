@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Change the app to read both shapes, backfill, then drop the old field — expand/contract, not big-bang.
+**Say it in one breath:** Change the application to read both shapes, backfill, then drop the old field — expand/contract, not big-bang.
 
 ```txt
 1 deploy dual-read/write → 2 migrate docs → 3 remove old path

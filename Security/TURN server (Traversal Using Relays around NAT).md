@@ -53,7 +53,7 @@ const pc = new RTCPeerConnection({
 })
 ```
 
-Ops checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limited credentials, monitor relay bandwidth.
+operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limited credentials, monitor relay bandwidth.
 
 ---
 

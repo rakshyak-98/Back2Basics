@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Default under App Router is a Server Component. Crossing into hooks/events/browser APIs requires a Client Component boundary (`"use client"`).
+**Say it in one breath:** Default under application Router is a Server Component. Crossing into hooks/events/browser APIs requires a Client Component boundary (`"use client"`).
 
 ```txt
 Server Component ──props (serializable)──► Client Component

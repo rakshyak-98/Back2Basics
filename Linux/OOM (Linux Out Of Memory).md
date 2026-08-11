@@ -92,7 +92,7 @@ crictl inspect <container-id> | jq .info.runtimeSpec.linux.resources.memory
 2. **`oom_score_adj`** — protect infra daemons; never set database to -1000 on shared nodes without understanding swapless starvation.
 3. **Swap** — delays global OOM; can hide pressure (latency cliff). Containers often run swapless by design.
 4. **`memory.high` + pressure** — throttle before kill (v2 + systemd-oomd).
-5. **App fixes** — leaks, unbounded caches, fork bombs.
+5. **application fixes** — leaks, unbounded caches, fork bombs.
 
 ## Triage (when things break)
 
@@ -109,11 +109,11 @@ crictl inspect <container-id> | jq .info.runtimeSpec.linux.resources.memory
 **Incident playbook (first 10 minutes):**
 
 1. **Confirm OOM** — `dmesg -T | tail -100`, not just “process gone”.
-2. **Identify victim + constraint** — global vs cgroup (`oom-kill:constraint=...` in dmesg).
+2. **Identify victim + constraint** — global versus cgroup (`oom-kill:constraint=...` in dmesg).
 3. **Find hog** — `ps -eo pid,user,rss,cmd --sort=-rss | head -20`.
 4. **Stabilize** — restart victim with limit; optionally `echo 3 > /proc/sys/vm/drop_caches` **only** if you know cache pressure (never substitute for fixing hog).
 5. **Protect blast radius** — `MemoryMax` on slice; move critical workloads; adjust `oom_score_adj`.
-6. **Post-incident** — graph RSS vs limit; enable OOM metrics (cAdvisor, node_exporter `node_vmstat_oom_kill`).
+6. **Post-incident** — graph RSS versus limit; enable OOM metrics (cAdvisor, node_exporter `node_vmstat_oom_kill`).
 
 ## Gotchas
 
@@ -130,7 +130,7 @@ crictl inspect <container-id> | jq .info.runtimeSpec.linux.resources.memory
 
 ## When NOT to use
 
-- **“Just add swap” as sole fix for prod OOM** — swaps latency for survival; databases and latency-sensitive services suffer.
+- **“Just add swap” as sole fix for production OOM** — swaps latency for survival; databases and latency-sensitive services suffer.
 - **Disabling OOM killer** — `panic_on_oom=2` panics host; `oom_kill_allocating_task` is niche — understand before tuning.
 - **Treating `free -m` zero as emergency** — Linux uses RAM for cache; watch `MemAvailable`.
 

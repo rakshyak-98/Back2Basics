@@ -95,7 +95,7 @@ grep Dirty /proc/meminfo
 
 ## When NOT to use
 
-Do not mirror driver flag semantics in app-level enums unless you own the full queue protocol — prefer explicit state enums in your domain layer and translate at the ioctl boundary.
+Do not mirror driver flag semantics in application-level enums unless you own the full queue protocol — prefer explicit state enums in your domain layer and translate at the ioctl boundary.
 
 ---
 

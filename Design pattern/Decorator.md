@@ -17,7 +17,7 @@ MetaClient
             └─ RawMetaClient
 ```
 
-Callers still see `MetaClient`. Order of wrapping matters (retry outside logging vs inside).
+Callers still see `MetaClient`. Order of wrapping matters (retry outside logging versus inside).
 
 | Role | Responsibility |
 |------|----------------|
@@ -85,7 +85,7 @@ Favor decorator stacks for cross-cutting concerns. Subclassing for every combina
 > [!WARNING]
 > Decorator that changes return semantics (swallows errors, mutates payload) surprises callers — keep additive and transparent.
 
-- Proxy vs Decorator — Proxy controls *access* (lazy, auth, caching); Decorator *adds* behavior. Same structure, different intent. See [[Design pattern/Proxy]].
+- Proxy versus Decorator — Proxy controls *access* (lazy, authentication, caching); Decorator *adds* behavior. Same structure, different intent. See [[Design pattern/Proxy]].
 - Do not put domain mapping in Decorator — [[Design pattern/Adapter]].
 
 ## When NOT to use

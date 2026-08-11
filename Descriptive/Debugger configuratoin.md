@@ -70,7 +70,7 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 ## When NOT to use
 
 - **One-line print in a script** — logging may be faster.
-- **Prod live traffic** — prefer tracing; debugger pauses freeze work.
+- **production live traffic** — prefer tracing; debugger pauses freeze work.
 
 ## Related
 

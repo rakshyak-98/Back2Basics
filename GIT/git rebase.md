@@ -1,4 +1,4 @@
-[[git error]] [[git worktree]] [[git ssh config]] [[INDEX]]
+[[git error]] [[git worktree]] [[git ssh configuration]] [[INDEX]]
 
 # git rebase
 
@@ -19,7 +19,7 @@ After rebase onto main:
 
 **Rebase** copies each commit as a new hash (`x'`, `y'`) with updated parent. Old commits become unreachable (until reflog expires).
 
-**vs merge:** merge preserves branch topology + merge commit; rebase rewrites your local work to look like it was built on latest main.
+**versus merge:** merge preserves branch topology + merge commit; rebase rewrites your local work to look like it was built on latest main.
 
 **Golden rule:** never rebase commits **already pushed** that others may have pulled — unless team explicitly uses `git pull --rebase` culture and coordinates force-push.
 
@@ -123,4 +123,4 @@ git rebase -i --autosquash origin/main
 
 ## Related
 
-[[git error]] · [[git blame]] · [[git worktree]] · [[git ssh config]] · [[Terraform workflow]]
+[[git error]] · [[git blame]] · [[git worktree]] · [[git ssh configuration]] · [[Terraform workflow]]

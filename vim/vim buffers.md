@@ -68,4 +68,4 @@ nnoremap <leader>b :ls<CR>:b
 
 ## Related
 
-[[netrw file explorer]] [[Linux/CLI]] [[editor config]]
+[[netrw file explorer]] [[Linux/CLI]] [[editor configuration]]

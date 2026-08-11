@@ -35,9 +35,9 @@ read(fd, buf, n)
 
 ### How the story goes
 
-1. **App** calls libc (`open`, `read`, `mmap`, `clone`, …).
-2. **Trap** — arch-specific syscall instruction + number + args in registers.
-3. **Kernel** looks up handler, checks creds/limits, does work.
+1. **application** calls libc (`open`, `read`, `mmap`, `clone`, …).
+2. **Trap** — arch-specific syscall instruction + number + arguments in registers.
+3. **Kernel** looks up handler, checks credentials/limits, does work.
 4. **Return** — success value or negative errno translated by libc.
 5. **Heavy paths** — blocking syscalls sleep; non-blocking return `EAGAIN` ([[non-blocking]], [[Epoll]]).
 
@@ -109,7 +109,7 @@ ausyscall --dump 2>/dev/null || cat /usr/include/asm/unistd_64.h | head
 
 ## When NOT to use
 
-- **Don’t raw-syscall from app code without need** — use libc/OS APIs; numbers differ by arch.
+- **Don’t raw-syscall from application code without need** — use libc/OS APIs; numbers differ by arch.
 - **Don’t `sync()` in a hot request path** — global flush; use targeted [[fsync]] / group commit.
 - **Don’t block the only event-loop thread on long syscalls** — offload or go non-blocking ([[Blocking]], [[Blocking Vs Non-Blocking]]).
 

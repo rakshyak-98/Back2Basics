@@ -70,7 +70,7 @@ sudo userdel -r alice         # remove home too
 # u=owner  g=group  o=others   — chmod/chown
 ```
 
-Useful groups: `sudo` (admin), `docker`, `adm` (logs), `plugdev`, `lpadmin`.
+Useful groups: `sudo` (administrator), `docker`, `adm` (logs), `plugdev`, `lpadmin`.
 
 ---
 
@@ -102,7 +102,7 @@ Useful groups: `sudo` (admin), `docker`, `adm` (logs), `plugdev`, `lpadmin`.
 ## When NOT to use
 
 - **Central IdP** — use SSSD/LDAP; keep local root break-glass only.
-- **App tenancy** — application users ≠ `/etc/passwd` rows.
+- **application tenancy** — application users ≠ `/etc/passwd` rows.
 - **Containers** — prefer numeric USER in image; don’t manage host users per pod.
 
 ---

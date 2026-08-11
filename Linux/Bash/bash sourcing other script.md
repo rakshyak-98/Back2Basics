@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Sourcing** executes commands in the **current shell context**. Exported vars, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.
+**Sourcing** executes commands in the **current shell context**. Exported variables, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.
 
 ```
 . lib/utils.sh   →  functions available immediately
@@ -65,14 +65,14 @@ deploy_app() {
 }
 ```
 
-**Optional config overlay:**
+**Optional configuration overlay:**
 
 ```bash
 CONFIG="${CONFIG:-/etc/myapp/config.sh}"
 [[ -f "$CONFIG" ]] && source "$CONFIG"
 ```
 
-**systemd ExecStartPre sourcing env:**
+**systemd ExecStartPre sourcing environment:**
 
 ```ini
 [Service]
@@ -118,7 +118,7 @@ _UTILS_SH_LOADED=1
 > **`exit` in sourced file** — kills parent script/shell. Libraries should `return` (only valid inside sourced context or functions).
 
 - **shellcheck `SC1090/1091`** — dynamic source path; annotate or structure known paths.
-- **Symlinks** — `BASH_SOURCE` vs `readlink -f` for real path when symlinks involved.
+- **Symlinks** — `BASH_SOURCE` versus `readlink -f` for real path when symlinks involved.
 
 ## When NOT to use
 

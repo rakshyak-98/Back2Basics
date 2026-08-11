@@ -125,7 +125,7 @@ timeout 10 ffplay rtmp://ingest/live/key
 
 - **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
 - **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
-- **Multi-tenant open ingest without auth** — bot publish / abuse.
+- **Multi-tenant open ingest without authentication** — bot publish / abuse.
 
 ---
 

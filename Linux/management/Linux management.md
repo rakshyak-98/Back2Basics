@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** desired state via config management; host tools for break-glass; measure before and after changes.
+**Say it in one breath:** desired state via configuration management; host tools for break-glass; measure before and after changes.
 
 ```txt
 desired state (CM/image)

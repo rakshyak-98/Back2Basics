@@ -8,7 +8,7 @@
 
 ## Mental model
 
-tmux maintains a scrollback per pane. **Copy-mode** enters a vi/emacs-like overlay to move, select, and yank text into a **paste buffer** (internal register). From there, paste into pane (`paste-buffer`) or sync to system clipboard (config-dependent). Copy-mode is not the same as shell `Ctrl+Shift+C`.
+tmux maintains a scrollback per pane. **Copy-mode** enters a vi/emacs-like overlay to move, select, and yank text into a **paste buffer** (internal register). From there, paste into pane (`paste-buffer`) or sync to system clipboard (configuration-dependent). Copy-mode is not the same as shell `Ctrl+Shift+C`.
 
 ```
 Pane scrollback → copy-mode → selection → paste buffer → paste / save-buffer
@@ -73,7 +73,7 @@ bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection c
 
 ## When NOT to use
 
-- Don't copy secrets from prod logs into shared clipboard on untrusted machines.
+- Don't copy secrets from production logs into shared clipboard on untrusted machines.
 - Don't rely on copy-mode in fully mouse-driven workflows without learning prefix keys — you'll fight the tool.
 
 ## Related

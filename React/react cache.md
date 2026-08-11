@@ -72,7 +72,7 @@ useMutation({
 ## When NOT to use
 
 - **Client-only UI state** — `useState` / Zustand, not Query cache.
-- **Auth secrets** — don’t persist sensitive query data to `localStorage`.
+- **authentication secrets** — don’t persist sensitive query data to `localStorage`.
 
 ---
 

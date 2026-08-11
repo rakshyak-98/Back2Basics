@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** `history.pushState` / `replaceState` change the URL and stash a state object; Back/Forward fires `popstate`. The browser does **not** keep a full app snapshot of every visit unless you put it in `state` (and size is limited).
+**Say it in one breath:** `history.pushState` / `replaceState` change the URL and stash a state object; Back/Forward fires `popstate`. The browser does **not** keep a full application snapshot of every visit unless you put it in `state` (and size is limited).
 
 ```txt
 pushState → stack grows
@@ -72,7 +72,7 @@ window.addEventListener('popstate', (e) => {
 
 - **Full document navigations** — normal links are fine.
 - **Storing huge caches** — IndexedDB / Cache API.
-- **Auth tokens in history.state** — security smell; use memory/httpOnly cookies.
+- **authentication tokens in history.state** — security smell; use memory/httpOnly cookies.
 
 ---
 

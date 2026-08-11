@@ -8,18 +8,10 @@
 
 ## Mental model
 
-**Say it in one breath:** Firebase messaging — plain job, how I run it, how I know it’s broken.
+**Say it in one breath:** Firebase messaging — the current code has a logic flaw: it limits the token list to 500 (slice(0, 500)) but does not handle tokens beyond 500 or split
 
+[Firebase Multicast Message](https://firebase.google.com/docs/reference/administrator/java/reference/com/google/firebase/messaging/MulticastMessage)
 
-[Firebase Multicast Message](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Firebase messaging** | Core idea of this note | “I can explain Firebase messaging without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

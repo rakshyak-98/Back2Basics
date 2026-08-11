@@ -23,7 +23,7 @@ Packager / transcoder
    Encrypt segments (CENC) + write ContentProtection / #EXT-X-KEY
 ```
 
-Spec: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX is the **key delivery document** for packaging — not the player license token ([[streaming license]]).
+specification: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX is the **key delivery document** for packaging — not the player license token ([[streaming license]]).
 
 ### Interview map (words you can say)
 
@@ -51,7 +51,7 @@ Spec: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX is the **k
 
 ## Standard config / commands
 
-Conceptual flow (vendor URL/auth vary):
+Conceptual flow (vendor URL/authentication vary):
 
 ```bash
 # 1) Fetch CPIX for content id (auth headers per vendor)

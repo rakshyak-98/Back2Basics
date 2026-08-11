@@ -91,7 +91,7 @@ npm install minimist yargs commander
 ## When NOT to use
 
 - Don't put 50-line bash in scripts — extract to `scripts/` shell file.
-- Don't use npm scripts as a process manager in prod — use [[pm2/ecosystem]] or systemd.
+- Don't use npm scripts as a process manager in production — use [[pm2/ecosystem]] or systemd.
 
 ## Related
 

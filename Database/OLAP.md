@@ -16,7 +16,7 @@ OLTP (Postgres/MySQL) ──ETL/CDC──► OLAP (BigQuery, Snowflake, ClickHou
     source of truth                      dashboards, ML features
 ```
 
-Running heavy OLAP on primary OLTP **without isolation** is a classic prod outage ([[Database mistakes]]).
+Running heavy OLAP on primary OLTP **without isolation** is a classic production outage ([[Database mistakes]]).
 
 ## Standard config / commands
 
@@ -99,7 +99,7 @@ WHERE o.updated_at >= :watermark;
 ## When NOT to use
 
 - **Operational reads in user request path** — use OLTP + cache.
-- **OLAP engine as primary app DB** — poor fit for high-frequency row updates ([[OLTP]]).
+- **OLAP engine as primary application DB** — poor fit for high-frequency row updates ([[OLTP]]).
 - **Premature Snowflake for 10GB** — replica + indexed aggregates may suffice ([[Data access patterns]]).
 
 ## Related

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Functions are objects: assign to variables, pass as args, return from functions. Dart is single-threaded event-loop async ([[flutter]] isolates for parallelism).
+Functions are objects: assign to variables, pass as arguments, return from functions. Dart is single-threaded event-loop async ([[flutter]] isolates for parallelism).
 
 ```
 Top-level fn

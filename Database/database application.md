@@ -57,7 +57,7 @@ Align `max` with DB `max_connections / app_instances` ([[connection pooling]]).
 
 - **Eager load** associations needed in list endpoints — avoid N+1.
 - **Pagination**: keyset (`WHERE id > ? ORDER BY id LIMIT`) over `OFFSET` on huge tables.
-- **Migrations own schema** — not `sync()` in prod (Sequelize/TypeORM).
+- **Migrations own schema** — not `sync()` in production (Sequelize/TypeORM).
 
 ### Read vs write routing
 
@@ -98,7 +98,7 @@ Replica lag → stale reads; never read-your-writes on replica for UX-critical p
 
 - **Fat models with HTTP and SQL mixed** — splits testability and encourages circular imports.
 - **Database as message queue** — use proper broker; SKIP LOCKED patterns are last resort.
-- **Cross-DB joins in app** — integrate at service layer or warehouse.
+- **Cross-DB joins in application** — integrate at service layer or warehouse.
 
 ## Related
 

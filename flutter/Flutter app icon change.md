@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Flutter app icon change — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Flutter application icon change — I can explain the job, the configuration, and the top failure without jargon.
 
 
 Instructions for replacing the default Flutter launcher icon with the green recycling trash icon (`WasteManagement.png`).

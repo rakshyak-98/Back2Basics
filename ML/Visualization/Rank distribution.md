@@ -1,4 +1,4 @@
-[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/predicated vs actual plot]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/predicated versus actual plot]]
 
 # Rank distribution
 
@@ -27,7 +27,7 @@ Failure modes:
 | Train vs serve mismatch | Different preprocessing or missing features |
 | Heavy tail | Few extreme scores dominate top-k |
 
-Compare **train, val, and prod** score distributions — drift here precedes [[Normalized Discounted Cumulative Gain (NDCG)]] drops.
+Compare **train, value, and production** score distributions — drift here precedes [[Normalized Discounted Cumulative Gain (NDCG)]] drops.
 
 ---
 
@@ -101,4 +101,4 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 
 ## Related
 
-[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated vs actual plot]] · [[rank prediction]]
+[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated versus actual plot]] · [[rank prediction]]

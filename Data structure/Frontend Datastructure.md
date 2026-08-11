@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Browser JS gives you **Map/Set** (O(1) avg keyed ops), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
+Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
 
 ```txt
 UI pattern              → Structure

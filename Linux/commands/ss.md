@@ -29,14 +29,14 @@ Client ──SYN──► LISTEN (ss -lnt)
 | Word | Plain meaning | Say in interview |
 |------|---------------|------------------|
 | **ss** | Socket stats from kernel | “ss is the modern netstat — ask the kernel who’s listening.” |
-| **LISTEN / ESTAB** | Socket states | “CLOSE-WAIT means the app forgot to close.” |
-| **Recv-Q / Send-Q** | Unread / unacked bytes | “High Recv-Q = slow app; high Send-Q = slow peer/net.” |
-| **-luntp** | Listen, UDP, numeric, TCP, process | “ss -luntp is my first port inventory.” |
-| **TIME-WAIT** | Post-close hold | “TIME-WAIT storms eat ephemeral ports.” |
+| **LISTEN / ESTABLISHED** | TCP socket states | "CLOSE-WAIT means the application forgot to call close on the socket." |
+| **Recv-Q / Send-Q** | Unread bytes in receive queue / unacknowledged bytes in send queue | "High receive queue = slow application; high send queue = slow network or peer." |
+| **-luntp** | Listen sockets, UDP, numeric addresses, TCP, show owning process | “ss -luntp is my first port inventory.” |
+| **TIME-WAIT** | TCP state after local close; kernel holds socket about two minutes | "Many TIME-WAIT sockets can exhaust ephemeral client ports." |
 
 ## Standard config / commands
 
-**Flags mnemonic:** `-l` listen, `-a` all (listen + established), `-n` numeric, `-t` TCP, `-u` UDP, `-p` process, `-i` TCP info.
+**Flags mnemonic:** `-l` listen, `-a` all (listen + established), `-n` numeric, `-t` TCP, `-u` UDP, `-p` process, `-i` TCP information.
 
 ```bash
 # Baseline inventory (your old one-liner, expanded)
@@ -103,7 +103,7 @@ ss -tan state close-wait
 
 1. `ss -s` — synrecv count, timewait, orphaned.
 2. `ss -tan state syn-recv` — stuck handshakes?
-3. `ss -tan state close-wait -p` — local app not closing?
+3. `ss -tan state close-wait -p` — local application not closing?
 4. `ss -ti` on affected ESTAB — retrans, rtt, cwnd.
 
 ```bash
@@ -119,7 +119,7 @@ ss -o state established '( dport = :8080 )'   # timer=keepalive detail
 
 - **Filters use ss syntax** — `ss filter` not grep; wrong filter silently returns empty.
 - **`ss -s` “TCP: inuse X orphaned Y”** — orphaned = no socket owner in userspace; often mid-close or namespace edge cases.
-- **Containers:** run `ss` **inside** the net namespace (`nsenter`, `docker exec`) — host view shows veth, not app’s localhost.
+- **Containers:** run `ss` **inside** the net namespace (`nsenter`, `docker exec`) — host view shows veth, not application’s localhost.
 - **IPv6 bracket notation** — filters may need `( sport = :443 )` form for clarity.
 
 ## When NOT to use

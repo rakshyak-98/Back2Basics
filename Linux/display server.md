@@ -61,7 +61,7 @@ xauth list       # see [[x11]] — cookies for that display
 echo $WAYLAND_DISPLAY   # wayland-0
 ```
 
-**When switching stacks:** logout → gear icon on greeter → "GNOME on Xorg" vs "GNOME" — see [[Linux display manager]].
+**When switching stacks:** logout → gear icon on greeter → "GNOME on Xorg" versus "GNOME" — see [[Linux display manager]].
 
 **Remote GUI:** SSH `-X`/`-Y` forwards to **X11** display server on your laptop — Wayland forwarding is limited; often need XWayland on remote or pure CLI.
 

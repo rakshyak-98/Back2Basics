@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Transpile/bundle if TypeScript, install prod deps, run `node dist/server.js` behind a process manager. Express itself has no unique build step.
+**Say it in one breath:** Transpile/bundle if TypeScript, install production deps, run `node dist/server.js` behind a process manager. Express itself has no unique build step.
 
 ```txt
 src ──tsc/bundler──► dist ──node──► listen :PORT

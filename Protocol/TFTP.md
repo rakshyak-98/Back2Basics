@@ -97,7 +97,7 @@ TFTP_OPTIONS="--secure"
 ## When NOT to use
 
 - **User file sharing or secrets** — use [[SCP (Secure Copy Protocol)]], [[SSH]], or HTTPS.
-- **WAN / untrusted networks** — encryption and auth are mandatory elsewhere.
+- **WAN / untrusted networks** — encryption and authentication are mandatory elsewhere.
 - **Large modern payloads when you control the client** — HTTP(S) or full [[ftp]]/SFTP is faster and safer.
 
 ---

@@ -42,14 +42,6 @@ var Universe
 	Universe = function(){
 		if(instance){
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Singleton** | Core idea of this note | “I can explain Singleton without jargon.” |
-| **scalability** | Handle more load | “Scale reads and writes differently.” |
-| **availability** | Stay up on failure | “Redundancy plus health checks.” |
-| **consistency** | Same data everywhere | “Pick C or A under partition.” |
 
 ---
 

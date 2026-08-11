@@ -17,7 +17,7 @@ blocking thread:  read() ──sleep──► data ──► return
 non-blocking:     read() ──► EAGAIN ──► epoll_wait ──► read() ──► data
 ```
 
-**Level-triggered vs edge-triggered (epoll):**
+**Level-triggered versus edge-triggered (epoll):**
 - **LT (default):** fd stays "ready" until you drain — forgiving.
 - **ET:** notify once on transition — must read until `EAGAIN` or miss events.
 

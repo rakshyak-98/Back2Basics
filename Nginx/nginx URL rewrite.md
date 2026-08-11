@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** nginx URL rewrite is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** nginx URL rewrite — what happens when user goes to /about
 
 |Nginx directive|What it actually does|When your browser URL becomes|Real folder on disk|
 |---|---|---|---|
@@ -19,22 +18,15 @@
 |`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
 |`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **nginx URL rewrite** | Core idea of this note | “I can explain nginx URL rewrite without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
-```bash
-# status
-# check version, auth, and recent changes
+```nginx
+rewrite ^/old/(.*)$ /new/$1 permanent;
+location /api/ {
+    rewrite ^/api/(.*)$ /$1 break;
+    proxy_pass http://backend;
+}
 ```
 
 ---
@@ -43,22 +35,24 @@
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Redirect loop | `rewrite` plus `try_files` interaction | Test with `curl -I`; simplify rules |
+| Query string dropped | rewrite without `$args` | Append `$is_args$args` when needed |
+| 301 when expecting internal | `permanent` flag | Use `last` or `break` for internal rewrite |
+| Wrong backend path | `proxy_pass` URI part | With URI in proxy_pass, location prefix is replaced |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> `rewrite ... permanent` sends **301** to the client — browser will cache it.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Prefer `return 301` for simple host or scheme redirects — clearer than rewrite.
+
 
 ---
 

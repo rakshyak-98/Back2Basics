@@ -8,7 +8,7 @@
 
 ## Mental model
 
-NGINX is modular C. The **core** owns memory pools, strings, and config parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.
+NGINX is modular C. The **core** owns memory pools, strings, and configuration parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.
 
 ```
 nginx/
@@ -70,7 +70,7 @@ Third-party modules typically live under `modules/` or are compiled via `--add-m
 > [!WARNING]
 > NGINX **never** blocks the worker on disk I/O in the hot path — if your custom module calls synchronous `read()` on large files inside the event callback, you stall every connection on that worker.
 
-- **Master vs worker:** only workers run the event loop; master handles signals and re-exec — don't debug worker bugs in master code paths.
+- **Master versus worker:** only workers run the event loop; master handles signals and re-execute — don't debug worker bugs in master code paths.
 - **Memory:** almost everything uses `ngx_pool_t` from `core/` — freeing individual allocations is rare; pool destroy at request end.
 - **Version skew:** distro packages (`nginx-extras`) may patch paths — always match headers to the binary you run.
 

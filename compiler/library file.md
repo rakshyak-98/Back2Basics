@@ -121,8 +121,8 @@ pkg-config --libs --cflags libssl
 ## When NOT to use
 
 - **Pure managed runtimes (JVM, Node, Python wheels)** — use package manager / manylinux wheels unless writing native extensions.
-- **Static everything on glibc Linux servers** — ops and security updates harder; shared distro libs preferred.
-- **Vendor `.so` without ABI pin** — upgrade host OS breaks app; containerize or bundle exact SONAME.
+- **Static everything on glibc Linux servers** — operations and security updates harder; shared distro libs preferred.
+- **Vendor `.so` without ABI pin** — upgrade host OS breaks application; containerize or bundle exact SONAME.
 
 ---
 

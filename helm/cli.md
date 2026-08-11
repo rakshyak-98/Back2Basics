@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** cli is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** cli — helm repository add <namespace> <url> <flag>;
 
 ```bash
 helm repo add <namespace> <url> <flag>;
@@ -28,22 +27,14 @@ helm upgrade my-ingress ingress-nginx/ingress-nginx -n ingress-nginx;
 helm uninstall my-ingress -n ingress-nginx;
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **cli** | Core idea of this note | “I can explain cli without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+helm list -A
+helm status my-release -n prod
+helm get manifest my-release
+helm template my-release ./chart --debug
 ```
 
 ---
@@ -52,22 +43,23 @@ helm uninstall my-ingress -n ingress-nginx;
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| cannot re-use a name that is still in use | failed release not purged | `helm uninstall`; or `helm history` + rollback |
+| connection refused to Kubernetes | kubeconfig context | `kubectl cluster-info`; fix `KUBECONFIG` |
+| chart not found | repo not added | `helm search repo` after `helm repo add` |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> `helm template` renders locally — it does not prove the cluster will accept resources.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not use `helm install` in production without version-pinned charts in CI.
+
 
 ---
 

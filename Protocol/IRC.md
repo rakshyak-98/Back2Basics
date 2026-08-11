@@ -29,9 +29,9 @@ Client ──TCP 6667/6697──► IRC server ◄──► other servers (same 
 ### How the story goes
 
 1. Client opens TCP (often TLS on 6697).
-2. Registers nick, optional SASL/NickServ auth.
+2. Registers nick, optional SASL/NickServ authentication.
 3. `JOIN #channel` → receives traffic for that room.
-4. Ops moderate with modes (`+o`, bans); services handle accounts.
+4. operations moderate with modes (`+o`, bans); services handle accounts.
 
 ---
 

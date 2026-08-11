@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Clear task + constraints + context beats clever wording; treat prompts as versioned config.
+**Say it in one breath:** Clear task + constraints + context beats clever wording; treat prompts as versioned configuration.
 
 ```txt
 [system rules] + [context] + [user task] → model → output

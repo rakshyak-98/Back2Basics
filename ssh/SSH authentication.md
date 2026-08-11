@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** SSH authentication is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** SSH authentication — decrypting the signed challenge with the public key.
 
 #### The verification process involves:
 - **Decrypting** the signed challenge with the public key.
@@ -19,22 +18,13 @@
 SSH key-based authentication is built on **public-key cryptography**, which allows for secure, passwordless authentication. The core idea is that the client proves its identity to the server by signing a challenge with its private key, and the server verifies the signature using the client's public key.
 Here’s how the **key authentication process** works step-by-step:
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **SSH authentication** | Core idea of this note | “I can explain SSH authentication without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+ssh -v user@host                 # verbose auth debug
+ssh-keygen -lf ~/.ssh/id_ed25519.pub
+cat ~/.ssh/authorized_keys
 ```
 
 ---
@@ -43,22 +33,24 @@ Here’s how the **key authentication process** works step-by-step:
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Publickey denied | Key not in authorized_keys | Match `.pub` fingerprint on server |
+| Wrong signature algorithm | Old server; new key type | Use ed25519 or rsa-sha2; check server `PubkeyAcceptedAlgorithms` |
+| Keyboard-interactive loop | PAM or 2FA module | Complete second factor; check server logs |
+| Certificate expired | SSH certificate auth | Re-sign host/user cert with CA |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Server chooses allowed methods — client cannot force publickey if the server disables it.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not share private keys between users or machines.
+
 
 ---
 

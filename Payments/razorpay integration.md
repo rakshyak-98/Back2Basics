@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** razorpay integration — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** razorpay integration — user clicks "Pay" on the Frontend.
 
 ### **The High-Level Architecture Flow**
 1. **User clicks "Pay"** on the Frontend.
@@ -23,18 +22,11 @@
 9. **(Safety Net) Razorpay Webhook fires** to your Backend in case the user closed their browser before Step 7.
 ### Workflow
 1. **Customer Places an Order**
-- Customer visits website/app
+- Customer visits website/application
 - Selects items to purchase
 - Clicks pay button
 - Creates a `transaction_id` or `checkout_id`
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **razorpay integration** | Core idea of this note | “I can explain razorpay integration without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -8,19 +8,11 @@
 
 ## Mental model
 
-**Say it in one breath:** Python Package Setup — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Python Package Setup — this guide explains how to turn the python/ folder into an installable package for use in other projects.
 
 This guide explains how to turn the `python/` folder into an installable package for use in other projects.
 The sample code under `python/src/` is currently a flat set of scripts. To reuse it as a library, follow the steps below.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Python Package Setup** | Core idea of this note | “I can explain Python Package Setup without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

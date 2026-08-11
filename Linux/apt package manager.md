@@ -1,4 +1,4 @@
-[[Linux]] [[apt config]] [[APT policy]] [[gpg]]
+[[Linux]] [[apt configuration]] [[APT policy]] [[gpg]]
 
 # apt package manager
 
@@ -54,7 +54,7 @@ sudo apt install build-essential   # gcc, make
 sudo apt install --reinstall pkg   # replace corrupted files
 ```
 
-Third-party repo sketch (Docker-style):
+Third-party repository sketch (Docker-style):
 
 ```bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
@@ -113,7 +113,7 @@ less /var/log/apt/history.log
 
 ## When NOT to use
 
-- **Language app deps inside a project** — npm/pip/cargo with lockfiles; system packages for *system* tools.
+- **Language application deps inside a project** — npm/pip/cargo with lockfiles; system packages for *system* tools.
 - **Immutable images** — bake packages in the image build; don’t `apt upgrade` live pets without policy.
 - **RPM distros** — dnf/yum.
 
@@ -121,4 +121,4 @@ less /var/log/apt/history.log
 
 ## Related
 
-[[apt config]] [[APT policy]] [[gpg]] [[Package Manager]] [[Linux]]
+[[apt configuration]] [[APT policy]] [[gpg]] [[Package Manager]] [[Linux]]

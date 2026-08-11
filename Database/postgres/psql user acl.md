@@ -75,7 +75,7 @@ GRANT CONNECT ON DATABASE drm_streaming TO app_role;
 
 ## When NOT to use
 
-- **App-level multi-tenant row filters** — ACL is coarse (DB/schema/table), not row-level alone (use RLS).
+- **application-level multi-tenant row filters** — ACL is coarse (DB/schema/table), not row-level alone (use RLS).
 - **Replacing secrets rotation** — ACL doesn’t rotate passwords.
 
 ---

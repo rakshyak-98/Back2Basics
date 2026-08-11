@@ -115,7 +115,7 @@ trap cleanup EXIT
 > **Naming collision** — function `ls` shadows binary. Prefix with `_` or namespace (`app::deploy` as name with colon).
 
 - **Recursive functions** — bash has no tail-call optimization; deep recursion blows stack.
-- **`$*` vs `$@`** — use `"$@"` for preserved word splitting on args.
+- **`$*` versus `$@`** — use `"$@"` for preserved word splitting on arguments.
 
 ## When NOT to use
 

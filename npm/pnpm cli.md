@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** pnpm cli — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** pnpm cli — pnpm approve-builds — is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
 
 `pnpm approve-builds` -> is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
 ```bash
@@ -20,13 +19,6 @@ Some npm packages execute scripts automatically during installation.
 - instead of blindly executing it, `pnpm` may block it and ask for approval.
 `pnpm approve-build` -> it opens interactive prompt to approve packages that are allowed to execute build/ install scripts. After approval, `pnpm` records the decision in your project configuration.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **pnpm cli** | Core idea of this note | “I can explain pnpm cli without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

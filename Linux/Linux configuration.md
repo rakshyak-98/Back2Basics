@@ -1,4 +1,4 @@
-[[Linux]] [[gsetting]] [[editor config]] [[X Desktop Group]]
+[[Linux]] [[gsetting]] [[editor configuration]] [[X Desktop Group]]
 
 # Linux configuration
 
@@ -71,11 +71,11 @@ dconf dump /org/gnome/ | head
 
 ## When NOT to use
 
-- **Ephemeral containers** — bake config at image build or inject env.
+- **Ephemeral containers** — bake configuration at image build or inject environment.
 - **Secrets in world-readable conf** — use tmpfs/agents/KMS.
 
 ---
 
 ## Related
 
-[[etc files]] [[system service unit files]] [[gsetting]] [[sysctl]] [[editor config]]
+[[etc files]] [[system service unit files]] [[gsetting]] [[sysctl]] [[editor configuration]]

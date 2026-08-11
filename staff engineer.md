@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** staff engineer — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** staff engineer — I can explain the job, the configuration, and the top failure without jargon.
 
 
 As a Staff Engineer with 30 years in the industry, I have seen technologies rise and fall, but the path to the "Staff-plus" level remains anchored in one truth: **Your value is no longer measured by your output, but by your impact on the output of others.**

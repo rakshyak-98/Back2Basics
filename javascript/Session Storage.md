@@ -26,7 +26,7 @@ Tab B (same origin) → separate sessionStorage (not shared)
 | **Cookie** | Configurable | Yes (auto) | ~4KB | HttpOnly mitigates JS read |
 | **Memory (React state)** | Page | No | RAM | Lost on refresh |
 
-**Not a session mechanism for auth** — the server doesn't see sessionStorage. Auth sessions use **HttpOnly Secure cookies** or **Bearer tokens** with explicit tradeoffs ([[JWT authentication]]).
+**Not a session mechanism for authentication** — the server doesn't see sessionStorage. authentication sessions use **HttpOnly Secure cookies** or **Bearer tokens** with explicit tradeoffs ([[JWT authentication]]).
 
 ---
 

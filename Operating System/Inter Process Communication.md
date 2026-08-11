@@ -118,7 +118,7 @@ ls -l /dev/shm
 
 - **Don’t use multi-process + shm for simple apps** — threads in one process may be enough ([[Thread]]).
 - **Don’t expose raw SysV shm to multi-tenant hosts** — easy to leak and hard to ACL; prefer supervised sockets.
-- **Don’t invent a new RPC** when HTTP/gRPC on UNIX/TCP already fits ops and tooling.
+- **Don’t invent a new RPC** when HTTP/gRPC on UNIX/TCP already fits operations and tooling.
 
 ---
 

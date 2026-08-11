@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** static file is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** static file — try_files — checks the filesystem for one or more paths in order.
 
 ### Nginx static file serving rule for a location
 ```nginx
@@ -27,22 +26,15 @@ location / {
 - If neither exists → return `404 Not Found`.
 - It **avoids unnecessary backend calls** — Nginx won’t forward these requests to PHP/Python/etc. unless they match a different location.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **static file** | Core idea of this note | “I can explain static file without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
-```bash
-# status
-# check version, auth, and recent changes
+```nginx
+location /assets/ {
+    alias /var/www/static/;
+    expires 30d;
+    add_header Cache-Control "public, immutable";
+}
 ```
 
 ---
@@ -51,22 +43,23 @@ location / {
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| 403 Forbidden | directory listing off; perms | `chmod` for nginx user; `index` directive |
+| Stale asset after deploy | browser cache | Cache-bust filenames; shorten `expires` on HTML |
+| Wrong MIME type | missing types block | `include mime.types;` |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Use `alias` for prefix locations — trailing slash on both `location` and `alias` matters.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not serve user-uploaded files from the same path as executable scripts.
+
 
 ---
 

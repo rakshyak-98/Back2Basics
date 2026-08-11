@@ -108,11 +108,11 @@ Armor = human-readable OpenPGP text. Dearmor = back to binary for `signed-by=` i
 ## When NOT to use
 
 - **TLS for HTTPS APIs** — certificates / ACME.
-- **SSH user auth** — [[SSH]] / [[Authentication command]].
+- **SSH user authentication** — [[SSH]] / [[Authentication command]].
 - **Password hashing for accounts** — `/etc/shadow` via `passwd`.
 
 ---
 
 ## Related
 
-[[Authentication command]] [[keyrings]] [[apt package manager]] [[apt config]] [[commands]]
+[[Authentication command]] [[keyrings]] [[apt package manager]] [[apt configuration]] [[commands]]

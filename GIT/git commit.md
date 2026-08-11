@@ -8,25 +8,18 @@
 
 ## Mental model
 
-**Say it in one breath:** git commit is infra/security tooling — least privilege, clear config, observable failures.
+**Say it in one breath:** git commit — snapshot of the index; the unit of Git history.
 
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **git commit** | Core idea of this note | “I can explain git commit without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+git add file.txt
+git commit -m "describe the change"
+git commit --amend --no-edit          # add to last commit, keep message
+git commit --amend -m "new message"
+git status
+git diff --cached                   # what will be committed
 ```
 
 ---
@@ -35,22 +28,24 @@
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Nothing to commit | `git status`; unstaged changes | `git add` first |
+| Commit rejected (hook) | `.git/hooks/pre-commit` output | Fix hook failure or `--no-verify` only if policy allows |
+| Wrong files committed | `git show --stat HEAD` | `git reset --soft HEAD~1` then re-stage |
+| Author/email wrong | `git config user.name`; `git config user.email` | Set locally or globally before commit |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> **Commit only stages what you added** — `git commit` does not pick up unstaged edits.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not commit secrets, build artifacts, or `.env` files — use `.gitignore`.
+
 
 ---
 

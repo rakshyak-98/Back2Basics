@@ -78,7 +78,7 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 
 - **`document.write`** in async scripts can destroy DOM — banned in modern perf guides.
 - **CSP** ([[Security/content security policy]]) breaks inline scripts unless nonce/hash.
-- **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for auth.
+- **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for authentication.
 - **`100vh`** includes mobile URL bar — use `dvh` where supported.
 
 ## When NOT to use

@@ -54,7 +54,7 @@ echo 1 | sudo tee /sys/bus/pci/rescan
 | ACS / IOMMU | VFIO / security isolation |
 | Power / ASPM | Latency vs watts |
 
-Generations (approx per-lane one-way): Gen3 ~1 GB/s, Gen4 ~2, Gen5 ~4, Gen6 ~8.
+Generations (approximately per-lane one-way): Gen3 ~1 GB/s, Gen4 ~2, Gen5 ~4, Gen6 ~8.
 
 ---
 

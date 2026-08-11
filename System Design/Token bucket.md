@@ -73,7 +73,7 @@ limit_req_zone $binary_remote_addr zone=one:10m rate=5r/s;
 
 - **Hard concurrency caps** — use semaphores/pools (in-flight limits).
 - **Fair multi-tenant complex quotas** — may need hierarchical/fair queuing.
-- **One-shot admin scripts** — don’t rate-limit yourself into pain.
+- **One-shot administrator scripts** — don’t rate-limit yourself into pain.
 
 ---
 

@@ -107,7 +107,7 @@ LIMIT 10;
 > [!WARNING]
 > **ANN is approximate** — default knobs can miss true neighbors. Always track Recall@k in staging when you change index settings.
 
-- **Filter-then-search vs search-then-filter** — wrong order tanks recall or scans too much.
+- **Filter-then-search versus search-then-filter** — wrong order tanks recall or scans too much.
 - **Re-embedding on model upgrade** — treat as a migration; dual-write or blue/green collections.
 - **Not a replacement for [[OLTP]]** — still need a system of record for money, inventory, strong FKs ([[ACID]]).
 - **JSONB filters** in PG may want [[GIN]] beside the vector index.

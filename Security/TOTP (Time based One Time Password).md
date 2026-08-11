@@ -74,7 +74,7 @@ const ok = otplib.authenticator.check(userInputCode, secret)
 ## When NOT to use
 
 - **Passwordless high-security** — WebAuthn/passkeys beat TOTP.
-- **Non-interactive machine auth** — use mTLS or signed service tokens.
+- **Non-interactive machine authentication** — use mTLS or signed service tokens.
 - **Offline airgap with no clock** — TOTP needs rough time sync.
 
 ---

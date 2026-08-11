@@ -8,19 +8,11 @@
 
 ## Mental model
 
-**Say it in one breath:** Web hooks — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** Web hooks — → See webhook (canonical note).
 
 → See **[[webhook]]** (canonical note).
 This page is a redirect alias for plural search / legacy links.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Web hooks** | Core idea of this note | “I can explain Web hooks without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -81,9 +81,9 @@ curl -4 https://ifconfig.me
 
 ## When NOT to use
 
-- **IP allowlist as the only auth** — stealable/shared; use tokens + mTLS.
+- **IP allowlist as the only authentication** — stealable/shared; use tokens + mTLS.
 - **Assuming instance metadata public IP is egress** — routing may force a NAT.
-- **Hard-coding egress in clients** — discover via config/ops, not compile-time constants.
+- **Hard-coding egress in clients** — discover via configuration/operations, not compile-time constants.
 
 ---
 

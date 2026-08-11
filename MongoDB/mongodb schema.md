@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Collections don’t force one shape; app + optional validators decide required fields and types.
+**Say it in one breath:** Collections don’t force one shape; application + optional validators decide required fields and types.
 
 ```txt
 App writes docs → (optional $jsonSchema) → BSON on disk
@@ -76,7 +76,7 @@ db.createCollection('users', {
 ## When NOT to use
 
 - **Strict relational invariants across many entities** — use SQL.
-- **Heavy multi-doc joins as the default access** — rethink model.
+- **Heavy multi-document joins as the default access** — rethink model.
 
 ## Related
 

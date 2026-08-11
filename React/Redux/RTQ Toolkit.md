@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** RTK Query stores responses under `state[reducerPath].queries` keyed by endpoint+args. Mutations invalidate tags; hooks expose `data` / loading / error. Memory cache clears on full reload unless you persist.
+**Say it in one breath:** RTK Query stores responses under `state[reducerPath].queries` keyed by endpoint+arguments. Mutations invalidate tags; hooks expose `data` / loading / error. Memory cache clears on full reload unless you persist.
 
 ```txt
 useGetXQuery(args)

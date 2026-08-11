@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Don’t hardcode `db.schema.table` (or absolute paths) in app code; resolve objects via config, search_path, or a stable logical name so dumps/moves don’t break callers.
+**Say it in one breath:** Don’t hardcode `db.schema.table` (or absolute paths) in application code; resolve objects via configuration, search_path, or a stable logical name so dumps/moves don’t break callers.
 
 ```txt
 App ──► logical name / search_path ──► physical schema

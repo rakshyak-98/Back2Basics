@@ -54,7 +54,7 @@ gsettings get org.gnome.desktop.interface gtk-theme
 # Qt5: qt5ct or KDE system settings
 ```
 
-**Window rules (i3/Sway):** use `WM_CLASS` — see [[WM_CLASS]] for matching Chrome vs IDE instances.
+**Window rules (i3/Sway):** use `WM_CLASS` — see [[WM_CLASS]] for matching Chrome versus IDE instances.
 
 **X11 multi-monitor:** `xrandr` — [[xrandr]]; Wayland: compositor settings (gnome-control-center).
 
@@ -82,7 +82,7 @@ gsettings get org.gnome.desktop.interface gtk-theme
 
 ## When NOT to use
 
-- **Headless API servers** — no windowing stack required; don't install `ubuntu-desktop` on prod.
+- **Headless API servers** — no windowing stack required; don't install `ubuntu-desktop` on production.
 - **Embedded framebuffer** — direct DRM/KMS apps skip full WIMP stack.
 
 ## Related

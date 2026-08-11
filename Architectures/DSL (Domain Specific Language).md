@@ -99,7 +99,7 @@ See [[Descriptive/Mermaid (DSL)]].
 
 ## When NOT to use
 
-- One-off 10-line config — JSON/YAML enough.
+- One-off 10-line configuration — JSON/YAML enough.
 - Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
 
 ## Related

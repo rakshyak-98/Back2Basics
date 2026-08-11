@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Supervisord** is a parent daemon that spawns children, restarts on crash, and rotates logs. Config lives in `/etc/supervisor/conf.d/*.conf`. Changes on disk are **not** live until `reread` + `update`. Unlike systemd, one supervisord tree is typical per machine/container.
+**Supervisord** is a parent daemon that spawns children, restarts on crash, and rotates logs. configuration lives in `/etc/supervisor/conf.d/*.conf`. Changes on disk are **not** live until `reread` + `update`. Unlike systemd, one supervisord tree is typical per machine/container.
 
 ```
 supervisord (PID 1 or child)
@@ -79,7 +79,7 @@ priority=999
 sudo supervisorctl restart web:*
 ```
 
-**Socket / CLI config** (`/etc/supervisor/supervisord.conf`):
+**Socket / CLI configuration** (`/etc/supervisor/supervisord.conf`):
 
 ```ini
 [unix_http_server]
@@ -110,7 +110,7 @@ serverurl=unix:///var/run/supervisor.sock
 > [!WARNING]
 > **Running supervisord as PID 1 in Docker** — need `tini` or `--nodaemon` patterns; zombie reaping breaks without init.
 
-- **systemd vs supervisor** — pick one orchestration layer per app; don't double-wrap same process.
+- **systemd versus supervisor** — pick one orchestration layer per application; don't double-wrap same process.
 - **`user=`** — must exist before start; file permissions must allow that user.
 - **Environment** — doesn't load login shell; set `environment=` explicitly.
 

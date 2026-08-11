@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** pnpm logs — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** pnpm logs — pNPM, like npm, stores logs when commands fail or require debug information.
 
 ### **Location of PNPM Logs**
 PNPM, like npm, stores logs when commands fail or require debug information.
@@ -37,13 +36,6 @@ Manually redirect PNPM output to a file for storage:
 - **View the Logs**:
     ```bash
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **pnpm logs** | Core idea of this note | “I can explain pnpm logs without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). App servers (Node, PHP-FPM.
+**Say it in one breath:** Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). application servers (Node, PHP-FPM.
 
 
 ```
@@ -71,7 +71,7 @@ location /api/ {
 ## When NOT to use
 
 - Don't map user-upload dir under web root executable — serve from object storage or separate domain.
-- Don't rely on `.html` extension hiding — content-type and auth matter, not suffix.
+- Don't rely on `.html` extension hiding — content-type and authentication matter, not suffix.
 
 ## Related
 

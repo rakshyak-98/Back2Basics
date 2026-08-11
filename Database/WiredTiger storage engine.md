@@ -105,9 +105,9 @@ db.orders.insertOne(doc, { writeConcern: { w: "majority", j: true } })
 > **MMAPv1 nostalgia** — pre-4.2 engines differ; migration changed compression + lock granularity. Don't paste old tuning guides.
 
 - **Checkpoint blocks** — `checkpoint=(wait,0)` disables throttling — I/O storms during peak.
-- **Snappy vs zstd** — zstd saves disk, costs CPU; wrong on CPU-bound small instances.
+- **Snappy versus zstd** — zstd saves disk, costs CPU; wrong on CPU-bound small instances.
 - **Large documents + index** — docs >16MB rejected; padding fields bloat even with compression.
-- **TTL / capped** — still WT btree maintenance; monitor delete rate vs eviction.
+- **TTL / capped** — still WT btree maintenance; monitor delete rate versus eviction.
 - **`repairDatabase`** — last resort; takes lock; restore from backup preferred.
 
 ## When NOT to use

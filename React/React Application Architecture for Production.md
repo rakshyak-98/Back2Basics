@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Next.js wins when each route can choose SSR/SSG/CSR/RSC independently. Keep shared UI in `components`, domain in `features`, and wire one app-level provider tree.
+**Say it in one breath:** Next.js wins when each route can choose SSR/SSG/CSR/RSC independently. Keep shared UI in `components`, domain in `features`, and wire one application-level provider tree.
 
 ```txt
 pages/app (render strategy)
@@ -95,4 +95,4 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
 ## Related
 
-[[React Architecture]] [[RSC (React Server Component boundaries)]] [[React project config]] [[Managing complex component structure]]
+[[React Architecture]] [[RSC (React Server Component boundaries)]] [[React project configuration]] [[Managing complex component structure]]

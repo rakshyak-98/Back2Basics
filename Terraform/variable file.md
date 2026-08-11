@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Variables make one config work across envs (dev/stage/prod) without editing resource blocks. They feed [[terraform provider]] region/project and resource args during [[Terraform workflow]].
+Variables make one configuration work across envs (development/stage/production) without editing resource blocks. They feed [[terraform provider]] region/project and resource arguments during [[Terraform workflow]].
 
 ## Standard config / commands
 
@@ -81,7 +81,7 @@ variable "environment" {
 }
 ```
 
-Reference in config: `var.region`, `var.tags["Env"]`.
+Reference in configuration: `var.region`, `var.tags["Env"]`.
 
 ---
 
@@ -92,7 +92,7 @@ Highest wins (simplified from HashiCorp docs / both books):
 1. `-var` / `-var-file` on CLI
 2. `*.auto.tfvars` / `*.auto.tfvars.json`
 3. `terraform.tfvars` / `terraform.tfvars.json`
-4. Env `TF_VAR_<name>`
+4. environment `TF_VAR_<name>`
 5. `default` in the variable block
 
 ```shell
@@ -202,7 +202,7 @@ Module overview: [[terraform]]
 
 ## When NOT to use
 
-- **Hard-coding one-env throwaways** — a literal is fine until you need a second env.
+- **Hard-coding one-environment throwaways** — a literal is fine until you need a second environment.
 - **Secrets as plain tfvars in git** — use a secret store / CI injection instead.
 
 ## Related

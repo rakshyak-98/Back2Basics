@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** npm — plain job, how I run it, how I know it’s broken.
-
+**Say it in one breath:** npm — it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual…
 
 ```bash
 npm root -g; # get the global npm node_modules location
@@ -30,13 +29,6 @@ npm install --legacy-peer-deps; # force install peer dependencies
  ⠸ Service frontend  Building                                                                              110.3s
 failed to solve: cannot replace to directory /var/lib/docker/overlay2/x6ptivu3yyft92itkfpyjjb86/merged/usr/src/app/node_modules/@aws-sdk/client-cloudfront with file
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **npm** | Core idea of this note | “I can explain npm without jargon.” |
-| **idempotent** | Safe to retry | “Retries must not double-charge.” |
-| **config** | Knobs outside code | “Env-specific values stay out of source.” |
 
 ---
 

@@ -68,7 +68,7 @@ aws s3 sync ./dist s3://$BUCKET
 ## When NOT to use
 
 - **Dynamic SSR / APIs** — EC2/ECS/Lambda+APIGW.
-- **Private authenticated file share** — presigned URLs / app auth, not public website mode.
+- **Private authenticated file share** — presigned URLs / application authentication, not public website mode.
 - **Highly dynamic personalization** — needs compute, not static S3 alone.
 
 ---

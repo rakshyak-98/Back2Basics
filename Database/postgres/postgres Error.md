@@ -14,13 +14,13 @@ Client connects → **libpq** resolves host/port → TCP or Unix socket → Post
 psql/app ──► socket/TCP:5432 ──► pg_hba.conf match ──► auth method ──► database
 ```
 
-Errors before auth are network/config; FATAL after connect attempt are usually role/password/database/pg_hba.
+Errors before authentication are network/configuration; FATAL after connect attempt are usually role/password/database/pg_hba.
 
 ## Standard config / commands
 
 ### `role "ubuntu" does not exist`
 
-Unix **peer** auth maps OS user to same-named PG role.
+Unix **peer** authentication maps OS user to same-named PG role.
 
 ```bash
 sudo -u postgres psql -c "CREATE ROLE ubuntu WITH LOGIN SUPERUSER;"
@@ -28,7 +28,7 @@ sudo -u postgres psql -c "CREATE ROLE ubuntu WITH LOGIN SUPERUSER;"
 psql -U postgres -h localhost
 ```
 
-Fix pg_hba if you want password auth instead:
+Fix pg_hba if you want password authentication instead:
 
 ```conf
 local   all   all   scram-sha-256

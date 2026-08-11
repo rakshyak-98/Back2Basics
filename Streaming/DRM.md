@@ -137,8 +137,8 @@ Pack once; license paths differ per platform. Do not re-encode per DRM.
 
 ## When NOT to use
 
-- **Internal / low-value clips** — signed URLs or app auth may be enough; DRM cost and support load are high.
-- **You only need link expiry** — CDN token auth, not full CDM.
+- **Internal / low-value clips** — signed URLs or application authentication may be enough; DRM cost and support load are high.
+- **You only need link expiry** — CDN token authentication, not full CDM.
 - **Broadcast STB already on CAS** — don’t bolt Widevine onto a CAS-only headend without a real dual-stack design.
 - **WebRTC P2P demos** — ICE/media path first; DRM is an OTT packaging concern.
 

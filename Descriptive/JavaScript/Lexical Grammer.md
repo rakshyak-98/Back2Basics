@@ -27,7 +27,7 @@ Key lexical rules engineers hit daily:
 | **NumericLiteral** | Decimal, hex `0x`, binary `0b`, BigInt `n` |
 | **RegularExpressionLiteral** | Context-sensitive — parser disambiguates `/` |
 
-Grammar is **not** context-free for regex vs divide — parser uses lookahead.
+Grammar is **not** context-free for regex versus divide — parser uses lookahead.
 
 ## Standard config / commands
 
@@ -83,7 +83,7 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 
 ## When NOT to use
 
-- Memorizing full ECMA BNF — use linter/parser errors and spec sections when debugging edge cases only.
+- Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
 
 ## Related
 

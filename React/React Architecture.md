@@ -77,7 +77,7 @@ const Billing = lazy(() => import("../features/billing/routes"));
 // <Suspense fallback={<Skeleton />}><Billing /></Suspense>
 ```
 
-Document **data flow ADR** when choosing Redux vs Query vs zustand ([[React State management]]).
+Document **data flow ADR** when choosing Redux versus Query versus zustand ([[React State management]]).
 
 ---
 

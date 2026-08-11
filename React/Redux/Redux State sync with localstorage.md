@@ -76,7 +76,7 @@ export const store = configureStore({
 
 ## When NOT to use
 
-- **Full app persistence** — use [[Redux/redux persist]] with whitelist/blacklist.
+- **Full application persistence** — use [[Redux/redux persist]] with whitelist/blacklist.
 - **Server-secret state** — never put secrets in localStorage.
 
 ---

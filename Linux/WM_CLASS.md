@@ -69,7 +69,7 @@ Exec=google-chrome --profile-directory=Work %U
 StartupWMClass=google-chrome-work
 ```
 
-Find real class: run app, `xprop WM_CLASS`, copy **instance** string into `StartupWMClass`.
+Find real class: run application, `xprop WM_CLASS`, copy **instance** string into `StartupWMClass`.
 
 **Pin by WM_CLASS (xdotool):**
 

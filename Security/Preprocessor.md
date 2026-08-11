@@ -83,7 +83,7 @@ Split text into lexemes (identifiers, operators, punctuation, literals). Stages:
 
 ## When NOT to use
 
-- **Business logic configuration** — use real config languages, not `#ifdef` forests.
+- **Business logic configuration** — use real configuration languages, not `#ifdef` forests.
 - **New languages with modules** — rely on the module system instead of include soup.
 - **Security policy** — preprocessor can’t enforce runtime authz.
 

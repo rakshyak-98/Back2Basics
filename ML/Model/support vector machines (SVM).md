@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification vs margin width.
+**Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification versus margin width.
 
 ```txt
 min  ½‖w‖² + C Σ ξᵢ

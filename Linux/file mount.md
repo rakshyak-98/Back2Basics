@@ -75,7 +75,7 @@ sudo umount /mnt/data
 ## When NOT to use
 
 - **Copying data** — mount isn’t backup; use [[rsync]].
-- **App config** — don’t mount over busy program dirs without stopping the service.
+- **application configuration** — don’t mount over busy program dirs without stopping the service.
 
 ---
 

@@ -77,7 +77,7 @@ res.redirect(session.url);
 > **One misconfigured API route** that accepts raw card JSON expands scope to full SAQ D instantly.
 
 - **Mail-order / phone** MOTO flows are separate scope — not GSS.
-- **Staff "keying in"** card on merchant admin panel = CHD on your systems.
+- **Staff "keying in"** card on merchant administrator panel = CHD on your systems.
 - **Provider change** — revalidate AOC and SAQ type annually and on vendor switch.
 
 ## When NOT to use

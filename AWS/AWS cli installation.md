@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** CLI reads `~/.aws/credentials` + `config` (or env/instance role), signs API calls, prints JSON/table. v2 is the current installer path on Linux.
+**Say it in one breath:** CLI reads `~/.aws/credentials` + `config` (or environment/instance role), signs API calls, prints JSON/table. v2 is the current installer path on Linux.
 
 ```txt
 awscliv2.zip → ./aws/install → /usr/local/bin/aws
@@ -72,7 +72,7 @@ cat ~/.aws/credentials   # local only — protect this file
 ## When NOT to use
 
 - **In-instance automation with a role** — skip keys; use instance profile.
-- **Complex multi-step infra** — Terraform/CDK; CLI for ops/debug.
+- **Complex multi-step infra** — Terraform/CDK; CLI for operations/debug.
 - **Windows-only shops** — MSI install path differs (same concepts).
 
 ---

@@ -107,7 +107,7 @@ systemctl list-units --type=service --no-pager | awk '{print $1}' | fzf | xargs 
 ## When NOT to use
 
 - **Scripted automation (no human)** → fixed paths, `find -name`, `rg`.
-- **Server without TTY** → avoid; use completion or explicit args.
+- **Server without TTY** → avoid; use completion or explicit arguments.
 - **Security-sensitive host enumeration** — interactive browsing of `/etc` leaves audit trail of intent; use targeted commands.
 
 ## Related

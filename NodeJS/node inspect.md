@@ -64,7 +64,7 @@ debugger // pause when inspector attached
 ## When NOT to use
 
 - **Day-to-day IDE debug** — VS Code [[node debugger]] is faster.
-- **Prod** — don’t leave `debugger;` in shipped code.
+- **production** — don’t leave `debugger;` in shipped code.
 
 ---
 

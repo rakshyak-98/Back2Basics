@@ -8,7 +8,7 @@
 
 ## Mental model
 
-`gh` wraps GitHub REST/GraphQL with repo-aware defaults (current directory's remote). Auth is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repo, environment, or org.
+`gh` wraps GitHub REST/GraphQL with repository-aware defaults (current directory's remote). authentication is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repository, environment, or org.
 
 ## Standard config / commands
 

@@ -131,7 +131,7 @@ Mixed content blocked — manifest + segments + license all TLS
 
 - **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
 - **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
-- **Internal corp streams** — tokenized URLs + TLS often enough; EME ops cost unjustified.
+- **Internal corp streams** — tokenized URLs + TLS often enough; EME operations cost unjustified.
 
 ---
 

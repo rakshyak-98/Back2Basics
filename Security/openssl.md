@@ -89,8 +89,8 @@ openssl rand -hex 32
 
 ## When NOT to use
 
-- **Public prod certs** — use [[certbot (letsencrypt)]] / ACME, not hand-rolled OpenSSL + email CSR unless required.
-- **App-level crypto APIs** — prefer language libs (crypto, NaCl); don’t shell out to openssl in hot paths.
+- **Public production certs** — use [[certbot (letsencrypt)]] / ACME, not hand-rolled OpenSSL + email CSR unless required.
+- **application-level crypto APIs** — prefer language libs (crypto, NaCl); don’t shell out to openssl in hot paths.
 - **Password hashing** — use Argon2/bcrypt/yescrypt, not ad-hoc OpenSSL digests.
 
 ---

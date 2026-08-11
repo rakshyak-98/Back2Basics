@@ -85,7 +85,7 @@ function ProceedToCheckout() {
 ## When NOT to use
 
 - **Simple prop tree (2–3 levels)** — pass props.
-- **Global app state** — Redux/Zustand, not a feature compound.
+- **Global application state** — Redux/Zustand, not a feature compound.
 
 ---
 

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** combi — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** combi — I can explain the job, the configuration, and the top failure without jargon.
 
 
 Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`window`, `drun`, `run`) into a single filtered list. User types; rofi ranks matches across modes. Configured via CLI flags or `~/.config/rofi/config.rasi`.

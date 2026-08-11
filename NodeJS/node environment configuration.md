@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** 12-factor style — config from the environment. Load `.env` only in dev; in prod the orchestrator injects vars.
+**Say it in one breath:** 12-factor style — configuration from the environment. Load `.env` only in development; in production the orchestrator injects variables.
 
 ```txt
 process.env.DATABASE_URL ← platform / dotenv (dev)
@@ -68,8 +68,8 @@ if (!url) throw new Error('DATABASE_URL required')
 
 ## When NOT to use
 
-- **Putting all config in Redux/DB for static values** — env/files are enough.
-- **Client-side secret env** — anything `NEXT_PUBLIC_` is public.
+- **Putting all configuration in Redux/DB for static values** — environment/files are enough.
+- **Client-side secret environment** — anything `NEXT_PUBLIC_` is public.
 
 ---
 

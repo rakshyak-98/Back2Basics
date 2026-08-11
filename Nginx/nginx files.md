@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Package layout varies Debian (`/etc/nginx/`) vs RHEL (`/etc/nginx/` similar) but patterns hold: **main config** includes **snippets** and **sites-enabled**. See [[nginx config structure]] for every file under `/etc/nginx/`. Logs.
+**Say it in one breath:** Package layout varies Debian (`/etc/nginx/`) versus RHEL (`/etc/nginx/` similar) but patterns hold: **main configuration** includes **snippets** and **sites-enabled**. See [[nginx configuration structure]] for every file under `/etc/nginx/`. Logs.
 
 
 ```
@@ -90,4 +90,4 @@ sudo tail -f /var/log/nginx/access.log
 
 ## Related
 
-[[nginx config structure]] [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Linux/loggging]]
+[[nginx configuration structure]] [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Linux/loggging]]

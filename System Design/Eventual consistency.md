@@ -65,7 +65,7 @@ Client strategies
 
 - **Bank ledgers / unique inventory** — use strong consistency or explicit reservation.
 - **Security policy flips** — don’t leave revoke eventually for long.
-- **Single-node app** — you already have “immediate.”
+- **Single-node application** — you already have “immediate.”
 
 ---
 

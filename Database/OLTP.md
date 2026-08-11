@@ -8,7 +8,7 @@
 
 ## Mental model
 
-OLTP is the **operational path**: checkout, auth, inventory decrement, ticket update. Workload shape:
+OLTP is the **operational path**: checkout, authentication, inventory decrement, ticket update. Workload shape:
 
 ```
 Many clients ──► short queries ──► indexed point/range lookups ──► ms latency

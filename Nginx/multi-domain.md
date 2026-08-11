@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Optional: redirects HTTP -> HTTPS is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** Optional: redirects HTTP -> HTTPS — you can ping api.localhost and it'll look back to your machine.
 
 Add fake domains to `/etc/hosts`
 ```
@@ -53,22 +52,16 @@ sudo systemctl reload nginx;
 ### TLS self-signed certificate
 Generate a self signed certificate [[openssl#Generate self signed certificate]]
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Optional: redirects HTTP -> HTTPS** | Core idea of this note | “I can explain Optional: redirects HTTP -> HTTPS without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
-```bash
-# status
-# check version, auth, and recent changes
+```nginx
+server {
+    listen 443 ssl;
+    server_name a.example.com b.example.com;
+    ssl_certificate     /etc/letsencrypt/live/a.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/a.example.com/privkey.pem;
+}
 ```
 
 ---
@@ -77,22 +70,23 @@ Generate a self signed certificate [[openssl#Generate self signed certificate]]
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Certificate name mismatch | SNI; wrong cert on default | Separate `server` per cert or SAN cert |
+| Wrong site content | `default_server` catches unknown Host | Set explicit `server_name` on each vhost |
+| ACME challenge fails | `.well-known` not reachable | Dedicated location for `/.well-known/acme-challenge/` |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Each `server_name` needs a matching certificate unless you use a SAN or wildcard cert.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not serve many unrelated tenants from one `server` block without strict `server_name` lists.
+
 
 ---
 

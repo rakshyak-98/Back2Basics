@@ -82,7 +82,7 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 
 ## When NOT to use
 
-- **Password auth on internet hosts** — keys (+ optional bastion).
+- **Password authentication on internet hosts** — keys (+ optional bastion).
 - **Root login with password** — never.
 - **GatewayPorts yes** unless you know the exposure.
 
@@ -90,4 +90,4 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 
 ## Related
 
-[[ssh allow local system with key]] [[SSH authentication]] [[ssh agent]] [[git ssh config]]
+[[ssh allow local system with key]] [[SSH authentication]] [[ssh agent]] [[git ssh configuration]]

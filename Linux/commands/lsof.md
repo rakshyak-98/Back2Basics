@@ -108,7 +108,7 @@ lsof -c nginx
 
 - **Don’t scrape `lsof` every second for metrics** — use `/proc` exporters or eBPF.
 - **Don’t use `lsof` as the only network tool** — [[ss]] is better for socket state machines.
-- **Don’t `lsof +D` on huge trees in prod** — can stall; target a PID or file instead.
+- **Don’t `lsof +D` on huge trees in production** — can stall; target a PID or file instead.
 
 ---
 

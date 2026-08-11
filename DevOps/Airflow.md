@@ -123,7 +123,7 @@ FileSensor(filepath='/data/ready', mode='reschedule', poke_interval=300, timeout
 - **`execution_date` templating changed in 2.x** — use `data_interval_start` / `logical_date` explicitly in new DAGs.
 - **XCom default stores in metadata DB** — large payloads bloat DB; write to S3 and pass URI.
 - **Pools** limit concurrency globally — `-1` slot starves unrelated DAGs if one pool misconfigured.
-- **Local timezone in cron** — Airflow schedules UTC unless `default_timezone` set; DST surprises.
+- **Local timezone in cron** — Airflow schedules UTC unless `default_timezone` set; destination surprises.
 
 ## When NOT to use
 

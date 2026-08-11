@@ -19,7 +19,7 @@ Browser grants/denies → PermissionStatus / DOMException
 ```
 
 **Two layers SEs confuse:**
-1. **Permissions Policy** (`Permissions-Policy` header / `allow` attribute) — **who may call the API** (top-level vs embedded frame)
+1. **Permissions Policy** (`Permissions-Policy` header / `allow` attribute) — **who may call the API** (top-level versus embedded frame)
 2. **Permission query** (`navigator.permissions.query`) — **user's choice** (granted/denied/prompt)
 
 **Secure context required:** HTTPS (or localhost) for most sensitive APIs — won't work on mixed HTTP intranet without exception.
@@ -123,8 +123,8 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 ## When NOT to use
 
 - **File download/upload** — `<input type="file">` simpler than drag-drop File System Access API unless needed.
-- **First-party auth session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
-- **Background location tracking** — regulatory minefield; native app with OS permission model.
+- **First-party authentication session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
+- **Background location tracking** — regulatory minefield; native application with OS permission model.
 
 ---
 

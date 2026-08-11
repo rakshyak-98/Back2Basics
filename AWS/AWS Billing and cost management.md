@@ -19,7 +19,7 @@ Usage (API calls, hours, GB) → CUR/Billing → Cost Explorer → Budgets/Alert
 ### Console paths
 
 1. **Billing and Cost Management** → **Bills** → filter by month → **Charges by service**
-2. **Free Tier** (left menu) → usage vs limit per service
+2. **Free Tier** (left menu) → usage versus limit per service
 3. **Cost Explorer** → daily/monthly by service, linked account, tag
 4. **Budgets** → email at 80%/100% forecast
 
@@ -68,7 +68,7 @@ Free Tier reference: [AWS Free Tier](https://aws.amazon.com/free/)
 ## When NOT to use
 
 - Don't optimize pennies before measuring — enable Cost Explorer tags first month.
-- Don't buy 3-year RIs on spiky/dev workloads — use On-Demand + autoscaling first.
+- Don't buy 3-year RIs on spiky/development workloads — use On-Demand + autoscaling first.
 
 ## Related
 

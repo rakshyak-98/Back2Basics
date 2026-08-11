@@ -52,7 +52,7 @@ ethtool -k eth0
 sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 ```
 
-**Why `-S` stats:** `rx_missed_errors`, `rx_dropped` distinguish **NIC overflow** vs kernel backlog ([[ss]]).
+**Why `-S` stats:** `rx_missed_errors`, `rx_dropped` distinguish **NIC overflow** versus kernel backlog ([[ss]]).
 
 ---
 

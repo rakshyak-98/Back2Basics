@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** indexes declare versions; solver picks a set; unpacker puts files on disk; config under `/etc`.
+**Say it in one breath:** indexes declare versions; solver picks a set; unpacker puts files on disk; configuration under `/etc`.
 
 ```txt
 apt update → indexes
@@ -71,11 +71,11 @@ sudo apt-get autoremove
 
 ## When NOT to use
 
-- **Language app deps** — prefer language lockfiles in the app image.
+- **Language application deps** — prefer language lockfiles in the application image.
 - **Kernel live patches** — use vendor livepatch tooling, not random .debs.
 
 ---
 
 ## Related
 
-[[apt package manager]] [[apt config]] [[Package deferred]] [[source list file]]
+[[apt package manager]] [[apt configuration]] [[Package deferred]] [[source list file]]

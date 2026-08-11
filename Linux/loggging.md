@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Applications log to **stdout/stderr** (captured by journald for systemd units), **syslog** (`/dev/log` socket), or directly to files (`/var/log/app/`). journald stores binary journals under `/var/log/journal/` (persistent) or `/run/log/journal/` (volatile). Priority follows syslog severity: emerg → alert → crit → err → warning → notice → info → debug.
+Applications log to **stdout/stderr** (captured by journald for systemd units), **syslog** (`/dev/log` socket), or directly to files (`/var/log/app/`). journald stores binary journals under `/var/log/journal/` (persistent) or `/run/log/journal/` (volatile). Priority follows syslog severity: emerg → alert → crit → error → warning → notice → information → debug.
 
 ```
 app ──stdout──► systemd ──► journald ──► journalctl

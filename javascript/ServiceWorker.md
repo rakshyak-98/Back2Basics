@@ -79,7 +79,7 @@ self.addEventListener("fetch", (event) => {
 
 New SW waits in **waiting** until tabs close — call `skipWaiting()` + `clients.claim()` carefully; prompt user to refresh.
 
-Requires **HTTPS** (localhost exempt). See [[content security policy]] for worker-src.
+Requires **HTTPS** (localhost exempt). See [[content security policy]] for worker-source.
 
 ---
 
@@ -109,7 +109,7 @@ Requires **HTTPS** (localhost exempt). See [[content security policy]] for worke
 ## When NOT to use
 
 - **Heavy computation** — use [[web workers]]; SW is for network/cache lifecycle.
-- **Auth secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
+- **authentication secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
 - **SSR-only apps with no offline need** — skip SW complexity.
 
 ---

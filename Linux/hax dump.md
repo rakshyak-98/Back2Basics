@@ -98,13 +98,13 @@ strings file.bin | head
 > [!WARNING]
 > **PII/secrets in dumps** — tokens and keys appear in cleartext captures. Redact before tickets.
 
-- **`hexdump` vs `od` flags differ** — scripts: prefer `hexdump -C` on GNU, test on target OS.
+- **`hexdump` versus `od` flags differ** — scripts: prefer `hexdump -C` on GNU, test on target OS.
 - **Line wrapping** — copy-paste hex for `xxd -r` must preserve column format.
 
 ## When NOT to use
 
 - **Structured protocol decode** — use Wireshark dissectors, `protoc --decode`, language parsers.
-- **Text config diff** — use [[diff]] on decoded UTF-8, not hex (unless encoding hunt).
+- **Text configuration diff** — use [[diff]] on decoded UTF-8, not hex (unless encoding hunt).
 
 ## Related
 

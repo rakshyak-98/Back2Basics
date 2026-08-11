@@ -71,7 +71,7 @@ db.users.find().limit(5)
 ## When NOT to use
 
 - **Application runtime** — use the official driver.
-- **Complex app logic** — keep business code out of shell scripts.
+- **Complex application logic** — keep business code out of shell scripts.
 
 ## Related
 

@@ -28,7 +28,7 @@ An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or m
 | **prompts/get** | Template expansion for repeatable workflows |
 | **auth** | OAuth/API keys — client stores tokens, not the model |
 
-**Transport:** `stdio` (local subprocess — most Cursor servers), `SSE/HTTP` (remote), streamable HTTP (spec evolution — see [[MCP]]).
+**Transport:** `stdio` (local subprocess — most Cursor servers), `SSE/HTTP` (remote), streamable HTTP (specification evolution — see [[MCP]]).
 
 ---
 
@@ -134,7 +134,7 @@ Retry:               idempotent reads yes; writes no blind retry
 
 ## When NOT to use
 
-- **Simple static docs** — link the doc; don't wrap in MCP.
+- **Simple static docs** — link the document; don't wrap in MCP.
 - **High-QPS automation** — use direct API/SDK; MCP adds LLM mediation overhead.
 - **Untrusted servers** — MCP server runs with host privileges; audit before adding.
 

@@ -49,7 +49,7 @@ strace -f -e epoll_wait,epoll_ctl,poll,read,write -p <pid> 2>&1 | head -200
 # Bad: epoll_wait returns → no read → immediate epoll_wait (spin or missed edge)
 ```
 
-**Trigger modes (the part that breaks prod):**
+**Trigger modes (the part that breaks production):**
 
 | Mode | Behavior | Correct usage |
 |------|----------|-----------------|
@@ -85,7 +85,7 @@ while (true) {
 | `EMFILE` / too many open files | `ulimit -n`; `lsof -p <pid> \| wc -l` | Raise limit in systemd `LimitNOFILE`; fix FD leak |
 | Half-open / RST after idle LB timeout | [[half-open connections]]; tcpdump FIN/RST | Enable TCP keepalive or app heartbeat; align LB idle timeout |
 
-**Thundering herd:** many threads blocked in `epoll_wait` on the **same listen FD**; one incoming connection wakes **all** → wasted context switches. Fixes: `EPOLLEXCLUSIVE`, single acceptor thread, or `SO_REUSEPORT` with per-process listen sockets.
+**Thundering herd:** many threads blocked in `epoll_wait` on the **same listen file descriptor**; one incoming connection wakes **all** → wasted context switches. Fixes: `EPOLLEXCLUSIVE`, single acceptor thread, or `SO_REUSEPORT` with per-process listen sockets.
 
 **Connection to runtimes:**
 
@@ -103,7 +103,7 @@ while (true) {
 
 - **`EPOLLHUP` on write side:** peer gone; many apps forget to close and leak FDs.
 - **LT + EPOLLONESHOT confusion:** ONESHOT disables until re-arm — combine deliberately, not by copy-paste.
-- **strace volume:** full `-e epoll_wait` on high-QPS prod can itself distort timing — use short captures or `strace -c` aggregates.
+- **strace volume:** full `-e epoll_wait` on high-QPS production can itself distort timing — use short captures or `strace -c` aggregates.
 
 ## When NOT to use
 

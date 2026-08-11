@@ -95,7 +95,7 @@ Content-Disposition: attachment; filename="report.pdf"
 
 ## When NOT to use
 
-- **Auth / trust decisions based only on MIME** — validate content; MIME is a claim.
+- **authentication / trust decisions based only on MIME** — validate content; MIME is a claim.
 - **Serving user uploads as `text/html`** — XSS; store and serve with safe types + disposition.
 - **Inventing custom types without a registry need** — prefer standard types + versioning in the API schema.
 

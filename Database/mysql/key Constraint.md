@@ -78,8 +78,8 @@ ALTER TABLE HotelSections
 
 ## When NOT to use
 
-- **Soft uniqueness only in app** — race conditions will duplicate; prefer UNIQUE in DB.
-- **Cross-database FKs** — MySQL won’t enforce; redesign or app checks.
+- **Soft uniqueness only in application** — race conditions will duplicate; prefer UNIQUE in DB.
+- **Cross-database FKs** — MySQL won’t enforce; redesign or application checks.
 
 ---
 

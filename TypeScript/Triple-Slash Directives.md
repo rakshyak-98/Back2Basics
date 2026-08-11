@@ -65,7 +65,7 @@
 
 ## When NOT to use
 
-- **Modern app code** — ES imports.
+- **Modern application code** — ES imports.
 - **Controlling `@types` set** — `compilerOptions.types`.
 - **Runtime dependency** — it’s types only.
 

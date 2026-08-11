@@ -182,9 +182,9 @@ aws ec2 release-address --allocation-id eipalloc-xxx
 ## When NOT to use
 
 - **Production web behind scaling or blue/green** — use ALB/NLB + Route53 ALIAS; don't pin users to one instance EIP.
-- **Private app/database tiers** — no public IP; use internal LB and [[NAT (Network Address Translation)]] for outbound only.
+- **Private application/database tiers** — no public IP; use internal LB and [[NAT (Network Address Translation)]] for outbound only.
 - **IPv6-only workloads** — use IPv6 addressing; EIP is IPv4-only.
-- **Avoiding NAT cost by EIP on every instance** — security and ops overhead; prefer VPC endpoints + single NAT per AZ.
+- **Avoiding NAT cost by EIP on every instance** — security and operations overhead; prefer VPC endpoints + single NAT per AZ.
 - **Cross-region static IP** — use Global Accelerator or DNS-based failover; EIP does not span regions.
 
 ## Related

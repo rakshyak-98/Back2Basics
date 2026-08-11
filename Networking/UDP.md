@@ -19,7 +19,7 @@ Header: ports + length + checksum (optional on IPv4). Each `sendto` is independe
 
 Fit when:
 - **Latency > reliability** — VoIP, gaming, live video
-- **App-layer retries OK** — DNS, QUIC (over UDP), custom RPC
+- **application-layer retries OK** — DNS, QUIC (over UDP), custom RPC
 - **Broadcast/multicast** patterns (limited on modern internet)
 
 Poor fit when:

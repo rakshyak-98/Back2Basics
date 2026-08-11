@@ -15,7 +15,7 @@ AP = (1/R) Σₖ Precision@k · rel(k)     # R = number of relevant docs
 MAP = mean(AP over all queries)
 ```
 
-MAP cares about **order**: putting all relevant items at the top scores higher than burying one relevant doc at rank 50.
+MAP cares about **order**: putting all relevant items at the top scores higher than burying one relevant document at rank 50.
 
 | Metric | Granularity |
 |--------|-------------|
@@ -85,4 +85,4 @@ map_score = np.mean([
 
 ## Related
 
-[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated vs actual plot]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated versus actual plot]]

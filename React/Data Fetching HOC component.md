@@ -84,7 +84,7 @@ export default withDataFetching(UserList, '/api/users')
 ## When NOT to use
 
 - **New code** — custom hook or [[react-query]] instead of fetch HOCs.
-- **Auth/logging cross-cuts** — still OK for true cross-cutting; not for every GET.
+- **authentication/logging cross-cuts** — still OK for true cross-cutting; not for every GET.
 
 ---
 

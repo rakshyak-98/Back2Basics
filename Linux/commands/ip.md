@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Network config is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.
+Network configuration is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.
 
 ```
 ip link ──► iface up/down, mtu, master (bond/bridge)
@@ -130,7 +130,7 @@ sar -n DEV 1 5                        # needs sysstat
 - **Socket/process ownership** → [[ss]] `-lntp`.
 - **DNS resolution** → `resolvectl`, `dig` — `ip` is L3.
 - **Firewall** → nftables/iptables — routes don't filter packets.
-- **Persistent prod networking** → config management, not ad-hoc CLI only.
+- **Persistent production networking** → configuration management, not ad-hoc CLI only.
 
 ## Related
 

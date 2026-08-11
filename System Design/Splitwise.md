@@ -26,7 +26,7 @@ Simplify: if A owes B $30 and B owes A $50 → net B owes A $20
 | **Balance** | Derived net between pair (or per group) |
 | **Settlement** | Payment recorded between users |
 
-Requirements from product: add/remove/update user; create group; add members; notify members; create expense; settle debt; **RBAC** (admin vs member).
+Requirements from product: add/remove/update user; create group; add members; notify members; create expense; settle debt; **RBAC** (administrator versus member).
 
 ---
 
@@ -144,7 +144,7 @@ JWT sub = user_id ([[JWT authentication]])
 
 - **Enterprise AP/AR** — use real accounting ERP; tax/invoicing rules differ.
 - **High-frequency trading ledger** — different consistency/latency model.
-- **Single-user budget app** — no group balance graph needed.
+- **Single-user budget application** — no group balance graph needed.
 
 ---
 

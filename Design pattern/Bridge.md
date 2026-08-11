@@ -60,7 +60,7 @@ remote.toggle();
 ### When to reach for Bridge
 
 - Multiple **UI skins** over same **backend driver**
-- Cross-platform rendering (Skia vs CoreGraphics)
+- Cross-platform rendering (Skia versus CoreGraphics)
 - Payment methods × checkout flows without class explosion
 
 ### vs similar patterns

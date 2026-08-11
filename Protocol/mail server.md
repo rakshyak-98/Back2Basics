@@ -49,7 +49,7 @@ openssl s_client -connect mail.example.com:587 -starttls smtp
 openssl s_client -connect mail.example.com:993
 ```
 
-App config knobs (any language): host, port, TLS mode, username/password or OAuth2 — **separate** SMTP (send) from IMAP (read).
+application configuration knobs (any language): host, port, TLS mode, username/password or OAuth2 — **separate** SMTP (send) from IMAP (read).
 
 | Knob | Why it matters |
 |------|----------------|
@@ -87,7 +87,7 @@ App config knobs (any language): host, port, TLS mode, username/password or OAut
 
 ## When NOT to use
 
-- **Transactional app mail only** — use a provider API (SES, Postmark); skip running Postfix.
+- **Transactional application mail only** — use a provider API (SES, Postmark); skip running Postfix.
 - **Chat / realtime** — not email; use WebSocket or [[WebRTC]].
 - **Guaranteed instant delivery UX** — email is store-and-forward with greylisting delays.
 

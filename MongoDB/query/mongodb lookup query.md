@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** From each input doc, find matches in another collection and attach them as an array field.
+**Say it in one breath:** From each input document, find matches in another collection and attach them as an array field.
 
 ```txt
 orders $lookup users on userId = _id  →  orders + users[]

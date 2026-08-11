@@ -1,4 +1,4 @@
-[[Pods]] [[kubectl pod creation]] [[ingress]] [[Kubernetes services]] [[Kubernetes config]] [[Cilium]] [[distributed system]] [[orchestration]]
+[[Pods]] [[kubectl pod creation]] [[ingress]] [[Kubernetes services]] [[Kubernetes configuration]] [[Cilium]] [[distributed system]] [[orchestration]]
 
 # kubectl
 
@@ -51,7 +51,7 @@ kubectl logs -n prod -l app=api --prefix --timestamps --max-log-requests=10
 
 ### Create pods
 
-Bare Pod creation (manifests, `kubectl run`, init/sidecar patterns) → [[kubectl pod creation]].
+Bare Pod creation (manifests, `kubectl run`, initialize/sidecar patterns) → [[kubectl pod creation]].
 
 ### Apply / rollouts
 
@@ -118,7 +118,7 @@ kubectl logs -n $NS $POD --previous --tail=80
 kubectl get pod -n $NS $POD -o jsonpath='{.status.containerStatuses[0].lastState.terminated}'
 ```
 
-**Common fixes:** raise memory limit; fix app startup (DB not ready → use init container / probe `startupProbe`); wrong entrypoint; missing secret key → file not found exit 1.
+**Common fixes:** raise memory limit; fix application startup (DB not ready → use initialize container / probe `startupProbe`); wrong entrypoint; missing secret key → file not found exit 1.
 
 ### Probe gotchas
 
@@ -229,7 +229,7 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --since=5m | grep 
 
 ## Microservices (real-time triage)
 
-In microservice meshes, **kubectl proves the platform path** before you blame app code: DNS → Service → Endpoints → NetworkPolicy → (mesh route) → target Pod. One broken hop looks like "random 503s."
+In microservice meshes, **kubectl proves the platform path** before you blame application code: DNS → Service → Endpoints → NetworkPolicy → (mesh route) → target Pod. One broken hop looks like "random 503s."
 
 ```
 Client pod ──DNS──► svc.other-ns.svc.cluster.local:8080
@@ -355,20 +355,20 @@ kubectl get endpoints api -n prod -o yaml | yq '.subsets[].addresses | length'
 > [!WARNING]
 > **Microservice DNS is not localhost** — `localhost:8080` in pod A is not service B; use `http://<svc>.<ns>.svc.cluster.local:<port>`.
 
-- **Default namespace** — prod objects in `default` = footgun; enforce `-n` or `kubectl-ns` plugin.
+- **Default namespace** — production objects in `default` = footgun; enforce `-n` or `kubectl-ns` plugin.
 - **describe Events scroll off** — `--sort-by` on events or use `kubectl get events --field-selector involvedObject.name=…`
 - **Ephemeral debug copies** — clean up `api-debug` pods; they hold resources.
 - **jsonpath quoting** — use single quotes outside, double inside `{...}`.
 - **Large manifest apply** — server-side apply (`kubectl apply --server-side`) reduces field manager conflicts.
-- **EndpointSlices vs Endpoints** — `kubectl get endpoints` may truncate; use `endpointslices` for large fleets (many microservice replicas).
+- **EndpointSlices versus Endpoints** — `kubectl get endpoints` may truncate; use `endpointslices` for large fleets (many microservice replicas).
 - **Custom metrics lag** — Prometheus adapter / KEDA can be 30–60s behind; don't expect instant scale on queue depth.
 
 ## When NOT to use
 
-- **GitOps drift repair via manual edit** — `kubectl edit` untracked; fix source repo (Argo/Flux).
-- **Production scale exec** — use break-glass audit; prefer observability over SSH-via-kubectl habit.
+- **GitOps drift repair via manual edit** — `kubectl edit` untracked; fix source repository (Argo/Flux).
+- **Production scale execute** — use break-glass audit; prefer observability over SSH-via-kubectl habit.
 - **Replacing CI deploy** — kubectl from laptop is not a pipeline.
 
 ## Related
 
-[[Pods]] · [[kubectl pod creation]] · [[ingress]] · [[Kubernetes services]] · [[Kubernetes config]] · [[Cilium]] · [[Docker compose]] · [[orchestration]] · [[distributed system]] · [[connection chrun]]
+[[Pods]] · [[kubectl pod creation]] · [[ingress]] · [[Kubernetes services]] · [[Kubernetes configuration]] · [[Cilium]] · [[Docker compose]] · [[orchestration]] · [[distributed system]] · [[connection chrun]]

@@ -33,7 +33,7 @@
 
 ### How the story goes (4 steps)
 
-1. **Identify shared mutable state** — heap object, global, mmap, FD offset, …
+1. **Identify shared mutable state** — heap object, global, mmap, file descriptor offset, …
 2. **Define the invariant** — e.g. “balance ≥ 0”, “list is well-linked”.
 3. **Choose a guard** — [[mutexes]], [[semaphores]], atomics, single-thread confinement.
 4. **Enter → touch → leave** — no blocking I/O while holding the lock if you can avoid it.

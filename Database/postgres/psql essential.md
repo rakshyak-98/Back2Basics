@@ -105,9 +105,9 @@ DROP USER IF EXISTS wateradmin;
 
 ## When NOT to use
 
-- **App runtime data access** — use a driver + pool, not shelling out to `psql`.
-- **Killing backends casually in prod** — can abort in-flight txns; coordinate first.
-- **Granting CREATE on `public` to every app role** — tighten schema ownership in shared clusters.
+- **application runtime data access** — use a driver + pool, not shelling out to `psql`.
+- **Killing backends casually in production** — can abort in-flight txns; coordinate first.
+- **Granting CREATE on `public` to every application role** — tighten schema ownership in shared clusters.
 
 ---
 

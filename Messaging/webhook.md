@@ -21,7 +21,7 @@ Publisher                    Your service
     ◄─────────────────────────┤ (exponential backoff, hours)
 ```
 
-Contrasts with polling: lower latency, higher ops burden (public URL, signature crypto, replay handling).
+Contrasts with polling: lower latency, higher operations burden (public URL, signature crypto, replay handling).
 
 ## Standard config / commands
 
@@ -116,7 +116,7 @@ curl -i -X POST https://api.example.com/webhooks/github \
 > **Never expose webhook routes without auth** — obscurity URLs get scanned. Signature verification is mandatory.
 
 - **Replay attacks:** include timestamp tolerance (Stripe `t=` prefix) or nonce store for custom HMAC.
-- **GitHub:** `X-Hub-Signature-256` on raw body; `application/json` vs `application/x-www-form-urlencoded` for some hooks.
+- **GitHub:** `X-Hub-Signature-256` on raw body; `application/json` versus `application/x-www-form-urlencoded` for some hooks.
 - **Load balancer idle timeout** < long processing → LB 504 while worker still runs — async pattern fixes this.
 - **Testing:** use provider CLI (`stripe listen --forward-to`) instead of disabling verification.
 

@@ -35,7 +35,7 @@ systemctl ──D-Bus──► systemd ──► unit files ──► processes
 
 ## Standard config / commands
 
-**systemd — daily ops:**
+**systemd — daily operations:**
 
 ```bash
 # Status & failed inventory (first stop in incidents)
@@ -125,7 +125,7 @@ sudo service nginx status               # often wraps systemctl
 
 - **Container inner lifecycle** → `docker compose`, k8s probes — host systemctl is outer layer.
 - **User session apps** → `systemctl --user` (different bus) or desktop tools.
-- **Config file syntax** → edit files in `/etc`; systemctl only applies units.
+- **configuration file syntax** → edit files in `/etc`; systemctl only applies units.
 
 ## Related
 

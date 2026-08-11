@@ -33,7 +33,7 @@ Root should remain for break-glass; daily work as unprivileged user + `sudo`.
 
 ## Standard config / commands
 
-**1. Create admin user (Ubuntu/Debian example):**
+**1. Create administrator user (Ubuntu/Debian example):**
 
 ```bash
 # As root on first login
@@ -111,7 +111,7 @@ journalctl _COMM=sudo
 
 1. Provider **serial console / rescue mode** → mount root FS.
 2. `chroot /mnt` or edit mounted `etc/sudoers.d/*`.
-3. Re-enable `PasswordAuthentication yes` temporarily **or** paste pubkey into admin `authorized_keys`.
+3. Re-enable `PasswordAuthentication yes` temporarily **or** paste pubkey into administrator `authorized_keys`.
 4. Reboot; fix properly; re-harden.
 
 **Recovery checklist:**
@@ -141,8 +141,8 @@ sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /mnt/etc/ssh/ss
 ## When NOT to use
 
 - **Shared developer laptops** — NOPASSWD ALL for convenience trades away sudo audit and password second factor.
-- **Production app runtime as sudo user** — services get dedicated users, no shell, no sudo ([[Setup Non-Login user from Running process]]).
-- **Disabling root entirely before testing admin** — always validate `deploy` sudo in a second session first.
+- **Production application runtime as sudo user** — services get dedicated users, no shell, no sudo ([[Setup Non-Login user from Running process]]).
+- **Disabling root entirely before testing administrator** — always validate `deploy` sudo in a second session first.
 
 ## Related
 

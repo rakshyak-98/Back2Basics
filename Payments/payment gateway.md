@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** A **payment gateway** sits between merchant site/[[POS]] and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns auth/capture result.
+**Say it in one breath:** A **payment gateway** sits between merchant site/[[POS]] and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns authentication/capture result.
 
 
 ```
@@ -77,9 +77,9 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 > [!WARNING]
 > **Client-side success redirect ≠ paid** — always confirm via server-side API or signed webhook.
 
-- **3DS / SCA** — auth may require redirect; handle `requires_action` states.
-- **Partial capture** — auth amount may exceed shipped total; void unused auth.
-- **MOTO vs e-commerce** — different interchange and fraud rules.
+- **3DS / SCA** — authentication may require redirect; handle `requires_action` states.
+- **Partial capture** — authentication amount may exceed shipped total; void unused authentication.
+- **MOTO versus e-commerce** — different interchange and fraud rules.
 
 ## When NOT to use
 

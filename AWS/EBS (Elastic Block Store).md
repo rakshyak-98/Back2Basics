@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Like a remote SSD/HDD plugged into the instance. Format/mount in the OS. Snapshot → incremental backup in S3 (API-only, not a browsable bucket). Prefer the sibling note [[AWS EBS(Elastic Block Store)]] for deeper ops — this is the field card.
+**Say it in one breath:** Like a remote SSD/HDD plugged into the instance. Format/mount in the OS. Snapshot → incremental backup in S3 (API-only, not a browsable bucket). Prefer the sibling note [[AWS EBS(Elastic Block Store)]] for deeper operations — this is the field card.
 
 ```txt
 EC2 (AZ-a) ──attach──► EBS vol (AZ-a)

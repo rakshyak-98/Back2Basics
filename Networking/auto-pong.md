@@ -83,7 +83,7 @@ ping -c 3 192.168.1.1
 
 ## When NOT to use
 
-- **As the only auth heartbeat** — authenticate sessions separately.
+- **As the only authentication heartbeat** — authenticate sessions separately.
 - **Flood ping for load tests** — use proper traffic generators.
 - **Replacing TCP keepalive thoughtfully** — pick one layer; don’t triple-probe blindly.
 

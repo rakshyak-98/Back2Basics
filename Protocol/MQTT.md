@@ -112,7 +112,7 @@ no leading $ for app topics ($SYS reserved by broker)
 ## When NOT to use
 
 - **Request/response HTTP APIs** — REST/gRPC clearer for CRUD.
-- **Browser-first real-time** — [[webSocket]] + app server may be simpler than MQTT-over-WS.
+- **Browser-first real-time** — [[webSocket]] + application server may be simpler than MQTT-over-WS.
 - **Guaranteed global ordering** — MQTT doesn't order across topics; design per-key streams.
 
 ## Related

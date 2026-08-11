@@ -67,7 +67,7 @@ need relationships       → graph (adj list)
 ## When NOT to use
 
 - **Tiny n** — simplest container wins.
-- **When a database index already solves it** — don’t rebuild in app memory casually.
+- **When a database index already solves it** — don’t rebuild in application memory casually.
 
 ## Related
 

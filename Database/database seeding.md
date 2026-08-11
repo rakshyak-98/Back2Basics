@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Migrations** change structure; **seeds** insert rows. Seeds run in **known order**, ideally **idempotent** (safe to re-run in dev/CI). Prod seeds = small, static reference data (roles, countries); **never** fake PII at scale in prod.
+**Migrations** change structure; **seeds** insert rows. Seeds run in **known order**, ideally **idempotent** (safe to re-run in development/CI). production seeds = small, static reference data (roles, countries); **never** fake PII at scale in production.
 
 ```
 migrate up ──► schema ready ──► seed (ordered scripts) ──► app can boot
@@ -76,7 +76,7 @@ await prisma.role.upsert({
 | staging | Anonymized subset or synthetic |
 | prod | Reference tables only; via reviewed migration or one-off job |
 
-Use env guard:
+Use environment guard:
 ```javascript
 if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_PROD_SEED) {
   throw new Error('Refusing prod seed');
@@ -111,7 +111,7 @@ if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_PROD_SEED) {
 ## When NOT to use
 
 - **Schema changes** — use [[migration]].
-- **Restoring prod after incident** — PITR/backup restore, not seed script.
+- **Restoring production after incident** — PITR/backup restore, not seed script.
 - **Analytics sample data at scale** — ETL to [[OLAP]] warehouse, not OLTP seed.
 
 ## Related

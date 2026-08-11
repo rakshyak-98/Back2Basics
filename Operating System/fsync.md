@@ -24,7 +24,7 @@ app write() ──► user buffer ──► copy_to_user ──► page cache (d
 - Disk/NVMe **write cache** (enabled by default on many drives).
 - **RAID controller** BBU cache.
 - **NFS** — server may ack before platter (see gotchas).
-- **VM hypervisor** — flush semantics depend on cache mode (`writethrough` vs `writeback`).
+- **VM hypervisor** — flush semantics depend on cache mode (`writethrough` versus `writeback`).
 
 **DB mental model:** PostgreSQL `COMMIT` → WAL `fsync` before ack; SQLite `PRAGMA synchronous`; RocksDB `SyncWal`. Application `fsync` on a data file without WAL ordering is usually wrong — see [[WAL (Write-Ahead Log)]].
 
@@ -75,7 +75,7 @@ if (fsync(fd) == -1) { /* handle — disk full, EIO, NFS stale */ }
 
 **Go:** `file.Sync()` → `fsync`. **Java:** `FileChannel.force(true)`. **Node:** `fs.fsync(fd, cb)` — `fs.writeFile` does **not** fsync by default.
 
-**Postgres (operator view):** `synchronous_commit=on` (default) fsyncs WAL each commit; `off` trades durability for speed. `full_page_writes` + WAL is why random data-page fsync on crash recovery differs from app-level file fsync.
+**Postgres (operator view):** `synchronous_commit=on` (default) fsyncs WAL each commit; `off` trades durability for speed. `full_page_writes` + WAL is why random data-page fsync on crash recovery differs from application-level file fsync.
 
 ---
 

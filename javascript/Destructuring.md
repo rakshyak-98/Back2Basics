@@ -62,7 +62,7 @@ const [head, ...tail] = list
 
 ## When NOT to use
 
-- **Deep optional trees** — readability dies; intermediate vars help.
+- **Deep optional trees** — readability dies; intermediate variables help.
 - **Huge objects once** — sometimes explicit access is clearer.
 
 ---

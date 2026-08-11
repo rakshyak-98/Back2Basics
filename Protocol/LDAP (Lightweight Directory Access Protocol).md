@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Clients bind (authenticate) to a directory server (DSA), then search/modify entries addressed by DN (distinguished name) in a tree — think “phone book + auth,” not a general SQL database.
+**Say it in one breath:** Clients bind (authenticate) to a directory server (DSA), then search/modify entries addressed by DN (distinguished name) in a tree — think “phone book + authentication,” not a general SQL database.
 
 ```txt
 App / IdP / login shell
@@ -97,7 +97,7 @@ tls_reqcert demand
 ## When NOT to use
 
 - **Session store or product catalog** — use Redis/SQL.
-- **Greenfield consumer SaaS auth** — OIDC/SAML to an IdP; hide LDAP behind it.
+- **Greenfield consumer SaaS authentication** — OIDC/SAML to an IdP; hide LDAP behind it.
 - **High-churn document storage** — wrong consistency and query model.
 
 ---

@@ -96,7 +96,7 @@ sudo userdel -r username
 ## When NOT to use
 
 - **Temporary disable** → `passwd -l`, `usermod -L`, `chage -E 1`.
-- **Directory (LDAP/AD) accounts** → idm/directory admin tools.
+- **Directory (LDAP/AD) accounts** → idm/directory administrator tools.
 - **Rename user** → `usermod -l newname -d /home/newname -m`.
 - **Merge two accounts** → `chown` file migration, not delete-recreate.
 

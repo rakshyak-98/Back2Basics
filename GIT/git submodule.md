@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** A submodule is a **gitlink**: parent repo records a path + exact commit SHA of nested repo. Cloning parent does not auto-fetch submodule contents unless `--recurse-submodules`.
+**Say it in one breath:** A submodule is a **gitlink**: parent repository records a path + exact commit SHA of nested repository. Cloning parent does not auto-fetch submodule contents unless `--recurse-submodules`.
 
 
 ```
@@ -109,7 +109,7 @@ git submodule foreach 'git rev-parse HEAD'
 ## When NOT to use
 
 - **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
-- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for app repos.
+- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
 
 ---
 

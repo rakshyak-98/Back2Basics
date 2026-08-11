@@ -81,7 +81,7 @@ sudo tcpretrans    # retransmits → packet loss / congestion signal
 
 **Production use cases (what staff actually deploy):**
 
-- **Latency:** `biolatency`, `runqlat`, `offcputime` — “disk slow vs CPU wait vs lock” in one session.
+- **Latency:** `biolatency`, `runqlat`, `offcputime` — “disk slow versus CPU wait versus lock” in one session.
 - **Packet drop:** XDP drop counters; `tc` clsact; Cilium `hubble observe`; correlate with `ss -ti` retrans.
 - **Syscall tracing:** `opensnoop`, `execsnoop`, `capable` — “what is this container doing?” without strace flood.
 - **Security:** LSM BPF (file open, socket connect) — policy without kernel rebuild.
@@ -97,11 +97,11 @@ sudo tcpretrans    # retransmits → packet loss / congestion signal
 - **Map limits:** `kernel.bpf.max_*` sysctl and memlock ulimit — large maps fail mysteriously on first deploy.
 - **BTF missing on custom kernels:** CO-RE tools silently fail or need `/sys/kernel/btf/vmlinux` from kernel package.
 - **Orphan programs:** Crash without cleanup → `bpftool prog list` shows ghosts; reboot or manual detach.
-- **Cgroup v1 vs v2:** cgroup-bpf attachment semantics differ; container runtimes assume v2 on modern distros.
+- **Cgroup v1 versus v2:** cgroup-bpf attachment semantics differ; container runtimes assume v2 on modern distros.
 
 ## When NOT to use
 
-- **First-line app debugging** — logs, metrics, and `strace -c` beat BPF for “why did my Python script fail”.
+- **First-line application debugging** — logs, metrics, and `strace -c` beat BPF for “why did my Python script fail”.
 - **Permanent business logic in BPF** — keep policy in user space unless you need line-rate dataplane (XDP/LB).
 - **Kernel without BPF syscall** — embedded/old kernels: use `perf`, `ftrace`, or vendor APM instead.
 - **Full packet capture replacement** — eBPF samples/counts; use `tcpdump`/PCAP when you need every frame legally retained.

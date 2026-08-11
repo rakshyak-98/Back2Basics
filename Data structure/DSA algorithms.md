@@ -65,7 +65,7 @@ shortest path → BFS (unweighted) / Dijkstra
 
 ## When NOT to use
 
-- **CRUD app without hot path** — clarity over clever DSA.
+- **CRUD application without hot path** — clarity over clever DSA.
 - **When library sort/search suffices** — don’t reimplement.
 
 ## Related

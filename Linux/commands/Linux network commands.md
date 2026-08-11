@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** inventory with `ss`, ownership with `lsof`, path with `ip`/`ping`, app reachability with `nc`, packets with `tcpdump`, names with `dig`.
+**Say it in one breath:** inventory with `ss`, ownership with `lsof`, path with `ip`/`ping`, application reachability with `nc`, packets with `tcpdump`, names with `dig`.
 
 ```txt
 Listen?  ss -lntup / lsof -i

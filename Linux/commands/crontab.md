@@ -123,7 +123,7 @@ systemctl status crond             # RHEL/CentOS
 
 ## When NOT to use
 
-- **Sub-minute scheduling** → systemd timer, supervisor, or app-internal scheduler.
+- **Sub-minute scheduling** → systemd timer, supervisor, or application-internal scheduler.
 - **Boot-order dependencies** → [[systemd]] unit with `After=` / `Requires=`.
 - **One-shot delayed tasks** → `at`, not cron.
 - **Complex retry/backoff** → dedicated job runner (Sidekiq, Celery, Airflow), not cron loops.

@@ -72,8 +72,8 @@ REVOKE GRANT OPTION ON *.* FROM 'user'@'%';
 
 ## When NOT to use
 
-- **App-level authorization** — DB GRANT is coarse; row/tenant rules belong in the app or RLS (Postgres).
-- **Sharing one superuser** — never point the app at root.
+- **application-level authorization** — DB GRANT is coarse; row/tenant rules belong in the application or RLS (Postgres).
+- **Sharing one superuser** — never point the application at root.
 
 ---
 

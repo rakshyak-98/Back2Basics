@@ -160,7 +160,7 @@ Always pin module `version` (Brikman).
 
 ## State (preview)
 
-Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` can compare desired vs actual.
+Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` can compare desired versus actual.
 
 - Solo: local state
 - Team: remote backend + locking → [[Terraform setup]]
@@ -188,14 +188,14 @@ Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` ca
 
 ## When NOT to use
 
-- **Day-2 app deploys** — prefer CI + container/orchestrator, not Terraform for every image tag.
+- **Day-2 application deploys** — prefer CI + container/orchestrator, not Terraform for every image tag.
 - **One irreversible click** — sometimes the console + runbook is safer than half-baked HCL.
 
 ## Related graph
 
-- Install / versions / auth / backend → [[Terraform setup]]
+- Install / versions / authentication / backend → [[Terraform setup]]
 - Provider plugins & aliases → [[terraform provider]]
-- init → plan → apply → destroy → [[Terraform workflow]]
+- initialize → plan → apply → destroy → [[Terraform workflow]]
 - CLI / logging / schema → [[Terraform CLI]]
 - Variables & tfvars → [[variable file]]
 - Docker provider example → [[Terraform docker]]

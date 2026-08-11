@@ -67,7 +67,7 @@
 
 ## When NOT to use
 
-- **App code** — use ESM modules.
+- **application code** — use ESM modules.
 - **New libraries** — dual ESM/CJS via `package.json` `exports` beats hand UMD.
 
 ---

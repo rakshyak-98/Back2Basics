@@ -82,7 +82,7 @@ sudo ufw status
 
 - **Exposing a service to the internet** — use reverse proxy, VPN, or tunnel — not raw port-forward forever.
 - **Assuming same Wi‑Fi = same network** — guest networks and VLANs lie.
-- **Skipping auth because “it’s LAN only”** — LAN is not a trust boundary on shared Wi‑Fi.
+- **Skipping authentication because “it’s LAN only”** — LAN is not a trust boundary on shared Wi‑Fi.
 
 ---
 

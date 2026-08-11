@@ -69,7 +69,7 @@ cat ~/.config/user-dirs.dirs
 ## When NOT to use
 
 - **Code scaffolding** — use cookiecutter/copier, not FM templates.
-- **Server provisioning** — use config management, not desktop Templates.
+- **Server provisioning** — use configuration management, not desktop Templates.
 
 ---
 

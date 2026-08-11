@@ -75,4 +75,4 @@ gsettings get org.gnome.desktop.interface gtk-theme
 
 ## Related
 
-[[gsetting]] [[X Desktop Group]] [[terminal config]]
+[[gsetting]] [[X Desktop Group]] [[terminal configuration]]

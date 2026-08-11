@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` vs `String?`.
+Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` versus `String?`.
 
 ```
 Java null check     →  Kotlin ?.  ?:  !!

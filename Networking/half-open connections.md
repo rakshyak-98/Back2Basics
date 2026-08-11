@@ -20,7 +20,7 @@ TCP is full-duplex: each direction has its own FIN/ACK lifecycle. **Half-open** 
 
 Common production triggers:
 - Server calls `shutdown(SHUT_WR)` or `close()` after response; client still reading.
-- Load balancer health-check closes idle side; app socket stuck in `CLOSE_WAIT` or `FIN_WAIT_2`.
+- Load balancer health-check closes idle side; application socket stuck in `CLOSE_WAIT` or `FIN_WAIT_2`.
 - Client crashes without FIN → peer sees half-open until TCP keepalive or timeout fires.
 
 > [!NOTE]
@@ -51,7 +51,7 @@ ss -tanp state close-wait
 sysctl net.ipv4.tcp_keepalive_time net.ipv4.tcp_keepalive_intvl net.ipv4.tcp_keepalive_probes
 ```
 
-Enable keepalive on long-lived server sockets (detect dead peers without app heartbeat):
+Enable keepalive on long-lived server sockets (detect dead peers without application heartbeat):
 
 ```c
 int yes = 1;
@@ -78,10 +78,10 @@ setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &yes, sizeof(yes));
 > [!WARNING]
 > **`server.end()` vs `socket.destroy()`** in Node with `allowHalfOpen: true`: `end()` only half-closes; clients that never read will hold the fd until keepalive timeout.
 
-- **Half-close vs half-open**: "Half-close" is the *action* (`shutdown(SHUT_WR)`); "half-open" is the *resulting state*.
-- **RST vs FIN**: RST immediately aborts both directions; FIN allows graceful drain. Mixed behavior confuses apps expecting clean EOF.
+- **Half-close versus half-open**: "Half-close" is the *action* (`shutdown(SHUT_WR)`); "half-open" is the *resulting state*.
+- **RST versus FIN**: RST immediately aborts both directions; FIN allows graceful drain. Mixed behavior confuses apps expecting clean EOF.
 - **Epoll edge-triggered**: If you don't read until EOF after peer FIN, you may miss the event and leak the fd.
-- **NAT middleboxes**: Can drop idle half-open flows silently; app-level heartbeat beats relying on TCP keepalive alone (default 2h on Linux).
+- **NAT middleboxes**: Can drop idle half-open flows silently; application-level heartbeat beats relying on TCP keepalive alone (default 2h on Linux).
 
 ## When NOT to use
 

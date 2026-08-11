@@ -52,7 +52,7 @@ Peer A                          Peer B
 
 ### Signaling (one sentence)
 
-Signaling is how peers **swap** “here are my addresses” before media starts — usually your app’s Web API or WebSocket.
+Signaling is how peers **swap** “here are my addresses” before media starts — usually your application’s Web API or WebSocket.
 
 ```js
 // Signaling is your channel; ICE is the path finder

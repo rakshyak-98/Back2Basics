@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Wrap the root reducer with `persistReducer`; on load, read `localStorage`/`sessionStorage` into the store before showing the app.
+**Say it in one breath:** Wrap the root reducer with `persistReducer`; on load, read `localStorage`/`sessionStorage` into the store before showing the application.
 
 ```txt
 dispatch → reducer → persist middleware writes storage
@@ -77,7 +77,7 @@ export const persistor = persistStore(store)
 
 ## When NOT to use
 
-- **Server-authoritative session** — cookie + refetch user; don’t trust disk for auth alone.
+- **Server-authoritative session** — cookie + refetch user; don’t trust disk for authentication alone.
 - **TanStack Query data** — use Query persister, not Redux persist for server cache.
 
 ---

@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Config layers:
+configuration layers:
 
 ```txt
 tsconfig.json     → typecheck rules, paths, JSX
@@ -17,7 +17,7 @@ vite.config.ts    → dev server, aliases, plugins
 eslint/prettier    → lint in CI
 ```
 
-Goal: **one import style** (`@/features/...`), strict enough TS to catch prod bugs, env vars validated once at boot.
+Goal: **one import style** (`@/features/...`), strict enough TS to catch production bugs, environment variables validated once at boot.
 
 ---
 
@@ -102,7 +102,7 @@ if (!api) throw new Error("VITE_API_URL missing");
 ## When NOT to use
 
 - **Monorepo packages** — per-package tsconfig + project references, not one giant paths map.
-- **Next.js** — use `next-env.d.ts` and `NEXT_PUBLIC_*` instead of Vite env pattern.
+- **Next.js** — use `next-env.d.ts` and `NEXT_PUBLIC_*` instead of Vite environment pattern.
 
 ---
 

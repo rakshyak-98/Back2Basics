@@ -20,7 +20,7 @@ provider "aws" {
 }
 ```
 
-Winkler: arguments here are **provider-level** (region, endpoints, auth), not resource arguments.
+Winkler: arguments here are **provider-level** (region, endpoints, authentication), not resource arguments.
 
 Values often come from [[variable file]].
 
@@ -131,7 +131,7 @@ Same pattern — `required_providers` + `provider` block:
 
 ## Book takeaways
 
-- **Winkler**: provider = plugin; config block; aliases; schema drives valid args
+- **Winkler**: provider = plugin; configuration block; aliases; schema drives valid arguments
 - **Brikman**: pin versions; never store credentials in code; registries for providers/modules
 
 ## Triage (when things break)

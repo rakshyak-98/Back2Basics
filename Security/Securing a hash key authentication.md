@@ -16,7 +16,7 @@ Server:  recompute with stored secret → timing-safe equal?
 ```
 
 Threat model:
-- **Leak** via git, logs, env dump, support ticket
+- **Leak** via git, logs, environment dump, support ticket
 - **Offline brute force** if secret weak or fast hash (MD5)
 - **Replay** if no timestamp/nonce in signed payload
 

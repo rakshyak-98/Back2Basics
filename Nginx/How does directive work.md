@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Config is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`**.
+**Say it in one breath:** configuration is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`**.
 
 
 ```

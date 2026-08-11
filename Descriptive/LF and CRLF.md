@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Text lines must end somehow; Git `core.autocrlf` / `.gitattributes` keep the repo consistent across OS.
+**Say it in one breath:** Text lines must end somehow; Git `core.autocrlf` / `.gitattributes` keep the repository consistent across OS.
 
 ```txt
 LF = \n          CRLF = \r\n

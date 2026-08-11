@@ -19,7 +19,7 @@ Route /^\/users\/(\d+)$/ → full RegExp route — YOU own anchors ^ $
 ```
 
 Two modes:
-1. **String routes** — `:param`, optional `?`, custom `(regex)` per param, `*` splat (Express 4.x).
+1. **String routes** — `:param`, optional `?`, custom `(regex)` per parameter, `*` splat (Express 4.x).
 2. **RegExp routes** — `app.get(/^\/foo\/bar$/, ...)` — entire pattern must match path (query string excluded).
 
 ## Standard config / commands

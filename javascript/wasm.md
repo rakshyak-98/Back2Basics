@@ -93,7 +93,7 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 ## When NOT to use
 
 - **Simple CRUD UI** — JS is faster to ship and debug.
-- **Full app rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
+- **Full application rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
 - **When Web Crypto API suffices** — native `crypto.subtle` before bundling Rust crypto.
 
 ---

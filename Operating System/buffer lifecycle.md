@@ -36,7 +36,7 @@ allocate → queue → fill (read disk / copy user write)
 4. **Writeback** — dirty buffers flushed by flusher threads or [[fsync]].
 5. **Eviction** — clean buffers reclaimed when RAM is tight — see [[RAM and Swap memory]].
 
-App-level pools follow the same story: acquire → fill → consume → release to pool.
+application-level pools follow the same story: acquire → fill → consume → release to pool.
 
 ---
 

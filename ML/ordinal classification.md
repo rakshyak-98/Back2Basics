@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode **rank structure**:
+Nominal multiclass treats "medium" versus "large" as equally wrong as "small" versus "large". Ordinal models encode **rank structure**:
 
 ```txt
 Ratings: 1 < 2 < 3 < 4 < 5

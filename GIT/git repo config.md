@@ -8,8 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** git repo config is infra/security tooling — least privilege, clear config, observable failures.
-
+**Say it in one breath:** git repository configuration — know what it does, how to configure it, and how it fails in production.
 
 ```shell
 gpg --full-generate-key; # generate gpg key
@@ -35,22 +34,13 @@ git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **git repo config** | Core idea of this note | “I can explain git repo config without jargon.” |
-| **least privilege** | Only needed access | “Grant the smallest role that works.” |
-| **secret** | Password/key/token | “Secrets out of git; rotate them.” |
-| **observability** | metrics/logs/traces | “You can’t fix what you can’t see.” |
-
----
 
 ## Standard config / commands
 
 ```bash
-# status
-# check version, auth, and recent changes
+git config --local user.email "you@company.com"
+git config --local core.hooksPath .githooks
+git config --list --local
 ```
 
 ---
@@ -59,22 +49,23 @@ git config user.signingkey <path to ssh .pub file>;
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Auth fail | clock / creds / IAM | Sync time; fix policy |
-| TLS error | cert chain / SNI | Fix certs and CA bundle |
-| Deploy down | rollback / health | Roll back; check probes |
+| Wrong identity on commits | Local versus global config | `git config --show-origin user.email` |
+| Hooks not running | `core.hooksPath` unset | Set path; ensure scripts are executable |
+| Line ending chaos on Windows | `core.autocrlf` mismatch | Align team policy; add `.gitattributes` |
 
 ---
 
 ## Gotchas
 
 > [!WARNING]
-> Never commit long-lived secrets.
+> Repository config in `.git/config` overrides global `~/.gitconfig` for the same keys.
 
 ---
 
 ## When NOT to use
 
-- Don’t build custom infra when managed services meet the SLO.
+- Do not store secrets in repository config — use environment variables or a secret manager.
+
 
 ---
 

@@ -72,7 +72,7 @@ git config --global gpg.format ssh
 git config --global user.signingkey ~/.ssh/id_ed25519.pub
 ```
 
-See [[gpg]] for repo key verification (nginx packages, etc.) — different use case from commit signing.
+See [[gpg]] for repository key verification (nginx packages, etc.) — different use case from commit signing.
 
 ## Triage (when things break)
 

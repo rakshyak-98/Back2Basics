@@ -17,7 +17,7 @@ ACID is four independent knobs — databases implement each differently:
 | **Isolation** | Concurrent txs see each other's partial work? | Locks, [[MVCC]], isolation levels |
 | **Durability** | Committed survives power loss? | [[WAL (Write-Ahead Log)]] + fsync |
 
-**Consistency is not magic** — the DB enforces *declared* rules (NOT NULL, CHECK). Business rules ("balance ≥ 0") still need app code or triggers.
+**Consistency is not magic** — the DB enforces *declared* rules (NOT NULL, CHECK). Business rules ("balance ≥ 0") still need application code or triggers.
 
 **Isolation is where apps break** — ORMs hide transactions; default levels differ; retries aren't automatic.
 
@@ -32,7 +32,7 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 COMMIT;  -- may fail: ERROR: could not serialize access
 ```
 
-**App must retry** on `40001` serialization failure — framework rarely does this for you.
+**application must retry** on `40001` serialization failure — framework rarely does this for you.
 
 ### Prevent lost updates (pick one)
 
@@ -70,7 +70,7 @@ SQL standard levels (weakest → strongest):
 - **Dirty read** — read uncommitted data from another tx; rolled-back rows looked real.
 - **Non-repeatable read** — same `SELECT` twice in one tx returns different rows (other tx committed an update).
 - **Phantom read** — same range query twice returns different row *count* (inserts/deletes committed by others).
-- **Lost update** — two txs read same value, both write; one overwrite silently lost (not always classified as "anomaly" but most common app bug).
+- **Lost update** — two txs read same value, both write; one overwrite silently lost (not always classified as "anomaly" but most common application bug).
 - **Write skew** — two txs read disjoint rows, write constraints that together violate an invariant (classic: on-call calendar — two people both think they're sole on-call).
 
 ## Engine defaults (know before you deploy)

@@ -70,9 +70,9 @@ Service A ──event──► Bus/Log ──► Consumers B,C
 
 ## When NOT to use
 
-- **Simple CRUD app** — direct calls clearer.
+- **Simple CRUD application** — direct calls clearer.
 - **Need immediate cross-service transaction** — rethink boundaries or use orchestrated saga carefully.
-- **Tiny team ops** — bus + schemas + DLQ is real cost.
+- **Tiny team operations** — bus + schemas + DLQ is real cost.
 
 ---
 

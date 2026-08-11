@@ -32,7 +32,7 @@ HTTP(S) server with WebDAV module (Apache mod_dav, nginx + dav, IIS)
 1. Client authenticates (Basic/Digest/Bearer over TLS).
 2. PROPFIND discovers the tree; PUT uploads; MOVE/COPY rename.
 3. LOCK around edit sessions when the client supports it.
-4. Same TLS cert and reverse proxy path as any HTTPS app.
+4. Same TLS cert and reverse proxy path as any HTTPS application.
 
 ---
 
@@ -95,11 +95,11 @@ curl -u user:pass -X PROPFIND https://files.example.com/dav/ \
 ## When NOT to use
 
 - **Large-scale sync product** — purpose-built sync (rsync, object storage APIs, specialized sync protocol) scales better.
-- **Simple app uploads** — plain multipart POST/S3 presign is enough.
+- **Simple application uploads** — plain multipart POST/S3 presign is enough.
 - **Public anonymous write trees** — abuse magnet; use object storage with IAM.
 
 ---
 
 ## Related
 
-[[HTTP module]] [[TLS (Transport Layer Security)]] [[ftp]] [[SCP (Secure Copy Protocol)]] [[nginx config structure]]
+[[HTTP module]] [[TLS (Transport Layer Security)]] [[ftp]] [[SCP (Secure Copy Protocol)]] [[nginx configuration structure]]

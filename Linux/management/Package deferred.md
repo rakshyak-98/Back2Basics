@@ -77,4 +77,4 @@ apt-cache policy kubelet
 
 ## Related
 
-[[Package Manager]] [[apt package manager]] [[apt config]] [[APT policy]]
+[[Package Manager]] [[apt package manager]] [[apt configuration]] [[APT policy]]

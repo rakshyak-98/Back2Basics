@@ -95,7 +95,7 @@ terraform providers schema -json \
   | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas["aws_instance"]'
 ```
 
-Use schema to learn required args without guessing (Winkler: schema is the contract).
+Use schema to learn required arguments without guessing (Winkler: schema is the contract).
 
 ---
 
@@ -130,14 +130,14 @@ Workflow context: [[Terraform workflow]]
 
 1. No `.tf` files? → create `main.tf` ([[Terraform setup]])
 2. Provider download fail? → `TF_LOG=DEBUG terraform init`
-3. Auth errors? → cloud credentials ([[terraform provider]])
+3. authentication errors? → cloud credentials ([[terraform provider]])
 4. Wrong region/project? → provider block + [[variable file]]
 
 ---
 
 ## Book takeaways
 
-- **Brikman**: automate fmt/validate/plan in CI; treat state commands as ops tools
+- **Brikman**: automate fmt/validate/plan in CI; treat state commands as operations tools
 - **Winkler**: schema + graph explain *why* a plan looks that way — use CLI to inspect both
 
 ## Gotchas
@@ -150,7 +150,7 @@ Workflow context: [[Terraform workflow]]
 
 ## When NOT to use
 
-- **One-off cloud click-ops** — CLI shines when the config is code; skip Terraform for a single manual sandbox resource if the team agrees.
+- **One-off cloud click-operations** — CLI shines when the configuration is code; skip Terraform for a single manual sandbox resource if the team agrees.
 
 ## Related
 

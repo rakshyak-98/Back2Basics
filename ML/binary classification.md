@@ -8,7 +8,7 @@
 
 ## Mental model
 
-Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 vs 0.
+Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 versus 0.
 
 ```txt
 score(x) → probability p → if p ≥ τ then positive else negative

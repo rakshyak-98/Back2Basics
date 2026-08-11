@@ -8,14 +8,14 @@
 
 ## Mental model
 
-**Say it in one breath:** Data access patterns — I can explain the job, the config, and the top failure without jargon.
+**Say it in one breath:** Data access patterns — I can explain the job, the configuration, and the top failure without jargon.
 
 
 Schema follows **access paths**, not ER diagrams drawn once. Ask every feature:
 
 1. **Who writes?** frequency, burstiness, idempotency
 2. **Who reads?** latency SLO, staleness tolerance
-3. **Key?** point lookup vs scan vs graph walk
+3. **Key?** point lookup versus scan versus graph walk
 4. **Shape?** row, document, time-series, blob
 
 ```

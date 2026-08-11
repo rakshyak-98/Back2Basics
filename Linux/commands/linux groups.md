@@ -55,7 +55,7 @@ newgrp developers
 | “Add group to user” | `usermod -aG group user` |
 | “Add user to group” | `usermod -aG group user` / `gpasswd -a user group` |
 
-Common groups: `sudo`/`wheel` (admin), `docker`, `adm` (logs), `users`.
+Common groups: `sudo`/`wheel` (administrator), `docker`, `adm` (logs), `users`.
 
 ---
 

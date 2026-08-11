@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** Ambient decls invent types for existing JS. Global (`declare var`) vs module (`declare module 'pkg'`). Prefer DefinitelyTyped or the package’s own types when available.
+**Say it in one breath:** Ambient decls invent types for existing JS. Global (`declare var`) versus module (`declare module 'pkg'`). Prefer DefinitelyTyped or the package’s own types when available.
 
 ```txt
 import 'pkg' ──needs──► node_modules/pkg/*.d.ts  or  declare module 'pkg'

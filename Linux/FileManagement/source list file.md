@@ -1,4 +1,4 @@
-[[FileManagement]] [[apt package manager]] [[apt config]] [[keyrings]]
+[[FileManagement]] [[apt package manager]] [[apt configuration]] [[keyrings]]
 
 # source list file
 
@@ -8,7 +8,7 @@
 
 ## Mental model
 
-**Say it in one breath:** `deb [options] URI suite component…` is one repo; `signed-by=` pins trust.
+**Say it in one breath:** `deb [options] URI suite component…` is one repository; `signed-by=` pins trust.
 
 ```txt
 deb [arch=amd64 signed-by=/usr/share/keyrings/foo.gpg] https://ex/apt jammy main
@@ -77,4 +77,4 @@ sudo mv /etc/apt/sources.list.d/bad.list{,.disabled}
 
 ## Related
 
-[[apt package manager]] [[apt config]] [[keyrings]] [[Package Manager]]
+[[apt package manager]] [[apt configuration]] [[keyrings]] [[Package Manager]]

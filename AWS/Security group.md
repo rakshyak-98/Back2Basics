@@ -44,7 +44,7 @@ aws ec2 authorize-security-group-ingress \
 
 ### Rules that survive review
 
-- **No `0.0.0.0/0` on admin ports** (22, 3389) — use SSM Session Manager or bastion with source IP lock.
+- **No `0.0.0.0/0` on administrator ports** (22, 3389) — use SSM Session Manager or bastion with source IP lock.
 - **Least privilege ports** — `8080/tcp` not `-1` (all protocols) unless proven necessary.
 - **Separate SG per tier** — don't reuse `default` SG.
 - **Document why** in SG description tag (`Name`, `Purpose`, `Owner`).
@@ -89,8 +89,8 @@ aws ec2 create-network-insights-path --source sg-xxx --destination sg-yyy ...
 ## When NOT to use
 
 - **Subnet-wide block list (deny bad IP)** — SG has no deny; use **NACL** or **AWS Network Firewall** / WAF at edge.
-- **Application auth** — SG is network layer; never expose admin API to world because "it's password protected."
-- **Replacing IAM** — opening SG to `0.0.0.0/0` on 443 doesn't replace authn/z at app layer.
+- **Application authentication** — SG is network layer; never expose administrator API to world because "it's password protected."
+- **Replacing IAM** — opening SG to `0.0.0.0/0` on 443 doesn't replace authn/z at application layer.
 
 ## Related
 

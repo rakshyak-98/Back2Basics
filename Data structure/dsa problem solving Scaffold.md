@@ -64,7 +64,7 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 
 ## When NOT to use
 
-- **Prod bugfix with known root cause** — scaffold is for unknown problems.
+- **production bugfix with known root cause** — scaffold is for unknown problems.
 - **Pure systems design** — different checklist.
 
 ## Related
