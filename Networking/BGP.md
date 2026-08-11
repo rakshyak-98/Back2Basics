@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 BGP (Border Gateway Protocol) advertises **IP prefixes** (NLRI) between **Autonomous Systems** (AS). Each route carries **path attributes** — notably `AS_PATH`, `NEXT_HOP`, `LOCAL_PREF`, `MED` — used for policy-based selection, not pure shortest-path.

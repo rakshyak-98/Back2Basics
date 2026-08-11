@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A MySQL account is `'user'@'host'`; privileges are granted at global (`*.*`), DB (`db.*`), table, or column scope. `USAGE` means “can authenticate, nothing else.”

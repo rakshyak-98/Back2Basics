@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Interview map (words you can say)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Without keep-alive, every `http.request` pays handshake cost. An `Agent` reuses sockets up to configured limits.

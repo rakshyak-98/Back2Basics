@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 WCAG defines **success criteria** grouped under four principles (**POUR**):

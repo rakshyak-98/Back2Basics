@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Same interface as the real subject. Proxy decides *when* and *whether* to forward. Common in API clients: delay constructing the decorated Graph client until first use; enforce token present; cache.

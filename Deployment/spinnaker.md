@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Spinnaker separates **how artifacts are built** (CI: Jenkins, GitHub Actions) from **how they are promoted** (CD: pipelines with gates). A typical flow:

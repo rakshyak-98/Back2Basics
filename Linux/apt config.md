@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#update output lexicon]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** lists say *where* packages come from; preferences say *which version wins*; keyrings say *whom we trust*; apt.conf.d tweaks *behavior*.

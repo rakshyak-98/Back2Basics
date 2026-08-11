@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Split read-heavy discovery (search/geo) from write-heavy order transactions; assignment and notifications are async workflows with clear cancellation rules.

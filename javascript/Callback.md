@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Interview map (words you can say)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** You hand an API a function; it invokes it when work finishes. Nesting many callbacks → “callback hell”; Promises/`async` flatten that.

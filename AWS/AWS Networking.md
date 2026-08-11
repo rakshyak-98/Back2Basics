@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 AWS networking is **regional isolation inside a VPC**: you own private IP space, carve **subnets** per AZ, attach **route tables** (where traffic goes), and gate traffic with **Security Groups** (stateful, instance-level) and **NACLs** (stateless, subnet-level). Public subnets reach the internet via **Internet Gateway (IGW)**; private subnets reach out via **NAT Gateway/GW** or **VPC endpoints** (stay on AWS backbone, no public IP).

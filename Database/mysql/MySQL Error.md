@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Read the SQLSTATE/error number first; match class (auth, file/socket, storage engine, client API); fix the layer that owns it — don’t `REPAIR` InnoDB like MyISAM.

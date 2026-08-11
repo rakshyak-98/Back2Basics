@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Interview map (words you can say)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `http.createServer(handler)` returns a `Server` you `listen` on. Pass an Express `app` as the handler when you need Socket.IO or custom lifecycle beyond `app.listen`.

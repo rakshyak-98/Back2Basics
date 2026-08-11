@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **CMAF** standardizes **fragmented MP4 (fMP4)** chunks so **[[HLS]]** and **[[DASH]]** can share the **same `.m4s` media segments** — only the **manifests differ** (`.m3u8` vs `.mpd`). Each **CMAF chunk** is a `moof`+`mdat` pair; a **CMAF segment** is typically 2–6 seconds of chunks aligned on keyframes.

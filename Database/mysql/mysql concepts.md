@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** One `createConnection` is a single socket; a `createPool` hands out reusable sockets; `execute` uses server prepared statements; multi-step txns must `getConnection` → begin → commit/rollback → `release`.

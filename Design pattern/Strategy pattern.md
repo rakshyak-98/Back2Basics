@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Encapsulate what varies.** When behavior branches by type (payment gateway, campaign goal, compression codec), put each variant in its own class implementing a shared interface. The context holds a strategy reference and delegates — no `switch` sprayed through the codebase.

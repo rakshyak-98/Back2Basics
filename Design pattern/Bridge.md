@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Without Bridge, one class dimension multiplies subclasses (`BasicRemote+TV`, `BasicRemote+Radio`, …). **Bridge** splits:

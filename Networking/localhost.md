@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#What localhost means on each device]]
-- [[#HTTPS on localhost (mkcert)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Name resolves to loopback (`127.0.0.1` / `::1`). On a phone or container, that is *their* loopback — not your host.

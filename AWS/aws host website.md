@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Website endpoints are **HTTP** (`s3-website-…`), public-read (or CloudFront+OAC). Not the same as the REST API endpoint. For HTTPS + custom domain, put CloudFront (or another CDN) in front.

@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `PREPARE` builds a statement with `?` placeholders; `EXECUTE … USING @vars` runs it; stored routines are reusable code living in the server (procedures/functions/triggers/events).

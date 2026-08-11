@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Plain HTTP is mostly read; WebDAV adds verbs (`PROPFIND`, `MKCOL`, `MOVE`, `COPY`, `LOCK`) so a browser, Finder, or sync client can treat a URL tree as a writable filesystem.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Yarn resolves dependencies from `package.json`, writes `yarn.lock` (Classic v1) or `.yarn/cache` (Berry v2+). `yarn install` is CI's first step. Commands mirror npm with different flags. Berry adds Plug'n'Play.

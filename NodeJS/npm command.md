@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `npm install` resolves the tree into `node_modules` + lockfile; `npm run` executes `package.json` scripts; `npm ci` is the clean CI install from the lockfile.

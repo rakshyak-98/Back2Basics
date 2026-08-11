@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **ARIES** (Algorithms for Recovery and Isolation Exploiting Semantics) defines how to recover after crash when the buffer pool uses **steal** (uncommitted pages may flush) and **no-force** (committed pages need not be on disk before commit ack). Safety comes from [[WAL (Write-Ahead Log)]]: log record before page change.

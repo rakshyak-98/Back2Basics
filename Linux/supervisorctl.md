@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Supervisord** is a parent daemon that spawns children, restarts on crash, and rotates logs. Config lives in `/etc/supervisor/conf.d/*.conf`. Changes on disk are **not** live until `reread` + `update`. Unlike systemd, one supervisord tree is typical per machine/container.

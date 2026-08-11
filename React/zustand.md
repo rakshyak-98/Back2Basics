@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Zustand holds state in a **vanilla store** (works without React). Components **subscribe** to slices; only subscribers to changed keys re-render. No Provider required (unlike Context performance traps).

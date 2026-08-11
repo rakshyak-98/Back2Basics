@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only.

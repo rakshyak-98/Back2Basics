@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#DNS record]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `api.example.com` is just another owner name in the `example.com` [[DNS zone]] (usually an A/AAAA/CNAME) — unless you **delegate** it with NS records to another name server.

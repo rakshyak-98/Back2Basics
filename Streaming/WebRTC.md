@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** WebRTC lets two browsers (or a browser and a media server) send live audio, video, and data over UDP with encryption — you only write signaling; the browser does capture, encode, NAT traversal, and SRTP.

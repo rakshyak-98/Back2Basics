@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Everything is a file descriptor: **stdin (0)**, **stdout (1)**, **stderr (2)**. Programs read stdin, write stdout, errors to stderr. The shell connects them with pipes (`|`), redirects (`>`, `>>`, `2>&1`), and subshells (`$()`, `$()`).

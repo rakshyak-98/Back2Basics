@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).

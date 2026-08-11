@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `date` reads/writes the **system clock** (via `timedatectl` / NTP underneath). For scripting, you care about **format strings** (`+%s`, `+%Y-%m-%d`) and **relative parsing** (`-d "+7 days"`). Wrong timezone assumption is the #1 bug — always know if you need UTC (`-u`) or local.

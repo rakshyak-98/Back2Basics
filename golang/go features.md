@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Prefer composition. Embed a struct to promote its methods; shadow to override. Interfaces are satisfied by method sets — no `implements` keyword. Map range order is intentionally shuffled.

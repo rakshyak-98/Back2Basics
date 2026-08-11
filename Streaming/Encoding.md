@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Encoding** converts **uncompressed or mezzanine** video/audio into a **codec bitstream** (H.264, AAC, etc.) suitable for containers ([[CMAF]], TS) and protocols ([[HLS]], [[DASH]], [[RTMP]]). It is **lossy** for delivery codecs — you cannot recover discarded detail. Downstream **packaging** muxes encoded streams; **[[transcoding]]** is encode-after-decode when format changes.

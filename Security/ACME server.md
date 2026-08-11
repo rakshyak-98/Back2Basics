@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#ACME endpoints]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Client creates an account key → requests an order for names → server issues challenges → client completes HTTP-01/DNS-01/TLS-ALPN-01 → server issues the cert (and later renewals/revocation).

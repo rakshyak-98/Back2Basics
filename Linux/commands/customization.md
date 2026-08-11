@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 GNOME Shell extensions are **UUID-keyed bundles** under `~/.local/share/gnome-shell/extensions/` (user) or `/usr/share/gnome-shell/extensions/` (system). The CLI talks to Shell over D-Bus; if Shell isn't running (SSH session), most commands fail.

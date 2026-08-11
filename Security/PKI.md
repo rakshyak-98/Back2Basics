@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A CA signs a certificate that binds a public key to a name (DNS, email, code signer). Browsers/OS trust a set of root CAs; intermediates bridge root → leaf.

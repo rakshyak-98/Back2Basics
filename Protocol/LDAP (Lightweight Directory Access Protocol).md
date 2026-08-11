@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Clients bind (authenticate) to a directory server (DSA), then search/modify entries addressed by DN (distinguished name) in a tree — think “phone book + auth,” not a general SQL database.

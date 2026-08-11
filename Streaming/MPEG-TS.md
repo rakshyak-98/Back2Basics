@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** MPEG-TS (MPEG Transport Stream) is a mux of fixed-size packets you can drop on UDP, cut mid-stream, and still resync — built for broadcast, not for “one file seek.”

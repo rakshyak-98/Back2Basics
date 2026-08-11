@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Git aliases live in config (`~/.gitconfig` or repo `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.

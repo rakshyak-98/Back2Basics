@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Express compiles route strings into an internal matcher (via `path-to-regexp`). A route like `/users/:id` is **anchored** to the full path segment unless you opt into regex or wildcards.

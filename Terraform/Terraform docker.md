@@ -6,20 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Why practice with Docker]]
-- [[#Minimal project]]
-- [[#Run it]]
-- [[#Map to cloud thinking]]
-- [[#Book takeaways]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → configure → resource → plan/apply ([[Terraform setup]] · [[Terraform workflow]]).

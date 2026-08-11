@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 An **MCP host** (Cursor, Claude Desktop) runs **MCP clients** that connect to **MCP servers** over stdio, SSE, or streamable HTTP. Servers expose **tools** (functions), **resources** (readable URIs), and **prompts**. The model requests a tool call; the client executes it on the server and returns structured results.

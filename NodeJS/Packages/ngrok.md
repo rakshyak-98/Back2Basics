@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** ngrok agent opens an outbound tunnel to ngrok’s edge; the edge gives you `https://….ngrok…` that forwards to `localhost:PORT`.

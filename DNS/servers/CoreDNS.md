@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A query walks a **Corefile** plugin chain — e.g. kubernetes → rewrite → cache → forward — until something writes an answer. In Kubernetes it maps Service/Pod names to ClusterIPs.

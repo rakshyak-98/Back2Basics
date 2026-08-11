@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Cloud/SAN exposes a virtual disk (EBS, Persistent Disk, Azure Disk); the guest sees `/dev/vd*` and must [[fsync]] for durability.

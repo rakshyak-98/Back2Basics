@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 nmap sends crafted packets (TCP SYN, connect, UDP, etc.) and classifies responses: **open**, **closed** (RST), **filtered** (timeout/no response). Version detection (`-sV`) and scripts (`-sC`) add banner fingerprinting. You are generating traffic that IDS/SOC may alert on.

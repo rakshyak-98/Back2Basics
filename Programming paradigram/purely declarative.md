@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Imperative: step-by-step mutations. Declarative: state the desired outcome or relation. Engine optimizes execution (query planner, layout engine, regex NFA). You trade control of execution order for brevity and optimization headroom — until you need hints (`INDEX`, `EXPLAIN`, CSS `!important`).

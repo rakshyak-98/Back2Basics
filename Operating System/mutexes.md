@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **mutex** (binary lock) protects shared mutable state. Exactly one thread executes the critical section; others **block** (sleep) or **spin** (burn CPU) waiting.

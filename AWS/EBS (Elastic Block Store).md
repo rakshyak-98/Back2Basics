@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Like a remote SSD/HDD plugged into the instance. Format/mount in the OS. Snapshot → incremental backup in S3 (API-only, not a browsable bucket). Prefer the sibling note [[AWS EBS(Elastic Block Store)]] for deeper ops — this is the field card.

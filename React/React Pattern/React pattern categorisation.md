@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Pick the pattern from the job: reuse UI → composition; reuse behavior → hooks/HOC/render props; shared subtree state → compound/provider; outside DOM → portal.

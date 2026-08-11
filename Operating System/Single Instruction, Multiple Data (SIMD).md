@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **SIMD** (SSE/AVX on x86, NEON on ARM) applies one instruction to a **vector register** (e.g. 8× `float32` or 32× `uint8`) in parallel. The CPU still runs one thread; parallelism is **data-parallel within a core**, not multi-core.

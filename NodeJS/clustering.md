@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes** bound to the same port via SO_REUSEPORT / master handoff. Each worker is a full V8 isolate — no shared memory between workers.

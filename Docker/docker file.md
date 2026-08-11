@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Docker layered filesystem]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Each instruction usually adds a layer. Build caches layers until a line changes. `ENTRYPOINT` is the main process; `CMD` supplies default args (overridable).

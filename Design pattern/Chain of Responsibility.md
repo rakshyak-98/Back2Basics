@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Ordered checks: auth → goal → page → creative → budget. Each handler does one job; on success calls `next`, on failure short-circuits with an error. Open for extension: append a handler without editing others.

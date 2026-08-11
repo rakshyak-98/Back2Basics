@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `git log` walks commits reachable from refs, newest first by default. Ranges use **double-dot** `A..B` = commits reachable from B not from A (merge-base relative). **Path filter** limits.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes auth, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.

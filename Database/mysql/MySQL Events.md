@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 MySQL Event Scheduler is a background thread that fires **EVENT** objects at `AT` or `EVERY` intervals. Each event runs a single SQL body (often `BEGIN … END` block).

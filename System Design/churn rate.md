@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Churn rate** (attrition) measures **how many customers stop paying or actively leave** in a time window, expressed as a **percentage of the starting cohort**. It is the inverse lens of retention: high churn destroys unit economics and leaves **orphaned data, idle seats, and over-provisioned capacity**.

@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Common hooks reference]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Hooks are executable scripts in `.git/hooks/` (or managed via tools). Client hooks run on **your** machine; server-side hooks run on receive (GitHub/GitLab use their own hook systems —.

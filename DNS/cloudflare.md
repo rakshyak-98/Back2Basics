@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Cloudflare sits between users and origin: as **DNS provider** (nameservers → Cloudflare) and optionally **HTTP proxy** (proxied records). Proxied traffic: client → Cloudflare edge → your origin. **OID** identifies objects in Cloudflare API (zones, records, rulesets).

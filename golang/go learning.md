@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Sequence beats random tutorials: syntax/types → interfaces/errors → goroutines/context → net/http + DB → tests/race → system-design talk tracks. After each exercise, force a review: idioms, errors, tests.

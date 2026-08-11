@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **workflow** triggers on events; **jobs** run on a **runner** (isolated VM or your server). The runner pulls job steps, checks out code, runs actions/commands, uploads artifacts/logs. GitHub-hosted runners are ephemeral; self-hosted runners are persistent and inherit your network/VPC access.

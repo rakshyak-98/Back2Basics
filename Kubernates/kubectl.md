@@ -6,18 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#CrashLoopBackOff triage]]
-- [[#Multi-scaling systems (real-time triage)]]
-- [[#Microservices (real-time triage)]]
-- [[#Triage table]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 ```

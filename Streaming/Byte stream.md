@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in message boundaries. TCP, pipes, and file reads all expose byte streams; **containers** (MP4, MPEG-TS, CMAF) impose structure on top. Streaming engineers care because players, packagers, and CDNs must agree on **where segment boundaries fall** in that stream.

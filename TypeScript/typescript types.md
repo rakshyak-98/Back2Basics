@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Prefer unions + narrowing over deep inheritance. Generics parameterize shapes. Utility types (`Partial`, `Pick`, `Omit`, `Record`) transform existing types.

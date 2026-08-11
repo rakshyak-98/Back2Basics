@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#PallyCon DevConsole API]]
-- [[#Concurrent Stream Limiting Guide]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** User logs into *your* app; *your* server builds a DoveRunner license token; the player sends that token to DoveRunner’s license URL and the CDM unlocks the stream.

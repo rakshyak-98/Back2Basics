@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `diff` compares **file contents line-by-line** (default unified output). For directories, combine `-r` with `-q` for a fast "any difference?" answer. Exit code matters in scripts: `0` = identical, `1` = different, `2` = error.

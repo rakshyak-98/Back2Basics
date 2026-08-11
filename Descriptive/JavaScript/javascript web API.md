@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **ECMAScript** defines the language (syntax, Promise, Map). **Web APIs** (browser) and **Node APIs** (`fs`, `http`) are host-provided, often asynchronous, and bound to the event loop.

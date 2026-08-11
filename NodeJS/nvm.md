@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 nvm installs Node versions under `~/.nvm/versions/node/` and **replaces `node`/`npm` on PATH** when you `nvm use`. Shell startup sources `nvm.sh` to define the `nvm` function — non-interactive contexts (cron, systemd, `sudo`) often **don't load nvm**, so `node` is missing or wrong version.

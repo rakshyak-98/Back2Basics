@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **codec** (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at **ingest**, **transcode**, and **playback** — mismatches force expensive [[re-encoding]]. Manifests advertise codecs via **`CODECS`** (HLS) or **MP4 `codec` attributes** (DASH) so players reject unsupported combinations before download.

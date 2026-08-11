@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Wizard/campaign lifecycle: each state allows different operations. `Draft` can edit; `Ready` can launch; `Launched` is mostly read-only. State object implements transitions; context delegates.

@@ -6,23 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Install CLI]]
-- [[#Version constraints (Brikman)]]
-- [[#AWS configuration]]
-- [[#GCP configuration]]
-- [[#Other providers (same pattern)]]
-- [[#Remote state rules (Brikman — state chapter)]]
-- [[#File layout (both books)]]
-- [[#First-run checklist]]
-- [[#Book map]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Setup = install CLI → pin versions → configure [[terraform provider]] → auth → (optional) remote state → first [[Terraform workflow]].

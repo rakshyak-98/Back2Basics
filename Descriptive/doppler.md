@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Doppler stores secrets in **projects** × **configs** (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.

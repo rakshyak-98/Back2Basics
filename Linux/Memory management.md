@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Single-thread vs multi-thread stacks]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Each process sees a **virtual address space** (heap, mmap, stack). Physical RAM holds **resident** pages; unused file pages live in **page cache** (reclaimable). Kernel may **overcommit** — allocate more virtual memory than RAM until someone touches it.

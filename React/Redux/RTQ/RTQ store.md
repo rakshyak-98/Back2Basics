@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Each `createApi` owns a `reducerPath` slice and middleware for cache, invalidation, and refetch. `setupListeners` turns on focus/reconnect/polling helpers.

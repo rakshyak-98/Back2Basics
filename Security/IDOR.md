@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 IDOR is a **broken access control** pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any logged-in user access `GET /api/orders/12345` by iterating ids.

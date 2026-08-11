@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 PM2 reads `ecosystem.config.js` (or `.cjs`/JSON) and starts one or more **apps**. Each app has script, instances, env, and restart rules. PM2 keeps processes alive, aggregates logs, and supports zero-downtime reload for cluster mode.

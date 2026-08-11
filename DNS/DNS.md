@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 DNS is a hierarchical, cached lookup system. Your stub resolver doesn't talk to root directly for every query — it follows referrals or uses a recursive resolver (ISP, 8.8.8.8, corporate [[Unbound]]).

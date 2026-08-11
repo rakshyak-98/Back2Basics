@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 UML is a **visual DSL** for software design. Use a **small subset** in practice: class, sequence, component, deployment. Diagrams are contracts for conversation, not exhaustive code generators.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A **module** (`go.mod` path) versions a tree of **packages** (one directory = one package). `package main` builds a binary; other packages are libraries. Import paths are module-path + directory.

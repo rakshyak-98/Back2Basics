@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **zone** is everything below a **zone apex** (e.g. `example.com`) that one administrative entity controls. The parent zone (`.com`) holds **NS glue** pointing to your nameservers.

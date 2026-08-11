@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Each node holds **value** + **next** pointer. Head is entry; tail optional for O(1) append with doubly-linked + tail ref. Singly-linked: one direction. Doubly-linked: `prev` enables backward walk and O(1) delete given node ref. No random access — index i requires i steps from head.

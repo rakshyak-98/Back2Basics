@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** One thread runs callbacks/tasks to completion; while it waits on I/O the runtime parks the work and services someone else — no lock for your JS heap, but CPU work blocks everyone.

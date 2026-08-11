@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Next.js wins when each route can choose SSR/SSG/CSR/RSC independently. Keep shared UI in `components`, domain in `features`, and wire one app-level provider tree.

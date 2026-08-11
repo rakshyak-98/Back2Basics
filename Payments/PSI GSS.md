@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** **PSI GSS** (Payment Card Industry **Guest Service System**) describes when a merchant uses a **third-party hosted** checkout such that **cardholder data never enters merchant systems**.

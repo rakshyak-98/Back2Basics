@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 The DNS tree is hierarchical: **root (`.`)** → **TLD** (`.com`, `.org`, `.uk`) → **SLD** (`example` in `example.com`) → subdomains (`www`). **ICANN** policy; **registry** runs TLD nameservers; **registrar** (GoDaddy, Route53 Registrar) is where you pay and set **delegation NS**.

@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Normal forms (1NF → 3NF)]]
-- [[#Standard config / patterns]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Normalization is a set of rules that remove duplicate facts and bad dependencies so changing one business fact touches one place.

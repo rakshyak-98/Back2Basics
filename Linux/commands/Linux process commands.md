@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Find with `ps`/`pgrep`, watch with `top`, explain open resources with `lsof`/`/proc`, stop with signals — escalate from `TERM` to `KILL`.

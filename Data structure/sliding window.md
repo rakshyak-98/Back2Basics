@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Maintain indices `left` and `right` defining window `[left, right]`. Advance `right` to grow; advance `left` to shrink when a **validity invariant** breaks (sum too large, duplicate char seen, etc.).

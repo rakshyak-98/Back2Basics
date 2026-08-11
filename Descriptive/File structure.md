@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 NGINX is modular C. The **core** owns memory pools, strings, and config parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.

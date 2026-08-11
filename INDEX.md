@@ -5,13 +5,6 @@
 
 ---
 
-## Index
-
-- [[#On-call / debug first]]
-- [[#Domain hubs]]
-- [[#Quality ceiling (copy these patterns)]]
-- [[#Empty / stub policy]]
-
 ## On-call / debug first
 
 | Symptom / need | Go to |

@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Cross-host → `mysqldump` then load; same host → `CREATE TABLE … LIKE` / `AS SELECT` or INSERT…SELECT; backfills often use UPDATE with JOIN once types and keys match.

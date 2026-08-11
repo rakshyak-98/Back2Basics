@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 JavaScript runtimes (browser, Node) run **user code on one thread**. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel threads unless you explicitly spawn workers.

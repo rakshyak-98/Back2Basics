@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to.

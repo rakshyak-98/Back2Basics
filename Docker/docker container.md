@@ -6,17 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Snapshot a container]]
-- [[#Run with working directory]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `docker run` = create + start from an image. Lifecycle: create → start → stop → rm. Data in the writable layer dies with `rm` unless volumes.

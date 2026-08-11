@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.

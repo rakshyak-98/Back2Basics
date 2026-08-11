@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** In a cluster of `N`, pick `W` ack for writes and `R` for reads so `R + W > N` ⇒ overlapping nodes ⇒ you see the latest write (common Dynamo-style rule).

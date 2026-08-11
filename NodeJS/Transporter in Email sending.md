@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.

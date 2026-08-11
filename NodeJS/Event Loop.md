@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Six phases (one "tick")]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Node runs user JavaScript on **one thread**. libuv handles async I/O (network, fs, timers) via the event loop and a **thread pool** (default 4 workers for sync fs/crypto). When a callback runs, nothing else runs until it returns.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** **Husky** installs scripts into `.husky/` that Git invokes on events (`pre-commit`, `pre-push`, `commit-msg`). It bridges **npm lifecycle** and **Git hooks** so CI rules run locally first — cheaper.

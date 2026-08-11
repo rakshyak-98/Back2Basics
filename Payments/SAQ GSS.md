@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** **SAQ** = merchant self-assessment against PCI DSS controls. **GSS (Guest Service System)** path applies when **all** payment acceptance is delegated to a validated third party — aligns with.

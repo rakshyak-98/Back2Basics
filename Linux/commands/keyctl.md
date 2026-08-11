@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Linux **key retention service** holds opaque blobs (keys) in **keyrings** attached to user, session, process, or thread. User-space sees them via `keyutils` (`keyctl`, `keyctl(1)`).

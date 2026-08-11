@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Breaking change rules (SE discipline)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 OpenAPI (Swagger) describes **paths, schemas, auth, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.

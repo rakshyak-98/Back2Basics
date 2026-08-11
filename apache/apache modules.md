@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in config. Only load what you need: fewer modules = smaller attack surface and memory.

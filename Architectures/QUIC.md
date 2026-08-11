@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **QUIC** (Quick UDP Internet Connections) moves transport into user space over **UDP**, integrating encryption and stream multiplexing. Designed to fix **TCP head-of-line blocking** and slow connection setup for web apps.

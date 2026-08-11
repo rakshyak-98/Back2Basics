@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Profile before tuning. Event-loop delay ⇒ CPU/sync work; high latency with idle CPU ⇒ I/O/DB; multi-core idle ⇒ scale out processes.

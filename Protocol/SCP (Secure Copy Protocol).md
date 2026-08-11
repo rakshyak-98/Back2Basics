@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 SCP wraps **SSH** transport: authenticate like `ssh`, then copy files over encrypted channel. Syntax mirrors `cp` with remote `user@host:path`. Not a separate daemon — **sshd** on port 22 (or custom).

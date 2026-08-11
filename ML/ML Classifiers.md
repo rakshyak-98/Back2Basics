@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Features** (predictors, X) → **classifier** → **predicted label** (target, y). All sklearn classifiers share `fit(X, y)` and `predict(X)`.

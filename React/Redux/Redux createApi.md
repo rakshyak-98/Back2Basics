@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `createApi` describes how to talk to your backend. Queries cache by endpoint+args; mutations invalidate tags so lists refetch. Hooks are React sugar over the same API slice.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Originator (draft) creates an opaque memento; caretaker (history stack) stores it. Restore returns the draft to a prior snapshot without caretaker reading fields.

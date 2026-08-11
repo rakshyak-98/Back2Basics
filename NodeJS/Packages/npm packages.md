@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Prefer small, maintained packages with clear jobs — validation, security headers, uploads, HTTP clients — and declare them in `package.json` (extraneous = installed but undeclared).

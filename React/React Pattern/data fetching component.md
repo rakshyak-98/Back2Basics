@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Client fetch either owns loading state yourself (`useEffect`) or suspends until a promise resolves (`use` + Suspense). Production apps usually outsource cache to React Query / RTK Query.

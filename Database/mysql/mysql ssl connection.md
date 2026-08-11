@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 MySQL supports TLS on connection (like Postgres `sslmode`). Server presents certificate; client verifies CA (`ssl-ca`). **Mutual TLS** adds client cert (`ssl-cert`, `ssl-key`) for auth.

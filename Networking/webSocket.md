@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 WebSocket starts as HTTP/1.1 with an **Upgrade** handshake, then switches to a binary-framed protocol. No repeated HTTP headers per message — ideal for push, chat, live dashboards.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Each time a function is **called**, the CPU pushes a **stack frame** (activation record) onto the thread's stack. Each **return** pops it. Nested calls nest frames:

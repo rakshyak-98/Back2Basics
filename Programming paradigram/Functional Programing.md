@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Core ideas: **pure functions** (same input → same output), **immutability**, **first-class functions**, **referential transparency**. State changes via new values, not mutation. Higher-order functions (`map`, `filter`, `reduce`) replace many loops. IO/monads/effects pushed to boundaries ("functional core, imperative shell").

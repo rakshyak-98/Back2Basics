@@ -8,14 +8,6 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 
 ---
 
-## Index
-
-- [[#Start here]]
-- [[#What good looks like]]
-- [[#Domains]]
-- [[#Contributing to this vault]]
-- [[#Why this exists]]
-
 ## Start here
 
 | Need | Open |

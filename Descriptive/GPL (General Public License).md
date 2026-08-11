@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 GPL grants use, modify, and redistribute rights with a ** reciprocity obligation**: if you distribute a GPL-covered **combined work**, recipients get source and GPL freedoms.

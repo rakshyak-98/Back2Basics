@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 APIs often return **nested graphs** (posts with embedded authors and comments). Updating one entity forces copying whole trees. **normalizr** maps response shapes to **entity tables** keyed by id:

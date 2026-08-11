@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `fzf` reads stdin (or a shell hook), scores lines against your typed fuzzy pattern, shows an interactive TUI. It's a **filter**, not a search engine — you pipe candidates in, pick one out via `$()` or key bindings.

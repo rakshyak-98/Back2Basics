@@ -6,16 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#When the API hits a wall]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Dense control planes (hundreds of channels/encoders) die on per-item HTTP and TLS handshakes. Bulk APIs, `202` + workers, and HTTP/2/gRPC reuse fix the shape of the work.

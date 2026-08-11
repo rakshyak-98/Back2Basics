@@ -6,23 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Configure the provider]]
-- [[#Declare source + version]]
-- [[#Aliases (multi-region / multi-account)]]
-- [[#How Terraform talks to providers]]
-- [[#Auth reminders]]
-- [[#Inspect providers]]
-- [[#Resource vs data for a provider]]
-- [[#Non-cloud providers]]
-- [[#Book takeaways]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **provider** is a plugin that implements Create / Read / Update / Delete against an API (AWS, GCP, Azure, GitHub, Kubernetes, Docker, …).

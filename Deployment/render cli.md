@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 `render` talks to your **active workspace**. Interactive mode (TTY) is menu-driven; scripts/CI use **API key + `--confirm` + `-o json`**. Deploys are **triggers against an existing service** (`srv-…`), not “upload this folder like `vercel`” — Git/image is already wired on the service.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Postman wraps HTTP: environments hold variables (`{{baseUrl}}`), collections group requests, tests run **JavaScript assertions** on responses. **Newman** runs the same collections headless in CI.

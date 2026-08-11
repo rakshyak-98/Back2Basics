@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 JWT = `header.payload.signature` (JWS) or nested JWE. Server trusts token only after **cryptographic verification** + **claim checks**. Stateless by default — revocation requires blocklist or short TTL + refresh rotation.

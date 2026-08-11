@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Functions are objects: assign to variables, pass as args, return from functions. Dart is single-threaded event-loop async ([[flutter]] isolates for parallelism).

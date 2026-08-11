@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** A **branch** is a named pointer to a commit. `HEAD` usually points at a branch (detached HEAD when it points directly to SHA). **Remote-tracking branches** (`origin/main`) mirror last-fetched.

@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 [SuperTokens](https://supertokens.com/docs/nodejs) splits auth into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.

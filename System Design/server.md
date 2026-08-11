@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread vs event loop**, **stateless vs session**, **HTTP vs WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).

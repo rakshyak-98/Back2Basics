@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Default bash expands unset vars to empty string — silent bugs (`rm -rf $DIR/` with empty DIR). **`set -u`** (or `set -o nounset`) aborts on unbound expansion. Often paired with **`set -e`** (errexit) and **`set -o pipefail`** in strict scripts. Not the Unbound DNS resolver — that's [[DNS]] infrastructure software.

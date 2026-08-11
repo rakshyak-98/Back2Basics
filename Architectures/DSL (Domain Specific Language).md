@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 A **DSL** trades generality for **domain fit**: SQL for relations, Regex for strings, HCL for infra, CSS for styling, Mermaid for diagrams.

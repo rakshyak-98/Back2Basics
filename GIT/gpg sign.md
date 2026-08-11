@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Git attaches an OpenPGP signature to commit or tag objects. Verifiers use your **public** key (`gpg --list-keys`) to confirm the signature matches your identity. Signing requires a **private**.

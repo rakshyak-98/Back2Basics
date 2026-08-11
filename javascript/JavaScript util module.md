@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Legacy Node core APIs are **callback-last** `(err, result) =>`. `util.promisify` wraps them into **Promises** for `async/await` composition with [[promise]] chains.

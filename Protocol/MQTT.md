@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **MQTT** (Message Queuing Telemetry Transport) uses a **broker** (Mosquitto, EMQX, AWS IoT Core). Clients **publish** to **topics** (`sensors/room1/temp`); subscribers receive by topic filter (`sensors/+/temp`, `#` wildcard). Connection is long-lived TCP (often TLS on 8883).

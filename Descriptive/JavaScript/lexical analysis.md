@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 Before parsing, the engine **tokenizes** source into atomic units: identifiers, keywords, numbers, strings, operators, punctuators. Insignificant input (spaces, comments, line terminators) is discarded or used only for ASI (automatic semicolon insertion).

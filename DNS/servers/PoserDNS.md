@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** PowerDNS is modular — don’t run one god-daemon; put authoritative, recursive, and (optionally) dnsdist on the roles they fit. Zones often live in MySQL/Postgres instead of only flat files.

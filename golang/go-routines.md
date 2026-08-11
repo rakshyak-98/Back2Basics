@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** `go` starts work that can run interleaved with other goroutines. Cheap stacks (~KB), multiplexed by the runtime. You still need sync: channels, mutexes, `WaitGroup`, `context`.

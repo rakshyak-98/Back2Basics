@@ -6,15 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
 ## Mental model
 
 **Say it in one breath:** Like a tiny shared phone book for Unix labs — one server holds maps (passwd, hosts, etc.); clients query it. DNS names machines; NIS also shared users and other maps.
