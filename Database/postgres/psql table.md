@@ -1,4 +1,4 @@
-[[postgres]] [[psql essential]] [[psql user acl]]
+[[postgres]] [[psql essential]] [[ACL (postgreSQL)]]
 
 # psql table
 
@@ -92,4 +92,4 @@ GRANT USAGE ON SCHEMA sales TO analyst;
 
 ## Related
 
-[[psql essential]] [[psql user acl]] [[psql database dump]] [[postgres]]
+[[psql essential]] [[ACL (postgreSQL)]] [[psql database dump]] [[postgres]]

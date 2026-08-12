@@ -108,9 +108,9 @@ DROP USER IF EXISTS wateradmin;
 - **application runtime data access** — use a driver + pool, not shelling out to `psql`.
 - **Killing backends casually in production** — can abort in-flight txns; coordinate first.
 - **Granting CREATE on `public` to every application role** — tighten schema ownership in shared clusters.
-
+	
 ---
 
 ## Related
 
-[[postgres]] [[connection pooling]] [[psql user acl]] [[psql table]] [[psql database dump]] [[ACID]] [[Database mistakes]]
+[[postgres]] [[connection pooling]] [[ACL (postgreSQL)]] [[psql table]] [[psql database dump]] [[ACID]] [[Database mistakes]]

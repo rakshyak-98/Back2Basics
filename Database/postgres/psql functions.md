@@ -1,0 +1,1 @@
+- view all the available functions `\df`

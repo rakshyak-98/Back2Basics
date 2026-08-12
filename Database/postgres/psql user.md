@@ -10,7 +10,7 @@
 
 Postgres uses **roles**. A role with `LOGIN` is a user. Roles can **inherit** membership in other roles (group pattern). Permissions attach to roles on databases, schemas, tables, sequences.
 
-```
+```sql
 CREATE ROLE app_user LOGIN PASSWORD '…'
 GRANT CONNECT ON DATABASE mydb TO app_user
 GRANT USAGE ON SCHEMA public TO app_user
@@ -39,13 +39,37 @@ CREATE DATABASE mydb OWNER myuser;
 GRANT CONNECT ON DATABASE mydb TO myuser;
 ```
 
+### Schema with owner
+
+```sql
+CREATE SCHEMA <schema name> AUTHORIZATION <role>;
+ALTER SCHEMA <schema name> OWNER TO <role>;
+```
+
+```sql
+GRANT <drm_developer> TO <drm_tester>;
+```
+```txt
+drm_developer
+    └── owns ott
+          └── drm_tester inherits its privileges
+```
+
+```psql
+\du drm_tester
+```
+
+```sql
+REVOKE drm_developer FROM drm_tester;
+```
+
 ### Schema grants (Postgres 15+ public schema)
 
 ```sql
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;  -- harden default
 GRANT USAGE ON SCHEMA public TO myuser;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
-  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO myuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO myuser;
 ```
 
 ### Role flags (use sparingly)

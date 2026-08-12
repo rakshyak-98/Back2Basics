@@ -97,3 +97,52 @@ openssl s_client -connect host:5432 -starttls postgres
 ## Related
 
 [[postgres/postgres parameter type error]] [[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]
+
+## Permission problem
+
+```txt
+error: permission denied for database drm_streaming
+code: '42501'
+```
+The postgreSQL user used by your backend does not have permission to connect to `drm_streaming`
+
+- first check the database is reachable and created, and check for the role name access Privilege column
+```sql
+\d <database name>
+```
+
+check with `\du` if you see "Cannot login" that means you have forget to execute LOGIN when creating role
+```txt
+postgres=# \du
+                               List of roles
+   Role name   |                         Attributes
+---------------+------------------------------------------------------------
+ developer     |
+ drm_developer | Cannot login
+ drm_tester    |
+ postgres      | Superuser, Create role, Create DB, Replication, Bypass RLS
+ wateradmin    |
+ 
+```
+solution: `ALTER ROLE <role> LOGIN PASSWORD '<password>';`
+
+- if not present, on login to the database access will be denied 
+```
+GRANT CONNECT ON DATABASE <db name> TO <role>;
+```
+
+- if the role cannot access the database table
+```txt
+drm_streaming=> select * from ott.users;
+ERROR:  permission denied for schema ott
+LINE 1: select * from ott.users;
+```
+
+```sql
+SELECT has_table_privilege(
+	'drm_developer',
+	'ott.users',
+	'SELECT'
+)
+```
+- view all the available functions `\df`

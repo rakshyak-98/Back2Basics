@@ -80,4 +80,4 @@ await db.query(`SELECT * FROM ${schema}.users WHERE id = $1`, [id])
 
 ## Related
 
-[[Database design]] [[SQL normalization]] [[psql table]] [[psql user acl]] [[migration]]
+[[Database design]] [[SQL normalization]] [[psql table]] [[ACL (postgreSQL)]] [[migration]]
