@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DevOps]] [[orchestration]] [[Docker]] [[Kubernetes]]
 
 # Edge orchestration tools for industrial IoT

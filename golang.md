@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang.md]]
 
 # golang
@@ -10,6 +9,8 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
@@ -21,6 +22,16 @@
 **Say it in one breath:** Go language folder hub — syntax, concurrency, tooling, and project layout.
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

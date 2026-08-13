@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MCP]] [[webSocket]] [[JWT authentication]] [[gRPC]]
 
 # MCP Client

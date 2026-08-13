@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Event Loop]] [[worker threads]] [[Node.js run as a non-privileged user]]
 
 # Node.js Clustering

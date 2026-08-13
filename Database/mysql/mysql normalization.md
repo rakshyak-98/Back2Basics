@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[SQL normalization]] [[Database design]]
 
 # mysql normalization

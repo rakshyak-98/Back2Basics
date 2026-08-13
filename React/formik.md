@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[RSC (React Server Component boundaries)]] [[react hooks]] [[React State management]] [[React Pattern/Controlled and Uncontrolled component Pattern]]
 
 # Formik

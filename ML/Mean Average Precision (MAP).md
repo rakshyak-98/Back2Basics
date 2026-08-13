@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Normalized Discounted Cumulative Gain (NDCG)]] [[rank prediction]] [[binary classification]] [[multiclass classification]]
 
 # Mean Average Precision (MAP)

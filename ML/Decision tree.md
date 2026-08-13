@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[ML Classifiers]] [[Random forest]] [[Gradient boosting]] [[scikitlearn]] [[supervised learning]]
 
 # Decision tree

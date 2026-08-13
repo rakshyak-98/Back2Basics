@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[commands]] [[FileManagement]] [[rsync]]
 
 # Find command

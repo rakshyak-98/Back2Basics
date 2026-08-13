@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[apt configuration]] [[APT policy]] [[gpg]]
 
 # apt package manager

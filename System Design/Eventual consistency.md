@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[distributed system]] [[Quorum]] [[cache system]]
 
 # Eventual consistency

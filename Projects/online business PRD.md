@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Projects]]
 
 # Product Requirements Document (PRD)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[React Pattern/Summary pattern]] [[React design patterns]]
 
 # React pattern categorisation

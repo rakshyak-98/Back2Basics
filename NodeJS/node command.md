@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[NodeJS]] [[CLI]] [[nvm]] [[node package json]] [[node inspect]]
 
 # node command

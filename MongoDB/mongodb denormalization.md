@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb schema]] [[MongoDB data populate]]
 
 # mongodb denormalization

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[ACID]] [[mysql lock]] [[write-ahead logging]]
 
 # mysql transaction

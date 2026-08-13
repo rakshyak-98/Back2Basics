@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure]] [[sliding window]] [[dsa problem solving Scaffold]]
 
 # Two pointer

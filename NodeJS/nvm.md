@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[CLI]] [[node command]] [[Node.js run as a non-privileged user]]
 
 # nvm (Node Version Manager)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[display server]] [[GUI]] [[Linux window manager]] [[compositors]] [[WM_CLASS]]
 
 # Windowing system

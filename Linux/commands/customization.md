@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux configuration]] [[gsetting]] [[Linux display manager]]
 
 # GNOME customization (extensions CLI)

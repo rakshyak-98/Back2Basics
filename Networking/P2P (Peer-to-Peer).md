@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[NAT Traversal]] [[WebRTC]]
 
 # P2P (Peer-to-Peer)

@@ -1,4 +1,3 @@
-<!-- note-strategy: procedure -->
 [[WM_CLASS]] [[Linux window manager]] [[window manager/X window system (X11)]] [[wayland]] [[Linux display manager]] [[zed configuration]]
 
 # i3wm — developer minimal setup

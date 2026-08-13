@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git branch]]
 
 # Git Submodule

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Docker]] [[docker cli]] [[Docker Runtime Security]] [[Docker compose]]
 
 # docker file

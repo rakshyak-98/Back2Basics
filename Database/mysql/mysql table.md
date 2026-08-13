@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql index]] [[key Constraint]] [[mysql json]]
 
 # mysql table

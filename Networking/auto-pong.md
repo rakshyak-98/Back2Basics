@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[webSocket]] [[ICMP]] [[half-open connections]]
 
 # auto-pong

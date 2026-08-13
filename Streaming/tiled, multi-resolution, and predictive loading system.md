@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[Buffer cache]] [[file descriptors]] [[webSocket]]
 
 # tiled, multi-resolution, and predictive loading system

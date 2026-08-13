@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ssh-keygen key validity.md]]
 
 # ssh-keygen key validity

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[React code smells]] [[React Pattern/Provider pattern]]
 
 # Component Presentational Pattern

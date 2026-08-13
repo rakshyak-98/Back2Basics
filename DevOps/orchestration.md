@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Architectures/Orchestration layer]] [[DevOps/Airflow]] [[Kubernates/kubectl]] [[DevOps/Jenkins]]
 
 # Orchestration (DevOps)

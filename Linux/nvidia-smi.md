@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[lspci]] [[OOM (Linux Out Of Memory)]]
 
 # nvidia-smi

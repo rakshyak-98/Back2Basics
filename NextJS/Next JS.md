@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NextJS]] [[React]] [[express build]]
 
 # Next JS

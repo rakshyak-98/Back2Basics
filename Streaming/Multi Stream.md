@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Single Stream]] [[ingestion]] [[RTMP]] [[Multi Stream]] [[ABR]] [[bitrate streaming]]
 
 # Multi Stream

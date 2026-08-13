@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[OLAP]] [[ACID]] [[connection pooling]] [[Database design]] [[Data access patterns]] [[mysql]] [[postgres essential]]
 
 # OLTP

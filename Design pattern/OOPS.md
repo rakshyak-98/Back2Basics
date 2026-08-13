@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]]
 
 # OOPS

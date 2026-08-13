@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[Multicast]] [[MPEG-TS]] [[CAS (Conditional Access System)]] [[DRM]] [[ingestion]]
 
 # IPTV

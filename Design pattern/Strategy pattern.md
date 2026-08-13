@@ -1,9 +1,8 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Template Method]] [[System Design/SOLID]]
 
 # Strategy pattern
 
-> Strategy pattern — encapsulate what varies. When behavior branches by type (payment gateway, campaign goal, compression codec), put each variant in its own class implementing a
+> Strategy pattern — encapsulate what varies: when behavior branches by type, put each variant in its own class behind a shared interface and delegate from the context.
 
 ---
 
@@ -39,11 +38,16 @@ Context ──holds──► Strategy (interface)
 
 ## Core idea
 
-…
+Define a **Strategy interface** for the behavior that changes. The **context** holds a reference to the current strategy and delegates work to it. Register concrete strategies in a map or factory so adding a variant means a new class plus one registry entry — not edits across call sites.
 
 ## Variations / implementations
 
-…
+| Style | When |
+|-------|------|
+| **Registry map** | Fixed set of strategies keyed by string or enum (`goalId → Strategy`) |
+| **Constructor injection** | Strategy chosen once at object creation ([[Design pattern/Dependency Injection]]) |
+| **Runtime setter** | Swap strategy per request (ensure strategies are stateless or scoped) |
+| **Functional** | Pass a function instead of an interface when the surface is one method |
 
 ## Standard config / commands
 
@@ -107,7 +111,9 @@ Pull methods that vary out of the context class into strategy classes. Context p
 
 | Gain | Cost |
 |------|------|
-| … | … |
+| Open/closed — new variants without touching context | More classes and wiring than a two-branch `if` |
+| Test each algorithm in isolation | Indirection — harder to follow without good naming |
+| Removes duplicated `switch` across layers | Overkill for behavior that never branches again |
 
 ## When NOT to use
 

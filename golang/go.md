@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go package]] [[go project]]
 
 # go

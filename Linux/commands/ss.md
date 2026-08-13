@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]]
 
 # ss

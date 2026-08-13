@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Commands]] [[process]] [[ps]] [[renice]] [[OOM (Linux Out Of Memory)]]
 
 # top

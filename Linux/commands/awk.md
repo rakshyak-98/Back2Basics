@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[grep]] [[jq]]
 
 # awk

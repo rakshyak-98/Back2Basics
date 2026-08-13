@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[webhook]] [[Messaging/Web hooks]] [[DevOps]] [[Jenkins]]
 
 # Slack (ops & alerting)

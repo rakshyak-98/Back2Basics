@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Random forest]] [[Gradient boosting]] [[xg boost]] [[Decision tree]] [[Visualization/Residual plot]]
 
 # Feature importance

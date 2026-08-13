@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[Data access patterns]] [[OLTP]] [[OLAP]] [[Vector database]]
 
 # Heterogeneous Database Systems

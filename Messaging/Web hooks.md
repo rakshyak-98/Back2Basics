@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[webhook]] [[HTTP module]] [[JWT authentication]]
 
 # Web hooks

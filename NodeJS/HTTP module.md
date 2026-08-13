@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[expressjs]] [[Stream]]
 
 # HTTP module

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]]
 
 # OBS (Open Broadcaster Software)

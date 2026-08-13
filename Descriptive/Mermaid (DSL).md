@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[README]] [[staff engineer]]
 
 # Mermaid (DSL)

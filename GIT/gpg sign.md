@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[gpg]] [[git command]] [[git hook]]
 
 # GPG sign (Git commits & tags)

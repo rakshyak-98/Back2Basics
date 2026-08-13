@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[variable]] [[hoisting]] [[Descriptive/JavaScript/execution context]] [[javascript engine]] [[Callback]]
 
 # Lexical environment

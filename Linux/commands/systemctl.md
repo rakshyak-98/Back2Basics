@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[systemd]] [[Services commands]] [[journalctl]] [[Service masking]]
 
 # systemctl

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[cross-site scripting]] [[response header]] [[SOP (Same-Origin Policy)]]
 
 # Content Security Policy

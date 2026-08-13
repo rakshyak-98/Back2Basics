@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NAT (Network Address Translation)]] [[webSocket]] [[TCP]] [[UDP]] [[Streaming]]
 
 # SIP (Session Initiation Protocol)

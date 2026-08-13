@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[SMTP]] [[E mail server]]
 
 # Nodemailer Transporter

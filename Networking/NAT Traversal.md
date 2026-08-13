@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[NAT (Network Address Translation)]] [[ICE (Interactive Connectivity Establishment)]]
 
 # NAT Traversal

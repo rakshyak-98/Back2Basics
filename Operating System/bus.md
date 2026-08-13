@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[system bus]] [[PCI (Peripheral Component Interconnect)]] [[OS program]]
 
 # Bus

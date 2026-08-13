@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[MCP/MCP Client]] [[Descriptive/vscode]] [[Protocol/MQTT]]
 
 # MCP (Model Context Protocol)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ExpressJS]] [[NodeJS]] [[Express middleware]]
 
 # express concepts

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[FileManagement]] [[apt package manager]] [[apt configuration]] [[keyrings]]
 
 # source list file

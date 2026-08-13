@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Pods]] [[kubectl pod creation]] [[ingress]] [[Kubernetes services]] [[Kubernetes configuration]] [[Cilium]] [[distributed system]] [[orchestration]]
 
 # kubectl

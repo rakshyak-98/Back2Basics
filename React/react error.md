@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[React]] [[hydration]] [[react hooks]]
 
 # react error (common failures)

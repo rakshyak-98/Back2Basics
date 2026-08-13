@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DRM]] [[HLS]] [[DASH]] [[CMAF]] [[codecs]]
 
 # EME (Encrypted Media Extensions)

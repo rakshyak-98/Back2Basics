@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript engine]] [[polyfills]] [[React build]] [[Security/Asymmetrical Encryption]] [[NodeJS]]
 
 # WebAssembly (Wasm)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[interpreter]] [[OS program]] [[opcode]]
 
 # Linker

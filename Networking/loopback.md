@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[localhost]] [[DNS]] [[DNS rebinding]] [[TCP]]
 
 # Loopback

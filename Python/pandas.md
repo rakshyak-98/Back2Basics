@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Python/wheel]] [[Data structure/dsa genera formula]]
 
 # pandas

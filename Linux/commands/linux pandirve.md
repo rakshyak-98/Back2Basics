@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[file mount]] [[Linux file management]] [[Linux system management]]
 
 # USB pendrive (removable media)

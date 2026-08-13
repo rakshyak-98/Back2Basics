@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[mysql data partition]]
 
 # mysql partitioning

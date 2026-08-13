@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[journalctl]] [[systemd]] [[Services commands]] [[etc files]]
 
 # Logging (journal & syslog)

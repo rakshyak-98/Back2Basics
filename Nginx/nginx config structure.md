@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx/Configuration]] [[nginx files]] [[nginx fastcgi]] [[/etc files]]
 
 # nginx config structure

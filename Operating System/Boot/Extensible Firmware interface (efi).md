@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Boot]] [[UEFI]] [[MBR]] [[UEFI (2)]]
 
 # Extensible Firmware interface (efi)

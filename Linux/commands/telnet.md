@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[nc]] [[nmap]] [[ss]] [[SMTP]] [[Linux network commands]]
 
 # telnet

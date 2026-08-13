@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux configuration]] [[vscode]] [[Scripting]]
 
 # EditorConfig (editor config)

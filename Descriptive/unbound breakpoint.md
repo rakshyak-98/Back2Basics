@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/vscode]] [[javascript]] [[NodeJS/node command]] [[compiler/library file]]
 
 # Unbound breakpoint

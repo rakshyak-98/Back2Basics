@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[ICE (Interactive Connectivity Establishment)]] [[WebRTC Signaling channels]] [[TURN server (Traversal Using Relays around NAT)]] [[SCTP (Stream Control Transmission Protocol)]]
 
 # WebRTC

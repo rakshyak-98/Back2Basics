@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[golang]] [[go callstack]] [[go-routines]]
 
 # go error

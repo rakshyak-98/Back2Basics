@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go embedding]]
 
 # go interface

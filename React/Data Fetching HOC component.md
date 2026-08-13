@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[React Pattern/Higher order Component (HOCs)]] [[react-query]]
 
 # Data Fetching HOC component

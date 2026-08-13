@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[routing table]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]]
 
 # BGP

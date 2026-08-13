@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DER]] [[openssl]] [[RSA]] [[Root certificate]]
 
 # Read PEM file

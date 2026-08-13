@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS.md]]
 
 # AWS
@@ -10,6 +9,8 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
@@ -21,6 +22,16 @@
 **Say it in one breath:** Amazon Web Services folder hub — cloud compute, storage, networking, and IAM notes.
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

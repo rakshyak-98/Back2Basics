@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[Redux]] [[Redux toolkit]] [[Redux/RTQ/Middleware]] [[Redux/Redux createApi]]
 
 # Store Architecture Guide

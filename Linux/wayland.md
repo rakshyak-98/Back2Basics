@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[display server]] [[x11]] [[windowing system]] [[Linux display manager]]
 
 # Wayland

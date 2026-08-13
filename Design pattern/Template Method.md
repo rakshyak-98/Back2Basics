@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Factory Method]] [[Design pattern/Chain of Responsibility]] [[Architectures/Orchestration layer]]
 
 # Template Method

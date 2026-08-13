@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[postgres essential]] [[TLS (Transport Layer Security)]] [[connection pooling]] [[ACID]]
 
 # SQL Configurations (MySQL / Postgres)

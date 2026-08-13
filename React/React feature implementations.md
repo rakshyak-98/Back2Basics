@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[react routes]] [[hydration]]
 
 # React feature implementations

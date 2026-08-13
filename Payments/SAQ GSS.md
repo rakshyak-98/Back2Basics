@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
 
 # SAQ GSS (Self-Assessment Questionnaire — Guest Service System)

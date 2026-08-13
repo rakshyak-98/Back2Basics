@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ss]] [[ip]] [[Networking]] [[UDP]] [[TCP]] [[Streaming]] [[ingestion]]
 
 # Network management (streaming)

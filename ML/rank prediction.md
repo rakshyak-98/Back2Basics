@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ML]] [[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]]
 
 # rank prediction

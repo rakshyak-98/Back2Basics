@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[user management]] [[passwd]] [[Authentication command]] [[linux groups]]
 
 # getent

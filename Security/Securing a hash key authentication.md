@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[HMAC (Hash based Message Authentication Codes)]] [[Token rotation]] [[KMS]] [[https]]
 
 # Securing a hash key authentication

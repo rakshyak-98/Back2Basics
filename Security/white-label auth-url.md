@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[single-sign-on (SSO)]] [[JWT authentication]] [[OAuth]]
 
 # white-label auth-url

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[Packet Fragment]] [[TCP]] [[UDP]]
 
 # MTU (Maximum Transmission Unit)

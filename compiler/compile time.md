@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[compiler/compiler]] [[Operating System/runtime]] [[compiler/transpiler]]
 
 # Compile time

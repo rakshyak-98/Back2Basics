@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Python]]
 
 # User web server gateway interface

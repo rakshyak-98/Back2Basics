@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Repro]] [[general]] [[README]]
 
 # TL;DR

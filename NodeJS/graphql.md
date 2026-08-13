@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[expressjs]] [[open api specification]]
 
 # graphql

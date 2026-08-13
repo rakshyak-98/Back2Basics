@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[nvidia-smi]]
 
 # alsa

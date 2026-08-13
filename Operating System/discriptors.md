@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[handle]] [[file descriptors]] [[system call]] [[Epoll]] [[fsync]]
 
 # descriptors

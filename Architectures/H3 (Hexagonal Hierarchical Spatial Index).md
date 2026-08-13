@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Architectures]]
 
 # H3 (Hexagonal Hierarchical Spatial Index)

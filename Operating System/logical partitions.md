@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[MBR]] [[Persistent Block Storage]] [[cgroup (Control Group)]]
 
 # Logical partitions

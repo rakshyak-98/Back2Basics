@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[BASE]] [[OLAP]] [[OLTP]] [[WAL (Write-Ahead Log)]] [[Data access patterns]] [[GIN]]
 
 # Vector database

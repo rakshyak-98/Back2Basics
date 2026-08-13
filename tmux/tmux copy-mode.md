@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux/CLI]] [[Linux/Scripting]]
 
 # tmux copy-mode

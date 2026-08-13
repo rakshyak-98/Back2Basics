@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Garbage Collection]] [[Buffers]]
 
 # The structured clone algorithm

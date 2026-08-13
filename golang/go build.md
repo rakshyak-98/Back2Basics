@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang/go embedding]] [[compiler/compiler]] [[Release cycle]]
 
 # go build

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[HTTP module]] [[TCP]] [[SOCKS (Socket Secure)]] [[Configuration]]
 
 # WebSocket

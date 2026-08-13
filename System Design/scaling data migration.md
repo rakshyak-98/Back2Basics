@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Horizontal vs Vertical Scaling]] [[database sharding]] [[database migration]] [[mysql]] [[postgres]] [[BASE]] [[ACID]]
 
 # Scaling data migration

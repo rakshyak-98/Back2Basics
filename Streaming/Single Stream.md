@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Encoding]]
 
 # Single Stream

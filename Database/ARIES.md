@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[WAL (Write-Ahead Log)]] [[ACID]] [[write-ahead logging]] [[fsync]]
 
 # ARIES

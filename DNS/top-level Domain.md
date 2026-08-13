@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[name server]] [[top-level Domain]] [[Route53]]
 
 # Top-Level Domain (TLD)

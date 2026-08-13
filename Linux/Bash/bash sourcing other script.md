@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[bash script]] [[Bash syntax]] [[Bash functions]] [[Scripting]]
 
 # Bash sourcing other scripts

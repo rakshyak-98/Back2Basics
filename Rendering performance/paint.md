@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Rendering performance/layout]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
 
 # Paint (repaint)

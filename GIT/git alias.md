@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git command]] [[git branch]] [[git logs]]
 
 # Git aliases

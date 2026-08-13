@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[scikitlearn]] [[supervised learning]] [[data preprocessing]] [[Model/Linear regression]]
 
 # Estimator (ML / statistics)

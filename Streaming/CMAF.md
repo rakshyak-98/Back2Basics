@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[HLS]] [[DASH]] [[MPEG-TS]] [[CMAF]] [[codecs]] [[DRM]] [[Manifest (streaming)]]
 
 # CMAF (Common Media Application Format)

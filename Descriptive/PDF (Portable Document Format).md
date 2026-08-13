@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[pdf parser]] [[embedded image]]
 
 # PDF (Portable Document Format)

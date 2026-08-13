@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Call stack]] [[promise]]
 
 # Asynchronous

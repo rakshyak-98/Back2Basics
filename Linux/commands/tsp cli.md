@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[commands]] [[crontab]] [[Linux process commands]]
 
 # tsp cli

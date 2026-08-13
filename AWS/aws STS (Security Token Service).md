@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[IAM]] [[ARN (Amazon Resource Name)]] [[JWT authentication]] [[Security]]
 
 # AWS STS (Security Token Service)

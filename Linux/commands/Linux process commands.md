@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Commands]] [[process]] [[ps]] [[top]] [[lsof]]
 
 # Linux process commands

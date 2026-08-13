@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[windowing system]] [[Linux window manager]] [[i3 Window Manager Starter Guide]] [[display server]]
 
 # WM_CLASS

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ssh]]
 
 # Verify with the public key

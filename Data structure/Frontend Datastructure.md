@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[JavaScript]] [[Data access patterns]] [[Epoll]]
 
 # Frontend Datastructure

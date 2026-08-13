@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang/go]] [[golang/go functions]] [[golang/go data structure]]
 
 # Go strings — bytes, UTF-8, and runes

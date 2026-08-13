@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongoose/mongoose]] [[query/mongodb lookup query]]
 
 # MongoDB data populate

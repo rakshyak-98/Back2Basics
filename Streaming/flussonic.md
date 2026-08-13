@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[DASH]] [[HLS]] [[MPEG-TS]] [[Pallycon(DoveRunner)]] [[ingestion]]
 
 # flussonic

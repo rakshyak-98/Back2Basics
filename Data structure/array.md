@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure]] [[ADT (Abstract Data Type)]]
 
 # array

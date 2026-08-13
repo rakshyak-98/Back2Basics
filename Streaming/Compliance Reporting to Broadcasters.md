@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[CMS]] [[database sharding]]
 
 # Compliance Reporting to Broadcasters

@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Proxy]] [[Design pattern/Adapter]] [[Design pattern/Dependency Injection]]
 
 # Decorator

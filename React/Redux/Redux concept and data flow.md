@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[flux]] [[Redux toolkit]]
 
 # Redux concept and data flow

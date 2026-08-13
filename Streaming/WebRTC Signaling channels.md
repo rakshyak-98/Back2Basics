@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]]
 
 # WebRTC Signaling channels

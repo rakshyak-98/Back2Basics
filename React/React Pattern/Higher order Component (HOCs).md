@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[Render props]] [[react hooks]]
 
 # Higher order Component (HOCs)

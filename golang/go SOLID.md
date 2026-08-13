@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang/go embedding]] [[golang/go build]] [[Design pattern/Static Members]]
 
 # Go SOLID (idiomatic Go)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[worker]] [[clustering]] [[Node events driven]]
 
 # child process

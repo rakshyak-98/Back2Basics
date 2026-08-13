@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[DSN records]] [[name server]] [[top-level Domain]]
 
 # Sub Domain

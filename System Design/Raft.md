@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Quorum]] [[distributed system]] [[Eventual consistency]]
 
 # Raft

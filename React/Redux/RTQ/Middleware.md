@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux/redux middleware]] [[Redux/Redux State sync with localstorage]]
 
 # Middleware

@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Creation pattern]]
 
 # Abstract Factor

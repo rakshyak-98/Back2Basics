@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[JWT]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]]
 
 # Authentication web application

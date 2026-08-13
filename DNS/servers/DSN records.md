@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[mail server]] [[SMTP]]
 
 # DSN records

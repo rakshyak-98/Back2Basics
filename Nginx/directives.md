@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[How does directive work#try_files]]
 
 # directives

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Architecture]] [[React build]] [[RSC (React Server Component boundaries)]] [[Optimizing performance]]
 
 # React routes

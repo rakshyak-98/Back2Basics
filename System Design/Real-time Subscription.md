@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[stateless]] [[WebSocket]] [[SSE]] [[backpressure]]
 
 # Real-time Subscription

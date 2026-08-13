@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Linux configuration]] [[Linux terminal]] [[terminal configuration]]
 
 # Font commands (fontconfig)

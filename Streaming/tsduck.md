@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[MPEG-TS]] [[IPTV]] [[ingestion]] [[Multicast]]
 
 # tsduck

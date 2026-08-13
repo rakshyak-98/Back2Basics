@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[content security policy]] [[SOP (Same-Origin Policy)]] [[IDOR]] [[response header]]
 
 # Cross-site scripting (XSS)

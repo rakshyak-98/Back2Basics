@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Data fetching Frontend]] [[cache system]] [[ETAG or IF MATCH]]
 
 # remote data

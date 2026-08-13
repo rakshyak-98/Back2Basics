@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[Database design]] [[SQL normalization]]
 
 # relocatable schema

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[user management]] [[useradd]] [[groupadd]] [[gpasswd]] [[getent]]
 
 # linux groups

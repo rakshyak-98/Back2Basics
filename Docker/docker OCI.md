@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Docker]] [[docker container]] [[docker file]] [[docker cli]]
 
 # docker OCI

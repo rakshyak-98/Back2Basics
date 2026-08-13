@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[systemctl]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]]
 
 # systemd

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System/base clock speed]] [[Operating System/Single Instruction, Multiple Data (SIMD)]] [[Operating System/context switching]] [[AWS/AWS EC2]]
 
 # Advanced RISC Machine (ARM)

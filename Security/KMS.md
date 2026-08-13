@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TLS (Transport Layer Security)]] [[JWT authentication]] [[Security]] [[Token rotation]]
 
 # KMS (Key Management Service)

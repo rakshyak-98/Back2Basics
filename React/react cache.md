@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[react-query]]
 
 # react cache / TanStack Query cache

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux createApi]] [[Redux/RTQ Toolkit]]
 
 # RTQ store

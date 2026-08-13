@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Express middleware]] [[HTTP module]]
 
 # expressjs

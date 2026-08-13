@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[node inspect]] [[node command]]
 
 # REPL

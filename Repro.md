@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TL;DR]] [[general]] [[DevOps/Jenkins]]
 
 # Repro (reproduction case)

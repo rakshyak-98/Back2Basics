@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux/commands/fzf]] [[Linux/CLI]]
 
 # combi (rofi mode)

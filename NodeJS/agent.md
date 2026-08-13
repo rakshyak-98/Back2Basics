@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[HTTP module]] [[expressjs]]
 
 # agent (http.Agent)

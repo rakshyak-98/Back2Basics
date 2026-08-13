@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Throughput]] [[backpressure]] [[TCP]]
 
 # concurrent connection

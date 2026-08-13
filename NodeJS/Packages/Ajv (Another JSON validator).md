@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Packages/npm packages]] [[open api specification]]
 
 # Ajv (Another JSON validator)

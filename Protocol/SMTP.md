@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[E mail server]] [[TCP]] [[DNS]]
 
 # SMTP

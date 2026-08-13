@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[zustand]] [[expressjs]] [[Event Loop]] [[webSocket]] [[JWT authentication]]
 
 # React data management

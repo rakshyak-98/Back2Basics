@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Decorator]] [[Design pattern/Facade]] [[Design pattern/Dependency Injection]]
 
 # Proxy

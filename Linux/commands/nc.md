@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[telnet]] [[ss]] [[nmap]] [[half-open connections]] [[Linux network commands]]
 
 # nc (netcat)

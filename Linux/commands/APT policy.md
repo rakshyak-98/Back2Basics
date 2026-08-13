@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[apt package manager]] [[apt configuration]]
 
 # APT policy

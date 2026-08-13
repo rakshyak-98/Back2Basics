@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[TypeScript]] [[typescript]] [[tsconfig]]
 
 # typescript error

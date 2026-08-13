@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[ExpressJS]] [[NodeJS]] [[Node.js security flaws in architecture]] [[Express middleware]]
 
 # Express Error Handler

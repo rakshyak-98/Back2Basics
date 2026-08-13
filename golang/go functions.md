@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go package]] [[go functions]]
 
 # go functions

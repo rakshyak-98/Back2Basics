@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[buffer]] [[Rolling Buffer]] [[multi-threaded]]
 
 # Atomic ring buffer

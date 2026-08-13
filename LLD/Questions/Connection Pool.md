@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Questions]]
 
 # Connection Pool

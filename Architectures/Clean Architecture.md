@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[SOLID]] [[Design pattern/Dependency Injection]] [[Design pattern/Adapter]] [[KISS]]
 
 # Clean Architecture

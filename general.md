@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[INDEX]] [[NOTES_STANDARD]] [[README]] [[staff engineer]]
 
 # general
@@ -10,6 +9,8 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
@@ -35,6 +36,16 @@ Symptom / design question
 Every note picks a strategy from [[NOTETAKING_STRATEGIES]] and follows the matching template in [[NOTES_STANDARD]] (operational notes: mental model → commands → triage → gotchas).
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

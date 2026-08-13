@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[Byte stream]] [[UDP]] [[SSH]]
 
 # TCP

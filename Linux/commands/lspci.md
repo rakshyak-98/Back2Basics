@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux system management]] [[dmidecode]] [[Linux configuration]]
 
 # lspci

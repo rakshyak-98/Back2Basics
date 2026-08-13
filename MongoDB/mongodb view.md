@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[query/mongodb lookup query]] [[mongosh query]]
 
 # mongodb view

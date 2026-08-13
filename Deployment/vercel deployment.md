@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[nginx SPA deployment]] [[React]] [[CORS (Cross Origin Request Sharing)]] [[Deployment]]
 
 # Vercel deployment

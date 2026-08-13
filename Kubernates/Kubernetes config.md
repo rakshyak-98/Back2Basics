@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Kubernates]]
 
 # You are essentially reading from or writing to etcd through the kubernetes API server.

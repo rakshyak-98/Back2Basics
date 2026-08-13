@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ISR (Incremental Static Regeneration)]] [[React/React data management]] [[javascript/user triggered event]]
 
 # Next.js navigation

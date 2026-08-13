@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[process]] [[Linux cgroup]] [[Commands]]
 
 # eBPF

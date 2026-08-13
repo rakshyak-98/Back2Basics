@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Programming paradigram/Functional Programing]] [[Database/OLAP]] [[Descriptive/Mermaid (DSL)]]
 
 # Purely declarative

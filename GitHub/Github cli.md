@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[GIT]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
 
 # GitHub CLI (`gh`)

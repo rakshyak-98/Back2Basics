@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DASH]] [[Manifest (streaming)]] [[HLS vs. DASH]] [[CMAF]] [[ABR]] [[DRM]] [[EME]]
 
 # MPD (Media Presentation Description)

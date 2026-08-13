@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]
 
 # Terraform

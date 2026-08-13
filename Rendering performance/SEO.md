@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/web development]] [[Rendering performance/INP]] [[Nginx/nginx SPA deployment]] [[Security/content security policy]]
 
 # SEO (Search Engine Optimization)

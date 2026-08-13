@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[JWT authentication]] [[TOTP (Time based One Time Password)]] [[single-sign-on (SSO)]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # Authentication terms

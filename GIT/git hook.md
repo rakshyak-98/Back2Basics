@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git commit]]
 
 # Git Hooks

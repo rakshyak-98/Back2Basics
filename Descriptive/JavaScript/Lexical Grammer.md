@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/lexical analysis]] [[javascript]] [[Descriptive/Mermaid (DSL)]]
 
 # Lexical Grammer

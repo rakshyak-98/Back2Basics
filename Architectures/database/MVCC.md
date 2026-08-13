@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Architectures]] [[Database]] [[ACID]] [[WAL (Write-Ahead Log)]]
 
 # MVCC

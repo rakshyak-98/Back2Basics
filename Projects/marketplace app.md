@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Projects]] [[TLS (Transport Layer Security)]] [[ACID]] [[IDOR]] [[JWT authentication]] [[gRPC]]
 
 # marketplace app

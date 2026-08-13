@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Decision tree]] [[Gradient boosting]] [[xg boost]] [[scikitlearn]] [[ML Classifiers]]
 
 # Random forest

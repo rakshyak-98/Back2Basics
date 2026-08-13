@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[keyrings]] [[gpg]] [[keyctl]]
 
 # Linux Key management

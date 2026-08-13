@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]]
 
 # Nginx Automated Config Deployment

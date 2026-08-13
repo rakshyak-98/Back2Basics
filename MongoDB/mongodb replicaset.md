@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb connection]] [[Database/ACID]]
 
 # MongoDB replica set

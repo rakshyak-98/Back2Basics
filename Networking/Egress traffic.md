@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NAT (Network Address Translation)]] [[Egress and Ingress]] [[routing table]] [[AWS]]
 
 # Egress traffic

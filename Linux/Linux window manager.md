@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[wayland]] [[x11]] [[compositors]]
 
 # Linux window manager

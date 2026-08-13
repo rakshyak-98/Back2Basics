@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[java]] [[android]] [[golang]]
 
 # Kotlin syntax (quick reference)

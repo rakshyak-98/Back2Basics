@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[LSP]] [[Debugger configuratoin]]
 
 # DAP (Debug Adapter Protocol)

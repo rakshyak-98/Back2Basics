@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[Descriptive]]
 
 # GPL (GNU General Public License)

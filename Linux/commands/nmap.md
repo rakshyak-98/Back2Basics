@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[nc]] [[ss]] [[Linux network commands]] [[Security]]
 
 # nmap

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[node fs]] [[Buffers]] [[Stream]]
 
 # Node.js `file` module patterns

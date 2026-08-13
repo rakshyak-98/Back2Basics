@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[commands]] [[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]]
 
 # Linux network commands

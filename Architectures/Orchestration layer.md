@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Airflow]] [[Jenkins]] [[kafka]] [[webhook]] [[Idempotent-key]]
 
 # Orchestration layer

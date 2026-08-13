@@ -1,4 +1,3 @@
-<!-- note-strategy: comparison -->
 [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Security/https]]
 
 # Web server (URL path vs filesystem)

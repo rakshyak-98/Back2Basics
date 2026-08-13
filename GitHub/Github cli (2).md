@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[GitHub]]
 
 # Github cli (2)

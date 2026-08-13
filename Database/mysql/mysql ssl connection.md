@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql/mysql connection]] [[mysql pool connection]] [[Security/TLS (Transport Layer Security)]] [[connection pooling]]
 
 # MySQL SSL/TLS connections

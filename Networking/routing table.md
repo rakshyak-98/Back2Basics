@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating system]] [[Networking]] [[FIB (Forwarding Information Base)]] [[PBR (Policy Based Routing)]] [[CIDR (Classless Inter-Domain Routing)]]
 
 # Routing table

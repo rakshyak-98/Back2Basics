@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[useradd]] [[userdel]] [[passwd]] [[getent]] [[user management]] [[etc files]]
 
 # usermod

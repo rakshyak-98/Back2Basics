@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[TCP]] [[UDP]] [[DNS zone]] [[name server]] [[mDNS]] [[dig]]
 
 # DNS
@@ -54,11 +53,19 @@ Transport:
 
 | Symptom / need | Go to |
 |----------------|-------|
-| … | [[…]] |
+| Name does not resolve / NXDOMAIN | [[dig]] · [[DNS zone]] · [[name server]] |
+| Wrong IP / stale answer after migration | [[dig]] · [[dns record]] · [[public resolver]] |
+| Internal name works publicly but not on VPN | [[Unbound]] · [[DNS server]] · [[cloudflare]] |
+| Pod resolves, host does not (K8s) | [[CoreDNS]] · [[mDNS]] |
+| Reverse lookup fails | [[dig]] · [[PTR]] via [[dns record]] |
+| Local `.local` / multicast names | [[mDNS]] · [[LLMNR]] |
 
 ## Domain links
 
-- …: [[…]]
+- **Core:** [[DNS zone]] · [[dns record]] · [[name server]] · [[top-level Domain]] · [[Sub Domain]]
+- **Resolvers:** [[public resolver]] · [[Unbound]] · [[cloudflare]]
+- **Servers:** [[BIND]] · [[CoreDNS]] · [[dnsmasq]]
+- **Security:** [[DNS rebinding]]
 
 ## Standard config / commands
 

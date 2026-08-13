@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS server]] [[public resolver]] [[BIND]] [[PoserDNS]]
 
 # Unbound

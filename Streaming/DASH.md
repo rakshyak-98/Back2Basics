@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[ABR]] [[HLS]] [[MPD]] [[CMAF]] [[Manifest (streaming)]]
 
 # DASH (Dynamic Adaptive Streaming over HTTP)

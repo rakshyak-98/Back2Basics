@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[TCP]] [[ELF (Editabl Linkable File)]] [[SYSV (System V)]]
 
 # endian

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS]] [[How to connect Godaddy domain with AWS EC2 instance]] [[Networking/Route53]]
 
 # aws host website

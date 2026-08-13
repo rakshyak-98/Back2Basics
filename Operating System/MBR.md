@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Persistent Block Storage]] [[logical partitions]] [[OS program]]
 
 # MBR (Master Boot Record)

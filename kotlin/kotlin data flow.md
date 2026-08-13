@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[kotlin]]
 
 # kotlin data flow

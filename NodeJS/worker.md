@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[worker threads]] [[child process]] [[clustering]]
 
 # worker (worker threads)

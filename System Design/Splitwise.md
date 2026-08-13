@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System design]] [[API design]] [[Authentication web application]] [[Distributed computing]]
 
 # Splitwise

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]] [[static file]]
 
 # Nginx SPA Deployment

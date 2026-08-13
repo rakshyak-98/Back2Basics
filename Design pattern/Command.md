@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace application]]
 
 # Command pattern

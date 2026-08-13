@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[OLTP]] [[Data access patterns]] [[ACID]] [[Database design]] [[mysql]]
 
 # OLAP (Online Analytical Processing)

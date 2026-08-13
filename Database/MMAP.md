@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[WAL (Write-Ahead Log)]] [[fsync]] [[WiredTiger storage engine]] [[Buffer cache]] [[How to manipulate memory directly]]
 
 # MMAP

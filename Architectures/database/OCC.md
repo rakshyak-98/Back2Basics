@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Architectures]] [[Database]] [[MVCC]] [[ACID]]
 
 # OCC

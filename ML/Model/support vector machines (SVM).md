@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ML Classifiers]] [[binary classification]] [[regression]] [[Model/Linear regression]] [[scikitlearn]]
 
 # Support Vector Machines (SVM)

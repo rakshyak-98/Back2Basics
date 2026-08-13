@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ss]] [[route]] [[ip]] [[Linux]]
 
 # NetworkManager (network managmeen)

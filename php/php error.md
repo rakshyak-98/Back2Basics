@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[PHP-FPM]] [[apache/apache modules]] [[Nginx/Configuration]]
 
 # PHP errors

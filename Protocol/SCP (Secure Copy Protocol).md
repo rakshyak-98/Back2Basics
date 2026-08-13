@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ssh/ssh allow local system with key]] [[Security/TLS (Transport Layer Security)]] [[ftp]]
 
 # SCP (Secure Copy Protocol)

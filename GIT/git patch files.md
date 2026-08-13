@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git command]] [[git diff]] [[git merge]] [[git rebase]]
 
 # Git patch files

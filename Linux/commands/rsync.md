@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[diff]] [[SSH]] [[Linux file management]] [[file mount]]
 
 # rsync

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[BGP]] [[CIDR (Classless Inter-Domain Routing)]] [[routing table]]
 
 # Autonomous system

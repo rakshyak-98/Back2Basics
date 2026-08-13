@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Redux State sync with localstorage]]
 
 # redux persist

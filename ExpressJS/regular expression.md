@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ExpressJS]] [[NodeJS]] [[express error handler]] [[express query handler]]
 
 # Express route regular expressions

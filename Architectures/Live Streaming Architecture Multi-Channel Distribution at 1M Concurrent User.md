@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[Architectures]] [[Streaming]] [[CDN]] [[HLS]] [[DASH]]
 
 # Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User

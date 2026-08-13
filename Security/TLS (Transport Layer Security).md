@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[Nginx]] [[Configuration]]
 
 # TLS (Transport Layer Security)

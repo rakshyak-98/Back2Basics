@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[React]] [[RSC (React Server Component boundaries)]] [[React Architecture]]
 
 # React Application Architecture for Production

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TLS (Transport Layer Security)]] [[PKI]] [[openssl]] [[ssh allow local system with key]]
 
 # Fingerprint

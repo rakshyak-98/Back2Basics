@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[CPIX]] [[Pallycon(DoveRunner)]] [[EME]]
 
 # streaming license

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Redux createSlice]]
 
 # redux toolkit features

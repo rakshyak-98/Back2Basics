@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Facade]] [[System Design/KISS]]
 
 # Builder

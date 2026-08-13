@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go cli]] [[go error]] [[go callstack]]
 
 # go debugging

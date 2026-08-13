@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Persistent Block Storage]] [[Buffer cache]] [[file descriptors]]
 
 # Abstract storage location

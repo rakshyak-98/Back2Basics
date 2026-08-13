@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[interpreter]] [[opcode]] [[Heap memory]]
 
 # Stack-based programming language

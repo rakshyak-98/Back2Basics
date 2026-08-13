@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Prefix sum]] [[sliding window]] [[dsa modular arithmetics]] [[Algorithm]]
 
 # DSA combinatorics formulas

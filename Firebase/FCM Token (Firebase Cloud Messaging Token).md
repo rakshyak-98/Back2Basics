@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Messaging/webhook]] [[android/sdkmanager]] [[Security/Token rotation]]
 
 # FCM token (Firebase Cloud Messaging)

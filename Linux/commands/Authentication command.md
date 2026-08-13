@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[commands]] [[SSH]] [[gpg]] [[keyrings]]
 
 # Authentication command

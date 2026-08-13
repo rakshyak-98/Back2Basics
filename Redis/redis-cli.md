@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[redis installation]] [[connection pooling]] [[BASE]]
 
 # redis-cli

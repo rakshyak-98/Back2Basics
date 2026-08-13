@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[SQL normalization]] [[OLTP]] [[ACID]] [[Data access patterns]] [[database migration]] [[Database mistakes]]
 
 # Database design

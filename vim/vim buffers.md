@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[netrw file explorer]] [[vim keybindings]] [[Linux/CLI]]
 
 # Vim buffers

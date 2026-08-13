@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[gsetting]] [[editor configuration]] [[X Desktop Group]]
 
 # Linux configuration

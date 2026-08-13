@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Packages/Immer]] [[Redux toolkit]]
 
 # Immutability in Redux

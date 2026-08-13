@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Concurrency]] [[Concurrent modification]] [[backpressure]]
 
 # race condition

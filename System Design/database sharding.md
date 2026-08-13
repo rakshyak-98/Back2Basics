@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]]
 
 # Database sharding

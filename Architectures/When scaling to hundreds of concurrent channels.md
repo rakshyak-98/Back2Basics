@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]] [[backpressure]]
 
 # When scaling to hundreds of concurrent channels

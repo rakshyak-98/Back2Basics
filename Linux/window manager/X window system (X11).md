@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[window manager]] [[x11]] [[wayland]] [[compositors]]
 
 # X window system (X11)

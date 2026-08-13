@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[Alter table]] [[mysql data migrations]] [[ACID]]
 
 # database migration

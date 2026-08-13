@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx]] [[web server]] [[directives]] [[nginx SPA deployment]] [[nginx fastcgi]] [[nginx configuration structure]]
 
 # Nginx Configuration

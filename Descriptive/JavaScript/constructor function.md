@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/new]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]]
 
 # Constructor function

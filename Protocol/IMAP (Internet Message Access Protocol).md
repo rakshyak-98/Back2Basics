@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[SMTP]] [[POP3 (Post Office Protocol v3)]] [[E mail server]] [[TCP]]
 
 # IMAP (Internet Message Access Protocol)

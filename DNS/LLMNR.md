@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[mDNS]] [[DNS server]]
 
 # LLMNR

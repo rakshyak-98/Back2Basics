@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[css]] [[scss]] [[Animation]] [[Nginx]] [[React]]
 
 # Flash of Unstyled Content (FOUC)

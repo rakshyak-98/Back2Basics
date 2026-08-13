@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Memory management]] [[Linux cgroup]] [[Linux out of memory daemon]] [[process]]
 
 # OOM (Linux Out Of Memory)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/new]] [[javascript]] [[Operating System/Stack Frame]]
 
 # Execution context

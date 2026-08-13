@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DRM]]
 
 # CDM (Content Decryption Module)

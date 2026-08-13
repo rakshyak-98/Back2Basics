@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[kernel subsystem]] [[fsync]] [[buffer]] [[file descriptors]]
 
 # Buffer cache

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[NodeJS/Event Loop]]
 
 # INP (Interaction to Next Paint)

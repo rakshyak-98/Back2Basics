@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[RTMP]] [[SRT]] [[RTSP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
 
 # Ingestion

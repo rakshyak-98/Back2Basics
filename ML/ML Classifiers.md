@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Decision tree]] [[Random forest]] [[binary classification]] [[multiclass classification]] [[supervised learning]]
 
 # ML Classifiers

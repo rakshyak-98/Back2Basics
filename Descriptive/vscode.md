@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[GIT/git command]]
 
 # VS Code (CLI and workspace ops)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]]
 
 # Linux resource management

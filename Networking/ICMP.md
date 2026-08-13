@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[auto-pong]] [[MTU (Maximum Transmission Unit)]] [[Packet Fragment]]
 
 # ICMP

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Prefix sum]] [[Data structure]] [[Algorithm]]
 
 # Sliding window

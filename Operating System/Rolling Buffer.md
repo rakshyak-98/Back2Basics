@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[atomic ring buffer]] [[buffer]] [[kernel ring buffer]] [[shared memory]]
 
 # Rolling buffer

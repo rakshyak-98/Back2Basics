@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[Linux]] [[process]] [[Linux/commands/gdb]] [[OOM (Linux Out Of Memory)]]
 
 # Error status code

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[node package json]] [[npm command]]
 
 # node modules

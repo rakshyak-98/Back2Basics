@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Express middleware]] [[expressjs]]
 
 # async utils

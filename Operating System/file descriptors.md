@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[system call]] [[handle]] [[Buffer cache]] [[non-blocking]] [[cgroup (Control Group)]]
 
 # File descriptors

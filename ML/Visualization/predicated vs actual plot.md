@@ -1,4 +1,3 @@
-<!-- note-strategy: comparison -->
 [[regression]] [[Visualization/Residual plot]] [[rank prediction]] [[Mean Average Precision (MAP)]]
 
 # Predicted vs actual plot

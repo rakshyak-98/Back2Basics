@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Boot]] [[UEFI]] [[MBR]] [[Persistent Block Storage]]
 
 # UEFI (2)

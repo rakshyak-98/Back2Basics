@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Weak map]] [[JavaScript/Call stack]]
 
 # Garbage Collection

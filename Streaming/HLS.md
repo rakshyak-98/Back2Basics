@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[ABR]] [[DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]]
 
 # HLS (HTTP Live Streaming)

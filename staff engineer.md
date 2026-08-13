@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[staff engineer.md]]
 
 # staff engineer

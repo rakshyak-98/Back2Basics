@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[Manifest (streaming)]] [[HLS]] [[DASH]] [[MPD]] [[flussonic]] [[How to attach stream to HTTP handlers]]
 
 # streaming manifest file

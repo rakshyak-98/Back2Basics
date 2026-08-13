@@ -1,4 +1,3 @@
-<!-- note-strategy: comparison -->
 [[Blocking]] [[non-blocking]] [[Event Loop]] [[libuv]] [[Callback]] [[context switching]]
 
 # Blocking vs Non-Blocking

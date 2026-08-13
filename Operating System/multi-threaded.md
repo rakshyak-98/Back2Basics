@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Single-threaded]] [[Thread]] [[thread pool]] [[mutexes]] [[critical sections]] [[context switching]]
 
 # multi-threaded

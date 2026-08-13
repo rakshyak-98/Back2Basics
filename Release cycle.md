@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Jenkins]] [[spinnaker]] [[Docker compose]] [[Terraform workflow]] [[git merge]]
 
 # Release cycle

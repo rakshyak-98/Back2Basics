@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[NAT (Network Address Translation)]] [[outbound ip]] [[CIDR (Classless Inter-Domain Routing)]]
 
 # network gateway

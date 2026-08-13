@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[loggging]] [[OOM (Linux Out Of Memory)]] [[Linux]] [[eBPF]]
 
 # Kernel ring buffer

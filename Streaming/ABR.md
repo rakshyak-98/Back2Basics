@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[HLS]] [[DASH]] [[rendition]] [[bitrate streaming]] [[Manifest (streaming)]]
 
 # ABR (Adaptive Bit Rate)

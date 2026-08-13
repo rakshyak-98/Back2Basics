@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/State]] [[Design pattern/Command]]
 
 # Memento

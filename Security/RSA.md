@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Asymmetrical Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]]
 
 # RSA

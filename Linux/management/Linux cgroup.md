@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[Memory management]] [[OOM (Linux Out Of Memory)]] [[process]]
 
 # Linux cgroups

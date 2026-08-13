@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[Package Manager]] [[system service unit files]] [[supervisorctl]]
 
 # Linux application management

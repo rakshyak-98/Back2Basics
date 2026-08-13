@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[de facto]] [[Release cycle]] [[general]]
 
 # de facto standard

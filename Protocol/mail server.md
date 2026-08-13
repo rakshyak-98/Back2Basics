@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Protocol]] [[E mail server]] [[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]]
 
 # mail server

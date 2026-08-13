@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[Redux]]
 
 # flux

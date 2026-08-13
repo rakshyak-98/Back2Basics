@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[CLI]] [[Stream]]
 
 # Node.js stdin / readline inputs

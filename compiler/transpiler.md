@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[compiler/compiler]] [[compiler/compile time]] [[javascript/metro bundler]]
 
 # Transpiler

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[runtime]] [[file descriptors]] [[Heap memory]]
 
 # Take snapshot

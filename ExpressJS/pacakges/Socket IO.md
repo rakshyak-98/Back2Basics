@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[WebRTC]] [[SSE (Server-Sent Events)]]
 
 # Socket IO

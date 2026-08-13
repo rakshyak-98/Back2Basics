@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[Architectures]] [[Clean Architecture]] [[Multi-tier and Layered Architecture]]
 
 # System Architecture

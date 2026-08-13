@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[SQL]] [[cli]] [[mysql]] [[mysql user]] [[TLS (Transport Layer Security)]]
 
 # SQL error

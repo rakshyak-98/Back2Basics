@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[Authentication terms]] [[JWT]] [[single-sign-on (SSO)]]
 
 # TOTP (Time based One Time Password)

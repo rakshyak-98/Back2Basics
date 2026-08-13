@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[IPTV]] [[ingestion]] [[CAS (Conditional Access System)]] [[Byte stream]] [[CMAF]]
 
 # MPEG-TS

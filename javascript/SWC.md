@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React build]] [[polyfills]] [[source map]] [[javascript engine]] [[metro bundler]]
 
 # SWC (Speedy Web Compiler)

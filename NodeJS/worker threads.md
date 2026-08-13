@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Event Loop]] [[clustering]] [[child process]]
 
 # Node.js Worker Threads

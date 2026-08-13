@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[DNS]]
 
 # Network Information Service (NIS)

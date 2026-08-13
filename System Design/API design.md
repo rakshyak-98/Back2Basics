@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System design]] [[Authentication web application]] [[JWT authentication]] [[REST]]
 
 # API design

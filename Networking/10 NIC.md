@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ethtool]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[Egress traffic]]
 
 # NIC (10 NIC)

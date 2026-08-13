@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[keyrings]] [[apt package manager]] [[Authentication command]]
 
 # gpg

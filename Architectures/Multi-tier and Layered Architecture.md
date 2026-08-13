@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[Clean Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[Database application]] [[Microservice]] [[Orchestration layer]] [[SOLID]] [[KISS]]
 
 # Multi-tier and Layered Architecture

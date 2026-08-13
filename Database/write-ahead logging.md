@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[WAL (Write-Ahead Log)]]
 
 # write-ahead logging

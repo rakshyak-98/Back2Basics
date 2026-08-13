@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[WORKLOG.md]]
 
 # Work Log — DRM Streaming Demo

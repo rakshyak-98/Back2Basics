@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Code review.md]]
 
 # Code review

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[TLS (Transport Layer Security)]] [[Route53]] [[CORS (Cross Origin Request Sharing)]]
 
 # Cloudflare

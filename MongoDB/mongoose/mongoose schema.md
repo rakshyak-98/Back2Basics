@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mongoose/mongoose]] [[mongodb schema]] [[mongoose/mongoose methods]]
 
 # mongoose schema

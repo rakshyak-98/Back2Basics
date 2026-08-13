@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Heap memory]] [[buffer]]
 
 # Browser memory

@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[NodeJS]] [[node package json]] [[Packages/npm packages]]
 
 # npm command

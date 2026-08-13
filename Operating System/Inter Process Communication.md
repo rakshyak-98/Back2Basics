@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[process]] [[shared memory]] [[file descriptors]] [[Thread]]
 
 # Inter Process Communication

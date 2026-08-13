@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[TCP]] [[UDP]] [[BSD Socket]] [[POSIX Socket]]
 
 # address port

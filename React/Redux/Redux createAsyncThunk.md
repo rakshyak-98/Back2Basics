@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux Thunk]] [[Redux toolkit]]
 
 # Redux createAsyncThunk

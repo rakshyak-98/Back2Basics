@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[NodeJS]] [[Stream]] [[Stream/pipe]] [[Stream Events]] [[Buffers]]
 
 # stream error

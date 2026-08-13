@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Immutability in Redux]]
 
 # Redux createSlice

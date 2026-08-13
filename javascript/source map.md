@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React build]] [[SWC]] [[javascript engine]] [[React project configuration]] [[Security/content security policy]]
 
 # Source map

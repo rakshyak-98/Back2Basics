@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[cross-site scripting]]
 
 # cookies configuration

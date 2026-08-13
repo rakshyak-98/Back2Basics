@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[docker container]] [[docker OCI]] [[Docker compose]] [[docker file]]
 
 # Docker Runtime Security

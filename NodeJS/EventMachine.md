@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Event Loop]] [[Node events driven]]
 
 # EventMachine

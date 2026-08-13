@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[user management]] [[userdel]] [[usermod]] [[passwd]] [[linux groups]]
 
 # useradd

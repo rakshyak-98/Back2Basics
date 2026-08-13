@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mongoose/mongoose]] [[mongoose/mongoose methods]] [[mongoose middleware]]
 
 # mongoose custome function

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb replicaset]] [[System Design/database sharding]] [[mognodb indexing]]
 
 # MongoDB sharding

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redis]] [[Distributed computing]] [[System design]] [[database sharding]]
 
 # Cache system

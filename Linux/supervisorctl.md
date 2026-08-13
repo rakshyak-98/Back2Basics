@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[systemd]] [[Services commands]] [[process]] [[Linux application management]]
 
 # supervisorctl

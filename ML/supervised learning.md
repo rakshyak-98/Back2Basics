@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[regression]] [[binary classification]] [[multiclass classification]] [[data preprocessing]] [[estimator]]
 
 # Supervised learning

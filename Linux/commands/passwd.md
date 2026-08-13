@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[user management]] [[useradd]] [[userdel]] [[Authentication command]] [[chage]]
 
 # passwd

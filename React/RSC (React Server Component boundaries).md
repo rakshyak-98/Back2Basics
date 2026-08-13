@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[hydration]] [[SSR]]
 
 # RSC (React Server Component boundaries)

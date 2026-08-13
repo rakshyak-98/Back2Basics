@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[SQL]] [[Database]] [[psql essential]] [[mysql index]] [[covering index]] [[OLTP]]
 
 # GIN

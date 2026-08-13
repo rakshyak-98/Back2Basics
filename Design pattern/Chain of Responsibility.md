@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Template Method]] [[NodeJS/Express middleware]]
 
 # Chain of Responsibility

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Stream]] [[Stream Events]] [[Stream/stream error]]
 
 # pipe

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[psql essential]] [[ACID]] [[Database mistakes]] [[half-open connections]]
 
 # connection pooling

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[re-encoding]] [[codecs]] [[transcoding]] [[ffprobe]] [[MPEG-TS]] [[Streaming]] [[RTMP]] [[SRT]] [[RTSP]]
 
 # ffmpeg

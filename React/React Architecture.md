@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[React Application Architecture for Production]] [[React data management]] [[react routes]] [[RSC (React Server Component boundaries)]] [[API handling]]
 
 # React Architecture

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Serialization]] [[Distributed computing]] [[API design]] [[gRPC]]
 
 # Marshalling

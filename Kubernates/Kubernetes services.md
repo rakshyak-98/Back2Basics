@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Kubernates]]
 
 # Kubernetes services

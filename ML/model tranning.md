@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ML]] [[scikitlearn]] [[data preprocessing]]
 
 # model tranning

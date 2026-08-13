@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[IIFC]] [[prototype]]
 
 # self-defining functions

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[flutter]] [[android]] [[dart/dart functions]]
 
 # Flutter build and release

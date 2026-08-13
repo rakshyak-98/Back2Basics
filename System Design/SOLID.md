@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[DRY]] [[GRASP]] [[solid diagram]]
 
 # SOLID

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[webSocket]] [[Messaging/Web hooks]] [[TCP]] [[half-open connections]]
 
 # MQTT

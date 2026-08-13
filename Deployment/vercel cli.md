@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
 
 # Vercel CLI

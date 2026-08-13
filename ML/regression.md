@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Model/Linear regression]] [[binary classification]] [[sigmoid]] [[supervised learning]] [[Visualization/Residual plot]]
 
 # Regression

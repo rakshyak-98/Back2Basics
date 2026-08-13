@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ACID]] [[Database mistakes]] [[OLTP]] [[Vector database]]
 
 # BASE

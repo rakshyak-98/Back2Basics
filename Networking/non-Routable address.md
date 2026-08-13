@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[localhost]]
 
 # non-Routable address

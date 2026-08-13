@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[Linux Process Theory]] [[TTY (teletypewriter)]] [[file descriptors]]
 
 # Process

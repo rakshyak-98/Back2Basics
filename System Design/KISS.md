@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DRY]] [[SOLID]] [[System design]] [[Design pattern]]
 
 # KISS (Keep It Simple, Stupid)

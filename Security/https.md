@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[response header]]
 
 # HTTPS

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Hooks]] [[react hooks]] [[Optimizing performance]]
 
 # react useEffect

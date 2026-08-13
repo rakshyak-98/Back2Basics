@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AAC (Advanced Audio Coding)]] [[AV1]] [[Encoding]] [[transcoding]] [[bitrate streaming]] [[HLS]] [[DASH]]
 
 # Codecs

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[codecs]] [[Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[Lossy Audio Compression]]
 
 # AAC (Advanced Audio Coding)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure]] [[dsa intuition]] [[Sorting algorithm]]
 
 # DSA algorithms

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[POSIX Socket]] [[TCP]] [[UDP]] [[webSocket]]
 
 # Berkeley sockets

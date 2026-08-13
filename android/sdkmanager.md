@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[android]] [[Docker compose]] [[kubectl]]
 
 # sdkmanager

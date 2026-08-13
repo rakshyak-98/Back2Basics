@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql Programmable SQL]] [[cli]]
 
 # variables

@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[ACID]] [[WAL (Write-Ahead Log)]] [[OLTP]] [[OLAP]] [[Database design]] [[connection pooling]] [[MVCC]]
 
 # Database
@@ -44,11 +43,21 @@ Without atomicity + durability, a crash mid-update can leave half-written rows. 
 
 | Symptom / need | Go to |
 |----------------|-------|
-| … | [[…]] |
+| Data missing after crash | [[ACID]] · [[WAL (Write-Ahead Log)]] · [[write-ahead logging]] |
+| Timeouts under load / connection exhaustion | [[connection pooling]] · [[mysql pool connection]] |
+| Slow queries / full table scans | [[mysql index]] · [[covering index]] · [[Data access patterns]] |
+| Schema change in production | [[database migration]] · [[migration]] |
+| Wrong isolation / duplicate charges | [[ACID]] · [[mysql transaction]] · [[mysql lock]] |
+| OLTP vs analytics workload confusion | [[OLTP]] · [[OLAP]] |
+| Postgres type / parameter errors | [[postgres/postgres parameter type error]] · [[psql essential]] |
+| Scaling beyond one node | [[Horizontal vs Vertical Scaling]] · [[mysql partitioning]] |
 
 ## Domain links
 
-- …: [[…]]
+- **Semantics:** [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[MVCC]] · [[OCC]]
+- **MySQL:** [[mysql]] · [[mysql query]] · [[mysql index]] · [[MySQL Error]]
+- **Postgres:** [[SQL/postgres]] · [[psql essential]] · [[postgres Error]]
+- **Design:** [[Database design]] · [[SQL normalization]] · [[Database mistakes]]
 
 ## Interview map (words you can say)
 

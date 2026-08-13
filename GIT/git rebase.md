@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git error]] [[git worktree]] [[git ssh configuration]] [[INDEX]]
 
 # git rebase

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[certbot (letsencrypt)]] [[TLS (Transport Layer Security)]] [[PKI]]
 
 # ACME server

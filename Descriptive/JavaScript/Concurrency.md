@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS/Event Loop]] [[Operating System/Blocking Vs Non-Blocking]] [[javascript/web workers]] [[NodeJS/worker threads]]
 
 # JavaScript concurrency

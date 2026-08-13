@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[NodeJS]] [[Express middleware]] [[TLS (Transport Layer Security)]] [[Node.js run as a non-privileged user]]
 
 # Node.js Security — Architectural Flaws

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System design]] [[CMS]] [[Authentication web application]]
 
 # Churn rate

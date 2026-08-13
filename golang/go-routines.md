@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[Unbuffered channel]] [[go error]]
 
 # go-routines

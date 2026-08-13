@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Adapter]] [[Design pattern/Decorator]] [[Design pattern/Factory Method]] [[Architectures/Orchestration layer]]
 
 # Facade

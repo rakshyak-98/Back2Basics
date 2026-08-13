@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mime type]] [[response header]] [[HTTP]]
 
 # Registered Media Types (RMT)

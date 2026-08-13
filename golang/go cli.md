@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[golang]] [[go]] [[go package]] [[go debugging]]
 
 # go cli

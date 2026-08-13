@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]]
 
 # AWS EC2

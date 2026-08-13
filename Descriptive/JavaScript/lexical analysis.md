@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/Lexical Grammer]] [[javascript]] [[compiler/library file]] [[NodeJS/node command]]
 
 # Lexical analysis

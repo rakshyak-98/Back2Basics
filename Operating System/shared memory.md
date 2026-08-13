@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Inter Process Communication]] [[mutexes]] [[semaphores]] [[Linux]]
 
 # Shared memory

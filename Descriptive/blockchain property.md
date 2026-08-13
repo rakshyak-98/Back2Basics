@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Etherium]] [[Descriptive]] [[Security]]
 
 # Blockchain properties (engineering lens)

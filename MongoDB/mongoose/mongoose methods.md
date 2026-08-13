@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mongoose/mongoose]] [[mongoose/mongoose schema]] [[mongoose/mongoose custome function]]
 
 # mongoose methods

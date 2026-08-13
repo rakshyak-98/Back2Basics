@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
 
 # Layout (reflow)

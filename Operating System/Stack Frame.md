@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Stack trace]] [[stack pointer]] [[context switching]] [[system call]]
 
 # Stack frame

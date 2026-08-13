@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ExpressJS]] [[Socket IO]] [[express concepts]]
 
 # uWebSocket

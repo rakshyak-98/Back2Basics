@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[half-open connections]] [[Epoll]] [[ss]] [[TCP]]
 
 # connection churn (connection chrun)

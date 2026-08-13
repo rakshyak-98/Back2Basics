@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go project]] [[Useful prompt for learning with AI chat]]
 
 # go learning

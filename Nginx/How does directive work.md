@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx/Configuration]] [[Nginx/nginx internals]] [[Nginx/How does directive work]]
 
 # How Nginx directives work

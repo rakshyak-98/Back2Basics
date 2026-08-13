@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[routing table]] [[ip]] [[Linux network commands]] [[netstat]]
 
 # route

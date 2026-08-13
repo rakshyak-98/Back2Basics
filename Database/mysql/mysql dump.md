@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[database migration]] [[mysql/mysql user]] [[Alter table]]
 
 # mysqldump

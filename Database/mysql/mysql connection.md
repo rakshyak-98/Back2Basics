@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[connection pooling]] [[cli]] [[half-open connections]]
 
 # mysql connection

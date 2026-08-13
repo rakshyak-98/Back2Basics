@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[buffer]] [[Buffer cache]] [[buffer flags]] [[buffer head]] [[fsync]] [[multiple levels of buffering]]
 
 # buffer lifecycle

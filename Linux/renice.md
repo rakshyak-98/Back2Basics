@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[process]] [[Linux Process Theory]] [[Linux resource management]] [[OOM (Linux Out Of Memory)]]
 
 # renice

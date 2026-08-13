@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Docker compose]] [[docker file]] [[docker container]] [[Docker Runtime Security]] [[INDEX]]
 
 # docker cli

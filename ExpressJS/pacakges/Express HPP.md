@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[XSRF (cross-site request forgery)]]
 
 # Express HPP

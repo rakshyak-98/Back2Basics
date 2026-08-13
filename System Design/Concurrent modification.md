@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[race condition]] [[Eventual consistency]] [[IDOR]]
 
 # Concurrent modification

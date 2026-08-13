@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[file mount]] [[rsync]]
 
 # media mount as read only

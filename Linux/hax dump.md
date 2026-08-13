@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[gdb]] [[webSocket]] [[Networking]]
 
 # hax dump *(filename typo — see hexdump / xxd below)*

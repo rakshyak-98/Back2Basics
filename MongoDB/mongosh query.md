@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh]] [[mognodb indexing]]
 
 # mongosh query

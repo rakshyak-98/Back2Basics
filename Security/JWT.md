@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[JWT authentication]] [[Token rotation]] [[single-sign-on (SSO)]]
 
 # JWT

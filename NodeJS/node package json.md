@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[npm command]] [[nvm]] [[node environment configuration]]
 
 # package.json

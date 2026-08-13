@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[binary classification]] [[multiclass classification]] [[Model/Linear regression]] [[ANN]] [[Perceptron]]
 
 # Sigmoid

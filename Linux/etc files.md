@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux configuration]] [[Authentication command]] [[passwd]] [[systemd]] [[SSH]]
 
 # /etc files

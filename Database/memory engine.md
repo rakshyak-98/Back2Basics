@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql/MySQL Engines]] [[mysql/mysql engine]] [[mysql]]
 
 # MEMORY storage engine (MySQL)

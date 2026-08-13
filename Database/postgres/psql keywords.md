@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[postgres]] [[Database]] [[OLTP]] [[ACID]]
 
 # PostgreSQL UPSERT keywords (EXCLUDED / conflict)

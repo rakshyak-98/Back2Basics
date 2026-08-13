@@ -1,4 +1,3 @@
-<!-- note-strategy: comparison -->
 [[System design]] [[database sharding]] [[ACID]] [[BASE]] [[mysql]] [[postgres]] [[connection pooling]]
 
 # Horizontal vs Vertical Scaling

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[HLS]] [[DASH]] [[Pallycon(DoveRunner)]]
 
 # CPIX

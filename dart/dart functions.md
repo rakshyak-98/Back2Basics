@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[flutter]] [[Descriptive/JavaScript/function]]
 
 # Dart functions

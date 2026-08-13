@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[file descriptors]] [[systemctl]] [[journalctl]]
 
 # X Desktop Group

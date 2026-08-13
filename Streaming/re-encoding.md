@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[transcoding]] [[Encoding]] [[codecs]] [[CMAF]] [[HLS]] [[DASH]]
 
 # Re-encoding

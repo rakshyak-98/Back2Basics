@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[thread pool]] [[Blocking]] [[multi-threaded]]
 
 # CPU IO Bound Task

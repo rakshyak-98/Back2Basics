@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[multiclass classification]] [[sigmoid]] [[ML Classifiers]] [[scikitlearn]] [[Mean Average Precision (MAP)]]
 
 # Binary classification

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[process]] [[ss]] [[half-open connections]]
 
 # epoll

@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[NodeJS]] [[event emitter]] [[Stream]] [[npm command]]
 
 # NodeJS

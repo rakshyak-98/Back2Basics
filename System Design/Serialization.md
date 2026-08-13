@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[marshalling]] [[gRPC]] [[API design]]
 
 # Serialization

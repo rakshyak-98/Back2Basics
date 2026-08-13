@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[binary classification]] [[ML Classifiers]] [[sigmoid]] [[scikitlearn]] [[Decision tree]]
 
 # Multiclass classification

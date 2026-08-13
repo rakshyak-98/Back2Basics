@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[postgres/psql essential]] [[postgres/psql user]] [[connection pooling]]
 
 # PostgreSQL connection errors

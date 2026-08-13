@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Scripting]] [[crontab]] [[Linux system management]]
 
 # date

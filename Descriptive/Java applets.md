@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[JavaScript]] [[web capabilities]]
 
 # Java applets

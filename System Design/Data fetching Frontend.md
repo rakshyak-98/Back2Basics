@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]]
 
 # Data fetching Frontend

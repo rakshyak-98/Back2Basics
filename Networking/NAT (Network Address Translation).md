@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[NAT Traversal]] [[UDP]] [[TCP]]
 
 # NAT (Network Address Translation)

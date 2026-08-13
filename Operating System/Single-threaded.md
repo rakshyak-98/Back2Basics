@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[multi-threaded]] [[Thread]] [[non-blocking]] [[Blocking Vs Non-Blocking]] [[NodeJS]]
 
 # Single-threaded

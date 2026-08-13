@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[vim buffers]] [[Linux/CLI]]
 
 # netrw (Vim file explorer)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure/dsa genera formula]] [[Data structure/algo/binary search]]
 
 # Linked list

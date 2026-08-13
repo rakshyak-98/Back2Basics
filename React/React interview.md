@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[react hooks]] [[Hooks/react useEffect]]
 
 # React interview

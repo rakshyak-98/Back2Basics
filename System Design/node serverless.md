@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]]
 
 # Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling

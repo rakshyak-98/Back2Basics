@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[compiler/transpiler]] [[compiler/compile time]] [[Operating System/Runtime Environment]]
 
 # Compiler

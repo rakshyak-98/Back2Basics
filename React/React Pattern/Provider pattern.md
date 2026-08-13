@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[React code smells]] [[Optimizing performance]]
 
 # Provider pattern

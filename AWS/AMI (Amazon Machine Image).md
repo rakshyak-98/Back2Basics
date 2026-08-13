@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS EBS(Elastic Block Store)]]
 
 # AMI (Amazon Machine Image)

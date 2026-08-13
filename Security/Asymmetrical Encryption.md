@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[RSA]] [[symmetrical encryption]] [[TLS (Transport Layer Security)]] [[PKI]]
 
 # Asymmetrical encryption

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TypeScript]] [[ambient modules]] [[tsconfig]]
 
 # Triple-Slash Directives

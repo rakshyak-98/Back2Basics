@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[fsync]] [[file descriptors]] [[process]] [[Epoll]]
 
 # System call

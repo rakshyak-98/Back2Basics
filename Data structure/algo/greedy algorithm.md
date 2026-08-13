@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure/algo/binary search]] [[Data structure/dsa genera formula]]
 
 # Greedy algorithm

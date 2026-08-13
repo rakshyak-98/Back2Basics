@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[Linux system management]] [[Package Manager]] [[systemctl]]
 
 # Linux management

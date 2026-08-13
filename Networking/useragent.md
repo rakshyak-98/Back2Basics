@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[response header]] [[HTTP]] [[cross-site scripting]]
 
 # User-Agent

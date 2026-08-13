@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[P2P (Peer-to-Peer)]]
 
 # IPFS (InterPlanetary File System)

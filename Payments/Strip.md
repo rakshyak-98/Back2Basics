@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[NodeJS/Packages/SuperTokens]]
 
 # Strip

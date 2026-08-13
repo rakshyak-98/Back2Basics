@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
 
 # PSI GSS (PCI Guest Service System)

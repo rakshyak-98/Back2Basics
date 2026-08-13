@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[CPIX]] [[streaming license]] [[EME]]
 
 # Pallycon(DoveRunner)

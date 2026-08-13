@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Buffer cache]] [[file descriptors]] [[fsync]] [[How to manipulate memory directly]] [[context switching]]
 
 # One-level storage system

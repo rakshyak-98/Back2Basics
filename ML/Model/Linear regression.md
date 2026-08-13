@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[regression]] [[scikitlearn]] [[sigmoid]] [[data preprocessing]] [[supervised learning]]
 
 # Linear regression

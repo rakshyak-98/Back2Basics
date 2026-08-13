@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[npm]]
 
 # pnpm cli

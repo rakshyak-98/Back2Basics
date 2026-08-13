@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[CORS (Cross Origin Request Sharing)]] [[cookies configuration]] [[cross-site scripting]] [[XSRF (cross-site request forgery)]]
 
 # Cookie errors (cross-origin dev & prod)

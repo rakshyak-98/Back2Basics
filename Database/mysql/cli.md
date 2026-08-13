@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[mysql]] [[Configuration]] [[mysql dump]] [[mysql user]]
 
 # cli

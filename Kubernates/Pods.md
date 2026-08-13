@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[kubectl]] [[kubectl pod creation]] [[Kubernetes services]] [[ingress]]
 
 # Pods

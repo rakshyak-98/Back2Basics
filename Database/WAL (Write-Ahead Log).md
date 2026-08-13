@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ACID]] [[ARIES]] [[write-ahead logging]] [[fsync]] [[MMAP]]
 
 # WAL (Write-Ahead Log)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/Mermaid (DSL)]] [[Terraform/variable file]] [[Nginx/Configuration]] [[Architectures/Orchestration layer]]
 
 # DSL (Domain Specific Language)

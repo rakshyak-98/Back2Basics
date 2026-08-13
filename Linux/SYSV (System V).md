@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[ELF (Editabl Linkable File)]] [[linker]] [[stack pointer]] [[LSB (Linux Standard Base)]]
 
 # SYSV (System V)
