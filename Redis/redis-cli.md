@@ -6,17 +6,19 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```
+redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
+                              │
+                              ├── command processing (one at a time)
+                              ├── memory (maxmemory + eviction)
+                              ├── persistence fork (RDB/AOF)
+                              └── slow clients block the world
+```
+
+**One thread executes commands** — slow `KEYS *`, huge `SMEMBERS`, or Lua loops = latency spike for everyone. Prefer `SCAN`, `MEMORY DOCTOR`, `SLOWLOG`.
+
 
 ## Quick reference
 
@@ -24,7 +26,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Connect & auth
 
@@ -154,26 +157,22 @@ redis-cli TTL session:abc
 redis-cli MONITOR    # every command — disable in prod unless brief
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-```
-redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
-                              │
-                              ├── command processing (one at a time)
-                              ├── memory (maxmemory + eviction)
-                              ├── persistence fork (RDB/AOF)
-                              └── slow clients block the world
+## Examples
+
+```bash
+# …
 ```
 
-**One thread executes commands** — slow `KEYS *`, huge `SMEMBERS`, or Lua loops = latency spike for everyone. Prefer `SCAN`, `MEMORY DOCTOR`, `SLOWLOG`.
 
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -185,6 +184,7 @@ redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
 | Connections refused | `INFO stats` rejected | `maxclients`; file descriptors; connection storm |
 | Data "vanished" | Eviction + no TTL | TTL on cache keys; monitor `evicted_keys` |
 | AOF corrupt on boot | Logs | `redis-check-aof --fix`; restore RDB backup |
+
 
 ## Gotchas
 
@@ -200,18 +200,18 @@ redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
 - **`SELECT` + cluster** — cluster only DB 0; client library may hide this.
 - **MONITOR in incident** — can make incident worse; use briefly.
 
-## When NOT to use
+
+## When not to use
 
 - **Primary source of truth without persistence** — enable AOF/RDB or accept loss.
 - **Redis as message queue at scale** — use dedicated broker; `BLPOP` patterns hit limits.
 - **Large object store** — >512MB values hurt; use object storage.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[redis installation]] [[connection pooling]] [[BASE]] [[Data access patterns]]
+
+## Sources
+
+- [Wikipedia — redis-cli](https://en.wikipedia.org/wiki/redis-cli)

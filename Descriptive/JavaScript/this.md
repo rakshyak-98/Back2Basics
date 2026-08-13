@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Default/global, object method, `call/apply/bind`, `new`, or lexical (arrows) — four+ rules, not “the class instance” always.
+## How it works
 
 ```txt
 obj.fn()     → this = obj
@@ -38,7 +27,8 @@ new Fn()     → this = new object
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const obj = {
@@ -59,7 +49,8 @@ obj.f.bind({ n: 2 })() // 2
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ obj.f.bind({ n: 2 })() // 2
 | DOM handler loses this | class method pass | bind or arrow field |
 
 ---
+
 
 ## Gotchas
 
@@ -80,11 +72,17 @@ obj.f.bind({ n: 2 })() // 2
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure functions** — pass arguments; avoid `this`.
 - **Most modern React** — function components + hooks.
 
+
 ## Related
 
 [[JavaScript/Call stack]] [[JavaScript/execution context]] [[JavaScript/constructor function]]
+
+## Sources
+
+- [Wikipedia — this](https://en.wikipedia.org/wiki/this)

@@ -1,102 +1,30 @@
-[[postgres/postgres Error]] [[postgres/psql essential]] [[connection pooling]] [[Prisma query]]
+[[postgres Error]] [[psql essential]] [[SQL/postgres]]
 
-# PostgreSQL Error: `inconsistent types deduced for parameter $n`
+# postgres parameter type error
 
-> PostgreSQL inferred **different data types** for the **same placeholder (`$n`)** in one statement — fix by splitting placeholders or adding explicit casts.
+> `ERROR: could not determine data type of parameter $N` and related bind mismatches—usually fixed by explicit casts or typed placeholders in prepared statements.
 
----
+## Common cause
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slow | EXPLAIN / slow log | Index or rewrite |
-| Auth/connect fail | pg_hba / users | Fix grants and bind |
-| Bad migration | backup + version | Roll forward carefully |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
+```sql
+-- Ambiguous parameter in prepared statement
+PREPARE p AS SELECT * FROM t WHERE col = $1 AND other = $1;
+-- Fix: cast
+PREPARE p AS SELECT * FROM t WHERE col = $1::text AND other = $2::int;
 ```
 
-## Mental model
+## ORM / driver fixes
 
-**Say it in one breath:** PostgreSQL Error: `inconsistent types deduced for parameter $n` — I can explain the job, the configuration, and the top failure without jargon.
+- Pass JavaScript `null` with type context
+- Use `::timestamptz` for date parameters in raw SQL
+- Enable `prepare: true` only when parameter types are stable
 
+## Related errors
 
-Prepared statements bind each `$n` to **one** PostgreSQL type for the whole query. The planner deduces that type from **every** occurrence of the placeholder. If `$2` appears once as `TEXT` and once as `INTEGER`, Postgres cannot pick a single type and raises this error.
+- `42804` datatype_mismatch
+- `42P18` indeterminate_datatype
 
-```
-$params ──► $2 used in SET status (text) ──┐
-            $2 used in WHERE version (int) ─┴──► type conflict → ERROR
-```
+## Sources
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **PostgreSQL Error: `inconsistent types deduced for parameter $n`** | This note’s core idea | “I explain PostgreSQL Error: `inconsistent types deduced for parameter $n` in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-## Standard config / commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-## When NOT to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-## Rollback
-
-1. …
-
-## Escalation
-
-…
-
-## Related
-
-[[postgres/postgres Error]] [[postgres/psql essential]] [[connection pooling]] [[Prisma query]]
+- PostgreSQL Documentation — [PREPARE](https://www.postgresql.org/docs/current/sql-prepare.html)
+- PostgreSQL Documentation — [Error Code 42P18](https://www.postgresql.org/docs/current/errcodes-appendix.html)

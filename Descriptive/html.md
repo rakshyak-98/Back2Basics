@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Tags build a DOM tree; semantics (button/a/heading) matter for a11y and SEO more than nested divs.
+## How it works
 
 ```txt
 HTML → DOM → CSSOM → render
@@ -34,7 +23,8 @@ HTML → DOM → CSSOM → render
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```html
 <!doctype html>
@@ -57,7 +47,8 @@ HTML → DOM → CSSOM → render
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ HTML → DOM → CSSOM → render
 | A11y fails | div soup | Semantic elements + labels |
 
 ---
+
 
 ## Gotchas
 
@@ -78,11 +70,17 @@ HTML → DOM → CSSOM → render
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Non-document UIs** — canvas/WebGL still need a host page.
 - **Data interchange** — JSON, not HTML scraping.
 
+
 ## Related
 
 [[Markdown]] [[embedded image]] [[WCAG (Web Content Accessibility Guidelines)]]
+
+## Sources
+
+- [Wikipedia — html](https://en.wikipedia.org/wiki/html)

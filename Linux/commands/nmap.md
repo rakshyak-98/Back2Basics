@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 nmap sends crafted packets (TCP SYN, connect, UDP, etc.) and classifies responses: **open**, **closed** (RST), **filtered** (timeout/no response). Version detection (`-sV`) and scripts (`-sC`) add banner fingerprinting. You are generating traffic that IDS/SOC may alert on.
 
@@ -45,7 +36,8 @@ Your host ──SYN scan──► target:port
 | **-Pn** | Skip ping | “When ICMP blocked.” |
 | **legal** | Only authorized nets | “Scanning without OK is an incident.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Internal inventory (authorized):**
 
@@ -84,7 +76,8 @@ nmap -A -T4 target    # -A = OS detect + version + scripts + traceroute — nois
 nmap --script=vuln    # intrusive; change state on fragile services
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ nmap --script=vuln    # intrusive; change state on fragile services
 | Slow scan | `-p-` on /24 | Narrow ports; `-T4`; `--min-rate` with care |
 | SOC alert | Scan source logged | Use approved scanner IP; ticket reference |
 | Wrong service name | `-sV` guess | Confirm with `curl`, `openssl s_client`, app logs |
+
 
 ## Gotchas
 
@@ -107,12 +101,18 @@ nmap --script=vuln    # intrusive; change state on fragile services
 - **Docker published ports** — `nmap localhost` shows host bindings; not same as container network namespace.
 - **IPv6** — `-6` required; different firewall rules than v4.
 
-## When NOT to use
+
+## When not to use
 
 - **application-layer health** — use HTTP checks, synthetic monitoring, not port open alone.
 - **Continuous monitoring** — use dedicated CMDB/service discovery, not cron nmap of /16.
 - **Local "what port is my application on"** — [[ss]] `-lntp` is instant and non-invasive.
 
+
 ## Related
 
 [[nc]] [[ss]] [[telnet]] [[Linux network commands]] [[Security]]
+
+## Sources
+
+- [Wikipedia — nmap](https://en.wikipedia.org/wiki/nmap)

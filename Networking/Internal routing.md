@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** If both hosts share a subnet (or routes between private nets), talk to the peer’s private IP:port — the default gateway is not in the path.
+## How it works
 
 ```txt
 Laptop 192.168.1.10 ── switch ──► Pi 192.168.1.50:5000
@@ -35,7 +24,8 @@ Laptop 192.168.1.10 ── switch ──► Pi 192.168.1.50:5000
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Target’s private IP
@@ -62,7 +52,8 @@ sudo ufw status
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +64,7 @@ sudo ufw status
 | Used public IP from LAN | Hairpin NAT | Use private IP on LAN instead |
 
 ---
+
 
 ## Gotchas
 
@@ -87,7 +79,8 @@ sudo ufw status
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Exposing a service to the internet** — use reverse proxy, VPN, or tunnel — not raw port-forward forever.
 - **Assuming same Wi‑Fi = same network** — guest networks and VLANs lie.
@@ -95,6 +88,11 @@ sudo ufw status
 
 ---
 
+
 ## Related
 
 [[Networking]] [[localhost]] [[address port]] [[non-Routable address]] [[network gateway]] [[NAT (Network Address Translation)]]
+
+## Sources
+
+- [Wikipedia — Internal routing](https://en.wikipedia.org/wiki/Internal_routing)

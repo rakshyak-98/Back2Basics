@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **CSP** replaces "browser trusts all inline script" with an explicit **allowlist**:
 
@@ -40,7 +31,8 @@ Works **with** [[SOP (Same-Origin Policy)]] — CSP is finer-grained fetch contr
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Report-only rollout
 
@@ -74,7 +66,8 @@ Content-Security-Policy: script-src 'self' 'nonce-random123'
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,6 +78,7 @@ Content-Security-Policy: script-src 'self' 'nonce-random123'
 | Third-party widgets break | Multiple directives | Isolate widget subdomain; strict default-src |
 
 ---
+
 
 ## Gotchas
 
@@ -102,12 +96,18 @@ Content-Security-Policy: script-src 'self' 'nonce-random123'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't deploy `'unsafe-inline' 'unsafe-eval' *` — that's theater. Fix asset pipeline instead.
 
 ---
 
+
 ## Related
 
 [[cross-site scripting]] [[response header]] [[SOP (Same-Origin Policy)]] [[XSRF (cross-site request forgery)]] [[https]]
+
+## Sources
+
+- [Wikipedia — content security policy](https://en.wikipedia.org/wiki/content_security_policy)

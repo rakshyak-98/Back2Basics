@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Python — 3 -m pdb <"python file to debug">;
+## How it works
 
 - reference
 	[https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/](https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/)
@@ -35,17 +22,8 @@ python3 -m pdb <"python file to debug">;
 
 ---
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -54,7 +32,20 @@ python3 -m pdb <"python file to debug">;
 
 ---
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ python3 -m pdb <"python file to debug">;
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -71,12 +63,18 @@ python3 -m pdb <"python file to debug">;
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Python]]
+
+## Sources
+
+- [Wikipedia — Python](https://en.wikipedia.org/wiki/Python)

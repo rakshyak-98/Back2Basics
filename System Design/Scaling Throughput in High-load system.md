@@ -1,91 +1,56 @@
-[[System Design]] [[Throughput]] [[backpressure]] [[gRPC]] [[concurrent connection]]
+[[Throughput]] [[backpressure]] [[gRPC]] [[concurrent connection]] [[API design]]
 
 # Scaling Throughput in High-load system
 
-> High-load throughput — when REST-per-call and connection churn choke media/control planes, batch, async, and multiplex instead.
+> High-load throughput optimization removes per-request overhead — batching, asynchronous job queues, connection multiplexing, and warm pools — when REST-per-call and connection churn saturate the control plane.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#When the API hits a wall]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Dense control planes (hundreds of channels/encoders) die on per-item HTTP and TLS handshakes. Bulk APIs, `202` + workers, and HTTP/2/gRPC reuse fix the shape of the work.
+## The API wall
 
 ```txt
-Bad:  300× PUT /channel/i   (SerDes + handshake tax)
-Good: PUT /channels:batch   → queue → pre-warmed worker pool
+Poor:  300× PUT /channel/{i}   (serialization + Transport Layer Security handshake tax)
+Better: PUT /channels:batch   → queue → pre-warmed worker pool
 ```
 
 | Lever | Effect |
 |-------|--------|
-| Batching | Fewer requests, one transaction |
-| Async (`202`) | API not blocked on NVENC/GPU |
-| gRPC / HTTP/2 | Multiplex; less churn |
-| Pre-warmed pools | Avoid cold session open |
+| Batching | Fewer round trips; one transaction boundary |
+| Asynchronous `202 Accepted` | Application programming interface not blocked on GPU encode |
+| HTTP/2 / [[gRPC]] | Multiplex streams; less connection churn |
+| Pre-warmed pools | Avoid cold encoder or database session open |
+| [[Token bucket]] admission | Protect downstream from overload |
 
----
-
-## Standard config / commands
+## Asynchronous job pattern
 
 ```txt
-POST /jobs  → 202 + job_id
-GET  /jobs/{id}  → status
-# Workers pull queue with bounded concurrency
+POST /jobs → 202 + job_id
+GET  /jobs/{id} → status (queued, running, failed, complete)
+
+Workers pull queue with bounded concurrency ([[backpressure]])
 ```
 
-## Triage (when things break)
+Clients poll or subscribe ([[Real-time Subscription]]) for completion — define partial failure on batch endpoints (per-item error array).
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| CPU in handshake/TLS | Conn churn | Keepalive; gRPC; pool clients |
-| API timeout, workers idle | Sync fan-out | 202 + queue |
-| Encoder pool empty | Cold NVENC | Pre-warm; limit concurrency |
-| Good average, bad p99 | Lock / GC | Profile; object reuse |
-| Softirq storm | PPS | Batch packets; fewer short conns |
+## Connection and protocol tuning
 
----
+| Symptom | Direction |
+|---------|-----------|
+| Central processing unit in handshake | Keep-alive; reuse gRPC channels; connection pool |
+| Application programming interface timeout, workers idle | Synchronous fan-out — move to queue |
+| Good average, bad p99 | Lock contention, garbage collection — profile |
+| Softirq storm | Batch packets; fewer short-lived connections ([[concurrent connection]]) |
 
-## When the API hits a wall
+## When not to over-optimize
 
-| Component | Metric | High-load signal |
-|-----------|--------|------------------|
-| NIC | PPS | Softirq CPU high |
-| API | Context switches | Thread contention |
-| GPU/encoder | Session open latency | Cold-start spike |
-| Memory | GC | Per-request alloc churn |
+Low queries-per-second create-read-update-delete does not need batch endpoints. Strict synchronous user experience (payment confirmation) may require optimized synchronous path, not `202`.
 
----
+Public browser clients may still need REST or JSON gateway even when internal east-west traffic uses gRPC.
 
-## Gotchas
+*What breaks first at ten times load?* Unbounded job queue without [[backpressure]] — memory exhaustion delayed, not prevented.
 
-> [!WARNING]
-> **Bulk endpoints without partial failure model** — define per-item errors.
+## Sources
 
-> [!WARNING]
-> **Unbounded queues** — async without [[backpressure]] just delays OOM.
-
-> [!WARNING]
-> **gRPC everywhere dogma** — public browsers may still need REST/JSON gateway.
-
----
-
-## When NOT to use
-
-- **Low QPS CRUD** — plain REST is fine.
-- **Tiny payloads rare calls** — batching adds complexity for nothing.
-- **Strict sync user UX that must finish in-request** — keep sync but optimize path.
-
----
-
-## Related
-
-[[Throughput]] [[backpressure]] [[concurrent connection]] [[Token bucket]] [[marshalling]]
+- Google gRPC performance guide — channel reuse, streaming.
+- Netflix/conversational engineering blogs — asynchronous job APIs for media pipelines.
+- Brendan Gregg, *Systems Performance* — identifying saturation.

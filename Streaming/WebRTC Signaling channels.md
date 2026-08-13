@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted application logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
 
@@ -38,7 +29,8 @@ Media never touches signaling server in pure P2P — **SFU** (Janus, mediasoup, 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal WebSocket signaling (Node pattern)
 
@@ -107,7 +99,8 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -120,6 +113,7 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 | High connect latency | Trickle ICE disabled | Enable trickle; don't wait full gather |
 
 ---
+
 
 ## Gotchas
 
@@ -140,7 +134,8 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
 - **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
@@ -148,6 +143,11 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 
 ---
 
+
 ## Related
 
 [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]] [[ingestion]] [[WebRTC Get Started Guide]]
+
+## Sources
+
+- [Wikipedia — WebRTC Signaling channels](https://en.wikipedia.org/wiki/WebRTC_Signaling_channels)

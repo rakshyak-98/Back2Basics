@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** AES-GCM (or ChaCha20-Poly1305) with a shared key turns plaintext into ciphertext + authentication tag. Key distribution is the hard part — often done via asymmetric key exchange, then symmetric for the session.
+## How it works
 
 ```txt
 Key exchange (ECDHE / RSA wrap)
@@ -34,7 +23,8 @@ Shared session key ──AES-GCM──► encrypted bytes on the wire
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Illustrative OpenSSL enc (prefer libsodium/age for new tools)
@@ -58,7 +48,8 @@ const tag = cipher.getAuthTag()
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ const tag = cipher.getAuthTag()
 | Slow bulk encrypt | Soft AES / tiny buffer loops | Hardware AES-NI; larger chunks |
 
 ---
+
 
 ## Gotchas
 
@@ -83,7 +75,8 @@ const tag = cipher.getAuthTag()
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **First contact with no shared secret** — need asymmetric ([[Asymmetrical Encryption]]) or pre-provisioned keys.
 - **Password storage** — use password hashes (Argon2/yescrypt), not reversible AES.
@@ -91,6 +84,11 @@ const tag = cipher.getAuthTag()
 
 ---
 
+
 ## Related
 
 [[Asymmetrical Encryption]] [[TLS (Transport Layer Security)]] [[KMS]] [[HMAC (Hash based Message Authentication Codes)]] [[SSH]]
+
+## Sources
+
+- [Wikipedia — symmetrical encryption](https://en.wikipedia.org/wiki/symmetrical_encryption)

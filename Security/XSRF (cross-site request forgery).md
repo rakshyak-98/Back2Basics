@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** SOP blocks *reading* cross-origin responses; it does **not** stop the browser from *sending* credentialed requests (cookie session) to another site.
+## How it works
 
 ```txt
 You logged into bank.com (session cookie)
@@ -38,7 +27,8 @@ Defense: something evil.com **cannot** read or guess — synchronizer token, or 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // Express + csurf-style pattern (concept)
@@ -63,7 +53,8 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +66,7 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax
 | Mobile WebView oddities | Third-party cookie blocked | Prefer Bearer token auth over cookie |
 
 ---
+
 
 ## Gotchas
 
@@ -89,7 +81,8 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure Bearer-token APIs (no cookies)** — CSRF tokens usually unnecessary; still guard XSS.
 - **Server-to-server webhooks** — use signatures ([[HMAC (Hash based Message Authentication Codes)]]), not CSRF tokens.
@@ -97,6 +90,11 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax
 
 ---
 
+
 ## Related
 
 [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]] [[JWT]] [[content security policy]] [[Authentication terms]]
+
+## Sources
+
+- [Wikipedia — XSRF](https://en.wikipedia.org/wiki/XSRF)

@@ -6,44 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
-
-```bash
-helm list -A
-helm status my-release -n prod
-helm get manifest my-release
-helm template my-release ./chart --debug
-```
-
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** cli — helm repository add <namespace> <url> <flag>;
+## How it works
 
 ```bash
 helm repo add <namespace> <url> <flag>;
@@ -62,7 +25,41 @@ helm upgrade my-ingress ingress-nginx/ingress-nginx -n ingress-nginx;
 helm uninstall my-ingress -n ingress-nginx;
 ```
 
-## Triage (when things break)
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Configuration and commands
+
+```bash
+helm list -A
+helm status my-release -n prod
+helm get manifest my-release
+helm template my-release ./chart --debug
+```
+
+---
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,6 +69,7 @@ helm uninstall my-ingress -n ingress-nginx;
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -79,19 +77,19 @@ helm uninstall my-ingress -n ingress-nginx;
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not use `helm install` in production without version-pinned charts in CI.
 
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[helm]]
+
+## Sources
+
+- [Wikipedia — cli](https://en.wikipedia.org/wiki/cli)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** snapshot of who is listening and who is connected — same questions as `ss`, slower path.
+## How it works
 
 ```txt
 LISTEN  ← servers ( -l )
@@ -36,7 +25,8 @@ ESTABLISHED / TIME_WAIT / …  ← connections ( -a / -t )
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Classic inventory
@@ -66,7 +56,8 @@ Prefer the [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +67,7 @@ Prefer the [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
 | “Port free” but bind fails | IPv6 / other user | Check `ss -lntup` fully |
 
 ---
+
 
 ## Gotchas
 
@@ -87,7 +79,8 @@ Prefer the [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Any modern host with `ss`** — use [[ss]].
 - **Packet capture** — `tcpdump` / wireshark.
@@ -95,6 +88,11 @@ Prefer the [[ss]] equivalents: `ss -luntp`, `ss -s`, `ss -tan state time-wait`.
 
 ---
 
+
 ## Related
 
 [[ss]] [[Linux network commands]] [[lsof]] [[ip]] [[commands]]
+
+## Sources
+
+- [Wikipedia — netstat](https://en.wikipedia.org/wiki/netstat)

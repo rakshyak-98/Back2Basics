@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Everything is a file; `lsof` answers “who has this path/port open?” by walking process fd tables.
+## How it works
 
 ```txt
 PID  fd  type
@@ -50,7 +39,8 @@ app  5 → pipe / anon_inode / mem fd
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Port → process (classic)
@@ -84,7 +74,8 @@ lsof -c nginx
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +87,7 @@ lsof -c nginx
 | Permission denied on `lsof` | Need root for others’ fds | `sudo`; least privilege in scripts |
 
 ---
+
 
 ## Gotchas
 
@@ -113,7 +105,8 @@ lsof -c nginx
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Don’t scrape `lsof` every second for metrics** — use `/proc` exporters or eBPF.
 - **Don’t use `lsof` as the only network tool** — [[ss]] is better for socket state machines.
@@ -121,6 +114,11 @@ lsof -c nginx
 
 ---
 
+
 ## Related
 
 [[file descriptors]] [[process]] [[ps]] [[ss]] [[netstat]] [[Epoll]] [[Linux process commands]]
+
+## Sources
+
+- [Wikipedia — lsof](https://en.wikipedia.org/wiki/lsof)

@@ -1,104 +1,39 @@
-[[postgres]] [[psql essential]] [[ACL (postgreSQL)]]
+[[psql essential]] [[SQL/postgres]] [[Alter table]] [[GIN]]
 
 # psql table
 
-> Postgres tables live in schemas; `updated_at` needs a trigger (no MySQL-style `ON UPDATE CURRENT_TIMESTAMP` column attribute).
+> Creating and inspecting tables in PostgreSQL—data types, constraints, partitions, and `\d` introspection from [[psql essential]].
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Database → schemas → tables; unqualified names follow `search_path`. Auto `updated_at` = `BEFORE UPDATE` trigger function that sets `NEW.updated_at`.
-
-```txt
-Server
-└── Database
-    ├── Schema public
-    │     └── users
-    └── Schema sales
-          └── orders
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Schema** | Namespace inside a DB | “Not the same as MySQL ‘schema’=database.” |
-| **search_path** | Resolution order | “Omitting schema uses path.” |
-| **Trigger for updated_at** | No ON UPDATE column attr | “We write a small PL/pgSQL trigger.” |
-| **OWNER** | Role that owns the table | “Owns ALTER/DROP by default.” |
-
----
-
-## Standard config / commands
+## Create
 
 ```sql
-CREATE OR REPLACE FUNCTION update_modified_column()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+CREATE TABLE orders (
+  id          BIGSERIAL PRIMARY KEY,
+  user_id     BIGINT NOT NULL REFERENCES users(id),
+  total_cents INTEGER NOT NULL CHECK (total_cents >= 0),
+  metadata    JSONB,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
 
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON your_table_name
-FOR EACH ROW
-EXECUTE FUNCTION update_modified_column();
-
-CREATE SCHEMA IF NOT EXISTS ott;
-SET search_path TO ott, public;
-GRANT USAGE ON SCHEMA sales TO analyst;
-
-\dn
-\dt sales.*
+CREATE INDEX idx_orders_user ON orders (user_id);
+CREATE INDEX idx_orders_meta ON orders USING GIN (metadata);
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `search_path` | Avoid hardcoding schema in every query |
-| `EXECUTE FUNCTION` vs `PROCEDURE` | PG15+ naming; older used `EXECUTE PROCEDURE` |
-| `DROP SCHEMA … CASCADE` | Wipes all objects — intentional only |
+## Inspect
 
----
+```sql
+\d+ orders
+SELECT * FROM pg_indexes WHERE tablename = 'orders';
+```
 
-## Triage (when things break)
+## Partitioning
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| relation does not exist | `search_path` / schema | Qualify `sales.orders` or SET path |
-| updated_at stale | No trigger | Add BEFORE UPDATE trigger |
-| Permission denied for schema | USAGE missing | GRANT USAGE ON SCHEMA |
-| Wrong table same name | Multiple schemas | Always qualify in migrations |
+```sql
+CREATE TABLE orders_2024 PARTITION OF orders
+  FOR VALUES FROM ('2024-01-01') TO ('2025-01-01');
+```
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **MySQL muscle memory** — Postgres won’t auto-bump timestamps from a column attribute alone.
-
-> [!WARNING]
-> **`public` default grants** — harden in prod; don’t assume PUBLIC is empty.
-
----
-
-## When NOT to use
-
-- **One schema forever with three tables** — `public` is fine; don’t invent namespaces for sport.
-- **application-enforced updated_at only** — races; prefer trigger or DB default patterns you control.
-
----
-
-## Related
-
-[[psql essential]] [[ACL (postgreSQL)]] [[psql database dump]] [[postgres]]
+- PostgreSQL Documentation — [CREATE TABLE](https://www.postgresql.org/docs/current/sql-createtable.html)
+- PostgreSQL Documentation — [Table Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html)

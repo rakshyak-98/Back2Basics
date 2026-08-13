@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Churn rate** (attrition) measures **how many customers stop paying or actively leave** in a time window, expressed as a **percentage of the starting cohort**. It is the inverse lens of retention: high churn destroys unit economics and leaves **orphaned data, idle seats, and over-provisioned capacity**.
 
@@ -38,7 +29,8 @@ Distinguish **voluntary** (cancel button) versus **involuntary** (failed payment
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SQL — monthly customer churn (sketch)
 
@@ -92,7 +84,8 @@ Reactivation rate (win-back campaigns)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ Reactivation rate (win-back campaigns)
 | Low churn but revenue down | Downgrades not counted | Track revenue churn separately |
 
 ---
+
 
 ## Gotchas
 
@@ -124,7 +118,8 @@ Reactivation rate (win-back campaigns)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pre-PMF startup** — sample too small; focus qualitative exit interviews.
 - **Single metric for eng SLOs** — churn is business KPI, not p99 latency substitute.
@@ -132,6 +127,11 @@ Reactivation rate (win-back campaigns)
 
 ---
 
+
 ## Related
 
 [[System design]] [[CMS]] [[Authentication web application]] [[Eventual consistency]] [[database sharding]]
+
+## Sources
+
+- [Wikipedia — churn rate](https://en.wikipedia.org/wiki/churn_rate)

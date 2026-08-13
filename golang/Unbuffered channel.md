@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `make(chan T)` has capacity 0. Sender blocks until a receiver is ready (and vice versa). Guarantees happens-before between the two sides.
+## How it works
 
 ```txt
 goroutine A: ch <- v   ──rendezvous──►  goroutine B: <-ch
@@ -30,7 +19,8 @@ goroutine A: ch <- v   ──rendezvous──►  goroutine B: <-ch
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 ch := make(chan int) // unbuffered
@@ -51,7 +41,8 @@ for v := range ch { /* … */ }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ for v := range ch { /* … */ }
 | Race on close | Multiple closers | `sync.Once` or one owner |
 
 ---
+
 
 ## Gotchas
 
@@ -75,7 +67,8 @@ for v := range ch { /* … */ }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Need burst decoupling** — use buffered or a queue.
 - **Fan-out CPU work** — worker pool with bounded buffer.
@@ -83,6 +76,11 @@ for v := range ch { /* … */ }
 
 ---
 
+
 ## Related
 
 [[go-routines]] [[go error]] [[go debugging]]
+
+## Sources
+
+- [Wikipedia — Unbuffered channel](https://en.wikipedia.org/wiki/Unbuffered_channel)

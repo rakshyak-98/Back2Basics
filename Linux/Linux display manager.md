@@ -1,133 +1,47 @@
-[[display server]] [[windowing system]] [[x11]] [[wayland]] [[Linux configuration]]
+[[Linux display manager]] [[login shell]] [[user management]]
 
 # Linux display manager
 
-> Linux display manager — the display manager (DM) runs as root early in boot, shows login UI, authenticates via PAM, then execs user session (startx, gnome-session
+> A display manager (DM) presents the graphical login greeter and starts the user's X11 or Wayland session.
 
----
+Examples: **GDM** (GNOME), **SDDM** (KDE), **LightDM** (generic). The DM runs as root, authenticates via PAM, then execs the session script from `/usr/share/xsessions/*.desktop` or `/usr/share/wayland-sessions/`.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-The **display manager (DM)** runs as root early in boot, shows login UI, authenticates via PAM, then **execs user session** (startx, gnome-session, i3). It sets `$XDG_SESSION_TYPE`, `$DISPLAY` or `$WAYLAND_DISPLAY`, and often chooses the last session from `.xsession` or account settings.
-
-```
-boot → systemd graphical.target → gdm/lightdm/sddm
-     → user login → ~/.xsession / DE session → compositor/Xorg
-```
-
-| DM | Common on | Notes |
-|----|-----------|-------|
-| GDM | GNOME default | Tight GNOME integration |
-| LightDM | Ubuntu variants, i3 installs | Greeters: gtk, webkit |
-| SDDM | KDE | Plasma default |
-| none + startx | Minimal | Manual `startx` after tty login |
-
-**Not a display server** — DM *starts* the session that talks to Xorg/Wayland compositor ([[display server]]).
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **DM** | Login greeter + session start | “gdm/sddm/lightdm start your desktop.” |
-| **X / Wayland session** | Display server choice | “DM picks session from .desktop.” |
-| **autologin** | Skip greeter | “Useful for kiosks; bad for laptops.” |
-| **startx** | Manual X start | “No DM — just startx.” |
-| **systemd user** | Session bus | “DM starts user systemd + D-Bus.” |
-
-## Standard config / commands
-
-**See active DM (Debian/Ubuntu):**
+## Service control
 
 ```bash
-cat /etc/X11/default-display-manager
-# e.g. /usr/sbin/gdm3 or /usr/sbin/lightdm
+systemctl status gdm
+# or sddm, lightdm
 
-systemctl status gdm3
-systemctl status lightdm
+journalctl -u gdm -b --no-pager | tail -50
 ```
 
-**Switch default DM (Debian/Ubuntu):**
+## Session files
 
-```bash
-sudo dpkg-reconfigure gdm3
-# or
-sudo ln -sf /usr/sbin/lightdm /etc/X11/default-display-manager
-sudo systemctl disable gdm3
-sudo systemctl enable lightdm
-sudo reboot
+```ini
+# /usr/share/wayland-sessions/gnome-wayland.desktop (example)
+[Desktop Entry]
+Name=GNOME on Wayland
+Exec=gnome-session
 ```
 
-**Manual edit (know what you're doing):**
+## Troubleshooting login loop
 
-```bash
-# /etc/X11/default-display-manager
-/usr/sbin/lightdm
-```
+| Symptom | Check |
+|---------|-------|
+| Immediate logout after login | `~/.xsession-errors`, journal for session unit |
+| Black screen | GPU driver; try X11 session vs Wayland |
+| Wrong WM starts | Default session in DM config or `~/.dmrc` |
+| Autostart crash | Rename `~/.config/autostart` temporarily |
 
-**i3/minimal session — user `~/.xsession` or `~/.xinitrc`:**
+## Text login alternative
 
-```bash
-#!/bin/sh
-exec i3
-```
-
-```bash
-chmod +x ~/.xsession
-# LightDM: choose "i3" or "default xsession" in greeter session menu
-```
-
-**Force X11 versus Wayland (GNOME greeter):** gear icon → "GNOME on Xorg" versus "GNOME".
-
-**Disable DM for headless server:**
-
-```bash
-sudo systemctl set-default multi-user.target
-sudo systemctl disable gdm3
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Boot to black screen | TTY Ctrl+Alt+F3; journal | `journalctl -u gdm3`; GPU driver |
-| Login loop | `~/.xsession-errors` | Fix exec line; shell must not exit |
-| Wrong DE started | Session file; greeter choice | `~/.xsession`; update-alternatives |
-| Wayland app fails | Session type | Select Xorg session; check NVIDIA |
-| Can't switch DM | Package installed? | `apt install lightdm`; reconfigure |
-| Root login disabled | PAM/greeter policy | Expected; use normal user |
-
-**Logs:**
-
-```bash
-journalctl -u lightdm -b
-cat ~/.xsession-errors
-```
-
-## Gotchas
-
-> [!WARNING]
-> **`.xinitrc` vs `.xsession`** — DM-specific. LightDM reads `.xsession`; startx uses `.xinitrc`. Duplicate configs diverge.
-
-> [!WARNING]
-> **Editing default-display-manager without disable/enable** — two DMs fighting for VT — flicker, lockout.
-
-- **Auto-login** — convenience versus physical security; LightDM `autologin-user=` in configuration drop-in.
-- **Remote servers** — DM wastes RAM; use multi-user.target.
-
-## When NOT to use
-
-- **Headless/cloud instances** — no DM; SSH only.
-- **Single-user embedded** — autostart compositor from systemd user unit instead.
+TTY login (`Ctrl+Alt+F3`) bypasses DM — useful when graphics stack is broken. Start GUI manually: `startx` or `dbus-run-session gnome-session`.
 
 ## Related
 
-[[display server]] [[windowing system]] [[x11]] [[wayland]] [[Linux configuration]] [[i3 Window Manager Starter Guide]]
+[[Linux window manager]] · [[display server]] · [[login shell]] · [[user management]]
+
+## Sources
+
+- `man 8 gdm`, distribution-specific DM docs
+- [Arch Wiki — Display manager](https://wiki.archlinux.org/title/Display_manager)

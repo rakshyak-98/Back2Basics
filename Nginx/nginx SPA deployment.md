@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** SPAs (React, Vue, Angular) handle routes like `/dashboard` and `/profile/settings` **in the browser**. Those paths are not files on the server. Nginx only sees HTTP paths.
+## How it works
 
 
 ```
@@ -31,7 +20,8 @@ The server delivers **one shell** (`index.html` + JS bundle); the framework rout
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal SPA server
 
@@ -93,7 +83,8 @@ Ensure `root` points at `dist/`, not repository root.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +106,7 @@ curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -134,13 +126,19 @@ curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **SSR/SSG frameworks (Next.js, Nuxt SSR)** — need server-side routing or hybrid configuration, not pure SPA fallback. See [[Configuration]] for Next.js proxy pattern.
 - **Multiple SPAs on one host** — use separate `root` + `server_name` or careful prefix locations, not one catch-all.
 
 ---
 
+
 ## Related
 
 [[Configuration]] [[static file]] [[nginx URL rewrite]] [[URL Rewriting]]
+
+## Sources
+
+- [Wikipedia — nginx SPA deployment](https://en.wikipedia.org/wiki/nginx_SPA_deployment)

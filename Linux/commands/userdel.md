@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `userdel` removes the account line from `/etc/passwd`, `/etc/shadow`, and `/etc/group` (primary group entry if it was user-private). Files owned by the UID **remain on disk** unless `-r` removes the home directory and mail spool — everything else (cron, systemd user units, `/var/spool/cron`, processes) needs manual cleanup.
 
@@ -41,7 +32,8 @@ userdel ──► /etc/passwd, shadow, group
 | **UID reuse** | Danger | “Old files may get new owner.” |
 | **group leftover** | Primary group | “groupdel if unused.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Safe offboarding checklist (run as root)
@@ -77,7 +69,8 @@ sudo pkill -u username              # stop processes
 sudo userdel -r username
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ sudo userdel -r username
 | Files show numeric UID owner | Deleted without reassign | `find -uid <old_uid>` + `chown` |
 | User still in groups | Secondary memberships | `gpasswd -d user group` or edit `/etc/group` |
 | LDAP/SSSD user | Not a local account | Remove from directory; `userdel` wrong tool |
+
 
 ## Gotchas
 
@@ -102,13 +96,19 @@ sudo userdel -r username
 > [!WARNING]
 > **Mail spool only** — `-r` does not purge `/var/spool/cron`, `~/.config/systemd/user`, docker volumes, or cloud IAM keys tied to that human.
 
-## When NOT to use
+
+## When not to use
 
 - **Temporary disable** → `passwd -l`, `usermod -L`, `chage -E 1`.
 - **Directory (LDAP/AD) accounts** → idm/directory administrator tools.
 - **Rename user** → `usermod -l newname -d /home/newname -m`.
 - **Merge two accounts** → `chown` file migration, not delete-recreate.
 
+
 ## Related
 
 [[user management]] [[useradd]] [[passwd]] [[usermod]] [[groupadd]] [[getent]]
+
+## Sources
+
+- [Wikipedia — userdel](https://en.wikipedia.org/wiki/userdel)

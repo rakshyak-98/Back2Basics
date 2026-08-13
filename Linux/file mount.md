@@ -1,93 +1,59 @@
-[[Linux]] [[media mount as read only]] [[fstab]]
+[[media mount as read only]] [[management/Linux file management]] [[etc files]]
 
 # file mount
 
-> Mount attaches a filesystem (disk, ISO, NFS, bind) onto a directory — the tree is how userland sees storage.
+> Mounting attaches a filesystem to the directory tree — block devices, network shares, and loop images become accessible paths.
 
----
+The kernel tracks mounts in `/proc/mounts`. `/etc/fstab` defines boot-time mounts. **systemd** also manages `.mount` units.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** device + fstype + options → directory; `/etc/fstab` makes it permanent; `findmnt` shows truth.
-
-```txt
-/dev/sdX1 ──mount──► /data
-UUID=…   ──fstab──► reboot-safe
-bind /a  ──mount --bind──► /b
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **mount point** | Empty dir target | “Don’t hide real files under a mount.” |
-| **fstab** | Boot mounts | “Bad fstab can make the box unbootable.” |
-| **UUID/LABEL** | Stable identity | “Prefer UUID over `/dev/sdX`.” |
-| **bind mount** | Remap a directory | “Same inode tree, second path.” |
-| **nofail / x-systemd** | Boot resilience | “Network mounts need `_netdev`.” |
-
----
-
-## Standard config / commands
+## Manual mount
 
 ```bash
-lsblk -f
-sudo mount /dev/sdb1 /mnt/data
-sudo mount -t nfs server:/export /mnt/nfs
-sudo mount --bind /var/lib/docker /mnt/docker-view
+# List
 findmnt
-findmnt -T /var
-# fstab line:
-# UUID=… /data ext4 defaults,nofail 0 2
-sudo mount -a
-sudo umount /mnt/data
+mount | column -t
+
+# Mount USB (example)
+sudo mkdir -p /mnt/usb
+sudo mount /dev/sdb1 /mnt/usb -o uid=1000,gid=1000
+
+# Unmount (device busy?)
+sudo umount /mnt/usb
+lsof +f -- /mnt/usb
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `defaults,nofail` | Boot continues if disk missing |
-| `_netdev` | Wait for network before NFS |
+## `/etc/fstab` entry
 
----
+```
+UUID=abc-123  /data  ext4  defaults,noatime  0  2
+```
 
-## Triage (when things break)
+Fields: device, mountpoint, type, options, dump, fsck pass.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Target busy | `lsof`/`fuser -m` | Close files; lazy `umount -l` last resort |
-| Wrong device after reboot | `/dev/sd` order | Switch fstab to UUID |
-| NFS hang on boot | Missing `_netdev` | Add option; use automount |
-| Permission weird | uid mapping / root_squash | Align IDs; check export opts |
-| “already mounted” | `findmnt` | Umount or mount elsewhere |
+```bash
+sudo mount -a          # test fstab
+sudo findmnt --verify  # systemd hosts
+```
 
----
+## Network filesystems
 
-## Gotchas
+```bash
+# NFS example
+sudo mount -t nfs server:/export /mnt/nfs
 
-> [!WARNING]
-> **Mount hides existing dir contents** — files under the mount point are invisible until umount.
+# CIFS
+sudo mount -t cifs //server/share /mnt/share -o credentials=/root/.smbcred
+```
 
-> [!WARNING]
-> **`umount -l` lazy** — detaches namespace now; I/O may still finish — don’t yank disks yet.
+## Read-only remount
 
----
-
-## When NOT to use
-
-- **Copying data** — mount isn’t backup; use [[rsync]].
-- **application configuration** — don’t mount over busy program dirs without stopping the service.
-
----
+See [[media mount as read only]] when filesystem errors force ro.
 
 ## Related
 
-[[media mount as read only]] [[rsync]] [[lsof]] [[Linux file management]]
+[[inittramfs]] · [[management/grub]] · [[media mount as read only]]
+
+## Sources
+
+- `man 8 mount`, `man 5 fstab`
+- [Filesystem Hierarchy Standard](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html)

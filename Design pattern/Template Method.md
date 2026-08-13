@@ -1,131 +1,45 @@
-[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Factory Method]] [[Design pattern/Chain of Responsibility]] [[Architectures/Orchestration layer]]
+[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Command]]
 
 # Template Method
 
-> Fixed algorithm skeleton in a base class (or function); subclasses override steps — **Dive Into Design Patterns + LaunchPipeline**.
+> Template Method defines the skeleton of an algorithm in a base class, deferring some steps to subclasses — fixed order, swappable details.
 
----
+## Structure
 
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Launch always: validate → create campaign → create adset → create creative → create ad → publish events. Platforms differ in *how* each step talks to the vendor. Template Method locks the order; overrides supply platform-specific steps.
-
-```
-LaunchPipeline.run()
-  validate()        ← may use Chain
-  createCampaign()  ← override per platform
-  createAdSet()
-  createCreative()
-  createAd()
-  emitEvents()      ← Observer
-```
-
-| Role | Responsibility |
-|------|----------------|
-| **Abstract class / base pipeline** | `run()` calls steps in order |
-| **Hooks / abstract steps** | Overridden by Meta / Google pipelines |
-| **Concrete class** | Platform-specific implementations |
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-abstract class LaunchPipeline {
-  constructor(protected factory: MarketingPlatformFactory) {}
-
-  async run(input: LaunchRequest): Promise<LaunchResult> {
-    await this.validate(input);
-    const campaign = await this.createCampaign(input);
-    const adset = await this.createAdSet(input, campaign.id);
-    const creative = await this.createCreative(input);
-    const ad = await this.createAd(input, adset.id, creative.id);
-    await this.afterLaunch({ campaign, adset, creative, ad });
-    return { campaignId: campaign.id, adId: ad.id };
-  }
-
-  protected abstract validate(input: LaunchRequest): Promise<void>;
-  protected abstract createCampaign(input: LaunchRequest): Promise<{ id: string }>;
-  protected abstract createAdSet(input: LaunchRequest, campaignId: string): Promise<{ id: string }>;
-  protected abstract createCreative(input: LaunchRequest): Promise<{ id: string }>;
-  protected abstract createAd(
-    input: LaunchRequest,
-    adsetId: string,
-    creativeId: string,
-  ): Promise<{ id: string }>;
-
-  protected async afterLaunch(_result: unknown): Promise<void> {
-    /* optional hook */
-  }
-}
-
-class MetaLaunchPipeline extends LaunchPipeline {
-  protected async validate(input: LaunchRequest) {
-    await metaValidationChain(input);
-  }
-  protected async createCampaign(input: LaunchRequest) {
-    return this.factory.createCampaignService().create(input);
-  }
-  // …
+```text
+abstract class Base {
+  run() { step1(); step2(); step3(); }
+  step1() { ... fixed ... }
+  abstract step2();
+  step3() { ... optional hook ... }
 }
 ```
 
-### vs Strategy
+Subclasses override `step2()` (and optional hooks) without redefining `run()`'s sequence.
 
-| | Template Method | Strategy |
-|--|-----------------|----------|
-| Structure | Inheritance; shared skeleton | Composition; swap whole algorithm |
-| Variation | Individual steps | Entire behavior object |
-| Prefer | Stable multi-step workflow | Pluggable algorithms |
+## Example
 
-Favor composition when steps themselves are strategies — hybrid is common (pipeline + goal strategy).
+Data mining pipeline: `analyze()` calls `read()`, `process()`, `send()` — subclasses implement parsing for CSV vs JSON while order stays stable.
 
-## Triage (when things break)
+## vs Strategy
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Copy-paste launch flows per platform | No shared skeleton | Extract Template Method base |
-| Base knows Meta fields | Leakage | Steps use factory + adapter only |
-| Optional step forced | Abstract when optional | Default empty hook (`afterLaunch`) |
-| Hard to test mid-step | Monolith `run` | Test concrete step overrides with fake factory |
+Template Method uses **inheritance** and a **fixed pipeline**; Strategy uses **composition** and **full algorithm** swap. Prefer Strategy when runtime selection or testing isolation matters; Template Method when the sequence is invariant and only steps vary.
 
-## Gotchas
+## Hooks
 
-> [!WARNING]
-> Deep Template Method hierarchies reintroduce the inheritance pain Strategy was meant to avoid — keep one base + one level of concretes.
+Protected empty hook methods (`beforeHook()`) let subclasses opt in without forcing abstract methods for optional behavior.
 
-- Do not put side-effects that must not fail the launch into required steps — use Observer after success.
-- God pipeline that also validates, maps, and retries — split: Chain + Adapter + Decorator.
+## When to use
 
-## Trade-offs
+- Framework lifecycle (`onCreate`, `onDestroy` in UI frameworks).
+- Batch jobs with consistent stages.
 
-| Gain | Cost |
-|------|------|
-| … | … |
+## Pitfalls
 
-## When NOT to use
+- Fragile base class — changes to `run()` break all subclasses.
+- Deep inheritance trees — consider pipeline of functions or [[Design pattern/Chain of Responsibility]].
 
-- Steps are identical — one function, no inheritance.
-- Only one step varies — [[Design pattern/Strategy pattern]] or a callback hook.
+## Sources
 
-## Related
-
-[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Chain of Responsibility]] [[Design pattern/Observer]] [[Design pattern/Factory Method]] [[Architectures/Orchestration layer]]
+- Gamma et al., *Design Patterns* (Template Method)
+- [Template method pattern — Wikipedia](https://en.wikipedia.org/wiki/Template_method_pattern)

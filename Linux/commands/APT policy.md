@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** higher pin priority wins; installed packages sit at 100; repos usually 500; pins in `preferences` can force or hold versions.
+## How it works
 
 ```txt
 apt policy pkg
@@ -50,7 +39,8 @@ apt policy pkg
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 apt policy
@@ -76,7 +66,8 @@ apt list -a nginx         # all known versions
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +78,7 @@ apt list -a nginx         # all known versions
 | “But apt-cache show says…” | Different code paths | Trust **policy Candidate** for install decisions |
 
 ---
+
 
 ## Gotchas
 
@@ -101,7 +93,8 @@ apt list -a nginx         # all known versions
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Searching package names** — `apt search` / `apt-cache search`.
 - **Reading changelogs** — `apt changelog`.
@@ -109,6 +102,11 @@ apt list -a nginx         # all known versions
 
 ---
 
+
 ## Related
 
 [[apt package manager]] [[apt configuration]] [[gpg]] [[commands]]
+
+## Sources
+
+- [Wikipedia — APT policy](https://en.wikipedia.org/wiki/APT_policy)

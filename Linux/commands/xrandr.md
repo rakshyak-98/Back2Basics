@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** list connected outputs, set mode, place monitors with `--left-of` / `--above`.
+## How it works
 
 ```txt
 xrandr
@@ -38,7 +27,8 @@ xrandr
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 xrandr
@@ -58,7 +48,8 @@ xrandr --addmode HDMI-1 "1920x1080_60.00"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ xrandr --addmode HDMI-1 "1920x1080_60.00"
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -80,13 +72,19 @@ xrandr --addmode HDMI-1 "1920x1080_60.00"
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure Wayland desktops** — compositor tools instead.
 - **Headless servers** — no display; don’t install X just for xrandr.
 
 ---
 
+
 ## Related
 
 [[x11]] [[wayland]] [[compositors]] [[gsetting]]
+
+## Sources
+
+- [Wikipedia — xrandr](https://en.wikipedia.org/wiki/xrandr)

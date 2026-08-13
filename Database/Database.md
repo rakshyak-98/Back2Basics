@@ -1,158 +1,63 @@
-[[ACID]] [[WAL (Write-Ahead Log)]] [[OLTP]] [[OLAP]] [[Database design]] [[connection pooling]] [[MVCC]]
+[[ACID]] [[WAL (Write-Ahead Log)]] [[OLTP]] [[OLAP]] [[Database design]] [[connection pooling]] [[SQL]] [[mysql]] [[SQL/postgres]]
 
 # Database
 
-> Durable shared storage with a query language, transactions, and rules — survive crash, serve many clients, keep declared constraints true.
+> Shared durable storage with a query language and transaction rules — the engine's job is to turn concurrent clients and bytes on disk into atomic commits that survive crashes.
 
----
+## What a database is responsible for
 
-## Index
+Applications need **persistent structured state** that many clients can read and write safely. A relational database engine provides:
 
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Interview map (words you can say)]]
-- [[#Standard config / patterns]]
-- [[#Time, expiry, and clocks]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A database turns “bytes on disk + concurrent clients” into **atomic commits**, **durable history**, and **queryable structure** so the application does not reinvent crash recovery and locking.
+- **Storage layout** — tables, indexes, logs on disk or memory-mapped files ([[MMAP]])
+- **Query execution** — parse [[SQL]], plan access paths, return rows
+- **Concurrency control** — [[ACID]] isolation so transactions do not corrupt each other ([[MVCC]] in PostgreSQL, InnoDB row locks + MVCC in MySQL)
+- **Crash recovery** — [[WAL (Write-Ahead Log)]] replay after power loss
 
 ```txt
-App(s) ──► connections / pool ──► query planner ──► buffer pool
-                                      │
-                                      ├── indexes / heap
-                                      ├── WAL / redo  ([[WAL (Write-Ahead Log)]])
-                                      └── transactions ([[ACID]], [[MVCC]])
+Clients ──► [[connection pooling]] ──► SQL planner ──► buffer pool
+                                           │
+                                           ├── indexes / heap pages
+                                           ├── redo / WAL ([[write-ahead logging]])
+                                           └── commit / rollback ([[ACID]])
 ```
 
-Without atomicity + durability, a crash mid-update can leave half-written rows. The engine’s job is: **all-or-nothing commit**, then **replay safely** after power loss.
+## Workload shapes
 
-| Workload | Shape | Typical home |
-|----------|-------|--------------|
-| [[OLTP]] | Short point lookups + small writes | Postgres / MySQL primary |
-| [[OLAP]] | Scans, aggregates | Warehouse / column store |
-| Cache | Ephemeral, optional loss | Redis (often no WAL by default) |
+| Pattern | Access style | Typical engine role |
+|---------|--------------|---------------------|
+| [[OLTP]] | Short reads/writes, many concurrent sessions | PostgreSQL or MySQL primary |
+| [[OLAP]] | Large scans, aggregates, reporting | Column store, warehouse, or replica |
+| Cache | Ephemeral, loss tolerable | Redis, memcached ([[BASE]] tradeoffs) |
 
-## Routing table
+*When would you route analytics to the primary versus a replica?* When stale reads are acceptable and you need to protect [[OLTP]] latency.
 
-| Symptom / need | Go to |
-|----------------|-------|
-| Data missing after crash | [[ACID]] · [[WAL (Write-Ahead Log)]] · [[write-ahead logging]] |
-| Timeouts under load / connection exhaustion | [[connection pooling]] · [[mysql pool connection]] |
-| Slow queries / full table scans | [[mysql index]] · [[covering index]] · [[Data access patterns]] |
-| Schema change in production | [[database migration]] · [[migration]] |
-| Wrong isolation / duplicate charges | [[ACID]] · [[mysql transaction]] · [[mysql lock]] |
-| OLTP vs analytics workload confusion | [[OLTP]] · [[OLAP]] |
-| Postgres type / parameter errors | [[postgres/postgres parameter type error]] · [[psql essential]] |
-| Scaling beyond one node | [[Horizontal vs Vertical Scaling]] · [[mysql partitioning]] |
+## Routing by symptom
 
-## Domain links
+| Symptom or need | Start here |
+|-----------------|------------|
+| Data missing after crash | [[ACID]] · [[WAL (Write-Ahead Log)]] · [[ARIES]] |
+| Connection timeouts under load | [[connection pooling]] · [[mysql pool connection]] |
+| Slow queries | [[mysql index]] · [[covering index]] · [[Data access patterns]] |
+| Schema change in production | [[database migration]] · [[migration]] · [[Alter table]] |
+| Wrong balances / duplicate charges | [[ACID]] · [[mysql transaction]] · [[mysql lock]] |
+| PostgreSQL type errors | [[postgres parameter type error]] · [[psql essential]] |
+| Scaling beyond one node | [[mysql partitioning]] · [[Horizontal vs Vertical Scaling]] |
 
-- **Semantics:** [[ACID]] · [[BASE]] · [[WAL (Write-Ahead Log)]] · [[MVCC]] · [[OCC]]
-- **MySQL:** [[mysql]] · [[mysql query]] · [[mysql index]] · [[MySQL Error]]
-- **Postgres:** [[SQL/postgres]] · [[psql essential]] · [[postgres Error]]
-- **Design:** [[Database design]] · [[SQL normalization]] · [[Database mistakes]]
+## Engines and ecosystems
 
-## Interview map (words you can say)
+- **MySQL** — [[mysql]] hub; default [[mysql engine]] is InnoDB ([[MySQL storage]])
+- **PostgreSQL** — [[SQL/postgres]]; extensible types, [[GIN]] indexes, strong [[ACID]] defaults
+- **Document / blob** — [[GridFS]] (MongoDB), not a substitute for relational invariants
+- **Vectors** — [[Vector database]] for similarity search alongside an OLTP store
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Atomicity** | Commit all changes or none | “No half-paid order after a crash.” |
-| **Durability** | Committed data survives power loss | “WAL + fsync before we ack the client.” |
-| **Isolation** | Concurrent txs don’t see each other’s mess | “Levels trade anomalies for throughput.” |
-| **Schema** | Tables, types, constraints | “Constraints catch bad writes early.” |
-| **Index** | Side structure for fast lookup | “Speeds reads; slows writes; must match queries.” |
-| **Connection pool** | Reuse DB sessions | “App threads ≠ DB connections.” |
+## Design and operations
 
----
+- **Modeling:** [[Database design]] · [[SQL normalization]] · [[relocatable schema]]
+- **Migrations:** [[database migration]] · [[database seeding]] · [[mysql data migrations]]
+- **Foot-guns:** [[Database mistakes]] · [[SQL error]] · [[MySQL Error]]
 
-## Standard config / patterns
+## Sources
 
-### Production baseline (any engine)
-
-```txt
-1. fsync / sync_binlog / synchronous_commit ON for money paths
-2. Connection pool in front of max_connections
-3. Backups + tested restore (WAL ≠ DR)
-4. Migrations versioned ([[database migration]])
-5. Monitoring: connections, replication lag, deadlocks, disk
-```
-
-### Safe write shape
-
-```sql
-BEGIN;
-UPDATE accounts SET balance = balance - 100 WHERE id = 1 AND balance >= 100;
-INSERT INTO ledger (...);
-COMMIT;   -- or rollback; never leave multi-step money outside a tx
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| `max_connections` | Exhaustion looks like random timeouts |
-| Isolation default | PG READ COMMITTED vs MySQL RR — see [[ACID]] |
-| Autovacuum / purge | [[MVCC]] bloat if neglected |
-| Read replica lag | Stale reads if you route blindly |
-
----
-
-## Time, expiry, and clocks
-
-Expiry and “end of day” logic breaks when clocks disagree.
-
-| Risk | What happens | Fix |
-|------|--------------|-----|
-| **Server clock drift** | One node expires a row; another still serves it | NTP/chrony; prefer DB `now()` / `clock_timestamp()` for authoritative checks |
-| **TZ mismatch** | App `new Date()` in EST vs UTC columns | Store **UTC**; convert at the edge; never mix |
-| **Client clock** | User changes laptop time to extend trial | Server-side validation only for auth/billing |
-
-```sql
--- Prefer DB time for expiry checks
-SELECT * FROM sessions
-WHERE token = $1 AND expires_at > now();
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Data missing after crash | fsync settings; disk full during WAL | Restore; never leave `fsync=off` in prod |
-| Timeouts under load | Pool wait; `max_connections`; slow queries | [[connection pooling]]; indexes; kill long txs |
-| Wrong expiry / “premature logout” | TZ; client vs server time | UTC in DB; server-side checks |
-| Duplicate charges | Missing idempotency / unique key | Idempotency key + constraint ([[ACID]]) |
-| Replica “lies” | Lag metrics | Route strong reads to primary |
-| Schema drift | Manual prod DDL | [[database migration]] only |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Autocommit read-modify-write** — three statements = three transactions on READ COMMITTED. Classic inventory oversell ([[ACID]]).
-
-> [!WARNING]
-> **Backup untested** — durability is not disaster recovery. Practice restore.
-
-- **ORM `@Transactional`** opens a transaction; isolation is still the engine default until you set it.
-- **Cross-DB “transactions”** — Postgres + Redis + S3 need outbox/saga, not one COMMIT.
-- **`SELECT *` in hot paths** — wider rows, less index-only potential.
-
----
-
-## When NOT to use
-
-- **Ephemeral session cache** — Redis/memcached; accept loss by design ([[BASE]] tradeoffs).
-- **Blob CDN workloads** — object storage + CDN, not row store.
-- **Heavy analytics on the primary** — splits [[OLTP]] latency; use replica/warehouse ([[OLAP]]).
-
-## Related
-
-[[ACID]] [[WAL (Write-Ahead Log)]] [[MVCC]] [[OCC]] [[OLTP]] [[OLAP]] [[BASE]] [[Database design]] [[database migration]] [[connection pooling]] [[Data access patterns]] [[Database mistakes]] [[Horizontal vs Vertical Scaling]] [[scaling data migration]]
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), Ch. 3 (storage), Ch. 7 (transactions)
+- PostgreSQL Documentation — [Chapter 13: Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html)
+- MySQL Reference Manual — [InnoDB Storage Engine](https://dev.mysql.com/doc/refman/en/innodb-storage-engine.html)

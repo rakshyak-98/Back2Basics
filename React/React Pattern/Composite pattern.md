@@ -1,91 +1,33 @@
-[[React Pattern]] [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
 
 # Composite pattern
 
-> Treat a tree of UI parts as one unit — parent coordinates; children stay focused and reusable.
+> In software engineering, the composite pattern is a partitioning design pattern.
 
----
+## What this is
 
-## Index
+In software engineering, the composite pattern is a partitioning design pattern. The composite pattern describes a group of objects that are treated the same way as a single instance of the same type of object. The intent of a composite is to "compose" objects into tree structures to represent part-whole hierarchies. Implementing the composite pattern lets clients treat individual objects and compositions uniformly.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
 
-**Say it in one breath:** Composite = compose leaf widgets under a conductor that holds shared context. Same idea as compound components in React: recombine parts without rewriting wiring.
+React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
 
-```txt
-Conductor (context + orchestration)
-  ├─ Leaf A (one job)
-  ├─ Leaf B
-  └─ Nested composite…
-```
+## What breaks first
 
-### Interview map (words you can say)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Composite** | Tree of parts, uniform use | “Callers nest parts; parent orchestrates.” |
-| **Decoupled leaf** | Child doesn’t know siblings | “Reuse Panel in another shell.” |
-| **vs inheritance** | Composition wins in React | “No BaseWidget class hierarchy.” |
+## Recall
 
-## Standard config / commands
-
-```tsx
-const ShellCtx = createContext<{ open: boolean; toggle: () => void } | null>(null)
-
-export function Shell({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false)
-  const value = { open, toggle: () => setOpen((o) => !o) }
-  return <ShellCtx.Provider value={value}><div className="shell">{children}</div></ShellCtx.Provider>
-}
-
-export function ShellToggle() {
-  const ctx = useContext(ShellCtx)!
-  return <button onClick={ctx.toggle}>{ctx.open ? 'Close' : 'Open'}</button>
-}
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| Context at conductor | Leaves stay prop-light |
-| Public leaf exports | Recombine in other screens |
-| Clear ownership | One place mutates shared state |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Leaf useless alone | Hard-coded parent | Depend only on context contract |
-| God conductor | Too many concerns | Split composites |
-| Prop drilling returns | Forgot context | Provider at composite root |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Composite ≠ fancy name for any folder of components** — needs a shared coordination surface.
-
-> [!WARNING]
-> **Overlap with compound components** — same React technique; composite is the OO/GoF framing.
-
----
-
-## When NOT to use
-
-- **Flat static pages** — composition without shared state is enough.
-- **Global application store needs** — Redux/Zustand, not a local composite.
-
----
+What breaks first in production if `Composite pattern` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React Pattern/Compound Components]] [[React Pattern/Provider pattern]] [[React Pattern/React pattern categorisation]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
+
+## Sources
+
+- [Wikipedia — Composite pattern](https://en.wikipedia.org/wiki/Composite_pattern)

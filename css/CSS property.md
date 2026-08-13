@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** CSS property — if you change the <p> element’s display property to inline, the ::first-letter pseudo-element will not work because ::first-letter only…
+## How it works
 
 - If you change the `<p>` element’s `display` property to `inline`, the `::first-letter` pseudo-element **will not work** because `::first-letter` only applies to block-level elements.
 ### Multipline ellipsis
@@ -34,25 +23,24 @@ h1 {
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[css]]
+
+## Sources
+
+- [Wikipedia — CSS property](https://en.wikipedia.org/wiki/CSS_property)

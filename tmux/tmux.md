@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** tmux — window → full screen workspace
+## How it works
 
 - Session → multiple windows
 - Window → full screen workspace
@@ -32,16 +23,23 @@ ctrl+<space>; # Toggle pane layout
 
 ---
 
-## Routing table
+
+## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
 | … | [[…]] |
 
-## Domain links
+
+## Related topics in this domain
 
 - …: [[…]]
+
 
 ## Related
 
 [[tmux]]
+
+## Sources
+
+- [Wikipedia — tmux](https://en.wikipedia.org/wiki/tmux)

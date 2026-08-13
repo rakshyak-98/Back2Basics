@@ -1,97 +1,29 @@
-[[mysql]] [[mysql table]] [[Database design]]
+[[mysql table]] [[mysql index]] [[mysql normalization]] [[ACID]]
 
 # key Constraint
 
-> UNIQUE / FK / PK constraints stop bad rows at write time — the database enforces relationships, not just the app.
+> MySQL constraints—PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK (8.0.16+)—that enforce row validity at insert/update time.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Primary key identifies the row; UNIQUE blocks duplicates (including composites); FOREIGN KEY requires a matching parent — InnoDB also indexes FK columns.
-
-```txt
-HotelSections
-  PK id
-  FK hotel_template_id → HotelTemplates(id)
-  FK template_section_id → TemplateSections(id)
-  UNIQUE (hotel_template_id, template_section_id)
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **PRIMARY KEY** | Unique row id, NOT NULL | “One PK; InnoDB clusters on it.” |
-| **UNIQUE** | No duplicate key values | “Composite UNIQUE = pair must be unique.” |
-| **FOREIGN KEY** | Must exist in parent | “Prevents orphan children.” |
-| **Constraint name** | Label for ALTER/DROP | “Name it so errors are readable.” |
-
----
-
-## Standard config / commands
+## Types
 
 ```sql
-CREATE TABLE HotelSections (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  hotel_template_id INT NOT NULL,
-  template_section_id INT NOT NULL,
-  is_active BOOLEAN DEFAULT TRUE,
-  FOREIGN KEY (hotel_template_id) REFERENCES HotelTemplates(id),
-  FOREIGN KEY (template_section_id) REFERENCES TemplateSections(id),
-  UNIQUE (hotel_template_id, template_section_id)
-);
-
-ALTER TABLE HotelSections
-  ADD CONSTRAINT unique_hotel_template_section
-  UNIQUE (hotel_template_id, template_section_id);
+PRIMARY KEY (id),
+UNIQUE KEY uk_users_email (email),
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
+CHECK (balance >= 0)
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Composite UNIQUE | Business rule: one section per template pair |
-| FK + index | InnoDB auto-indexes FK; check `INFORMATION_SCHEMA` |
-| `ON DELETE CASCADE` | Parent delete removes children — intentional only |
+## Foreign keys
 
----
+- Require indexed parent/child columns (index created automatically on child if missing)
+- `ON DELETE CASCADE` propagates deletes—use deliberately
+- InnoDB only ([[mysql engine]])
 
-## Triage (when things break)
+## Naming
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Duplicate entry for key | Existing row / UNIQUE | Dedupe data; then ADD CONSTRAINT |
-| Cannot add FK | Child orphans / type mismatch | Clean data; match types/signedness/charset |
-| Error 1452 | Missing parent id | Insert parent first or fix id |
-| Constraint already exists | `SHOW CREATE TABLE` | DROP CONSTRAINT then recreate |
+Explicit constraint names (`CONSTRAINT fk_orders_user`) make [[MySQL Error]] messages actionable.
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **FK requires matching types** — `INT` vs `BIGINT`, signed vs unsigned, charset/collation on string keys.
-
-> [!WARNING]
-> **MyISAM ignores FKs** — use InnoDB ([[mysql engine]]).
-
----
-
-## When NOT to use
-
-- **Soft uniqueness only in application** — race conditions will duplicate; prefer UNIQUE in DB.
-- **Cross-database FKs** — MySQL won’t enforce; redesign or application checks.
-
----
-
-## Related
-
-[[mysql table]] [[mysql index]] [[Database design]] [[SQL normalization]]
+- MySQL Reference Manual — [CREATE TABLE Constraints](https://dev.mysql.com/doc/refman/en/create-table.html)
+- MySQL Reference Manual — [FOREIGN KEY Constraints](https://dev.mysql.com/doc/refman/en/create-table-foreign-keys.html)

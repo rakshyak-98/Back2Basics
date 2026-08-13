@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** razorpay integration — user clicks "Pay" on the Frontend.
+## How it works
 
 ### **The High-Level Architecture Flow**
 1. **User clicks "Pay"** on the Frontend.
@@ -39,7 +28,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -48,7 +38,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -65,12 +57,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Payments]]
+
+## Sources
+
+- [Wikipedia — razorpay integration](https://en.wikipedia.org/wiki/razorpay_integration)

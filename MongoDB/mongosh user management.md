@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Create a user with roles scoped to a DB (or cluster); authenticate with that user + `authSource`.
+## How it works
 
 ```txt
 admin.createUser → roles[{ role, db }] → clients auth with authSource
@@ -34,7 +23,8 @@ admin.createUser → roles[{ role, db }] → clients auth with authSource
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 use admin
@@ -56,7 +46,8 @@ db.dropUser('app')
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ db.dropUser('app')
 | Too much privilege | `root` in apps | Replace with readWrite |
 
 ---
+
 
 ## Gotchas
 
@@ -77,11 +69,17 @@ db.dropUser('app')
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Local disposable docker** — root is fine for throwaway demos.
 - **Managed Atlas** — prefer UI/API database users.
 
+
 ## Related
 
 [[mongosh]] [[mongodb connection]]
+
+## Sources
+
+- [Wikipedia — mongosh user management](https://en.wikipedia.org/wiki/mongosh_user_management)

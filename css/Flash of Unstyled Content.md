@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The browser parses HTML incrementally. If CSS arrives **after** first paint, content renders with **user-agent defaults** (or wrong theme), then **reflows** when rules apply.
 
@@ -33,7 +24,8 @@ Common triggers:
 - **Dark/light theme** applied via JS after reading `localStorage`.
 - Web fonts swapping (`font-display: swap`) causing text reflow (FOUT — related).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### HTML — load critical CSS first
 
@@ -109,7 +101,8 @@ location /assets/ {
 # Ensure CSS gets correct Content-Type: text/css
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -120,6 +113,7 @@ location /assets/ {
 | React hydration warning + flash | SSR/client class mismatch | Fix SSR style collection; consistent builds |
 | Text jumps when font loads | `font-display: swap` without metrics | Use `size-adjust`, fallback stack, or `optional` |
 | FOUC with Tailwind CDN | Full utility CSS loads async | Build CSS at compile time; don't rely on CDN in prod |
+
 
 ## Gotchas
 
@@ -135,12 +129,18 @@ location /assets/ {
 > [!WARNING]
 > **SPA client-only render** — empty `#root` until JS runs is FOUC-by-design; use SSR/SSG or skeleton in HTML.
 
-## When NOT to use
+
+## When not to use
 
 - **Hiding body with `visibility:hidden` until load** — hurts LCP and accessibility; fix CSS delivery instead.
 - **Blocking all JS for style** — overkill; inline tiny theme/critical CSS, async the rest.
 - **Aggressive `font-display: block`** — eliminates FOUT but can hide text for seconds on slow networks.
 
+
 ## Related
 
 [[css]] [[scss]] [[Animation]] [[tailwindcss]] [[Nginx]] [[React]]
+
+## Sources
+
+- [Wikipedia — Flash of Unstyled Content](https://en.wikipedia.org/wiki/Flash_of_Unstyled_Content)

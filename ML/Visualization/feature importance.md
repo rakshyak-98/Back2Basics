@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 "Importance" is **not one number** — definition depends on method:
 
@@ -36,7 +27,8 @@ Use importance for **debugging and prioritization**, not legal causality without
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### XGBoost / sklearn tree built-in
 
@@ -77,7 +69,8 @@ Fit importance on **validation** data the model didn't train on.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,6 +82,7 @@ Fit importance on **validation** data the model didn't train on.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -99,7 +93,8 @@ Fit importance on **validation** data the model didn't train on.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Regulatory causal claims** — importance ≠ causal effect; run proper experiments.
 - **Production monitoring** — track **feature distribution drift**, not static importance charts.
@@ -107,6 +102,11 @@ Fit importance on **validation** data the model didn't train on.
 
 ---
 
+
 ## Related
 
 [[Random forest]] · [[Gradient boosting]] · [[xg boost]] · [[Decision tree]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — feature importance](https://en.wikipedia.org/wiki/feature_importance)

@@ -1,83 +1,58 @@
-[[System Design]] [[distributed system]] [[marshalling]] [[race condition]]
+[[distributed system]] [[marshalling]] [[Throughput]] [[race condition]] [[Raft]]
 
 # Distributed computing
 
-> Distributed computing — split a job across networked machines; pay for coordination, partial failure, and serialization.
+> Distributed computing splits one workload across networked machines that exchange messages — gaining aggregate capacity while paying for coordination, partial failure, and serialization.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Many computers pass messages to finish one workload (map-reduce, microservices, HPC). Hard parts: failures mid-job, skew, and “what time is it?”
+## Map of the problem space
 
 ```txt
-Coordinator → tasks → workers → results → reduce
-                 ↘ retry failed tasks ↙
+Coordinator → partition input → workers execute tasks → aggregate results
+                     ↘ retry failed tasks ↙
 ```
 
 | Challenge | Mitigation |
 |-----------|------------|
-| Node death | Restart tasks; checkpoint |
-| Stragglers | Speculative execution |
-| Data gravity | Move compute to data |
-| Schema drift | Versioned [[marshalling]] |
+| Node death mid-task | Restart task; checkpoint progress |
+| Straggler worker | Speculative duplicate execution |
+| Data gravity | Move compute to data (locality) |
+| Schema drift | Versioned [[marshalling]] / [[Serialization]] |
+| Shared mutable state | Consensus ([[Raft]]), queues, or conflict-free structures |
 
----
+**Distributed computing** is the workload pattern (map-reduce, render farm, microservice pipeline). **[[distributed system]]** is the operational reality those workloads run on — partial failure, replication, consistency.
 
-## Standard config / commands
+## Job design checklist
 
 ```txt
-# Job shape
-1. Partition input
-2. Pure tasks (idempotent)
-3. Deterministic combine when possible
-4. Persist checkpoints
+1. Partition input into independent chunks where possible
+2. Tasks should be idempotent (retries happen)
+3. Combine step should be deterministic when feasible
+4. Persist checkpoints for long jobs
+5. Measure speedup — Amdahl's law limits parallel gain
 ```
 
----
+## Failure signatures
 
-## Triage (when things break)
+| Symptom | Direction |
+|---------|-----------|
+| Job stuck at 99% | Straggler — kill slow worker, rerun partition |
+| Duplicate outputs | At-least-once retry without deduplication key |
+| Worker out of memory | Skewed partition — rebalance keys |
+| Rare wrong results | Non-determinism or [[race condition]] in combine |
+| Coordinator single point of failure | Highly available queue or elected leader |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Job hangs 99% | Straggler worker | Speculative task; kill slow node |
-| Duplicate outputs | At-least-once retry | Idempotent writes; dedupe keys |
-| OOM on worker | Skewed partition | Rebalance keys; memory limits |
-| Wrong results rare | Non-determinism / race | Pure functions; seed RNG |
-| Coord SPOF | Single master | HA coordinator / queue |
+## When distribution hurts
 
----
+- Central processing unit-bound jobs smaller than network round-trip overhead — one machine wins.
+- Strong interactive latency — every hop adds milliseconds.
+- Workload cannot be partitioned — fix the data model before adding nodes.
 
-## Gotchas
+*What breaks first?* Chatty fine-grained remote procedure calls — overhead eats [[Throughput]] gains.
 
-> [!WARNING]
-> **Shared mutable NFS “coordination”** — races and locks; prefer explicit consensus/queue.
+## Sources
 
-> [!WARNING]
-> **Assuming identical clocks** — use logical time / job epochs.
-
-> [!WARNING]
-> **Chatty fine-grained RPC** — overhead eats speedup (Amdahl).
-
----
-
-## When NOT to use
-
-- **CPU-bound tiny jobs** — single machine faster.
-- **Strong interactive latency** — distribution adds hops.
-- **Unpartitionable state** — fix data model first.
-
----
-
-## Related
-
-[[distributed system]] [[Raft]] [[marshalling]] [[Throughput]] [[race condition]]
+- Dean & Ghemawat, "MapReduce: Simplified Data Processing on Large Clusters" (OSDI 2004).
+- Gene Amdahl, "Validity of the Single Processor Approach" (1967) — parallel speedup limits.
+- Martin Kleppmann, *Designing Data-Intensive Applications*.

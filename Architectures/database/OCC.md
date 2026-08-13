@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Assume no conflict, do the work, validate at the end — if another txn touched the same data, abort and retry.
+## How it works
 
 ```txt
 read version/etag → compute → commit if version unchanged else retry
@@ -36,7 +25,8 @@ Used in: HTTP `If-Match`, DynamoDB conditional writes, many ORMs’ `@Version`.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```sql
 -- version column pattern
@@ -52,7 +42,8 @@ If-Match: "etag-abc"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ If-Match: "etag-abc"
 | High latency | retry storms | Cap retries; backoff |
 
 ---
+
 
 ## Gotchas
 
@@ -73,13 +65,19 @@ If-Match: "etag-abc"
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Very hot rows** — use locks, single-threaded owner, or atomic increment.
 - **Multi-row invariants without a txn story** — need real transactions, not only etags.
 
 ---
 
+
 ## Related
 
 [[MVCC]] [[ACID]] [[Idempotent-key]] [[race condition]]
+
+## Sources
+
+- [Wikipedia — OCC](https://en.wikipedia.org/wiki/OCC)

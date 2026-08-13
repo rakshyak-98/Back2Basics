@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** git guidlines — feat: add new inventory endpoint
+## How it works
 
 ```vbnet
 feat: add new inventory endpoint
@@ -50,7 +39,8 @@ Ticket: AT-123
 - separate subject from body with blank line
 - describe what and why, not how
 
-## Standard config / commands
+
+## Configuration and commands
 
 Use conventional prefixes in subject line:
 - `feat:` new behavior
@@ -60,7 +50,8 @@ Use conventional prefixes in subject line:
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ Use conventional prefixes in subject line:
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -77,13 +69,19 @@ Use conventional prefixes in subject line:
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not rewrite published history on shared branches to fix message typos.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git guidlines](https://en.wikipedia.org/wiki/git_guidlines)

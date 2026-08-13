@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** OCI **image-specification** = layers + configuration JSON. OCI **runtime-specification** = how to start a bundle (runc). Engines speak OCI so an image built with BuildKit runs under containerd.
+## How it works
 
 ```txt
 Dockerfile → OCI image → registry
@@ -29,7 +18,8 @@ Dockerfile → OCI image → registry
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 docker commit <container> myfix:debug
@@ -49,7 +39,8 @@ docker build -t myfix:1.2 .
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom                           | Check                    | Fix                                 |
 | --------------------------------- | ------------------------ | ----------------------------------- |
@@ -60,6 +51,7 @@ docker build -t myfix:1.2 .
 | Registry pull reject              | Non-OCI / schema1 legacy | Re-push modern manifest             |
 
 ---
+
 
 ## Gotchas
 
@@ -74,7 +66,8 @@ docker build -t myfix:1.2 .
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **production image creation** — Dockerfile + CI, not commit.
 - **application networking policy** — service mesh / K8s NetworkPolicy, not OCI itself.
@@ -82,6 +75,11 @@ docker build -t myfix:1.2 .
 
 ---
 
+
 ## Related
 
 [[docker container]] [[docker file]] [[docker cli]] [[Docker Runtime Security]] [[AWS ECR]]
+
+## Sources
+
+- [Wikipedia — docker OCI](https://en.wikipedia.org/wiki/docker_OCI)

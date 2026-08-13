@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Run-to-completion on one thread; async via task/microtask queues. Types are dynamic; use TypeScript when contracts matter.
+## How it works
 
 ```txt
 call stack ←→ heap
@@ -33,7 +22,8 @@ event loop ← tasks / microtasks
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 node -e 'console.log(1)'
@@ -48,7 +38,8 @@ node --watch app.js
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@ node --watch app.js
 | Module not found | Path/CJS/ESM | Align module type |
 
 ---
+
 
 ## Gotchas
 
@@ -69,13 +61,19 @@ node --watch app.js
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **CPU-bound HPC** — native/Go/Rust.
 - **Shared-memory threads model** — careful with workers.
 
 ---
 
+
 ## Related
 
 [[Asynchronous]] [[Call stack]] [[promise]] [[typescript]]
+
+## Sources
+
+- [Wikipedia — Javascript](https://en.wikipedia.org/wiki/Javascript)

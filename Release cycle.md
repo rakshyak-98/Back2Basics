@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **release cycle** is the contract between engineering and customers for **when** change arrives, **how much** risk is bundled, and **what happens** when it fails.
 
@@ -41,7 +32,8 @@ Feature branches ──► trunk/main (continuous integration)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Release train checklist (weekly)
 
@@ -107,7 +99,8 @@ git push origin v2026.07.22
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -125,6 +118,7 @@ git revert <commit> && redeploy
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -145,7 +139,8 @@ git revert <commit> && redeploy
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Early startup (<10 engineers)** — continuous deploy + flags may beat heavy train process.
 - **Regulated freeze windows** — train still runs internally; production promote waits.
@@ -153,6 +148,11 @@ git revert <commit> && redeploy
 
 ---
 
+
 ## Related
 
 [[ecommerce-cicd-environments]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]
+
+## Sources
+
+- [Wikipedia — Release cycle](https://en.wikipedia.org/wiki/Release_cycle)

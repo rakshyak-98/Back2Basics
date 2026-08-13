@@ -6,17 +6,18 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
+
+```
+Developer shell          CI / systemd
+     │                        │
+     ├─ node app.js           ├─ /opt/node/bin/node app.js
+     ├─ npm run start         ├─ EnvironmentFile + User=
+     └─ npx tsx watch src     └─ no nvm unless explicit load
+```
+
 
 ## Quick reference
 
@@ -24,7 +25,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Run application
 
@@ -76,25 +78,22 @@ node --max-old-space-size=4096 server.js
 node --trace-warnings server.js
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
+## Examples
 
-```
-Developer shell          CI / systemd
-     │                        │
-     ├─ node app.js           ├─ /opt/node/bin/node app.js
-     ├─ npm run start         ├─ EnvironmentFile + User=
-     └─ npx tsx watch src     └─ no nvm unless explicit load
+```bash
+# …
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +103,7 @@ Developer shell          CI / systemd
 | Env vars undefined | Not loaded before import | `--import dotenv/config` or systemd EnvironmentFile |
 | Permission errors | Running as root vs appuser | [[Node.js run as a non-privileged user]] |
 | Works in npm script, not direct | Relative cwd | `cd` to project root; check `process.cwd()` |
+
 
 ## Gotchas
 
@@ -116,17 +116,17 @@ Developer shell          CI / systemd
 > [!WARNING]
 > **`npm run` hides failures** — scripts may swallow exit codes; use `set -e` in shell wrappers.
 
-## When NOT to use
+
+## When not to use
 
 - **Production scaling** — process manager (systemd, K8s) not manual CLI.
 - **Heavy REPL exploration** — use `node` REPL or [[REPL]] note for interactive debugging.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[node command]] [[nvm]] [[inputs]] [[node inspect]] [[Node.js run as a non-privileged user]]
+
+## Sources
+
+- [Wikipedia — CLI](https://en.wikipedia.org/wiki/CLI)

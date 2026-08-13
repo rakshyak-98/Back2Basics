@@ -1,89 +1,50 @@
-[[Linux]] [[file mount]] [[rsync]]
+[[file mount]] [[management/Linux file management]]
 
 # media mount as read only
 
-> Mount removable or network media read-only when you must inspect without risk of writes — forensics, untrusted USB, golden images.
+> A filesystem remounted read-only usually means the kernel detected errors or I/O failure — writes are blocked to prevent further corruption.
 
----
+Common triggers: disk errors, full disk during journal write, SAN disconnect, failing SSD. The mount flag `ro` appears in `/proc/mounts`.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `mount -o ro` (and often `noload` for external) blocks writers; still verify with `findmnt` before trusting it.
-
-```txt
-block device ──mount -o ro,noload──► /mnt/usb
-                     │
-                     └─ writes fail with EROFS
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ro** | Read-only mount | “Kernel rejects writes with EROFS.” |
-| **noload** | Skip ext journal replay | “Avoid writing replay to suspect disks.” |
-| **loop** | File as block device | “Mount images without USB.” |
-| **udisks** | Desktop automount | “May remount rw — check options.” |
-| **bind remount** | Change flags in place | “`mount -o remount,ro`.” |
-
----
-
-## Standard config / commands
+## Confirm read-only
 
 ```bash
-sudo mount -o ro /dev/sdb1 /mnt/usb
-sudo mount -o ro,noload /dev/sdb1 /mnt/usb   # ext*
-sudo mount -o ro,loop image.iso /mnt/iso
-findmnt /mnt/usb
-mount | grep /mnt/usb
-sudo mount -o remount,ro /mnt/usb
-sudo umount /mnt/usb
+findmnt / -o TARGET,OPTIONS
+mount | grep ' / '
+dmesg -T | tail -50
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `ro,noload` | Safer for dirty ext journals |
-| `uid=/gid=` (vfat) | Who can read the tree |
+## Remount read-write (after fixing cause)
 
----
+```bash
+# ext4 root — often requires remount
+sudo mount -o remount,rw /
 
-## Triage (when things break)
+# If busy or fails, check why
+sudo journalctl -k -b | grep -iE 'error|ext4|I/O'
+```
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Still writable | `findmnt -o OPTIONS` | Remount `ro`; stop automounters |
-| mount fails dirty fs | Journal needs replay | Prefer `noload` or image the disk first |
-| Permission denied reading | FAT uid mapping | `uid=$UID` or read as root |
-| Device busy on umount | Open files | `lsof +f -- /mnt/usb`; `fuser -m` |
+**Do not** force `rw` on a failing disk without backup — risk data loss.
 
----
+## Recovery workflow
 
-## Gotchas
+1. Stop writers (`systemctl stop` heavy services if possible).
+2. Read `dmesg` / SMART (`smartctl -a /dev/sdX`).
+3. Filesystem check from maintenance mode or umount:
+   ```bash
+   sudo fsck -f /dev/sdXN
+   ```
+4. Remount `rw`; verify application writes.
 
-> [!WARNING]
-> **`ro` is not tamper-evidence** — a malicious kernel module or wrong device path still hurts; image first for forensics.
+## LVM / RAID
 
-> [!WARNING]
-> **Desktop automount** can remount rw when you click the volume in the file manager.
-
----
-
-## When NOT to use
-
-- **Need to repair/write** — mount rw intentionally after backup.
-- **Network shares with mandatory locks** — NFS `ro` still has cache semantics to understand.
-
----
+Underlying PV or array degradation can surface as ro — check `pvdisplay`, `mdadm --detail`.
 
 ## Related
 
-[[file mount]] [[lsof]] [[rsync]] [[Linux file management]]
+[[file mount]] · [[management/Linux file management]]
+
+## Sources
+
+- `man 8 mount` — remount options
+- [ext4 documentation — kernel.org](https://www.kernel.org/doc/html/latest/filesystems/ext4.html)

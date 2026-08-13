@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** combi — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`window`, `drun`, `run`) into a single filtered list. User types; rofi ranks matches across modes. Configured via CLI flags or `~/.config/rofi/config.rasi`.
@@ -33,7 +22,8 @@ Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`wind
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -42,7 +32,8 @@ Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`wind
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,6 +43,7 @@ Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`wind
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -59,12 +51,18 @@ Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`wind
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[Linux/commands/fzf]] [[Linux/CLI]]
+
+## Sources
+
+- [Wikipedia — combi](https://en.wikipedia.org/wiki/combi)

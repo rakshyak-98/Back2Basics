@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** The viewer asks for byte ranges; the server returns pieces; PDF.js paints pages that are already complete.
+## How it works
 
 ```txt
 Browser (PDF.js)
@@ -53,7 +42,8 @@ PDF.js parses xref / pages ──► canvas render
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```html
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -94,7 +84,8 @@ curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,6 +97,7 @@ curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 | Mobile OOM on huge PDF | Full raster at high scale | Lower scale; render visible pages only |
 
 ---
+
 
 ## Gotchas
 
@@ -123,7 +115,8 @@ curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny PDFs** — single GET is simpler; range complexity buys nothing.
 - **Print-faithful desktop application** — native viewers / print pipelines beat canvas.
@@ -132,6 +125,11 @@ curl -H 'Range: bytes=0-1023' -I https://example.com/doc.pdf  # expect 206
 
 ---
 
+
 ## Related
 
 [[Byte stream]] [[How to attach stream to HTTP handlers]] [[Streaming]]
+
+## Sources
+
+- [Wikipedia — pdf-stream-viewing](https://en.wikipedia.org/wiki/pdf-stream-viewing)

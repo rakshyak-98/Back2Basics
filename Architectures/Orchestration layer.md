@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Orchestration:** a central **coordinator** drives steps, knows global state, retries, timeouts, compensations. **Choreography:** each service reacts to **events** with no central brain — flow emerges from message contracts.
 
@@ -39,7 +30,8 @@ Choreography (Kafka/events):
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Tool placement
 
@@ -97,7 +89,8 @@ Choreograph when:
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ Choreograph when:
 | "Works in dev" timeout | Step Functions 25s lambda limit | Break steps; use activity workers |
 
 ---
+
 
 ## Gotchas
 
@@ -129,7 +123,8 @@ Choreograph when:
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single CRUD service** — domain logic in application code suffices.
 - **Sync request/response chain < 3 hops** — direct calls + [[Idempotent-key]].
@@ -137,6 +132,11 @@ Choreograph when:
 
 ---
 
+
 ## Related
 
 [[Airflow]] [[Jenkins]] [[kafka]] [[webhook]] [[Idempotent-key]] [[ABR]]
+
+## Sources
+
+- [Wikipedia — Orchestration layer](https://en.wikipedia.org/wiki/Orchestration_layer)

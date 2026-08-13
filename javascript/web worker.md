@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Main thread owns DOM; Worker owns compute. Structured-clone messages (or transfer ArrayBuffers). No direct DOM access from the worker.
+## How it works
 
 ```txt
 main ──postMessage──► Worker
@@ -32,7 +21,8 @@ main ──postMessage──► Worker
 | **SharedWorker** | Multi-tab | “Less common; different API.” |
 | **transfer** | Move buffer ownership | “Zero-copy large data.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const w = new Worker(new URL('./heavy.js', import.meta.url), { type: 'module' })
@@ -49,7 +39,8 @@ w.onerror = console.error
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ w.onerror = console.error
 | Memory leak | Workers never terminated | Terminate on page leave |
 
 ---
+
 
 ## Gotchas
 
@@ -70,13 +62,19 @@ w.onerror = console.error
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny work** — message overhead can dominate.
 - **Network-only waits** — async I/O already frees the UI.
 
 ---
 
+
 ## Related
 
 [[throttle]] [[worker]] [[Optimizing performance]]
+
+## Sources
+
+- [Wikipedia — web worker](https://en.wikipedia.org/wiki/web_worker)

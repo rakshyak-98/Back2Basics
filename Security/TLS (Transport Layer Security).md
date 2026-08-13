@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 TLS sits above TCP. Handshake negotiates version, ciphers, and (usually) server identity via **X.509 certificate**. After handshake, application data (HTTP → HTTPS) is encrypted and integrity-protected.
 
@@ -34,7 +25,8 @@ SSL is obsolete terminology — say TLS 1.2/1.3.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Nginx TLS termination
 
@@ -96,7 +88,8 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 | Handshake OK, then 502 | Backend issue, not TLS | See [[Configuration]] 502 playbook |
 
 ---
+
 
 ## Gotchas
 
@@ -129,13 +123,19 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **TLS inside trusted VPC for every microservice hop** — mTLS/service mesh when policy requires; otherwise edge termination + private network is common.
 - **Self-signed in production public sites** — users can't trust; use public CA.
 
 ---
 
+
 ## Related
 
 [[Configuration]] [[Nginx]] [[Node.js security flaws in architecture]]
+
+## Sources
+
+- [Wikipedia — TLS](https://en.wikipedia.org/wiki/TLS)

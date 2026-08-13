@@ -6,20 +6,31 @@
 
 ---
 
-## Index
+## When things break
 
-- [[#Mental model (both books)]]
-- [[#Triage (when things break)]]
-- [[#The four commands]]
-- [[#Dependency graph (Winkler)]]
-- [[#What `init` does]]
-- [[#What `plan` / `apply` do]]
-- [[#State: why it exists (Brikman)]]
-- [[#Lifecycle meta-arguments (Winkler)]]
-- [[#Safe team loop (Brikman)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
+| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
+| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
+| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
+| Wrong backend | `backend` block vs old state | `init -migrate-state` |
+
+
+## Gotchas
+
+> [!WARNING]
+> **Apply without saved plan** — interactive apply can diverge from reviewed CI plan; use `-out`.
+
+> [!WARNING]
+> **force-unlock casually** — two applies can corrupt state; confirm the other run is dead first.
+
+
+## When not to use
+
+- **Hotfix outside Terraform** — then import or accept drift; don’t fight both consoles.
+- **Destroy in production without plan review** — always `plan` destroy first.
+
 
 ## Mental model (both books)
 
@@ -48,15 +59,6 @@ Concepts used in this loop:
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
-| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
-| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
-| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
-| Wrong backend | `backend` block vs old state | `init -migrate-state` |
 
 ## The four commands
 
@@ -78,6 +80,7 @@ terraform destroy
 
 ---
 
+
 ## Dependency graph (Winkler)
 
 Before plan, Terraform builds a DAG of resources:
@@ -89,6 +92,7 @@ Before plan, Terraform builds a DAG of resources:
 That’s why file order among `*.tf` files does not define apply order.
 
 ---
+
 
 ## What `init` does
 
@@ -105,6 +109,7 @@ terraform init -migrate-state    # after backend change
 
 ---
 
+
 ## What `plan` / `apply` do
 
 1. Load configuration + [[variable file]] values
@@ -120,6 +125,7 @@ terraform init -migrate-state    # after backend change
 → add at least one `.tf` (e.g. `main.tf` with a [[terraform provider]] block), then `terraform init`.
 
 ---
+
 
 ## State: why it exists (Brikman)
 
@@ -145,6 +151,7 @@ Remote backend + DynamoDB/Blob lease locking → [[Terraform setup]]
 
 ---
 
+
 ## Lifecycle meta-arguments (Winkler)
 
 ```hcl
@@ -168,6 +175,7 @@ resource "aws_instance" "web" {
 
 ---
 
+
 ## Safe team loop (Brikman)
 
 1. Branch + PR with plan output in CI
@@ -177,18 +185,6 @@ resource "aws_instance" "web" {
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Apply without saved plan** — interactive apply can diverge from reviewed CI plan; use `-out`.
-
-> [!WARNING]
-> **force-unlock casually** — two applies can corrupt state; confirm the other run is dead first.
-
-## When NOT to use
-
-- **Hotfix outside Terraform** — then import or accept drift; don’t fight both consoles.
-- **Destroy in production without plan review** — always `plan` destroy first.
 
 ## Related
 
@@ -197,3 +193,7 @@ resource "aws_instance" "web" {
 - Provider RPC / aliases → [[terraform provider]]
 - Logs & schema → [[Terraform CLI]]
 - Variables → [[variable file]]
+
+## Sources
+
+- [Wikipedia — Terraform workflow](https://en.wikipedia.org/wiki/Terraform_workflow)

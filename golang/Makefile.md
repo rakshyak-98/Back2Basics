@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Make lists targets with recipes. For Go, targets usually call the Go toolchain — don’t reimplement module logic in Make.
+## How it works
 
 ```txt
 make test  → go test ./...
@@ -33,7 +22,8 @@ make build → go build -o bin/app ./cmd/app
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```makefile
 .PHONY: test build run tidy
@@ -59,7 +49,8 @@ run: build
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ run: build
 | Recursive make hell | Nested projects | One module-aware Makefile |
 
 ---
+
 
 ## Gotchas
 
@@ -83,7 +75,8 @@ run: build
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Trivial one-package repository** — raw `go test` is enough.
 - **Polyglot Bazel monorepo** — use the monorepo tool.
@@ -91,6 +84,11 @@ run: build
 
 ---
 
+
 ## Related
 
 [[go cli]] [[go build]] [[go project]]
+
+## Sources
+
+- [Wikipedia — Makefile](https://en.wikipedia.org/wiki/Makefile)

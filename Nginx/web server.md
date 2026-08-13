@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Decision context]]
-- [[#Comparison matrix]]
-- [[#Selection guide]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#When NOT to use]]
-- [[#Gotchas]]
-- [[#Related]]
-
-## Decision context
-
-…
-
-## Comparison matrix
-
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
-
-## Selection guide
-
-- Choose **A** when …
-- Choose **B** when …
-
-## Mental model
-
-**Say it in one breath:** Browser sends `GET /blog/post-1 HTTP/1.1`. Server matches **Host** + **path** to virtual host and location. Static servers map path → filesystem (`root` + URI). application servers (Node, PHP-FPM.
+## How it works
 
 
 ```
@@ -44,7 +15,8 @@ https://example.com/api/users/1
          host   path
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Static files
 
@@ -76,7 +48,8 @@ location /api/ {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,10 +59,19 @@ location /api/ {
 | `/api` hits static | Location order | Specific `location /api/` before `/` |
 | Case sensitivity | Linux FS case-sensitive | Match exact filename case |
 
-## When NOT to use
 
-- Don't map user-upload dir under web root executable — serve from object storage or separate domain.
-- Don't rely on `.html` extension hiding — content-type and authentication matter, not suffix.
+## Comparison
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+
+## How to choose
+
+- Choose **A** when …
+- Choose **B** when …
+
 
 ## Gotchas
 
@@ -100,6 +82,17 @@ location /api/ {
 >
 > **Directory listing** — `autoindex on` leaks structure; off in prod.
 
+
+## When not to use
+
+- Don't map user-upload dir under web root executable — serve from object storage or separate domain.
+- Don't rely on `.html` extension hiding — content-type and authentication matter, not suffix.
+
+
 ## Related
 
 [[Nginx/nginx SPA deployment]] [[Nginx/How does directive work]] [[Security/https]]
+
+## Sources
+
+- [Wikipedia — web server](https://en.wikipedia.org/wiki/web_server)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Re-encoding** (transcode) **decodes** a compressed stream to raw samples/frames, then **encodes** with a (usually) new codec, bitrate, or resolution. Each generation **loses information** — avoid unnecessary hops in the pipeline. **Remux** (`-c copy`) only changes container when codecs already match targets.
 
@@ -38,7 +29,8 @@ See [[transcoding]] for ladder workflow; this note focuses on **when and how** t
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Remux first (try before re-encode)
 
@@ -91,7 +83,8 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -103,6 +96,7 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 | GPU slower than CPU | PCIe / decode on CPU | `-hwaccel cuda` full pipeline |
 
 ---
+
 
 ## Gotchas
 
@@ -120,7 +114,8 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
 - **Quality-critical archive** — store mezzanine; re-encode only derivatives.
@@ -128,6 +123,11 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 
 ---
 
+
 ## Related
 
 [[transcoding]] [[Encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[CMAF]] [[bitrate streaming]]
+
+## Sources
+
+- [Wikipedia — re-encoding](https://en.wikipedia.org/wiki/re-encoding)

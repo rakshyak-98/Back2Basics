@@ -6,42 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
-
-```bash
-# version + config path
-# dry-run when available
-```
-
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** pnpm cli — pnpm approve-builds — is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
+## How it works
 
 `pnpm approve-builds` -> is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
 ```bash
@@ -55,7 +20,39 @@ Some npm packages execute scripts automatically during installation.
 
 ---
 
-## Triage (when things break)
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Configuration and commands
+
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +62,7 @@ Some npm packages execute scripts automatically during installation.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -72,18 +70,18 @@ Some npm packages execute scripts automatically during installation.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[npm]]
+
+## Sources
+
+- [Wikipedia — pnpm cli](https://en.wikipedia.org/wiki/pnpm_cli)

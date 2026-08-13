@@ -1,83 +1,64 @@
-[[System Design]] [[distributed system]] [[Quorum]] [[cache system]]
+[[Quorum]] [[distributed system]] [[cache system]] [[Concurrent modification]]
 
 # Eventual consistency
 
-> Eventual consistency — replicas may disagree briefly after a write; if you stop writes, they converge to the same values.
+> Eventual consistency means replicas may disagree immediately after a write, but if updates stop, all replicas will converge to the same value — availability and latency now, sameness later.
 
 ---
 
-## Index
+## Why systems choose it
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** AP-leaning systems acknowledge quickly, replicate async, and heal with read repair / anti-entropy. Users may see stale data for a window.
+Under network partition or geographic distance, forcing every replica to agree before responding increases latency and can block availability (see CAP trade-offs in [[distributed system]]). Many large-scale systems acknowledge writes quickly and replicate asynchronously.
 
 ```txt
-Write → replica A (ack)
-     ↘ async → replicas B,C  (later)
-Read may hit B early → stale
+Write → replica A (ack to client)
+     ↘ async replication → replicas B, C (later)
+
+Read from B before replication completes → stale value
 ```
 
-| Pattern | Example |
-|---------|---------|
-| DNS TTL | Old IP until cache expires |
-| Cache + DB | Invalidate/TTL |
-| Multi-master | CRDTs / LWW |
-| CQRS read models | Async projection |
+| Domain | Eventual behavior example |
+|--------|---------------------------|
+| Domain Name System | Old Internet Protocol address until time-to-live expires ([[DNS]]) |
+| [[cache system]] | Stale until invalidation or time-to-live |
+| Content delivery network | Edge copy lags origin |
+| Multi-region databases | Cross-region replication lag |
+| Command Query Responsibility Segregation read models | Projection catches up after write |
 
----
+## Client-visible strategies
 
-## Standard config / commands
+| Guarantee | How to approximate |
+|-----------|-------------------|
+| Read-your-writes | Route session to primary or sticky replica |
+| Monotonic reads | Consistency token passed with each read |
+| Bounded staleness | Maximum replication lag service level objective |
+| Tolerate stale | User interface shows "updating…" or version number |
 
-```txt
-Client strategies
-- Read-your-writes: sticky session / primary read
-- Monotonic reads: session consistency tokens
-- Tolerate stale: show “updating…” UX
-```
+Stronger guarantees require higher [[Quorum]] R and W, synchronous replication, or reading from the leader.
 
----
+## Conflict resolution
 
-## Triage (when things break)
+When two writers update concurrently, replicas diverge until a **merge policy** runs:
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| User sees old profile | Replica lag / cache | Bypass cache; higher R; wait |
-| Never converges | Conflict policy missing | LWW/CRDT/merge; repair job |
-| “Lost” update | Concurrent writers | Version vectors; CAS |
-| Hot key lag | Single partition overload | Shard; buffer |
-| Billing mismatch | Wrong consistency tier | Stronger path for money |
+| Policy | Behavior |
+|--------|----------|
+| Last-write-wins (timestamp) | Simple; clock skew causes surprises |
+| Version vectors / compare-and-swap | Detect conflict; application merges |
+| Conflict-free Replicated Data Types | Mathematically mergeable structures |
+| Read repair | Background compare and fix divergent replicas |
 
----
+*What breaks first?* Undefined conflict policy — data never converges or silently loses updates ([[Concurrent modification]]).
 
-## Gotchas
+## Where eventual consistency is a poor fit
 
-> [!WARNING]
-> **Eventual ≠ “who cares”** — define the SLA window and conflict rule.
+- **Money movement and inventory** — use strong consistency, reservations, or sagas with explicit compensation.
+- **Security revocation** — "eventually revoked" access is a vulnerability window.
+- **Unique constraints across replicas** — needs coordination, not hope.
 
-> [!WARNING]
-> **Caches without invalidation** — eternal eventual.
+[[Eventual consistency]] is not "consistency does not matter" — define the acceptable staleness window and conflict rule in the service level objective.
 
-> [!WARNING]
-> **Money/inventory** — usually need stronger consistency or reservations.
+## Sources
 
----
-
-## When NOT to use
-
-- **Bank ledgers / unique inventory** — use strong consistency or explicit reservation.
-- **Security policy flips** — don’t leave revoke eventually for long.
-- **Single-node application** — you already have “immediate.”
-
----
-
-## Related
-
-[[Quorum]] [[distributed system]] [[cache system]] [[Concurrent modification]]
+- Werner Vogels, "Eventually Consistent" (ACM Queue, 2008).
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017).
+- [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) terminology — document what "eventual" means in your application programming interface contract.

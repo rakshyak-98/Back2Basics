@@ -1,49 +1,31 @@
-[[staff engineer]] [[general]] [[INDEX]] [[NOTES_STANDARD]]
+[[staff engineer]] [[general]] [[INDEX]] [[AGENT_NOTE_RULES]] [[README]]
 
 # we
 
-> **Mission:** force-multiply engineering teams with operational field notes — retrieve fast, debug fast, configure correctly.
+> This note marks the vault's mission — force-multiply engineers with field notes you can retrieve, debug, and configure from under incident pressure.
 
 ---
 
-## Index
+## Mission
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Operational field notes should let a team **retrieve fast, debug fast, and configure correctly** without hunting through tutorials or raw man pages.
 
-## Mental model
+→ Primary skill model: **[[staff engineer]]**  
+→ Vault entry: **[[INDEX]]** · **[[AGENT_NOTE_RULES]]** · **[[README]]** · **[[general]]**
 
-**Say it in one breath:** **Mission:** force-multiply engineering teams with operational field notes — retrieve fast, debug fast, configure correctly.
+## How this connects to the vault
 
-→ Primary hub: **[[staff engineer]]**
-→ Vault entry: **[[INDEX]]** · **[[NOTES_STANDARD]]** · **[[README]]**
-
-
----
-
-## Standard config / commands
-
-…
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
+| Need | Open |
+|------|------|
+| Symptom under pressure | [[INDEX]] |
+| How notes are written | [[AGENT_NOTE_RULES]] |
+| Domain hubs | [[general]] |
+| Staff-level expectations | [[staff engineer]] |
 
 ## Related
 
-[[staff engineer]]] [[[general]]] [[[INDEX]]] [[[NOTES_STANDARD]]
+[[staff engineer]] · [[general]] · [[INDEX]] · [[AGENT_NOTE_RULES]] · [[README]]
+
+## Sources
+
+- Vault authoring principles: [[AGENT_NOTE_RULES]]

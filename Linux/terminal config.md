@@ -1,89 +1,56 @@
-[[Linux]] [[terminal emulator]] [[Bash syntax]]
+[[terminal emulator]] [[Linux terminal]] [[editor config]]
 
 # terminal config
 
-> Terminal config is how the emulator and shell look/behave — fonts, colors, scrollback, keybindings, and shell rc files.
+> Terminal configuration covers fonts, colors, shell startup, and multiplexer settings — the knobs that make daily CLI work comfortable.
 
----
+## Shell startup chain
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** emulator owns UI chrome; shell owns prompt/aliases; keep them in dotfiles you can reinstall.
-
-```txt
-~/.config/<emulator>/  → font, theme, keys
-~/.bashrc / ~/.zshrc   → prompt, aliases, PATH
-terminfo / $TERM       → capability negotiation
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **dotfiles** | Tracked config | “Symlink from a git repo.” |
-| **profile vs rc** | Login vs interactive | “Know which file your DE sources.” |
-| **color scheme** | Palette | “Emulator theme ≠ LS_COLORS alone.” |
-| **keybinding** | Chord → action | “Conflict with tmux/WM mods.” |
-| **scrollback** | Buffer size | “Big buffers cost RAM.” |
-
----
-
-## Standard config / commands
+| File | When |
+|------|------|
+| `/etc/profile` | Login shells |
+| `~/.bash_profile` / `~/.profile` | User login |
+| `~/.bashrc` | Interactive non-login Bash |
+| `~/.bash_logout` | Logout |
 
 ```bash
-# examples
-ls ~/.config/kitty ~/.config/alacritty ~/.config/ghostty 2>/dev/null
-echo $SHELL
-# reload shell config
-source ~/.bashrc
-# terminfo check
-infocmp "$TERM" >/dev/null && echo ok
+# Typical: login profile sources bashrc
+grep -n bashrc ~/.profile
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Font size / DPI | HiDPI readability |
-| Cursor / bell | Noise vs focus |
+## Prompt and history
 
----
+```bash
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\w\$ '
+export HISTSIZE=50000
+export HISTCONTROL=ignoreboth
+shopt -s histappend
+```
 
-## Triage (when things break)
+See [[Bash history]] for persistence across sessions.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Config ignored | Wrong path / format | Validate YAML/TOML; correct XDG path |
-| Theme ugly in SSH | Remote `$TERM` | Install terminfo or simplify TERM |
-| Keys clash with WM | Mod overlap | Remap emulator or WM |
-| Slow startup | Heavy rc | Profile `zsh -x` / bash timing |
+## tmux
 
----
+```bash
+# ~/.tmux.conf
+set -g mouse on
+set -g default-terminal "screen-256color"
+setw -g mode-keys vi
+```
 
-## Gotchas
+## Emulator config paths
 
-> [!WARNING]
-> **Editing production servers’ prompts** with fancy git scripts can slow every command — keep server rc lean.
-
-> [!WARNING]
-> **Copying macOS `$TERM` to Linux** without terminfo breaks ncurses.
-
----
-
-## When NOT to use
-
-- **Ephemeral containers** — bake need-to-haves; skip personal themes.
-- **Non-interactive automation** — no prompt configuration required.
-
----
+| Emulator | Config |
+|----------|--------|
+| Alacritty | `~/.config/alacritty/alicritty.toml` |
+| GNOME Terminal | `dconf` / profile GUI |
+| Kitty | `~/.config/kitty/kitty.conf` |
 
 ## Related
 
-[[terminal emulator]] [[Linux terminal]] [[Bash history]] [[editor configuration]]
+[[terminal emulator]] · [[editor config]] · [[gnome Colorschem]] · [[Bash history]]
+
+## Sources
+
+- `man 1 bash` — INVOCATION section
+- [tmux man page](https://man.openbsd.org/tmux.1)

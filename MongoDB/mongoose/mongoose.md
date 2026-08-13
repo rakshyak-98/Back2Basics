@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Define a schema → compile a model → `connect` once → CRUD through the model (validation + middleware included).
+## How it works
 
 ```txt
 URI → mongoose.connect → Model(schema) → find/save
@@ -38,17 +25,8 @@ URI → mongoose.connect → Model(schema) → find/save
 
 ---
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ```js
 await mongoose.connect(process.env.MONGO_URI, { maxPoolSize: 10 })
@@ -67,7 +45,20 @@ const User = mongoose.model('User', userSchema)
 
 ---
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +68,7 @@ const User = mongoose.model('User', userSchema)
 | Virtual missing in JSON | not in `toJSON` | `schema.set('toJSON', { virtuals: true })` |
 
 ---
+
 
 ## Gotchas
 
@@ -88,11 +80,17 @@ const User = mongoose.model('User', userSchema)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple scripts** — native driver is enough.
 - **Heavy aggregations only** — driver + aggregate may be clearer.
 
+
 ## Related
 
 [[mongoose/mongoose schema]] [[mongoose/mongoose methods]] [[mongodb connection]]
+
+## Sources
+
+- [Wikipedia — mongoose](https://en.wikipedia.org/wiki/mongoose)

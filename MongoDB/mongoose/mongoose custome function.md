@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Hook custom functions into path validators or setters so bad values never persist.
+## How it works
 
 ```txt
 set(value) → validate(fn) → save
@@ -34,7 +23,8 @@ set(value) → validate(fn) → save
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 email: {
@@ -55,7 +45,8 @@ email: {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ email: {
 | Vague ValidationError | no message | Add message strings |
 
 ---
+
 
 ## Gotchas
 
@@ -76,11 +68,17 @@ email: {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Cross-document rules** — transactions/services.
 - **One-time data cleanup** — migration scripts.
 
+
 ## Related
 
 [[mongoose/mongoose methods]] [[mongoose middleware]] [[mongoose/mongoose schema]]
+
+## Sources
+
+- [Wikipedia — mongoose custome function](https://en.wikipedia.org/wiki/mongoose_custome_function)

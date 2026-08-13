@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Before ICE and signaling matter, you must open the right camera/mic, apply constraints that the device can meet, show a local preview, then attach tracks to an `RTCPeerConnection`.
+## How it works
 
 ```txt
 enumerateDevices / devicechange
@@ -54,7 +43,8 @@ getUserMedia(constraints) ──► MediaStream
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Capture + local preview
 
@@ -145,7 +135,8 @@ Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` o
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -158,6 +149,7 @@ Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` o
 | Camera list stale after USB plug | No `devicechange` listener | Refresh enumerateDevices on event |
 
 ---
+
 
 ## Gotchas
 
@@ -178,7 +170,8 @@ Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` o
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Server-side only ingest** — [[RTMP]] / SRT / WHIP into origin; no browser getUserMedia.
 - **VOD progressive download** — plain HTTP file/Byte stream; not a PeerConnection.
@@ -186,6 +179,11 @@ Debug: browser console for `OverconstrainedError`; `chrome://webrtc-internals` o
 
 ---
 
+
 ## Related
 
 [[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[SCTP (Stream Control Transmission Protocol)]] [[SDP (Session Description Protocol)]]
+
+## Sources
+
+- [Wikipedia — WebRTC Get Started Guide](https://en.wikipedia.org/wiki/WebRTC_Get_Started_Guide)

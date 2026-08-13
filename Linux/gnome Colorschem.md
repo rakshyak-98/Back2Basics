@@ -1,87 +1,34 @@
-[[Linux]] [[gsetting]] [[X Desktop Group]]
+[[commands/gsetting]] [[terminal config]] [[Linux configuration]]
 
 # gnome Colorschem
 
-> GNOME color scheme is the light/dark preference — `org.gnome.desktop.interface color-scheme` plus GTK/app theme keys.
+> GNOME color schemes and accent colors are stored in GSettings — `gsettings` and `dconf` change GTK theme and dark/light preference for the desktop session.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** set `color-scheme` to `prefer-dark`/`prefer-light`/`default`; apps that honor Settings portal follow.
-
-```txt
-gsettings set … color-scheme 'prefer-dark'
-        │
-        └─ GTK/libadwaita / portals → app chrome
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **color-scheme** | prefer-dark/light | “The modern GNOME switch.” |
-| **gtk-theme** | Legacy theme name | “Still matters for older apps.” |
-| **libadwaita** | Modern GNOME toolkit | “Follows color-scheme.” |
-| **portal** | Sandboxed settings API | “Flatpak apps ask the portal.” |
-| **accent-color** | Highlight hue | “Separate from light/dark.” |
-
----
-
-## Standard config / commands
+## Read settings
 
 ```bash
 gsettings get org.gnome.desktop.interface color-scheme
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
-gsettings range org.gnome.desktop.interface color-scheme
 gsettings get org.gnome.desktop.interface gtk-theme
+gsettings range org.gnome.desktop.interface color-scheme
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `prefer-dark` | Apps should switch without theme pack hacks |
-| gtk-theme | Older apps ignore color-scheme |
+Values (GNOME 42+): `'default'`, `'prefer-dark'`, `'prefer-light'`.
 
----
+## Set dark mode
 
-## Triage (when things break)
+```bash
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+```
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| App stays light | Toolkit age / flatpak | Update app; check portal perms |
-| Reverts on login | Managed dconf | Fleet profile overrides |
-| Only some apps change | Mixed GTK/Qt | Set Qt theme separately |
-| gsettings no schema | Headless | Needs GNOME schemas package |
+## Terminal profile
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **`gtk-theme='Adwaita-dark'`** is legacy; prefer `color-scheme` on modern GNOME.
-
-> [!WARNING]
-> **Terminal themes** are separate from GNOME color-scheme.
-
----
-
-## When NOT to use
-
-- **Non-GNOME desktops** — use that DE’s theme system.
-- **Servers** — no-op.
-
----
+GNOME Terminal profiles are separate schemas — use GUI or `dconf dump /org/gnome/terminal/`.
 
 ## Related
 
-[[gsetting]] [[X Desktop Group]] [[terminal configuration]]
+[[commands/gsetting]] · [[commands/customization]] · [[terminal config]]
+
+## Sources
+
+- [GNOME Human Interface Guidelines — appearance](https://developer.gnome.org/hig/)
+- `man 1 gsettings`

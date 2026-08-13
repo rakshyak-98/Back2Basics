@@ -1,108 +1,55 @@
-[[Design pattern]]
+[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Dependency Injection]]
 
 # Singleton
 
-> Singleton — make the class construction private member of the class.
+> A Singleton guarantees one instance of a class and a global access point — useful for scarce resources, but it hides dependencies and complicates testing.
 
----
+## What it solves
 
-## Index
+Some objects should exist exactly once in a process: configuration registries, connection pools, hardware interfaces, or logging sinks tied to a single output stream. Singleton centralizes creation so callers cannot accidentally instantiate duplicates.
 
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
+## How it works
 
-## Mental model
-
-**Say it in one breath:** Singleton is a design idea — I trade something off and I can name the failure mode.
-
-
-- Make the class construction `private` member of the class.
-	- prevent direct instantiation.
-	- in typescript, if constructor is `public` multiple instances of the class could be created.
-- Instance in a Static Property
-	- caching the singular instance in a static property.
-	- drawback that instance is public.
-- Instance in a Closure
-	- using private static member pattern.
-	- rewrite the constructor.
-	- drawback is that the rewritten function will lose any properties (prototype) added to it between the moment of initial definition and the redefinition.
-```javascript
-function Universe(){
-	let instance;
-	Universe = function(){
-		return instance;
-	}
-	// carry over the prototype properties
-	Universe.prototype = this;
-	instance = new Universe();
-	// reset the constructor pointer
-	instance.constructor = Universe;
-	return instance;
-}
 ```
-```javascript
-var Universe
-(function(){
-	let instance;
-	Universe = function(){
-		if(instance){
-
-
----
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```bash
-# sketch
-# actors, data stores, failure domains
+Caller → getInstance() → returns cached instance
+              ↓
+         (first call creates; later calls reuse)
 ```
 
----
+The constructor is hidden (private or module-scoped). A static method or closure holds the sole instance. Languages differ:
 
-## Triage (when things break)
+| Approach | Mechanism | Risk |
+|----------|-----------|------|
+| Static property | `static instance` on class | Instance may be reachable and replaceable |
+| Lazy initialization | Create on first `getInstance()` | Thread safety needs locks or `sync.Once` |
+| Enum singleton (Java) | Single enum constant | Cleanest in Java; not portable |
+| Module singleton | One export from a module file | Natural in Node/Go packages |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Hot key / hotspot | metrics by key | Shard or cache |
-| Cascading failure | timeouts/bulkheads | Add limits and backoff |
-| Split brain | fencing / quorum | Use consensus or single writer |
+## Thread safety
 
----
-
-## Gotchas
-
-> [!WARNING]
-> Draw the failure mode before the happy path.
-
----
+In concurrent code, two threads calling `getInstance()` simultaneously can create two instances unless creation is synchronized. Prefer language primitives (`std::call_once`, Java enum, Go `sync.Once`) over ad-hoc locking.
 
 ## Trade-offs
 
-| Gain | Cost |
-|------|------|
-| … | … |
+Singleton is often criticized because it is **global state** dressed as a pattern:
 
-## When NOT to use
+- **Testing** — hard to substitute fakes; tests share state across cases.
+- **Hidden dependencies** — callers do not declare they need the singleton.
+- **Lifecycle** — unclear when the instance is torn down.
 
-- Don’t over-design a CRUD app into Kafka+K8s on day one.
+Modern designs often prefer **dependency injection** ([[Design pattern/Dependency Injection]]) or plain module-level variables with explicit wiring.
 
----
+## When to use
 
-## Related
+- True single-resource constraints (file descriptor to one device).
+- Performance-critical caches where one shared instance is required.
 
-[[Design pattern]]
+## When to skip
+
+- "We might only need one" — use a normal object and inject it once at startup.
+- Distributed systems — each process has its own instance; a Singleton does not coordinate cluster-wide uniqueness.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Singleton)
+- [Singleton pattern — Wikipedia](https://en.wikipedia.org/wiki/Singleton_pattern) (cross-checked with GoF)

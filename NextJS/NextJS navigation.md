@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Next.js intercepts in-application navigation to avoid full page reloads. **application Router** uses `next/navigation` (`useRouter`, `redirect`, `Link`). **Pages Router** uses `next/router`. Opening a new browser tab/window is **not** SPA navigation — use `<a target="_blank">` or `window.open`, not `router.push`.
 
@@ -25,7 +16,8 @@ New tab          → <a href="..." target="_blank" rel="noopener noreferrer">
 Full reload      → window.location.href = '...'  (rare)
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### App Router
 
@@ -72,7 +64,8 @@ router.push('/about');
 <Link href="/heavy" prefetch={false}>Lazy route</Link>
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +74,7 @@ router.push('/about');
 | Back button weird | Shallow routing misuse | App Router: use `router.replace` intentionally |
 | 404 on client nav | Missing route file | Check `app/` segment or `pages/` file |
 | Scroll jumps | Default scroll restore | `scroll={false}` on Link if needed |
+
 
 ## Gotchas
 
@@ -91,11 +85,17 @@ router.push('/about');
 >
 > **Middleware redirect loops** — login ↔ home; test cookie/session in middleware.
 
-## When NOT to use
+
+## When not to use
 
 - Don't `router.push` for file downloads — use `<a download>` or signed URL.
 - Don't client-nav to logout that must clear httpOnly cookies — use server route/form POST.
 
+
 ## Related
 
 [[ISR (Incremental Static Regeneration)]] [[React/React data management]] [[Security/CORS (Cross Origin Request Sharing)]]
+
+## Sources
+
+- [Wikipedia — NextJS navigation](https://en.wikipedia.org/wiki/NextJS_navigation)

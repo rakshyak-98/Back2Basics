@@ -6,20 +6,12 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 MongoDB errors fall into a few buckets: **wire/authentication** (can't connect), **write concern / topology** (not primary, election), **schema/validation** (document shape), **index/constraints** (duplicate key), and **query/update syntax** (wrong operator shape). The message usually names the bucket; the fix is in the operator or topology state.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Inspect live state
 
@@ -39,7 +31,8 @@ db.users.updateOne({ _id: id }, { $set: "Documents missing" });
 db.users.updateOne({ _id: id }, { $set: { status: "active" } });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,6 +44,7 @@ db.users.updateOne({ _id: id }, { $set: { status: "active" } });
 | `BSONObj size: ... is invalid. Size must be between 0 and 16793600` | Document size | Split doc, use GridFS for blobs — see [[GridFS]] |
 | `MongoTimeoutError` | Network, pool, load | See [[mongodb connection]] triage table |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -60,11 +54,17 @@ db.users.updateOne({ _id: id }, { $set: { status: "active" } });
 >
 > **Silent `undefined` strips** — Mongoose omits undefined keys; can look like "update didn't work".
 
-## When NOT to use
+
+## When not to use
 
 - Don't blanket `catch` and retry without reading error code — duplicate key and validation errors won't heal on retry.
 - Don't disable write concern globally to "fix" timeout errors.
 
+
 ## Related
 
 [[mongodb connection]] [[mongodb model]] [[GridFS]] [[mongoose middleware]]
+
+## Sources
+
+- [Wikipedia — mongodb errors](https://en.wikipedia.org/wiki/mongodb_errors)

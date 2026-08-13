@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You run `ssh-agent`, load keys with `ssh-add`, and every `ssh` connection reuses those decrypted keys until you log out or kill the agent.
+## How it works
 
 `ssh-agent` stores private keys in memory after you unlock them with `ssh-add`. The keys stay encrypted on disk; only the agent process holds the decrypted material for outgoing SSH connections.
 
@@ -25,7 +14,8 @@ Define which key to use per host in `~/.ssh/config` (for example `IdentityFile ~
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 eval "$(ssh-agent -s)"
@@ -37,7 +27,8 @@ kill $SSH_AGENT_PID             # stop agent
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -48,6 +39,7 @@ kill $SSH_AGENT_PID             # stop agent
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -55,12 +47,18 @@ kill $SSH_AGENT_PID             # stop agent
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not run ssh-agent forwarding into untrusted servers.
 
 ---
 
+
 ## Related
 
 [[ssh]]
+
+## Sources
+
+- [Wikipedia — ssh agent](https://en.wikipedia.org/wiki/ssh_agent)

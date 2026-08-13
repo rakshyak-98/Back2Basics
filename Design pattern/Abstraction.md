@@ -1,80 +1,45 @@
-[[Design pattern]]
+[[Design pattern]] [[Design pattern/OOPS]] [[Design pattern/Abstraction]]
 
 # Abstraction
 
-> Abstraction — it allows interaction with an object through a defined interface, ensuring that only the specified behaviors are accessible, even if…
+> Abstraction hides irrelevant detail behind a simpler model — so callers work with stable concepts (interfaces, APIs) instead of concrete implementation mechanics.
 
----
+## In object-oriented design
 
-## Index
+Abstraction is both a **principle** and a technique:
 
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
+- **Data abstraction** — expose operations, hide representation (stack `push/pop`, not raw array index).
+- **Procedural abstraction** — named operations that bundle steps (`connect()`, not socket syscalls).
+- **Interface abstraction** — `PaymentProcessor` without naming Stripe fields.
 
-## Mental model
+Abstraction pairs with **encapsulation** (hide state) and **polymorphism** (many implementations behind one interface).
 
-**Say it in one breath:** Abstraction is a design idea — I trade something off and I can name the failure mode.
+## Levels
 
-
-It allows interaction with an object through a defined interface, ensuring that only the specified behaviors are accessible, even if additional functionalities exist in the concrete implementation.
-- it allows users to interact with an object through a wall defined interface, ensuring that they only access the necessary behaviors while keeping the underlying complexity hidden.
-
-
----
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```bash
-# sketch
-# actors, data stores, failure domains
+```text
+Problem domain concept  →  Application service  →  Library API  →  OS / hardware
+     (more abstract)                              (more concrete)
 ```
 
----
+Good abstractions leak only what callers must decide; bad abstractions leak vendor quirks or force callers to know internals.
 
-## Triage (when things break)
+## In patterns
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Hot key / hotspot | metrics by key | Shard or cache |
-| Cascading failure | timeouts/bulkheads | Add limits and backoff |
-| Split brain | fencing / quorum | Use consensus or single writer |
+Many patterns **are** abstractions:
 
----
+- [[Design pattern/Facade]] — simplified subsystem view
+- [[Design pattern/Bridge]] — split interface from implementation
+- [[Design pattern/Strategy pattern]] — abstract algorithm slot
 
-## Gotchas
+## When abstraction fails
 
-> [!WARNING]
-> Draw the failure mode before the happy path.
+- **Wrong abstraction** — forces awkward workarounds (leaky `UserDAO` that exposes SQL).
+- **Premature abstraction** — one implementation dressed as an interface "for flexibility."
+- **Abstraction inversion** — low-level details drive high-level names.
 
----
+Ask: *What decision does this abstraction let the caller defer?*
 
-## Trade-offs
+## Sources
 
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- Don’t over-design a CRUD application into Kafka+K8s on day one.
-
----
-
-## Related
-
-[[Design pattern]]
+- Gamma et al., *Design Patterns* (introduction to abstraction in OOP)
+- [Abstraction (computer science) — Wikipedia](https://en.wikipedia.org/wiki/Abstraction_(computer_science))

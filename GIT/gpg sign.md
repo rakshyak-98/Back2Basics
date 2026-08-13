@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Git attaches an OpenPGP signature to commit or tag objects. Verifiers use your **public** key (`gpg --list-keys`) to confirm the signature matches your identity. Signing requires a **private**.
+## How it works
 
 
 ```
@@ -31,7 +20,8 @@ git log --show-signature ──► gpg --verify against trusted keys
 | `gpg: signing failed: No secret key` | Key ID in git config doesn't match secret keyring |
 | `gpg: signing failed: Inappropriate ioctl` | TTY/pinentry broken over SSH |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Generate key (if none):**
 
@@ -83,7 +73,8 @@ git config --global user.signingkey ~/.ssh/id_ed25519.pub
 
 See [[gpg]] for repository key verification (nginx packages, etc.) — different use case from commit signing.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -103,6 +94,7 @@ gpg-agent --daemon                            # restart agent if stuck
 export GPG_TTY=$(tty)
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -117,12 +109,18 @@ export GPG_TTY=$(tty)
 > [!WARNING]
 > **Subkeys vs primary** — git signing uses signing subkey if present; list with `--list-secret-keys`.
 
-## When NOT to use
+
+## When not to use
 
 - **Internal-only repos with no audit requirement** — signing overhead may not pay off.
 - **Replace code review** — signature proves key holder signed, not that code is safe.
 - **Secrets in commits** — sign doesn't encrypt; use git-crypt/SOPS for confidentiality.
 
+
 ## Related
 
 [[gpg]] [[git command]] [[git hook]] [[Authentication command]]
+
+## Sources
+
+- [Wikipedia — gpg sign](https://en.wikipedia.org/wiki/gpg_sign)

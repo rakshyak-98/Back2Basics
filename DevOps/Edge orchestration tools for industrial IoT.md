@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A control plane (cloud or hub) pushes desired state to edge agents; devices run local compute (PLC gateways, vision, models) and sync when the link returns.
+## How it works
 
 ```txt
 Cloud / hub control plane
@@ -37,7 +26,8 @@ Edge site (kiosk/gateway) ── local apps ── machines/sensors
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # K3s-shaped mental loop (illustrative)
@@ -55,7 +45,8 @@ kubectl get nodes -o wide
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ kubectl get nodes -o wide
 | Update bricks site | No canary / rollback | Staged rollouts; last-good image pin |
 
 ---
+
 
 ## Gotchas
 
@@ -80,7 +72,8 @@ kubectl get nodes -o wide
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single well-connected datacenter** — normal K8s/ECS is enough.
 - **Tiny PLC ladder only** — classic OT tools, not container fleets.
@@ -88,6 +81,11 @@ kubectl get nodes -o wide
 
 ---
 
+
 ## Related
 
 [[orchestration]] [[Docker]] [[ecommerce-cicd-environments]] [[HES Architecture]]
+
+## Sources
+
+- [Wikipedia — Edge orchestration tools for industrial IoT](https://en.wikipedia.org/wiki/Edge_orchestration_tools_for_industrial_IoT)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Linux **key retention service** holds opaque blobs (keys) in **keyrings** attached to user, session, process, or thread. User-space sees them via `keyutils` (`keyctl`, `keyctl(1)`).
 
@@ -50,7 +41,8 @@ request_key / add_key / keyctl
 | **user keyring** | Per-UID | “Shared across sessions of user.” |
 | **timeout** | Key expiry | “Short-lived creds via keyctl timeout.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Package (most distros)
@@ -100,7 +92,8 @@ keyctl get_persistent 0 @u
 keyctl show $(keyctl get_persistent 0 @u)
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -116,6 +109,7 @@ dmesg | grep -i key
 journalctl -k | grep -i 'request_key\|keyctl'
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -125,12 +119,18 @@ journalctl -k | grep -i 'request_key\|keyctl'
 - **Namespaces:** PID/mount/user namespaces each affect which keyring `@s` refers to — debug from **inside** the failing context.
 - **Not SSH agent** — `ssh-add` uses agent protocol; different from kernel keyrings.
 
-## When NOT to use
+
+## When not to use
 
 - **Managing TLS cert files or GPG keys** — use [[Linux Key management]], `gpg`, `openssl`.
 - **Storing application secrets in production** — use vault/KMS; kernel keyrings are for OS/integration contracts (NFS, IMA, module sig).
 - **Daily password/keyring unlock prompts on GNOME** — that’s **GNOME Keyring** / PAM, not `keyctl` CLI.
 
+
 ## Related
 
 [[Linux Key management]] [[Linux management]] [[process]] [[file mount]]
+
+## Sources
+
+- [Wikipedia — keyctl](https://en.wikipedia.org/wiki/keyctl)

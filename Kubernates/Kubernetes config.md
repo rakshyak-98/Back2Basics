@@ -6,23 +6,13 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You are essentially reading from or writing to etcd through the kubernetes API server. — etcd — highly reliable, distributed key-value store that serves as…
+## How it works
 
 etcd -> highly reliable, distributed key-value store that serves as the central data store and brain of Kubernetes.
 - highly-available key-value database designed specifically for distributed systems. It stores all critical configuration data, metadata, and the current state of the Kubernetes cluster.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 kubectl config view
@@ -32,7 +22,8 @@ kubectl config set-context --current --namespace=team-a
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -42,6 +33,7 @@ kubectl config set-context --current --namespace=team-a
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -49,13 +41,19 @@ kubectl config set-context --current --namespace=team-a
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not commit kubeconfig with embedded credentials to git.
 
 
 ---
 
+
 ## Related
 
 [[Kubernates]]
+
+## Sources
+
+- [Wikipedia — Kubernetes config](https://en.wikipedia.org/wiki/Kubernetes_config)

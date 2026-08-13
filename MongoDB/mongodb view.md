@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Name a pipeline once; every `find` on the view re-runs it against live data — no extra storage (unless materialized).
+## How it works
 
 ```txt
 orders ──$group/$sort──► orderSummaryView (read-only)
@@ -34,7 +23,8 @@ orders ──$group/$sort──► orderSummaryView (read-only)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.createView('orderSummaryView', 'orders', [
@@ -52,7 +42,8 @@ db.orderSummaryView.find().limit(20)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ db.orderSummaryView.find().limit(20)
 | View missing | Wrong DB | `db.getCollectionNames()` |
 
 ---
+
 
 ## Gotchas
 
@@ -73,11 +65,17 @@ db.orderSummaryView.find().limit(20)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Write path** — views are read-only.
 - **Hot, simple filters** — a normal collection + index is clearer.
 
+
 ## Related
 
 [[mongosh query]] [[query/mongoDB Group query]] [[query/mongodb lookup query]]
+
+## Sources
+
+- [Wikipedia — mongodb view](https://en.wikipedia.org/wiki/mongodb_view)

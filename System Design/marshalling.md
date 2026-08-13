@@ -1,44 +1,31 @@
-[[Serialization]] [[Distributed computing]] [[API design]] [[gRPC]]
+[[Serialization]] [[Distributed computing]] [[API design]] [[gRPC]] [[race condition]]
 
-# Marshalling
+# marshalling
 
-> Marshalling — (synonymous with serialization in most teams) transforms runtime objects into bytes for network, disk, or IPC, and unmarshals back on the receiver. Boundaries: different
+> Marshalling converts runtime objects to bytes for network, disk, or inter-process communication and unmarshals them on the receiver — the explicit contract where languages, versions, and endianness meet.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Marshalling** (synonymous with **serialization** in most teams) transforms **runtime objects** into **bytes** for network, disk, or IPC, and **unmarshals** back on the receiver. Boundaries: **different languages**, **different processes**, **different versions** — all need an **explicit format contract**.
+## Boundary crossing
 
 ```txt
 Process A: object ──marshal──► bytes ──TCP/HTTP──► bytes ──unmarshal──► Process B: object
                          │
-                  JSON / Protobuf / Avro / MessagePack
+                  JSON / Protocol Buffers / Avro / MessagePack
 ```
+
+Synonymous with **serialization** in most teams — see [[Serialization]] for format comparison.
 
 | Format | Schema | Human-readable | Typical use |
 |--------|--------|----------------|-------------|
-| **JSON** | Informal / OpenAPI | Yes | Public REST [[API design]] |
-| **Protobuf** | `.proto` strict | No | gRPC internal |
-| **Avro** | ID registry | No | Kafka events |
-| **MessagePack** | Informal | No | Compact JSON-like |
+| JSON | Informal / OpenAPI | Yes | Public REST [[API design]] |
+| Protocol Buffers | `.proto` strict | No | [[gRPC]] internal services |
+| Avro | Schema registry | No | Kafka events ([[event-driven]]) |
+| MessagePack | Informal | No | Compact JSON-like payloads |
 
-**Endianness, field order, nullable fields, enum evolution** — bugs appear **only cross-process** ([[race condition]] with bytes).
+Bugs appear **only cross-process**: field order, nullable fields, enum evolution, 32-bit versus 64-bit integers in JSON.
 
----
-
-## Standard config / commands
-
-### JSON marshalling (API default)
+## JSON marshalling
 
 ```python
 import json
@@ -48,91 +35,33 @@ payload = json.dumps(asdict(user), separators=(",", ":"))
 user = json.loads(payload)
 ```
 
-```txt
-Rules: UTF-8, ISO8601 dates, explicit null vs omit policy
-Never marshal arbitrary objects — define DTO/schema
-```
+Rules: UTF-8, ISO 8601 dates, explicit null versus omit policy. Never marshal arbitrary objects — define data transfer objects.
 
-### Protobuf (versioned contract)
+## Protocol Buffers evolution
 
 ```protobuf
 message User {
   string id = 1;
   string email = 2;
-  optional string phone = 3;  // added in v2 — old clients ignore
+  optional string phone = 3;  // v2 — old clients ignore
 }
 ```
 
-```txt
-Field numbers permanent; never reuse
-Backward compatible: add optional fields only
-Breaking: rename field number, change type
-```
+Field **numbers** are permanent; never reuse. Backward compatible changes add optional fields; breaking changes need coordination.
 
-### gRPC unary call (marshal hidden)
+## Failure signatures
 
-```go
-resp, err := client.GetUser(ctx, &pb.GetUserRequest{Id: "u1"})
-// protobuf handles marshal/unmarshal
-```
+| Symptom | Direction |
+|---------|-----------|
+| Garbled text | Wrong charset — force UTF-8 |
+| Intermittent decode errors | Version skew — schema registry |
+| Money rounding errors | Float on wire — integer minor units |
+| Security issues | Deserializing untrusted types — allow-list classes |
 
-### IPC / shared nothing
+*What breaks first under load?* Large JSON payloads — prefer binary formats or reference by identifier for bulk media.
 
-```txt
-Unix socket: length-prefix + JSON/protobuf frame
-Avoid: pickle, Java native serialization across trust boundaries
-```
+## Sources
 
-### Validation at boundary
-
-```txt
-Unmarshal → validate (types, ranges) → domain logic
-Never trust unmarshaled input without validation
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Garbled strings | UTF-8 vs Latin-1 | Enforce UTF-8; Content-Type charset |
-| Works Java, fails Go | JSON field casing | Tag conventions; shared OpenAPI |
-| Old client crash on deploy | New required field | Optional fields + defaults |
-| Float rounding | JSON number precision | Use string decimal or int cents |
-| Huge payloads | Marshal entire graph | DTO projection; pagination |
-| Kafka poison message | Bad Avro schema ID | Schema registry; DLQ |
-| Endian binary bug | Raw struct pack | Use protobuf, not manual pack |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Marshal same object graph twice** — circular references blow JSON serializers.
-
-> [!WARNING]
-> **Datetime timezone naive** — always UTC ISO8601 on wire.
-
-> [!WARNING]
-> **Implicit float for money** — use integer minor units.
-
-> [!WARNING]
-> **Security: unmarshaling bombs** — cap payload size; depth limits on JSON parse.
-
-> [!WARNING]
-> **[[DRY]] generated DTOs** — hand-editing generated marshal code gets overwritten.
-
----
-
-## When NOT to use
-
-- **Same process, same language** — pass object references; no marshal.
-- **Shared memory ring buffer** — fixed binary layout OK with strict schema document.
-- **JSON for high-frequency numeric telemetry** — protobuf/MessagePack bandwidth.
-
----
-
-## Related
-
-[[Serialization]] [[Distributed computing]] [[API design]] [[event-driven]] [[race condition]] [[gRPC]]
+- Google Protocol Buffers Language Guide.
+- [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON.
+- OWASP Deserialization Cheat Sheet — untrusted input risks.

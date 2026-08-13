@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Layout** (reflow) computes where boxes go. One element's size can ripple up and down the tree — **layout is often global** within a subtree.
 
@@ -35,7 +26,8 @@ Style recalc → Layout → Paint → Composite
 
 Example: `<body>` width change reflows descendants.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Avoid layout thrashing (read/write interleave)
 
@@ -80,7 +72,8 @@ els.forEach((el, i) => { el.style.width = widths[i] + 10 + 'px'; });
 - **Performance** → **Layout** events in flame chart
 - **Rendering** tab → **Layout Shift Regions** (CLS related)
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,6 +82,7 @@ els.forEach((el, i) => { el.style.width = widths[i] + 10 + 'px'; });
 | Slow list filter | Re-layout 10k nodes | Virtual list; `key` stability |
 | CLS on font swap | Layout shift metric | `size-adjust`, reserve space |
 | Animation stutters | Animating `top/left` | Switch to `transform` |
+
 
 ## Gotchas
 
@@ -99,10 +93,16 @@ els.forEach((el, i) => { el.style.width = widths[i] + 10 + 'px'; });
 - **Subpixel rounding** — repeated layout can cause 1px jitter in responsive designs.
 - **iframe** — layout in child doesn't always isolate parent cost.
 
-## When NOT to use
+
+## When not to use
 
 - Don't `contain: strict` on everything — breaks positioning (`position: fixed` descendants).
+
 
 ## Related
 
 [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
+
+## Sources
+
+- [Wikipedia — layout](https://en.wikipedia.org/wiki/layout)

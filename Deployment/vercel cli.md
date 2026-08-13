@@ -6,17 +6,14 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). environment variables pulled from dashboard or `vercel env pull`.
+
+```
+local repo → vercel → remote build → *.vercel.app preview → --prod → custom domain
+```
+
 
 ## Quick reference
 
@@ -24,7 +21,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install and auth
 
@@ -67,21 +65,22 @@ vercel inspect <url>
 vercel logs <deployment-url>
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). environment variables pulled from dashboard or `vercel env pull`.
+## Examples
 
+```bash
+# …
 ```
-local repo → vercel → remote build → *.vercel.app preview → --prod → custom domain
-```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +91,7 @@ local repo → vercel → remote build → *.vercel.app preview → --prod → c
 | Typo `varcel dev` | — | `vercel dev` |
 | 404 on API routes | Output config | Don't `output: 'export'` if using API routes |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -101,17 +101,17 @@ local repo → vercel → remote build → *.vercel.app preview → --prod → c
 >
 > **Monorepo** — set Root Directory in project settings.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use CLI production deploy without CI checks — wire Git integration + required checks.
 - Don't commit `.vercel` with tokens — only project ids; secrets stay in dashboard.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
+
+## Sources
+
+- [Wikipedia — vercel cli](https://en.wikipedia.org/wiki/vercel_cli)

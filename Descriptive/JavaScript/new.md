@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `new Constructor(args)` is syntactic sugar for a fixed sequence — no magic keyword beyond this algorithm:
 
@@ -36,7 +27,8 @@ new User('Ada')
 
 Works on **any** function with a `prototype` object — convention marks "constructors" by naming (`PascalCase`).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Manual equivalent (understanding only)
 
@@ -76,7 +68,8 @@ class Service {
 // Service() without new → TypeError in class fields mode
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,6 +78,7 @@ class Service {
 | Constructor returns `{}` | Explicit return object | Remove return or document factory |
 | `new` on async function | Not constructable | Use factory async function |
 | Subclass forgets `new` | `Reflect.construct` edge case | Always `new Derived()` |
+
 
 ## Gotchas
 
@@ -95,11 +89,17 @@ class Service {
 - **Optional `new` on builtins:** `Symbol()` must not use `new`; `BigInt()` same.
 - **Minifiers** may break `new.target` checks if constructor inlined incorrectly — rare.
 
-## When NOT to use
+
+## When not to use
 
 - Object literals for simple data: `{ id: 1 }` not `new Object()`.
 - Factory functions when callers forget `new` often — export plain function returning object.
 
+
 ## Related
 
 [[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/execution context]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — new](https://en.wikipedia.org/wiki/new)

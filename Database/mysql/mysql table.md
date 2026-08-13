@@ -1,102 +1,32 @@
-[[mysql]] [[mysql index]] [[key Constraint]] [[mysql json]]
+[[mysql]] [[mysql columns]] [[key Constraint]] [[Alter table]] [[mysql index]]
 
 # mysql table
 
-> Create, copy, alter, and constrain tables — `LIKE` vs `AS SELECT`, JSON columns, FKs, and `ON UPDATE` timestamps.
+> InnoDB tables store rows in clustered primary-key order—DDL defines columns, constraints, and indexes that shape every [[mysql query]] plan.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A table is rows + indexes + constraints; cloning with `LIKE` keeps indexes; `AS SELECT` copies data but drops most constraints — pick deliberately.
-
-```txt
-CREATE TABLE …          ── define columns + keys
-CREATE … LIKE old       ── structure + indexes, no data
-CREATE … AS SELECT      ── data + weak structure
-ALTER TABLE …           ── add columns / constraints
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **LIKE** | Clone DDL | “Indexes come along; data does not.” |
-| **AS SELECT** | CTAS | “Fast copy; redo indexes/FKs after.” |
-| **AUTO_INCREMENT PK** | Surrogate key | “InnoDB clusters on the PK.” |
-| **ON UPDATE CURRENT_TIMESTAMP** | Auto bump column | “MySQL column attribute; Postgres needs a trigger.” |
-| **JSON column** | Document in a cell | “Validate JSON; index generated paths.” |
-
----
-
-## Standard config / commands
+## Create example
 
 ```sql
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  role VARCHAR(50) DEFAULT 'guest',
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    ON UPDATE CURRENT_TIMESTAMP
-);
-
-CREATE TABLE new_table LIKE old_table;
-INSERT INTO new_table SELECT * FROM old_table;
-
-CREATE TABLE new_table AS SELECT * FROM old_table;  -- no indexes/FKs
-
-ALTER TABLE t ADD COLUMN content JSON NULL;
-UPDATE t SET content = JSON_SET(content, '$.a', 'x') WHERE id = 1;
-
-RENAME TABLE faqs TO hotel_faqs, rooms TO hotel_rooms;
+CREATE TABLE orders (
+  id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id    BIGINT UNSIGNED NOT NULL,
+  total      DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_orders_user (user_id),
+  CONSTRAINT fk_orders_user FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Engine (InnoDB) | FKs, transactions, crash safety |
-| PK design | Clustering + secondary index payload |
-| Online DDL | Large ALTER can lock; plan windows / OSC |
+## InnoDB clustered index
 
----
+The **primary key** is the table—secondary indexes leaf nodes point to primary key values. Choose narrow, monotonic PKs (`BIGINT AUTO_INCREMENT`) for insert performance.
 
-## Triage (when things break)
+## Alter safely
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Missing indexes after copy | Used AS SELECT | `LIKE`+INSERT or recreate indexes |
-| Can’t add FK | Orphans / type mismatch | Clean data; match types |
-| ALTER locks forever | Table size / algorithm | pt-osc / instant DDL where supported |
-| JSON update noop | Wrong path / type | `JSON_SET` path; verify with `->>` |
-| renamed table breaks app | Hardcoded names | Migrate app + views together |
+See [[Alter table]] — large `ALTER` may rebuild the whole table. Use online DDL options when available.
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **`AS SELECT` is not a full clone** — triggers, FKs, and indexes usually vanish.
-
-> [!WARNING]
-> **Wide ALTER on hot tables** — can block writes; treat as an incident-class change.
-
----
-
-## When NOT to use
-
-- **Document-only workloads** — a document store may fit better than giant JSON tables.
-- **Unbounded growth without partition/archive plan** — design retention first ([[mysql data partition]]).
-
----
-
-## Related
-
-[[mysql index]] [[key Constraint]] [[mysql json]] [[mysql data partition]] [[mysql]]
+- MySQL Reference Manual — [CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html)
+- MySQL Reference Manual — [Clustered and Secondary Indexes](https://dev.mysql.com/doc/refman/en/innodb-index-types.html)

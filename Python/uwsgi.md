@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** User web server gateway interface — uWSGI acts as a bridge between your web application and the web server (like Nginx or Apache). It takes care of…
+## How it works
 
 ```bash
 uwsgi --ini uwsgi.ini
@@ -29,7 +18,8 @@ uWSGI acts as a bridge between your web application and the web server (like Ngi
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -38,7 +28,8 @@ uWSGI acts as a bridge between your web application and the web server (like Ngi
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -48,6 +39,7 @@ uWSGI acts as a bridge between your web application and the web server (like Ngi
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -55,12 +47,18 @@ uWSGI acts as a bridge between your web application and the web server (like Ngi
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Python]]
+
+## Sources
+
+- [Wikipedia — uwsgi](https://en.wikipedia.org/wiki/uwsgi)

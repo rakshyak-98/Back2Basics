@@ -1,120 +1,40 @@
-[[gdb]] [[webSocket]] [[Networking]]
+[[process]] [[Memory management]] [[commands/gdb]]
 
-# hax dump *(filename typo — see hexdump / xxd below)*
+# hax dump
 
-> Hex dumps for binary inspection — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
+> A hex dump displays raw bytes of a file or memory region — essential for inspecting magic headers, corrupted records, and protocol payloads.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-A **hex dump** shows offset, hex bytes, and often ASCII sidebar. Every protocol debug eventually reduces to "what bytes actually crossed the wire?" — TLS hides payload, but framing errors, wrong endianness, and truncated reads show up in dumps first.
-
-```
-Offset   Hex bytes                    ASCII
-0000000  48 65 6c 6c 6f              Hello
-```
-
-| Tool | Style | Best for |
-|------|-------|----------|
-| `hexdump -C` | Canonical (offset, hex, ASCII) | Default debug; compares to docs |
-| `xxd` | Same family; `xxd -r` reverse | Make binary from hex edit |
-| `od -Ax -tx1z` | POSIX | Minimal systems without hexdump |
-| Wireshark | Packet hex pane | Full capture + decode |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **hexdump / xxd** | Bytes as hex | “xxd file | head to peek magic.” |
-| **endian** | Byte order | “Multi-byte fields need endian care.” |
-| **magic numbers** | File signatures | “ELF starts 7f 45 4c 46.” |
-| **-C** | Canonical hex+ASCII | “hexdump -C for readable.” |
-| **od** | Octal dump classic | “od -An -tx1 for scripts.” |
-
-## Standard config / commands
+## Tools
 
 ```bash
-# Canonical dump — industry default
-hexdump -C file.bin | head
-hexdump -C file.bin | less
-
-# First N bytes only
-hexdump -C -n 256 file.bin
-
-# Skip offset (inspect header vs body)
-hexdump -C -s 0x10 -n 64 file.bin
-
-# xxd (vim-friendly)
+# Classic
 xxd file.bin | head
-xxd -l 256 file.bin              # length limit
-xxd -s 0x100 -l 64 file.bin      # skip + length
+hexdump -C file.bin | head
 
-# Reverse: hex → binary (patch firmware/blob)
-xxd -r patched.hex > patched.bin
+# od
+od -Ax -tx1z -N 256 file.bin
 
-# Compare two binaries quickly
-hexdump -C a.bin > /tmp/a
-hexdump -C b.bin > /tmp/b
-diff -u /tmp/a /tmp/b
-
-# Live stream (careful on pipes)
-xxd /dev/urandom | head
+# strings for embedded text
+strings -n 8 binary | head
 ```
 
-**WebSocket / network context:** browser devtools and proxies show **frame payload** as hex when UTF-8 decode fails — binary opcodes, protobuf, or partial frames. Correlate with capture tools; don't guess protocol from hex alone.
-
-**Strings first (when text embedded):**
+## Partial read
 
 ```bash
-strings file.bin | head
+dd if=file.bin bs=1 skip=512 count=64 2>/dev/null | xxd
 ```
 
-## Triage (when things break)
+## Compare binaries
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Garbage ASCII column | Binary/compressed data | Expected; look for magic bytes at offset 0 |
-| Wrong magic (`7f454c46` = ELF) | `hexdump -C -n 4` | Wrong file; truncation; swap endian |
-| Dump all zeros | Sparse hole or real empty | `ls -l`; `stat`; check if preallocated |
-| xxd -r corrupt output | Missing hex format | Input must be xxd/hexdump format |
-| TLS traffic "hex" unreadable | Encrypted | Decrypt in Wireshark with keys; hexdump ciphertext low value |
-
-**Common magic bytes:**
-
-| Hex start | Type |
-|-----------|------|
-| `89 50 4E 47` | PNG |
-| `FF D8 FF` | JPEG |
-| `50 4B 03 04` | ZIP |
-| `7F 45 4C 46` | ELF |
-| `CA FE BA BE` | Java class / Mach-O fat |
-
-## Gotchas
-
-> [!WARNING]
-> **`hexdump` huge files to terminal** — use `| less` or `-n`; dumping GB logs freezes SSH.
-
-> [!WARNING]
-> **PII/secrets in dumps** — tokens and keys appear in cleartext captures. Redact before tickets.
-
-- **`hexdump` versus `od` flags differ** — scripts: prefer `hexdump -C` on GNU, test on target OS.
-- **Line wrapping** — copy-paste hex for `xxd -r` must preserve column format.
-
-## When NOT to use
-
-- **Structured protocol decode** — use Wireshark dissectors, `protoc --decode`, language parsers.
-- **Text configuration diff** — use [[diff]] on decoded UTF-8, not hex (unless encoding hunt).
+```bash
+cmp -l a.bin b.bin | head
+diff <(xxd a.bin) <(xxd b.bin)
+```
 
 ## Related
 
-[[gdb]] [[webSocket]] [[Networking]] [[diff]]
+[[commands/diff]] · [[management/ELF (Editabl Linkable File)]] · [[commands/gdb]]
+
+## Sources
+
+- `man 1 xxd`, `man 1 hexdump`

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** inode + path + mode + owner; tools change those safely; backups need consistent views.
+## How it works
 
 ```txt
 path → dentry → inode → data blocks
@@ -36,7 +25,8 @@ chmod/chown/rm/mv operate on that graph
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ls -la
@@ -54,7 +44,8 @@ rsync -aHAX --delete src/ dst/
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ rsync -aHAX --delete src/ dst/
 | Copy slow | Many small files | tar stream; tune rsync |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ rsync -aHAX --delete src/ dst/
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Database files live** — snapshot/quiesce; don’t raw-copy.
 - **Secrets distribution** — use a secrets manager, not world-readable shares.
 
 ---
 
+
 ## Related
 
 [[Find command]] [[rsync]] [[file mount]] [[lsof]]
+
+## Sources
+
+- [Wikipedia — Linux file management](https://en.wikipedia.org/wiki/Linux_file_management)

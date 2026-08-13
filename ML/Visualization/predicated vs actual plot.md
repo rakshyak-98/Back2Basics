@@ -6,34 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Decision context]]
-- [[#Comparison matrix]]
-- [[#Selection guide]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#When NOT to use]]
-- [[#Gotchas]]
-- [[#Related]]
-
-## Decision context
-
-…
-
-## Comparison matrix
-
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
-
-## Selection guide
-
-- Choose **A** when …
-- Choose **B** when …
-
-## Mental model
+## How it works
 
 Perfect predictions lie on the diagonal **y = x**:
 
@@ -59,7 +32,8 @@ For **ranking** models, same plot compares predicted scores to graded relevance 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import matplotlib.pyplot as plt
@@ -93,7 +67,8 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,13 +80,19 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 
 ---
 
-## When NOT to use
 
-- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
-- **High-dimensional output** — per-target subplots or aggregate metrics.
-- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
+## Comparison
 
----
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+
+## How to choose
+
+- Choose **A** when …
+- Choose **B** when …
+
 
 ## Gotchas
 
@@ -123,6 +104,20 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 
 ---
 
+
+## When not to use
+
+- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
+- **High-dimensional output** — per-target subplots or aggregate metrics.
+- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
+
+---
+
+
 ## Related
 
 [[Visualization/Residual plot]] · [[regression]] · [[rank prediction]] · [[Mean Average Precision (MAP)]] · [[Visualization/Rank distribution]]
+
+## Sources
+
+- [Wikipedia — predicated vs actual plot](https://en.wikipedia.org/wiki/predicated_vs_actual_plot)

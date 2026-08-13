@@ -1,116 +1,29 @@
-[[React project configuration]] [[Optimizing performance]] [[source map]] [[SWC]] [[Deployment/vercel deployment]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React code smells]]
 
 # React build
 
-> React build — source (TSX, CSS) → bundler (Vite/webpack/esbuild) → chunks + hashed filenames → CDN
+> React build shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-```txt
-Source (TSX, CSS) → bundler (Vite/webpack/esbuild) → chunks + hashed filenames → CDN
-Dev:  ESM + HMR (fast refresh)
-Prod: minify, tree-shake, code-split, asset hash
-```
+## Recall
 
-| Tool | Typical stack |
-|------|---------------|
-| **Vite** | esbuild pre-bundle + Rollup prod ([[SWC]] optional) |
-| **Next.js** | Webpack/Turbopack + RSC pipeline |
-| **CRA (legacy)** | webpack — migrate to Vite |
-
-Build output must match **runtime environment**: `import.meta.env.VITE_*` baked at build time, not read dynamically from shell at runtime (unless SSR injects).
-
----
-
-## Standard config / commands
-
-### Vite production build
-
-```bash
-npm run build          # → dist/
-npm run preview        # local static serve of prod build
-```
-
-```typescript
-// vite.config.ts
-export default defineConfig({
-  build: {
-    sourcemap: true,           // prod debug — see [[source map]]
-    rollupOptions: {
-      output: { manualChunks: { vendor: ["react", "react-dom"] } },
-    },
-  },
-});
-```
-
-### Analyze bundle
-
-```bash
-npx vite-bundle-visualizer
-# or webpack-bundle-analyzer for Next/webpack
-```
-
-### Environment variables (Vite)
-
-```bash
-# .env.production
-VITE_API_URL=https://api.example.com
-```
-
-```typescript
-const url = import.meta.env.VITE_API_URL; // string; validate at startup
-```
-
-### Next.js
-
-```bash
-next build && next start
-# ANALYZE=true next build  (with @next/bundle-analyzer)
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `undefined` API URL in prod | Env not prefixed `VITE_` | Rename; rebuild |
-| White screen prod only | Thrown error minified away | Enable sourcemap; Sentry |
-| Huge main chunk | No route split | `React.lazy` + dynamic import |
-| Stale assets after deploy | CDN cache | Hash filenames (default Vite) |
-| Works dev, fails build | TS errors stricter | `tsc -b` in CI |
-| CORS on static host | API separate origin | Proxy in dev; CDN rules prod |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Secrets in `VITE_*`** — embedded in client bundle; never API keys server-only.
-
-> [!WARNING]
-> **Dev ≠ prod** — test `npm run build && preview` before release.
-
----
-
-## When NOT to use
-
-- **SSR/RSC application** — don't treat as pure SPA build; use framework pipeline (Next).
-- **Library package** — publish ESM/CJS via tsup/rollup, not SPA `index.html` build.
-
----
+What breaks first in production if `React build` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React project configuration]] · [[source map]] · [[SWC]] · [[Deployment/vercel deployment]] · [[Optimizing performance]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React code smells]]
+
+## Sources
+
+- [React official documentation](https://react.dev)

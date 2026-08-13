@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** moment — ("2026-03-24") // parse from string
+## How it works
 
 **Parsing**
 ```js
@@ -86,3 +75,7 @@ moment().toDate()                       // convert back to native Date
 ## Related
 
 [[npm]]
+
+## Sources
+
+- [Wikipedia — moment](https://en.wikipedia.org/wiki/moment)

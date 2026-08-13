@@ -22,22 +22,18 @@ Non-obvious things worth knowing:
   other with Obsidian `[[wikilinks]]` (and `[[target|alias]]`). The intended
   viewer is the Obsidian desktop app; any Markdown editor also works.
 - **Navigation entry points:** `README.md` (overview), `INDEX.md` (symptom→note
-  routing map), `NOTETAKING_STRATEGIES.md` (pick the note shape),
-  `NOTES_STANDARD.md` (detailed templates per strategy).
-- **Creating or updating notes:** Read `NOTETAKING_STRATEGIES.md` first to
-  pick the note shape that fits the reader's job (`operational`, `reference`,
-  `concept`, `comparison`, `runbook`, `procedure`, `hub`, `decision`). Shape
-  the note using the matching template in `NOTES_STANDARD.md` — do not add
-  strategy labels or HTML tags inside notes. Run
-  `python3 scripts/apply_note_template.py` on specific files (or `--dry-run`
-  first) to normalize section order — do not mass-rewrite the vault unless
-  explicitly requested.
+  routing map), `AGENT_NOTE_RULES.md` (how agents write notes — clarity,
+  conceptual structure, active engagement; no fixed templates).
+- **Creating or updating notes:** Read `AGENT_NOTE_RULES.md` first. Structure
+  each note by **conceptual relationships**, not predefined section templates.
+  Research authoritative sources (RFCs, official docs, university materials,
+  Wikipedia cross-checked with primaries). Do not add strategy labels or HTML
+  tags inside notes.
 - **Validating the vault:** the meaningful integrity check is whether
   `[[wikilinks]]` resolve to existing notes. A quick way to preview rendered
   notes with working wikilink navigation in a browser is to serve the vault with
   a small on-the-fly Markdown→HTML renderer (e.g. Python `markdown` +
   `http.server`) that rewrites `[[name]]` to links against a basename index.
-  Note: a portion of wikilinks are intentionally unresolved (template
-  placeholders like `[[Parent]]`, `[[Sibling]]`, `[[Tool]]`, `[[wikilinks]]`,
-  and topics that are folders rather than notes), so 100% resolution is not
+  Note: a portion of wikilinks are intentionally unresolved (folder names rather
+  than notes, and topics still being expanded), so 100% resolution is not
   expected.

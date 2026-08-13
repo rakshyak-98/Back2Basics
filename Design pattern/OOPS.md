@@ -1,110 +1,45 @@
-[[Design pattern]]
+[[Design pattern]] [[Design pattern/Abstraction]] [[System Design/SOLID]]
 
 # OOPS
 
-> OOPS — block of memory created when the constructor of a function is invoked.
+> Object-oriented programming organizes code around objects that combine state and behavior — using encapsulation, abstraction, inheritance, and polymorphism to manage change at scale.
 
----
+## Four pillars
 
-## Index
+| Pillar | Meaning | Practical signal |
+|--------|---------|------------------|
+| **Encapsulation** | Hide internal state; expose operations | `private` fields + methods |
+| **Abstraction** | Simpler surface than implementation | Interfaces, [[Design pattern/Abstraction]] |
+| **Inheritance** | Reuse via extension | Base classes (use sparingly) |
+| **Polymorphism** | One interface, many behaviors | Override, interface impl |
 
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
+## Composition over inheritance
 
-## Mental model
+Prefer embedding objects and interface implementation over deep subclass trees — aligns with [[Design pattern/Decorator]], [[Design pattern/Strategy pattern]], and **favor composition over inheritance** from GoF.
 
-**Say it in one breath:** OOPS is a design idea — I trade something off and I can name the failure mode.
+## SOLID (common OOP design rules)
 
+Linked in vault as [[System Design/SOLID]] — Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion. Patterns often implement these principles mechanically.
 
-##### Constructors
-- special type of member function.
-- initialize an object.
-- block of memory created when the constructor of a function is invoked.
-##### default constructor
-- no return type
-- no input argument.
-### UML diagram
-Unified Modeling Language
-- DIPD - **Design Implementations Process Design**
-	D - consists of classes, interfaces
-	implementations -
-	Process -
-	Design -
-- `+` public
-- `-` private
-- `#` protacted
-| ClassName | Employee |
-| ----------- | ----------- |
-| Class attribute | Name GroupId |
-| Class operations | `getAdd()`, `getSet()` |
-- visual the system
-- documentation
-1. timing
-2. relationships
-3. diagrams
-#### things
-| Structural | Behavioral | Grouping |
-| ------------- | ---------- | ---------- |
-| static part of model | Dynamic part of UML model | Grouping elements of UML model together |
-| | passing message from one class to another | gathering structure and behavioral thing |
-- class, interface
+## OOP vs other paradigms
 
+- **Procedural** — functions + data structures; fine for scripts and pipelines.
+- **Functional** — immutable data + functions; reduces shared mutable state bugs.
+- **OOP** — strong when domain entities have lifecycle and varied behavior behind stable interfaces.
 
----
+Many systems mix paradigms (Go structs + interfaces, Rust traits, TypeScript classes + functions).
 
-## Core idea
+## Patterns map to OOP problems
 
-…
+See hub [[Design pattern]] routing table — creational (who creates), structural (how parts compose), behavioral (how objects collaborate).
 
-## Variations / implementations
+## Pitfalls
 
-…
+- Anemic domain model — data classes with all logic in services.
+- God objects — one class knows every rule.
+- Inheritance for code reuse only — fragile base classes.
 
-## Standard config / commands
+## Sources
 
-```bash
-# sketch
-# actors, data stores, failure domains
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Hot key / hotspot | metrics by key | Shard or cache |
-| Cascading failure | timeouts/bulkheads | Add limits and backoff |
-| Split brain | fencing / quorum | Use consensus or single writer |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> Draw the failure mode before the happy path.
-
----
-
-## Trade-offs
-
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- Don’t over-design a CRUD application into Kafka+K8s on day one.
-
----
-
-## Related
-
-[[Design pattern]]
+- Gamma et al., *Design Patterns*
+- [Object-oriented programming — Wikipedia](https://en.wikipedia.org/wiki/Object-oriented_programming)

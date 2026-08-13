@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You annotate shapes; `tsc` (or bundler) typechecks and emits JS. Types don’t exist at runtime unless you add schemas (Zod) or emit decorators metadata.
+## How it works
 
 ```txt
 .ts ──typecheck──► errors?
@@ -34,17 +21,8 @@
 
 ---
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 npm i -D typescript
@@ -67,7 +45,20 @@ function greet(u: User) {
 
 ---
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +68,7 @@ function greet(u: User) {
 | Dual package hazard | CJS/ESM mix | Fix `module`/`exports` |
 
 ---
+
 
 ## Gotchas
 
@@ -91,7 +83,8 @@ function greet(u: User) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **10-line script** — plain JS fine.
 - **Runtime validation needs** — add Zod/io-ts; TS alone isn’t enough.
@@ -99,6 +92,11 @@ function greet(u: User) {
 
 ---
 
+
 ## Related
 
 [[tsconfig]] [[typescript types]] [[typescript error]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — typescript](https://en.wikipedia.org/wiki/typescript)

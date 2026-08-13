@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** directives — server — defines a virtual server
+## How it works
 
 server ->  defines a **virtual server**
 - group all configuration block for a domain/port.
@@ -42,7 +31,8 @@ server {
 ```
 auth_basic / auth_basic_user_file -> Enables HTTP basic authentication
 
-## Standard config / commands
+
+## Configuration and commands
 
 See [[Configuration]] for full examples. Minimal server block:
 ```nginx
@@ -59,7 +49,8 @@ server {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ server {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -77,13 +69,19 @@ server {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not put TLS certificates only in the default_server block if you serve many names.
 
 
 ---
 
+
 ## Related
 
 [[How does directive work#try_files]]
+
+## Sources
+
+- [Wikipedia — directives](https://en.wikipedia.org/wiki/directives)

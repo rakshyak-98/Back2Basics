@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Snapshot a container]]
-- [[#Run with working directory]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `docker run` = create + start from an image. Lifecycle: create → start → stop → rm. Data in the writable layer dies with `rm` unless volumes.
+## How it works
 
 ```txt
 image (immutable) → container (writable layer + namespaces)
@@ -27,7 +14,8 @@ image (immutable) → container (writable layer + namespaces)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 docker run hello-world
@@ -49,7 +37,8 @@ docker start -ai my-container
 | `--rm` | Auto-delete on exit |
 | `-e` / `--env-file` | Config |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,27 +51,6 @@ docker start -ai my-container
 
 ---
 
-## Snapshot a container
-
-```bash
-docker commit my-dev-container my-snapshot:2026-01-20
-docker commit --author "you@email.com" -m "debug tools" c123 myproject/snap:debug
-
-docker save -o backup.tar image:tag          # full image layers
-docker import container-export.tar new:flat  # flat filesystem import
-```
-
-Prefer Dockerfile rebuilds over `commit` for production.
-
-## Run with working directory
-
-```bash
-docker run -it -w /app ubuntu:24.04 bash
-```
-
-`-w` sets current working directory (created if missing).
-
----
 
 ## Gotchas
 
@@ -97,7 +65,8 @@ docker run -it -w /app ubuntu:24.04 bash
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Multi-service local stacks** — [[Docker compose]].
 - **Cluster scheduling** — Kubernetes/ECS.
@@ -105,6 +74,35 @@ docker run -it -w /app ubuntu:24.04 bash
 
 ---
 
+
+## Snapshot a container
+
+```bash
+docker commit my-dev-container my-snapshot:2026-01-20
+docker commit --author "you@email.com" -m "debug tools" c123 myproject/snap:debug
+
+docker save -o backup.tar image:tag          # full image layers
+docker import container-export.tar new:flat  # flat filesystem import
+```
+
+Prefer Dockerfile rebuilds over `commit` for production.
+
+
+## Run with working directory
+
+```bash
+docker run -it -w /app ubuntu:24.04 bash
+```
+
+`-w` sets current working directory (created if missing).
+
+---
+
+
 ## Related
 
 [[docker cli]] [[docker file]] [[Docker compose]] [[docker OCI]]
+
+## Sources
+
+- [Wikipedia — docker container](https://en.wikipedia.org/wiki/docker_container)

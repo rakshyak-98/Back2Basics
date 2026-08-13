@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Tailwind is **not** a component library. It generates atomic utility classes (`flex`, `pt-4`, `text-slate-600`) from a configuration file. At build time, it scans your source files and emits **only used** rules — keeping production CSS small.
 
@@ -31,7 +22,8 @@ Source files ──► Tailwind scanner (content globs)
 
 v4 shift: CSS-first configuration with `@import "tailwindcss"` and `@theme` blocks (versus v3 `tailwind.config.js`).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install (Vite + React example)
 
@@ -106,7 +98,8 @@ location /assets/ {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,6 +111,7 @@ location /assets/ {
 | Styles differ dev vs prod | JIT missed dynamic class string | Use full class names: `text-${color}-500` won't scan — safelist |
 | v4 migration broken | Mixed v3 `@tailwind` + v4 `@import` | Pick one version's entry pattern; read upgrade guide |
 | Prefix classes ignored | Forgot prefix in JSX | With `prefix(tw)`, use `tw:flex` not `flex` |
+
 
 ## Gotchas
 
@@ -133,12 +127,18 @@ location /assets/ {
 > [!WARNING]
 > **Specificity wars** — Tailwind utilities beat most app CSS unless you use `!important` modifier (`!flex`) or layer ordering wrong with legacy [[scss]].
 
-## When NOT to use
+
+## When not to use
 
 - **Email templates** — poor client support for utility-class HTML; use inline styles.
 - **Heavy bespoke design system with zero utility markup** — consider CSS modules or tokens-only approach.
 - **No build step allowed** — Tailwind v4 still needs compilation; raw CDN is development/prototype only.
 
+
 ## Related
 
 [[css]] [[scss]] [[Flash of Unstyled Content]] [[Animation]] [[React]]
+
+## Sources
+
+- [Wikipedia — tailwindcss](https://en.wikipedia.org/wiki/tailwindcss)

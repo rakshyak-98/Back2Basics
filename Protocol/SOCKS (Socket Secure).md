@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Unlike HTTP proxies (URL-level), SOCKS hands the client a **tunnel** after authentication. The client then speaks the target protocol raw — SSH, HTTPS, DB, anything TCP.
 
@@ -31,7 +22,8 @@ App ──SOCKS handshake──► Proxy (:1080) ──TCP connect──► targ
 
 Common uses: corporate egress (`ALL_PROXY`), [[SSH]] dynamic forward (`-D 1080`), browser `--proxy-server`, tooling (`curl --socks5-hostname`).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```shell
 # SSH local SOCKS proxy (dynamic port forward)
@@ -68,7 +60,8 @@ client pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 | Intermittent drops | Idle NAT timeout on jump path | Enable SSH `ServerAliveInterval 60` |
 | UDP apps fail | SOCKS4 or no UDP associate | SOCKS5 with UDP relay; many tools TCP-only |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -90,11 +84,17 @@ socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 - **Chaining** (SOCKS → SOCKS) multiplies failure points — document one canonical jump host.
 - **Dante / microsocks** misconfig → open relay; restrict `from:` ACLs.
 
-## When NOT to use
+
+## When not to use
 
 - Terminate TLS and inspect HTTP → HTTP CONNECT or explicit forward proxy, not raw SOCKS.
 - Permanent service mesh routing → use sidecar/iptables, not manual `-D` tunnels.
 
+
 ## Related
 
 [[SSH]] · [[TCP]] · [[webSocket]] · [[Egress traffic]]
+
+## Sources
+
+- [Wikipedia — SOCKS](https://en.wikipedia.org/wiki/SOCKS)

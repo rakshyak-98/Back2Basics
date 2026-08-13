@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```
 Dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/wasm (web)
@@ -30,7 +21,8 @@ Platform shells:
 - **iOS** — Xcode archive; provisioning profiles + application Store Connect.
 - **Web** — `flutter build web` → CanvasKit or skwasm renderer.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Day-to-day
 
@@ -116,7 +108,8 @@ cd android && ./gradlew clean && cd ..
 - uses: upload-artifact # .aab + symbols/
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -128,6 +121,7 @@ cd android && ./gradlew clean && cd ..
 | Huge APK | Single ABI fat apk | `--split-per-abi` or use AAB |
 | Web blank screen | Base href / renderer | `--base-href /app/`; check console for wasm errors |
 | `versionCode` rejected | Monotonic build number | Bump `+N` in pubspec |
+
 
 ## Gotchas
 
@@ -143,12 +137,18 @@ cd android && ./gradlew clean && cd ..
 > [!WARNING]
 > **Plugin native bumps** — after `flutter upgrade`, run pod install / gradle sync; stale pods cause link errors.
 
-## When NOT to use
+
+## When not to use
 
 - **Shipping debug builds** — larger, slower, asserts enabled.
 - **Obfuscation without symbol backup** — crash reports become useless.
 - **Manual APK for Play Store** — prefer **AAB** for dynamic delivery.
 
+
 ## Related
 
 [[flutter]] [[android]] [[dart/dart functions]] [[Release cycle]] [[Nginx]]
+
+## Sources
+
+- [Wikipedia — flutter build](https://en.wikipedia.org/wiki/flutter_build)

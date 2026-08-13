@@ -1,23 +1,12 @@
-[[kafka]] [[kafka producer and consumer]] [[Kafka broker]] [[Idempotent-key]] [[Concurrent modification]]
+[[kafka]] [[kafka producer and consumer]] [[Kafka broker]] [[Idempotent-key]] [[event-driven]] [[Concurrent modification]]
 
 # Stateless offset handling
 
-> Stateless offset handling — a consumer's offset is its cursor in a partition log. Stateless here means: no durable local DB for progress — the broker
+> Consumer offset handling tracks how far a consumer has read in a partitioned log — "stateless" means progress lives in the broker or coordinator, not in the consumer's local disk, so any group member can resume after restart or rebalance.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-A consumer's **offset** is its cursor in a partition log. **Stateless** here means: no durable local DB for progress — the broker (or coordinator) stores committed offsets in `__consumer_offsets`. On restart/rebalance, processing resumes from last commit.
+## Offsets as cursors
 
 ```txt
 Partition log:  [0][1][2][3][4][5][6]
@@ -26,122 +15,64 @@ Consumer reads 3,4,5 → process → commit 6
 Crash before commit → replay from 3 (at-least-once duplicates)
 ```
 
-| Semantics | Behavior | Cost |
-|-----------|----------|------|
-| **At-most-once** | Commit before process | May lose messages |
-| **At-least-once** | Process then commit | Duplicates on crash |
-| **Exactly-once** | Transactions + idempotent producer | Complexity, latency, limits |
+Apache Kafka stores committed offsets in the internal `__consumer_offsets` topic. On restart or consumer group rebalance, processing resumes from the last commit.
 
-**Exactly-once is not magic** — it's bounded to Kafka read-process-write within transactional boundaries; side effects to HTTP/DB still need [[Idempotent-key]].
+| Delivery semantics | Order | Risk |
+|--------------------|-------|------|
+| At-most-once | Commit before process | Message loss |
+| At-least-once | Process then commit | Duplicates on crash |
+| Exactly-once (broker transactional) | Transactional read-process-write within Kafka | Complexity; side effects outside Kafka still need idempotency |
 
----
+**Exactly-once is not magic** — HTTP calls and external databases need [[Idempotent-key]] or outbox patterns even when Kafka claims exactly-once.
 
-## Standard config / commands
-
-### Standard at-least-once consumer (Java sketch)
+## Production consumer sketch
 
 ```properties
 enable.auto.commit=false
-isolation.level=read_committed   # if producers use transactions
-max.poll.interval.ms=300000      # must finish batch before rebalance kills you
+max.poll.interval.ms=300000
+isolation.level=read_committed
 ```
 
 ```java
 while (true) {
   ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
   for (ConsumerRecord<String, String> r : records) {
-    process(r);                  // idempotent!
+    process(r);  // must be idempotent
   }
-  consumer.commitSync();         // after batch success
+  consumer.commitSync();
 }
 ```
 
-### Commit strategies
+| Commit strategy | Trade-off |
+|-----------------|-----------|
+| Auto commit | Unsafe in production — may commit before process |
+| Sync per batch | Duplicate whole batch on crash |
+| Async commit | Higher throughput; ordering versus failure timing |
+| Offset in same database transaction as side effect | Effect and offset atomic (outbox) |
 
-| Strategy | When | Risk |
-|----------|------|------|
-| **Auto commit** | Dev only | Commit before process → loss |
-| **Sync per batch** | Default prod | Duplicate whole batch on crash |
-| **Async commit** | Higher throughput | Ordering vs failure timing |
-| **Store offset in DB** | Effect + offset atomic in one TX | True EOS to external store (outbox) |
-
-### Outbox / transactional pattern
+## Outbox pattern
 
 ```txt
-BEGIN TX
+BEGIN TRANSACTION
   INSERT business_row ...
   INSERT outbox_event ...
-  UPDATE consumer_offsets SET off=...   -- same DB
 COMMIT
 -- separate publisher reads outbox → Kafka
 ```
 
-### Stateless consumer group ops
+## Rebalance and failure
 
-```shell
-# Lag — are you keeping up?
-kafka-consumer-groups.sh --bootstrap-server BROKER \
-  --describe --group my-service
+| Symptom | Direction |
+|---------|-----------|
+| Duplicate processing | Expected at-least-once — idempotent handler |
+| Stuck consumer | `max.poll.interval` exceeded — slow processing or poison message |
+| Lost messages | Commit-before-process misconfiguration |
+| Lag grows | Scale consumers within partition count limit |
 
-# Reset offset (danger — replay storm)
-kafka-consumer-groups.sh --bootstrap-server BROKER \
-  --group my-service --topic orders --reset-offsets --to-datetime 2026-07-22T00:00:00.000 \
-  --execute
+Partition count caps parallel consumers — adding instances beyond partition count does not increase throughput.
 
-# Who owns partition?
-kafka-consumer-groups.sh --describe --group my-service --members --verbose
-```
+## Sources
 
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Consumer kicked from group | `max.poll.interval` exceeded | Smaller batches; async process + pause; scale consumers |
-| Message storm duplicates | Recent deploy before commit | Idempotent handler; dedupe store |
-| Lag growing | `RECORDS-LAG-MAX`; slow process | Scale partitions/consumers; optimize handler |
-| Lost messages | auto.commit=true | Disable auto commit; commit after success |
-| Rebalance loop | Processing > session.timeout | Tune timeouts; static membership `group.instance.id` |
-| Offset reset surprise | `auto.offset.reset=latest` new group | Explicit reset policy; document consumer group naming |
-| "Exactly-once" but double DB rows | Side effect outside TX | [[Idempotent-key]] or outbox |
-
-```shell
-kafka-consumer-groups.sh --describe --group my-service | awk '$6 > 10000 {print}'
-```
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Commit then crash before process** — at-most-once gap if you reversed order wrong.
-
-> [!WARNING]
-> **Rebalance during long process** — partition reassigned while still processing → duplicate unless consumer pauses or uses sticky assignor + cooperative rebalance.
-
-> [!WARNING]
-> **New consumer group id** — starts at `earliest`/`latest` per config — replays entire topic or skips history.
-
-> [!WARNING]
-> **EOS transactions** — throughput hit; not supported all client/lang pairs equally; broker 2.5+ features.
-
-> [!WARNING]
-> **Manual offset assignment** — bypasses group coordination — you own failover logic.
-
-> [!WARNING]
-> **Stateless myth** — handler almost always writes somewhere; design idempotency anyway.
-
----
-
-## When NOT to use
-
-- **Commit-before-process** for money movement — unacceptable loss window.
-- **Offset reset in production** without replay capacity — can DDoS your own DB.
-- **Kafka transactions** to fix non-idempotent HTTP webhooks — fix the handler instead.
-
----
-
-## Related
-
-[[kafka]] [[kafka producer and consumer]] [[Kafka broker]] [[Idempotent-key]] [[Concurrent modification]] [[write-ahead logging]]
+- Apache Kafka documentation — consumer groups, offset commit, transactions.
+- Martin Kleppmann, *Designing Data-Intensive Applications* — stream processing and delivery guarantees.
+- Chris Richardson — transactional outbox pattern.

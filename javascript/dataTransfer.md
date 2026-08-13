@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** On drag (or copy), you write MIME-typed strings/files into `event.dataTransfer`; the drop target reads them. Browsers restrict reads until drop/paste for security.
+## How it works
 
 ```txt
 dragstart: setData / files
@@ -36,7 +25,8 @@ drop: getData / files
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 el.addEventListener('dragstart', (e) => {
@@ -60,7 +50,8 @@ zone.addEventListener('drop', (e) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +62,7 @@ zone.addEventListener('drop', (e) => {
 | Safari quirks | Custom types | Also set `text/plain` |
 
 ---
+
 
 ## Gotchas
 
@@ -85,7 +77,8 @@ zone.addEventListener('drop', (e) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Complex application DnD** — pointer events + state may be simpler than HTML5 DnD.
 - **Large binary pipelines** — upload APIs, not drag strings.
@@ -93,6 +86,11 @@ zone.addEventListener('drop', (e) => {
 
 ---
 
+
 ## Related
 
 [[event listener]] [[Callback]] [[mime type]]
+
+## Sources
+
+- [Wikipedia — dataTransfer](https://en.wikipedia.org/wiki/dataTransfer)

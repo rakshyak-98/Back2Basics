@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** nice/ionice hint the schedulers; cgroups/`systemd` quotas enforce; measure with `pressure` and `systemd-cgtop`.
+## How it works
 
 ```txt
 soft: nice / ionice
@@ -37,7 +26,8 @@ observe: PSI /proc/pressure + systemd-cgtop
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 systemctl set-property myapp.service MemoryMax=1G CPUQuota=100%
@@ -55,7 +45,8 @@ ionice -c 3 -p PID
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ ionice -c 3 -p PID
 | Fork bomb | TasksMax | Set TasksMax; find spawner |
 
 ---
+
 
 ## Gotchas
 
@@ -76,13 +68,19 @@ ionice -c 3 -p PID
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Latency-critical lone tenants** — over-limit can hurt; size the machine instead.
 - **Trying to “fix” leaks with nice** — won’t reclaim RSS.
 
 ---
 
+
 ## Related
 
 [[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]] [[systemd]]
+
+## Sources
+
+- [Wikipedia — Linux resource management](https://en.wikipedia.org/wiki/Linux_resource_management)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Detect capability once (feature detect / initialize), then reassign the function name to a slim version so every later call pays less.
+## How it works
 
 ```txt
 call #1: detect → redefine fn → run
@@ -32,7 +21,8 @@ call #2+: slim fn only
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 function request(url) {
@@ -52,7 +42,8 @@ function request(url) {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ function request(url) {
 | Hard to test | Hidden redefine | Inject strategy instead |
 
 ---
+
 
 ## Gotchas
 
@@ -76,7 +68,8 @@ function request(url) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Hot paths with clear branches** — ordinary `if` is fine and debuggable.
 - **React render** — never redefine during render.
@@ -84,6 +77,11 @@ function request(url) {
 
 ---
 
+
 ## Related
 
 [[IIFC]] [[polyfills]] [[promise]] [[Callback]]
+
+## Sources
+
+- [Wikipedia — self-defining functions](https://en.wikipedia.org/wiki/self-defining_functions)

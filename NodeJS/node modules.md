@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** CommonJS loads on first `require` and caches the `exports`; ESM is static/`import` with live bindings. No separate link step — resolution is at load time.
+## How it works
 
 ```txt
 app.js ──require/import──► ./lib.js (cached after first load)
@@ -31,7 +20,8 @@ app.js ──require/import──► ./lib.js (cached after first load)
 | **CJS vs ESM** | `require` vs `import` | “TLA and `__dirname` differ.” |
 | **exports** | Public surface | “Only export what callers need.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // CommonJS
@@ -51,7 +41,8 @@ export const ok = true
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ export const ok = true
 | Wrong file | Extension / exports map | Check `package.json` exports |
 
 ---
+
 
 ## Gotchas
 
@@ -72,12 +64,18 @@ export const ok = true
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Browser bundles** — bundler graph differs; don’t assume Node resolution.
 
 ---
 
+
 ## Related
 
 [[node package json]] [[npm command]] [[Runtime Errors]]
+
+## Sources
+
+- [Wikipedia — node modules](https://en.wikipedia.org/wiki/node_modules)

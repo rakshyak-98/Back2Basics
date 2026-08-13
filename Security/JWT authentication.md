@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 JWT = `header.payload.signature` (JWS) or nested JWE. Server trusts token only after **cryptographic verification** + **claim checks**. Stateless by default — revocation requires blocklist or short TTL + refresh rotation.
 
@@ -32,7 +23,8 @@ Client ── Authorization: Bearer eyJ... ──► API
 | Payload | `sub`, `exp`, `iss`, `aud`, custom claims |
 | Signature | HMAC or asymmetric over `header.payload` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Verify safely (Node — jsonwebtoken + jwks-rsa)
 
@@ -92,7 +84,8 @@ if (ttl > 0) await redis.setEx(`bl:${jti}`, ttl, '1');
 Use **`jti`** (unique token ID) for blacklist keys — not the full token string (memory heavy).
 - when user logs in and receives an access token or refresh token, multiple tokens may exist for the same user. `jti` uniquely identifies each token instance.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom                               | Check                                                      | Fix                                                                    |
 | ------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -104,6 +97,7 @@ Use **`jti`** (unique token ID) for blacklist keys — not the full token string
 | Logged-out user still works until exp | No revocation                                              | Blacklist `jti`; or short access token (5–15m) + refresh               |
 | Refresh token reuse detected          | Rotation not enforced                                      | Issue new refresh on use; invalidate family on reuse                   |
 | `aud` mismatch                        | Token for wrong client                                     | Validate `aud` matches your API identifier                             |
+
 
 ## Gotchas
 
@@ -126,12 +120,18 @@ Use **`jti`** (unique token ID) for blacklist keys — not the full token string
 3. IdP switches signing to `kid-new`.
 4. After max token TTL elapsed, remove old key from JWKS.
 
-## When NOT to use
+
+## When not to use
 
 - Session-heavy monolith with server-side session store already → JWT adds complexity without benefit.
 - Long-lived credentials in mobile apps without secure storage → use platform keystore + refresh rotation.
 - Passing JWT in URL query strings → leaks via logs and Referer.
 
+
 ## Related
 
 [[single-sign-on (SSO)]] · [[TLS (Transport Layer Security)]] · [[IDOR]] · [[KMS]]
+
+## Sources
+
+- [Wikipedia — JWT authentication](https://en.wikipedia.org/wiki/JWT_authentication)

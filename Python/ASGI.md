@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** ASGI — web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
+## How it works
 
 Asynchronous Server Gateway Interface (ASGI)
 web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
@@ -31,7 +20,8 @@ web servers to forward request to asynchronous-capable python programming langua
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -40,7 +30,8 @@ web servers to forward request to asynchronous-capable python programming langua
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,6 +41,7 @@ web servers to forward request to asynchronous-capable python programming langua
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -57,12 +49,18 @@ web servers to forward request to asynchronous-capable python programming langua
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Python]]
+
+## Sources
+
+- [Wikipedia — ASGI](https://en.wikipedia.org/wiki/ASGI)

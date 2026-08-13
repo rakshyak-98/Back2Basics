@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** In Node HTTP/Express, a stream is a chunked pipe. `.pipe(res)` (or `pipeline`) pushes file/proxy bytes to the client as they arrive so memory stays flat.
+## How it works
 
 ```txt
 Download:  fs.ReadStream ──pipe──► ServerResponse (res)
@@ -39,7 +28,8 @@ This is **HTTP byte streaming**, not WebRTC media. For P2P A/V see [[WebRTC]] / 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Streaming file download
 
@@ -123,7 +113,8 @@ For live video packaging/CDN delivery prefer [[HLS]] / [[DASH]] origins ([[fluss
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -135,6 +126,7 @@ For live video packaging/CDN delivery prefer [[HLS]] / [[DASH]] origins ([[fluss
 | Wrong Content-Type | Browser sniffs / refuses | Set type explicitly before first write |
 
 ---
+
 
 ## Gotchas
 
@@ -155,7 +147,8 @@ For live video packaging/CDN delivery prefer [[HLS]] / [[DASH]] origins ([[fluss
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Interactive A/V between browsers** — [[WebRTC]] + [[WebRTC Signaling channels]], not `res.pipe`.
 - **Multi-bitrate live OTT** — packager + CDN ([[HLS]], [[DASH]], [[flussonic]]).
@@ -163,6 +156,11 @@ For live video packaging/CDN delivery prefer [[HLS]] / [[DASH]] origins ([[fluss
 
 ---
 
+
 ## Related
 
 [[Byte stream]] [[RTMP]] [[HLS]] [[DASH]] [[flussonic]] [[WebRTC]] [[pdf-stream-viewing]]
+
+## Sources
+
+- [Wikipedia — How to attach stream to HTTP handlers](https://en.wikipedia.org/wiki/How_to_attach_stream_to_HTTP_handlers)

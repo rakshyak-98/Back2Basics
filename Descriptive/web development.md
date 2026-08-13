@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Browser pipeline for a typical page:
 
@@ -28,7 +19,8 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 
 **Main thread** owns DOM, layout, paint, and most JS. Long tasks jank UX — see [[Rendering performance/INP]].
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Script loading (`async` vs `defer`)
 
@@ -70,7 +62,8 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 
 Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on interactive flows from day one.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 | Hydration mismatch (SSR) | Server HTML ≠ client render | Fix random IDs/dates; `suppressHydrationWarning` last resort |
 | Works in Chrome, broken Safari | API gap / date parsing | Polyfill or feature detect — [[Descriptive/JavaScript/Polyfilling]] |
 | LCP slow | Hero image unoptimized | `fetchpriority="high"`, WebP/AVIF, dimensions set |
+
 
 ## Gotchas
 
@@ -90,11 +84,17 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 - **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for authentication.
 - **`100vh`** includes mobile URL bar — use `dvh` where supported.
 
-## When NOT to use
+
+## When not to use
 
 - Don't SSR every dashboard widget — SPA + client fetch is fine behind login.
 - Avoid reinventing bundler/security headers — platform defaults (Vercel, Cloudflare) first.
 
+
 ## Related
 
 [[javascript]] [[css/Animation]] [[Rendering performance/layout]] [[Rendering performance/SEO]] [[Descriptive/WCAG (Web Content Accessibility Guidelines)]]
+
+## Sources
+
+- [Wikipedia — web development](https://en.wikipedia.org/wiki/web_development)

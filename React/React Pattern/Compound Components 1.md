@@ -1,100 +1,25 @@
-[[React Pattern]] [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[React pattern categorisation]] [[Separate functional logic from persentation components]]
 
 # Compound Components 1
 
-> Parent owns shared state; children read it via context — Tabs/Cart without prop drilling.
+> Compound Components 1 shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Compound components are a mini API (`Tabs`, `Tabs.Tab`, `Tabs.Panel`) that share state through context so callers compose JSX freely.
+## Recall
 
-```txt
-<Tabs>                 ← state + Provider
-  <Tabs.List>…</Tabs.List>
-  <Tabs.Panel />       ← useContext
-</Tabs>
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Compound** | Related components, one state | “Implicit coupling via context.” |
-| **Static children** | `Tabs.Tab = …` | “Discoverable API on the parent.” |
-| **Index / value** | Which panel is active | “Controlled or uncontrolled.” |
-
-## Standard config / commands
-
-```tsx
-const TabsCtx = createContext<{ active: number; setActive: (n: number) => void } | null>(null)
-
-function Tabs({ children, defaultIndex = 0 }: { children: React.ReactNode; defaultIndex?: number }) {
-  const [active, setActive] = useState(defaultIndex)
-  return <TabsCtx.Provider value={{ active, setActive }}>{children}</TabsCtx.Provider>
-}
-
-Tabs.Tab = function Tab({ index, children }: { index: number; children: React.ReactNode }) {
-  const ctx = useContext(TabsCtx)!
-  return (
-    <button type="button" onClick={() => ctx.setActive(index)} aria-selected={ctx.active === index}>
-      {children}
-    </button>
-  )
-}
-
-Tabs.Panel = function Panel({ index, children }: { index: number; children: React.ReactNode }) {
-  const ctx = useContext(TabsCtx)!
-  return ctx.active === index ? <div>{children}</div> : null
-}
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| Context null check | Throw if used outside parent |
-| Controlled `value`/`onChange` | Forms & URL sync |
-| `index` vs `id` | Prefer stable ids in real UIs |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `useContext` null | Child outside provider | Nest under `<Tabs>` |
-| All panels show/none | Index mismatch | Align Tab/Panel indices |
-| Re-render storm | Huge context value | Split state/dispatch contexts |
-| Can’t deep-link tab | Uncontrolled only | Controlled + search params |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Children must be under the provider** — cloning/mapping outside loses context.
-
-> [!WARNING]
-> **Duplicate of [[React Pattern/Compound Components]]** — same idea; keep one canonical Tabs example in reviews.
-
----
-
-## When NOT to use
-
-- **One-off layout** — plain props are clearer.
-- **Unrelated siblings** — don’t force a compound API.
-
----
+What breaks first in production if `Compound Components 1` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React Pattern/Compound Components]] [[React Pattern/Provider pattern]] [[React Pattern/Composite pattern]] [[React Pattern/Summary pattern]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[React pattern categorisation]] [[Separate functional logic from persentation components]]

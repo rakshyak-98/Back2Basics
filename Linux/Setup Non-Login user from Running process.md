@@ -1,116 +1,43 @@
-[[Linux]] [[useradd]] [[passwd]] [[login shell]] [[process]]
+[[user management]] [[process]] [[system service unit files]]
 
 # Setup Non-Login user from Running process
 
-> Turn a long-running process’s identity into a proper system user — stable UID, nologin shell, owned files — without leaving orphan UIDs.
+> Service accounts should run daemons without login shells — create a system user, assign file ownership, and run the process under that UID via systemd.
 
----
-
-## Index
-
-- [[#Prerequisites]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Triage (when things break)]]
-- [[#Related]]
-
-## Prerequisites
-
-…
-
-## Steps
-
-1. …
-
-## Verification
+## Create system user
 
 ```bash
-# smoke test
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin myapp
+id myapp
 ```
 
-## Mental model
+`--system` allocates UID in system range; `/usr/sbin/nologin` prevents interactive login.
 
-**Say it in one breath:** note UID/files of the process → create matching system user → `chown` → restart under that user (systemd `User=`).
-
-```txt
-PID ──► uid/gid, cwd, open files
-  │
-  ├─ useradd --system --uid N --home … --shell nologin
-  ├─ chown -R user:group data/
-  └─ systemd User= / restart
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **system user** | Low UID, no login | “`--system` + `nologin`.” |
-| **UID match** | Keep numeric owner | “Avoid mass chown when possible.” |
-| **nologin** | Block interactive shell | “SSH keys alone aren’t enough if shell is nologin.” |
-| **User=** | systemd drop privilege | “Service runs as that user.” |
-| **orphan UID** | Files with deleted user | “`find -nouser` after mistakes.” |
-
----
-
-## Standard config / commands
+## From existing process
 
 ```bash
-pid=1234
-ps -o user,uid,gid,cmd -p "$pid"
-sudo ls -l /proc/$pid/cwd /proc/$pid/fd | head
+# Who runs this now?
+ps -o user=,pid,cmd -p 1234
 
-sudo useradd --system --uid 12345 --home /var/lib/myapp \
-  --shell /usr/sbin/nologin myapp
-sudo mkdir -p /var/lib/myapp
+# Files owned by wrong user
 sudo chown -R myapp:myapp /var/lib/myapp
-
-# systemd drop-in
-# [Service]
-# User=myapp
-# Group=myapp
-sudo systemctl daemon-reload
-sudo systemctl restart myapp
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Fixed UID | Match existing file owners |
-| Home path | State directory, not `/home` |
+## systemd unit
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Changing UID under a live process** is messy — stop, chown, start.
-
-> [!WARNING]
-> **Shared UIDs across hosts** — pick a reserved range and document it.
-
----
-
-## When NOT to use
-
-- **One-off root cron** — fix the job instead of inventing a user.
-- **Containers** — use image USER + K8s runAsUser, not host useradd.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Permission denied after switch | Paths still root-owned | `chown` data + logs + sockets |
-| useradd UID in use | `getent passwd` | Pick free UID or keep old |
-| Service starts as root | Unit missing User= | Drop-in + restart |
-| Can’t debug interactively | nologin | `sudo -u myapp` with explicit shell |
-
----
+```ini
+[Service]
+User=myapp
+Group=myapp
+UMask=0077
+NoNewPrivileges=yes
+```
 
 ## Related
 
-[[useradd]] [[usermod]] [[passwd]] [[system service unit files]] [[process]]
+[[user management]] · [[fresh system sudo setup]] · [[services/systemd]]
+
+## Sources
+
+- `man 8 useradd`
+- [systemd.service — User=](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)

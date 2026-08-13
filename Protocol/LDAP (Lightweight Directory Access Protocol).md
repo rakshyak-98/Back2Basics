@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Clients bind (authenticate) to a directory server (DSA), then search/modify entries addressed by DN (distinguished name) in a tree — think “phone book + authentication,” not a general SQL database.
+## How it works
 
 ```txt
 App / IdP / login shell
@@ -48,7 +37,8 @@ Directory (OpenLDAP, Active Directory, 389-ds)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Anonymous or simple bind search (lab only)
@@ -77,7 +67,8 @@ tls_reqcert demand
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,6 +80,7 @@ tls_reqcert demand
 | Intermittent AD auth | DC failover / site awareness | Point to VIP or correct site DCs |
 
 ---
+
 
 ## Gotchas
 
@@ -103,7 +95,8 @@ tls_reqcert demand
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Session store or product catalog** — use Redis/SQL.
 - **Greenfield consumer SaaS authentication** — OIDC/SAML to an IdP; hide LDAP behind it.
@@ -111,6 +104,11 @@ tls_reqcert demand
 
 ---
 
+
 ## Related
 
 [[TLS (Transport Layer Security)]] [[TCP]] [[SSH]] [[DNS]] [[Protocol]]
+
+## Sources
+
+- [Wikipedia — LDAP](https://en.wikipedia.org/wiki/LDAP)

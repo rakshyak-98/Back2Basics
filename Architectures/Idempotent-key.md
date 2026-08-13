@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Client sends a unique key per logical op; server stores key→response and replays it on retry.
+## How it works
 
 ```txt
 POST + Idempotency-Key
@@ -38,7 +27,8 @@ POST + Idempotency-Key
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```http
 POST /orders
@@ -64,7 +54,8 @@ CREATE TABLE idempotency_keys (
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +65,7 @@ CREATE TABLE idempotency_keys (
 | Key missing on mobile retry | Client regenerated UUID | Persist key until success |
 
 ---
+
 
 ## Gotchas
 
@@ -85,11 +77,17 @@ CREATE TABLE idempotency_keys (
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure reads** — no need.
 - **operations that must intentionally create many** — bulk create without keys is fine if duplicates are wanted.
 
+
 ## Related
 
 [[System Architecture]] [[feature flag]] [[Service Layer]]
+
+## Sources
+
+- [Wikipedia — Idempotent-key](https://en.wikipedia.org/wiki/Idempotent-key)

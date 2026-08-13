@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Common hooks reference]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Hooks are executable scripts in `.git/hooks/` (or managed via tools). Client hooks run on **your** machine; server-side hooks run on receive (GitHub/GitLab use their own hook systems —.
+## How it works
 
 
 ```
@@ -30,7 +18,8 @@ Exit non-zero from a hook **blocks** the operation.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Built-in sample hooks
 
@@ -102,7 +91,8 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -114,19 +104,6 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 
 ---
 
-## Common hooks reference
-
-| Hook | Trigger | Typical use |
-|------|---------|-------------|
-| `pre-commit` | Before commit recorded | Lint, format, secrets scan |
-| `commit-msg` | After message entered | Message format, ticket ID |
-| `pre-push` | Before push | Run tests, block protected branches |
-| `post-merge` | After merge | `npm install` if lockfile changed |
-| `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
-
-Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
-
----
 
 ## Gotchas
 
@@ -144,13 +121,34 @@ Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receiv
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Heavy integration tests in pre-commit** — belongs in CI; local hook should stay under ~10s.
 - **Security-only on client hooks** — attacker can bypass; enforce on server/PR checks.
 
 ---
 
+
+## Common hooks reference
+
+| Hook | Trigger | Typical use |
+|------|---------|-------------|
+| `pre-commit` | Before commit recorded | Lint, format, secrets scan |
+| `commit-msg` | After message entered | Message format, ticket ID |
+| `pre-push` | Before push | Run tests, block protected branches |
+| `post-merge` | After merge | `npm install` if lockfile changed |
+| `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
+
+Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
+
+---
+
+
 ## Related
 
 [[git command]] [[git commit]] [[git commit template]] [[gpg sign]]
+
+## Sources
+
+- [Wikipedia — git hook](https://en.wikipedia.org/wiki/git_hook)

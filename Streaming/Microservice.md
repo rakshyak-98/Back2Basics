@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Streaming stacks fail when teams draw microservices around **org charts** instead of **failure domains and bitrate paths**. Split where **scale, deploy cadence, and blast radius** differ — keep hot paths colocated when IPC cost matters.
 
@@ -43,7 +34,8 @@ Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Pla
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Boundary rules (staff checklist)
 
@@ -89,7 +81,8 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,6 +95,7 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 | One bad channel kills fleet | No bulkhead | Per-tenant quotas; isolate ingest process/containers |
 
 ---
+
 
 ## Gotchas
 
@@ -122,7 +116,8 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
 - **Split analytics before playback SLO met** — observability yes, service boundary no.
@@ -130,6 +125,11 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[ingestion]] [[transcoding]] [[ABR]] [[bitrate streaming]] [[MPEG-TS]] [[When scaling to hundreds of concurrent channels]]
+
+## Sources
+
+- [Wikipedia — Microservice](https://en.wikipedia.org/wiki/Microservice)

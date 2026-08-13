@@ -6,39 +6,12 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Why Terraform (Brikman)]]
-- [[#Building blocks (Winkler)]]
-- [[#Resource]]
-- [[#Data source (read-only)]]
-- [[#Modules (Brikman — “how to stay DRY”)]]
-- [[#Registry]]
-- [[#State (preview)]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related graph]]
-
-## Mental model
+## How it works
 
 Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the **desired end state** in HCL; Terraform figures out create / update / delete against cloud APIs through [[terraform provider]] plugins.
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ```hcl
 terraform {
@@ -65,6 +38,45 @@ terraform init && terraform plan -out=tfplan && terraform apply tfplan
 | `resource` vs `data` | Manage vs read-only lookup |
 | Module `version` | Avoid surprise upstream breaks |
 
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| No config files | Empty dir | Add `.tf`, then `terraform init` |
+| Provider not found | `required_providers` / network | Pin source; re-`init` |
+| Unexpected replace | Force-new attr changed | Plan carefully; use `lifecycle` |
+| State drift | Manual console edits | `plan` then import or adopt |
+| Module version jump | Unpinned `source` | Pin `version = "~> x.y"` |
+
+
+## Gotchas
+
+> [!WARNING]
+> **State is the source of truth for ownership** — deleting state ≠ deleting cloud resources.
+
+> [!WARNING]
+> **Data sources refresh on plan** — they can change outputs without changing infra.
+
+
+## When not to use
+
+- **Day-2 application deploys** — prefer CI + container/orchestrator, not Terraform for every image tag.
+- **One irreversible click** — sometimes the console + runbook is safer than half-baked HCL.
+
+
 ## Why Terraform (Brikman)
 
 | Approach           | Problem                                                  |
@@ -76,6 +88,7 @@ terraform init && terraform plan -out=tfplan && terraform apply tfplan
 Brikman: treat infra like software — code review, versioning, reusable modules, CI.
 
 ---
+
 
 ## Building blocks (Winkler)
 
@@ -89,6 +102,7 @@ Brikman: treat infra like software — code review, versioning, reusable modules
 | `module`                         | Reusable folder of config                           |
 
 ---
+
 
 ## Resource
 
@@ -115,6 +129,7 @@ resource "aws_instance" "web" {
 - Explicit: `depends_on = [aws_iam_role_policy.example]`
 
 ---
+
 
 ## Data source (read-only)
 
@@ -147,6 +162,7 @@ resource "aws_instance" "web" {
 
 ---
 
+
 ## Modules (Brikman — “how to stay DRY”)
 
 ```hcl
@@ -168,6 +184,7 @@ output "vpc_id" {
 
 ---
 
+
 ## Registry
 
 Public hub: `registry.terraform.io`
@@ -186,6 +203,7 @@ Always pin module `version` (Brikman).
 
 ---
 
+
 ## State (preview)
 
 Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` can compare desired versus actual.
@@ -196,28 +214,6 @@ Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` ca
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| No config files | Empty dir | Add `.tf`, then `terraform init` |
-| Provider not found | `required_providers` / network | Pin source; re-`init` |
-| Unexpected replace | Force-new attr changed | Plan carefully; use `lifecycle` |
-| State drift | Manual console edits | `plan` then import or adopt |
-| Module version jump | Unpinned `source` | Pin `version = "~> x.y"` |
-
-## Gotchas
-
-> [!WARNING]
-> **State is the source of truth for ownership** — deleting state ≠ deleting cloud resources.
-
-> [!WARNING]
-> **Data sources refresh on plan** — they can change outputs without changing infra.
-
-## When NOT to use
-
-- **Day-2 application deploys** — prefer CI + container/orchestrator, not Terraform for every image tag.
-- **One irreversible click** — sometimes the console + runbook is safer than half-baked HCL.
 
 ## Related graph
 
@@ -227,3 +223,7 @@ Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` ca
 - CLI / logging / schema → [[Terraform CLI]]
 - Variables & tfvars → [[variable file]]
 - Docker provider example → [[Terraform docker]]
+
+## Sources
+
+- [Wikipedia — terraform](https://en.wikipedia.org/wiki/terraform)

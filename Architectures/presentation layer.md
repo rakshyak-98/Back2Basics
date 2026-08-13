@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Browser, CLI, or HTTP adapters format requests/responses; [[Service Layer]] decides what is allowed.
+## How it works
 
 ```txt
 User → View / Controller / BFF → Service → Data
@@ -35,7 +24,8 @@ User → View / Controller / BFF → Service → Data
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 // controller stays dumb
@@ -54,7 +44,8 @@ app.post('/orders', async (req, res) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ app.post('/orders', async (req, res) => {
 | CORS / auth at wrong layer | Token checks only in UI | Enforce on API too |
 
 ---
+
 
 ## Gotchas
 
@@ -75,11 +67,17 @@ app.post('/orders', async (req, res) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Batch jobs / workers** — no presentation layer; call services directly.
 - **Internal scripts** — CLI that is the product may fold layers until it hurts.
 
+
 ## Related
 
 [[Service Layer]] [[frontend layered architecture]] [[Multi-tier and Layered Architecture]]
+
+## Sources
+
+- [Wikipedia — presentation layer](https://en.wikipedia.org/wiki/presentation_layer)

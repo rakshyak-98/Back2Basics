@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Interview map (words you can say)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** If **migration** means moving data from one database server or node to another while scaling, the impact is quite different for relational and NoSQL databases — SQL sharding redistributes rows that were designed together on one machine; many NoSQL systems rebalance partitions as a built-in operation.
+## How it works
 
 ### 1. Relational database — [[mysql]] / [[postgres]]
 
@@ -289,7 +277,8 @@ But it makes application and database architecture more complicated.
 | NoSQL rebalance | Partition ranges | Add nodes with less app change | Zero cost — data still physically moves |
 | Distributed SQL | Automatic range moves | SQL + distribution | Coordination latency and ops complexity |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SQL sharding migration (common phases)
 
@@ -323,7 +312,8 @@ Scaling data migration (this note): move rows across nodes while scaling
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -337,17 +327,6 @@ Scaling data migration (this note): move rows across nodes while scaling
 
 ---
 
-## Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Resharding** | Change shard map and move rows | "Dual-write, backfill, verify, cut over." |
-| **Rebalancing** | NoSQL moves partition ranges | "Built-in but still moves bytes on the wire." |
-| **Dual-write** | App writes old + new during migration | "Bridge until backfill catches up." |
-| **Replication** | Same data, more copies | "Read scale — not write scale." |
-| **Cutover** | Switch reads/writes to new topology | "Needs checksums and rollback plan." |
-
----
 
 ## Gotchas
 
@@ -368,7 +347,8 @@ Scaling data migration (this note): move rows across nodes while scaling
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Sharding migration before exhausting replicas + vertical scale** — see [[Horizontal vs Vertical Scaling]].
 - **Full resharding for a one-time archive** — time-based partition drop or cold storage may be simpler.
@@ -376,6 +356,24 @@ Scaling data migration (this note): move rows across nodes while scaling
 
 ---
 
+
+## Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Resharding** | Change shard map and move rows | "Dual-write, backfill, verify, cut over." |
+| **Rebalancing** | NoSQL moves partition ranges | "Built-in but still moves bytes on the wire." |
+| **Dual-write** | App writes old + new during migration | "Bridge until backfill catches up." |
+| **Replication** | Same data, more copies | "Read scale — not write scale." |
+| **Cutover** | Switch reads/writes to new topology | "Needs checksums and rollback plan." |
+
+---
+
+
 ## Related
 
 [[Horizontal vs Vertical Scaling]] [[database sharding]] [[database migration]] [[mysql]] [[postgres]] [[mysql data migrations]] [[ACID]] [[BASE]] [[Eventual consistency]] [[Distributed computing]]
+
+## Sources
+
+- [Wikipedia — scaling data migration](https://en.wikipedia.org/wiki/scaling_data_migration)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You send messages; the model continues; you constrain with system prompts, tools, and decoding knobs.
+## How it works
 
 ```txt
 messages[] → API → assistant tokens (+ optional tool_calls)
@@ -34,7 +23,8 @@ messages[] → API → assistant tokens (+ optional tool_calls)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 # sketch
@@ -56,7 +46,8 @@ client.chat.completions.create(
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ client.chat.completions.create(
 | Stale answers | no tools/RAG | Ground with retrieval |
 
 ---
+
 
 ## Gotchas
 
@@ -77,11 +69,17 @@ client.chat.completions.create(
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Strict deterministic logic** — write code.
 - **Tiny classify with tons of labels** — classical model may win.
 
+
 ## Related
 
 [[prompt enginerring]] [[claude ai]] [[prompt]]
+
+## Sources
+
+- [Wikipedia — GPT](https://en.wikipedia.org/wiki/GPT)

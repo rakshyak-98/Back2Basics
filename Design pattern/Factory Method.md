@@ -1,111 +1,65 @@
-[[Design pattern]] [[Design pattern/Creation pattern/Abstract Factory]] [[Design pattern/Dependency Injection]] [[System Design/SOLID]]
+[[Design pattern]] [[Design pattern/Creation pattern/Abstract Factory]] [[Design pattern/Builder]]
 
 # Factory Method
 
-> Defer instantiation to a method subclasses (or a registry) can override — caller depends on product interface, not `new Concrete` — **Dive Into Design Patterns**.
-
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Creation is not the creator's main job — the creator already has business logic. Factory Method isolates *which* concrete product appears so you can add variants without editing call sites.
-
-```
-Creator.createProduct()  ──►  Product (interface)
-        ▲                           ▲
- PlatformFactory              MetaServices / GoogleServices
- createPlatformFactory(id)    ← chooses family entry
-```
-
-| Role | Responsibility |
-|------|----------------|
-| **Product** | Interface returned to callers |
-| **Concrete product** | `MetaMarketingFactory`, … |
-| **Creator** | Declares `createProduct()`; uses product via interface |
-| **Concrete creator** | Overrides to return a specific product |
-
-In JS/TS services, a **registry function** (`createPlatformFactory(platformId)`) often replaces subclassing — same intent, less hierarchy.
+> Factory Method defines an interface for creating an object, but lets subclasses or registrars decide which concrete type to instantiate — deferring `new` to a dedicated creator.
 
 ## Core idea
 
-…
+Instead of:
 
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-interface MarketingPlatformFactory {
-  campaignService(): CampaignService;
-  insightsService(): InsightsService;
-}
-
-function createPlatformFactory(platform: string): MarketingPlatformFactory {
-  switch (platform) {
-    case 'meta':
-      return new MetaMarketingFactory(/* deps */);
-    case 'google':
-      return new GoogleMarketingFactory(/* deps */);
-    default:
-      throw new Error(`Unsupported platform: ${platform}`);
-  }
-}
-
-// call sites never `new MetaMarketingFactory`
-const factory = createPlatformFactory(req.platform);
-await factory.campaignService().launch(dto);
+```text
+if (platform === "ios") product = new IOSButton();
+else product = new AndroidButton();
 ```
 
-### vs Abstract Factory
+the client calls `dialog.createButton()` and each dialog subclass returns the right button. Creation moves behind a virtual method or function hook.
 
-| | Factory Method | Abstract Factory |
-|--|----------------|------------------|
-| Creates | One product type | Family of related products |
-| Extension | New creator / registry entry | New factory class for the family |
-| Project use | `createPlatformFactory()` | `MetaMarketingFactory` methods |
+```
+Client → Creator.createProduct()
+              ↓
+    ConcreteCreatorA → ProductA
+    ConcreteCreatorB → ProductB
+```
 
-## Triage (when things break)
+## Relationship to other creational patterns
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Call sites still `new Concrete` | Factory bypassed | Route all construction through factory |
-| Switch grows forever | Many products, one method | Split factories or use registry map |
-| Can't test without Meta | Factory returns concrete only | Inject factory or product interface |
-| Wrong platform in prod | Config / header mapping | Fail on unknown; log resolved id |
+| Pattern | What varies | Who picks the type |
+|---------|-------------|-------------------|
+| **Factory Method** | Product subclass per creator | Subclass of creator |
+| [[Design pattern/Creation pattern/Abstract Factory]] | Families of related products | Factory interface + concrete factories |
+| [[Design pattern/Builder]] | Step-by-step assembly of one complex product | Builder with fluent steps |
 
-## Gotchas
+Factory Method is the simplest "defer instantiation" pattern — one product type per creator.
 
-> [!WARNING]
-> Factory Method return type must be the **interface**. If the base declares `MetaClient`, subclasses cannot honestly return other vendors.
+## Implementation sketch (TypeScript)
 
-- Creator owning too much business + creation → split: keep factory thin, pipeline owns orchestration ([[Design pattern/Template Method]]).
-- Static factory methods are fine; "Factory" class hierarchy is optional.
+```typescript
+interface Product { render(): string }
 
-## Trade-offs
+abstract class Creator {
+  abstract create(): Product
+  run() { return this.create().render() }
+}
 
-| Gain | Cost |
-|------|------|
-| … | … |
+class ConcreteCreator extends Creator {
+  create() { return new ConcreteProduct() }
+}
+```
 
-## When NOT to use
+Registration tables (`Map<string, () => Product>`) are a functional variant without inheritance.
 
-- Single concrete type forever — `new` at composition root is clearer.
-- Building one complex object with many optional fields — use [[Design pattern/Builder]].
+## When it helps
 
-## Related
+- Framework code must stay stable while product types grow (UI widgets per platform, parsers per format).
+- You want Open/Closed: add a new creator + product without editing the client.
 
-[[Design pattern]] [[Design pattern/Creation pattern/Abstract Factory]] [[Design pattern/Builder]] [[Design pattern/Dependency Injection]] [[Design pattern/Facade]]
+## Pitfalls
+
+- Overkill when only one product type exists.
+- Deep creator hierarchies mirror product hierarchies — consider [[Design pattern/Creation pattern/Abstract Factory]] if you create **families** (button + checkbox + dialog together).
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Factory Method)
+- [Factory method pattern — Wikipedia](https://en.wikipedia.org/wiki/Factory_method_pattern)

@@ -1,141 +1,69 @@
-[[CMS]] [[Streaming]] [[System design]] [[Compliance Reporting to Broadcasters]]
+[[CMS]] [[Streaming]] [[Compliance Reporting to Broadcasters]] [[transcoding]] [[DRM]] [[System design]]
 
 # IM (Information Management) production systems
 
-> IM (Information Management) production systems — information Management (IM) in broadcast is Media Asset Management (MAM) plus workflow orchestration: log content, attach metadata/CIDs, manage versions/rights, route
+> Broadcast Information Management combines Media Asset Management with workflow orchestration — canonical masters, rights metadata, and frame-accurate lineage feeding playout and over-the-top streaming.
 
 ---
 
-## Index
+## IM versus web content management
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Information Management (IM)** in broadcast is **Media Asset Management (MAM)** plus **workflow orchestration**: log content, attach **metadata/CIDs**, manage **versions/rights**, route through **edit/approval**, and feed **playout/streaming** endpoints. Unlike a web **[[CMS]]**, IM systems handle **professional formats** (MXF, GXF), **timecode**, **frame-accurate edits**, and **rights windows**.
+[[CMS]] products optimize for web pages and marketing content. **Information Management** in broadcast handles professional formats (Material Exchange Format, General Exchange Format), **timecode**, frame-accurate edits, and **rights windows** — the system of record for what may air or stream where.
 
 ```txt
-Ingest (tape/file/live) ──► IM catalog ──► edit/approve ──► transcode ──► [[Streaming]]/playout
+Ingest (tape, file, live) → IM catalog → edit / approve → transcode → [[Streaming]] / playout
                 │                │
            metadata hub     compliance export
                 │
            Archive (cold storage + proxy)
 ```
 
-| Component | Role | Examples |
-|-----------|------|----------|
-| **MAM** | Asset storage + metadata | Dalet, Avid, CatDV |
-| **PAM** | Production editing projects | Avid, Adobe prod |
-| **Workflow engine** | State machine (review/legal) | Custom + BPMN |
-| **Proxy** | Low-res edit preview | H.264 mezzanine |
-| **Playout** | Linear channel automation | Harmonic, Pebble |
+| Component | Role | Vendor examples |
+|-----------|------|-----------------|
+| Media Asset Management | Master storage + metadata | Dalet, Avid, CatDV |
+| Production Asset Management | Editing projects | Avid, Adobe |
+| Workflow engine | Review, legal, quality control states | Custom, Business Process Model and Notation |
+| Proxy | Low-resolution edit preview | H.264 mezzanine |
+| Playout | Linear channel automation | Harmonic, Pebble |
 
-OTT stacks often **integrate** IM → export CID + mezzanine URL to product CMS — IM remains **system of record** for masters.
+Over-the-top products often **sync** approved assets to a product [[CMS]] — Information Management remains authoritative for masters and rights.
 
----
-
-## Standard config / commands
-
-### Core metadata model (broadcast)
+## Metadata model (broadcast)
 
 ```txt
-Content_ID (CID)        Licensor canonical ID — [[Compliance Reporting to Broadcasters]]
-House_ID                Internal unique
-Title / Episode / Season
+Content_ID (CID)     — licensor canonical identifier
+House_ID             — internal unique key
+Title / episode / season
 Rights: territory, window_start, window_end, exclusivity
-Technical: format, duration, timecode_start, audio_layout
-Lineage: source, version, parent_asset_id
+Technical: format, duration, timecode_start, audio layout
+Lineage: source version, parent_asset_id
 ```
 
-### Typical workflow states
+Link [[Compliance Reporting to Broadcasters]] exports to Content_ID for royalty and play logs.
+
+## Typical workflow
 
 ```txt
 REGISTERED → QC → LEGAL_CLEAR → APPROVED → PUBLISHED → ARCHIVED
-Reject loops: QC_FAIL → fix re-ingest
-Hooks: webhook to transcode farm when APPROVED
 ```
 
-### Integration to streaming pipeline
+On **APPROVED**: push mezzanine to object storage, trigger adaptive bitrate transcode ([[transcoding]]), write consumer-facing metadata, enable entitlement, register [[DRM]] policy.
 
-```txt
-IM APPROVED event:
-  1. Push mezzanine to object storage
-  2. Trigger ABR transcode ([[transcoding]])
-  3. Write CMS record (poster, synopsis, CID)
-  4. Enable entitlement in subscription service
-  5. Register DRM policy ([[DRM]])
-```
+Editors work on **proxy** files; masters stay on nearline storage — editing masters over wide-area network destroys user experience.
 
-### Proxy vs master policy
+## Operational failures
 
-```txt
-Editors work on proxy (720p H.264)
-Master: ProRes/MXF on nearline storage
-Never edit on master over WAN — local cache or proxy
-```
+| Symptom | Likely cause |
+|---------|--------------|
+| Streamable asset missing in app | Content management sync lag from Information Management webhook |
+| Wrong episode on air | Playout schedule bound to outdated version |
+| Rights violation | `window_end` passed without automated unpublish |
+| Slow editor | Master pulled over network instead of proxy |
 
-### Search & discovery
+Information Management is not the player hot path — export identifiers and URLs to low-latency services.
 
-```txt
-Index: title, CID, tags, rights_end > now()
-Faceted search for ops — "expiring rights in 30 days"
-```
+## Sources
 
-### Audit / compliance
-
-```txt
-Immutable audit: who changed rights window
-Export play logs joined on CID — see [[Compliance Reporting to Broadcasters]]
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Streamable but not in app | CMS sync lag | Replay IM→CMS webhook |
-| Wrong episode airs | Playout schedule vs IM version | Lock version on schedule bind |
-| Transcode from old master | Wrong asset linked | Version pin in workflow |
-| Rights violation | window_end passed | Automated unpublish job |
-| Proxy/master mismatch | Re-ingest incomplete | QC gate block publish |
-| Duplicate CID | Ingest without dedupe | Unique constraint on CID |
-| Slow editor UX | Master over network | Force proxy workflow |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **IM as playback database** — high-latency MAM queries don't belong in player hot path.
-
-> [!WARNING]
-> **Manual metadata entry** — typo CIDs break royalty reports; validate against licensor feed.
-
-> [!WARNING]
-> **Timecode vs stream offset** — ad insertion SCTE-35 needs frame-accurate IM markers.
-
-> [!WARNING]
-> **Archive tape recall latency** — cold storage restore hours; plan publish SLA.
-
-> [!WARNING]
-> **Parallel CMS + IM truth** — pick system of record per field; sync direction documented.
-
----
-
-## When NOT to use
-
-- **Creator UGC platform** — lightweight object storage + CMS beats Dalet-scale IM.
-- **Simple podcast host** — audio CMS sufficient.
-- **Real-time clip sharing** — IM workflow too slow; separate short-form pipeline.
-
----
-
-## Related
-
-[[CMS]] [[Streaming]] [[Compliance Reporting to Broadcasters]] [[transcoding]] [[DRM]] [[System design]]
+- EBU Core Metadata — broadcast interoperability.
+- AMWA NMOS — networked media for professional facilities.
+- SMPTE standards — timecode and material exchange formats.

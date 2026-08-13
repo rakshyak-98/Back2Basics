@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Pick a resolution; every point becomes a hex cell id; neighbors and parents/children are cheap.
+## How it works
 
 ```txt
 lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
@@ -37,7 +26,8 @@ lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import h3
@@ -54,7 +44,8 @@ parent = h3.cell_to_parent(cell, 7)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ parent = h3.cell_to_parent(cell, 7)
 | Slow polyfill | Huge polygons | Simplify geom; lower res |
 
 ---
+
 
 ## Gotchas
 
@@ -75,11 +67,17 @@ parent = h3.cell_to_parent(cell, 7)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Legal parcel boundaries** — use real GIS polygons.
 - **One-off distance between two points** — haversine is enough.
 
+
 ## Related
 
 [[Architectures]] [[System Architecture]]
+
+## Sources
+
+- [Wikipedia — H3](https://en.wikipedia.org/wiki/H3)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Sequence beats random tutorials: syntax/types → interfaces/errors → goroutines/context → net/http + DB → tests/race → system-design talk tracks. After each exercise, force a review: idioms, errors, tests.
+## How it works
 
 ```txt
 weeks 1–2  syntax, slices/maps, structs
@@ -36,7 +25,8 @@ weeks 11–12 tests, race, Docker
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # daily loop
@@ -57,7 +47,8 @@ go test -bench=. ./...
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ go test -bench=. ./...
 | JS habits in Go | Ignoring errors / classes | Re-read Effective Go |
 
 ---
+
 
 ## Gotchas
 
@@ -82,7 +74,8 @@ go test -bench=. ./...
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Only watching videos** — type code.
 - **LeetCode-only for Go jobs** — add HTTP + SQL projects.
@@ -90,6 +83,11 @@ go test -bench=. ./...
 
 ---
 
+
 ## Related
 
 [[go project]] [[go]] [[go-routines]] [[go interface]] [[Useful prompt for learning with AI chat]]
+
+## Sources
+
+- [Wikipedia — go learning](https://en.wikipedia.org/wiki/go_learning)

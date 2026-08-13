@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `start` is now; `enable` is boot; `status` + `journalctl -u` is debug; `daemon-reload` after unit edits.
+## How it works
 
 ```txt
 systemctl start|stop|restart UNIT
@@ -38,7 +27,8 @@ systemctl daemon-reload           # reread units
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 systemctl status nginx --no-pager
@@ -58,7 +48,8 @@ journalctl -u nginx -b --no-pager | tail
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ journalctl -u nginx -b --no-pager | tail
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -80,13 +72,19 @@ journalctl -u nginx -b --no-pager | tail
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Non-systemd systems** — OpenRC/sysv use other tools.
 - **Inside application containers without systemd** — use the orchestrator, not systemctl.
 
 ---
 
+
 ## Related
 
 [[systemd]] [[Services commands]] [[journalctl]] [[Service masking]] [[system service unit files]]
+
+## Sources
+
+- [Wikipedia — systemctl](https://en.wikipedia.org/wiki/systemctl)

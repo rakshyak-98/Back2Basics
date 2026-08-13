@@ -6,17 +6,20 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
+| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
+| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
+| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
+| **ps / top** | Processes | “ps aux | grep then kill.” |
+
 
 ## Quick reference
 
@@ -24,7 +27,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Navigation & paths
 
@@ -91,27 +95,22 @@ date -u +%Y-%m-%dT%H:%M:%SZ           # ISO UTC for logs/tickets
 id; groups; whoami                    # Effective user + supplementary groups
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
+## Examples
 
-### Interview map (words you can say)
+```bash
+# …
+```
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
-| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
-| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
-| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
-| **ps / top** | Processes | “ps aux | grep then kill.” |
 
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -120,6 +119,7 @@ These commands answer recurring questions: *where am I*, *what changed*, *what's
 | grep too slow / wrong hits | `--include`, `--exclude-dir` | Narrow path; use `rg` |
 | Script cd'd wrong place | `pwd -P`; `realpath` | Use absolute paths in cron/systemd |
 | find deleted too much | `-print` first | Restore from backup; add `-maxdepth` guard |
+
 
 ## Gotchas
 
@@ -132,17 +132,17 @@ These commands answer recurring questions: *where am I*, *what changed*, *what's
 - **`cd -` in scripts** — `$OLDPWD` is shell state; don't rely on it in non-interactive cron without explicit cd.
 - **`du` versus `df` mismatch** — deleted but open files (`lsof \| grep deleted`); restart process or reboot.
 
-## When NOT to use
+
+## When not to use
 
 - **Production configuration changes** — use configuration management + review, not ad-hoc one-liners from this sheet.
 - **Security audit** — need dedicated tools ([[nmap]], [[ss]], policy scanners), not find/grep alone.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[CLI]] [[grep]] [[Find command]] [[Scripting]] [[date]] [[ss]] [[journalctl]]
+
+## Sources
+
+- [Wikipedia — common commands](https://en.wikipedia.org/wiki/common_commands)

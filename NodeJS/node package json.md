@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `package.json` is npm's contract with the repository: **dependencies** (runtime), **devDependencies** (build/test), **scripts** (automation entrypoints), **engines** (supported Node/npm), and **type** (`module` versus CommonJS default).
 
@@ -29,7 +20,8 @@ package.json
 
 Lockfile (`package-lock.json` or `pnpm-lock.yaml`) is source of truth for reproducible installs — commit it.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal production manifest
 
@@ -95,7 +87,8 @@ echo "22.16.0" > .nvmrc
 | `files` | Whitelist for `npm publish` |
 | `overrides` | Force transitive dependency versions (npm 8+) |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +98,7 @@ echo "22.16.0" > .nvmrc
 | Script not found | Typo in scripts | `npm run` lists available |
 | Publish too large | Missing `files` | Add `"files": ["dist"]` |
 | Lockfile drift | Manual package.json edit | Regenerate lock with install |
+
 
 ## Gotchas
 
@@ -117,11 +111,17 @@ echo "22.16.0" > .nvmrc
 > [!WARNING]
 > **`"type":"module"` breaks require()** in `.js` files — rename CJS to `.cjs` if mixed.
 
-## When NOT to use
+
+## When not to use
 
 - **Monorepo workspace root** — use workspaces field; per-package manifests in packages/*.
 - **Application secrets** — never put secrets in package.json; use environment/secret manager.
 
+
 ## Related
 
 [[npm command]] [[nvm]] [[node command]] [[node environment configuration]] [[Release cycle]]
+
+## Sources
+
+- [Wikipedia — node package json](https://en.wikipedia.org/wiki/node_package_json)

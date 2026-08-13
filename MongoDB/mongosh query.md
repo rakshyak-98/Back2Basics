@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `find` for simple filters; `aggregate` for pipelines; always `explain` when it’s slow.
+## How it works
 
 ```txt
 filter → project → sort → limit   (+ index)
@@ -34,7 +23,8 @@ filter → project → sort → limit   (+ index)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.orders.find({ status: 'paid', total: { $gte: 100 } }, { userId: 1, total: 1 })
@@ -58,7 +48,8 @@ db.orders.find({ status: 'paid' }).explain('executionStats')
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ db.orders.find({ status: 'paid' }).explain('executionStats')
 | Wrong results | operator typo | `$eq` vs assignment mistakes |
 
 ---
+
 
 ## Gotchas
 
@@ -79,11 +71,17 @@ db.orders.find({ status: 'paid' }).explain('executionStats')
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **application production path** — driver with timeouts/pools.
 - **Giant reporting** — warehouse / secondary + aggregate carefully.
 
+
 ## Related
 
 [[mognodb indexing]] [[query/mongoDB Group query]] [[query/mongodb lookup query]]
+
+## Sources
+
+- [Wikipedia — mongosh query](https://en.wikipedia.org/wiki/mongosh_query)

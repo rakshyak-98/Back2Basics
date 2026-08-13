@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Target receives events; listeners run in registration order (capture then bubble phases). Remove with the **same** function reference.
+## How it works
 
 ```txt
 capture ↓ … target … ↑ bubble
@@ -32,7 +21,8 @@ capture ↓ … target … ↑ bubble
 | **once** | Auto-remove | “`{ once: true }`.” |
 | **passive** | Can’t preventDefault | “Scroll perf on touch.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const onClick = (e) => console.log(e.target)
@@ -50,7 +40,8 @@ el.addEventListener('touchstart', onTouch, { passive: true })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ el.addEventListener('touchstart', onTouch, { passive: true })
 | Memory leak | Never removed | Cleanup on unmount |
 
 ---
+
 
 ## Gotchas
 
@@ -71,13 +63,19 @@ el.addEventListener('touchstart', onTouch, { passive: true })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **React synthetic events** — prefer JSX `onClick` unless integrating non-React libs.
 - **High-frequency raw handlers** — throttle/raf.
 
 ---
 
+
 ## Related
 
 [[throttle]] [[Callback]] [[dataTransfer]]
+
+## Sources
+
+- [Wikipedia — event listener](https://en.wikipedia.org/wiki/event_listener)

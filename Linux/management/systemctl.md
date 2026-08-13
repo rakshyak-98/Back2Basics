@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You don’t send signals by hand; you ask systemd to change a unit’s desired state and it handles dependencies and restarts.
+## How it works
 
 ```txt
 systemctl <verb> <unit>
@@ -46,7 +35,8 @@ systemctl <verb> <unit>
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 systemctl status ssh.service
@@ -94,7 +84,8 @@ Unit search order: `/etc/systemd/system` → `/run` → `/usr/lib/systemd/system
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +96,7 @@ Unit search order: `/etc/systemd/system` → `/run` → `/usr/lib/systemd/system
 | Slow boot | `systemd-analyze blame` | Disable unused; fix slow units |
 
 ---
+
 
 ## Gotchas
 
@@ -122,7 +114,8 @@ Unit search order: `/etc/systemd/system` → `/run` → `/usr/lib/systemd/system
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Non-systemd hosts** (old SysV/OpenRC) — use `service`/`rc-service` for that platform.
 - **Inside a minimal container without systemd** — supervise with the orchestrator, not nested systemctl.
@@ -130,6 +123,11 @@ Unit search order: `/etc/systemd/system` → `/run` → `/usr/lib/systemd/system
 
 ---
 
+
 ## Related
 
 [[systemd]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]] [[Services commands]]
+
+## Sources
+
+- [Wikipedia — systemctl](https://en.wikipedia.org/wiki/systemctl)

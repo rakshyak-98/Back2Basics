@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Airflow defines **DAGs** (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The **scheduler** parses DAGs, creates **DagRuns**, queues **TaskInstances**. **Workers** (executor-dependent) execute operators.
 
@@ -37,7 +28,8 @@ Webserver UI ── reads same DB
 
 **Logical date (`execution_date`)** ≠ wall clock — it's the start of the data interval being processed. Backfill creates historical DagRuns.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```shell
 # CLI (inside scheduler/worker container or venv)
@@ -95,7 +87,8 @@ with DAG(
 | **Celery** | Mature multi-worker | Redis/Rabbit broker ops |
 | **Kubernetes** | Isolated heavy tasks | Pod spin-up latency; best for spiky CPU |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -120,6 +113,7 @@ FileSensor(filepath='/data/ready', poke_interval=60, timeout=3600)
 FileSensor(filepath='/data/ready', mode='reschedule', poke_interval=300, timeout=3600)
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -134,12 +128,18 @@ FileSensor(filepath='/data/ready', mode='reschedule', poke_interval=300, timeout
 - **Pools** limit concurrency globally — `-1` slot starves unrelated DAGs if one pool misconfigured.
 - **Local timezone in cron** — Airflow schedules UTC unless `default_timezone` set; destination surprises.
 
-## When NOT to use
+
+## When not to use
 
 - Real-time streaming ETL → Kafka/Flink; Airflow is batch/interval orchestration.
 - Simple cron on one server → systemd timer or K8s CronJob unless you need UI/dependencies.
 - Long-running always-on services → deploy as service, not `BashOperator` loop.
 
+
 ## Related
 
 [[Python]] · [[Docker compose]] · [[Jenkins]] · [[postgres]]
+
+## Sources
+
+- [Wikipedia — Airflow](https://en.wikipedia.org/wiki/Airflow)

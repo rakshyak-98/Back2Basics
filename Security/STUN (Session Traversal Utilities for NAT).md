@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Your application sends a tiny UDP request to a STUN server; the reply contains your **server-reflexive** address (public IP:port as seen outside the NAT). You share that via signaling; peers try to punch through. STUN does **not** carry media.
+## How it works
 
 ```txt
 Client (private 192.168.1.10:4000)
@@ -58,7 +47,8 @@ Client now has an srflx candidate for [[ICE (Interactive Connectivity Establishm
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const pc = new RTCPeerConnection({
@@ -90,7 +80,8 @@ turnutils_stunclient stun.l.google.com
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,6 +93,7 @@ turnutils_stunclient stun.l.google.com
 | Corporate “connecting” forever | UDP 3478 filtered | Try TURN over TCP/TLS 443 |
 
 ---
+
 
 ## Gotchas
 
@@ -119,7 +111,8 @@ turnutils_stunclient stun.l.google.com
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **You already force all media through a media server / SFU with public IPs** — path discovery is simpler; STUN optional.
 - **One-to-many OTT** — use [[HLS]] / [[DASH]]; not peer NAT punch.
@@ -127,6 +120,11 @@ turnutils_stunclient stun.l.google.com
 
 ---
 
+
 ## Related
 
 [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[NAT (Network Address Translation)]] [[NAT Traversal]] [[WebRTC]] [[WebRTC Signaling channels]] [[SDP (Session Description Protocol)]] [[P2P (Peer-to-Peer)]]
+
+## Sources
+
+- [Wikipedia — STUN](https://en.wikipedia.org/wiki/STUN)

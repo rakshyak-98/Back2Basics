@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **symbolic name** maps meaning to storage or behavior. The compiler/interpreter resolves the name to an address, register, or closure slot at compile or run time.
 
@@ -36,7 +27,8 @@ vs magic:   if (attempt > 3) …   // what is 3?
 
 Same concept across languages: Python symbols, Rust bindings, DNS hostnames as symbolic network names.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Named constants (avoid magic values)
 
@@ -77,7 +69,8 @@ const ID_BY_ROLE = Object.fromEntries(
 );
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +79,7 @@ const ID_BY_ROLE = Object.fromEntries(
 | Duplicate symbol names | Shadowing in nested scope | Rename or narrow block |
 | Export name collision | Barrel re-exports | Explicit export aliases |
 | Minified stack unreadable | Production build | Source maps; keep named fns in errors |
+
 
 ## Gotchas
 
@@ -96,11 +90,17 @@ const ID_BY_ROLE = Object.fromEntries(
 - **Dynamic keys** `obj[variable]` lose static rename support in IDEs.
 - **DNS symbolic names** cache TTL — name resolution is not the same as JS binding lifetime.
 
-## When NOT to use
+
+## When not to use
 
 - Ultra-local throwaway loop index `i` — noise if scope is 3 lines.
 - Over-abstracting every literal (`const TWO = 2`) — hurts readability.
 
+
 ## Related
 
 [[javascript]] [[Operating System/abstract storage location]] [[Design pattern/Static Members]] [[Descriptive/JavaScript/function]]
+
+## Sources
+
+- [Wikipedia — symbolic name](https://en.wikipedia.org/wiki/symbolic_name)

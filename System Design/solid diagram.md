@@ -1,84 +1,64 @@
-[[System Design]] [[SOLID]] [[GRASP]]
+[[SOLID]] [[GRASP]] [[System design]] [[API design]]
 
 # solid diagram
 
-> SOLID diagrams — UML arrows that show whether you depend on an abstraction or a concrete mess.
+> The SOLID diagram is a visual map of the five principles — how single responsibility, open/closed, Liskov substitution, interface segregation, and dependency inversion relate when drawing module boundaries.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#UML Notation summary]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Draw who knows whom. Dependency arrows should point toward stable abstractions (DIP), not from policy into MySQL drivers.
+## Structural view
 
 ```txt
-[OrderService] ………► «interface» PaymentGateway
-                              △
-                              │ realizes
-                      [StripeGateway]
+                    ┌─────────────────────────┐
+                    │   High-level policy     │
+                    │   (use cases, domain)   │
+                    └───────────┬─────────────┘
+                                │ depends on abstractions (D)
+                    ┌───────────▼─────────────┐
+                    │   Abstractions / ports  │
+                    │   (small interfaces)  │  ← Interface Segregation (I)
+                    └───────────┬─────────────┘
+                                │ implemented by
+                    ┌───────────▼─────────────┐
+                    │   Low-level details     │
+                    │   (database, HTTP, SDK) │
+                    └─────────────────────────┘
+
+Within domain layer:
+  S — one reason to change per class
+  O — extend via new types, not edits to stable code
+  L — subtypes honor parent contracts
 ```
 
----
+## How to read it in a design review
 
-## Standard config / commands
+| Principle | Question on the diagram |
+|-----------|-------------------------|
+| **S** | Does this box do one job for one actor? |
+| **O** | Can we add a new payment provider without editing order logic? |
+| **L** | Can we substitute test doubles without `instanceof`? |
+| **I** | Are interfaces minimal for each client? |
+| **D** | Do arrows point **inward** toward domain, not outward toward frameworks? |
+
+## Example: payment boundary
 
 ```txt
-# Quick sketch rules
-1. Boxes = types; stickies = modules
-2. Arrow = "knows about / compiles against"
-3. Prefer dashed dependency to interfaces
-4. Inheritance only when LSP holds
+OrderService ──► PaymentGateway (interface)
+                      ▲
+            StripeGateway    FakeGateway (tests)
 ```
 
-## Triage (when things break)
+`OrderService` depends on **PaymentGateway** (D). **StripeGateway** is one implementation (O, L). Do not force `OrderService` to implement unused methods from a fat `PaymentAndEmailAndLogging` interface (I).
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Diagram shows cycles | A→B→A | Break with interface or events |
-| Every class inherits one base | God hierarchy | Composition |
-| Concrete DB type in domain box | DIP inverted | Port/adapter |
-| Team argues arrow meaning | No legend | Stick to table above |
-| Diagram ≠ code | Drift | Generate from imports or delete diagram |
+## Relationship to [[GRASP]]
 
----
+- **Controller** often sits at the top of the diagram (use-case entry).
+- **Pure Fabrication** creates gateway classes at the bottom edge.
+- **Information Expert** keeps rules in domain nodes, not in adapters.
 
-## UML Notation summary
+The diagram is a teaching aid — production code may collapse layers in small services ([[KISS]]), but the dependency direction should still point inward.
 
-| Relationship | Arrow | SOLID angle |
-|--------------|-------|-------------|
-| **Realization** | Dashed, hollow triangle | Implements abstraction (DIP/ISP) |
-| **Generalization** | Solid, hollow triangle | Inheritance (LSP/OCP) |
-| **Dependency** | Dashed, open arrow | Usage / knowledge direction |
+## Sources
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Pretty UML ≠ design** — if code imports concrete, the diagram lied.
-
-> [!WARNING]
-> **Over-modeling** — sequence for the hot path beats 40-class wall charts.
-
----
-
-## When NOT to use
-
-- **Spike week** — whiteboard photo is enough.
-- **Non-OOP services** — dataflow / sequence diagrams fit better.
-- **Generated noise** — auto-UML of everything confuses more than helps.
-
----
-
-## Related
-
-[[SOLID]] [[GRASP]] [[DRY]]
+- Robert C. Martin, *Clean Architecture* — concentric circles and dependency rule.
+- Craig Larman — GRASP patterns alongside SOLID in object design.

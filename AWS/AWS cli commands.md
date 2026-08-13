@@ -1,115 +1,104 @@
-[[AWS]] [[AWS cli installation]] [[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]]
+[[AWS cli installation]] · [[IAM]] · [[AWS EC2]] · [[AWS ECR]] · [[Route53]]
 
 # AWS cli commands
 
-> AWS CLI — signed HTTP to AWS APIs; start with “who am I?”, then IAM/EC2 queries with `--query`.
+> The AWS CLI maps almost every AWS API to `aws <service> <operation>` — combine `--query`, `--output`, and JMESPath filters to script infrastructure without clicking the console.
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
+## Global flags
 
 ```bash
-aws configure
+aws <service> <operation> \
+  --region us-east-1 \
+  --profile production \
+  --output table \
+  --query 'Reservations[].Instances[].InstanceId'
+```
+
+| Flag | Use |
+|------|-----|
+| `--region` | Override default region |
+| `--profile` | Named credential profile |
+| `--output` | `json`, `table`, `text`, `yaml` |
+| `--query` | JMESPath filter on response |
+| `--dry-run` | Where supported, validate without applying |
+
+## Identity
+
+```bash
 aws sts get-caller-identity
-aws sts get-caller-identity --query Account --output text
-alias whoami-aws='aws sts get-caller-identity --query Arn --output text'
-
-# IAM
-aws iam get-user
-aws iam list-users --query 'Users[].UserName'
-aws iam list-access-keys
-aws iam create-access-key
-aws iam delete-access-key --access-key-id AKIA…
-aws iam list-attached-user-policies --user-name alice
-
-# EC2 / regions
-aws ec2 describe-regions --query 'Regions[].RegionName'
-aws ec2 describe-instances --filters Name=instance-state-name,Values=running
+aws iam list-users
+aws iam list-attached-role-policies --role-name AppRole
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `--profile` | Multi-account / SSO profiles |
-| `--region` | Many resources are regional |
-| `--query` | Avoid piping giant JSON to `jq` for simple fields |
-| STS session | Temp creds beat long-lived keys ([[aws STS (Security Token Service)]]) |
-
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** Every command is an API call under a principal (user/role). `sts get-caller-identity` is the stethoscope. JMESPath `--query` slices JSON.
-
-```txt
-aws <service> <operation> [--profile] [--region] [--query] [--output]
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `AccessDenied` | Identity + policy + SCP | `get-caller-identity`; fix IAM/resource policy |
-| Empty describe | Wrong region | Set `--region` / config |
-| `InvalidClientTokenId` | Bad/deleted key | Rotate key; fix profile |
-| SSO mystery failures | Token cache | `aws sso login --profile …` |
-| `--query` returns `None` | Wrong JMESPath | Test without query; fix path |
-| Pager hangs | `less` on big output | `--no-cli-pager` or `AWS_PAGER=""` |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Global vs regional services** — IAM is global; EC2 is not. Always know which.
-
-> [!WARNING]
-> **`--output text` flattens** — fine for scripts; use `json` when nesting matters.
-
-> [!WARNING]
-> **Deleting access keys** — confirm `list-access-keys` so you don’t brick automation.
-
----
-
-## When NOT to use
-
-- **Declarative infra at scale** — Terraform/CloudFormation.
-- **application runtime AWS access** — SDK + role, not shelling out to CLI.
-- **Audited break-glass only** — still log; prefer SSO short sessions.
-
----
-
-## Examples
+## EC2
 
 ```bash
-# …
+aws ec2 describe-instances --filters "Name=instance-state-name,Values=running"
+aws ec2 start-instances --instance-ids i-0abc
+aws ec2 describe-security-groups --group-ids sg-0abc
 ```
 
-## Related
+## S3
 
-[[AWS cli installation]] [[IAM]] [[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[AWS EC2]]
+```bash
+aws s3 ls s3://my-bucket/
+aws s3 cp ./local.txt s3://my-bucket/path/
+aws s3 sync ./dist s3://my-bucket/ --delete
+```
+
+## Lambda
+
+```bash
+aws lambda list-functions
+aws lambda invoke --function-name hello --payload '{}' out.json
+aws logs tail /aws/lambda/hello --follow
+```
+
+## ECR
+
+```bash
+aws ecr describe-repositories
+aws ecr get-login-password | docker login --username AWS --password-stdin <account>.dkr.ecr.<region>.amazonaws.com
+```
+
+## Route 53
+
+```bash
+aws route53 list-hosted-zones
+aws route53 list-resource-record-sets --hosted-zone-id Z1234567890ABC
+```
+
+## CloudFormation / IaC adjacency
+
+```bash
+aws cloudformation deploy --template-file template.yaml --stack-name my-stack --capabilities CAPABILITY_IAM
+```
+
+Many teams prefer Terraform; CLI remains essential for ad hoc operations and CI scripts.
+
+## Pagination
+
+Large lists auto-paginate with `--no-paginate` to disable, or use:
+
+```bash
+aws ec2 describe-instances --max-items 10 --starting-token <token>
+```
+
+## Help discovery
+
+```bash
+aws ec2 help
+aws ec2 run-instances help
+```
+
+## Recall
+
+- How do you filter `describe-instances` to running instances in one AZ?
+- What command confirms which account your credentials belong to?
+
+## Sources
+
+- [AWS CLI Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html)
+- [Using the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)

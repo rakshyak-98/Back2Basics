@@ -1,93 +1,25 @@
-[[React Pattern]] [[Hooks/react useEffect]] [[react-query]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Data Fetching HOC component]] [[React pattern categorisation]] [[Component Presentational Pattern]]
 
 # data fetching component
 
-> Ways a component loads remote data — classic `useEffect`, Suspense `use()`, or a cache library.
+> data fetching component shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Client fetch either owns loading state yourself (`useEffect`) or suspends until a promise resolves (`use` + Suspense). Production apps usually outsource cache to React Query / RTK Query.
+## Recall
 
-```txt
-useEffect: mount → fetch → setState → render
-use()+Suspense: render → throw promise → fallback → resolve → render
-library: hook → cache key → dedupe / retry / stale
-```
-
-### Interview map (words you can say)
-
-| Approach | Plain meaning | Say in interview |
-|----------|---------------|------------------|
-| **useEffect fetch** | Manual loading/error | “Fine for demos; races need abort.” |
-| **use() + Suspense** | Read promise in render | “Needs cache so promise identity is stable.” |
-| **react-query / RTKQ** | Cached keyed requests | “Deduping and invalidation included.” |
-
-## Standard config / commands
-
-```tsx
-// Classic
-useEffect(() => {
-  const c = new AbortController()
-  fetch('/api/user', { signal: c.signal })
-    .then((r) => r.json())
-    .then(setUser)
-  return () => c.abort()
-}, [])
-
-// Suspense (promise must be cached — don’t create inline every render)
-function UserProfile({ userPromise }: { userPromise: Promise<User> }) {
-  const user = use(userPromise)
-  return <div>{user.name}</div>
-}
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| Abort | Prevents stale setState |
-| Stable promise | `use()` without cache refetches forever |
-| Cache key | Library dedupe |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Infinite Suspense loop | New promise each render | Module/cache the promise |
-| Race on param change | No abort | AbortController / query key |
-| Double fetch Strict Mode | Dev double mount | Idempotent + abort |
-| No shared cache | Hand fetch in 5 trees | [[react-query]] |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **`use(fetch())` inline is wrong** — fetch must be memoized/cached by key.
-
-> [!WARNING]
-> **Suspense doesn’t replace error UI** — still need Error Boundaries.
-
----
-
-## When NOT to use
-
-- **Mutations / POST** — event handlers, not mount effects.
-- **SSR-critical data** — load on the server / RSC when possible.
-
----
+What breaks first in production if `data fetching component` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Hooks/react useEffect]] [[Data Fetching HOC component]] [[react-query]] [[Redux/Redux createApi]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Data Fetching HOC component]] [[React pattern categorisation]] [[Component Presentational Pattern]]

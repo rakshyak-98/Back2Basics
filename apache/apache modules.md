@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in configuration. Only load what you need: fewer modules = smaller attack surface and memory.
 
@@ -25,7 +16,8 @@ httpd binary
   └─ LoadModule mpm_event_module modules/mod_mpm_event.so
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### List compiled modules
 
@@ -60,7 +52,8 @@ sudo systemctl reload apache2
 LoadModule rewrite_module modules/mod_rewrite.so
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +62,7 @@ LoadModule rewrite_module modules/mod_rewrite.so
 | PHP works, static 403 | Directory permissions | `Require all granted` + filesystem perms |
 | SSL handshake fail | mod_ssl + cert paths | `SSLEngine on`; cert file readable |
 | Proxy 502 | mod_proxy enabled | `a2enmod proxy proxy_http`; backend up |
+
 
 ## Gotchas
 
@@ -79,11 +73,17 @@ LoadModule rewrite_module modules/mod_rewrite.so
 >
 > **Distro splits packages** — `libapache2-mod-*` separate from core.
 
-## When NOT to use
+
+## When not to use
 
 - Don't enable `mod_php` on new stacks — use [[PHP-FPM]] + proxy_fcgi or Nginx.
 - Don't load debug modules (`mod_info`, `mod_status`) on public-facing servers without IP restrict.
 
+
 ## Related
 
 [[php error]] [[PHP-FPM]] [[Nginx/Configuration]] [[Security/TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — apache modules](https://en.wikipedia.org/wiki/apache_modules)

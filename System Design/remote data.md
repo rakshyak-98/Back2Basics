@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Treat remote data as eventually present: loading, error, stale, and fresh are first-class states — not just “null versus object.”
+## How it works
 
 ```txt
 UI local cache  ←get/put→  API  ←→  DB
@@ -33,7 +22,8 @@ UI local cache  ←get/put→  API  ←→  DB
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```http
 GET /items/1
@@ -50,7 +40,8 @@ type Remote<T> =
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ type Remote<T> =
 | Wrong tenant data | Cache key | Include tenant in key |
 
 ---
+
 
 ## Gotchas
 
@@ -75,7 +67,8 @@ type Remote<T> =
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Fully local apps** — embedded DB.
 - **Secrets in client-visible remote configs** — server-only.
@@ -83,6 +76,11 @@ type Remote<T> =
 
 ---
 
+
 ## Related
 
 [[Data fetching Frontend]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]]
+
+## Sources
+
+- [Wikipedia — remote data](https://en.wikipedia.org/wiki/remote_data)

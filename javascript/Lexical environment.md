@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Each scope (function, block, module) has a **Lexical Environment**:
 
@@ -46,7 +37,8 @@ function outer() {
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Block vs function scope
 
@@ -82,7 +74,8 @@ Debug scope in DevTools **Scope** panel during breakpoint — practical view of 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ Debug scope in DevTools **Scope** panel during breakpoint — practical view of 
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -104,13 +98,19 @@ Debug scope in DevTools **Scope** panel during breakpoint — practical view of 
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Explaining to juniors** — start with "scope chain" intuition; specification terms second.
 - **Performance micro-hacks** — engines optimize closures; don't flatten scopes manually without profiling.
 
 ---
 
+
 ## Related
 
 [[variable]] · [[hoisting]] · [[Descriptive/JavaScript/execution context]] · [[javascript engine]] · [[referential equality]]
+
+## Sources
+
+- [Wikipedia — Lexical environment](https://en.wikipedia.org/wiki/Lexical_environment)

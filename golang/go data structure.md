@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Slice header = pointer+len+cap into an array. Append may reallocate. Maps are reference types; never assume range order. Structs group fields; copy is shallow.
+## How it works
 
 ```txt
 slice:  ptr ──► [........] array
@@ -34,7 +23,8 @@ slice:  ptr ──► [........] array
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 s := make([]int, 0, 64)
@@ -58,7 +48,8 @@ type User struct {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ type User struct {
 | JSON empty vs null | Pointer fields | Use pointers / omitempty care |
 
 ---
+
 
 ## Gotchas
 
@@ -83,7 +75,8 @@ type User struct {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Map as ordered list** — keep a slice of keys.
 - **Giant arrays on stack** — heap/`make`.
@@ -91,6 +84,11 @@ type User struct {
 
 ---
 
+
 ## Related
 
 [[go features]] [[Unbuffered channel]] [[array]] [[Sorting algorithm]]
+
+## Sources
+
+- [Wikipedia — go data structure](https://en.wikipedia.org/wiki/go_data_structure)

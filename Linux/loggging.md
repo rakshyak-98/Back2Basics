@@ -1,139 +1,58 @@
-[[journalctl]] [[systemd]] [[Services commands]] [[etc files]]
+[[journalctl]] [[services/systemd]] [[etc files]]
 
-# Logging (journal & syslog)
+# loggging
 
-> Logging (journal & syslog) — applications log to stdout/stderr (captured by journald for systemd units), syslog (/dev/log socket), or directly to files (/var/log/app/). journald stores binary
+> Linux logging centralizes kernel and service messages in the journal and traditional text files under `/var/log` — know both paths when triaging incidents.
 
----
+Modern **systemd** hosts use **journald** (`journalctl`) as the primary store; legacy apps still append to `/var/log/*.log`. **rsyslog** / **syslog-ng** may forward to remote collectors.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Applications log to **stdout/stderr** (captured by journald for systemd units), **syslog** (`/dev/log` socket), or directly to files (`/var/log/app/`). journald stores binary journals under `/var/log/journal/` (persistent) or `/run/log/journal/` (volatile). Priority follows syslog severity: emerg → alert → crit → error → warning → notice → information → debug.
-
-```
-app ──stdout──► systemd ──► journald ──► journalctl
-app ──syslog──► rsyslog/syslog-ng ──► /var/log/*.log
-kernel ──► journald (-k) / dmesg
-```
-
-| Source | Tool | Best for |
-|--------|------|----------|
-| systemd units | [[journalctl]] | Services, boots, priorities |
-| Plain files | `less`, [[grep]] | Legacy apps, nginx access.log |
-| Kernel | `journalctl -k`, `dmesg` | OOM, driver, hardware |
-| Live follow | `journalctl -f` | Deploy watch, incident stream |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **syslog / journal** | System log pipelines | “Modern = journald; rsyslog may forward.” |
-| **/var/log** | Text logs | “App logs often still here.” |
-| **logrotate** | Rotate/compress | “Without rotate, disks fill.” |
-| **facility/severity** | syslog classes | “auth.err vs local0.info.” |
-| **stdout in containers** | 12-factor logs | “Don’t write only to files in k8s.” |
-
-## Standard config / commands
-
-**journalctl — primary interface (see [[journalctl]] for full playbook):**
+## journald (primary on systemd)
 
 ```bash
-# Service logs since boot
-journalctl -u nginx.service -b --no-pager
+# Boot messages
+journalctl -b
 
-# Follow live
-journalctl -u myapp.service -f
+# Follow unit
+journalctl -u nginx -f
 
-# Time window
-journalctl -u myapp --since "1 hour ago"
-journalctl --since "2024-03-01" --until "2024-03-18"
-
-# Errors only (err and above)
-journalctl -p err -b
-journalctl -u sshd -p err..crit
-
-# Previous boot (crash post-mortem)
-journalctl -b -1
-journalctl --list-boots
+# Since time window
+journalctl --since "1 hour ago" -p err
 
 # Kernel ring
 journalctl -k
-journalctl -k -p err
-
-# JSON for scripts
-journalctl -u myapp -o json --no-pager | jq .
+dmesg -T
 ```
 
-**Disk usage & retention:**
+## Classic log files
+
+| Path | Typical content |
+|------|-----------------|
+| `/var/log/syslog` | General (Debian) |
+| `/var/log/messages` | General (RHEL) |
+| `/var/log/auth.log` | SSH, sudo (Debian) |
+| `/var/log/secure` | Auth (RHEL) |
+| `/var/log/kern.log` | Kernel |
 
 ```bash
-journalctl --disk-usage
-sudo journalctl --vacuum-size=500M
-sudo journalctl --vacuum-time=1week
-# /etc/systemd/journald.conf → SystemMaxUse=
+sudo tail -F /var/log/syslog
+grep -i error /var/log/syslog | tail
 ```
 
-**Classic file logs:**
+## Persistence
 
-```bash
-sudo tail -f /var/log/syslog              # Debian rsyslog aggregate
-sudo tail -f /var/log/messages            # RHEL
-sudo less /var/log/auth.log               # SSH/auth (Debian)
-grep -i error /var/log/nginx/error.log
+Journal may be volatile (`/run/log/journal`) or persistent (`/var/log/journal`). Check `/etc/systemd/journald.conf`:
+
+```ini
+[Journal]
+Storage=persistent
+SystemMaxUse=1G
 ```
-
-**Persistent journal (if missing after reboot):**
-
-```bash
-# /etc/systemd/journald.conf
-# [Journal]
-# Storage=persistent
-sudo mkdir -p /var/log/journal
-sudo systemd-tmpfiles --create --prefix /var/log/journal
-sudo systemctl restart systemd-journald
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| No logs for service | Not systemd-managed | Find file path in unit or app config; `lsof \| grep log` |
-| Empty after reboot | Volatile journal | Enable `Storage=persistent` |
-| Disk full | journal size | `journalctl --vacuum-size`; tune journald.conf |
-| Logs stop mid-incident | Rate limit | journald `RateLimitInterval`; app crashed — check `-b -1` |
-| Timestamps wrong | RTC/timezone | `timedatectl`; NTP sync |
-| `permission denied` | Non-root reading restricted unit | `sudo journalctl` or add user to `systemd-journal` group |
-| Duplicate lines | app + rsyslog both file and journal | Normalize logging driver |
-
-## Gotchas
-
-> [!WARNING]
-> **Not everything is in journald** — docker default json-file, cron mail to root, custom `/var/log` paths. Know your app's sink.
-
-> [!WARNING]
-> **`journalctl --vacuum-time=1s` nukes almost everything** — use size/time vacuum deliberately in prod.
-
-> [!WARNING]
-> **UTC vs local** — journalctl displays local by default; correlate with UTC in multi-region incidents (`--utc`).
-
-> [!WARNING]
-> **High-volume debug in prod** — filling disk faster than vacuum; revert log level after triage.
-
-## When NOT to use
-
-- **Long-term retention / compliance** → central SIEM (Loki, ELK, CloudWatch), not single-host journal forever.
-- **Metrics & traces** → Prometheus/OpenTelemetry — logs are one pillar.
-- **Structured query at scale** → export JSON; don't grep huge journals repeatedly.
 
 ## Related
 
-[[journalctl]] [[systemd]] [[Services commands]] [[grep]] [[etc files]] [[OOM (Linux Out Of Memory)]]
+[[journalctl]] · [[grep]] · [[etc files]]
+
+## Sources
+
+- [journald.conf(5)](https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html)
+- `man 1 journalctl`

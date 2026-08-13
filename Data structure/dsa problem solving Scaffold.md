@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Restate → examples → brute force → improve with a pattern → complexity → code edge cases.
+## How it works
 
 ```txt
 1 clarify I/O  2 examples  3 brute  4 pattern  5 code  6 test
@@ -34,7 +23,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 Ask: sorted? duplicates? in-place? mutable?
@@ -50,7 +40,8 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 | Can’t explain | no invariant | State loop promise |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **production bugfix with known root cause** — scaffold is for unknown problems.
 - **Pure systems design** — different checklist.
 
+
 ## Related
 
 [[dsa intuition]] [[algo/Two pointer]] [[sliding window]] [[DSA algorithms]]
+
+## Sources
+
+- [Wikipedia — dsa problem solving Scaffold](https://en.wikipedia.org/wiki/dsa_problem_solving_Scaffold)

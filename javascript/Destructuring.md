@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Pattern on the left mirrors structure on the right. Nested patterns dig deeper; rename with `:` ; collect leftovers with `...rest`.
+## How it works
 
 ```txt
 const { a: x = 1, ...rest } = obj
@@ -32,7 +21,8 @@ const [first, , third] = arr
 | **default** | `= value` | “When nullish/undefined (objects: undefined).” |
 | **rest** | `...r` | “Remaining props/items.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 function f({ id, name = 'anon' } = {}) { /* … */ }
@@ -48,7 +38,8 @@ const [head, ...tail] = list
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@ const [head, ...tail] = list
 | Confusion with TS types | `: Type` vs rename | Careful colon meaning |
 
 ---
+
 
 ## Gotchas
 
@@ -69,13 +61,19 @@ const [head, ...tail] = list
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Deep optional trees** — readability dies; intermediate variables help.
 - **Huge objects once** — sometimes explicit access is clearer.
 
 ---
 
+
 ## Related
 
 [[promise]] [[prototype]]
+
+## Sources
+
+- [Wikipedia — Destructuring](https://en.wikipedia.org/wiki/Destructuring)

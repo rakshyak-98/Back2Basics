@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Each node holds **value** + **next** pointer. Head is entry; tail optional for O(1) append with doubly-linked + tail reference. Singly-linked: one direction. Doubly-linked: `prev` enables backward walk and O(1) delete given node reference. No random access — index i requires i steps from head.
 
@@ -24,7 +15,8 @@ head → [1|•]→[2|•]→[3|null]
        doubly: [1|•↔•]⇄[2|•↔•]⇄[3|null←•]
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Singly-linked (JS)
 
@@ -67,7 +59,8 @@ while (fast?.next) {
 // slow at middle; cycle detection if fast meets slow
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +69,7 @@ while (fast?.next) {
 | Off-by-one tail | Empty list | Dummy head; check `head === null` |
 | Memory leak (C/C++) | Free on delete | `free(node)` when removing |
 | Reverse bugs | 3-pointer walk | `prev, cur, next` pattern |
+
 
 ## Gotchas
 
@@ -86,11 +80,17 @@ while (fast?.next) {
 >
 > **Interview "reverse in k-group"** — pointer discipline; draw diagram.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 - Don't choose LL for frequent binary search — array + BS instead.
 
+
 ## Related
 
 [[Data structure/algo/binary search]] [[Data structure/dsa genera formula]] [[Operating System/Stack Frame]]
+
+## Sources
+
+- [Wikipedia — linked list](https://en.wikipedia.org/wiki/linked_list)

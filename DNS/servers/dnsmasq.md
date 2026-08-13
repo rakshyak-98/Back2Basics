@@ -1,117 +1,65 @@
-[[DNS]] [[DNS server]] [[TFTP]] [[Unbound]] [[CoreDNS]] [[BIND]]
+[[DNS server]] · [[Unbound]] · [[mDNS]] · [[TFTP]]
 
 # dnsmasq
 
-> dnsmasq — small DNS forwarder/cache plus DHCP (and optional TFTP) — the usual brain of home routers and tiny lab networks.
+> dnsmasq provides DNS caching, conditional forwarding, and DHCP on small networks — one lightweight process for home routers, libvirt bridges, and Docker's embedded DNS forwarder patterns.
 
 ---
 
-## Index
+## Features
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+- **DNS forwarder** — caches upstream answers from ISP or [[public resolver]]
+- **Local names** — `/etc/hosts` and `address=/domain/ip` overrides
+- **DHCP** — hands out IPs and publishes local names
+- **TFTP** — optional ([[TFTP]] PXE boot scenarios)
+- **DNSSEC** — validation when configured with trust anchors
 
-## Mental model
+## Example `/etc/dnsmasq.conf`
 
-**Say it in one breath:** Clients use dnsmasq as their DNS; it answers local names / DHCP hostnames from cache and forwards the rest upstream — often the same process that handed out the DHCP lease.
-
-```txt
-LAN client → dnsmasq :53
-               ├─ local A / DHCP name → answer
-               └─ everything else → upstream resolvers (cache on the way back)
-             dnsmasq :67 DHCP  (+ optional [[TFTP]] for PXE)
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Forwarder + cache** | Not full recursive from root by default | “It asks 1.1.1.1 and remembers.” |
-| **DHCP integration** | Lease → local DNS name | “phone.lan resolves because DHCP told dnsmasq.” |
-| **address= / host-record** | Static local overrides | “Force `foo.test` to 10.0.0.5.” |
-| **server=** | Upstream or conditional forward | “Send `*.corp` to 10.1.1.10.” |
-| **PXE** | DHCP options + TFTP root | “dnsmasq can boot VMs off the LAN.” |
-
-### When to pick what
-
-| Need | Tool |
-|------|------|
-| Router / homelab / libvirt | **dnsmasq** |
-| Validating recursive | [[Unbound]] |
-| Kubernetes | [[CoreDNS]] |
-| Big authoritative | [[BIND]] / PowerDNS |
-
----
-
-## Standard config / commands
-
-```txt
-# /etc/dnsmasq.d/lab.conf
-domain=lab.local
-expand-hosts
-interface=eth0
-dhcp-range=10.0.0.50,10.0.0.150,12h
-dhcp-option=option:router,10.0.0.1
+```ini
+port=53
+domain=home.arpa
+local=/home.arpa/
 server=1.1.1.1
-server=/corp.example/10.1.1.10
-address=/whoami.lab.local/10.0.0.20
-# enable-tftp
-# tftp-root=/srv/tftp
+server=8.8.8.8
+cache-size=1000
+dhcp-range=192.168.1.100,192.168.1.200,12h
 ```
+
+`local=/home.arpa/` makes dnsmasq authoritative for that domain without forwarding.
+
+## Docker / libvirt
+
+Docker Desktop and Linux bridge networks often run dnsmasq to resolve container names and forward external queries.
+
+## Debugging
 
 ```bash
-dnsmasq --test
-systemctl restart dnsmasq
-dig @10.0.0.1 whoami.lab.local
-journalctl -u dnsmasq -f
+sudo systemctl status dnsmasq
+dig @127.0.0.1 router.home.arpa
+sudo tail -f /var/log/syslog | grep dnsmasq
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `interface=` / `bind-interfaces` | Avoid answering on the wrong NIC |
-| `server=` order | Bad upstream = whole LAN “no internet” |
-| DHCP range vs static | Overlaps cause duplicate IP fights |
+Port **53 conflicts** with systemd-resolved or [[Unbound]] — only one listener per interface.
 
----
+## Security
 
-## Triage (when things break)
+- Do not expose unauthenticated DNS/DHCP to untrusted networks without ACLs (`interface=`, `listen-address=`)
+- `stop-dns-rebind` option mitigates some [[DNS rebinding]] patterns for clients using this resolver
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| DHCP works, DNS doesn’t | Listen 53 / conflict with systemd-resolved | Stop conflict; bind dnsmasq correctly |
-| Local names NXDOMAIN | `expand-hosts` / domain | Fix domain; check `/etc/hosts` + leases |
-| External NX / timeout | Upstream `server=` | Fix forwarders; test `dig @1.1.1.1` |
-| Duplicate IP | Range overlap | Shrink DHCP range; reserve MACs |
-| PXE file not found | TFTP root / filename options | Align DHCP boot file with [[TFTP]] tree |
-| Intermittent wrong answer | Stale cache | Restart or `sighup`; shorten local TTLs |
+## vs [[Unbound]]
 
----
+| dnsmasq | Unbound |
+|---------|---------|
+| DHCP + small LAN DNS | Full validating resolver |
+| Tiny footprint | More DNSSEC rigor |
 
-## Gotchas
+## Recall
 
-> [!WARNING]
-> **Fight with NetworkManager / systemd-resolved** — two listeners on :53; only one wins.
+- Why does dnsmasq read `/etc/hosts` automatically?
+- What happens if both systemd-resolved and dnsmasq bind port 53?
 
-> [!WARNING]
-> **`.local` and mDNS** — using `.local` as DHCP DNS domain collides with [[mDNS]] on many OSes; prefer `lab.home` / `lan`.
+## Sources
 
-> [!WARNING]
-> **dnsmasq is not DNSSEC-validating recursive by default** — don’t pretend it’s [[Unbound]].
-
----
-
-## When NOT to use
-
-- **ISP-scale recursion or DNSSEC-heavy resolvers** — [[Unbound]].
-- **Multi-tenant authoritative DNS with APIs** — PowerDNS ([[PoserDNS]]).
-- **Kubernetes cluster DNS** — [[CoreDNS]].
-
----
-
-## Related
-
-[[DNS]] [[DNS server]] [[TFTP]] [[Unbound]] [[CoreDNS]] [[BIND]] [[PoserDNS]] [[mDNS]] [[name server]]
+- [dnsmasq man page](http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html)
+- [Arch Wiki — dnsmasq](https://wiki.archlinux.org/title/Dnsmasq)

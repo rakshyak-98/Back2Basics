@@ -1,92 +1,69 @@
-[[AWS]] [[AWS EC2]] [[AWS EBS(Elastic Block Store)]] [[AMI (Amazon Machine Image)]]
+[[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS EFS (Elastic File System)]] · [[AWS Billing and cost management]]
 
 # EBS (Elastic Block Store)
 
-> EBS — network-attached block disk for one EC2 instance in one AZ; survives stop; snapshots for backup/clone.
+> EBS provides network-attached block volumes for EC2 — durable, snapshot-backed disks you attach to one instance at a time (except Multi-Attach on io2).
 
 ---
 
-## Index
+## Volume types (gp3 is the default choice)
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Type | Use case | Notes |
+|------|----------|-------|
+| **gp3** | General purpose boot and data | Baseline 3,000 IOPS; scale IOPS/throughput independently |
+| **gp2** | Legacy general purpose | IOPS tied to size |
+| **io2 / io2 Block Express** | Databases, sustained IOPS | Highest durability SLA |
+| **st1** | Throughput-oriented HDD | Big sequential workloads |
+| **sc1** | Cold HDD | Infrequent access |
+| **Instance store** | Ephemeral local NVMe | Fast, lost on stop/terminate — not EBS but often compared |
 
-## Mental model
+Volumes live in an **Availability Zone**. Attach only to instances in the same AZ (unless using cross-AZ patterns with replication software).
 
-**Say it in one breath:** Like a remote SSD/HDD plugged into the instance. Format/mount in the OS. Snapshot → incremental backup in S3 (API-only, not a browsable bucket). Prefer the sibling note [[AWS EBS(Elastic Block Store)]] for deeper operations — this is the field card.
-
-```txt
-EC2 (AZ-a) ──attach──► EBS vol (AZ-a)
-                          │ snapshot
-                          ▼
-                     New vol (any AZ in region after create)
-```
-
-| Type (common) | Fit |
-|---------------|-----|
-| **gp3** | Default general purpose |
-| **io2** | Sustained high IOPS (DBs) |
-| **st1/sc1** | Throughput HDD / cold |
-
----
-
-## Standard config / commands
+## Attach and mount
 
 ```bash
-aws ec2 create-volume --availability-zone us-east-1a --size 100 --volume-type gp3
-aws ec2 attach-volume --volume-id vol-… --instance-id i-… --device /dev/xvdf
-
-# Snapshot + DLM/AWS Backup for retention
-aws ec2 create-snapshot --volume-id vol-… --description "pre-migrate"
+# After attaching volume in console/CLI, on Linux:
+lsblk
+sudo mkfs -t xfs /dev/nvme1n1    # first use only
+sudo mkdir /data
+sudo mount /dev/nvme1n1 /data
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Same AZ | Attach requires volume AZ = instance AZ |
-| Delete on termination | Root often true — data gone with instance |
-| Encrypt | KMS CMK; snapshots inherit |
-| Recycle Bin | Soft-delete protection for vols/snaps |
+Add `/etc/fstab` entry using UUID, not device name, for reboot safety.
 
----
+## Snapshots and AMIs
 
-## Triage (when things break)
+- **Snapshots** are incremental backups to S3 (managed by AWS); create [[AMI (Amazon Machine Image)]] from snapshots.
+- **Copy snapshots** across regions for disaster recovery.
+- **Fast Snapshot Restore** costs extra; use for large parallel launches.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Attach fails | AZ mismatch | Create/copy volume in instance AZ |
-| Disk full | `df -h` | Grow volume + `growpart`/`resize2fs` |
-| Data gone after terminate | DeleteOnTermination | Restore snapshot; fix LT mapping |
-| Slow IO | `VolumeQueueLength` | gp3 IOPS/throughput; io2 for DB |
-| Snapshot “stuck” | First full snap | Wait; later snaps incremental |
-| Can’t mount | Need filesystem | `mkfs` once; then mount + fstab/UUID |
+## Resize
 
----
+```bash
+aws ec2 modify-volume --volume-id vol-0abc --size 100
+# Then grow partition and filesystem inside the OS
+sudo growpart /dev/nvme0n1 1
+sudo xfs_growfs /data
+```
 
-## Gotchas
+## Encryption
 
-> [!WARNING]
-> **EBS ≠ multi-attach by default** — one instance (io2 multi-attach is special-case).
+Enable encryption at creation; uses AWS-managed or customer-managed KMS keys. Encrypted snapshots stay encrypted when copied.
 
-> [!WARNING]
-> **Snapshots aren’t S3 objects you ls** — only volume create/restore APIs.
+## vs [[AWS EFS (Elastic File System)]]
 
-> [!WARNING]
-> **Unencrypted → encrypted** needs copy/migrate path; plan ahead.
+| EBS | EFS |
+|-----|-----|
+| Block, one instance (usually) | POSIX file system, many instances |
+| AZ-local | Regional, scales automatically |
+| Lower latency for single host | Shared files, web roots, content |
 
----
+## Recall
 
-## When NOT to use
+- Why must an EBS volume and EC2 instance be in the same AZ?
+- What happens to data on an instance store volume when you stop the instance?
 
-- **Shared POSIX across many instances** — use [[AWS EFS (Elastic File System)]].
-- **Object / CDN content** — S3.
-- **Ephemeral scratch only** — instance store (faster, dies with instance).
+## Sources
 
----
-
-## Related
-
-[[AWS EBS(Elastic Block Store)]] [[AWS EC2]] [[AMI (Amazon Machine Image)]] [[AWS EFS (Elastic File System)]]
+- [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)
+- [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html)

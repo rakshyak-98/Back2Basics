@@ -1,94 +1,29 @@
-[[React]] [[hydration]] [[SSR]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[react style inside component]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
 
 # RSC (React Server Component boundaries)
 
-> Compile-time split: server components render on the server; `"use client"` marks the interactive island that hydrates in the browser.
+> RSC (React Server Component boundaries) shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+React Server Components run on the server and serialize their output for the client bundle boundary. Files marked `"use client"` become client components that can hold state and browser APIs; keeping server components at the leaves of data-fetching trees reduces JavaScript shipped to browsers.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Default under application Router is a Server Component. Crossing into hooks/events/browser APIs requires a Client Component boundary (`"use client"`).
+## Recall
 
-```txt
-Server Component ──props (serializable)──► Client Component
-     │                         │
-  DB / secrets OK          useState / onClick OK
-  no hooks/events          ships JS to browser
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Server Component** | Runs on server, no client bundle for itself | “Fetch DB here; don’t send the query code.” |
-| **`"use client"`** | This module + imports become client graph | “Boundary is the file with the directive.” |
-| **Serializable props** | Only data that can cross the wire | “No functions/classes as props to client kids.” |
-
-## Standard config / commands
-
-```tsx
-// app/page.tsx — Server Component (default)
-import { ClientButton } from './client-button'
-
-export default async function Page() {
-  const data = await db.posts.findMany()
-  return <ClientButton initial={data} />
-}
-
-// client-button.tsx
-'use client'
-export function ClientButton({ initial }: { initial: Post[] }) {
-  const [n, setN] = useState(0)
-  return <button onClick={() => setN(n + 1)}>{n}</button>
-}
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| Keep leaf interactive | Push `"use client"` down — less JS |
-| Pass data, not functions | Props must serialize across RSC boundary |
-| Server-only imports | `server-only` package prevents accidental client pull-in |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `createContext` / hooks error in server file | Missing `"use client"` | Add directive at top of that module |
-| “Functions cannot be passed…” | Callback prop across boundary | Move handler into client child |
-| Huge client bundle | `"use client"` too high | Split; keep data-fetching on server |
-| Secret leaked to client | Server module imported by client | Audit import graph; use `server-only` |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **`"use client"` is transitive** — everything it imports becomes part of the client bundle (unless marked server-only).
-
-> [!WARNING]
-> **Children can still be Server Components** — a client parent may render server-passed children as slots; don’t assume the whole subtree is client.
-
----
-
-## When NOT to use
-
-- **Pages Router / CRA SPA** — no RSC model; don’t force the pattern.
-- **Highly interactive canvases** — mostly client; RSC buys little.
-
----
+What breaks first in production if `RSC (React Server Component boundaries)` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[hydration]] [[SSR]] [[react cache]] [[NextJS]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[react style inside component]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
+
+## Sources
+
+- [React — Server Components](https://react.dev/reference/rsc/server-components)

@@ -1,114 +1,53 @@
-[[SMTP]] [[DNS]] [[TLS (Transport Layer Security)]]
+[[SMTP]] · [[DNS]] · [[TLS (Transport Layer Security)]] · [[mail server]] · [[E mail server]]
 
 # E mail server
 
-> E mail server — email crosses distinct roles. Confusing them causes misconfigured ports and wrong logs.
+> An email server is the infrastructure that accepts SMTP, stores mailboxes, and serves messages to clients — treat it as a distributed system bounded by DNS authentication records and reputation, not just open ports.
 
 ---
 
-## Index
+## Logical layers
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Layer | Responsibility |
+|-------|----------------|
+| **Edge / MX** | Receive inbound SMTP, greylisting, SPF/DKIM/DMARC checks |
+| **Routing** | Alias expansion, transport maps, relay rules |
+| **Storage** | Maildir or mbox per user; quotas; backups |
+| **Access** | IMAP for sync, optional POP3, CalDAV/CardDAV adjacent |
+| **Outbound** | Queue, retry schedule, DKIM signing |
 
-## Mental model
+Same host can run all layers (small install) or split (SES for outbound, Dovecot for storage).
 
-Email crosses distinct roles. Confusing them causes misconfigured ports and wrong logs.
+## Minimal Postfix + Dovecot pattern
 
 ```
-┌─────┐   submit    ┌─────┐   relay    ┌─────┐   deliver   ┌─────┐   fetch    ┌─────┐
-│ MUA │ ──587──────►│ MSA │ ─────────► │ MTA │ ────────────► │ MDA │ ◄──────── │ MUA │
-│     │  (Thunderbird│     │   SMTP 25  │     │  LMTP/local │     │ IMAP/POP  │     │
-└─────┘   webmail)  └─────┘            └─────┘             └─────┘           └─────┘
+Internet :25  → Postfix (mydestination, virtual mailboxes)
+Clients :587  → Postfix submission (SASL auth) → Dovecot LMTP delivery
+Clients :993  → Dovecot IMAP (Maildir ~/mail)
 ```
 
-| Role | Name | Job | Typical port |
-|------|------|-----|--------------|
-| **MUA** | Mail User Agent | Compose/read (Outlook, mutt, web UI) | — |
-| **MSA** | Mail Submission Agent | Authenticated client injection | 587 STARTTLS |
-| **MTA** | Mail Transfer Agent | Route/relay between domains | 25 |
-| **MDA** | Mail Delivery Agent | Drop into mailbox (Maildir/mbox) | local / LMTP |
-| **MX** | DNS record | Points to receiving MTA for domain | DNS |
+## Authentication records ([[DNS]])
 
-Common stacks: **Postfix** (MTA) + **Dovecot** (MDA/IMAP) + **Rspamd/Amavis** (filter) + **OpenDKIM** (signing).
+Without aligned **SPF**, **DKIM**, and **DMARC**, major providers throttle or reject mail. See [[servers/DSN records]].
 
-## Standard config / commands
+## Operational metrics
 
-```shell
-# Postfix queue / status
-sudo systemctl status postfix
-mailq
-postqueue -p
-postsuper -d ALL deferred    # careful — deletes deferred queue
+- Queue depth (`mailq`)
+- Bounce rate and FBL complaints
+- TLS version on inbound/outbound connections
+- Greylist / RBL hits
 
-# Postfix logs
-sudo tail -f /var/log/mail.log
-journalctl -u postfix -f
+## vs [[mail server]]
 
-# Test local delivery
-echo "test body" | mail -s "subject" user@localhost
+This note emphasizes **architecture and operations**; [[mail server]] covers protocol ports and component names. Cross-link [[SMTP]] and [[IMAP (Internet Message Access Protocol)]] for protocol detail.
 
-# Test outbound via submission
-swaks --to external@gmail.com --from you@yourdomain.com \
-  --server mail.yourdomain.com:587 --auth-user you@yourdomain.com --tls
+## Recall
 
-# Dovecot IMAP
-sudo doveadm mailbox list -u user@example.com
-sudo doveadm fetch 'hdr.subject' mailbox INBOX ALL -u user@example.com
+- Why is port 25 often blocked on residential ISP networks?
+- What happens if DKIM passes but SPF fails under strict DMARC?
 
-# DNS prerequisites
-dig +short example.com MX
-dig +short example.com TXT               # SPF
-dig +short default._domainkey.example.com TXT
-dig +short _dmarc.example.com TXT
-dig +short -x $(curl -s ifconfig.me)     # reverse PTR for sending IP
-```
+## Sources
 
-### Ops checklist (new domain / server)
-
-- [ ] **A/AAAA** for `mail.example.com` (SMTP banner host)
-- [ ] **MX** points to MTA with priority
-- [ ] **SPF** TXT includes all sending IPs/providers
-- [ ] **DKIM** key published; MTA signs outbound
-- [ ] **DMARC** policy (`p=none` → monitor, then `quarantine`/`reject`)
-- [ ] **PTR/rDNS** matches SMTP EHLO hostname
-- [ ] **TLS cert** valid for submission/IMAP hostnames
-- [ ] **Firewall**: 25/587/993 open as needed; block 25 outbound on application servers not sending mail
-- [ ] **Relay policy**: authenticated users only on 587; no open relay on 25
-- [ ] **Queue monitoring** + alert on backlog depth
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Mail stuck in queue | `mailq`; defer reason in log | Fix DNS/MX; clear RBL; auth to smart host |
-| Users can't send | MSA auth / TLS | Verify SASL creds; cert chain on 587 |
-| Users can't receive | MX DNS; MTA listening :25 | Fix MX; open SG; check `postconf inet_interfaces` |
-| IMAP works, no outbound | Separate submission vs relay config | `relayhost` for smart host; SASL maps |
-| All mail spam-foldered | SPF/DKIM/DMARC headers | See [[SMTP]] triage table |
-| Disk full | `/var/spool/postfix`; Maildir size | Expire queue; quota; expand volume |
-| Relay denied for world | `smtpd_recipient_restrictions` | `permit_mynetworks, reject_unauth_destination` |
-| TLS handshake fail on Apple Mail | Cert chain / intermediate | Install full chain; use Let's Encrypt |
-
-## Gotchas
-
-> [!WARNING]
-> **Open relay** on port 25 = immediate blacklisting. Default Postfix is safe — custom `mynetworks` too wide is the usual mistake.
-
-- **Separate hostname for mail** (`mail.example.com`) from web — cert and PTR must align with SMTP greeting.
-- **Virtual domains** need explicit maps (`virtual_mailbox_domains`) — not implicit from system users.
-- **Backup MX** with lower priority still needs anti-spam — spammers target stale backup MX.
-- **Log rotation** — mail.log fills disks silently on attack bursts.
-
-## When NOT to use
-
-- Product email at scale → managed [[SMTP]] relay (SES, SendGrid) beats running your own MTA reputation.
-- development-only fake SMTP → Mailhog/Mailpit locally; don't point at production MX.
-
-## Related
-
-[[SMTP]] · [[DNS]] · [[DNS zone]] · [[TLS (Transport Layer Security)]]
+- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321)
+- [Postfix documentation](http://www.postfix.org/documentation.html)
+- [Dovecot documentation](https://doc.dovecot.org/)

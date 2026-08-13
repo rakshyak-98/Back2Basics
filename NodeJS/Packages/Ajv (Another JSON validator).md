@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `ajv.compile(schema)` returns a validate function; call it on each request body; on failure read `validate.errors`.
+## How it works
 
 ```txt
 schema → compile → validate(data) → true | errors[]
@@ -31,7 +20,8 @@ schema → compile → validate(data) → true | errors[]
 | **JSON Schema** | Declarative contract | “Share with OpenAPI often.” |
 | **errors** | Why it failed | “Map to 400 responses.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import Ajv from 'ajv'
@@ -62,7 +52,8 @@ npm install ajv
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,6 +63,7 @@ npm install ajv
 | Vague 400s | Dumping raw errors | Map `instancePath` for clients |
 
 ---
+
 
 ## Gotchas
 
@@ -83,13 +75,19 @@ npm install ajv
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **TypeScript-first DTOs** — zod/yup may fit better in TS apps.
 - **Huge dynamic schemas per request** — compile cost dominates.
 
 ---
 
+
 ## Related
 
 [[Packages/npm packages]] [[expressjs]] [[open api specification]]
+
+## Sources
+
+- [Wikipedia — Ajv](https://en.wikipedia.org/wiki/Ajv)

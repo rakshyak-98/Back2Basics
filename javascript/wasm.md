@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Rust/C/...  →  wasm-pack / emscripten  →  .wasm module
@@ -37,7 +28,8 @@ JS (UI, network)  ←→  Wasm (hot loop, crypto kernel)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Load module (browser)
 
@@ -76,7 +68,8 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,6 +82,7 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -99,7 +93,8 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple CRUD UI** — JS is faster to ship and debug.
 - **Full application rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
@@ -107,6 +102,11 @@ const { instance } = await WebAssembly.instantiate(wasm, {});
 
 ---
 
+
 ## Related
 
 [[javascript engine]] · [[web workers]] · [[ServiceWorker]] · [[polyfills]] · [[React build]]
+
+## Sources
+
+- [Wikipedia — wasm](https://en.wikipedia.org/wiki/wasm)

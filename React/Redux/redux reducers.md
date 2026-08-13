@@ -1,126 +1,49 @@
-[[Redux]] [[Redux/Immutability in Redux]] [[Redux/Redux createSlice]] [[Redux concept and data flow]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # redux reducers
 
-> **Pure functions** `(state, action) => newState` — only place state shape changes — **Redux fundamentals**.
+> redux reducers shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-```txt
-(prevState, action) → nextState
-```
+## Operating it
 
-Rules:
-
-1. **No side effects** — no API, `Date.now()`, random, DOM.
-2. **No mutate arguments** — return new references for changed branches.
-3. **Same action + state → same next state** — enables DevTools time travel.
-
-```txt
-Why pure?
-  Same action dispatched twice → identical result
-  Replay log in prod → reproduce bug
-```
-
-RTK **`createSlice`** uses Immer — you **mutate draft** inside reducer, Immer produces immutable next state ([[Redux/Redux createSlice]]).
-
----
-
-## Standard config / commands
-
-### Plain reducer (legacy)
-
-```javascript
-const initialState = { count: 0 };
-
-function counter(state = initialState, action) {
-  switch (action.type) {
-    case "counter/incremented":
-      return { ...state, count: state.count + 1 };
-    default:
-      return state;
-  }
-}
-```
-
-### createSlice (RTK — preferred)
-
-```typescript
-const counterSlice = createSlice({
-  name: "counter",
-  initialState: { value: 0 },
+```ts
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
   reducers: {
-    incremented(state) {
-      state.value += 1; // Immer draft — OK here only
-    },
+    added(state, action) { state.items.push(action.payload); },
   },
 });
 ```
 
-### combineReducers
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
-```typescript
-const rootReducer = combineReducers({
-  counter: counterReducer,
-  auth: authReducer,
-});
-```
+## What breaks first
 
-Each key manages its slice independently.
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-### Extra reducers for async thunk
+## Recall
 
-```typescript
-extraReducers: (builder) => {
-  builder.addCase(fetchUser.fulfilled, (state, action) => {
-    state.user = action.payload;
-  });
-},
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| State reference unchanged, UI stale | Mutated nested object in plain reducer | Spread clone or use createSlice |
-| Undefined state after action | Missing default param / wrong key | `state = initialState`; match action type |
-| Random test failures | Impure reducer (API inside) | Move async to [[Redux/redux middleware]] |
-| Immer error in plain reducer | push on frozen state | Switch to createSlice or deep clone |
-| Whole tree resets | Returned wrong shape | Return only slice shape in nested reducer |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **API call inside reducer** — same action could yield different states → breaks replay and tests.
-
-> [!WARNING]
-> **Shallow copy trap** — `{ ...state, nested: state.nested }` shares nested reference; clone nested when changing it.
-
----
-
-## When NOT to use
-
-- **Server cache normalization** — RTK Query manages its own reducer slice.
-- **Ephemeral UI** — modal open flag rarely belongs in Redux ([[React State management]]).
-- **Derived data** — compute in selector (`createSelector`), don't store duplicate fields.
-
----
+What breaks first in production if `redux reducers` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux]] · [[Redux/Immutability in Redux]] · [[Redux/Redux createSlice]] · [[Redux/redux middleware]] · [[Redux concept and data flow]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

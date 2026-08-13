@@ -1,93 +1,50 @@
-[[React]] [[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createApi]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[redux toolkit features]] [[Immutability in Redux]] [[Redux]]
 
 # Redux toolkit
 
-> Official Redux batteries — `configureStore`, `createSlice`, Immer, thunks, and optional RTK Query with less boilerplate.
+> Redux toolkit shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** RTK is how you write Redux in 2024+ — slices generate actions, Immer lets “mutating” reducers, store comes with sane middleware.
-
-```txt
-createSlice → reducer + actions
-configureStore → store (+ thunk, checks)
-createApi → optional server cache
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **createSlice** | Reducer + action creators | “One file owns the feature state.” |
-| **configureStore** | Store factory | “Defaults beat hand `createStore`.” |
-| **Immer** | Draft mutations | “Writable syntax, immutable result.” |
-| **RTK Query** | Data fetching layer | “Caching/deduping like React Query.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: { value: 0 },
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
   reducers: {
-    incremented(state) { state.value += 1 },
+    added(state, action) { state.items.push(action.payload); },
   },
-})
-
-export const store = configureStore({
-  reducer: { counter: counterSlice.reducer },
-})
-export const { incremented } = counterSlice.actions
-export type RootState = ReturnType<typeof store.getState>
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `getDefaultMiddleware()` | Keep thunk when customizing |
-| `serializableCheck` | Catch bad state shapes in dev |
-| Slice `name` | Prefixes action types |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Thunks rejected as non-plain | Middleware overridden | `.concat` onto defaults |
-| Unexpected mutation errors | Wrote outside slice / non-draft | Only mutate drafts in reducers |
-| Action type typos | Hand-written strings | Use slice action creators |
-| Boilerplate returning | Not using slices/Query | Adopt RTK patterns |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Replacing middleware array** drops thunk and checks — always extend defaults.
-
-> [!WARNING]
-> **Don’t fight Immer** — returning a new object *and* mutating the draft incorrectly yields odd state.
-
----
-
-## When NOT to use
-
-- **No shared client state** — skip Redux entirely.
-- **Only remote cache** — TanStack Query alone may be enough.
-
----
+What breaks first in production if `Redux toolkit` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createAsyncThunk]] [[Redux/Redux createApi]] [[Redux/Redux Thunk]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[redux toolkit features]] [[Immutability in Redux]] [[Redux]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)
+- [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started)

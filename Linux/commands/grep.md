@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `grep` reads input line-by-line, tests each line against a **regex** (basic by default; extended with `-E`), prints matches. It does not understand structure (JSON, CSV) — pair with `jq`, `awk`, or structured tools when you need fields.
 
@@ -47,7 +38,8 @@ file / pipe ──► grep PATTERN ──► matching lines ──► wc / head 
 | **-n / -H** | Line numbers / filename | “Needed in pipelines.” |
 | **ripgrep** | Faster recursive | “rg often replaces grep -R.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Baseline log triage
@@ -85,7 +77,8 @@ grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' access.log   # ISO dates
 grep -E 'timeout|refused|reset' /var/log/syslog
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,6 +88,7 @@ grep -E 'timeout|refused|reset' /var/log/syslog
 | `grep -r` searches `.git`, `node_modules` | `--exclude-dir` | `grep -r --exclude-dir={.git,node_modules} PATTERN .` |
 | Permission denied mid-recurse | Normal on `/etc`, `/var` | Run with `sudo` or narrow path; use `-s` to silence errors |
 | Pipeline exits 1 in script | grep found nothing | `grep -q` for boolean test; `\|\| true` only when you mean it |
+
 
 ## Gotchas
 
@@ -110,13 +104,19 @@ grep -E 'timeout|refused|reset' /var/log/syslog
 > [!WARNING]
 > **Exit code 1 = no match** — not an error. Scripts using `set -e` with `grep` in a pipeline need `grep -q PATTERN \|\| [[ $? -eq 1 ]]` or `if grep -q …`.
 
-## When NOT to use
+
+## When not to use
 
 - **Structured data** (JSON, YAML keys) → `jq`, `yq`, not grep.
 - **Column extraction** → [[awk]] or `cut`.
 - **Large codebases** → `rg` (ripgrep) — respects `.gitignore`, faster, better defaults.
 - **Live follow** → `tail -f \| grep` or [[journalctl]] `-f`, not re-running grep in a loop.
 
+
 ## Related
 
 [[awk]] [[Find command]] [[journalctl]] [[Linux network commands]] [[bash script]]
+
+## Sources
+
+- [Wikipedia — grep](https://en.wikipedia.org/wiki/grep)

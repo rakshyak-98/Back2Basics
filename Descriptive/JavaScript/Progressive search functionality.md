@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Keystroke → debounce window → abort prior fetch → new query → render results
@@ -32,7 +23,8 @@ Keystroke → debounce window → abort prior fetch → new query → render res
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Debounced fetch with abort
 
@@ -119,7 +111,8 @@ API: GET /search?q=foo&limit=20
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -131,6 +124,7 @@ API: GET /search?q=foo&limit=20
 | Rate limit 429 | Aggressive polling | ↑ debounce; server-side coalesce |
 
 ---
+
 
 ## Gotchas
 
@@ -148,7 +142,8 @@ API: GET /search?q=foo&limit=20
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Small fixed dropdown (< 20 items)** — native `<select>` or static filter client-side.
 - **Heavy analytics query** — batch/report UI, not per-keystroke.
@@ -156,6 +151,11 @@ API: GET /search?q=foo&limit=20
 
 ---
 
+
 ## Related
 
 [[Frontend Datastructure]] · [[Animation]] · [[JavaScript]] · [[redis-cli]] · [[covering index]]
+
+## Sources
+
+- [Wikipedia — Progressive search functionality](https://en.wikipedia.org/wiki/Progressive_search_functionality)

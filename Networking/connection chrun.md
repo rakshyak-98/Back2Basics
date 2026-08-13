@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Churn** = high rate of **short-lived TCP connections** (HTTP/1.0-style close per request, health checks, misconfigured pools) or **idle timeout mismatch** (LB closes while client still thinks connection is open).
 
@@ -35,7 +26,8 @@ Client                    Load balancer              Server
 | No connection reuse | Ephemeral port / `TIME_WAIT` exhaustion |
 | Aggressive health checks | Accept queue + churn even at zero user traffic |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Align timeouts (LB < client < server or consistent ladder):**
 
@@ -82,7 +74,8 @@ sysctl net.ipv4.tcp_fin_timeout       # default 60 — how long FIN-WAIT-2 etc
 | nginx → upstream | `keepalive` in upstream block |
 | ALB/NLB | Idle timeout in console/Terraform |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ ss -tan state established | wc -l; sleep 5; ss -tan state established | wc -l
 ss -tan state time-wait | wc -l
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -117,12 +111,18 @@ ss -tan state time-wait | wc -l
 - **Database connection churn** — different beast (pg pool); but same CLOSE-WAIT / leak signatures in [[ss]].
 - **Monitoring polls** — `curl` without keepalive every 10s from 50 pods = artificial churn.
 
-## When NOT to use
+
+## When not to use
 
 - **Long-lived WebSocket/gRPC streams** — churn document is wrong frame; debug read idle and proxy timeouts instead.
 - **UDP “connections”** — no TIME_WAIT; different tools (`ss -u`).
 - **Tuning `fin_timeout` to 5** globally — can break legit slow closes; fix application reuse first.
 
+
 ## Related
 
 [[half-open connections]] [[Epoll]] [[ss]] [[eBPF]] [[Linux network commands]]
+
+## Sources
+
+- [Wikipedia — connection chrun](https://en.wikipedia.org/wiki/connection_chrun)

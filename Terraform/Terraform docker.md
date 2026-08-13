@@ -6,25 +6,12 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Why practice with Docker]]
-- [[#Minimal project]]
-- [[#Run it]]
-- [[#Map to cloud thinking]]
-- [[#Book takeaways]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → configure → resource → plan/apply ([[Terraform setup]] · [[Terraform workflow]]).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```shell
 terraform init && terraform apply -auto-approve
@@ -38,7 +25,8 @@ terraform destroy -auto-approve
 | Image pin (`var.nginx_tag`) | Reproducible pulls |
 | Port map | Host 8080 → container 80 |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -47,6 +35,22 @@ terraform destroy -auto-approve
 | Image pull fail | Network / tag | Fix tag; retry pull |
 | Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
 | Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
+
+
+## Gotchas
+
+> [!WARNING]
+> **Local state only** — fine for learning; teams need remote state ([[Terraform setup]]).
+
+> [!WARNING]
+> **docker ≠ production cloud** — patterns transfer; quotas, IAM, and blast radius do not.
+
+
+## When not to use
+
+- **Real production containers** — use k8s/ECS + CI, not Terraform Docker day-to-day.
+- **Learning Linux networking** — compose may teach faster than HCL.
+
 
 ## Why practice with Docker
 
@@ -59,6 +63,7 @@ terraform destroy -auto-approve
 Brikman: learn the tool first; swap provider for a real cloud later.
 
 ---
+
 
 ## Minimal project
 
@@ -126,6 +131,7 @@ Implicit dependency: container references image → correct order (Winkler graph
 
 ---
 
+
 ## Run it
 
 ```shell
@@ -141,6 +147,7 @@ Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
 
 ---
 
+
 ## Map to cloud thinking
 
 | Docker here | Analog on AWS/GCP |
@@ -152,25 +159,18 @@ Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
 
 ---
 
+
 ## Book takeaways
 
 - **Winkler**: providers are interchangeable plugins; resources + references define the graph
 - **Brikman**: pin versions, use variables, destroy cleanly, graduate to remote state when collaborating
 - Core language still: [[terraform]]
 
-## Gotchas
-
-> [!WARNING]
-> **Local state only** — fine for learning; teams need remote state ([[Terraform setup]]).
-
-> [!WARNING]
-> **docker ≠ production cloud** — patterns transfer; quotas, IAM, and blast radius do not.
-
-## When NOT to use
-
-- **Real production containers** — use k8s/ECS + CI, not Terraform Docker day-to-day.
-- **Learning Linux networking** — compose may teach faster than HCL.
 
 ## Related
 
 [[Terraform setup]] [[terraform provider]] [[terraform]] [[Terraform workflow]] [[variable file]] [[Terraform CLI]]
+
+## Sources
+
+- [Wikipedia — Terraform docker](https://en.wikipedia.org/wiki/Terraform_docker)

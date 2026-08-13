@@ -1,102 +1,74 @@
-[[systemd]] [[systemctl]] [[Services commands]]
+[[services/systemd]] [[system service unit files]] [[management/systemctl]]
 
 # system service unit files
 
-> A systemd unit file declares how a service starts, restarts, and is sandboxed — `[Unit]` / `[Service]` / `[Install]`.
+> A systemd unit file is plain INI text that tells PID 1 how to start, supervise, and order a service, socket, timer, or mount.
 
----
+Unit files live under search paths; **admin overrides in `/etc/systemd/system/` win** over vendor files in `/usr/lib/systemd/system/`. Syntax follows [systemd.syntax(7)](https://www.freedesktop.org/software/systemd/man/latest/systemd.syntax.html).
 
-## Index
+## Layout
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+```ini
+[Unit]
+Description=Example API
+After=network-online.target
+Wants=network-online.target
 
-## Mental model
+[Service]
+Type=simple
+User=app
+ExecStart=/usr/local/bin/api --config /etc/api/config.yaml
+Restart=on-failure
+EnvironmentFile=-/etc/default/api
 
-**Say it in one breath:** vendor units in `/lib/systemd/system`; overrides in `/etc/systemd/system`; `daemon-reload` then restart.
-
-```txt
-myapp.service
-  [Unit] Description=… After=network.target
-  [Service] ExecStart=… User=… Restart=on-failure
-  [Install] WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
 ```
 
-### Interview map (words you can say)
+## Unit types (common)
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **unit** | systemd object | “service/socket/timer/…” |
-| **drop-in** | `.d/*.conf` override | “Don’t edit vendor files.” |
-| **Type=** | simple/exec/forking/notify | “How systemd tracks readiness.” |
-| **WantedBy** | enable target | “Creates `.wants` symlink.” |
-| **daemon-reload** | Reread units | “After every unit edit.” |
+| Suffix | Purpose |
+|--------|---------|
+| `.service` | Daemon or oneshot |
+| `.socket` | Socket activation |
+| `.timer` | Calendar / monotonic triggers |
+| `.target` | Boot milestone grouping |
+| `.mount` / `.automount` | Filesystem mounts |
 
----
-
-## Standard config / commands
+## Drop-in overrides
 
 ```bash
-# /etc/systemd/system/myapp.service
-# [Unit]
-# Description=My app
-# After=network-online.target
-# [Service]
-# Type=simple
-# User=myapp
-# EnvironmentFile=-/etc/myapp/env
-# ExecStart=/usr/local/bin/myapp
-# Restart=on-failure
-# [Install]
-# WantedBy=multi-user.target
-
+sudo systemctl edit myapp.service
+# creates /etc/systemd/system/myapp.service.d/override.conf
 sudo systemctl daemon-reload
-sudo systemctl enable --now myapp
-systemctl cat myapp
-systemctl show myapp -p FragmentPath,DropInPaths
+sudo systemctl restart myapp.service
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `EnvironmentFile=-` | Optional env; `-` ignores missing |
-| `Restart=` | Survive crashes |
-| `ProtectSystem=` | Sandbox filesystem |
+## `Type=` matters
 
----
+| Type | Use when |
+|------|----------|
+| `simple` | Main process stays foreground (default guess) |
+| `forking` | Classic daemon double-forks — needs `PIDFile=` |
+| `notify` | Daemon calls `sd_notify(READY=1)` |
+| `oneshot` | Runs once; `RemainAfterExit=yes` for setup scripts |
 
-## Triage (when things break)
+Wrong `Type=` → systemd thinks service is ready when it is not.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Changes ignored | Forgot daemon-reload | Reload + restart |
-| exit 203/EXEC | Bad ExecStart path | `systemctl cat`; fix binary path |
-| Loops restarting | Crash on boot | `journalctl -u`; fix config; `Restart=` |
-| Wrong user/env | Unit vs shell | Diff `systemctl show-environment` |
-| Override not applied | Wrong drop-in name | `systemctl cat` shows merged |
+## File precedence
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Editing `/lib/systemd/system`** — package upgrades overwrite; use `/etc` drop-ins.
-
-> [!WARNING]
-> **`Type=forking` without PIDFile** — systemd loses the main process.
-
----
-
-## When NOT to use
-
-- **Oneshot host tweaks** — prefer `oneshot` units or plain scripts carefully.
-- **application-internal workers** — supervisors inside the application may fight Restart=.
-
----
+| Directory | Role |
+|-----------|------|
+| `/etc/systemd/system/` | Administrator units and overrides |
+| `/run/systemd/system/` | Runtime (generators, transient units) |
+| `/usr/lib/systemd/system/` | Package-shipped units |
 
 ## Related
 
-[[systemd]] [[systemctl]] [[Service masking]] [[journalctl]] [[Setup Non-Login user from Running process]]
+[[services/systemd]] · [[management/systemctl]] · [[Service masking]] · [[journalctl]]
+
+## Sources
+
+- [systemd.unit(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html)
+- [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
+- Red Hat RHEL 9 unit file guide

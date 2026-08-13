@@ -1,136 +1,43 @@
-[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Observer]] [[Design pattern/Command]]
+[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Command]]
 
 # State
 
-> Object alters behavior when its internal state changes — appears to change class — **Dive Into Design Patterns + campaign wizard Draft → Ready → Launched**.
+> State lets an object alter its behavior when its internal state changes — the object appears to change class by delegating to state objects instead of giant `switch` statements.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Wizard/campaign lifecycle: each state allows different operations. `Draft` can edit; `Ready` can launch; `Launched` is mostly read-only. State object implements transitions; context delegates.
+## Structure
 
 ```
-Draft ──submit──► Ready ──launch──► Launched
-  │                  │
-  └──fail────────────┴──► Failed
+Context (holds State reference)
+  request() → state.handle()
+ConcreteStateA, ConcreteStateB each implement handle() differently
 ```
 
-| Role | Responsibility |
-|------|----------------|
-| **Context** | Holds current state; forwards actions |
-| **State** | Interface for actions / transitions |
-| **Concrete states** | Implement legal ops; set next state on context |
+Transitions may live in Context or in State objects (`stateA.onEvent()` sets `context.state = stateB`).
 
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-interface WizardState {
-  name: string;
-  edit(ctx: WizardContext, patch: object): void;
-  submit(ctx: WizardContext): void;
-  launch(ctx: WizardContext): void;
-}
-
-class DraftState implements WizardState {
-  name = 'draft';
-  edit(ctx: WizardContext, patch: object) {
-    Object.assign(ctx.data, patch);
-  }
-  submit(ctx: WizardContext) {
-    ctx.setState(new ReadyState());
-  }
-  launch() {
-    throw new Error('Submit before launch');
-  }
-}
-
-class ReadyState implements WizardState {
-  name = 'ready';
-  edit() {
-    throw new Error('Locked — revert to draft first');
-  }
-  submit() {
-    /* already ready */
-  }
-  launch(ctx: WizardContext) {
-    ctx.setState(new LaunchedState());
-  }
-}
-
-class WizardContext {
-  constructor(public state: WizardState, public data: Record<string, unknown> = {}) {}
-  setState(s: WizardState) {
-    this.state = s;
-  }
-  edit(patch: object) {
-    this.state.edit(this, patch);
-  }
-  submit() {
-    this.state.submit(this);
-  }
-  launch() {
-    this.state.launch(this);
-  }
-}
-```
-
-### vs Strategy
+## vs Strategy
 
 | | State | Strategy |
-|--|-------|----------|
-| Who chooses | Often self-transitions inside states | Caller / config injects |
-| Lifetime | Changes over object life | Usually stable per operation |
-| Focus | Lifecycle legality | Algorithm variant |
+|---|-------|----------|
+| Who changes behavior | Internal state transitions | Client picks strategy |
+| Transitions | Often defined between states | Usually static for a given call |
 
-## Triage (when things break)
+Same structure; **intent** differs.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Illegal ops succeed | Missing throws in state | Explicit reject in each concrete state |
-| State lost after restart | Only in memory | Persist `state.name` + rehydrate |
-| Giant switch on status string | State pattern abandoned | Restore state objects or transition table |
-| Transition without event | Hidden `setState` | Only states call `setState` |
+## Example
 
-## Gotchas
+TCP connection: `Closed`, `Listen`, `Established` — each handles `open()`, `close()`, `send()` differently.
 
-> [!WARNING]
-> Persisted enums + in-memory State objects drift — always rehydrate from stored status on load.
+## When to use
 
-- Optional: pair with [[Design pattern/Memento]] for draft undo snapshots.
-- UI wizards often need Mediator for step widgets — State owns lifecycle, Mediator owns widget chatter.
+- Object behavior depends on mode and transitions are explicit (workflow, connection, UI wizard).
+- `if (status === …)` blocks grow across many methods.
 
-## Trade-offs
+## Pitfalls
 
-| Gain | Cost |
-|------|------|
-| … | … |
+- Too many tiny state classes for simple enums — a table-driven transition map may suffice.
+- Circular transition bugs — diagram states and events first.
 
-## When NOT to use
+## Sources
 
-- Two statuses and one transition — a boolean / enum is enough.
-- Behavior does not depend on status — Strategy or plain functions.
-
-## Related
-
-[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Observer]] [[Design pattern/Command]] [[Design pattern/Memento]]
+- Gamma et al., *Design Patterns* (State)
+- [State pattern — Wikipedia](https://en.wikipedia.org/wiki/State_pattern)

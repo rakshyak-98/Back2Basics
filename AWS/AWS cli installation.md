@@ -1,103 +1,95 @@
-[[AWS]] [[AWS cli commands]] [[IAM]] [[aws STS (Security Token Service)]]
+[[AWS cli commands]] · [[IAM]] · [[aws STS (Security Token Service)]]
 
 # AWS cli installation
 
-> AWS CLI v2 — install the binary, then point it at keys or SSO so `aws` talks to your account.
+> The AWS CLI is the command-line client for AWS APIs — install v2, configure credentials through profiles or environment variables, and verify with `sts get-caller-identity`.
 
 ---
 
-## Index
+## Install AWS CLI v2
 
-- [[#Prerequisites]]
-- [[#Installation aws cli]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Triage (when things break)]]
-- [[#Related]]
-
-## Prerequisites
-
-…
-
-## Installation aws cli
+### Linux (x86_64)
 
 ```bash
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
-aws --version
-
-# bash completion
-sudo apt install -y bash-completion
-complete -C "$(command -v aws_completer)" aws
-echo 'complete -C "$(command -v aws_completer)" aws' >> ~/.bashrc
-
-aws configure   # Access key, secret, region, output (json|table|text|yaml)
-aws configure set output table
-aws configure get output
+aws --version   # aws-cli/2.x ...
 ```
 
-You cannot “reveal” IAM secret keys from AWS after creation — only from Secrets Manager, SSM, or your local `~/.aws/credentials` if you stored them.
+### macOS
 
 ```bash
-cat ~/.aws/credentials   # local only — protect this file
+brew install awscli
 ```
 
----
+Or download the macOS pkg from [AWS CLI install page](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
 
-## Verification
+### Windows
+
+Download and run the MSI installer from AWS documentation.
+
+## Configure credentials
+
+Interactive:
 
 ```bash
-# smoke test
+aws configure
+# AWS Access Key ID, Secret, default region, output format (json)
 ```
 
-## Mental model
+Files:
 
-**Say it in one breath:** CLI reads `~/.aws/credentials` + `config` (or environment/instance role), signs API calls, prints JSON/table. v2 is the current installer path on Linux.
+- `~/.aws/credentials` — access keys per profile
+- `~/.aws/config` — region, output, role assumption
 
-```txt
-awscliv2.zip → ./aws/install → /usr/local/bin/aws
-aws configure / sso login → API calls
+### Named profile
+
+```bash
+aws configure --profile staging
+aws s3 ls --profile staging
 ```
 
----
+### Environment variables
 
-## Gotchas
+```bash
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+export AWS_SESSION_TOKEN=...      # required for temporary credentials
+export AWS_DEFAULT_REGION=us-east-1
+```
 
-> [!WARNING]
-> **Long-lived access keys on laptops** — prefer SSO / IAM Identity Center.
+Prefer **IAM roles** and `aws sso login` over long-lived keys on laptops.
 
-> [!WARNING]
-> **v1 vs v2 packages** — distro `awscli` apt may be old; use official v2 bundle.
+## SSO (IAM Identity Center)
 
-> [!WARNING]
-> **Credentials file is plaintext** — `chmod 600`; never commit.
+```bash
+aws configure sso
+aws sso login --profile my-sso-profile
+```
 
----
+## Verify
 
-## When NOT to use
+```bash
+aws sts get-caller-identity
+```
 
-- **In-instance automation with a role** — skip keys; use instance profile.
-- **Complex multi-step infra** — Terraform/CDK; CLI for operations/debug.
-- **Windows-only shops** — MSI install path differs (same concepts).
+Returns account, ARN, and user/role ID — confirms authentication works.
 
----
+## Shell completion
 
-## Triage (when things break)
+```bash
+complete -C aws_completer aws
+```
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `aws: command not found` | PATH / install prefix | Reinstall; symlink `/usr/local/bin/aws` |
-| `Unable to locate credentials` | Empty profile; wrong `AWS_PROFILE` | `aws configure`; unset bad env |
-| `ExpiredToken` | SSO/session aged out | `aws sso login`; refresh assume-role |
-| Wrong account actions | `get-caller-identity` | Fix profile/region; see [[AWS cli commands]] |
-| Completer silent | `aws_completer` missing | Reinstall v2; fix `complete -C` |
-| SSL / proxy errors | Corp proxy | `HTTP_PROXY`/`AWS_CA_BUNDLE` |
+Add to `~/.bashrc` for persistent completion.
 
----
+## Recall
 
-## Related
+- When is `AWS_SESSION_TOKEN` required?
+- Why store profiles in `~/.aws/config` vs exporting keys in every shell?
 
-[[AWS cli commands]] [[IAM]] [[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]]
+## Sources
+
+- [Installing or updating the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)

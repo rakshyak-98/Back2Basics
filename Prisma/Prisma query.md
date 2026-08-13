@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Prisma Client maps models in `schema.prisma` to SQL. **Relational loads** use `include` (eager) or nested `select`. Filters use object API (`where`, `orderBy`, `cursor`). Raw SQL escapes hatch via `$queryRaw`. Connection pooling: use PgBouncer-compatible settings for serverless.
 
@@ -23,7 +14,8 @@ Prisma Client maps models in `schema.prisma` to SQL. **Relational loads** use `i
 schema.prisma → prisma generate → PrismaClient → SQL
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Fetch with relations
 
@@ -67,7 +59,8 @@ npx prisma migrate dev
 npx prisma generate
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +69,7 @@ npx prisma generate
 | `P2002` unique violation | Constraint | Upsert or handle conflict |
 | Connection pool timeout | Serverless | Data proxy / PgBouncer; lower concurrency |
 | Stale client types | Forgot generate | Run `prisma generate` in CI |
+
 
 ## Gotchas
 
@@ -86,11 +80,17 @@ npx prisma generate
 >
 > **Migrations on prod** — `migrate deploy` in CI, not `db push`.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use Prisma for heavy analytics aggregations — raw SQL or OLAP store.
 - Don't `include` deep trees in list endpoints — pagination + separate detail fetch.
 
+
 ## Related
 
 [[Database/connection pooling]] [[Database/mysql/mysql pool connection]] [[Database/postgres/psql keywords]]
+
+## Sources
+
+- [Wikipedia — Prisma query](https://en.wikipedia.org/wiki/Prisma_query)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Kafka configuration — kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of…
+## How it works
 
 ```txt
 kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of the modes is configured.
@@ -41,7 +30,8 @@ bitnami/kafka:latest
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -50,7 +40,8 @@ bitnami/kafka:latest
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ bitnami/kafka:latest
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -67,12 +59,18 @@ bitnami/kafka:latest
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Kafka]]
+
+## Sources
+
+- [Wikipedia — Kafka configuration](https://en.wikipedia.org/wiki/Kafka_configuration)

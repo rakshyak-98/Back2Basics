@@ -6,13 +6,6 @@
 
 ---
 
-## Index
-
-- [[#Purpose]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Related]]
-
 ## Purpose
 
 Patterns are **named solutions to recurring design problems**, not a checklist. In a multi-platform / multi-goal backend, every pattern that earned its keep mapped to a **variation point**: goals change, platforms multiply, vendor quirks need adapters, launch needs a fixed algorithm with swappable steps.
@@ -36,7 +29,8 @@ Client / REST
       → Adapter + Decorator/Proxy (vendor quirks)
 ```
 
-## Routing table
+
+## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
@@ -52,13 +46,19 @@ Client / REST
 | Behavior changes with internal state | [[Design pattern/State]] |
 | Wiring dependencies from outside | [[Design pattern/Dependency Injection]] |
 
-## Domain links
+
+## Related topics in this domain
 
 - **Creational:** [[Design pattern/Factory Method]] · [[Design pattern/Creation pattern/Abstract Factory]] · [[Design pattern/Builder]] · [[Design pattern/Singleton]]
 - **Structural:** [[Design pattern/Adapter]] · [[Design pattern/Bridge]] · [[Design pattern/Decorator]] · [[Design pattern/Facade]] · [[Design pattern/Proxy]]
 - **Behavioral:** [[Design pattern/Strategy pattern]] · [[Design pattern/Chain of Responsibility]] · [[Design pattern/Template Method]] · [[Design pattern/Observer]] · [[Design pattern/Command]] · [[Design pattern/State]] · [[Design pattern/Mediator]] · [[Design pattern/Memento]]
 - **Principles:** [[System Design/SOLID]] · [[System Design/KISS]] · [[System Design/DRY]] · [[Design pattern/OOPS]]
 
+
 ## Related
 
 [[System Design/SOLID]] · [[System Design/KISS]] · [[System Design/DRY]] · [[Design pattern/Dependency Injection]] · [[INDEX]]
+
+## Sources
+
+- [Wikipedia — Design pattern](https://en.wikipedia.org/wiki/Design_pattern)

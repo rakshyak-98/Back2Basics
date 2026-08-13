@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 JavaScript runtimes (browser, Node) run **user code on one thread**. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel threads unless you explicitly spawn workers.
 
@@ -34,7 +25,8 @@ Main thread:  [JS][JS][  wait I/O  ][JS][microtasks][JS]
 
 Any code that must stay "concurrent" must **yield** — return from the callback quickly so the loop can poll I/O and render.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Non-blocking I/O pattern (Node)
 
@@ -77,7 +69,8 @@ h.enable();
 setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); }, 5000);
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +79,7 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 | `UnhandledPromiseRejection` | Missing `await` / `.catch()` | Always handle async errors |
 | High CPU, low throughput | Busy-wait loop | Backoff, queue, or worker pool |
 | Works locally, stalls in prod | Larger prod payloads | Stream instead of buffering entire body |
+
 
 ## Gotchas
 
@@ -97,11 +91,17 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 - **Node `cluster`:** multi-process for CPU; each process has its own event loop.
 - **Atomics / SharedArrayBuffer:** real shared memory; needs COOP/COEP headers in browser.
 
-## When NOT to use
+
+## When not to use
 
 - CPU-bound parallel pipelines — use workers, Rust sidecar, or batch job queue, not async/await alone.
 - Replacing proper backpressure — `async` does not throttle producers.
 
+
 ## Related
 
 [[NodeJS/Event Loop]] [[javascript/web workers]] [[NodeJS/worker threads]] [[Operating System/Blocking Vs Non-Blocking]]
+
+## Sources
+
+- [Wikipedia — Concurrency](https://en.wikipedia.org/wiki/Concurrency)

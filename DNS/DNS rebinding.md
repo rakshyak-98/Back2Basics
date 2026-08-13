@@ -1,125 +1,57 @@
-[[DNS]] [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]]
+[[DNS]] · [[localhost]] · [[CORS (Cross Origin Request Sharing)]] · [[Security]]
 
 # DNS rebinding
 
-> attacker rotates DNS answers to turn the browser into a proxy to internal IPs — bypasses naive same-origin checks — **CWE-350**.
+> DNS rebinding tricks a browser into treating an attacker-controlled hostname as same-origin with an internal IP — the attack rotates DNS answers from a public IP to `127.0.0.1` or RFC1918 space after the same-origin check passes.
 
 ---
 
-## Index
+## Attack shape
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Browser loads attacker page from `evil.example` (legitimate origin at load time). Attacker's DNS TTL is **very short**; on reconnect the name resolves to `127.0.0.1`, `169.254.169.254`, or `10.0.0.5`. Same-origin policy compares **scheme+host+port at request time** — if host string still matches but IP is now internal, fetches may hit services that trust "local" clients.
+1. Victim visits `evil.example` controlled by attacker.
+2. First DNS answer points to attacker's server — browser loads page, sets cookies for `evil.example`.
+3. Attacker lowers TTL; DNS now resolves `evil.example` → `192.168.1.1` (router) or `127.0.0.1`.
+4. JavaScript on the still-open page fetches `http://evil.example/admin` — browser sends request to **internal** target, appearing same-origin.
 
 ```
-1. Victim opens https://evil.example/attacker.js
-2. DNS: evil.example → 1.2.3.4 (attacker server) ✓ SOP ok
-3. Attacker JS loops fetch('https://evil.example:8080/admin')
-4. DNS TTL expires → evil.example → 127.0.0.1
-5. Browser connects to localhost:8080 — same host header, new IP
+Time T0: evil.example → 203.0.113.50 (attacker)
+Time T1: evil.example → 127.0.0.1       (victim loopback)
+Browser: same host label, different IP — bypasses naive IP pinning
 ```
 
-> [!INFO]
-> [[SOP (Same-Origin Policy)]] compares origin **names**, not resolved IPs. DNS rebinding exploits the gap between DNS name and routing target.
+Documented in academic and industry literature (e.g. Stanford Web Security research); mitigations evolved with browsers and server design.
 
-Targets: administrator panels on `127.0.0.1`, Redis/Memcached without authentication, cloud metadata (`169.254.169.254`), internal REST APIs, WebSocket servers bound `0.0.0.0`.
+## Why it works
 
-## Standard config / commands
+Browsers historically keyed same-origin policy on **scheme + host + port**, not IP. Short TTLs ([[dns record]]) enable flip after initial page load.
 
-### Detect (defender)
+## Mitigations
 
-```shell
-# Short TTL on public name pointing to RFC1918? (passive DNS / registrar audit)
-dig suspicious.example A +noall +answer +ttlid
+| Layer | Defense |
+|-------|---------|
+| **Browser** | DNS pinning removed; rely on other checks; Private Network Access (Chrome) prompts for public→private fetches |
+| **Application** | Validate `Host` header; require auth tokens; do not trust localhost listeners without auth |
+| **Service binding** | Bind admin UIs to localhost only with token; use Unix sockets |
+| **DNS** | Block external resolution of internal names (split horizon) |
+| **Network** | Firewall internal services from client subnets |
 
-# Services bound to all interfaces (attack surface)
-ss -tlnp | grep -E ':(6379|11211|8080|9200)\s'
+## Developer checklist
 
-# Metadata exposure test (from instance — should fail from browser context after fix)
-curl -s --max-time 2 http://169.254.169.254/latest/meta-data/
-```
+- Never assume "only our JS runs on this origin" when DNS is attacker-controlled.
+- Use **HTTPS** with correct certificates — internal IPs will fail cert validation unless attacker also forges certs.
+- Implement **CSRF tokens** and **Origin/Referer** checks on state-changing APIs.
 
-### Mitigations (layered — use more than one)
+## Testing (authorized lab only)
 
-**1. Bind services to specific interfaces**
+Tools like `rbndr.us` demonstrate rebinding in controlled environments.
 
-```yaml
-# redis.conf
-bind 127.0.0.1 ::1
-protected-mode yes
-```
+## Recall
 
-**2. Host header validation (apps + reverse proxies)**
+- Why does HTTPS often block rebinding even when DNS flips?
+- How does Private Network Access change public sites calling `192.168.x.x`?
 
-```nginx
-# Reject requests whose Host doesn't match allowlist
-server {
-    listen 8080;
-    if ($host !~* ^(app\.internal\.example\.com)$) {
-        return 444;
-    }
-}
-```
+## Sources
 
-**3. DNS pinning in custom clients** — browsers don't expose this; **don't rely on it in browser-facing apps**.
-
-**4. Block private/reserved IPs at egress (browser isn't enough — server-side outbound too)**
-
-```nginx
-# Prevent SSRF-style outbound from your app (also helps rebinding callbacks)
-# Use resolver + variable proxy_pass; deny literal private IPs in app code
-```
-
-**5. Browser protections (modern)**
-
-- Chrome/Firefox maintain **private network access** checks (formerly CORS-RFC1918): cross-origin requests to private IPs may require preflight approval.
-- Still patch services — browser policy isn't universal across engines/versions.
-
-**6. Firewall internal services**
-
-```shell
-# Only VPC CIDR can reach admin port
-iptables -A INPUT -p tcp --dport 8080 -s 10.0.0.0/8 -j ACCEPT
-iptables -A INPUT -p tcp --dport 8080 -j DROP
-```
-
-**7. mTLS / authentication on every internal API** — rebinding without credentials yields nothing.
-
-**8. Disable unnecessary HTTP servers** on development machines; don't run `kubectl proxy` / Docker API exposed.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Internal API hit from "external" referer | Access logs show Host=public name, src=127.0.0.1 | Host allowlist; bind service to internal IP only |
-| Metadata stolen from browser chain | IMDS hop limit, metadata service v2 | AWS IMDSv2 required + hop limit 1; firewall 169.254.169.254 from containers |
-| Redis/Mongo "random" commands | `MONITOR`; bind address | `bind 127.0.0.1`; require AUTH; SG restrict port |
-| Dev laptop compromised via local service | `ss -tlnp` for 0.0.0.0 listeners | Bind localhost; use firewall (ufw) default deny |
-| Pen test flags DNS rebinding | PoC resolves to internal IP | Implement mitigations above; document accepted risk only with auth layer |
-
-## Gotchas
-
-> [!WARNING]
-> **`0.0.0.0` bind on a laptop** behind a browser = rebinding target. "It's dev only" doesn't matter if you visit the internet on the same machine.
-
-- **WebSocket** is equally vulnerable — origin check without IP pinning doesn't stop rebinding.
-- **Long-lived connections** may hold old IP while new DNS queries get new IP — race amplifies attack window.
-- **Corporate split DNS** doesn't protect localhost services.
-- **IPv6** `:1` and ULA addresses are in scope — block `::1` and fc00::/7 in SSRF guards too.
-
-## When NOT to use
-
-- Offensive testing without written scope — rebinding against third parties is illegal.
-- Assuming [[CORS (Cross Origin Request Sharing)]] alone fixes this — CORS governs cross-origin reads, not DNS-to-IP mapping attacks on same host string.
-
-## Related
-
-[[DNS]] · [[SOP (Same-Origin Policy)]] · [[CORS (Cross Origin Request Sharing)]] · [[IDOR]] · [[TLS (Transport Layer Security)]]
+- [Stanford — DNS Rebinding Protection in Web Browsers](https://crypto.stanford.edu/dns/dns-rebinding.pdf)
+- [W3C Private Network Access](https://wicg.github.io/private-network-access/)
+- [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)

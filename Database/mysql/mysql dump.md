@@ -1,117 +1,35 @@
-[[mysql]] [[database migration]] [[mysql/mysql user]] [[Alter table]]
+[[mysql]] [[database migration]] [[mysql data migrations]] [[psql database dump]]
 
-# mysqldump
+# mysql dump
 
-> mysqldump — ──► .sql file ──► mysql < file (restore)
+> Logical backup with `mysqldump`—SQL or delimited output of schema and data for restore, cloning, and disaster recovery drills.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-`mysqldump` reads tables (consistent snapshot with `--single-transaction` on InnoDB) and emits SQL or delimited text. **Logical** backup — restore = replay SQL. Not a replacement for **binlog PITR** for minute-level RPO; combine full dump + binlogs for production.
-
-```
-mysqldump ──► .sql file ──► mysql < file   (restore)
-           └── optional gzip → S3
-```
-
-Large DBs: parallel tools (mydumper), physical backup (Percona XtraBackup), or replica-based dump off primary.
-
-## Standard config / commands
-
-### Full database (schema + data)
+## Common invocations
 
 ```bash
-mysqldump -u root -p \
-  --single-transaction \
-  --routines --events --triggers \
-  --hex-blob \
-  mydb | gzip > mydb_$(date +%F).sql.gz
+# Full database
+mysqldump -h host -u backup --single-transaction --routines --triggers mydb > mydb.sql
+
+# Schema only
+mysqldump --no-data mydb > schema.sql
+
+# One table
+mysqldump mydb orders > orders.sql
 ```
 
-### Schema only (DDL for migrations/bootstrap)
+## InnoDB consistent snapshot
+
+`--single-transaction` uses a consistent read—no global read lock on InnoDB tables.
+
+## Restore
 
 ```bash
-mysqldump -u root -p \
-  --no-data \
-  --routines --events --triggers \
-  --skip-add-drop-table \
-  --set-charset \
-  mydb > schema.sql
+mysql mydb < mydb.sql
 ```
 
-### Single table DDL
+Test restores regularly—an untested backup is wishful thinking.
 
-```bash
-mysqldump -u root -p --no-data mydb table_name > table.sql
-```
+## Sources
 
-### Data only one table
-
-```bash
-mysqldump -u root -p --no-create-info mydb table_name > table_data.sql
-```
-
-### Users and grants
-
-```bash
-mysqldump -u root -p --no-data mysql user db tables_priv > mysql_grants.sql
-# or:
-mysql -u root -p -N -e "SHOW GRANTS FOR 'app'@'%'" > app_grants.sql
-```
-
-### Restore
-
-```bash
-gunzip -c mydb.sql.gz | mysql -u root -p mydb
-mysql -u root -p mydb < schema.sql
-```
-
-### Docker
-
-```bash
-docker exec mysql_container mysqldump -u root -psecret --all-databases > all.sql
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Dump locks writes | Missing `--single-transaction` on InnoDB | Add flag; use `--lock-tables=false` with care |
-| Restore fails on TRIGGER | Definer user missing | Create users first; `--force` only in dev |
-| Huge dump slow | Full table scan | mydumper parallel; exclude log tables |
-| Partial restore | FK order | `--disable-keys`; disable FK checks session during import |
-| Charset corruption | Mixed utf8/utf8mb4 | `--default-character-set=utf8mb4` |
-| Empty routines in dump | Flag omitted | Add `--routines --events --triggers` |
-
-## Gotchas
-
-> [!WARNING]
-> **Dump during peak without `--single-transaction`** — global read lock on MyISAM mix; InnoDB still prefers consistent snapshot.
-
-> [!WARNING]
-> **Secrets in dump** — user tables may include PII; encrypt at rest (S3 SSE).
-
-> [!WARNING]
-> **Restore ≠ migration** — test on scratch instance; version match major MySQL.
-
-> [!WARNING]
-> **`--skip-add-drop-table`** — safe for incremental schema apply; full restore usually wants DROP.
-
-## When NOT to use
-
-- **Multi-TB database hot backup** — physical/XtraBackup or replica snapshot.
-- **Continuous RPO minutes** — binlog streaming + periodic full backup.
-
-## Related
-
-[[mysql]] [[database migration]] [[MySQL Triggers]] [[mysql/mysql user]] [[Database mistakes]]
+- MySQL Reference Manual — [mysqldump](https://dev.mysql.com/doc/refman/en/mysqldump.html)
+- MySQL Reference Manual — [Backup and Recovery](https://dev.mysql.com/doc/refman/en/backup-and-recovery.html)

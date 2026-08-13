@@ -1,72 +1,62 @@
-[[Feature implementation]]
+[[Feature implementation]] [[ExpressJS]] [[npm]]
 
 # Bar code generate feature
 
-> Bar code generate feature — short field notes on what it is and how to use it.
+> Generate barcode images server-side with `bwip-js` — expose an HTTP endpoint that accepts a code value and returns a PNG; validate input length and charset to avoid abuse.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Bar code generate feature — short field notes on what it is and how to use it.
+## Server endpoint
 
 ```shell
 npm install express bwip-js
 ```
+
 ```js
 const express = require('express');
 const bwipjs = require('bwip-js');
 const app = express();
-app.get("/barcode", (req, res) => {
-	cosnt {code} = req.query;
-	bwipjs.toBuffer({
-		bcid: 'code128', // Barcode type
-		text: code,
-		scale: 3,
-		height: 10,
-		includetext: true,
-		textalign: 'center',
-	}, (err, png) => {
-		if(err){
-			return res.status(500).send('Error generating barcode');
-		}
-		res.setHeader('Content-Type', 'image/png');
-		res.send(png);
-	})
-})
+
+app.get('/barcode', (req, res) => {
+  const { code } = req.query;
+  if (!code || String(code).length > 128) {
+    return res.status(400).send('Invalid code');
+  }
+  bwipjs.toBuffer({
+    bcid: 'code128',
+    text: String(code),
+    scale: 3,
+    height: 10,
+    includetext: true,
+    textalign: 'center',
+  }, (err, png) => {
+    if (err) {
+      return res.status(500).send('Error generating barcode');
+    }
+    res.setHeader('Content-Type', 'image/png');
+    res.send(png);
+  });
+});
 ```
 
+| Option | Role |
+|--------|------|
+| `bcid` | Barcode symbology (`code128`, `qrcode`, etc.) |
+| `scale` / `height` | Output dimensions |
+| `includetext` | Human-readable label under bars |
 
 ---
 
-## Standard config / commands
+## What breaks first
 
-…
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| 500 on generate | Invalid charset for symbology | Validate input; pick matching `bcid` |
+| Huge images | High `scale` on long text | Cap length; tune dimensions |
+| Abuse / CPU spike | Unauthenticated open endpoint | Rate limit; auth for production |
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
+---
 
 ## Related
 
-[[Feature implementation]]
+[[Feature implementation]] · [[ExpressJS]]

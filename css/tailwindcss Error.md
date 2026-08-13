@@ -6,28 +6,18 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Trigger / symptoms]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
+`[plugin:@tailwindcss/vite:generate:serve] Cannot apply unknown utility class `w-3`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive`
 
-## Trigger / symptoms
 
-…
+---
 
-## Preconditions
-
-…
 
 ## Steps
 
 1. …
+
 
 ## Verification
 
@@ -35,23 +25,16 @@
 # …
 ```
 
-## Mental model
-
-**Say it in one breath:** tailwindcss Error — [plugin:@tailwindcss/vite:generate:serve] Cannot apply unknown utility class w-3. Are you using CSS modules or similar and missing…
-
-`[plugin:@tailwindcss/vite:generate:serve] Cannot apply unknown utility class `w-3`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive`
-
-
----
 
 ## Rollback
 
 1. …
 
-## Escalation
-
-…
 
 ## Related
 
 [[css]]
+
+## Sources
+
+- [Wikipedia — tailwindcss Error](https://en.wikipedia.org/wiki/tailwindcss_Error)

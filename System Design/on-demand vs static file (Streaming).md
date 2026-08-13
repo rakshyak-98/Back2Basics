@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Decision context]]
-- [[#Comparison matrix]]
-- [[#Selection guide]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#When NOT to use]]
-- [[#Gotchas]]
-- [[#Related]]
-
-## Decision context
-
-…
-
-## Comparison matrix
-
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
-
-## Selection guide
-
-- Choose **A** when …
-- Choose **B** when …
-
-## Mental model
-
-**Say it in one breath:** Static = mezzanine already sliced to HLS/DASH on object storage. On-demand = origin transcodes/packages when the first viewer (or publish job) needs a rendition.
+## How it works
 
 ```txt
 Static:   mezz → (batch) → HLS on S3/CDN → players
@@ -49,7 +20,8 @@ On-demand: mezz → request → packager/transcoder → CDN cache → players
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 # Static publish sketch
@@ -67,7 +39,8 @@ player → CDN → origin packager (miss) → cache segments
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,13 +52,19 @@ player → CDN → origin packager (miss) → cache segments
 
 ---
 
-## When NOT to use
 
-- **True live events** — live pipeline, not VOD JIT.
-- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
-- **No CPU budget at edge** — pre-package everything.
+## Comparison
 
----
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+
+## How to choose
+
+- Choose **A** when …
+- Choose **B** when …
+
 
 ## Gotchas
 
@@ -100,6 +79,20 @@ player → CDN → origin packager (miss) → cache segments
 
 ---
 
+
+## When not to use
+
+- **True live events** — live pipeline, not VOD JIT.
+- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
+- **No CPU budget at edge** — pre-package everything.
+
+---
+
+
 ## Related
 
 [[Streaming]] [[HLS]] [[DASH]] [[ABR]] [[transcoding]] [[rendition]]
+
+## Sources
+
+- [Wikipedia — on-demand vs static file](https://en.wikipedia.org/wiki/on-demand_vs_static_file)

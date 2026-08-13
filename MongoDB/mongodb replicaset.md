@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A replica set is a group of mongod processes that replicate the same data. One **primary** accepts writes; **secondaries** pull from the primary's **oplog** (capped collection of operations). **Arbiters** vote in elections but hold no data. Members heartbeat each other; primary loss triggers election (~seconds).
 
@@ -32,7 +23,8 @@ Client writes → Primary → oplog
 | Secondary | No | Yes (if allowed) | Full |
 | Arbiter | No | No | None |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Initiate (lab / first deploy)
 
@@ -63,7 +55,8 @@ db.printReplicationInfo()      // oplog window
 mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +67,7 @@ mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 | Writes fail during election | Brief window | Retry with backoff; tune `serverSelectionTimeoutMS` |
 | Arbiter-only RS (even count) | Design review | Prefer 3 data-bearing nodes; arbiter is cost hack with risk |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -83,11 +77,17 @@ mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 >
 > **Hidden/delayed secondaries** — good for DR/analytics; don't point prod reads at delayed node.
 
-## When NOT to use
+
+## When not to use
 
 - Don't run production on standalone mongod — no failover, no oplog backup story.
 - Don't use arbiters as a substitute for a third data node when you care about durability.
 
+
 ## Related
 
 [[mongodb connection]] [[Database/WAL (Write-Ahead Log)]] [[connection pooling]]
+
+## Sources
+
+- [Wikipedia — mongodb replicaset](https://en.wikipedia.org/wiki/mongodb_replicaset)

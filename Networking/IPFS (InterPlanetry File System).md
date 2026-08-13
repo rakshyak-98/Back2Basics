@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You ask for a CID; the network finds whoever has those blocks and streams them to you.
+## How it works
 
 ```txt
 File → chunk → hash each block → root CID
@@ -45,7 +34,8 @@ File → chunk → hash each block → root CID
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Install / start a local node (Kubo)
@@ -73,7 +63,8 @@ curl -L "https://ipfs.io/ipfs/<CID>" -o report.pdf
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +75,7 @@ curl -L "https://ipfs.io/ipfs/<CID>" -o report.pdf
 | Can’t reach private data | Published on public network | Encrypt payload; or private IPFS / permissioned store |
 
 ---
+
 
 ## Gotchas
 
@@ -98,7 +90,8 @@ curl -L "https://ipfs.io/ipfs/<CID>" -o report.pdf
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Mutable “latest” APIs** — use object storage + CDN, or IPNS carefully; raw CIDs are immutable.
 - **Low-latency interactive apps** — DHT lookup is not a Redis round-trip.
@@ -106,6 +99,11 @@ curl -L "https://ipfs.io/ipfs/<CID>" -o report.pdf
 
 ---
 
+
 ## Related
 
 [[Networking]] [[P2P (Peer-to-Peer)]] [[Data transfer communication channels]]
+
+## Sources
+
+- [Wikipedia — IPFS](https://en.wikipedia.org/wiki/IPFS)

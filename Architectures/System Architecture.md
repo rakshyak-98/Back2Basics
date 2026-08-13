@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
-
-## Context
-
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
-
-**Say it in one breath:** Draw who talks to whom, what must stay up, and where data is the source of truth — before picking frameworks.
+## How it works
 
 ```txt
 Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
@@ -54,7 +25,8 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 # Architecture checklist (write it down)
@@ -73,7 +45,8 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,6 +56,26 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 | “Works in diagram” | No SLO / capacity | Load test critical path |
 
 ---
+
+
+## Decision
+
+We will … because …
+
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
+
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
+
 
 ## Gotchas
 
@@ -94,17 +87,17 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Prototype / spike** — skip multi-service until the product question is answered.
 - **Single-team CRUD** — modular monolith often beats premature microservices.
 
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
 
 ## Related
 
 [[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[feature flag]] [[Idempotent-key]]
+
+## Sources
+
+- [Wikipedia — System Architecture](https://en.wikipedia.org/wiki/System_Architecture)

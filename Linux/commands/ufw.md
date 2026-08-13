@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Application profiles]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** default deny incoming, allow outgoing; you add numbered allow/deny rules; enabling without SSH allow can lock you out.
+## How it works
 
 ```txt
 Packet ──► ufw rules (order matters) ──► ACCEPT / DENY / REJECT
@@ -36,7 +24,8 @@ Packet ──► ufw rules (order matters) ──► ACCEPT / DENY / REJECT
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo ufw status
@@ -66,7 +55,8 @@ sudo ufw reset                     # nuclear — re-approve SSH first
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +67,30 @@ sudo ufw reset                     # nuclear — re-approve SSH first
 | `reset` regret | All rules gone | Recreate from runbook; never reset blind on prod |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Enable without SSH allow = lockout** on remote VMs. Always `allow OpenSSH` first.
+
+> [!WARNING]
+> **UFW and Docker** — Docker manipulates iptables; published ports may bypass UFW expectations. Verify with an external probe.
+
+> [!WARNING]
+> **`ufw reset` clears everything** — including your only path in.
+
+---
+
+
+## When not to use
+
+- **Complex multi-zone / conntrack policy** — nftables/iptables directly or a host firewall manager.
+- **Kubernetes NetworkPolicy / cloud SG** — those are the real perimeter for pods/VMs; UFW is host-local.
+- **Already managed by ansible-hardened iptables** — don’t fight two controllers.
+
+---
+
 
 ## Application profiles
 
@@ -95,27 +109,11 @@ sudo ufw delete allow "Nginx HTTP"
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Enable without SSH allow = lockout** on remote VMs. Always `allow OpenSSH` first.
-
-> [!WARNING]
-> **UFW and Docker** — Docker manipulates iptables; published ports may bypass UFW expectations. Verify with an external probe.
-
-> [!WARNING]
-> **`ufw reset` clears everything** — including your only path in.
-
----
-
-## When NOT to use
-
-- **Complex multi-zone / conntrack policy** — nftables/iptables directly or a host firewall manager.
-- **Kubernetes NetworkPolicy / cloud SG** — those are the real perimeter for pods/VMs; UFW is host-local.
-- **Already managed by ansible-hardened iptables** — don’t fight two controllers.
-
----
 
 ## Related
 
 [[Linux network commands]] [[SSH]] [[iptables]] [[commands]]
+
+## Sources
+
+- [Wikipedia — ufw](https://en.wikipedia.org/wiki/ufw)

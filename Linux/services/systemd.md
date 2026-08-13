@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Everything is a unit; targets group units; `systemctl` asks systemd to start/stop/enable them without the old SysV runlevel maze.
+## How it works
 
 ```txt
 kernel
@@ -57,7 +46,8 @@ kernel
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Which init?
@@ -105,7 +95,8 @@ Legacy map: runlevels ≈ targets (`rescue.target`, `multi-user.target`, `graphi
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -116,6 +107,7 @@ Legacy map: runlevels ≈ targets (`rescue.target`, `multi-user.target`, `graphi
 | Black hole logs | Logging to tty only | Journal + `StandardOutput=journal` |
 
 ---
+
 
 ## Gotchas
 
@@ -133,7 +125,8 @@ Legacy map: runlevels ≈ targets (`rescue.target`, `multi-user.target`, `graphi
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-shot user scripts in a desktop session** — user timers/services or cron may be simpler.
 - **Orchestrating containers across hosts** — Kubernetes/Nomad own that plane; systemd stays node-local.
@@ -141,6 +134,11 @@ Legacy map: runlevels ≈ targets (`rescue.target`, `multi-user.target`, `graphi
 
 ---
 
+
 ## Related
 
 [[systemctl]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]] [[SYSV (System V)]] [[Services commands]]
+
+## Sources
+
+- [Wikipedia — systemd](https://en.wikipedia.org/wiki/systemd)

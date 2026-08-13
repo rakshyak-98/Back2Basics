@@ -1,113 +1,46 @@
-[[process]] [[Linux Process Theory]] [[Linux resource management]] [[OOM (Linux Out Of Memory)]]
+[[process]] [[Linux process commands]]
 
 # renice
 
-> renice — change CPU priority of a running process without restarting it.
+> `renice` changes scheduling priority (nice value) for running processes — lower nice means more CPU time when the machine is contended.
 
----
+Linux uses **CFS** (Completely Fair Scheduler). Nice ranges **−20** (highest priority) to **19** (lowest). Only root can set negative nice values.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Linux CFS scheduler uses **nice** (-20 to 19) as a weight hint: lower number = more CPU time when contended. Default nice is 0. **`renice` changes running processes**; `nice` launches new ones. Root can lower nice (raise priority); unprivileged users can only increase nice (be nicer to others).
-
-```
-CPU contention → scheduler picks lower nice first
-renice +10 batch_job  →  interactive shell stays snappy
-nice -n 19 cpu_hog    →  start heavy job deprioritized
-```
-
-| Range | Who can set | Effect |
-|-------|-------------|--------|
-| -20 to -1 | root (CAP_SYS_NICE) | Higher CPU priority |
-| 0 | default | Normal |
-| 1 to 19 | any user (own processes) | Lower CPU priority |
-
-**Separate knobs:** `ionice` for disk; `chrt` for realtime scheduling; cgroups for hard limits ([[Linux cgroup]]).
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **nice** | CPU priority hint (-20..19) | “Lower nice = more CPU when contended.” |
-| **renice** | Change running process | “renice existing; nice at launch.” |
-| **ionice** | Disk I/O priority | “CPU nice won’t fix disk thrash.” |
-| **CAP_SYS_NICE** | Need root for negative nice | “Only root can raise priority.” |
-| **cgroup** | Hard limits vs nice hints | “Nice is soft; CPUQuota is hard.” |
-
-## Standard config / commands
+## Usage
 
 ```bash
-# Lower priority of running PID (root)
-sudo renice -n 10 -p 12345
+# Lower priority of PID 1234 (higher nice number)
+renice +10 -p 1234
 
-# Multiple PIDs
-sudo renice -n 5 -p 1234 -p 5678
+# Raise priority (requires root)
+sudo renice -5 -p 1234
 
-# By user — all their processes
-sudo renice -n 15 -u batchuser
-
-# Verify
-ps -o pid,ni,comm,args -p 12345
-top -o NI    # sort by nice in top
-
-# Start new process with nice (not renice)
-nice -n 19 ./long_running_job.sh
-
-# Negative nice (higher priority) — root only
-sudo renice -n -5 -p $(pgrep -f 'critical-worker')
+# By user or group
+renice +5 -u www-data
 ```
 
-**systemd service nice:**
+Interactive `top`: press `r`, enter PID and new nice value.
 
-```ini
-# /etc/systemd/system/app.service.d/nice.conf
-[Service]
-Nice=10
-```
+## nice vs ionice vs cgroups
 
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart app
-```
+| Tool | Resource |
+|------|----------|
+| `nice` / `renice` | CPU time share |
+| `ionice` | Disk I/O class |
+| [[Linux cgroup]] `cpu.max` | Hard CPU cap |
 
-## Triage (when things break)
+## Debugging CPU contention
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| renice: permission denied | Target PID owner; negative nice | Use sudo; only root lowers nice |
-| No perceived effect | I/O bound not CPU | Check `iostat`, `ionice`; not CPU scheduler |
-| System still sluggish | Memory pressure | [[OOM (Linux Out Of Memory)]]; renice won't free RAM |
-| Critical job starved | Others at negative nice | Raise misbehaving PIDs; use cgroups CPUQuota |
-| renice works until restart | Service unit lacks Nice= | systemd drop-in Nice= |
-| Batch job hogs despite renice 19 | Too many cores idle | Expected when CPU not contended |
-
-## Gotchas
-
-> [!WARNING]
-> **Negative nice on shared prod** — one `-20` process can starve sshd, monitoring, and kubelet. Cap with cgroups instead of nice wars.
-
-> [!WARNING]
-> **renice ≠ realtime** — for audio/low-latency use `chrt` and RT limits (`/etc/security/limits.d`); misuse freezes system.
-
-- **Containers** — renice inside container affects host-visible nice of cgroup processes; limits may clamp.
-- **Short-lived workers** — renice parent; forked children may inherit nice (verify).
-- **NUMA** — nice doesn't pin cores; use `taskset` for affinity.
-
-## When NOT to use
-
-- **Memory exhaustion** — renice doesn't reduce RSS; fix leak or add RAM/cgroup limit.
-- **Disk thrashing** — use `ionice -c 3` or cgroup blkio.
-- **Hard multi-tenant isolation** — use [[Linux cgroup]] CPUQuota/CPUs, not nice hints.
+| Symptom | Check |
+|---------|-------|
+| Batch job starves desktop | `renice +10` on batch PIDs |
+| Critical daemon slow | `sudo renice -5 -p PID` — temporary relief only |
+| Throttling despite high nice | cgroup `cpu.max` or CPU quota — not nice |
 
 ## Related
 
-[[process]] [[Linux Process Theory]] [[Linux resource management]] [[OOM (Linux Out Of Memory)]] [[Linux cgroup]] [[top]]
+[[process]] · [[top]] · [[Linux cgroup]] · [[management/Linux resource management]]
+
+## Sources
+
+- `man 1 renice`, `man 7 sched`

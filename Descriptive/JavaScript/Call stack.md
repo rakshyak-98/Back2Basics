@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** JS runs one stack in a typical realm; async work continues later via the event loop, not by growing the same synchronous stack forever.
+## How it works
 
 ```txt
 main → a → b → c   then pop c,b,a
@@ -35,7 +24,8 @@ async: stack clears → task/microtask → new stack
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 function a() { b() }
@@ -51,7 +41,8 @@ try { a() } catch (e) { console.log(e.stack) }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ try { a() } catch (e) { console.log(e.stack) }
 | Silent hang | busy sync loop | Yield to event loop |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ try { a() } catch (e) { console.log(e.stack) }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **CPU-bound parallelism** — workers.
 - **Deep recursion algorithms** — prefer explicit stacks/loops in JS.
 
+
 ## Related
 
 [[JavaScript/Asynchronous]] [[JavaScript/execution context]] [[Stack trace]]
+
+## Sources
+
+- [Wikipedia — Call stack](https://en.wikipedia.org/wiki/Call_stack)

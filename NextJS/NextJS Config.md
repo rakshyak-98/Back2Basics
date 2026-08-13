@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** One configuration file shapes build + runtime behavior. Prefer documented options over undocumented experimental flags in production.
+## How it works
 
 ```txt
 next.config.* ──build/runtime──► output + routing behavior
@@ -25,7 +14,8 @@ next.config.* ──build/runtime──► output + routing behavior
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 /** @type {import('next').NextConfig} */
@@ -47,7 +37,8 @@ module.exports = nextConfig
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,6 +48,7 @@ module.exports = nextConfig
 | Headers not applied | Source pattern | Fix matchers |
 
 ---
+
 
 ## Gotchas
 
@@ -68,13 +60,19 @@ module.exports = nextConfig
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **application logic** — keep out of configuration; use code.
 - **Secrets** — environment, not configuration committed.
 
 ---
 
+
 ## Related
 
 [[Next JS]] [[Next js Build]] [[HTTP Strict Transport Security]]
+
+## Sources
+
+- [Wikipedia — NextJS Config](https://en.wikipedia.org/wiki/NextJS_Config)

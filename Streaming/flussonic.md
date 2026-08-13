@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Flussonic sits between your encoder and the player: take a live input, optionally fetch DRM keys, encrypt + package, serve manifests and segments.
+## How it works
 
 ```txt
 Encoder / headend
@@ -72,7 +61,8 @@ DoveRunner → allow/deny → key material to CDM
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Conceptual stream URL shapes
 
@@ -125,7 +115,8 @@ Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, n
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -138,6 +129,7 @@ Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, n
 | High origin CPU | Transcode + encrypt on one box | Separate ABR ladder; scale Flussonic / push CDN |
 
 ---
+
 
 ## Gotchas
 
@@ -158,7 +150,8 @@ Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, n
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
 - **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
@@ -166,6 +159,11 @@ Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, n
 
 ---
 
+
 ## Related
 
 [[DRM]] [[Pallycon(DoveRunner)]] [[DASH]] [[HLS]] [[MPEG-TS]] [[CPIX]] [[EME]] [[ingestion]] [[streaming manifest file]] [[IPTV]] [[CAS (Conditional Access System)]]
+
+## Sources
+
+- [Wikipedia — flussonic](https://en.wikipedia.org/wiki/flussonic)

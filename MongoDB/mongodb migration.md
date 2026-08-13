@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Change the application to read both shapes, backfill, then drop the old field — expand/contract, not big-bang.
+## How it works
 
 ```txt
 1 deploy dual-read/write → 2 migrate docs → 3 remove old path
@@ -34,7 +23,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // batch rename field
@@ -58,7 +48,8 @@ npx migrate-mongo status
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ npx migrate-mongo status
 | Secondary lag | Huge writes | Throttle batches |
 
 ---
+
 
 ## Gotchas
 
@@ -79,11 +71,17 @@ npx migrate-mongo status
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off analytics reshape** — aggregation `$out` may be enough.
 - **Schema still unstable weekly** — stabilize product first.
 
+
 ## Related
 
 [[mongodb schema]] [[MongoDB query validation]] [[mongosh]]
+
+## Sources
+
+- [Wikipedia — mongodb migration](https://en.wikipedia.org/wiki/mongodb_migration)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **server** listens on a **port**, accepts **connections** or **requests**, executes **handlers**, returns responses. Design choices: **thread versus event loop**, **stateless versus session**, **HTTP versus WebSocket/SSE**. Scale = **many concurrent connections** without exhausting **file descriptors** or **memory** ([[concurrent connection]]).
 
@@ -38,7 +29,8 @@ Client ──► load balancer ──► server pool
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Node HTTP server (minimal)
 
@@ -104,7 +96,8 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +110,7 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 | CPU pegged | Sync crypto/blocking | Offload; async I/O ([[Event Loop]]) |
 
 ---
+
 
 ## Gotchas
 
@@ -137,7 +131,8 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure static site** — object storage + CDN, no application server.
 - **Heavy GPU transcode** — worker process, not HTTP request thread ([[Encoding]]).
@@ -145,6 +140,11 @@ Kubernetes preStop hook + terminationGracePeriodSeconds
 
 ---
 
+
 ## Related
 
 [[concurrent connection]] [[System design]] [[Event Loop]] [[stateless]] [[webSocket]] [[Configuration]] [[backpressure]]
+
+## Sources
+
+- [Wikipedia — server](https://en.wikipedia.org/wiki/server)

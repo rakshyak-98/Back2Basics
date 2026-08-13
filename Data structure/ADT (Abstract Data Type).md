@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Stack/Queue/Map are ADTs; array/linked-list/hash-table are implementations you can swap if the operations stay the same.
+## How it works
 
 ```txt
 ADT (what)  →  data structure (how)
@@ -35,7 +24,8 @@ Stack.push/pop  →  array or linked list
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 Stack ADT: push, pop, peek, isEmpty
@@ -51,7 +41,8 @@ Map ADT: get, set, delete, contains
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ Map ADT: get, set, delete, contains
 | “ADT too slow” | bad impl | Profile; change structure |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@ Map ADT: get, set, delete, contains
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off scripts** — concrete arrays are fine.
 - **When the representation *is* the product** — e.g. teaching memory layouts.
 
+
 ## Related
 
 [[Data structure]] [[array]] [[DSA algorithms]]
+
+## Sources
+
+- [Wikipedia — ADT](https://en.wikipedia.org/wiki/ADT)

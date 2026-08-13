@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 ŷ = β₀ + β₁x₁ + β₂x₂ + … + βₚxₚ
@@ -41,7 +32,8 @@ For classification boundaries, see [[sigmoid]] + logistic regression (not this n
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### sklearn baseline
 
@@ -86,7 +78,8 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +91,7 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 | `LinAlgError: singular matrix` | Perfect collinearity, p > n | Drop duplicate cols; Ridge; reduce features |
 
 ---
+
 
 ## Gotchas
 
@@ -115,7 +109,8 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Strong nonlinear interactions** without explicit feature crosses — [[Gradient boosting]] or GAM usually wins.
 - **Target is count / rate with bounds** — Poisson, Gamma GLM, or beta regression.
@@ -124,6 +119,11 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 
 ---
 
+
 ## Related
 
 [[regression]] · [[Model/Polynomial regression]] · [[Gradient boosting]] · [[Decision tree]] · [[Visualization/Residual plot]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — Linear regression](https://en.wikipedia.org/wiki/Linear_regression)

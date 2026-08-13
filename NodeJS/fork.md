@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `fork(modulePath, args, options)` is `spawn('node', [modulePath, ...args])` plus an **`process.send` / `message` IPC channel**. Parent and child both run V8; child gets its own event loop and memory.
 
@@ -29,7 +20,8 @@ Master process                    Worker (fork)
 
 [[clustering]] uses `fork` under the hood to share server ports via SO_REUSEPORT/scheduling. For non-Node binaries, use [[spawn]].
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic IPC
 
@@ -96,7 +88,8 @@ process.on('SIGTERM', () => {
 });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,6 +99,7 @@ process.on('SIGTERM', () => {
 | Port EADDRINUSE in cluster | Workers double-bind wrong | Only primary listens or use cluster API |
 | Zombie on crash | No refork | Primary `cluster.on('exit')` refork with backoff |
 | Serialization error | Non-cloneable object in send | JSON-safe payloads only (structured clone limits) |
+
 
 ## Gotchas
 
@@ -118,12 +112,18 @@ process.on('SIGTERM', () => {
 > [!WARNING]
 > **Orphaned children on parent SIGKILL** — use process groups or init system to reap.
 
-## When NOT to use
+
+## When not to use
 
 - **External CLI (git, ffmpeg)** — [[spawn]].
 - **CPU parallelism inside one request** — [[worker threads]] lighter than process.
 - **Horizontal scale across machines** — K8s replicas, not fork on one box only.
 
+
 ## Related
 
 [[child process]] [[spawn]] [[clustering]] [[worker threads]] [[worker]]
+
+## Sources
+
+- [Wikipedia — fork](https://en.wikipedia.org/wiki/fork)

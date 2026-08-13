@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 At build time, page is static HTML. After deploy, first request (or revalidate interval) can trigger **background regeneration**. Users get **stale** page immediately while fresh version builds — then CDN serves new static file. Distinct from SSR (every request) and pure SSG (rebuild all).
 
@@ -23,7 +14,8 @@ At build time, page is static HTML. After deploy, first request (or revalidate i
 Request → CDN static (stale OK) → optional background regen → update CDN cache
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Pages Router
 
@@ -64,7 +56,8 @@ export async function POST(req: Request) {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +66,7 @@ export async function POST(req: Request) {
 | Build OK, prod stale | Hosting ISR support | Vercel/Netlify plugin; not plain static export |
 | 401 on revalidate | Secret mismatch | Match header + env |
 | Thundering herd regen | Traffic spike on stale | Increase `revalidate`; use on-demand only |
+
 
 ## Gotchas
 
@@ -83,11 +77,17 @@ export async function POST(req: Request) {
 >
 > **Personalized pages** — don't ISR user-specific data; use SSR or client fetch.
 
-## When NOT to use
+
+## When not to use
 
 - Don't ISR real-time dashboards (stock tickers, live scores) — use SSR/WebSocket.
 - Don't ISR pages that must be legally exact at every view (some pricing) without short revalidate + purge.
 
+
 ## Related
 
 [[NextJS/NextJS navigation]] [[Deployment/vercel cli]] [[Netlify/Netlify deployment]] [[Deployment/vercel deployment]]
+
+## Sources
+
+- [Wikipedia — ISR](https://en.wikipedia.org/wiki/ISR)

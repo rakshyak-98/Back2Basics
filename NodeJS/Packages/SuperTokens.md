@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 [SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
 
@@ -27,7 +18,8 @@ Browser ──login──► API (supertokens-node SDK) ──► SuperTokens Co
 
 Recipe modules: **EmailPassword**, **ThirdParty** (OAuth), **Passwordless**, **Session**, **UserRoles**. SDK exposes `middleware()`, `errorHandler()`, and recipe APIs for sign-up/sign-in.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Express setup
 
@@ -87,7 +79,8 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 # supertokens-core on 3567; point connectionURI to it
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 | Session exists but 403 CSRF | Missing anti-CSRF header | Frontend SDK must send header from recipe |
 | Works locally, fails prod | `cookieSecure` on HTTP | HTTPS only in prod or correct proxy `trust proxy` |
 | User deleted but session valid | Session revocation | Call revoke session APIs; shorten access token life |
+
 
 ## Gotchas
 
@@ -112,12 +106,18 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 > [!WARNING]
 > **Multi-region** — Core latency; consider managed SuperTokens or regional Core.
 
-## When NOT to use
+
+## When not to use
 
 - **Pure SPA + opaque API tokens only** — simpler OAuth2 provider (Auth0, Cognito) may fit.
 - **Machine-to-machine only** — client credentials flow, not session cookies.
 - **Already deep into custom JWT** — migration cost versus incremental hardening.
 
+
 ## Related
 
 [[Security/JWT authentication]] [[Security/single-sign-on (SSO)]] [[Security/CORS (Cross Origin Request Sharing)]] [[Express middleware]] [[Security/Token rotation]]
+
+## Sources
+
+- [Wikipedia — SuperTokens](https://en.wikipedia.org/wiki/SuperTokens)

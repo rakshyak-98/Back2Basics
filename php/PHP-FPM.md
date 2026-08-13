@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Nginx terminates TLS and forwards requests to **PHP-FPM** over TCP or a **Unix socket**. FPM maintains a pool of worker processes; each worker handles one request at a time (unless you use async frameworks, which is rare in PHP).
 
@@ -37,7 +28,8 @@ Client ──► Nginx ──► [FPM master] ──► worker pool ──► PH
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Pool snippet (`/etc/php/8.3/fpm/pool.d/www.conf`)
 
@@ -124,7 +116,8 @@ ls -la /run/php/php8.3-fpm.sock
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -146,6 +139,7 @@ sudo journalctl -u php8.3-fpm -f
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -165,7 +159,8 @@ sudo journalctl -u php8.3-fpm -f
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **CLI/cron scripts** — invoke `php` directly, not FPM.
 - **Long-lived WebSockets in PHP** — wrong tool; use Node/Go or a dedicated WS gateway.
@@ -173,6 +168,11 @@ sudo journalctl -u php8.3-fpm -f
 
 ---
 
+
 ## Related
 
 [[nginx fastcgi]] [[nginx using unix socket]] [[Nginx internals]] [[file descriptors]] [[OOM (Linux Out Of Memory)]]
+
+## Sources
+
+- [Wikipedia — PHP-FPM](https://en.wikipedia.org/wiki/PHP-FPM)

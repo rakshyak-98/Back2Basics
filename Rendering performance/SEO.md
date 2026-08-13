@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Search engines **crawl** URLs, **index** content, **rank** for queries. SEO spans:
 
@@ -29,7 +20,8 @@ Modern baseline includes **Core Web Vitals** ([[Rendering performance/INP]], LCP
 Googlebot → robots.txt → fetch HTML → render (JS) → index → rank
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Non-negotiable technical checklist
 
@@ -82,7 +74,8 @@ References:
 - [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
 - [PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/about)
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,6 +86,7 @@ References:
 | JS content missing in index | View rendered HTML | SSR/prerender critical content |
 | hreflang wrong | International targeting | Valid language/region pairs |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -102,11 +96,17 @@ References:
 - **Infinite faceted URLs** — crawl budget waste; `noindex` or consolidate parameters.
 - **AI-generated thin pages** — quality beats volume; manual review for E-E-A-T.
 
-## When NOT to use
+
+## When not to use
 
 - Don't SEO spam internal tools behind authentication — `noindex` and save effort.
 - Keyword stuffing — hurts readability and can trigger quality demotion.
 
+
 ## Related
 
 [[Descriptive/web development]] [[Rendering performance/INP]] [[Nginx/nginx SPA deployment]] [[Security/https]]
+
+## Sources
+
+- [Wikipedia — SEO](https://en.wikipedia.org/wiki/SEO)

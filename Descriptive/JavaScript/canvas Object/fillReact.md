@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Set `fillStyle`, then `fillRect(x, y, w, h)` in canvas pixel space — not DOM React.
+## How it works
 
 ```txt
 getContext('2d') → fillStyle → fillRect
@@ -34,7 +23,8 @@ getContext('2d') → fillStyle → fillRect
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const ctx = canvas.getContext('2d')
@@ -50,7 +40,8 @@ ctx.fillRect(10, 20, 100, 50)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ ctx.fillRect(10, 20, 100, 50)
 | fillReact undefined | typo | Use `fillRect` |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ ctx.fillRect(10, 20, 100, 50)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple UI boxes** — HTML/CSS.
 - **Huge scene graphs** — WebGL / retained mode libs.
 
+
 ## Related
 
 [[html]] [[Javascript]]
+
+## Sources
+
+- [Wikipedia — fillReact](https://en.wikipedia.org/wiki/fillReact)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `sshd` loads `/etc/ssh/sshd_config` plus `sshd_config.d/*.conf`; uncommented lines override built-in defaults.
+## How it works
 
 ```txt
 Client :22 → sshd → config + Match blocks → keys/PAM → session
@@ -34,7 +23,8 @@ Client `~/.ssh/config` ≠ server `sshd_config`.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo sshd -T | less                 # effective config
@@ -64,7 +54,8 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +66,7 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 | Wrong port | `ss -tlnp \| grep ssh` | Match socket unit + config |
 
 ---
+
 
 ## Gotchas
 
@@ -89,7 +81,8 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Password authentication on internet hosts** — keys (+ optional bastion).
 - **Root login with password** — never.
@@ -97,6 +90,11 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 
 ---
 
+
 ## Related
 
 [[ssh allow local system with key]] [[SSH authentication]] [[ssh agent]] [[git ssh configuration]]
+
+## Sources
+
+- [Wikipedia — sshd config](https://en.wikipedia.org/wiki/sshd_config)

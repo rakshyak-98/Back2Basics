@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** kotlin data flow — by lets one object handle that logic of property on behalf of another object.
+## How it works
 
 `by` lets one object handle that logic of property on behalf of another object.
 ```kotlin
@@ -55,25 +44,24 @@ Why was it added?
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[kotlin]]
+
+## Sources
+
+- [Wikipedia — kotlin data flow](https://en.wikipedia.org/wiki/kotlin_data_flow)

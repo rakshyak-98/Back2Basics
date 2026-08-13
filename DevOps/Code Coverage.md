@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Coverage tools **instrument** code (counters at branches/lines), run tests, report what executed.
 
@@ -32,7 +23,8 @@ High coverage ≠ correct behavior — it shows **what ran**, not **what was ass
 | **Function** | Function invoked |
 | **Statement** | Similar to line in JS |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Jest (built-in coverage)
 
@@ -84,7 +76,8 @@ Prefer narrowing `collectCoverageFrom` over blanket ignores.
 npx stryker run   # mutates code; tests should fail — finds weak assertions
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,6 +88,7 @@ npx stryker run   # mutates code; tests should fail — finds weak assertions
 | False 100% | Untested catch blocks | Test error paths explicitly |
 | Instrumentation breaks build | ESM/CJS mismatch | Use provider supported by test runner |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -104,11 +98,17 @@ npx stryker run   # mutates code; tests should fail — finds weak assertions
 - **Branch coverage** harder than line — `if (x) return` needs two tests.
 - **Integration tests** may double-count same lines — acceptable if intentional.
 
-## When NOT to use
+
+## When not to use
 
 - Don't block merge on 95% global threshold for legacy codebase — ratchet gradually.
 - Don't measure coverage on configuration-only or infra repos — meaningless signal.
 
+
 ## Related
 
 [[DevOps/Jenkins]] [[npm/husk]] [[NodeJS/node command]] [[Design pattern/Dependency Injection]]
+
+## Sources
+
+- [Wikipedia — Code Coverage](https://en.wikipedia.org/wiki/Code_Coverage)

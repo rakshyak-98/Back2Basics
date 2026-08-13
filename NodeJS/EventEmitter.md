@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `EventEmitter` is Node's observer pattern: objects **emit** named events; registered listeners run synchronously in registration order (unless `setImmediate`/`async` inside handler).
 
@@ -31,7 +22,8 @@ Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`, `
 
 **Sync by default:** a slow listener blocks other listeners and the emitter's caller until it returns.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic usage
 
@@ -94,7 +86,8 @@ emitter.on('data', async () => {
 emitter.on('error', (err) => console.error(err));
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ emitter.on('error', (err) => console.error(err));
 | Uncaught exception crashes process | Missing `error` listener on emitter | Always `on('error', …)` for streams/sockets |
 | Event order surprises | Sync handlers + microtasks | Document order; defer heavy work with `setImmediate` |
 | Duplicate handlers after HMR | Hot reload re-registers `on` | `off` before `on`; use `once` for setup |
+
 
 ## Gotchas
 
@@ -119,12 +113,18 @@ emitter.on('error', (err) => console.error(err));
 > [!WARNING]
 > **Don't emit during `removeListener`** — mutating listener list while iterating causes skipped/duplicate calls.
 
-## When NOT to use
+
+## When not to use
 
 - **Cross-process messaging** — use [[child process]] IPC, Redis pub/sub, or a message broker.
 - **Request/response with one caller** — Promises/async functions are clearer than emit/wait hacks.
 - **Global event bus for all application state** — becomes undebuggable; prefer explicit DI or state store.
 
+
 ## Related
 
 [[event emitter]] [[Event Loop]] [[Stream]] [[Node events driven]] [[worker threads]]
+
+## Sources
+
+- [Wikipedia — EventEmitter](https://en.wikipedia.org/wiki/EventEmitter)

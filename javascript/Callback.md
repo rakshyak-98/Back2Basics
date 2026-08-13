@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You hand an API a function; it invokes it when work finishes. Nesting many callbacks → “callback hell”; Promises/`async` flatten that.
+## How it works
 
 ```txt
 doWork(args, (err, result) => { … })
@@ -31,7 +20,8 @@ doWork(args, (err, result) => { … })
 | **continuation** | Next step as fn | “Control flow inverted.” |
 | **promisify** | Wrap callback API | “`util.promisify`.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { readFile } from 'node:fs'
@@ -54,7 +44,8 @@ const data = await read('a.txt', 'utf8')
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ const data = await read('a.txt', 'utf8')
 | Wrong `this` | Method as cb | bind / arrow |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ const data = await read('a.txt', 'utf8')
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New async Node APIs** — use promise variants (`fs/promises`).
 - **Complex parallel flows** — Promise combinators / async utils.
 
 ---
 
+
 ## Related
 
 [[promise]] [[event listener]] [[IIFC]]
+
+## Sources
+
+- [Wikipedia — Callback](https://en.wikipedia.org/wiki/Callback)

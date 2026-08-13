@@ -1,120 +1,29 @@
-[[React build]] [[Typescript with react]] [[NodeJS/node package json]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
 
 # React project config
 
-> TypeScript, Vite, path aliases, env typing — **boring correct setup** so IDE and CI agree — **Vite + TS handbook**.
+> React project config shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-configuration layers:
+## Recall
 
-```txt
-tsconfig.json     → typecheck rules, paths, JSX
-vite.config.ts    → dev server, aliases, plugins
-.env.*            → build-time public vars (VITE_)
-eslint/prettier    → lint in CI
-```
-
-Goal: **one import style** (`@/features/...`), strict enough TS to catch production bugs, environment variables validated once at boot.
-
----
-
-## Standard config / commands
-
-### Ambient types (`vite-env.d.ts`)
-
-```typescript
-/// <reference types="vite/client" />
-
-interface ImportMetaEnv {
-  readonly VITE_API_URL: string;
-  readonly VITE_APP_ENV: "development" | "staging" | "production";
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-```
-
-Requires `@types/react`, `@types/node` in devDependencies.
-
-### tsconfig (Vite React)
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
-  },
-  "include": ["src", "vite-env.d.ts"]
-}
-```
-
-### Vite alias (match paths)
-
-```typescript
-import path from "node:path";
-export default defineConfig({
-  resolve: { alias: { "@": path.resolve(__dirname, "src") } },
-});
-```
-
-### Validate env at startup
-
-```typescript
-const api = import.meta.env.VITE_API_URL;
-if (!api) throw new Error("VITE_API_URL missing");
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Cannot find module `@/` | tsconfig paths only | Mirror alias in vite.config |
-| `import.meta.env` any | Missing vite/client ref | Add `vite-env.d.ts` |
-| Types work in IDE, fail CI | `tsc` not run | `"build": "tsc -b && vite build"` |
-| Node API in browser bundle | Wrong tsconfig types | `"types": []` or split tsconfig |
-| Env undefined prod | Not set in CI | Inject at build; document in README |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Triple-slash refs don't replace installing `@types/*`** — both needed.
-
-> [!WARNING]
-> **Strict false** — saves time once, costs weeks in nullable bugs.
-
----
-
-## When NOT to use
-
-- **Monorepo packages** — per-package tsconfig + project references, not one giant paths map.
-- **Next.js** — use `next-env.d.ts` and `NEXT_PUBLIC_*` instead of Vite environment pattern.
-
----
+What breaks first in production if `React project config` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React build]] · [[Typescript with react]] · [[source map]] · [[SWC]] · [[NodeJS/node package json]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+
+## Sources
+
+- [React official documentation](https://react.dev)

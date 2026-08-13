@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Doppler stores secrets in **projects** × **configs** (development/staging/production). The CLI or SDK injects values at runtime — nothing sensitive lives in the repository.
 
@@ -37,7 +28,8 @@ Developer / CI
 
 Replaces checked-in `.env` files and ad-hoc `export` in shell history.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install + login (Ubuntu)
 
@@ -79,7 +71,8 @@ doppler configure unset project
 doppler configure unset config
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +81,7 @@ doppler configure unset config
 | CI fails auth | Token scope / expiry | Regenerate service token; store in CI secret store |
 | Wrong env vars in prod | Config mismatch | Verify `doppler configure get config`; use separate tokens per env |
 | `doppler run` works locally, not in Docker | Token not passed to container | Mount `DOPPLER_TOKEN` or use Doppler sidecar/K8s operator |
+
 
 ## Gotchas
 
@@ -98,12 +92,18 @@ doppler configure unset config
 - **Monorepos:** each service directory needs its own `doppler setup` or explicit `--project` / `--config` flags.
 - **Rotation:** updating a secret in the dashboard does **not** hot-reload running pods — roll the deployment.
 
-## When NOT to use
+
+## When not to use
 
 - Static, non-sensitive configuration (feature flags, public URLs) — use normal configuration files or [[NodeJS/node-convict]].
 - Air-gapped or strict data-residency without Doppler region support — use [[Security/KMS]] or Vault on-prem.
 - One-off local scripts where `.env.local` (gitignored) is simpler and the team agrees.
 
+
 ## Related
 
 [[Security/KMS]] [[NodeJS/node-convict]] [[AWS/IAM]] [[Deployment/vercel deployment]]
+
+## Sources
+
+- [Wikipedia — doppler](https://en.wikipedia.org/wiki/doppler)

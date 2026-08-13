@@ -1,119 +1,35 @@
-[[mysql]] [[mysql transaction]] [[ACID]] [[mysql engine]]
+[[mysql transaction]] [[ACID]] [[mysql query]]
 
 # mysql lock
 
-> Locks stop two sessions from stepping on the same data — prefer row locks in transactions; table locks are a blunt tool.
+> InnoDB row-level locks, gap locks, and next-key locks that implement isolation—deadlocks are normal and one transaction is rolled back.
 
----
+## Lock types
 
-## Index
+| Lock | Scenario |
+|------|----------|
+| Record lock | Exact row match |
+| Gap lock | Blocks inserts in index gap (RR isolation) |
+| Next-key | Record + gap |
+| Intention locks | Table-level intent for row locks |
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** InnoDB grabs row locks as you read `FOR UPDATE` / write; `LOCK TABLES` freezes whole tables outside that finer model.
-
-```txt
-Session A                         Session B
-  BEGIN                             BEGIN
-  SELECT ... FOR UPDATE  ──wait──►  same rows
-  UPDATE / COMMIT                   proceeds
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Row lock** | Lock matching rows (InnoDB) | “We lock only inventory rows we intend to change.” |
-| **FOR UPDATE** | Exclusive row lock on read | “Read-modify-write without lost updates.” |
-| **FOR SHARE** | Shared lock; blocks writers | “Readers can share; writers wait.” |
-| **LOCK TABLES READ** | Table shared; no writers (incl. you) | “Consistent snapshot of whole tables — rare now.” |
-| **LOCK TABLES WRITE** | Exclusive table | “Blocks everyone else — last resort.” |
-| **Deadlock** | Cycle of waits | “InnoDB aborts one txn; retry the loser.” |
-
-### Table vs row
-
-| Tool | Scope | Typical use |
-|------|-------|-------------|
-| InnoDB row locks | Rows (gap/next-key too) | Normal OLTP inside transactions |
-| `LOCK TABLES` | Whole table(s) | Legacy / MyISAM-era; avoid on InnoDB apps |
-
----
-
-## Standard config / commands
+## Explicit locking
 
 ```sql
-START TRANSACTION;
-
-SELECT * FROM inventory
-WHERE room_type_id = 101 AND date = '2026-04-25'
-FOR UPDATE;          -- exclusive
-
-UPDATE inventory SET available = available - 1
-WHERE room_type_id = 101 AND date = '2026-04-25';
-
-COMMIT;
+SELECT * FROM accounts WHERE id = 1 FOR UPDATE;
+SELECT * FROM accounts WHERE id = 1 LOCK IN SHARE MODE;  -- FOR SHARE in 8.0
 ```
+
+## Deadlocks
 
 ```sql
-START TRANSACTION;
-SELECT * FROM inventory WHERE room_type_id = 101 FOR SHARE;  -- shared
-COMMIT;
+SHOW ENGINE INNODB STATUS\G
+-- LATEST DETECTED DEADLOCK section
 ```
 
-```sql
-LOCK TABLES t READ;    -- or WRITE
--- ... work ...
-UNLOCK TABLES;
-```
+Application should retry deadlocked transactions.
 
-| Knob | Why it matters |
-|------|----------------|
-| Index on lock predicate | Without index, InnoDB may lock many more rows / gaps |
-| Short transactions | Long `FOR UPDATE` holds block others |
-| `innodb_lock_wait_timeout` | How long waiters block before error |
+## Sources
 
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Query waits forever | `SHOW ENGINE INNODB STATUS\G` / `performance_schema` | Kill blocker; shorten txn; add index |
-| Deadlock error | InnoDB status deadlock section | Retry; consistent lock order |
-| Whole app stalls | `LOCK TABLES` held | Unlock; migrate to row locks |
-| Lost updates without error | No `FOR UPDATE` on RMW | Wrap read+write in txn with `FOR UPDATE` |
-| Lock wait timeout | `SHOW PROCESSLIST` | Reduce contention; fix hot rows |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **No useful index on WHERE** — InnoDB may lock a wide range (next-key/gap), not “just one row.”
-
-> [!WARNING]
-> **`LOCK TABLES` commits the current transaction** — don’t mix casually with InnoDB txns.
-
-> [!WARNING]
-> **Deadlocks are normal under contention** — design for retry, not “never deadlock.”
-
----
-
-## When NOT to use
-
-- **`LOCK TABLES` for modern InnoDB OLTP** — use transactions + row locks.
-- **Holding locks across user think-time / HTTP round-trips** — lock in DB, decide in application quickly, or use optimistic patterns.
-- **Table WRITE locks for “safety” on every write path** — kills concurrency.
-
----
-
-## Related
-
-[[mysql transaction]] [[mysql]] [[ACID]] [[mysql engine]] [[mysql index]] [[OLTP]]
+- MySQL Reference Manual — [InnoDB Locking](https://dev.mysql.com/doc/refman/en/innodb-locking.html)
+- MySQL Reference Manual — [Deadlocks](https://dev.mysql.com/doc/refman/en/innodb-deadlocks.html)

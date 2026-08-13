@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Egress** = source inside, destination outside (relative to trust boundary):
 
@@ -33,7 +24,8 @@ Ingress and egress asymmetry: you control routing tables for both; **return traf
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### AWS VPC (standard NAT egress)
 
@@ -70,7 +62,8 @@ kubectl top pod -A --sort-by=network
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ kubectl top pod -A --sort-by=network
 | Geo-blocked egress | Egress IP is NAT pool | Proxy in allowed region; VPN |
 
 ---
+
 
 ## Gotchas
 
@@ -94,12 +88,18 @@ kubectl top pod -A --sort-by=network
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't NAT **everything** if instances need direct inbound (public ALB on application tier) — split tiers: public LB ingress, private application egress via NAT.
 
 ---
 
+
 ## Related
 
 [[NAT (Network Address Translation)]] [[Egress and Ingress]] [[routing table]] [[Network error]] [[AWS Networking]]
+
+## Sources
+
+- [Wikipedia — Egress traffic](https://en.wikipedia.org/wiki/Egress_traffic)

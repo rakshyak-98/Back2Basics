@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Transactions batch into blocks; each block hashes the previous one; consensus decides the next tip.
+## How it works
 
 ```txt
 tx → mempool → block(n) hashes block(n-1) → network consensus
@@ -34,7 +23,8 @@ tx → mempool → block(n) hashes block(n-1) → network consensus
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # ethereum sketch
@@ -50,7 +40,8 @@ cast tx <hash>
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ cast tx <hash>
 | Contract revert | traces | Read error; fix calldata |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ cast tx <hash>
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Ordinary CRUD apps** — a database is enough.
 - **Needs delete/GDPR erase of history** — poor fit for public ledgers.
 
+
 ## Related
 
 [[blockchain property]] [[Etherium]] [[symmetrical encryption]]
+
+## Sources
+
+- [Wikipedia — Blockchain](https://en.wikipedia.org/wiki/Blockchain)

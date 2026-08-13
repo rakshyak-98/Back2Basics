@@ -1,90 +1,29 @@
-[[React]] [[react routes]] [[hydration]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
 
 # React feature implementations
 
-> Detect “user arrived via path A → B” — pass router state, keep a short history, or cookie middleware.
+> React feature implementations shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Browsers don’t give you a full path sequence API. You either pass `location.state` on navigate, keep a rolling history in context, or record paths in middleware cookies.
+## Recall
 
-```txt
-Link state:  A --state{from}--> B
-Context:     […paths].slice(-n) on each route change
-Middleware:  cookie nav-history updated per request
-```
-
-### Interview map (words you can say)
-
-| Tool | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **location.state** | Ephemeral nav payload | “Best for one hop intent.” |
-| **useNavigationType** | PUSH / REPLACE / POP | “Back button ≠ fresh entry.” |
-| **History context** | Last N pathnames | “Multi-step funnels.” |
-
-## Standard config / commands
-
-```tsx
-// React Router — one hop
-<Link to="/target" state={{ from: '/source-path' }}>Go</Link>
-const { state } = useLocation()
-if (state?.from === '/source-path') { /* … */ }
-
-// Rolling history (Next pages router sketch)
-useEffect(() => {
-  const on = (url: string) => setHistory((h) => [...h.slice(-1), url])
-  router.events.on('routeChangeComplete', on)
-  return () => router.events.off('routeChangeComplete', on)
-}, [router])
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| `state` | Lost on full reload / external entry |
-| Keep last 2–3 | Enough for “came from sequence” |
-| Cookie middleware | Server can see sequence |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `state` always undefined | Hard refresh / typed URL | Don’t rely on state alone |
-| Wrong “previous” | Updated after paint incorrectly | Store previous before overwrite |
-| Sequence false positive | History too long / unordered | Explicit tuple check |
-| App Router no `router.events` | Pages API assumption | Use pathname effect / instrumentation |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **`document.referrer` is unreliable** — cross-origin and privacy truncate it.
-
-> [!WARNING]
-> **Analytics ≠ UX gating** — don’t block checkout on client history alone.
-
----
-
-## When NOT to use
-
-- **Authz / payments** — server session truth, not path folklore.
-- **Simple “where did I come from?” back button** — `router.back()` / `POP`.
-
----
+What breaks first in production if `React feature implementations` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[react routes]] [[React Architecture]] [[hydration]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+
+## Sources
+
+- [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/)

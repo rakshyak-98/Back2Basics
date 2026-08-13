@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 **Author:** Rakshyak (@rakshak_sat)
@@ -36,7 +25,8 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -45,7 +35,8 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,6 +46,7 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -62,12 +54,18 @@ This draft document serves as your blueprint: tech stack, phased plan, code patt
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[System Design]]
+
+## Sources
+
+- [Wikipedia — node serverless](https://en.wikipedia.org/wiki/node_serverless)

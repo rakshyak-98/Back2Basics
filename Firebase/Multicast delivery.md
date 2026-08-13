@@ -1,63 +1,61 @@
-[[Firebase]]
+[[Firebase]] [[FCM Token (Firebase Cloud Messaging Token)]] [[Firebase messaging]]
 
 # Multicast delivery
 
-> Multicast delivery — in FCM Token (Firebase Cloud Messaging Token) refers to the ability to send a single message to multiple devices by providing multiple…
+> FCM multicast sends one message payload to up to 500 registration tokens in a single API call — use `sendEachForMulticast` when you have a specific device list without creating a topic or device group.
 
 ---
 
-## Index
+## When multicast fits
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Multicast delivery — in FCM Token (Firebase Cloud Messaging Token) refers to the ability to send a single message to multiple devices by providing multiple…
-
-[`sendEachForMulticast(MulticastMessage message)`](https://firebase.google.com/docs/reference/administrator/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage))
-Multicast delivery in [[FCM Token (Firebase Cloud Messaging Token)]] refers to the ability to send a single message to multiple devices by providing multiple FCM registration tokens in one API call.
-- this is useful for targeting a specific set to devices without creating a topic or group.
-
-
----
-
-## Standard config / commands
-
-```bash
-# version + config path
-# dry-run when available
+```txt
+Known token list (≤500 per call) → MulticastMessage → per-token success/failure
 ```
 
----
+Multicast targets a explicit set of devices. For broadcast to all subscribers, use **topics**. For very large lists, chunk tokens and call multicast repeatedly.
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
+[`sendEachForMulticast`](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage)) returns per-token results — unlike legacy multicast that hid individual failures.
 
 ---
 
-## Gotchas
+## Example
 
-> [!WARNING]
-> Make retries safe or you will duplicate side effects.
+```js
+const message = {
+  notification: { title: 'Update', body: 'New content available' },
+  tokens: tokenArray, // max 500
+};
+const batchResponse = await admin.messaging().sendEachForMulticast(message);
+
+batchResponse.responses.forEach((resp, idx) => {
+  if (!resp.success) {
+    const failedToken = tokenArray[idx];
+    // Delete stale tokens; log others
+  }
+});
+```
+
+| Limit | Value |
+|-------|-------|
+| Tokens per multicast | 500 |
+| Payload size | FCM message limits apply |
 
 ---
 
-## When NOT to use
+## What breaks first
 
-- Avoid the tool if a simpler built-in covers the job.
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Only first N devices get message | No chunking loop | Split `tokens` into 500-size batches |
+| High failure rate | Stale tokens | Prune on `registration-token-not-registered` |
+| Duplicate notifications | Retries without idempotency | Track send IDs; safe retry policy |
 
 ---
 
 ## Related
 
-[[Firebase]]
+[[FCM Token (Firebase Cloud Messaging Token)]] · [[Firebase messaging]]
+
+## Sources
+
+- [sendEachForMulticast](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage))

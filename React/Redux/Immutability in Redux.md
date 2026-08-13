@@ -1,93 +1,49 @@
-[[Redux]] [[Packages/Immer]] [[Redux toolkit]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Redux]] [[Redux Error]] [[Redux State sync with localstorage]]
 
 # Immutability in Redux
 
-> Never mutate the state tree in place — return new objects/arrays so React-Redux can detect changes by reference.
+> Immutability in Redux shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** Copy every nested level you change. RTK uses Immer so you *write* mutating syntax while it produces immutable updates.
-
-```txt
-state.user.name = 'Ada'          // ❌ outside Immer
-return { ...state, user: { ...state.user, name: 'Ada' } }  // ✅
-// RTK createSlice: OK to "mutate" draft
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Immutable update** | New reference for changed path | “Shallow copy each nesting level.” |
-| **Immer draft** | Proxy you can “mutate” | “RTK reducers use drafts under the hood.” |
-| **Structural sharing** | Unchanged branches keep refs | “Selectors skip work when ref equal.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-// Hand-written
-return { ...state, items: state.items.map((i) => (i.id === id ? { ...i, done: true } : i)) }
-
-// RTK + Immer
-createSlice({
+const slice = createSlice({
   name: 'todos',
-  initialState: { items: [] as Todo[] },
+  initialState: { items: [], status: 'idle' },
   reducers: {
-    toggle(state, action: PayloadAction<string>) {
-      const t = state.items.find((i) => i.id === action.payload)
-      if (t) t.done = !t.done // draft mutation OK
-    },
+    added(state, action) { state.items.push(action.payload); },
   },
-})
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Spread nesting | Miss a level → accidental shared mutation |
-| `immutableCheck` middleware | Catches mutations in dev |
-| Don’t return draft *and* mutate oddly | Prefer mutate draft *or* return new state |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| UI doesn’t update | Mutated in place | Copy path / use RTK slice |
-| Dev “invariant failed” mutation | Something wrote to state | Find write outside reducer |
-| Nested field update lost | Spread only top level | Copy each nesting level |
-| Huge spreads painful | Deep trees | Normalize state; use Immer |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Mutating outside reducers** (in components) breaks time-travel and subscriptions.
-
-> [!WARNING]
-> **Arrays: `push` on real state** — only safe on Immer drafts inside `createSlice`.
-
----
-
-## When NOT to use
-
-- **Local component state** — normal `useState` replace is enough; no Redux immutability ceremony.
-- **Hand-rolling deep copies everywhere** — use RTK/Immer instead.
-
----
+What breaks first in production if `Immutability in Redux` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux toolkit]] [[Redux/Redux createSlice]] [[Packages/Immer]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Redux]] [[Redux Error]] [[Redux State sync with localstorage]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

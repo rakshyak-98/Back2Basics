@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `nc` opens a **raw socket** (client or listener). For operations, the common pattern is **connect probe**: did SYN get SYN-ACK (port open) or RST/timeout (closed/filtered)? OpenBSD netcat (`nc`) and nmap's `ncat` differ in flags — know which is installed.
 
@@ -40,7 +31,8 @@ Listener: nc -lk 8080    →  accept connections (debug/mock server)
 | **UDP** | -u flag | “UDP ‘success’ is weaker than TCP.” |
 | **timeout** | Hang prevention | “nc -w 3 for scripts.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Port reachability (daily debug):**
 
@@ -90,7 +82,8 @@ nc host 9000 < file.bin
 ss -lntp | grep :8080    # Is anything actually listening locally?
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,6 +92,7 @@ ss -lntp | grep :8080    # Is anything actually listening locally?
 | `nc -zv` open but app fails | TLS/HTTP layer | Use `openssl s_client`, curl — nc is TCP only |
 | UDP "open" unreliable | Normal for UDP | Use `dig @host` or app-specific probe |
 | Works from laptop, not server | Egress firewall | Compare `nc` from both sides |
+
 
 ## Gotchas
 
@@ -112,12 +106,18 @@ ss -lntp | grep :8080    # Is anything actually listening locally?
 - **Script portability** — GNU versus OpenBSD flag differences break CI; prefer `timeout 3 bash -c '</dev/tcp/host/port'` for bash-only checks.
 - **IDS noise** — rapid `nc` scans trigger alerts; use [[nmap]] with policy approval internally.
 
-## When NOT to use
+
+## When not to use
 
 - **Encrypted service validation** — use `openssl s_client`, `curl -vk`, not plain nc.
 - **Production load testing** — use proper tools; naive nc loops are indistinguishable from abuse.
 - **Authoritative port audit** — use [[nmap]] with documented scope.
 
+
 ## Related
 
 [[telnet]] [[ss]] [[nmap]] [[half-open connections]] [[Linux network commands]]
+
+## Sources
+
+- [Wikipedia — nc](https://en.wikipedia.org/wiki/nc)

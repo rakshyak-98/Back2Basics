@@ -1,56 +1,31 @@
-[[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]]
+[[Distributed computing]] [[System design]] [[scaling data migration]] [[Horizontal vs Vertical Scaling]] [[connection pooling]]
 
-# Database sharding
+# database sharding
 
-> Split one logical database into independent shards — **horizontal scale when single-node limits hit**, not day-one default.
-
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Sharding** partitions rows across **multiple databases** by a **shard key** (user_id, tenant_id, geo). Each shard holds a **subset** of data; the application **routes** queries to the correct shard(s). Cross-shard joins and transactions become **expensive or impossible** — design around shard-local access patterns.
-
-```txt
-         Router / app layer
-        /        |        \
-   Shard A     Shard B     Shard C
-  users 0-1M  users 1-2M  users 2-3M
-```
-
-| Signal | Threshold (rule of thumb) | Action |
-|--------|---------------------------|--------|
-| **DB size** | Single node > few TB | Archive or shard |
-| **Table size** | Hot table billions rows | Partition/shard |
-| **RAM** | Indexes don't fit memory | Shard or read replicas |
-| **Ops** | Backup/restore > SLA window | Smaller shards |
-| **Write QPS** | Single primary maxed | Shard writes |
-
-**Shard key choice is permanent-ish** — resharding is a major [[scaling data migration]].
+> Database sharding splits one logical database into independent physical databases keyed by a shard column — horizontal write scale at the cost of cross-shard queries and transactions.
 
 ---
 
-## Standard config / commands
+## When sharding is justified
 
-### Shard key selection
+| Signal | Rule of thumb |
+|--------|---------------|
+| Database size | Single node exceeds operational comfort (often terabytes) |
+| Write queries per second | Primary saturated after vertical scale and tuning |
+| Memory | Hot indexes no longer fit RAM |
+| Operations | Backup or restore exceeds recovery time objective |
+
+Exhaust **vertical scaling**, **read replicas**, **[[connection pooling]]**, and **[[cache system]]** before sharding — operational burden is high and **resharding** is a major [[scaling data migration]].
+
+## Shard key selection
 
 ```txt
-Good: tenant_id, user_id (high cardinality, query locality)
-Bad:  country alone (skew — US shard huge)
-Bad:  created_date (all writes hit "today" shard)
-
-Goal: even distribution + most queries single-shard
+Good: tenant_id, user_id — high cardinality, query locality
+Poor: country alone — skew (one hot shard)
+Poor: created_date — all writes hit "today" shard
 ```
 
-### App routing (pseudocode)
+Goal: **even distribution** and **most queries single-shard**.
 
 ```python
 def shard_for_user(user_id: int) -> str:
@@ -61,86 +36,49 @@ def get_user(user_id):
     return db.query("SELECT * FROM users WHERE id = %s", user_id)
 ```
 
-### Avoid cross-shard queries
+## Avoid cross-shard work
 
 ```txt
-❌ SELECT * FROM orders JOIN users ON ...  (users on other shards)
-✅ Denormalize tenant_id on orders; query within tenant shard
-✅ Global lookup table: user_id → shard_id (small, cached)
+Avoid: JOIN across shards in application hot path
+Prefer: denormalize tenant_id on child tables
+Prefer: global lookup table (user_id → shard_id), small and cached
 ```
 
-### MySQL / Postgres alternatives before shard
+Object-relational mappers can hide scatter-gather cost until production latency explodes.
+
+## Resharding sketch (double-write)
 
 ```txt
-Read replicas for read scale
-Partitioning (time-based archives)
-Connection pool tuning ([[connection pooling]])
-Cache hot keys ([[cache system]])
+1. Deploy new shard map
+2. Dual-write to old and new routing
+3. Backfill historical rows
+4. Verify checksums per shard
+5. Switch reads to new map
+6. Stop writes to old map
 ```
 
-See also [[mysql partitioning]].
+Plan **consistent hashing** or logical shard IDs so adding physical nodes does not require modulo churn on every row.
 
-### Resharding (double-write migration sketch)
+## Monitoring per shard
 
 ```txt
-1. Add new shard map
-2. Dual-write old + new
-3. Backfill historical data
-4. Verify checksums
-5. Switch reads to new
-6. Stop old writes
+Disk utilization, queries per second, replication lag, p99 query time
+Alert when one shard is 2× hotter than peers (skew)
 ```
 
-### Monitoring per shard
+## Common mistakes
 
-```txt
-Disk %, QPS, replication lag, p99 query time
-Alert on shard skew (one shard 2× others)
-```
+| Mistake | Consequence |
+|---------|-------------|
+| Shard on day one | Team operates N databases without need |
+| Auto-increment identifiers across shards | Collisions — use UUID or snowflake identifiers |
+| Global unique email lookup | Fan-out to all shards or separate index service |
+| Cross-shard two-phase commit without saga | Fragile distributed transactions |
 
----
+*What breaks first?* A query that forgets the shard key and hits every partition.
 
-## Triage (when things break)
+## Sources
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| One shard hot | Key skew | Rehash; salt hot keys |
-| Cross-shard timeout | Scatter-gather query | Redesign schema; denormalize |
-| User on wrong shard | Routing bug | Consistent hash; migration table |
-| Replica lag read stale | Read from replica | Read-your-writes from primary |
-| Transaction fails across shards | 2PC not used | Saga / outbox pattern |
-| Backup uneven | One huge shard | Rebalance |
-| Connection pool exhaustion | Per-shard pools | Size pools × shard count |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Shard too early** — operational complexity kills team; exhaust vertical scale + replicas first.
-
-> [!WARNING]
-> **Monotonic user_id on single shard until overflow** — plan modulo or consistent hashing upfront.
-
-> [!WARNING]
-> **Global unique email lookup** — needs global index service or duplicate check fan-out.
-
-> [!WARNING]
-> **JOIN across shards in ORM** — ORM hides cost; explodes latency.
-
-> [!WARNING]
-> **Auto-increment IDs** — collisions across shards; use UUID/snowflake.
-
----
-
-## When NOT to use
-
-- **< 100 GB with low QPS** — single Postgres + replicas sufficient.
-- **Heavy cross-entity analytics** — warehouse (OLAP) not OLTP shard.
-- **Strong global transactions** — shard fights ACID across boundaries.
-
----
-
-## Related
-
-[[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]] [[Eventual consistency]] [[mysql partitioning]] [[Horizontal vs Vertical Scaling]] [[scaling data migration]]
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), chapter 6 — Partitioning.
+- Vitess documentation — MySQL sharding router patterns.
+- AWS DynamoDB best practices — partition key design.

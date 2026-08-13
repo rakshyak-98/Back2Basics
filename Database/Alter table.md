@@ -1,109 +1,35 @@
-[[mysql]] [[SQL/SQL]] [[database migration]] [[mysql table]]
+[[database migration]] [[mysql table]] [[psql table]] [[Database design]]
 
-# ALTER TABLE
+# Alter table
 
-> evolve schema in place — adds cost (locks, rebuilds); plan online DDL, batch alters, and rollback via migrations.
+> SQL DDL for changing existing table structure—add/drop columns, constraints, and indexes—with lock and rewrite behavior that can stall production if ignored.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-`ALTER TABLE` changes table metadata and sometimes **rewrites the whole table** (MySQL InnoDB). Operations range from instant metadata-only (add column with default in MySQL 8+) to hours-long rebuilds on large tables.
-
-```
-ALTER types (MySQL InnoDB, simplified)
-├── Instant / in-place metadata   (some ADD COLUMN in 8.0+)
-├── In-place (online DDL)         (add index — still I/O heavy)
-└── Copy / rebuild                (change PK, reorder columns — table lock risk)
-```
-
-Always run through **versioned migrations** ([[database migration]]), test **down** path, and measure on production-sized snapshot first.
-
-## Standard config / commands
-
-### Table comment / options
+## Common operations
 
 ```sql
-ALTER TABLE hotels COMMENT = 'Hotel catalog';
-ALTER TABLE hotels ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+ALTER TABLE orders ADD COLUMN shipped_at TIMESTAMPTZ;
+ALTER TABLE orders ADD CONSTRAINT orders_total_nonneg CHECK (total_cents >= 0);
+ALTER TABLE orders DROP COLUMN legacy_status;
 ```
 
-### Add / modify columns
+## Locking reality
 
-```sql
-ALTER TABLE hotels
-  ADD COLUMN created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER name,
-  MODIFY COLUMN phone VARCHAR(20) NOT NULL COMMENT 'E.164 preferred';
-```
+| Engine | Risk on big tables |
+|--------|-------------------|
+| PostgreSQL | Many `ADD COLUMN` operations are fast; some require full rewrite |
+| MySQL InnoDB | `ALGORITHM=COPY` rebuilds entire table — hours on large data |
 
-### Column reorder (full definition required)
+Always check `EXPLAIN` / `ALGORITHM` / `LOCK` hints and test on a snapshot.
 
-```sql
-ALTER TABLE users
-  MODIFY COLUMN email VARCHAR(255) NOT NULL AFTER id;
-```
+## Zero-downtime sequence
 
-### Indexes
+1. Add nullable column
+2. Deploy code that writes new column
+3. Backfill
+4. Add `NOT NULL` + default if needed
+5. Remove old column in later release
 
-```sql
-ALTER TABLE orders ADD INDEX idx_customer_date (customer_id, order_date);
-ALTER TABLE orders DROP INDEX idx_old;
-```
+## Sources
 
-### Online-friendly patterns (large tables)
-
-```sql
--- pt-online-schema-change / gh-ost for zero-downtime on old MySQL or risky alters
--- MySQL 8: check ALGORITHM=INSTANT, LOCK=NONE support
-ALTER TABLE t ADD COLUMN x INT, ALGORITHM=INSTANT, LOCK=DEFAULT;
-```
-
-### Postgres contrast
-
-```sql
-ALTER TABLE users ADD COLUMN email TEXT;
-ALTER TABLE users ALTER COLUMN email SET NOT NULL; -- may require validation scan
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Migration hangs hours | `SHOW PROCESSLIST`; `performance_schema` | Wait or kill; use online schema tool |
-| Replication lag spike | DDL on primary | Run off-peak; use parallel replica tools; throttle |
-| `Lock wait timeout` | Blocking metadata lock | Find blocker; schedule maintenance window |
-| App errors mid-ALTER | Partial visibility | Deploy backward-compatible code first (expand-contract) |
-| Down migration fails | Data loss on DROP | Backup; avoid DROP until code deployed |
-| Instant ADD fails MySQL 8 | Row size / column count limits | Fall back to copy algorithm |
-
-## Gotchas
-
-> [!WARNING]
-> **Workbench GUI alters** — may drop/recreate table internally; always verify generated SQL.
-
-> [!WARNING]
-> **MODIFY without full spec** — can silently change nullability/defaults.
-
-> [!WARNING]
-> **Frequent column reorder in prod** — full rebuild; cosmetic order not worth it.
-
-> [!WARNING]
-> **ALTER + long transactions** — blocks and is blocked by open transactions.
-
-## When NOT to use
-
-- **Renaming column + application deploy atomically** — use expand-contract: add new col → dual-write → backfill → switch → drop old.
-- **Massive data rewrite** — `UPDATE` in batches or ETL job, not one ALTER trick.
-
-## Related
-
-[[database migration]] [[mysql table]] [[mysql columns]] [[mysql lock]] [[Database mistakes]]
+- PostgreSQL Documentation — [ALTER TABLE](https://www.postgresql.org/docs/current/sql-altertable.html)
+- MySQL Reference Manual — [ALTER TABLE](https://dev.mysql.com/doc/refman/en/alter-table.html)

@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
-
-## Context
-
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
-
-**Say it in one breath:** ecommerce platform architecture — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 ```txt
@@ -66,7 +37,8 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -75,7 +47,8 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,18 +58,18 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 
 ---
 
-## Gotchas
 
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
+## Decision
 
----
+We will … because …
 
-## When NOT to use
 
-- Skip when a simpler existing approach already fits.
+## Consequences
 
----
+**Positive:** …
+
+**Negative / trade-offs:** …
+
 
 ## Alternatives considered
 
@@ -104,6 +77,26 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 |-------------|--------------|
 | … | … |
 
+
+## Gotchas
+
+> [!WARNING]
+> Prefer words you can say aloud in an interview.
+
+---
+
+
+## When not to use
+
+- Skip when a simpler existing approach already fits.
+
+---
+
+
 ## Related
 
 [[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
+
+## Sources
+
+- [Wikipedia — ecommerce-platform-architecture](https://en.wikipedia.org/wiki/ecommerce-platform-architecture)

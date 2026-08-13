@@ -1,106 +1,65 @@
-[[Networking]] [[Byte stream]] [[UDP]] [[SSH]]
+[[UDP]] [[BSD Socket]] [[POSIX Socket]] [[half-open connections]] [[MTU (Maximum Transmission Unit)]] [[ICMP]]
 
 # TCP
 
-> TCP is a reliable ordered byte stream between two hosts — handshake, acks, retransmit; not message frames.
+> Transmission Control Protocol delivers a reliable, ordered byte stream between two endpoints — the first thing that breaks under load is usually flow control, congestion, or a middlebox idle timeout.
 
----
+## What TCP guarantees
 
-## Index
+TCP (RFC 9293, successor to RFC 793) sits above IP and provides:
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Property | Mechanism |
+|----------|-----------|
+| Reliable delivery | Sequence numbers, acknowledgements, retransmission |
+| Ordered delivery | Receiver buffers out-of-order segments until gaps fill |
+| Flow control | Receiver window (`rwnd`) limits in-flight data |
+| Congestion control | Congestion window (`cwnd`) adapts to packet loss |
+| Connection-oriented | Four-tuple (source IP, source port, destination IP, destination port) identifies each connection |
 
-## Mental model
+Unlike [[UDP]], TCP does **not** preserve message boundaries. One `write()` may become several segments; several `read()` calls may consume one segment. Applications must define framing (HTTP `Content-Length`, length-prefix, delimiters).
 
-**Say it in one breath:** TCP gives you a pipe of bytes that arrive in order. Your application must split messages; the kernel splits packets.
+## Connection lifecycle
 
-```txt
-App write("HELLO") write("WORLD")
-        │
-   TCP send buffer → segments (SEQ/ACK) → IP packets
-        │
-   Peer TCP reorders / buffers → App read() sees a byte stream
+```
+Client                          Server
+  │──── SYN (seq=x) ─────────────►│
+  │◄── SYN-ACK (seq=y, ack=x+1) ──│
+  │──── ACK (ack=y+1) ────────────►│   ← three-way handshake
+  │◄══════ data transfer ═════════►│
+  │──── FIN ──────────────────────►│   ← four-way close (each direction)
+  │◄─── FIN ──────────────────────│
 ```
 
-### Interview map (words you can say)
+After close, the side that sent the first FIN enters **TIME-WAIT** (typically 2× MSL) to catch late duplicates — this can block port reuse on busy servers.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Byte stream** | No message boundaries | “TCP won’t preserve my write() sizes.” |
-| **3-way handshake** | SYN → SYN-ACK → ACK | “We sync sequence numbers before data.” |
-| **SEQ / ACK** | Byte offsets | “ACKs say how far the receiver got.” |
-| **rwnd** | Receiver window | “Flow control stops me overrunning the peer.” |
-| **cwnd** | Congestion window | “Congestion control slows me on loss.” |
-| **Retransmit** | Resend lost data | “Loss triggers RTO or fast retransmit.” |
-| **4-tuple** | src IP/port + dst IP/port | “That uniquely IDs the connection.” |
-| **Half-close** | FIN one direction | “I can stop sending and still receive.” |
+## Congestion and performance
 
-### Reliability in plain steps
+Modern Linux defaults include CUBIC or BBR congestion control. Loss triggers retransmission (RTO or fast retransmit after three duplicate ACKs). **Head-of-line blocking** means one lost segment stalls the entire byte stream — a motivation for QUIC/HTTP/3 over [[UDP]].
 
-1. **Connect** — three-way handshake builds shared state.
-2. **Send** — data gets SEQ numbers; peer ACKs contiguous bytes.
-3. **Recover** — loss → retransmit; reorder → hold until gap fills.
-4. **Pace** — `rwnd` (peer buffer) + `cwnd` (network) limit in-flight data.
-5. **Close** — each side FIN/ACKs (four-way); TIME-WAIT holds the old tuple.
+**Nagle's algorithm** batches small writes; combined with delayed ACK it can add latency for chatty protocols. `TCP_NODELAY` disables Nagle when needed.
 
-versus [[UDP]]: UDP keeps datagram edges, no connect state, no delivery guarantee — better for latency-sensitive media when the application handles loss.
-
----
-
-## Standard config / commands
+## Operations
 
 ```bash
-ss -tan | head
-ss -ti dst :443          # TCP info: rtt, cwnd, retrans
-tcpdump -ni any tcp port 443
-# Kernel knobs (careful in prod)
+ss -tan state established
+ss -ti dst :443                    # RTT, cwnd, retrans count
+tcpdump -ni any 'tcp[tcpflags] & tcp-syn != 0'
 sysctl net.ipv4.tcp_fin_timeout
 sysctl net.core.somaxconn
 ```
 
-application framing examples: HTTP `Content-Length` / chunked; length-prefix RPC; newline JSON lines.
+| Symptom | Likely cause |
+|---------|--------------|
+| SYN-SENT hang | Firewall, routing, or server not listening |
+| Zero window stall | Application not reading fast enough |
+| RST after idle | Load balancer or NAT timeout |
+| Garbled messages | Missing application-level framing |
 
----
+## When to choose something else
 
-## Triage (when things break)
+Live audio/video with loss tolerance, DNS-style request/response, multicast discovery, and gaming often prefer [[UDP]] with application-level reliability where needed.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Connect hangs | SYN dropped / firewall | Path MTU, SG rules, `ss -tan` SYN-SENT |
-| Stall under load | Zero window / buffer full | Raise buffers; fix slow consumer |
-| High latency after loss | Retrans / CUBIC vs BBR | Tune CC; check wifi loss |
-| Message parse errors | Assumed write==read sizes | Add framing on the stream |
-| Port reuse fails | TIME-WAIT | `SO_REUSEADDR`; shorter workloads |
-| Reset (RST) | Peer closed / wrong state | Check crash, idle LB timeout |
+## Sources
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Nagle + delayed ACK** — small writes can feel laggy; batch writes or `TCP_NODELAY` when needed.
-
-> [!WARNING]
-> **Head-of-line blocking** — one lost packet blocks later bytes in that stream (HTTP/2 pain → HTTP/3/QUIC).
-
-> [!WARNING]
-> **Load balancer idle timeout** — silent middlebox close; use app keepalives.
-
----
-
-## When NOT to use
-
-- **Live A/V with loss tolerance** — often [[UDP]] + codec concealment (WebRTC).
-- **Tiny request/response where UDP + application retry is enough** — DNS-like patterns (with care).
-- **Multicast discovery** — TCP is point-to-point.
-
----
-
-## Related
-
-[[UDP]] [[Byte stream]] [[BSD Socket]] [[POSIX Socket]] [[SSH]] [[ICMP]] [[MTU (Maximum Transmission Unit)]] [[half-open connections]]
+- [RFC 9293 — Transmission Control Protocol (TCP)](https://www.rfc-editor.org/rfc/rfc9293)
+- [Wikipedia — Transmission Control Protocol](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)

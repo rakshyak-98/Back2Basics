@@ -1,113 +1,31 @@
-[[Operating System]] [[thread pool]] [[Blocking]] [[multi-threaded]]
+[[Operating System]] [[Blocking]] [[thread pool]] [[disk IOPS]] [[context switching]] [[multi-threaded]]
 
 # CPU IO Bound Task
 
-> CPU-bound burns cores on compute; I/O-bound spends time waiting on disk, network, or users.
+> A task is I/O-bound when it spends most of its time waiting on disk, network, or locks held by others — not executing instructions; sizing threads and hardware differs completely from CPU-bound work.
 
----
+## Bound type drives design
 
-## Index
+| Profile | Dominant wait | Thread count | Hardware emphasis |
+|---------|---------------|--------------|-------------------|
+| CPU-bound | — | ≈ physical cores | [[base clock speed]], SIMD |
+| I/O-bound | Disk / NIC / peer | Can exceed cores | Queue depth, [[disk IOPS]], bandwidth |
+| Mixed | Both | Measure | Avoid blind turbo spend |
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+I/O-bound services benefit from [[non-blocking]] loops or larger [[thread pool]]s so one blocked [[Thread]] does not stall all work — up to the point where [[context switching]] overhead dominates.
 
-## Mental model
-
-**Say it in one breath:** Match concurrency tool to the bottleneck — processes/SIMD for CPU; threads/async for waits.
-
-```txt
-CPU-bound:  encode / hash / ML  →  needs cores (multiprocess)
-IO-bound:   HTTP / DB / disk    →  needs concurrency while waiting
-```
-
-| Aspect | CPU-bound | I/O-bound |
-|--------|-----------|-----------|
-| Bottleneck | ALU / cache | Wait time |
-| Threads help? | Little (GIL/contended) | Yes |
-| Processes help? | Yes | Sometimes overkill |
-| Async helps? | Rarely | Often |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **CPU-bound** | Compute limited | “More cores or better algo.” |
-| **I/O-bound** | Wait limited | “Overlap waits with concurrency.” |
-| **GIL** | Python one-bytecode-thread | “Threads won’t speed CPU Python.” |
-| **Backpressure** | Slow consumers | “Bound queues or you OOM.” |
-| **Pool split** | Separate executors | “Don’t mix encode + HTTP in one pool.” |
-| **Amdahl** | Serial fraction | “8 cores ≠ 8× if 30% serial.” |
-
-### How the story goes
-
-1. **Measure** — CPU% high versus mostly idle/`epoll_wait`.
-2. **Classify** — CPU versus I/O versus both.
-3. **Pick** — process pool / C extension versus async/thread pool.
-4. **Isolate** — never let CPU hogs occupy the I/O worker pool.
-
----
-
-## Standard config / commands
+## Diagnosis
 
 ```bash
-# See wait vs run
-pidstat -u -d 1
-perf top
-# Python patterns
-# concurrent.futures.ProcessPoolExecutor  → CPU
-# asyncio + httpx / ThreadPoolExecutor    → I/O
+pidstat -d 1 -p PID    # disk read/write
+pidstat -w 1           # context switches while "idle"
+iostat -xz 1           # device utilization
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Pool size ≈ cores | CPU workers |
-| Pool size ≫ cores | I/O workers (cap!) |
-| Queue maxsize | Protect memory |
-| cgroup CPU quota | Noisy neighbor |
+If CPU is low but latency high, look downstream: storage, DNS, database, or [[Blocking]] on a shared mutex.
 
----
+## Sources
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Latency↑ under “light” CPU job | Shared thread pool | Split CPU vs I/O executors |
-| 100% one core, Python | GIL + threads | Processes or native code |
-| Idle CPUs, slow API | Blocking I/O on event loop | Async drivers or worker threads |
-| OOM with “more threads” | Unbounded queue | Bound + reject |
-| No speedup after N cores | Amdahl / memory BW | Profile; reduce sharing |
-| DB pool exhausted | I/O workers > DB conns | Align pool sizes |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Mixing pools** — one JPEG encode can stall hundreds of waiting HTTP handlers.
-
-> [!WARNING]
-> **“Async CPU”** — `await` doesn’t parallelize math; it only yields.
-
-> [!WARNING]
-> **Hyper-threading** — logical CPUs ≠ full speedup ([[SMT threads]]).
-
-> [!WARNING]
-> **I/O looks CPU** — JSON parse / compression after download is CPU-bound.
-
----
-
-## When NOT to use
-
-- **Tiny total work** — thread/process spawn costs dominate; do it inline.
-- **Already one bottleneck service** — fix the DB/index before fan-out workers.
-- **Real-time hard deadlines** — need scheduling class / isolation, not just “more async”.
-
----
-
-## Related
-
-[[thread pool]] [[Blocking]] [[non-blocking]] [[multi-threaded]] [[SMT threads]] [[Single-threaded]]
+- Google SRE Book — capacity planning
+- Kerrisk, *The Linux Programming Interface*
+- Wikipedia: [I/O bound](https://en.wikipedia.org/wiki/I/O_bound)

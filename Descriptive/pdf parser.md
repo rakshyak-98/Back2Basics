@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A PDF is not plain text. It's a **byte-oriented format**: header, body of **indirect objects** (dictionaries, streams, arrays), cross-reference table, trailer. Pages reference **content streams** — lists of graphics/text **operators** (`Tj`, `Td`, `re`, …).
 
@@ -36,7 +27,8 @@ Parsing stages:
 3. **Content** — decode streams (FlateDecode, etc.), interpret operators.
 4. **Text extraction** — map glyph IDs through font encoding to Unicode (hardest step).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Node — pdf-parse (text-only, quick)
 
@@ -75,7 +67,8 @@ mutool draw -F txt input.pdf   # mupdf
 qpdf --show-object=trailer input.pdf
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +77,7 @@ qpdf --show-object=trailer input.pdf
 | Encrypted PDF | `/Encrypt` in trailer | Provide password to library |
 | Parse throws on valid Adobe file | Linearized / xref stream | Upgrade parser; try qpdf `--decrypt` normalize |
 | Huge memory on scan PDF | Whole file loaded as string | Stream pages one-by-one |
+
 
 ## Gotchas
 
@@ -95,11 +89,17 @@ qpdf --show-object=trailer input.pdf
 - **Incremental updates** append new xref — parser must read latest trailer chain.
 - **Subset fonts** map limited glyph set — copy-paste can differ from display.
 
-## When NOT to use
+
+## When not to use
 
 - Filling PDF forms at scale — use dedicated form libraries or vendor APIs (Adobe PDF Services).
 - Pixel-perfect rendering — use PDFium/mupdf canvas render, not text parser.
 
+
 ## Related
 
 [[NodeJS/file]] [[javascript]] [[Operating System/file descriptors]] [[Descriptive/percentage calculation]]
+
+## Sources
+
+- [Wikipedia — pdf parser](https://en.wikipedia.org/wiki/pdf_parser)

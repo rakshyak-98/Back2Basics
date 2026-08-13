@@ -1,45 +1,31 @@
-[[System design]] [[API design]] [[Authentication web application]] [[cache system]]
+[[System design]] [[API design]] [[Authentication web application]] [[cache system]] [[IM (Information Management) production systems]]
 
 # CMS (Content Management System)
 
-> Authoring + storage + delivery API for structured content — **headless** separates editorial from presentation.
+> A content management system lets editors create, review, and publish structured content — headless systems expose JSON application programming interfaces while frontends and applications own presentation.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-A **CMS** lets non-engineers **create, edit, publish** content (pages, articles, video metadata, assets) with **workflow** (draft → review → live). **Headless CMS** exposes **JSON/API** only — web/mobile apps render UI; **monolithic CMS** (WordPress) renders HTML server-side.
+## Headless versus monolithic
 
 ```txt
-Editors ──► CMS admin UI ──► content API ──► apps / CDN / [[Streaming]] metadata
-                │                │
-           workflow state    webhooks → rebuild cache
+Editors → admin user interface → content API → applications / CDN / [[Streaming]] metadata
+                │                    │
+           workflow state      webhooks → cache invalidation
                 │
-           asset storage (S3 + CDN)
+           asset storage (object storage + CDN)
 ```
 
 | Style | Examples | When |
 |-------|----------|------|
-| **Headless** | Strapi, Directus, Sanity | Multi-channel product |
-| **Git-based** | Markdown in repo | Dev-heavy docs |
-| **Broadcast MAM** | Dalet, Avid | Video IM systems — see [[IM (Information Management) production systems]] |
+| Headless | Strapi, Directus, Sanity | Multi-channel product (web, mobile, television) |
+| Git-based | Markdown in repository | Developer-heavy documentation |
+| Monolithic | WordPress | Marketing site with server-rendered HTML |
+| Broadcast media asset management | Dalet, Avid | Professional video — [[IM (Information Management) production systems]] |
 
-Streaming platforms use CMS for **title metadata, images, CID, geo rules** — playback still from origin/CDN.
+Streaming products use content management for **title metadata, posters, content identifiers, geo rules** — playback still comes from origin or content delivery network.
 
----
-
-## Standard config / commands
-
-### Headless content model (example)
+## Content model (example)
 
 ```json
 {
@@ -50,93 +36,46 @@ Streaming platforms use CMS for **title metadata, images, CID, geo rules** — p
     "synopsis": "richtext",
     "poster": "media",
     "content_id": "string",
-    "drm_policy": "enum",
     "publish_at": "datetime"
   }
 }
 ```
 
-### API consumption pattern
+## Consumption pattern
 
 ```txt
 GET /api/movies?filters[published_at][$lte]=now&populate=poster
-Cache at CDN with short TTL + purge webhook on publish
-Client apps never hit CMS directly in prod — BFF or edge cache
+Cache at CDN with short time-to-live + purge webhook on publish
+Production clients hit backend-for-frontend or edge cache — not raw content management in hot path
 ```
 
-### Webhook on publish → cache bust
+### Publish webhook → cache bust
 
 ```txt
-CMS publish event → POST /internal/revalidate { slug: "movie-123" }
-→ delete Redis keys + CDN purge API
-→ optional static rebuild (SSG)
+CMS publish → POST /internal/revalidate { slug: "movie-123" }
+→ delete Redis keys + CDN purge
+→ optional static site regeneration
 ```
 
-### Draft vs preview
+### Draft versus preview
 
-```txt
-Preview: tokenized URL with draft API key — no CDN cache
-Production: only status=published && publish_at <= now
-```
+Preview uses tokenized draft application programming interface key — no CDN cache. Production serves only `status=published` and `publish_at <= now()`.
 
-### Asset pipeline
+## Authorization
 
-```txt
-Upload poster → CMS → S3 → img CDN (resize variants)
-Video files usually NOT in CMS blob — store URL + CID to origin packager
-```
+Role-based access: author, editor, publisher. Separate preview credentials from production keys ([[Authentication web application]]).
 
-### RBAC for editorial
+## Common failures
 
-```txt
-Roles: author, editor, legal, admin
-Field-level: drm_policy editable only by admin
-Audit log: who published what when (compliance)
-```
+| Symptom | Direction |
+|---------|-----------|
+| Stale content after publish | Webhook or [[cache system]] invalidation missing |
+| Draft visible publicly | Filter misconfiguration |
+| Slow editor | Large media through wide-area network — direct upload to object storage |
 
----
+*When would you skip a content management system?* Single developer blog — Markdown in git may suffice ([[KISS]]).
 
-## Triage (when things break)
+## Sources
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Site shows old title | CDN/API cache | Purge; webhook on publish |
-| Draft visible publicly | Preview key leaked | Separate preview domain |
-| Missing poster | Media not populated | `populate=*` or explicit join |
-| Slug collision | Unique constraint | Enforce at CMS |
-| Streaming CID mismatch | Manual typo | Validation regex; golden CID registry |
-| Editor timeout on upload | Large video in CMS | External asset URL only |
-| Webhook 500 loop | Downstream revalidate | Idempotent webhook handler |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Rich text XSS** — sanitize HTML from CMS before render.
-
-> [!WARNING]
-> **CMS as system of record for entitlements** — playback auth belongs in subscription service, not CMS field.
-
-> [!WARNING]
-> **Locale explosion** — N languages × M fields — plan fallback locale strategy.
-
-> [!WARNING]
-> **Hard-coded content IDs in app** — use slug/API; store mapping in CMS.
-
-> [!WARNING]
-> **No publish schedule timezone** — UTC vs local launch bugs.
-
----
-
-## When NOT to use
-
-- **Hardcoded marketing one-pager** — git + MD faster.
-- **Transactional order data** — CMS for editorial; orders in OLTP DB.
-- **Real-time chat** — not CMS domain.
-
----
-
-## Related
-
-[[System design]] [[API design]] [[cache system]] [[IM (Information Management) production systems]] [[Compliance Reporting to Broadcasters]] [[Streaming]]
+- Strapi / Directus documentation — headless content modeling.
+- Jamstack architecture — decoupled content and delivery.

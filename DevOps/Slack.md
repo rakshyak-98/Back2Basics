@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. operations stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).
 
@@ -27,7 +18,8 @@ Prometheus/CI ──► webhook POST JSON ──► #alerts channel
 
 Separate **noisy development channel** from **production paging channel**; use **severity routing** (warning → Slack, critical → PagerDuty + Slack).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Incoming Webhook (fastest path)
 
@@ -104,7 +96,8 @@ slack run   # dev mode for workflow apps
 # Uninstall: slack cli guides/uninstalling-the-slack-cli
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ slack run   # dev mode for workflow apps
 | Secrets in channel | CI pasted env dump | Redact in template; use links to logs |
 | Rate limited (`429`) | Burst during incident | Batch messages; thread updates vs new posts |
 | Button links don't work | URL not https; Block Kit malformed | Fix block JSON |
+
 
 ## Gotchas
 
@@ -130,12 +124,18 @@ slack run   # dev mode for workflow apps
 > [!WARNING]
 > **Slack message ≠ audit log** — retain Prometheus/CloudTrail; Slack history retention limits.
 
-## When NOT to use
+
+## When not to use
 
 - **Primary incident record** — use ticket + status page; Slack is coordination.
 - **High-cardinality metrics dump** — link to dashboard, don't paste 200 lines.
 - **Sole paging for life-critical** — add PagerDuty/SMS for SEV1.
 
+
 ## Related
 
 [[webhook]] · [[Messaging/Web hooks]] · [[Jenkins]] · [[Airflow]] · [[DevOps]]
+
+## Sources
+
+- [Wikipedia — Slack](https://en.wikipedia.org/wiki/Slack)

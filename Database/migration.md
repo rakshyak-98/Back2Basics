@@ -1,43 +1,35 @@
-[[Database]] [[database migration]]
+[[database migration]] [[mysql data migrations]] [[Alter table]] [[Database]]
 
 # migration
 
-> Same idea as database migration — versioned schema changes, up/down workflow, and production gotchas. See the full note.
+> Moving or transforming data and schema between states—includes versioned DDL ([[database migration]]) and one-off data backfills during deploys.
 
----
+## Two meanings in practice
 
-## Index
+| Type | Scope | Example |
+|------|-------|---------|
+| **Schema migration** | DDL version files | Add `email_verified_at` column |
+| **Data migration** | Transform existing rows | Split `full_name` into `first_name`, `last_name` |
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## Safe data migration pattern
 
-## Mental model
+```sql
+-- 1. Add nullable column
+ALTER TABLE users ADD COLUMN first_name TEXT;
 
-All content lives in [[database migration]] (mental model, tool commands, expand-contract, triage, gotchas).
+-- 2. Backfill in batches (avoid long locks)
+UPDATE users SET first_name = split_part(name, ' ', 1)
+WHERE id BETWEEN 1000 AND 1999;
 
-## Standard config / commands
+-- 3. Enforce NOT NULL after backfill complete
+ALTER TABLE users ALTER COLUMN first_name SET NOT NULL;
+```
 
-…
+## Cross-system migration
 
-## Triage (when things break)
+Moving from MySQL to PostgreSQL or adding a read model requires dual-write or change-data-capture—not a single `pg_dump` during traffic without a cutover plan.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
-
-## Related
-
-[[database migration]] [[Alter table]] [[mysql data migrations]] [[database seeding]] [[Database mistakes]] [[ACID]]
+- Kleppmann, *DDIA*, Ch. 4
+- Martin Fowler, "Evolutionary Database Design"

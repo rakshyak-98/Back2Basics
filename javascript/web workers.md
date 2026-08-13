@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The browser's main thread owns the DOM, layout, paint, and the [[Event Loop]]. A **Web Worker** is a separate JS execution context with its own event loop — no DOM access, no `window`, no shared mutable state by default.
 
@@ -36,7 +27,8 @@ Types:
 - **SharedWorker** — shared across same-origin tabs.
 - **Service Worker** — network/cache proxy; see [[ServiceWorker]] (different lifecycle).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Dedicated worker
 
@@ -94,7 +86,8 @@ Content-Security-Policy: worker-src 'self' https://cdn.example.com;
 
 See [[content security policy]].
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +98,7 @@ See [[content security policy]].
 | Memory grows unbounded | Workers not terminated; large messages cloned every frame | `terminate()` on unmount; transfer buffers; throttle posts |
 | `importScripts` fails in module worker | Mixed classic vs module worker | Pick one: `{ type: 'module' }` with `import`, or classic + `importScripts` |
 | SharedWorker unavailable | Safari / some mobile WebViews | Fall back to dedicated worker or main-thread chunking |
+
 
 ## Gotchas
 
@@ -120,7 +114,8 @@ See [[content security policy]].
 > [!WARNING]
 > **Error visibility** — uncaught errors in workers fire `worker.onerror`, not your app's global handler. Wire `onerror` and optionally `worker.addEventListener('messageerror', ...)`.
 
-## When NOT to use
+
+## When not to use
 
 - **I/O-bound work** — workers don't make network/disk faster; use async `fetch` on the main thread or server-side processing.
 - **Tiny computations** — message-passing overhead can exceed the savings for sub-millisecond tasks.
@@ -128,6 +123,11 @@ See [[content security policy]].
 - **Need persistent background sync** — use [[ServiceWorker]] or server push, not a dedicated worker.
 - **Node.js backend** — use [[worker threads]] (shared memory, different API).
 
+
 ## Related
 
 [[web worker]] [[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]] [[Descriptive/JavaScript/Concurrency]]
+
+## Sources
+
+- [Wikipedia — web workers](https://en.wikipedia.org/wiki/web_workers)

@@ -1,87 +1,42 @@
-[[Linux]] [[X Desktop Group]]
+[[Linux configuration]] [[etc files]] [[apt config]]
 
 # Linux Templates Directory
 
-> `Templates/` (often `~/Templates`) holds starter files that file managers offer via “Create Document” — empty doc skeletons, not system `/etc` templates.
+> Distribution packages ship template files under `/usr/share` and `/etc` — copy or use `debconf`/`systemd` drop-ins instead of editing vendor copies that upgrades overwrite.
 
----
+Debian-family packages often place **conffiles** in `/etc` and pristine templates in `/usr/share/doc/` or `/usr/share/<package>/`. Red Hat uses `%config` RPM semantics similarly.
 
-## Index
+## Patterns
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Pattern | Example |
+|---------|---------|
+| `*.dpkg-dist` / `*.rpmnew` | Left after package manager merge conflict |
+| `/etc/skel/` | Template for new user home directories |
+| `/usr/lib/tmpfiles.d/` | systemd path creation rules |
+| `/usr/share/alsa/` | Default ALSA card profiles — [[alsa]] |
 
-## Mental model
-
-**Say it in one breath:** drop a file in `~/Templates`; Nautilus/Dolphin “Create Document” copies it next to you.
-
-```txt
-~/Templates/Invoice.odt
-      │
-      └─ file manager → Create Document → ./Invoice.odt
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Templates dir** | User skeleton docs | “XDG user dir, not `/etc`.” |
-| **xdg-user-dirs** | Standard folders | “`xdg-user-dir TEMPLATES`.” |
-| **Create Document** | FM action | “Copies template into cwd.” |
-| **skel** | `/etc/skel` | “Different — new-user homes.” |
-| **empty file** | Zero-byte template | “Still shows up as a type.” |
-
----
-
-## Standard config / commands
+## Safe customization
 
 ```bash
-xdg-user-dir TEMPLATES
-mkdir -p "$(xdg-user-dir TEMPLATES)"
-cp ~/Forms/offer.md "$(xdg-user-dir TEMPLATES)/"
-# ~/.config/user-dirs.dirs → XDG_TEMPLATES_DIR
-cat ~/.config/user-dirs.dirs
+# systemd: never edit /usr/lib unit directly
+sudo systemctl edit nginx.service
+
+# Apache-style
+# /etc/nginx/nginx.conf includes sites-enabled/
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `XDG_TEMPLATES_DIR` | Override path |
-| File extension | Determines icon/app |
+## After package upgrade
 
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Menu empty | Dir missing/empty | Create dir; add files |
-| Wrong path | `user-dirs.dirs` | Fix XDG_TEMPLATES_DIR; `xdg-user-dirs-update` |
-| No menu in FM | Non-XDG FM | Use FM’s own template feature |
-| Template opens not copied | Misclick | Use Create Document, not Open |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **`/etc/skel` ≠ Templates** — skel seeds new homes; Templates is a per-user convenience.
-
-> [!WARNING]
-> **Cloud-synced Templates** can fight with local path expectations.
-
----
-
-## When NOT to use
-
-- **Code scaffolding** — use cookiecutter/copier, not FM templates.
-- **Server provisioning** — use configuration management, not desktop Templates.
-
----
+```bash
+sudo apt list --upgradable
+# Resolve .dpkg-* diffs with vimdiff or dpkg --configure -a
+```
 
 ## Related
 
-[[X Desktop Group]] [[user management]] [[Linux file management]]
+[[etc files]] · [[Linux configuration]] · [[management/Package Manager]]
+
+## Sources
+
+- Debian Policy Manual — conffiles
+- `man 5 tmpfiles.d`

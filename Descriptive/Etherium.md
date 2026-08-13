@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 ┌─────────────┐     signed tx      ┌──────────────┐
@@ -36,7 +27,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### JSON-RPC (read-only via node provider)
 
@@ -96,7 +88,8 @@ gwei = 10⁹ wei (fee display)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ gwei = 10⁹ wei (fee display)
 | Rate limit on public RPC | 429 from provider | Paid node; self-hosted geth/erigon; batch requests |
 
 ---
+
 
 ## Gotchas
 
@@ -129,7 +123,8 @@ gwei = 10⁹ wei (fee display)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Centralized ledger sufficient** — Postgres + audit log beats chain operations/cost.
 - **High-frequency micro-payments** — L2 or off-chain payment channels; L1 gas prohibitive.
@@ -137,6 +132,11 @@ gwei = 10⁹ wei (fee display)
 
 ---
 
+
 ## Related
 
 [[web capabilities]] · [[JWT authentication]] · [[IDOR]] · [[TLS (Transport Layer Security)]] · [[marketplace application]]
+
+## Sources
+
+- [Wikipedia — Etherium](https://en.wikipedia.org/wiki/Etherium)

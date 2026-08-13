@@ -1,140 +1,53 @@
-[[KISS]] [[SOLID]] [[System design]] [[Design pattern]]
+[[SOLID]] [[KISS]] [[System design]] [[API design]]
 
-# DRY (Don't Repeat Yourself)
+# DRY
 
-> Single source of truth for knowledge — **dedupe logic and config**, not every similar-looking line.
+> DRY (Don't Repeat Yourself) means every piece of knowledge should have a single, authoritative representation in the system — duplication of *logic* and *rules*, not mere similarity of text.
 
 ---
 
-## Index
+## What DRY is actually about
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+The Pragmatic Programmer (Hunt & Thomas) coined DRY: when the same **business rule** or **invariant** lives in three places, a change in one without the others creates defects.
 
-## Mental model
+| Repeated knowledge (bad) | Coincidental similarity (often fine) |
+|--------------------------|--------------------------------------|
+| Tax calculation in web, mobile, and report service | Two similar data transfer object shapes for different bounded contexts |
+| Authorization rule in gateway and every microservice | Two `for` loops that happen to look alike |
+| Retry policy copy-pasted per client | Separate modules that share no change driver |
 
-**DRY** means every piece of **knowledge** (business rule, schema, validation) should have **one authoritative representation**. Change the rule once — it propagates everywhere. Confusing DRY with **"never duplicate code"** leads to premature abstractions that couple unrelated features.
+DRY is about **coupling to a single source of truth**, not eliminating every duplicated line of code.
+
+## Where to centralize
 
 ```txt
-Violating DRY:
-  tax_rate in API, mobile app, invoice PDF, admin UI — four sources drift
-
-Healthy DRY:
-  tax_rate in config/DB → API exposes → clients consume
+Business rules     → domain module / shared library (careful with versioning)
+API contracts      → OpenAPI / protobuf schema ([[API design]])
+Infrastructure     → Terraform modules, Helm charts
+Operational policy → one runbook, linked from alerts
 ```
 
-| Repeat type | DRY response | Anti-pattern |
-|-------------|--------------|--------------|
-| **Business rule** | Shared module / service | Copy-paste in 5 repos |
-| **Schema** | OpenAPI / protobuf single gen | Hand-written DTOs |
-| **Config** | Env + IaC variables | Hardcode in each service |
-| **Similar UI layout** | Component library | 200-line "helper" for 2 callers |
+At system scale, **schema-first** application programming interfaces and **shared validation libraries** prevent drift between producer and consumer.
 
-**Divide system into pieces** with clear boundaries — reuse **across** boundaries via contracts, not `#include` everything ([[KISS]]).
+## DRY versus other principles
 
----
+| Principle | Tension with DRY | Resolution |
+|-----------|------------------|------------|
+| [[KISS]] | Abstraction to deduplicate can obscure | Extract only when a second *change driver* appears |
+| [[SOLID]] | Single Responsibility may split code that looks similar | Similar code serving different actors should stay separate |
+| Microservices | Shared library couples deploys | Prefer contract tests over fat shared jars |
 
-## Standard config / commands
+**Rule of three:** tolerate two copies; refactor on the third *proven* duplication of the same rule.
 
-### DRY hierarchy (prefer top)
+## Anti-patterns
 
-```txt
-1. Data / config (one DB column, one tfvars)
-2. Generated code (OpenAPI client, protobuf)
-3. Shared library (versioned npm/maven crate)
-4. Copy with comment linking canonical source (last resort)
-```
+- **Wrong abstraction** — one mega-utility that every team fears touching.
+- **Stringly-typed configuration** — same key defined in environment variables, Helm, and documentation with different names.
+- **Copy-paste microservices** — identical handlers in ten services instead of one library or sidecar.
 
-### OpenAPI → clients (API single source)
+*When would you duplicate instead of abstract?* When two pieces look alike today but change for different reasons tomorrow — premature DRY creates the wrong seam.
 
-```yaml
-# openapi.yaml — generate TS + Go clients in CI
-paths:
-  /v1/orders:
-    post:
-      requestBody: { $ref: '#/components/schemas/CreateOrder' }
-```
+## Sources
 
-### Terraform variables (infra DRY)
-
-```hcl
-locals {
-  common_tags = { Env = var.environment, Team = "platform" }
-}
-# Reuse local.common_tags — don't repeat tag maps per resource
-```
-
-See [[Terraform setup]].
-
-### When duplication is OK (WET on purpose)
-
-```txt
-Two services same validation today — merge when rule changes twice
-Test fixtures — clarity beats shared mega-fixture
-Microservice independence — small duplication < shared DB coupling
-```
-
-### Refactor trigger
-
-```txt
-Rule changed in one place but not others → DRY violation confirmed → extract
-Not: "these 3 lines look similar" on first sight
-```
-
-### Code review checklist
-
-```txt
-□ Does this duplicate a business rule elsewhere?
-□ Is the abstraction simpler than duplication?
-□ Will teams deploy independently if shared lib changes?
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Inconsistent behavior UI vs API | Forked validation | Extract shared validator; API owns truth |
-| Bug fixed in one service only | Copy-paste logic | Search repo; centralize |
-| Shared lib breaks all services | Tight coupling | Version lib semver; avoid breaking changes |
-| "God module" imports | Over-DRY | Split by domain boundary |
-| Config drift prod/stage | Duplicate env files | Single template + env overlay |
-| Generated code edited by hand | Regen overwrite | Fix generator source |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **DRY across microservices via shared DB** — worse than duplicated code; couples deploy.
-
-> [!WARNING]
-> **Inheritance tower for 2 subclasses** — prefer composition; DRY ≠ OOP hierarchy.
-
-> [!WARNING]
-> **DRY in tests** — opaque shared setup hides failure cause.
-
-> [!WARNING]
-> **Premature generic `executeAction(type)`** — [[KISS]] beats clever DRY.
-
-> [!WARNING]
-> **Long methods "because DRY"** — split readable methods; extract only real duplication.
-
----
-
-## When NOT to use
-
-- **Exploratory prototype** — duplication acceptable until pattern stabilizes.
-- **Cross-team library for one constant** — copy or configuration service.
-- **Identical syntax, different domain meaning** — forcing merge creates wrong coupling.
-
----
-
-## Related
-
-[[KISS]] [[SOLID]] [[System design]] [[API design]] [[marshalling]] [[Design pattern]]
+- Andrew Hunt & David Thomas, *The Pragmatic Programmer* (Addison-Wesley, 1999) — DRY principle.
+- Martin Fowler, "Duplicated Code" — refactoring catalog ([refactoring.com](https://refactoring.com/catalog/)).

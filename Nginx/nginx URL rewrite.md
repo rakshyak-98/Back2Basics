@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** nginx URL rewrite — what happens when user goes to /about
+## How it works
 
 |Nginx directive|What it actually does|When your browser URL becomes|Real folder on disk|
 |---|---|---|---|
@@ -27,7 +16,8 @@
 |`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
 |`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 rewrite ^/old/(.*)$ /new/$1 permanent;
@@ -39,7 +29,8 @@ location /api/ {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,6 +41,7 @@ location /api/ {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -57,13 +49,19 @@ location /api/ {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Prefer `return 301` for simple host or scheme redirects — clearer than rewrite.
 
 
 ---
 
+
 ## Related
 
 [[Nginx]]
+
+## Sources
+
+- [Wikipedia — nginx URL rewrite](https://en.wikipedia.org/wiki/nginx_URL_rewrite)

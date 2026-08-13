@@ -1,103 +1,49 @@
-[[Redux]] [[Redux/RTQ Toolkit]] [[Redux/RTQ/RTQ store]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # Redux createApi
 
-> Define endpoints once — RTK Query builds reducer, middleware, cache keys, and React hooks.
+> Redux createApi shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** `createApi` describes how to talk to your backend. Queries cache by endpoint+arguments; mutations invalidate tags so lists refetch. Hooks are React sugar over the same API slice.
-
-```txt
-createApi({ baseQuery, tagTypes, endpoints })
-  → api.reducer + api.middleware
-  → useXQuery / useYMutation
-  → providesTags / invalidatesTags
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **fetchBaseQuery** | Thin fetch wrapper | “Set `baseUrl` + `credentials`.” |
-| **providesTags** | Mark cached data | “This list is `Users`.” |
-| **invalidatesTags** | Bust related cache | “POST then refetch list.” |
-| **ApiProvider** | Mini store for demos | “Use real store in apps.” |
-| **Lazy query** | Fetch on demand | “`useLazyGetXQuery`.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-export const cartApi = createApi({
-  reducerPath: 'cartApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
-    credentials: 'include', // cookies off by default (same-origin)
-  }),
-  tagTypes: ['Cart'],
-  endpoints: (builder) => ({
-    fetchCart: builder.query<CartItem[], void>({
-      query: () => '/cart',
-      providesTags: ['Cart'],
-    }),
-    addItem: builder.mutation<CartItem, CartItem>({
-      query: (item) => ({ url: '/cart', method: 'POST', body: item }),
-      invalidatesTags: ['Cart'],
-    }),
-  }),
-})
-export const { useFetchCartQuery, useAddItemMutation } = cartApi
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
+  },
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `credentials: 'include'` | Send cookies cross-site/same-site as needed |
-| `tagTypes` | Required before provide/invalidate |
-| Lazy vs auto | Mount-time vs button-click fetch |
-| `transformResponse` | Shape before cache |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Cookies missing | Default credentials | Set `credentials: 'include'` |
-| List stale after POST | No tags | `providesTags` / `invalidatesTags` |
-| Hook undefined | Wrong import path | `@reduxjs/toolkit/query/react` |
-| Duplicate requests | New args object each render | Stabilize args / serialize |
-| Browser shows cached 200 | HTTP cache vs RTKQ | Different layers — check Network |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **`ApiProvider` + existing Provider** — don’t nest two Redux stores; mount the api on your store.
-
-> [!WARNING]
-> **Cache dies on full reload** — memory only unless you persist.
-
----
-
-## When NOT to use
-
-- **Non-cached RPC fire-and-forget** — plain thunk may be simpler.
-- **GraphQL-heavy Apollo shops** — don’t run two caches without need.
-
----
+What breaks first in production if `Redux createApi` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux/RTQ Toolkit]] [[Redux/RTQ/RTQ store]] [[Redux/RTQ/RTQ tags]] [[Redux/Redux createAsyncThunk]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

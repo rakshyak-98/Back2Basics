@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `cron.schedule(expr, fn)` runs in memory — not OS cron. Keep the returned task if you ever need `stop()`.
+## How it works
 
 ```txt
 process up → schedule('* * * * *', fn) → tick → fn()
@@ -30,7 +19,8 @@ process up → schedule('* * * * *', fn) → tick → fn()
 | **ScheduledTask** | Handle to stop/start | “Lose the ref ⇒ can’t stop cleanly.” |
 | **In-process** | Not systemd/cron | “Dies with the process; duplicates with N replicas.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import cron from 'node-cron'
@@ -55,7 +45,8 @@ tasks.forEach((t) => t.stop())
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ tasks.forEach((t) => t.stop())
 | Overlap | Long job > interval | Mutex / skip-if-running |
 
 ---
+
 
 ## Gotchas
 
@@ -76,13 +68,19 @@ tasks.forEach((t) => t.stop())
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Clustered / K8s many pods** — use system cron, Cloud Scheduler, or a lock.
 - **Exactly-once billing jobs** — need durable job system.
 
 ---
 
+
 ## Related
 
 [[Packages/npm packages]] [[clustering]] [[Node.js run as a non-privileged user]]
+
+## Sources
+
+- [Wikipedia — node-cron](https://en.wikipedia.org/wiki/node-cron)

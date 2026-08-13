@@ -6,22 +6,12 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** payment integration razorpay — payment capture in Razorpay is the process of confirming and securing a payment after it has been authorized. It ensures that…
+## How it works
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -30,7 +20,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -40,6 +31,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -47,12 +39,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Payments]]
+
+## Sources
+
+- [Wikipedia — payment integration razorpay](https://en.wikipedia.org/wiki/payment_integration_razorpay)

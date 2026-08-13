@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Functions are values: assign, pass, return, store on objects. Each **invocation** creates a new execution context; the function object persists and can hold its own properties.
 
@@ -33,7 +24,8 @@ fn(2, 3) → new context → return 5 → context popped
 | Arrow function | lexical `this` | not hoisted as fn |
 | Method shorthand | receiver object | like declaration |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Core patterns
 
@@ -83,7 +75,8 @@ const withAuth = (token) => (req) => fetch(req, {
 });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +85,7 @@ const withAuth = (token) => (req) => fetch(req, {
 | `this` undefined in method passed as callback | Detached method | `bind`, arrow wrapper, or class field |
 | Stack overflow | Recursion | Iterate or trampoline |
 | Memory growth | Closure over big scope | Narrow captured vars |
+
 
 ## Gotchas
 
@@ -102,11 +96,17 @@ const withAuth = (token) => (req) => fetch(req, {
 - **Generator/async:** return iterators/promises; different error paths.
 - **Strict mode** in modules and classes — silent global leaks become errors.
 
-## When NOT to use
+
+## When not to use
 
 - One-liner used once — inline or extract only when name clarifies intent.
 - Class when only data — plain object or record type may suffice.
 
+
 ## Related
 
 [[Descriptive/JavaScript/execution context]] [[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/Concurrency]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — function](https://en.wikipedia.org/wiki/function)

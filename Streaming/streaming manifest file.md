@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** The player follows URLs inside the manifest; your Node proxy must rewrite absolute Flussonic/origin links or the browser leaves your origin.
+## How it works
 
 ```txt
 Browser                    Node proxy                 Flussonic / origin
@@ -59,7 +48,8 @@ Node proxies the manifest, rewrites `${FLUSSONIC_ORIGIN}/...` → `/flussonic/..
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Rewrite sketch (Node)
 
@@ -95,7 +85,8 @@ See also [[How to attach stream to HTTP handlers]].
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -108,6 +99,7 @@ See also [[How to attach stream to HTTP handlers]].
 | Intermittent wrong host | Partial string replace | Replace all origin variants (DNS name + IP) |
 
 ---
+
 
 ## Gotchas
 
@@ -125,7 +117,8 @@ See also [[How to attach stream to HTTP handlers]].
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Public CDN with correct public BaseURL** — no application proxy; publish absolute **public** HTTPS URLs on purpose.
 - **Relative manifests already** — don’t add a rewrite layer for sport.
@@ -133,6 +126,11 @@ See also [[How to attach stream to HTTP handlers]].
 
 ---
 
+
 ## Related
 
 [[Manifest (streaming)]] [[MPD]] [[HLS]] [[DASH]] [[flussonic]] [[How to attach stream to HTTP handlers]] [[DRM]] [[Streaming]]
+
+## Sources
+
+- [Wikipedia — streaming manifest file](https://en.wikipedia.org/wiki/streaming_manifest_file)

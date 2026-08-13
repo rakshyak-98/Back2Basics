@@ -1,90 +1,44 @@
-[[Hooks]] [[react hooks]] [[Optimizing performance]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
 
 # react useEffect
 
-> Run side effects after paint — fetch, subscriptions, DOM — keep render pure.
+> react useEffect shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Hooks are functions whose names start with `use` and attach stateful logic to function components. React matches hook calls to fiber state by call order, which is why hooks must run at the top level of every render and never inside conditions or loops ([React Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Render computes UI. `useEffect` runs after that commit when deps change; cleanup runs before the next effect and on unmount.
-
-```txt
-render (pure) → commit DOM → useEffect(fn)
-fn deps change → cleanup() → fn() again
-unmount → cleanup()
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Deps array** | When to re-run | “`[]` = mount once; omit = every render (rare).” |
-| **Cleanup** | Undo the effect | “Abort fetch, remove listener, clear timer.” |
-| **Strict Mode** | Dev double-invoke | “Mount→cleanup→mount — proves cleanup works.” |
-
-## Standard config / commands
+## Operating it
 
 ```tsx
 useEffect(() => {
-  const c = new AbortController()
-  fetch('/api', { signal: c.signal })
-    .then((r) => r.json())
-    .then(setData)
-    .catch((e) => { if (e.name !== 'AbortError') console.error(e) })
-  return () => c.abort()
-}, [])
+  const id = setInterval(tick, 1000);
+  return () => clearInterval(id); // cleanup on dep change or unmount
+}, [tick]);
 ```
 
-| Deps | When it runs |
-|------|----------------|
-| `[]` | After first paint only |
-| `[a, b]` | When `a` or `b` changes (shallow) |
-| cleanup return | Before re-run + unmount |
+| Check | Action |
+|-------|--------|
+| Stale closure in effect | List every reactive value in the dependency array or refactor to a ref |
+| Effect runs every render | Remove state updates that rewrite dependencies each pass |
+| Missing cleanup | Return a dispose function for subscriptions, timers, and listeners |
 
-Effects in one component run **in source order**.
+## What breaks first
 
----
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-## Triage (when things break)
+## Recall
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Infinite loop | Effect sets state that’s a dep | Remove dep or derive without effect |
-| Stale props/state | Missing dep | Add dep or use functional update / ref |
-| Double fetch in dev | Strict Mode | Idempotent + abort cleanup |
-| Race: old response wins | No abort | AbortController on cleanup |
-| Sync A→B in effect | Derived data | Compute in render / `useMemo` |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Don’t use effects for derived state** — `fullName = first + last` belongs in render.
-
-> [!WARNING]
-> **Mutating POSTs** — prefer event handlers; GET-on-mount is the common effect case.
-
----
-
-## When NOT to use
-
-- **Transforming props → state** — derive or remount with `key`.
-- **Data fetching at scale** — [[react-query]] owns cache/dedupe better.
-
----
+What breaks first in production if `react useEffect` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[react hooks]] [[react-query]] [[Optimizing performance]] [[useRef]]
+[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+
+## Sources
+
+- [React — useEffect](https://react.dev/reference/react/useEffect)

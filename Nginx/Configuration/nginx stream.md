@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `stream {}` is L4 — Nginx forwards bytes (TCP/UDP) without parsing HTTP.
+## How it works
 
 
 ```
@@ -29,7 +18,8 @@ Client ──TLS──► Nginx:443  ──plain──► backend:8080     (TLS 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### TCP proxy (PostgreSQL example)
 
@@ -94,7 +84,8 @@ ss -ulnp | grep nginx    # UDP listeners
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +95,7 @@ ss -ulnp | grep nginx    # UDP listeners
 | Works in HTTP block, not stream | Wrong context | `stream {}` is **not** inside `http {}` |
 
 ---
+
 
 ## Gotchas
 
@@ -118,13 +110,19 @@ ss -ulnp | grep nginx    # UDP listeners
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **HTTP reverse proxy** — use `http {}` + `proxy_pass`; stream loses header-based routing (except SNI preread).
 - **Application-aware load balancing** — use HAProxy, Envoy, or cloud LB for rich L7 policies.
 
 ---
 
+
 ## Related
 
 [[Configuration]] [[nginx using unix socket]] [[Nginx internals]]
+
+## Sources
+
+- [Wikipedia — nginx stream](https://en.wikipedia.org/wiki/nginx_stream)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** flutter debugging — short field notes on what it is and how to use it.
+## How it works
 
 ### Process description
 | Process           | Purpose                                           |
@@ -32,25 +21,24 @@
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[flutter]]
+
+## Sources
+
+- [Wikipedia — flutter debugging](https://en.wikipedia.org/wiki/flutter_debugging)

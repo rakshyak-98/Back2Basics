@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** like a plumbing T — stdin fans out to file(s) *and* stdout.
+## How it works
 
 ```txt
 command ──► tee file.log ──► next | stage
@@ -35,7 +24,8 @@ command ──► tee file.log ──► next | stage
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # See + save
@@ -65,7 +55,8 @@ curl -s https://api.example.com | tee /dev/stderr | jq .
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +66,7 @@ curl -s https://api.example.com | tee /dev/stderr | jq .
 | Pipeline exits early | `tee` got SIGPIPE | Ensure consumers read; or `tee` last if you only need the file |
 
 ---
+
 
 ## Gotchas
 
@@ -86,7 +78,8 @@ curl -s https://api.example.com | tee /dev/stderr | jq .
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Only save, never show** — plain `>` / `>>`.
 - **Structured logging in apps** — application logger + log shipper, not ad-hoc tee in production entrypoints.
@@ -94,6 +87,11 @@ curl -s https://api.example.com | tee /dev/stderr | jq .
 
 ---
 
+
 ## Related
 
 [[commands]] [[Bash syntax]] [[visudo]]
+
+## Sources
+
+- [Wikipedia — tee](https://en.wikipedia.org/wiki/tee)

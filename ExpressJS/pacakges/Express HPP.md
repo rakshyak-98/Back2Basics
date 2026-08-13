@@ -1,73 +1,47 @@
-[[ExpressJS]] [[express concepts]] [[XSRF (cross-site request forgery)]]
+[[ExpressJS]] [[express concepts]] [[XSRF (cross-site request forgery)]] [[Express middleware]]
 
 # Express HPP
 
-> HPP (HTTP Parameter Pollution) protection — middleware that blocks/duplicates conflicting query/body params attackers use to confuse parsers.
+> HTTP Parameter Pollution (HPP) happens when duplicate query or body keys (`?id=1&id=2`) are parsed inconsistently — `hpp` middleware removes polluted duplicates so your validation sees a single value.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `?id=1&id=2` may become array or last-wins depending on stack. HPP middleware removes polluted duplicates so your checks see one value.
+## Attack shape
 
 ```txt
-?role=user&role=admin  →  sanitize → single role
+?role=user&role=admin  →  sanitize  →  single role value
 ```
+
+Different stacks treat duplicate keys as last-wins, first-wins, or arrays. An attacker may send conflicting values hoping the WAF sees one value and your application sees another.
 
 ---
 
-## Standard config / commands
+## Usage
 
 ```js
 import hpp from 'hpp'
-app.use(hpp()) // after body parsers typically
-// allowlists possible via options in some versions
+app.use(hpp()) // typically after body parsers
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Whitelist | Multi-value params you want |
-| Order | After parsers |
-| Logs | Detect probes |
+| Option | When to use |
+|--------|-------------|
+| Whitelist | Legitimate multi-value keys (e.g. `?tag=a&tag=b`) |
+| Mount order | After `express.json()` and `express.urlencoded()` |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Legit multi values broken | HPP stripped | Whitelist keys |
-| Still arrays | Wrong middleware | Confirm `hpp` mounted |
-| Bypass via body | Only query cleaned | Apply consistently |
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Legitimate multi-value params stripped | Over-aggressive HPP | Whitelist those keys |
+| Arrays still appear | HPP not mounted | Confirm middleware order |
+| Bypass via POST body | Only query sanitized | Apply consistently to body |
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Not a full WAF** — still validate types/authz.
-
-> [!WARNING]
-> **Framework differences** — Express query parsing quirks.
-
----
-
-## When NOT to use
-
-- **APIs that require multi-value query by design** — whitelist carefully.
-- **Non-Express stacks** — use their equivalents.
+HPP middleware is **not** a WAF — still validate types and enforce authorization.
 
 ---
 
 ## Related
 
-[[express concepts]] [[Express middleware]] [[XSRF (cross-site request forgery)]]
+[[express concepts]] · [[Express middleware]] · [[XSRF (cross-site request forgery)]]

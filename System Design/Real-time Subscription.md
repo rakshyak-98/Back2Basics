@@ -1,89 +1,61 @@
-[[System Design]] [[stateless]] [[WebSocket]] [[SSE]] [[backpressure]]
+[[stateless]] [[webSocket]] [[backpressure]] [[event-driven]] [[Food delivery]]
 
 # Real-time Subscription
 
-> Real-time subscription — client stays connected (or long-polls) and receives pushes when data changes, instead of hammering polls.
+> Real-time subscription keeps a channel open (or long-polls) so the server pushes updates when data changes — replacing wasteful polling for live dashboards, chat, and order status.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Subscribe once; server pushes events. Transport choices: WebSocket, SSE, MQTT, GraphQL subscriptions.
+## Transport options
 
 ```txt
-Client ──subscribe(topic)──► Gateway ──► Pub/Sub / DB triggers
+Client ──subscribe(topic)──► Gateway ──► Pub/Sub / database triggers
 Client ◄──── event stream ──────────────┘
 ```
 
-| Transport | Notes |
-|-----------|-------|
-| **SSE** | HTTP one-way server→client; simple |
-| **WebSocket** | Bidirectional |
-| **Short poll** | Fallback; higher load |
+| Transport | Direction | Notes |
+|-----------|-----------|-------|
+| Server-Sent Events | Server → client | Simple over HTTP; one-way |
+| WebSocket | Bidirectional | Lower overhead for chat and games |
+| Long poll | Fallback | Higher load; works through strict proxies |
+| Push notification | Mobile background | Apple Push Notification service / Firebase Cloud Messaging |
 
----
+## Client patterns
 
-## Standard config / commands
-
-```js
+```javascript
 const es = new EventSource('/events')
 es.onmessage = (e) => apply(JSON.parse(e.data))
 
-// WS
-const ws = new WebSocket('wss://api/room/1')
+const ws = new WebSocket('wss://api.example.com/room/1')
 ws.onmessage = (e) => apply(JSON.parse(e.data))
 ```
 
 | Knob | Why |
 |------|-----|
-| Heartbeat | Detect dead NATs |
-| Last-Event-ID / cursor | Resume after reconnect ([[stateless]]) |
-| Auth | Tickets/cookies on connect |
+| Heartbeat every 30–60s | Detect dead network address translation |
+| `Last-Event-ID` / cursor | Resume after reconnect ([[stateless]]) |
+| Auth on connect | Short-lived ticket or cookie |
+| Small payloads | Send identifiers; client refetches details |
 
----
+## Scaling fan-out
 
-## Triage (when things break)
+Single-process broadcast does not scale — use Redis pub/sub, NATS, or Kafka consumer → gateway pattern. Gateway instances remain [[stateless]] if subscription routing uses shared bus.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Connect then silence | Proxy buffering SSE | `X-Accel-Buffering: no`; disable buffer |
-| Mobile drops | Idle NAT | Heartbeat ≤30–60s |
-| Fan-out lag | Single process broadcast | Redis pub/sub / NATS |
-| Dup events on resume | Cursor | Idempotent apply |
-| Sticky session required | Local subscriber map | Shared bus |
+Apply [[backpressure]] when slow clients cannot read — drop or disconnect to protect others.
 
----
+## Failure signatures
 
-## Gotchas
+| Symptom | Direction |
+|---------|-----------|
+| Connect then silence | Proxy buffering Server-Sent Events — `X-Accel-Buffering: no` |
+| Mobile drops | Heartbeat too slow |
+| Duplicate events on resume | Idempotent apply by event identifier |
+| Missed messages without sticky sessions | Local subscriber map — externalize |
 
-> [!WARNING]
-> **LB without sticky + local state** — messages miss; externalize.
+Order tracking in [[Food delivery]] and live sports scores are typical subscription workloads — pair with idempotent state application.
 
-> [!WARNING]
-> **SSE through old proxies** — transform/buffer breaks stream.
+## Sources
 
-> [!WARNING]
-> **Pushing huge payloads** — send ids; let client refetch.
-
----
-
-## When NOT to use
-
-- **Rare updates** — poll every few minutes is simpler.
-- **One-shot request/response** — plain HTTP.
-- **Million-viewer media** — CDN livestream, not per-user WS chat patterns.
-
----
-
-## Related
-
-[[stateless]] [[WebRTC]] [[backpressure]] [[event-driven]] [[Data fetching Frontend]]
+- [HTML Living Standard — Server-sent events](https://html.spec.whatwg.org/multipage/server-sent-events.html).
+- [RFC 6455](https://www.rfc-editor.org/rfc/rfc6455) — WebSocket Protocol.
+- Martin Kleppmann, *Designing Data-Intensive Applications* — publish/subscribe.

@@ -1,87 +1,62 @@
-[[System Design]] [[Throughput]] [[race condition]] [[Token bucket]]
+[[Throughput]] [[Token bucket]] [[race condition]] [[Scaling Throughput in High-load system]]
 
 # backpressure
 
-> Backpressure — slow consumers force producers to pause, drop, or queue with limits so buffers don’t explode.
+> Backpressure is the policy when a consumer cannot keep pace with a producer — block, queue with bounds, shed load, or reject — so unbounded buffers do not exhaust memory and cascade failure.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Every producer→consumer link needs a policy when the consumer is slower: block, bounded queue, sample/drop, or reject (`429` / `503`).
+## Every link needs a policy
 
 ```txt
 Producer → [bounded queue] → Consumer
                ↑ full?
-         wait | drop | 429
+         wait | drop | HTTP 429 / 503
 ```
 
-| Strategy | Effect |
-|----------|--------|
-| Blocking | Simple; can deadlock chains |
-| Bounded queue | Absorbs bursts; then policy |
-| Load shed | Protect core; degrade UX |
-| Credit / window | TCP-like; reactive streams |
+Without an explicit policy, frameworks often buffer silently until the process runs out of memory or latency becomes unbounded.
 
----
+| Strategy | Behavior | Risk |
+|----------|----------|------|
+| Blocking | Producer waits until space | Deadlock chains if circular |
+| Bounded queue | Absorbs short bursts | Must define overflow action |
+| Load shedding | Drop or sample | Data loss — metric and alert |
+| Credit / window | Consumer grants send rights | Reactive streams, Transmission Control Protocol flow control |
+| Rate limiting | [[Token bucket]] at gateway | Protects origin; clients need backoff |
 
-## Standard config / commands
+## Application examples
 
-```js
-// Node: respect stream backpressure
+Node.js streams respect backpressure:
+
+```javascript
 const ok = writable.write(chunk)
 if (!ok) await once(writable, 'drain')
 ```
+
+nginx rate limiting:
 
 ```nginx
 limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
 limit_req zone=api burst=20 nodelay;
 ```
 
----
+Message buses (Kafka, and others) use **consumer lag** as implicit backpressure — disk is still finite; alert and scale consumers or pause producers.
 
-## Triage (when things break)
+## Failure signatures
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| OOM / huge lag | Unbounded queue | Cap queue; drop/reject |
-| Timeouts upstream | Blocked producers | Shed load; scale consumers |
-| Uneven pipes | One slow stage | Isolate pools; circuit break |
-| `429` storms | Clients retry sync | Jittered backoff |
-| Lost messages | Drop policy silent | Metric + DLQ for durables |
+| Symptom | Likely cause |
+|---------|--------------|
+| Out of memory / huge lag | Unbounded in-memory queue |
+| Upstream timeouts | Blocked producers waiting on full pipes |
+| `429` storms | Clients retry without jitter |
+| Silent message loss | Drop policy without dead-letter queue |
 
----
+**Transmission Control Protocol backpressure is not application backpressure** — user-space code can still accumulate unbounded `Promise` chains (`Promise.all` on a million tasks is self-inflicted overload).
 
-## Gotchas
+*What breaks first under spike?* The slowest stage in the pipeline — isolate thread pools and circuit-break sick dependencies.
 
-> [!WARNING]
-> **Infinite Kafka lag “buffering”** — disk is a queue; still backpressure ops (alert, scale, pause producers).
+## Sources
 
-> [!WARNING]
-> **Async without limits** — `Promise.all` 1M tasks is a self-DDoS.
-
-> [!WARNING]
-> **TCP backpressure ≠ app backpressure** — app can still buffer in user space.
-
----
-
-## When NOT to use
-
-- **Tiny offline batch** — finish-or-fail is enough.
-- **Lossy metrics telemetry** — deliberate sampling is fine.
-- **UI animations** — different problem domain.
-
----
-
-## Related
-
-[[Throughput]] [[Token bucket]] [[race condition]] [[Scaling Throughput in High-load system]]
+- Reactive Streams specification — `Publisher` / `Subscriber` backpressure contract.
+- Google SRE Book — handling overload, graceful degradation.
+- Martin Kleppmann, *Designing Data-Intensive Applications* — unbounded queues and system stability.

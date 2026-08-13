@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Proxy to a Unix socket instead of TCP loopback — same host, fewer ports, tighter permissions.
+## How it works
 
 ```
 ```
@@ -26,7 +15,8 @@ Unix sockets avoid TCP overhead on same host (~20–30% throughput gain in typic
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### App side (Express)
 
@@ -112,7 +102,8 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -123,6 +114,7 @@ sudo nginx -t && sudo systemctl reload nginx
 | Intermittent 502 after restart | Race: Nginx reload before app ready | systemd `After=` + health check; `Restart=always` |
 
 ---
+
 
 ## Gotchas
 
@@ -144,13 +136,19 @@ Numbers vary by hardware and payload — directionally correct for same-host pro
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Multi-host upstreams** — unix sockets are local only; use TCP or HTTP upstream.
 - **Quick local development** — TCP port is simpler; switch to socket in production.
 
 ---
 
+
 ## Related
 
 [[Configuration]] [[nginx stream]] [[Express middleware]]
+
+## Sources
+
+- [Wikipedia — nginx using unix socket](https://en.wikipedia.org/wiki/nginx_using_unix_socket)

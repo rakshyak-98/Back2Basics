@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** EventMachine runs a reactor: register sockets/timers, get called when ready — avoid thread-per-connection for high fan-in.
+## How it works
 
 ```txt
 Reactor ── select/epoll ──► callback (read/write/timer)
@@ -30,7 +19,8 @@ Reactor ── select/epoll ──► callback (read/write/timer)
 | **Reactor** | Single-thread event demux | “Like Node’s loop / Netty.” |
 | **vs threads** | Callbacks vs locks | “Scale connections without sync hell.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ruby
 require 'eventmachine'
@@ -46,7 +36,8 @@ end
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,6 +46,7 @@ end
 | Leaked runs | Nested `EM.run` | One reactor per process |
 
 ---
+
 
 ## Gotchas
 
@@ -66,13 +58,19 @@ end
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New Node services** — use Node’s loop / [[EventEmitter]], not EM.
 - **CPU-heavy workers** — processes/threads, not a network reactor.
 
 ---
 
+
 ## Related
 
 [[Event Loop]] [[Node events driven]] [[EventEmitter]]
+
+## Sources
+
+- [Wikipedia — EventMachine](https://en.wikipedia.org/wiki/EventMachine)

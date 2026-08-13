@@ -1,99 +1,78 @@
-[[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]]
+[[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[Security group]] · [[Elastic IP]] · [[AWS Networking]]
 
 # AWS EC2
 
-> EC2 — virtual machines in AWS with chooseable CPU, memory, disk, and network.
+> EC2 provides resizable virtual machines in a VPC — you choose an image, instance type, storage, and security groups; the first outage is usually networking or disk, not the hypervisor.
 
 ---
 
-## Index
+## What you provision
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Choice | Effect |
+|--------|--------|
+| [[AMI (Amazon Machine Image)]] | Operating system, bootstrap, baked software |
+| Instance type | vCPU, memory, network bandwidth, optional GPU |
+| [[EBS (Elastic Block Store)]] root volume | Persistent boot disk; snapshot for backups |
+| [[Security group]] | Stateful layer-4 firewall on the ENI |
+| Subnet | Availability Zone placement; public vs private routing |
+| [[Elastic IP]] | Static public IPv4 (optional; costs money when unattached) |
+| Key pair | SSH access to Linux (install your public key at launch) |
+| IAM instance profile | Role credentials via instance metadata |
 
-## Mental model
+An **Elastic Network Interface (ENI)** attaches the instance to a subnet. Multiple ENIs enable multi-homed or management-network patterns.
 
-An EC2 instance is compute on shared hardware (or Dedicated Host) with **ENI(s)** in a subnet. Launch = AMI + instance type + key pair/instance profile + [[Security group]]. Storage = root + optional [[EBS (Elastic Block Store)]] volumes. **Terminate ≠ delete all billable artifacts.**
+## Instance lifecycle
 
 ```
-Launch template ──► AMI + type + subnet + SG + user-data
-                         │
-                         ├── instance profile (IAM role → STS creds)
-                         └── EBS volumes (persist after terminate unless delete_on_termination)
+pending → running → stopping → stopped → shutting-down → terminated
 ```
 
-Every instance needs a **VPC** (default or custom) — networking is not optional ([[AWS Networking]]).
+**Stop** preserves EBS root volume; **terminate** deletes instance and optionally volumes per launch settings.
 
-## Standard config / commands
+## Launch checklist
 
-### Launch checklist (prod)
+1. Pick region and AZ for latency and compliance.
+2. Select AMI (Amazon Linux, Ubuntu, Windows, or golden image).
+3. Size instance for CPU/memory/network — burstable `t*` families accrue CPU credits.
+4. Attach security group allowing only required ports (SSH often restricted to bastion CIDR).
+5. Place in **private subnet** for app tiers; use load balancer in public subnet for HTTP/S.
+6. Enable **detailed monitoring** and **IMDSv2** (`HttpTokens: required`) on the metadata service.
 
-| Setting | Typical choice | Why |
-|---------|----------------|-----|
-| Subnet | Private app tier | No direct internet exposure |
-| Public IP | Off (use ALB) | Smaller attack surface |
-| SG | Tier-specific (`app-sg`) | Not `default` |
-| IAM | Instance profile with least privilege | No keys on disk |
-| IMDS | v2 required, hop limit 1 (2 for containers) | SSRF credential theft mitigation |
-| EBS | `gp3`, encrypted, `delete_on_termination` tuned | Cost + compliance |
-| User-data | cloud-init bootstrap | Idempotent; log to `/var/log/cloud-init-output.log` |
+## Operations
 
 ```bash
-aws ec2 describe-instances --filters "Name=tag:Env,Values=prod" \
-  --query 'Reservations[].Instances[].{Id:InstanceId,State:State.Name,Type:InstanceType,Subnet:SubnetId}'
-
-aws ec2 terminate-instances --instance-ids i-xxx
-# THEN verify orphans:
-aws ec2 describe-volumes --filters "Name=status,Values=available"
-aws ec2 describe-addresses --query 'Addresses[?AssociationId==null]'
+aws ec2 describe-instances --instance-ids i-0abc123
+aws ec2 start-instances --instance-ids i-0abc123
+aws ec2 stop-instances --instance-ids i-0abc123
 ```
 
-### AZ awareness
+Connect:
 
-- Check **subnet AZ** matches resilience plan — `describe-instances` → `Placement.AvailabilityZone`.
-- Multi-AZ ASG: one subnet per AZ in LT/ASG.
+```bash
+ssh -i ~/.ssh/my-key.pem ec2-user@<public-dns-or-ip>
+```
 
-### Budget / billing visibility
+Default Linux user varies by AMI: `ec2-user` (Amazon Linux), `ubuntu` (Ubuntu), `admin` (Debian).
 
-- IAM: allow billing console for finance role (not every developer).
-- **AWS Budgets** + Cost Anomaly Detection on EC2/NAT/EIP line items.
+## Common failure modes
 
-## Triage (when things break)
+| Symptom | Check |
+|---------|-------|
+| Cannot SSH | Security group, NACL, wrong key, instance in private subnet without bastion |
+| Disk full | [[EBS (Elastic Block Store)]] volume size; expand volume and grow filesystem |
+| Status check failed | Instance or underlying hardware — stop/start or replace |
+| Metadata access from app | IMDSv2 hop limit when running in containers on EC2 |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Instance unreachable (SSH/app) | SG, NACL, route, public IP/subnet | Full path debug ([[AWS Networking]], [[Security group]]) |
-| Status checks failed | System vs instance check in console | Reboot; migrate if hardware; fix disk full (instance check) |
-| Out of CPU credits (T-family) | CloudWatch `CPUCreditBalance` | Unlimited mode or resize to M/C family |
-| User-data didn't run | `/var/log/cloud-init-output.log`; MIME multipart | Fix script; re-run with `cloud-init clean` |
-| IAM role calls fail on instance | Profile attached? IMDS reachable? | Attach profile; curl IMDSv2 token flow |
-| Bill after terminate | EBS volumes, EIP, NAT GW, snapshots | Delete orphans (see WARNING below) |
-| Wrong region/AZ capacity | `InsufficientInstanceCapacity` | Retry another AZ/type; use capacity reservations |
+## Pricing levers
 
-## Gotchas
+On-Demand, Reserved Instances/Savings Plans, Spot (interruptible), Dedicated Hosts. Right-sizing and stopping dev instances overnight reduce spend — see [[AWS Billing and cost management]].
 
-> [!WARNING]
-> **Terminate EC2, then manually delete EBS volumes, Elastic IPs, and NAT gateways** — terminate stops compute; **EBS/EIP/NAT keep charging** if left behind.
+## Recall
 
-> [!WARNING]
-> **Don't attach EIP + NAT casually** — each EIP costs when unassociated; NAT GW hourly + per-GB.
+- What is lost on `stop` vs `terminate`?
+- Why should application servers usually live in private subnets?
 
-> [!WARNING]
-> **Default VPC placement** — fine for sandbox; prod needs explicit subnet tiering.
+## Sources
 
-> [!WARNING]
-> **Stopping vs terminating** — stop preserves EBS; terminate (with default delete_on_termination) removes root volume per setting.
-
-## When NOT to use
-
-- **Long-running stateless web at scale without ASG** — use Auto Scaling Group + ALB.
-- **Batch/analytics** — consider Fargate, [[AWS Lambda]], or Spot Fleet for cost.
-- **Bare metal driver/hardware timing needs** — consider Dedicated Hosts or on-prem.
-
-## Related
-
-[[AWS Networking]] · [[Elastic IP]] · [[Security group]] · [[AMI (Amazon Machine Image)]] · [[EBS (Elastic Block Store)]] · [[aws STS (Security Token Service)]]
+- [Amazon EC2 User Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
+- [Instance types](https://aws.amazon.com/ec2/instance-types/)

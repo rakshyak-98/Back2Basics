@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Decorators describe how fields transform. At runtime you hydrate classes so methods/validators work — TypeScript types alone don’t.
+## How it works
 
 ```txt
 JSON ──plainToInstance(Dto)──► Dto instance ──validate──► ok/err
@@ -32,7 +21,8 @@ JSON ──plainToInstance(Dto)──► Dto instance ──validate──► ok
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 import { plainToInstance, Type, Expose } from 'class-transformer'
@@ -57,7 +47,8 @@ const user = plainToInstance(UserDto, body, { excludeExtraneousValues: true })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ const user = plainToInstance(UserDto, body, { excludeExtraneousValues: true })
 | Validation skipped | Only transformed | Run `class-validator` |
 
 ---
+
 
 ## Gotchas
 
@@ -81,7 +73,8 @@ const user = plainToInstance(UserDto, body, { excludeExtraneousValues: true })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Zod/Yup pipelines** — one schema may be enough.
 - **Functional DTOs** — plain types + parsers.
@@ -89,6 +82,11 @@ const user = plainToInstance(UserDto, body, { excludeExtraneousValues: true })
 
 ---
 
+
 ## Related
 
 [[typescript types]] [[typescript]] [[npm]]
+
+## Sources
+
+- [Wikipedia — class-transformer](https://en.wikipedia.org/wiki/class-transformer)

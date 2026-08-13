@@ -6,42 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
-
-```bash
-# version + config path
-# dry-run when available
-```
-
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** vim commands — ctrl-a (increment number under cursor)
+## How it works
 
 ```bash
 vim -R ; # start vim in Read-only mode.
@@ -82,7 +47,39 @@ colorscheme habamax
 
 ---
 
-## Triage (when things break)
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Configuration and commands
+
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +89,7 @@ colorscheme habamax
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -99,18 +97,18 @@ colorscheme habamax
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[vim keybindings]]] [[[vim buffers]]
+
+## Sources
+
+- [Wikipedia — vim commands](https://en.wikipedia.org/wiki/vim_commands)

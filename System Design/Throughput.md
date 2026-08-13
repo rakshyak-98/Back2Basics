@@ -1,91 +1,62 @@
-[[System Design]] [[Latency]] [[backpressure]] [[Scaling Throughput in High-load system]]
+[[backpressure]] [[Scaling Throughput in High-load system]] [[concurrent connection]] [[Latency]]
 
 # Throughput
 
-> Throughput — how much successful work per time (RPS, TPS, Mbps) while latency and errors stay acceptable.
+> Throughput is the rate of successful work completed per unit time — requests per second, transactions per second, megabits per second — while error rate and latency remain within service level objectives.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Capacity under load. Raise throughput by removing the bottleneck layer — not by guessing.
+## Find the bottleneck layer
 
 ```txt
-NIC / LB  →  app workers  →  DB / disk / GPU
-  PPS          RPS              IOPS / sessions
+Network / load balancer → application workers → database / disk / GPU
+     packets per second        requests per second         input/output operations per second
 ```
 
-| Layer | Metric | Typical choke |
-|-------|--------|---------------|
-| Network | PPS, bandwidth | Softirq, fd limits |
-| App | RPS, CPU | SerDes, locks, GC |
-| I/O | DB QPS, queue depth | Connections, disk |
+Peak requests per second with fifty percent errors is not useful throughput — measure **successful** completions.
 
-Little’s Law: `concurrency ≈ throughput × latency`.
+**Little's Law:** `concurrency ≈ throughput × latency` — raising latency at fixed concurrency lowers effective throughput.
 
----
+| Layer | Common choke |
+|-------|--------------|
+| Network | Packets per second, file descriptor limits, softirq |
+| Application | Central processing unit, garbage collection, lock contention |
+| Data store | Connection pool exhaustion, disk input/output, hot rows |
+| External API | Partner rate limits |
 
-## Standard config / commands
+## Measurement
 
 ```bash
-# Rough load signal
-hey -z 30s -c 50 https://api/…
-# or vegeta, k6
-ss -s
-pidstat -u 1
+# Example load generators
+hey -z 30s -c 50 https://api.example.com/health
+# vegeta, k6 — define success criteria (status, latency p99)
 ```
+
+Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces — optimize the **slowest** stage first (Amdahl).
+
+## Knobs that move throughput
 
 | Knob | Effect |
 |------|--------|
-| Pool sizes | Too small → wait; too big → stampede |
-| Batching | Fewer round-trips |
-| Caching | Cut origin work |
-| Async offload | API returns 202; workers absorb |
+| Connection pool size | Too small → wait; too large → database stampede |
+| Batching | Fewer round trips; may hurt tail latency |
+| [[cache system]] | Cuts origin work |
+| Async offload | Return `202 Accepted`; workers absorb ([[event-driven]]) |
+| [[backpressure]] | Prevents overload collapse |
 
----
+## Failure signatures
 
-## Triage (when things break)
+| Symptom | Likely cause |
+|---------|--------------|
+| Requests per second flat, low CPU | Pool or lock wait |
+| Requests per second flat, high CPU | Hot code path or garbage collection |
+| Good average, awful p99 | Tail saturation — shed load, quality of service tiers |
+| Errors climb with load | Downstream timeout — circuit break |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| RPS flat, CPU low | Lock / pool wait | Find blocker; raise pool carefully |
-| RPS flat, CPU high | Hot code / GC | Profile; reduce allocs |
-| Good RPS, awful p99 | Tail saturation | QoS; shed load; cache |
-| Errors climb with load | Dependency timeout | Backpressure; bulkhead |
-| Softirq high | PPS storm | Batching; kernel tune; fewer conns |
+*What breaks first when load doubles?* Usually the first shared resource without headroom — often the database connection pool.
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **Peak RPS with 50% errors is not throughput** — count *successful* work.
-
-> [!WARNING]
-> **Optimizing non-bottleneck** — measure first.
-
-> [!WARNING]
-> **Latency vs throughput trade** — batching helps RPS, can hurt p99.
-
----
-
-## When NOT to use
-
-- **Ultra-low QPS administrator tools** — optimize clarity, not RPS.
-- **One-shot batch jobs** — wall-clock & cost matter more than RPS.
-- **Comparing Mbps across compressions** — normalize payload.
-
----
-
-## Related
-
-[[Scaling Throughput in High-load system]] [[backpressure]] [[concurrent connection]] [[Token bucket]]
+- Neil Gunther, *Analyzing Computer System Performance with Perl::PDQ* — Little's Law application.
+- Google SRE Book — capacity planning and load testing.
+- Brendan Gregg, *Systems Performance* — utilization and saturation analysis.

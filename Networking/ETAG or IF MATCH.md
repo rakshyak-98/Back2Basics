@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Server hands you a version token (ETag); you send it back on write; mismatch → `412`, refetch, retry.
+## How it works
 
 ```txt
 GET  → 200 + ETag: "v3"
@@ -46,7 +35,8 @@ PUT + If-Match: "v3"
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```http
 GET /channels/42 HTTP/1.1
@@ -86,7 +76,8 @@ await fetch(`/channels/${id}`, {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +88,7 @@ await fetch(`/channels/${id}`, {
 | Quotes stripped | Middleware mangles header | Keep quoted form `"…"` end-to-end |
 
 ---
+
 
 ## Gotchas
 
@@ -111,7 +103,8 @@ await fetch(`/channels/${id}`, {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single-writer append-only logs** — versioning may be overkill; use offsets.
 - **WebSocket fan-out state** — prefer CRDT/OT or server authority, not HTTP ETags alone.
@@ -119,6 +112,11 @@ await fetch(`/channels/${id}`, {
 
 ---
 
+
 ## Related
 
 [[Concurrent modification]] [[Networking]] [[mime type]]
+
+## Sources
+
+- [Wikipedia — ETAG or IF MATCH](https://en.wikipedia.org/wiki/ETAG_or_IF_MATCH)

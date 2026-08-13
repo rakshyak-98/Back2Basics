@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** versus **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` versus `left < right` causes infinite loops or missed answers.
 
@@ -25,7 +16,8 @@ sorted: [1,3,5,7,9]  target 7
   L=3 R=4 mid=3 val=7 → found
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Exact match (classic)
 
@@ -68,7 +60,8 @@ while (lo < hi) {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +70,7 @@ while (lo < hi) {
 | -1 always | Not sorted | Sort first or binary search on index space |
 | Off by one | Post-condition | Verify `lo` at exit equals intended bound |
 | TLE on "sorted" | Not monotonic predicate | Prove monotonicity before binary search |
+
 
 ## Gotchas
 
@@ -87,11 +81,17 @@ while (lo < hi) {
 >
 > **Search on rotated array** — modified invariant; don't paste vanilla template.
 
-## When NOT to use
+
+## When not to use
 
 - Don't binary search unsorted data without transformation.
 - Don't use when n < ~50 — linear scan simpler and cache-friendly.
 
+
 ## Related
 
 [[Data structure/dsa genera formula]] [[Data structure/algo/greedy algorithm]] [[Data structure/linked list]]
+
+## Sources
+
+- [Wikipedia — binary search](https://en.wikipedia.org/wiki/binary_search)

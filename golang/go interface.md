@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Consumers define small interfaces for what they need; producers stay unaware. That inverts deps and avoids rigid `implements` graphs.
+## How it works
 
 ```txt
 package userapi
@@ -35,7 +24,8 @@ func (s *Store) Get(id string) (User, error) { … }
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 type Reader interface {
@@ -56,7 +46,8 @@ rc, ok := r.(io.ReadCloser)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ rc, ok := r.(io.ReadCloser)
 | Import cycle | Interface next to concrete | Move interface to consumer |
 
 ---
+
 
 ## Gotchas
 
@@ -80,7 +72,8 @@ rc, ok := r.(io.ReadCloser)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single concrete forever** — use the struct.
 - **“IUserService” with 30 methods** — split or drop.
@@ -88,6 +81,11 @@ rc, ok := r.(io.ReadCloser)
 
 ---
 
+
 ## Related
 
 [[go]] [[go embedding]] [[go SOLID]] [[go functions]]
+
+## Sources
+
+- [Wikipedia — go interface](https://en.wikipedia.org/wiki/go_interface)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Full image 16k×16k — never ship whole file to client
@@ -37,7 +28,8 @@ Client viewport → compute visible tile (z, x, y) → fetch only those + neighb
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Tile coordinate math (Web Mercator / slippy)
 
@@ -112,7 +104,8 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -125,6 +118,7 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 | CORS on tile CDN | Image canvas tainted | `crossOrigin="anonymous"` + ACAO header |
 
 ---
+
 
 ## Gotchas
 
@@ -142,7 +136,8 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Images < 2000px** — single responsive `srcset` sufficient.
 - **Video** — HLS/DASH segment streaming, not static tile pyramid.
@@ -150,6 +145,11 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 
 ---
 
+
 ## Related
 
 [[Buffer cache]] · [[Animation]] · [[Frontend Datastructure]] · [[Nginx internals]] · [[Configuration]]
+
+## Sources
+
+- [Wikipedia — tiled, multi-resolution, and predictive loading system](https://en.wikipedia.org/wiki/tiled%2C_multi-resolution%2C_and_predictive_loading_system)

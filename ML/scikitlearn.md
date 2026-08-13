@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Everything is an estimator — `fit` on train, `transform`/`predict` on new data; wrap steps in a `Pipeline` to avoid leakage.
+## How it works
 
 ```txt
 Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
@@ -34,7 +23,8 @@ Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -56,7 +46,8 @@ pipe.score(X_test, y_test)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ pipe.score(X_test, y_test)
 | Slow GridSearch | huge grid | RandomSearch; fewer params |
 
 ---
+
 
 ## Gotchas
 
@@ -77,11 +69,17 @@ pipe.score(X_test, y_test)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Deep learning on GPU** — PyTorch/TF.
 - **Huge distributed training** — Spark/XGBoost distributed stacks.
 
+
 ## Related
 
 [[model tranning]] [[data preprocessing]] [[Random forest]] [[Gradient boosting]]
+
+## Sources
+
+- [Wikipedia — scikitlearn](https://en.wikipedia.org/wiki/scikitlearn)

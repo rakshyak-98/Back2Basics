@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#ACME endpoints]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Client creates an account key → requests an order for names → server issues challenges → client completes HTTP-01/DNS-01/TLS-ALPN-01 → server issues the cert (and later renewals/revocation).
+## How it works
 
 ```txt
 ACME client                    ACME server (CA)
@@ -35,7 +23,8 @@ ACME client                    ACME server (CA)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Certbot: production (default) vs staging
@@ -48,7 +37,8 @@ sudo certbot certonly --server https://acme.zerossl.com/v2/DV90 ...
 sudo certbot certonly --server https://ca.internal/acme/directory ...
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,17 +50,6 @@ sudo certbot certonly --server https://ca.internal/acme/directory ...
 
 ---
 
-## ACME endpoints
-
-| ACME server | Operator | Free? | Browser trusted? | Certbot |
-|-------------|----------|-------|------------------|---------|
-| Let’s Encrypt prod | ISRG | Yes | Yes | Default |
-| Let’s Encrypt staging | ISRG | Yes | No | `--staging` |
-| ZeroSSL | ZeroSSL | Limited | Yes | `--server` |
-| Google Trust Services | Google | Yes | Yes | `--server` |
-| step-ca / Boulder | You | Self-hosted | Only if you trust the root | `--server` |
-
----
 
 ## Gotchas
 
@@ -85,7 +64,8 @@ sudo certbot certonly --server https://ca.internal/acme/directory ...
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Air-gapped hosts** — no outbound ACME; issue offline and ship PEMs.
 - **Non-DNS identities** — email/code-signing may use other PKI flows.
@@ -93,6 +73,24 @@ sudo certbot certonly --server https://ca.internal/acme/directory ...
 
 ---
 
+
+## ACME endpoints
+
+| ACME server | Operator | Free? | Browser trusted? | Certbot |
+|-------------|----------|-------|------------------|---------|
+| Let’s Encrypt prod | ISRG | Yes | Yes | Default |
+| Let’s Encrypt staging | ISRG | Yes | No | `--staging` |
+| ZeroSSL | ZeroSSL | Limited | Yes | `--server` |
+| Google Trust Services | Google | Yes | Yes | `--server` |
+| step-ca / Boulder | You | Self-hosted | Only if you trust the root | `--server` |
+
+---
+
+
 ## Related
 
 [[certbot (letsencrypt)]] [[certbot error]] [[PKI]] [[TLS (Transport Layer Security)]] [[https]]
+
+## Sources
+
+- [Wikipedia — ACME server](https://en.wikipedia.org/wiki/ACME_server)

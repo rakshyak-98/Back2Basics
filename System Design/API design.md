@@ -1,157 +1,118 @@
-[[System design]] [[Authentication web application]] [[JWT authentication]] [[REST]]
+[[System design]] [[Authentication web application]] [[REST]] [[backpressure]] [[cache system]]
 
 # API design
 
-> Contract between clients and backend — **resource-oriented URLs, predictable errors, auth**; hide implementation, not capability.
+> An application programming interface is the contract between clients and your backend: stable resources, predictable errors, and explicit authentication — hide implementation details, not product capability.
 
 ---
 
-## Index
+## Resources, methods, and intent
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Representational State Transfer (REST) style application programming interfaces express **nouns in URLs** and **verbs in HTTP methods**. Clients should infer behavior from the contract, not from tribal knowledge.
 
-## Mental model
+| HTTP method | Typical intent | Safe? | Idempotent? |
+|-------------|----------------|-------|-------------|
+| `GET` | Read | Yes | Yes |
+| `POST` | Create or non-idempotent action | No | No |
+| `PUT` | Replace entire resource | No | Yes |
+| `PATCH` | Partial update | No | Often |
+| `DELETE` | Remove | No | Yes |
 
-Good **API design** optimizes for **who** can call **what**, **how**, and **what they get back** — not for mirroring database tables. URLs express a **resource hierarchy**; HTTP methods express **intent**; status codes express **outcome**. Versioning and pagination are part of the contract from day one, not retrofits.
+**Good:** `GET /v1/organizations/{orgId}/projects/{projectId}`  
+**Poor:** `GET /getProjectById?id=7` — action verbs in paths age poorly and confuse caches.
 
-```txt
-Client intent ──► HTTP method + resource path + auth context
-                         │
-                   Handler / domain logic
-                         │
-              Consistent response envelope + errors
-```
+Descending specificity helps clients and operators: domain → collection → entity → sub-resource (for example `/invoices/{id}/line-items`).
 
-| Principle | Good | Bad |
-|-----------|------|-----|
-| **Nouns in paths** | `GET /users/{id}` | `GET /getUserById` |
-| **Hierarchy** | `/orgs/{id}/projects/{id}` | Flat opaque IDs only |
-| **Idempotency** | `PUT` / `DELETE` idempotent | `POST` for everything |
-| **Errors** | `{ "code", "message", "request_id" }` | Stack traces to client |
+## Response shape and errors
 
-**Everyday user perspective:** hide shard keys, internal IDs, and retry semantics — expose stable product concepts ([[KISS]]).
-
----
-
-## Standard config / commands
-
-### URL hierarchy (example)
-
-```txt
-GET    /v1/domains/{domainId}/courses/{courseId}/lessons
-POST   /v1/domains/{domainId}/courses
-PATCH  /v1/domains/{domainId}/courses/{courseId}
-DELETE /v1/domains/{domainId}/courses/{courseId}
-```
-
-Descending specificity: **domain → type → entity → action sub-resource**.
-
-### HTTP method semantics
-
-```txt
-GET     Read (safe, cacheable)
-POST    Create / non-idempotent action
-PUT     Replace entire resource (idempotent)
-PATCH   Partial update
-DELETE  Remove (idempotent)
-```
-
-### Standard response envelope
+Use a consistent envelope so clients can parse successes and failures uniformly:
 
 ```json
 {
-  "data": { "id": "crs_123", "title": "Intro" },
+  "data": { "id": "proj_123", "name": "Alpha" },
   "meta": { "request_id": "req_abc", "page": 1, "total": 42 }
 }
 ```
 
-### Error shape (RFC 7807 style)
+Errors should use proper HTTP status codes, not `200` with `{ "error": true }`. [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) (*Problem Details for HTTP APIs*) defines a standard error body:
 
 ```json
 {
   "type": "https://api.example.com/errors/not-found",
-  "title": "Course not found",
+  "title": "Project not found",
   "status": 404,
-  "detail": "No course with id crs_999",
-  "request_id": "req_abc"
+  "detail": "No project with id proj_999",
+  "instance": "/v1/projects/proj_999"
 }
 ```
 
-### Auth checklist
+Always return a **request identifier** in headers or body so support can correlate logs across services.
 
-```txt
-Who: OAuth2 / JWT ([[JWT authentication]]) / API key per integration
-What: RBAC or ABAC on resource + tenant
-How: HTTPS only; scoped tokens (read vs write)
-Need: Rate limits + idempotency-key header on POST payments
-Return: 401 unauthenticated vs 403 forbidden — distinct
-```
+## Authentication and authorization
 
-### Pagination (cursor preferred at scale)
+See [[Authentication web application]] for patterns. At the application programming interface boundary:
 
-```txt
+| Concern | Practice |
+|---------|----------|
+| Transport | Transport Layer Security only; no credentials in query strings |
+| Identity | OAuth 2.0, JSON Web Tokens, or scoped API keys per integration |
+| Authorization | Role-based or attribute-based checks on the resource and tenant |
+| Distinction | `401 Unauthorized` = not authenticated; `403 Forbidden` = authenticated but not allowed |
+
+Rate limiting and [[Token bucket]] policies belong in the contract documentation, not as surprises in production.
+
+## Pagination and versioning
+
+**Offset pagination** (`?page=3&limit=50`) is simple for administrator interfaces but degrades on large tables — the database must skip many rows ([[database sharding]] makes this worse).
+
+**Cursor pagination** scales better:
+
+```http
 GET /v1/items?limit=50&cursor=eyJpZCI6MTIzfQ
-Response meta: { "next_cursor": "...", "has_more": true }
 ```
 
-Offset pagination OK for administrator UIs; degrades on large tables ([[database sharding]]).
+Response metadata: `{ "next_cursor": "...", "has_more": true }`.
 
-### Versioning
+Version in the path (`/v1/...`) or via content negotiation (`Accept: application/vnd.example.v1+json`). Never remove fields from a supported version without a deprecation window and sunset headers.
 
-```txt
-/v1/... in path (explicit, cache-friendly)
-Or Accept: application/vnd.example.v1+json
-Never break v1 silently — add v2, deprecate with sunset header
+## Idempotency and retries
+
+Clients **will** retry on timeouts. For `POST` operations that create side effects (payments, orders), accept an `Idempotency-Key` header and store the first successful response keyed by that value.
+
+Without idempotency, a retry after a slow success creates duplicates — one of the most expensive application programming interface bugs to unwind.
+
+## Performance and aggregation
+
+Mobile and single-page applications suffer from chatty fine-grained endpoints. When a screen needs ten entities, offer a **composite read** or expand parameters (`?include=owner,permissions`) rather than forcing ten round trips.
+
+Apply [[backpressure]] at the gateway: maximum page size, query timeouts, and rejection under overload instead of unbounded work per request.
+
+## Caching semantics
+
+`GET` responses may be cacheable when they are safe and when cache headers are explicit:
+
+```http
+Cache-Control: private, max-age=60
+ETag: "a1b2c3"
 ```
 
----
+Never mark personalized JSON as `public` without reviewing `Vary` headers. See [[cache system]] for invalidation strategy — the application programming interface layer should document what is safe to cache at the edge.
 
-## Triage (when things break)
+## Design smells
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 429 storms | Client retry without backoff | Exponential backoff + jitter; raise limits if legit |
-| Duplicate orders | POST retried | `Idempotency-Key` header + store |
-| 404 vs empty list | Wrong path vs filter | `GET /items` → `[]` not 404 |
-| N+1 from mobile | Chatty fine-grained API | Aggregate DTO endpoint |
-| Breaking mobile old app | Field removed from v1 | Additive changes only; version bump |
-| CORS errors browser | Preflight | Allow origin + methods; not API "bug" |
-| Slow list endpoints | Missing index on sort column | DB index; cursor pagination |
+| Smell | Why it hurts |
+|-------|--------------|
+| Internal database identifiers in URLs | Couples clients to schema; enables enumeration |
+| Mirror tables in paths (`/users_table`) | Breaks when you normalize or shard |
+| Unbounded search (`GET /search?q=*`) | Denial-of-service vector |
+| Stack traces in error bodies | Information disclosure |
+| Missing correlation identifiers | Incidents become guesswork |
 
----
+*When would you choose GraphQL over REST?* When many client shapes need different field sets and you can invest in schema governance — not for a three-field mobile screen ([[KISS]]).
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **Leaking internal IDs** — exposure enables enumeration; use opaque public IDs.
-
-> [!WARNING]
-> **200 with `{ "error": true }`** — breaks caches and clients; use proper status codes.
-
-> [!WARNING]
-> **Unbounded `GET /search?q=*`** — DOS vector; max limit, auth, timeout.
-
-> [!WARNING]
-> **Mirror DB in URL** — `/table_name_row_id` couples API to schema migrations.
-
-> [!WARNING]
-> **No request_id** — impossible to correlate logs across services.
-
----
-
-## When NOT to use
-
-- **gRPC internal east-west** — HTTP JSON for public/partner; gRPC for service mesh if already standard.
-- **GraphQL for 3-field mobile screen** — complexity tax unless many client shapes.
-- **Hypermedia HATEOAS everywhere** — rarely pays off for mobile/SPA teams.
-
----
-
-## Related
-
-[[System design]] [[Authentication web application]] [[JWT authentication]] [[KISS]] [[DRY]] [[backpressure]] [[cache system]]
+- [RFC 7231](https://www.rfc-editor.org/rfc/rfc7231) — HTTP/1.1 semantics and methods.
+- [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) — Problem Details for HTTP APIs.
+- Leonard Richardson & Mike Amundsen, *RESTful Web APIs* (O'Reilly, 2013).
+- Microsoft REST API Guidelines — naming, versioning, long-running operations.

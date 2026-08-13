@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Spinnaker separates **how artifacts are built** (CI: Jenkins, GitHub Actions) from **how they are promoted** (CD: pipelines with gates). A typical flow:
 
@@ -41,7 +32,8 @@ CI builds image → trigger Spinnaker pipeline
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Pipeline trigger (Docker → EKS sketch)
 
@@ -97,7 +89,8 @@ spin pipeline execute --name deploy-prod --application myapp
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ kubectl -n spinnaker logs deploy/orca --tail=200
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -135,7 +129,8 @@ kubectl -n spinnaker logs deploy/orca --tail=200
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single small K8s cluster** — Argo CD + Helm sufficient.
 - **Serverless-only, few functions** — CI deploy per function adequate.
@@ -143,6 +138,11 @@ kubectl -n spinnaker logs deploy/orca --tail=200
 
 ---
 
+
 ## Related
 
 [[Jenkins]] [[Airflow]] [[Docker compose]] [[kubectl]] [[Terraform workflow]]
+
+## Sources
+
+- [Wikipedia — spinnaker](https://en.wikipedia.org/wiki/spinnaker)

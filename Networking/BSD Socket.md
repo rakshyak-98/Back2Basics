@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Everything is `socket()` + address family + type (stream/datagram); TCP/UDP (or Unix) do the real transport underneath.
+## How it works
 
 ```txt
 Your code
@@ -47,7 +36,8 @@ socket fd ── AF_INET + SOCK_STREAM ──► TCP
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```c
 #include <sys/socket.h>
@@ -71,7 +61,8 @@ lsof -i -P -n
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +72,7 @@ lsof -i -P -n
 | Can’t find peer via Unix socket | Path / permissions | Same FS path; check directory execute bits |
 
 ---
+
 
 ## Gotchas
 
@@ -95,7 +87,8 @@ lsof -i -P -n
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New application protocols in C sockets by default** — use mature libraries (TLS, HTTP/2, QUIC) unless you must own bytes.
 - **Confusing BSD-the-OS hardening docs with the socket API** — OpenBSD ≠ `socket(2)` man page on Linux.
@@ -103,6 +96,11 @@ lsof -i -P -n
 
 ---
 
+
 ## Related
 
 [[Networking]] [[POSIX Socket]] [[TCP]] [[UDP]] [[Inter Process Communication]] [[address port]]
+
+## Sources
+
+- [Wikipedia — BSD Socket](https://en.wikipedia.org/wiki/BSD_Socket)

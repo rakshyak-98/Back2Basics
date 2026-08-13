@@ -1,98 +1,33 @@
-[[Redux]] [[Redux/redux middleware]] [[Redux/Redux State sync with localstorage]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[RTQ Toolkit]] [[RTQ store]] [[RTQ tags]]
 
 # Middleware
 
-> Run code around every action — logging, thunk extras, or `createListenerMiddleware` side effects without sagas.
+> Middleware is a type of computer software program that provides services to software applications beyond those available from the operating system.
 
----
+## What this is
 
-## Index
+Middleware is a type of computer software program that provides services to software applications beyond those available from the operating system. It can be described as "software glue".
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
 
-**Say it in one breath:** Middleware is a pipeline: each layer sees `action`, may dispatch more, then calls `next`. Listeners are RTK’s lightweight “on this action, run effect.”
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-```txt
-dispatch → listener/thunk/logger → reducers → subscribers
-createListenerMiddleware: match action → effect(listenerApi)
-```
+## What breaks first
 
-### Interview map (words you can say)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **getDefaultMiddleware** | Thunk + immutability + serializable | “Extend; don’t replace blindly.” |
-| **prepend vs concat** | Order in chain | “Listeners often `prepend`.” |
-| **matcher / actionCreator** | When listener runs | “Exactly one of type/creator/matcher/predicate.” |
-| **extraArgument** | Inject API client into thunks | “`thunk: { extraArgument }`.” |
+## Recall
 
-## Standard config / commands
-
-```ts
-const listenerMiddleware = createListenerMiddleware()
-listenerMiddleware.startListening({
-  actionCreator: todoAdded,
-  effect: async (action, listenerApi) => {
-    listenerApi.cancelActiveListeners()
-    await syncTodo(action.payload)
-  },
-})
-
-export const store = configureStore({
-  reducer: { todos: todosReducer },
-  middleware: (gDM) =>
-    gDM({
-      thunk: { extraArgument: { api: myApi } },
-    })
-      .prepend(listenerMiddleware.middleware)
-      .concat(logger),
-})
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| `isAnyOf(...)` | One listener, many actions |
-| `listenerApi.getState` | Post-reduce state |
-| Dynamic `startListening` | Returns unsubscribe |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Listener never fires | Wrong matcher | Use `actionCreator` or `isAnyOf` |
-| Serializable errors | Listener before checks | `prepend` listener middleware |
-| Effect sees stale state | Closed over vars | `listenerApi.getState()` |
-| Thunk missing client | No extraArgument | Pass via thunk options |
-| Saga envy | Complex workflows | Prefer listeners; saga only if needed |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Provide exactly one match option** — `type` *or* `actionCreator` *or* `matcher` *or* `predicate`.
-
-> [!WARNING]
-> **`api` param name clash** — listener API ≠ RTK Query `api`; import Query api separately.
-
----
-
-## When NOT to use
-
-- **Simple UI sync** — do it in the event handler.
-- **HTTP cache** — [[Redux/Redux createApi]], not custom middleware.
-
----
+What breaks first in production if `Middleware` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux/redux middleware]] [[Redux/Redux State sync with localstorage]] [[Redux/redux store architecture]] [[Redux/Redux Thunk]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[RTQ Toolkit]] [[RTQ store]] [[RTQ tags]]
+
+## Sources
+
+- [Wikipedia — Middleware](https://en.wikipedia.org/wiki/Middleware)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** download vendor key → store dearmored in keyrings dir → point the sources line at it with `signed-by`.
+## How it works
 
 ```txt
 vendor.asc ──gpg --dearmor──► /usr/share/keyrings/vendor.gpg
@@ -37,7 +26,8 @@ sources.list.d → deb [signed-by=…] …
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 curl -fsSL https://example.com/key.asc | \
@@ -56,7 +46,8 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 | Wrong key trusted globally | apt-key ring | Remove global trust; scoped signed-by |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal debs only** — use a signed internal mirror, still with keyrings.
 - **Language packages** — npm/pip trust is separate from APT keyrings.
 
 ---
 
+
 ## Related
 
 [[source list file]] [[apt configuration]] [[gpg]] [[Linux Key management]]
+
+## Sources
+
+- [Wikipedia — keyrings](https://en.wikipedia.org/wiki/keyrings)

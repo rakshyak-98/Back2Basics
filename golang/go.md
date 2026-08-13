@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A **module** (`go.mod` path) versions a tree of **packages** (one directory = one package). `package main` builds a binary; other packages are libraries. Import paths are module-path + directory.
+## How it works
 
 ```txt
 go.mod module path
@@ -33,7 +22,8 @@ package main → binary
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 go mod init github.com/you/app
@@ -60,7 +50,8 @@ func main() { fmt.Println("hi") }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +62,7 @@ func main() { fmt.Println("hi") }
 | Enum “invalid value” | No exhaustiveness | Validate at boundaries |
 
 ---
+
 
 ## Gotchas
 
@@ -85,7 +77,8 @@ func main() { fmt.Println("hi") }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off scripts with heavy FFI to Python ML** — call out or use another runtime.
 - **GUI-heavy desktop** — possible, not Go’s sweet spot.
@@ -93,6 +86,11 @@ func main() { fmt.Println("hi") }
 
 ---
 
+
 ## Related
 
 [[go package]] [[go cli]] [[go project]] [[go interface]]
+
+## Sources
+
+- [Wikipedia — go](https://en.wikipedia.org/wiki/go)

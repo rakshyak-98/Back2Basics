@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Zustand holds state in a **vanilla store** (works without React). Components **subscribe** to slices; only subscribers to changed keys re-render. No Provider required (unlike Context performance traps).
 
@@ -38,7 +29,8 @@ Zustand holds state in a **vanilla store** (works without React). Components **s
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic store
 
@@ -109,7 +101,8 @@ On server: **new store per request**. On client: hydrate once from serialized sn
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -126,6 +119,7 @@ const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -146,7 +140,8 @@ const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Server-fetched lists with cache invalidation** — TanStack Query / RTK Query.
 - **Complex event-sourced domain** — Redux Toolkit + RTK Query or explicit event store.
@@ -154,6 +149,11 @@ const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 
 ---
 
+
 ## Related
 
 [[React data management]] [[Event Loop]] [[Session Storage]] [[expressjs]]
+
+## Sources
+
+- [Wikipedia — zustand](https://en.wikipedia.org/wiki/zustand)

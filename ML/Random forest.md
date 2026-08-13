@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 For b = 1..B:
@@ -37,7 +28,8 @@ Speed ↑     (embarrassingly parallel fit + predict)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Classification
 
@@ -85,7 +77,8 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 | Class imbalance ignored | Default majority vote | `class_weight`; stratified bootstrap |
 
 ---
+
 
 ## Gotchas
 
@@ -114,7 +108,8 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Need peak tabular accuracy** after tuning budget — [[Gradient boosting]] / [[xg boost]] usually wins Kaggle-style tabular.
 - **Linear separable with sparse high-dim text** — linear models + hashing faster and simpler.
@@ -123,6 +118,11 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 
 ---
 
+
 ## Related
 
 [[Decision tree]] · [[Gradient boosting]] · [[xg boost]] · [[multiclass classification]] · [[binary classification]] · [[Visualization/feature importance]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — Random forest](https://en.wikipedia.org/wiki/Random_forest)

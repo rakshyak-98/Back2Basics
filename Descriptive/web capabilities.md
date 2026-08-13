@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Page requests capability (camera, geolocation, clipboard, …)
@@ -35,7 +26,8 @@ Browser grants/denies → PermissionStatus / DOMException
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Common capability APIs
 
@@ -99,7 +91,8 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,6 +105,7 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 | Third-party embed broken | Sandbox + policy | Minimal sandbox flags; Storage Access API |
 
 ---
+
 
 ## Gotchas
 
@@ -129,7 +123,8 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **File download/upload** — `<input type="file">` simpler than drag-drop File System Access API unless needed.
 - **First-party authentication session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
@@ -137,6 +132,11 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 
 ---
 
+
 ## Related
 
 [[CORS (Cross Origin Request Sharing)]] · [[TLS (Transport Layer Security)]] · [[JavaScript]] · [[Etherium]] · [[Animation]]
+
+## Sources
+
+- [Wikipedia — web capabilities](https://en.wikipedia.org/wiki/web_capabilities)

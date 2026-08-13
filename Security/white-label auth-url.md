@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Your application sends the browser to a tenant-specific login URL that *looks* like you (custom domain/theme). The IdP authenticates, then redirects back with a code/token.
+## How it works
 
 ```txt
 App (partner.example)
@@ -36,7 +25,8 @@ Common with Auth0/Cognito/Okta custom domains + OIDC.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 # Conceptual OIDC authorize URL
@@ -57,7 +47,8 @@ https://auth.yourbrand.com/authorize
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ https://auth.yourbrand.com/authorize
 | CORS on token endpoint | Browser calling token URL | Prefer server-side code exchange (BFF) |
 
 ---
+
 
 ## Gotchas
 
@@ -82,7 +74,8 @@ https://auth.yourbrand.com/authorize
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **First-party simple login** — local sessions may be enough.
 - **Workforce SSO already on IdP domain** — white-label mostly for customer-facing multi-tenant brands.
@@ -90,6 +83,11 @@ https://auth.yourbrand.com/authorize
 
 ---
 
+
 ## Related
 
 [[single-sign-on (SSO)]] [[JWT authentication]] [[Authentication terms]] [[TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — white-label auth-url](https://en.wikipedia.org/wiki/white-label_auth-url)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** session list in memory, file usually `~/.bash_history`; expansions like `!!` replay; `HISTCONTROL`/`HISTIGNORE` filter what gets saved.
+## How it works
 
 ```txt
 typed command ──► maybe save (HISTIGNORE / ignorespace)
@@ -37,7 +26,8 @@ typed command ──► maybe save (HISTIGNORE / ignorespace)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 history
@@ -67,7 +57,8 @@ Leading space before a command → often omitted from history when `ignorespace`
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@ Leading space before a command → often omitted from history when `ignorespace`
 | Duplicates forever | No erasedups | Set `ignoredups:erasedups` |
 
 ---
+
 
 ## Gotchas
 
@@ -92,7 +84,8 @@ Leading space before a command → often omitted from history when `ignorespace`
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Audit of who ran what on a server** — central auditd/SIEM, not per-user bash history.
 - **Structured runbooks** — real scripts in git ([[bash script]]).
@@ -100,6 +93,11 @@ Leading space before a command → often omitted from history when `ignorespace`
 
 ---
 
+
 ## Related
 
 [[Bash syntax]] [[bash script]] [[bash flags]] [[Bash]]
+
+## Sources
+
+- [Wikipedia — Bash history](https://en.wikipedia.org/wiki/Bash_history)

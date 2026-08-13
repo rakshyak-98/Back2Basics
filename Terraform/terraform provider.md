@@ -6,27 +6,37 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Configure the provider]]
-- [[#Triage (when things break)]]
-- [[#Declare source + version]]
-- [[#Aliases (multi-region / multi-account)]]
-- [[#How Terraform talks to providers]]
-- [[#Auth reminders]]
-- [[#Inspect providers]]
-- [[#Resource vs data for a provider]]
-- [[#Non-cloud providers]]
-- [[#Book takeaways]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **provider** is a plugin that implements Create / Read / Update / Delete against an API (AWS, GCP, Azure, GitHub, Kubernetes, Docker, …).
 Terraform core does not know EC2 or GCE — it loads the provider, then asks it to reconcile resources. Setup context: [[Terraform setup]].
+
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
+| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
+| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
+| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
+| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
+
+
+## Gotchas
+
+> [!WARNING]
+> **Unpinned provider** — “latest” drifts between CI and laptop.
+
+> [!WARNING]
+> **Alias forgotten** — resource lands in the default region/account silently.
+
+
+## When not to use
+
+- **Read-only inventory scripts** — cloud SDK / CLI may be simpler than a full provider graph.
+- **Provider with no API you own** — don’t wrap every SaaS click in Terraform.
+
 
 ## Configure the provider
 
@@ -43,15 +53,6 @@ Values often come from [[variable file]].
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
-| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
-| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
-| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
-| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
 
 ## Declare source + version
 
@@ -71,6 +72,7 @@ terraform {
 - Written once during [[Terraform setup]]; plugins fetched by `terraform init`
 
 ---
+
 
 ## Aliases (multi-region / multi-account)
 
@@ -94,6 +96,7 @@ Without `provider = …`, resources use the **default** (unaliased) instance.
 
 ---
 
+
 ## How Terraform talks to providers
 
 1. `terraform init` downloads plugin binaries into `.terraform/providers`
@@ -103,6 +106,7 @@ Without `provider = …`, resources use the **default** (unaliased) instance.
 Debug conversation: `TF_LOG=DEBUG terraform init` → [[Terraform CLI]]
 
 ---
+
 
 ## Auth reminders
 
@@ -114,6 +118,7 @@ Debug conversation: `TF_LOG=DEBUG terraform init` → [[Terraform CLI]]
 Full cloud table: [[Terraform setup]]
 
 ---
+
 
 ## Inspect providers
 
@@ -134,6 +139,7 @@ More flags: [[Terraform CLI]]
 
 ---
 
+
 ## Resource vs data for a provider
 
 Same provider ships both:
@@ -147,6 +153,7 @@ Language detail: [[terraform]]
 
 ---
 
+
 ## Non-cloud providers
 
 Same pattern — `required_providers` + `provider` block:
@@ -156,24 +163,17 @@ Same pattern — `required_providers` + `provider` block:
 
 ---
 
+
 ## Book takeaways
 
 - **Winkler**: provider = plugin; configuration block; aliases; schema drives valid arguments
 - **Brikman**: pin versions; never store credentials in code; registries for providers/modules
 
-## Gotchas
-
-> [!WARNING]
-> **Unpinned provider** — “latest” drifts between CI and laptop.
-
-> [!WARNING]
-> **Alias forgotten** — resource lands in the default region/account silently.
-
-## When NOT to use
-
-- **Read-only inventory scripts** — cloud SDK / CLI may be simpler than a full provider graph.
-- **Provider with no API you own** — don’t wrap every SaaS click in Terraform.
 
 ## Related
 
 [[Terraform setup]] [[terraform]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]
+
+## Sources
+
+- [Wikipedia — terraform provider](https://en.wikipedia.org/wiki/terraform_provider)

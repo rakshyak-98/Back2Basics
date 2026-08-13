@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Common commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Common commands
-
-```bash
-# …
-```
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** commands — prepend method is used to add a new directory to the beginning of the runtime path.
+## How it works
 
 ```bash
 :Lazy update
@@ -56,12 +27,39 @@ vim.opt.rtp:prepend(lazypath)
 
 ---
 
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Common commands
+
+```bash
+# …
+```
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
 ## Examples
 
 ```bash
 # …
 ```
 
+
 ## Related
 
 [[vim keybindings]]] [[[nvim setup]]
+
+## Sources
+
+- [Wikipedia — commands](https://en.wikipedia.org/wiki/commands)

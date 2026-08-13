@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Firmware (BIOS or UEFI) loads GRUB from the ESP (EFI System Partition) or MBR. GRUB reads `/boot/grub/grub.cfg` (generated — **do not hand-edit**) from templates in `/etc/default/grub` and `/etc/grub.d/*`. Kernel parameters on the linux line affect every boot until regenerated.
 
@@ -42,7 +33,8 @@ UEFI/BIOS ──► GRUB ──► vmlinuz + initrd ──► systemd (PID 1)
 | **update-grub** | Regen config | “After edit defaults → update-grub.” |
 | **rescue** | Boot recovery | “e at menu to edit once.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Confirm GRUB2
@@ -92,7 +84,8 @@ sudo update-grub
 
 **Interactive at boot:** hold **Shift** (BIOS) or **Esc** (UEFI) for menu; `e` to edit entry temporarily (not persistent).
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,6 +95,7 @@ sudo update-grub
 | Windows gone after Linux install | os-prober off | `GRUB_DISABLE_OS_PROBER=false`; `update-grub` |
 | NVMe vs SATA root wrong | `GRUB_DISABLE_LINUX_UUID=false` | Regenerate; check `/etc/fstab` UUIDs match |
 | Secure Boot blocks custom kernel | Unsigned module | Use signed shim or disable SB in firmware |
+
 
 ## Gotchas
 
@@ -117,12 +111,18 @@ sudo update-grub
 > [!WARNING]
 > **Cloud VMs** — serial console kernel args (`console=ttyS0`) often required to see boot logs in provider console.
 
-## When NOT to use
+
+## When not to use
 
 - **systemd-boot on Arch/minimal UEFI** — no GRUB; different path.
 - **Container/VM image** — provider/kernel cmdline set in hypervisor.
 - **Runtime kernel tuning** → `sysctl`, not GRUB (except parameters that must be boot-time).
 
+
 ## Related
 
 [[inittramfs]] [[Linux system management]] [[Linux configuration]] [[MBR]] [[Operating System]]
+
+## Sources
+
+- [Wikipedia — grub](https://en.wikipedia.org/wiki/grub)

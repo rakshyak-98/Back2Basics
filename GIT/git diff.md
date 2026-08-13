@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** git diff — show unstaged, staged, or commit-to-commit file changes.
+## How it works
 
 ```bash
 git diff --name-only;
@@ -54,7 +43,8 @@ git diff -- . ':!node_modules';
 git diff --diff-filter=R --name-only;
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 git diff                            # unstaged changes
@@ -67,7 +57,8 @@ git diff --stat
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@ git diff --stat
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -85,13 +77,19 @@ git diff --stat
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not rely on diff alone for merge conflict resolution — open conflicted files and read conflict markers.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git diff](https://en.wikipedia.org/wiki/git_diff)

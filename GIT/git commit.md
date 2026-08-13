@@ -6,20 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
-
-**Say it in one breath:** git commit — snapshot of the index; the unit of Git history.
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 git add file.txt
@@ -32,7 +22,8 @@ git diff --cached                   # what will be committed
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -43,6 +34,7 @@ git diff --cached                   # what will be committed
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -50,13 +42,19 @@ git diff --cached                   # what will be committed
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not commit secrets, build artifacts, or `.env` files — use `.gitignore`.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git commit](https://en.wikipedia.org/wiki/git_commit)

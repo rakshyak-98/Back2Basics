@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Declare “this key fetches with this fn”; Query owns caching, background refetch, retries, and sharing across components. Cache lives in browser RAM (per tab) unless you add a persister.
+## How it works
 
 ```txt
 useQuery(key, fn) → QueryCache
@@ -33,7 +22,8 @@ useMutation → invalidate / setQueryData → subscribers re-render
 | **gcTime** | How long unused cache is kept | “Was `cacheTime` — garbage collection.” |
 | **invalidate** | Mark stale + refetch | “After POST, invalidate the list key.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```tsx
 const qc = new QueryClient({
@@ -57,7 +47,8 @@ function Todos() {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ function Todos() {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -79,13 +71,19 @@ function Todos() {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **No shared server data** — plain `useEffect` + fetch may suffice for one-off.
 - **Offline-first local DB** — IndexedDB/SQLite sync layer, not Query alone.
 
 ---
 
+
 ## Related
 
 [[react cache]] [[Redux/Redux createApi]] [[Optimizing performance]]
+
+## Sources
+
+- [Wikipedia — react-query](https://en.wikipedia.org/wiki/react-query)

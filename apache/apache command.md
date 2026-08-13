@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Common commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Common commands
-
-```bash
-# …
-```
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** apache command — enables the Apache module named mod_rewrite.
+## How it works
 
 ```bash
 sudo a2enmod rewrite;
@@ -48,12 +19,39 @@ sudo a2enmod rewrite;
 
 ---
 
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Common commands
+
+```bash
+# …
+```
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
 ## Examples
 
 ```bash
 # …
 ```
 
+
 ## Related
 
 [[apache]]
+
+## Sources
+
+- [Wikipedia — apache command](https://en.wikipedia.org/wiki/apache_command)

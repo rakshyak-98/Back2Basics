@@ -6,48 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Disconnect after idle | Single `createConnection` | Switch to pool |
-| Errors after nodemon | Stale handles | Pool; don’t keep global conn across restarts |
-| Still timing out | Server timeout tiny | Raise `wait_timeout` or ping/keepalive |
-| Too many conns | Limit × replicas | Lower `connectionLimit` |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** A long-held single connection goes idle longer than MySQL’s timeout; next query hits a dead socket. Pools discard dead conns and open fresh ones.
+## How it works
 
 ```txt
 app ── stale conn ──► MySQL wait_timeout ──► PROTOCOL_CONNECTION_LOST
@@ -62,7 +21,8 @@ app ── stale conn ──► MySQL wait_timeout ──► PROTOCOL_CONNECTION
 | **Pool** | Borrow/return connections | “Survives idle better than one conn.” |
 | **PROTOCOL_CONNECTION_LOST** | Socket died mid-use | “Retry once or let pool refresh.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import mysql from 'mysql2/promise'
@@ -92,6 +52,36 @@ SHOW VARIABLES LIKE '%timeout%';
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Disconnect after idle | Single `createConnection` | Switch to pool |
+| Errors after nodemon | Stale handles | Pool; don’t keep global conn across restarts |
+| Still timing out | Server timeout tiny | Raise `wait_timeout` or ping/keepalive |
+| Too many conns | Limit × replicas | Lower `connectionLimit` |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -102,20 +92,18 @@ SHOW VARIABLES LIKE '%timeout%';
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - This note is a **failure playbook**, not a library — for application errors see [[Error handeling]].
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[Error handeling]] [[Runtime Errors]] [[mysql/mysql connection]]
+
+## Sources
+
+- [Wikipedia — node error](https://en.wikipedia.org/wiki/node_error)

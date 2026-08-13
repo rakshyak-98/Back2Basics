@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Client                          Server
@@ -37,7 +28,8 @@ HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer; HTTP/2 ad
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Nginx TLS baseline
 
@@ -79,7 +71,8 @@ server {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,6 +83,7 @@ server {
 | HTTP/2 errors behind old proxy | ALPN not forwarded | Enable HTTP/2 on edge; proxy_protocol |
 
 ---
+
 
 ## Gotchas
 
@@ -107,12 +101,18 @@ server {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NODE_TLS_REJECT_UNAUTHORIZED=0`) — fix trust store or use proper private CA.
 
 ---
 
+
 ## Related
 
 [[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[certbot (letsencrypt)]] [[response header]]
+
+## Sources
+
+- [Wikipedia — https](https://en.wikipedia.org/wiki/https)

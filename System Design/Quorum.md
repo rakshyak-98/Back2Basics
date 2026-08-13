@@ -1,90 +1,65 @@
-[[System Design]] [[Raft]] [[distributed system]] [[Eventual consistency]]
+[[Raft]] [[distributed system]] [[Eventual consistency]] [[Distributed computing]]
 
 # Quorum
 
-> Quorum — minimum votes (nodes) that must agree before a read/write counts; trades availability against consistency.
+> A quorum is the minimum number of replicas that must participate in a read or write for the operation to count — the lever that trades availability against how stale or divergent data may be.
 
 ---
 
-## Index
+## The overlap rule
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** In a cluster of `N`, pick `W` ack for writes and `R` for reads so `R + W > N` ⇒ overlapping nodes ⇒ you see the latest write (common Dynamo-style rule).
+In a cluster of **N** replicas, choose **W** write acknowledgments and **R** read responses such that:
 
 ```txt
-N=3 replicas
-W=2, R=2  → R+W=4 > 3 → strong-ish read-your-writes
-W=1, R=1  → fast, stale reads possible
+R + W > N
 ```
 
-| Term | Meaning |
-|------|---------|
-| **N** | Replica count |
-| **W** | Write acks required |
-| **R** | Read responses required |
-| Majority | `floor(N/2)+1` (Raft elections) |
+Then read and write sets **overlap** — at least one node saw the latest write. This is the classic Dynamo-style tunable consistency model (DeCandia et al., 2007).
 
----
+| Parameter | Meaning |
+|-----------|---------|
+| **N** | Replication factor (copies of data) |
+| **W** | Nodes that must acknowledge a write |
+| **R** | Nodes consulted for a read |
 
-## Standard config / commands
+**Example:** N=3, W=2, R=2 → R+W=4 > 3 → read-your-writes style behavior if membership is stable.
+
+## Majority versus custom quorums
+
+**Majority** (`floor(N/2) + 1`) appears in [[Raft]] leader election and commit — a different mechanism than Dynamo quorums, though both use counting votes.
+
+| Configuration | Effect |
+|---------------|--------|
+| W=N, R=1 | Durable writes; reads may be stale if not designed carefully |
+| W=1, R=N | Fast writes; expensive reads for consistency |
+| W=majority, R=majority | Survives one failure in a three-node cluster |
+
+## Database examples
 
 ```txt
-# Cassandra-style mental model
-WRITE CONSISTENCY QUORUM
-READ  CONSISTENCY QUORUM
-# MongoDB: writeConcern / readConcern
-# etcd/Raft: majority implicit
+Apache Cassandra: WRITE CONSISTENCY QUORUM / READ CONSISTENCY QUORUM
+MongoDB: writeConcern majority / readConcern majority
+etcd / Raft: implicit majority on commit
 ```
 
-| Choice | Effect |
-|--------|--------|
-| W=N, R=1 | Durable writes; reads may miss if not careful |
-| W=1, R=N | Fast write; expensive consistent read |
-| Majority | Survives 1 failure in 3 |
+## Failure behavior
 
----
+| Symptom | Likely cause | Direction |
+|---------|--------------|-----------|
+| Write timeouts | W too high while nodes are down | Repair nodes; temporarily lower W only with accepted risk |
+| Stale reads | R+W ≤ N or reading lagging replica | Raise R or W; use stronger read concern |
+| "Quorum lost" | Majority of cluster unavailable | Stop accepting writes; restore nodes — do not split-brain |
+| Hot partition | Skewed shard key | Reshard; cache ([[database sharding]]) |
 
-## Triage (when things break)
+Quorum overlap assumes correct membership during reconfiguration — clients with stale topology can compute wrong N.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Writes timeout | W too high / node down | Lower W carefully; repair nodes |
-| Stale reads | R+W ≤ N | Raise R or W |
-| Split brain fear | Even N / no fencing | Prefer odd N; Raft |
-| Hot key | Same partition | Re-shard; cache |
-| “Quorum lost” | Majority offline | Restore nodes; don’t accept writes |
+## Quorum is not consensus
 
----
+[[Raft]] implements **consensus** (one ordered log, one leader). Quorum is a **counting rule** for how many replicas must respond. You can use quorums without full consensus when your conflict model allows it ([[Eventual consistency]]).
 
-## Gotchas
+*When would you accept W=1?* High-ingest telemetry where duplicate or briefly invisible writes are tolerable — not ledger balances.
 
-> [!WARNING]
-> **R+W>N assumes no bit-rot / clock games** — still need repair (read repair, anti-entropy).
+## Sources
 
-> [!WARNING]
-> **Quorum ≠ Raft** — quorum is a count rule; Raft is a consensus protocol using majority.
-
-> [!WARNING]
-> **Client-side quorum without membership** — wrong N during reconfig.
-
----
-
-## When NOT to use
-
-- **Single-node DB** — no quorum to take.
-- **Apportioned pure AP shopping carts** — may choose W=1 intentionally.
-- **Global sync low-latency UX** — quorum across regions hurts; use local + async.
-
----
-
-## Related
-
-[[Raft]] [[distributed system]] [[Eventual consistency]] [[Distributed computing]]
+- Giuseppe DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007).
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), chapter on replication.

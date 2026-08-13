@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** attach or start under gdb, break on code/signals, print state, continue or step.
+## How it works
 
 ```txt
 binary (+ symbols) ──► gdb ──► run / attach PID
@@ -39,7 +28,8 @@ binary (+ symbols) ──► gdb ──► run / attach PID
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Start
@@ -77,7 +67,8 @@ Build with symbols: `gcc -g -O0` for debug; production often needs `debuginfod` 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +79,7 @@ Build with symbols: `gcc -g -O0` for debug; production often needs `debuginfod` 
 | Optimized code lies | `-O2` inlining | Expect odd line numbers; use `-O0` for repro |
 
 ---
+
 
 ## Gotchas
 
@@ -102,7 +94,8 @@ Build with symbols: `gcc -g -O0` for debug; production often needs `debuginfod` 
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Language-native debuggers** — Delve (Go), `pdb`/`debugpy` (Python), Chrome DevTools — when they fit better.
 - **Perf / latency profiling** — `perf`, eBPF, continuous profilers.
@@ -110,6 +103,11 @@ Build with symbols: `gcc -g -O0` for debug; production often needs `debuginfod` 
 
 ---
 
+
 ## Related
 
 [[process]] [[Linux Process Theory]] [[Linux process commands]] [[commands]]
+
+## Sources
+
+- [Wikipedia — gdb](https://en.wikipedia.org/wiki/gdb)

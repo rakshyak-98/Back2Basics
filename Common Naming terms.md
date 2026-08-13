@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Common Naming terms — daemon: Used for background processes that run continuously.
+## How it works
 
 Daemon: Used for background processes that run continuously.
 Monitor: Used for agents that monitor system states or resources.
@@ -40,25 +29,24 @@ Agent: A general term for agents performing network tasks.
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[Common Naming terms.md]]
+
+## Sources
+
+- [Wikipedia — Common Naming terms](https://en.wikipedia.org/wiki/Common_Naming_terms)

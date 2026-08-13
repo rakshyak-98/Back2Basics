@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Package layout varies Debian (`/etc/nginx/`) versus RHEL (`/etc/nginx/` similar) but patterns hold: **main configuration** includes **snippets** and **sites-enabled**. See [[nginx configuration structure]] for every file under `/etc/nginx/`. Logs.
+## How it works
 
 
 ```
@@ -26,7 +15,8 @@
 /var/log/nginx/*.log.1.gz
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Common paths (Debian/Ubuntu)
 
@@ -72,7 +62,8 @@ sudo tail -f /var/log/nginx/access.log
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,6 +74,7 @@ sudo tail -f /var/log/nginx/access.log
 | Site enabled twice | Duplicate server_name | One conf per `server_name`:port |
 | PID file stale | Crash | `systemctl restart nginx` |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -92,11 +84,17 @@ sudo tail -f /var/log/nginx/access.log
 >
 > **JSON access log to same disk as app data** — IO contention; ship to centralized logging.
 
-## When NOT to use
+
+## When not to use
 
 - Don't hand-edit `.log.1.gz` — use `zgrep`/`zgrep error`.
 - Don't disable logrotate postrotate USR1 — nginx keeps writing to old inode → full disk.
 
+
 ## Related
 
 [[nginx configuration structure]] [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Linux/loggging]]
+
+## Sources
+
+- [Wikipedia — nginx files](https://en.wikipedia.org/wiki/nginx_files)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Git aliases live in configuration (`~/.gitconfig` or repository `.git/config`). Simple aliases expand to subcommands; **`!` prefix** runs shell — full power, full footgun.
+## How it works
 
 
 ```
@@ -27,7 +16,8 @@ git ignoredtop → !git ignored | cut ...
 
 Aliases don't pass arguments the same way unless you use `$1` in shell aliases — for parameterized workflows use scripts in `PATH` or functions.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Simple aliases
 
@@ -75,7 +65,8 @@ git config --global alias.difft 'difftool -d vimdiff'
 git config --global alias.cleanup '!git branch --merged main | grep -v "main" | xargs -r git branch -d'
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +75,7 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 | Shell alias no args | Missing `$@` | Use `!f() { ...; }; f'` pattern for args |
 | Destructive alias | `!` with rm/reset | Code review aliases before sharing dotfiles |
 | Works in bash not fish | Shell-specific | Use POSIX sh in `!` or external script |
+
 
 ## Gotchas
 
@@ -96,11 +88,17 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 > [!WARNING]
 > **Shell injection in `!` aliases** — don't embed untrusted input.
 
-## When NOT to use
+
+## When not to use
 
 - **Complex multi-step automation** — shell script in repository `scripts/` with tests.
 - **Override built-in commands** — avoid aliasing `commit`/`push` to dangerous defaults.
 
+
 ## Related
 
 [[git command]] [[git logs]] [[git formating]] [[git branch]]
+
+## Sources
+
+- [Wikipedia — git alias](https://en.wikipedia.org/wiki/git_alias)

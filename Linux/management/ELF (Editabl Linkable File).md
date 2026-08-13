@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Every native Linux program is an **ELF file**: headers describe segments (loaded into memory) and sections (linking/debug). The kernel execute's the file; **ld.so** (dynamic linker) loads `NEEDED` shared libraries from `DT_RPATH`, `LD_LIBRARY_PATH`, and default paths.
 
@@ -46,7 +37,8 @@ Key concepts: **symbols** (functions/variables), **relocations** (addresses fixe
 | **ldd** | Shared lib deps | “Never ldd untrusted binaries.” |
 | **RPATH / RUNPATH** | Embedded lib search | “Overrides vs LD_LIBRARY_PATH.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Identify type
@@ -86,7 +78,8 @@ strip hello                     # remove symbols (smaller, harder to debug)
 readelf -s hello | grep main
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +89,7 @@ readelf -s hello | grep main
 | `Exec format error` | ARM binary on x86 | Cross-compile or run on matching CPU |
 | `cannot execute binary file` | Script missing shebang vs corrupt ELF | `file`; `head -1` |
 | Segfault at startup | ABI mismatch, bad rpath | `ldd`; rebuild with same toolchain/glibc |
+
 
 ## Gotchas
 
@@ -111,12 +105,18 @@ readelf -s hello | grep main
 > [!WARNING]
 > **Stripped symbols** — `nm` empty on production binaries; need `-debuginfo` package or rebuild with `-g` for symbols.
 
-## When NOT to use
+
+## When not to use
 
 - **Scripts** (#!) — kernel executes interpreter, not ELF of script itself.
 - **Java/.NET/JVM bytecode** — different format; only the JVM/runtime is ELF.
 - **Static analysis of application logic** → source + tests, not ELF headers alone.
 
+
 ## Related
 
 [[compiler/library file]] [[process]] [[gdb]] [[Linux system management]]
+
+## Sources
+
+- [Wikipedia — ELF](https://en.wikipedia.org/wiki/ELF)

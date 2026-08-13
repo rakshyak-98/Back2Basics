@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Build indexes that match filter + sort order; each index speeds reads and slows writes.
+## How it works
 
 ```txt
 Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
@@ -34,7 +23,8 @@ Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.users.createIndex({ email: 1 }, { unique: true })
@@ -54,7 +44,8 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Sort in memory | No index for sort | Extend compound index |
 
 ---
+
 
 ## Gotchas
 
@@ -75,11 +67,17 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny collections** — scan is fine.
 - **Fields never queried** — don’t index “just in case.”
 
+
 ## Related
 
 [[mongosh query]] [[mongodb schema]] [[mongodb sharding]]
+
+## Sources
+
+- [Wikipedia — mognodb indexing](https://en.wikipedia.org/wiki/mognodb_indexing)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `$match` first to cut data, then `$group` by `_id` key, then `$sort`/`$limit` the buckets.
+## How it works
 
 ```txt
 $match → $group(_id, accumulators) → $sort → $project
@@ -34,7 +23,8 @@ $match → $group(_id, accumulators) → $sort → $project
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.orders.aggregate([
@@ -57,7 +47,8 @@ db.orders.aggregate([
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ db.orders.aggregate([
 | Too many groups | high-cardinality key | Bucket differently |
 
 ---
+
 
 ## Gotchas
 
@@ -78,11 +70,17 @@ db.orders.aggregate([
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple counts with a filter** — `countDocuments` may suffice.
 - **Realtime per-request heavy groups** — precompute / rollups.
 
+
 ## Related
 
 [[mongosh query]] [[query/mongodb lookup query]] [[mongodb view]]
+
+## Sources
+
+- [Wikipedia — mongoDB Group query](https://en.wikipedia.org/wiki/mongoDB_Group_query)

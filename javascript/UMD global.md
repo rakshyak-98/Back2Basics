@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Wrapper detects the environment and exports accordingly — `module.exports`, `define`, or `root.MyLib = …`.
+## How it works
 
 ```txt
 (typeof exports…) ? CJS
@@ -33,7 +22,8 @@
 | **global** | `window.Lib` | “Script-tag fallback.” |
 | **factory** | Build the export | “Shared body for all targets.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 (function (root, factory) {
@@ -53,7 +43,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@
 | SSR `window` missing | Used window directly | Use `self`/root param |
 
 ---
+
 
 ## Gotchas
 
@@ -74,13 +66,19 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **application code** — use ESM modules.
 - **New libraries** — dual ESM/CJS via `package.json` `exports` beats hand UMD.
 
 ---
 
+
 ## Related
 
 [[AMD module]] [[IIFC]] [[node modules]]
+
+## Sources
+
+- [Wikipedia — UMD global](https://en.wikipedia.org/wiki/UMD_global)

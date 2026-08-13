@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 For each query, you have a ranked list of items. **Relevance** is binary (or graded in nDCG). **Precision@k** = relevant in top k / k. **Average Precision (AP)** integrates precision at each rank where a relevant item appears.
 
@@ -35,7 +26,8 @@ MAP cares about **order**: putting all relevant items at the top scores higher t
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.metrics import average_precision_score, label_ranking_average_precision_score
@@ -62,7 +54,8 @@ map_score = np.mean([
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +67,7 @@ map_score = np.mean([
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -84,7 +78,8 @@ map_score = np.mean([
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single-label classification** — use precision/recall/F1 ([[binary classification]]).
 - **Regression** — use MAE/RMSE ([[regression]]).
@@ -92,6 +87,11 @@ map_score = np.mean([
 
 ---
 
+
 ## Related
 
 [[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated versus actual plot]]
+
+## Sources
+
+- [Wikipedia — Mean Average Precision](https://en.wikipedia.org/wiki/Mean_Average_Precision)

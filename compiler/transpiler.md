@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **compiler** often targets machine code/bytecode; a **transpiler** targets another high-level language (TS→JS, ES2022→ES5). Developer runs it locally or in CI; deploy artifact is the output. Bundlers (Webpack, esbuild, Vite) chain transpile + bundle + minify.
 
@@ -23,7 +14,8 @@ A **compiler** often targets machine code/bytecode; a **transpiler** targets ano
 author TS/JSX → Babel/SWC/tsc → deploy JS → browser/V8
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Babel (classic)
 
@@ -60,7 +52,8 @@ module: {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +62,7 @@ module: {
 | TS types ignored | Using Babel only | Add `tsc --noEmit` or `fork-ts-checker` |
 | Huge bundle | Full polyfill | Target modern browsers; analyze bundle |
 | Source maps wrong | `devtool` setting | `source-map` in prod selectively |
+
 
 ## Gotchas
 
@@ -79,11 +73,17 @@ module: {
 >
 > **Decorators/experimental** — stage mismatches break silently across versions.
 
-## When NOT to use
+
+## When not to use
 
 - Don't transpile if targets are evergreen-only (internal tools) — ship native ES2022.
 - Don't transpile on the server per request — always prebuild in CI.
 
+
 ## Related
 
 [[compiler/compiler]] [[compiler/compile time]] [[NodeJS/node package json]] [[css/tailwindcss]]
+
+## Sources
+
+- [Wikipedia — transpiler](https://en.wikipedia.org/wiki/transpiler)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Reachability from roots (stack, globals) keeps objects alive; engines use generational GC and can pause briefly.
+## How it works
 
 ```txt
 roots → reachable graph stays  |  unreachable → collect
@@ -34,7 +23,8 @@ roots → reachable graph stays  |  unreachable → collect
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // Chrome DevTools → Memory → heap snapshot / allocation timeline
@@ -50,7 +40,8 @@ cache.delete(key)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ cache.delete(key)
 | GC pauses | huge heaps | Smaller objects; pool wisely |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ cache.delete(key)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Manual arena allocators in WASM** — different story.
 - **Trying to force GC for correctness** — fix references instead.
 
+
 ## Related
 
 [[JavaScript/Weak map]] [[JavaScript/Call stack]] [[Heap memory]]
+
+## Sources
+
+- [Wikipedia — Garbage Collection](https://en.wikipedia.org/wiki/Garbage_Collection)

@@ -1,38 +1,58 @@
-[[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
+[[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[AWS Lambda]]
 
 # IAM
 
-> IAM — users, roles, and policies that decide who can call which AWS APIs.
+> Identity and Access Management decides which AWS principals can perform which API actions on which resources — an explicit `Deny` always wins over `Allow`.
 
 ---
 
-## Index
+## Core objects
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Object | Role |
+|--------|------|
+| **Principal** | Who is calling: IAM user, role, federated user, or AWS service |
+| **Policy** | JSON document listing `Effect`, `Action`, `Resource`, optional `Condition` |
+| **User** | Long-lived identity; avoid access keys in production |
+| **Group** | Collection of users for shared policy attachment |
+| **Role** | Assumable identity with temporary credentials via [[aws STS (Security Token Service)]] |
+| **Policy attachment** | Identity-based (on user/role/group) or resource-based (on S3 bucket, KMS key, etc.) |
 
-## Mental model
+Authorization is evaluated at request time. AWS combines all applicable policies; if any matching statement is `Deny`, the call fails even when another policy allows it.
 
-IAM is AWS's authorization graph: **principals** (users, roles, federated identities) assume **policies** (identity-based + resource-based) evaluated at API call time. **Roles** (with [[aws STS (Security Token Service)]]) are the production default; **users + access keys** are legacy/break-glass.
+## Evaluation flow
 
 ```
-Request ──► AuthN (who) ──► IAM policy eval ──► Allow/Deny ──► API
-                │                    │
-                └── SCP (org max)    └── resource policy (S3/KMS/Lambda)
+API request
+    │
+    ▼
+Authentication (SigV4, web identity, etc.)
+    │
+    ▼
+Organization SCP (if in AWS Organizations) — maximum permission ceiling
+    │
+    ▼
+Identity policy + resource policy + session policy
+    │
+    ▼
+Permission boundary (if set) — caps effective permissions
+    │
+    ▼
+Allow / implicit deny
 ```
 
-**Deny always wins.** Permission boundary caps what a role/user can ever receive even if administrator attaches `AdministratorAccess`.
+**Service control policies (SCPs)** apply to member accounts in an organization. **Permission boundaries** cap what an administrator can grant to a user or role, even with `AdministratorAccess`.
 
-## Standard config / commands
+## Production patterns
 
-### Role for compute (pattern)
+**Prefer roles over users.** EC2 instance profiles, Lambda execution roles, and CI/CD OIDC federation all assume roles and receive short-lived credentials. Long-lived access keys on IAM users are a common breach path.
+
+**Least privilege.** Start with AWS managed job-function policies only as a scaffold; tighten `Action` and `Resource` to specific [[ARN (Amazon Resource Name)]] patterns.
+
+**Break-glass users** should be MFA-protected, rarely used, and monitored with CloudTrail.
+
+### Trust policy (who can assume a role)
 
 ```json
-// Trust policy — who can assume
 {
   "Version": "2012-10-17",
   "Statement": [{
@@ -43,69 +63,44 @@ Request ──► AuthN (who) ──► IAM policy eval ──► Allow/Deny ─
 }
 ```
 
-Attach **managed or inline policy** with least privilege — e.g. `s3:GetObject` on `arn:aws:s3:::my-bucket/*`, not `s3:*`.
+### Permission policy (what the role can do)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:GetObject"],
+    "Resource": "arn:aws:s3:::my-bucket/*"
+  }]
+}
+```
+
+## Common failures
+
+| Symptom | Likely cause |
+|---------|----------------|
+| `AccessDenied` on S3 | Missing identity policy, bucket policy, or KMS key policy |
+| Lambda cannot reach VPC resource | Execution role lacks `ec2:CreateNetworkInterface` or security group blocks traffic |
+| Cross-account access fails | Trust policy on target role does not list source principal |
+| Admin cannot grant permission | Permission boundary or SCP blocks the action |
+
+## CLI checks
 
 ```bash
-aws iam get-role --role-name AppRole
+aws sts get-caller-identity
 aws iam simulate-principal-policy \
-  --policy-source-arn arn:aws:iam::123:role/AppRole \
+  --policy-source-arn arn:aws:iam::123456789012:role/MyRole \
   --action-names s3:GetObject \
-  --resource-arns arn:aws:s3:::my-bucket/key
+  --resource-arns arn:aws:s3:::my-bucket/object-key
 ```
 
-### Groups for humans
+## Recall
 
-- Humans in **groups** (`Developers`, `ReadOnly`); permissions on groups, not individual users.
-- **MFA** enforced via policy condition `aws:MultiFactorAuthPresent`.
+- When would you attach a policy to a resource instead of to a role?
+- What breaks if you delete the only role an EC2 instance profile references?
 
-### Audit tooling (built-in)
+## Sources
 
-| Tool | Scope | Use |
-|------|-------|-----|
-| **Credentials Report** | Account — all users, key age, MFA | Quarterly key rotation audit |
-| **Access Advisor** | Per user/role — last used services | Right-size policies; remove stale grants |
-| **Access Analyzer** | External access paths | Find public S3, cross-account trust |
-
-```bash
-aws iam generate-credential-report && aws iam get-credential-report --query 'Content' --output text | base64 -d
-```
-
-### Identity Center (SSO)
-
-- Prefer **IAM Identity Center** over long-lived IAM users for console/CLI (`aws sso login`).
-- Permission sets = roles in target accounts.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `AccessDenied` despite "Admin" | SCP? Permission boundary? Session policy? | Org SCP; boundary; explicit Deny in policy |
-| CI deploy role stopped working | OIDC trust repo branch; role session name | Fix IdP condition keys |
-| Cross-account S3/KMS fail after role fix | **Resource policy** on bucket/key | Add `Principal` for role ARN |
-| `InvalidUserID.NotFound` | Wrong account/ partition in [[ARN (Amazon Resource Name)]] | Fix ARN |
-| New hire can't console login | Identity Center assignment; IdP sync | Assign permission set; SCIM/group mapping |
-| `AccessDeniedException` on PassRole | `iam:PassRole` for deployment roles | Scope PassRole to specific role ARNs |
-
-## Gotchas
-
-> [!WARNING]
-> **Default service roles** (`AWSServiceRoleForSupport`, `AWSServiceRoleForTrustedAdvisor`) — AWS-managed; don't delete; not where your app permissions live.
-
-> [!WARNING]
-> **Policy size limit (6144 chars inline)** — use managed policies + composition; refactor with policy variables in Terraform.
-
-> [!WARNING]
-> **`Resource: "*"` + `Action: "*"` on CI role** — full account compromise if pipeline leaked. Scope to deployment ARNs.
-
-> [!WARNING]
-> **IAM eventual consistency** — new role/policy may take seconds; retry with backoff in automation.
-
-## When NOT to use
-
-- **IAM users with access keys for application runtime** — use instance profile / IRSA / Lambda execution role.
-- **Shared root account credentials** — enable root MFA; lock root to break-glass only.
-- **Duplicating AWS-managed policy by copy-paste** — attach `AWS managed` and add small custom policy for deltas.
-
-## Related
-
-[[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[AWS ECR]] · [[AWS Lambda]]
+- [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html)
+- [Policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)

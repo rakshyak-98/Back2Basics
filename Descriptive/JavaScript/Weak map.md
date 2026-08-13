@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Attach private metadata to objects without preventing GC; no iteration, no string keys.
+## How it works
 
 ```txt
 WeakMap: object key → value   (key not kept alive by the map)
@@ -34,7 +23,8 @@ WeakMap: object key → value   (key not kept alive by the map)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const meta = new WeakMap()
@@ -50,7 +40,8 @@ meta.get(el).clicks++
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ meta.get(el).clicks++
 | Leak still | value references key | Break cycle |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ meta.get(el).clicks++
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Need key listing / size** — Map.
 - **Primitive keys** — Map or object.
 
+
 ## Related
 
 [[JavaScript/Garbage Collection]] [[Javascript]]
+
+## Sources
+
+- [Wikipedia — Weak map](https://en.wikipedia.org/wiki/Weak_map)

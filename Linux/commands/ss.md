@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `ss` reads `/proc/net/*` and netlink — same truth the kernel uses for TCP/UDP state. No DNS, no guessing from `/proc/<pid>/fd` alone.
 
@@ -43,7 +34,8 @@ Client ──SYN──► LISTEN (ss -lnt)
 | **-luntp** | Listen sockets, UDP, numeric addresses, TCP, show owning process | “ss -luntp is my first port inventory.” |
 | **TIME-WAIT** | TCP state after local close; kernel holds socket about two minutes | "Many TIME-WAIT sockets can exhaust ephemeral client ports." |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Flags mnemonic:** `-l` listen, `-a` all (listen + established), `-n` numeric, `-t` TCP, `-u` UDP, `-p` process, `-i` TCP information.
 
@@ -95,7 +87,8 @@ ss -tan state close-wait
 - `Recv-Q`: bytes in kernel recv buffer not yet read by app → app slow or blocked event loop ([[Epoll]]).
 - `Send-Q`: bytes sent, not ACKed → network congestion or peer window zero.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -121,6 +114,7 @@ ss -tan state established '( dport = :8080 )' | wc -l
 ss -o state established '( dport = :8080 )'   # timer=keepalive detail
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -131,12 +125,18 @@ ss -o state established '( dport = :8080 )'   # timer=keepalive detail
 - **Containers:** run `ss` **inside** the net namespace (`nsenter`, `docker exec`) — host view shows veth, not application’s localhost.
 - **IPv6 bracket notation** — filters may need `( sport = :443 )` form for clarity.
 
-## When NOT to use
+
+## When not to use
 
 - **Packet contents or TLS plaintext** — use `tcpdump` / wire capture.
 - **Routing / ARP / firewall rules** — `ip route`, `iptables/nft`, `conntrack -L`.
 - **Historical connections** — `ss` is point-in-time; use flow logs or eBPF for past state.
 
+
 ## Related
 
 [[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]] [[eBPF]]
+
+## Sources
+
+- [Wikipedia — ss](https://en.wikipedia.org/wiki/ss)

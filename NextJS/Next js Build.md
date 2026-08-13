@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Build analyzes routes, bundles server/client, prerenders where possible. Failures here are type/import/configuration issues—fix before deploy.
+## How it works
 
 ```txt
 next build → .next/ → next start (or platform adapter)
@@ -25,7 +14,8 @@ next build → .next/ → next start (or platform adapter)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 npm run build
@@ -42,7 +32,8 @@ npm run start
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,6 +43,7 @@ npm run start
 | Missing env at build | Used at build time | Provide CI env |
 
 ---
+
 
 ## Gotchas
 
@@ -63,13 +55,19 @@ npm run start
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **development iteration** — `next dev`.
 - **Non-Next React SPA** — Vite build.
 
 ---
 
+
 ## Related
 
 [[Next JS]] [[NextJS configuration]] [[express build]]
+
+## Sources
+
+- [Wikipedia — Next js Build](https://en.wikipedia.org/wiki/Next_js_Build)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Verify with the public key — TCP Connection — Your client connects to the server on port 22.
+## How it works
 
 ```bash
 ssh user@server.example.com
@@ -34,7 +23,8 @@ ssh-keygen -t ed25519 -C "you@example.com"
 ```
 - private keys stays with you, the server needs to know who it should trust so, you copy your public key `~/.ssh/authorized_key` of your account on the server.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ssh user@host
@@ -45,7 +35,8 @@ ssh -J jump@bastion user@internal
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,6 +47,7 @@ ssh -J jump@bastion user@internal
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -63,13 +55,19 @@ ssh -J jump@bastion user@internal
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not enable password authentication on internet-facing servers if key-based login is available.
 
 
 ---
 
+
 ## Related
 
 [[ssh]]
+
+## Sources
+
+- [Wikipedia — ssh login](https://en.wikipedia.org/wiki/ssh_login)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A **payment gateway** sits between merchant site/[[POS]] and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns authentication/capture result.
+## How it works
 
 
 ```
@@ -34,7 +23,8 @@ Shopper → Merchant site → Payment Gateway → Acquirer → Card networks →
 
 Gateway ≠ [[Payments/PSP]] entirely — PSP may own gateway + processing + merchant account, but role here is **integration API**.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Integration patterns
 
@@ -71,7 +61,8 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 # Never share merchant keys across envs
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +71,7 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 | Currency mismatch | Minor units vs major | Pass cents; ISO 4217 code |
 | Timeout duplicate charges | No idempotency | Same key on retry |
 | PCI audit failure | PAN in logs/DB | Tokenize; SAQ type review |
+
 
 ## Gotchas
 
@@ -90,11 +82,17 @@ GATEWAY_API_URL=https://api.gateway.com           # prod
 - **Partial capture** — authentication amount may exceed shipped total; void unused authentication.
 - **MOTO versus e-commerce** — different interchange and fraud rules.
 
-## When NOT to use
+
+## When not to use
 
 - Internal B2B invoicing with wire/ACH only — gateway adds little value.
 - Marketplace split payouts without platform product — need Connect-style [[Payments/PSP]] features.
 
+
 ## Related
 
 [[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[Security/TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — payment gateway](https://en.wikipedia.org/wiki/payment_gateway)

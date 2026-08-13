@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `exec` runs a shell command string (buffers output); `execFile`/`spawn` run a program with argv (safer); `fork` starts another Node process with IPC.
+## How it works
 
 ```txt
 parent ──spawn──► child (separate memory)
@@ -32,7 +21,8 @@ parent ──spawn──► child (separate memory)
 | **spawn** | Streaming stdio | “Long-running / large output.” |
 | **fork** | Node + `process.send` | “IPC channel built in.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { execFile, spawn } from 'node:child_process'
@@ -54,7 +44,8 @@ child.on('exit', (code) => console.log('done', code))
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ child.on('exit', (code) => console.log('done', code))
 | ENOENT | PATH / wrong binary | Absolute path; check `env` |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ child.on('exit', (code) => console.log('done', code))
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **CPU parallelism inside one application** — [[worker]] threads share memory differently.
 - **Tiny sync helpers** — maybe just a library call, not a process.
 
 ---
 
+
 ## Related
 
 [[worker]] [[clustering]] [[Runtime Errors]]
+
+## Sources
+
+- [Wikipedia — child process](https://en.wikipedia.org/wiki/child_process)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `git format-patch` turns commits into **`.patch` files** (mbox format with commit message + diff). `git am` applies them as **new commits** preserving author/date/message (unlike `git apply` which only.
+## How it works
 
 
 ```
@@ -30,7 +19,8 @@ feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.pa
 
 Use for: mailing lists, exporting PR to air-gapped environment, carrying patches across forks. For modern teams, prefer `git cherry-pick` or merge when both repos are network-accessible.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Export range
 
@@ -82,7 +72,8 @@ git apply patch.file
 git commit -C HEAD  # after manual apply
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +83,7 @@ git commit -C HEAD  # after manual apply
 | `corrupt patch at line` | Line endings CRLF | `git config core.autocrlf`; regenerate patch |
 | Duplicate commits after am | Patches already applied | `git log`; skip or rebase --onto |
 | Merge commit patch huge | Need `-m` parent | `format-patch -m -1 merge_sha` |
+
 
 ## Gotchas
 
@@ -104,11 +96,17 @@ git commit -C HEAD  # after manual apply
 > [!WARNING]
 > **Renames** — patches can be fragile across refactors; prefer merge/cherry-pick for big moves.
 
-## When NOT to use
+
+## When not to use
 
 - **Same repository, same remote** — push branch + PR.
 - **Interactive conflict-prone long series** — one merge or rebase onto target.
 
+
 ## Related
 
 [[git command]] [[git diff]] [[git merge]] [[git rebase]]
+
+## Sources
+
+- [Wikipedia — git patch files](https://en.wikipedia.org/wiki/git_patch_files)

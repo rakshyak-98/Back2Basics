@@ -6,17 +6,16 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```txt
+Working tree → index → commits → remote refs
+                 ↑
+           reflog = local undo log
+```
+
+---
+
 
 ## Quick reference
 
@@ -24,7 +23,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 git reflog                          # find lost SHA
@@ -51,25 +51,22 @@ git stash list && git stash apply stash@{0}
 
 ---
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-**Say it in one breath:** Refs move; `reflog` remembers where they were — recover lost commits until `gc` prunes them.
+## Examples
 
-```txt
-Working tree → index → commits → remote refs
-                 ↑
-           reflog = local undo log
+```bash
+# …
 ```
 
----
 
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +78,7 @@ Working tree → index → commits → remote refs
 | Auth mid-push | credential helper | Clear helper; SSH/PAT |
 
 ---
+
 
 ## Gotchas
 
@@ -95,19 +93,19 @@ Working tree → index → commits → remote refs
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Force-push shared main** — prefer revert.
 - **Bisect on flaky tests** — script must be deterministic.
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[git merge]] [[git rebase]] [[git worktree]] [[git hook]] [[git submodule]] [[git logs]] [[git blame]]
+
+## Sources
+
+- [Wikipedia — git command](https://en.wikipedia.org/wiki/git_command)

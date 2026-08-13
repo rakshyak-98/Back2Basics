@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A breakpoint is **bound** when the debugger links it to an exact script location (file URL + line → bytecode offset). **Unbound** means the IDE shows the breakpoint (often hollow/grey) but the runtime has no matching source line loaded.
 
@@ -29,7 +20,8 @@ Runtime script (bundle.js)  ──► bound ✓
 
 Typical causes: typo path, webpack path prefix, breakpoint in dead code, lazy-loaded chunk not fetched yet.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### VS Code — verify launch config
 
@@ -66,7 +58,8 @@ module.exports = {
 };
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +70,7 @@ module.exports = {
 | Conditional breakpoint unbound | Syntax in condition | Simplify `x > 1` test |
 | Docker path mismatch | `/app` vs local | `localRoot` / `remoteRoot` in launch.json |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -86,10 +80,16 @@ module.exports = {
 - **Inline source maps** huge but bind reliably; external maps need correct `//# sourceMappingURL`.
 - **Breakpoint in `node_modules`** — skipped unless `"skipFiles": false` and map exists.
 
-## When NOT to use
+
+## When not to use
 
 - Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/loggging]]) instead.
+
 
 ## Related
 
 [[Descriptive/vscode]] [[javascript]] [[NodeJS/node command]] [[Descriptive/JavaScript/execution context]]
+
+## Sources
+
+- [Wikipedia — unbound breakpoint](https://en.wikipedia.org/wiki/unbound_breakpoint)

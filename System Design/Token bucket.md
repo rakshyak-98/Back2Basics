@@ -1,91 +1,64 @@
-[[System Design]] [[backpressure]] [[Throughput]] [[race condition]]
+[[backpressure]] [[Throughput]] [[concurrent connection]] [[API design]]
 
 # Token bucket
 
-> Token bucket — rate limiter: tokens refill over time; each request spends a token; empty bucket ⇒ throttle.
+> A token bucket rate limiter refills tokens at a steady rate up to a burst capacity — each request spends tokens, and an empty bucket means throttle with HTTP 429 or delay.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Bucket holds up to `burst` tokens; refill at `rate`. Smooths traffic while allowing short spikes.
+## Algorithm
 
 ```txt
-tokens = min(burst, tokens + rate*dt)
-if tokens >= cost: tokens -= cost; allow
-else: deny / delay
+tokens = min(burst, tokens + rate × Δt)
+if tokens >= cost:
+    tokens -= cost
+    allow
+else:
+    deny or queue
 ```
 
-| Vs | Difference |
-|----|------------|
-| Leaky bucket | Steady outflow; shapes harder |
-| Fixed window | Cheap; boundary burst double-spend |
-| Sliding window | Smoother; more state |
+| Parameter | Meaning |
+|-----------|---------|
+| `rate` | Sustained requests per second (refill speed) |
+| `burst` | Maximum tokens (allowed spike) |
+| `cost` | Tokens per request (batch or GraphQL queries may cost > 1) |
+| Key | Client Internet Protocol, user identifier, API key |
 
----
+Short spikes are allowed up to **burst**; sustained traffic is capped at **rate** — smoother than naive fixed windows.
 
-## Standard config / commands
+## Compared to other limiters
 
-```js
-// Redis + Lua sketch keys: tokens, timestamp
-// INCR/EXPIRE naive counters are fixed-window — prefer true bucket script
-```
+| Algorithm | Behavior |
+|-----------|----------|
+| **Token bucket** | Allows bursts; smooth average |
+| **Leaky bucket** | Steady outflow; harder peak shaping |
+| **Fixed window** | Simple counter per minute; double burst at window edge |
+| **Sliding window** | Smoother than fixed; more state |
+
+nginx `limit_req` with `burst` approximates token bucket behavior:
 
 ```nginx
 limit_req_zone $binary_remote_addr zone=one:10m rate=5r/s;
-# burst=… approximates token bucket behavior
+limit_req zone=one burst=20 nodelay;
 ```
 
-| Knob | Meaning |
-|------|---------|
-| `rate` | Sustained RPS |
-| `burst` | Peak tokens |
-| Key | IP / user / API key |
+Distributed deployments should store bucket state in **Redis** (or similar) — per-process buckets let clients rotate across pods and exceed quota.
 
----
+## Operations
 
-## Triage (when things break)
+| Symptom | Direction |
+|---------|-----------|
+| Legitimate users throttled | Burst too low; many users behind carrier-grade NAT — key by authenticated user |
+| Limit ineffective | Per-node buckets — centralize |
+| Clock jump | Use monotonic time; clamp Δt |
+| Clients hammer after 429 | Document exponential backoff with jitter |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Legit users `429` | Burst too low; shared NAT IP | Raise burst; key by user id |
-| Throttle ineffective | Multi-instance local buckets | Central Redis bucket |
-| Spiky allow at window edge | Fixed window bug | Sliding or token bucket |
-| Clock jump | Bad `dt` | Monotonic time; clamp dt |
-| Cost≠1 requests | GraphQL/batch | Weighted tokens |
+Return **429 Too Many Requests** (or 503 with `Retry-After`) — silent drops confuse clients.
 
----
+Token buckets limit **admission rate**; for **in-flight concurrency** caps use semaphores or connection pools ([[concurrent connection]]).
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **Per-node buckets** — users bypass by hashing across pods; centralize.
-
-> [!WARNING]
-> **Silent drop vs `429`** — APIs should signal clients to back off.
-
-> [!WARNING]
-> **Refill math in floats** — use integer millis tokens.
-
----
-
-## When NOT to use
-
-- **Hard concurrency caps** — use semaphores/pools (in-flight limits).
-- **Fair multi-tenant complex quotas** — may need hierarchical/fair queuing.
-- **One-shot administrator scripts** — don’t rate-limit yourself into pain.
-
----
-
-## Related
-
-[[backpressure]] [[Throughput]] [[concurrent connection]] [[Scaling Throughput in High-load system]]
+- [RFC 6585](https://www.rfc-editor.org/rfc/rfc6585) — 429 status code.
+- Tanenbaum, *Computer Networks* — traffic shaping fundamentals.
+- Redis rate limiting patterns — Lua scripts for atomic token decrement.

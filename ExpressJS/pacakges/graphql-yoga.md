@@ -2,30 +2,23 @@
 
 # graphql-yoga
 
-> GraphQL Yoga — batteries-included GraphQL server (Envelop plugins) that mounts on Node/HTTP or alongside Express/Fastify.
+> GraphQL Yoga is a batteries-included GraphQL server built on Envelop plugins — define a schema and resolvers, mount on Node HTTP or alongside Express/Fastify, with sensible defaults for landing page and error masking.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Define schema + resolvers; Yoga serves `/graphql` with useful defaults (landing page, error masking). Compose plugins for authentication/caching.
+## Architecture
 
 ```txt
-schema + resolvers ──Yoga──► HTTP GraphQL endpoint
+typeDefs + resolvers ──createYoga──► HTTP /graphql endpoint
+                              ↕
+                    Envelop plugins (auth, caching, logging)
 ```
+
+Yoga handles HTTP transport, GraphQL execution, and plugin composition. Context factory is where authentication and database connections attach.
 
 ---
 
-## Standard config / commands
+## Standalone server
 
 ```js
 import { createSchema, createYoga } from 'graphql-yoga'
@@ -42,41 +35,33 @@ createServer(yoga).listen(4000)
 
 | Knob | Why it matters |
 |------|----------------|
-| `graphqlEndpoint` | Path |
-| Context factory | Auth/db |
-| Masking errors | Don’t leak stacks |
+| `graphqlEndpoint` | Path (default `/graphql`) |
+| Context factory | Per-request auth and data loaders |
+| Error masking | Do not leak stack traces to clients |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| CORS | Browser clients | CORS plugin/headers |
-| N+1 | Resolver loops | DataLoader |
-| Huge payloads | Unbounded queries | Depth/cost limits |
-| Auth missing | Context | JWT/session in context |
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| CORS errors in browser | Missing CORS headers | CORS plugin or manual headers |
+| N+1 database queries | Resolver loops | DataLoader in context |
+| Huge responses | Unbounded queries | Depth and cost limits |
+| Auth missing | Empty context | JWT or session in context factory |
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **GraphQL ≠ REST status codes** — errors in body often with 200.
-
-> [!WARNING]
-> **Introspection in prod** — disable if policy requires.
+GraphQL often returns **200 with errors in the body** — unlike REST status-per-error patterns. Disable introspection in production if policy requires.
 
 ---
 
-## When NOT to use
+## When GraphQL Yoga is a poor fit
 
-- **Simple CRUD with caching CDNs** — REST may be simpler.
-- **File upload only APIs** — dedicated upload service.
-- **Teams without schema discipline** — chaos.
+- Simple CRUD with CDN caching — REST may be simpler.
+- File-upload-only APIs — dedicated upload service.
+- Teams without schema discipline — unbounded client queries become operational risk.
 
 ---
 
 ## Related
 
-[[graphql]] [[express concepts]] [[Socket IO]]
+[[graphql]] · [[express concepts]] · [[Socket IO]]

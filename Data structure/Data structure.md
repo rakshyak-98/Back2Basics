@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Arrays for index access, hash maps for keyed lookup, trees/heaps for ordered extremes, graphs for relationships.
+## How it works
 
 ```txt
 ops you need → structure → complexity tradeoffs
@@ -34,7 +23,8 @@ ops you need → structure → complexity tradeoffs
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 need O(1) avg lookup     → hash map
@@ -52,7 +42,8 @@ need relationships       → graph (adj list)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ need relationships       → graph (adj list)
 | Memory blow | unbounded cache | Bound + eviction |
 
 ---
+
 
 ## Gotchas
 
@@ -73,11 +65,17 @@ need relationships       → graph (adj list)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny n** — simplest container wins.
 - **When a database index already solves it** — don’t rebuild in application memory casually.
 
+
 ## Related
 
 [[ADT (Abstract Data Type)]] [[array]] [[linked list]] [[DSA algorithms]]
+
+## Sources
+
+- [Wikipedia — Data structure](https://en.wikipedia.org/wiki/Data_structure)

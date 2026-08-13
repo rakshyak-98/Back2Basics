@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes authentication, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
 
@@ -25,7 +16,8 @@ App → Driver pool → Primary (writes)
                   → mongos (sharded cluster)
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Connection string (replica set, prod-safe defaults)
 
@@ -58,7 +50,8 @@ await mongoose.connect(process.env.MONGODB_URI, {
 mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCommand({ ping: 1 })'
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +62,7 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 | Pool exhausted / slow | `db.serverStatus().connections` | Lower per-app `maxPoolSize`; scale app or DB |
 | TLS handshake fail | cert SAN, CA bundle | Add CA to trust store; use `tlsCAFile` |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -78,11 +72,17 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 >
 > **Secondary reads** — stale reads + no writes; use `readPreference=secondaryPreferred` only when you accept lag.
 
-## When NOT to use
+
+## When not to use
 
 - Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authentication + network ACL.
 - Don't create one connection per request — always pool via driver/mongoose.
 
+
 ## Related
 
 [[mongodb replicaset]] [[mongodb errors]] [[connection pooling]] [[DNS]]
+
+## Sources
+
+- [Wikipedia — mongodb connection](https://en.wikipedia.org/wiki/mongodb_connection)

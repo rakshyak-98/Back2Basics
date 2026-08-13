@@ -1,80 +1,54 @@
-[[System design]] [[API design]] [[Authentication web application]] [[Distributed computing]]
+[[System design]] [[API design]] [[Authentication web application]] [[marshalling]] [[event-driven]]
 
 # Splitwise
 
-> Expense-sharing system design — **groups, balances, debt simplification, notifications**; classic interview + real fintech patterns.
+> Splitwise-style systems track shared expenses in groups, derive who owes whom, and optionally simplify debts — a ledger and settlement tracker, not a payment processor unless integrated with one.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Splitwise-like** apps track **who paid** and **who owes whom** in **groups**. Core insight: store **atomic expenses** (who paid, split among whom) then **derive balances**; optionally **simplify debts** so A→B→C becomes A→C. Not a payment processor — **ledger + settlement tracking** unless integrated with Stripe/UPI.
+## Core entities
 
 ```txt
-User creates expense $120, A paid, split A/B/C equally
-  → B owes A $40, C owes A $40
+User creates expense $120 — Alice paid, split equally among Alice, Bob, Carol
+  → Bob owes Alice $40, Carol owes Alice $40
 
-Settlement: B pays A $40 → mark settled → balances zero for that edge
-Simplify: if A owes B $30 and B owes A $50 → net B owes A $20
+Settlement: Bob pays Alice $40 → recorded → net edge zeroed
+Simplify: if Alice owes Bob $30 and Bob owes Alice $50 → net Bob owes Alice $20
 ```
 
-| Entity | Purpose |
-|--------|---------|
-| **User** | Account, auth |
-| **Group** | Roommates, trip |
-| **Expense** | Amount, payer, splits, metadata |
-| **Balance** | Derived net between pair (or per group) |
-| **Settlement** | Payment recorded between users |
+| Entity | Role |
+|--------|------|
+| User | Account, authentication |
+| Group | Roommates, trip, household |
+| Expense | Amount, payer, per-user splits, metadata |
+| Balance | Derived net between users (per group) |
+| Settlement | Payment recorded between two users |
 
-Requirements from product: add/remove/update user; create group; add members; notify members; create expense; settle debt; **RBAC** (administrator versus member).
+Product requirements typically include: create groups, add or remove members, create and edit expenses, notify members, role-based access control (administrator versus member), settle debts.
 
----
+## Application programming interface sketch
 
-## Standard config / commands
+See [[API design]] for conventions:
 
-### API sketch ([[API design]])
-
-```txt
-POST   /v1/users
-POST   /v1/groups                    { name, member_ids[] }
-POST   /v1/groups/{id}/members       { user_id }
-DELETE /v1/groups/{id}/members/{uid}
-POST   /v1/groups/{id}/expenses      { payer_id, amount, splits[] }
-POST   /v1/groups/{id}/settlements   { from_user, to_user, amount }
-GET    /v1/groups/{id}/balances      → simplified net per user
-GET    /v1/users/{id}/notifications
+```http
+POST   /v1/groups
+POST   /v1/groups/{id}/expenses
+POST   /v1/groups/{id}/settlements
+GET    /v1/groups/{id}/balances
 ```
 
-### Expense split types
+### Split types
 
-```txt
-EQUAL       amount / N
-EXACT       fixed amounts per user (must sum to total)
-PERCENTAGE  % per user
-SHARES      weighted shares
-```
+| Type | Rule |
+|------|------|
+| Equal | Amount divided by participant count |
+| Exact | Fixed amounts per user (must sum to total) |
+| Percentage | Percent per user |
+| Shares | Weighted shares |
 
-### DB schema (normalized)
+Store money as **integer minor units** (cents) — never floating point ([[marshalling]]).
 
-```sql
-expenses(id, group_id, payer_id, amount_cents, currency, note, created_at)
-expense_splits(expense_id, user_id, owed_cents)
-settlements(id, group_id, from_user, to_user, amount_cents, created_at)
--- Balances computed, not stored, OR materialized view refreshed on write
-```
-
-Store money as **integer cents** — never float ([[marshalling]] lesson).
-
-### Balance calculation (per group)
+## Balance calculation
 
 ```python
 def balances(group_id):
@@ -89,74 +63,27 @@ def balances(group_id):
     return net
 ```
 
-### Debt simplification (min-cash-flow / net graph)
+Persist **atomic expenses** as the audit trail; balances are derived (or materialized with careful invalidation).
 
-```txt
-1. Compute net balance per user (+ creditor / - debtor)
-2. Greedy: match max creditor with max debtor
-3. Repeat until zeros
-Optional — show unsimplified pair debts for transparency
-```
+## Debt simplification
 
-### Notifications
+Optional **minimum cash flow** on the net graph: repeatedly match the largest creditor with the largest debtor until balances zero. User experience may show both gross pairwise debts and simplified nets.
 
-```txt
-Events: expense_added, member_added, settlement_recorded
-Channels: push, email (async queue — don't block POST /expenses)
-Idempotent notification delivery per event_id
-```
+## Notifications and concurrency
 
-### Auth / RBAC
+Emit events (`expense_added`, `settlement_recorded`) to an async queue ([[event-driven]]) — do not block the expense POST on email or push delivery. Use **idempotency keys** on create to survive client retries.
 
-```txt
-User can only read groups they belong to
-Only payer or admin can edit expense
-JWT sub = user_id ([[JWT authentication]])
-```
+Use database transactions or row locks per group when expense and settlement race ([[Concurrent modification]]).
 
----
+## Authorization
 
-## Triage (when things break)
+Users read only groups they belong to. Only payer or group administrator edits an expense. JSON Web Token subject maps to `user_id` ([[Authentication web application]]).
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Balances don't zero after settle | Partial settlement math | Validate amount ≤ owed |
-| Split sum ≠ expense | Validation skipped | Reject POST if splits mismatch |
-| User sees other group | Missing authz filter | group_id membership check |
-| Duplicate expenses | Client retry | Idempotency-Key on POST |
-| Notification spam | One event per split | Batch "A added expense" once |
-| Currency mix | FX not in scope | One currency per group MVP |
-| Simplify confuses users | UX | Show both gross and net |
+## Scope limits
 
----
+This pattern fits **informal expense sharing**. Enterprise accounts payable, tax invoicing, and high-frequency trading ledgers need different consistency and compliance models.
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **Storing derived balances without expense audit** — can't reconcile disputes.
-
-> [!WARNING]
-> **Float dollars** — 0.1 + 0.2 bugs; integer cents only.
-
-> [!WARNING]
-> **Deleting user with history** — soft-delete; preserve ledger.
-
-> [!WARNING]
-> **Concurrent expense + settle** — transaction isolation or row locks on group.
-
-> [!WARNING]
-> **Splitwise ≠ bank transfer** — clarify "recorded settlement" vs actual payment.
-
----
-
-## When NOT to use
-
-- **Enterprise AP/AR** — use real accounting ERP; tax/invoicing rules differ.
-- **High-frequency trading ledger** — different consistency/latency model.
-- **Single-user budget application** — no group balance graph needed.
-
----
-
-## Related
-
-[[System design]] [[API design]] [[Authentication web application]] [[marshalling]] [[event-driven]] [[Quorum]]
+- Splitwise public product documentation — expense types and settlement semantics.
+- Martin Kleppmann, *Designing Data-Intensive Applications* — ledger and event sourcing patterns for audit trails.

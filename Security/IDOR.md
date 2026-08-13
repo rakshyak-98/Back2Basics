@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 IDOR is a **broken access control** pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any logged-in user access `GET /api/orders/12345` by iterating ids.
 
@@ -27,7 +18,8 @@ Attacker (user A) ──► GET /invoice/1001 ──► 200 + victim data
 
 **Auto-increment IDs** make enumeration trivial; **UUIDs alone don't fix IDOR** — they only reduce scanning convenience.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Secure pattern (server-side)
 
@@ -67,7 +59,8 @@ app.get('/files/:id', requireAuth, async (req, res) => {
 - Two test users A/B; capture A's resource id; replay as B → must **404/403**.
 - Burp Autorize / custom script on sequential ids (staging only).
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +69,7 @@ app.get('/files/:id', requireAuth, async (req, res) => {
 | Admin panel sees all (by design?) | Missing role check on `/admin/*` | Separate admin role + audit log |
 | Signed URL shared too wide | Presigned URL long TTL, no object binding | Short TTL; least privilege key |
 | GraphQL `node(id:)` global ID | Decoded id bypasses parent scoping | Auth resolver per type |
+
 
 ## Gotchas
 
@@ -91,11 +85,17 @@ app.get('/files/:id', requireAuth, async (req, res) => {
 > [!WARNING]
 > **Export/backup endpoints** — bulk CSV without row filter = mass IDOR.
 
-## When NOT to use
+
+## When not to use
 
 - **Confusing with CSRF/XSS** — IDOR is missing server AuthZ; CSRF is unwanted action; XSS is script injection ([[cross-site scripting]], [[XSRF (cross-site request forgery)]]).
 - **Rate limiting as fix** — slows enumeration, doesn't fix authorization.
 
+
 ## Related
 
 [[Security]] · [[JWT authentication]] · [[CORS (Cross Origin Request Sharing)]] · [[DNS rebinding]] · [[cross-site scripting]]
+
+## Sources
+
+- [Wikipedia — IDOR](https://en.wikipedia.org/wiki/IDOR)

@@ -1,96 +1,49 @@
-[[Redux]] [[Redux toolkit]] [[Redux/Redux State sync with localstorage]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # redux persist
 
-> Save Redux state to storage and rehydrate on boot — `PersistGate` waits so UI doesn’t flash empty.
+> redux persist shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** Wrap the root reducer with `persistReducer`; on load, read `localStorage`/`sessionStorage` into the store before showing the application.
-
-```txt
-dispatch → reducer → persist middleware writes storage
-boot → rehydrate from storage → PersistGate releases UI
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **rehydrate** | Restore persisted state | “Until done, show a loader.” |
-| **PersistGate** | Blocks children until rehydrate | “Avoids logged-out flash then logged-in.” |
-| **blacklist / whitelist** | Which slices persist | “Don’t persist secrets or huge caches.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-
-const persistConfig = { key: 'root', storage, whitelist: ['auth', 'settings'] }
-const store = configureStore({
-  reducer: persistReducer(persistConfig, rootReducer),
-  middleware: (gDM) =>
-    gDM({ serializableCheck: { ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'] } }),
-})
-export const persistor = persistStore(store)
-
-// Root
-<Provider store={store}>
-  <PersistGate loading={<Spinner />} persistor={persistor}>
-    <App />
-  </PersistGate>
-</Provider>
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
+  },
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `whitelist` | Limit what hits disk |
-| Ignore persist actions | RTK serializableCheck otherwise warns |
-| `storage` vs `sessionStorage` | Survive tab close or not |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Flash of logged-out UI | No PersistGate / too late | Gate on `persistor` |
-| Serializable warnings | Persist actions | Ignore in middleware config |
-| Stale schema after deploy | Old shape in storage | Migrations / version + purge |
-| QuotaExceeded | Huge state persisted | Blacklist large slices |
-| State not saving | Wrong storage / SSR | Client-only storage; check key |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Tokens in localStorage** — XSS can steal them; prefer httpOnly cookies for session.
-
-> [!WARNING]
-> **SSR** — `localStorage` is browser-only; guard imports and rehydrate on client.
-
----
-
-## When NOT to use
-
-- **Server-authoritative session** — cookie + refetch user; don’t trust disk for authentication alone.
-- **TanStack Query data** — use Query persister, not Redux persist for server cache.
-
----
+What breaks first in production if `redux persist` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux toolkit]] [[Redux/Redux State sync with localstorage]] [[react-query]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

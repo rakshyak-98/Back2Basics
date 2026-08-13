@@ -1,47 +1,32 @@
-[[ExpressJS]] [[NodeJS]] [[express error handler]] [[express query handler]]
+[[ExpressJS]] [[NodeJS]] [[express error handler]] [[express query handler]] [[Nginx]]
 
 # Express route regular expressions
 
-> Express path patterns are **not** full JavaScript RegExp — anchoring, capture groups, and `*` semantics differ; misread routes cause 404s, open redirects, and ReDoS.
+> Express path patterns are not full JavaScript RegExp — anchoring, capture groups, and `*` semantics differ from string routes; misread routes cause 404s, open redirects, and ReDoS.
 
 ---
 
-## Index
+## Two routing modes
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Express compiles string routes via `path-to-regexp`. RegExp routes are raw patterns you own entirely.
 
-## Mental model
-
-Express compiles route strings into an internal matcher (via `path-to-regexp`). A route like `/users/:id` is **anchored** to the full path segment unless you opt into regex or wildcards.
-
-```
-Request: GET /api/users/42/settings
-
-Route '/users/:id'     → matches /users/42 only (one segment for :id)
-Route '/users/:id(*)'  → :id captures rest including slashes (legacy)
-Route /^\/users\/(\d+)$/ → full RegExp route — YOU own anchors ^ $
+```txt
+String route '/users/:id'     → one segment for :id
+RegExp route /^\/users\/(\d+)$/ → full path match (query excluded)
 ```
 
-Two modes:
-1. **String routes** — `:param`, optional `?`, custom `(regex)` per parameter, `*` splat (Express 4.x).
-2. **RegExp routes** — `app.get(/^\/foo\/bar$/, ...)` — entire pattern must match path (query string excluded).
+1. **String routes** — `:param`, optional `?`, inline `(regex)` per parameter, `*` splat (Express 4.x).
+2. **RegExp routes** — `app.get(/^\/foo\/bar$/, ...)` — entire pattern must match `req.path`.
 
-## Standard config / commands
+---
 
-### Named parameters with inline regex
+## Named parameters with inline regex
 
 ```js
-// Only digits — non-matching paths fall through to next route / 404
 app.get('/users/:id(\\d+)', (req, res) => {
   res.json({ id: req.params.id });
 });
 
-// Slug: lowercase alphanumeric + hyphen
 app.get('/posts/:slug([a-z0-9-]+)', handler);
 ```
 
@@ -54,23 +39,15 @@ app.get('/files/:dir/:file?', (req, res) => {
 });
 ```
 
-### Multiple handlers on same prefix
+### Route order
 
 ```js
 app.get('/api/v1/users', listUsers);
 app.get('/api/v1/users/:id(\\d+)', getUser);
-// Order matters — static paths BEFORE parametric routes
+// Static paths BEFORE parametric routes
 ```
 
-### Full RegExp route
-
-```js
-app.get(/^\/legacy\/report-\d{4}-\d{2}$/, (req, res) => {
-  // req.path available; no named captures unless you parse
-});
-```
-
-### Router mount + relative paths
+### Router mount
 
 ```js
 const router = express.Router();
@@ -78,60 +55,43 @@ router.get('/:id(\\d+)', getOne);
 app.use('/items', router); // matches /items/123
 ```
 
-### Escaping literal dots
-
-```js
-// BAD: '/file.json' — dot may be treated specially in some matchers
-// GOOD: explicit or RegExp
-app.get('/file\\.json', serveManifest);
-```
-
 ### ReDoS-safe patterns
 
 ```js
-// BAD: nested quantifiers on user input path
-app.get('/search/:q(.+)', handler); // if q is echoed in heavy regex elsewhere
+// BAD: unbounded capture
+app.get('/search/:q(.+)', handler);
 
-// GOOD: bounded, simple param regex
+// GOOD: bounded charset
 app.get('/search/:q([^/]{1,100})', handler);
 ```
 
-## Triage (when things break)
+---
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Route never matches | Missing anchors on RegExp route; typo in param regex | Add `^...$`; test with `req.path` logging |
-| Wrong handler runs | Route order — `/:id` before `/new` | Register static paths first |
-| `:id` eats too much | Greedy `.+` in custom regex | Restrict charset: `[^/]+` or `(\\d+)` |
-| 404 on valid URL | Router mount path doubled | Mount at `/api` + route `/users` → `/api/users` |
-| `%2F` in param breaks | Decoded slash splits segments | Avoid slashes in params; use query string |
-| Express 5 vs 4 splat change | `*` / `(*)` syntax migration | Check Express version docs for wildcard routes |
-| Performance spike on some URLs | Catastrophic backtracking in regex | Simplify pattern; cap length; use string routes |
-| `req.params` empty on RegExp route | Used anonymous groups incorrectly | Use named string routes or parse `req.path` |
+## What breaks first
 
-## Gotchas
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Route never matches | Missing `^` `$` on RegExp route | Add anchors; log `req.path` |
+| Wrong handler runs | `/:id` registered before `/new` | Static paths first |
+| `:id` eats too much | Greedy `.+` in custom regex | Use `[^/]+` or `(\\d+)` |
+| 404 on valid URL | Doubled mount prefix | `/api` + `/users` → `/api/users` |
+| `%2F` in param breaks | Decoded slash splits segments | Use query string instead |
+| Performance spike | Catastrophic backtracking | Simplify; cap length |
 
-> [!WARNING]
-> **Inline `(regex)` must be parenthesized and escaped for backslashes** — in JS strings: `'/:id(\\d+)'` (double backslash).
+---
 
-> [!WARNING]
-> **String route ≠ JS RegExp** — `/[abc]/` as a string route is literal characters `[abc]`, not a character class. Use RegExp object or `:param(regex)`.
+## Critical gotchas
 
-> [!WARNING]
-> **Trailing slash** — `strict routing` setting affects `/foo` vs `/foo/`; inconsistent redirects cause duplicate cache entries.
+- Inline `(regex)` needs double backslashes in JS strings: `'/:id(\\d+)'`.
+- String route `/[abc]/` is literal `[abc]`, not a character class — use RegExp or `:param(regex)`.
+- `strict routing` affects `/foo` vs `/foo/` — inconsistent redirects duplicate cache entries.
+- Default matching is case-sensitive — macOS case-insensitive FS can hide `/User` vs `/user` bugs.
+- `app.use('/path', fn)` matches prefix — runs for `/path/anything` unless designed carefully.
 
-> [!WARNING]
-> **Case sensitivity** — default is case-sensitive; macOS dev on case-ins insensitive FS can hide `/User` vs `/user` bugs.
+Validation belongs in middleware ([[express query handler]]), not in routing regex.
 
-> [!WARNING]
-> **`app.use('/path', fn)` matches prefix** — middleware runs for `/path`, `/path/`, `/path/anything` unless you end with `$` in RegExp or design routes carefully.
-
-## When NOT to use
-
-- **Complex URL parsing** — use a dedicated router (e.g. explicit path parser) instead of nested regex.
-- **Validation as routing** — route should identify resource; validate body/query in middleware ([[express query handler]]).
-- **Open-ended user-defined regex** — never compile user input into RegExp routes (ReDoS + bypass).
+---
 
 ## Related
 
-[[ExpressJS]] [[express error handler]] [[express query handler]] [[NodeJS]] [[Nginx]]
+[[express error handler]] · [[express query handler]] · [[NodeJS]] · [[Nginx]]

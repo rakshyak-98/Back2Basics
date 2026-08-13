@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Lexical preprocessors]]
-- [[#Lexical tokenization]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `cpp` / the compiler’s `-E` stage rewrites source into a translation unit the parser sees — no types yet, just tokens and includes expanded.
+## How it works
 
 ```txt
 source.c ──#include / #define / #if──► preprocessed.c ──► compile
@@ -33,7 +20,8 @@ source.c ──#include / #define / #if──► preprocessed.c ──► compil
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # See what the compiler actually compiles
@@ -57,7 +45,8 @@ cpp -I./include main.c
 | `#pragma once` / include guards | Duplicate symbol / redefinition |
 | `-DFOO=1` | Define from CLI / build system |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,15 +58,6 @@ cpp -I./include main.c
 
 ---
 
-## Lexical preprocessors
-
-Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
-
-## Lexical tokenization
-
-Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
-
----
 
 ## Gotchas
 
@@ -92,7 +72,8 @@ Split text into lexemes (identifiers, operators, punctuation, literals). Stages:
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Business logic configuration** — use real configuration languages, not `#ifdef` forests.
 - **New languages with modules** — rely on the module system instead of include soup.
@@ -100,6 +81,23 @@ Split text into lexemes (identifiers, operators, punctuation, literals). Stages:
 
 ---
 
+
+## Lexical preprocessors
+
+Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
+
+
+## Lexical tokenization
+
+Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
+
+---
+
+
 ## Related
 
 [[C]] [[gcc]] [[Makefile]]
+
+## Sources
+
+- [Wikipedia — Preprocessor](https://en.wikipedia.org/wiki/Preprocessor)

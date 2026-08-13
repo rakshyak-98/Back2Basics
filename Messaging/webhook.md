@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Publisher (Stripe, GitHub, Slack) POSTs an event payload to your HTTPS URL when something happens. Delivery is **best-effort** with retries — your endpoint must be **idempotent** and **quick**.
+## How it works
 
 
 ```
@@ -32,7 +21,8 @@ Publisher                    Your service
 
 Contrasts with polling: lower latency, higher operations burden (public URL, signature crypto, replay handling).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal verified receiver (Express + raw body)
 
@@ -102,7 +92,8 @@ curl -i -X POST https://api.example.com/webhooks/github \
 - [ ] Rotate webhook secrets; support dual-secret during rotation
 - [ ] Rate limit / IP allowlist if provider publishes egress CIDRs
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +106,7 @@ curl -i -X POST https://api.example.com/webhooks/github \
 | Works in staging, not prod | Different secret / URL | Separate endpoints per env |
 | SSL errors on receive | Cert chain, TLS version | Fix cert; use provider-minimum TLS |
 | Out-of-order events | Normal for distributed systems | Design for ordering per aggregate; use version fields |
+
 
 ## Gotchas
 
@@ -129,12 +121,18 @@ curl -i -X POST https://api.example.com/webhooks/github \
 - **Load balancer idle timeout** < long processing → LB 504 while worker still runs — async pattern fixes this.
 - **Testing:** use provider CLI (`stripe listen --forward-to`) instead of disabling verification.
 
-## When NOT to use
+
+## When not to use
 
 - High-volume internal events → message queue ([[MQTT]], Kafka, SQS) with at-least-once semantics.
 - Client browser callbacks → CORS + user session; webhooks are server-to-server.
 - Need guaranteed ordering globally → webhook + retry isn't enough; use ordered stream.
 
+
 ## Related
 
 [[HTTP module]] · [[JWT authentication]] · [[TLS (Transport Layer Security)]] · [[Web hooks]]
+
+## Sources
+
+- [Wikipedia — webhook](https://en.wikipedia.org/wiki/webhook)

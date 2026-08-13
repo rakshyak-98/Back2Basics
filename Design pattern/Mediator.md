@@ -1,84 +1,48 @@
-[[Design pattern]] [[Design pattern/Observer]] [[Design pattern/State]] [[React/React design patterns]]
+[[Design pattern]] [[Design pattern/Observer]] [[Design pattern/Command]]
 
 # Mediator
 
-> Mediator — creativeStep ──► CampaignWizardMediator ──► updates peers
+> Mediator centralizes how a set of objects communicate — so components talk through the mediator instead of forming a web of direct references.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Wizard steps (goal → creative → budget → review) must enable/disable each other. Without Mediator, every step imports every other step. Mediator owns the collaboration graph; colleagues talk only to the mediator.
+## Problem
 
 ```
-GoalStep ──┐
-CreativeStep ──► CampaignWizardMediator ──► updates peers
-BudgetStep ──┘
+A ↔ B ↔ C ↔ D   (many-to-many coupling)
 ```
 
-## Core idea
+With mediator:
 
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-class CampaignWizardMediator {
-  constructor(
-    private goal: GoalStep,
-    private creative: CreativeStep,
-    private budget: BudgetStep,
-  ) {
-    goal.onChange = () => this.onGoalChanged();
-  }
-
-  onGoalChanged() {
-    this.creative.setAllowedTypes(this.goal.allowedCreatives());
-    this.budget.setMin(this.goal.minBudget());
-  }
-}
+```
+A → Mediator → B
+C → Mediator → D
 ```
 
-## Triage (when things break)
+Colleagues know only the mediator; the mediator routes messages and updates.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Steps import each other | Mediator bypassed | Route all cross-talk through mediator |
-| Mediator god object | Too many domains | One mediator per UI flow / BC |
-| State illegal for status | Lifecycle mixed in | Keep legality in [[Design pattern/State]] |
+## Example
 
-## Gotchas
+Chat room: users send to `ChatRoom`, not to each other directly. UI dialog controls coordinated by `DialogMediator` (font changes update labels and inputs consistently).
 
-> [!WARNING]
-> …
+## vs Observer
 
-## Trade-offs
+| | Mediator | Observer |
+|---|----------|----------|
+| Flow | Often bidirectional routing | Subject notifies many observers |
+| Center | Explicit hub object | Subject holds observer list |
 
-| Gain | Cost |
-|------|------|
-| … | … |
+Mediator **reduces** arbitrary connections; Observer **broadcasts** events.
 
-## When NOT to use
+## When to use
 
-- Two components — direct callback is fine.
-- Global application event bus for everything — prefer [[Design pattern/Observer]] with clear event names, not one mega-mediator.
+- Many peers with messy interdependencies (forms, air traffic control sim, collaboration UI).
+- Reusable widgets that must not know about each other.
 
-## Related
+## Pitfalls
 
-[[Design pattern]] [[Design pattern/Observer]] [[Design pattern/State]] [[React/React design patterns]]
+- Mediator becomes a god object — split by domain or use event bus with clear contracts.
+- Performance hotspot if every message funnels through one class.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Mediator)
+- [Mediator pattern — Wikipedia](https://en.wikipedia.org/wiki/Mediator_pattern)

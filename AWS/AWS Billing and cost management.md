@@ -1,84 +1,65 @@
-[[AWS/AWS EC2]] [[Elastic IP]] [[AWS/IAM]] [[AWS/ARN (Amazon Resource Name)]]
+[[AWS EC2]] · [[AWS Lambda]] · [[AWS ECR]] · [[IAM]]
 
-# AWS Billing and Cost Management
+# AWS Billing and cost management
 
-> Where money leaks show up — Free Tier tracking, Cost Explorer, bills by service, and alarms before finance pings you.
+> AWS bills per service, per second or per request — surprises usually come from data transfer, idle Elastic IPs, unattached EBS volumes, and resources left running in forgotten regions.
 
 ---
 
-## Index
+## How charges compose
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Category | Examples |
+|----------|----------|
+| **Compute** | EC2 hours, Lambda GB-seconds, Fargate vCPU/memory |
+| **Storage** | EBS GB-months, S3 tiers, ECR image storage |
+| **Networking** | Data transfer out to internet, NAT Gateway hourly + per-GB |
+| **Requests** | S3 GET/PUT, API Gateway, Route 53 queries |
+| **Licensing** | Marketplace AMIs, Windows/RHEL surcharges |
 
-## Mental model
+**Free Tier** applies to new accounts for 12 months on select services; always confirm current free tier scope on the pricing page.
 
-AWS bills per account (consolidated billing in Organizations). **Cost Explorer** aggregates usage; **Bills** shows line items by service (EC2, S3, data transfer). Free Tier is per-service limits, not one global bucket. Untagged resources make chargeback impossible.
+## Cost control tools
 
-```
-Usage (API calls, hours, GB) → CUR/Billing → Cost Explorer → Budgets/Alerts
-```
+| Tool | Purpose |
+|------|---------|
+| **Cost Explorer** | Trends, forecasts, filtering by tag/service |
+| **Budgets** | Alerts at dollar or percent thresholds |
+| **Cost Anomaly Detection** | ML-flagged unusual spend |
+| **Billing alarms (CloudWatch)** | Legacy threshold on estimated charges |
+| **Organizations + SCPs** | Consolidated billing, policy guardrails |
 
-## Standard config / commands
+## Tagging strategy
 
-### Console paths
-
-1. **Billing and Cost Management** → **Bills** → filter by month → **Charges by service**
-2. **Free Tier** (left menu) → usage versus limit per service
-3. **Cost Explorer** → daily/monthly by service, linked account, tag
-4. **Budgets** → email at 80%/100% forecast
-
-### CLI (Cost Explorer)
+Enforce tags (`Environment`, `Team`, `CostCenter`) via [[IAM]] or Service Control Policies. Untagged resources make chargeback impossible.
 
 ```bash
 aws ce get-cost-and-usage \
-  --time-period Start=2026-01-01,End=2026-01-31 \
-  --granularity MONTHLY \
+  --time-period Start=2026-08-01,End=2026-08-13 \
+  --granularity DAILY \
   --metrics BlendedCost \
-  --group-by Type=DIMENSION,Key=SERVICE
+  --group-by Type=TAG,Key=Environment
 ```
 
-### Cost hygiene checklist
+## Common waste
 
-| Action | Why |
-|--------|-----|
-| Tag `Environment`, `Owner` | Allocate spend |
-| Delete unused EBS/NAT/EIP | Silent bleeders |
-| S3 lifecycle + Intelligent-Tiering | Storage creep |
-| Reserved/Savings Plans (steady load) | EC2/RDS discount |
-| Enable **Cost Anomaly Detection** | Spike alerts |
+- Stopped EC2 still paying for attached [[EBS (Elastic Block Store)]]
+- Unassociated [[Elastic IP]] addresses
+- Old EBS snapshots and AMIs
+- NAT Gateway processing large video egress — consider CloudFront
+- Multi-AZ RDS when dev only needs single-AZ
 
-Free Tier reference: [AWS Free Tier](https://aws.amazon.com/free/)
+## Savings instruments
 
-## Triage (when things break)
+- **Savings Plans / Reserved Instances** — commit to steady compute usage
+- **Spot Instances** — interruptible batch work on [[AWS EC2]]
+- **S3 Intelligent-Tiering / lifecycle rules** — move cold data to Glacier
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Unexpected EC2 charge | Running instances all regions | `ec2 describe-instances --region us-east-1` (repeat regions) |
-| Data transfer spike | Cost Explorer DT line | CloudFront for egress; same-AZ traffic |
-| NAT Gateway $$$ | Hours + GB processed | VPC endpoints; reduce cross-AZ NAT hairpin |
-| S3 pennies → dollars | Storage class, versions | Lifecycle delete old versions |
-| Free Tier exceeded | Free Tier dashboard | Service actually "Always Free" vs 12-month |
-| Multiple accounts surprise | Organizations | Consolidated bill; SCP limits |
+## Recall
 
-## Gotchas
+- Why does data transfer *out* to the internet often dominate unexpected bills?
+- What is the difference between blended cost and unblended cost in Cost Explorer?
 
-> [!WARNING]
-> **Stopped EC2 still pays for EBS** — terminate or snapshot+delete volume.
->
-> **Elastic IP unattached** — charged when not associated.
->
-> **Regional resources** — bill shock often from wrong region left running.
+## Sources
 
-## When NOT to use
-
-- Don't optimize pennies before measuring — enable Cost Explorer tags first month.
-- Don't buy 3-year RIs on spiky/development workloads — use On-Demand + autoscaling first.
-
-## Related
-
-[[AWS/AWS EC2]] [[AWS/AWS EBS(Elastic Block Store)]] [[AWS/IAM]]
+- [AWS Billing and Cost Management User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html)
+- [AWS Pricing Calculator](https://calculator.aws/)

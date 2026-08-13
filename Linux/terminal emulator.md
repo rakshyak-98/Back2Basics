@@ -1,89 +1,41 @@
-[[Linux]] [[Linux terminal]] [[CLI]]
+[[Linux terminal]] [[login shell]] [[CLI]]
 
 # terminal emulator
 
-> A terminal emulator is a GUI/TUI app that hosts a shell over a pty — Kitty, Alacritty, GNOME Terminal, xterm.
+> A terminal emulator renders monospace text and translates keystrokes into bytes for a shell running on a pseudo-terminal.
 
----
+Popular emulators: **GNOME Terminal**, **Konsole**, **Alacritty** (GPU), **Kitty**, **xterm** (reference). They implement **DEC VT**-style escape sequences so TUI apps ([[top]], `vim`, `htop`) can move the cursor and use colors.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** emulator draws glyphs; kernel pty pairs bytes with the shell; terminfo tells apps how to talk.
-
-```txt
-keyboard → terminal emulator → pty → bash/zsh
-                 │
-            terminfo / $TERM
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **pty** | Pseudo-terminal pair | “Shell thinks it has a real TTY.” |
-| **`$TERM`** | Terminfo name | “Wrong TERM = broken colors/keys.” |
-| **CSI sequences** | Escape codes | “Apps move cursor / set color.” |
-| **scrollback** | History buffer | “Emulator feature, not the shell.” |
-| **truecolor** | 24-bit color | “Needs emulator + `$TERM` support.” |
-
----
-
-## Standard config / commands
+## Choose / configure
 
 ```bash
-echo $TERM
-infocmp | head
-tty
-# set size
-stty size
-# common emulators
-# kitty, alacritty, gnome-terminal, wezterm, xterm
+# Default on GNOME
+gnome-terminal
+
+# GPU-accelerated
+alacritty -e bash
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| font / ligatures | Readability; some break TUI apps |
-| `$TERM` value | Must exist in terminfo on remote hosts |
+Typical settings: font (Nerd Font for icons), scrollback size, copy-on-select, shell command (`-e`), transparency (compositor needed on X11).
 
----
+## `TERM` environment
 
-## Triage (when things break)
+Programs query terminfo via `$TERM`. Mismatch causes broken layouts:
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Weird colors over SSH | Remote terminfo | Set `TERM=xterm-256color` or install terminfo |
-| Keys insert gibberish | Terminfo mismatch | Align `$TERM`; fix bindings |
-| Paste dumps escape mess | Bracketed paste | Update TUI / disable paste mode |
-| Slow scroll | GPU/software render | Try another emulator; reduce effects |
+```bash
+infocmp xterm-256color | head
+export TERM=xterm-256color   # safe default when unsure
+```
 
----
+## Remote terminals
 
-## Gotchas
-
-> [!WARNING]
-> **Fancy `$TERM` (kitty/wezterm)** on servers without terminfo → ncurses apps implode.
-
-> [!WARNING]
-> **Multiplexers** (tmux/zsh) nest `$TERM` — set outer/inner carefully.
-
----
-
-## When NOT to use
-
-- **Pure scripts/CI** — no emulator; just pipes.
-- **Serial consoles** — getty on real ttyS, not a GUI emulator.
-
----
+[[SSH]] allocates a PTY by default (`ssh -t`). [[puTTY]] on Windows is a terminal emulator plus SSH client.
 
 ## Related
 
-[[Linux terminal]] [[terminal configuration]] [[CLI]] [[Bash syntax]]
+[[terminal config]] · [[Linux terminal]] · [[editor config]]
+
+## Sources
+
+- `man 1 xterm`
+- [VTE library (GNOME terminal core)](https://wiki.gnome.org/Apps/Terminal/VTE)

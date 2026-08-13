@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **SIP** is text-based signaling (like HTTP) for establishing, modifying, and tearing down **media sessions**. Actual audio/video flows over **RTP/RTCP** (usually UDP) on separate ports — SIP only negotiates codecs and endpoints.
 
@@ -43,7 +34,8 @@ Phone/UAC                    SIP Proxy/PBX                    Phone/UAS
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal INVITE flow (debug with sipsak)
 
@@ -96,7 +88,8 @@ SDP c= line must match RTP port forwarding / media relay
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ ss -ulnp | grep -E '5060|10000'
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -135,7 +129,8 @@ ss -ulnp | grep -E '5060|10000'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
 - **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
@@ -143,6 +138,11 @@ ss -ulnp | grep -E '5060|10000'
 
 ---
 
+
 ## Related
 
 [[NAT (Network Address Translation)]] [[TCP]] [[Streaming]] [[webSocket]] [[DNS]]
+
+## Sources
+
+- [Wikipedia — SIP](https://en.wikipedia.org/wiki/SIP)

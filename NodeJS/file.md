@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
 
@@ -29,7 +20,8 @@ Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** 
 
 Without encoding, `readFile` returns a **Buffer** (binary-safe). With `'utf8'`, returns string.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Read text file (production default)
 
@@ -97,7 +89,8 @@ reader.on('data', (chunk) => processChunk(chunk));
 reader.on('error', (err) => console.error(err));
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +100,7 @@ reader.on('error', (err) => console.error(err));
 | `EACCES` / `EPERM` | File owner, container user | Run as correct UID; fix `chmod`/`chown` |
 | Partial write after crash | Direct overwrite | Atomic write via temp + rename |
 | Buffer vs string confusion | No encoding arg | Explicit `'utf8'` or keep Buffer |
+
 
 ## Gotchas
 
@@ -119,11 +113,17 @@ reader.on('error', (err) => console.error(err));
 > [!WARNING]
 > **Default encoding is UTF-8 in promises API** — binary files need no encoding (Buffer).
 
-## When NOT to use
+
+## When not to use
 
 - **User uploads at scale** — stream to object storage (S3), don't buffer whole file in RAM.
 - **Watching many files** — use `fs.watch`/`chokidar` note separately; polling is expensive.
 
+
 ## Related
 
 [[node fs]] [[Buffers]] [[Stream]] [[fsync]] [[Node.js run as a non-privileged user]]
+
+## Sources
+
+- [Wikipedia — file](https://en.wikipedia.org/wiki/file)

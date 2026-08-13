@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Prefer composition. Embed a struct to promote its methods; shadow to override. Interfaces are satisfied by method sets — no `implements` keyword. Map range order is intentionally shuffled.
+## How it works
 
 ```txt
 Cat { Animal }  →  Cat.Eat() may shadow Animal.Eat()
@@ -33,7 +22,8 @@ any type with Read(…) satisfies Reader
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 type Animal struct{}
@@ -58,7 +48,8 @@ func main() {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ func main() {
 | Unexpected Eat() | Shadow vs promote | Call `c.Animal.Eat()` explicitly |
 
 ---
+
 
 ## Gotchas
 
@@ -79,13 +71,19 @@ func main() {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Deep “is-a” trees** — redesign with interfaces + small structs.
 - **Ordered maps as API** — use slices or sorted keys.
 
 ---
 
+
 ## Related
 
 [[go embedding]] [[go interface]] [[go data structure]] [[go]]
+
+## Sources
+
+- [Wikipedia — go features](https://en.wikipedia.org/wiki/go_features)

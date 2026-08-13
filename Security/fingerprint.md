@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Full public keys are long; **fingerprints** compress identity:
 
@@ -35,7 +26,8 @@ Mismatch on reconnect → possible **MITM**, wrong host, or key rotation.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SSH host key fingerprint
 
@@ -64,7 +56,8 @@ openssl s_client -connect example.com:443 </dev/null 2>/dev/null \
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +67,7 @@ openssl s_client -connect example.com:443 </dev/null 2>/dev/null \
 | CI deploy fails SSH | Known_hosts stale | Automate fingerprint inject from vault |
 
 ---
+
 
 ## Gotchas
 
@@ -88,12 +82,18 @@ openssl s_client -connect example.com:443 </dev/null 2>/dev/null \
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't fingerprint **session keys** — ephemeral per connection. Fingerprint **long-lived public keys/certs** only.
 
 ---
 
+
 ## Related
 
 [[TLS (Transport Layer Security)]] [[Root certificate]] [[PKI]] [[read pem file]] [[DER]]
+
+## Sources
+
+- [Wikipedia — fingerprint](https://en.wikipedia.org/wiki/fingerprint)

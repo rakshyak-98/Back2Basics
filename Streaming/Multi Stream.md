@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Multi-stream** covers two distinct patterns engineers conflate:
 
@@ -40,7 +31,8 @@ Pattern B — Multi-push (one publisher, many destinations)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### OBS multi-destination (primary + custom)
 
@@ -97,7 +89,8 @@ Origin storage:              sum(all rung bitrates) × duration
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ Origin storage:              sum(all rung bitrates) × duration
 | Audio only on one rung | Map error in ffmpeg | `-map 0:a` on every output branch |
 
 ---
+
 
 ## Gotchas
 
@@ -126,7 +120,8 @@ Origin storage:              sum(all rung bitrates) × duration
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single destination VoD** — one mezzanine + ladder at origin; no multi-push.
 - **Player-side multi-stream** — viewers need **one** manifest; don't expose raw parallel URLs.
@@ -134,6 +129,11 @@ Origin storage:              sum(all rung bitrates) × duration
 
 ---
 
+
 ## Related
 
 [[Single Stream]] [[ingestion]] [[RTMP]] [[ABR]] [[bitrate streaming]] [[OBS]] [[Microservice]] [[CMAF]]
+
+## Sources
+
+- [Wikipedia — Multi Stream](https://en.wikipedia.org/wiki/Multi_Stream)
