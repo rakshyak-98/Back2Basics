@@ -1,110 +1,51 @@
-[[TCP]] [[Berkeley sockets]] [[webSocket]] [[ICMP]]
+[[TCP]] [[POSIX Socket]] [[BSD Socket]] [[NAT (Network Address Translation)]] [[webSocket]]
 
 # UDP
 
-> Connectionless datagram protocol — send without handshake; no delivery, ordering, or congestion guarantees; app owns reliability if needed.
+> User Datagram Protocol sends self-contained datagrams with no delivery guarantee — the first pain point is usually application design for loss, reordering, and NAT keepalive.
 
----
+## Datagram model
 
-## Index
+UDP (RFC 768) adds ports and an optional checksum to IP. Each `sendto()` produces one datagram (up to ~65 KiB theoretically; path [[MTU (Maximum Transmission Unit)]] limits practical size). There is no connection state, no handshake, and no retransmission.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**UDP** trades TCP's session state for **minimal overhead**:
-
-```txt
-TCP: SYN → SYN-ACK → data → ACK → retransmit…
-UDP: datagram → maybe arrives once → maybe not
+```
+Application A                    Application B
+  │──── datagram (src:port → dst:port) ────►│
+  │◄─── reply datagram (optional) ──────────│
 ```
 
-Header: ports + length + checksum (optional on IPv4). Each `sendto` is independent — **no stream boundary** beyond datagram size ([[MTU (Maximum Transmission Unit)]] − headers).
+Properties compared to [[TCP]]:
 
-Fit when:
-- **Latency > reliability** — VoIP, gaming, live video
-- **application-layer retries OK** — DNS, QUIC (over UDP), custom RPC
-- **Broadcast/multicast** patterns (limited on modern internet)
+| | UDP | TCP |
+|---|-----|-----|
+| Boundaries | Preserved per datagram | Byte stream |
+| Reliability | Best-effort | Retransmit + order |
+| Overhead | 8-byte header + IP | State + ACKs |
+| Use case | DNS, VoIP, QUIC base, gaming | HTTP, SSH, databases |
 
-Poor fit when:
-- Large file transfer without custom protocol
-- Need ordered byte stream through NAT middleboxes without ALG
+## Checksum and fragmentation
 
----
+UDP checksum (RFC 768, updated by RFC 8200 for IPv6) detects corruption. Large datagrams may be fragmented at the IP layer — [[Packet Fragment]] loss drops the whole datagram. Applications often stay under path MTU (~1200–1400 bytes on the public internet).
 
-## Standard config / commands
+## NAT and session tracking
 
-### Test UDP reachability
+[[NAT (Network Address Translation)]] devices track UDP "flows" by 5-tuple with short idle timers. Silent UDP sockets lose mappings; [[STUN (Session Traversal Utilities for NAT)]] and application keepalives address this for WebRTC and gaming.
+
+## Operations
 
 ```bash
-nc -u -l 9999                    # listener
-nc -u localhost 9999             # sender
-
-# socat
-socat - UDP4-LISTEN:9999,fork
+ss -uan
+nc -u host 53                    # DNS-style probe
+tcpdump -ni any udp port 53
 ```
 
-### ss / netstat
+## When UDP fits
 
-```bash
-ss -ulnp
-ss -u -a state established   # connected UDP sockets
-```
+- Latency-sensitive media where late data is worthless
+- Simple query/response (DNS) with application retry
+- Building protocols on top (QUIC, WireGuard, custom RPC)
 
-### iperf3
+## Sources
 
-```bash
-iperf3 -s -p 5201
-iperf3 -c host -u -b 100M -l 1400
-# Shows loss, jitter, out-of-order
-```
-
-### Firewall
-
-```bash
-sudo iptables -A INPUT -p udp --dport 53 -j ACCEPT
-sudo ufw allow 51820/udp   # WireGuard example
-```
-
-**Why DNS uses UDP:** single request/response fits one datagram; truncates to TCP if answer too large.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Works TCP, fails UDP | Firewall/NACL UDP blocked | Open UDP port; stateless rules both directions |
-| Packet loss | `iperf3 -u`; switch counters | Reduce rate; fix QoS; MTU/fragmentation |
-| Intermittent DNS | MTU black hole | Enable TCP fallback; fix PMTUD |
-| NAT binding expires | Idle UDP mapping timeout | Keepalive packets; switch to TCP/TLS |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **UDP amplification attacks** — open reflectors (Memcached, NTP) — never expose unnecessary UDP services.
-
-> [!WARNING]
-> **Datagram size > path MTU** → IP fragmentation → loss kills whole datagram on one fragment drop.
-
-> [!WARNING]
-> **"Connected" UDP** (`connect()`) filters ICMP errors — still not reliable delivery.
-
----
-
-## When NOT to use
-
-Default to **TCP or TLS** for general API traffic unless you measure need for UDP (QUIC, RTP, DNS). Building reliable UDP ≈ reinventing TCP poorly.
-
----
-
-## Related
-
-[[TCP]] [[Berkeley sockets]] [[ICMP]] [[MTU (Maximum Transmission Unit)]] [[half-open connections]]
+- [RFC 768 — User Datagram Protocol](https://www.rfc-editor.org/rfc/rfc768)
+- [Wikipedia — User Datagram Protocol](https://en.wikipedia.org/wiki/User_Datagram_Protocol)

@@ -1,59 +1,30 @@
-[[postgres]]
+[[psql user]] [[ACL (postgreSQL)]] [[SQL/postgres]]
 
 # psql privileges
 
-> One-line: what / why for **psql privileges** — source TBD.
+> `GRANT` / `REVOKE` on PostgreSQL objects—tables, sequences, schemas, functions—with default privileges for future objects.
 
----
+## Table privileges
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-```txt
-drm_tester = arwdDxtm / drm_tester +
-            │         │
-            │         └── grantor
-            └──────────── privileges
+```sql
+GRANT SELECT, INSERT ON orders TO app_user;
+REVOKE DELETE ON orders FROM app_user;
 ```
-- `+` means there are more [[ACL (postgreSQL)]] entries associated with the object
-| Letter | Privilege  | Meaning                            |
-| ------ | ---------- | ---------------------------------- |
-| `a`    | INSERT     | Can insert rows                    |
-| `r`    | SELECT     | Can read rows                      |
-| `w`    | UPDATE     | Can update rows                    |
-| `d`    | DELETE     | Can delete rows                    |
-| `D`    | TRUNCATE   | Can truncate the table             |
-| `x`    | REFERENCES | Can create foreign-key references  |
-| `t`    | TRIGGER    | Can create triggers                |
-| `m`    | MAINTAIN   | Can perform maintenance operations |
 
-## Standard config / commands
+## Default privileges
 
-…
+```sql
+ALTER DEFAULT PRIVILEGES IN SCHEMA app
+  GRANT SELECT ON TABLES TO app_read;
+```
 
-## Triage (when things break)
+## Column-level
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
+```sql
+GRANT UPDATE (status) ON orders TO fulfillment;
+```
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
-
-## Related
-
-[[…]]
+- PostgreSQL Documentation — [GRANT](https://www.postgresql.org/docs/current/sql-grant.html)
+- PostgreSQL Documentation — [Privileges](https://www.postgresql.org/docs/current/ddl-priv.html)

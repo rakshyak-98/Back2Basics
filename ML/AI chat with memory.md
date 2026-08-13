@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The model does not persist anything between HTTP calls. Every turn you send:
 
@@ -35,7 +26,8 @@ Token budget is finite (`context window`). Long chats hit **context rot** (early
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal chat loop (OpenAI-style)
 
@@ -78,7 +70,8 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,6 +83,7 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -100,7 +94,8 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
 - **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
@@ -108,6 +103,11 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 
 ---
 
+
 ## Related
 
 [[GPT]] · [[prompt enginerring]] · [[ANN]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — AI chat with memory](https://en.wikipedia.org/wiki/AI_chat_with_memory)

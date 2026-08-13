@@ -6,54 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
-
-```bash
-# What monospace will Firefox/terminal actually get?
-fc-match monospace
-fc-match "JetBrains Mono:style=Bold"
-
-# List installed faces (grep your family)
-fc-list | grep -i "jetbrains"
-fc-list : family style file | column -t -s,
-
-# After installing fonts to ~/.local/share/fonts
-mkdir -p ~/.local/share/fonts
-cp MyFont.ttf ~/.local/share/fonts/
-fc-cache -fv ~/.local/share/fonts
-
-# System-wide install (Debian/Ubuntu)
-sudo cp MyFont.ttf /usr/local/share/fonts/
-sudo fc-cache -fv
-```
-
-**Terminal-specific:** many terminals bypass fontconfig partially — set font in terminal profile *and* verify with `fc-match`. Nerd Font icons need a patched face (e.g. `MesloLGS NF`), not just "Monospace".
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
+## How it works
 
 Linux apps ask **fontconfig** (`fc-*`) for a font matching family + weight + size. Installed files live under `/usr/share/fonts`, `~/.local/share/fonts`, etc. After adding fonts, the cache in `~/.cache/fontconfig` (and system cache) must be rebuilt or apps keep stale metadata.
 
@@ -79,7 +32,53 @@ Install .ttf → fc-cache -f → app restart (sometimes required)
 | **fc-match** | What will render | “fc-match 'DejaVu Sans'.” |
 | **Pango/Qt** | App stacks | “Apps may bypass fontconfig quirks.” |
 
-## Triage (when things break)
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Configuration and commands
+
+```bash
+# What monospace will Firefox/terminal actually get?
+fc-match monospace
+fc-match "JetBrains Mono:style=Bold"
+
+# List installed faces (grep your family)
+fc-list | grep -i "jetbrains"
+fc-list : family style file | column -t -s,
+
+# After installing fonts to ~/.local/share/fonts
+mkdir -p ~/.local/share/fonts
+cp MyFont.ttf ~/.local/share/fonts/
+fc-cache -fv ~/.local/share/fonts
+
+# System-wide install (Debian/Ubuntu)
+sudo cp MyFont.ttf /usr/local/share/fonts/
+sudo fc-cache -fv
+```
+
+**Terminal-specific:** many terminals bypass fontconfig partially — set font in terminal profile *and* verify with `fc-match`. Nerd Font icons need a patched face (e.g. `MesloLGS NF`), not just "Monospace".
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +87,7 @@ Install .ttf → fc-cache -f → app restart (sometimes required)
 | Bold/italic wrong | `fc-match "Family:style=Bold"` | Install separate bold file; check `@font-face` in CSS apps |
 | Emoji overlap / wrong width | `fc-match emoji` | Install `fonts-noto-color-emoji`; configure fallback chain |
 | Works for root, not user | Compare `fc-list` as each user | User `~/.config/fontconfig/fonts.conf` override |
+
 
 ## Gotchas
 
@@ -100,18 +100,18 @@ Install .ttf → fc-cache -f → app restart (sometimes required)
 - **X11 versus Wayland** — font rendering differs (Xft, Cairo, subpixel). Same `fc-match` can look different; not always a fontconfig bug.
 - **Clearing cache blindly** — `rm -rf ~/.cache/fontconfig` fixes corruption but forces full rebuild on next login.
 
-## When NOT to use
+
+## When not to use
 
 - **Choosing a font for design** — use a font book or application UI; `fc-list` is for operations/debug.
 - **PDF/print embedding** — fontconfig doesn't embed; that's application-specific (LibreOffice, LaTeX).
 - **Windows/macOS font sync** — different stack entirely.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[Linux configuration]] [[Linux terminal]] [[terminal configuration]] [[wayland]] [[x11]]
+
+## Sources
+
+- [Wikipedia — fonts commands](https://en.wikipedia.org/wiki/fonts_commands)

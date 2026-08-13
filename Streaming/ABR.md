@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Encode one show as a ladder of qualities; the player watches buffer and speed, then switches rungs without stopping.
+## How it works
 
 ```txt
 Source
@@ -52,7 +41,8 @@ Source
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### HLS master (what ABR reads)
 
@@ -94,7 +84,8 @@ Debug: player stats (Shaka `getStats()`, hls.js `bandwidthEstimate`) + CDN 206/4
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +98,7 @@ Debug: player stats (Shaka `getStats()`, hls.js `bandwidthEstimate`) + CDN 206/4
 | A/V jump at switch | Audio not shared / wrong group | Separate audio group or align audio segments |
 
 ---
+
 
 ## Gotchas
 
@@ -124,7 +116,8 @@ Debug: player stats (Shaka `getStats()`, hls.js `bandwidthEstimate`) + CDN 206/4
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single fixed bitrate contract** — one CBR pipe; no ladder (broadcast feed).
 - **Sub-second interactive** — use [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]]; segment ABR adds seconds.
@@ -132,6 +125,11 @@ Debug: player stats (Shaka `getStats()`, hls.js `bandwidthEstimate`) + CDN 206/4
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[HLS]] [[DASH]] [[HLS vs. DASH]] [[rendition]] [[bitrate streaming]] [[Manifest (streaming)]] [[CMAF]] [[transcoding]] [[NVENC]]
+
+## Sources
+
+- [Wikipedia — ABR](https://en.wikipedia.org/wiki/ABR)

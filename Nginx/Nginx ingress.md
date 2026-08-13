@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Nginx ingress — acts as a load balancer and Reverse Proxy for kubernetes cluster.
+## How it works
 
 Acts as a load balancer and [[Reverse Proxy]] for kubernetes cluster.
 Nginx ingress is a ingress controller for Kubernetes that manages external access to services running in a kubernetes cluster.
@@ -74,3 +63,7 @@ helm upgrade ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx
 ## Related
 
 [[Nginx]]
+
+## Sources
+
+- [Wikipedia — Nginx ingress](https://en.wikipedia.org/wiki/Nginx_ingress)

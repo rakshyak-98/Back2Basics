@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 nvm installs Node versions under `~/.nvm/versions/node/` and **replaces `node`/`npm` on PATH** when you `nvm use`. Shell startup sources `nvm.sh` to define the `nvm` function — non-interactive contexts (cron, systemd, `sudo`) often **don't load nvm**, so `node` is missing or wrong version.
 
@@ -29,7 +20,8 @@ nvm use        → PATH points at selected version
 cd project     → auto `nvm use` if .nvmrc + shell hook enabled
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install & default version
 
@@ -71,7 +63,8 @@ nvm install lts
 set -Ux NVM_DIR $HOME/.nvm
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +74,7 @@ set -Ux NVM_DIR $HOME/.nvm
 | `npm` global packages missing after upgrade | Globals per version | Reinstall globals; use `npx` or project-local deps |
 | Version mismatch vs `engines` | `node -v` vs package.json | `nvm install`; enable `engine-strict` in `.npmrc` |
 | Slow shell startup | nvm in every subshell | Lazy-load nvm plugin (zsh) or use fnm/mise |
+
 
 ## Gotchas
 
@@ -93,12 +87,18 @@ set -Ux NVM_DIR $HOME/.nvm
 > [!WARNING]
 > **Cache dir permissions** — failed downloads leave corrupt partial files; clear `~/.nvm/.cache` after fixing perms.
 
-## When NOT to use
+
+## When not to use
 
 - **Production containers** — bake Node version into Dockerfile; no nvm in image.
 - **System-wide Node for all users** — use distro packages or NodeSource with apt pinning.
 - **Windows native** — use nvm-windows or fnm; bash nvm is Unix-oriented.
 
+
 ## Related
 
 [[node command]] [[node package json]] [[CLI]] [[Node.js run as a non-privileged user]] [[Deployment/vercel deployment]]
+
+## Sources
+
+- [Wikipedia — nvm](https://en.wikipedia.org/wiki/nvm)

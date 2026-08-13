@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Wrap the new path in a check; a flag service (or configuration) decides who sees it without redeploying.
+## How it works
 
 ```txt
 Dashboard → Flag service → SDKs (poll/SSE)
@@ -36,7 +25,8 @@ Dashboard → Flag service → SDKs (poll/SSE)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 if (featureFlags.isEnabled('new-checkout', { userId })) {
@@ -54,7 +44,8 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 | “Temporary” flag forever | Code archaeology | Remove flag + dead path |
 
 ---
+
 
 ## Gotchas
 
@@ -75,11 +67,17 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **configuration that rarely changes** — environment variables / configuration files may be enough.
 - **Permanent product differences** — that’s packaging/plans, not a forever flag.
 
+
 ## Related
 
 [[System Architecture]] [[frontend layered architecture]] [[Idempotent-key]]
+
+## Sources
+
+- [Wikipedia — feature flag](https://en.wikipedia.org/wiki/feature_flag)

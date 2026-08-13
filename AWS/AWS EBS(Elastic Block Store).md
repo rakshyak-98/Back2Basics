@@ -1,85 +1,42 @@
-[[AWS/AWS EC2]] [[Operating System/Take snapshot]] [[Linux/Memory management]]
+[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS EFS (Elastic File System)]] · [[AWS Billing and cost management]]
 
-# AWS EBS (Elastic Block Store)
+# AWS EBS(Elastic Block Store)
 
-> Network-attached block volumes for EC2 — persistent disk, snapshots, resize, and **Delete on Termination** gotcha.
+> EBS is network-attached block storage for EC2 instances — the canonical note is [[EBS (Elastic Block Store)]]; this page covers the same service with emphasis on console naming and attach workflows.
 
 ---
 
-## Index
+Amazon documents the product as **Amazon Elastic Block Store (EBS)**. The vault keeps two filenames for historical linking; content is unified here.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## Quick attach workflow
 
-## Mental model
-
-EBS volumes are AZ-scoped block devices attached to EC2 as `/dev/xvdf` etc. OS sees raw disk — format, mount, persist data independent of instance lifecycle **unless** volume is deleted on instance terminate. Snapshots → S3-backed incremental backups → new volume in any AZ (copy region for DR).
-
-```
-EC2 instance ← attach → EBS volume (gp3/io2)
-                ↓ snapshot
-              AMI / DR / clone
-```
-
-## Standard config / commands
-
-### Create and attach (CLI sketch)
+1. Create volume in the **same Availability Zone** as the target [[AWS EC2]] instance.
+2. Choose type (usually **gp3**), size, and encryption.
+3. Attach volume to instance; note device name (`/dev/sdf` → often `/dev/nvme1n1` on Nitro).
+4. Partition, format (once), mount, add `fstab` entry.
 
 ```bash
-aws ec2 create-volume --availability-zone us-east-1a --size 100 --volume-type gp3
-aws ec2 attach-volume --volume-id vol-xxx --instance-id i-xxx --device /dev/sdf
-# inside instance: mkfs, mount, /etc/fstab by UUID
+aws ec2 create-volume --availability-zone us-east-1a --size 50 --volume-type gp3
+aws ec2 attach-volume --volume-id vol-0abc --instance-id i-0abc --device /dev/sdf
 ```
 
-### Snapshot
+## Operations checklist
 
-```bash
-aws ec2 create-snapshot --volume-id vol-xxx --description "pre-migration"
-aws ec2 create-volume --snapshot-id snap-xxx --availability-zone us-east-1b
-```
+| Task | Command / action |
+|------|------------------|
+| List volumes | `aws ec2 describe-volumes` |
+| Snapshot | `aws ec2 create-snapshot --volume-id vol-0abc` |
+| Detach safely | Stop writes, `umount`, then `detach-volume` |
+| Delete | Detach first; snapshots remain until deleted separately |
 
-### Resize (gp3/gp2, online grow)
+## When things break
 
-```bash
-# AWS console or modify-volume → then grow partition + filesystem inside OS
-sudo growpart /dev/nvme0n1 1
-sudo resize2fs /dev/nvme0n1p1   # ext4
-```
+- **Volume stuck attaching** — previous instance did not detach cleanly; force detach after verifying no I/O.
+- **Wrong AZ** — volume and instance must match AZ.
+- **Full disk** — expand volume, grow partition, resize filesystem.
 
-### Delete on termination
+See [[EBS (Elastic Block Store)]] for volume types, encryption, and comparison with [[AWS EFS (Elastic File System)]].
 
-- Launch template / instance **Block device mapping** → **Delete on termination**
-- **Uncheck** for data volumes you must keep when replacing instance
+## Sources
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Data gone after terminate | Delete on termination = true | Restore from snapshot; fix mapping before next terminate |
-| Volume won't attach | AZ mismatch | Volume and instance same AZ (or detach/move) |
-| Full disk | `df -h` | Extend volume + filesystem; don't just restart |
-| Poor IOPS | CloudWatch `VolumeQueueLength` | gp3 provisioned IOPS; io2 for sustained |
-| Snapshot slow first time | Normal | Incremental snapshots faster after |
-| Corrupt FS after crash | fsck | Restore snapshot; enable fsync app-side |
-
-## Gotchas
-
-> [!WARNING]
-> **Root volume default delete on terminate** — usually desired; data volume must opt out explicitly.
->
-> **EBS ≠ backup strategy** — snapshots need lifecycle; test restore.
->
-> **Encryption** — enable default EBS encryption per account/region for compliance.
-
-## When NOT to use
-
-- Don't use EBS for shared POSIX across many EC2 — use EFS or S3.
-- Don't attach same volume to two instances simultaneously (except cluster FS products).
-
-## Related
-
-[[AWS/AWS EC2]] [[Operating System/fsync]] [[AWS/AWS Billing and cost management]]
+- [Amazon EBS User Guide](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html)

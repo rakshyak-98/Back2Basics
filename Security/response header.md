@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Response headers are **out-of-band instructions** to browsers, proxies, and CDNs. Some are **security defaults** (CSP, HSTS); others define **cache keys** (`Vary`, `Cache-Control`). Order of middleware matters: headers set after response sent are ignored.
 
@@ -25,7 +16,8 @@ Origin ──► App middleware ──► reverse proxy/CDN ──► browser in
                                     └── may strip/add unless explicitly forwarded
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Security baseline (production)
 
@@ -84,7 +76,8 @@ app.use((req, res, next) => {
 });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,6 +95,7 @@ curl -I -H 'Accept: image/webp' https://example.com/img
 curl -I -H 'Origin: https://app.example.com' https://api.example.com/v1/x
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -116,11 +110,17 @@ curl -I -H 'Origin: https://app.example.com' https://api.example.com/v1/x
 > [!WARNING]
 > **CSP report-only forgotten in prod** — still enforces if switched accidentally; test in Report-Only first.
 
-## When NOT to use
+
+## When not to use
 
 - **Spray all helmet defaults on API-only JSON** — tune CSP/CORP; some headers irrelevant for non-browser consumers.
 - **`Vary: *`** — effectively uncacheable; fix root cause instead.
 
+
 ## Related
 
 [[CORS (Cross Origin Request Sharing)]] · [[TLS (Transport Layer Security)]] · [[cross-site scripting]] · [[cookies configuration]] · [[cloudflare]]
+
+## Sources
+
+- [Wikipedia — response header](https://en.wikipedia.org/wiki/response_header)

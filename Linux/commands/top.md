@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Header = machine health (load, CPU breakdown, memory); table = who is spending CPU/RAM right now.
+## How it works
 
 ```txt
 ┌─ load avg │ Tasks │ %Cpu(s) │ MiB Mem / Swap ─┐
@@ -59,7 +48,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Interactive
@@ -101,7 +91,8 @@ ps aux --sort=-%cpu | head
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -113,6 +104,7 @@ ps aux --sort=-%cpu | head
 | Need history, not now | `top` alone | Use `sar`, metrics, or `pidstat 1` |
 
 ---
+
 
 ## Gotchas
 
@@ -130,7 +122,8 @@ ps aux --sort=-%cpu | head
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Don’t rely on `top` for multi-day trends** — use Prometheus/Node exporter, `sar`, or cloud metrics.
 - **Don’t debug socket/file leaks in `top`** — use [[lsof]] / [[file descriptors]].
@@ -138,6 +131,11 @@ ps aux --sort=-%cpu | head
 
 ---
 
+
 ## Related
 
 [[ps]] [[process]] [[Linux process commands]] [[renice]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[Linux resource management]] [[cgroup (Control Group)]] [[lsof]]
+
+## Sources
+
+- [Wikipedia — top](https://en.wikipedia.org/wiki/top)

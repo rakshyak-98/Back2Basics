@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Sense → decide → act → log, in a loop, with retries and human kill-switch. Differs from request/response servers by owning its schedule and goals.
+## How it works
 
 ```txt
 loop:
@@ -35,7 +24,8 @@ loop:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 Hard requirements
@@ -48,7 +38,8 @@ Hard requirements
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ Hard requirements
 | Unsafe act in prod | No dry-run | Shadow mode first |
 
 ---
+
 
 ## Gotchas
 
@@ -73,7 +65,8 @@ Hard requirements
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Human-in-the-loop required by policy** — approval workflows instead.
 - **One-shot migrations** — scripts with supervision.
@@ -81,6 +74,11 @@ Hard requirements
 
 ---
 
+
 ## Related
 
 [[orchestration]] [[event-driven]] [[Airflow]] [[backpressure]]
+
+## Sources
+
+- [Wikipedia — autonomous program](https://en.wikipedia.org/wiki/autonomous_program)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in message boundaries. TCP, pipes, and file reads all expose byte streams; **containers** (MP4, MPEG-TS, CMAF) impose structure on top. Streaming engineers care because players, packagers, and CDNs must agree on **where segment boundaries fall** in that stream.
 
@@ -38,7 +29,8 @@ Encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Read / inspect byte stream boundaries
 
@@ -75,7 +67,8 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 | moof sequence gap | Packager crash mid-segment | Drop bad segment; roll `#EXT-X-MEDIA-SEQUENCE` |
 
 ---
+
 
 ## Gotchas
 
@@ -104,7 +98,8 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
 - **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
@@ -112,6 +107,11 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[MPEG-TS]] [[CMAF]] [[Manifest (streaming)]] [[ingestion]] [[HLS]] [[DASH]]
+
+## Sources
+
+- [Wikipedia — Byte stream](https://en.wikipedia.org/wiki/Byte_stream)

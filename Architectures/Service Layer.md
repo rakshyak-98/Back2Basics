@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Controllers accept requests; the service decides the rules and transactions; repositories talk to storage.
+## How it works
 
 ```txt
 HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
@@ -41,7 +30,8 @@ HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 // sketch — Nest / Express style
@@ -63,7 +53,8 @@ class OrderService {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +64,7 @@ class OrderService {
 | Hard to test | Needs full HTTP | Unit-test service with fakes |
 
 ---
+
 
 ## Gotchas
 
@@ -84,11 +76,17 @@ class OrderService {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny CRUD** — one handler + one query is fine until rules grow.
 - **Pure BFF glue** — mapping APIs with no rules doesn’t need a service layer.
 
+
 ## Related
 
 [[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Idempotent-key]]
+
+## Sources
+
+- [Wikipedia — Service Layer](https://en.wikipedia.org/wiki/Service_Layer)

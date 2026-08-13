@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 XGBoost = [[Gradient boosting]] + engineering:
 
@@ -34,7 +25,8 @@ Obj = Σ loss(yᵢ, ŷᵢ) + Σ Ω(tree_k)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Python (native API)
 
@@ -106,7 +98,8 @@ loaded.load_model("model.json")
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,6 +111,7 @@ loaded.load_model("model.json")
 | Slow batch predict | Python loop over rows | `Booster.predict(DMatrix)` batch; Treelite/ONNX |
 
 ---
+
 
 ## Gotchas
 
@@ -135,7 +129,8 @@ loaded.load_model("model.json")
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Small n, wide p with linear signal** — logistic + L1 may generalize with zero tuning.
 - **Pure image/text/audio** — deep nets or pretrained embeddings dominate.
@@ -144,6 +139,11 @@ loaded.load_model("model.json")
 
 ---
 
+
 ## Related
 
 [[Gradient boosting]] · [[Random forest]] · [[Decision tree]] · [[multiclass classification]] · [[Model/Linear regression]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — xg boost](https://en.wikipedia.org/wiki/xg_boost)

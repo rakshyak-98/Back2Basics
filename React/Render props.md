@@ -1,86 +1,29 @@
-[[React]] [[React Pattern/Higher order Component (HOCs)]] [[React Pattern/Provider pattern]]
+[[react hooks]] [[React State management]] [[React Architecture]]
 
 # Render props
 
-> Pass a function as a child/prop that receives state — the parent owns logic; the caller owns the UI.
+> Render props shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Component runs reusable logic, then calls `children(state)` or `render(state)` so the consumer decides markup.
+## Recall
 
-```txt
-<Mouse>
-  {({ x, y }) => <Cursor x={x} y={y} />}
-</Mouse>
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Render prop** | Function prop that returns UI | “Logic in wrapper; UI inverted to caller.” |
-| **children as function** | Same idea with `children` | “Common React idiom before hooks.” |
-| **vs HOC** | Composition vs wrap | “Render props avoid name clashes on props.” |
-
-## Standard config / commands
-
-```tsx
-function CartProvider({ children }: { children: (api: CartApi) => React.ReactNode }) {
-  const [cart, setCart] = useState<Item[]>([])
-  const addItem = (item: Item) => setCart((c) => [...c, item])
-  return <>{children({ cart, addItem })}</>
-}
-
-// Today: prefer a hook + optional context
-function useCart() { /* … */ }
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| Function identity | Inline `children={() => …}` re-creates each render |
-| Context alternative | Avoid nesting hell for app-wide state |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Nested pyramid | Many render-prop providers | Switch to hooks/context |
-| Extra re-renders | New function child each time | Stabilize or use context |
-| Prop name clash | `render` vs `children` | Pick one convention |
-| Hard to type | Generics on render fn | Type the API object explicitly |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Hooks largely replaced this** — custom hooks are clearer for most logic reuse.
-
-> [!WARNING]
-> **Don’t mix with HOCs casually** — wrapping order and prop collisions get messy.
-
----
-
-## When NOT to use
-
-- **New code with hooks** — `useX()` is the default.
-- **Simple prop passing** — no need for a render function.
-
----
+What breaks first in production if `Render props` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React Pattern/Higher order Component (HOCs)]] [[React Pattern/Provider pattern]] [[react hooks]]
+[[react hooks]] [[React State management]] [[React Architecture]]
+
+## Sources
+
+- [React — legacy patterns](https://react.dev/reference/react/legacy)

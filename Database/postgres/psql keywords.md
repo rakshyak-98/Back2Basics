@@ -1,134 +1,27 @@
-[[postgres]] [[Database]] [[OLTP]] [[ACID]]
+[[psql essential]] [[SQL]] [[SQL/postgres]]
 
-# PostgreSQL UPSERT keywords (EXCLUDED / conflict)
+# psql keywords
 
-> `INSERT … ON CONFLICT` pseudo-table names — `EXCLUDED` is the proposed row that lost the conflict; misuse causes silent wrong updates or duplicate key errors.
+> Reserved and unreserved SQL keywords in PostgreSQL—identifiers that require quoting when used as table or column names.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-PostgreSQL upsert = insert row; if unique/exclusion constraint violated, **do conflict action** instead of error.
-
-```
-INSERT new row ──► conflict on UNIQUE/PRIMARY KEY?
-                         │
-            YES ──► DO UPDATE / DO NOTHING
-                         │
-                   EXCLUDED = the row you tried to INSERT
-                   table   = existing stored row
-```
-
-`EXCLUDED` exists **only** inside `ON CONFLICT DO UPDATE SET` — not in `DO NOTHING`, not in general queries.
-
-## Standard config / commands
-
-### Basic upsert
+## Quoting rules
 
 ```sql
-INSERT INTO users (id, email, name, updated_at)
-VALUES (1, 'a@example.com', 'Alice', NOW())
-ON CONFLICT (id) DO UPDATE SET
-  email      = EXCLUDED.email,
-  name       = EXCLUDED.name,
-  updated_at = EXCLUDED.updated_at;
+SELECT "user".id FROM "user";  -- "user" is reserved
+SELECT * FROM my_table;        -- lowercase unquoted folds to lowercase
 ```
 
-### Conflict target required for partial indexes
+## Check reserved status
 
 ```sql
--- Unique index: CREATE UNIQUE INDEX uq_active_email ON users(email) WHERE deleted_at IS NULL;
-
-INSERT INTO users (email, name)
-VALUES ('a@example.com', 'Alice')
-ON CONFLICT (email) WHERE deleted_at IS NULL
-DO UPDATE SET name = EXCLUDED.name;
+SELECT word FROM pg_get_keywords() WHERE word = 'user';
 ```
 
-### DO NOTHING (idempotent insert)
+## Style guidance
 
-```sql
-INSERT INTO visit_log (user_id, day)
-VALUES (42, CURRENT_DATE)
-ON CONFLICT (user_id, day) DO NOTHING;
--- EXCLUDED not available here
-```
+Avoid reserved words in schema design (`user` → `app_user`). If unavoidable, quote consistently in all SQL.
 
-### Conditional update (don't overwrite with stale data)
+## Sources
 
-```sql
-ON CONFLICT (id) DO UPDATE SET
-  name = EXCLUDED.name
-WHERE users.updated_at < EXCLUDED.updated_at;
-```
-
-### RETURNING
-
-```sql
-INSERT INTO counters (k, v) VALUES ('hits', 1)
-ON CONFLICT (k) DO UPDATE SET v = counters.v + 1
-RETURNING v;
-```
-
-### Multiple columns / composite key
-
-```sql
-ON CONFLICT (tenant_id, external_id) DO UPDATE SET
-  payload = EXCLUDED.payload;
-```
-
-### vs `MERGE` (SQL:2023 / PG 15+)
-
-```sql
--- MERGE is separate syntax for match/not-match; ON CONFLICT remains common for simple upserts
-MERGE INTO inventory t
-USING (VALUES ('sku1', 5)) AS s(sku, qty)
-ON t.sku = s.sku
-WHEN MATCHED THEN UPDATE SET qty = t.qty + s.qty
-WHEN NOT MATCHED THEN INSERT (sku, qty) VALUES (s.sku, s.qty);
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `EXCLUDED` undefined error | Used outside DO UPDATE | Only reference in UPDATE SET / WHERE of upsert |
-| Duplicate key still thrown | No matching conflict target | Add UNIQUE index; specify `(columns)` matching constraint |
-| Upsert never updates | DO NOTHING or WHERE false | Use DO UPDATE; relax WHERE |
-| Partial index not used | ON CONFLICT missing predicate | Mirror `WHERE` from index definition |
-| Wrong row updated | Conflict target too narrow | Align ON CONFLICT cols with actual UNIQUE constraint |
-| Serial/id overwritten | `id = EXCLUDED.id` in UPDATE | Omit immutable PK from SET list |
-| Deadlock with concurrent upserts | Multiple rows lock order | Consistent key order; retry; reduce batch size |
-
-## Gotchas
-
-> [!WARNING]
-> **`EXCLUDED` ≠ `NEW` (triggers)** — triggers use `NEW`/`OLD`; upsert uses `EXCLUDED` for proposed insert row.
-
-> [!WARNING]
-> **Constraint must exist** — `ON CONFLICT` requires a unique or exclusion constraint matching the conflict target; otherwise syntax/runtime error.
-
-> [!WARNING]
-> **Immutable column accidents** — `SET id = EXCLUDED.id` can break FK references; update only mutable columns.
-
-> [!WARNING]
-> **Replica identity / logical replication** — heavy upsert workloads need proper indexes; conflicts on subscribers differ in logical replication setups.
-
-## When NOT to use
-
-- **Bulk load initial data** — `COPY` + swap table faster than row-wise upsert.
-- **Complex merge rules across tables** — use explicit transaction with SELECT FOR UPDATE or `MERGE`.
-- **MySQL portability** — MySQL uses `ON DUPLICATE KEY UPDATE VALUES(col)` — different keyword (`VALUES` not `EXCLUDED`).
-
-## Related
-
-[[postgres]] [[Database]] [[OLTP]] [[ACID]] [[mysql]]
+- PostgreSQL Documentation — [SQL Key Words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
+- PostgreSQL Documentation — [Identifiers and Key Words](https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS)

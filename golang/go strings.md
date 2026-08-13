@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A Go `string` is **not** a sequence of characters. It is an immutable, read-only view over a **byte slice** whose bytes are expected to be valid **UTF-8**.
+## How it works
 
 
 ```txt
@@ -62,7 +51,8 @@ runes[1] // 'é' — whole character regardless of byte width
 > - `runes[0]` is `'a'`
 > - `runes[1]` is `'é'` (the whole character, regardless of how many bytes it took to store it)
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Iterate runes (preferred for most loops)
 
@@ -103,7 +93,8 @@ strings.Contains(s, "é") // works — compares UTF-8 text, not raw byte halves
 
 Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling user-facing text.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,6 +103,7 @@ Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling u
 | `s[i] == 'é'` or byte compare fails for accented text | Log `s[i]` as `%#v` — often a single UTF-8 byte | Compare runes (`rune(s[i])` is wrong for multi-byte); use `strings` or decode first |
 | Truncation breaks last character (e.g. API max length) | Last byte is continuation byte `0x80–0xBF` | Truncate by runes: `string([]rune(s)[:n])` or walk with `utf8.DecodeRuneInString` |
 | Emoji / combining marks counted wrong | `len([]rune(s))` vs grapheme clusters | For user-perceived length, use a locale/grapheme library; runes ≠ user-visible glyphs |
+
 
 ## Gotchas
 
@@ -127,12 +119,18 @@ Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling u
 > [!WARNING]
 > **Runes are Unicode code points, not grapheme clusters.** `"e\u0301"` (e + combining acute) is two runes but often displays as one glyph `é`.
 
-## When NOT to use
+
+## When not to use
 
 - **Do not convert every string to `[]rune` by default** — binary protocols, file paths, and wire formats are byte-oriented; `string`/`[]byte` is correct there.
 - **Do not use `s[i]` for parsing human text** — use `range`, `strings`, or `unicode/utf8`.
 - **Do not assume one rune = one screen column** — width, emoji sequences, and combining marks need domain-specific handling.
 
+
 ## Related
 
 [[golang/go]] [[golang/go functions]] [[golang/go data structure]] [[golang/go error]]
+
+## Sources
+
+- [Wikipedia — go strings](https://en.wikipedia.org/wiki/go_strings)

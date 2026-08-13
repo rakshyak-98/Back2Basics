@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** flutter widget — if MaterialPageRoute took a direct widget instance instead of a builder, you would have to create that screen's widget in memory before you…
+## How it works
 
 If `MaterialPageRoute` took a direct widget instance instead of a builder, you would have to create that screen's widget in memory before you even navigated to it.
 By using `builder`, you are essentially giving Flutter a "recipe" rather than the "backed cake". Flutter will hold onto that recipe and only execute it (build the widget) at the exact moment the user navigates to that route.
@@ -31,25 +20,24 @@ builder: (BuildContext context) => MyNewScreen(),
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[flutter]]
+
+## Sources
+
+- [Wikipedia — flutter widget](https://en.wikipedia.org/wiki/flutter_widget)

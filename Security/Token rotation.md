@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Long-lived secrets **will** leak (logs, git, browser, support tickets). Rotation means: **short TTL** + **refresh path** + **revocation/list** + **key versioning** so old material stops working without hard-downtime if done right.
 
@@ -28,7 +19,8 @@ Signing keys (JWKS kid) ──► verify old + new during overlap window
 
 OAuth **refresh token rotation** (RFC 6819 §5.2.2.3): each refresh issues new refresh token; reuse of old refresh = breach signal → revoke family.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### JWT signing keys (asymmetric preferred)
 
@@ -69,7 +61,8 @@ vault write -force auth/approle/role/myrole/secret-id
 
 - Rolling session: extend expiry on activity; rotate session id on privilege change (login, password reset) to prevent fixation.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ vault write -force auth/approle/role/myrole/secret-id
 | One leaked refresh compromises all | No rotation/reuse detection | Enable refresh rotation + family revoke |
 | KMS decrypt fail after key delete | Data encrypted with deleted CMK | Restore key from deletion pending; re-encrypt data |
 | Mobile apps break on rotation | Hard-coded old public key | Pin to JWKS URL with update mechanism |
+
 
 ## Gotchas
 
@@ -94,11 +88,17 @@ vault write -force auth/approle/role/myrole/secret-id
 > [!WARNING]
 > **Symmetric JWT secret in 12 microservices** — rotation requires coordinated deploy; use asymmetric + JWKS.
 
-## When NOT to use
+
+## When not to use
 
 - **Rotate on every API request** — unnecessary overhead; match risk (15m access / 7d refresh typical for web).
 - **Rotation without revocation store** — stolen refresh works until natural expiry if you can't invalidate server-side.
 
+
 ## Related
 
 [[JWT authentication]] · [[KMS]] · [[single-sign-on (SSO)]] · [[Security]] · [[response header]]
+
+## Sources
+
+- [Wikipedia — Token rotation](https://en.wikipedia.org/wiki/Token_rotation)

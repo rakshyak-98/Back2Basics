@@ -1,107 +1,74 @@
-[[Protocol]] [[E mail server]] [[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]]
+[[SMTP]] · [[IMAP (Internet Message Access Protocol)]] · [[DNS]] · [[TLS (Transport Layer Security)]] · [[E mail server]]
 
 # mail server
 
-> Mail server — the box (or service) that accepts, routes, stores, and lets clients fetch email — SMTP out, IMAP/POP in.
+> A mail server stack receives, routes, stores, and delivers email using SMTP between servers and often IMAP or POP3 for clients — delivery fails when DNS (MX/SPF/DKIM/DMARC) or TLS policy does not match what receivers expect.
 
 ---
 
-## Index
+## Components
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** “Mail server” is a role bundle: submission/relay ([[SMTP]]), mailbox store, and retrieval ([[IMAP (Internet Message Access Protocol)]] / POP3) — often split across MSA/MTA/MDA. See [[E mail server]] for the role diagram.
-
-```txt
-MUA ──587 SMTP──► MSA/MTA ──25──► far MTA ──► MDA ◄──993 IMAP── MUA
-                     │
-              SPF/DKIM/DMARC in [[DNS]]
+```
+Sender MUA (Thunderbird, Gmail UI)
+        │ SMTP submission (587 + STARTTLS)
+        ▼
+   Outbound MTA (Postfix, Exim)
+        │ SMTP (25) between MTAs
+        ▼
+   Recipient MX servers
+        │ IMAP/POP3 (993/995)
+        ▼
+Receiver MUA
 ```
 
-### Interview map (words you can say)
+| Role | Protocol | Port (typical) |
+|------|----------|----------------|
+| **Submission** | [[SMTP]] + STARTTLS | 587 |
+| **Relay between domains** | SMTP | 25 |
+| **Mailbox access** | [[IMAP (Internet Message Access Protocol)]] | 993 (IMAPS) |
+| **Legacy mailbox** | POP3 | 995 (POP3S) |
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **SMTP** | Send / relay | “Clients submit on 587; servers talk 25.” |
-| **IMAP** | Read mail on server | “Multi-device needs IMAP, not POP.” |
-| **POP3** | Download (often delete) | “Single device, leave-or-delete semantics.” |
-| **MX** | DNS “who receives mail” | “No MX → others don’t know where to deliver.” |
-| **MSA vs MTA** | Submission vs server-to-server | “Don’t expose open relay on 25.” |
+## DNS requirements
 
-| Protocol | Job | Typical secure port | Keeps mail on server? |
-|----------|-----|---------------------|------------------------|
-| **SMTP** | Send / relay | 587 STARTTLS, 465 | No (transfer only) |
-| **IMAP** | Fetch + sync | 993 | Yes |
-| **POP3** | Fetch | 995 | Usually no |
+See [[servers/DSN records]]:
 
----
+- **MX** — where mail for the domain goes
+- **SPF / DKIM / DMARC** — anti-spoofing and reputation
+- **PTR** — reverse DNS for sending IP
 
-## Standard config / commands
+## Popular software
+
+| Software | Role |
+|----------|------|
+| **Postfix** | MTA (send/receive) |
+| **Exim** | MTA (Debian default historically) |
+| **Dovecot** | IMAP/POP3 server |
+| **Rspamd / SpamAssassin** | Filtering |
+| **OpenDKIM / Rspamd DKIM** | Signing |
+
+Managed: Google Workspace, Microsoft 365, Amazon SES.
+
+## Security baseline
+
+- Require **TLS** for submission and prefer **DANE** / **MTA-STS** where supported
+- Disable open relay — authenticate submission users
+- Rate limit outbound mail; monitor bounce rates
+
+## Debugging
 
 ```bash
-# DNS prerequisites
-dig +short MX example.com
-dig +short TXT example.com   # SPF
-dig +short TXT default._domainkey.example.com  # DKIM
-
-# Submission smoke test
-openssl s_client -connect mail.example.com:587 -starttls smtp
-
-# IMAP smoke test
-openssl s_client -connect mail.example.com:993
+dig MX example.com +short
+openssl s_client -connect mail.example.com:25 -starttls smtp
+swaks --to user@example.com --from test@example.com --server mail.example.com
 ```
 
-application configuration knobs (any language): host, port, TLS mode, username/password or OAuth2 — **separate** SMTP (send) from IMAP (read).
+## Recall
 
-| Knob | Why it matters |
-|------|----------------|
-| 587 vs 25 | Clients use submission; 25 is often blocked on residential ISPs |
-| Auth + TLS | Open/unencrypted submission = spam cannon |
-| Reverse DNS / PTR | Many receivers reject mail without matching PTR |
+- What is the difference between port 25 and 587?
+- Which DNS records affect whether your mail lands in spam?
 
----
+## Sources
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Can receive, can’t send | 587/auth/TLS | Fix submission creds; try 465 |
-| Sent mail lands in spam | SPF/DKIM/DMARC + PTR | Align DNS; sign DKIM; fix HELO/PTR |
-| “Relay access denied” | Not authenticated on 25/587 | Authenticate; don’t use open relay |
-| IMAP sync stuck | Quota / IDLE / cert | Raise quota; fix cert SAN; check logs |
-| MX points wrong host | `dig MX` | Fix MX to current MDA/MTA hostname |
-| Timeout from home ISP | Port 25 blocked | Use provider MSA on 587 |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Running your own mail is reputation ops** — IP warm-up, blocklists, and feedback loops matter more than Postfix syntax.
-
-> [!WARNING]
-> **SMTP auth on the wrong port** — submission (587) ≠ MX inbound (25). Mixing them causes mysterious 550s.
-
-> [!WARNING]
-> **“Mail server” in SaaS** — SES/SendGrid/Workspace are still SMTP/IMAP endpoints; DNS auth records still required.
-
----
-
-## When NOT to use
-
-- **Transactional application mail only** — use a provider API (SES, Postmark); skip running Postfix.
-- **Chat / realtime** — not email; use WebSocket or [[WebRTC]].
-- **Guaranteed instant delivery UX** — email is store-and-forward with greylisting delays.
-
----
-
-## Related
-
-[[E mail server]] [[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]] [[DSN records]] [[TLS (Transport Layer Security)]]
+- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321)
+- [RFC 3501 — IMAP](https://datatracker.ietf.org/doc/html/rfc3501)
+- [Google — Email sender guidelines](https://support.google.com/mail/answer/81126)

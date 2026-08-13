@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 sdkmanager  →  reads SDK root ($ANDROID_HOME)
@@ -38,7 +29,8 @@ $ANDROID_HOME/
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install cmdline-tools (CI base image)
 
@@ -108,7 +100,8 @@ RUN yes | sdkmanager --licenses && \
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -120,6 +113,7 @@ RUN yes | sdkmanager --licenses && \
 | Network fail in CI | Proxy / Google repo | Mirror or cache SDK tarball; retry with timeout |
 
 ---
+
 
 ## Gotchas
 
@@ -137,7 +131,8 @@ RUN yes | sdkmanager --licenses && \
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Local development with Android Studio** — Studio SDK Manager UI is easier; same packages underneath.
 - **iOS builds** — Xcode / `xcodebuild`, not sdkmanager.
@@ -145,6 +140,11 @@ RUN yes | sdkmanager --licenses && \
 
 ---
 
+
 ## Related
 
 [[android]] · [[Docker compose]] · [[docker cli]] · [[Terraform workflow]]
+
+## Sources
+
+- [Wikipedia — sdkmanager](https://en.wikipedia.org/wiki/sdkmanager)

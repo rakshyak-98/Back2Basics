@@ -1,107 +1,70 @@
-[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Bridge]] [[System Design/SOLID]]
+[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Builder]]
 
 # Abstract Factory
 
-> Create families of related products without binding to concrete classes — **Dive Into Design Patterns** (Marketing platform = campaign + adset + creative + ad + insights).
+> Abstract Factory provides an interface for creating **families** of related objects without naming concrete classes — so a UI kit or cloud SDK can swap entire platforms behind one factory.
 
----
+## Problem
 
-## Index
+A dialog needs a button and a checkbox that **match** the same platform skin. Factory Method per widget still leaves mismatched pairs if callers pick concrete types independently.
 
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-When products must match as a **set** (Meta campaign service with Meta adset service — never mix Meta + Google mid-pipeline), declare one factory interface with a create method per product. Each platform gets one concrete factory that returns the whole consistent family.
+Abstract Factory groups creation:
 
 ```
 AbstractFactory
-  createCampaign() createAdSet() createCreative() createAd() createInsights()
-        │
-  MetaMarketingFactory          GoogleMarketingFactory
-  (all Meta-flavored)           (all Google-flavored)
+  createButton()  → Button
+  createCheckbox() → Checkbox
+
+WinFactory → WinButton + WinCheckbox
+MacFactory → MacButton + MacCheckbox
 ```
 
-| Role | Responsibility |
-|------|----------------|
-| **Abstract products** | Interfaces per product type |
-| **Concrete products** | Platform-specific implementations |
-| **Abstract Factory** | Interface of create* methods |
-| **Concrete Factory** | One class per platform/variant |
+The client depends only on `AbstractFactory` and `Button`/`Checkbox` interfaces.
 
-## Core idea
+## vs Factory Method
 
-…
+| | Factory Method | Abstract Factory |
+|---|----------------|------------------|
+| Scope | One product per creator | Multiple related products |
+| Structure | Creator subclass | Factory interface + product interfaces |
+| Typical use | One variation axis | Platform / theme / vendor family |
 
-## Variations / implementations
+Abstract Factory often **uses** Factory Methods internally for each product slot.
 
-…
-
-## Standard config / commands
+## Example shape
 
 ```typescript
-interface MarketingPlatformFactory {
-  createCampaignService(): CampaignService;
-  createAdSetService(): AdSetService;
-  createCreativeService(): CreativeService;
-  createInsightsService(): InsightsService;
+interface UIFactory {
+  createButton(): Button
+  createCheckbox(): Checkbox
 }
 
-class MetaMarketingFactory implements MarketingPlatformFactory {
-  constructor(private client: MetaClient) {}
-  createCampaignService() { return new MetaCampaignService(this.client); }
-  createAdSetService() { return new MetaAdSetService(this.client); }
-  createCreativeService() { return new MetaCreativeService(this.client); }
-  createInsightsService() { return new MetaInsightsService(this.client); }
+function render(form: Form, factory: UIFactory) {
+  form.add(factory.createButton())
+  form.add(factory.createCheckbox())
 }
-
-// chosen once via Factory Method
-const platform = createPlatformFactory('meta');
-const pipeline = new MetaLaunchPipeline(platform);
 ```
 
-### Extending (OCP)
-
-New platform → new `*MarketingFactory` + register in [[Design pattern/Factory Method]]. Existing Meta factory and call sites stay closed.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Mixed Meta/Google objects | Factory bypassed mid-flow | Hold factory on pipeline; never pick services ad hoc |
-| Adding product means editing all factories | Abstract factory incomplete | Add create* to interface + all concretes |
-| Fat factory knows Graph field names | Responsibilities leaked | Products own mapping; factory only wires |
-| Hard to test | Real Graph client inside factory | Inject client / use [[Design pattern/Dependency Injection]] |
-
-## Gotchas
-
-> [!WARNING]
-> Abstract Factory freezes the **product set**. Adding a product type forces interface + every concrete factory to change — accept that cost or split factories by subdomain.
-
-- Do not confuse with Builder (one complex object) or Factory Method (one product).
-- "Family" must be real — unrelated create methods in one factory is a god factory.
+Switch `WinFactory` vs `MacFactory` once at application bootstrap.
 
 ## Trade-offs
 
 | Gain | Cost |
 |------|------|
-| … | … |
+| Enforces compatible product sets | Many interfaces and classes |
+| Removes platform `if` chains from UI code | Adding a **new product kind** touches every factory |
 
-## When NOT to use
+## When to use
 
-- Only one platform and no second planned — concrete services at composition root.
-- Products are independent and never used as a matched set — separate factories / DI bindings.
+- Multiple products must stay consistent (themes, cross-platform UI, database driver families).
+- You already have [[Design pattern/Adapter]] layers per vendor and need coordinated creation.
 
-## Related
+## When to skip
 
-[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Builder]] [[Design pattern/Bridge]] [[Design pattern/Facade]]
+- Single product type — use [[Design pattern/Factory Method]].
+- Products are unrelated — separate factories or direct construction suffice.
 
-→ Stub typo alias: [[Design pattern/Creation pattern/Abstract Factor]]
+## Sources
+
+- Gamma et al., *Design Patterns* (Abstract Factory)
+- [Abstract factory pattern — Wikipedia](https://en.wikipedia.org/wiki/Abstract_factory_pattern)

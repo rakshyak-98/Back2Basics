@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Binary classifiers naturally output one score; multiclass extends via:
 
@@ -36,7 +27,8 @@ Softmax / multinomial: Single model, K outputs summing to 1 (logistic extension)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### sklearn strategies
 
@@ -85,7 +77,8 @@ y_enc = le.fit_transform(y_train)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ y_enc = le.fit_transform(y_train)
 | Label string mismatch at serve | Encoder drift | Version `LabelEncoder` / label map with model artifact |
 
 ---
+
 
 ## Gotchas
 
@@ -114,7 +108,8 @@ y_enc = le.fit_transform(y_train)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Extremely large K (millions of labels)** — extreme classification, embeddings + ANN retrieval ([[ANN]]), not full softmax.
 - **Ordinal classes** (small < medium < large) — treat as [[ordinal classification]], not nominal multiclass.
@@ -122,6 +117,11 @@ y_enc = le.fit_transform(y_train)
 
 ---
 
+
 ## Related
 
 [[binary classification]] · [[ordinal classification]] · [[ML Classifiers]] · [[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Decision tree]] · [[Gradient boosting]]
+
+## Sources
+
+- [Wikipedia — multiclass classification](https://en.wikipedia.org/wiki/multiclass_classification)

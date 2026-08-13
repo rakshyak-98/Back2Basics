@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#PallyCon DevConsole API]]
-- [[#Concurrent Stream Limiting Guide]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** User logs into *your* application; *your* server builds a DoveRunner license token; the player sends that token to DoveRunner’s license URL and the CDM unlocks the stream.
+## How it works
 
 ```txt
 User ──► Your app auth (OAuth / JWT / session)
@@ -61,7 +48,8 @@ Packaging keys often come via [[CPIX]]; playback authentication is the separate 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 License URL (global):
@@ -98,7 +86,8 @@ player.configure({
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -111,6 +100,34 @@ player.configure({
 
 ---
 
+
+## Gotchas
+
+> [!WARNING]
+> **Site Key in the client** — attackers mint their own tokens. Keep crypto on the server.
+
+> [!WARNING]
+> **CPIX getKey ≠ license token** — packaging keys and playback tokens are different credentials ([[CPIX]] vs [[streaming license]]).
+
+> [!WARNING]
+> **CSL without renewal** — long-lived licenses cannot count concurrent plays accurately.
+
+> [!WARNING]
+> **Name change** — docs say DoveRunner; older notes/samples still say PallyCon. Same product family; check current base URLs.
+
+---
+
+
+## When not to use
+
+- **No DRM requirement** — signed CDN URLs may be enough.
+- **You already run a full in-house multi-DRM stack** — don’t add a second license path.
+- **CAS-only broadcast STBs** — use [[CAS (Conditional Access System)]]; DoveRunner is OTT/CDM-oriented.
+- **Offline-first download with CSL expectations** — CSL is streaming/renewal oriented.
+
+---
+
+
 ## PallyCon DevConsole API
 
 Access is through DoveRunner’s developer portal.
@@ -121,6 +138,7 @@ Access is through DoveRunner’s developer portal.
 Use console tokens for integration tests only; rotate Site Keys if they leak into mobile builds or CI logs.
 
 ---
+
 
 ## Concurrent Stream Limiting Guide
 
@@ -141,31 +159,11 @@ Docs: [CSL guide](https://docs.doverunner.com/content-security/multi-drm/license
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Site Key in the client** — attackers mint their own tokens. Keep crypto on the server.
-
-> [!WARNING]
-> **CPIX getKey ≠ license token** — packaging keys and playback tokens are different credentials ([[CPIX]] vs [[streaming license]]).
-
-> [!WARNING]
-> **CSL without renewal** — long-lived licenses cannot count concurrent plays accurately.
-
-> [!WARNING]
-> **Name change** — docs say DoveRunner; older notes/samples still say PallyCon. Same product family; check current base URLs.
-
----
-
-## When NOT to use
-
-- **No DRM requirement** — signed CDN URLs may be enough.
-- **You already run a full in-house multi-DRM stack** — don’t add a second license path.
-- **CAS-only broadcast STBs** — use [[CAS (Conditional Access System)]]; DoveRunner is OTT/CDM-oriented.
-- **Offline-first download with CSL expectations** — CSL is streaming/renewal oriented.
-
----
 
 ## Related
 
 [[DRM]] [[streaming license]] [[CPIX]] [[EME]] [[CDM (Content Decryption Module)]] [[flussonic]] [[HLS]] [[DASH]]
+
+## Sources
+
+- [Wikipedia — Pallycon](https://en.wikipedia.org/wiki/Pallycon)

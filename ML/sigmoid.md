@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The sigmoid is a smooth **S-curve** saturating at 0 and 1. In logistic regression:
 
@@ -38,7 +29,8 @@ Derivatives: σ'(z) = σ(z)(1 − σ(z)) — vanishes at extremes → **saturati
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import numpy as np
@@ -71,7 +63,8 @@ prob_true, prob_pred = calibration_curve(y_test, proba, n_bins=10)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,6 +76,7 @@ prob_true, prob_pred = calibration_curve(y_test, proba, n_bins=10)
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -93,7 +87,8 @@ prob_true, prob_pred = calibration_curve(y_test, proba, n_bins=10)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Hidden layers in deep CNNs/Transformers** — ReLU, GELU, SiLU dominate.
 - **Multiclass mutually exclusive labels** — softmax + cross-entropy.
@@ -101,6 +96,11 @@ prob_true, prob_pred = calibration_curve(y_test, proba, n_bins=10)
 
 ---
 
+
 ## Related
 
 [[binary classification]] · [[Model/Linear regression]] · [[ANN]] · [[Perceptron]] · [[multiclass classification]]
+
+## Sources
+
+- [Wikipedia — sigmoid](https://en.wikipedia.org/wiki/sigmoid)

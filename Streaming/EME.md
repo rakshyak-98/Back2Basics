@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).
 
@@ -41,7 +32,8 @@ EME does **not** define encryption — packaging uses **CENC**; [[HLS]] SAMPLE-A
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Shaka Player — minimal Widevine flow (pattern)
 
@@ -103,7 +95,8 @@ Mixed content blocked — manifest + segments + license all TLS
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -116,6 +109,7 @@ Mixed content blocked — manifest + segments + license all TLS
 | CORS on license | Preflight blocked | `Access-Control-Allow-Origin` on license endpoint |
 
 ---
+
 
 ## Gotchas
 
@@ -136,7 +130,8 @@ Mixed content blocked — manifest + segments + license all TLS
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
 - **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
@@ -144,6 +139,11 @@ Mixed content blocked — manifest + segments + license all TLS
 
 ---
 
+
 ## Related
 
 [[DRM]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CMAF]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]
+
+## Sources
+
+- [Wikipedia — EME](https://en.wikipedia.org/wiki/EME)

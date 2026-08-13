@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A plugin is a function `(schema, options) => void` registered on a schema before `mongoose.model()`. Global plugins apply to every schema. Plugins compose: one adds soft-delete, another adds pagination, another adds audit fields.
 
@@ -25,7 +16,8 @@ schema.plugin(plugin, opts) → per-schema
 mongoose.plugin(plugin)       → global (all schemas)
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Write a plugin
 
@@ -66,7 +58,8 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 | Unique validator | async uniqueness check |
 | Audit | `createdBy`, `updatedBy` hooks |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +67,7 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 | Global plugin breaks one schema | `schema.plugin` override | Disable per-schema or guard with option flag |
 | Duplicate index from plugin | `schema.indexes()` | Merge indexes; one plugin owns index |
 | Method not on document | Applied to wrong schema | Confirm `schema.plugin` on correct schema |
+
 
 ## Gotchas
 
@@ -84,11 +78,17 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 >
 > **Over-plugining** — magic behavior hides in hooks; hard to debug "who filtered this query?".
 
-## When NOT to use
+
+## When not to use
 
 - Don't plugin one-off business logic — plain schema methods or service layer is clearer.
 - Don't global-plugin heavy side effects (external API calls) without opt-in per schema.
 
+
 ## Related
 
 [[mongoose middleware]] [[mongodb model]] [[Design pattern/Static Members]]
+
+## Sources
+
+- [Wikipedia — Mongoose plugin](https://en.wikipedia.org/wiki/Mongoose_plugin)

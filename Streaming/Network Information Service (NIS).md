@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Like a tiny shared phone book for Unix labs — one server holds maps (passwd, hosts, etc.); clients query it. DNS names machines; NIS also shared users and other maps.
+## How it works
 
 Why this note sits under Streaming historically: naming collision / legacy operations next to media stacks — it is **not** part of HLS/WebRTC.
 
@@ -33,7 +22,8 @@ Why this note sits under Streaming historically: naming collision / legacy opera
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Classic client checks (where NIS still exists)
@@ -47,7 +37,8 @@ Modern replacement: LDAP / FreeIPA / Active Directory + SSSD — not new NIS dom
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,6 +48,7 @@ Modern replacement: LDAP / FreeIPA / Active Directory + SSSD — not new NIS dom
 | Security audit fail | Cleartext NIS | Migrate off NIS; never expose to internet |
 
 ---
+
 
 ## Gotchas
 
@@ -68,13 +60,19 @@ Modern replacement: LDAP / FreeIPA / Active Directory + SSSD — not new NIS dom
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Any greenfield identity** — LDAP/OIDC/SAML.
 - **Internet-facing authentication** — never.
 
 ---
 
+
 ## Related
 
 [[DNS]] [[Streaming]] [[Authentication command]]
+
+## Sources
+
+- [Wikipedia — Network Information Service](https://en.wikipedia.org/wiki/Network_Information_Service)

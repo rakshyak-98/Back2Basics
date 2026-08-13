@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Screen refreshes at fixed Hz (60, 90, 120, 144). Browser must produce a frame **before each vsync** or frame drops (stutter).
 
@@ -29,7 +20,8 @@ Browser target: complete JS + layout + paint within ~10 ms (60 Hz)
 
 Device refresh is constant; **application frame rate varies** — animation smooth only if work fits budget.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Frame budget math
 
@@ -70,7 +62,8 @@ if (window.screen?.refreshRate) {
 
 - iOS/macOS can vary refresh — don't assume fixed cadence for power saving.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ if (window.screen?.refreshRate) {
 | rAF runs but nothing moves | Logic bug vs display | Verify transform updates |
 | Background tab slow | Browser throttles rAF | Expected — pause work on `visibilitychange` |
 | VSync tear (games/native) | Full-screen exclusive | Web uses compositor — different stack |
+
 
 ## Gotchas
 
@@ -89,10 +83,16 @@ if (window.screen?.refreshRate) {
 - **Layout + paint in rAF** every frame — OK for small DOM; batch static content.
 - **DevTools open** slows JS — profile with closed dock when possible.
 
-## When NOT to use
+
+## When not to use
 
 - Non-visual batch jobs — don't tie to rAF; use `setTimeout` or Worker.
+
 
 ## Related
 
 [[Rendering performance/INP]] [[Rendering performance/layout]] [[Rendering performance/paint]] [[Descriptive/web development]]
+
+## Sources
+
+- [Wikipedia — refresh rate](https://en.wikipedia.org/wiki/refresh_rate)

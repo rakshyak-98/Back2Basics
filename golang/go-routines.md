@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `go` starts work that can run interleaved with other goroutines. Cheap stacks (~KB), multiplexed by the runtime. You still need sync: channels, mutexes, `WaitGroup`, `context`.
+## How it works
 
 ```txt
 main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
@@ -32,7 +21,8 @@ main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 var wg sync.WaitGroup
@@ -62,7 +52,8 @@ wg.Wait()
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +64,7 @@ wg.Wait()
 | Too many goroutines | Unbounded spawn | Worker pool |
 
 ---
+
 
 ## Gotchas
 
@@ -87,7 +79,8 @@ wg.Wait()
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny sync work** — plain function call.
 - **One goroutine per request without limits** — bound concurrency.
@@ -95,6 +88,11 @@ wg.Wait()
 
 ---
 
+
 ## Related
 
 [[Unbuffered channel]] [[go error]] [[go debugging]] [[Thread]]
+
+## Sources
+
+- [Wikipedia — go-routines](https://en.wikipedia.org/wiki/go-routines)

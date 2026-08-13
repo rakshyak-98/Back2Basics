@@ -6,17 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Six phases (one "tick")]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Node runs user JavaScript on **one thread**. libuv handles async I/O (network, fs, timers) via the event loop and a **thread pool** (default 4 workers for sync fs/crypto). When a callback runs, nothing else runs until it returns.
 
@@ -33,7 +23,8 @@ Node runs user JavaScript on **one thread**. libuv handles async I/O (network, f
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Detect event loop lag
 
@@ -86,7 +77,8 @@ UV_THREADPOOL_SIZE=16 node app.js      # default 4 — raise for heavy sync fs/c
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +90,32 @@ UV_THREADPOOL_SIZE=16 node app.js      # default 4 — raise for heavy sync fs/c
 | Promises never resolve | Microtask deadlock patterns | Avoid nextTick recursion flooding |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **`process.nextTick` starvation** — infinite nextTick prevents I/O phase from running. Prefer `setImmediate` for deferral in loops.
+
+> [!WARNING]
+> **JSON.parse huge payload on main thread** — blocks like CPU work. Stream or worker.
+
+> [!WARNING]
+> **"Async" doesn't mean parallel** — `async/await` still runs continuations on main thread.
+
+> [!WARNING]
+> **DNS lookup** — `dns.lookup` uses thread pool; `dns.resolve` uses network — different scaling behavior.
+
+---
+
+
+## When not to use
+
+- **CPU-bound monolith on one Node process** — use workers, Rust sidecar, or different runtime (Go/Rust) for compute-heavy core.
+- **`setInterval` for critical scheduling** — drift under load; use proper job queue.
+
+---
+
 
 ## Six phases (one "tick")
 
@@ -124,29 +142,11 @@ Promise.resolve().then(() => console.log('promise'));
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **`process.nextTick` starvation** — infinite nextTick prevents I/O phase from running. Prefer `setImmediate` for deferral in loops.
-
-> [!WARNING]
-> **JSON.parse huge payload on main thread** — blocks like CPU work. Stream or worker.
-
-> [!WARNING]
-> **"Async" doesn't mean parallel** — `async/await` still runs continuations on main thread.
-
-> [!WARNING]
-> **DNS lookup** — `dns.lookup` uses thread pool; `dns.resolve` uses network — different scaling behavior.
-
----
-
-## When NOT to use
-
-- **CPU-bound monolith on one Node process** — use workers, Rust sidecar, or different runtime (Go/Rust) for compute-heavy core.
-- **`setInterval` for critical scheduling** — drift under load; use proper job queue.
-
----
 
 ## Related
 
 [[clustering]] [[worker threads]] [[child process]] [[Epoll]] [[Express middleware]] [[Node events driven]]
+
+## Sources
+
+- [Wikipedia — Event Loop](https://en.wikipedia.org/wiki/Event_Loop)

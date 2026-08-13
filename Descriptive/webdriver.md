@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Test code → WebDriver client → browser driver (chromedriver) → browser; prefer stable selectors and explicit waits.
+## How it works
 
 ```txt
 test → WebDriver → chromedriver → Chrome
@@ -34,7 +23,8 @@ test → WebDriver → chromedriver → Chrome
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const driver = await new Builder().forBrowser('chrome').build()
@@ -51,7 +41,8 @@ await driver.quit()
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ await driver.quit()
 | CI only fails | headless / res | Set viewport; await network |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@ await driver.quit()
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Unit logic tests** — no browser needed.
 - **API contracts** — HTTP tests are cheaper.
 
+
 ## Related
 
 [[html]] [[Debugger configuratoin]]
+
+## Sources
+
+- [Wikipedia — webdriver](https://en.wikipedia.org/wiki/webdriver)

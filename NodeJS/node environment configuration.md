@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** 12-factor style — configuration from the environment. Load `.env` only in development; in production the orchestrator injects variables.
+## How it works
 
 ```txt
 process.env.DATABASE_URL ← platform / dotenv (dev)
@@ -32,7 +21,8 @@ validate at boot → crash if required missing
 | **dotenv** | Load `.env` file | “Dev convenience — not a secret store.” |
 | **12-factor** | Config in env | “Same artifact, different env.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 export NODE_ENV=production
@@ -54,7 +44,8 @@ if (!url) throw new Error('DATABASE_URL required')
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ if (!url) throw new Error('DATABASE_URL required')
 | Secret in git | `.env` committed | Rotate; gitignore; history purge |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ if (!url) throw new Error('DATABASE_URL required')
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Putting all configuration in Redux/DB for static values** — environment/files are enough.
 - **Client-side secret environment** — anything `NEXT_PUBLIC_` is public.
 
 ---
 
+
 ## Related
 
 [[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]]
+
+## Sources
+
+- [Wikipedia — node environment configuration](https://en.wikipedia.org/wiki/node_environment_configuration)

@@ -1,67 +1,74 @@
-[[Feature implementation]]
+[[Feature implementation]] [[ExpressJS]] [[cookies]] [[cookies lifecycle]]
 
 # Manage cart with session id
 
-> Manage cart with session id — here’s how you can structure your project:
+> Guest shopping carts bind to a server-side session identifier — persist cart items in session storage or a database keyed by session until the user logs in and merges into an account cart.
 
 ---
 
-## Index
+## Session-backed cart flow
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+```txt
+Browser session cookie → session ID → cart storage (memory / Redis / DB)
+Login → merge guest cart into user cart → invalidate or reuse session
+```
 
-## Mental model
+Unauthenticated users need a stable session without requiring registration. Authenticated users should use `userId` as the primary cart key.
 
-**Say it in one breath:** Manage cart with session id — here’s how you can structure your project:
+---
 
-### Folder and File Structure for a Shopping Cart with Session Management:
-Here’s how you can structure your project:
-#### **Backend (Node.js / Express)**
+## Backend structure
+
 ```plaintext
 /backend
 ├── controllers
-│   ├── cartController.js       # Handle cart actions (add, remove, view)
-│   └── authController.js       # Handle login, registration, authentication
+│   ├── cartController.js       # add, remove, view
+│   └── authController.js       # login, registration
 ├── models
-│   ├── Cart.js                 # Cart model (session storage)
-│   ├── User.js                 # User model (for registered users)
+│   ├── Cart.js                 # session or user keyed
+│   └── User.js
 ├── routes
-│   ├── cartRoutes.js           # Cart routes (POST for adding/removing, GET for view)
-│   └── authRoutes.js           # Authentication routes (POST for login)
+│   ├── cartRoutes.js
+│   └── authRoutes.js
 ├── sessions
-│   └── sessionManager.js       # Handle session storage and expiration
+│   └── sessionManager.js       # storage and expiration
 ├── utils
-│   └── sessionUtils.js         # Utilities to check session status, time
-├── app.js                      # Main entry point for Express
-└── .env                        # Environment variables (e.g., session secret)
+│   └── sessionUtils.js
+├── app.js
+└── .env                        # session secret
+```
 
+| Decision | Trade-off |
+|----------|-----------|
+| In-memory session | Fast; lost on restart |
+| Redis session | Survives restarts; shared across nodes |
+| DB-backed cart | Persistent; more queries |
+
+Use `express-session` with a secure cookie (`httpOnly`, `sameSite`) and a strong secret in `.env`. Set session TTL aligned with cart abandonment policy.
 
 ---
 
-## Standard config / commands
+## Merge on login
 
-…
+1. Read guest cart from session ID.
+2. Load user cart from `userId`.
+3. Merge line items (dedupe SKUs, sum quantities).
+4. Save merged cart under `userId`.
+5. Clear guest session cart.
 
-## Triage (when things break)
+---
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
+## What breaks first
 
-## Gotchas
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Cart empty after deploy | In-memory sessions | Redis or DB backing |
+| Cart lost on login | No merge step | Implement merge in auth handler |
+| Duplicate items | Merge logic missing | Dedupe by product ID |
+| Session fixation | Reuse session after login | Regenerate session ID on auth |
 
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
+---
 
 ## Related
 
-[[Feature implementation]]
+[[Feature implementation]] · [[cookies lifecycle]] · [[cookies configuration]]

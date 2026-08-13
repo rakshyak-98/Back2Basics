@@ -6,28 +6,43 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Prerequisites]]
-- [[#Install CLI]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Version constraints (Brikman)]]
-- [[#AWS configuration]]
-- [[#GCP configuration]]
-- [[#Other providers (same pattern)]]
-- [[#Remote state rules (Brikman — state chapter)]]
-- [[#File layout (both books)]]
-- [[#First-run checklist]]
-- [[#Book map]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Triage (when things break)]]
-- [[#Related]]
+Setup = install CLI → pin versions → configure [[terraform provider]] → authentication → (optional) remote state → first [[Terraform workflow]].
 
-## Prerequisites
 
-…
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `terraform` not found | PATH / install | Reinstall CLI; check `terraform version` |
+| Provider auth fail | Cloud creds / SSO | Fix profile/role; never commit keys |
+| Backend init fail | Bucket / lock table / perms | Create backend resources; fix IAM |
+| Version clash | `required_version` vs binary | Upgrade CLI or relax constraint |
+| Wrong account | Profile / assume_role | Confirm `aws sts get-caller-identity` |
+
+
+## Verification
+
+```bash
+# smoke test
+```
+
+
+## Gotchas
+
+> [!WARNING]
+> **Local state on a shared repo** — two applies corrupt ownership; use remote + lock.
+
+> [!WARNING]
+> **Keys in `.tfvars`** — Brikman: secrets via env / CI / vault only.
+
+
+## When not to use
+
+- **Exploring a single console resource** — click first, then codify.
+- **No cloud account yet** — practice with [[Terraform docker]] first.
+
 
 ## Install CLI
 
@@ -44,15 +59,6 @@ terraform version
 
 ---
 
-## Verification
-
-```bash
-# smoke test
-```
-
-## Mental model
-
-Setup = install CLI → pin versions → configure [[terraform provider]] → authentication → (optional) remote state → first [[Terraform workflow]].
 
 ## Version constraints (Brikman)
 
@@ -67,6 +73,7 @@ Pin Terraform **and** providers so laptops and CI behave the same.
 Use **one** cloud block below per root module (or both if you truly manage AWS + GCP from the same root). Details: [[terraform provider]]
 
 ---
+
 
 ## AWS configuration
 
@@ -128,6 +135,7 @@ terraform {
 Create the bucket + lock table **once** (often by hand or a bootstrap stack) before `terraform init`.
 
 ---
+
 
 ## GCP configuration
 
@@ -194,6 +202,7 @@ GCS backends lock via object generation — no separate DynamoDB equivalent. Cre
 
 ---
 
+
 ## Other providers (same pattern)
 
 > [!NOTE] Winkler — provider block is the bridge from HCL to the API (region / project / subscription).
@@ -222,6 +231,7 @@ Pass non-secret knobs via [[variable file]] (`TF_VAR_*`, `*.tfvars`).
 
 ---
 
+
 ## Remote state rules (Brikman — state chapter)
 
 Local `terraform.tfstate` is fine solo. Teams need shared storage, encryption, and **locking**.
@@ -237,6 +247,7 @@ Also common: Azure Blob, HTTP.
 After changing backend: `terraform init -migrate-state` → [[Terraform workflow]]
 
 ---
+
 
 ## File layout (both books)
 
@@ -264,6 +275,7 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 
 ---
 
+
 ## First-run checklist
 
 1. Install Terraform
@@ -276,6 +288,7 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 
 ---
 
+
 ## Book map
 
 | Topic | Source |
@@ -286,29 +299,11 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 | Non-cloud practice | [[Terraform docker]] |
 | E-commerce EKS layout (extends setup) | [[ecommerce-eks-layout]] |
 
-## Gotchas
-
-> [!WARNING]
-> **Local state on a shared repo** — two applies corrupt ownership; use remote + lock.
-
-> [!WARNING]
-> **Keys in `.tfvars`** — Brikman: secrets via env / CI / vault only.
-
-## When NOT to use
-
-- **Exploring a single console resource** — click first, then codify.
-- **No cloud account yet** — practice with [[Terraform docker]] first.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `terraform` not found | PATH / install | Reinstall CLI; check `terraform version` |
-| Provider auth fail | Cloud creds / SSO | Fix profile/role; never commit keys |
-| Backend init fail | Bucket / lock table / perms | Create backend resources; fix IAM |
-| Version clash | `required_version` vs binary | Upgrade CLI or relax constraint |
-| Wrong account | Profile / assume_role | Confirm `aws sts get-caller-identity` |
 
 ## Related
 
 [[terraform]] [[terraform provider]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]] [[ecommerce-eks-layout]]
+
+## Sources
+
+- [Wikipedia — Terraform setup](https://en.wikipedia.org/wiki/Terraform_setup)

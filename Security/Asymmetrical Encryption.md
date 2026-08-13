@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Asymmetric** = key pair per party:
 
@@ -37,7 +28,8 @@ Algorithms: **RSA**, **ECDSA**, **Ed25519** (sign), **ECIES** (encrypt). Hybrid 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Generate Ed25519 signing key (modern default)
 
@@ -70,7 +62,8 @@ openssl pkeyutl -decrypt -inkey private.pem -in secret.enc -out secret.bin
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ openssl pkeyutl -decrypt -inkey private.pem -in secret.enc -out secret.bin
 | Performance bottleneck | RSA sign every request | Move to ECDSA/Ed25519; session tickets |
 
 ---
+
 
 ## Gotchas
 
@@ -94,12 +88,18 @@ openssl pkeyutl -decrypt -inkey private.pem -in secret.enc -out secret.bin
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't encrypt large blobs directly with RSA. Don't use asymmetric crypto where **[[symmetrical encryption]]** + pre-shared key (already distributed via KMS) suffices.
 
 ---
 
+
 ## Related
 
 [[RSA]] [[symmetrical encryption]] [[TLS (Transport Layer Security)]] [[PKI]] [[Root certificate]] [[code signing]]
+
+## Sources
+
+- [Wikipedia — Asymmetrical Encryption](https://en.wikipedia.org/wiki/Asymmetrical_Encryption)

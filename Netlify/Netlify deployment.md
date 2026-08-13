@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for application Router features (not plain static export). environment variables live in Netlify UI per context (production/deploy-preview).
 
@@ -23,7 +14,8 @@ Netlify runs your **build command**, publishes **publish directory** to CDN, and
 git push → Netlify build → plugin adapts Next → CDN + functions
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### netlify.toml (Next.js)
 
@@ -59,7 +51,8 @@ netlify deploy --prod
   status = 200
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +63,7 @@ netlify deploy --prod
 | ISR not updating | Netlify cache | On-demand revalidation; check Next cache config |
 | Function timeout | 10s default (tier) | Optimize API route or upgrade |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -79,11 +73,17 @@ netlify deploy --prod
 >
 > **Monorepo** — set **Base directory** in UI to app package.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use Netlify static hosting alone for heavy WebSocket/long-polling backends — dedicated server or specialized host.
 - Don't commit `.env` — use Netlify environment UI or secrets.
 
+
 ## Related
 
 [[Deployment/vercel cli]] [[Deployment/vercel deployment]] [[NextJS/ISR (Incremental Static Regeneration)]]
+
+## Sources
+
+- [Wikipedia — Netlify deployment](https://en.wikipedia.org/wiki/Netlify_deployment)

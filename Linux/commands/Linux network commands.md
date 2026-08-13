@@ -6,42 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Common commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Sockets & listeners]]
-- [[#Probe & capture]]
-- [[#DNS]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Common commands
-
-```bash
-# …
-```
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** inventory with `ss`, ownership with `lsof`, path with `ip`/`ping`, application reachability with `nc`, packets with `tcpdump`, names with `dig`.
+## How it works
 
 ```txt
 Listen?  ss -lntup / lsof -i
@@ -62,6 +27,71 @@ Packets? tcpdump -ni eth0 port 443
 | **`resolvectl`** | systemd-resolved status | “Stub vs real resolvers on modern Ubuntu.” |
 
 ---
+
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Common commands
+
+```bash
+# …
+```
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Connection refused | `ss -lnt` on target | Start service / fix bind address |
+| Timeout | `nc -zv`; tcpdump SYN | Security group / [[ufw]] / route |
+| Works by IP, not name | `dig`; resolvectl | Fix resolvers / search domain |
+| Port in use | `ss -lntp 'sport = :8080'` | Stop PID or change port |
+| High TIME-WAIT / churn | `ss -s` | See [[ss]] / connection churn notes |
+
+---
+
+
+## Gotchas
+
+> [!WARNING]
+> **`nc -e` bind shells are malware patterns** — many distros disable `-e`; don’t “test” that on shared hosts.
+
+> [!WARNING]
+> **`netstat` may be missing** — install net-tools or use [[ss]].
+
+> [!WARNING]
+> **Cloud firewall ≠ host firewall** — open both paths.
+
+---
+
+
+## When not to use
+
+- **Deep TCP internals** — prefer [[ss]] `-ti` and dedicated notes.
+- **Service mesh / K8s NetworkPolicy debug** — `kubectl` + CNI tools.
+- **Long-term metrics** — exporters, not one-shot `ss`.
+
+---
+
 
 ## Sockets & listeners
 
@@ -84,6 +114,7 @@ sudo netstat -tuln                 # legacy; see [[netstat]]
 
 ---
 
+
 ## Probe & capture
 
 ```bash
@@ -101,6 +132,7 @@ sudo iptables -L -n
 
 ---
 
+
 ## DNS
 
 ```bash
@@ -111,45 +143,11 @@ resolvectl status                  # was systemd-resolve
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Connection refused | `ss -lnt` on target | Start service / fix bind address |
-| Timeout | `nc -zv`; tcpdump SYN | Security group / [[ufw]] / route |
-| Works by IP, not name | `dig`; resolvectl | Fix resolvers / search domain |
-| Port in use | `ss -lntp 'sport = :8080'` | Stop PID or change port |
-| High TIME-WAIT / churn | `ss -s` | See [[ss]] / connection churn notes |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **`nc -e` bind shells are malware patterns** — many distros disable `-e`; don’t “test” that on shared hosts.
-
-> [!WARNING]
-> **`netstat` may be missing** — install net-tools or use [[ss]].
-
-> [!WARNING]
-> **Cloud firewall ≠ host firewall** — open both paths.
-
----
-
-## When NOT to use
-
-- **Deep TCP internals** — prefer [[ss]] `-ti` and dedicated notes.
-- **Service mesh / K8s NetworkPolicy debug** — `kubectl` + CNI tools.
-- **Long-term metrics** — exporters, not one-shot `ss`.
-
----
-
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]] [[commands]]
+
+## Sources
+
+- [Wikipedia — Linux network commands](https://en.wikipedia.org/wiki/Linux_network_commands)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Before:  main ──A──B──C
+## How it works
 
 ```txt
               └──x──y  (your branch)
@@ -34,7 +23,8 @@ After rebase onto main:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Daily update (feature branch)
 
@@ -92,7 +82,8 @@ git rebase -i --autosquash origin/main
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +96,7 @@ git rebase -i --autosquash origin/main
 | CI fails only after rebase | Hidden dependency on old base | Run tests locally on rebased branch before push |
 
 ---
+
 
 ## Gotchas
 
@@ -122,7 +114,8 @@ git rebase -i --autosquash origin/main
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Shared long-lived branch** multiple people commit to — merge or trunk-based with short branches.
 - **Integrating released tags** — don't rewrite history consumers depend on.
@@ -130,6 +123,11 @@ git rebase -i --autosquash origin/main
 
 ---
 
+
 ## Related
 
 [[git error]] · [[git blame]] · [[git worktree]] · [[git ssh configuration]] · [[Terraform workflow]]
+
+## Sources
+
+- [Wikipedia — git rebase](https://en.wikipedia.org/wiki/git_rebase)

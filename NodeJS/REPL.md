@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Type an expression, get a result; `.load` / `.save` move code between the session and files. Not a real script file — `require.main` / paths behave differently.
+## How it works
 
 ```txt
 $ node → > 1+1 → 2
@@ -31,7 +20,8 @@ $ node → > 1+1 → 2
 | **`.load` / `.save`** | File ↔ session | “Persist a scratchpad.” |
 | **`require.main`** | Entry script | “Often unset / odd in REPL.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 node                 # start REPL
@@ -56,7 +46,8 @@ const __dirname = path.dirname(__filename)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ const __dirname = path.dirname(__filename)
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -73,13 +65,19 @@ const __dirname = path.dirname(__filename)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Automated tests** — real files + test runner.
 - **Long scripts** — write a `.js` and `node` it.
 
 ---
 
+
 ## Related
 
 [[node command]] [[node inspect]] [[Runtime Errors]]
+
+## Sources
+
+- [Wikipedia — REPL](https://en.wikipedia.org/wiki/REPL)

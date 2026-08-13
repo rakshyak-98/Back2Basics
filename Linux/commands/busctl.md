@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 D-Bus is the IPC bus desktop and server daemons use to expose APIs (hostname changes, login events, NetworkManager, logind). **busctl** wraps libsystemd's bus API — same world as `systemctl`, `hostnamectl`, `loginctl`.
 
@@ -51,7 +42,8 @@ Client ──► D-Bus daemon (/run/dbus/system_bus_socket)
 | **introspect** | List methods | “Discover API before calling.” |
 | **monitor** | Watch messages | “busctl monitor for race hunts.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # List active bus names
@@ -102,7 +94,8 @@ systemctl --failed
 journalctl -u dbus -u NetworkManager --since "10 min ago"
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,6 +105,7 @@ journalctl -u dbus -u NetworkManager --since "10 min ago"
 | Method call AccessDenied | polkit policy | Run as root; check polkit rules; use intended user session |
 | systemd D-Bus hangs | systemd overload/deadlock | [[journalctl]] `-u systemd`; safe reboot |
 | Monitor floods terminal | Broad `busctl monitor` | Filter by service: `busctl monitor org.freedesktop.systemd1` |
+
 
 ## Gotchas
 
@@ -127,13 +121,19 @@ journalctl -u dbus -u NetworkManager --since "10 min ago"
 > [!WARNING]
 > **Not every daemon is on D-Bus** — legacy services may only expose sockets or [[systemctl]] units.
 
-## When NOT to use
+
+## When not to use
 
 - **Simple service restart** → [[systemctl]].
 - **GNOME-specific APIs** → sometimes easier with `gdbus`.
 - **Remote machines** → SSH + busctl locally; D-Bus doesn't tunnel by default.
 - **Performance tracing** → eBPF, application metrics — not bus introspection.
 
+
 ## Related
 
 [[D-Bus]] [[systemd]] [[Services commands]] [[systemctl]] [[systemd-hostnamed]]
+
+## Sources
+
+- [Wikipedia — busctl](https://en.wikipedia.org/wiki/busctl)

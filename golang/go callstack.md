@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Panic does not erase the stack instantly. For every frame removed, deferred funcs run LIFO, then the frame pops — until `recover` or process exit.
+## How it works
 
 ```txt
 panic
@@ -37,7 +26,8 @@ crash  or  recover() at a defer boundary
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 func safe() {
@@ -62,7 +52,8 @@ debug.PrintStack()
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,6 +63,7 @@ debug.PrintStack()
 | Lost cleanup | No defer around resource | `defer f.Close()` |
 
 ---
+
 
 ## Gotchas
 
@@ -83,13 +75,19 @@ debug.PrintStack()
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Business errors** — return `error`, don’t panic + recover.
 - **Cross-goroutine control flow** — use channels / context.
 
 ---
 
+
 ## Related
 
 [[go error]] [[go-routines]] [[go debugging]] [[go functions]]
+
+## Sources
+
+- [Wikipedia — go callstack](https://en.wikipedia.org/wiki/go_callstack)

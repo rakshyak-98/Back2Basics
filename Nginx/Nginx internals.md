@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Master (root) reads configuration and owns listen sockets; workers handle connections with an event loop.
+## How it works
 
 ```txt
                          │
@@ -48,7 +37,8 @@ Client TCP → worker accept → HTTP parse → phase handlers → content handl
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Source map (when reading C code)
 
@@ -126,7 +116,8 @@ proxy_next_upstream_tries 2;
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -142,6 +133,7 @@ proxy_next_upstream_tries 2;
 | SSL handshake CPU hot | All on workers | Session cache; TLS termination at LB |
 
 ---
+
 
 ## Gotchas
 
@@ -162,7 +154,8 @@ proxy_next_upstream_tries 2;
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Application business logic** — nginx is proxy/static; use application server for code execution.
 - **Complex authentication without modules** — OpenResty/lua or delegate to authentication service.
@@ -170,6 +163,11 @@ proxy_next_upstream_tries 2;
 
 ---
 
+
 ## Related
 
 [[Configuration]] · [[nginx using unix socket]] · [[Epoll]] · [[half-open connections]] · [[ss]] · [[TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — Nginx internals](https://en.wikipedia.org/wiki/Nginx_internals)

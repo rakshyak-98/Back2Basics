@@ -1,4 +1,4 @@
-[[Operating System]] [[file descriptors]] [[process]] [[Linux terminal]] [[Linux/login shell]]
+[[Operating System]] [[process]] [[Linux terminal]] [[login shell]] [[file descriptors]]
 
 # TTY (teletypewriter)
 
@@ -16,7 +16,7 @@ stty -a
 
 Containers without a TTY (`docker run -t`) behave differently for interactive apps.
 
-Related: [[Linux terminal]], [[Linux/Linux terminal]].
+Related: [[Linux terminal]], [[login shell]].
 
 ## Sources
 

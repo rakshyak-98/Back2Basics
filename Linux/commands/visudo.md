@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#sudoers.d layout]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** never `vim /etc/sudoers` raw — visudo validates; rules say *who* may run *what* *as whom* on *which hosts*.
+## How it works
 
 ```txt
 who   where  =  (as_whom:as_group)  what
@@ -40,7 +28,8 @@ alice ALL=(ALL:ALL) NOPASSWD: /bin/systemctl restart myapp
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo visudo
@@ -78,7 +67,8 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,6 +79,30 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 | `sudo -u` fails | Runas list | Allow `(www-data)` explicitly |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Bad sudoers can lock out all sudo** — only edit via visudo; keep a root session open while testing.
+
+> [!WARNING]
+> **`NOPASSWD: ALL` is root with extra steps** — scope commands tightly.
+
+> [!WARNING]
+> **Wildcards in command paths are tricky** — `/usr/bin/*` may be broader than you think; prefer aliases.
+
+---
+
+
+## When not to use
+
+- **application RBAC** — application authz, not sudoers.
+- **Containers as non-root by design** — drop capabilities; don’t sprinkle NOPASSWD.
+- **Windows** — different privilege model.
+
+---
+
 
 ## sudoers.d layout
 
@@ -105,27 +119,11 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Bad sudoers can lock out all sudo** — only edit via visudo; keep a root session open while testing.
-
-> [!WARNING]
-> **`NOPASSWD: ALL` is root with extra steps** — scope commands tightly.
-
-> [!WARNING]
-> **Wildcards in command paths are tricky** — `/usr/bin/*` may be broader than you think; prefer aliases.
-
----
-
-## When NOT to use
-
-- **application RBAC** — application authz, not sudoers.
-- **Containers as non-root by design** — drop capabilities; don’t sprinkle NOPASSWD.
-- **Windows** — different privilege model.
-
----
 
 ## Related
 
 [[user management]] [[linux groups]] [[useradd]] [[commands]]
+
+## Sources
+
+- [Wikipedia — visudo](https://en.wikipedia.org/wiki/visudo)

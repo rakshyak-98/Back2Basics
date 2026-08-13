@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** matcher — in Redux Toolkit, multiple matchers for the same event do run sequentially, but splitting them into separate matchers here provides no benefit…
+## How it works
 
 In Redux Toolkit, multiple matchers for the same event **do run sequentially**, but splitting them into separate matchers here provides **no benefit** because:
 1. Both matchers react to the **same event**
@@ -63,3 +52,7 @@ But in your code both matchers read directly from `action.payload`, not from eac
 ## Related
 
 [[RTQ]]
+
+## Sources
+
+- [Wikipedia — matcher](https://en.wikipedia.org/wiki/matcher)

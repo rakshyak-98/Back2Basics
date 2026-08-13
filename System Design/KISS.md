@@ -1,130 +1,56 @@
-[[DRY]] [[SOLID]] [[System design]] [[Design pattern]]
+[[DRY]] [[SOLID]] [[System design]] [[API design]]
 
-# KISS (Keep It Simple, Stupid)
+# KISS
 
-> Prefer the simplest design that meets requirements — **complexity is a liability** with compound interest.
-
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**KISS** pushes teams to choose **understandable** solutions over clever ones. Every abstraction, service boundary, and configuration flag has **operational cost** — on-call must debug it at 3 AM. Simple code is **easier to read, test, change, and delete**; complexity hides bugs and slows onboarding.
-
-```txt
-Requirement: send email on signup
-
-KISS:  one function calls SMTP/API after DB insert
-Not:   event bus + 3 services + saga for 10 users/day
-```
-
-| Symptom of over-complexity | KISS response |
-|----------------------------|---------------|
-| 5 layers for CRUD | Monolith module first |
-| Generic plugin framework | Two concrete implementations max |
-| Premature microservices | Modular monolith until scale proves split |
-| Long methods | **Small named functions** — clarity ≠ fewer files |
-
-KISS pairs with **[[DRY]]** — don't simplify by duplicating business rules; simplify **structure**.
+> KISS (Keep It Simple, Stupid) urges designs that solve the present problem with the fewest moving parts that still meet requirements — complexity is a loan with interest.
 
 ---
 
-## Standard config / commands
+## What simplicity means here
 
-### Decision checklist (before adding complexity)
+Simplicity is not ignorance of scale. It is **refusing complexity that does not buy measurable reliability, performance, or velocity**.
 
-```txt
-1. What is the smallest thing that works this sprint?
-2. Can we delete it easily if wrong?
-3. Will a mid-level engineer understand in 15 minutes?
-4. Does complexity map to real scale (QPS, team size, compliance)?
-5. Is the third similar use case here yet? (Rule of three for abstraction)
-```
+| Simple (for now) | Complex (justify before building) |
+|------------------|-----------------------------------|
+| Monolith + PostgreSQL | Ten microservices day one |
+| Cursor pagination | Custom search engine for 500 rows |
+| Synchronous request-response | Event sourcing for a CRUD admin form |
+| Managed Redis cache | Self-sharded in-memory grid |
 
-### Refactor toward KISS
+The United States Navy reportedly coined KISS in the 1960s for aircraft engineering; software adopted it for the same reason — every part you add can fail and must be operated.
 
-```txt
-Before: AbstractHandlerFactory → Strategy → Command
-After:  switch on type with 4 clear functions (until N > 6)
+## Questions before adding a part
 
-Before: 6 microservices for MVP
-After:  one deploy with modules; extract ingest when CPU bound
-```
+1. What requirement fails if we omit this?
+2. What is the operational cost (on-call, dashboards, upgrades)?
+3. Can we meet the service level objective with a boring solution for twelve more months?
+4. Does the team have production experience with this technology?
 
-See [[Microservice]] for when split is justified.
+If answers are weak, defer. [[System design]] interviews and production reviews both reward justified boxes, not fashionable ones.
 
-### API surface KISS ([[API design]])
+## KISS at boundaries
 
-```txt
-Expose: POST /orders { items, address }
-Not:    POST /orders with 40 optional polymorphic fields day one
-```
+[[API design]] should expose **stable product concepts**, not internal shard keys, retry semantics, or storage layout. Users and partner integrations benefit from simple mental models even when the implementation is distributed ([[database sharding]] hidden behind opaque identifiers).
 
-### Config KISS
+## When simplicity becomes negligence
 
-```txt
-Env vars for 5 knobs — not 200-line config framework on day one
-Feature flags only for risky rollout, not every if-branch
-```
+KISS is not an excuse to skip:
 
-### Code review prompts
+- Authentication and authorization ([[Authentication web application]])
+- Backups and restore drills
+- Timeouts and idempotency on external calls
+- Basic observability (latency, errors, saturation)
 
-```txt
-"Can this be half the lines without lying?"
-"What's the delete plan?"
-"Will on-call need a diagram to fix this?"
-```
+*Boring plus reliable* beats *clever plus fragile*.
 
----
+## Tension with [[DRY]] and [[SOLID]]
 
-## Triage (when things break)
+Extract abstractions when duplication proves the same rule changes together — not when two snippets merely look similar. Apply [[SOLID]] at real boundaries (payment gateway, storage port), not as interface-per-class theater.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| No one owns service | Over-split architecture | Merge paths; clarify ownership |
-| Bug in "framework" | Indirection depth | Inline hot path; add tests |
-| Incidents hard to trace | Too many async hops | Sync where latency allows; correlation IDs |
-| Slow feature delivery | Ceremony per change | Reduce layers; trunk-based |
-| On-call runbook 20 pages | Operational complexity | Simplify deploy; reduce moving parts |
-| "Works but nobody knows how" | Bus factor | Document or delete |
+*What breaks first when you over-engineer?* Team velocity — nobody dares change the framework you did not need.
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **KISS ≠ sloppy** — simple still needs tests and error handling.
-
-> [!WARNING]
-> **Permanent temporary hacks** — KISS allows shortcuts; ticket the paydown.
-
-> [!WARNING]
-> **Confusing simple with familiar** — wrong tech "we know" can be complex in prod.
-
-> [!WARNING]
-> **Splitting methods into one-liners** — readability wins over line count rules.
-
-> [!WARNING]
-> **KISS against security** — simple auth must still be correct ([[JWT authentication]]).
-
----
-
-## When NOT to use
-
-- **Proven scale pain** — 10M QPS needs sharding, not bigger monolith wishful thinking.
-- **Regulatory audit boundary** — DRM license service isolation is complexity worth paying ([[DRM]]).
-- **Safety-critical systems** — formal verification may trump "simple" shortcuts.
-
----
-
-## Related
-
-[[DRY]] [[SOLID]] [[System design]] [[API design]] [[Design pattern]] [[Microservice]]
+- Kelly Johnson / Lockheed Skunk Works — KISS origin in engineering culture.
+- Google SRE Book — "Simplicity" as operability virtue; prefer boring technology.
+- Rich Hickey, "Simple Made Easy" (Strange Loop 2011) — simplicity versus ease distinction.

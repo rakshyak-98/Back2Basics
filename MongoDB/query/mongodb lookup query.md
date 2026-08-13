@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** From each input document, find matches in another collection and attach them as an array field.
+## How it works
 
 ```txt
 orders $lookup users on userId = _id  →  orders + users[]
@@ -34,7 +23,8 @@ orders $lookup users on userId = _id  →  orders + users[]
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.orders.aggregate([
@@ -67,7 +57,8 @@ db.orders.aggregate([
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +68,7 @@ db.orders.aggregate([
 | Huge as arrays | unbounded relations | `$limit` in pipeline |
 
 ---
+
 
 ## Gotchas
 
@@ -88,11 +80,17 @@ db.orders.aggregate([
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Always-together data** — embed ([[mongodb denormalization]]).
 - **Graph depth searches** — `$graphLookup` or external graph DB.
 
+
 ## Related
 
 [[MongoDB data populate]] [[mongoDB Group query]] [[mongodb denormalization]]
+
+## Sources
+
+- [Wikipedia — mongodb lookup query](https://en.wikipedia.org/wiki/mongodb_lookup_query)

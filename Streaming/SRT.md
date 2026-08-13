@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** SRT wraps your media in UDP, adds a **latency budget** for retransmitting lost packets, and encrypts the flow — you trade a few hundred milliseconds of delay for stability on bad uplinks.
+## How it works
 
 ```txt
 Encoder / partner                WAN (lossy)                Ingest / relay
@@ -51,7 +40,8 @@ Encoder / partner                WAN (lossy)                Ingest / relay
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Listener ingest (origin waits for encoder)
 
@@ -113,7 +103,8 @@ If `pkt loss` counters climb, **increase latency** before re-encoding.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -127,6 +118,7 @@ If `pkt loss` counters climb, **increase latency** before re-encoding.
 | RTMP bridge rejects | Codec in TS | Transcode to H.264+AAC for [[RTMP]] |
 
 ---
+
 
 ## Gotchas
 
@@ -150,7 +142,8 @@ If `pkt loss` counters climb, **increase latency** before re-encoding.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Mass audience delivery** — CDN HTTP ([[HLS]] / [[CMAF]]), not SRT fan-out.
 - **Clean studio multicast LAN** — raw UDP [[MPEG-TS]] or [[Multicast]] is simpler when loss is near zero.
@@ -159,6 +152,11 @@ If `pkt loss` counters climb, **increase latency** before re-encoding.
 
 ---
 
+
 ## Related
 
 [[ingestion]] [[Streaming]] [[MPEG-TS]] [[RTMP]] [[Encoding]] [[HLS]] [[flussonic]] [[network management]] [[OBS]] [[Multi Stream]] [[RTSP]]
+
+## Sources
+
+- [Wikipedia — SRT](https://en.wikipedia.org/wiki/SRT)

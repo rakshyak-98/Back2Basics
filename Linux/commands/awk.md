@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** each line is `$0`, columns are `$1…$NF`; you write `pattern { action }`.
+## How it works
 
 ```txt
 input lines ──► split on FS ──► match pattern? ──► run action ──► next line
@@ -37,7 +26,8 @@ input lines ──► split on FS ──► match pattern? ──► run action 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Columns
@@ -81,7 +71,8 @@ awk 'BEGIN { FS=":"; OFS="\t" }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,6 +84,7 @@ awk 'BEGIN { FS=":"; OFS="\t" }
 | Locale weird numbers | Decimal comma | `LC_ALL=C awk …` |
 
 ---
+
 
 ## Gotchas
 
@@ -107,7 +99,8 @@ awk 'BEGIN { FS=":"; OFS="\t" }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Structured JSON** — [[jq]].
 - **Multi-line records / complex state machines** — Python/Perl.
@@ -115,6 +108,11 @@ awk 'BEGIN { FS=":"; OFS="\t" }
 
 ---
 
+
 ## Related
 
 [[grep]] [[jq]] [[sed]] [[commands]]
+
+## Sources
+
+- [Wikipedia — awk](https://en.wikipedia.org/wiki/awk)

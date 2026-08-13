@@ -1,103 +1,45 @@
-[[Networking]] [[auto-pong]] [[MTU (Maximum Transmission Unit)]] [[Packet Fragment]]
+[[TCP]] [[MTU (Maximum Transmission Unit)]] [[Packet Fragment]] [[loopback]] [[auto-pong]]
 
 # ICMP
 
-> ICMP (Internet Control Message Protocol) is the network’s error-and-echo channel — ping and “frag needed” ride here, not your app port.
+> Internet Control Message Protocol carries network diagnostics and error signals — when ping works but TCP fails, ICMP told you reachability, not service health.
 
----
+## Role in the stack
 
-## Index
+ICMP (RFC 792 for IPv4; ICMPv6 in RFC 4443) rides inside IP as a separate protocol number. Routers and hosts use it to report problems and measure paths. It is **not** a transport for application data.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Common message types (IPv4):
 
-## Mental model
+| Type | Name | Typical use |
+|------|------|-------------|
+| 0 / 8 | Echo Reply / Echo Request | `ping` reachability |
+| 3 | Destination Unreachable | Port closed, no route, admin prohibited |
+| 11 | Time Exceeded | Traceroute TTL expiry |
+| 12 | Parameter Problem | Bad IP header |
+| 5 | Redirect | Host/route hint (often ignored today) |
 
-**Say it in one breath:** Hosts and routers send small control messages (echo, unreachable, time exceeded) so you can diagnose paths and so IP can signal problems.
+**Path MTU Discovery** uses ICMP "Fragmentation Needed" (type 3, code 4) so senders learn the largest safe packet size without fragmentation.
 
-```txt
-ping:  Echo Request ──► peer
-       Echo Reply   ◄── peer   (auto-pong in the kernel)
-
-PMTUD: packet + DF too big ──► router
-       ICMP Dest Unreachable (frag needed) ◄──
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Echo Request / Reply** | ping / pong | “Liveness + RTT, not app health.” |
-| **Dest Unreachable** | No route / port / needfrag | “PMTUD depends on frag-needed.” |
-| **Time Exceeded** | TTL hit zero | “What traceroute listens for.” |
-| **Sequence number** | Matches reply to request | “Detect loss; wrap at 65535.” |
-| **ICMPv6** | IPv6 control plane | “Neighbor discovery uses it too — don’t blanket-block.” |
-
-### Echo sequence (ping)
-
-| Field | Job |
-|-------|-----|
-| Identifier | Which ping process |
-| Sequence | Which probe in the series |
-| RTT | Send time vs reply time |
-
----
-
-## Standard config / commands
+## Ping and traceroute
 
 ```bash
 ping -c 4 8.8.8.8
-ping -c 4 -W 2 <host>           # per-probe deadline
-ping -M do -s 1472 <host>       # DF + size → PMTUD helper
-
-traceroute <host>               # UDP/ICMP variants by OS
-mtr -rw <host>                  # ongoing loss/latency view
+ping -M do -s 1472 8.8.8.8      # don't fragment — find MTU
+traceroute example.com
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `-M do` / DF | Surfaces path MTU problems |
-| Firewall ICMP allowlist | Echo vs unreachable vs time-exceeded are different |
-| Rate limits | Cloud providers throttle ICMP — flaky ping ≠ flaky TCP |
+Firewalls often block ICMP echo toward servers while allowing TCP/443 — [[auto-pong]] at the ICMP layer proves L3 reachability only.
 
----
+## Error messages to applications
 
-## Triage (when things break)
+When a router cannot forward a packet, it may send ICMP unreachable back to the source. Some stacks surface this to connected sockets ("connection refused" vs "network unreachable"). UDP applications may get asynchronous ICMP errors on later sends.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| ping fails, HTTPS works | ICMP blocked | Allow echo or stop using ping as sole check |
-| Large transfers hang | Frag-needed dropped | Allow ICMP type 3 code 4 (v4) / Packet Too Big (v6) |
-| traceroute all `* * *` | Probes filtered | Try TCP traceroute; check intermediate ACLs |
-| High loss on ping only | ICMP policed | Measure with TCP/`mtr` on real ports |
+## Security note
 
----
+ICMP can be abused for reconnaissance and amplification attacks. Rate-limiting and selective blocking are common at the edge; document what your monitoring still needs.
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **Silent ICMP block breaks PMTUD** — classic “small packets work, large payloads stall” blackhole.
-
-> [!WARNING]
-> **ping success ≠ service up** — probe the listening TCP/UDP port or HTTP path.
-
-> [!WARNING]
-> **IPv6** — filtering “all ICMP” breaks Neighbor Discovery and PMTUD; be surgical.
-
----
-
-## When NOT to use
-
-- **Primary production health checks** — check the application protocol.
-- **Security through “block all ICMP”** — you trade stealth for brittle paths.
-- **Assuming sequence gaps mean malice** — loss, reorder, and rate limits are common.
-
----
-
-## Related
-
-[[Networking]] [[auto-pong]] [[MTU (Maximum Transmission Unit)]] [[Packet Fragment]] [[TCP]] [[UDP]]
+- [RFC 792 — Internet Control Message Protocol](https://www.rfc-editor.org/rfc/rfc792)
+- [RFC 4443 — ICMPv6](https://www.rfc-editor.org/rfc/rfc4443)
+- [Wikipedia — Internet Control Message Protocol](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol)

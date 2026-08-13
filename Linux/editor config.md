@@ -1,145 +1,39 @@
-[[Linux configuration]] [[vscode]] [[Scripting]]
+[[terminal config]] [[Linux terminal]] [[gnome Colorschem]]
 
-# EditorConfig (editor config)
+# editor config
 
-> `.editorconfig` — one repo-root file so every editor agrees on indent, charset, and EOL — stops the PR wars between "tabs vs spaces" and fixes mixed
+> Editor configuration lives in dotfiles and LSP settings — align `EDITOR`, terminal capabilities, and language servers for consistent editing on servers and laptops.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-[EditorConfig](https://editorconfig.org) is a **declarative INI-style file** committed at repository root. Plugins in VS Code, IntelliJ, Vim, etc. read it on save/open. It overrides personal editor defaults **within that project** — not global IDE settings. Prettier/ESLint can still conflict if not aligned.
-
-```
-.editorconfig (root)
-  ├── [*] defaults
-  ├── [*.{js,ts}] JS rules
-  └── [Makefile] tabs exception
-Developer opens file → plugin applies nearest matching section
-```
-
-| Key | Typical value | Why |
-|-----|---------------|-----|
-| `root = true` | stop searching parent dirs | Monorepo boundary |
-| `indent_style` | space / tab | Team consistency |
-| `indent_size` | 2 / 4 | Match language norm |
-| `end_of_line` | lf | Linux CI; avoid CRLF diffs |
-| `charset` | utf-8 | No Latin-1 surprises |
-| `trim_trailing_whitespace` | true | Clean diffs |
-| `insert_final_newline` | true | POSIX text file; git diff noise |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **editorconfig** | Shared indent/style | “Same tabs across vim/VS Code.” |
-| **.editorconfig** | Repo root file | “Commit it — not editor-specific.” |
-| **indent_style** | tab vs space | “Match language norms.” |
-| **charset** | utf-8 default | “Avoid latin1 surprises.” |
-| **end_of_line** | lf vs crlf | “lf on Linux/mac; watch Windows clones.” |
-
-## Standard config / commands
-
-**Production-safe baseline for polyglot repository:**
-
-```ini
-# .editorconfig
-root = true
-
-[*]
-charset = utf-8
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
-indent_style = space
-indent_size = 2
-
-[*.{md,markdown}]
-trim_trailing_whitespace = false   # markdown line breaks use trailing spaces
-
-[*.{py,rs,go}]
-indent_size = 4
-
-[Makefile]
-indent_style = tab
-
-[{*.yaml,*.yml,.github/**}]
-indent_size = 2
-```
-
-**Verify plugin (VS Code / Cursor):**
-
-- Install "EditorConfig for VS Code" (often built-in or default).
-- Status bar shows indent when file matches section.
-
-**Check file obeys (CI optional):**
+## Environment
 
 ```bash
-# editorconfig-checker (eclint) in CI
-npm install -g editorconfig-checker
-editorconfig-checker
-
-# Or eclint
-gem install eclint   # legacy
-eclint check *
+export EDITOR=vim
+export VISUAL=vim
 ```
 
-**Align Prettier (avoid fighting):**
+Many tools (`crontab -e`, `git commit`) honor `$EDITOR`.
 
-```json
-// .prettierrc — match .editorconfig
-{
-  "endOfLine": "lf",
-  "tabWidth": 2,
-  "useTabs": false
-}
+## Vim / Neovim
+
+```vim
+" ~/.vimrc or ~/.config/nvim/init.lua
+set number relativenumber
+set expandtab shiftwidth=2 softtabstop=2
+syntax on
 ```
 
-**Git attributes complement (binary/EOL):**
+## SSH remote editing
 
+```bash
+vim scp://user@host//etc/nginx/nginx.conf
+# or local + rsync
 ```
-# .gitattributes
-* text=auto eol=lf
-*.png binary
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Settings ignored | Plugin installed? | Enable EditorConfig extension; reload |
-| Wrong indent in subfolder | Nested `.editorconfig` | Child `root = true` stops inherit — rare |
-| CI fails EOL | `file` or `git diff --check` | Set `end_of_line = lf`; `.gitattributes` |
-| Makefile broken | spaces in recipes | `[Makefile] indent_style = tab` |
-| Markdown lists break | trim_trailing_whitespace | Disable for `*.md` section |
-| Prettier reverts format | Conflicting rules | Sync `.prettierrc` with editorconfig |
-
-## Gotchas
-
-> [!WARNING]
-> **EditorConfig ≠ formatter** — doesn't fix AST; only basic whitespace/charset. Run Prettier/black/gofmt separately.
-
-> [!WARNING]
-> **No plugin in editor** — file is inert. Onboarding doc must list required extensions.
-
-- **`max_line_length`** — supported but not enforced unless editor wraps; use linter for hard limits.
-- **Vim** — `editorconfig-vim` plugin; native support limited without it.
-- **Generated code** — exclude with `[{dist/**,*.min.js}]` skip sections if tool supports; or don't format generated paths in CI.
-
-## When NOT to use
-
-- **Org-wide IDE policy only** — use enterprise settings + still add `.editorconfig` for open-source contributors.
-- **Languages with strong official style enforced by formatter alone** — still keep `charset`/`eol`; optional indent keys if gofmt/rustfmt owns indent.
 
 ## Related
 
-[[Linux configuration]] [[vscode]] [[Scripting]] [[git command]]
+[[terminal config]] · [[Scripting]]
+
+## Sources
+
+- `man 1 vim`
+- [Neovim documentation](https://neov.io/doc/)

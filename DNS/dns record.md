@@ -1,83 +1,80 @@
-[[DNS]] [[DNS/DNS zone]] [[DNS/cloudflare]] [[AWS/Networking/Route53]]
+[[DNS]] · [[DNS zone]] · [[name server]] · [[top-level Domain]] · [[Sub Domain]]
 
-# DNS record
+# dns record
 
-> DNS record — resolvers cache answers per TTL (seconds). Lower TTL before changes = faster global cutover. CNAME can't apex @ on all providers (use ALIAS/ANAME
+> A DNS record is a typed tuple (owner name, class, type, TTL, rdata) published in a zone — operations break when TTL, CNAME chains, or apex constraints are wrong.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Resolvers cache answers per **TTL** (seconds). Lower TTL before changes = faster global cutover. **CNAME** can't apex `@` on all providers (use ALIAS/ANAME at Route53/Cloudflare). **TXT** for SPF/DKIM/verification. Propagation = old TTL expiring everywhere, not instant magic.
+## Record anatomy
 
 ```
-Client → recursive resolver (cache TTL) → authoritative NS → zone file/RRset
+owner-name  TTL  IN  TYPE  RDATA
 ```
 
-## Standard config / commands
+Example:
 
-### Inspect current records
+```
+www.example.com.  300  IN  A  203.0.113.10
+```
+
+| Field | Meaning |
+|-------|---------|
+| **Owner** | FQDN with trailing dot in zone files |
+| **TTL** | Seconds resolvers may cache (lower = faster propagation, more query load) |
+| **CLASS** | Almost always `IN` (Internet) |
+| **TYPE** | Kind of record |
+| **RDATA** | Type-specific payload |
+
+## Common types
+
+| Type | RDATA | Notes |
+|------|-------|-------|
+| **A** | IPv4 | 32-bit address |
+| **AAAA** | IPv6 | 128-bit address |
+| **CNAME** | target hostname | No other records at same owner (with exceptions/CDN patterns) |
+| **MX** | preference + host | Lower preference = higher priority |
+| **TXT** | one or more strings | 255-char chunk limit per string |
+| **NS** | nameserver hostname | Delegation |
+| **PTR** | hostname | Reverse DNS in `in-addr.arpa` / `ip6.arpa` |
+| **SRV** | priority weight port target | `_service._proto.name` |
+| **CAA** | flags tag value | Certificate issuance policy |
+
+## CNAME constraints
+
+Standard DNS forbids CNAME coexisting with other record types at the same owner name. **Zone apex** (`example.com`) historically could not be CNAME; use ALIAS/ANAME at providers ([[Route53]], [[cloudflare]]) or A/AAAA records.
+
+## Mail authentication records
+
+```
+example.com.  TXT  "v=spf1 include:_spf.google.com ~all"
+default._domainkey.example.com.  TXT  "v=DKIM1; k=rsa; p=..."
+_dmarc.example.com.  TXT  "v=DMARC1; p=reject; rua=mailto:dmarc@example.com"
+```
+
+See [[Protocol/SMTP]] and [[servers/DSN records]] (mail-related DNS).
+
+## TTL strategy
+
+| Scenario | TTL guidance |
+|----------|--------------|
+| Pre-migration | Lower TTL hours before change |
+| Stable production | 300–3600s common |
+| CDN failover | Provider may ignore low TTL at edge |
+
+## Verify
 
 ```bash
-dig yourdomain.com A +short
-dig www.yourdomain.com CNAME
-dig yourdomain.com TXT
-dig yourdomain.com NS
-dig @8.8.8.8 yourdomain.com A    # bypass local cache
+dig +noall +answer www.example.com A
+dig +short TXT example.com
 ```
 
-### Safe change procedure
+## Recall
 
-1. Note current TTL (`dig yourdomain.com A` → ANSWER TTL)
-2. Lower TTL to **300** (5 min); wait **old TTL** to expire
-3. Change A/CNAME/TXT
-4. Verify with multiple resolvers
-5. Raise TTL again (3600+) when stable
+- Why can a CNAME at `www` differ from apex `A` records?
+- What does MX preference number mean?
 
-### Common record types
+## Sources
 
-| Type | Use |
-|------|-----|
-| A / AAAA | Host → IPv4 / IPv6 |
-| CNAME | Alias hostname → hostname |
-| TXT | SPF, DKIM, domain verify |
-| MX | Mail routing (priority + host) |
-| NS | Delegates subdomain to other DNS |
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Old IP still resolves | TTL cache | Wait TTL; `dig @1.1.1.1` vs local |
-| Apex CNAME rejected | Provider rules | ALIAS record or A to load balancer |
-| Cert validation fails | `_acme-challenge` TXT | Add exact token; no extra quotes |
-| Email bounces | MX + SPF TXT | MX points to mail host; SPF includes sender |
-| Subdomain wrong zone | NS delegation | Child zone NS at parent |
-| Intermittent answers | Split DNS | Internal vs public view mismatch |
-
-## Gotchas
-
-> [!WARNING]
-> **CNAME at www only, apex A/ALIAS** — classic migration mistake.
->
-> **Trailing dot** — FQDN in some UIs needs `@` or full stop semantics.
->
-> **Wildcard `*` doesn't cover nested** — `*.example.com` ≠ `a.b.example.com` on all setups.
-
-## When NOT to use
-
-- Don't set TTL 0 in production — resolver load + instability.
-- Don't chain CNAME → CNAME → … — flatten or use ALIAS.
-
-## Related
-
-[[DNS]] [[DNS/DNS zone]] [[DNS/cloudflare]] [[Security/certbot error]]
+- [RFC 1035 — Resource record definitions](https://datatracker.ietf.org/doc/html/rfc1035#section-3.2)
+- [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208)

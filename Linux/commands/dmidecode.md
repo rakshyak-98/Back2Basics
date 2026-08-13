@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#PCIe slot vs reality]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** firmware strings about the chassis — great for inventory; not a live PCIe bandwidth meter.
+## How it works
 
 ```txt
 UEFI/BIOS SMBIOS tables ──► dmidecode ──► system / baseboard / memory / slots
@@ -37,7 +25,8 @@ lspci ──► what is actually enumerated and link speed/width
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo dmidecode -t system
@@ -57,7 +46,8 @@ Needs root (or CAP) — tables are under `/sys/firmware/dmi`.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +58,30 @@ Needs root (or CAP) — tables are under `/sys/firmware/dmi`.
 | Typo commands | `dmideocde` | It’s `dmidecode` |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Firmware can lie or omit fields** — especially VMs and cheap boards.
+
+> [!WARNING]
+> **Slot label ≠ electrical width** — always confirm with `lspci -vv` when performance matters.
+
+> [!WARNING]
+> **Serials are sensitive** — treat inventory exports as confidential.
+
+---
+
+
+## When not to use
+
+- **Live CPU/RAM usage** — `top` / `free` / metrics agents.
+- **Disk topology** — `lsblk` / `nvme list`.
+- **Cloud instance type** — provider metadata API.
+
+---
+
 
 ## PCIe slot vs reality
 
@@ -87,27 +101,11 @@ lspci -d 10de: -vv
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Firmware can lie or omit fields** — especially VMs and cheap boards.
-
-> [!WARNING]
-> **Slot label ≠ electrical width** — always confirm with `lspci -vv` when performance matters.
-
-> [!WARNING]
-> **Serials are sensitive** — treat inventory exports as confidential.
-
----
-
-## When NOT to use
-
-- **Live CPU/RAM usage** — `top` / `free` / metrics agents.
-- **Disk topology** — `lsblk` / `nvme list`.
-- **Cloud instance type** — provider metadata API.
-
----
 
 ## Related
 
 [[lspci]] [[commands]] [[Linux process commands]]
+
+## Sources
+
+- [Wikipedia — dmidecode](https://en.wikipedia.org/wiki/dmidecode)

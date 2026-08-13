@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 TS/JSX/TSX  →  SWC parse/transform  →  ES target JS
@@ -39,7 +30,8 @@ Not a full **polyfill** layer — pair with [[polyfills]] for missing runtime AP
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Vite (@vitejs/plugin-react-swc)
 
@@ -88,7 +80,8 @@ module.exports = {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +93,7 @@ module.exports = {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -110,13 +104,19 @@ module.exports = {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Heavy custom Babel plugin chain** — migration cost may exceed build time savings.
 - **Non-JS languages** — SWC is JS/TS focused; use appropriate compiler (Rust, Go) for those.
 
 ---
 
+
 ## Related
 
 [[React build]] · [[polyfills]] · [[source map]] · [[metro bundler]] · [[javascript engine]]
+
+## Sources
+
+- [Wikipedia — SWC](https://en.wikipedia.org/wiki/SWC)

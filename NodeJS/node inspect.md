@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Process pauses on `debugger;` or breakpoints; you step and print from a text UI instead of VS Code.
+## How it works
 
 ```txt
 node inspect app.js → break → n/s/c/bt/repl → continue
@@ -31,7 +20,8 @@ node inspect app.js → break → n/s/c/bt/repl → continue
 | **backtrace (`bt`)** | Call stack | “How we got here.” |
 | **repl** | Eval in frame | “Print locals live.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 node inspect app.js
@@ -52,7 +42,8 @@ debugger // pause when inspector attached
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ debugger // pause when inspector attached
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -70,13 +62,19 @@ debugger // pause when inspector attached
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Day-to-day IDE debug** — VS Code [[node debugger]] is faster.
 - **production** — don’t leave `debugger;` in shipped code.
 
 ---
 
+
 ## Related
 
 [[node debugger]] [[REPL]] [[node command]]
+
+## Sources
+
+- [Wikipedia — node inspect](https://en.wikipedia.org/wiki/node_inspect)

@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Project ladder]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** One project at a time with README “why”, table-driven tests, and graceful shutdown. Prefer boring stdlib until the project forces a library.
+## How it works
 
 ```txt
 CLI → REST+DB → WS/gateway → KV/gRPC
@@ -32,7 +20,8 @@ CLI → REST+DB → WS/gateway → KV/gRPC
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 go mod init github.com/you/proj
@@ -49,7 +38,8 @@ docker compose up -d # when Postgres required
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +50,30 @@ docker compose up -d # when Postgres required
 | “Done” without README | No decisions recorded | Write why section |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Framework shopping** — finish one stdlib HTTP service first.
+
+> [!WARNING]
+> **Skipping graceful shutdown** — leaks in WS/chat projects.
+
+> [!WARNING]
+> **No idempotency on book/pay** — instant production bug.
+
+---
+
+
+## When not to use
+
+- **Resume spam of 9 half-apps** — ship 3 polished ones.
+- **Rewriting Kubernetes for learning** — too wide.
+- **Copying entire starter kits** — you won’t learn.
+
+---
+
 
 ## Project ladder
 
@@ -79,27 +93,11 @@ docker compose up -d # when Postgres required
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Framework shopping** — finish one stdlib HTTP service first.
-
-> [!WARNING]
-> **Skipping graceful shutdown** — leaks in WS/chat projects.
-
-> [!WARNING]
-> **No idempotency on book/pay** — instant production bug.
-
----
-
-## When NOT to use
-
-- **Resume spam of 9 half-apps** — ship 3 polished ones.
-- **Rewriting Kubernetes for learning** — too wide.
-- **Copying entire starter kits** — you won’t learn.
-
----
 
 ## Related
 
 [[go learning]] [[go cli]] [[go-routines]] [[gRPC]]
+
+## Sources
+
+- [Wikipedia — go project](https://en.wikipedia.org/wiki/go_project)

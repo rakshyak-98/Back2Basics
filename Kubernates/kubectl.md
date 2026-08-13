@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage table]]
-- [[#CrashLoopBackOff triage]]
-- [[#Multi-scaling systems (real-time triage)]]
-- [[#Microservices (real-time triage)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```
 kubectl ──► kube-apiserver ──► etcd (desired state)
@@ -39,7 +27,8 @@ export KUBECTL_CONTEXT=prod-east   # optional
 kubectl -n prod …                  # override default namespace
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Read state (80% of on-call)
 
@@ -108,6 +97,43 @@ kubectl debug node/worker-2 -it --image=nicolaka/netshoot -- chroot /host bash
 kubectl port-forward -n prod svc/api 8080:80
 ```
 
+
+## Gotchas
+
+> [!WARNING]
+> **`kubectl delete pod` on Deployment** — pod respawns; fix Deployment template, not individual pod long-term.
+
+> [!WARNING]
+> **`logs` without `--previous`** on CrashLoop — empty or mid-boot noise; always check previous instance.
+
+> [!WARNING]
+> **HPA without resource requests** — CPU-based HPA ignores pods with no `resources.requests.cpu`; looks "broken" while load climbs.
+
+> [!WARNING]
+> **Scaling + rolling update overlap** — new pods compete for cluster capacity with surge pods; combine `maxSurge: 25%` + PDB + realistic `minReplicas` headroom.
+
+> [!WARNING]
+> **Readiness = load balancer membership** — flaky readiness during scale removes endpoints mid-request → 502 storm at ingress; use `startupProbe` and dependency checks that match real traffic paths.
+
+> [!WARNING]
+> **Microservice DNS is not localhost** — `localhost:8080` in pod A is not service B; use `http://<svc>.<ns>.svc.cluster.local:<port>`.
+
+- **Default namespace** — production objects in `default` = footgun; enforce `-n` or `kubectl-ns` plugin.
+- **describe Events scroll off** — `--sort-by` on events or use `kubectl get events --field-selector involvedObject.name=…`
+- **Ephemeral debug copies** — clean up `api-debug` pods; they hold resources.
+- **jsonpath quoting** — use single quotes outside, double inside `{...}`.
+- **Large manifest apply** — server-side apply (`kubectl apply --server-side`) reduces field manager conflicts.
+- **EndpointSlices versus Endpoints** — `kubectl get endpoints` may truncate; use `endpointslices` for large fleets (many microservice replicas).
+- **Custom metrics lag** — Prometheus adapter / KEDA can be 30–60s behind; don't expect instant scale on queue depth.
+
+
+## When not to use
+
+- **GitOps drift repair via manual edit** — `kubectl edit` untracked; fix source repository (Argo/Flux).
+- **Production scale execute** — use break-glass audit; prefer observability over SSH-via-kubectl habit.
+- **Replacing CI deploy** — kubectl from laptop is not a pipeline.
+
+
 ## Triage table
 
 | Symptom | Check | Fix |
@@ -125,6 +151,7 @@ kubectl port-forward -n prod svc/api 8080:80
 | One microservice down takes out many | Shared ConfigMap/Secret; dependency SLO | Isolate config versions; timeout + bulkhead in callers |
 | Cross-service timeout only in prod | netpol; mesh mTLS; wrong namespace DNS | Allow egress/ingress; FQDN `svc.ns.svc.cluster.local` |
 | After deploy, mixed old/new behavior | ReplicaSets; endpoint subsets | Finish rollout; verify single label selector on Service |
+
 
 ## CrashLoopBackOff triage
 
@@ -169,6 +196,7 @@ readinessProbe:        # removed from Service endpoints when failing
     path: /ready
     port: 8080
 ```
+
 
 ## Multi-scaling systems (real-time triage)
 
@@ -256,6 +284,7 @@ kubectl get events -n prod --watch | grep -E 'FailedScheduling|TriggeredScaleUp|
 # Terminal 3 — ingress/controller 502 correlation
 kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --since=5m | grep -E '502|upstream'
 ```
+
 
 ## Microservices (real-time triage)
 
@@ -347,40 +376,11 @@ kubectl get endpoints api -n prod -o yaml | yq '.subsets[].addresses | length'
 | Prove rollout | `kubectl rollout status deploy/<name> -n <ns>` |
 | Prove quota | `kubectl describe resourcequota -n <ns>` |
 
-## Gotchas
-
-> [!WARNING]
-> **`kubectl delete pod` on Deployment** — pod respawns; fix Deployment template, not individual pod long-term.
-
-> [!WARNING]
-> **`logs` without `--previous`** on CrashLoop — empty or mid-boot noise; always check previous instance.
-
-> [!WARNING]
-> **HPA without resource requests** — CPU-based HPA ignores pods with no `resources.requests.cpu`; looks "broken" while load climbs.
-
-> [!WARNING]
-> **Scaling + rolling update overlap** — new pods compete for cluster capacity with surge pods; combine `maxSurge: 25%` + PDB + realistic `minReplicas` headroom.
-
-> [!WARNING]
-> **Readiness = load balancer membership** — flaky readiness during scale removes endpoints mid-request → 502 storm at ingress; use `startupProbe` and dependency checks that match real traffic paths.
-
-> [!WARNING]
-> **Microservice DNS is not localhost** — `localhost:8080` in pod A is not service B; use `http://<svc>.<ns>.svc.cluster.local:<port>`.
-
-- **Default namespace** — production objects in `default` = footgun; enforce `-n` or `kubectl-ns` plugin.
-- **describe Events scroll off** — `--sort-by` on events or use `kubectl get events --field-selector involvedObject.name=…`
-- **Ephemeral debug copies** — clean up `api-debug` pods; they hold resources.
-- **jsonpath quoting** — use single quotes outside, double inside `{...}`.
-- **Large manifest apply** — server-side apply (`kubectl apply --server-side`) reduces field manager conflicts.
-- **EndpointSlices versus Endpoints** — `kubectl get endpoints` may truncate; use `endpointslices` for large fleets (many microservice replicas).
-- **Custom metrics lag** — Prometheus adapter / KEDA can be 30–60s behind; don't expect instant scale on queue depth.
-
-## When NOT to use
-
-- **GitOps drift repair via manual edit** — `kubectl edit` untracked; fix source repository (Argo/Flux).
-- **Production scale execute** — use break-glass audit; prefer observability over SSH-via-kubectl habit.
-- **Replacing CI deploy** — kubectl from laptop is not a pipeline.
 
 ## Related
 
 [[Pods]] · [[kubectl pod creation]] · [[ingress]] · [[Kubernetes services]] · [[Kubernetes configuration]] · [[Cilium]] · [[Docker compose]] · [[orchestration]] · [[distributed system]] · [[connection chrun]]
+
+## Sources
+
+- [Wikipedia — kubectl](https://en.wikipedia.org/wiki/kubectl)

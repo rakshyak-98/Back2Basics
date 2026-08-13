@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** the shell splits into words, expands (`$`, globs, `!!`), then runs — operators like `&&` / `|` connect commands, not strings.
+## How it works
 
 ```txt
 line ──► tokenize ──► expand ──► redirections ──► execute
@@ -37,7 +26,8 @@ line ──► tokenize ──► expand ──► redirections ──► execut
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Chains / grouping
@@ -75,7 +65,8 @@ set -euo pipefail
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +77,7 @@ set -euo pipefail
 | `[[ = ]]` surprises | Pattern vs string | Use `==` carefully; quote the right side if literal |
 
 ---
+
 
 ## Gotchas
 
@@ -100,7 +92,8 @@ set -euo pipefail
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Heavy data munging** — Python; keep bash as the glue.
 - **POSIX-strict `/bin/sh` scripts** — avoid Bashisms (`[[`, arrays) or set `#!/bin/bash`.
@@ -108,6 +101,11 @@ set -euo pipefail
 
 ---
 
+
 ## Related
 
 [[bash script]] [[bash flags]] [[Bash history]] [[tee]] [[Bash]]
+
+## Sources
+
+- [Wikipedia — Bash syntax](https://en.wikipedia.org/wiki/Bash_syntax)

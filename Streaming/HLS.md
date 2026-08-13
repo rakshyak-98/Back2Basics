@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#LL-HLS (low latency)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Package many qualities into segments, publish an `.m3u8` menu, let the CDN cache GETs — no special streaming socket to the viewer.
+## How it works
 
 ```txt
 Ingest ([[RTMP]] / [[SRT]] / [[RTSP]] / file)
@@ -54,7 +42,8 @@ Ingest ([[RTMP]] / [[SRT]] / [[RTSP]] / file)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Master playlist
 
@@ -101,7 +90,8 @@ Debug: `curl` the master → follow a media playlist → HEAD a segment; Apple `
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,20 +105,6 @@ Debug: `curl` the master → follow a media playlist → HEAD a segment; Apple `
 
 ---
 
-## LL-HLS (low latency)
-
-Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims for **~2–5 s**:
-
-| Extension | Job |
-|-----------|-----|
-| **`EXT-X-PART`** | Serve ~200 ms partials before the full segment exists |
-| **Blocking playlist reload** | Hold GET until the next part/segment is ready |
-| **`EXT-X-PRELOAD-HINT`** | Tell the player what to request next early |
-| **`EXT-X-RENDITION-REPORT`** | Sync sequence across rungs for faster ABR |
-
-Needs CMAF-style chunks and a player that understands LL tags.
-
----
 
 ## Gotchas
 
@@ -146,7 +122,8 @@ Needs CMAF-style chunks and a player that understands LL tags.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
 - **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
@@ -154,6 +131,27 @@ Needs CMAF-style chunks and a player that understands LL tags.
 
 ---
 
+
+## LL-HLS (low latency)
+
+Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims for **~2–5 s**:
+
+| Extension | Job |
+|-----------|-----|
+| **`EXT-X-PART`** | Serve ~200 ms partials before the full segment exists |
+| **Blocking playlist reload** | Hold GET until the next part/segment is ready |
+| **`EXT-X-PRELOAD-HINT`** | Tell the player what to request next early |
+| **`EXT-X-RENDITION-REPORT`** | Sync sequence across rungs for faster ABR |
+
+Needs CMAF-style chunks and a player that understands LL tags.
+
+---
+
+
 ## Related
 
 [[Streaming]] [[ABR]] [[DASH]] [[HLS vs. DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]] [[DRM]] [[RTMP]] [[rendition]]
+
+## Sources
+
+- [Wikipedia — HLS](https://en.wikipedia.org/wiki/HLS)

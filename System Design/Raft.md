@@ -1,89 +1,77 @@
-[[System Design]] [[Quorum]] [[distributed system]] [[Eventual consistency]]
+[[Quorum]] [[distributed system]] [[Eventual consistency]] [[Distributed computing]]
 
 # Raft
 
-> Raft — consensus algorithm: elect a leader, replicate a log, stay consistent if a majority of nodes are up.
+> Raft is a consensus algorithm that elects a leader, replicates an append-only log to a majority of nodes, and commits entries only after durable replication — giving strongly consistent coordination without the opacity of Paxos.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Followers elect a leader; clients write to the leader; entries commit when a majority replicates them; term numbers fence old leaders.
+## Roles and terms
 
 ```txt
 Client → Leader → append entries → Followers
-              └─ commit when majority ack → apply FSM
+              └─ commit when majority ack → apply to state machine
 ```
 
-| Role | Job |
-|------|-----|
-| Leader | Handles client writes |
-| Follower | Replicates log |
-| Candidate | Election contestant |
-| Term | Logical clock / epoch |
+| Role | Responsibility |
+|------|----------------|
+| **Leader** | Accepts client writes; replicates log entries |
+| **Follower** | Receives entries; votes in elections; does not serve writes (in classic Raft) |
+| **Candidate** | Contests leadership during elections |
+| **Term** | Monotonic epoch number; fences stale leaders |
 
-Used by etcd, Consul, TiKV, many “strongly consistent” stores.
+If a partitioned former leader receives writes, followers reject them because its term is outdated — this prevents split-brain commits when combined with majority rules.
 
----
+## How an entry becomes committed
 
-## Standard config / commands
+1. Client sends command to leader (or is forwarded to leader).
+2. Leader appends entry to its local log and replicates to followers in parallel.
+3. Once a **majority** of nodes store the entry, the leader marks it **committed**.
+4. Leader applies committed entries to the **state machine** (key-value store, configuration, and so on) and responds to the client.
+5. Followers apply committed entries in log order when they learn the commit index.
+
+Safety property: if two leaders in different terms both claim commitment for the same log index, they cannot both have majority acknowledgment — the term and index pairing detects conflicts.
+
+## Operational parameters
+
+| Knob | Trade-off |
+|------|-----------|
+| Cluster size (3, 5, 7) | Odd count avoids tied elections; more nodes = higher write latency |
+| Election timeout | Too low → flapping elections; too high → slow failover |
+| Heartbeat interval | Must be « election timeout |
+| Snapshotting | Bounds disk growth; required for long-lived logs |
 
 ```bash
-# etcd health mental check
+# etcd (Raft-based) health checks
 etcdctl endpoint health
 etcdctl endpoint status -w table
 ```
 
-| Knob | Why |
-|------|-----|
-| Odd cluster size (3/5) | Clear majority |
-| Snapshotting | Bound log disk |
-| Heartbeat / election timeout | Stability vs failover speed |
+Raft powers **etcd**, **Consul**, **TiKV**, and many control-plane stores.
 
----
+## Failure modes
 
-## Triage (when things break)
+| Symptom | Likely cause | Direction |
+|---------|--------------|-----------|
+| No leader | Lost majority (network partition or too many down nodes) | Restore connectivity; maintain odd voter count |
+| Flapping leadership | Aggressive timeouts or central processing unit starvation | Increase election timeout; isolate noisy neighbors |
+| Disk full | Unbounded log without compaction | Snapshot and compact; expand volume |
+| Slow commits | Follower lag (slow disk or network) | Replace sick node; faster storage |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| No leader | Network partition / majority loss | Restore connectivity; odd members |
-| Flapping elections | Timeout too aggressive; CPU starve | Tune timeouts; isolate noisy neighbors |
-| Disk full on peer | Log growth | Snapshot/compact; enlarge disk |
-| Split votes | Even members | Add/remove to odd |
-| Slow commits | Follower lag | Faster disk/net; remove sick node |
+**Two-node clusters are a trap:** one failure removes majority — use three voters minimum for production.
 
----
+Non-voting **learners** do not count toward quorum; do not assume they provide failover votes.
 
-## Gotchas
+## When Raft is the wrong tool
 
-> [!WARNING]
-> **2-node “cluster”** — one failure = no majority; use 3.
+- Planet-scale eventually consistent data — partition tolerance and availability beat global consensus latency.
+- Single-process applications — a local database transaction suffices.
+- Cross-region synchronous Raft on every write — round-trip time dominates; prefer regional leaders and asynchronous replication for user data.
 
-> [!WARNING]
-> **Learners / non-voters** — don’t count them in majority math.
+*What breaks first under load?* Disk append latency on the leader or the slowest follower in the replication path.
 
-> [!WARNING]
-> **Clock sync** — Raft doesn’t need perfect sync, but extreme skew + ops tooling still hurts.
+## Sources
 
----
-
-## When NOT to use
-
-- **High-scale AP data** — use quorum/DHT styles, not global Raft.
-- **Single process apps** — SQLite/Postgres alone.
-- **Cross-region chatty Raft** — latency kills; regional leaders + async.
-
----
-
-## Related
-
-[[Quorum]] [[distributed system]] [[Distributed computing]] [[Eventual consistency]]
+- Diego Ongaro & John Ousterhout, [In Search of an Understandable Consensus Algorithm](https://raft.github.io/raft.pdf) (USENIX ATC 2014).
+- [Raft website](https://raft.github.io/) — visualizations and student guide.
+- etcd documentation — production tuning for Raft clusters.

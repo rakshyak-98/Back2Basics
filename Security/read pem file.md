@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **PEM** files are Base64 DER with label lines:
 
@@ -38,7 +29,8 @@ Always verify **which file is which** before pasting into servers — installing
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Certificate
 
@@ -85,7 +77,8 @@ openssl req  -in file.pem -text -noout
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +89,7 @@ openssl req  -in file.pem -text -noout
 | Wrong file order in fullchain | leaf vs intermediate | `fullchain`: leaf first, then intermediates |
 
 ---
+
 
 ## Gotchas
 
@@ -113,12 +107,18 @@ openssl req  -in file.pem -text -noout
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't `-text -noout` multi-GB PEM bundles in CI repeatedly — parse programmatically. For binary, use [[DER]] `-inform der`.
 
 ---
 
+
 ## Related
 
 [[DER]] [[openssl]] [[fingerprint]] [[Root certificate]] [[https]] [[RSA]]
+
+## Sources
+
+- [Wikipedia — read pem file](https://en.wikipedia.org/wiki/read_pem_file)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Same job (adaptive HTTP streaming); different playlist shape and default ecosystems — Apple leans HLS; open MPEG is DASH.
+## How it works
 
 ```txt
                     ┌── HLS  → .m3u8  → Safari / iOS / many TVs
@@ -58,7 +47,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Dual-package layout (what good looks like)
 
@@ -94,7 +84,8 @@ curl -sI "https://cdn/.../video_720p_00001.m4s"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +98,7 @@ curl -sI "https://cdn/.../video_720p_00001.m4s"
 | ABR differs wildly between players | Different `BANDWIDTH` / Representation | Align advertised bitrates |
 
 ---
+
 
 ## Gotchas
 
@@ -124,7 +116,8 @@ curl -sI "https://cdn/.../video_720p_00001.m4s"
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **This comparison as a runtime switch every request** — pick packaging once; feature-detect at the player.
 - **Ultra-low-latency calls** — neither replaces [[WebRTC]].
@@ -132,6 +125,11 @@ curl -sI "https://cdn/.../video_720p_00001.m4s"
 
 ---
 
+
 ## Related
 
 [[HLS]] [[DASH]] [[CMAF]] [[ABR]] [[MPD]] [[Manifest (streaming)]] [[DRM]] [[MPEG-TS]] [[Streaming]]
+
+## Sources
+
+- [Wikipedia — HLS vs. DASH](https://en.wikipedia.org/wiki/HLS_vs._DASH)

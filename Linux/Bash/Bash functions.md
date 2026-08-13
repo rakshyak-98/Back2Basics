@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Functions run in the **current shell** (no new process unless you call external commands). Variables are global by default — **`local` is mandatory** for parameters and temps. Exit status is `return N` (0–255) or last command's status. Functions are defined before use; order matters in sourced files.
 
@@ -42,7 +33,8 @@ deploy_app        →  runs in same shell — can mutate cwd, env, exports
 | **return** | Function exit status | “return N; exit kills the shell.” |
 | **declare -f** | List functions | “declare -f name to inspect.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 #!/usr/bin/env bash
@@ -104,7 +96,8 @@ cleanup() {
 trap cleanup EXIT
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -114,6 +107,7 @@ trap cleanup EXIT
 | Function not in cron | Cron minimal env | Full path; source profile; absolute paths |
 | `set -e` exits unexpectedly | Failing cmd in function | `|| true` or explicit handling |
 | Export -f fails | Non-bash shell | Force bash in shebang |
+
 
 ## Gotchas
 
@@ -126,12 +120,18 @@ trap cleanup EXIT
 - **Recursive functions** — bash has no tail-call optimization; deep recursion blows stack.
 - **`$*` versus `$@`** — use `"$@"` for preserved word splitting on arguments.
 
-## When NOT to use
+
+## When not to use
 
 - **Complex CLI with flags** — standalone script or proper language (Python/Go).
 - **sudo boundaries** — function runs as current user; can't elevate inside without sudo in body.
 - **Library for multiple shells** — POSIX `sh` functions differ; use external script.
 
+
 ## Related
 
 [[Bash syntax]] [[bash script]] [[Scripting]] [[bash sourcing other script]]
+
+## Sources
+
+- [Wikipedia — Bash functions](https://en.wikipedia.org/wiki/Bash_functions)

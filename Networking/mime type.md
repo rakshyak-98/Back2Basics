@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `type/subtype` (e.g. `text/html`, `application/json`) tells the client what the payload is so it can pick a handler.
+## How it works
 
 ```txt
 Server ── Content-Type: application/json ──► Browser/app
@@ -47,7 +36,8 @@ Server ── Content-Type: application/json ──► Browser/app
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Linux: which app opens a MIME type
@@ -77,7 +67,8 @@ Content-Disposition: attachment; filename="report.pdf"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +79,7 @@ Content-Disposition: attachment; filename="report.pdf"
 | Upload rejected | Server MIME allowlist | Whitelist real types; don’t trust client-only |
 
 ---
+
 
 ## Gotchas
 
@@ -102,7 +94,8 @@ Content-Disposition: attachment; filename="report.pdf"
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **authentication / trust decisions based only on MIME** — validate content; MIME is a claim.
 - **Serving user uploads as `text/html`** — XSS; store and serve with safe types + disposition.
@@ -110,6 +103,11 @@ Content-Disposition: attachment; filename="report.pdf"
 
 ---
 
+
 ## Related
 
 [[Networking]] [[HTTP]] [[https]]
+
+## Sources
+
+- [Wikipedia — mime type](https://en.wikipedia.org/wiki/mime_type)

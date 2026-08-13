@@ -6,49 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Nil pointer panic | Unchecked pointer / interface | Guard; init; read stack frame |
-| Lost root cause | `%v` string wrap | Use `%w` |
-| `err == ErrX` false | Wrapped | `errors.Is` |
-| Panic in goroutine | No recover | Handle inside goroutine; log |
-| Silent ignore | `_ = f()` | Never drop err in prod paths |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** Normal failures are `return err`. Check with `if err != nil`. Wrap with `%w` for `errors.Is`/`As`. Nil pointer deref and friends become **panics** with a stack — fix the bug, don’t `recover` everywhere.
+## How it works
 
 ```txt
 f() (T, error)
@@ -64,7 +22,8 @@ panic ──unwinds──► defers run ──► crash (or recover)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 if err != nil {
@@ -87,6 +46,37 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Nil pointer panic | Unchecked pointer / interface | Guard; init; read stack frame |
+| Lost root cause | `%v` string wrap | Use `%w` |
+| `err == ErrX` false | Wrapped | `errors.Is` |
+| Panic in goroutine | No recover | Handle inside goroutine; log |
+| Silent ignore | `_ = f()` | Never drop err in prod paths |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -100,7 +90,8 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Panic for control flow** — never.
 - **`recover` in every function** — hides bugs.
@@ -108,14 +99,11 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[go callstack]] [[go-routines]] [[go debugging]] [[go functions]]
+
+## Sources
+
+- [Wikipedia — go error](https://en.wikipedia.org/wiki/go_error)

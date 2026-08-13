@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Sourcing** executes commands in the **current shell context**. Exported variables, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.
 
@@ -42,7 +33,8 @@
 | **return vs exit** | In sourced files | “exit kills the parent shell — use return.” |
 | **set -a** | Auto-export | “Useful when sourcing env files.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Safe library load (production pattern):**
 
@@ -99,7 +91,8 @@ source ~/lib/utils.sh      # breaks for other users/CI
 . /etc/profile             # pulls login side effects; non-reproducible
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,6 +111,7 @@ source ~/lib/utils.sh      # breaks for other users/CI
 _UTILS_SH_LOADED=1
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -129,12 +123,18 @@ _UTILS_SH_LOADED=1
 - **shellcheck `SC1090/1091`** — dynamic source path; annotate or structure known paths.
 - **Symlinks** — `BASH_SOURCE` versus `readlink -f` for real path when symlinks involved.
 
-## When NOT to use
+
+## When not to use
 
 - **Large standalone job** — executable script with shebang + `main "$@"`.
 - **Cross-language reuse** — Python/Go module, not bash source.
 - **Secrets in sourced file** — world-readable `/etc/default` leaks; use restricted permissions + systemd credentials.
 
+
 ## Related
 
 [[bash script]] [[Bash syntax]] [[Bash functions]] [[Scripting]]
+
+## Sources
+
+- [Wikipedia — bash sourcing other script](https://en.wikipedia.org/wiki/bash_sourcing_other_script)

@@ -1,98 +1,78 @@
-[[System Design]] [[DRY]] [[GRASP]] [[solid diagram]]
+[[GRASP]] [[DRY]] [[solid diagram]] [[API design]] [[System design]]
 
 # SOLID
 
-> SOLID — five OOP habits: one reason to change, extend without edit, subtypes safe, small interfaces, depend on abstractions.
+> SOLID names five object-oriented design habits that keep modules focused, substitutable, and open to extension without turning every change into a shotgun edit.
 
 ---
 
-## Index
+## The five principles
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Letter | Name | In plain language |
+|--------|------|-------------------|
+| **S** | Single Responsibility | A module should have one reason to change — one actor or concern. |
+| **O** | Open/Closed | Extend behavior with new types; avoid editing stable code for every variant. |
+| **L** | Liskov Substitution | Subtypes must honor the contract of their base type — callers should not need `instanceof` checks. |
+| **I** | Interface Segregation | Many small interfaces beat one fat interface that forces empty implementations. |
+| **D** | Dependency Inversion | High-level policy depends on abstractions; low-level details implement them. |
 
-## Mental model
+Robert C. Martin introduced the acronym; the ideas draw on earlier work by Barbara Liskov, Bertrand Meyer, and others.
 
-**Say it in one breath:** Program to interfaces; prefer composition; keep classes focused so a change in billing doesn’t break shipping.
-
-| Letter | Rule | Plain |
-|--------|------|-------|
-| **S** | Single Responsibility | One actor/reason to change |
-| **O** | Open/Closed | Extend via new types, don’t hack old ones |
-| **L** | Liskov Substitution | Subtype usable wherever parent is |
-| **I** | Interface Segregation | No fat interfaces clients half-implement |
-| **D** | Dependency Inversion | High-level depends on abstractions |
+## Dependency inversion in practice
 
 ```txt
-OrderService → (interface) PaymentGateway
+OrderService → PaymentGateway (interface)
                     ↑
-              StripeGateway / FakeGateway
+              StripeGateway / FakeGateway (tests)
 ```
 
----
-
-## Standard config / commands
-
-```ts
+```typescript
 interface PaymentGateway {
   charge(cents: number, customerId: string): Promise<string>
 }
 
 class OrderService {
   constructor(private payments: PaymentGateway) {}
+
   async checkout(order: Order) {
     return this.payments.charge(order.total, order.customerId)
   }
 }
 ```
 
-| Smell | SOLID hint |
-|-------|------------|
-| God class | Split S |
-| `switch` on type forever | O — strategy/plugins |
-| Override breaks callers | L |
-| Empty methods “not supported” | I |
-| `new Stripe()` deep inside | D — inject |
+Production injects `StripeGateway`; tests inject `FakeGateway` — no network calls required.
 
----
+## Smells and which principle speaks to them
 
-## Triage (when things break)
+| Smell | Principle | Remedy direction |
+|-------|-----------|------------------|
+| God class handling billing, email, and reports | S | Split by change driver |
+| Endless `switch (provider)` | O | Strategy or plugin registry |
+| Subclass throws "not supported" | L / I | Narrow the interface or use composition |
+| Tests require real external services | D | Inject interfaces at boundaries |
+| Parallel inheritance hierarchies | O / composition | Favor has-a over is-a |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Change A breaks B | Shared class two reasons | Split responsibilities |
-| Can’t add vendor without edits | Hard-coded concrete | Interface + new impl |
-| Tests need real Stripe | No seam | Inject fake gateway |
-| Subclass throws `NotImplemented` | ISP/LSP violation | Narrow interfaces |
-| Parallel inheritance explosion | Composition needed | Strategy/decorator |
+## Relationship to [[GRASP]] and [[System design]]
 
----
+- **GRASP** answers *who should own this responsibility?* (Information Expert, Creator, Controller).
+- **SOLID** answers *how should types relate?* at class and interface boundaries.
+- **System design** applies the same separation at service scale: domain logic should not embed HTTP or SQL dialect.
 
-## Gotchas
+## Over-application risks
 
-> [!WARNING]
-> **Interface soup** — DIP ≠ one-interface-per-function; keep meaningful ports.
+| Pitfall | Reality |
+|---------|---------|
+| Interface soup | Not every function needs its own interface — meaningful ports at boundaries suffice |
+| Open/Closed dogma | Sometimes editing three lines is cheaper than a new abstraction layer |
+| Anemic layers | Empty data transfer objects with all logic in services — ceremony without real seams |
+| Performance | Virtual dispatch and indirection have cost; measure hot paths |
 
-> [!WARNING]
-> **OCP dogma** — sometimes editing is cheaper than endless extension points.
+Scripts, one-off glue, and throwaway spikes should not carry full SOLID ceremony ([[KISS]]).
 
-> [!WARNING]
-> **Anemic “SOLID” layers** — ceremony without boundaries still couples via DB.
+*When would you choose composition over inheritance?* When behavior varies independently of the type hierarchy — most policy and integration code.
 
----
+## Sources
 
-## When NOT to use
-
-- **Scripts and glue** — YAGNI over SOLID theater.
-- **Performance-critical inner loops** — indirection has cost; measure.
-- **Functional cores** — apply the ideas, not Java ceremony.
-
----
-
-## Related
-
-[[DRY]] [[GRASP]] [[solid diagram]] [[API design]]
+- Robert C. Martin, "The Principles of OOD" — [butunclebob.com](https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html).
+- Barbara Liskov & Jeannette Wing, "A Behavioral Notion of Subtyping" (1994) — Liskov Substitution Principle foundation.
+- Bertrand Meyer, *Object-Oriented Software Construction* (Prentice Hall, 1997) — Open/Closed Principle.

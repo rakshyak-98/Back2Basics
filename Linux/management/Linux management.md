@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** desired state via configuration management; host tools for break-glass; measure before and after changes.
+## How it works
 
 ```txt
 desired state (CM/image)
@@ -38,7 +27,8 @@ desired state (CM/image)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # break-glass kit
@@ -56,7 +46,8 @@ df -h; free -h
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ df -h; free -h
 | Auth failures | time + PAM + LDAP | NTP; getent; tickets |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ df -h; free -h
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Platforms you don’t own** — use the cloud control plane.
 - **Per-container OS babysitting** — rebuild images.
 
 ---
 
+
 ## Related
 
 [[Linux system management]] [[Package Manager]] [[systemctl]] [[user management]] [[Linux resource management]]
+
+## Sources
+
+- [Wikipedia — Linux management](https://en.wikipedia.org/wiki/Linux_management)

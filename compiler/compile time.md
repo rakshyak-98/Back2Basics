@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Compile time** = while compiler/transpiler/build tool runs. **Runtime** = while program executes. Decisions at compile time are fixed (types, const generics, `#ifdef`); runtime handles user input, network, dynamic dispatch (virtual methods, `interface{}`, reflection).
 
@@ -25,7 +16,8 @@
 | Cost | Paid once per build | Paid every execution |
 | Knowledge | Source + declared types | Live data, env, I/O |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Catch errors early
 
@@ -62,7 +54,8 @@ cargo clippy         # lints
 const enum Dir { Up, Down }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +64,7 @@ const enum Dir { Up, Down }
 | Type error cascade | One root error | Fix first error; rerun |
 | `#ifdef` wrong branch | `-D` flags | Align Makefile/CMake defines |
 | Works in IDE, fails tsc | stricter CI `tsconfig` | Align `strict` flags |
+
 
 ## Gotchas
 
@@ -81,11 +75,17 @@ const enum Dir { Up, Down }
 >
 > **Transpiler ≠ typecheck** — Babel alone doesn't typecheck TypeScript.
 
-## When NOT to use
+
+## When not to use
 
 - Don't push runtime validation-only languages to "compile time" metaphors without static checker (add TypeScript/mypy).
 - Don't over-use macros/templates — debug at compile time becomes nightmare.
 
+
 ## Related
 
 [[compiler/compiler]] [[compiler/transpiler]] [[Operating System/Runtime Environment]]
+
+## Sources
+
+- [Wikipedia — compile time](https://en.wikipedia.org/wiki/compile_time)

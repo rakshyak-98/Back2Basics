@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Media types** (MIME types) are `type/subtype` plus optional parameters:
 
@@ -35,7 +26,8 @@ Canonical deep dive: **[[mime type]]**.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Send correct type (Nginx)
 
@@ -73,7 +65,8 @@ X-Content-Type-Options: nosniff
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,6 +76,7 @@ X-Content-Type-Options: nosniff
 | Android WebView blank | Missing charset | Add `; charset=utf-8` |
 
 ---
+
 
 ## Gotchas
 
@@ -97,12 +91,18 @@ X-Content-Type-Options: nosniff
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't invent `application/x-myformat` without vendor tree (`vnd.`) if you need interoperability — register or document clearly.
 
 ---
 
+
 ## Related
 
 [[mime type]] [[response header]] [[content security policy]] [[CORS (Cross Origin Request Sharing)]]
+
+## Sources
+
+- [Wikipedia — Registered Media Types](https://en.wikipedia.org/wiki/Registered_Media_Types)

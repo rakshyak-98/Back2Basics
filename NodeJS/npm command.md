@@ -6,17 +6,21 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```txt
+package.json + lockfile ──npm ci──► node_modules
+npm run start -- --port 4000  →  script gets --port
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`--`** | End of npm args | “Pass flags through to the script.” |
+| **npm ci** | Clean lockfile install | “Reproducible CI; deletes node_modules.” |
+| **dedupe / outdated** | Tree hygiene | “Find duplicates and stale ranges.” |
+
 
 ## Quick reference
 
@@ -24,7 +28,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 npm install pkg@1.2.3
@@ -48,30 +53,22 @@ npm cache clean --force
 
 ---
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-**Say it in one breath:** `npm install` resolves the tree into `node_modules` + lockfile; `npm run` executes `package.json` scripts; `npm ci` is the clean CI install from the lockfile.
+## Examples
 
-```txt
-package.json + lockfile ──npm ci──► node_modules
-npm run start -- --port 4000  →  script gets --port
+```bash
+# …
 ```
 
-### Interview map (words you can say)
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`--`** | End of npm args | “Pass flags through to the script.” |
-| **npm ci** | Clean lockfile install | “Reproducible CI; deletes node_modules.” |
-| **dedupe / outdated** | Tree hygiene | “Find duplicates and stale ranges.” |
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +78,7 @@ npm run start -- --port 4000  →  script gets --port
 | Corrupt cache | Weird ENOENT | `npm cache clean --force` |
 
 ---
+
 
 ## Gotchas
 
@@ -92,18 +90,18 @@ npm run start -- --port 4000  →  script gets --port
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Other package managers** — pnpm/yarn if the repository standard says so; don’t mix casually.
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[node package json]] [[Packages/npm packages]] [[nvm]]
+
+## Sources
+
+- [Wikipedia — npm command](https://en.wikipedia.org/wiki/npm_command)

@@ -1,138 +1,57 @@
-[[Design pattern]] [[Design pattern/Bridge]] [[NodeJS/Express middleware]] [[MongoDB/mongoose middleware]]
+[[Design pattern]] [[Design pattern/Singleton]] [[Design pattern/Factory Method]]
 
 # Dependency Injection
 
-> Supply dependencies from outside instead of hard-coding `new` inside a class — testability and modular wiring — **IoC container vs manual constructor inject**.
-
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Without DI:** class creates its own DB client → tight coupling, hard to mock.
-
-**With DI:** caller passes interface → swap implementation in tests, configuration, or runtime.
-
-```
-┌─────────────┐     constructs      ┌──────────────┐
-│  Composition│ ──────────────────► │  UserService │
-│  Root/main  │   injects IUserRepo │  repo: IUser │
-└─────────────┘                     └──────┬───────┘
-                                           │
-                                           ▼
-                                    PostgresUserRepo
-                                    (or InMemory in tests)
-```
-
-| Style | Tradeoff |
-|-------|----------|
-| **Constructor inject** | Explicit required deps — preferred |
-| **Setter inject** | Optional deps — can forget |
-| **Service locator** | Hidden global — avoid in new code |
-| **Framework DI** | NestJS, Spring — ceremony vs convention |
+> Dependency Injection supplies a component's dependencies from outside rather than letting it construct them — so behavior stays testable and wiring stays explicit.
 
 ## Core idea
 
-…
+Without injection:
 
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-### Manual constructor injection (TypeScript)
-
-```typescript
-interface UserRepo {
-  findById(id: string): Promise<User | null>;
-}
-
-class UserService {
-  constructor(private repo: UserRepo) {}
-
-  async getUser(id: string) {
-    return this.repo.findById(id);
-  }
-}
-
-// composition root (main.ts)
-const repo = new PostgresUserRepo(pool);
-const service = new UserService(repo);
+```text
+class Service { db = new PostgresDatabase() }  // hard-coded
 ```
 
-### Test double
+With injection:
 
-```typescript
-const fakeRepo: UserRepo = {
-  findById: async (id) => ({ id, name: 'Test' }),
-};
-const svc = new UserService(fakeRepo);
+```text
+class Service { constructor(db: Database) { this.db = db } }
 ```
 
-### Factory when impl chosen by config
+The **injector** (framework, main function, or factory) chooses `PostgresDatabase` vs `InMemoryDatabase`.
 
-```typescript
-function createUserRepo(env: Config): UserRepo {
-  return env.db === 'memory' ? new InMemoryRepo() : new PostgresRepo(pool);
-}
-```
+## Injection styles
 
-### NestJS (framework DI)
+| Style | How dependencies arrive |
+|-------|-------------------------|
+| **Constructor** | Required deps in constructor (preferred) |
+| **Setter** | Optional or late-bound deps |
+| **Interface / method** | Dependencies passed per call |
 
-```typescript
-@Injectable()
-class UserService {
-  constructor(private repo: UserRepo) {}
-}
-// UserRepo bound in module providers array
-```
+Constructor injection makes required dependencies visible and immutable.
 
-### Express middleware as injectable chain
+## vs Service Locator
 
-Each middleware receives `(req, res, next)` — deps wired when registering routes, not inside handler with globals.
+Service Locator hides `get("Database")` inside the class — looks like flexibility but obscures dependencies. Injection makes the contract explicit in the type signature.
 
-## Triage (when things break)
+## Relation to patterns
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Tests hit prod DB | Real impl wired | Inject mock at test composition root |
-| Circular dependency | A needs B needs A | Extract interface or third module |
-| Container startup fails | Missing binding | Register all tokens in module |
-| "Service not found" runtime | Service locator abuse | Constructor inject required deps |
-| Too many constructor args | God object | Split bounded contexts |
+- Replaces many [[Design pattern/Singleton]] uses with scoped instances.
+- Works with [[Design pattern/Factory Method]] and [[Design pattern/Creation pattern/Abstract Factory]] at the composition root.
+- Frameworks (Spring, NestJS, Angular) automate binding interfaces to implementations.
 
-## Gotchas
+## When to use
 
-> [!WARNING]
-> **Property injection frameworks** can construct partially initialized objects if circular deps misconfigured.
+- Unit tests need mocks/fakes.
+- Multiple deployments (cloud vendor A vs B) share business logic.
+- Libraries that should not choose global configuration.
 
-- **DI ≠ singleton** — container may return new instance per resolve unless scoped.
-- **Over-injection** — 15-arg constructor signals missing facade or wrong boundary.
-- **Dynamic `import()` for lazy DI** — track async initialize or first request fails.
+## Pitfalls
 
-## Trade-offs
+- Constructor with dozens of parameters — split classes (violates SRP) or use facades.
+- Container magic without understanding the graph — failures at runtime instead of compile time (less of an issue in statically typed languages).
 
-| Gain | Cost |
-|------|------|
-| … | … |
+## Sources
 
-## When NOT to use
-
-- Pure functions with no external IO — pass arguments directly, no container.
-- Script < 100 lines — manual wiring is clearer.
-
-## Related
-
-[[Design pattern/Bridge]] [[Design pattern/Command]] [[Design pattern/Factory Method]] [[Design pattern/Facade]] [[NodeJS/Express middleware]] [[Design pattern]]
+- Martin, *Dependency Injection* principles (commonly cited in enterprise patterns)
+- [Dependency injection — Wikipedia](https://en.wikipedia.org/wiki/Dependency_injection)

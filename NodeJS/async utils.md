@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Wrap `(req,res,next) => Promise…` so `.catch(next)` runs; Express error middleware owns the response.
+## How it works
 
 ```txt
 asyncHandler(fn) → Promise.resolve(fn(...)).catch(next)
@@ -30,7 +19,8 @@ asyncHandler(fn) → Promise.resolve(fn(...)).catch(next)
 | **asyncHandler** | Promise → `next(err)` | “No try/catch on every route.” |
 | **Express 5** | Native async errors | “Older Express needs a wrapper.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const asyncHandler = (fn) => (req, res, next) =>
@@ -50,7 +40,8 @@ router.post('/api', asyncHandler(async (req, res) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ router.post('/api', asyncHandler(async (req, res) => {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -67,13 +59,19 @@ router.post('/api', asyncHandler(async (req, res) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Sync middleware** — call `next()` yourself.
 - **Non-Express** — use framework-native async error hooks.
 
 ---
 
+
 ## Related
 
 [[Express middleware]] [[expressjs]] [[Error handeling]] [[Runtime Errors]]
+
+## Sources
+
+- [Wikipedia — async utils](https://en.wikipedia.org/wiki/async_utils)

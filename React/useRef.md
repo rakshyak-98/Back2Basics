@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `useRef` gives you `.current` you can read/write anytime; changing it does **not** schedule a re-render (unlike `useState`).
+## How it works
 
 ```txt
 render → same ref object
@@ -32,7 +21,8 @@ render → same ref object
 | **`.current`** | The actual value | “Focus via `inputRef.current.focus()`.” |
 | **forwardRef** | Pass a parent ref into a child | “Wrapper must forwardRef or the ref never reaches the input.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```tsx
 const inputRef = useRef<HTMLInputElement>(null)
@@ -56,7 +46,8 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
 | Stale closure with ref | Read `.current` inside effect | Prefer reading `.current` at call time |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Value drives UI** — use `useState` / `useReducer`.
 - **Derived from props** — compute during render; don’t mirror into a reference unless you need “previous.”
 
 ---
 
+
 ## Related
 
 [[react hooks]] [[Hooks/react useEffect]] [[Typescript with react]]
+
+## Sources
+
+- [Wikipedia — useRef](https://en.wikipedia.org/wiki/useRef)

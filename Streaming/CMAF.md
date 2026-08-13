@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **CMAF** standardizes **fragmented MP4 (fMP4)** chunks so **[[HLS]]** and **[[DASH]]** can share the **same `.m4s` media segments** — only the **manifests differ** (`.m3u8` versus `.mpd`). Each **CMAF chunk** is a `moof`+`mdat` pair; a **CMAF segment** is typically 2–6 seconds of chunks aligned on keyframes.
 
@@ -40,7 +31,8 @@ Without CMAF, operators stored **duplicate TS for HLS + separate DASH segments**
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### ffmpeg — CMAF-style HLS (fMP4 segments)
 
@@ -87,7 +79,8 @@ mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,6 +92,7 @@ mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 | Audio missing in DASH | Separate AdaptationSet | Mirror HLS `#EXT-X-MEDIA` audio group |
 
 ---
+
 
 ## Gotchas
 
@@ -116,7 +110,8 @@ mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
 - **Single-ecosystem (Apple-only)** — TS HLS still works but loses DASH unification benefit.
@@ -124,6 +119,11 @@ mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 
 ---
 
+
 ## Related
 
 [[HLS]] [[DASH]] [[HLS vs. DASH]] [[MPEG-TS]] [[Manifest (streaming)]] [[MPD]] [[DRM]] [[EME]] [[ABR]]
+
+## Sources
+
+- [Wikipedia — CMAF](https://en.wikipedia.org/wiki/CMAF)

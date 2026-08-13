@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Streaming **breaks at the network layer** before the player shows a useful error: **RTMP stall**, **UDP TS gaps**, **CDN 502**, **TLS reset**. Operators correlate **publisher uplink**, **origin ingest**, and **viewer last-mile** — each hop has different tools and SLOs.
 
@@ -37,7 +28,8 @@ This note is **streaming-focused triage** — see [[Networking]] for routing/BGP
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Socket & connection inventory
 
@@ -96,7 +88,8 @@ sudo nft list ruleset | grep -E '1935|443'
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ sudo nft list ruleset | grep -E '1935|443'
 | High latency live | Segment duration + CDN + playlist | [[HLS]] LL-HLS tuning; not a "network mgmt" knob alone |
 
 ---
+
 
 ## Gotchas
 
@@ -129,7 +123,8 @@ sudo nft list ruleset | grep -E '1935|443'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Application codec debug** — use `ffprobe`, not packet capture first.
 - **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
@@ -137,6 +132,11 @@ sudo nft list ruleset | grep -E '1935|443'
 
 ---
 
+
 ## Related
 
 [[ss]] [[ip]] [[Networking]] [[RTMP]] [[ingestion]] [[UDP]] [[half-open connections]] [[Egress traffic]]
+
+## Sources
+
+- [Wikipedia — network management](https://en.wikipedia.org/wiki/network_management)

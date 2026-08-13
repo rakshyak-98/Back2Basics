@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A generator coroutine yields control; the caller decides when to `.next()` again. `async/await` is the mainstream coroutine style over Promises.
+## How it works
 
 ```txt
 function* gen() { yield 1; yield 2 }
@@ -32,7 +21,8 @@ const it = gen(); it.next() → { value:1, done:false }
 | **async fn** | Await-based coroutine | “Most app code uses this.” |
 | **cooperative** | Yields deliberately | “Not preemptive threads.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 function* range(n) {
@@ -54,7 +44,8 @@ async function load() {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ async function load() {
 | Memory hold | Long-lived generator | Close iterators (`return`) |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ async function load() {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple async flows** — `async/await` only.
 - **Parallel CPU** — workers/processes, not coroutines.
 
 ---
 
+
 ## Related
 
 [[promise]] [[Callback]] [[async utils]]
+
+## Sources
+
+- [Wikipedia — Coroutine](https://en.wikipedia.org/wiki/Coroutine)

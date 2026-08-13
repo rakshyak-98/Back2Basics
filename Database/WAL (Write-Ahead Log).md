@@ -1,114 +1,41 @@
-[[ACID]] [[ARIES]] [[write-ahead logging]] [[fsync]] [[MMAP]]
+[[Database]] [[ACID]] [[write-ahead logging]] [[ARIES]] [[mysql engine]] [[SQL/postgres]]
 
 # WAL (Write-Ahead Log)
 
-> Append-only durability journal: log the intent **before** mutating data pages — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
+> Append-only log of page changes written to stable storage before the data pages they describe—so a crash can replay committed work and discard incomplete transactions.
 
----
+## Core rule
 
-## Index
+**Write the log record first, then apply the change to data pages** (often in memory). On restart, the engine scans the log from the last checkpoint and reapplies any committed changes not yet on disk.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Every durable DB must survive crash mid-write. WAL is the contract: **log record hits stable storage first**, then in-memory/dirty pages may change. On restart, replay log from last checkpoint forward; undo incomplete transactions.
-
-```
-Client COMMIT
+```txt
+Transaction commit
     │
-    ▼
-Append WAL record ──► fsync WAL file     ◄── durability boundary
-    │
-    ▼
-Return success to client
-    │
-    ▼
-(later) Dirty pages flushed to data files   ◄── may lag; crash-safe via replay
+    ├─► append redo records to WAL (fsync per durability policy)
+    └─► dirty pages flushed later by background writer
+
+Crash ──► recovery replays WAL from checkpoint LSN
 ```
 
-- **Log sequence number (LSN)** — monotonic pointer; pages record *last WAL applied* so recovery knows what's stale.
-- **Checkpoint** — periodic marker: "all changes before LSN X are on disk." Truncates replay window.
-- **Steal / no-force** (see [[ARIES]]): pages may be flushed before commit (steal); committed pages need not be flushed before ack (no-force). WAL makes this safe.
+## Why not update pages in place only?
 
-Postgres: `pg_wal/` (formerly `pg_xlog`). MySQL InnoDB: redo log files. MongoDB WiredTiger: journal. SQLite: `-wal` file.
+Random in-place disk writes are slow and not atomic at page granularity. Logging sequential appends batches durability work and enables [[ARIES]]-style redo/undo recovery.
 
-## Standard config / commands
+## Engine implementations
 
-### PostgreSQL (defaults are sane; tune under heavy write load)
+| System | WAL name | Key identifier |
+|--------|----------|------------------|
+| PostgreSQL | WAL / pg_xlog | Log Sequence Number (LSN) |
+| MySQL InnoDB | Redo log | LSN in `#innodb_redo` |
+| SQLite | Rollback journal or WAL mode | Frame numbers |
 
-```ini
-# postgresql.conf
-wal_level = replica          # logical decoding needs logical; replicas need replica+
-fsync = on                   # NEVER off in prod except disposable dev
-synchronous_commit = on      # off/local = faster, risk last ~few commits on crash
-wal_compression = on         # PG14+; less I/O on wide rows
-max_wal_size = 1GB           # checkpoint pressure; too low = write spikes
-checkpoint_timeout = 15min
-```
+## Durability versus performance
 
-```sql
--- Inspect WAL pressure
-SELECT pg_current_wal_lsn(), pg_walfile_name(pg_current_wal_lsn());
-SELECT * FROM pg_stat_wal;
+PostgreSQL `synchronous_commit=off` and MySQL `innodb_flush_log_at_trx_commit=2` batch fsyncs—faster, but committed transactions may be lost on OS crash. Money paths keep full sync enabled.
 
--- Force checkpoint (maintenance window only)
-CHECKPOINT;
-```
+## Sources
 
-### MySQL InnoDB redo log
-
-```ini
-# my.cnf — redo log size affects checkpoint frequency
-innodb_log_file_size = 1G
-innodb_flush_log_at_trx_commit = 1   # 1 = full ACID; 2 = OS buffer, crash may lose ~1s
-innodb_flush_method = O_DIRECT       # avoid double cache with FS cache
-```
-
-### fsync policy cheat sheet
-
-| Setting | Durability | Throughput |
-|---------|------------|--------------|
-| PG `synchronous_commit=on` + `fsync=on` | Strong | Baseline |
-| PG `synchronous_commit=off` | Last txs may vanish on crash | Higher |
-| InnoDB `flush_log_at_trx_commit=2` | OS crash may lose ~1s | Higher |
-| InnoDB `flush_log_at_trx_commit=0` | ~1s window always | Highest risk |
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Disk fills; `pg_wal` huge | `pg_stat_replication`; lagging replica/slot | Drop stale replication slot; fix replica; increase `max_wal_size` temporarily |
-| Spiky write latency every N min | Checkpoint / WAL recycle | Raise `max_wal_size` (PG) or `innodb_log_file_size` (MySQL); spread checkpoints |
-| "could not write to WAL" / PANIC | `df`; inode exhaustion; RO mount | Free disk; remount RW; restore from backup if WAL corrupt |
-| Replica never catches up | `pg_stat_wal_receiver`; network; `wal_keep_size` | Fix network; increase retention; resync replica |
-| After crash, long startup | Expected replay | Reduce replay window via regular checkpoints; don't disable fsync |
-| MongoDB journal dir on slow disk | `db.serverStatus().wiredTiger.log` | Move journal to fast SSD; tune `storage.journal.commitIntervalMs` |
-
-## Gotchas
-
-> [!WARNING]
-> **`fsync=off` or `innodb_flush_log_at_trx_commit=0` on prod** — you traded durability for benchmarks. One power loss = silent data loss + possible corruption.
-
-> [!WARNING]
-> **Replication slots without consumers** — Postgres retains WAL indefinitely; disk death spiral. Monitor `pg_replication_slots` + `pg_stat_replication`.
-
-- **Group commit** batches multiple commits into one fsync — latency looks fine until fsync stalls (full disk, bad SSD firmware).
-- **WAL on same spindle as data** — correlated failure + I/O contention; separate volumes on serious deployments.
-- **`COMMIT` ≠ data file flush** — committed rows may live only in WAL + buffer pool until checkpoint; backup tools must be WAL-aware (PG: base backup + WAL archive; use `pg_backup_start`/`pg_basebackup`).
-- **Logical decoding / CDC** holds WAL — treat slots like long-running transactions.
-
-## When NOT to use
-
-- **Ephemeral caches** (Redis default) — no WAL; that's by design.
-- **Batch analytics where loss is OK** — consider async commit or unlogged tables (PG) with eyes open.
-- **Replacing backups with WAL** — WAL is for crash recovery, not DR; you still need PITR archives and tested restores.
-
-## Related
-
-[[ACID]] [[ARIES]] [[write-ahead logging]] [[fsync]] [[MVCC]] [[connection pooling]] [[postgres essential]] [[MySQL storage]]
+- PostgreSQL Documentation — [WAL Internals](https://www.postgresql.org/docs/current/wal-intro.html)
+- MySQL Reference Manual — [17.6.5 Redo Log](https://dev.mysql.com/doc/refman/en/innodb-redo-log.html)
+- Mohan, C. et al., "ARIES: A Transaction Recovery Method" (ACM TODS, 1992)
+- Kleppmann, *DDIA*, Ch. 3

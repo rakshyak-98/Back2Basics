@@ -1,129 +1,77 @@
-[[webSocket]] [[Messaging/Web hooks]] [[TCP]] [[half-open connections]]
+[[TCP]] · [[UDP]] · [[webSocket]] · [[Firebase/FCM Token (Firebase Cloud Messaging Token)]]
 
 # MQTT
 
-> MQTT — publisher ──PUBLISH topic──► Broker ──forward──► Subscriber(s)
+> MQTT is a lightweight publish/subscribe messaging protocol for constrained devices and unreliable networks — brokers fan out messages to subscribers by topic, with QoS levels trading delivery guarantees for overhead.
 
 ---
 
-## Index
+## Roles
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Component | Function |
+|-----------|----------|
+| **Publisher** | Sends messages to a **topic** |
+| **Broker** | Routes messages (Mosquitto, HiveMQ, AWS IoT Core) |
+| **Subscriber** | Receives messages for subscribed topic filters |
 
-## Mental model
+OASIS standard [MQTT Version 5.0](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html); v3.1.1 widely deployed.
 
-**MQTT** (Message Queuing Telemetry Transport) uses a **broker** (Mosquitto, EMQX, AWS IoT Core). Clients **publish** to **topics** (`sensors/room1/temp`); subscribers receive by topic filter (`sensors/+/temp`, `#` wildcard). Connection is long-lived TCP (often TLS on 8883).
+## Topic hierarchy
 
 ```
-Publisher ──PUBLISH topic──► Broker ──forward──► Subscriber(s)
-                ▲
-         SUBSCRIBE filter
+sensors/building-a/floor-2/temperature
 ```
 
-**QoS:** 0 at-most-once, 1 at-least-once (dup possible), 2 exactly-once (handshake). **Retained** messages seed new subscribers. **LWT (Last Will)** publishes on unexpected disconnect.
+Wildcards:
 
-## Standard config / commands
+- `+` — single level
+- `#` — multi-level suffix
 
-### Ports
+## QoS levels
 
-| Port | Usage |
-|------|--------|
-| 1883 | Plain MQTT (lab/VPN only) |
-| 8883 | MQTT over TLS |
-| 8884 | Often WebSocket MQTT in browsers |
+| QoS | Guarantee | Handshake |
+|-----|-----------|-----------|
+| **0** | At most once (fire and forget) | None |
+| **1** | At least once (may duplicate) | PUBACK |
+| **2** | Exactly once | Four-step |
 
-### Subscribe / publish (mosquitto clients)
+Choose QoS 0 for telemetry where loss is acceptable; QoS 1 for commands.
+
+## Transport
+
+- **TCP 1883** — cleartext (lab only)
+- **TCP 8883** — TLS
+- **WebSocket** — browser clients
+
+## Session example (mosquitto)
 
 ```bash
-mosquitto_sub -h broker.example.com -p 8883 \
-  --cafile ca.pem -u device1 -P secret \
-  -t 'sensors/+/temp' -v
-
-mosquitto_pub -h broker.example.com -p 8883 \
-  --cafile ca.pem -u device1 -P secret \
-  -t 'sensors/room1/temp' -m '22.5' -q 1
+mosquitto_sub -h broker.example.com -t 'sensors/+/temp' -u device -P secret
+mosquitto_pub -h broker.example.com -t 'sensors/room1/temp' -m '22.5'
 ```
 
-### Mosquitto ACL snippet
+## vs [[HTTP module]] / [[webSocket]]
 
-```conf
-user device1
-topic read sensors/room1/#
-topic write sensors/room1/temp
+| MQTT | HTTP |
+|------|------|
+| Persistent subscription | Request/response |
+| Tiny headers | Heavier per message |
+| Broker required | Direct client-server |
 
-listener 8883
-cafile /etc/mosquitto/certs/ca.crt
-certfile /etc/mosquitto/certs/server.crt
-keyfile /etc/mosquitto/certs/server.key
-require_certificate false
-```
+Common in IoT, mobile push bridges, and industrial SCADA.
 
-### Node.js (mqtt.js)
+## Security
 
-```javascript
-import mqtt from 'mqtt';
+- Unique credentials per device
+- TLS + cert pinning on brokers
+- ACLs per topic prefix
 
-const client = mqtt.connect('mqtts://broker.example.com', {
-  username: 'device1',
-  password: process.env.MQTT_PASSWORD,
-  clientId: 'device1-001',
-  clean: true,
-  reconnectPeriod: 5000,
-});
+## Recall
 
-client.on('connect', () => {
-  client.subscribe('commands/device1/#', { qos: 1 });
-  client.publish('telemetry/device1/status', 'online', { qos: 1, retain: true });
-});
+- When does QoS 1 duplicate messages?
+- Why is a broker required unlike point-to-point TCP?
 
-client.on('message', (topic, payload) => {
-  console.log(topic, payload.toString());
-});
-```
+## Sources
 
-### Topic design
-
-```txt
-tenant/site/device/metric   — avoid single global topic flood
-no leading $ for app topics ($SYS reserved by broker)
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Connect loop | Auth/cert/clientId clash | Unique clientId; verify user/ACL |
-| Messages not received | Topic typo vs filter | Log subscribe ack; test with `mosquitto_sub -v` |
-| Duplicate messages | QoS 1/2 retries | Idempotent handlers; dedupe by message id |
-| Broker CPU spike | `#` subscribers; retained flood | Narrow subscriptions; limit retain |
-| Silent disconnect | NAT timeout | Keepalive (ping); broker `max_keepalive` |
-| TLS handshake fail | ALPN/SNI; old cipher | Update certs; mqtts:// not mqtt:// |
-
-## Gotchas
-
-> [!WARNING]
-> **Plaintext 1883 on public internet** — credentials + payload exposed; use TLS + ACL.
-
-> [!WARNING]
-> **QoS 2 is expensive** — use QoS 1 + idempotent consumer for most IoT.
-
-> [!WARNING]
-> **Retained messages stale forever** — overwrite with empty retain to clear.
-
-> [!WARNING]
-> **Not for large payloads** — spec practical limit ~256MB but brokers often cap KB/MB; use HTTP/S3 for files.
-
-## When NOT to use
-
-- **Request/response HTTP APIs** — REST/gRPC clearer for CRUD.
-- **Browser-first real-time** — [[webSocket]] + application server may be simpler than MQTT-over-WS.
-- **Guaranteed global ordering** — MQTT doesn't order across topics; design per-key streams.
-
-## Related
-
-[[webSocket]] [[Messaging/Web hooks]] [[TCP]] [[half-open connections]] [[Streaming/Microservice]]
+- [MQTT Version 5.0 Specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html)
+- [Eclipse Mosquitto](https://mosquitto.org/documentation/)

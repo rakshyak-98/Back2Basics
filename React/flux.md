@@ -1,82 +1,34 @@
-[[React]] [[Redux]]
+[[react hooks]] [[React State management]] [[React Architecture]]
 
 # flux
 
-> Unidirectional data flow for UI apps — action in, store updates, view re-renders (no two-way binding loops).
+> Flux describes any effect that appears to pass or travel through a surface or substance.
 
----
+## What this is
 
-## Index
+Flux describes any effect that appears to pass or travel through a surface or substance. Flux is a concept in applied mathematics and vector calculus which has many applications in physics. For transport phenomena, flux is a vector quantity, describing the magnitude and direction of the flow of a substance or property. In vector calculus, flux is a scalar quantity, defined as the surface integral of the perpendicular component of a vector field over a surface.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
 
-**Say it in one breath:** View dispatches an action → dispatcher fans out → stores update → views subscribe and re-render. Data moves one way.
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-```txt
-View → Action → Dispatcher → Store(s) → View
-```
+## What breaks first
 
-### Interview map (words you can say)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Action** | “Something happened” payload | “Intent, not a DOM event.” |
-| **Dispatcher** | Single hub for actions | “Stores register; hub broadcasts.” |
-| **Store** | State + domain logic | “Only stores mutate app state.” |
-| **Unidirectional** | No child→parent magic writes | “Easier to replay and debug.” |
+## Recall
 
-## Standard config / commands
-
-Today you rarely install classic Flux — [[Redux]] / RTK is the common Flux descendant:
-
-```ts
-dispatch({ type: 'todos/add', payload: text })
-// reducer → new state → connected view
-```
-
-| Piece | Job |
-|-------|-----|
-| Actions | Describe intent |
-| Stores / reducers | Own state transitions |
-| Views | Read state, dispatch only |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| View doesn’t update | Store emit / subscription | Ensure store notifies; React binds correctly |
-| State changes mysteriously | Side writes outside actions | Route all mutations through actions |
-| Circular updates | Store A triggers B triggers A | Break cycle; one owner per fact |
-| Hard to test | Logic in views | Move rules into stores/reducers |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Flux ≠ Redux** — Redux = single store + pure reducers; classic Flux allows multiple stores + dispatcher.
-
-> [!WARNING]
-> **Two-way binding habits** — mutating state from deep children without actions recreates the spaghetti Flux fixed.
-
----
-
-## When NOT to use
-
-- **Local ephemeral UI** (open/closed tooltip) — component state is enough.
-- **Server cache** — prefer [[react-query]] / RTK Query over inventing Flux stores for HTTP.
-
----
+What breaks first in production if `flux` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux]] [[Redux toolkit]] [[Redux/Redux concept and data flow]]
+[[react hooks]] [[React State management]] [[React Architecture]]
+
+## Sources
+
+- [Facebook Flux — GitHub](https://github.com/facebookarchive/flux)
+- [Wikipedia — Flux](https://en.wikipedia.org/wiki/Flux)

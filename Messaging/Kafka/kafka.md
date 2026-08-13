@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** kafka — event streaming platform designed to handle real-time data feeds.
+## How it works
 
 - event streaming platform designed to handle real-time data feeds.
 - used for building data pipelines, stream analytics, and integration across systems.
@@ -35,17 +22,8 @@
 
 ---
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -54,7 +32,20 @@
 
 ---
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -71,12 +63,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Kafka]]
+
+## Sources
+
+- [Wikipedia — kafka](https://en.wikipedia.org/wiki/kafka)

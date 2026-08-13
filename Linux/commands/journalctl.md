@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured `journal` API calls. Entries are keyed by **unit**, **boot ID**, **priority**, **executable**, and custom fields (`_PID`, `_UID`, `_SYSTEMD_CGROUP`). Binary store — use `journalctl` to read, not raw `cat`.
 
@@ -45,7 +36,8 @@ systemd unit ──► journald ──► /var/log/journal/ (or /run/log/journal
 | **-p err** | Priority filter | “Noise down to errors.” |
 | **vacuum** | Size/time retention | “journalctl --vacuum-size=500M.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Service since this boot — baseline incident command
@@ -105,7 +97,8 @@ sudo journalctl --vacuum-time=1week
 sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer --vacuum-size
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -116,6 +109,7 @@ sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer
 | Timestamps don't match UTC tools | Local TZ display | `journalctl --utc` |
 | Unit logs empty but app logs files | Not connected to stdout | Fix unit `StandardOutput=journal`; or read app log path |
 | Disk full from journal | Unbounded debug | `--vacuum-size`; lower app log level; tune journald |
+
 
 ## Gotchas
 
@@ -131,12 +125,18 @@ sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer
 > [!WARNING]
 > **Docker/k8s** — container logs may be in docker/k8s driver, not host journal for that process name.
 
-## When NOT to use
+
+## When not to use
 
 - **Application log files only** (legacy nginx file) → tail/grep path from configuration.
 - **Years of retention** → ship to SIEM; journal is local ring buffer.
 - **Cross-host correlation** → centralized logging; journal is per-host.
 
+
 ## Related
 
 [[loggging]] [[systemd]] [[Services commands]] [[grep]] [[systemctl]]
+
+## Sources
+
+- [Wikipedia — journalctl](https://en.wikipedia.org/wiki/journalctl)

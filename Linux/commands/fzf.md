@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `fzf` reads stdin (or a shell hook), scores lines against your typed fuzzy pattern, shows an interactive TUI. It's a **filter**, not a search engine — you pipe candidates in, pick one out via `$()` or key bindings.
 
@@ -44,7 +35,8 @@ Install: `apt install fzf` (Debian/Ubuntu) — enable shell hooks via `/usr/shar
 | **bind** | Key actions | “Custom binds for kill/git.” |
 | **exit codes** | 1 = no match | “Scripts must handle cancel.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Basic filter
@@ -88,7 +80,8 @@ grep '^Host ' ~/.ssh/config | awk '{print $2}' | fzf | xargs -I{} ssh {}
 systemctl list-units --type=service --no-pager | awk '{print $1}' | fzf | xargs journalctl -u -f
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +91,7 @@ systemctl list-units --type=service --no-pager | awk '{print $1}' | fzf | xargs 
 | Garbled TUI | Wrong `TERM` | `export TERM=xterm-256color`; use UTF-8 locale |
 | Slow on huge trees | `find /` from root | Scope to project; use `fd`; set `FZF_DEFAULT_COMMAND` |
 | `xargs` ran wrong command | Blank or multi-column input | Quote: `fzf \| xargs -r -I{} cmd {}` |
+
 
 ## Gotchas
 
@@ -113,12 +107,18 @@ systemctl list-units --type=service --no-pager | awk '{print $1}' | fzf | xargs 
 > [!WARNING]
 > **Non-interactive scripts** — fzf needs a TTY; don't pipe it in CI without `/dev/tty` hack.
 
-## When NOT to use
+
+## When not to use
 
 - **Scripted automation (no human)** → fixed paths, `find -name`, `rg`.
 - **Server without TTY** → avoid; use completion or explicit arguments.
 - **Security-sensitive host enumeration** — interactive browsing of `/etc` leaves audit trail of intent; use targeted commands.
 
+
 ## Related
 
 [[Linux terminal]] [[Find command]] [[bash script]] [[grep]] [[CLI]]
+
+## Sources
+
+- [Wikipedia — fzf](https://en.wikipedia.org/wiki/fzf)

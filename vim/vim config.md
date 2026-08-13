@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard` — set shiftwidth=4 # indentation commands >>, << shift by 4
+## How it works
 
 ```bash
 ```
@@ -54,7 +43,8 @@ filetype indent on
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -63,7 +53,8 @@ filetype indent on
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +64,7 @@ filetype indent on
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -80,12 +72,18 @@ filetype indent on
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[vim]]
+
+## Sources
+
+- [Wikipedia — vim config](https://en.wikipedia.org/wiki/vim_config)

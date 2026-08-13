@@ -6,38 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Trigger / symptoms]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Trigger / symptoms
-
-…
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** flutter error — try flutter pub outdated for more information.
+## How it works
 
 ```text
 Try `flutter pub outdated` for more information.
@@ -58,14 +27,28 @@ Why people add this:
 
 ---
 
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
 ## Rollback
 
 1. …
 
-## Escalation
-
-…
 
 ## Related
 
 [[flutter]]
+
+## Sources
+
+- [Wikipedia — flutter error](https://en.wikipedia.org/wiki/flutter_error)

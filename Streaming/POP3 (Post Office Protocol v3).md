@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **POP3** lets an MUA fetch mail from an MDA mailbox over TCP (110 plain, 995 TLS). Default mental model: **download to one device**, server mailbox often **emptied** after retrieval — though `leave mail on server` exists as client setting.
 
@@ -36,7 +27,8 @@ MUA ── TCP 995 ──► MDA (Dovecot/Courier)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Test POP3 (swaks alternative — openssl)
 
@@ -74,7 +66,8 @@ sudo systemctl status dovecot
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +85,7 @@ sudo tail -f /var/log/mail.log
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -108,7 +102,8 @@ sudo tail -f /var/log/mail.log
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New product email client** — ship IMAP + OAuth2.
 - **Team shared inbox** — IMAP namespaces or web UI.
@@ -116,6 +111,11 @@ sudo tail -f /var/log/mail.log
 
 ---
 
+
 ## Related
 
 [[E mail server]] [[SMTP]] [[TLS (Transport Layer Security)]] [[DNS]]
+
+## Sources
+
+- [Wikipedia — POP3](https://en.wikipedia.org/wiki/POP3)

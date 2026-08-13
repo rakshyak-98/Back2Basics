@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#What localhost means on each device]]
-- [[#HTTPS on localhost (mkcert)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Name resolves to loopback (`127.0.0.1` / `::1`). On a phone or container, that is *their* loopback — not your host.
+## How it works
 
 ```txt
 Browser on laptop  →  http://localhost:3000  →  laptop
@@ -39,7 +26,8 @@ Phone → laptop API →  http://192.168.1.50:3000
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Your LAN IP (phone / other device should use this)
@@ -59,7 +47,8 @@ ss -tlnp | grep 3000
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +60,30 @@ ss -tlnp | grep 3000
 
 ---
 
+
+## Gotchas
+
+> [!WARNING]
+> **localhost is not “the backend server”** — each process namespace has its own loopback.
+
+> [!WARNING]
+> **mkcert on phone** — LAN HTTPS needs the phone to trust your local CA (or use HTTP on LAN for rough tests).
+
+> [!WARNING]
+> **Binding `127.0.0.1` hides the service** — health checks from other hosts will fail.
+
+---
+
+
+## When not to use
+
+- **Production service URLs** — use real DNS names, not localhost.
+- **Cross-device demos with only localhost** — use LAN IP, Tailscale, or a tunnel.
+- **Assuming `localhost` bypasses authentication** — still authenticate; loopback is not a security boundary for multi-user hosts.
+
+---
+
+
 ## What localhost means on each device
 
 | Where the app runs | What `http://localhost:3000` hits |
@@ -81,6 +94,7 @@ ss -tlnp | grep 3000
 | Docker container | The container — use `host.docker.internal` or host gateway IP |
 
 ---
+
 
 ## HTTPS on localhost (mkcert)
 
@@ -116,27 +130,11 @@ server: {
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **localhost is not “the backend server”** — each process namespace has its own loopback.
-
-> [!WARNING]
-> **mkcert on phone** — LAN HTTPS needs the phone to trust your local CA (or use HTTP on LAN for rough tests).
-
-> [!WARNING]
-> **Binding `127.0.0.1` hides the service** — health checks from other hosts will fail.
-
----
-
-## When NOT to use
-
-- **Production service URLs** — use real DNS names, not localhost.
-- **Cross-device demos with only localhost** — use LAN IP, Tailscale, or a tunnel.
-- **Assuming `localhost` bypasses authentication** — still authenticate; loopback is not a security boundary for multi-user hosts.
-
----
 
 ## Related
 
 [[Networking]] [[loopback]] [[non-Routable address]] [[address port]] [[Internal routing]]
+
+## Sources
+
+- [Wikipedia — localhost](https://en.wikipedia.org/wiki/localhost)

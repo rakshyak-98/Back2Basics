@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Many DSA problems reduce to **counting objects** (subarrays, pairs, paths) or **bounding work** (max operations). These closed forms avoid brute-force enumeration.
 
@@ -28,7 +19,8 @@ Permutations of n distinct:        n!
 
 Always verify: **distinct versus identical**, **ordered versus unordered**, **contiguous versus any subsequence**.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Subarrays / substrings (contiguous)
 
@@ -83,7 +75,8 @@ When output is mod `10^9+7`:
 // See [[dsa modular arithmetics]]
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +85,7 @@ When output is mod `10^9+7`:
 | 2^n TLE | n > 20–22 | Need DP or math closed form, not bitmask枚举 |
 | n! overflow | n > 20 in 64-bit | Use BigInt or modular factorial |
 | C(n,k) wrong for large n,k | Cancel before multiply | Use multiplicative formula with mod inverse |
+
 
 ## Gotchas
 
@@ -104,11 +98,17 @@ When output is mod `10^9+7`:
 > [!WARNING]
 > **Interview "formula" questions** — state assumptions aloud (distinct? contiguous?) before plugging numbers.
 
-## When NOT to use
+
+## When not to use
 
 - **Problem has constraint structure** — e.g. "subarrays with sum divisible by k" needs prefix mod + frequency, not n(n+1)/2.
 - **Replacing proof with memorization** — formulas are sanity checks; derive from small n on whiteboard if unsure.
 
+
 ## Related
 
 [[Prefix sum]] [[sliding window]] [[dsa modular arithmetics]] [[Algorithm]] [[Data structure]]
+
+## Sources
+
+- [Wikipedia — dsa genera formula](https://en.wikipedia.org/wiki/dsa_genera_formula)

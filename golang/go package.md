@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `package foo` at the top of every file in `…/foo`. Importers use the module path + folder. Modules (`go.mod`) version a set of packages.
+## How it works
 
 ```txt
 module github.com/acme/app
@@ -32,7 +21,8 @@ import "github.com/acme/app/internal/auth"
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 go list ./...
@@ -55,7 +45,8 @@ func private() {} // same package only
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ func private() {} // same package only
 | Stale deps | Old sum/mod | `go mod tidy` |
 
 ---
+
 
 ## Gotchas
 
@@ -79,7 +71,8 @@ func private() {} // same package only
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Micro-packages of one tiny function** — prefer cohesive packages.
 - **Export everything “just in case”** — keep API small.
@@ -87,6 +80,11 @@ func private() {} // same package only
 
 ---
 
+
 ## Related
 
 [[go]] [[go cli]] [[go interface]] [[go functions]]
+
+## Sources
+
+- [Wikipedia — go package](https://en.wikipedia.org/wiki/go_package)

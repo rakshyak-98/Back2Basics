@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** start with `#!/usr/bin/env bash`, fail fast with `set -euo pipefail`, quote everything, treat `$1`/`$@` as inputs.
+## How it works
 
 ```txt
 shebang → set flags → parse args → do work → exit status
@@ -36,7 +25,8 @@ chmod +x  &&  ./script.sh args…
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 #!/usr/bin/env bash
@@ -96,7 +86,8 @@ File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -g
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +98,7 @@ File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -g
 | Broken if/fi | Typo `if`/`fi` | Match `then`/`fi`; use `[[` |
 
 ---
+
 
 ## Gotchas
 
@@ -121,7 +113,8 @@ File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -g
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Complex data / HTTP / JSON APIs as core logic** — Python/Go; bash as wrapper.
 - **Performance-critical loops over huge files** — awk/compiled tools.
@@ -129,6 +122,11 @@ File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -g
 
 ---
 
+
 ## Related
 
 [[Bash syntax]] [[bash flags]] [[Bash history]] [[jq]] [[awk]] [[Bash]]
+
+## Sources
+
+- [Wikipedia — bash script](https://en.wikipedia.org/wiki/bash_script)

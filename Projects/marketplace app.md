@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Buyer ──► Catalog / Search ──► Cart ──► Checkout ──► Fulfillment
@@ -36,7 +27,8 @@ Design for **eventual consistency** with explicit user-visible states — not on
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Core bounded contexts
 
@@ -100,7 +92,8 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -113,6 +106,7 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 | Tax wrong jurisdiction | Address vs IP vs nexus rules | Tax engine vendor; don't hand-roll VAT |
 
 ---
+
 
 ## Gotchas
 
@@ -133,7 +127,8 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single merchant store** — Shopify/WooCommerce; skip two-sided payout complexity.
 - **Classifieds (no payment on platform)** — trust/messaging only; narrower scope.
@@ -141,6 +136,11 @@ Rebuild index from changelog; tolerate seconds lag with "syncing" UX if needed
 
 ---
 
+
 ## Related
 
 [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]] · [[ecommerce-eks-layout]] · [[ACID]] · [[connection pooling]] · [[TLS (Transport Layer Security)]] · [[Etherium]] · [[Progressive search functionality]] · [[Mermaid (DSL)]]
+
+## Sources
+
+- [Wikipedia — marketplace app](https://en.wikipedia.org/wiki/marketplace_app)

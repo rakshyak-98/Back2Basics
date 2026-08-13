@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `data:image/…;base64,…` inlines bytes; great for tiny icons/email, costly for large photos.
+## How it works
 
 ```txt
 bytes → base64 → data URL in HTML/CSS/Markdown
@@ -34,7 +23,8 @@ bytes → base64 → data URL in HTML/CSS/Markdown
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```html
 <img alt="logo" src="data:image/png;base64,iVBORw0KGgoAAA…" />
@@ -48,7 +38,8 @@ bytes → base64 → data URL in HTML/CSS/Markdown
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@ bytes → base64 → data URL in HTML/CSS/Markdown
 | Broken base64 | truncated | Re-encode; check padding |
 
 ---
+
 
 ## Gotchas
 
@@ -69,11 +61,17 @@ bytes → base64 → data URL in HTML/CSS/Markdown
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Large photos / video posters** — normal URLs + CDN.
 - **Frequently changing assets** — lose cache granularity.
 
+
 ## Related
 
 [[html]] [[Markdown]] [[PDF (Portable Document Format)]]
+
+## Sources
+
+- [Wikipedia — embedded image](https://en.wikipedia.org/wiki/embedded_image)

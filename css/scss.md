@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 SCSS = CSS + variables, nesting, mixins, functions, `@use` modules. Build step compiles to plain CSS.
 
@@ -32,7 +23,8 @@ SCSS = CSS + variables, nesting, mixins, functions, `@use` modules. Build step c
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### File layout (design system)
 
@@ -129,7 +121,8 @@ npm i -D sass-embedded
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -141,6 +134,7 @@ npm i -D sass-embedded
 | Slow builds | `@use` graph + source maps | `--quiet-deps`; limit `additionalData` glob |
 
 ---
+
 
 ## Gotchas
 
@@ -158,7 +152,8 @@ npm i -D sass-embedded
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New micro-frontends with Tailwind/CSS-in-JS** — SCSS adds build complexity without team buy-in.
 - **Runtime theming / user accent colors** — CSS custom properties only.
@@ -166,6 +161,11 @@ npm i -D sass-embedded
 
 ---
 
+
 ## Related
 
 [[Animation]] · [[css]] · [[JavaScript]]
+
+## Sources
+
+- [Wikipedia — scss](https://en.wikipedia.org/wiki/scss)

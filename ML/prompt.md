@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Clear task + constraints + context beats clever wording; treat prompts as versioned configuration.
+## How it works
 
 ```txt
 [system rules] + [context] + [user task] → model → output
@@ -34,7 +23,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 ### Context
@@ -52,7 +42,8 @@ Answer using only Context. If missing, say "unknown".
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ Answer using only Context. If missing, say "unknown".
 | Injection | user overrides system | Delimit; strip instructions |
 
 ---
+
 
 ## Gotchas
 
@@ -73,11 +65,17 @@ Answer using only Context. If missing, say "unknown".
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Deterministic transforms** — regex/code.
 - **Private data you can’t send off-box** — local models or classical pipelines.
 
+
 ## Related
 
 [[prompt enginerring]] [[GPT]] [[claude ai]]
+
+## Sources
+
+- [Wikipedia — prompt](https://en.wikipedia.org/wiki/prompt)

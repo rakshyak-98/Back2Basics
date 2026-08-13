@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `ps` reads `/proc` once and prints a table; it is not live like `top` — re-run it when state changes.
+## How it works
 
 ```txt
 ps ──► /proc/<pid>/… ──► one snapshot
@@ -44,7 +33,8 @@ ps ──► /proc/<pid>/… ──► one snapshot
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Everyday views
@@ -79,7 +69,8 @@ kill -s QUIT <pid>              # SIGQUIT = 3
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +82,7 @@ kill -s QUIT <pid>              # SIGQUIT = 3
 | `grep` shows itself | Pattern matches `grep` | Use `pgrep -af` or `[g]rep` trick |
 
 ---
+
 
 ## Gotchas
 
@@ -108,7 +100,8 @@ kill -s QUIT <pid>              # SIGQUIT = 3
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Don’t use `ps` as a continuous dashboard** — use [[top]], `htop`, or metrics scrapers.
 - **Don’t use `ps` to find open files or sockets** — use [[lsof]] or `ss` ([[ss]]).
@@ -116,6 +109,11 @@ kill -s QUIT <pid>              # SIGQUIT = 3
 
 ---
 
+
 ## Related
 
 [[process]] [[Linux Process Theory]] [[top]] [[lsof]] [[Linux process commands]] [[file descriptors]] [[OOM (Linux Out Of Memory)]] [[ss]] [[gdb]]
+
+## Sources
+
+- [Wikipedia — ps](https://en.wikipedia.org/wiki/ps)

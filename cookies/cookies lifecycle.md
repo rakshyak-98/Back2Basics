@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** cookies lifecycle — session — deleted when tab/session ends
+## How it works
 
 **Cookies types**
 - Session -> deleted when tab/session ends
@@ -44,25 +33,24 @@
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[cookies]]
+
+## Sources
+
+- [Wikipedia — cookies lifecycle](https://en.wikipedia.org/wiki/cookies_lifecycle)

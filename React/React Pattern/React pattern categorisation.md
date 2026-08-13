@@ -1,89 +1,29 @@
-[[React Pattern]] [[React Pattern/Summary pattern]] [[React design patterns]]
+[[react hooks]] [[React Architecture]] [[Component Presentational Pattern]] [[Composite pattern]] [[Controlled and Uncontrolled component Pattern]] [[Provider pattern]]
 
 # React pattern categorisation
 
-> Map UI jobs to patterns — composition, hooks, compounds, providers — so a large codebase stays consistent.
+> React pattern categorisation shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Pick the pattern from the job: reuse UI → composition; reuse behavior → hooks/HOC/render props; shared subtree state → compound/provider; outside DOM → portal.
+## Recall
 
-```txt
-Job → Pattern → Example
-UI atoms → Composition → Button, Grid
-Cross-cut → HOC / hook → withAuth, useAuth
-Flexible UI + logic → Render props / hooks
-Linked parts → Compound → Tabs, Form.Field
-App-wide deps → Provider → Theme, Auth
-```
-
-### Interview map (words you can say)
-
-| Pattern | Plain meaning | Say in interview |
-|---------|---------------|------------------|
-| **Composition** | Nest small components | “Prefer over inheritance.” |
-| **HOC** | Wrap to inject behavior | “Easy wrapper hell — prefer hooks.” |
-| **Render props** | Logic calls `children(fn)` | “Mostly replaced by hooks.” |
-| **Compound** | Parts share context | “Declarative `<Tabs>` API.” |
-| **Provider** | Inject deps down tree | “Theme, auth, query client.” |
-| **Portal** | Render elsewhere in DOM | “Modals, toasts, tooltips.” |
-| **Container/Presentational** | Logic vs UI split | “Or just a hook + dumb UI.” |
-
-## Standard config / commands
-
-| Pattern | Example components |
-|---------|-------------------|
-| Composition | `Button`, `Card`, `Grid` |
-| HOC | `withAuth`, `withErrorBoundary` |
-| Render props | `DataFetcher` (legacy) |
-| Compound | `Modal`, `Dropdown`, `Tabs` |
-| Hooks | `useFetch`, `useModal` |
-| Provider | `AuthProvider`, `ThemeProvider` |
-| Factory | `WidgetFactory` (dynamic config) |
-| Portal | `Tooltip`, `Snackbar` |
-| Container/Presentational | `UserController` + `UserCard` |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Wrapper hell | Stacked HOCs | Convert to hooks |
-| Prop drilling 8 levels | No provider/compound | Context or compound API |
-| Inconsistent patterns per feature | No team map | Document “pattern per job” |
-| Untestable UI | Logic in presentational | Extract hook/container |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Don’t assign SOLID labels as cargo cult** — pattern follows the reuse problem.
-
-> [!WARNING]
-> **HOCs + render props still appear in interviews** — know them; ship hooks.
-
----
-
-## When NOT to use
-
-- **Greenfield tiny application** — composition + hooks cover 90%.
-- **Forcing a factory** — only when configuration truly drives component choice.
-
----
+What breaks first in production if `React pattern categorisation` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React Pattern/Summary pattern]] [[React Pattern/Higher order Component (HOCs)]] [[Render props]] [[React Pattern/Provider pattern]] [[React Pattern/Compound Components]]
+[[react hooks]] [[React Architecture]] [[Component Presentational Pattern]] [[Composite pattern]] [[Controlled and Uncontrolled component Pattern]] [[Provider pattern]]
+
+## Sources
+
+- [React official documentation](https://react.dev)

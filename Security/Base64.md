@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Base64 — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 turn binary data (like images, files, PDFs) into plain text so it can be safely sent over the internet or stored in places that only allow text.
@@ -44,7 +33,8 @@ It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -53,7 +43,8 @@ It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -70,12 +62,18 @@ It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[Security]]
+
+## Sources
+
+- [Wikipedia — Base64](https://en.wikipedia.org/wiki/Base64)

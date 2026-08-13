@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** **SAQ** = merchant self-assessment against PCI DSS controls. **GSS (Guest Service System)** path applies when **all** payment acceptance is delegated to a validated third party — aligns with.
+## How it works
 
 
 ```
@@ -33,7 +22,8 @@ Merchant environment          Provider hosted checkout
 
 Pair with [[Payments/PSI GSS]] for technical architecture that qualifies.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SAQ selection (simplified — confirm with QSA/acquirer)
 
@@ -69,7 +59,8 @@ Officer signs attestation that:
 - No prohibited storage of sensitive authentication data (CVV post-authentication)
 - Service providers PCI compliant
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@ Officer signs attestation that:
 | Expired SAQ | Calendar | Recomplete before deadline — fines possible |
 | Wrong SAQ version | PCI SSC updates | Download current PDF from pcisecuritystandards.org |
 | M&A due diligence fail | Missing AOC chain | Collect subprocessors list |
+
 
 ## Gotchas
 
@@ -88,10 +80,16 @@ Officer signs attestation that:
 - **Multi-PSP** — each must be in scope documentation.
 - **Logs/traces** accidentally capturing query parameters with tokens — rotate and redact.
 
-## When NOT to use
+
+## When not to use
 
 - Any system component receives, stores, or transmits full PAN — SAQ GSS path invalid; use appropriate full SAQ.
+
 
 ## Related
 
 [[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[Security/TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — SAQ GSS](https://en.wikipedia.org/wiki/SAQ_GSS)

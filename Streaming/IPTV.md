@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** IPTV (Internet Protocol Television) ships TV channels as IP packets on a managed network — multicast for live, unicast for catch-up and VOD.
+## How it works
 
 ```txt
 Headend / encoder
@@ -61,7 +50,8 @@ Middleware + EPG          [[CAS (Conditional Access System)]] / [[DRM]]
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Probe a live TS feed (operator-style)
 
@@ -95,7 +85,8 @@ Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same gro
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +98,7 @@ Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same gro
 | EPG wrong, video fine | Middleware channel map | Align EPG id ↔ service_id / stream key |
 
 ---
+
 
 ## Gotchas
 
@@ -124,7 +116,8 @@ Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same gro
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Millions of anonymous viewers on the public internet** — use [[HLS]] / [[DASH]] + CDN, not campus multicast.
 - **Browser P2P calls** — that is [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not IPTV headend.
@@ -133,6 +126,11 @@ Debug: STB IGMP join logs → switch port counters → `ffprobe` on the same gro
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[Multicast]] [[MPEG-TS]] [[CAS (Conditional Access System)]] [[DRM]] [[EME]] [[ingestion]] [[flussonic]] [[HLS]] [[DASH]] [[tsduck]] [[WebRTC]]
+
+## Sources
+
+- [Wikipedia — IPTV](https://en.wikipedia.org/wiki/IPTV)

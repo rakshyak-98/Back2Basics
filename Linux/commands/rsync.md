@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 rsync compares file lists and transfers **changed blocks** (rolling checksum). Archive mode `-a` preserves permissions, times, symlinks, recursion — your default for backups. **Source/dest slash semantics** determine whether you copy *contents* or the *directory itself*.
 
@@ -46,7 +37,8 @@ src   dest/   → creates dest/src/ (whole dir)
 | **-n** | Dry run | “Always dry-run on production first.” |
 | **-e ssh** | Remote over SSH | “rsync over SSH is the boring deploy path.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Safe backup pattern:**
 
@@ -92,7 +84,8 @@ rsync -av --bwlimit=5000 src/ dest/   # KB/s
 rsync -avP src/ dest/   # -P = --partial --progress
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -103,6 +96,7 @@ rsync -avP src/ dest/   # -P = --partial --progress
 | SSH hangs | Firewall; wrong key | `ssh -v`; `-e "ssh -o BatchMode=yes"` |
 | Disk full mid-sync | `--delete` + partial | `-P`; monitor dest; btrfs snapshot first |
 | Special files skipped | xattrs/ACLs | `-X` xattrs, `-A` ACLs (needs support both sides) |
+
 
 ## Gotchas
 
@@ -116,12 +110,18 @@ rsync -avP src/ dest/   # -P = --partial --progress
 - **Cron without `-n` review** — typo in path deletes at 3am.
 - **`-z` on LAN** — CPU cost; often slower on 10G local.
 
-## When NOT to use
+
+## When not to use
 
 - **Live database files** — raw copy of PostgreSQL/MySQL datadir without snapshot = corruption risk.
 - **Bidirectional sync with conflicts** — use Syncthing, git, or dedicated tools; rsync last-writer-wins.
 - **Many small files over high latency** — tar+ssh stream sometimes wins (`tar czf - . | ssh host tar xzf - -C dest`).
 
+
 ## Related
 
 [[diff]] [[SSH]] [[Linux file management]] [[file mount]]
+
+## Sources
+
+- [Wikipedia — rsync](https://en.wikipedia.org/wiki/rsync)

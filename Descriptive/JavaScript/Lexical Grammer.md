@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Lexical grammar** defines valid **tokens**. **Syntactic grammar** defines how tokens form statements and expressions. Two phases, one pipeline:
 
@@ -38,7 +29,8 @@ Key lexical rules engineers hit daily:
 
 Grammar is **not** context-free for regex versus divide — parser uses lookahead.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### ASI (automatic semicolon insertion) — grammar + line terminators
 
@@ -71,7 +63,8 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 # Syntax errors fail at parse — same grammar family as TS/JS
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 | Illegal return outside function | Script vs module top-level | Wrap in function or use module |
 | `\u` in identifier wrong | Invalid escape in identifier | Use valid Unicode or ASCII |
 | JSON.parse vs JS literal | JSON stricter grammar | Don't paste JS into JSON.parse |
+
 
 ## Gotchas
 
@@ -90,10 +84,16 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 - **Shebang** is not in ECMA grammar text but universally stripped — see [[Descriptive/JavaScript/HashBang Comment]].
 - **TypeScript** adds types erased before runtime — TS parser is superset grammar.
 
-## When NOT to use
+
+## When not to use
 
 - Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
+
 
 ## Related
 
 [[Descriptive/JavaScript/lexical analysis]] [[javascript]] [[Descriptive/JavaScript/function]] [[compiler/library file]]
+
+## Sources
+
+- [Wikipedia — Lexical Grammer](https://en.wikipedia.org/wiki/Lexical_Grammer)

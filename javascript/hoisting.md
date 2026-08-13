@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `function` declarations hoist fully; `var` hoists as `undefined`; `let`/`const` hoist to TDZ until initialized — access throws.
+## How it works
 
 ```txt
 console.log(a) // undefined with var; TDZ ReferenceError with let
@@ -33,7 +22,8 @@ let b = 2
 | **function decl** | Hoisted body | “Can call above definition.” |
 | **function expr** | Not hoisted as fn | “`const f = () =>` is TDZ like const.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // Prefer
@@ -51,7 +41,8 @@ function f() {}
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ function f() {}
 | Duplicate decl errors | Redeclare `let` | One binding |
 
 ---
+
 
 ## Gotchas
 
@@ -72,13 +64,19 @@ function f() {}
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Designing APIs around hoisting** — write top-down clarity instead.
 - **`var` in new code** — prefer `let`/`const`.
 
 ---
 
+
 ## Related
 
 [[prototype]] [[IIFC]] [[self-defining functions]]
+
+## Sources
+
+- [Wikipedia — hoisting](https://en.wikipedia.org/wiki/hoisting)

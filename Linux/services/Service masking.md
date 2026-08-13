@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** disable removes wants; mask makes start impossible — use for bluetooth/cups on headless boxes.
+## How it works
 
 ```txt
 enabled  → starts at boot
@@ -37,7 +26,8 @@ masked   → /etc/systemd/system/foo.service → /dev/null
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo systemctl mask --now bluetooth.service
@@ -57,7 +47,8 @@ sudo systemctl mask --now cups.socket cups.service
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ sudo systemctl mask --now cups.socket cups.service
 | Can’t mask | Read-only `/usr` | Mask via `/etc/systemd/system` |
 
 ---
+
 
 ## Gotchas
 
@@ -78,13 +70,19 @@ sudo systemctl mask --now cups.socket cups.service
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Temporary stop** — `stop`/`disable` is enough.
 - **Containers** — often no such units; don’t fight the image.
 
 ---
 
+
 ## Related
 
 [[systemctl]] [[Services commands]] [[systemd]] [[bluetoothctl]]
+
+## Sources
+
+- [Wikipedia — Service masking](https://en.wikipedia.org/wiki/Service_masking)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Master file includes sites-enabled, snippets, and `*_params` — `nginx -T` shows the merged truth.
+## How it works
 
 ```txt
 /etc/nginx/nginx.conf
@@ -36,7 +25,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 # typical Debian http block ends with:
@@ -59,7 +49,8 @@ sudo nginx -T | grep -E 'server_name|include'
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ sudo nginx -T | grep -E 'server_name|include'
 | Module missing | `modules-enabled` | Install `libnginx-mod-*` |
 
 ---
+
 
 ## Gotchas
 
@@ -80,13 +72,19 @@ sudo nginx -T | grep -E 'server_name|include'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One mega `nginx.conf` for many apps** — split vhosts.
 - **Hand-editing generated snippets** — regenerate from template.
 
 ---
 
+
 ## Related
 
 [[Nginx/Configuration]] [[nginx files]] [[nginx fastcgi]] [[multi-domain]]
+
+## Sources
+
+- [Wikipedia — nginx config structure](https://en.wikipedia.org/wiki/nginx_config_structure)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **ethtool** talks to the **NIC driver**, not just the kernel routing stack:
 
@@ -29,7 +20,8 @@ Use when `ip link` shows UP but performance is wrong — cable/negotiation/offlo
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Link and speed
 
@@ -65,7 +57,8 @@ sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +68,7 @@ sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 | Changes vanish on reboot | No persist rule | NM dispatcher script or systemd unit |
 
 ---
+
 
 ## Gotchas
 
@@ -89,12 +83,18 @@ sudo ethtool -K eth0 tso off gso off   # debug checksum bugs
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't tune ring buffers before confirming **application and kernel** aren't the bottleneck (`ss -ti`, CPU softirq). ethtool is layer 1–2, not routing.
 
 ---
 
+
 ## Related
 
 [[10 NIC]] [[ss]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[UDP]]
+
+## Sources
+
+- [Wikipedia — ethtool](https://en.wikipedia.org/wiki/ethtool)

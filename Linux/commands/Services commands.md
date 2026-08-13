@@ -6,17 +6,33 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+[[systemd]] manages **units** (service, socket, timer, mount). `systemctl` talks to PID 1 over D-Bus. Failed units stay marked until reset. D-Bus ([[busctl]], `dbus-monitor`) is the wire protocol many daemons expose beyond systemd.
+
+```
+systemctl ──D-Bus──► systemd ──► unit files ──► processes
+                         │
+                    busctl / dbus-monitor (other daemons on same bus)
+```
+
+| Layer | Tool | When |
+|-------|------|------|
+| Unit lifecycle | `systemctl` | Start/stop/enable/mask |
+| Logs | [[journalctl]] | Why it failed |
+| D-Bus API | [[busctl]] | Hostname, login, NM APIs |
+| Legacy | `service` | SysV wrapper on some distros |
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **systemctl** | Start/stop/enable units | “enable ≠ start — boot vs now.” |
+| **status** | Active + recent logs | “systemctl status is first look.” |
+| **daemon-reload** | Reread unit files | “After edit unit → daemon-reload.” |
+| **mask** | Block start forever | “mask > disable for must-not-run.” |
+| **journalctl -u** | Unit logs | “Pair status with -xe / -u logs.” |
+
 
 ## Quick reference
 
@@ -24,7 +40,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **systemd — daily operations:**
 
@@ -86,40 +103,22 @@ sudo service nginx status               # often wraps systemctl
 /etc/init.d/nginx status                # legacy script
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-[[systemd]] manages **units** (service, socket, timer, mount). `systemctl` talks to PID 1 over D-Bus. Failed units stay marked until reset. D-Bus ([[busctl]], `dbus-monitor`) is the wire protocol many daemons expose beyond systemd.
+## Examples
 
-```
-systemctl ──D-Bus──► systemd ──► unit files ──► processes
-                         │
-                    busctl / dbus-monitor (other daemons on same bus)
+```bash
+# …
 ```
 
-| Layer | Tool | When |
-|-------|------|------|
-| Unit lifecycle | `systemctl` | Start/stop/enable/mask |
-| Logs | [[journalctl]] | Why it failed |
-| D-Bus API | [[busctl]] | Hostname, login, NM APIs |
-| Legacy | `service` | SysV wrapper on some distros |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **systemctl** | Start/stop/enable units | “enable ≠ start — boot vs now.” |
-| **status** | Active + recent logs | “systemctl status is first look.” |
-| **daemon-reload** | Reread unit files | “After edit unit → daemon-reload.” |
-| **mask** | Block start forever | “mask > disable for must-not-run.” |
-| **journalctl -u** | Unit logs | “Pair status with -xe / -u logs.” |
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -130,6 +129,7 @@ systemctl ──D-Bus──► systemd ──► unit files ──► processes
 | Port in use | [[ss]] `-lntp` | Stop conflicting unit; change bind |
 | D-Bus `Connection refused` | dbus daemon down | `systemctl status dbus`; start dbus |
 | Enable doesn't survive reboot | Masked or generator override | `systemctl is-enabled`; check `/etc/systemd/system/` |
+
 
 ## Gotchas
 
@@ -145,18 +145,18 @@ systemctl ──D-Bus──► systemd ──► unit files ──► processes
 > [!WARNING]
 > **`dbus-monitor --system` on busy host** — flood. Filter by service or use [[journalctl]] first.
 
-## When NOT to use
+
+## When not to use
 
 - **Container inner lifecycle** → `docker compose`, k8s probes — host systemctl is outer layer.
 - **User session apps** → `systemctl --user` (different bus) or desktop tools.
 - **configuration file syntax** → edit files in `/etc`; systemctl only applies units.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[systemctl]] [[systemd]] [[busctl]] [[D-Bus]] [[journalctl]] [[Services commands]] [[crontab]]
+
+## Sources
+
+- [Wikipedia — Services commands](https://en.wikipedia.org/wiki/Services_commands)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Each invocation **resets a timer**. Only after `delay` ms of silence does `func` run with the **latest** arguments.
 
@@ -36,7 +27,8 @@ versus [[throttle]]: throttle fires at most once per window **during** continuou
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```javascript
 function debounce(func, delay) {
@@ -79,7 +71,8 @@ Search box: **300 ms** typical; resize: **150–250 ms**.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +84,7 @@ Search box: **300 ms** typical; resize: **150–250 ms**.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -101,7 +95,8 @@ Search box: **300 ms** typical; resize: **150–250 ms**.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Must execute every event** — gaming input, drawing apps — use throttle or raw handler.
 - **Server-side rate limiting substitute** — debounce is client UX only; enforce limits on API.
@@ -109,6 +104,11 @@ Search box: **300 ms** typical; resize: **150–250 ms**.
 
 ---
 
+
 ## Related
 
 [[throttle]] · [[user triggered event]] · [[event listener]] · [[referential equality]] · [[React]]
+
+## Sources
+
+- [Wikipedia — debouncing](https://en.wikipedia.org/wiki/debouncing)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You connect a client to an IRC server, join `#channels`, and messages fan out through the network — group chat by design, with optional private messages and file DCC.
+## How it works
 
 ```txt
 Client ──TCP 6667/6697──► IRC server ◄──► other servers (same network)
@@ -44,7 +33,8 @@ Client ──TCP 6667/6697──► IRC server ◄──► other servers (same 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Quick smoke test (plain; prefer TLS in real use)
@@ -73,7 +63,8 @@ SASL   = true
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,6 +76,7 @@ SASL   = true
 | Split / missing users | Net split between servers | Wait for sync; check network status |
 
 ---
+
 
 ## Gotchas
 
@@ -99,7 +91,8 @@ SASL   = true
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Product chat for customers** — use Slack/Teams/Discord APIs with moderation and SSO.
 - **Guaranteed mobile push + history** — IRC history is client-dependent unless you add a bouncer (ZNC).
@@ -107,6 +100,11 @@ SASL   = true
 
 ---
 
+
 ## Related
 
 [[Protocol]] [[TCP]] [[webSocket]] [[WebRTC]] [[SOCKS (Socket Secure)]]
+
+## Sources
+
+- [Wikipedia — IRC](https://en.wikipedia.org/wiki/IRC)

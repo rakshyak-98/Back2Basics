@@ -1,156 +1,64 @@
-[[Linux]] [[process]] [[Linux/commands/gdb]] [[OOM (Linux Out Of Memory)]]
+[[process]] [[bash flags]] [[systemd]] [[CLI]]
 
 # Error status code
 
-> Exit status is the 8-bit code a process returns to its parent — `0` means success; non-zero means failure or death by signal.
+> Every Linux process exits with an 8-bit status (0–255) — shells, systemd, and CI pipelines use it to decide whether a step succeeded.
 
----
+Convention: **0 = success**, **1–255 = failure** (meaning is program-specific except a few reserved values). Bash stores the last foreground exit code in `$?`. Pipelines use `$PIPESTATUS` unless `set -o pipefail` is enabled ([[bash flags]]).
 
-## Index
+## Common exit codes
 
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
+| Code | Typical meaning |
+|------|-----------------|
+| 0 | Success |
+| 1 | General error |
+| 2 | Misuse of shell builtin / wrong arguments (`grep` no match is 1, not 2) |
+| 126 | Command found but not executable |
+| 127 | Command not found |
+| 128+N | Killed by signal N (e.g. 137 = 128+9 SIGKILL) |
+| 130 | Interrupted by SIGINT (Ctrl+C) |
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Exit 127 | `which cmd`; PATH in service env | Install binary; fix unit `Environment=` |
-| Exit 126 | `ls -l`; noexec mount | `chmod +x`; fix mount options |
-| Exit 137 | `dmesg` OOM; `kill -9` | Memory limit / leak — [[OOM (Linux Out Of Memory)]] |
-| Exit 139 | core / gdb `bt` | Fix segfault — [[Stack trace]] |
-| Exit 1, vague | App logs; run foreground | Don’t guess — print your own codes |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
+## systemd service failures
 
 ```bash
-# …
+systemctl status myapp.service
+# Main PID: code=exited, status=1/FAILURE
+
+journalctl -u myapp -n 50 --no-pager
 ```
 
-## Mental model
+| systemd hint | Meaning |
+|--------------|---------|
+| `status=203/EXEC` | `ExecStart` binary missing or not executable |
+| `status=200/CHDIR` | `WorkingDirectory` invalid |
+| `status=226/NAMESPACE` | Namespace setup failed |
 
-**Say it in one breath:** Shell and supervisors only see a small integer; conventions map common failures, and `128+N` means “killed by signal N.”
-
-```txt
-program ends
-   │
-   ├─ exit(0) / return 0     → success
-   ├─ exit(1..125)           → app/shell-defined error
-   └─ killed by signal N     → status 128+N  (e.g. SIGKILL → 137)
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Exit status** | Byte parent waits on | “`waitpid` fills it; shell exposes `$?`.” |
-| **0** | Success | “Unix convention: zero is OK.” |
-| **Non-zero** | Failure (broad) | “Any non-zero fails `set -e` pipelines carefully.” |
-| **126 / 127** | Not executable / not found | “Permission vs PATH — different fixes.” |
-| **128 + N** | Killed by signal N | “137 → SIGKILL; 139 → SIGSEGV.” |
-| **errno** | Per-syscall error | “Not the same as process exit code.” |
-
-### Common codes (say these)
-
-| Code | Meaning |
-|------|---------|
-| **0** | Success |
-| **1** | General error |
-| **2** | Misuse of shell builtin (common convention) |
-| **126** | Found but not executable (permission / not a binary) |
-| **127** | Command not found |
-| **130** | Terminated by SIGINT (Ctrl-C) — `128+2` |
-| **137** | SIGKILL — `128+9` (OOM killer often) |
-| **139** | SIGSEGV — `128+11` |
-| **143** | SIGTERM — `128+15` |
-| **255** | Out of range / wrapped / `exit(-1)` |
-
----
-
-## Standard config / commands
+## Scripts: test exit codes correctly
 
 ```bash
-true; echo $?          # 0
-false; echo $?         # 1
-./missing; echo $?     # 127
-bash -c 'kill -9 $$'; echo $?   # 137 in parent
-
-# Scripts
+#!/bin/bash
 set -euo pipefail
-cmd || { echo "failed: $?"; exit 1; }
 
-# From C
-exit(code);            # only low 8 bits matter
+if grep -q error /var/log/app.log; then
+  echo "errors present"
+fi
+
+# grep returns 1 when no match — don't use set -e blindly:
+if ! grep -q pattern file; then
+  echo "not found"
+fi
 ```
 
-```c
-#include <sys/wait.h>
-int status;
-waitpid(pid, &status, 0);
-if (WIFEXITED(status))   code = WEXITSTATUS(status);
-if (WIFSIGNALED(status)) sig  = WTERMSIG(status);
-```
+## OOM and signal exits
 
-| Knob | Why it matters |
-|------|----------------|
-| `set -e` | Abort on non-zero — know pipefail interactions |
-| `pipefail` | Pipeline status = rightmost non-zero (bash) |
-| systemd `SuccessExitStatus=` | Treat some non-zero as OK for the unit |
-| Container `restartPolicy` | Restarts keyed off exit code |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Only 8 bits.** `exit(256)` becomes `0` — success by accident.
-
-> [!WARNING]
-> **`$?` after a pipeline** without `pipefail` is the last command — earlier failures hide.
-
-> [!WARNING]
-> **137 is not “app error 137”.** Decode as signal before reading app docs.
-
-> [!WARNING]
-> **errno ≠ exit code.** A failed `read` sets errno; the process may still `exit(0)` if you ignore it.
-
----
-
-## When NOT to use
-
-- **Rich error detail** — use stderr messages / structured logs; status is a coarse summary.
-- **Cross-machine RPC** — map to HTTP/gRPC codes explicitly; don’t leak raw Unix statuses.
-- **Distinguishing 50 application failures** — stick to small reserved sets; document them.
-
----
-
-## Rollback
-
-1. …
-
-## Escalation
-
-…
+Container or process killed by OOM often shows **137** (SIGKILL). See [[OOM (Linux Out Of Memory)]].
 
 ## Related
 
-[[process]] [[Linux Process Theory]] [[OOM (Linux Out Of Memory)]] [[Stack trace]] [[gdb]] [[systemctl]] [[journalctl]]
+[[process]] · [[bash flags]] · [[systemd]] · [[bash script]]
+
+## Sources
+
+- `man 3 sysexits` (BSD conventions, not universal on Linux)
+- `man 7 signal`
+- [systemd.service(5) — ExecStart status](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)

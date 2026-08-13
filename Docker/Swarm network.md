@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Swarm mode schedules services on a node cluster. **Overlay** networks encapsulate container traffic between hosts so `web` can resolve and dial `db` cluster-wide.
+## How it works
 
 ```txt
 Node A (web task) ══overlay══ Node B (db task)
@@ -34,7 +23,8 @@ Node A (web task) ══overlay══ Node B (db task)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 docker swarm init
@@ -54,7 +44,8 @@ docker service inspect web --pretty
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ docker service inspect web --pretty
 | “This node is not a swarm manager” | Worker context | Route manage commands to manager |
 
 ---
+
 
 ## Gotchas
 
@@ -79,7 +71,8 @@ docker service inspect web --pretty
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single-host compose** — bridge + [[Docker compose]] is enough.
 - **Large multi-tenant production** — Kubernetes/ECS usually win.
@@ -87,6 +80,11 @@ docker service inspect web --pretty
 
 ---
 
+
 ## Related
 
 [[Docker compose]] [[docker cli]] [[docker container]] [[P2P (Peer-to-Peer)]]
+
+## Sources
+
+- [Wikipedia — Swarm network](https://en.wikipedia.org/wiki/Swarm_network)

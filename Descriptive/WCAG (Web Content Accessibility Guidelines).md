@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 WCAG defines **success criteria** grouped under four principles (**POUR**):
 
@@ -30,7 +21,8 @@ Conformance **levels**: **A** (minimum), **AA** (industry standard / many laws),
 
 Developed by W3C **WAI** (Web Accessibility Initiative) — referenced by ADA, EN 301 549, Section 508.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Level summary (what teams actually ship)
 
@@ -79,7 +71,8 @@ npx axe https://localhost:3000 --exit
 - Foreground `#595959` on white → verify with WebAIM contrast checker
 - Don't rely on color alone for errors — add icon + text
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +81,7 @@ npx axe https://localhost:3000 --exit
 | Screen reader silent on update | No live region | `aria-live="polite"` on status toast |
 | Form errors not announced | Error only red border | Link `aria-describedby` to error text |
 | Custom widget wrong role | Div soup | Use semantic HTML first; ARIA only when needed |
+
 
 ## Gotchas
 
@@ -99,11 +93,17 @@ npx axe https://localhost:3000 --exit
 - **PDF-only** content fails unless tagged accessible PDF — HTML preferred.
 - **AA is the contract** — claiming AAA on one page ≠ whole product AAA.
 
-## When NOT to use
+
+## When not to use
 
 - WCAG is not a substitute for **user testing** with assistive technology users.
 - Don't block ship on AAA contrast for decorative hero imagery — mark decorative `alt=""`.
 
+
 ## Related
 
 [[Descriptive/web development]] [[css/Animation]] [[React/React data management]] [[Security/content security policy]]
+
+## Sources
+
+- [Wikipedia — WCAG](https://en.wikipedia.org/wiki/WCAG)

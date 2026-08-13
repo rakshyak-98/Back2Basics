@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Generate vhost files from templates, `nginx -t`, then reload — never edit live conf blindly in deploy scripts.
+## How it works
 
 
 ```
@@ -28,7 +17,8 @@ Nginx reload is graceful (workers finish in-flight requests). **Always** `nginx 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### File ownership for static roots
 
@@ -89,7 +79,8 @@ Keep previous configuration versioned in git or object storage.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +91,7 @@ Keep previous configuration versioned in git or object storage.
 | Include path broken | No shell expansion in `include` | Use absolute paths in generated configs |
 
 ---
+
 
 ## Gotchas
 
@@ -114,13 +106,19 @@ Keep previous configuration versioned in git or object storage.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Kubernetes ingress** — use Ingress controller or Gateway API; don't shell out to host Nginx from pods.
 - **Multi-host fleet** — Ansible/Terraform managing `/etc/nginx` beats per-application sudo from runtime.
 
 ---
 
+
 ## Related
 
 [[Configuration]] [[multi-domain]] [[nginx files]]
+
+## Sources
+
+- [Wikipedia — nginx auto file configuration](https://en.wikipedia.org/wiki/nginx_auto_file_configuration)

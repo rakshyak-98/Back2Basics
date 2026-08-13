@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Many Node objects (streams, sockets, processes) *are* EventEmitters. `on`/`once` subscribe; `emit` calls listeners now (same tick).
+## How it works
 
 ```txt
 ee.on('data', fn) → ee.emit('data', chunk) → fn(chunk)
@@ -31,7 +20,8 @@ ee.on('data', fn) → ee.emit('data', chunk) → fn(chunk)
 | **MaxListeners** | Leak warning threshold | “Default 10 — often a forgotten `on`.” |
 | **error event** | Special | “Unhandled `error` can crash the process.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { EventEmitter } from 'node:events'
@@ -51,7 +41,8 @@ ee.setMaxListeners(20) // only if intentional fan-out
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ ee.setMaxListeners(20) // only if intentional fan-out
 | Memory leak | Long-lived emitter + add forever | Remove on shutdown / request end |
 
 ---
+
 
 ## Gotchas
 
@@ -72,13 +64,19 @@ ee.setMaxListeners(20) // only if intentional fan-out
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Cross-process messaging** — use Redis/NATS/queues, not in-memory emitters.
 - **Request/response APIs** — return promises; don’t invent event protocols casually.
 
 ---
 
+
 ## Related
 
 [[EventEmitter]] [[Stream]] [[Node events driven]] [[Stream Events]]
+
+## Sources
+
+- [Wikipedia — event emitter](https://en.wikipedia.org/wiki/event_emitter)

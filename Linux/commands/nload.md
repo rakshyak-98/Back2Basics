@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `nload` polls `/proc/net/dev` (or pcap on some builds) and draws moving averages for **incoming** and **outgoing** throughput per interface. One screen, two graphs — not per-process, not per-connection.
 
@@ -41,7 +32,8 @@
 | **iface down** | No data | “Wrong device name → empty.” |
 | **remote SSH** | Over own link | “Measuring the link you use skews it.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # All interfaces, interactive switch with arrow keys
@@ -78,7 +70,8 @@ watch -n1 'ip -s link show eth0'
 sar -n DEV 1 5
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ sar -n DEV 1 5
 | Can't identify culprit | Interface-level only | `iftop`, `nethogs`, `tcpdump` |
 | Spikes not visible | Avg window too long | F2 → shorten avg time in nload |
 | Permission errors | Rare; needs cap for some modes | Run as root or use `ip -s link` |
+
 
 ## Gotchas
 
@@ -102,13 +96,19 @@ sar -n DEV 1 5
 > [!WARNING]
 > **Not installed by default** on minimal images — `apt install nload`; don't assume presence in runbooks.
 
-## When NOT to use
+
+## When not to use
 
 - **Per-process attribution** → `nethogs`, eBPF tools.
 - **Historical analysis** → `sar`, Grafana, flow logs.
 - **Production dashboards** → proper monitoring stack.
 - **Headless automation** → parse `/proc/net/dev` or `ip -s link`.
 
+
 ## Related
 
 [[Linux network commands]] [[ip]] [[ss]] [[top]] [[netstat]]
+
+## Sources
+
+- [Wikipedia — nload](https://en.wikipedia.org/wiki/nload)

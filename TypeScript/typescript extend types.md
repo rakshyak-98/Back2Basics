@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Interfaces can `extends` and merge by name. Type aliases use `&` / mapped types. Augment third-party modules with `declare module` carefully.
+## How it works
 
 ```txt
 interface A { x: number }
@@ -35,7 +24,8 @@ type C = A & { z: boolean }
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 interface Animal { name: string }
@@ -58,7 +48,8 @@ declare module 'express-serve-static-core' {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ declare module 'express-serve-static-core' {
 | Circular extends | A↔B | Break with indirection |
 
 ---
+
 
 ## Gotchas
 
@@ -82,7 +74,8 @@ declare module 'express-serve-static-core' {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Open-ended monkey patches** — wrap instead.
 - **Deep extends chains** — compose smaller types.
@@ -90,6 +83,11 @@ declare module 'express-serve-static-core' {
 
 ---
 
+
 ## Related
 
 [[typescript types]] [[ambient modules]] [[Triple-Slash Directives]]
+
+## Sources
+
+- [Wikipedia — typescript extend types](https://en.wikipedia.org/wiki/typescript_extend_types)

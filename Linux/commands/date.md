@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `date` reads/writes the **system clock** (via `timedatectl` / NTP underneath). For scripting, you care about **format strings** (`+%s`, `+%Y-%m-%d`) and **relative parsing** (`-d "+7 days"`). Wrong timezone assumption is the #1 bug — always know if you need UTC (`-u`) or local.
 
@@ -42,7 +33,8 @@ epoch ──date -d @N──► human (debug logs)
 | **TZ** | Timezone env | “TZ=UTC date.” |
 | **timedatectl** | systemd time | “Prefer for set-timezone.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Relative future (expiry checks, cookie TTL)
@@ -78,7 +70,8 @@ timedatectl status              # NTP sync state — fix before trusting date ma
 timedatectl set-timezone UTC    # Servers: usually UTC; apps convert for users
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ timedatectl set-timezone UTC    # Servers: usually UTC; apps convert for users
 | Cron ran "wrong" hour | `/etc/localtime`, DST | Use UTC in crontab for global fleets |
 | `-d @0` wrong century | Epoch unit (s vs ms) | Divide ms timestamps by 1000 |
 | Future date parses as past | Locale date order | Use ISO `2026-07-22` form |
+
 
 ## Gotchas
 
@@ -99,11 +93,17 @@ timedatectl set-timezone UTC    # Servers: usually UTC; apps convert for users
 - **`date -s` sets clock** — requires root; can break NTP/chrony if abused.
 - **Subsecond** — `+%s` is seconds only; use `%3N` (GNU) for milliseconds in filenames.
 
-## When NOT to use
+
+## When not to use
 
 - **Durations in application logic** — use language/stdlib (monotonic clocks for timeouts).
 - **Distributed ordering** — wall clock skew across nodes; use logical clocks or NTP discipline first.
 
+
 ## Related
 
 [[Scripting]] [[crontab]] [[Linux system management]] [[NTP sync]] [[journalctl]]
+
+## Sources
+
+- [Wikipedia — date](https://en.wikipedia.org/wiki/date)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **DEFLATE** (RFC 1951) is the **algorithm**; **gzip** (RFC 1952) and **zlib** (RFC 1950) are **container formats** around it:
 
@@ -36,7 +27,8 @@ Properties:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### CLI compress/decompress
 
@@ -75,7 +67,8 @@ app.use(compression({ threshold: 1024 }));
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,6 +78,7 @@ app.use(compression({ threshold: 1024 }));
 | Android okhttp issues | Missing `Accept-Encoding` | Client must decode or disable gzip |
 
 ---
+
 
 ## Gotchas
 
@@ -99,12 +93,18 @@ app.use(compression({ threshold: 1024 }));
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Skip compression for **already compressed** media (JPEG, PNG, video) and **TLS 1.3 0-RTT** sensitive paths where timing matters more than bytes.
 
 ---
 
+
 ## Related
 
 [[mime type]] [[response header]] [[Nginx Configuration]] [[TCP]]
+
+## Sources
+
+- [Wikipedia — dflate](https://en.wikipedia.org/wiki/dflate)

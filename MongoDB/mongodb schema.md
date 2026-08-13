@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Collections don’t force one shape; application + optional validators decide required fields and types.
+## How it works
 
 ```txt
 App writes docs → (optional $jsonSchema) → BSON on disk
@@ -35,7 +24,8 @@ Design for: queries you run, not SQL tables
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.createCollection('users', {
@@ -61,7 +51,8 @@ db.createCollection('users', {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +62,7 @@ db.createCollection('users', {
 | App assumes field always present | sparse docs | Default in app or `$ifNull` |
 
 ---
+
 
 ## Gotchas
 
@@ -82,11 +74,17 @@ db.createCollection('users', {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Strict relational invariants across many entities** — use SQL.
 - **Heavy multi-document joins as the default access** — rethink model.
 
+
 ## Related
 
 [[MongoDB query validation]] [[mongodb migration]] [[mongodb denormalization]] [[mognodb indexing]]
+
+## Sources
+
+- [Wikipedia — mongodb schema](https://en.wikipedia.org/wiki/mongodb_schema)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **NVENC** is a **dedicated encode ASIC** on NVIDIA GPUs (GeForce, RTX, datacenter L4/A10/A100 lines). It runs **parallel to CUDA cores** — multiple live channels per GPU without starving compute. Quality at equal bitrate historically lagged **libx264**; modern **RTX 40+ / Ada** encoders close the gap for live **CBR** workloads.
 
@@ -37,7 +28,8 @@ Pair with **`-hwaccel cuda`** for decode when transcoding on GPU.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Live CBR (RTMP ingest)
 
@@ -96,7 +88,8 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -108,6 +101,7 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 | HEVC won't play on device | Profile/ tag | `-tag:v hvc1` for Apple |
 
 ---
+
 
 ## Gotchas
 
@@ -128,7 +122,8 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
 - **Film grain VoD mastering** — software encode preserves detail better at same size.
@@ -136,6 +131,11 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 
 ---
 
+
 ## Related
 
 [[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]] [[ingestion]] [[Microservice]]
+
+## Sources
+
+- [Wikipedia — NVENC](https://en.wikipedia.org/wiki/NVENC)

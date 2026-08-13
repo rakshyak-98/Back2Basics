@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Each node is both client and server. Adding users adds capacity — and also adds NAT/firewall pain.
+## How it works
 
 ```txt
      Peer A ←──direct or relay──► Peer B
@@ -45,7 +34,8 @@ Used for: video calls ([[WebRTC]]), file sharing, game updates, live contributio
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 WebRTC mesh (2 peers): `RTCPeerConnection` + signaling — see [[WebRTC Signaling channels]].
 
@@ -59,7 +49,8 @@ pc.addTrack(localTrack)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ pc.addTrack(localTrack)
 | Mobile battery drain | Always-on mesh | Limit links; duty-cycle; move heavy work to edge servers |
 
 ---
+
 
 ## Gotchas
 
@@ -84,7 +76,8 @@ pc.addTrack(localTrack)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-to-many OTT video** — [[HLS]] / [[DASH]] + CDN.
 - **Strong audit / compliance** — central server with clear custody may be required.
@@ -92,6 +85,11 @@ pc.addTrack(localTrack)
 
 ---
 
+
 ## Related
 
 [[NAT Traversal]] [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[IPFS (InterPlanetry File System)]] [[UDP]]
+
+## Sources
+
+- [Wikipedia — P2P](https://en.wikipedia.org/wiki/P2P)

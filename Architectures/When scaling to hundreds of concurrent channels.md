@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Treat each channel as its own pipeline (ingest → transcode → packager → CDN); share platforms, not fate.
+## How it works
 
 ```txt
 Channel N:  ingest ──► transcoder ──► packager ──► origin/CDN
@@ -36,7 +25,8 @@ Channel N:  ingest ──► transcoder ──► packager ──► origin/CDN
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 Per channel budget (example):
@@ -54,7 +44,8 @@ Per channel budget (example):
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ Per channel budget (example):
 | Wrong channel content | Routing / keyer | Fix channel_id mapping |
 
 ---
+
 
 ## Gotchas
 
@@ -75,11 +67,17 @@ Per channel budget (example):
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single 24/7 linear channel** — simpler dedicated box is enough.
 - **VoD only** — no live concurrency problem; use normal ABR+CDN.
 
+
 ## Related
 
 [[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]] [[ABR]] [[backpressure]] [[transcoding]]
+
+## Sources
+
+- [Wikipedia — When scaling to hundreds of concurrent channels](https://en.wikipedia.org/wiki/When_scaling_to_hundreds_of_concurrent_channels)

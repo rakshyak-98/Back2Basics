@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Node cluster uses `cluster` module (or PM2) to fork **multiple Node processes** bound to the same port via SO_REUSEPORT / master handoff. Each worker is a full V8 isolate — no shared memory between workers.
 
@@ -31,7 +22,8 @@ Fixes **CPU-bound** and **event-loop saturation** on multi-core machines. Does *
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal cluster module
 
@@ -99,7 +91,8 @@ Coordinate with K8s `terminationGracePeriodSeconds` and load balancer drain.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +110,7 @@ pm2 monit
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -133,7 +127,8 @@ pm2 monit
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **I/O-bound API with low CPU** — single process + async I/O may suffice; measure first.
 - **Serverless / Lambda** — platform scales instances; cluster inside one invocation is wrong model.
@@ -141,6 +136,11 @@ pm2 monit
 
 ---
 
+
 ## Related
 
 [[Event Loop]] [[worker threads]] [[Node.js run as a non-privileged user]] [[Express middleware]]
+
+## Sources
+
+- [Wikipedia — clustering](https://en.wikipedia.org/wiki/clustering)

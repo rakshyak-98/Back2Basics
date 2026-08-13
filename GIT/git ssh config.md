@@ -6,20 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
-
-**Say it in one breath:** git ssh configuration — bad owner or permissions on /home/mihir/.ssh/config
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 # ~/.ssh/config
@@ -33,7 +23,8 @@ chmod 600 ~/.ssh/config
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -44,6 +35,7 @@ chmod 600 ~/.ssh/config
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -51,13 +43,19 @@ chmod 600 ~/.ssh/config
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not disable `StrictHostKeyChecking` in production automation.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git ssh config](https://en.wikipedia.org/wiki/git_ssh_config)

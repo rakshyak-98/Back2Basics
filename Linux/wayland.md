@@ -1,115 +1,50 @@
-[[display server]] [[x11]] [[windowing system]] [[Linux display manager]]
+[[display server]] [[x11]] [[compositors]] [[Linux display manager]]
 
-# Wayland
+# wayland
 
-> Wayland — app (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
+> Wayland is a display protocol where clients render locally and hand buffers to a compositor — the modern default on GNOME, KDE, and tiling compositors like Sway.
 
----
+Unlike X11's separate server, the **Wayland compositor** combines display server, compositor, and often window management. Clients talk Wayland wire protocol; there is no `DISPLAY` — use `WAYLAND_DISPLAY` (usually `wayland-0`).
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**X11:** clients send drawing requests to X server; any client can snoop/input with enough tricks.
-
-**Wayland:** clients render locally (GPU); compositor (Weston, Mutter, Sway, KWin) **alone** composites to screen. Security boundary = compositor.
-
-```
-App (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
-                         │                    │
-                    SHM/dmabuf FDs       input + outputs
-                         │
-              $WAYLAND_DISPLAY → socket e.g. /run/user/1000/wayland-0
-```
-
-| | X11 | Wayland |
-|---|-----|---------|
-| Server | Xorg / Xwayland | Compositor is the display server |
-| Remote GUI | SSH -X/-Y (fragile) | RDP/VNC/SSH no native draw forwarding |
-| Screen capture | Many tools | Portal / compositor permission |
-| Legacy X apps | Native | **Xwayland** translation layer |
-| Debug env | `DISPLAY=:0` | `WAYLAND_DISPLAY=wayland-0` |
-
-**i3 note:** classic **i3 is X11-only**. On Wayland stacks use **Sway** (i3-like) — see [[i3 Window Manager Starter Guide]] for tiling concepts; runtime differs.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Wayland** | Compositor = display server | “No separate X server — compositor is it.” |
-| **compositor** | Mutter/KWin/Sway | “App talks to compositor directly.” |
-| **XWayland** | X11 compat | “Legacy apps run nested.” |
-| **wl-clipboard** | Copy/paste tools | “X clipboards don’t always apply.” |
-| **screenshare** | PipeWire portals | “Needs xdg-desktop-portal.” |
-
-## Standard config / commands
+## Identify session
 
 ```bash
-# Am I on Wayland?
-echo $XDG_SESSION_TYPE          # wayland | x11
-loginctl show-session $(loginctl | awk '/seat/ {print $1; exit}') -p Type
+echo $XDG_SESSION_TYPE    # wayland
+echo $WAYLAND_DISPLAY
+loginctl show-session "$XDG_SESSION_ID" -p Type
+```
 
-# Socket location
-echo $WAYLAND_DISPLAY           # wayland-0
-ls -la /run/user/$(id -u)/wayland-*
+## Tooling differences from X11
 
-# Force X11 for one app (when Wayland breaks screen share / GPU)
+| Task | X11 | Wayland |
+|------|-----|---------|
+| Outputs | `xrandr` | Compositor CLI (`wlr-randr`, GNOME Settings) |
+| Screenshots | `scrot`, `import` | `grim`, portal APIs |
+| Clipboard | `xclip` | `wl-copy` / `wl-paste` |
+| Remote GUI | `ssh -X` | RDP (`gnome-remote-desktop`), VNC |
+
+## Run X apps on Wayland
+
+**XWayland** translates X11 clients. If an app misbehaves, test:
+
+```bash
 GDK_BACKEND=x11 firefox
 QT_QPA_PLATFORM=xcb some-qt-app
-
-# Force Wayland-native (when available)
-GDK_BACKEND=wayland gtk-app
-MOZ_ENABLE_WAYLAND=1 firefox
-
-# Xwayland processes (legacy X on Wayland session)
-pgrep -a Xwayland
 ```
 
-**Engineer debugging checklist:**
+## Debugging
 
-1. Session type (`XDG_SESSION_TYPE`).
-2. Compositor name (`echo $XDG_CURRENT_DESKTOP`, `pgrep -a sway|mutter|kwin|weston`).
-3. application toolkit backend (`GDK_BACKEND`, `QT_QPA_PLATFORM`).
-4. Missing features → often **Xwayland** versus native Wayland port issue, not “Wayland broken”.
-
-```bash
-# PipeWire / portal (screen share on modern GNOME/KDE)
-systemctl --user status pipewire wireplumber xdg-desktop-portal
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| App blank / no window | Run from terminal; `GDK_BACKEND=x11` trial | GPU driver; fractional scaling bug; try native vs Xwayland |
-| Screen share fails (Zoom/Meet) | Portal running; Wayland vs X11 session | `xdg-desktop-portal-*`; use X11 session or updated client |
-| `cannot open display` on Wayland | `WAYLAND_DISPLAY` unset | Start from compositor session; don’t copy X11 `DISPLAY` fix blindly |
-| High CPU compositor | `top` compositor process | Disable client-side decorations; driver VSync; known compositor bugs |
-| Remote dev no GUI | No SSH X forwarding on Wayland | VNC/RDP/waypipe; or X11 session on remote |
-| i3 config “does nothing” on Sway | Wrong WM config format | Sway uses i3-*inspired* config, not drop-in i3 config |
-
-## Gotchas
-
-> [!WARNING]
-> **`DISPLAY=:0` fixes don’t apply** when session is pure Wayland — need `WAYLAND_DISPLAY` or Xwayland bridge.
-
-- **Xwayland hidpi:** blurry X apps on fractional scaling — run native Wayland build when exists.
-- **Root GUI apps:** `sudo gui-app` breaks keyring and Wayland socket perms — use `pkexec` or proper user session.
-- **WSLg / VMs:** socket paths and GPU passthrough differ; check distro-specific Wayland enablement.
-
-## When NOT to use
-
-- **Deep WM customization guide** — use compositor docs (Sway, Mutter, KDE).
-- **Server/headless operations** — no display protocol; irrelevant except CI screenshots.
-- **Replacing X11 knowledge overnight** — mixed fleets run both for years; know both environment variables.
+| Symptom | Check |
+|---------|-------|
+| Blank screen | Compositor logs: `journalctl -b \| grep -i wayland` |
+| Permission denied portal | `xdg-desktop-portal` running? |
+| Fractional scaling issues | Compositor-specific; some apps need integer scale |
 
 ## Related
 
-[[display server]] [[x11]] [[windowing system]] [[i3 Window Manager Starter Guide]] [[Linux display manager]] [[compositors]]
+[[display server]] · [[x11]] · [[compositors]] · [[Linux display manager]]
+
+## Sources
+
+- [Wayland.freedesktop.org](https://wayland.freedesktop.org/docs/html/)
+- [Arch Wiki — Wayland](https://wiki.archlinux.org/title/Wayland)

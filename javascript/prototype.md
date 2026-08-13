@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `obj.foo` checks own props, then `Object.getPrototypeOf(obj)`, and so on. `class` syntax is sugar over constructor + `.prototype`.
+## How it works
 
 ```txt
 instance → C.prototype → Object.prototype → null
@@ -31,7 +20,8 @@ instance → C.prototype → Object.prototype → null
 | **prototype** | Shared methods object | “One function, many instances.” |
 | **[[Prototype]]** | Internal link | “Not the same as `.prototype` on functions.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 function Dog(name) { this.name = name }
@@ -52,7 +42,8 @@ Object.getPrototypeOf(d) === Dog.prototype
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ Object.getPrototypeOf(d) === Dog.prototype
 | Perf weirdness | Mutating [[Prototype]] | Create with right proto once |
 
 ---
+
 
 ## Gotchas
 
@@ -73,13 +65,19 @@ Object.getPrototypeOf(d) === Dog.prototype
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Deep classic OOP trees** — prefer composition.
 - **Changing proto at runtime** — engines deoptimize.
 
 ---
 
+
 ## Related
 
 [[hoisting]] [[mixin]] [[Classes]]
+
+## Sources
+
+- [Wikipedia — prototype](https://en.wikipedia.org/wiki/prototype)

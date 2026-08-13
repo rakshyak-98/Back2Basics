@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **DSL** trades generality for **domain fit**: SQL for relations, Regex for strings, HCL for infra, CSS for styling, Mermaid for diagrams.
 
@@ -32,7 +23,8 @@ General-purpose (Java, Python)     DSL (SQL, Makefile, GraphQL schema)
 | **Internal DSL** | Fluent API in Ruby | Host language syntax |
 | **Declarative config** | [[Terraform/variable file]] HCL, K8s YAML | Engine interprets |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### When to introduce a DSL
 
@@ -87,7 +79,8 @@ See [[Descriptive/Mermaid (DSL)]].
 { "action": "doThing", "arg": 1 }  // prefer protobuf/OpenAPI/JSON Schema
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +89,7 @@ See [[Descriptive/Mermaid (DSL)]].
 | Security hole in interpreter | Turing-complete user scripts | Sandbox; cap loops; no file IO |
 | Two DSLs for same domain | Org drift | Consolidate; version schema |
 | Hard to test | No golden files | Snapshot parse → AST → eval |
+
 
 ## Gotchas
 
@@ -106,11 +100,17 @@ See [[Descriptive/Mermaid (DSL)]].
 - **Internal DSL** inherits host complexity — Ruby DSL unreadable to non-Ruby devs.
 - **Version DSL files** in git — breaking grammar needs migration tool.
 
-## When NOT to use
+
+## When not to use
 
 - One-off 10-line configuration — JSON/YAML enough.
 - Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
 
+
 ## Related
 
 [[Descriptive/Mermaid (DSL)]] [[Terraform/variable file]] [[Nginx/Configuration]] [[Architectures/Orchestration layer]]
+
+## Sources
+
+- [Wikipedia — DSL](https://en.wikipedia.org/wiki/DSL)

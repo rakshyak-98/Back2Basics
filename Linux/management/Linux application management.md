@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** ship artifacts → run under a dedicated user → unit with restart/limits → logs + health checks.
+## How it works
 
 ```txt
 artifact (deb/oci/bin) → User=myapp → systemd unit
@@ -37,7 +26,8 @@ artifact (deb/oci/bin) → User=myapp → systemd unit
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo apt-get install myapp
@@ -55,7 +45,8 @@ curl -fsS localhost:8080/healthz
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ curl -fsS localhost:8080/healthz
 | Upgrade broke config | Diff `/etc` | Restore; migrate schema |
 
 ---
+
 
 ## Gotchas
 
@@ -76,13 +68,19 @@ curl -fsS localhost:8080/healthz
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-shot CLI tools** — no service needed.
 - **Multi-tenant SaaS** — prefer k8s/orchestrator over ad-hoc host services.
 
 ---
 
+
 ## Related
 
 [[system service unit files]] [[Package Manager]] [[supervisorctl]] [[Setup Non-Login user from Running process]]
+
+## Sources
+
+- [Wikipedia — Linux application management](https://en.wikipedia.org/wiki/Linux_application_management)

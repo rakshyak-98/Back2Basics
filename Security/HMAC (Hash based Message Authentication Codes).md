@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **HMAC** = hash function (SHA-256) keyed with a secret:
 
@@ -35,7 +26,8 @@ Contrast **[[Asymmetrical Encryption]]** signatures — public verify, private s
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### OpenSSL CLI
 
@@ -69,7 +61,8 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 | Weak forgery resistance | SHA1 HMAC | Upgrade to SHA-256 minimum |
 
 ---
+
 
 ## Gotchas
 
@@ -93,12 +87,18 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Prefer **asymmetric signatures** (Ed25519, RSA-PSS) when many verifiers, untrusted clients, or public webhook endpoints — avoids sharing one MAC key with every consumer.
 
 ---
 
+
 ## Related
 
 [[JWT authentication]] [[Securing a hash key authentication]] [[Token rotation]] [[RSA]] [[openssl]]
+
+## Sources
+
+- [Wikipedia — HMAC](https://en.wikipedia.org/wiki/HMAC)

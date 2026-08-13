@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 BlueZ exposes devices over **D-Bus** (`org.bluez`). `bluetoothctl` is the REPL front-end: power adapter, scan, pair, trust, connect. Desktop environments (GNOME/KDE) also talk to BlueZ — **two controllers fighting** causes Busy errors.
 
@@ -42,7 +33,8 @@ GNOME Settings ──┘ (same daemon — conflict if both "own" power)
 | **rfkill** | Block radios | “rfkill list if soft-blocked.” |
 | **systemctl bluetooth** | Daemon | “bluetooth.service must be up.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Interactive session
@@ -83,7 +75,8 @@ sudo systemctl stop bluetooth
 sudo systemctl mask bluetooth      # see [[Service masking]]
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +98,7 @@ sudo systemctl restart bluetooth
 # If still Busy: log out of GNOME session or stop gnome-bluetooth stack temporarily
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -116,12 +110,18 @@ sudo systemctl restart bluetooth
 - **Multiple adapters** — `select ADAPTER_MAC` in bluetoothctl before pair.
 - **BLE versus classic** — IoT uses `bluetoothctl menu gatt`; different workflow from headphones.
 
-## When NOT to use
+
+## When not to use
 
 - **Wi-Fi debugging** — unrelated stack; use `nmcli`, `iw`.
 - **Production server hardening** — disable/mask BT entirely; no pairing on production.
 - **Bulk fleet provisioning** — use MDM/vendor tools, not manual bluetoothctl.
 
+
 ## Related
 
 [[D-Bus]] [[Services commands]] [[Service masking]] [[busctl]] [[systemctl]]
+
+## Sources
+
+- [Wikipedia — bluetoothctl](https://en.wikipedia.org/wiki/bluetoothctl)

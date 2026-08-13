@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Uncompress the input, then compress again into the shape your players and CDN need.
+## How it works
 
 ```txt
 Source file / live ingest
@@ -55,7 +44,8 @@ Source file / live ingest
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Remux only (no quality loss)
@@ -86,7 +76,8 @@ Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -ben
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +89,7 @@ Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -ben
 | “Transcode” still huge | Actually remuxed or wrong ladder | Confirm re-encode in logs; set target bitrates |
 
 ---
+
 
 ## Gotchas
 
@@ -115,7 +107,8 @@ Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -ben
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Only the container is wrong** — remux with stream copy.
 - **Already have a correct ladder** — re-packaging/packaging only; don’t burn encode farm.
@@ -124,6 +117,11 @@ Debug: `ffprobe -hide_banner in.mp4` → confirm codecs → compare `ffmpeg -ben
 
 ---
 
+
 ## Related
 
 [[Encoding]] [[ffmpeg]] [[ABR]] [[rendition]] [[bitrate streaming]] [[NVENC]] [[codecs]] [[CRF (Constant Rate Factor)]] [[AV1]] [[ingestion]] [[re-encoding]]
+
+## Sources
+
+- [Wikipedia — transcoding](https://en.wikipedia.org/wiki/transcoding)

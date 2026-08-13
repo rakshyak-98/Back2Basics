@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 PuTTY is a **GUI terminal + connection manager** (not a shell). It implements SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and optionally credentials — treat saved sessions as secrets on shared PCs.
 
@@ -43,7 +34,8 @@ Plink → CLI equivalent for scripts/cron on Windows
 | **puttygen** | Key tool | “Convert ppk ↔ pem.” |
 | **host key** | TOFU prompt | “Verify fingerprint out-of-band.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **First-time connect:** verify host key fingerprint out-of-band (don't blindly "Accept"). Save session only after confirming fingerprint matches operations runbook.
 
@@ -75,7 +67,8 @@ plink -batch -i key.ppk user@host "systemctl is-active nginx"
 
 `-batch` — fail instead of interactive host-key prompt (required for automation).
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +77,7 @@ plink -batch -i key.ppk user@host "systemctl is-active nginx"
 | Garbled terminal | Window → Translation / UTF-8 | Set UTF-8; fix `LANG` on server |
 | Disconnect idle | Connection → Seconds between keepalives | Set 30–60s keepalive; match `ClientAliveInterval` on server |
 | Can't paste long command | PuTTY line limit | Use heredoc on server or Plink with script file |
+
 
 ## Gotchas
 
@@ -97,12 +91,18 @@ plink -batch -i key.ppk user@host "systemctl is-active nginx"
 - **Copy/paste** — right-click paste (not Ctrl+V) in classic PuTTY window.
 - **WSL versus PuTTY** — on Windows 10+, `ssh` in WSL is often simpler and matches Linux operations docs ([[SSH]]).
 
-## When NOT to use
+
+## When not to use
 
 - **Production automation from Linux** — use OpenSSH `ssh`/`scp`, not Plink.
 - **Modern crypto policy enforcement** — verify PuTTY version against org baseline; may need `ssh` from MS OpenSSH.
 - **File sync at scale** — use [[rsync]], not PSCP loops.
 
+
 ## Related
 
 [[SSH]] [[Linux terminal]] [[terminal emulator]] [[telnet]] [[nc]]
+
+## Sources
+
+- [Wikipedia — puTTY](https://en.wikipedia.org/wiki/puTTY)

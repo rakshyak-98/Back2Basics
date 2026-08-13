@@ -1,61 +1,60 @@
-[[Firebase]]
+[[Firebase]] [[FCM Token (Firebase Cloud Messaging Token)]] [[Multicast delivery]]
 
 # Firebase messaging
 
-> Firebase messaging — the current code has a logic flaw: it limits the token list to 500 (slice(0, 500)) but does not handle tokens beyond 500 or split
+> Firebase Admin SDK messaging sends push notifications via FCM HTTP v1 — batch APIs cap at 500 tokens per multicast call; larger audiences require chunking, topic subscriptions, or fanout jobs.
 
 ---
 
-## Index
+## Send patterns
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Pattern | When to use |
+|---------|-------------|
+| Single `token` | One device |
+| [[Multicast delivery]] | Up to 500 tokens in one call |
+| Topic `condition` | Broadcast to subscribers |
+| Fanout job | Thousands of tokens — chunk and parallelize |
 
-## Mental model
-
-**Say it in one breath:** Firebase messaging — the current code has a logic flaw: it limits the token list to 500 (slice(0, 500)) but does not handle tokens beyond 500 or split
-
-[Firebase Multicast Message](https://firebase.google.com/docs/reference/administrator/java/reference/com/google/firebase/messaging/MulticastMessage)
-
-
----
-
-## Standard config / commands
-
-```bash
-# version + config path
-# dry-run when available
+```txt
+Token list → chunk(500) → sendEachForMulticast per chunk → handle per-token errors
 ```
 
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
+A common logic flaw: `tokens.slice(0, 500)` sends to the first 500 only — tokens beyond 500 are silently dropped unless you loop chunks.
 
 ---
 
-## Gotchas
+## Admin SDK (Node)
 
-> [!WARNING]
-> Make retries safe or you will duplicate side effects.
+```js
+const message = {
+  notification: { title: 'Hello', body: 'World' },
+  tokens: deviceTokens.slice(0, 500), // chunk larger lists
+};
+const response = await admin.messaging().sendEachForMulticast(message);
+// Inspect response.responses for per-token failures
+```
+
+Remove failed tokens (`registration-token-not-registered`) from your database on each batch.
 
 ---
 
-## When NOT to use
+## What breaks first
 
-- Avoid the tool if a simpler built-in covers the job.
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Partial audience receives | Only first 500 tokens sent | Chunk with offset loop |
+| Retry storm on failures | No backoff | Cap retries; circuit break |
+| Duplicate side effects | Unsafe retries | Idempotent handlers; dedupe keys |
+| Silent drops | Unhandled batch errors | Log `response.failureCount` |
+
+Make retries safe — duplicate notification sends annoy users and may violate compliance.
 
 ---
 
 ## Related
 
-[[Firebase]]
+[[FCM Token (Firebase Cloud Messaging Token)]] · [[Multicast delivery]]
+
+## Sources
+
+- [Firebase MulticastMessage](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)

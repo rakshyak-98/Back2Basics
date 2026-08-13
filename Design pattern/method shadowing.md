@@ -1,147 +1,46 @@
-[[java]] [[golang]] [[Design pattern]]
+[[Design pattern]] [[Design pattern/Static Members]] [[Design pattern/OOPS]]
 
-# Method shadowing (embedding / inheritance)
+# method shadowing
 
-> Method shadowing — same method name on outer and inner types; the static type picks which runs.
+> Method shadowing (and field hiding) occurs when a subclass defines a static method or field with the same name as the parent — the subclass does **not** override the parent's static member; each type resolves its own version.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Overriding (Java virtual methods)** — dynamic dispatch on runtime type.
-
-**Shadowing / hiding** — inner and outer both define same method; caller resolution depends on language rules:
-
-```
-Go embed:     var c Car; c.Start() → Car.Start if defined, else promoted Engine.Start
-Java static:  Child.hide() hides Parent.hide — reference type picks method
-Java field:   Child.x shadows Parent.x — no polymorphism on fields
-```
-
-Go: embedding promotes methods; if outer defines `Log`, it **replaces** promoted `Logger.Log` for `Car` receivers — not a runtime override chain.
-
-Java: instance method **override** needs `@Override` + same signature; **hide** if static or mismatched signature.
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-### Go — embed + override
-
-```go
-type Logger struct{}
-func (Logger) Log(msg string) { fmt.Println("logger:", msg) }
-
-type Server struct {
-    Logger
-    name string
-}
-
-func (s Server) Log(msg string) {
-    fmt.Printf("server[%s]: %s\n", s.name, msg)
-}
-
-s := Server{name: "api"}
-s.Log("up")              // Server.Log
-s.Logger.Log("debug")    // explicit inner — Logger.Log
-```
-
-### Go — interface embed
-
-```go
-type ReadOnly interface { Read(p []byte) (n int, err error) }
-type ReadWrite struct {
-    io.ReadWriter // embed interface — must assign concrete impl
-}
-```
-
-### Java — override vs hide
+## Static vs virtual override
 
 ```java
 class Parent {
-    static void greet() { System.out.println("parent"); }
-    void instance() { System.out.println("parent inst"); }
+  static void greet() { System.out.println("parent"); }
+  void hello() { System.out.println("parent"); }
 }
-
 class Child extends Parent {
-    static void greet() { System.out.println("child"); } // hides
-    @Override
-    void instance() { System.out.println("child inst"); } // overrides
-}
-
-Parent p = new Child();
-p.greet();    // "parent" — static, compile-time type Parent
-p.instance(); // "child inst" — virtual dispatch
-```
-
-### Java — field shadowing (avoid)
-
-```java
-class Parent { int x = 1; }
-class Child extends Parent { int x = 2; }
-Parent p = new Child();
-System.out.println(p.x); // 1 — fields not virtual
-```
-
-### Kotlin — override required
-
-```kotlin
-open class Base { open fun foo() = 1 }
-class Derived : Base() {
-    override fun foo() = 2
+  static void greet() { System.out.println("child"); }  // hides, not overrides
+  @Override void hello() { System.out.println("child"); } // overrides
 }
 ```
 
-## Triage (when things break)
+| Call | Result |
+|------|--------|
+| `Child.greet()` | `child` |
+| `Parent.greet()` | `parent` |
+| `Parent p = new Child(); p.greet()` | `parent` (static resolved by reference type) |
+| `p.hello()` | `child` (virtual dispatch) |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Wrong `Log`/helper called | Go promoted vs outer method | Qualify embed `s.Logger.Log` or rename |
-| Java "override" doesn't run | Method static / private / wrong sig | Remove static; match signature; add `@Override` |
-| Unexpected field value | Field shadowing | Rename field; use getter |
-| Interface default vs class | Java 8+ default methods | Explicit override in impl |
-| LSP violation in tests | Shadowing breaks substitutability | Favor composition over inheritance |
+## Field hiding
 
-## Gotchas
+Subclass field with same name as parent hides the parent's field — two storage slots exist; access depends on reference type, not object runtime type.
 
-> [!WARNING]
-> **Go is not Java** — no subclass polymorphism on embedded structs; outer method is fixed at compile time for that type.
+## Why it matters
 
-> [!WARNING]
-> **Java static method "override"** — impossible; hides only — confusing stack traces.
+- Developers expect "override" behavior and get silent wrong static dispatch.
+- Linters flag missing `@Override` on instance methods; static hides are easy to miss.
+- Design: avoid static methods in inheritance hierarchies — use instance methods or composition ([[Design pattern/Strategy pattern]]).
 
-> [!WARNING]
-> **JSON/API models shadowing** — Lombok `@Data` on hierarchy can expose wrong property if fields shadow.
+## Language variance
 
-## Trade-offs
+- **Java** — explicit hiding terminology in JLS.
+- **C#** — `new` keyword marks intentional hiding.
+- **JavaScript** — class fields and methods use prototype chain; different mechanics.
 
-| Gain | Cost |
-|------|------|
-| … | … |
+## Sources
 
-## When NOT to use
-
-- **Inheritance to reuse one method** — prefer explicit delegation ([[golang/go embedding]] with named field).
-- **Shadowing fields intentionally** — code smell; rename for readability.
-
-## Related
-
-[[java]] [[golang]] [[Static Members]] [[golang/go embedding]]
+- Java Language Specification — hiding vs overriding
+- [Method overriding — Wikipedia](https://en.wikipedia.org/wiki/Method_overriding) (contrasts hiding)

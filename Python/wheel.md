@@ -6,25 +6,15 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A wheel is a prebuilt package for a platform tag; pip prefers it over an sdist that must compile.
+## How it works
 
 
 ```
 pyproject.toml / setup.py → build backend → dist/*.whl → pip install
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Modern build (PEP 517)
 
@@ -61,7 +51,8 @@ pip install twine
 twine upload dist/*
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ twine upload dist/*
 | Wrong version installed | PyPI name clash | Unique package name; pin in requirements |
 | Import error after install | Package layout | `packages=` in setuptools config |
 | Huge wheel | Bundled data | Exclude tests; use MANIFEST.in carefully |
+
 
 ## Gotchas
 
@@ -80,11 +72,17 @@ twine upload dist/*
 >
 > **`setup.py` only projects** — migrate to `pyproject.toml` for reproducible builds.
 
-## When NOT to use
+
+## When not to use
 
 - Don't hand-edit wheel contents — rebuild from source.
 - Don't ship platform-specific wheels as `py3-none-any` — runtime import errors.
 
+
 ## Related
 
 [[Python/pandas]] [[compiler/compiler]] [[Deployment/spinnaker]]
+
+## Sources
+
+- [Wikipedia — wheel](https://en.wikipedia.org/wiki/wheel)

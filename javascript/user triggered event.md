@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.
 
@@ -37,7 +28,8 @@ Categories:
 
 Common handlers: `onclick`, `onchange`, `onselect`, `ondrag`, `ondrop`, `onsubmit`.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Register handlers (prefer explicit over inline HTML)
 
@@ -96,7 +88,8 @@ window.addEventListener('touchstart', onTouch, { passive: true });
 // Avoid: useEffect(() => window.open(...), []) — no user activation
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -108,6 +101,7 @@ window.addEventListener('touchstart', onTouch, { passive: true });
 | Double submit / duplicate API calls | No debounce on rapid clicks | Disable button during request; [[debouncing]] |
 | Drag-drop doesn't fire | Wrong event phase or `preventDefault` missing | Listen `dragover` + `preventDefault`; set `dropEffect` |
 | Mobile tap delay / ghost clicks | 300ms legacy or touch handlers | `touch-action: manipulation`; `pointer-events` CSS |
+
 
 ## Gotchas
 
@@ -123,12 +117,18 @@ window.addEventListener('touchstart', onTouch, { passive: true });
 > [!WARNING]
 > **Third-party iframes** — cross-origin frames have separate activation; embedding payment or OAuth flows must happen in direct user navigation or sanctioned iframe APIs.
 
-## When NOT to use
+
+## When not to use
 
 - **Background automation** — don't hack `click()` from `setInterval` to bypass policies; use proper permissions API or server-side flow.
 - **Scroll handlers for "user intent"** — scrolling doesn't grant activation for popups/clipboard.
 - **Global document listeners for everything** — attach to interactive elements; reduces noise and eases passive/listener tuning.
 
+
 ## Related
 
 [[event listener]] [[debouncing]] [[throttle]] [[Event Loop]] [[content security policy]] [[dataTransfer]]
+
+## Sources
+
+- [Wikipedia — user triggered event](https://en.wikipedia.org/wiki/user_triggered_event)

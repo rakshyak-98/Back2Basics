@@ -6,52 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
-
-```bash
-tsp long_job.sh
-tsp -l
-tsp -c          # cat last job output
-tsp -i          # last job id
-tsp -k          # kill last
-TSP_NWORKERS=2 tsp heavy.sh
-tsp -D 3 ./step2.sh   # after job 3
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| `TSP_NWORKERS` | Max parallel jobs |
-| `TS_SOCKET` | Separate queues per project |
-
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** enqueue commands; tsp runs N at a time; `tsp -l` shows queue; outputs land in tsp’s log files.
+## How it works
 
 ```txt
 tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
@@ -71,7 +26,49 @@ tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
 
 ---
 
-## Triage (when things break)
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Configuration and commands
+
+```bash
+tsp long_job.sh
+tsp -l
+tsp -c          # cat last job output
+tsp -i          # last job id
+tsp -k          # kill last
+TSP_NWORKERS=2 tsp heavy.sh
+tsp -D 3 ./step2.sh   # after job 3
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `TSP_NWORKERS` | Max parallel jobs |
+| `TS_SOCKET` | Separate queues per project |
+
+---
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +78,7 @@ tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
 | Command not found | PATH in tsp env | Use absolute paths |
 
 ---
+
 
 ## Gotchas
 
@@ -92,19 +90,19 @@ tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Cluster / multi-user fair share** — use Slurm, K8s Jobs, or systemd.
 - **Calendar schedules** — [[crontab]] / systemd timers.
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[crontab]] [[Linux process commands]] [[supervisorctl]] [[renice]]
+
+## Sources
+
+- [Wikipedia — tsp cli](https://en.wikipedia.org/wiki/tsp_cli)

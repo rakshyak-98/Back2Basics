@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 GPL grants use, modify, and redistribute rights with a ** reciprocity obligation**: if you distribute a GPL-covered **combined work**, recipients get source and GPL freedoms.
 
@@ -36,7 +27,8 @@ Versions:
 
 Related licenses: **LGPL** (weaker copyleft — dynamic link boundary), **AGPL** (network use triggers source obligation).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Identify GPL in dependency tree
 
@@ -79,7 +71,8 @@ docker sbom myimage:tag | rg -i 'gpl'
 # Or run GPL component as sidecar with IPC only — document boundary
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +81,7 @@ docker sbom myimage:tag | rg -i 'gpl'
 | Customer asks for source | GPL component in appliance | Publish source bundle matching exact versions |
 | Patent clause concern | GPLv3 vs v2 | Review with counsel; prefer v3 for patent grant clarity |
 | MySQL connector confusion | Oracle dual-licensing history | Verify **current** connector license (often GPL v2 with FOSS exception) |
+
 
 ## Gotchas
 
@@ -103,12 +97,18 @@ docker sbom myimage:tag | rg -i 'gpl'
 > [!WARNING]
 > **Internal use only** — no distribution often means no GPL trigger — but **giving** to customers, contractors, or cloud images may count as distribution.
 
-## When NOT to use
+
+## When not to use
 
 - **As a substitute for legal review** — this note orients engineers; compliance sign-off is legal/compliance team.
 - **Assuming LGPL == GPL** — LGPL has different linking rules; read the actual license text.
 - **Ignoring patents** — GPLv3 addresses patents; v2 does not explicitly.
 
+
 ## Related
 
 [[Security]] [[Descriptive]] [[Etherium]]
+
+## Sources
+
+- [Wikipedia — GPL](https://en.wikipedia.org/wiki/GPL)

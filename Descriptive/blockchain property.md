@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A blockchain is an **append-only, replicated log** where blocks link via cryptographic hashes. Network nodes agree on ordering through a **consensus** protocol (PoW, PoS, BFT variants).
 
@@ -36,7 +27,8 @@ Properties engineers care about:
 | Finality | Irreversibility delay | Design for reorgs / pending state |
 | Smart contracts | Deterministic code on-chain | Bugs are irreversible; audit + upgrade patterns |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Integration patterns (off-chain app + chain)
 
@@ -88,7 +80,8 @@ contract.on('Transfer', (from, to, value, event) => {
 - Monitor reorg depth for your chain.
 - Rate-limit public RPC; self-host node for SLA.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +91,7 @@ contract.on('Transfer', (from, to, value, event) => {
 | RPC intermittent | Provider rate limit | Self-host or paid tier; exponential backoff |
 | Indexer drift | Missed events during downtime | Backfill from last synced block |
 | Wrong network in wallet | `chainId` mismatch | Prompt switch network; validate in backend |
+
 
 ## Gotchas
 
@@ -113,12 +107,18 @@ contract.on('Transfer', (from, to, value, event) => {
 > [!WARNING]
 > **Gas costs spike** — batch operations; L2 rollups for user-facing frequency; don't put ML on-chain.
 
-## When NOT to use
+
+## When not to use
 
 - **CRUD application with trusted operator** — PostgreSQL + audit log is simpler and cheaper.
 - **Sub-second latency requirements** — chain finality is seconds to minutes.
 - **GDPR right-to-erasure** — conflicts with immutability; keep PII off-chain.
 
+
 ## Related
 
 [[Etherium]] [[Security]] [[Descriptive]] [[ACID]]
+
+## Sources
+
+- [Wikipedia — blockchain property](https://en.wikipedia.org/wiki/blockchain_property)

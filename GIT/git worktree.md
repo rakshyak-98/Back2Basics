@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** One repository, many **working trees**. Each worktree has its own index and working directory but shares objects, refs, and configuration.
+## How it works
 
 
 ```
@@ -31,7 +20,8 @@ Switching branches in a worktree only updates that directory's files — no full
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Create worktree for existing branch
@@ -71,7 +61,8 @@ git worktree remove ../project-hotfix
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,6 +73,7 @@ git worktree remove ../project-hotfix
 | Disk looks duplicated | Shared objects | Normal — only working files duplicate |
 
 ---
+
 
 ## Gotchas
 
@@ -99,13 +91,19 @@ git worktree remove ../project-hotfix
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Long-term second clone needs** — separate clone is simpler if you want different remotes or hooks.
 - **Replacing `git stash`** for tiny context switches — stash is lighter for 5-minute detours.
 
 ---
 
+
 ## Related
 
 [[git command]] [[git branch]] [[git merge]] [[git submodule]]
+
+## Sources
+
+- [Wikipedia — git worktree](https://en.wikipedia.org/wiki/git_worktree)

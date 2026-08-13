@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Move the pointer that can still fix the invariant (sum too big → move right-end left on sorted arrays).
+## How it works
 
 ```txt
 L →→→    ←←← R     or    L,R both →→ (fast/slow, window)
@@ -34,7 +23,8 @@ L →→→    ←←← R     or    L,R both →→ (fast/slow, window)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // two-sum on sorted
@@ -55,7 +45,8 @@ while (l < r) {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ while (l < r) {
 | Off-by-one | bounds | Draw array + indices |
 
 ---
+
 
 ## Gotchas
 
@@ -76,11 +68,17 @@ while (l < r) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Unordered hashable pair without sort need** — hash set may be simpler.
 - **Graph problems** — BFS/DFS, not array pointers.
 
+
 ## Related
 
 [[sliding window]] [[Prefix sum]] [[dsa problem solving Scaffold]]
+
+## Sources
+
+- [Wikipedia — Two pointer](https://en.wikipedia.org/wiki/Two_pointer)

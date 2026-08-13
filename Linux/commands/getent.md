@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and asks each configured source (files, systemd, sss, ldap, …). `getent` exposes that same resolution path — so it beats `grep /etc/passwd alice` when accounts live in LDAP/SSSD.
 
@@ -44,7 +35,8 @@ app / login ──► libc NSS ──► files │ sss │ ldap │ ...
 | **hosts** | Name → IP via NSS | “getent hosts vs dig — different paths.” |
 | **nsswitch.conf** | Lookup order | “files ldap dns order matters.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Does user exist? Full record
@@ -88,7 +80,8 @@ cat /etc/nsswitch.conf
 # group:  files systemd sss
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +91,7 @@ cat /etc/nsswitch.conf
 | Different result than `id` | Cached sssd | `sss_cache -E`; restart `sssd` |
 | Host resolves in dig but not app | nsswitch order | `getent hosts` vs `dig`; put files/dns order right |
 | Shadow empty for local user | Expected on sss-only | Password in directory; use ldap/sss tools |
+
 
 ## Gotchas
 
@@ -113,12 +107,18 @@ cat /etc/nsswitch.conf
 > [!WARNING]
 > **Shadow via getent still needs root** — same as reading `/etc/shadow`.
 
-## When NOT to use
+
+## When not to use
 
 - **DNS-only troubleshooting** → `dig`, `resolvectl query`.
 - **Active Directory administrator** → `ldapsearch`, `adcli`, `realm`.
 - **Edit accounts** → [[useradd]], [[usermod]], [[passwd]] — getent is read-only.
 
+
 ## Related
 
 [[user management]] [[passwd]] [[useradd]] [[Authentication command]] [[linux groups]] [[dig]]
+
+## Sources
+
+- [Wikipedia — getent](https://en.wikipedia.org/wiki/getent)

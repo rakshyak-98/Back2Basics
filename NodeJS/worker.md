@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Main thread posts messages to a `Worker`; heavy compute runs off-loop. Not a substitute for multi-machine scale — use for CPU, not for magically more I/O throughput.
+## How it works
 
 ```txt
 main ──postMessage──► Worker (V8 isolate)
@@ -32,7 +21,8 @@ main ──postMessage──► Worker (V8 isolate)
 | **postMessage** | Structured clone / transfer | “Transfer ArrayBuffers zero-copy.” |
 | **vs child_process** | Threads vs processes | “Workers share optional SAB; processes isolate crashes.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { Worker } from 'node:worker_threads'
@@ -50,7 +40,8 @@ w.on('error', console.error)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ w.on('error', console.error)
 | Crash kills all? | Same process | Critical isolation → `child_process` |
 
 ---
+
 
 ## Gotchas
 
@@ -71,13 +63,19 @@ w.on('error', console.error)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Scale HTTP across cores** — [[clustering]] / multiple processes often clearer.
 - **Run untrusted code** — process isolation + sandbox, not a worker.
 
 ---
 
+
 ## Related
 
 [[worker threads]] [[child process]] [[clustering]] [[Optimization]]
+
+## Sources
+
+- [Wikipedia — worker](https://en.wikipedia.org/wiki/worker)

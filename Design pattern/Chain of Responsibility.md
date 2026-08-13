@@ -1,119 +1,41 @@
-[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Template Method]] [[NodeJS/Express middleware]]
+[[Design pattern]] [[Design pattern/Command]] [[Design pattern/Strategy pattern]]
 
 # Chain of Responsibility
 
-> Pass a request along a chain of handlers until one handles it (or all approve) — **Dive Into Design Patterns + launch validation chain**.
+> Chain of Responsibility passes a request along a chain of handlers until one handles it — decoupling sender from receiver and allowing dynamic handler ordering.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Ordered checks: authentication → goal → page → creative → budget. Each handler does one job; on success calls `next`, on failure short-circuits with an error. Open for extension: append a handler without editing others.
+## Structure
 
 ```
-LaunchValidationChain
-  AuthHandler → GoalHandler → PageHandler → CreativeHandler → BudgetHandler → OK
+Handler1 → Handler2 → Handler3 → (done or drop)
+   handle(req) {
+     if (canHandle) process
+     else next.handle(req)
+   }
 ```
 
-| Role | Responsibility |
-|------|----------------|
-| **Handler** | Can process or forward |
-| **Concrete handler** | One check / concern |
-| **Client** | Builds chain; sends request to first link |
+Examples: logging filters (debug → info → error), middleware stacks, UI event bubbling, approval workflows.
 
-## Core idea
+## Middleware shape (HTTP)
 
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-interface LaunchContext {
-  userId: string;
-  goalId: string;
-  budget?: number;
-}
-
-type Handler = (ctx: LaunchContext, next: () => Promise<void>) => Promise<void>;
-
-function compose(handlers: Handler[]): Handler {
-  return async (ctx) => {
-    let i = 0;
-    const next = async (): Promise<void> => {
-      if (i >= handlers.length) return;
-      const h = handlers[i++];
-      await h(ctx, next);
-    };
-    await next();
-  };
-}
-
-const validateLaunch = compose([
-  async (ctx, next) => {
-    if (!ctx.userId) throw new Error('unauthorized');
-    await next();
-  },
-  async (ctx, next) => {
-    if (!ctx.goalId) throw new Error('goal required');
-    await next();
-  },
-  async (ctx, next) => {
-    if ((ctx.budget ?? 0) <= 0) throw new Error('budget');
-    await next();
-  },
-]);
+```text
+request → auth → rateLimit → validate → handler → response
 ```
 
-Express / Koa middleware is the same pattern — see [[NodeJS/Express middleware]].
+Each link calls `next()` or short-circuits with a response.
 
-### Extending
+## When to use
 
-New launch check → new handler → append to chain registration. Do not grow a god `validateEverything()`.
+- Multiple objects *might* handle a request; exact handler unknown at compile time.
+- Ordered processing with optional early exit.
 
-## Triage (when things break)
+## Pitfalls
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Handler never runs | Forgotten in compose list | Single chain factory |
-| Order bugs (budget before auth) | Array order | Document required order; tests |
-| Handler does HTTP launch | Scope creep | Validation only; launch in Pipeline |
-| Silent success on failure | Forgot to throw / didn't call next wrongly | Fail closed; don't call next on error |
+- Request never handled — ensure terminal handler or explicit failure.
+- Hidden order dependency — document chain sequence.
+- Debugging long chains — trace which handler acted.
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> Calling `next()` after already failing, or swallowing errors, breaks the chain contract — one clear success path.
-
-- Chain + Strategy: a handler may *delegate* to a strategy (goal-specific rules) without becoming a strategy itself.
-- Pure functional `compose` avoids class boilerplate; classes help when handlers need injected deps.
-
-## Trade-offs
-
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- One check — a function is enough.
-- All checks always run and combine errors — use a list of validators + aggregate, not short-circuit chain (unless you want fail-fast).
-
-## Related
-
-[[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Command]] [[Design pattern/Template Method]] [[NodeJS/Express middleware]] [[MongoDB/mongoose middleware]]
+- Gamma et al., *Design Patterns* (Chain of Responsibility)
+- [Chain-of-responsibility pattern — Wikipedia](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern)

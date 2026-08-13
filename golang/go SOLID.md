@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Go favors composition over inheritance — small interfaces (ISP), embedding (OCP-ish), constructors that take interfaces (DIP).
+## How it works
 
 
 | Principle | Go expression |
@@ -28,7 +17,8 @@
 | **I** Interface segregation | `io.Reader`, `io.Writer` — tiny interfaces |
 | **D** Dependency inversion | Depend on interfaces; wire in `main` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Interface segregation (accept interfaces, return structs)
 
@@ -80,7 +70,8 @@ type fakeLogger struct{}
 func (fakeLogger) Info(string, ...any) {}
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Smell | Check | Fix |
 |-------|-------|-----|
@@ -89,6 +80,7 @@ func (fakeLogger) Info(string, ...any) {}
 | Concrete type in constructor everywhere | Tests hard | Accept interface in `New*` |
 | Embedding leaks methods | Promoted methods | Embed unexported helper struct |
 | `interface{}` everywhere | Type assertions | Generics or specific interfaces |
+
 
 ## Gotchas
 
@@ -99,11 +91,17 @@ func (fakeLogger) Info(string, ...any) {}
 >
 > **Embedding for "inheritance"** — promoted methods can break LSP if base type isn't substitutable.
 
-## When NOT to use
+
+## When not to use
 
 - Don't create `IService`, `IRepository` for every type — Go idiom is minimal interfaces at boundaries.
 - Don't force Java-style abstract factories when a function literal suffices.
 
+
 ## Related
 
 [[golang/go embedding]] [[golang/go build]] [[Design pattern/method shadowing]]
+
+## Sources
+
+- [Wikipedia — go SOLID](https://en.wikipedia.org/wiki/go_SOLID)

@@ -6,24 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Components]]
-- [[#Standard flow / example]]
-- [[#CAS vs DRM]]
-- [[#CAS in IPTV]]
-- [[#CAS in OTT]]
-- [[#Popular CAS vendors]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Scramble the channel at the headend; send short-lived keys in ECMs; EMMs say which subscribers may unlock them.
+## How it works
 
 ```txt
 Video source → Encoder → Scrambler
@@ -66,7 +49,8 @@ Video source → Encoder → Scrambler
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 operations knobs live in the CAS vendor console + scrambler — there is no universal open CLI. Typical checks from the transport side:
 
@@ -90,7 +74,8 @@ Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,6 +87,33 @@ Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → 
 | OTT app works, STB does not | Wrong protection stack | STB needs CAS; app needs [[DRM]] — don't mix license paths |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Leaked CW is short-lived** — but ECM replay within the rotation window can still enable piracy; monitor headend ECM injection.
+
+> [!WARNING]
+> **EMM lag** — new subscription may take minutes until EMM reaches STB; don't promise instant activation without CAS ops confirmation.
+
+> [!WARNING]
+> **CAS ≠ DRM** — putting Widevine on an operator STB line does not replace broadcast CAS; hybrid ops need two KMS stacks.
+
+> [!WARNING]
+> **Card-sharing / cloned smart cards** — operator fraud vector; CAS vendor anti-piracy modules (renewable security) required in contracts.
+
+---
+
+
+## When not to use
+
+- **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
+- **Clear internal feeds** — corporate LAN multicast without subscriber billing rarely needs scrambling overhead.
+- **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
+
+---
+
 
 ## Components
 
@@ -139,6 +151,7 @@ The CW changes frequently to limit the usefulness of leaked keys.
 
 ---
 
+
 ## Standard flow / example
 
 A user subscribes to the **Sports Package**:
@@ -159,6 +172,7 @@ If the subscription expires:
 
 ---
 
+
 ## CAS vs DRM
 
 | Feature | CAS | [[DRM]] |
@@ -172,6 +186,7 @@ If the subscription expires:
 | Examples | Nagra, Irdeto, Conax, Viaccess-Orca | Widevine, PlayReady, FairPlay |
 
 ---
+
 
 ## CAS in IPTV
 
@@ -193,6 +208,7 @@ The STB communicates with the CAS server to obtain decryption information before
 
 ---
 
+
 ## CAS in OTT
 
 Traditional CAS is generally **not** used for browser-based or mobile OTT services. Instead, OTT platforms use **[[DRM]]** systems such as:
@@ -210,6 +226,7 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 
 ---
 
+
 ## Popular CAS vendors
 
 - Nagravision
@@ -220,30 +237,11 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Leaked CW is short-lived** — but ECM replay within the rotation window can still enable piracy; monitor headend ECM injection.
-
-> [!WARNING]
-> **EMM lag** — new subscription may take minutes until EMM reaches STB; don't promise instant activation without CAS ops confirmation.
-
-> [!WARNING]
-> **CAS ≠ DRM** — putting Widevine on an operator STB line does not replace broadcast CAS; hybrid ops need two KMS stacks.
-
-> [!WARNING]
-> **Card-sharing / cloned smart cards** — operator fraud vector; CAS vendor anti-piracy modules (renewable security) required in contracts.
-
----
-
-## When NOT to use
-
-- **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
-- **Clear internal feeds** — corporate LAN multicast without subscriber billing rarely needs scrambling overhead.
-- **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
-
----
 
 ## Related
 
 [[DRM]] [[IPTV]] [[MPEG-TS]] [[Multicast]] [[EME]] [[Streaming]] [[ingestion]] [[Compliance Reporting to Broadcasters]] [[tsduck]]
+
+## Sources
+
+- [Wikipedia — CAS](https://en.wikipedia.org/wiki/CAS)

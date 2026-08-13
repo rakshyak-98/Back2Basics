@@ -1,31 +1,22 @@
-[[ExpressJS]] [[express concepts]] [[npm]]
+[[ExpressJS]] [[express concepts]] [[npm]] [[Express middleware]]
 
 # Express-useragent
 
-> `express-useragent` — middleware that parses `User-Agent` into a structured object on `req` (browser/OS/device flags).
+> `express-useragent` middleware parses the `User-Agent` header into structured fields on `req.useragent` — useful for analytics and client quirks, not for security decisions because clients can spoof the header.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Read UA string → regex/parse → attach fields. Useful for analytics/quirks; easy to get wrong (spoofing, new browsers).
+## What it does
 
 ```txt
-User-Agent header ──middleware──► req.useragent
+User-Agent header ──middleware──► req.useragent { browser, os, isMobile, ... }
 ```
+
+The library applies regular expressions against the header string. New browsers and bots may parse incorrectly until the library is updated.
 
 ---
 
-## Standard config / commands
+## Usage
 
 ```js
 import useragent from 'express-useragent'
@@ -39,42 +30,33 @@ app.get('/', (req, res) => {
 })
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Trust boundary | Clients lie |
-| Caching parse | Hot paths |
-| Alternatives | `ua-parser-js` etc. |
+| Concern | Practice |
+|---------|----------|
+| Trust boundary | Treat UA as hint, not credential |
+| Performance | Parsing is cheap; avoid re-parsing in every handler if mounted once |
+| Alternatives | `ua-parser-js` and similar libraries |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Undefined fields | Middleware order | `app.use` before routes |
-| Wrong mobile flag | New UA | Update lib; feature-detect client |
-| Missing header | Bot/curl | Defaults |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Never authorize by UA** — trivial spoof.
-
-> [!WARNING]
-> **Privacy** — UA is identifying-ish; minimize logging.
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| `req.useragent` undefined | Middleware after routes | `app.use` before route handlers |
+| Wrong mobile flag | New UA string | Update library; feature-detect on client |
+| Missing fields | Bot or `curl` with no UA | Handle defaults |
 
 ---
 
-## When NOT to use
+## Do not use User-Agent for
 
-- **AuthN/AuthZ** — real credentials.
-- **Responsive UI** — CSS/`matchMedia`.
-- **Security decisions** — no.
+- **Authentication or authorization** — trivial to spoof.
+- **Responsive layout** — use CSS and `matchMedia` on the client.
+
+Privacy: User-Agent is identifying; minimize logging in production.
 
 ---
 
 ## Related
 
-[[express concepts]] [[Express middleware]] [[npm]]
+[[express concepts]] · [[Express middleware]] · [[npm]]

@@ -1,106 +1,66 @@
-[[x11]] [[wayland]] [[windowing system]] [[Linux display manager]] [[compositors]]
+[[wayland]] [[x11]] [[compositors]] [[Linux display manager]] [[terminal emulator]]
 
-# Display server
+# display server
 
-> Display server — owns the screen and input; GUI apps draw through it.
+> The display server is the broker between applications and the GPU — it owns input devices, window placement, and the framebuffer clients draw into.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-A **display server** sits between hardware (GPU, monitor, keyboard) and **clients** (Firefox, terminal, IDE). Clients don't draw directly on VRAM; they speak a **display protocol** (X11, Wayland) to the server, which composites and presents frames.
+Linux desktops use either **X11** (legacy network-transparent protocol) or **Wayland** (modern protocol where the compositor merges display-server and compositor roles). The display server sits below the **window manager** and **desktop environment**.
 
 ```
-Input devices ──► Display server ──► GPU/compositor ──► monitor
-                        ▲
-                   GUI clients (toolkit → protocol)
+applications (GTK/Qt//SDL)
+        │
+        ▼
+display server (X11 or Wayland compositor)
+        │
+        ▼
+kernel DRM/KMS + GPU driver
+        │
+        ▼
+monitor
 ```
 
-| Server | Protocol | Typical stack |
-|--------|----------|---------------|
-| Xorg | X11 | i3, Openbox, GNOME-on-X |
-| Wayland compositor | Wayland | GNOME Shell, KDE, Sway |
-| Mir (legacy Ubuntu) | Mir | Rare today |
+## X11 vs Wayland (operator view)
 
-**Not the same as:**
+| Topic | X11 | Wayland |
+|-------|-----|---------|
+| Server process | `Xorg` or XWayland | Compositor (Mutter, Sway, …) |
+| Remote GUI | Native `ssh -X` | RDP/VNC more common |
+| Screen capture | Mature (`xrandr`, X APIs) | Portal / compositor-specific |
+| Global shortcuts | WM grabs keys | Compositor policy |
+| Typical session var | `DISPLAY=:0` | `WAYLAND_DISPLAY=wayland-0` |
 
-- **Window manager** — decorates/focuses windows (often embedded in compositor on Wayland).
-- **Display manager** — login greeter (GDM, LightDM) — starts *before* your session.
-- **Desktop environment** — full product (GNOME, KDE).
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **display server** | Owns screen + input | “Xorg or Wayland compositor.” |
-| **protocol** | App ↔ server | “Apps don’t poke GPU alone.” |
-| **compositor** | Draw final frame | “Wayland merges server+compositor.” |
-| **DRM/KMS** | Kernel modeset | “Talks to the monitor.” |
-| **seat** | Keyboard/mouse/screen set | “logind manages seats.” |
-
-## Standard config / commands
-
-**Identify what you're running:**
+## Identify what you are running
 
 ```bash
-echo $XDG_SESSION_TYPE          # wayland or x11
-loginctl show-session $(loginctl | awk '/tty/ {print $1; exit}') -p Type
-ps -e | grep -E 'Xorg|wayland|mutter|kwin|sway'
+echo "$XDG_SESSION_TYPE"    # x11 or wayland
+loginctl show-session $(loginctl | awk '/seat/ {print $1; exit}') -p Type
+ps -e | grep -E 'Xorg|Xwayland|wayland'
 ```
 
-**X11 display variable:**
+## Debugging display issues
 
 ```bash
-echo $DISPLAY    # :0, :1 — which X server socket
-xauth list       # see [[x11]] — cookies for that display
+# Resolution and outputs (X11)
+xrandr --query
+
+# Wayland: compositor tools (GNOME example)
+gsettings get org.gnome.mutter experimental-features
+
+# GPU driver loaded?
+lspci -k | grep -A3 VGA
 ```
 
-**Wayland:**
-
-```bash
-echo $WAYLAND_DISPLAY   # wayland-0
-```
-
-**When switching stacks:** logout → gear icon on greeter → "GNOME on Xorg" versus "GNOME" — see [[Linux display manager]].
-
-**Remote GUI:** SSH `-X`/`-Y` forwards to **X11** display server on your laptop — Wayland forwarding is limited; often need XWayland on remote or pure CLI.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen after login | Switch TTY Ctrl+Alt+F3; journal | Broken driver; nomodeset; reinstall GPU driver |
-| Apps can't connect to display | `echo $DISPLAY` / `$WAYLAND_DISPLAY` | `export DISPLAY=:0`; run from user session, not SSH without forward |
-| Only root GUI works | Permissions on `/tmp/.X11-unix` | Wrong user; xhost +local: (avoid in prod) |
-| Screen tear / vsync | Compositor on/off | Enable compositor; Wayland often fixes tear |
-| High CPU in compositor | `top` mutter/kwin | Extension bug; disable extensions; driver issue |
-| Mixed X11/Wayland apps | `$XDG_SESSION_TYPE` | Force app to native or XWayland; see app flags |
-
-## Gotchas
-
-> [!WARNING]
-> **`xhost +` on shared machine** — any local user can sniff/draw on your display. Use `xauth` + SSH forwarding instead ([[x11]]).
-
-> [!WARNING]
-> **NVIDIA + Wayland** — historically painful; verify driver + compositor support before fleet migration.
-
-- **Two display servers** — Xorg and Wayland compositor don't share one `$DISPLAY`; apps hardcoded to X fail on pure Wayland without XWayland.
-- **Headless servers** — no display server needed; don't install Xorg "just because."
-
-## When NOT to use
-
-- **Server-side rendering workloads** — use GPU compute (CUDA/Vulkan) without a display server when possible.
-- **Debugging network services** — use [[ss]], [[journalctl]]; display stack irrelevant on headless nodes.
+| Symptom | Check |
+|---------|-------|
+| Blank screen after login | [[Linux display manager]] logs: `journalctl -u gdm` |
+| Apps only fail under Wayland | Try `GDK_BACKEND=x11 app` to isolate |
+| Wrong DPI / scaling | Fractional scaling support varies by compositor |
 
 ## Related
 
-[[x11]] [[wayland]] [[windowing system]] [[Linux display manager]] [[compositors]] [[WM_CLASS]]
+[[wayland]] · [[x11]] · [[windowing system]] · [[compositors]] · [[Linux display manager]]
+
+## Sources
+
+- [Wayland (freedesktop.org)](https://wayland.freedesktop.org/)
+- [X.Org Wiki](https://wiki.x.org/)

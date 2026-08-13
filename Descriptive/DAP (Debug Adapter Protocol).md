@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** IDE ↔ debug adapter ↔ real debugger/runtime; one protocol, many languages.
+## How it works
 
 ```txt
 VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
@@ -34,7 +23,8 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```json
 // launch.json request shapes map to DAP launch/attach
@@ -49,7 +39,8 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | No variables | optimize-out | Debug build / less optimize |
 
 ---
+
 
 ## Gotchas
 
@@ -70,11 +62,17 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Log-only investigation** — sometimes enough.
 - **production pausing** — prefer tracing/metrics.
 
+
 ## Related
 
 [[LSP]] [[Debugger configuratoin]] [[How does debugger work]]
+
+## Sources
+
+- [Wikipedia — DAP](https://en.wikipedia.org/wiki/DAP)

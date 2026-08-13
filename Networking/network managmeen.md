@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **NetworkManager (NM)** sits between **kernel netlink** and **administrator intent** (CLI, GUI, cloud-initialize):
 
@@ -34,7 +25,8 @@ Competes conceptually with **systemd-networkd**, **ifupdown**, **netplan** (Ubun
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Status and devices
 
@@ -83,7 +75,8 @@ nmcli con mod "Wired connection 1" ipv4.ignore-auto-dns yes
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ nmcli con mod "Wired connection 1" ipv4.ignore-auto-dns yes
 | VPN split tunnel wrong | `nmcli con show vpn` routes | Adjust route metrics; `ipv4.never-default` |
 
 ---
+
 
 ## Gotchas
 
@@ -108,12 +102,18 @@ nmcli con mod "Wired connection 1" ipv4.ignore-auto-dns yes
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 On **Kubernetes nodes** or **router appliances**, teams often prefer **systemd-networkd** or CNI-managed interfaces — disable NM for dataplane NICs to avoid surprise DHCP.
 
 ---
 
+
 ## Related
 
 [[ss]] [[route]] [[ip]] [[ethtool]] [[loopback]] [[localhost]]
+
+## Sources
+
+- [Wikipedia — network managmeen](https://en.wikipedia.org/wiki/network_managmeen)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `apt-mark hold` blocks APT upgrades; preferences pins prefer a version; neither stops manual `dpkg -i`.
+## How it works
 
 ```txt
 apt upgrade ──skips──► held packages
@@ -36,7 +25,8 @@ apt preferences ──► candidate version selection
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 apt-mark hold kubelet kubectl
@@ -56,7 +46,8 @@ apt-cache policy kubelet
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ apt-cache policy kubelet
 | Unattended-upgrades ignores intent | Config | Align origins/holds |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ apt-cache policy kubelet
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tracking distro closely** — holds fight security baselines.
 - **Containers** — rebuild images instead of holding host packages.
 
 ---
 
+
 ## Related
 
 [[Package Manager]] [[apt package manager]] [[apt configuration]] [[APT policy]]
+
+## Sources
+
+- [Wikipedia — Package deferred](https://en.wikipedia.org/wiki/Package_deferred)

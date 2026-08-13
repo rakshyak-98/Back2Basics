@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** schemas define keys; `gsettings set SCHEMA KEY VALUE` persists in dconf for the user session.
+## How it works
 
 ```txt
 gsettings ──► dconf DB (~/.config/dconf/user)
@@ -37,7 +26,8 @@ gsettings ──► dconf DB (~/.config/dconf/user)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 gsettings list-schemas | head
@@ -58,7 +48,8 @@ dconf load /org/gnome/ < gnome.dconf
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ dconf load /org/gnome/ < gnome.dconf
 | Can’t run over SSH | No session bus | `export DBUS_SESSION_BUS_ADDRESS=…` or local terminal |
 
 ---
+
 
 ## Gotchas
 
@@ -79,13 +71,19 @@ dconf load /org/gnome/ < gnome.dconf
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Non-GNOME desktops** — KDE uses different configuration stores.
 - **Server automation** — no GUI schemas; use files/systemd instead.
 
 ---
 
+
 ## Related
 
 [[gnome Colorschem]] [[X Desktop Group]] [[D-Bus]] [[editor configuration]]
+
+## Sources
+
+- [Wikipedia — gsetting](https://en.wikipedia.org/wiki/gsetting)

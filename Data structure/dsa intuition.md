@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Hear the clue words (“subarray”, “shortest”, “combinations”) and map them to a technique.
+## How it works
 
 ```txt
 clue → pattern → structure → prove → code
@@ -35,7 +24,8 @@ clue → pattern → structure → prove → code
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 sorted + pairs           → two pointers / binary search
@@ -53,7 +43,8 @@ count ways / max score   → DP
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ count ways / max score   → DP
 | Greedy WA | no proof | Fall back to DP |
 
 ---
+
 
 ## Gotchas
 
@@ -74,11 +66,17 @@ count ways / max score   → DP
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Systems design interviews** — different intuition.
 - **When the API already sorts/searches** — use the library.
 
+
 ## Related
 
 [[dsa problem solving Scaffold]] [[algo/Two pointer]] [[sliding window]] [[algo/greedy algorithm]]
+
+## Sources
+
+- [Wikipedia — dsa intuition](https://en.wikipedia.org/wiki/dsa_intuition)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
 
@@ -27,7 +18,8 @@ Better: systemd User=appuser + EnvironmentFile + Restart=on-failure
 
 Ports **< 1024** require root unless `setcap cap_net_bind_service` on the node binary (use sparingly) or a front proxy.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Interactive run as user
 
@@ -87,7 +79,8 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 # document: lost on node upgrade/reinstall
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 | Can't bind 80/443 | Privileged port | Proxy on 443; app on 3000+ |
 | Permission denied on `npm install` | Running as wrong user | Install deps as appuser in CI/build stage |
 | sudo nginx reload fails | NOPASSWD missing | Use root deploy hook, not app runtime sudo |
+
 
 ## Gotchas
 
@@ -109,11 +103,17 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 > [!WARNING]
 > **Secrets in world-readable `.env`** — mode `600`, owned by service user.
 
-## When NOT to use
+
+## When not to use
 
 - **One-shot CLI as your own user** — no need for service user locally.
 - **Container** — USER directive in Dockerfile replaces host user model (still non-root).
 
+
 ## Related
 
 [[CLI]] [[nvm]] [[Nginx/Configuration]] [[Linux/commands/Services commands]] [[Docker/Docker Runtime Security]]
+
+## Sources
+
+- [Wikipedia — Node.js run as a non-privileged user](https://en.wikipedia.org/wiki/Node.js_run_as_a_non-privileged_user)

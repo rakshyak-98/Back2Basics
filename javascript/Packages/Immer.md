@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `produce(state, draft => { draft.x = 1 })` returns a new state tree with structural sharing; you never mutate the original.
+## How it works
 
 ```txt
 base → draft proxy → produce → next (immutable)
@@ -31,7 +20,8 @@ base → draft proxy → produce → next (immutable)
 | **produce** | Main API | “Recipe function updates draft.” |
 | **structural sharing** | Unchanged branches reuse refs | “Cheap React/Redux compares.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { produce } from 'immer'
@@ -50,7 +40,8 @@ const next = produce(state, (draft) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ const next = produce(state, (draft) => {
 | Class instances weird | Proxies + classes | Prefer plain objects |
 
 ---
+
 
 ## Gotchas
 
@@ -71,13 +63,19 @@ const next = produce(state, (draft) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Trivial one-field updates** — spread may be enough.
 - **Hot per-frame game state** — proxy cost may matter; measure.
 
 ---
 
+
 ## Related
 
 [[Redux/Immutability in Redux]] [[Redux toolkit]] [[mixin]]
+
+## Sources
+
+- [Wikipedia — Immer](https://en.wikipedia.org/wiki/Immer)

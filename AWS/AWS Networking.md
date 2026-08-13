@@ -1,98 +1,78 @@
-[[Route53]] [[Security group]] [[AWS EC2]] [[NAT (Network Address Translation)]] [[DNS]]
+[[Security group]] · [[Elastic IP]] · [[Route53]] · [[AWS EC2]] · [[IAM]]
 
 # AWS Networking
 
-> AWS Networking — internet ──► IGW ──► public subnet (ALB, bastion)
+> AWS networking is VPC-centric: you define IP ranges, subnets per Availability Zone, route tables, gateways, and firewalls — most "cannot connect" incidents are routing or security group mistakes, not broken cables.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-AWS networking is **regional isolation inside a VPC**: you own private IP space, carve **subnets** per AZ, attach **route tables** (where traffic goes), and gate traffic with **Security Groups** (stateful, instance-level) and **NACLs** (stateless, subnet-level). Public subnets reach the internet via **Internet Gateway (IGW)**; private subnets reach out via **NAT Gateway/GW** or **VPC endpoints** (stay on AWS backbone, no public IP).
+## VPC building blocks
 
 ```
-Internet ──► IGW ──► public subnet (ALB, bastion)
-                      │
-                      └── NAT GW ──► private subnet (app, RDS)
+                    Internet
+                        │
+                   Internet Gateway (IGW)
+                        │
+              ┌─────────┴─────────┐
+              │   Public subnet   │  route 0.0.0.0/0 → IGW
+              │   (ALB, bastion)  │
+              └─────────┬─────────┘
+                        │
+              ┌─────────┴─────────┐
+              │  Private subnet   │  route 0.0.0.0/0 → NAT Gateway
+              │  (app, workers) │
+              └─────────┬─────────┘
+                        │
+              ┌─────────┴─────────┐
+              │  Isolated subnet  │  no default route to internet
+              │  (database)     │
+              └─────────────────┘
 ```
 
-Default VPC works for labs; production uses explicit CIDR planning, separate public/private/database tiers, and **no** surprise default-SG wide open rules.
+| Component | Role |
+|-----------|------|
+| **VPC** | Private IPv4/IPv6 network (`10.0.0.0/16`, etc.) |
+| **Subnet** | AZ-scoped slice; public if route to IGW exists |
+| **Route table** | Per-subnet forwarding rules |
+| **Internet Gateway** | Bidirectional internet for public subnets |
+| **NAT Gateway / NAT instance** | Outbound-only internet from private subnets |
+| **[[Security group]]** | Stateful ENI firewall |
+| **Network ACL** | Stateless subnet firewall (allow/deny lists) |
+| **VPC endpoints** | Private connectivity to AWS APIs (S3, DynamoDB, etc.) |
+| **Peering / Transit Gateway** | Connect VPCs or on-premises networks |
 
-## Standard config / commands
+## DNS inside VPC
 
-### VPC layout (typical prod)
+Enable **DNS hostnames** and **DNS resolution** on the VPC. Instances receive internal DNS names like `ip-10-0-1-5.ec2.internal`. Public hosted zones use [[Route53]].
 
-| Tier | Subnet | Route | Attach |
-|------|--------|-------|--------|
-| Public | `10.0.1.0/24` (AZ-a), `10.0.2.0/24` (AZ-b) | `0.0.0.0/0` → IGW | ALB, NAT GW |
-| Private app | `10.0.10.0/24`, `10.0.11.0/24` | `0.0.0.0/0` → NAT GW | EC2, ECS, Lambda (VPC) |
-| Private data | `10.0.20.0/24`, `10.0.21.0/24` | local only | RDS, ElastiCache |
+## Hybrid connectivity
 
-- **CIDR**: `/16` VPC, `/24` subnets — leave headroom; overlapping CIDR blocks **cannot** be peered later.
-- **Multi-AZ**: always span ≥2 AZs for anything that matters; single-AZ NAT is a known SPOF (accept cost or run NAT per AZ).
-- **DNS**: enable `enableDnsHostnames` + `enableDnsSupport` on VPC (required for private hosted zones and many managed services).
+- **Site-to-Site VPN** — IPsec over internet
+- **Direct Connect** — dedicated circuit to AWS
+- **Transit Gateway** — hub for many VPCs and VPN/DX attachments
 
-### CLI sanity checks
+## Debugging checklist
+
+1. **Route table** — does the subnet have a path to the destination?
+2. **Security group** — inbound on server, outbound on client if restricted
+3. **NACL** — ephemeral port return traffic allowed?
+4. **Source/destination check** — disabled on NAT instances only when required
+5. **VPC Flow Logs** — accept/reject evidence
+
+## CLI snapshot
 
 ```bash
-# What VPC/subnet/SG is this instance in?
-aws ec2 describe-instances --instance-ids i-xxx \
-  --query 'Reservations[].Instances[].{VpcId:VpcId,SubnetId:SubnetId,SGs:SecurityGroups}'
-
-# Route table for a subnet (wrong route = black hole)
-aws ec2 describe-route-tables --filters "Name=association.subnet-id,Values=subnet-xxx"
-
-# Reachability Analyzer (when ping/traceroute lie)
-aws ec2 create-network-insights-path --source i-xxx --destination i-yyy --protocol tcp --destination-port 443
+aws ec2 describe-vpcs
+aws ec2 describe-subnets --filters Name=vpc-id,Values=vpc-0abc
+aws ec2 describe-route-tables --filters Name=vpc-id,Values=vpc-0abc
 ```
 
-### VPC endpoints (prefer over NAT for AWS APIs)
+## Recall
 
-- **Gateway** (S3, DynamoDB): route table entry, no hourly charge.
-- **Interface** (most APIs): ENI in subnet; use for ECR, Secrets Manager, STS — cuts NAT data-processing cost and keeps traffic private.
+- What makes a subnet "public" in AWS terms?
+- Why do private subnets need a NAT gateway for outbound package updates?
 
-## Triage (when things break)
+## Sources
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| EC2 has no public IP but "should" | Subnet auto-assign public IP; IGW attached to VPC | Enable auto-assign or attach EIP; verify public subnet route to IGW |
-| Private instance can't reach internet | NAT GW in public subnet? Route `0.0.0.0/0` → NAT on **private** RT? | Fix route table association; NAT GW must sit in public subnet with IGW route |
-| Works instance-to-instance in same SG, fails cross-SG | [[Security group]] inbound/outbound rules | Add SG-to-SG rule (reference SG id, not CIDR) on **both** sides if needed |
-| RDS/Redis "connection timed out" from app | App in private subnet? SG allows app SG on DB port? NACL 1024-65535 return? | Open SG; verify NACL ephemeral return (NACL is stateless) |
-| DNS resolves wrong / not at all | VPC DNS settings; Route53 resolver rules; hybrid DNS | Enable DNS on VPC; check PHZ association; forwarders for on-prem |
-| Peering/Transit Gateway "partial" connectivity | Route tables on **both** sides; SG still independent | Add routes both directions; SG rules don't inherit from peering |
-| NAT GW bill spike | CloudWatch `BytesOutToDestination`; which AZ/subnet? | VPC endpoints for S3/ECR; fix hairpin traffic; review scrapers |
-
-## Gotchas
-
-> [!WARNING]
-> **Security Groups are stateful; NACLs are stateless.** SG "allow 443 in" implies return traffic. NACL needs explicit ephemeral port range outbound **and** inbound for return packets — classic "SG looks fine, still broken" cause.
-
-> [!WARNING]
-> **Default VPC SG often allows all outbound and may have legacy inbound.** Never rely on default SG for prod; create named SGs per tier.
-
-> [!WARNING]
-> **Deleting IGW while instances have public IPs** — blackholes egress. **Deleting NAT GW** — entire private subnet loses outbound (often silent until deploy/ apt fails).
-
-> [!WARNING]
-> **Cross-region ≠ cross-VPC.** Peering/TGW is same-region or inter-region with separate routing; SG rules don't cross VPC boundaries.
-
-## When NOT to use
-
-- **Default VPC for production** — no blast-radius separation, CIDR collisions when peering.
-- **Public IPs on application/database tiers** — use ALB + private subnets; bastion or SSM Session Manager for administrator.
-- **NACL micromanagement** — start with SG-only; add NACLs for explicit deny (compliance) or subnet-level guardrails.
-- **One NAT GW for multi-AZ production HA** — AZ failure kills all private egress.
-
-## Related
-
-[[Route53]] · [[Elastic IP]] · [[Security group]] · [[AWS EC2]] · [[NAT (Network Address Translation)]] · [[DNS]] · [[How to connect Godaddy domain with AWS EC2 instance]]
+- [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html)
+- [VPC with public and private subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)

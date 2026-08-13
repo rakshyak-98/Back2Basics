@@ -1,91 +1,44 @@
-[[ExpressJS]] [[NodeJS]] [[Node.js security flaws in architecture]] [[Express middleware]]
+[[ExpressJS]] [[NodeJS]] [[Node.js security flaws in architecture]] [[Express middleware]] [[express concepts]]
 
 # Express Error Handler
 
-> Express Error Handler — express distinguishes error-handling middleware by arity (4 params). Calling next(err) or throwing inside async route (with wrapper) skips normal middleware and jumps to error
+> Express routes errors to middleware with four parameters `(err, req, res, next)` — `next(err)` or a wrapped async throw skips normal middleware and lands there; order and async handling determine whether clients see consistent JSON or leaked stacks.
 
 ---
 
-## Index
+## How errors propagate
 
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
+Express distinguishes error-handling middleware by **arity**: four parameters, not three.
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Stack trace in prod JSON | `NODE_ENV` | Gate stack on `development` only |
-| 404 returns HTML not JSON | Error handler after static middleware order | Move API routes + 404 before static; separate routers |
-| Async route hangs, no log | Missing `catch(next)` | Wrap async handlers |
-| `headers already sent` | Double `res.send` in error path | `if (res.headersSent) return next(err)` |
-| Validation errors inconsistent | Ad-hoc status codes | Centralize in error class + handler |
-| Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-Express distinguishes error-handling middleware by **arity (4 parameters)**. Calling `next(err)` or throwing inside async route (with wrapper) skips normal middleware and jumps to error handler.
-
-```
+```txt
 Request → parsers → routes → 404 factory → GLOBAL ERROR HANDLER (4 args)
                                     ↑
                               next(err) lands here
 ```
 
-Without async wrapper, rejected Promises in `async (req,res)` ** bypass** error handler unless you use Express 5 or explicit `try/catch`.
+Without an async wrapper, rejected promises in `async (req, res)` **bypass** the error handler in Express 4 unless you use `try/catch` or a `catchAsync` wrapper. Express 5 propagates async errors natively — verify your version.
 
 ---
 
-## Standard config / commands
-
-### Production-safe stack
+## Production-safe stack
 
 ```javascript
 import express from 'express';
 
 const app = express();
 
-// 1. Pre-route middleware
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-// 2. Routes
 app.use('/api/v1/hotels', hotelRouter);
 app.use('/api/v1/auth', authRouter);
 
-// 3. 404 — routes that don't exist
 app.all('*', (req, res, next) => {
   const err = new Error(`Can't find ${req.originalUrl} on this server`);
   err.statusCode = 404;
   next(err);
 });
 
-// 4. Global error handler — MUST be last
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || err.statusCode >= 500 ? 'error' : 'fail';
@@ -99,7 +52,6 @@ app.use((err, req, res, next) => {
     });
   }
 
-  // Operational vs programming errors
   if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -107,7 +59,6 @@ app.use((err, req, res, next) => {
     });
   }
 
-  // Unknown/programming error — log, generic response
   console.error('ERROR', err);
   return res.status(500).json({
     status: 'error',
@@ -118,7 +69,9 @@ app.use((err, req, res, next) => {
 app.listen(3000);
 ```
 
-### Async errors (Express 4)
+---
+
+## Async errors (Express 4)
 
 ```javascript
 const catchAsync = (fn) => (req, res, next) => {
@@ -137,8 +90,6 @@ app.get('/user/:id', catchAsync(async (req, res) => {
 }));
 ```
 
-Express 5: native async error propagation — verify your version.
-
 ### Custom AppError class
 
 ```javascript
@@ -151,8 +102,6 @@ class AppError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-
-// usage: throw new AppError('Invalid email', 400);
 ```
 
 ### Unhandled rejections (last resort)
@@ -160,44 +109,32 @@ class AppError extends Error {
 ```javascript
 process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED REJECTION', err);
-  // graceful shutdown — don't leave corrupt state
   server.close(() => process.exit(1));
 });
 ```
 
 ---
 
-## Gotchas
+## What breaks first
 
-> [!WARNING]
-> **Order matters** — error handler after all `app.use` routes; 404 handler before error handler.
-
-> [!WARNING]
-> **`next()` with no err after headers sent** — Express 4 default behavior changed; check docs for your version.
-
-> [!WARNING]
-> **Logging PII in error middleware** — scrub bodies/passwords before `console.error`.
-
-> [!WARNING]
-> **Same handler for 404 and 500** — fine if statusCode distinguishes; don't leak path existence on auth-sensitive routes (optional generic 404).
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Stack trace in production JSON | `NODE_ENV` not set | Gate `stack` on `development` only |
+| 404 returns HTML | Static middleware before API 404 | Separate routers; 404 before static |
+| Async route hangs, no log | Missing `catch(next)` | Wrap async handlers |
+| `headers already sent` | Double `res.send` in error path | `if (res.headersSent) return next(err)` |
+| Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
 
 ---
 
-## When NOT to use
+## Security notes
 
-- **Per-route try/catch everywhere** — duplicates logic; use wrapper + global handler.
-- **Sending `err.stack` to clients in any environment** — security finding every time.
+- Never send `err.stack` to clients in any environment.
+- Scrub bodies and passwords before `console.error` in error middleware.
+- Error handler must be registered **after** all `app.use` routes; 404 handler immediately before it.
 
 ---
-
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
-[[Express middleware]] [[Node.js security flaws in architecture]] [[Error handeling]] [[node error]]
+[[Express middleware]] · [[Node.js security flaws in architecture]] · [[Error handeling]] · [[node error]]

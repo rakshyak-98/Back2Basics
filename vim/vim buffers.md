@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Opening a file loads a **buffer** (text + metadata). Buffers can be hidden (not shown in a window) or active (displayed). Windows are views onto buffers; one buffer.
+## How it works
 
 
 ```
@@ -26,7 +15,8 @@
 :split c.txt → buffer #3, two windows
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```vim
 :ls                   " list buffers (+ hidden)
@@ -51,7 +41,8 @@ set hidden              " switch away from unsaved buffer
 nnoremap <leader>b :ls<CR>:b
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ nnoremap <leader>b :ls<CR>:b
 | Buffer list huge | `:ls` | `:bd` unused; `:bufdo bd` (careful) |
 | Wrong file after `:b` | Multiple matches | Use full path `:b %` or buffer number |
 | Changes lost | `:q!` vs `:bd!` | `:wa` habit before mass `:bd` |
+
 
 ## Gotchas
 
@@ -70,11 +62,17 @@ nnoremap <leader>b :ls<CR>:b
 >
 > **Auto-save plugins** — race with manual `:bd!` expectations.
 
-## When NOT to use
+
+## When not to use
 
 - Don't `:bd!` everything to "clean up" during a refactor — use `:tab`/`session` workflow instead.
 - Don't rely on buffer numbers across sessions — they reset.
 
+
 ## Related
 
 [[netrw file explorer]] [[Linux/CLI]] [[editor configuration]]
+
+## Sources
+
+- [Wikipedia — vim buffers](https://en.wikipedia.org/wiki/vim_buffers)

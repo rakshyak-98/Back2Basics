@@ -6,42 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** Vim / Neovim keybindings — go to — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 **Go to** commands ask the [[Descriptive/LSP|LSP]] (or ctags) where a symbol lives, then jump the cursor there. Neovim 0.11+ ships **global** `gr*` maps at startup; **buffer-local** maps (`K`, `CTRL-]`, diagnostics) apply when an LSP client attaches.
@@ -67,7 +32,39 @@ See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementa
 
 ---
 
-## Triage (when things break)
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Configuration and commands
+
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
+```
+
+---
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +74,7 @@ See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementa
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -84,18 +82,18 @@ See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementa
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[vim buffers]] [[Descriptive/LSP]] [[nvim setup]] [[zed keybindings]]
+
+## Sources
+
+- [Wikipedia — vim keybindings](https://en.wikipedia.org/wiki/vim_keybindings)

@@ -1,116 +1,71 @@
-[[Protocol]] [[UDP]] [[ftp]] [[dnsmasq]]
+[[UDP]] · [[dnsmasq]] · [[ftp]] · [[SCP (Secure Copy Protocol)]]
 
 # TFTP
 
-> TFTP (Trivial File Transfer Protocol) — tiny UDP file transfer with block ACKs for boot images and appliance configs.
+> Trivial File Transfer Protocol moves small files over UDP without authentication — common for PXE boot loaders and embedded firmware because the implementation fits in kilobytes of code.
 
 ---
 
-## Index
+## Characteristics
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+[RFC 1350](https://datatracker.ietf.org/doc/html/rfc1350) defines TFTP:
 
-## Mental model
+- **UDP port 69** (server); transfers use ephemeral ports
+- **No login** — file ACLs are OS-level on server directory
+- **Stop-and-wait** — one block per round trip (slow on high latency)
+- **Block size** 512 bytes default; **OACK** negotiates larger blocks ([RFC 2347](https://datatracker.ietf.org/doc/html/rfc2347))
 
-**Say it in one breath:** Client asks for a file (RRQ) or to write one (WRQ) on UDP/69; server switches to a new port and sends fixed-size blocks that the client ACKs — no login, no encryption, almost no code.
+## Opcodes
 
-```txt
-Client                    TFTP server
-  │  RRQ/WRQ (UDP :69)         │
-  │───────────────────────────►│
-  │  DATA/ACK on ephemeral     │
-  │◄──────────────────────────►│
+| Opcode | Meaning |
+|--------|---------|
+| 1 | RRQ (read request) |
+| 2 | WRQ (write request) |
+| 3 | DATA |
+| 4 | ACK |
+| 5 | ERROR |
+
+## PXE boot chain
+
+```
+DHCP option 66/67 or UEFI HTTP boot
+        │
+        ▼
+TFTP fetch pxelinux.0 / grub / iPXE
+        │
+        ▼
+Kernel + initrd → full OS install
 ```
 
-### Interview map (words you can say)
+Often paired with [[dnsmasq]] DHCP on lab networks.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **RRQ / WRQ** | Read / write request | “PXE does RRQ for the boot file.” |
-| **Block + ACK** | Stop-and-wait reliability | “Each block waits for ACK — simple, slow.” |
-| **Port 69** | Well-known listen port | “Only the first packet hits 69; transfer moves.” |
-| **octet mode** | Binary transfer | “Use octet for images; netascii mangles binaries.” |
-| **blksize** | Option for larger blocks | “Default 512 B is painful on modern links.” |
-
-### Why it exists
-
-Routers, phones, PXE clients: little RAM, no full [[ftp]]/TLS stack — they only need “give me `boot.img`.”
-
-### How the story goes
-
-1. Client sends RRQ/WRQ to `:69`.
-2. Server answers from a new UDP port (firewall must allow that return path).
-3. DATA blocks numbered; client ACKs; last short block ends transfer.
-4. Timeout → retransmit the last block.
-
----
-
-## Standard config / commands
+## Server setup (example)
 
 ```bash
-# Client
-tftp 192.0.2.10
-> mode binary
-> get boot.img
-> quit
-
-# Or one-shot
-curl tftp://192.0.2.10/boot.img -o boot.img
-
-# Server examples: tftpd-hpa, atftpd, or [[dnsmasq]] enable-tftp
 # /etc/default/tftpd-hpa
-TFTP_DIRECTORY="/srv/tftp"
+TFTP_DIRECTORY="/var/lib/tftpboot"
 TFTP_ADDRESS="0.0.0.0:69"
 TFTP_OPTIONS="--secure"
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `--secure` / chroot dir | Stops path traversal outside the TFTP root |
-| firewall UDP 69 + ephemeral | Stateful firewalls need RELATED or wide UDP allow |
-| blksize option | Speeds transfers; both ends must support |
+`--secure` restricts paths to `TFTP_DIRECTORY`.
 
----
+## Client
 
-## Triage (when things break)
+```bash
+tftp 192.168.1.1 -c get firmware.bin
+```
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| RRQ timeout | UDP/69 blocked; wrong server IP | Open 69/udp; verify listen with `ss -ulnp \| grep 69` |
-| Starts then stalls | Ephemeral port blocked mid-transfer | Allow return UDP from server; fix conntrack |
-| “Access violation” | Path outside root / perms | Put file in TFTP dir; fix ownership |
-| Corrupt image | netascii mode | Force binary/octet |
-| PXE gets wrong file | DHCP option 66/67 mismatch | Align next-server and boot filename with TFTP tree |
-| Slow on LAN | 512-byte blocks | Enable blksize (e.g. 1428) if client supports |
+## Security
 
----
+Assume **anyone on the L2 network can read/write** unless isolated VLAN. Never expose TFTP to the public Internet. For authenticated transfers use [[SCP (Secure Copy Protocol)]] or HTTPS.
 
-## Gotchas
+## Recall
 
-> [!WARNING]
-> **No auth, no TLS** — anyone who can reach UDP/69 can often read your boot/config tree. Bind to management VLAN only.
+- Why is TFTP used instead of [[ftp]] for PXE?
+- What stops a TFTP client from reading arbitrary server paths when `--secure` is set?
 
-> [!WARNING]
-> **Firewall “port 69 only” is wrong** — transfer uses a *different* server port after the first packet.
+## Sources
 
-> [!WARNING]
-> **Writable TFTP is a malware drop box** — disable WRQ unless you truly need device uploads.
-
----
-
-## When NOT to use
-
-- **User file sharing or secrets** — use [[SCP (Secure Copy Protocol)]], [[SSH]], or HTTPS.
-- **WAN / untrusted networks** — encryption and authentication are mandatory elsewhere.
-- **Large modern payloads when you control the client** — HTTP(S) or full [[ftp]]/SFTP is faster and safer.
-
----
-
-## Related
-
-[[ftp]] [[UDP]] [[dnsmasq]] [[SCP (Secure Copy Protocol)]] [[SSH]] [[Protocol]]
+- [RFC 1350 — TFTP](https://datatracker.ietf.org/doc/html/rfc1350)
+- [RFC 2347 — TFTP Option Extension](https://datatracker.ietf.org/doc/html/rfc2347)

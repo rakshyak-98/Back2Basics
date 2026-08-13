@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** If A cannot send UDP straight to B, both talk to a TURN server and the server forwards packets.
+## How it works
 
 ```txt
 Peer A ──UDP/TCP──► TURN ◄──UDP/TCP── Peer B
@@ -45,7 +34,8 @@ Unlike [[STUN (Session Traversal Utilities for NAT)]] (discover only), TURN **ca
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const pc = new RTCPeerConnection({
@@ -66,7 +56,8 @@ operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limi
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +68,7 @@ operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limi
 | One-way audio on TURN | Permissions / channel bind | Check peer reflexive addresses allowed |
 
 ---
+
 
 ## Gotchas
 
@@ -91,13 +83,19 @@ operations checklist: coturn (or cloud TURN), TLS on 443, REST API for time-limi
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Same LAN / open UDP** — host or STUN paths are enough; skip TURN cost.
 - **Server-centric apps** — client↔your HTTPS API needs no TURN.
 
 ---
 
+
 ## Related
 
 [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT Traversal]] [[NAT (Network Address Translation)]] [[WebRTC]] [[Relay server]] [[WebRTC Signaling channels]]
+
+## Sources
+
+- [Wikipedia — TURN server](https://en.wikipedia.org/wiki/TURN_server)

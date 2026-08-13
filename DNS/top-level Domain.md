@@ -1,95 +1,49 @@
-[[DNS]] [[DNS zone]] [[name server]] [[top-level Domain]] [[Route53]]
+[[DNS]] · [[DNS zone]] · [[name server]] · [[Route53]] · [[Sub Domain]]
 
-# Top-Level Domain (TLD)
+# top-level Domain
 
-> TLD (top-level domain) — rightmost DNS label (`com`, `org`) under the root.
+> A top-level domain (TLD) is the rightmost public label in a DNS name (`example.com` → TLD is `com`) — IANA delegates each TLD to a registry that sets registration policy and operates its nameservers.
 
 ---
 
-## Index
+## TLD categories
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Category | Examples | Notes |
+|----------|----------|-------|
+| **Generic (gTLD)** | `.com`, `.org`, `.net`, `.io` | ICANN-contracted registries |
+| **Country-code (ccTLD)** | `.uk`, `.de`, `.jp` | National policies vary |
+| **Sponsored** | `.edu`, `.gov`, `.museum` | Restricted eligibility |
+| **New gTLD** | `.dev`, `.app`, `.cloud` | Often HSTS-preloaded by browsers |
 
-## Mental model
+Full list maintained by [IANA Root Zone Database](https://www.iana.org/domains/root/db).
 
-The DNS tree is hierarchical: **root (`.`)** → **TLD** (`.com`, `.org`, `.uk`) → **SLD** (`example` in `example.com`) → subdomains (`www`). **ICANN** policy; **registry** runs TLD nameservers; **registrar** (GoDaddy, Route53 Registrar) is where you pay and set **delegation NS**.
+## Delegation chain
 
 ```
-. (root) ──► .com (TLD) ──► example.com (registered zone) ──► www.example.com
-                  │
-                  └── NS glue at parent points to authoritative servers
+. (root)
+ └── com (TLD)  NS → Verisign / .com operators
+      └── example.com  NS → your DNS host ([[Route53]], [[cloudflare]], [[BIND]])
 ```
 
-**gTLD** (`.com`, `.dev`) versus **ccTLD** (`.uk`, `.de`) — ccTLD often has residency/eligibility rules. **Public suffix** list defines cookie/site boundaries (`co.uk` is suffix, not registrable `uk` alone).
+Registrars (GoDaddy, Route 53 Registrar, etc.) sell **second-level** names under a TLD; they update registry data and provide glue for your [[name server]] choice.
 
-## Standard config / commands
+## Operational implications
 
-### Delegation (what actually makes a TLD "work" for you)
+- **Propagation** — NS changes at TLD can take hours; plan TTL reduction before migration.
+- **ccTLD rules** — some require local presence or specific [[name server]] counts.
+- **Private TLD confusion** — do not invent `corp.local` as if it were a public TLD; use proper internal zones ([[DNS zone]]).
 
-| Step | Action | Where |
-|------|--------|-------|
-| Register | Buy `example.com` | Registrar |
-| Host DNS | Create zone; get NS records | Route53, Cloudflare, BIND |
-| Delegate | Set NS at registrar → zone NS | Registrar panel |
-| Verify | `dig NS example.com +trace` | CLI |
+## Security
 
-```bash
-# Trace delegation chain to authoritative
-dig +trace example.com A
+- **DNSSEC** at root and many TLDs validates chain of trust downward.
+- **Certificate Transparency** and **CAA** records reduce mis-issuance risk for your domain under any TLD.
 
-# Which TLD/registrar (RDAP/WHOIS)
-whois example.com | grep -i 'Name Server\|Registrar'
+## Recall
 
-# Public Suffix check (cookie domain scope)
-# https://publicsuffix.org/ — e.g. app.herokuapp.com is NOT a registrable "TLD"
-```
+- What is the difference between a registry and a registrar?
+- Why does changing TLD nameservers affect the entire domain subtree?
 
-### Choosing TLD (engineering lens)
+## Sources
 
-- **`.dev`** — HSTS preload eligible (HTTPS-only expectation).
-- **`.app`** — similar HTTPS-leaning policies on some resolvers.
-- **Brand TLD** — marketing; same DNS mechanics, higher cost.
-
-### Subdomain vs separate domain
-
-- `api.example.com` — same zone, same cert SAN/wildcard `*.example.com`.
-- `example.io` — separate zone, separate DNSSEC/DMARC lifecycle.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Domain "not found" / NXDOMAIN | Registration expired; wrong TLD spelling | Renew; verify WHOIS |
-| Partial global resolution | NS mismatch at registrar vs zone | Align NS; wait TTL (up to 48h) |
-| `com` works, `co.uk` cookie weird | Public suffix rules | Set `Domain=` cookie per eTLD+1 rules |
-| DNSSEC SERVFAIL | DS record at registrar stale | Update DS after KSK rollover |
-| Email SPF/DMARC fail on new TLD | No MX/TXT at delegation | Add records at authoritative zone |
-| Internal "TLD" collision | Using `.local` / `.corp` on internet | Use `.internal` (RFC 6762 guidance) or subdomain under owned domain |
-
-## Gotchas
-
-> [!WARNING]
-> **Registrar ≠ DNS host** — expiry at registrar kills delegation even if Route53 zone exists.
-
-> [!WARNING]
-> **ccTLD transfer locks** — some require local presence; plan migrations early.
-
-> [!WARNING]
-> **Wildcard cert doesn't cross TLD** — `*.example.com` doesn't cover `example.io`.
-
-> [!WARNING]
-> **Split-horizon + public TLD** — don't register fake public TLD for internal use; use private zones ([[DNS zone]]).
-
-## When NOT to use
-
-- **Debating TLD for infra** — pick one registered domain; use subdomains for envs (`staging.example.com`).
-- **Deep TLD policy research in operations runbooks** — registrar support for disputes; operations cares about NS and TTL.
-
-## Related
-
-[[DNS]] · [[DNS zone]] · [[name server]] · [[Route53]] · [[cloudflare]] · [[mDNS]]
+- [IANA — Top-Level Domains](https://www.iana.org/domains)
+- [ICANN — How DNS works](https://www.icann.org/resources/pages/dns-what-is-2021-02-25-en)

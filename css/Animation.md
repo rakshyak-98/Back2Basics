@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Rendering pipeline (simplified):
 
@@ -44,7 +35,8 @@ GOOD: batch reads → batch writes (or use transform)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Prefer compositor-friendly CSS
 
@@ -109,7 +101,8 @@ requestAnimationFrame(tick);
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -121,6 +114,7 @@ requestAnimationFrame(tick);
 | CLS after animation | Layout-affecting exit | Animate transform/opacity; reserve space |
 
 ---
+
 
 ## Gotchas
 
@@ -138,7 +132,8 @@ requestAnimationFrame(tick);
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Reduced motion users** — respect `prefers-reduced-motion: reduce`; provide instant state change.
 - **Critical path LCP element** — don't animate hero image/container until after LCP.
@@ -146,6 +141,11 @@ requestAnimationFrame(tick);
 
 ---
 
+
 ## Related
 
 [[scss]] · [[JavaScript]] · [[web capabilities]] · [[Progressive search functionality]]
+
+## Sources
+
+- [Wikipedia — Animation](https://en.wikipedia.org/wiki/Animation)

@@ -6,29 +6,27 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** pm2 — start npm --name <app name> -- start
+## How it works
 
 ---
 
-## Routing table
+
+## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
 | … | [[…]] |
 
-## Domain links
+
+## Related topics in this domain
 
 - …: [[…]]
+
 
 ## Related
 
 [[pm2]]
+
+## Sources
+
+- [Wikipedia — pm2](https://en.wikipedia.org/wiki/pm2)

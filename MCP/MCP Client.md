@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or more **MCP servers** that expose **tools**, **resources**, and **prompts** over a transport. The LLM never talks to your server directly — the client mediates capability discovery and tool calls.
 
@@ -41,7 +32,8 @@ An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or m
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Cursor MCP config (`~/.cursor/mcp.json` or project `.cursor/mcp.json`)
 
@@ -99,7 +91,8 @@ Retry:               idempotent reads yes; writes no blind retry
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,6 +111,7 @@ Retry:               idempotent reads yes; writes no blind retry
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -141,7 +135,8 @@ Retry:               idempotent reads yes; writes no blind retry
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple static docs** — link the document; don't wrap in MCP.
 - **High-QPS automation** — use direct API/SDK; MCP adds LLM mediation overhead.
@@ -149,6 +144,11 @@ Retry:               idempotent reads yes; writes no blind retry
 
 ---
 
+
 ## Related
 
 [[MCP]] [[webSocket]] [[gRPC]] [[expressjs]] [[JWT authentication]]
+
+## Sources
+
+- [Wikipedia — MCP Client](https://en.wikipedia.org/wiki/MCP_Client)

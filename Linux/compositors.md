@@ -1,87 +1,52 @@
-[[Linux]] [[wayland]] [[x11]] [[Linux window manager]]
+[[display server]] [[wayland]] [[x11]] [[Linux window manager]] [[compositors]]
 
 # compositors
 
-> A compositor builds the final screen image — vsync, transparency, screenshots — either as an X helper or as the Wayland display server itself.
+> A compositor composites window buffers into the final screen image — required for transparency, animations, and many modern desktop effects.
 
----
+On **Wayland**, the compositor *is* the display server: clients submit buffers; the compositor handles input routing and presentation. On **X11**, a separate **compositing manager** (often embedded in the window manager) redirects window painting through an off-screen buffer before the X server shows the frame.
 
-## Index
+## X11 vs Wayland compositing
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Model | Who composites | Examples |
+|-------|----------------|----------|
+| X11 + compositor | Optional compositing manager on top of X server | Picom, Mutter (GNOME), KWin effects |
+| Wayland | Built into compositor | Mutter, KWin, Sway, Hyprland |
 
-## Mental model
-
-**Say it in one breath:** on X, compositors (Picom/Compton) sit atop the WM; on Wayland, the compositor *is* the display server.
-
-```txt
-X11:    apps → WM → (picom) → Xorg → DRM
-Wayland: apps → sway/mutter/kwin → DRM
+```
+Wayland clients ──► compositor ──► kernel DRM/KMS ──► monitor
+X11 clients ──► X server ◄── compositor (redirects) ──► monitor
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **compositing** | Off-screen assemble + flip | “Stops tearing; costs GPU.” |
-| **Picom** | Popular X compositor | “Add effects without changing WM.” |
-| **Mutter/KWin/Sway** | Wayland compositors | “Own input + output.” |
-| **VSync** | Sync to refresh | “Prevents screen tear.” |
-| **direct scanout** | Bypass compose when possible | “Saves power/latency for fullscreen.” |
-
----
-
-## Standard config / commands
+## Picom (standalone X11 compositor)
 
 ```bash
-# X11 helper
-picom --vsync --backend glx &
-# Wayland: choose session (Sway/GNOME/KDE) — no separate picom
+# Install (Debian/Ubuntu)
+sudo apt install picom
 
-journalctl --user -u plasma-kwin_wayland -b   # example
-echo $XDG_SESSION_TYPE
+# Test config
+picom --config ~/.config/picom/picom.conf -b
+
+# Disable vsync for latency testing
+picom --vsync=false
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Backend (glx/xrender) | Performance vs compatibility |
-| Unredirect fullscreen | Latency for games |
+Common `picom.conf` knobs: `backend` (`glx` vs `xrender`), `vsync`, `shadow`, `fade-delta`, `inactive-opacity`.
 
----
+## When compositing breaks
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Tearing on X | Compositor running? | Start picom with vsync |
-| Laggy UI | Heavy effects | Disable blur/shadows |
-| Screenshare black | Portal/compositor | Install xdg-desktop-portal + backend |
-| Games stutter | Compose forced | Enable unredirect / fullscreen direct |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Two compositors at once on X** — DE already compositing + picom = flicker/fights.
-
-> [!WARNING]
-> **NVIDIA + X compositing** historically flaky — prefer vendor-tested setups or Wayland.
-
----
-
-## When NOT to use
-
-- **Latency-critical X games** sometimes disable compositing intentionally.
-- **SSH/no display** — irrelevant.
-
----
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Tearing without compositor | Direct X rendering | Enable compositor or use `picom` |
+| Flicker / black windows | Wrong GL backend | Switch `backend` glx ↔ xrender |
+| High GPU use on old hardware | Full-screen unredirect | `unredir-if-possible = false` in picom |
+| Wayland app blurry on XWayland | Fractional scaling | Set integer scale or check compositor rules |
 
 ## Related
 
-[[wayland]] [[x11]] [[Linux window manager]] [[display server]]
+[[display server]] · [[wayland]] · [[x11]] · [[Linux window manager]] · [[i3 Window Manager Starter Guide]]
+
+## Sources
+
+- [Wayland compositor (Wikipedia)](https://en.wikipedia.org/wiki/Wayland_(protocol)#Compositor)
+- Picom wiki: https://github.com/yshui/picom/wiki

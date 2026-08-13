@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Features** (predictors, X) → **classifier** → **predicted label** (target, y). All sklearn classifiers share `fit(X, y)` and `predict(X)`.
 
@@ -37,7 +28,8 @@ Features x₁…xₚ  →  f(x)  →  ŷ ∈ {classes}
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.ensemble import RandomForestClassifier
@@ -65,7 +57,8 @@ for name, clf in candidates.items():
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +70,7 @@ for name, clf in candidates.items():
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -87,7 +81,8 @@ for name, clf in candidates.items():
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Continuous target** — [[regression]].
 - **Ordered ratings** — [[ordinal classification]].
@@ -95,6 +90,11 @@ for name, clf in candidates.items():
 
 ---
 
+
 ## Related
 
 [[binary classification]] · [[multiclass classification]] · [[Decision tree]] · [[Random forest]] · [[Gradient boosting]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — ML Classifiers](https://en.wikipedia.org/wiki/ML_Classifiers)

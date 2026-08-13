@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `(function () { … })()` creates scope, runs immediately, can return a public API while hiding locals. Modules mostly replaced this pattern.
+## How it works
 
 ```txt
 (function (global) { /* private */ return api })(window)
@@ -31,7 +20,8 @@
 | **module pattern** | Return revealing API | “Closure privacy.” |
 | **async IIFE** | Top-level await polyfill | “`(async () => { await … })()`.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const counter = (() => {
@@ -52,7 +42,8 @@ const counter = (() => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ const counter = (() => {
 | Globals leak | Forgot const/let | Use block/module scope |
 
 ---
+
 
 ## Gotchas
 
@@ -73,13 +65,19 @@ const counter = (() => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **ESM/CJS modules** — use real modules.
 - **React components** — don’t IIFE for render logic casually.
 
 ---
 
+
 ## Related
 
 [[hoisting]] [[UMD global]] [[AMD module]]
+
+## Sources
+
+- [Wikipedia — IIFC](https://en.wikipedia.org/wiki/IIFC)

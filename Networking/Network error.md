@@ -6,47 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `NS_BINDING_ABORTED` | Cancelled navigation? CORS? | Not server bug if user navigated away; fix preflight |
-| Intermittent mobile failures | TLS middleboxes | TLS 1.2+; proper cert chain |
-| Works curl, fails browser | Mixed content, CORS, CSP | HTTPS everywhere; ACAO headers |
-| Spike in timeouts | LB health, SYN queue | Scale backends; `somaxconn`; DDoS |
-| Only one region | DNS geo / routing | GeoDNS; anycast; BGP path |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
+## How it works
 
 **Network errors** happen **before or instead of** an HTTP response:
 
@@ -71,7 +31,8 @@ Common codes/messages:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Browser-side
 
@@ -104,6 +65,37 @@ ss -tan state time-wait | wc -l   # exhaustion vs app bug
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `NS_BINDING_ABORTED` | Cancelled navigation? CORS? | Not server bug if user navigated away; fix preflight |
+| Intermittent mobile failures | TLS middleboxes | TLS 1.2+; proper cert chain |
+| Works curl, fails browser | Mixed content, CORS, CSP | HTTPS everywhere; ACAO headers |
+| Spike in timeouts | LB health, SYN queue | Scale backends; `somaxconn`; DDoS |
+| Only one region | DNS geo / routing | GeoDNS; anycast; BGP path |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -117,20 +109,18 @@ ss -tan state time-wait | wc -l   # exhaustion vs app bug
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't blanket-retry network errors without **idempotency** — POST may have partially succeeded; use idempotency keys and dedupe.
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[TCP]] [[UDP]] [[TLS (Transport Layer Security)]] [[DNS]] [[half-open connections]]
+
+## Sources
+
+- [Wikipedia — Network error](https://en.wikipedia.org/wiki/Network_error)

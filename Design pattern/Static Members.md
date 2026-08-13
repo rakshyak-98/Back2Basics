@@ -1,147 +1,47 @@
-[[java]] [[kotlin]] [[Design pattern]] [[method shadowing]]
+[[Design pattern]] [[Design pattern/OOPS]] [[Design pattern/Abstraction]]
 
-# Static members (class-level state and methods)
+# Static Members
 
-> Belong to the type, not instances — one shared slot in memory; no virtual dispatch; common for factories, constants, and caches; abuse causes test pain and
+> Static members belong to the type itself, not to any instance — shared constants, factory hooks, and singleton holders live here, but static overuse creates hidden global state.
 
----
+## Class-level vs instance-level
 
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-```
-Class Loader loads MyClass
-        │
-        ▼
- Method area / metaclass ──► static fields initialized once
-        │
-        ▼
-All instances share same static field memory
-```
-
-Static methods resolve at **compile time** by reference type — cannot override instance methods polymorphically ([[method shadowing]] hiding rules in Java).
-
-Lifecycle: initialized when class first used (classloader `<clinit>`); order depends on dependency graph — fragile if circular.
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-### Java
-
-```java
-public final class Config {
-    private Config() {} // block instantiate
-
-    public static final int MAX_RETRIES = 3;
-    private static volatile DataSource ds;
-
-    public static DataSource getDataSource() {
-        if (ds == null) {
-            synchronized (Config.class) {
-                if (ds == null) ds = buildPool();
-            }
-        }
-        return ds;
-    }
+```typescript
+class Counter {
+  static total = 0      // one value for all instances
+  count = 0             // per instance
 }
 ```
 
-### Kotlin — `companion object`
+Static methods cannot access instance fields without an instance reference.
 
-```kotlin
-class Api {
-    companion object {
-        const val BASE_URL = "https://api.example.com"
-        fun create(): Api = Api()
-    }
-}
-// Api.BASE_URL, Api.create()
-```
-
-### C#-style pattern in Java — static factory
-
-```java
-public static User fromJson(String json) { ... }
-```
-
-### When static is appropriate
+## Common uses
 
 | Use | Example |
 |-----|---------|
-| Constants | `HTTP_OK = 200` |
-| Pure utilities | `Math.max`, `Objects.requireNonNull` |
-| Factory on type | `MyType.parse(String)` |
-| Per-class lock | `synchronized (MyClass.class)` |
+| Constants | `Math.PI`, enum-like `static readonly` |
+| Factory / utility | `Date.parse()`, `Vector.zero()` |
+| Singleton holder | `getInstance()` on class |
+| Counters / registries | Process-wide metrics (careful with tests) |
 
-### When instance is better
+## Language notes
 
-| Avoid static | Prefer |
-|--------------|--------|
-| Mutable global counters | Injected service / DI bean |
-| Unit test doubles | Interface + instance mock |
-| Per-request state | Request-scoped object |
+- **Java/C#** — `static` fields and methods explicit.
+- **JavaScript/TypeScript** — `static` on class; module-level `const` often replaces class statics.
+- **Go** — no class statics; package-level variables and functions.
+- **Rust** — associated functions on `impl` (`String::from`).
 
-### Testing static (Java)
+## Pitfalls
 
-```java
-// Prefer refactor to instance
-// Or Mockito inline mockStatic (last resort — brittle)
-```
+- **Global mutable statics** — race conditions and test pollution.
+- **Static abuse for "helpers"** — unrelated functions grouped in one class.
+- **method shadowing** — subclass static method with same name as parent static does not override; see [[Design pattern/method shadowing]].
 
-## Triage (when things break)
+## vs Singleton
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `NullPointerException` on static call | Uninitialized static in cycle | Fix class init order; lazy holder idiom |
-| Tests flaky order-dependent | Static mutable state leaks | Reset in `@AfterEach` or remove static |
-| "Override" static — wrong method runs | Hiding not overriding | Call via correct type or make instance method |
-| Memory leak in app server | Static holds ClassLoader ref | Clear static caches on undeploy |
-| Race on static lazy init | Unsynchronized check-then-act | `synchronized` or enum singleton |
+Static accessors on a class often implement [[Design pattern/Singleton]] — same global-state risks apply.
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **Static mutable state** — global variable in disguise; breaks parallel tests and multi-tenant isolation.
-
-> [!WARNING]
-> **Don't change meaning per instance** — static fields aren't polymorphic; `Child.staticField` hides `Parent.staticField` — two separate variables.
-
-> [!WARNING]
-> **Android context in static** — classic memory leak (`static Activity`); use `Application` context carefully.
-
-> [!WARNING]
-> **Initialization order** — static blocks referencing other classes can throw `ExceptionInInitializerError` — hard to debug.
-
-## Trade-offs
-
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- **Dependency injection targets** — Spring/CDI beans should be instances for test/replace.
-- **Simulating polymorphism** — static methods don't participate in virtual dispatch.
-- **Per-object configuration** — use instance fields.
-
-## Related
-
-[[java]] [[kotlin]] [[method shadowing]] [[Design pattern]]
+- Java Language Specification — static members
+- [Static (keyword) — Wikipedia](https://en.wikipedia.org/wiki/Static_(keyword))

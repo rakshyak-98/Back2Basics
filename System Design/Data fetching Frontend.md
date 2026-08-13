@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Treat the server as source of truth; the client holds a cache keyed by query. Deduplicate in-flight requests; invalidate on mutations.
+## How it works
 
 ```txt
 UI → query hook → cache → network → API
@@ -32,7 +21,8 @@ UI → query hook → cache → network → API
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 // Conceptual React Query
@@ -56,7 +46,8 @@ useMutation({
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ useMutation({
 | CORS only in browser | See CORS note | Fix API headers |
 
 ---
+
 
 ## Gotchas
 
@@ -81,7 +73,8 @@ useMutation({
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Fully static site** — bake data at build.
 - **Local-only UI state** — form drafts stay in component state.
@@ -89,6 +82,11 @@ useMutation({
 
 ---
 
+
 ## Related
 
 [[cache system]] [[Real-time Subscription]] [[Authentication web application]] [[ETAG or IF MATCH]]
+
+## Sources
+
+- [Wikipedia — Data fetching Frontend](https://en.wikipedia.org/wiki/Data_fetching_Frontend)

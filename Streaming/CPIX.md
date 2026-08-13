@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Your packager calls a CPIX endpoint; the XML reply has key id, content key, and DRM headers — feed those into CENC encryption and the manifest.
+## How it works
 
 ```txt
 Packager / transcoder
@@ -58,7 +47,8 @@ specification: [DASH-IF CPIX](https://dashif.org/docs/CPIX2.3/Cpix.html). CPIX i
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 Conceptual flow (vendor URL/authentication vary):
 
@@ -88,7 +78,8 @@ Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Elemen
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +91,7 @@ Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Elemen
 | SPEKE timeout on MediaConvert | KMS endpoint / VPC | Network path to key provider; retry + alarms |
 
 ---
+
 
 ## Gotchas
 
@@ -117,7 +109,8 @@ Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Elemen
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Clear (unencrypted) delivery** — no KMS; skip CPIX.
 - **Vendor proprietary-only key API with no CPIX** — use their packager plugin docs instead of forcing XML.
@@ -126,6 +119,11 @@ Wire into [[flussonic]], Shaka Packager, FFmpeg+openssl workflows, or AWS Elemen
 
 ---
 
+
 ## Related
 
 [[DRM]] [[streaming license]] [[Pallycon(DoveRunner)]] [[EME]] [[HLS]] [[DASH]] [[CMAF]] [[flussonic]] [[Manifest (streaming)]]
+
+## Sources
+
+- [Wikipedia — CPIX](https://en.wikipedia.org/wiki/CPIX)

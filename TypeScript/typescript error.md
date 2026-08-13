@@ -6,49 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| TS2307 module | Path / exports / types | Install `@types`; fix resolution |
-| TS2322 null | Possibly undefined | Narrow / optional chain |
-| Explosion of errors | One bad type | Fix source type |
-| IDE only errors | Different TS version | Align workspace TS |
-| Error in `.d.ts` | Bad lib | `skipLibCheck` or upgrade |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** Most errors are mismatch (expected versus actual), nullability, or inference failure. Cascades are common — fix the top of the file/project first.
+## How it works
 
 ```txt
 edit → tsc → TSxxxx + message + related spans
@@ -64,7 +22,8 @@ edit → tsc → TSxxxx + message + related spans
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 npx tsc --noEmit --pretty false | head
@@ -87,6 +46,37 @@ function len(x: string | null) {
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| TS2307 module | Path / exports / types | Install `@types`; fix resolution |
+| TS2322 null | Possibly undefined | Narrow / optional chain |
+| Explosion of errors | One bad type | Fix source type |
+| IDE only errors | Different TS version | Align workspace TS |
+| Error in `.d.ts` | Bad lib | `skipLibCheck` or upgrade |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -100,7 +90,8 @@ function len(x: string | null) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Silencing with `any`** — quarantine.
 - **Disabling strict to green CI** — temporary only with plan.
@@ -108,14 +99,11 @@ function len(x: string | null) {
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[tsconfig]] [[typescript]] [[typescript types]] [[ambient modules]]
+
+## Sources
+
+- [Wikipedia — typescript error](https://en.wikipedia.org/wiki/typescript_error)

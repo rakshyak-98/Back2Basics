@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **SCTP** sits **above IP**, offering **multiple streams** with optional **reliable ordered** delivery — unlike TCP's single byte stream. In **[[WebRTC]]**, SCTP runs **inside DTLS** (UDP) as **SCTP-over-DTLS**, carrying **DataChannel** messages (chat, game state, file transfer) **separate from** SRTP audio/video.
 
@@ -38,7 +29,8 @@ Telecom origin (SS7 transport) — streaming engineers meet SCTP via **browser R
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Browser DataChannel (application code)
 
@@ -92,7 +84,8 @@ mtr -u turn.example.com
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ mtr -u turn.example.com
 | SCTP abort on reconnect | New PeerConnection | Re-establish DataChannel on ICE restart |
 
 ---
+
 
 ## Gotchas
 
@@ -121,7 +115,8 @@ mtr -u turn.example.com
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
 - **Replacing TCP API** — use HTTP/gRPC for server-client CRUD.
@@ -129,6 +124,11 @@ mtr -u turn.example.com
 
 ---
 
+
 ## Related
 
 [[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[UDP]] [[DTLS]] [[webSocket]]
+
+## Sources
+
+- [Wikipedia — SCTP](https://en.wikipedia.org/wiki/SCTP)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Zookeeper — a distributed coordination service used by kafka to manage metadata, leader election, and synchronization across brokers.
+## How it works
 
 is a [[distributed coordination service]] used by kafka to manage metadata, leader election, and synchronization across brokers.
 | Function                 | Description                                                     |
@@ -33,7 +22,8 @@ is a [[distributed coordination service]] used by kafka to manage metadata, lead
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -42,7 +32,8 @@ is a [[distributed coordination service]] used by kafka to manage metadata, lead
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,6 +43,7 @@ is a [[distributed coordination service]] used by kafka to manage metadata, lead
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -59,12 +51,18 @@ is a [[distributed coordination service]] used by kafka to manage metadata, lead
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Kafka]]
+
+## Sources
+
+- [Wikipedia — Zookeeper](https://en.wikipedia.org/wiki/Zookeeper)

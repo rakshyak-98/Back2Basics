@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** nginx core functionality — all workers processes get simultaneously notified about a new incoming connection.
+## How it works
 
 `accept_mutex`
 When `accept_mutex` disabled
@@ -27,13 +16,15 @@ When `accept_mutex` disabled
 - The others get `EAGAIN` (or similar) and go back to sleep.
 This is called **thundering herd** problem (or wake-up storm).
 
-## Standard config / commands
+
+## Configuration and commands
 
 Roles: reverse proxy, static file server, TLS termination, load balancer (`upstream`).
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -43,6 +34,7 @@ Roles: reverse proxy, static file server, TLS termination, load balancer (`upstr
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -50,13 +42,19 @@ Roles: reverse proxy, static file server, TLS termination, load balancer (`upstr
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not use Nginx alone for WebSocket-heavy apps without proper `proxy_read_timeout` tuning.
 
 
 ---
 
+
 ## Related
 
 [[Nginx]]
+
+## Sources
+
+- [Wikipedia — nginx core functionality](https://en.wikipedia.org/wiki/nginx_core_functionality)

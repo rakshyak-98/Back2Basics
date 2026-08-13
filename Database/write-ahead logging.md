@@ -1,43 +1,36 @@
-[[Database]] [[WAL (Write-Ahead Log)]]
+[[WAL (Write-Ahead Log)]] [[ACID]] [[ARIES]] [[mysql engine]] [[SQL/postgres]]
 
 # write-ahead logging
 
-> Same idea as WAL — log durable changes before data files. See the full note.
+> The protocol that appends change records to a log and fsyncs them before acknowledging commit—foundation of crash-safe [[ACID]] durability in PostgreSQL, InnoDB, and most relational engines.
 
----
+## Mechanism
 
-## Index
+1. Transaction modifies pages in the **buffer pool** (memory).
+2. Engine appends **redo records** describing the change to the [[WAL (Write-Ahead Log)]].
+3. On `COMMIT`, log records reach durable media (policy-dependent).
+4. Dirty data pages are written asynchronously; order does not matter because redo can reconstruct them.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## Checkpointing
 
-## Mental model
+Periodically the engine writes dirty pages and records a **checkpoint LSN**. Log segments before the checkpoint can be recycled. Long checkpoints or tiny logs increase write amplification.
 
-All content lives in [[WAL (Write-Ahead Log)]] (mental model, fsync tuning, Postgres/MySQL triage, gotchas).
+## Read path interaction
 
-## Standard config / commands
+Readers use buffer pool pages; they do not wait for WAL replay unless recovery is in progress. [[MVCC]] provides consistent snapshots independent of page flush timing.
 
-…
+## Operational checks
 
-## Triage (when things break)
+```sql
+-- PostgreSQL: current WAL insert position
+SELECT pg_current_wal_lsn();
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
+-- MySQL: InnoDB status includes log sequence number
+SHOW ENGINE INNODB STATUS\G
+```
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
-
-## Related
-
-[[WAL (Write-Ahead Log)]] [[fsync]] [[ACID]]
+- PostgreSQL Documentation — [Reliability and the Write-Ahead Log](https://www.postgresql.org/docs/current/wal.html)
+- MySQL Reference Manual — [InnoDB Recovery](https://dev.mysql.com/doc/refman/en/innodb-recovery.html)
+- Wikipedia — [Write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging)

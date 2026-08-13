@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
@@ -38,7 +29,8 @@ Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Flowchart (service triage)
 
@@ -98,7 +90,8 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -110,6 +103,7 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 | PDF export broken | SVG font issues | Simplify labels; export PNG from live editor |
 
 ---
+
 
 ## Gotchas
 
@@ -127,7 +121,8 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Precise network topology with IP/rack** — draw.io, Lucid, or IaC diagram generators.
 - **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
@@ -135,6 +130,11 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 
 ---
 
+
 ## Related
 
-[[INDEX]] · [[NOTES_STANDARD]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace application]]
+[[INDEX]] · [[AGENT_NOTE_RULES]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace application]]
+
+## Sources
+
+- [Wikipedia — Mermaid](https://en.wikipedia.org/wiki/Mermaid)

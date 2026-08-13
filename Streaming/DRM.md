@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Multi-DRM]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Encrypt media once with a content key, signal DRM in the manifest, then the player asks a license server for that key only if the user is allowed.
+## How it works
 
 ```txt
 Clear mezzanine / live ingest
@@ -72,7 +60,8 @@ That banner means encryption is on — not a player bug. Only CDM-compatible pla
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 Typical live path (Flussonic-style packager + DoveRunner):
 
@@ -100,7 +89,8 @@ Debug: browser `chrome://media-internals` + player DRM logs; confirm `ContentPro
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -114,20 +104,6 @@ Debug: browser `chrome://media-internals` + player DRM logs; confirm `ContentPro
 
 ---
 
-## Multi-DRM
-
-**Multi-DRM** means one CENC-encrypted asset (ISO/IEC 23001-7) with several DRM signaling blobs so Widevine, PlayReady, and FairPlay clients can each get a license for the **same** ciphertext.
-
-```txt
-One encrypted ladder
-   ├── Widevine PSSH  → Widevine license
-   ├── PlayReady HDR  → PlayReady license
-   └── FairPlay / HLS key URI → FPS license
-```
-
-Pack once; license paths differ per platform. Do not re-encode per DRM.
-
----
 
 ## Gotchas
 
@@ -145,7 +121,8 @@ Pack once; license paths differ per platform. Do not re-encode per DRM.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal / low-value clips** — signed URLs or application authentication may be enough; DRM cost and support load are high.
 - **You only need link expiry** — CDN token authentication, not full CDM.
@@ -154,6 +131,27 @@ Pack once; license paths differ per platform. Do not re-encode per DRM.
 
 ---
 
+
+## Multi-DRM
+
+**Multi-DRM** means one CENC-encrypted asset (ISO/IEC 23001-7) with several DRM signaling blobs so Widevine, PlayReady, and FairPlay clients can each get a license for the **same** ciphertext.
+
+```txt
+One encrypted ladder
+   ├── Widevine PSSH  → Widevine license
+   ├── PlayReady HDR  → PlayReady license
+   └── FairPlay / HLS key URI → FPS license
+```
+
+Pack once; license paths differ per platform. Do not re-encode per DRM.
+
+---
+
+
 ## Related
 
 [[EME]] [[CAS (Conditional Access System)]] [[CPIX]] [[streaming license]] [[Pallycon(DoveRunner)]] [[CDM (Content Decryption Module)]] [[HLS]] [[DASH]] [[CMAF]] [[flussonic]]
+
+## Sources
+
+- [Wikipedia — DRM](https://en.wikipedia.org/wiki/DRM)

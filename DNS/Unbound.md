@@ -1,114 +1,78 @@
-[[DNS]] [[DNS server]] [[public resolver]] [[BIND]] [[PoserDNS]]
+[[DNS]] · [[public resolver]] · [[name server]] · [[dnsmasq]]
 
 # Unbound
 
-> Unbound — validating recursive DNS resolver: walks the hierarchy, caches answers, checks DNSSEC — not an authoritative zone host.
+> Unbound is a validating recursive DNS resolver designed for security and performance — run it on servers or laptops to cache queries locally, enforce DNSSEC, and forward or recurse without trusting ISP DNS.
 
 ---
 
-## Index
+## Typical deployment roles
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Role | Configuration |
+|------|---------------|
+| **Local recursive resolver** | Full iteration from root hints |
+| **Forwarding resolver** | Forwards to [[public resolver]] or ISP |
+| **DNSSEC validator** | `module-config: "validator iterator"` |
+| **Corporate internal** | Split DNS with local zones + forward public |
 
-## Mental model
+Not to be confused with bash `set -u` (**nounset**) discussed in [[unbound variable]].
 
-**Say it in one breath:** Clients ask Unbound; Unbound queries root → TLD → authentication NS (or your forwarders), validates DNSSEC when present, and caches — you stop depending on ISP DNS.
+## Minimal `unbound.conf`
 
-```txt
-Stub → Unbound (recurse + DNSSEC + cache)
-            ├─→ root / TLD / auth   (full recurse)
-            └─→ optional forward-zone → upstream
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Recursive resolver** | Finds answers for clients | “Unbound is recursive-only by design.” |
-| **DNSSEC validation** | Cryptographic authenticity | “SERVFAIL on bogus signatures — good.” |
-| **qname minimization** | Ask parents less of the name | “Privacy: don’t leak full QNAME early.” |
-| **DoT / DoH** | Encrypted DNS to upstream or clients | “TLS on 853 / HTTPS for DNS.” |
-| **NSD** | NLnet Labs *authoritative* sibling | “Pair NSD + Unbound for split roles.” |
-
-Common home lab: Pi-hole → Unbound (filter then recurse).
-
----
-
-## Standard config / commands
-
-```txt
-# /etc/unbound/unbound.conf.d/local.conf (sketch)
+```yaml
 server:
   interface: 127.0.0.1
   access-control: 127.0.0.0/8 allow
-  access-control: 10.0.0.0/8 allow
+  do-ip6: yes
   hide-identity: yes
   hide-version: yes
-  qname-minimisation: yes
-  auto-trust-anchor-file: "/var/lib/unbound/root.key"
+  harden-glue: yes
+  use-caps-for-id: yes
+  prefetch: yes
+  num-threads: 2
 
 forward-zone:
   name: "."
-  forward-tls-upstream: yes
-  forward-addr: 1.1.1.1@853#cloudflare-dns.com
-# Or omit forward-zone for full recursion from root
+  forward-addr: 1.1.1.1@53
+  forward-addr: 8.8.8.8@53
 ```
+
+Restrict `access-control` — never open recursion to `0.0.0.0/0` without rate limits.
+
+## systemd
 
 ```bash
-unbound-checkconf
-systemctl reload unbound
-dig @127.0.0.1 example.com
-unbound-control status
-unbound-control dump_cache | head
+sudo systemctl enable --now unbound
+resolvectl status   # ensure not fighting systemd-resolved on :53
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `access-control` | Without it, easy to become an open resolver |
-| Full recurse vs forward | Forward is simpler behind firewalls; full recurse needs outbound 53 |
-| `val-permissive-mode` | Disabling hard fail weakens DNSSEC — know why you flip it |
+## DNSSEC validation
 
----
+When validation fails, Unbound returns `SERVFAIL`. Debug:
 
-## Triage (when things break)
+```bash
+dig @127.0.0.1 example.com A +dnssec
+unbound-control status
+```
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| SERVFAIL only on signed domains | DNSSEC clock / anchor | NTP sync; update root key; check `unbound-host -v` |
-| Timeout | Outbound 53/853 blocked | Allow egress; or configure forwarders |
-| Works on 8.8.8.8 not Unbound | Local ACL / listen | Fix `interface` + `access-control` |
-| Stale records | Cache | `unbound-control flush_zone example.com` |
-| High CPU | Attack / spam queries | Rate limits; dig into top talkers |
-| Pi-hole “DNS not available” | Unbound not listening | Start Unbound before Pi-hole upstream test |
+Broken parental DS records or clock skew cause false negatives.
 
----
+## vs [[BIND]]
 
-## Gotchas
+| Unbound | BIND |
+|---------|------|
+| Recursive focus | Authoritative + recursive |
+| Lightweight | Full zone master features |
+| Default on many Linux stubs | Enterprise authoritative standard |
 
-> [!WARNING]
-> **Unbound does not host your `example.com` zone** — publish zones on auth ([[BIND]] / PowerDNS / NSD).
+Pair **BIND authoritative** internally with **Unbound** on clients or DMZ resolvers.
 
-> [!WARNING]
-> **DNSSEC SERVFAIL looks like “internet broken”** — middleboxes that break signatures need fixing, not `val-permissive` forever.
+## Recall
 
-> [!WARNING]
-> **Open `interface: 0.0.0.0` + allow any** — you will be used for amplification.
+- Why bind Unbound to localhost on a laptop?
+- What symptom indicates DNSSEC validation failure?
 
----
+## Sources
 
-## When NOT to use
-
-- **Authoritative hosting** — use NSD/BIND/PowerDNS.
-- **Kubernetes Service discovery** — [[CoreDNS]].
-- **Tiny appliance that only needs DHCP + a few static names** — [[dnsmasq]] may be enough.
-
----
-
-## Related
-
-[[DNS]] [[DNS server]] [[public resolver]] [[BIND]] [[PoserDNS]] [[CoreDNS]] [[dnsmasq]] [[name server]] [[unbound variable]]
+- [Unbound documentation](https://unbound.docs.nlnetlabs.nl/)
+- [NLnet Labs — Unbound](https://nlnetlabs.nl/projects/unbound/about/)

@@ -6,19 +6,82 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Triage (error → cause → fix)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
+Certbot talks to an [[ACME server]] (Let's Encrypt by default) through **challenges** to prove domain control. Failures cluster into: **policy**, **DNS**, **HTTP reachability**, **rate limits**, **local misconfig**, and **renewal drift**.
+
+```
+certbot → ACME order → challenge (http-01 | dns-01 | tls-alpn-01)
+              ↓ pass
+         certificate issued → /etc/letsencrypt/live/<name>/
+              ↓ fail
+         order invalid → read sub-problems in log
+```
+
+Always read the **sub-problem** detail — Certbot aggregates multiple SAN failures into one line.
+
+
+## Configuration and commands
+
+```shell
+# Verbose run (first triage step)
+sudo certbot certonly --dry-run -v
+
+# Renew test
+sudo certbot renew --dry-run -v
+
+# Single domain HTTP-01 (nginx standalone or webroot)
+sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
+
+# DNS-01 (wildcard — needs plugin)
+sudo certbot certonly --dns-cloudflare -d example.com -d '*.example.com'
+
+# Inspect cert expiry / SANs
+sudo certbot certificates
+openssl x509 -in /etc/letsencrypt/live/example.com/fullchain.pem -noout -dates -subject -ext subjectAltName
+
+# Logs
+sudo tail -100 /var/log/letsencrypt/letsencrypt.log
+journalctl -u certbot.timer
+```
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
+## Gotchas
+
+> [!WARNING]
+> **`certbot certonly` doesn't install into nginx** — you must point `ssl_certificate` at `/etc/letsencrypt/live/...` and reload.
+
+> [!WARNING]
+> **Staging vs production:** Hit `https://acme-staging-v02.api.letsencrypt.org/directory` for tests — avoids rate limits while iterating.
+
+- **Wildcard requires DNS-01** — HTTP-01 cannot prove `*.example.com`.
+- **Cloudflare orange-cloud proxy** is fine for http-01 if origin serves challenge; DNS-01 easier for wildcards.
+- **Multiple servers** sharing one name need shared webroot or DNS-01 — standalone mode only works on one host.
+- **Short cert lifetime (90d)** — monitor expiry externally (uptime check), not only `certbot.timer` locally.
+
+
+## When not to use
+
+- Internal mTLS mesh between services → private CA (step-ca, Vault) not Let's Encrypt.
+- Devices without public DNS → don't force public ACME; use DNS-01 with API or internal PKI.
+
 
 ## Triage (error → cause → fix)
 
@@ -54,84 +117,11 @@ The ACME server refuses to issue for this domain name, because it is forbidden b
 2. Remove non-public names from the cert request; use internal CA for `.local` / `.internal`.
 3. Re-run with only valid FQDNs: `certbot certonly --webroot ... -d valid.example.com`.
 
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-Certbot talks to an [[ACME server]] (Let's Encrypt by default) through **challenges** to prove domain control. Failures cluster into: **policy**, **DNS**, **HTTP reachability**, **rate limits**, **local misconfig**, and **renewal drift**.
-
-```
-certbot → ACME order → challenge (http-01 | dns-01 | tls-alpn-01)
-              ↓ pass
-         certificate issued → /etc/letsencrypt/live/<name>/
-              ↓ fail
-         order invalid → read sub-problems in log
-```
-
-Always read the **sub-problem** detail — Certbot aggregates multiple SAN failures into one line.
-
-## Standard config / commands
-
-```shell
-# Verbose run (first triage step)
-sudo certbot certonly --dry-run -v
-
-# Renew test
-sudo certbot renew --dry-run -v
-
-# Single domain HTTP-01 (nginx standalone or webroot)
-sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
-
-# DNS-01 (wildcard — needs plugin)
-sudo certbot certonly --dns-cloudflare -d example.com -d '*.example.com'
-
-# Inspect cert expiry / SANs
-sudo certbot certificates
-openssl x509 -in /etc/letsencrypt/live/example.com/fullchain.pem -noout -dates -subject -ext subjectAltName
-
-# Logs
-sudo tail -100 /var/log/letsencrypt/letsencrypt.log
-journalctl -u certbot.timer
-```
-
-## Gotchas
-
-> [!WARNING]
-> **`certbot certonly` doesn't install into nginx** — you must point `ssl_certificate` at `/etc/letsencrypt/live/...` and reload.
-
-> [!WARNING]
-> **Staging vs production:** Hit `https://acme-staging-v02.api.letsencrypt.org/directory` for tests — avoids rate limits while iterating.
-
-- **Wildcard requires DNS-01** — HTTP-01 cannot prove `*.example.com`.
-- **Cloudflare orange-cloud proxy** is fine for http-01 if origin serves challenge; DNS-01 easier for wildcards.
-- **Multiple servers** sharing one name need shared webroot or DNS-01 — standalone mode only works on one host.
-- **Short cert lifetime (90d)** — monitor expiry externally (uptime check), not only `certbot.timer` locally.
-
-## When NOT to use
-
-- Internal mTLS mesh between services → private CA (step-ca, Vault) not Let's Encrypt.
-- Devices without public DNS → don't force public ACME; use DNS-01 with API or internal PKI.
-
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[TLS (Transport Layer Security)]] · [[ACME server]] · [[Configuration]] · [[DNS]]
+
+## Sources
+
+- [Wikipedia — certbot error](https://en.wikipedia.org/wiki/certbot_error)

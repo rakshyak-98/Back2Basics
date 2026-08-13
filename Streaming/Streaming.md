@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Take bytes in, encode a ladder, package manifests + segments (or peer media), push through CDN or ICE, then the player decodes to the screen.
+## How it works
 
 ```txt
 Publisher (OBS / encoder / file)
@@ -62,17 +49,8 @@ Video and audio encode apart; a **muxer** interleaves them with timestamps (PTS/
 
 ---
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ### Local loop — UDP in, HLS out (lab)
 
@@ -111,7 +89,20 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 
 ---
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -125,6 +116,7 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 | Call connects, media silence | ICE/TURN | [[ICE (Interactive Connectivity Establishment)]] |
 
 ---
+
 
 ## Gotchas
 
@@ -142,7 +134,8 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Download-and-watch file delivery** — progressive MP4 / HLS VoD still “streams,” but don’t invent live packaging for a file drop.
 - **Massive one-to-many on WebRTC mesh** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers.
@@ -150,6 +143,11 @@ Debug: `ffprobe` the playlist/segments; CDN logs for 404/403; `chrome://media-in
 
 ---
 
+
 ## Related
 
 [[ingestion]] [[Encoding]] [[transcoding]] [[ABR]] [[rendition]] [[bitrate streaming]] [[HLS]] [[DASH]] [[HLS vs. DASH]] [[CMAF]] [[Manifest (streaming)]] [[streaming manifest file]] [[MPD]] [[MPEG-TS]] [[RTMP]] [[SRT]] [[RTSP]] [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[DRM]] [[EME]] [[OBS]] [[flussonic]]
+
+## Sources
+
+- [Wikipedia — Streaming](https://en.wikipedia.org/wiki/Streaming)

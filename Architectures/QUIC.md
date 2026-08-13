@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **QUIC** (Quick UDP Internet Connections) moves transport into user space over **UDP**, integrating encryption and stream multiplexing. Designed to fix **TCP head-of-line blocking** and slow connection setup for web apps.
 
@@ -40,7 +31,8 @@ HTTP/3
 
 Originated by Jim Roskind at Google; standardized as IETF QUIC; **HTTP/3** = HTTP over QUIC.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Verify HTTP/3 on site
 
@@ -81,7 +73,8 @@ sudo ufw allow 443/udp
 tc qdisc add dev eth0 root netem loss 1%
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,6 +83,7 @@ tc qdisc add dev eth0 root netem loss 1%
 | 0-RTT replay concerns | Idempotent GET only | Disable 0-RTT for non-idempotent routes |
 | CPU high on edge | QUIC in userspace | Hardware TLS; tune worker count |
 | Connection migration fails | NAT rebinding | QUIC connection IDs — usually CDN handles |
+
 
 ## Gotchas
 
@@ -100,11 +94,17 @@ tc qdisc add dev eth0 root netem loss 1%
 - **Load balancer stickiness** — QUIC connection != TCP connection; use compatible LB (CDN).
 - **Debugging** — `tcpdump` shows encrypted UDP; use qlog / Chrome net-internals.
 
-## When NOT to use
+
+## When not to use
 
 - Internal east-west microservice mesh on trusted LAN — gRPC over HTTP/2 may be simpler operations.
 - Legacy clients only — maintain dual stack until analytics show negligible h3 need.
 
+
 ## Related
 
 [[Networking/UDP]] [[Security/TLS (Transport Layer Security)]] [[Security/https]] [[Nginx/Configuration]]
+
+## Sources
+
+- [Wikipedia — QUIC](https://en.wikipedia.org/wiki/QUIC)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **constructor function** is a normal function intended to be called with `new`. It creates an object, links prototypes, runs the body with `this` bound to that object, and returns it (unless overridden).
 
@@ -36,7 +27,8 @@ new Person('Ada')
 
 Constructors are **not** special to the engine — only `new` gives them constructor semantics.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### ES5 constructor + prototype methods
 
@@ -88,7 +80,8 @@ class Admin extends User {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ class Admin extends User {
 | `instanceof` false across iframes | Different realm prototypes | Duck-type or Symbol branding |
 | Subclass `this` before `super` | ES6 class rules | Call `super()` first in derived constructor |
 | Constructor returns plain object | Explicit `return { … }` | Only return object if intentional; else omit return |
+
 
 ## Gotchas
 
@@ -107,12 +101,18 @@ class Admin extends User {
 - **Shared state bug:** `function User() { this.tags = []; }` is per-instance; `User.prototype.tags = []` is shared.
 - **Minification + `instanceof`:** breaking constructor names can confuse debuggers, not semantics.
 
-## When NOT to use
+
+## When not to use
 
 - Simple data holders — plain objects or `Object.create(null)` suffice.
 - Heavy inheritance hierarchies — favor composition or factory functions.
 - TypeScript codebase — `class` + interfaces gives better tooling.
 
+
 ## Related
 
 [[Descriptive/JavaScript/new]] [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/execution context]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — constructor function](https://en.wikipedia.org/wiki/constructor_function)

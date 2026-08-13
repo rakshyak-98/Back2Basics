@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** GIL (Global interpreter lock) — global interpreter lock : A global interpreter lock is a mechanism used in computer-language interpreters to synchronise the…
+## How it works
 
 [GIL](https://en.wikipedia.org/wiki/Global_interpreter_lock](https://en.wikipedia.org/wiki/Global_interpreter_lock)
 **Global interpreter lock** : A global interpreter lock is a mechanism used in computer-language interpreters to synchronise the execution of threads so that only one native thread (pre process) can execute one thread to execute at a time, even if run on a multi-core processor.
@@ -27,7 +16,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -36,7 +26,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -46,6 +37,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -53,12 +45,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Python]]
+
+## Sources
+
+- [Wikipedia — GIL](https://en.wikipedia.org/wiki/GIL)

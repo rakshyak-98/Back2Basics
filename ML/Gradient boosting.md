@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Boosting builds an additive model:
 
@@ -39,7 +30,8 @@ Final: weighted sum of M small trees
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### scikit-learn `HistGradientBoosting*` (preferred in sklearn ≥1.0)
 
@@ -89,7 +81,8 @@ model = xgb.train(
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -101,6 +94,7 @@ model = xgb.train(
 | Serving latency high | Tree count × depth | Limit rounds; model distillation; ONNX + treelite |
 
 ---
+
 
 ## Gotchas
 
@@ -118,7 +112,8 @@ model = xgb.train(
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny tabular data (< few hundred rows)** — linear/logistic + strong regularization often generalizes better with less tuning.
 - **Need online learning** — GBDT retrains are batch-heavy; consider linear models or incremental learners.
@@ -127,6 +122,11 @@ model = xgb.train(
 
 ---
 
+
 ## Related
 
 [[xg boost]] · [[Random forest]] · [[Decision tree]] · [[Model/Linear regression]] · [[multiclass classification]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — Gradient boosting](https://en.wikipedia.org/wiki/Gradient_boosting)

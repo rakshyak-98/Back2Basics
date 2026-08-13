@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Cilium sits at the **data plane** of Kubernetes networking:
 
@@ -40,7 +31,8 @@ Components on each node:
 
 Pod identity = **labels**, not IP — policies survive restarts.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Verify install
 
@@ -116,7 +108,8 @@ kubectl -n kube-system exec ds/cilium -- cilium service list
 # BPF LB maps should list ClusterIPs
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -145,6 +138,7 @@ kubectl get endpointslices -n <ns> -l kubernetes.io/service-name=<svc>
 kubectl -n kube-system logs ds/cilium -c cilium-agent --tail=100
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -159,12 +153,18 @@ kubectl -n kube-system logs ds/cilium -c cilium-agent --tail=100
 - **Cilium strict mode** — breaks legacy apps expecting arbitrary egress; roll out namespace by namespace.
 - **L7 policy needs proxy** — first packet latency; ensure resources for Envoy sidecar path.
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny single-node lab** — flannel/canal simpler; Cilium shines at policy + observability scale.
 - **Non-Kubernetes bare metal** — Cilium exists but different install; don't assume kube chart.
 - **Replacing application authentication with NP** — network segmentation complements, doesn't replace mTLS/authZ.
 
+
 ## Related
 
 [[Kubernetes services]] [[ingress]] [[kubectl]] [[Pods]] [[Networking]]
+
+## Sources
+
+- [Wikipedia — Cilium](https://en.wikipedia.org/wiki/Cilium)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `child_process.spawn(command, args[], options)` starts a **child process** and returns a `ChildProcess` with `.stdin`, `.stdout`, `.stderr` streams. Unlike `exec`, **no shell** is invoked unless `shell: true` — safer and faster for fixed binaries.
 
@@ -30,7 +21,8 @@ Node parent                    Child process
 
 Use `spawn` for long-running or high-volume output. Use `exec`/`execFile` when you need buffered output in a callback (small output only).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic spawn
 
@@ -97,7 +89,8 @@ const timer = setTimeout(() => {
 child.on('close', () => clearTimeout(timer));
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +100,7 @@ child.on('close', () => clearTimeout(timer));
 | Shell injection | User input in command string | Use arg array; never `shell: true` with user input |
 | Zombie children | No `close` handler | Always listen `close`; `child.unref()` if intentional daemon |
 | Exit code null + signal | Killed by SIGKILL/OOM | Check dmesg/cgroups |
+
 
 ## Gotchas
 
@@ -119,12 +113,18 @@ child.on('close', () => clearTimeout(timer));
 > [!WARNING]
 > **Windows vs Unix** — `.cmd`/`.bat` need shell or `execFile` with `shell: true` on Windows.
 
-## When NOT to use
+
+## When not to use
 
 - **Run another Node script with IPC** — use [[fork]] for built-in message channel.
 - **Tiny one-liner, small output** — `execFile` is simpler.
 - **CPU work in-process** — use [[worker threads]], not shelling out.
 
+
 ## Related
 
 [[child process]] [[fork]] [[CLI]] [[Node.js run as a non-privileged user]]
+
+## Sources
+
+- [Wikipedia — spawn](https://en.wikipedia.org/wiki/spawn)

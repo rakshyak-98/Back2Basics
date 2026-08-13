@@ -1,90 +1,67 @@
-[[System Design]] [[orchestration]] [[backpressure]] [[Eventual consistency]]
+[[orchestration]] [[backpressure]] [[Eventual consistency]] [[stateless offset handling]]
 
 # event-driven
 
-> Event-driven architecture — services react to facts (“OrderPlaced”) instead of calling each other for every side effect.
+> Event-driven architecture publishes facts ("OrderPlaced", "UserRegistered") to a durable log or bus so downstream services react asynchronously — decoupling deploy and scale at the cost of eventual consistency and operational complexity.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Write to a log/bus; consumers update their own models. Decouples deploy and scale; adds eventual consistency and replay complexity.
+## Choreography versus orchestration
 
 ```txt
-Service A ──event──► Bus/Log ──► Consumers B,C
+Service A ──event──► Bus / log ──► Consumers B, C
                          │
-                      replay / DLQ
+                    replay / dead-letter queue
 ```
 
-| Style | Coupling |
-|-------|----------|
-| Choreography | Consumers listen; no central brain |
-| Orchestration | Workflow engine commands steps |
-| CQRS | Writes events; reads projections |
+| Style | Who coordinates |
+|-------|-----------------|
+| **Choreography** | Each consumer reacts; no central brain |
+| **Orchestration** | Workflow engine commands steps ([[orchestration]]) |
+| **Command Query Responsibility Segregation** | Writes emit events; reads use projections |
 
----
+Choose choreography when steps are loosely coupled; orchestration when you need visible workflow state and compensations (sagas).
 
-## Standard config / commands
+## Event envelope
 
 ```json
 {
   "type": "order.placed",
   "id": "evt_123",
   "ts": "2026-08-09T12:00:00Z",
-  "data": { "orderId": "o1", "total": 1999 }
+  "data": { "orderId": "o1", "totalCents": 1999 }
 }
 ```
 
 | Rule | Why |
 |------|-----|
-| Idempotent consumers | At-least-once delivery |
-| Schema version | Evolve safely |
-| Outbox pattern | DB + event atomicity |
+| Idempotent consumers | Delivery is at-least-once |
+| Schema versioning | Evolve without breaking all consumers |
+| Transactional outbox | Database commit and event publish atomically |
+| Partition key | Per-entity ordering when needed |
 
----
+## Failure modes
 
-## Triage (when things break)
+| Symptom | Direction |
+|---------|-----------|
+| Missing side effect | Consumer lag or error — fix and replay from offset ([[stateless offset handling]]) |
+| Duplicates | Idempotency store keyed by event identifier |
+| Database updated, no event | Outbox pattern — never dual-write without coordination |
+| Poison message | Dead-letter queue and alert |
+| Ordering surprises | Wrong partition key — co-locate related events |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Missing side effect | Consumer lag/error | Fix consumer; replay from offset |
-| Duplicates | Retry | Idempotency store |
-| Dual-write drift | DB commit without event | Transactional outbox |
-| Poison message | Same fail forever | DLQ + alert |
-| Ordering surprises | Multi-partition key | Choose partition key wisely |
+## Trade-offs
 
----
+**Pros:** independent scaling, temporal decoupling, audit trail, replay for new projections.
 
-## Gotchas
+**Cons:** debugging across async boundaries, schema governance, consumer lag monitoring, [[Eventual consistency]] in read models.
 
-> [!WARNING]
-> **Sync request/response hidden in events** — you’ll invent sagas; maybe just RPC.
+Simple create-read-update-delete with three services may stay synchronous ([[KISS]]). Event buses are not free — budget operators and schema registry.
 
-> [!WARNING]
-> **Fat events vs thin** — PII and huge blobs in the bus hurt.
+*When would you still use remote procedure call?* Request-response with immediate answer and strong consistency on one aggregate.
 
-> [!WARNING]
-> **No ownership of schemas** — chaos; use registry.
+## Sources
 
----
-
-## When NOT to use
-
-- **Simple CRUD application** — direct calls clearer.
-- **Need immediate cross-service transaction** — rethink boundaries or use orchestrated saga carefully.
-- **Tiny team operations** — bus + schemas + DLQ is real cost.
-
----
-
-## Related
-
-[[orchestration]] [[stateless offset handling]] [[Eventual consistency]] [[backpressure]]
+- Martin Kleppmann, *Designing Data-Intensive Applications* — logs, streams, and processing.
+- Enterprise Integration Patterns (Hohpe & Woolf) — message channel patterns.
+- Chris Richardson, microservices.io — saga and event-driven patterns.

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Two compatibility layers:
 
@@ -35,7 +26,8 @@ Ship polyfills only for **browsers you support** — unnecessary bytes on modern
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Manual minimal polyfill
 
@@ -81,7 +73,8 @@ if (!globalThis.structuredClone) {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,6 +86,7 @@ if (!globalThis.structuredClone) {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -103,7 +97,8 @@ if (!globalThis.structuredClone) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal apps on latest Chrome only** — drop polyfills; set browserslist accordingly.
 - **Node LTS with native API** — use `engines` in package.json instead.
@@ -111,6 +106,11 @@ if (!globalThis.structuredClone) {
 
 ---
 
+
 ## Related
 
 [[Descriptive/JavaScript/Polyfilling]] · [[javascript engine]] · [[SWC]] · [[React build]] · [[wasm]]
+
+## Sources
+
+- [Wikipedia — polyfills](https://en.wikipedia.org/wiki/polyfills)

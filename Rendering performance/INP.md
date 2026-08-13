@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **INP** captures **worst-case** (or high percentile) delay between interaction (click, tap, key) and when the browser **paints the next frame** showing feedback. Target: **≤ 200 ms** good, **200–500 ms** needs improvement, **> 500 ms** poor.
 
@@ -32,7 +23,8 @@ Main thread busy? ──yes──► delay (long task)
 
 Unlike **FID** (first input only), INP considers **all interactions** during page lifetime (field data p75).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Measure in production (web-vitals library)
 
@@ -78,7 +70,8 @@ const worker = new Worker('/worker.js');
 | **CrUX / Search Console** | Real user INP (28-day p75) |
 | **Lighthouse** | Lab proxy — not official INP score |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ const worker = new Worker('/worker.js');
 | After deploy regression | New sync JSON parse | Stream/chunk; Web Worker |
 | Third-party widgets | Tag managers on click | Delay load; facade buttons |
 | INP N/A in report | No interactions / bfcache | Normal for static pages |
+
 
 ## Gotchas
 
@@ -97,10 +91,16 @@ const worker = new Worker('/worker.js');
 - **preventDefault** on slow handler blocks native feedback — show instant optimistic UI.
 - **100 ms input delay** from overlay capturing events — check z-index hit targets.
 
-## When NOT to use
+
+## When not to use
 
 - Don't chase sub-50 ms INP on internal administrator tools with 5 users — focus on critical revenue paths first.
+
 
 ## Related
 
 [[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Descriptive/web development]]
+
+## Sources
+
+- [Wikipedia — INP](https://en.wikipedia.org/wiki/INP)

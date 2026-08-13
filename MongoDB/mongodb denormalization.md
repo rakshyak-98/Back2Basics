@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Embed or duplicate fields that are read on the hot path; accept that updates must touch every copy.
+## How it works
 
 ```txt
 User.name ──duplicate──► Order.customerName (fast read)
@@ -35,7 +24,8 @@ User.name ──duplicate──► Order.customerName (fast read)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // embed for bounded 1-to-few
@@ -53,7 +43,8 @@ User.name ──duplicate──► Order.customerName (fast read)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ User.name ──duplicate──► Order.customerName (fast read)
 | Slow populate chains | Too normalized | Embed read-together data |
 
 ---
+
 
 ## Gotchas
 
@@ -74,11 +66,17 @@ User.name ──duplicate──► Order.customerName (fast read)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Highly shared mutable data** — normalize + join/lookup.
 - **Strong relational constraints** — SQL may fit better.
 
+
 ## Related
 
 [[mongodb schema]] [[MongoDB data populate]] [[query/mongodb lookup query]]
+
+## Sources
+
+- [Wikipedia — mongodb denormalization](https://en.wikipedia.org/wiki/mongodb_denormalization)

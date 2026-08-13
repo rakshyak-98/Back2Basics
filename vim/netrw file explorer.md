@@ -6,20 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
-
-**Say it in one breath:** netrw is a Vim plugin (loaded by default) that renders directory listings in a buffer. `:Explore` opens netrw in the current window; `:Vex` splits vertically. Press `-` to.
-
-## Standard config / commands
+## Configuration and commands
 
 ### Open explorer
 
@@ -58,7 +48,8 @@ let g:netrw_liststyle = 3        " tree view
 let g:netrw_winsize = 25         " Vex width %
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ let g:netrw_winsize = 25         " Vex width %
 | Tree view broken | `netrw_liststyle` | Set to 3; update Vim (old netrw bugs) |
 | Accidental delete | `netrw_fastbrowse` | Set `let g:netrw_fastbrowse = 0` for confirm |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -75,11 +67,17 @@ let g:netrw_winsize = 25         " Vex width %
 >
 > **netrw + autochdir** — plugins that `cd` on buffer switch confuse relative paths.
 
-## When NOT to use
+
+## When not to use
 
 - Don't fight netrw if you live in fuzzy finders — disable it and use fzf/telescope in Neovim.
 - Don't use netrw as a project-wide search tool — `:grep`/LSP is better.
 
+
 ## Related
 
 [[vim buffers]] [[Linux/commands/fzf]] [[Descriptive/vscode]]
+
+## Sources
+
+- [Wikipedia — netrw file explorer](https://en.wikipedia.org/wiki/netrw_file_explorer)

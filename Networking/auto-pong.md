@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Peer sends ping; stack or library replies pong. Used for keepalive, RTT, and dead-connection detection.
+## How it works
 
 ```txt
 WebSocket:  ping frame  →  auto pong frame
@@ -37,7 +26,8 @@ App:        {type:"ping"} → {type:"pong"}  (if you build it)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // ws library — server auto-responds to ping frames by default
@@ -65,7 +55,8 @@ ping -c 3 192.168.1.1
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +67,7 @@ ping -c 3 192.168.1.1
 | ICMP works, app dead | Only L3 alive | Add app health on the real port |
 
 ---
+
 
 ## Gotchas
 
@@ -90,7 +82,8 @@ ping -c 3 192.168.1.1
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **As the only authentication heartbeat** — authenticate sessions separately.
 - **Flood ping for load tests** — use proper traffic generators.
@@ -98,6 +91,11 @@ ping -c 3 192.168.1.1
 
 ---
 
+
 ## Related
 
 [[Networking]] [[webSocket]] [[ICMP]] [[half-open connections]] [[TCP]] [[Network error]]
+
+## Sources
+
+- [Wikipedia — auto-pong](https://en.wikipedia.org/wiki/auto-pong)

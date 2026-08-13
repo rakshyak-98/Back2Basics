@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Imperative: step-by-step mutations. Declarative: state the desired outcome or relation. Engine optimizes execution (query planner, layout engine, regex NFA). You trade control of execution order for brevity and optimization headroom — until you need hints (`INDEX`, `EXPLAIN`, CSS `!important`).
 
@@ -24,7 +15,8 @@ Imperative: loop rows, if age>30, append name
 Declarative: SELECT name FROM users WHERE age > 30
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SQL (canonical)
 
@@ -61,7 +53,8 @@ EXPLAIN ANALYZE SELECT ...;
 -- force index hint only when planner wrong (vendor-specific)
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +63,7 @@ EXPLAIN ANALYZE SELECT ...;
 | K8s drift | `kubectl diff` | GitOps reconcile; fix manifest not pods by hand |
 | Regex catastrophic backtrack | Pattern review | Possessive groups; RE2 engine |
 | "Can't express logic" | Leaky abstraction | Escape to imperative UDF/script |
+
 
 ## Gotchas
 
@@ -80,11 +74,17 @@ EXPLAIN ANALYZE SELECT ...;
 >
 > **CSS specificity wars** — declarative cascade fights predictability.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use declarative DSL for procedural algorithms (sort implementation) — use a general language.
 - Don't SQL everything in application strings — ORM/query builder for structure + safety.
 
+
 ## Related
 
 [[Programming paradigram/Functional Programing]] [[Database/OLAP]] [[Database/mysql/MySQL Events]]
+
+## Sources
+
+- [Wikipedia — purely declarative](https://en.wikipedia.org/wiki/purely_declarative)

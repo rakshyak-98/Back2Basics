@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** zed debugger — console is in 'commands' mode, prefix expressions with '?'.
+## How it works
 
 ```text
 Console is in 'commands' mode, prefix expressions with '?'.
@@ -36,25 +25,24 @@ For more information, see: https://www.kernel.org/doc/Documentation/security/Yam
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[zed]]
+
+## Sources
+
+- [Wikipedia — zed debugger](https://en.wikipedia.org/wiki/zed_debugger)

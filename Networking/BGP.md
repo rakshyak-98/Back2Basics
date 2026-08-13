@@ -1,116 +1,44 @@
-[[routing table]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]]
+[[autonomous system]] [[CIDR (Classless Inter-Domain Routing)]] [[routing table]] [[Internal routing]]
 
 # BGP
 
-> path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
+> Border Gateway Protocol is how autonomous systems exchange reachability on the public internet — outages here are policy and peering problems, not a missing default route on one host.
 
----
+## Inter-domain routing
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-BGP (Border Gateway Protocol) advertises **IP prefixes** (NLRI) between **Autonomous Systems** (AS). Each route carries **path attributes** — notably `AS_PATH`, `NEXT_HOP`, `LOCAL_PREF`, `MED` — used for policy-based selection, not pure shortest-path.
+BGP (RFC 4271) is a path-vector protocol: each advertisement carries the AS path, next hop, and attributes. Unlike interior protocols (OSPF, IS-IS), BGP optimizes for **policy** (who may use which paths) over pure shortest metric.
 
 ```
-  AS 65001 (you)                    AS 64500 (upstream)
-  ┌─────────────┐    eBGP session   ┌─────────────┐
-  │ edge router │◄─────────────────►│   ISP peer  │
-  │ 10.0.0.0/16 │                   │             │
-  └──────┬──────┘                   └─────────────┘
-         │ iBGP (full mesh or RR)
-  ┌──────▼──────┐
-  │ core routers│  same AS_PATH, NEXT_HOP often unchanged
-  └─────────────┘
+AS 65001 ──eBGP──► AS 64500 (transit) ──eBGP──► AS 15169
+         announces 203.0.113.0/24 with path [65001]
 ```
 
-| Type | Scope | Typical use |
-|------|-------|-------------|
-| **eBGP** | Between different ASNs | Internet peering, transit, cloud Direct Connect |
-| **iBGP** | Within one ASN | Propagate external routes to all internal routers |
+| Term | Meaning |
+|------|---------|
+| eBGP | BGP between different [[autonomous system]] numbers |
+| iBGP | BGP within one AS — typically full mesh or route reflectors |
+| Prefix | CIDR block advertised (e.g. `198.51.100.0/24`) |
+| ASN | 16- or 32-bit autonomous system number (RFC 6793) |
 
-**Selection order (simplified):** highest LOCAL_PREF → shortest AS_PATH → eBGP over iBGP → lowest MED → closest IGP to NEXT_HOP → router tie-break.
+## Attributes that matter operationally
 
-BGP is **slow to converge by design** (minutes possible). It assumes stability over sub-second failover — pair with BFD or IGP for fast local failure detection.
+- **AS_PATH** — loop detection; shorter paths often preferred
+- **NEXT_HOP** — where to forward
+- **LOCAL_PREF** — inbound traffic preference (iBGP)
+- **MED** — hint between adjacent ASes
+- **Communities** — tags for remote policy (e.g. "do not export")
 
-## Standard config / commands
+## Verification (operator view)
 
-Inspect locally (Linux FRR / Bird / vendor CLI patterns):
-
-```shell
-# FRR (common on Linux routers)
-vtysh -c 'show ip bgp summary'          # session state
-vtysh -c 'show ip bgp neighbors'         # timers, prefixes received
-vtysh -c 'show ip bgp'                  # RIB
-vtysh -c 'show ip bgp <prefix>'         # why this path won
-
-# Bird
-birdc show protocols
-birdc show route for 203.0.113.0/24 all
-
-# Generic: is the session up?
-ss -tn sport = :179 or dport = :179       # BGP uses TCP/179
-tcpdump -ni any port 179 -c 50
+```bash
+# On a router with FRR/BIRD/Quagga or vendor CLI — examples vary
+show ip bgp summary
+show ip bgp 203.0.113.0/24
 ```
 
-Cloud/hybrid peering sanity:
+Host-level "BGP broken" symptoms are usually upstream: prefix hijacks, leaked routes, or peering failures — check external monitoring (RIPE RIS, BGPmon) and provider status.
 
-```shell
-# AWS Direct Connect / VPN — check propagated routes in route table
-aws ec2 describe-vpn-connections
-aws directconnect describe-virtual-interfaces
+## Sources
 
-# Confirm prefix actually installed in kernel RIB
-ip route show proto bgp    # if redistributed locally
-```
-
-Minimal eBGP sanity checklist after change:
-1. TCP/179 reachable (ACL, MD5/TCP-AO if configured)
-2. Session `Established` (not `Active` / `Idle`)
-3. Expected prefixes in `show ip bgp` / received count matches peer
-4. NEXT_HOP reachable via IGP (`ping <nexthop>`, `traceroute`)
-5. Prefix propagates to downstream (iBGP reflector clients, route-maps)
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Session stuck `Active` / `Idle` | `tcpdump port 179`; ACL on either side | Open TCP/179; fix MD5 mismatch; verify correct source IP on multi-homed host |
-| Session flaps every ~60–180s | `show bgp neighbors` → hold timer, keepalive | MTU issue on TCP/179 (try `tcp mss` or lower interface MTU); BFD false positives |
-| Prefix not received | `show ip bgp neighbors received-routes` (soft config) | Peer export policy filters you; ask peer what they advertise |
-| Prefix received but not installed | `show ip bgp <prefix>` all paths | Import route-map denies; AS_PATH loop; NEXT_HOP unreachable |
-| Traffic blackholed after peer up | `traceroute`; compare AS_PATH length vs expected | Longer path selected elsewhere; MED/LOCAL_PREF policy wrong |
-| Partial internet outage | Multiple peers down? RPKI/ROV drop? | Check upstream status; validate ROA for your announced prefixes |
-| iBGP routes missing on some routers | Full-mesh vs route-reflector topology | RR client missing; `next-hop-self` not set on edge |
-| Leak / hijack suspicion | IRR/RPKI vs actual AS_PATH | Emergency withdraw; contact peer NOC; enable RPKI on imports |
-
-## Gotchas
-
-> [!WARNING]
-> **BGP alone won't save a bad IGP.** If NEXT_HOP isn't reachable inside your AS, the route sits in RIB but never forwards.
-
-> [!WARNING]
-> **Route leaks** (advertising paths you shouldn't) are operational incidents, not theoretical. Always outbound filter what you announce.
-
-- **eBGP multi-hop** requires explicit TTL and often fixed source IP — cloud VPN tunnels need this.
-- **Private ASNs (64512–65534)** must be stripped before advertising to transit.
-- **Graceful restart** helps control-plane upgrades; without it, full table withdraw causes microbursts.
-- **RPKI ROV invalid** → some peers drop your prefix silently; monitor with external looking-glass tools.
-- **Default route 0.0.0.0/0** from upstream is a policy choice — importing blindly can steal internal traffic.
-
-## When NOT to use
-
-- Don't run BGP inside a single-site LAN — use OSPF/IS-IS; BGP's policy complexity isn't worth it.
-- Don't announce prefixes you don't own (even "temporarily") — upstream filtering varies and leaks propagate globally.
-- Don't expect sub-second failover from BGP timers alone — add BFD or track interface state.
-
-## Related
-
-[[routing table]] · [[CIDR (Classless Inter-Domain Routing)]] · [[Egress traffic]] · [[ethtool]]
+- [RFC 4271 — A Border Gateway Protocol 4 (BGP-4)](https://www.rfc-editor.org/rfc/rfc4271)
+- [Wikipedia — Border Gateway Protocol](https://en.wikipedia.org/wiki/Border_Gateway_Protocol)

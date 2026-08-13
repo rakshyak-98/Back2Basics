@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Routes live under `app/` (application Router) or `pages/`. Server Components render on server by default; mark client interactivity with `"use client"`.
+## How it works
 
 ```txt
 request → Next server → RSC/SSR/HTML → hydrate client islands
@@ -31,7 +20,8 @@ request → Next server → RSC/SSR/HTML → hydrate client islands
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 npx create-next-app@latest
@@ -47,7 +37,8 @@ npm run build && npm start
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,6 +48,7 @@ npm run build && npm start
 | Slow TTFB | Blocking data | Stream; cache |
 
 ---
+
 
 ## Gotchas
 
@@ -68,13 +60,19 @@ npm run build && npm start
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure API service** — Fastify/Express.
 - **Static brochure without React** — simpler SSG/HTML.
 
 ---
 
+
 ## Related
 
 [[NextJS configuration]] [[Next js Build]] [[RSC (React Server Component boundaries)]] [[React]]
+
+## Sources
+
+- [Wikipedia — Next JS](https://en.wikipedia.org/wiki/Next_JS)

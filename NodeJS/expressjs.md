@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `app.use` / `app.get` stack handlers; each calls `next()` or ends the response. Express does not add threads — scale with processes/cluster or offload work.
+## How it works
 
 ```txt
 req → middleware… → route → res.send
@@ -32,7 +21,8 @@ req → middleware… → route → res.send
 | **app.set** | Framework settings | “`trust proxy`, view engine, etc.” |
 | **Router** | Mountable mini-app | “Split features by path prefix.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import express from 'express'
@@ -51,7 +41,8 @@ app.listen(3000)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ app.listen(3000)
 | 404 on mounted router | Path double-prefix | Mount path + router paths |
 
 ---
+
 
 ## Gotchas
 
@@ -72,13 +64,19 @@ app.listen(3000)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Ultra-low-level HTTP** — raw `http` / Fastify if you need different perf model.
 - **Non-HTTP services** — gRPC/queues aren’t Express’s job.
 
 ---
 
+
 ## Related
 
 [[Express middleware]] [[HTTP module]] [[node error]]
+
+## Sources
+
+- [Wikipedia — expressjs](https://en.wikipedia.org/wiki/expressjs)

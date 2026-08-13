@@ -1,90 +1,55 @@
-[[Linux]] [[grub]] [[systemd]]
+[[file mount]] [[management/grub]] [[etc files]]
 
 # inittramfs
 
-> initramfs (initial RAM filesystem) is a tiny root the kernel unpacks first — load modules, find disks, then pivot to the real root.
+> The initial RAM filesystem (initramfs) is a cpio archive loaded by the bootloader — early userspace that mounts real root and hands off to PID 1.
 
----
+The kernel unpacks **initramfs** into a tmpfs root. Scripts or **systemd** in initramfs load storage drivers (LVM, LUKS, RAID, NFS root), unlock encryption, then `switch_root` to the real `/`.
 
-## Index
+## Files (Debian/Ubuntu)
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** GRUB loads kernel+initramfs → `/init` mounts real root → `switch_root` into systemd as PID 1.
-
-```txt
-GRUB → kernel + initramfs.img
-         │
-         ├─ modules (storage, lvm, md, crypt)
-         ├─ mount real root (UUID=…)
-         └─ switch_root → /sbin/init
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **initramfs** | cpio archive on tmpfs | “Early userspace before real root.” |
-| **update-initramfs / dracut** | Rebuild tools | “After kernel/module change, rebuild.” |
-| **root=** | Kernel cmdline root | “Wrong UUID → emergency shell.” |
-| **switch_root** | Pivot to real disk | “Then systemd becomes PID 1.” |
-| **emergency shell** | Early boot failure | “Usually storage/LVM/crypt/module.” |
-
----
-
-## Standard config / commands
+| Path | Role |
+|------|------|
+| `/boot/initrd.img-*` | Generated image |
+| `/etc/initramfs-tools/` | Hooks and config |
+| `update-initramfs` | Regenerate |
 
 ```bash
-sudo update-initramfs -u -k all          # Debian/Ubuntu
-# Fedora: sudo dracut -f
-
+# List contents
 lsinitramfs /boot/initrd.img-$(uname -r) | head
-cat /proc/cmdline
-blkid
+
+# Rebuild after driver/module change
+sudo update-initramfs -u -k all
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `root=UUID=` | Must match `blkid` |
-| Hooks/modules | Include storage + crypto drivers |
+## RHEL family
 
----
+```bash
+dracut -f /boot/initramfs-$(uname -r).img $(uname -r)
+```
 
-## Triage (when things break)
+## Boot failures involving initramfs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Dropped to initramfs shell | `blkid`; modules | Fix UUID; rebuild with needed modules |
-| Unbootable after kernel upgrade | Image stale | `update-initramfs -u` / `dracut -f` |
-| LUKS won’t unlock | cryptsetup missing | Add crypt hooks; check `cryptdevice=` |
-| LVM root missing | dm/lvm not in image | Include LVM in initramfs config |
+| Symptom | Check |
+|---------|-------|
+| `Gave up waiting for root device` | UUID in `/etc/fstab` vs actual; regenerate initramfs |
+| Drop to initramfs shell | `cat /proc/cmdline`; unlock LUKS manually |
+| Module not found | Add driver to initramfs hooks |
 
----
+Emergency shell in initramfs:
 
-## Gotchas
-
-> [!WARNING]
-> **Hand-edit `grub.cfg`** — prefer `/etc/default/grub` + `update-grub`.
-
-> [!WARNING]
-> **Out-of-tree storage drivers** forgotten in the image → boot dies only on that hardware.
-
----
-
-## When NOT to use
-
-- **Debugging application services** — get past pivot to real root first.
-- **Cloud user-data issues** — cloud-initialize is after real root, not initramfs.
-
----
+```bash
+# From busybox prompt
+ls /dev/mapper
+cryptsetup open ...
+exit
+```
 
 ## Related
 
-[[grub]] [[systemd]] [[file mount]] [[LSB (Linux Standard Base)]]
+[[management/grub]] · [[file mount]] · [[systemd]]
+
+## Sources
+
+- `man 8 update-initramfs`, `man 8 dracut`
+- [kernel.org initramfs](https://www.kernel.org/doc/html/latest/admin-guide/initrd.html)

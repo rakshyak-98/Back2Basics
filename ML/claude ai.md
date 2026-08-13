@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Send messages; if Claude returns `tool_use`, your next message must include matching `tool_result` blocks immediately after.
+## How it works
 
 ```txt
 user → assistant (tool_use) → user (tool_result) → assistant (answer)
@@ -34,7 +23,8 @@ user → assistant (tool_use) → user (tool_result) → assistant (answer)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 # Fix tool pairing
@@ -50,7 +40,8 @@ messages[n+1] user:      tool_result tool_use_id=toolu_123  ← required next
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ messages[n+1] user:      tool_result tool_use_id=toolu_123  ← required next
 | Empty assistant | max_tokens too low | Raise limit |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ messages[n+1] user:      tool_result tool_use_id=toolu_123  ← required next
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **No-tool plain completion** — still fine; just don’t half-implement tools.
 - **Hard realtime <100ms** — LLMs aren’t that path.
 
+
 ## Related
 
 [[prompt enginerring]] [[GPT]] [[prompt]]
+
+## Sources
+
+- [Wikipedia — claude ai](https://en.wikipedia.org/wiki/claude_ai)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome versus Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.
 
@@ -25,7 +16,8 @@ Parent (overflow:hidden, width: 40%)
 Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Robust pattern
 
@@ -62,7 +54,8 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +64,7 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 | Aspect ratio collapse | No explicit height | Parent `aspect-ratio` or fixed height |
 | Blurry upscale | Intrinsic vs display size | Serve correct resolution; `srcset` |
 | CLS on load | No width/height attrs | `width`/`height` HTML attrs or aspect-ratio |
+
 
 ## Gotchas
 
@@ -81,11 +75,17 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 >
 > **Percentage height chain** — parent needs defined height all the way up.
 
-## When NOT to use
+
+## When not to use
 
 - Don't fight img in clip for decorative fills — `background-image` is simpler.
 - Don't use `object-fit: none` unless you mean pixel-exact cropping.
 
+
 ## Related
 
 [[css/tailwindcss]] [[css/Flash of Unstyled Content]] [[css/Animation]]
+
+## Sources
+
+- [Wikipedia — css image](https://en.wikipedia.org/wiki/css_image)

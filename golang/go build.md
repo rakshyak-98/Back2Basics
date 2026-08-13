@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `go.mod` pins deps; `go build` resolves imports, compiles packages, and links a binary. Cache in `$GOCACHE` makes rebuilds fast.
+## How it works
 
 
 ```
@@ -26,7 +15,8 @@ go.mod (module path + require)
     → bin/app (static-ish binary)
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Module init
 
@@ -55,7 +45,8 @@ go install ./cmd/...           # puts binary in $GOBIN
 | `-ldflags "-X main.version=1.2.3"` | Inject version at link time |
 | `-trimpath` | Reproducible builds (strip local paths) |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ go install ./cmd/...           # puts binary in $GOBIN
 | CGO errors on cross-compile | `CGO_ENABLED=1` | Disable CGO or cross toolchain |
 | `main redeclared` | Multiple `main` packages | Build specific `./cmd/foo` path |
 | Stale binary | Build cache | `go clean -cache` (last resort) |
+
 
 ## Gotchas
 
@@ -74,11 +66,17 @@ go install ./cmd/...           # puts binary in $GOBIN
 >
 > **Working directory matters** for relative embed paths — use `//go:embed` from module root.
 
-## When NOT to use
+
+## When not to use
 
 - Don't commit `go.sum` deletes — always commit after `go mod tidy`.
 - Don't vendor unless you have air-gap or reproducibility policy requiring it.
 
+
 ## Related
 
 [[golang/go SOLID]] [[golang/go embedding]] [[compiler/compiler]] [[Docker/Docker compose]]
+
+## Sources
+
+- [Wikipedia — go build](https://en.wikipedia.org/wiki/go_build)

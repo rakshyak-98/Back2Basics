@@ -6,20 +6,12 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 On login, phpMyAdmin stores `$_SESSION['PMA_token']` (name may vary by version). Every mutating form includes this token. Server compares submitted token to session; mismatch → rejected. Token rotates on login/session regenerate. It's **session CSRF protection**, not API authentication.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Where it lives
 
@@ -46,7 +38,8 @@ session.cookie_secure = 1    ; HTTPS only
 fastcgi_param HTTPS on;       ; if behind TLS terminator
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,6 +49,7 @@ fastcgi_param HTTPS on;       ; if behind TLS terminator
 | CSRF after reverse proxy | `PmaAbsoluteUri` in config | Set correct URL in `config.inc.php` |
 | iframe/embed breaks token | `AllowThirdPartyFraming` | Don't embed PMA; open in top window |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -63,11 +57,17 @@ fastcgi_param HTTPS on;       ; if behind TLS terminator
 >
 > **Session fixation** — ensure PMA regenerates session id on login (default in modern versions).
 
-## When NOT to use
+
+## When not to use
 
 - Don't disable CSRF checks to "fix" integration — fix session/URL configuration instead.
 - Don't use phpMyAdmin as your application's database API — it's an administrator UI only.
 
+
 ## Related
 
 [[Security/CORS (Cross Origin Request Sharing)]] [[Security/IDOR]] [[php]] [[Database/mysql/mysql ssl connection]]
+
+## Sources
+
+- [Wikipedia — pma token](https://en.wikipedia.org/wiki/pma_token)

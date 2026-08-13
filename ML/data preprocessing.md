@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Preprocessing runs **before** the learner sees data. Order matters:
 
@@ -34,7 +25,8 @@ Fit transformers on **training data only**; apply same parameters to value/test.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import pandas as pd
@@ -88,7 +80,8 @@ for c in num_cols:
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +93,7 @@ for c in num_cols:
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -110,13 +104,19 @@ for c in num_cols:
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Raw deep learning on images/text** — use domain-specific augmentations, not tabular imputers.
 - **Streaming features with strict SLA** — precompute offline features in a feature store; don't refit heavy pipelines per request.
 
 ---
 
+
 ## Related
 
 [[scikitlearn]] · [[estimator]] · [[supervised learning]] · [[Visualization/Residual plot]] · [[Model/Linear regression]]
+
+## Sources
+
+- [Wikipedia — data preprocessing](https://en.wikipedia.org/wiki/data_preprocessing)

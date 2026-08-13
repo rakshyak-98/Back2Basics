@@ -1,119 +1,57 @@
-[[Linux]] [[ELF (Editabl Linkable File)]] [[linker]] [[stack pointer]] [[LSB (Linux Standard Base)]]
+[[SYSV (System V)]] [[systemd]] [[services/systemd]] [[management/systemctl]]
 
 # SYSV (System V)
 
-> System V ABI is the binary calling contract Linux uses on a given arch — how args, stack, and registers work so binaries and libs match.
+> System V init was the classic sequential runlevel boot model — largely replaced by systemd on modern distributions but still referenced in legacy scripts and packaging.
 
----
+**SysV init** used `/etc/inittab` and numbered scripts in `/etc/init.d/` with `start|stop|status` actions. **Runlevels** 0–6 selected boot mode (single-user, multi-user, reboot, etc.). **LSB headers** in init scripts told the boot system dependencies and ordering.
 
-## Index
+## Runlevel map (historical)
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Level | Typical meaning |
+|-------|-----------------|
+| 0 | Halt |
+| 1 | Single-user |
+| 2–5 | Multi-user (distro-specific; 5 often graphical) |
+| 6 | Reboot |
 
-## Mental model
+systemd maps these to **targets** (`rescue.target`, `multi-user.target`, `graphical.target`).
 
-**Say it in one breath:** Compilers, linkers, and the dynamic loader agree on register use, stack alignment, and symbol rules — that agreement is the ABI; on Linux ELF it’s usually labeled “UNIX - System V.”
-
-```txt
-Your .o / .so / executable
-        │
-        ├─ calling convention (args in regs / stack)
-        ├─ stack layout & alignment
-        ├─ syscall / PIC / TLS conventions
-        └─ dynamic linker (ld.so) expectations
-                 │
-                 ▼
-        runs only if ABI matches the system
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ABI** | Application Binary Interface | “Binary contract — not the C API source level.” |
-| **System V ABI** | Common Unix/Linux ELF conventions | “`readelf` shows OS/ABI: UNIX - System V.” |
-| **Calling convention** | Where args and return values live | “On amd64 SysV: rdi, rsi, rdx, … for args.” |
-| **ELF** | Binary file format | “ABI lives inside ELF metadata and codegen.” |
-| **ld.so** | Dynamic linker/loader | “Loads deps; wrong ABI → won’t start.” |
-| **SysVinit (legacy)** | Old init system | “Different ‘SysV’ — boot scripts, not ABI.” |
-
-> [!INFO]
-> **Two “System V” meanings:** (1) **ABI / ELF** — what this note is about; (2) **SysVinit** — historic init (`/etc/init.d`). Don’t mix them in an interview.
-
-### How the story goes (4 steps)
-
-1. **Compile** — compiler emits code for a target ABI (e.g. SysV AMD64).
-2. **Link** — objects agree on relocations and symbol sizes.
-3. **Load** — `ld.so` maps segments and binds symbols.
-4. **Call** — function calls obey the register/stack rules end-to-end.
-
----
-
-## Standard config / commands
+## Legacy script pattern
 
 ```bash
-readelf -h ./binary | egrep 'Class|ELF Header|OS/ABI|Machine|Type'
-# OS/ABI: UNIX - System V
+#!/bin/sh
+# /etc/init.d/example
+### BEGIN INIT INFO
+# Provides:          example
+# Required-Start:    $network
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
 
-readelf -d ./binary | grep NEEDED    # shared libs
-file ./binary
-objdump -f ./binary
-
-# Cross-check arch
-uname -m
-readelf -A ./binary | head
+case "$1" in
+  start)  /usr/sbin/example --daemon ;;
+  stop)   killall example ;;
+  status) pgrep example ;;
+  *)      echo "Usage: $0 {start|stop|status}"; exit 1 ;;
+esac
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `-m64` / target triple | Wrong arch ABI → `Exec format error` |
-| Static vs dynamic | Static embeds libc; still CPU ABI-bound |
-| `DT_NEEDED` | Missing soname → loader errors |
-| Softfloat vs hardfloat (ARM) | Classic ABI mismatch on embedded |
+## Detect what PID 1 is
 
----
+```bash
+ps -p 1 -o comm=
+# systemd vs init
+```
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Exec format error` | `file` arch vs host | Right binary for arch |
-| `error while loading shared libraries` | `ldd` / `LD_LIBRARY_PATH` | Install matching libs |
-| Crash at first call into `.so` | ABI/calling mismatch | Rebuild both sides same toolchain flags |
-| `OS/ABI` weird in readelf | Cross/odd toolchain | Expect SysV on Linux x86_64 |
-| Old SysVinit scripts on systemd host | Distro uses systemd | Use [[systemd]] / [[systemctl]] |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **API ≠ ABI.** Same C headers can still break if struct layout or calling convention differs.
-
-> [!WARNING]
-> **SysV AMD64 red zone** — 128 bytes below RSP scratch for leaf functions; interrupts must respect it in kernel paths; user bugs usually elsewhere.
-
-> [!WARNING]
-> **Mixing MSVC and SysV objects** on Windows/Linux ports — different ABIs; don’t link them raw.
-
-> [!WARNING]
-> **“System V IPC”** (sem/shm/msg) is yet another SysV phrase — see `ipcs`, not this ABI note.
-
----
-
-## When NOT to use
-
-- **Explaining source-level APIs** — talk POSIX/C standards, not SysV ABI.
-- **Service management today** — prefer [[systemd]]; SysVinit is legacy on most distros.
-- **Web/JSON services** — ABI concerns stop at the process boundary.
-
----
+On systemd hosts, `/etc/init.d/foo` may still exist via **systemd-sysv-generator** compatibility — prefer native units ([[system service unit files]]).
 
 ## Related
 
-[[ELF (Editabl Linkable File)]] [[linker]] [[stack pointer]] [[LSB (Linux Standard Base)]] [[assembly language]] [[systemd]] [[opcode]]
+[[systemd]] · [[LSB (Linux Standard Base)]] · [[system service unit files]] · [[Services commands]]
+
+## Sources
+
+- [LSB init scripts spec](https://refspecs.linuxfoundation.org/lsb.shtml)
+- `man 8 init` (where still shipped)

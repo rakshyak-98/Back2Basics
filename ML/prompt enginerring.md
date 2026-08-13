@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Say the role, task, constraints, and output format; add few-shot examples when words aren’t enough.
+## How it works
 
 ```txt
 system/role → task → constraints → format → (examples) → user input
@@ -34,7 +23,8 @@ system/role → task → constraints → format → (examples) → user input
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 You are a senior SRE. Answer with: (1) cause (2) check (3) fix.
@@ -49,7 +39,8 @@ Return JSON: {"cause":"","check":"","fix":""}
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ Return JSON: {"cause":"","check":"","fix":""}
 | Prompt injection | user controls instruction | Delimit untrusted input |
 
 ---
+
 
 ## Gotchas
 
@@ -70,11 +62,17 @@ Return JSON: {"cause":"","check":"","fix":""}
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Stable classify/extract at scale** — fine-tune or classical ML may be cheaper.
 - **Hard guarantees** — code + tests, not prose prompts alone.
 
+
 ## Related
 
 [[prompt]] [[GPT]] [[claude ai]]
+
+## Sources
+
+- [Wikipedia — prompt enginerring](https://en.wikipedia.org/wiki/prompt_enginerring)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Register with `.on` / `.once`, fire with `.emit` — no waiting thread; the loop invokes listeners when the event fires.
+## How it works
 
 ```txt
 ee.on('login', cb)  …  ee.emit('login', user) → cb(user)
@@ -31,7 +20,8 @@ ee.on('login', cb)  …  ee.emit('login', user) → cb(user)
 | **once** | Single-shot listener | “First connect, handshake done.” |
 | **Built-ins** | http, fs, stream | “You already write event-driven code.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { EventEmitter } from 'node:events'
@@ -51,7 +41,8 @@ ee.emit('ready')
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ ee.emit('ready')
 | Missed first event | Subscribed too late | Emit after listeners; or buffer |
 
 ---
+
 
 ## Gotchas
 
@@ -72,13 +64,19 @@ ee.emit('ready')
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Request/response RPC** — promises/async APIs clearer than ad-hoc events.
 - **Cross-process** — need IPC/queue, not in-process emitters.
 
 ---
 
+
 ## Related
 
 [[EventEmitter]] [[event emitter]] [[Event Loop]] [[Stream Events]]
+
+## Sources
+
+- [Wikipedia — Node events driven](https://en.wikipedia.org/wiki/Node_events_driven)

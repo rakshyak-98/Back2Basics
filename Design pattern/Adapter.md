@@ -1,110 +1,51 @@
-[[Design pattern]] [[Design pattern/Bridge]] [[Design pattern/Facade]] [[Design pattern/Dependency Injection]]
+[[Design pattern]] [[Design pattern/Bridge]] [[Design pattern/Decorator]]
 
 # Adapter
 
-> Convert one interface into another the client expects — retrofit vendor shapes into domain — **Dive Into Design Patterns + MetaPayloadAdapter**.
+> Adapter wraps an incompatible interface so existing code can call it as if it were the expected type — classic fix for third-party APIs that do not match your domain model.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Your domain speaks `LaunchRequest` / `Campaign`. Meta Graph speaks nested snake_case fields that change with API version. Adapter sits on the boundary and translates both directions so domain and controllers never touch vendor field names.
+## Two forms
 
 ```
-Domain model  ←── Adapter ──→  Vendor DTO / Graph payload
+Class adapter:  Client → Adapter extends Target, holds Adaptee
+Object adapter: Client → Adapter implements Target, delegates to Adaptee
 ```
 
-| Role | Responsibility |
-|------|----------------|
-| **Target** | Interface your app wants |
-| **Adaptee** | Existing vendor client / payload shape |
-| **Adapter** | Implements Target; delegates to Adaptee after mapping |
+Object adapter (composition) is more common — no inheritance coupling to the legacy class.
 
-## Core idea
+## Example
 
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
+Legacy `LegacyLogger.log(msg string)` vs your `Logger.info(level, msg)`:
 
 ```typescript
-interface CampaignPayload {
-  name: string;
-  objective: string;
-  specialAdCategories: string[];
-}
-
-class MetaPayloadAdapter {
-  toGraph(domain: CampaignPayload): Record<string, unknown> {
-    return {
-      name: domain.name,
-      objective: domain.objective,
-      special_ad_categories: domain.specialAdCategories,
-    };
-  }
-
-  fromGraph(raw: Record<string, unknown>): CampaignPayload {
-    return {
-      name: String(raw.name ?? ''),
-      objective: String(raw.objective ?? ''),
-      specialAdCategories: (raw.special_ad_categories as string[]) ?? [],
-    };
-  }
+class LegacyLoggerAdapter implements Logger {
+  constructor(private legacy: LegacyLogger) {}
+  info(_level: Level, msg: string) { this.legacy.log(msg) }
 }
 ```
 
-### vs Bridge / Facade / Decorator
+## vs similar patterns
 
 | Pattern | Intent |
 |---------|--------|
-| **Adapter** | Make incompatible interfaces work — often retrofit |
-| **Bridge** | Designed split of abstraction vs implementation upfront |
-| **Facade** | Simplify a whole subsystem API |
-| **Decorator** | Add behavior; same interface |
+| **Adapter** | Make *existing* object fit *expected* interface |
+| [[Design pattern/Bridge]] | Split abstraction from implementation upfront |
+| [[Design pattern/Decorator]] | Add behavior; same interface |
+| [[Design pattern/Proxy]] | Control access; same interface |
 
-## Triage (when things break)
+Adapter is **retrofit**; Bridge is **planned** separation.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Controllers set `special_ad_categories` | Adapter skipped | Only Adapter emits Graph keys |
-| Graph version change breaks app | Mapping scattered | Centralize in Adapter; version behind it |
-| Silent wrong fields | Typo in map | Contract tests on Adapter fixtures |
-| Fat Adapter knows launch rules | Scope creep | Mapping only; rules in Strategy/Chain |
+## When to use
 
-## Gotchas
+- Vendor SDK, legacy service, or OS API with wrong shape.
+- Gradual migration: wrap old module, swap adapter for native implementation later.
 
-> [!WARNING]
-> An "interface" that is a 1:1 mirror of Meta fields is not insulating you — the Adapter (or anti-corruption layer) must own the translation to *your* model.
+## Pitfalls
 
-- Two-way mapping drifts — prefer golden fixtures from real Graph responses.
-- Do not put HTTP retry/logging in Adapter — that is [[Design pattern/Decorator]].
+- Leaking adaptee types through the adapter API.
+- Adapter that re-implements half the adaptee — consider a full facade ([[Design pattern/Facade]]) instead.
 
-## Trade-offs
+## Sources
 
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- You control both interfaces and can change them to match.
-- Need parallel hierarchies designed to evolve — [[Design pattern/Bridge]].
-
-## Related
-
-[[Design pattern]] [[Design pattern/Bridge]] [[Design pattern/Facade]] [[Design pattern/Decorator]] [[Descriptive/DAP (Debug Adapter Protocol)]]
+- Gamma et al., *Design Patterns* (Adapter)
+- [Adapter pattern — Wikipedia](https://en.wikipedia.org/wiki/Adapter_pattern)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Origin = scheme + host + port. Same origin → free access. Different origin → JS cannot read the result unless the other side opts in ([[CORS (Cross Origin Request Sharing)]]).
+## How it works
 
 ```txt
 https://app.example.com:443
@@ -37,7 +26,8 @@ SOP is **browser-enforced**. curl, Postman, and server-to-server ignore it.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // Same origin — no CORS needed (prefer BFF / reverse-proxy same host)
@@ -64,7 +54,8 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +67,7 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 | Subdomain can't share storage | Different origins | Explicit shared auth via tokens / SSO |
 
 ---
+
 
 ## Gotchas
 
@@ -90,7 +82,8 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Server-side HTTP clients** — no SOP; secure with authz and network policy.
 - **Native mobile apps** — different trust model; not browser SOP.
@@ -98,6 +91,11 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 
 ---
 
+
 ## Related
 
 [[CORS (Cross Origin Request Sharing)]] [[XSRF (cross-site request forgery)]] [[cross-site scripting]] [[content security policy]] [[response header]]
+
+## Sources
+
+- [Wikipedia — SOP](https://en.wikipedia.org/wiki/SOP)

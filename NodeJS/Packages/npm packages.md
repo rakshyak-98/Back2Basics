@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Prefer small, maintained packages with clear jobs — validation, security headers, uploads, HTTP clients — and declare them in `package.json` (extraneous = installed but undeclared).
+## How it works
 
 ### Interview map (words you can say)
 
@@ -27,7 +16,8 @@
 | **helmet / hpp** | Security middleware | “Headers + parameter pollution.” |
 | **multer** | multipart uploads | “Field name must match client FormData.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 | Package | Job |
 |---------|-----|
@@ -60,7 +50,8 @@ origin: (origin, cb) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ origin: (origin, cb) => {
 | Rate limit false positives | Shared IP behind LB | Trust proxy; key by user |
 
 ---
+
 
 ## Gotchas
 
@@ -81,13 +73,19 @@ origin: (origin, cb) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Replacing platform features** — prefer CDN/WAF rate limits when you have them.
 - **Unmaintained utils** — check last publish before adding lodash-sized deps for one helper.
 
 ---
 
+
 ## Related
 
 [[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]] [[Packages/node-cron]] [[Transporter in Email sending]]
+
+## Sources
+
+- [Wikipedia — npm packages](https://en.wikipedia.org/wiki/npm_packages)

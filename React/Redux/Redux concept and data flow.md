@@ -1,91 +1,49 @@
-[[Redux]] [[flux]] [[Redux toolkit]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # Redux concept and data flow
 
-> One store outside the tree — UI dispatches actions; reducers return next state; subscribers re-render.
+> Redux concept and data flow shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** Shared state lifts out of components into a store. Events become actions; pure reducers compute the next state; React-Redux connects reads/writes.
-
-```txt
-UI → dispatch(action) → reducer(s) → new state → useSelector → UI
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Single store** | One state tree | “Predictable; DevTools time travel.” |
-| **Action** | Plain event object | “`{ type, payload }`.” |
-| **Reducer** | `(state, action) => next` | “Pure; no fetch inside.” |
-| **Lifting state** | Parent holds shared data | “Redux when lift gets ugly.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-// RTK path (preferred)
-const counter = createSlice({
-  name: 'counter',
-  initialState: { value: 0 },
-  reducers: { incremented(s) { s.value++ } },
-})
-const store = configureStore({ reducer: { counter: counter.reducer } })
-
-function Counter() {
-  const value = useSelector((s: RootState) => s.counter.value)
-  const dispatch = useDispatch()
-  return <button onClick={() => dispatch(counter.actions.incremented())}>{value}</button>
-}
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
+  },
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Pure reducers | Time-travel + testability |
-| Selectors | Limit re-renders |
-| Middleware | Async, logging, persistence |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Prop drilling hell | Shared distant cousins | Introduce store/slice |
-| State updates nowhere | Action type mismatch | Use slice action creators |
-| Whole app re-renders | Selecting large objects | Narrow selector / `createSelector` |
-| Side effects in reducer | Fetch inside reduce | Thunk / listener / RTK Query |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Redux doesn’t replace all local state** — forms and toggles often stay in the component.
-
-> [!WARNING]
-> **Mutating state outside Immer** — breaks purity; use `createSlice` drafts.
-
----
-
-## When NOT to use
-
-- **State used by one subtree** — Context or `useState`.
-- **Server-driven UI only** — lean on RSC / URL / server cache.
-
----
+What breaks first in production if `Redux concept and data flow` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[flux]] [[Redux toolkit]] [[Redux/Redux createSlice]] [[Redux/redux store architecture]] [[React State management]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

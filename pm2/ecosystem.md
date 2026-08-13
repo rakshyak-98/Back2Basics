@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 PM2 reads `ecosystem.config.js` (or `.cjs`/JSON) and starts one or more **apps**. Each application has script, instances, environment, and restart rules. PM2 keeps processes alive, aggregates logs, and supports zero-downtime reload for cluster mode.
 
@@ -23,7 +14,8 @@ PM2 reads `ecosystem.config.js` (or `.cjs`/JSON) and starts one or more **apps**
 ecosystem.config.js → pm2 start → PM2 daemon → app workers
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Production-ready ecosystem
 
@@ -61,7 +53,8 @@ pm2 logs booking-engine
 pm2 monit
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +63,7 @@ pm2 monit
 | `npm start` overhead | Script path | Point `script` at compiled JS |
 | Cluster sticky sessions | Single instance or Redis adapter | Scale Socket.IO with adapter |
 | Lost on reboot | `pm2 save` + startup | Re-run `pm2 startup` after PM2 upgrade |
+
 
 ## Gotchas
 
@@ -80,11 +74,17 @@ pm2 monit
 >
 > **PM2 + Docker** — usually one process per container; PM2 inside container is redundant unless legacy.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use PM2 inside Kubernetes — use Deployments + probes.
 - Don't cluster non-HTTP workers (queue consumers) without idempotency — use fixed instance count.
 
+
 ## Related
 
 [[NodeJS/clustering]] [[Linux/supervisorctl]] [[npm/npm script]] [[Deployment/vercel cli]]
+
+## Sources
+
+- [Wikipedia — ecosystem](https://en.wikipedia.org/wiki/ecosystem)

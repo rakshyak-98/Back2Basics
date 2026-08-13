@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `sessionStorage` is a **`Storage` object** tied to a **top-level browsing context** (tab/window). Data survives **page reloads and SPA navigations** within the same tab, but dies when the tab closes. It is **origin-scoped** (`scheme + host + port`) like `localStorage`.
 
@@ -39,7 +30,8 @@ Tab B (same origin) → separate sessionStorage (not shared)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic API
 
@@ -95,7 +87,8 @@ bc.postMessage({ type: 'logout' });
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +100,7 @@ bc.postMessage({ type: 'logout' });
 | Security audit flag | PII in sessionStorage | Move sensitive data server-side |
 
 ---
+
 
 ## Gotchas
 
@@ -127,7 +121,8 @@ bc.postMessage({ type: 'logout' });
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Authentication/session IDs** — HttpOnly cookies + SameSite.
 - **Preferences that should persist** — theme, locale → `localStorage` or account settings API.
@@ -135,6 +130,11 @@ bc.postMessage({ type: 'logout' });
 
 ---
 
+
 ## Related
 
 [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]] [[IDOR]]
+
+## Sources
+
+- [Wikipedia — Session Storage](https://en.wikipedia.org/wiki/Session_Storage)

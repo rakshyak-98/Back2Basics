@@ -6,17 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage table]]
-- [[#502 / 503 debugging playbook]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```
 Internet ──► LB / NodePort ──► Ingress Controller (nginx, traefik, cilium, ALB…)
@@ -55,7 +45,8 @@ kubectl get ingressclass
 # ingress.spec.ingressClassName must match installed controller
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal Ingress + TLS
 
@@ -125,6 +116,29 @@ kubectl run curl --rm -it --image=curlimages/curl -- \
 kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 ```
 
+
+## Gotchas
+
+> [!WARNING]
+> **Ingress without IngressClass** — ignored on 1.18+ clusters; silent "nothing happens."
+
+> [!WARNING]
+> **cert-manager succeeded but 502** — TLS terminates at ingress; backend still broken — don't stop at green cert.
+
+- **One LoadBalancer for many Ingress** — cost win; blast radius on controller outage — run ≥2 replicas + PDB.
+- **Large upload 413** — `proxy-body-size` annotation.
+- **WebSocket** — needs `Upgrade` headers; some controllers need explicit annotation.
+- **External DNS lag** — Ingress has ADDRESS but DNS not propagated.
+- **Gateway API migration** — new clusters may skip Ingress; check platform docs.
+
+
+## When not to use
+
+- **Non-HTTP TCP services** — use `Service type=LoadBalancer` or Gateway API TCPRoute.
+- **Internal-only east-west** — ClusterIP Service directly; no ingress hop.
+- **Mesh mTLS replaces ingress TLS** — still need edge termination for public clients.
+
+
 ## Triage table
 
 | Symptom | Check | Fix |
@@ -136,6 +150,7 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 | Wrong backend | multiple Ingress same host | Rule precedence; merge order |
 | Works via port-forward, not ingress | Service selector | Labels; different namespace |
 | Infinite redirect | http→https loop | `ssl-redirect` + backend HTTP scheme |
+
 
 ## 502 / 503 debugging playbook
 
@@ -175,26 +190,11 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
 ```
 
-## Gotchas
-
-> [!WARNING]
-> **Ingress without IngressClass** — ignored on 1.18+ clusters; silent "nothing happens."
-
-> [!WARNING]
-> **cert-manager succeeded but 502** — TLS terminates at ingress; backend still broken — don't stop at green cert.
-
-- **One LoadBalancer for many Ingress** — cost win; blast radius on controller outage — run ≥2 replicas + PDB.
-- **Large upload 413** — `proxy-body-size` annotation.
-- **WebSocket** — needs `Upgrade` headers; some controllers need explicit annotation.
-- **External DNS lag** — Ingress has ADDRESS but DNS not propagated.
-- **Gateway API migration** — new clusters may skip Ingress; check platform docs.
-
-## When NOT to use
-
-- **Non-HTTP TCP services** — use `Service type=LoadBalancer` or Gateway API TCPRoute.
-- **Internal-only east-west** — ClusterIP Service directly; no ingress hop.
-- **Mesh mTLS replaces ingress TLS** — still need edge termination for public clients.
 
 ## Related
 
 [[Kubernetes services]] [[kubectl]] [[Cilium]] [[Nginx Configuration]] [[certbot]]
+
+## Sources
+
+- [Wikipedia — ingress](https://en.wikipedia.org/wiki/ingress)

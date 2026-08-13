@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
 
@@ -44,7 +35,8 @@ Client page  ──fetch──►  Service Worker  ──► network / cache
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Register (main thread)
 
@@ -92,7 +84,8 @@ Requires **HTTPS** (localhost exempt). See [[content security policy]] for worke
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +98,7 @@ Requires **HTTPS** (localhost exempt). See [[content security policy]] for worke
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -115,7 +109,8 @@ Requires **HTTPS** (localhost exempt). See [[content security policy]] for worke
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Heavy computation** — use [[web workers]]; SW is for network/cache lifecycle.
 - **authentication secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
@@ -123,6 +118,11 @@ Requires **HTTPS** (localhost exempt). See [[content security policy]] for worke
 
 ---
 
+
 ## Related
 
 [[web workers]] · [[content security policy]] · [[Event Loop]] · [[React build]] · [[source map]]
+
+## Sources
+
+- [Wikipedia — ServiceWorker](https://en.wikipedia.org/wiki/ServiceWorker)

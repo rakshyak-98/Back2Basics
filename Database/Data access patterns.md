@@ -1,89 +1,38 @@
-[[Database design]] [[OLTP]] [[OLAP]] [[connection pooling]] [[covering index]] [[BASE]]
+[[Database design]] [[mysql index]] [[covering index]] [[OLTP]] [[OLAP]]
 
 # Data access patterns
 
-> Data access patterns — schema follows access paths, not ER diagrams drawn once. Ask every feature:
+> The read and write paths your application actually runs—indexes, query shapes, and caching should follow these patterns, not the ER diagram alone.
 
----
+## Document hot paths
 
-## Index
+For each feature, capture:
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+- SQL or ORM equivalent
+- Expected cardinality (1 row vs millions)
+- Consistency needs ([[ACID]] vs stale OK)
+- Peak queries per second
 
-## Mental model
+## Pattern → structure mapping
 
-**Say it in one breath:** Data access patterns — I can explain the job, the configuration, and the top failure without jargon.
+| Pattern | Structure |
+|---------|-----------|
+| Lookup by id | Primary key or unique index |
+| Filter + sort | Composite index matching `WHERE` then `ORDER BY` |
+| Pagination | Keyset (`WHERE id > ?`) beats `OFFSET` at scale |
+| Full-text | PostgreSQL [[GIN]] / `tsvector`; MySQL `FULLTEXT` |
+| Time-series | Partition by time ([[mysql partitioning]]) |
 
+## Anti-patterns
 
-Schema follows **access paths**, not ER diagrams drawn once. Ask every feature:
+- `SELECT *` on wide rows — prevents index-only scans
+- OR conditions across columns — often defeats one index; use `UNION ALL` of two indexed queries
+- N+1 ORM queries — batch with `IN (...)` or joins
 
-1. **Who writes?** frequency, burstiness, idempotency
-2. **Who reads?** latency SLO, staleness tolerance
-3. **Key?** point lookup versus scan versus graph walk
-4. **Shape?** row, document, time-series, blob
+*What breaks first when access patterns change but indexes do not?* Full table scans and lock contention on the primary.
 
-```
-         ┌─────────────┐
-Write ──►│  Primary    │──► CDC/outbox ──► search index / warehouse
-         │  (OLTP)     │
-         └──────┬──────┘
-                │ read paths
-    ┌───────────┼───────────┐
-    ▼           ▼           ▼
-  Cache      Replica    Materialized view
- (eventual)  (lag OK)   (pre-aggregated)
-```
+## Sources
 
-**Pattern picks consistency boundary** — not the ORM.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Data access patterns** | This note’s core idea | “I explain Data access patterns in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-## Standard config / commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slow | EXPLAIN / slow log | Index or rewrite |
-| Auth/connect fail | pg_hba / users | Fix grants and bind |
-| Bad migration | backup + version | Roll forward carefully |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-## When NOT to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-## Related
-
-[[Database design]] [[OLTP]] [[OLAP]] [[connection pooling]] [[covering index]] [[BASE]]
+- Use The Index, Luke! — [https://use-the-index-luke.com/](https://use-the-index-luke.com/)
+- PostgreSQL Documentation — [Indexes](https://www.postgresql.org/docs/current/indexes.html)
+- Kleppmann, *DDIA*, Ch. 3

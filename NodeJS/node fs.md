@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
 
@@ -28,7 +19,8 @@ Durability            → write + fsync (see [[fsync]])
 
 File descriptors are limited per process (`ulimit -n`); leaking watchers or handles causes `EMFILE`.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Promises API (default)
 
@@ -99,7 +91,8 @@ const watcher = watch('.', { recursive: true }, (event, filename) => {
 });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ const watcher = watch('.', { recursive: true }, (event, filename) => {
 | `ENOSPC` | Disk full | Clean logs; rotate before write |
 | Silent data loss on crash | No fsync | Atomic rename pattern; see [[fsync]] |
 | Wrong line endings | CRLF vs LF | Normalize on read or use `'utf8'` consistently |
+
 
 ## Gotchas
 
@@ -121,11 +115,17 @@ const watcher = watch('.', { recursive: true }, (event, filename) => {
 > [!WARNING]
 > **Cross-device rename fails** — copy + unlink instead.
 
-## When NOT to use
+
+## When not to use
 
 - **Object storage at scale** — S3/GCS SDK, not local fs on ephemeral disks.
 - **Database as file store** — use [[GridFS]] or blob storage for large binaries in DB context.
 
+
 ## Related
 
 [[file]] [[Stream]] [[fsync]] [[Operating System/file descriptors]] [[Node.js run as a non-privileged user]]
+
+## Sources
+
+- [Wikipedia — node fs](https://en.wikipedia.org/wiki/node_fs)

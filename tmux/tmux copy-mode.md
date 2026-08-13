@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 tmux maintains a scrollback per pane. **Copy-mode** enters a vi/emacs-like overlay to move, select, and yank text into a **paste buffer** (internal register). From there, paste into pane (`paste-buffer`) or sync to system clipboard (configuration-dependent). Copy-mode is not the same as shell `Ctrl+Shift+C`.
 
@@ -23,7 +14,8 @@ tmux maintains a scrollback per pane. **Copy-mode** enters a vi/emacs-like overl
 Pane scrollback → copy-mode → selection → paste buffer → paste / save-buffer
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Enter copy-mode (default prefix `Ctrl+b`)
 
@@ -60,7 +52,8 @@ set -g mode-keys vi
 bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +64,7 @@ bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection c
 | Mouse scroll weird | `mouse on` | `set -g mouse on` + proper terminal |
 | Wrong buffer pasted | `show-buffer` | Use `-b N` with save-buffer |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -80,11 +74,17 @@ bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection c
 >
 > **Copy-mode vs terminal copy** — selecting with mouse may bypass tmux buffer depending on `terminal-overrides`.
 
-## When NOT to use
+
+## When not to use
 
 - Don't copy secrets from production logs into shared clipboard on untrusted machines.
 - Don't rely on copy-mode in fully mouse-driven workflows without learning prefix keys — you'll fight the tool.
 
+
 ## Related
 
 [[Linux/CLI]] [[Linux/commands/fzf]] [[ssh/ssh allow local system with key]]
+
+## Sources
+
+- [Wikipedia — tmux copy-mode](https://en.wikipedia.org/wiki/tmux_copy-mode)

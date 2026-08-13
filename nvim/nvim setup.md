@@ -6,32 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Prerequisites]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Troubleshooting]]
-- [[#Related]]
-
-## Prerequisites
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# smoke test
-```
-
-## Mental model
-
-**Say it in one breath:** nvim setup — short field notes on what it is and how to use it.
+## How it works
 
 ```bash
 apt update neovim;
@@ -64,12 +39,30 @@ require("lazy").setup({
 
 ---
 
-## Troubleshooting
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
 
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# smoke test
+```
+
+
 ## Related
 
 [[vim keybindings]]] [[[Descriptive/LSP]]
+
+## Sources
+
+- [Wikipedia — nvim setup](https://en.wikipedia.org/wiki/nvim_setup)

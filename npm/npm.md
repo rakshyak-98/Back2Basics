@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** npm — it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual…
+## How it works
 
 ```bash
 npm root -g; # get the global npm node_modules location
@@ -88,3 +75,7 @@ failed to solve: cannot replace to directory /var/lib/docker/overlay2/x6ptivu3yy
 ## Related
 
 [[npm]]
+
+## Sources
+
+- [Wikipedia — npm](https://en.wikipedia.org/wiki/npm)

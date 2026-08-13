@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Pick a base (file start, Period start, live availability), then add an offset to land on the byte or media time you want.
+## How it works
 
 ```txt
 Base ──────────────────────────────►
@@ -50,7 +39,8 @@ Base ─────────────────────────
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### HTTP byte range (CDN / origin)
 
@@ -92,7 +82,8 @@ dd if=capture.ts bs=1M skip=1 | ffprobe -i pipe:0
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +96,7 @@ dd if=capture.ts bs=1M skip=1 | ffprobe -i pipe:0
 | Multi-period splice glitch | Offset between Periods | Set explicit Period `@start` |
 
 ---
+
 
 ## Gotchas
 
@@ -122,7 +114,8 @@ dd if=capture.ts bs=1M skip=1 | ffprobe -i pipe:0
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **“Offset” as a substitute for a real timestamp API** — prefer PTS/DTS or media time in player code.
 - **Hand-computing PTO in production** — let the packager own timeline math.
@@ -130,6 +123,11 @@ dd if=capture.ts bs=1M skip=1 | ffprobe -i pipe:0
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[MPD]] [[DASH]] [[HLS]] [[Manifest (streaming)]] [[Byte stream]] [[MPEG-TS]] [[CMAF]]
+
+## Sources
+
+- [Wikipedia — offset](https://en.wikipedia.org/wiki/offset)

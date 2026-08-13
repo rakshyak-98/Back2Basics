@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```
 Trigger (push, PR, cron, dispatch)
@@ -27,7 +18,8 @@ Trigger (push, PR, cron, dispatch)
 
 Secrets live in GitHub (`secrets.*`, `vars.*`); never commit them. Expressions `${{ }}` access context (`github`, `env`, `matrix`).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal CI workflow
 
@@ -80,7 +72,8 @@ jobs:
 
 Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in production repos).
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +84,7 @@ Settings → Code security → Code scanning → disable tool (prefer fixing fin
 | Cron didn't run | GitHub schedule delay | Cron is best-effort; can slip minutes on busy repos |
 | Action pin drift | `@v4` vs SHA | Pin major tag or full SHA for supply-chain safety |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -100,11 +94,17 @@ Settings → Code security → Code scanning → disable tool (prefer fixing fin
 >
 > **Reusable workflow inputs** — untrusted input in `run:` = injection; pass as env, not string concat in script.
 
-## When NOT to use
+
+## When not to use
 
 - Don't run long-lived servers in Actions — use deploy targets (k8s, Lambda, VM).
 - Don't replace proper secret manager (Vault, AWS SM) with hundreds of repository secrets for shared infra credentials.
 
+
 ## Related
 
 [[Github runner]] [[Github cli]] [[GIT/git hook]] [[DevOps/Jenkins]]
+
+## Sources
+
+- [Wikipedia — Github action](https://en.wikipedia.org/wiki/Github_action)

@@ -1,43 +1,31 @@
-[[postgres]]
+[[psql essential]] [[SQL/postgres]] [[GIN]]
 
 # psql functions
 
-> One-line: what / why for **psql functions** — source TBD.
+> PostgreSQL built-in and user-defined functions—scalar, aggregate, window, and procedural languages (PL/pgSQL)—callable from [[SQL]].
 
----
+## Examples
 
-## Index
+```sql
+SELECT now(), lower('Hello'), jsonb_build_object('a', 1);
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+SELECT department, AVG(salary) OVER (PARTITION BY department) FROM employees;
 
-## Mental model
+CREATE OR REPLACE FUNCTION add_tax(numeric) RETURNS numeric
+  LANGUAGE sql IMMUTABLE AS $$ SELECT $1 * 1.08 $$;
+```
 
-- view all the available functions `\df`
+## Volatility categories
 
-## Standard config / commands
+| Mark | Meaning |
+|------|---------|
+| IMMUTABLE | Same result for same args always |
+| STABLE | Same within one statement |
+| VOLATILE | Can change (default) |
 
-…
+Affects index expression eligibility and optimization.
 
-## Triage (when things break)
+## Sources
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
-
-## Related
-
-[[…]]
+- PostgreSQL Documentation — [Functions](https://www.postgresql.org/docs/current/functions.html)
+- PostgreSQL Documentation — [CREATE FUNCTION](https://www.postgresql.org/docs/current/sql-createfunction.html)

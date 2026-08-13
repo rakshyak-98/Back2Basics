@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A feedforward ANN maps input **x** through layers:
 
@@ -38,7 +29,8 @@ For **retrieval at scale** (recommendation, search), ANN also means **Approximat
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### scikit-learn MLP (tabular baseline)
 
@@ -79,7 +71,8 @@ model = nn.Sequential(
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +84,7 @@ model = nn.Sequential(
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -101,7 +95,8 @@ model = nn.Sequential(
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
 - **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
@@ -109,6 +104,11 @@ model = nn.Sequential(
 
 ---
 
+
 ## Related
 
 [[Perceptron]] · [[sigmoid]] · [[supervised learning]] · [[binary classification]] · [[Gradient boosting]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — ANN](https://en.wikipedia.org/wiki/ANN)

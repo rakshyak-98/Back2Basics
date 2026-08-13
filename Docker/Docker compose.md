@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Compose orchestrates **one host / one stack** (development, CI, small production). Not a cluster scheduler — that's Kubernetes.
 
@@ -35,7 +26,8 @@ Project name = directory name (or -p)
 Service name = DNS name on default network  →  http://api:8080 from sibling container
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal production-shaped compose.yaml
 
@@ -137,7 +129,8 @@ depends_on:
 
 Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment:`. Swarm mode mounts secrets; standalone compose bind-mounts secret file read-only.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -149,6 +142,7 @@ Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment
 | Disk fills | Bind mount logs on host | Log driver limits; named volumes; rotation |
 | `port is already allocated` | Host port clash | Change `ports:` or stop conflicting service |
 | Prod outage after `down -v` | Operator ran destructive down | Backups; document runbooks; avoid `-v` in prod |
+
 
 ## Gotchas
 
@@ -164,12 +158,18 @@ Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment
 - **`depends_on` ≠ orchestration** — no rolling update, no auto-heal beyond restart policy; use K8s/swarm for that.
 - **Resource limits in compose** — `deploy.resources` applies in Swarm; for standalone use `mem_limit` / `cpus` (compose v2 supports both patterns — verify with `docker compose config`).
 
-## When NOT to use
+
+## When not to use
 
 - **Multi-node HA, PDB, autoscaling** — [[kubectl]] / Kubernetes.
 - **Secret rotation at scale** — Vault, cloud SM, not flat files on disk.
 - **Compose in production at large scale** — OK for single-node edge/small SaaS; plan migration path early.
 
+
 ## Related
 
 [[docker container]] [[docker file]] [[Docker Runtime Security]] [[Swarm network]] [[Terraform docker]]
+
+## Sources
+
+- [Wikipedia — Docker compose](https://en.wikipedia.org/wiki/Docker_compose)

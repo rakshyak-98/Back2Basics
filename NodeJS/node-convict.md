@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 [node-convict](https://github.com/mozilla/node-convict) loads configuration from **defaults → file → environment variables → CLI arguments** (order configurable). Each key has a schema: type, format, default, environment variable name, document string.
 
@@ -31,7 +22,8 @@ app.config.get('server.port')  → typed, validated
 
 Validation runs at startup — misconfigured deploy crashes immediately instead of corrupting production data silently.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Schema definition
 
@@ -102,7 +94,8 @@ convict.addFormat({
 console.log(config.toString()); // document all keys + env vars for runbooks
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -111,6 +104,7 @@ console.log(config.toString()); // document all keys + env vars for runbooks
 | `undefined` after load | Typo in nested path | Use dot path exactly as schema |
 | Secrets in logs | `sensitive: true` keys | Never `console.log` full config object |
 | Unknown key ignored | `allowed: 'strict'` vs lax | Add to schema or fix typo in JSON |
+
 
 ## Gotchas
 
@@ -123,12 +117,18 @@ console.log(config.toString()); // document all keys + env vars for runbooks
 > [!WARNING]
 > **Don't mutate config at runtime** — treat as immutable after validate except feature flags with clear lifecycle.
 
-## When NOT to use
+
+## When not to use
 
 - **12-factor only environment, no files** — lighter libs (`envalid`, `zod` + dotenv) may suffice.
 - **Dynamic configuration from control plane** — need polling/consul/etcd, not static convict load-once.
 - **Secrets rotation mid-process** — convict won't reload; use secret manager SDK.
 
+
 ## Related
 
 [[node environment configuration]] [[node package json]] [[NodeJS]] [[CLI]]
+
+## Sources
+
+- [Wikipedia — node-convict](https://en.wikipedia.org/wiki/node-convict)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Every time JS runs code, the engine creates an **execution context** on the **call stack**. Contexts nest: global first, then each function call, then blocks (let/const) in modern engines.
 
@@ -39,7 +30,8 @@ Call stack (top = running now):
 
 **Global context:** one per script/module — top-level `let`/`const` live in script scope, not `window` (in modules).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Observe scope chain in debugger
 
@@ -83,7 +75,8 @@ console.log(a); // ReferenceError (let hoisted but uninitialized)
 let a = 1;
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +85,7 @@ let a = 1;
 | Stale closure in loop | `var` + async callback | Use `let` or IIFE |
 | `Maximum call stack exceeded` | Infinite recursion | Base case; tail-call not guaranteed in JS |
 | TDZ errors at module top | Access before `let` init | Reorder declarations |
+
 
 ## Gotchas
 
@@ -103,10 +97,16 @@ let a = 1;
 - **Async functions** suspend, pop stack, resume later — context restored via continuation, not same stack frame.
 - **Multiple globals:** iframes, workers, Node vm — separate contexts, separate globals.
 
-## When NOT to use
+
+## When not to use
 
 - Don't manually simulate contexts — use modules, closures, and classes instead of `with` or dynamic scoping hacks.
+
 
 ## Related
 
 [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/constructor function]] [[Operating System/Stack Frame]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — execution context](https://en.wikipedia.org/wiki/execution_context)

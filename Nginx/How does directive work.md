@@ -6,25 +6,15 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** configuration is hierarchical: `main` → `events` → `http` → `server` → `location`. Directives inherit downward unless overridden. **`location`** matching uses prefix, regex (`~`), and priority (`=`, `^~`). **`try_files`**.
+## How it works
 
 
 ```
 request → server_name match → location longest prefix / regex → directives (try_files, proxy_pass, …)
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### PHP front controller
 
@@ -64,7 +54,8 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +66,7 @@ sudo systemctl reload nginx
 | API 502 | `@backend` up? | `proxy_pass` URL trailing slash changes URI |
 | Config change no effect | Reload vs restart | `nginx -t` first; check include path |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -84,11 +76,17 @@ sudo systemctl reload nginx
 >
 > **Duplicate directives** — last wins in same block; inheritance surprises across nested blocks.
 
-## When NOT to use
+
+## When not to use
 
 - Don't copy StackOverflow `if ($request_method = POST)` blocks without testing — subtle break GET.
 - Don't nest ten regex locations — consolidate with `map` or separate server names.
 
+
 ## Related
 
 [[Nginx/Configuration]] [[Nginx/nginx files]] [[Nginx/web server]] [[php error]]
+
+## Sources
+
+- [Wikipedia — How does directive work](https://en.wikipedia.org/wiki/How_does_directive_work)

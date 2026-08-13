@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Percent = parts per hundred.** Three operations cover 90% of production math:
 
@@ -34,7 +25,8 @@ Whole  = Part / (Rate / 100)
   15%       = 36
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Quick mental table (anchor on 10%)
 
@@ -79,7 +71,8 @@ const errorRate = (errors / requests) * 100;
 const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +81,7 @@ const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 | Percentages sum to 99.9% | Rounding per row | Round last row to 100% or use largest remainder |
 | "50% faster" confusion | Relative vs absolute | 50% faster = half the time, not zero time |
 | Tip/tax double-applied | Compound order | Define order: pre-tax vs post-tax |
+
 
 ## Gotchas
 
@@ -98,11 +92,17 @@ const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 - **Uptime:** 99.9% allows ~43 min/month downtime — don't advertise "100%".
 - **Chart axes** starting above zero exaggerate percent moves.
 
-## When NOT to use
+
+## When not to use
 
 - Statistical significance — use proper tests, not raw % delta on tiny samples.
 - GPU/memory "percent" in monitoring — know if it's of host, cgroup limit, or pod request.
 
+
 ## Related
 
 [[Data structure/dsa genera formula]] [[javascript]] [[general]] [[ML/Model/Linear regression]]
+
+## Sources
+
+- [Wikipedia — percentage calculation](https://en.wikipedia.org/wiki/percentage_calculation)

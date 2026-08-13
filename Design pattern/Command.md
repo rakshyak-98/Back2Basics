@@ -1,131 +1,50 @@
-[[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace application]]
+[[Design pattern]] [[Design pattern/Memento]] [[Design pattern/Strategy pattern]]
 
-# Command pattern
+# Command
 
-> Command pattern — client ──creates──► Command ──passed to──► Invoker ──calls──► Receiver
+> Command encapsulates a request as an object — so you can queue, log, undo, and wire requests to handlers without the invoker knowing operation details.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## Structure
 
 ```
-Client ──creates──► Command ──passed to──► Invoker ──calls──► Receiver
-                         │                      │
-                         └── stores params        └── execute() / undo()
+Invoker → Command.execute()
+              ↓
+         Receiver (does real work)
+
+ConcreteCommand holds Receiver + parameters
 ```
 
-| Role | Example |
-|------|---------|
-| **Command** | `TurnOnCommand` |
-| **Receiver** | `Bulb` (does real work) |
-| **Invoker** | `RemoteController` |
-| **Client** | Wires commands to invoker |
+## Undo / redo
 
-Invoker doesn't know concrete receiver — enables macro commands, undo stack, job queues.
+Store executed commands; `undo()` reverses `execute()` if command stores enough state (often paired with [[Design pattern/Memento]]).
 
-## Core idea
+## Example uses
 
-…
+- Text editor undo stack.
+- Job queues (`Command` per task).
+- Macro recording (list of commands replayed).
 
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-### JavaScript reference shape
-
-```javascript
-class Bulb {
-  turnOn() { console.log('on'); }
-  turnOff() { console.log('off'); }
-}
-
-class TurnOn {
-  constructor(bulb) { this.bulb = bulb; }
-  execute() { this.bulb.turnOn(); }
-}
-
-class TurnOff {
-  constructor(bulb) { this.bulb = bulb; }
-  execute() { this.bulb.turnOff(); }
-}
-
-class RemoteController {
-  execute(command) { command.execute(); }
-}
-
-function main() {
-  const bulb = new Bulb();
-  const remote = new RemoteController();
-  remote.execute(new TurnOn(bulb));
-  remote.execute(new TurnOff(bulb));
+```typescript
+interface Command { execute(): void; undo(): void }
+class InsertText implements Command {
+  constructor(private doc: Document, private text: string, private pos: number) {}
+  execute() { doc.insert(pos, text) }
+  undo() { doc.delete(pos, text.length) }
 }
 ```
 
-### Undo stack
+## When to use
 
-```javascript
-class MoveCommand {
-  constructor(obj, dx, dy) { this.obj = obj; this.dx = dx; this.dy = dy; }
-  execute() { this.obj.x += this.dx; this.obj.y += this.dy; }
-  undo() { this.obj.x -= this.dx; this.obj.y -= this.dy; }
-}
+- Decouple UI buttons from business operations.
+- Transactional workflows with rollback.
+- Remote invocation (command object serialized to message).
 
-const history = [];
-function run(cmd) { cmd.execute(); history.push(cmd); }
-function undo() { history.pop()?.undo(); }
-```
+## Pitfalls
 
-### Production uses
+- Command explosion — group related ops or use parameterized commands.
+- Undo without inverse operations — need snapshots ([[Design pattern/Memento]]).
 
-- **Job queues:** command payload = serializable message ([[Messaging/Web hooks]], SQS)
-- **CQRS:** command side separates from read models
-- **Text editor** undo/redo stacks
-- **Transaction scripts** with compensating actions (saga step)
+## Sources
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Undo inconsistent state | Command not reversible | Store before-snapshot or inverse op |
-| Memory leak in history | Unbounded stack | Cap size or persist to disk |
-| Duplicate execution | Retry without idempotency | Idempotent command IDs |
-| Invoker knows too much | Fat command interface | Narrow to `execute()` only |
-| Serialization fails | Closures in command | Data-only command DTOs |
-
-## Gotchas
-
-> [!WARNING]
-> **Macro commands** that partially fail need composite rollback — implement `undo` on each sub-command in reverse order.
-
-- **Not the same as event** — command is imperative intent; event is fact that happened.
-- **Functional style** — `(state) => newState` reducers are command pattern without classes.
-- **Thread safety** — invoker queue must serialize if receiver is shared mutable state.
-
-## Trade-offs
-
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- Simple one-shot function call with no undo/queue/logging — YAGNI.
-- Entire application as Command objects — prefer plain functions until undo/queue appears.
-
-## Related
-
-[[Design pattern/Bridge]] [[Design pattern/Dependency Injection]] [[Architectures/Orchestration layer]] [[Messaging/Web hooks]]
+- Gamma et al., *Design Patterns* (Command)
+- [Command pattern — Wikipedia](https://en.wikipedia.org/wiki/Command_pattern)

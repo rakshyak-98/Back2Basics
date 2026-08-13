@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Player downloads an XML MPD, picks a Representation, then GETs initialize + media segments — quality can change mid-play.
+## How it works
 
 ```txt
 GET manifest.mpd  ([[MPD]])
@@ -60,7 +49,8 @@ GET manifest.mpd  ([[MPD]])
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal static VoD MPD (one Representation)
 
@@ -108,7 +98,8 @@ curl -s "https://origin/manifest.mpd" | xmllint --format -
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -121,6 +112,7 @@ curl -s "https://origin/manifest.mpd" | xmllint --format -
 | Parse error | Broken XML / namespace | Validate `xmlns`; escape entities |
 
 ---
+
 
 ## Gotchas
 
@@ -138,7 +130,8 @@ curl -s "https://origin/manifest.mpd" | xmllint --format -
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **iOS / Safari-first with no dual package** — use [[HLS]] (or HLS+DASH via [[CMAF]]).
 - **Interactive sub-second** — [[WebRTC]], not segment DASH.
@@ -146,6 +139,11 @@ curl -s "https://origin/manifest.mpd" | xmllint --format -
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[MPD]] [[HLS]] [[HLS vs. DASH]] [[ABR]] [[CMAF]] [[Manifest (streaming)]] [[DRM]] [[EME]] [[bitrate streaming]]
+
+## Sources
+
+- [Wikipedia — DASH](https://en.wikipedia.org/wiki/DASH)

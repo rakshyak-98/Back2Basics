@@ -1,136 +1,86 @@
-[[DNS]] [[DNS zone]] [[mail server]] [[SMTP]]
+[[DNS]] · [[dns record]] · [[Protocol/SMTP]] · [[E mail server]]
 
 # DSN records
 
-> DNS records — rows in a zone that tell resolvers where a name points (A/AAAA), who receives mail (MX), which NS is authoritative, and more.
+> Email deliverability depends on DNS records beyond MX — SPF, DKIM, and DMARC TXT records tell receiving servers which hosts may send mail for your domain and what to do when authentication fails.
 
 ---
 
-## Index
+## Record set overview
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Records]]
-- [[#MX]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Record | Purpose |
+|--------|---------|
+| **MX** | Mail exchanger host + priority |
+| **SPF (TXT)** | Authorized sending IPv4/IPv6/includes |
+| **DKIM (TXT)** | Public key for signed message headers/body |
+| **DMARC (TXT)** | Policy for SPF/DKIM alignment failures |
+| **PTR** | Reverse DNS for sending IP (ISP/provider sets) |
 
-## Mental model
+Filename `DSN` in the vault is a historical typo for **DNS** mail records.
 
-**Say it in one breath:** A name is not an IP — records are typed answers (`A`, `MX`, `TXT`, …) stored on authoritative servers and cached by resolvers for a TTL.
+## MX example
 
-```txt
-example.com
-├── A      → 203.0.113.10
-├── AAAA   → 2001:db8::1
-├── MX     → mail.example.com
-├── NS     → ns1.example.com
-├── TXT    → "v=spf1 ..."
-├── CNAME  → target.example.net
-└── SRV    → _service._tcp → host:port
+```
+example.com.  3600  IN  MX  10 mail.example.com.
+mail.example.com.  A  203.0.113.20
 ```
 
-### Interview map (words you can say)
+Lower preference value = higher priority.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **RRset** | All records of one type at a name | “TTL and DNSSEC apply to the RRset.” |
-| **TTL** | How long resolvers may cache | “Low TTL = faster change, more query load.” |
-| **Apex** | Zone root (`example.com`) | “CNAME at apex is usually forbidden.” |
-| **MX** | Mail routing hostname | “MX is a name; you still need A/AAAA.” |
-| **TXT** | Free-form; SPF/DKIM/verification | “Auth for email and domain proofs.” |
+## SPF ([RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208))
 
----
+```
+example.com.  TXT  "v=spf1 ip4:203.0.113.0/24 include:_spf.google.com ~all"
+```
 
-## Standard config / commands
+| Mechanism | Meaning |
+|-----------|---------|
+| `ip4:` / `ip6:` | Allowed sender networks |
+| `include:` | Delegate to another domain's SPF |
+| `~all` | Softfail unauthorized |
+| `-all` | Hardfail unauthorized |
+
+**One SPF TXT per domain** — merge includes into a single record.
+
+## DKIM
+
+```
+selector1._domainkey.example.com.  TXT  "v=DKIM1; k=rsa; p=MIIB..."
+```
+
+Mail server signs with private key; receivers verify with `p=` public key. Rotate selectors (`selector2`) before key expiry.
+
+## DMARC ([RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489))
+
+```
+_dmarc.example.com.  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com; adkim=s; aspf=s"
+```
+
+| Tag | Effect |
+|-----|--------|
+| `p=none` | Monitor only |
+| `p=quarantine` | Spam-folder failures |
+| `p=reject` | Reject failures |
+| `rua` | Aggregate report mailbox |
+
+Start with `p=none`, analyze reports, tighten policy.
+
+## Verify
 
 ```bash
-dig example.com A +noall +answer
-dig example.com MX
-dig example.com NS
-dig example.com TXT
-dig www.example.com CNAME
-dig -t CAA example.com
-
-# Trace delegation
-dig +trace example.com
+dig +short MX example.com
+dig +short TXT example.com
+dig +short TXT _dmarc.example.com
+dig +short TXT default._domainkey.example.com
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| TTL | Cut for cutovers; raise for stable apex |
-| Multiple A/AAAA | Simple client load spread (not a full LB) |
-| CAA | Limits which CAs may issue certs |
+## Recall
 
----
+- What is the difference between SPF softfail (`~all`) and hardfail (`-all`)?
+- Why do DKIM selectors simplify key rotation?
 
-## Triage (when things break)
+## Sources
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Site IP wrong after change | TTL / old cache | Wait TTL; flush local; lower TTL before next cut |
-| Mail won’t deliver | MX + A for MX host | Fix MX target; add A/AAAA; check PTR |
-| CNAME + other records | Apex CNAME conflict | Use ALIAS/ANAME at provider or A/AAAA at apex |
-| SPF fail | TXT `v=spf1` | Align sending IPs; avoid too many lookups |
-| Cert issuance denied | CAA | Add CA; wait TTL |
-| Some regions old data | Secondary lag | Check serial/NOTIFY/AXFR |
-
----
-
-## Records
-
-| Type | Job |
-|------|-----|
-| **A** | Name → IPv4 |
-| **AAAA** | Name → IPv6 |
-| **CNAME** | Alias → another name (no other types at that node) |
-| **MX** | Who accepts mail for the domain |
-| **NS** | Authoritative nameservers for the zone |
-| **TXT** | SPF, DKIM, domain verification, misc |
-| **CAA** | Allowed certificate authorities |
-| **SRV** | Service location (host + port + priority) |
-| **SOA** | Zone metadata (serial, timers, primary) |
-
-Also see [[dns record]] and [[DNS zone]].
-
----
-
-## MX
-
-MX points to a **hostname**, not an IP. Delivery path:
-
-```txt
-send to alice@example.com
-   → dig MX example.com  → mail.example.com
-   → dig A mail.example.com → 203.0.113.50
-   → [[SMTP]] connect
-```
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Filename “DSN” is a typo — these are DNS records** (DSN also means Delivery Status Notification in mail — different thing).
-
-> [!WARNING]
-> **CNAME cannot coexist** with NS/MX/A at the same node — classic apex footgun.
-
-> [!WARNING]
-> **MX → CNAME** — discouraged; point MX at a real A/AAAA name.
-
----
-
-## When NOT to use
-
-- **application configuration that changes every second** — use a service registry; DNS TTL is a poor control plane.
-- **Secrets** — TXT is world-readable; don’t put passwords in DNS.
-- **Geo traffic steering beyond basics** — need GSLB/Anycast product, not one A record.
-
----
-
-## Related
-
-[[DNS]] [[dns record]] [[DNS zone]] [[name server]] [[mail server]] [[SMTP]] [[cloudflare]]
+- [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208)
+- [RFC 6376 — DKIM](https://datatracker.ietf.org/doc/html/rfc6376)
+- [RFC 7489 — DMARC](https://datatracker.ietf.org/doc/html/rfc7489)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** In WebRTC/SIP, SDP is the **session contract** each side proposes; signaling carries it, then [[ICE (Interactive Connectivity Establishment)]] uses the ICE bits inside to find a path. It is **not** Bluetooth Service Discovery Protocol and **not** NIS.
+## How it works
 
 ```txt
 Peer A                         Signaling                      Peer B
@@ -65,7 +54,8 @@ Media still needs ICE + DTLS after SDP agrees — SDP alone does not open UDP.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Browser offer/answer
 
@@ -112,7 +102,8 @@ Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -125,6 +116,7 @@ Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 | Codec mismatch | No common rtpmap | Align codec list; SFU may rewrite SDP |
 
 ---
+
 
 ## Gotchas
 
@@ -145,7 +137,8 @@ Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **CDN OTT manifests** — [[HLS]] / [[DASH]] use M3U8/MPD, not SDP offer/answer.
 - **Bluetooth profile discovery** — different SDP; use BlueZ/`sdptool`, not WebRTC notes.
@@ -153,6 +146,11 @@ Pairs with [[WebRTC Signaling channels]] WHIP/WHEP; still ICE under the hood.
 
 ---
 
+
 ## Related
 
 [[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[SCTP (Stream Control Transmission Protocol)]] [[SIP]] [[WebRTC Get Started Guide]] [[Network Information Service (NIS)]]
+
+## Sources
+
+- [Wikipedia — SDP](https://en.wikipedia.org/wiki/SDP)

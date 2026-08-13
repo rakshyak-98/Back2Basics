@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Zed reads JSON settings (user + optional project `.zed/settings.json`). Language servers attach per language block. Remote files use `zed ssh://user@host/path` with remote LSP when configured. Precedence: project overrides user for same keys.
 
@@ -36,7 +27,8 @@ Typing []in in Go
 
 When both would show, Zed prioritizes the LSP menu in `eager` mode. **Hold `alt`** to preview the inline edit prediction and hide the menu ([Zed edit prediction UX](https://zed.development/edit-prediction)).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Open remote file
 
@@ -164,7 +156,8 @@ After this, `tab tab` still accepts the highlighted LSP completion when the menu
 
 → Full keybinding reference: [[zed keybindings]]
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -180,6 +173,7 @@ After this, `tab tab` still accepts the highlighted LSP completion when the menu
 | LSP not found | `which typescript-language-server` | Install globally or via mise/nvm |
 | Settings ignored | Project vs user path | Check `.zed/settings.json` overrides |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -192,11 +186,17 @@ After this, `tab tab` still accepts the highlighted LSP completion when the menu
 >
 > **Invalid JSON** — trailing commas break entire settings load silently partial.
 
-## When NOT to use
+
+## When not to use
 
 - Don't disable all linters globally to silence one noisy rule — fix rule or use local override.
 - Don't commit machine-specific absolute paths in shared `.zed/settings.json`.
 
+
 ## Related
 
 [[Descriptive/vscode]] [[editor configuration]] [[zed keybindings]] [[npm/husk]]
+
+## Sources
+
+- [Wikipedia — zed config](https://en.wikipedia.org/wiki/zed_config)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls **media segments** over HTTP. **[[ABR]]** decisions use manifest-declared `BANDWIDTH` / `Representation` attributes — wrong manifest = wrong quality or failed playback.
 
@@ -39,7 +30,8 @@ Manifest refresh (live): poll interval ≈ segment duration / 2
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### HLS master (multi-bitrate)
 
@@ -101,7 +93,8 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -114,6 +107,7 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 | Infinite manifest poll storm | `#EXT-X-TARGETDURATION` too low | Match max segment duration |
 
 ---
+
 
 ## Gotchas
 
@@ -131,7 +125,8 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Progressive MP4 only** — single URL, no manifest; no ABR.
 - **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
@@ -139,6 +134,11 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
 ---
 
+
 ## Related
 
 [[HLS]] [[DASH]] [[MPD]] [[CMAF]] [[ABR]] [[bitrate streaming]] [[DRM]] [[streaming manifest file]]
+
+## Sources
+
+- [Wikipedia — Manifest](https://en.wikipedia.org/wiki/Manifest)

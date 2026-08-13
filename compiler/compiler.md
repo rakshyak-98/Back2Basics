@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Source → **frontend** (parse, AST) → **optimizer** → **backend** (codegen for x86/ARM/WASM). Different hardware (x86, ARM, RISC-V) needs different instruction streams; compilers hide that. Interpreted languages still often compile to bytecode (JVM, CPython `.pyc`) — JIT bridges compile time and runtime.
 
@@ -26,17 +15,8 @@ source.c → compiler (clang) → object file → linker → executable
 source.ts → tsc → JavaScript → (optional) V8 JIT
 ```
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ### C/C++ (typical)
 
@@ -61,7 +41,20 @@ objdump -d app | head       # disassembly peek
 ldd app                     # shared libs (dynamic link)
 ```
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +63,7 @@ ldd app                     # shared libs (dynamic link)
 | Optimizer bug | `-O0` vs `-O2` | Bisect flags; UB in C (sanitizers) |
 | Wrong arch binary | `file bin` | Cross-compile `GOOS`/`GOARCH` or toolchain prefix |
 | Huge binary | Debug symbols | `strip` or `-s`; split debug info |
+
 
 ## Gotchas
 
@@ -80,11 +74,17 @@ ldd app                     # shared libs (dynamic link)
 >
 > **Reproducible builds** — timestamps and paths embed in binary unless `-trimpath`/SOURCE_DATE_EPOCH.
 
-## When NOT to use
+
+## When not to use
 
 - Don't hand-write assembly for whole application unless extreme hot path — maintainability cost.
 - Don't `-O3` blindly on latency-sensitive code without profiling — can regress.
 
+
 ## Related
 
 [[compiler/compile time]] [[compiler/transpiler]] [[compiler/library file]] [[golang/go build]]
+
+## Sources
+
+- [Wikipedia — compiler](https://en.wikipedia.org/wiki/compiler)

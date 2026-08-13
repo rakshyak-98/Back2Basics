@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `usermod` edits `/etc/passwd`, `/etc/shadow`, `/etc/group` (and gshadow) **for local accounts**. Changes to groups need `-aG` (append); bare `-G` **replaces** the supplementary group list. Active sessions keep old UID/GID until re-login.
 
@@ -45,7 +36,8 @@ NSS (sssd/LDAP) → usermod may not apply — use directory tools
 | **-d -m** | Move home | “-m moves files with home.” |
 | **-s** | Shell | “usermod -s /usr/sbin/nologin.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Interactive shell for service account
@@ -86,7 +78,8 @@ getent group docker
 sudo find / -uid OLD_UID -exec chown NEW_UID {} \; 2>/dev/null
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +89,7 @@ sudo find / -uid OLD_UID -exec chown NEW_UID {} \; 2>/dev/null
 | Home still old path | `grep alice /etc/passwd` | `-d` without `-m`; manual rsync + edit passwd |
 | usermod: user in use | `who`; process list | Log out user; `-f` force (disruptive) |
 | Change ignored | sssd/LDAP | Modify directory; local usermod wrong tool |
+
 
 ## Gotchas
 
@@ -108,12 +102,18 @@ sudo find / -uid OLD_UID -exec chown NEW_UID {} \; 2>/dev/null
 - **Running daemons** — User systemd services, cron, and long-lived workers keep old credentials until restarted.
 - **NFS/SMB ownership** — UID mapping on NAS may not match local usermod.
 
-## When NOT to use
+
+## When not to use
 
 - **LDAP/AD/FreeIPA accounts** — use `ipa user-mod`, `admod`, or vendor console.
 - **Creating users** — [[useradd]] first; usermod is for mutation.
 - **Temporary access** — prefer expiry on [[useradd]] or IAM-style keys with rotation.
 
+
 ## Related
 
 [[useradd]] [[userdel]] [[passwd]] [[getent]] [[user management]] [[etc files]] [[linux groups]]
+
+## Sources
+
+- [Wikipedia — usermod](https://en.wikipedia.org/wiki/usermod)

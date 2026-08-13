@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** **PSI GSS** (Payment Card Industry **Guest Service System**) describes when a merchant uses a **third-party hosted** checkout such that **cardholder data never enters merchant systems**.
+## How it works
 
 
 ```
@@ -31,7 +20,8 @@ Eligible merchants may qualify for simplified **SAQ** (Self-Assessment Questionn
 
 Works with [[Payments/PSI GSS]] companion concept on questionnaire side — see [[Payments/SAQ GSS]].
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Scope reduction checklist
 
@@ -70,7 +60,8 @@ res.redirect(session.url);
 - Network diagram showing CHD boundaries
 - List all systems that could touch cardholder data (should be empty for true GSS)
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +70,7 @@ res.redirect(session.url);
 | Analytics pixel on checkout page | Third-party script access | Remove from hosted page or use redirect |
 | Custom CSS overlay on card field | Breaks isolation | Use provider-approved styling hooks |
 | Mobile WebView checkout | In-app browser rules | Use provider mobile SDK |
+
 
 ## Gotchas
 
@@ -89,11 +81,17 @@ res.redirect(session.url);
 - **Staff "keying in"** card on merchant administrator panel = CHD on your systems.
 - **Provider change** — revalidate AOC and SAQ type annually and on vendor switch.
 
-## When NOT to use
+
+## When not to use
 
 - Business requirement to own entire checkout UX with raw card API — accept full PCI program.
 - Provider lacks current PCI validation — no scope magic.
 
+
 ## Related
 
 [[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[Security/TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — PSI GSS](https://en.wikipedia.org/wiki/PSI_GSS)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Source → Object (.o) → Archive (.a) OR Shared (.so)
@@ -38,7 +29,8 @@ Source → Object (.o) → Archive (.a) OR Shared (.so)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Inspect artifacts
 
@@ -98,7 +90,8 @@ pkg-config --libs --cflags libssl
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -110,6 +103,7 @@ pkg-config --libs --cflags libssl
 | Static binary huge / NSS issues | glibc static quirks | Prefer shared linking on Linux services |
 
 ---
+
 
 ## Gotchas
 
@@ -127,7 +121,8 @@ pkg-config --libs --cflags libssl
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure managed runtimes (JVM, Node, Python wheels)** — use package manager / manylinux wheels unless writing native extensions.
 - **Static everything on glibc Linux servers** — operations and security updates harder; shared distro libs preferred.
@@ -135,6 +130,11 @@ pkg-config --libs --cflags libssl
 
 ---
 
+
 ## Related
 
 [[compiler]] · [[Operating System/file descriptors]] · [[Docker compose]] · [[docker cli]]
+
+## Sources
+
+- [Wikipedia — library file](https://en.wikipedia.org/wiki/library_file)

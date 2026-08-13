@@ -1,93 +1,66 @@
-[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS EBS(Elastic Block Store)]]
+[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS Networking]] · [[Security group]]
 
 # AMI (Amazon Machine Image)
 
-> AMI — the disk template you pick to boot an EC2 instance (OS + root volume snapshot + launch permissions).
+> An AMI is the template for an EC2 instance — it captures the root volume snapshot, launch permissions, and block device mapping so you can launch identical machines repeatedly.
 
 ---
 
-## Index
+## What an AMI contains
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+- **Root volume snapshot** (usually EBS-backed) or instance-store template
+- **Virtualization type** — HVM (standard today) or paravirtual (legacy)
+- **Architecture** — x86_64 or arm64 (Graviton)
+- **Launch permissions** — public, explicit accounts, or private
+- **Block device mapping** — which volumes attach at boot and their sizes
 
-## Mental model
+AMIs are regional. Copy an AMI to another region before launching there.
 
-**Say it in one breath:** Launch = AMI + instance type + network. The AMI points at EBS snapshots (root ± data). AMIs are **region-scoped**; copy to use elsewhere.
+## AMI sources
 
-```txt
-Customize EC2 → Create image → AMI (snapshots)
-                              │
-                    Launch more instances from AMI
-```
+| Source | When to use |
+|--------|-------------|
+| AWS marketplace / quick start | Baseline OS images |
+| Your golden AMI | Hardened, pre-baked agents, compliance baseline |
+| `CreateImage` from running instance | Capture configured server (mind drift and secrets) |
+| EC2 Image Builder | Pipelines for reproducible images |
 
-| Source | When |
-|--------|------|
-| AWS / Marketplace | Stock OS or vendor stacks |
-| Your “golden” AMI | Baked packages, agents, hardening |
-| CopyImage | DR / multi-region |
-
----
-
-## Standard config / commands
+## Create from instance
 
 ```bash
-# Register from instance (console or)
-aws ec2 create-image --instance-id i-… --name "app-golden-$(date +%F)" --no-reboot
-
-aws ec2 describe-images --owners self --query 'Images[*].[ImageId,Name,State]' --output table
-aws ec2 copy-image --source-region us-east-1 --source-image-id ami-… --name "app-eu" --region eu-west-1
-
-aws ec2 run-instances --image-id ami-… --instance-type t3.small --subnet-id subnet-… …
+aws ec2 create-image \
+  --instance-id i-0abc123 \
+  --name "web-tier-2026-08-13" \
+  --no-reboot
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `--no-reboot` vs reboot | Consistency of filesystem at snapshot time |
-| Launch permissions | Private vs shared accounts / public (careful) |
-| Block device mappings | Extra volumes, delete-on-termination |
-| Deprecation / tags | Track which AMI is prod-current |
+`--no-reboot` avoids restart but risks filesystem inconsistency; maintenance window snapshots are safer.
 
----
+## Launch from AMI
 
-## Triage (when things break)
+Console or:
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `InvalidAMIID.NotFound` | Wrong region | Switch region or CopyImage |
-| Instance fails status checks after bake | Cloud-init / sshd broken in AMI | Fix on source; re-create image |
-| Huge AMI / slow launch | Bloated root; many layers of junk | Slim bake; delete unused packs |
-| Marketplace AMI billing surprise | Product code on AMI | Read marketplace terms; prefer own bake |
-| Can’t share AMI | Snapshot perms | Share snapshots + AMI with target account |
-| Old AMI in ASG | Launch template pinned | Update LT/version; instance refresh |
+```bash
+aws ec2 run-instances \
+  --image-id ami-0abcdef1234567890 \
+  --instance-type t3.small \
+  --key-name my-key \
+  --security-group-ids sg-0abc123 \
+  --subnet-id subnet-0abc123
+```
 
----
+## Lifecycle hygiene
 
-## Gotchas
+- **Version** AMIs with dates or build numbers; deregister old ones.
+- **Scan** for CVEs before promotion; do not bake secrets into images — inject at boot via user data or secrets manager.
+- **Encrypt** EBS snapshots backing the AMI with KMS keys you control.
 
-> [!WARNING]
-> **Secrets in AMI** — baked keys leak to every launch; use instance roles + SSM Parameter/Secrets Manager.
+## Recall
 
-> [!WARNING]
-> **Region lock** — `ami-abc` in us-east-1 ≠ same id elsewhere after copy.
+- What is the difference between an AMI and a running EC2 instance?
+- Why are AMIs regional resources?
 
-> [!WARNING]
-> **Delete-on-termination** — root mapping can wipe data on terminate; know your LT settings.
+## Sources
 
----
-
-## When NOT to use
-
-- **Immutable containers only** — prefer ECR images + ECS/EKS; AMI is just the node OS.
-- **One-off debug box** — launch stock Amazon Linux; don’t bake an AMI for every experiment.
-- **Windows + Linux mix as one AMI** — separate images per OS.
-
----
-
-## Related
-
-[[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS EBS(Elastic Block Store)]] [[IAM]] [[AWS Networking]]
+- [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html)
+- [Creating an Amazon EBS-backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Schema defines types; resolvers fetch fields; client query picks the shape. Server walks the tree and returns JSON matching the selection.
+## How it works
 
 ```txt
 Query → parse/validate → resolve fields → JSON
@@ -32,7 +21,8 @@ Query → parse/validate → resolve fields → JSON
 | **Mutation** | Writes | “Side effects; not idempotent by default.” |
 | **Subscription** | Push updates | “Usually WebSocket transport.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { ApolloServer } from '@apollo/server'
@@ -54,7 +44,8 @@ await startStandaloneServer(server, { listen: { port: 4000 } })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ await startStandaloneServer(server, { listen: { port: 4000 } })
 | Schema drift | Client vs server | CI schema checks |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ await startStandaloneServer(server, { listen: { port: 4000 } })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple CRUD + CDN caching** — REST/OpenAPI often simpler.
 - **File-heavy APIs** — prefer signed upload URLs + separate storage.
 
 ---
 
+
 ## Related
 
 [[expressjs]] [[open api specification]] [[HTTP module]]
+
+## Sources
+
+- [Wikipedia — graphql](https://en.wikipedia.org/wiki/graphql)

@@ -1,154 +1,83 @@
-[[TCP]] [[UDP]] [[DNS zone]] [[name server]] [[mDNS]] [[dig]]
+[[TCP]] · [[UDP]] · [[DNS zone]] · [[name server]] · [[dig]] · [[public resolver]]
 
 # DNS
 
-> distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
+> The Domain Name System maps human-readable names to records (A, AAAA, CNAME, MX, …) through a distributed, cached hierarchy — when lookups fail, the fault is usually resolver configuration, TTL caching, or a wrong authoritative answer.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-DNS is a hierarchical, cached lookup system. Your stub resolver doesn't talk to root directly for every query — it follows referrals or uses a recursive resolver (ISP, 8.8.8.8, corporate [[Unbound]]).
-
-**Resolution chain (recursive lookup):**
+## Resolution chain
 
 ```
-App → stub resolver (/etc/resolv.conf, systemd-resolved)
-         → recursive resolver (recursive mode)
-              → root (. )           → TLD (.com)
-              → TLD nameserver      → authoritative NS for example.com
-              → authoritative NS    → A/AAAA/CNAME answer
-         ← cached TTL ←──────────────
+Application
+    │
+    ▼
+Stub resolver (glibc, systemd-resolved, mobile OS)
+    │
+    ▼
+Recursive resolver (ISP, 8.8.8.8, corporate [[Unbound]], [[public resolver]])
+    │  iterative queries
+    ▼
+Root servers (. ) → TLD servers (.com) → authoritative [[name server]] for zone
+    │
+    ▼
+Answer + TTL cached at each hop
 ```
 
-Transport:
-- **UDP/53** default (single query/response, 512-byte traditional limit).
-- **TCP/53** for truncated responses (TC bit set) or zone transfers (AXFR).
-- **DNS-over-HTTPS/TLS** on recursive path (browser/OS dependent).
+Defined in [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035) with extensions for DNSSEC ([RFC 4033](https://datatracker.ietf.org/doc/html/rfc4033)), EDNS0, and newer transports (DoH, DoT).
 
-**Key record types for operations:**
+## Record types you operate daily
 
-| Type | Use |
-|------|-----|
-| A / AAAA | Name → IPv4 / IPv6 |
-| CNAME | Alias → another name (no other records at same name) |
-| NS | Delegates zone to authoritative servers |
-| MX | Mail routing |
-| TXT | SPF, DKIM, DMARC, verification tokens |
-| SRV | Service location |
-| PTR | Reverse (IP → name) |
+| Type | Purpose |
+|------|---------|
+| **A / AAAA** | IPv4 / IPv6 address |
+| **CNAME** | Alias to another name (not at zone apex with standard DNS) |
+| **MX** | Mail exchanger priority + host |
+| **TXT** | SPF, DKIM, DMARC, verification tokens |
+| **NS** | Delegates subdomain to other nameservers |
+| **SOA** | Zone metadata (serial, refresh, TTL defaults) |
+| **SRV** | Service location (port, priority, weight) |
+| **CAA** | Which CAs may issue certificates for the domain |
 
-## Routing table
+See [[dns record]] for field-level detail.
 
-| Symptom / need | Go to |
-|----------------|-------|
-| Name does not resolve / NXDOMAIN | [[dig]] · [[DNS zone]] · [[name server]] |
-| Wrong IP / stale answer after migration | [[dig]] · [[dns record]] · [[public resolver]] |
-| Internal name works publicly but not on VPN | [[Unbound]] · [[DNS server]] · [[cloudflare]] |
-| Pod resolves, host does not (K8s) | [[CoreDNS]] · [[mDNS]] |
-| Reverse lookup fails | [[dig]] · [[PTR]] via [[dns record]] |
-| Local `.local` / multicast names | [[mDNS]] · [[LLMNR]] |
+## Transport
 
-## Domain links
+- **UDP/53** — default; 512-byte traditional limit without EDNS
+- **TCP/53** — truncation (TC bit), large responses, zone transfers (AXFR)
+- **DNS-over-TLS (DoT)** — [RFC 7858](https://datatracker.ietf.org/doc/html/rfc7858)
+- **DNS-over-HTTPS (DoH)** — [RFC 8484](https://datatracker.ietf.org/doc/html/rfc8484)
 
-- **Core:** [[DNS zone]] · [[dns record]] · [[name server]] · [[top-level Domain]] · [[Sub Domain]]
-- **Resolvers:** [[public resolver]] · [[Unbound]] · [[cloudflare]]
-- **Servers:** [[BIND]] · [[CoreDNS]] · [[dnsmasq]]
-- **Security:** [[DNS rebinding]]
+## Debugging toolkit
 
-## Standard config / commands
-
-```shell
-# What resolver am I using?
-cat /etc/resolv.conf
-resolvectl status
-systemd-resolve --status 2>/dev/null || true
-
-# Simple lookup
-dig example.com A +short
-dig example.com AAAA +short
-dig example.com MX +short
-
-# Specific resolver (bypass local stub)
-dig @8.8.8.8 example.com
-dig @1.1.1.1 example.com
-
-# Full answer with TTL and flags
-dig example.com ANY +noall +answer +authority +additional
-
-# Reverse lookup
-dig -x 93.184.216.34 +short
-
-# Trace from root — shows delegation chain (debug propagation)
-dig +trace example.com
-dig +trace example.com A @8.8.8.8    # trace via specific recursive
-
-# Compare authoritative vs cached
-dig example.com @ns1.example.com +norecurse
-dig example.com @8.8.8.8
-
-# DNSSEC validation (if enabled locally)
-dig example.com +dnssec +multi
-
-# TCP fallback when UDP truncated
-dig example.com +bufsize=4096
-dig example.com +tcp
+```bash
+dig example.com A +trace
+dig @8.8.8.8 example.com A
+dig example.com MX
+host -t TXT example.com
 ```
 
-**`/etc/resolv.conf` minimal:**
+Compare **stub → recursive → authoritative** answers to locate stale cache vs wrong zone data.
 
-```
-nameserver 10.0.0.2          # VPC resolver / corporate
-search ec2.internal example.com
-options edns0 trust-ad
-```
+## Local naming beyond global DNS
 
-## Triage (when things break)
+- **[[mDNS]]** — `.local` on LAN ([RFC 6762](https://datatracker.ietf.org/doc/html/rfc6762))
+- **[[LLMNR]]** — Windows link-local name resolution (avoid on untrusted networks)
+- **Split-horizon / private zones** — same name, different answers inside corporate network ([[DNS zone]])
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| NXDOMAIN everywhere for one name | `dig +trace` stops where? | Fix NS delegation or missing zone at authoritative |
-| Works with `@8.8.8.8`, fails with corporate DNS | Compare `dig @corp-dns` vs public | Internal split-horizon; add private zone or conditional forwarder |
-| Intermittent wrong IP | TTL + multiple A records; geo DNS | Lower TTL during migration; verify all authoritative NS agree (`dig @each-ns`) |
-| Slow first query, fast after | `dig` twice; check `+stats` query time | Resolver cold cache normal; fix upstream if always slow |
-| `SERVFAIL` | `dig +dnssec`; check authoritative logs | Broken DNSSEC chain; DS/DNSKEY mismatch |
-| Large response fails | `dig +ignore` vs `+bufsize=512` shows TC bit | Enable EDNS0 or TCP on resolver/firewall |
-| Pod resolves, host doesn't (or reverse) | `resolvectl`; CoreDNS vs host resolv | K8s `ndots` / `search` suffix issue — use FQDN with trailing dot |
-| After zone cutover, stale answers | TTL on old records (300–86400 common) | Wait TTL or flush resolver cache; don't assume instant global update |
+## Security topics in this folder
 
-### Reading `dig +trace` output
+- [[DNS rebinding]] — browser same-origin bypass via DNS TTL tricks
+- [[cloudflare]] — operator patterns for public DNS and proxy
+- Server software: [[BIND]], [[Unbound]], [[CoreDNS]], [[dnsmasq]]
 
-1. **Root referral** — lists `.com` TLD servers → proves path started.
-2. **TLD referral** — lists `example.com` NS → delegation correct.
-3. **Authoritative answer** — final A/AAAA from zone → if missing here, fix zone file / registrar glue.
-4. **Stops early with lame delegation** — NS exists but target doesn't answer → fix glue A/AAAA at parent.
+## Recall
 
-## Gotchas
+- What is the difference between recursive and authoritative nameservers?
+- When does a resolver switch from UDP to TCP for DNS?
 
-> [!WARNING]
-> **`search` domain suffix** causes surprise lookups. `curl api` may query `api.ec2.internal` before `api` — always use FQDN (`api.example.com.`) in automation.
+## Sources
 
-- **CNAME at apex** (example.com) is invalid in traditional DNS — use ALIAS/ANAME at provider or flatten.
-- **Negative caching** (NXDOMAIN) respects SOA minimum TTL — typo domains stay "broken" for minutes.
-- **Split-horizon**: same name, different answer inside versus outside — debug from both vantage points.
-- **systemd-resolved stub** on 127.0.0.53 — tools may show different path than `dig @127.0.0.53`.
-
-## When NOT to use
-
-- Service-to-service naming inside a cluster → platform DNS (K8s, Consul) is faster to iterate.
-- Storing non-DNS data in TXT beyond reasonable size — use a real configuration store.
-
-## Related
-
-[[DNS zone]] · [[mDNS]] · [[name server]] · [[DNS rebinding]] · [[Unbound]] · [[CoreDNS]] · [[dig]]
+- [RFC 1035 — Domain Names](https://datatracker.ietf.org/doc/html/rfc1035)
+- [ICANN DNS overview](https://www.icann.org/resources/pages/dns-what-is-2021-02-25-en)
+- Kleppmann, *Designing Data-Intensive Applications* — DNS as example of partitioned naming

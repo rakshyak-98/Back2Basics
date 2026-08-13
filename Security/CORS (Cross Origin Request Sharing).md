@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 CORS is **not server access control** — it stops **browser JavaScript** on `https://evil.com` from reading responses from `https://api.example.com` unless the API explicitly allows it. curl/Postman ignore CORS.
 
@@ -42,7 +33,8 @@ Browser on https://myapp.com
 
 Same-origin (`myapp.com` → `myapp.com/api`) → **no CORS** — preferred for monoliths and BFF patterns.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Express (`cors` package)
 
@@ -104,7 +96,8 @@ curl -i 'https://api.example.com/users' \
 3. Console: `blocked by CORS policy: No 'Access-Control-Allow-Origin'` → server didn't echo origin.
 4. `Credentials flag is true, but Access-Control-Allow-Origin is *` → must echo exact origin.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +110,7 @@ curl -i 'https://api.example.com/users' \
 | Intermittent after deploy | CDN strips CORS on cache hit | Vary on Origin; configure CDN CORS policy |
 | Duplicate ACAO headers | nginx + app both set | Single layer owns CORS — remove duplicate |
 | Redirect on preflight | 301 http→https loses CORS | Fix URL to final HTTPS; avoid redirect on OPTIONS |
+
 
 ## Gotchas
 
@@ -131,12 +125,18 @@ curl -i 'https://api.example.com/users' \
 - **Multiple origins** — dynamic `origin` callback; never reflect arbitrary `Origin` without allowlist (security hole).
 - **WebSocket** has separate origin check at handshake — see [[webSocket]].
 
-## When NOT to use
+
+## When not to use
 
 - Server-to-server calls → no CORS needed.
 - Same-origin SPA + API → serve both from one host or use reverse proxy path (`/api` → backend).
 - "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
 
+
 ## Related
 
 [[HTTP module]] · [[JWT authentication]] · [[single-sign-on (SSO)]] · [[webSocket]] · [[DNS rebinding]]
+
+## Sources
+
+- [Wikipedia — CORS](https://en.wikipedia.org/wiki/CORS)

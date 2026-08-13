@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **RSA** uses math on large composites (factorization hardness):
 
@@ -37,7 +28,8 @@ Limits:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Generate key pair
 
@@ -73,7 +65,8 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,6 +76,7 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 | Weak key detected | <2048 bits | Regenerate; HSM stored keys |
 
 ---
+
 
 ## Gotchas
 
@@ -97,12 +91,18 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Greenfield **signing** → **Ed25519**. Greenfield **TLS** → **ECDSA P-256** or Ed25519 certs. RSA for legacy interop only.
 
 ---
 
+
 ## Related
 
 [[Asymmetrical Encryption]] [[PKI]] [[DER]] [[read pem file]] [[Root certificate]] [[JWT authentication]]
+
+## Sources
+
+- [Wikipedia — RSA](https://en.wikipedia.org/wiki/RSA)

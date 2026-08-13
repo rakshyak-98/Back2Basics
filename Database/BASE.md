@@ -1,105 +1,33 @@
-[[ACID]] [[Database mistakes]] [[OLTP]] [[Vector database]]
+[[Database]] [[ACID]] [[OLTP]] [[Vector database]]
 
 # BASE
 
-> distributed-systems tradeoff label — **B**asically **A**vailable, **S**oft state, **E**ventual consistency — opposite emphasis from [[ACID]]; know what you're giving up.
+> A design stance for large distributed stores—Basically Available, Soft state, Eventually consistent—trading immediate [[ACID]] guarantees for availability and partition tolerance.
 
----
+## Origin and intent
 
-## Index
+BASE was coined to describe architectures (often NoSQL or geo-distributed caches) that **prioritize availability** over strict consistency when networks partition. It is not a formal standard like [[ACID]]; it names a family of engineering tradeoffs.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Letter | Meaning in practice |
+|--------|---------------------|
+| **Basically Available** | System responds even if some nodes or replicas are down |
+| **Soft state** | State may change without new input (replication lag, TTL expiry) |
+| **Eventually consistent** | Replicas converge if writes stop; reads may be stale meanwhile |
 
-## Mental model
+## When BASE fits
 
-ACID optimizes **single-node transactional correctness**. BASE describes many **distributed / NoSQL** designs that prefer availability under partition ([[CAP theorem]] intuition): respond even when stale; accept that replicas converge **eventually**.
+- Session caches, feature flags, rate-limit counters where brief staleness is acceptable
+- CDN-backed read models fed by async replication
+- [[Vector database]] indexes rebuilt asynchronously from an [[OLTP]] source of truth
 
-```
-ACID (typical RDBMS)          BASE (many Dynamo-style stores)
-───────────────               ───────────────────────────────
-Strong consistency            High availability first
-Sync replication wait         Async replication common
-Rollback on failure           Compensating actions / repair
-Single source of truth now    Multiple versions → merge later
-```
+## When BASE hurts
 
-| Letter | Meaning | Operational read |
-|--------|---------|------------------|
-| **B**asically Available | System responds (maybe degraded/stale) | Read replica lag OK for some queries |
-| **S**oft state | State may change without input (replication, TTL) | Caches expire; background sync |
-| **E**ventual consistency | Replicas converge if no new writes | "Read your writes" not guaranteed without sticky routing |
+- Financial ledger balances, inventory deduction, idempotent payment processing — use [[ACID]] on a single authoritative store or explicit sagas/outbox patterns across services.
 
-## Standard config / commands
+*When would you accept eventual consistency for a shopping cart?* When showing a stale item count for a few hundred milliseconds is cheaper than blocking checkout on a global lock.
 
-### Patterns that imply BASE
+## Sources
 
-```txt
-Cassandra / DynamoDB  → tunable consistency (often eventual default)
-Redis primary-replica → async repl → stale reads on replica
-CQRS read models      → lag between write and read side
-CDN edge cache        → TTL-based staleness
-```
-
-### Mitigate eventual consistency in apps
-
-```javascript
-// After write, read from primary or version key
-await db.put({ id, version: Date.now(), ... });
-const row = await db.get(id, { consistentRead: true }); // Dynamo-style
-
-// Idempotency keys for retries
-headers: { 'Idempotency-Key': uuid }
-```
-
-### Monitor replica lag
-
-```sql
--- Postgres
-SELECT EXTRACT(EPOCH FROM (now() - pg_last_xact_replay_timestamp()));
-
--- MySQL
-SHOW REPLICA STATUS\G  -- Seconds_Behind_Source
-```
-
-### When you need stronger guarantees
-
-```txt
-Use transactional store (Postgres) for money/inventory
-Saga / outbox pattern for cross-service consistency
-Leader election + sync quorum for critical metadata
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| User sees stale data after update | Read from replica | Route session to primary; sticky sessions |
-| Duplicate charges on retry | No idempotency | Idempotency keys; dedupe table |
-| Lost update across regions | Last-write-wins | Version vectors; CRDT or conflict UI |
-| "Ghost" records after delete | Tombstone replication delay | Read-your-writes; higher consistency level |
-| Inventory oversell | Eventual stock count | Reserve in ACID store; async analytics separate |
-
-## Gotchas
-
-> [!WARNING]
-> **BASE is not "no consistency"** — it's explicit about **when** consistency holds; document SLAs.
-
-> [!WARNING]
-> **Caching without invalidation** — classic eventual consistency bug in "monolith with Redis".
-
-> [!WARNING]
-> **Cross-DC async repl** — RPO > 0; plan for failover data loss window.
-
-## When NOT to use
-
-- **Ledger, inventory, booking without compensations** — use ACID RDBMS or strongly consistent store.
-- **Label as BASE to excuse missing design** — still need idempotency, conflict policy, and monitoring.
-
-## Related
-
-[[ACID]] [[OLTP]] [[Database mistakes]] [[Data access patterns]] [[stateless offset handling]]
+- Dan Pritchett, "BASE: An Acid Alternative" (ACM Queue, 2008)
+- Kleppmann, *DDIA*, Ch. 9 (consistency and consensus)
+- Wikipedia — [Eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** SSE (Server-Sent Events) — uni directional push from server to browser over HTTP.
+## How it works
 
 - uni directional push from server to browser over HTTP.
 - server pushes events -> client auto-receives over single long-lived connection.
@@ -25,7 +14,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -34,7 +24,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -44,6 +35,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -51,12 +43,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Messaging]]
+
+## Sources
+
+- [Wikipedia — SSE](https://en.wikipedia.org/wiki/SSE)

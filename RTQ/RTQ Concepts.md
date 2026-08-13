@@ -6,40 +6,28 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** RTQ Concepts — wraps createStore to provide simplified configuration with good defaults — automatically combines slice reducers, adds middleware, includes…
+## How it works
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[RTQ]]
+
+## Sources
+
+- [Wikipedia — RTQ Concepts](https://en.wikipedia.org/wiki/RTQ_Concepts)

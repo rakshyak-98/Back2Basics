@@ -1,192 +1,77 @@
-[[DNS]] [[servers]]
+[[DNS server]] · [[DNS zone]] · [[name server]] · [[Unbound]] · [[dnsmasq]]
 
-# BIND (named) — Operations
+# BIND
 
-> BIND (named) — Operations — BIND 9 runs as named. Two roles (don't mix blindly on public internet):
-
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-BIND 9 runs as **`named`**. Two roles (don't mix blindly on public internet):
-
-```
-Authoritative:  "I own example.com" → answers from zone files / DNSSEC
-Recursive:      "Look up google.com for client" → queries root → TLD → …
-```
-
-Public resolvers open to the world amplify attacks if misconfigured. Authoritative servers answer only zones they host.
-
-Key files (Debian/RHEL layouts vary):
-
-```
-/etc/named.conf              # main config
-/etc/named.conf.local          # your zones (include)
-/var/named/ or /etc/bind/      # zone files
-rndc.key                     # admin control key
-```
+> BIND (Berkeley Internet Name Domain) is the reference implementation for authoritative DNS on the Internet — it serves zones, supports DNSSEC, and can recurse (though many deployments split authoritative and recursive roles).
 
 ---
 
-## Standard config / commands
+## Roles
 
-### Minimal named.conf skeleton
+| Mode | Use |
+|------|-----|
+| **Authoritative** | Host [[DNS zone]] files; answer for domains you own |
+| **Recursive** | Resolver for clients (lock down `allow-recursion`) |
+| **Secondary** | AXFR/IXFR slave from primary |
 
-```named
-options {
-    directory "/var/cache/bind";
-    listen-on port 53 { any; };
-    allow-query { any; };           # tighten for authoritative-only public
-    recursion no;                   # authoritative server: OFF
-    dnssec-validation auto;
-};
+ISC BIND 9 is current; BIND 8 is obsolete.
 
-include "/etc/bind/named.conf.local";
-include "/etc/bind/named.conf.default-zones";
+## Minimal authoritative zone
+
+```bind
+; /etc/bind/db.example.com
+$TTL 300
+@  IN  SOA  ns1.example.com. admin.example.com. (
+        2026081301 ; serial
+        7200       ; refresh
+        3600       ; retry
+        1209600    ; expire
+        300 )      ; minimum
+     IN  NS   ns1.example.com.
+     IN  A    203.0.113.10
+www  IN  A    203.0.113.10
 ```
 
-### Authoritative zone
-
-```named
-// named.conf.local
+```bind
 zone "example.com" {
     type master;
     file "/etc/bind/db.example.com";
 };
 ```
 
-```dns
-; db.example.com
-$TTL 300
-@   IN SOA  ns1.example.com. admin.example.com. (
-        2025072201 ; serial (YYYYMMDDnn)
-        3600       ; refresh
-        600        ; retry
-        86400      ; expire
-        300 )      ; negative cache
-    IN NS   ns1.example.com.
-    IN A    203.0.113.10
-www IN A    203.0.113.10
-```
-
-**Serial bump rule:** increment on every zone change or secondaries won't transfer.
-
-### Validate and reload
+## Validate and reload
 
 ```bash
-sudo named-checkconf
-sudo named-checkzone example.com /etc/bind/db.example.com
-sudo rndc reload                    # reload zones without full restart
-sudo rndc reload example.com        # single zone
-sudo systemctl reload named
-sudo systemctl status named
+named-checkzone example.com /etc/bind/db.example.com
+named-checkconf
+rndc reload
 ```
 
-### rndc admin
+## DNSSEC
 
 ```bash
-sudo rndc status
-sudo rndc flush                     # clear cache (resolver)
-sudo rndc reconfig                  # reload named.conf only
+dnssec-keygen -a ECDSAP256SHA256 example.com
+dnssec-signzone -o example.com db.example.com
 ```
 
-### dig verification
+Publish DS record at registrar after signing.
 
-```bash
-dig @127.0.0.1 example.com A +short
-dig @127.0.0.1 example.com SOA
-dig @ns1.example.com example.com AXFR   # zone transfer test (restrict in prod)
-```
+## Security
 
-### Slave/secondary zone
+- **RPZ** — block known bad domains
+- **Response rate limiting** — mitigate reflection attacks
+- **Views** — split internal/external answers ([[DNS zone]] split horizon)
 
-```named
-zone "example.com" {
-    type slave;
-    masters { 203.0.113.1; };
-    file "/var/cache/bind/slave/example.com";
-};
-```
+## vs [[Unbound]] / [[CoreDNS]]
 
-Restrict transfers:
+BIND excels at **authoritative** Internet zones. Run **Unbound** for validating recursion on clients. **CoreDNS** fits Kubernetes service discovery.
 
-```named
-zone "example.com" {
-    allow-transfer { 203.0.113.2; };   # secondary IP only
-};
-```
+## Recall
 
-### TSIG for secure transfer
+- What SOA field must increment on every zone edit?
+- Why separate authoritative BIND from public recursive resolvers?
 
-```bash
-rndc-confgen -a   # generates key for rndc
-# named.conf: allow-transfer { key "transfer-key"; };
-```
+## Sources
 
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| NXDOMAIN for valid record | Serial not bumped; wrong zone file path | `named-checkzone`; bump SOA serial; `rndc reload` |
-| Secondary stale | NOTIFY blocked; serial | Open TCP 53 between prim/sec; increment serial |
-| `REFUSED` on query | `allow-query` ACL | Add client network or `any` (careful) |
-| SERVFAIL | Config syntax; DNSSEC break | `journalctl -u named`; `named-checkconf` |
-| Open resolver abuse | Recursion on for world | `recursion no;` + `allow-recursion { localhost; };` |
-| Zone transfer leak | AXFR open | `allow-transfer` restricted; TSIG |
-| named won't start | Port 53 in use | `ss -ulnp \| grep :53`; disable systemd-resolved stub if conflict |
-
-```bash
-sudo journalctl -u named -n 50 --no-pager
-sudo named-checkconf -z
-```
-
-### systemd-resolved conflict (common on Ubuntu)
-
-```bash
-# If port 53 held by stub resolver
-sudo ss -ulnp | grep :53
-# Options: disable stub, or configure BIND on different interface
-```
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Forgot serial increment** — #1 secondary drift issue. Automate with `dnssec-signzone` tools or CI check.
-
-> [!WARNING]
-> **CNAME at apex** — invalid (RFC); use ALIAS/ANAME at provider or A record at apex.
-
-> [!WARNING]
-> **TTL too high during migration** — lower TTL days before IP change.
-
-> [!WARNING]
-> **DNSSEC** — broken DS record at registrar = full domain outage. Have rollback plan.
-
-> [!WARNING]
-> **Views** — split-horizon (internal vs external) doubles operational complexity; document which view clients hit.
-
----
-
-## When NOT to use
-
-- **Simple public DNS for a startup** — managed DNS (Route53, Cloudflare) reduces BIND operations burden.
-- **Recursive resolver for office** — consider Unbound or dedicated resolver distro; BIND can do it but harden carefully.
-
----
-
-## Related
-
-[[DNS]] [[TLS (Transport Layer Security)]]
+- [BIND 9 Administrator Reference Manual](https://bind9.readthedocs.io/)
+- [ISC — BIND](https://www.isc.org/bind/)

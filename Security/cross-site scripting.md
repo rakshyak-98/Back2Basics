@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 XSS = attacker's JS runs in **victim origin** context:
 
@@ -35,7 +26,8 @@ Defense layers:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### CSP header (primary HTTP control)
 
@@ -69,7 +61,8 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 | Markdown/HTML renderer XSS | Allowlist tags | Use safe parser; no raw HTML pass-through |
 
 ---
+
 
 ## Gotchas
 
@@ -96,12 +90,18 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't rely on **WAF alone** — fix source encoding. Don't disable CSP globally for one widget — isolate vendor subdomain.
 
 ---
 
+
 ## Related
 
 [[content security policy]] [[SOP (Same-Origin Policy)]] [[XSRF (cross-site request forgery)]] [[JWT authentication]] [[response header]]
+
+## Sources
+
+- [Wikipedia — cross-site scripting](https://en.wikipedia.org/wiki/cross-site_scripting)

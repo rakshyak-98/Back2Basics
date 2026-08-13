@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Clone transferable graphs (objects, maps, dates, arraybuffers); functions and DOM nodes don’t go.
+## How it works
 
 ```txt
 value → structuredClone → independent copy
@@ -35,7 +24,8 @@ postMessage uses same algorithm (+ transfer list)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const copy = structuredClone(obj)
@@ -50,7 +40,8 @@ worker.postMessage(buf, [buf]) // transfer
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ worker.postMessage(buf, [buf]) // transfer
 | Slow clone | huge graph | Transfer buffers; shrink payload |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ worker.postMessage(buf, [buf]) // transfer
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Need functions across realms** — redesign with messages.
 - **Tiny POJOs** — JSON may be enough and more portable.
 
+
 ## Related
 
 [[JavaScript/Garbage Collection]] [[Buffers]] [[worker]]
+
+## Sources
+
+- [Wikipedia — The structured clone algorithm](https://en.wikipedia.org/wiki/The_structured_clone_algorithm)

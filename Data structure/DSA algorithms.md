@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Map the problem to a pattern (scan, two pointers, binary search, BFS/DFS, DP, greedy) then prove complexity.
+## How it works
 
 ```txt
 constraints → pattern → structure → code → edges
@@ -34,7 +23,8 @@ constraints → pattern → structure → code → edges
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 n ≤ 20        → exponential / bit DP OK
@@ -51,7 +41,8 @@ shortest path → BFS (unweighted) / Dijkstra
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ shortest path → BFS (unweighted) / Dijkstra
 | Can’t start | no model | Draw examples |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@ shortest path → BFS (unweighted) / Dijkstra
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **CRUD application without hot path** — clarity over clever DSA.
 - **When library sort/search suffices** — don’t reimplement.
 
+
 ## Related
 
 [[Sorting algorithm]] [[algo/binary search]] [[algo/Two pointer]] [[dsa intuition]]
+
+## Sources
+
+- [Wikipedia — DSA algorithms](https://en.wikipedia.org/wiki/DSA_algorithms)

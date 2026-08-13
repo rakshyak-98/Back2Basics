@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).
 
@@ -35,7 +26,8 @@ Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.linear_model import Ridge
@@ -64,7 +56,8 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +71,7 @@ Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -88,7 +82,8 @@ Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Categorical unordered target** — [[binary classification]] / [[multiclass classification]].
 - **Ranking quality** — use ranking metrics ([[Normalized Discounted Cumulative Gain (NDCG)]]).
@@ -96,6 +91,11 @@ Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual
 
 ---
 
+
 ## Related
 
 [[Model/Linear regression]] · [[Model/Polynomial regression]] · [[Gradient boosting]] · [[Visualization/Residual plot]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — regression](https://en.wikipedia.org/wiki/regression)

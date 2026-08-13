@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 versus 0.
 
@@ -34,7 +25,8 @@ Imbalanced data (1% fraud): 99% accuracy by predicting all negatives — useless
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.linear_model import LogisticRegression
@@ -70,7 +62,8 @@ model = xgb.XGBClassifier(
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,6 +75,7 @@ model = xgb.XGBClassifier(
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -92,7 +86,8 @@ model = xgb.XGBClassifier(
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **More than two unordered classes** — [[multiclass classification]].
 - **Ordered labels** (low/medium/high) — [[ordinal classification]].
@@ -100,6 +95,11 @@ model = xgb.XGBClassifier(
 
 ---
 
+
 ## Related
 
 [[multiclass classification]] · [[sigmoid]] · [[Decision tree]] · [[Gradient boosting]] · [[Visualization/Residual plot]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — binary classification](https://en.wikipedia.org/wiki/binary_classification)

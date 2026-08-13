@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Options for component-local styling:
 
@@ -37,7 +28,8 @@ Design system  → shared Button variants
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### CSS Modules (recommended default in Vite)
 
@@ -85,7 +77,8 @@ Avoid huge inline objects recreated every render ([[referential equality]] matte
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ Avoid huge inline objects recreated every render ([[referential equality]] matte
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -107,7 +101,8 @@ Avoid huge inline objects recreated every render ([[referential equality]] matte
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
 - **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
@@ -115,6 +110,11 @@ Avoid huge inline objects recreated every render ([[referential equality]] matte
 
 ---
 
+
 ## Related
 
 [[css/tailwindcss]] · [[css/scss]] · [[Optimizing performance]] · [[React build]]
+
+## Sources
+
+- [Wikipedia — react style inside component](https://en.wikipedia.org/wiki/react_style_inside_component)

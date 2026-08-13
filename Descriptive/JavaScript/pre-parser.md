@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Pre-parse/lazy parse builds a light view of the script; full parse/compile waits until a function runs (engine-specific).
+## How it works
 
 ```txt
 scan → pre-parse (lazy) → full parse on first run → execute
@@ -34,7 +23,8 @@ scan → pre-parse (lazy) → full parse on first run → execute
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // practical: keep top-level light; put heavy code in functions
@@ -49,7 +39,8 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 | Eval cost | dynamic code | Avoid eval |
 
 ---
+
 
 ## Gotchas
 
@@ -69,11 +61,17 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Correctness reasoning** — assume full parse in CI.
 - **Micro-optimizing parse** — measure; bundling usually dominates.
 
+
 ## Related
 
 [[JavaScript/lexical analysis]] [[JavaScript/Call stack]]
+
+## Sources
+
+- [Wikipedia — pre-parser](https://en.wikipedia.org/wiki/pre-parser)

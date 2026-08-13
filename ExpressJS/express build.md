@@ -1,80 +1,61 @@
-[[ExpressJS]] [[express concepts]] [[npm]]
+[[ExpressJS]] [[express concepts]] [[npm]] [[pm2]] [[Docker]]
 
 # express build
 
-> Express build/run — how you package and start an Express app (Node process, not a special “Express compiler”).
+> Express has no separate compiler — you transpile TypeScript if needed, install production dependencies, and run `node` behind a process manager or container orchestrator.
 
 ---
 
-## Index
+## How production differs from development
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Transpile/bundle if TypeScript, install production deps, run `node dist/server.js` behind a process manager. Express itself has no unique build step.
+Development favors fast feedback: `tsx watch`, nodemon, or similar reload the process on file changes. Production favors a stable Node process with production-only dependencies, explicit port binding, and graceful shutdown on `SIGTERM`.
 
 ```txt
-src ──tsc/bundler──► dist ──node──► listen :PORT
+source ──tsc or bundler──► dist/ ──node──► listen on PORT
 ```
 
-| Env | Notes |
-|-----|-------|
-| Dev | `tsx watch` / nodemon |
-| Prod | `node` + pm2/systemd |
-| Container | HEALTHCHECK on `/health` |
+| Environment | Typical pattern |
+|---------------|-----------------|
+| Local dev | Hot reload, full `devDependencies` |
+| Production host | `npm ci --omit=dev`, `NODE_ENV=production` |
+| Container | Bind `0.0.0.0`, health check on `/health` |
 
 ---
 
-## Standard config / commands
+## Commands
 
 ```bash
 npm ci --omit=dev
-npm run build   # tsc
+npm run build   # tsc or bundler
 NODE_ENV=production node dist/server.js
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `NODE_ENV` | Cache/error verbosity |
-| Port bind `0.0.0.0` | Containers |
-| Graceful shutdown | Drain connections |
+| Setting | Why it matters |
+|---------|----------------|
+| `NODE_ENV=production` | Caching, error verbosity, some library behavior |
+| Bind `0.0.0.0` | Required in containers and Kubernetes probes |
+| Graceful shutdown | Drain connections before exit on deploy |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Cannot find module | Prod omit wrong | Include runtime deps |
-| Works locally not Docker | Bind/host | `0.0.0.0` |
-| TS path aliases fail | Runtime paths | Resolve at build |
-| Zombie on deploy | No SIGTERM handler | Close server |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **DevDependencies in prod image** — bloat/vulns.
-
-> [!WARNING]
-> **Listening only localhost in k8s** — probes fail.
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Cannot find module at runtime | Dev dependency omitted incorrectly | Ensure runtime deps are in `dependencies`, not only `devDependencies` |
+| Works locally, fails in Docker | Listening on `127.0.0.1` | Bind `0.0.0.0` |
+| TypeScript path aliases fail | Runtime does not resolve `@/` paths | Resolve aliases at build time |
+| Zombie process after deploy | No `SIGTERM` handler | Close server and drain before exit |
 
 ---
 
-## When NOT to use
+## When this pattern is wrong
 
-- **Serverless handlers** — adapt framework or use native.
-- **Static-only sites** — CDN.
+- **Serverless handlers** — adapt to the platform entry point rather than a long-lived `listen`.
+- **Static-only sites** — serve from a CDN; no Express process required.
 
 ---
 
 ## Related
 
-[[express concepts]] [[pm2]] [[Docker]]
+[[express concepts]] · [[pm2]] · [[Docker]]

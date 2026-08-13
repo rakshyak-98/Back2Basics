@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **CRF** tells the encoder **how hard to compress** (quality target), not a fixed bitrate. Complex scenes get **more bits**; static scenes get **fewer** — average file size **varies by content**. Scale: lower CRF = higher quality (x264 typical range **18–28**, sane default **23**).
 
@@ -38,7 +29,8 @@ CRF is **single-pass friendly** for VoD; live ABR ladders usually use **CBR or c
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### x264 CRF (quality anchor)
 
@@ -89,7 +81,8 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -101,6 +94,7 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 | Live attempt with CRF | Uplink spikes | Switch to CBR for live ([[RTMP]] ingest) |
 
 ---
+
 
 ## Gotchas
 
@@ -118,7 +112,8 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Contractual max bitrate (broadcast)** — use CBR.
 - **Live with fixed uplink** — CBR or capped VBR; CRF can spike and drop frames.
@@ -126,6 +121,11 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 
 ---
 
+
 ## Related
 
 [[bitrate streaming]] [[Encoding]] [[transcoding]] [[re-encoding]] [[codecs]] [[NVENC]] [[ABR]]
+
+## Sources
+
+- [Wikipedia — CRF](https://en.wikipedia.org/wiki/CRF)

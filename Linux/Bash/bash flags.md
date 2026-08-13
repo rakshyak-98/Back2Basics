@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** short flags (`-e`, `-u`, `-x`) are switches; `set -o name` is the long form; scripts should turn on the safe ones early.
+## How it works
 
 ```txt
 bash -c '…'          one-shot string
@@ -39,7 +28,8 @@ set +x               turn trace off
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Script default:**
 
@@ -76,7 +66,8 @@ bash -x ./deploy.sh    # run with trace
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +78,7 @@ bash -x ./deploy.sh    # run with trace
 | Trace too noisy | Blind `-x` | `set -x` around critical section only |
 
 ---
+
 
 ## Gotchas
 
@@ -101,7 +93,8 @@ bash -x ./deploy.sh    # run with trace
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-liner interactive exploration** — strict mode gets in the way; enable it in committed scripts.
 - **Expecting `set -e` to replace real error handling** — still check critical commands explicitly.
@@ -109,6 +102,11 @@ bash -x ./deploy.sh    # run with trace
 
 ---
 
+
 ## Related
 
 [[bash script]] [[Bash syntax]] [[Bash history]] [[Bash]]
+
+## Sources
+
+- [Wikipedia — bash flags](https://en.wikipedia.org/wiki/bash_flags)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Stripe is a **PSP** that handles card network rails, tokenization, and compliance tooling. Your server uses **secret key**; browser uses **publishable key** + Stripe.js / Elements — raw.
+## How it works
 
 
 ```
@@ -34,7 +23,8 @@ Browser (Stripe.js) ──PaymentMethod id──► Your API ──► Stripe AP
 | **Billing** | Subscriptions + invoices |
 | **Webhooks** | Async payment state — source of truth |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Node.js integration
 
@@ -92,7 +82,8 @@ await stripe.paymentIntents.create(params, {
 });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,6 +93,7 @@ await stripe.paymentIntents.create(params, {
 | SCA required loop | Off-session charge | Use SetupIntent + on-session confirmation |
 | Connect payout stuck | KYC / capabilities | Dashboard Connect onboarding status |
 | Test keys in prod | `sk_test` in env | Separate secrets per env; doppler/CI scan |
+
 
 ## Gotchas
 
@@ -113,12 +105,18 @@ await stripe.paymentIntents.create(params, {
 - **Radar + 3DS** — EU PSD2 requires SCA; test with Stripe test cards triggering authentication.
 - **Connect** — platform liability for negative balances; read reserves docs.
 
-## When NOT to use
+
+## When not to use
 
 - Pure crypto/on-chain payments — different stack.
 - In-person only with no online — simpler terminal SDK may suffice.
 - Countries Stripe doesn't support — local PSP via [[Payments/PSP]].
 
+
 ## Related
 
 [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[Messaging/webhook]]
+
+## Sources
+
+- [Wikipedia — Strip](https://en.wikipedia.org/wiki/Strip)

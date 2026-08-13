@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** MPEG-TS (MPEG Transport Stream) is a mux of fixed-size packets you can drop on UDP, cut mid-stream, and still resync — built for broadcast, not for “one file seek.”
+## How it works
 
 ```txt
 Video ES ─┐
@@ -56,7 +45,8 @@ PCR / PSI ┘         │
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Probe what’s inside a UDP TS
@@ -85,7 +75,8 @@ Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +88,7 @@ Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss
 | Black on STB only | [[CAS (Conditional Access System)]] | Entitlements / CW — not a mux bug |
 
 ---
+
 
 ## Gotchas
 
@@ -114,7 +106,8 @@ Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Browser-first OTT delivery** — prefer [[CMAF]] fMP4 + [[HLS]] / [[DASH]] manifests for CDN caching and DRM.
 - **Random-access large VoD with one URL** — fragmented MP4 / CMAF seeks cleaner than scanning TS.
@@ -123,6 +116,11 @@ Debug: `ffprobe` programs → [[tsduck]] `tsp -P analyze` → Wireshark UDP loss
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[IPTV]] [[ingestion]] [[flussonic]] [[tsduck]] [[Multicast]] [[CAS (Conditional Access System)]] [[DRM]] [[Byte stream]] [[CMAF]] [[HLS]] [[DASH]] [[Encoding]] [[codecs]] [[SRT]] [[RTSP]] [[RTMP]]
+
+## Sources
+
+- [Wikipedia — MPEG-TS](https://en.wikipedia.org/wiki/MPEG-TS)

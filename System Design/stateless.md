@@ -1,47 +1,38 @@
-[[System Design]] [[stateless offset handling]] [[Real-time Subscription]] [[Streaming]]
+[[stateless offset handling]] [[Real-time Subscription]] [[Horizontal vs Vertical Scaling]] [[cache system]]
 
 # stateless
 
-> Stateless service — each request carries the context it needs; the server forgets you between calls (easy to scale and restart).
+> A stateless service treats each request as independent — all context travels with the call (tokens, cursors, headers) so any replica can handle it and restarts do not strand in-memory session maps.
 
 ---
 
-## Index
+## What "stateless" means
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** No sticky in-memory session. Client sends cursor/token/offset; any replica can serve. Restarts don’t lose “who was connected” because that wasn’t stored.
+The **application process** does not rely on local memory of prior requests for correctness. State may still live in databases, Redis, or the client — but not in a single pod's heap as the source of truth.
 
 ```txt
 Client: GET /events?cursor=abc
-Any pod → read store → stream → response
-(no local map of clients)
+Any replica → read durable store → response
+(no per-pod map of connected users required for correctness)
 ```
 
-| Trait | Implication |
-|-------|-------------|
-| Client holds cursor | `Last-Event-ID`, Kafka offset, page token |
-| Horizontal scale | LB without affinity |
-| Restart-safe | Pure functions of input + durable store |
+| Property | Benefit |
+|----------|---------|
+| Client or store holds cursor | Horizontal scale behind load balancer without sticky sessions |
+| Restart-safe | Kill pod; traffic shifts; no "lost" server-side session |
+| Simple deploy | Rolling updates without draining custom connection state |
 
----
+**Stateless is not "no state anywhere"** — it means state is **externalized** and **addressable** from any instance.
 
-## Standard config / commands
+## Patterns
 
 ```http
-GET /stream HTTP/1.1
+GET /feed?cursor=eyJpZCI6MTIzfQ
 Last-Event-ID: 42
+Authorization: Bearer <token>
 ```
 
-```js
-// Handler uses only request + DB — no global clients Map
+```javascript
 app.get('/feed', async (req, res) => {
   const cursor = req.query.cursor ?? '0'
   const rows = await db.readAfter(cursor, 100)
@@ -51,45 +42,28 @@ app.get('/feed', async (req, res) => {
 
 | Knob | Why |
 |------|-----|
-| Cursor integrity | Sign/encrypt tokens if opaque |
-| Idempotent reads | Retries safe |
-| Externalize state | Redis/DB if you *must* remember |
+| Signed opaque cursors | Prevent tampering with pagination tokens |
+| Idempotent reads | Safe retries on GET |
+| External session store | When you must remember server-side — Redis, not local `Map` |
 
----
+## Connections versus stateless handlers
 
-## Triage (when things break)
+**WebSockets** hold connection state on one host — scale with shared pub/sub ([[Real-time Subscription]]) or accept reconnect with resume tokens ([[stateless offset handling]]). The *handler logic* can remain stateless if events are read from a shared log.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Duplicate/skip events | Cursor not advanced correctly | Document cursor semantics; tests |
-| Sticky session required | In-memory user state | Move state to Redis/JWT/DB |
-| Restart drops users | Local connection map | Accept drop or shared pub/sub |
-| Cursor tampering | Unsigned page tokens | Sign HMAC; server-side validate |
-| Hot partition | Bad shard key on cursor | Re-key; fan-out |
+**JSON Web Tokens** carry claims client-side but revocation and session invalidation still need short time-to-live or denylist — "stateless authentication" has limits ([[Authentication web application]]).
 
----
+## Failure signatures
 
-## Gotchas
+| Symptom | Direction |
+|---------|-----------|
+| Requires sticky sessions | In-memory user map — move to Redis or token |
+| Restart drops subscribers | Local connection registry — shared message bus |
+| Duplicate or skipped pages | Cursor semantics wrong — document and test |
+| Tampered page token | Sign with HMAC; validate server-side |
 
-> [!WARNING]
-> **WebSockets aren’t automatically stateful forever** — connection is state; scale with shared broker.
+*When would you accept sticky sessions?* Legacy session affinity cheaper than refactor — plan migration to externalized state.
 
-> [!WARNING]
-> **“Stateless JWT” still has revoke/state problems** — short TTL or denylist.
+## Sources
 
-> [!WARNING]
-> **Hidden state in files /temp** — breaks multi-instance.
-
----
-
-## When NOT to use
-
-- **Long interactive workflows with huge server-side drafts** — store draft ids server-side.
-- **Strong presence (“who’s online”)** — needs shared state.
-- **Exactly-once local buffers** — you’ll invent a store anyway ([[stateless offset handling]]).
-
----
-
-## Related
-
-[[stateless offset handling]] [[Real-time Subscription]] [[JWT]] [[cache system]]
+- Twelve-Factor App — "VI. Processes" (execute as stateless processes).
+- Google SRE Book — horizontal scaling and session affinity trade-offs.

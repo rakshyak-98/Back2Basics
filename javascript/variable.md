@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A variable is not the value itself — it's an **identifier bound** in an Environment Record ([[Lexical environment]]):
 
@@ -34,7 +25,8 @@ Primitives ([[primitive non-primitive values]]) copy by value; objects copy **re
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```javascript
 const API_URL = import.meta.env.VITE_API_URL; // prefer const for fixed refs
@@ -70,7 +62,8 @@ PascalCase    → constructors / React components
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,6 +75,7 @@ PascalCase    → constructors / React components
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -92,13 +86,19 @@ PascalCase    → constructors / React components
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **`var` in new code** — no benefit over `let`/`const`.
 - **Reassigning everywhere** — prefer smaller scopes and derived values ([[React State management]] patterns).
 
 ---
 
+
 ## Related
 
 [[Lexical environment]] · [[hoisting]] · [[primitive non-primitive values]] · [[abstract storage location]] · [[Destructuring]]
+
+## Sources
+
+- [Wikipedia — variable](https://en.wikipedia.org/wiki/variable)

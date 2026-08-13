@@ -1,126 +1,69 @@
-[[DNS]] [[name server]] [[BIND]]
+[[DNS]] · [[dns record]] · [[name server]] · [[BIND]] · [[Route53]]
 
 # DNS zone
 
-> a contiguous DNS namespace slice served authoritatively by one or more NS — **RFC 1035**.
+> A DNS zone is the contiguous portion of the DNS tree administered as one unit with a single SOA record — split zones when delegation, compliance, or blast-radius boundaries require it.
 
 ---
 
-## Index
+## Zone vs domain
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-A **zone** is everything below a **zone apex** (e.g. `example.com`) that one administrative entity controls. The parent zone (`.com`) holds **NS glue** pointing to your nameservers.
+A **domain** is a name in the tree (`example.com`). A **zone** is what you load into a nameserver: all records for which this server is **authoritative**, ending at delegation boundaries (child `NS` records).
 
 ```
-.com (parent zone)
-  └── example.com (child zone apex)
-        ├── www.example.com   A
-        ├── api.example.com   CNAME
-        └── _dmarc.example.com TXT
+example.com zone
+├── SOA, NS for example.com
+├── www.example.com A
+├── api.example.com A
+└── delegates sub.example.com ──► separate zone on other NS
 ```
 
-**Delegation:** parent publishes NS records; child zone file holds the actual records. **Subdomain delegation** (`sub.example.com` → different NS) creates a separate zone cut.
+## SOA record fields
 
-| Concept | Meaning |
-|---------|---------|
-| Zone apex | `@` in zone file = `example.com` itself |
-| Authoritative | Server answers from zone data, not cache/recursion |
-| Primary (master) | Source of truth; edits happen here |
-| Secondary (slave) | AXFR/IXFR from primary |
-| SOA | Serial, refresh, retry, expire, minimum TTL |
-
-## Standard config / commands
-
-### Inspect zone (operator view)
-
-```shell
-# All records from authoritative NS
-dig @ns1.example.com example.com AXFR          # zone transfer (often ACL'd)
-dig @ns1.example.com example.com SOA +short
-dig @ns1.example.com example.com NS +short
-
-# Compare serial across replicas (should match)
-for ns in ns1 ns2; do
-  echo -n "$ns: "
-  dig @$ns.example.com example.com SOA +short | awk '{print $1}'
-done
-
-# Validate delegation from parent
-dig example.com NS +trace | tail -20
-dig ns1.example.com A +short                   # glue must resolve
+```
+example.com. IN SOA ns1.example.com. hostmaster.example.com. (
+  2026081301  ; serial (bump on every change)
+  7200        ; refresh
+  3600        ; retry
+  1209600     ; expire
+  300 )       ; minimum TTL
 ```
 
-### Minimal BIND zone snippet (`/etc/bind/db.example.com`)
+Serial format often `YYYYMMDDnn`. Secondary servers poll SOA serial for zone transfers (AXFR/IXFR).
 
-```bind
-$TTL 300
-@   IN SOA ns1.example.com. hostmaster.example.com. (
-        2025072201  ; serial (YYYYMMDDnn — bump on every change)
-        3600        ; refresh
-        600         ; retry
-        604800      ; expire
-        300 )       ; negative cache TTL
-    IN NS  ns1.example.com.
-    IN NS  ns2.example.com.
-    IN A   203.0.113.10
+## Public vs private zones
 
-www IN A   203.0.113.10
-api IN CNAME www.example.com.
+| Type | Resolves where |
+|------|----------------|
+| **Public** | Global Internet via registrar NS delegation |
+| **Private** (Split-horizon) | Inside VPC/corporate resolver only — same name may differ from public |
+
+[[Route53]] private hosted zones associate with VPCs. [[BIND]] views implement split DNS on self-hosted servers.
+
+## Zone file operations
+
+```bash
+# BIND example
+named-checkzone example.com /etc/bind/db.example.com
+rndc reload example.com
 ```
 
-After edit:
+Cloud operators use APIs ([[Route53]], [[cloudflare]]) instead of zone files.
 
-```shell
-sudo named-checkzone example.com /etc/bind/db.example.com
-sudo rndc reload example.com
+## Delegation
+
+Parent zone publishes `NS` + glue `A/AAAA` for child nameservers. Broken delegation (missing glue, wrong NS) makes the child zone unreachable.
+
+```bash
+dig +trace sub.example.com
 ```
 
-### Cloud managed zones (pattern)
+## Recall
 
-```shell
-# Route53
-aws route53 list-resource-record-sets --hosted-zone-id Z1234567890
+- What triggers a secondary server to pull a zone update?
+- When would you split `api.example.com` into its own zone?
 
-# Cloudflare
-curl -s -H "Authorization: Bearer $CF_TOKEN" \
-  "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records"
-```
+## Sources
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Some resolvers get old IP | SOA serial on all NS; TTL remaining | Bump serial; ensure secondaries synced (`rndc notify` / provider auto-sync) |
-| Zone transfer fails | `dig AXFR @primary`; firewall TCP/53 | ACL on primary; allow secondary IP; check TSIG key |
-| Subdomain NXDOMAIN | Delegation NS in parent vs child zone | Add NS + glue at parent OR record in parent zone — not both incorrectly |
-| Apex MX/TXT broken after adding CNAME | CNAME coexists with nothing else at apex | Remove apex CNAME; use ALIAS or separate name |
-| DNSSEC validation fails | `dig +dnssec`; DS at parent matches DNSKEY | Re-sign zone; publish correct DS to registrar |
-| Serial not incrementing | Secondary serving stale data | Always increment SOA serial on change (automate in CI) |
-| Wildcard surprises | `*.example.com` catches unintended names | Narrow wildcard; explicit records override wildcard |
-
-## Gotchas
-
-> [!WARNING]
-> **Forgot to bump SOA serial** → secondaries never pick up changes. Automate serial in dynamic DNS or use provider-managed zones.
-
-- **CNAME at `@`** is invalid in plain DNS — registrars offering "CNAME flattening" hide this; know your provider's behavior.
-- **NS at apex must match parent delegation** — mismatch = lame delegation intermittent failures.
-- **TTL 86400 during migration** = up to 24h pain; lower TTL **before** cutover, not after.
-- **Split-horizon zones** (internal versus external) drift easily — treat as two zones with sync discipline.
-
-## When NOT to use
-
-- Single static host entry on one machine → `/etc/hosts` or local [[dnsmasq]] stub.
-- Global anycast without understanding secondary sync → managed DNS (Route53, Cloudflare) reduces operations load.
-
-## Related
-
-[[DNS]] · [[name server]] · [[BIND]] · [[CoreDNS]] · [[DNS rebinding]]
+- [RFC 1035 — Zones and zone transfers](https://datatracker.ietf.org/doc/html/rfc1035)
+- [BIND 9 Administrator Reference Manual — zones](https://bind9.readthedocs.io/)

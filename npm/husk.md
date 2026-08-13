@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** **Husky** installs scripts into `.husky/` that Git invokes on events (`pre-commit`, `pre-push`, `commit-msg`). It bridges **npm lifecycle** and **Git hooks** so CI rules run locally first — cheaper.
+## How it works
 
 
 ```txt
@@ -39,7 +28,8 @@ git commit
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install (Husky 9)
 
@@ -92,7 +82,8 @@ npx lint-staged --cwd apps/web
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -111,6 +102,7 @@ git config core.hooksPath          # should be .husky or default with husky shim
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -131,7 +123,8 @@ git config core.hooksPath          # should be .husky or default with husky shim
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Non-Node repos** — use `pre-commit` framework (Python) or native `.git/hooks`.
 - **Heavy integration tests in pre-commit** — wrong stage; use CI.
@@ -139,6 +132,11 @@ git config core.hooksPath          # should be .husky or default with husky shim
 
 ---
 
+
 ## Related
 
 [[git command]] [[git merge]] [[node package json]] [[Jenkins]] [[Docker compose]]
+
+## Sources
+
+- [Wikipedia — husk](https://en.wikipedia.org/wiki/husk)

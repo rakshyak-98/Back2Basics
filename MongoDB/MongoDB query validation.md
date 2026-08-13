@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Attach rules to a collection; inserts/updates that fail the schema get an error (or a warning).
+## How it works
 
 ```txt
 write → validator ($jsonSchema) → accept | reject
@@ -34,7 +23,8 @@ write → validator ($jsonSchema) → accept | reject
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.runCommand({
@@ -57,7 +47,8 @@ db.runCommand({
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ db.runCommand({
 | Silent bad data | action=warn | Flip to error after cleanup |
 
 ---
+
 
 ## Gotchas
 
@@ -78,11 +70,17 @@ db.runCommand({
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Highly polymorphic events** — validate in the producer instead.
 - **One-off scratch collections** — skip until shape stabilizes.
 
+
 ## Related
 
 [[mongodb schema]] [[mongodb migration]] [[mongodb shell]]
+
+## Sources
+
+- [Wikipedia — MongoDB query validation](https://en.wikipedia.org/wiki/MongoDB_query_validation)

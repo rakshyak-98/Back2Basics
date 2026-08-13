@@ -6,47 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** Error handeling — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 ### Interview map (words you can say)
 
@@ -59,7 +19,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -68,6 +29,35 @@
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -75,20 +65,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[NodeJS]]
+
+## Sources
+
+- [Wikipedia — Error handeling](https://en.wikipedia.org/wiki/Error_handeling)

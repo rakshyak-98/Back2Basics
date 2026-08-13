@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** indexes declare versions; solver picks a set; unpacker puts files on disk; configuration under `/etc`.
+## How it works
 
 ```txt
 apt update → indexes
@@ -38,7 +27,8 @@ apt install → resolve → dpkg -i unpack
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo apt-get update
@@ -57,7 +47,8 @@ sudo apt-get autoremove
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ sudo apt-get autoremove
 | dpkg lock | Parallel apt | Wait or clear stale lock carefully |
 
 ---
+
 
 ## Gotchas
 
@@ -78,13 +70,19 @@ sudo apt-get autoremove
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Language application deps** — prefer language lockfiles in the application image.
 - **Kernel live patches** — use vendor livepatch tooling, not random .debs.
 
 ---
 
+
 ## Related
 
 [[apt package manager]] [[apt configuration]] [[Package deferred]] [[source list file]]
+
+## Sources
+
+- [Wikipedia — Package Manager](https://en.wikipedia.org/wiki/Package_Manager)

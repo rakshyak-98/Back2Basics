@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
 
@@ -36,7 +27,8 @@ Priority updates        → Map + sorted index (or heap lib)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Map vs Object
 
@@ -129,7 +121,8 @@ meta.set(domNode, { lastMeasure: 42 });
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -141,6 +134,7 @@ meta.set(domNode, { lastMeasure: 42 });
 | Race in async fetch | Last-write-wins | Request id / AbortController + Map stamp |
 
 ---
+
 
 ## Gotchas
 
@@ -158,7 +152,8 @@ meta.set(domNode, { lastMeasure: 42 });
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **< 100 items** — plain array + `find` is fine; don't pre-optimize.
 - **Server-authoritative pagination** — client Map of "all rows" fights product; page cache only.
@@ -166,6 +161,11 @@ meta.set(domNode, { lastMeasure: 42 });
 
 ---
 
+
 ## Related
 
 [[JavaScript]] · [[Progressive search functionality]] · [[Animation]] · [[webSocket]] · [[Data access patterns]]
+
+## Sources
+
+- [Wikipedia — Frontend Datastructure](https://en.wikipedia.org/wiki/Frontend_Datastructure)

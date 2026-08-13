@@ -6,17 +6,18 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
+
+```
+node [options] [ -e script | script.js ] [arguments]
+         │
+         ├── --import / -r     preload modules (dotenv, tsx)
+         ├── --inspect         debugger
+         └── --max-old-space-size
+```
+
 
 ## Quick reference
 
@@ -24,7 +25,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Version & path
 
@@ -80,25 +82,22 @@ node cli.js --port 4000
 # process.argv: ['node', 'cli.js', '--port', '4000']
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
+## Examples
 
-```
-node [options] [ -e script | script.js ] [arguments]
-         │
-         ├── --import / -r     preload modules (dotenv, tsx)
-         ├── --inspect         debugger
-         └── --max-old-space-size
+```bash
+# …
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +108,7 @@ node [options] [ -e script | script.js ] [arguments]
 | dotenv not applied | Import order | `--import dotenv/config` before app |
 | OOM heap | `--max-old-space-size` | Fix leak; scale memory |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -117,17 +117,17 @@ node [options] [ -e script | script.js ] [arguments]
 > [!WARNING]
 > **Different node in cron vs shell** — cron uses minimal PATH; use full path in crontab.
 
-## When NOT to use
+
+## When not to use
 
 - **Package binary** — prefer `npm run` / `npx` for local CLI tools.
 - **Production multi-process** — systemd/K8s with explicit ExecStart, not shell aliases.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[CLI]] [[nvm]] [[node package json]] [[node inspect]] [[Event Loop]]
+
+## Sources
+
+- [Wikipedia — node command](https://en.wikipedia.org/wiki/node_command)

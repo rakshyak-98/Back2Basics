@@ -6,17 +6,17 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+`render` talks to your **active workspace**. Interactive mode (TTY) is menu-driven; scripts/CI use **API key + `--confirm` + `-o json`**. Deploys are **triggers against an existing service** (`srv-…`), not “upload this folder like `vercel`” — Git/image is already wired on the service.
+
+```
+local terminal → render CLI → Render API → service (build/deploy/logs/ssh)
+CI: RENDER_API_KEY + service ID → deploys create --wait --confirm
+```
+
+configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFIG_PATH`).
+
 
 ## Quick reference
 
@@ -24,7 +24,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install and auth
 
@@ -83,24 +84,22 @@ render deploys create "$RENDER_SERVICE_ID" --wait --confirm -o json
 
 Pin the CLI binary version in CI (GitHub releases) so upgrades don’t break pipelines.
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-`render` talks to your **active workspace**. Interactive mode (TTY) is menu-driven; scripts/CI use **API key + `--confirm` + `-o json`**. Deploys are **triggers against an existing service** (`srv-…`), not “upload this folder like `vercel`” — Git/image is already wired on the service.
+## Examples
 
-```
-local terminal → render CLI → Render API → service (build/deploy/logs/ssh)
-CI: RENDER_API_KEY + service ID → deploys create --wait --confirm
+```bash
+# …
 ```
 
-configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFIG_PATH`).
 
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -111,6 +110,7 @@ configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFI
 | Interactive hang in CI | TTY menus | Always `--confirm` + `-o json` (or `CI=true`) |
 | Blueprint apply errors | YAML shape | `render blueprints validate ./render.yaml` |
 | Can’t SSH / empty instance | Service not running | Check deploys; use `--ephemeral` for one-off shell |
+
 
 ## Gotchas
 
@@ -123,18 +123,18 @@ configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFI
 >
 > **Pin CLI version in CI** — the install script floats to latest; pin a `linux_amd64` release zip for reproducibility.
 
-## When NOT to use
+
+## When not to use
 
 - Don’t trigger production deploys from a laptop as the only gate — prefer Git + required checks, or CI calling `deploys create --wait`.
 - Don’t use the CLI as a substitute for IaC ownership of the whole stack — use Blueprints (`render.yaml`) for multi-service layout; CLI for day-2 operations.
 - Don’t put API keys in the repository — secrets manager / CI secrets only.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[Deployment/vercel cli]] [[Deployment/vercel deployment]] [[Netlify/Netlify deployment]] [[Terraform CLI]]
+
+## Sources
+
+- [Wikipedia — render cli](https://en.wikipedia.org/wiki/render_cli)

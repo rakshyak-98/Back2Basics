@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A ranker should produce a **spread** of scores so sorting separates good from bad items. Healthy distribution:
 
@@ -40,7 +31,8 @@ Compare **train, value, and production** score distributions — drift here prec
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import matplotlib.pyplot as plt
@@ -78,7 +70,8 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,6 +83,7 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -100,7 +94,8 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure classification** without scores — use confusion matrix ([[binary classification]]).
 - **Regression error analysis** — [[Visualization/Residual plot]] instead.
@@ -108,6 +103,11 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 
 ---
 
+
 ## Related
 
 [[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated versus actual plot]] · [[rank prediction]]
+
+## Sources
+
+- [Wikipedia — Rank distribution](https://en.wikipedia.org/wiki/Rank_distribution)

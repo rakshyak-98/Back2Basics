@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** RTSP is the **remote control** for a media server; **RTP** carries the bytes. Think “VCR over IP” — DESCRIBE what’s available, SETUP where to send RTP, PLAY to start, TEARDOWN to stop.
+## How it works
 
 ```txt
 Client (VLC, ffmpeg, NVR)          Media server / IP camera
@@ -52,7 +41,8 @@ Client (VLC, ffmpeg, NVR)          Media server / IP camera
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Pull RTSP → record or relay
 
@@ -117,7 +107,8 @@ timeout 10 ffprobe -rtsp_transport tcp -v error \
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -131,6 +122,7 @@ timeout 10 ffprobe -rtsp_transport tcp -v error \
 | Multiple clients, one fails | Camera max sessions | Aggregate with one pull → fan-out ([[HLS]]) |
 
 ---
+
 
 ## Gotchas
 
@@ -151,7 +143,8 @@ timeout 10 ffprobe -rtsp_transport tcp -v error \
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Browser-first live to thousands** — package [[HLS]] / [[DASH]] behind a CDN; RTSP doesn’t scale as viewer egress.
 - **Encoder → cloud ingest from home uplink** — prefer [[SRT]] or [[RTMP]] with ARQ/TCP semantics tuned for contribution.
@@ -160,6 +153,11 @@ timeout 10 ffprobe -rtsp_transport tcp -v error \
 
 ---
 
+
 ## Related
 
 [[ingestion]] [[Streaming]] [[MPEG-TS]] [[SDP (Session Description Protocol)]] [[HLS]] [[IPTV]] [[RTMP]] [[SRT]] [[flussonic]] [[ffprobe]]
+
+## Sources
+
+- [Wikipedia — RTSP](https://en.wikipedia.org/wiki/RTSP)

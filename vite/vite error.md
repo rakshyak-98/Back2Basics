@@ -6,38 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Trigger / symptoms]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Trigger / symptoms
-
-…
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** vite error — the issue is now 100% clear: you are running npm run build, which executes npx vite build, but npx is still trying to
+## How it works
 
 The issue is now 100% clear: **you are running npm run build**, which executes `npx vite build`, but **`npx` is still trying to use the broken `./node_modules/.bin/vite` script that has no execute permission**.
 This is the classic “Permission denied” bug that hits almost everyone at least once (especially on WSL, Git-cloned repos, or when node_modules was copied from another machine).
@@ -49,14 +18,28 @@ sh: 1: vite: Permission denied
 
 ---
 
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
 ## Rollback
 
 1. …
 
-## Escalation
-
-…
 
 ## Related
 
 [[vite]]
+
+## Sources
+
+- [Wikipedia — vite error](https://en.wikipedia.org/wiki/vite_error)

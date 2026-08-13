@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Store refs as ids; `.populate('author')` runs follow-up queries (or a `$lookup`) and stitches results.
+## How it works
 
 ```txt
 Post { author: ObjectId } ──populate──► Post { author: UserDoc }
@@ -34,7 +23,8 @@ Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const post = await Post.findById(id).populate('author', 'name email')
@@ -49,7 +39,8 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | Circular populate | A↔B depth | Cap depth; redesign |
 
 ---
+
 
 ## Gotchas
 
@@ -70,11 +62,17 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Analytics joins** — aggregation `$lookup`.
 - **Data always read together** — embed instead of reference.
 
+
 ## Related
 
 [[mongoose/mongoose]] [[query/mongodb lookup query]] [[mongodb denormalization]]
+
+## Sources
+
+- [Wikipedia — MongoDB data populate](https://en.wikipedia.org/wiki/MongoDB_data_populate)

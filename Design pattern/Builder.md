@@ -1,113 +1,50 @@
-[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Facade]] [[System Design/KISS]]
+[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Creation pattern/Abstract Factory]]
 
 # Builder
 
-> Construct a complex object step by step — same construction process, different representations — **Dive Into Design Patterns + wizard → launch request**.
+> Builder separates **construction of a complex object** from its representation — so the same assembly steps can build different variants without a telescoping constructor.
 
----
+## Problem
 
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-When an object needs many optional fields, nested parts, or ordered assembly (wizard screens → launch DTO), a Builder accumulates pieces then `build()` validates and returns the product. Director/pipeline can replay the same steps for different builders.
+Objects with many optional fields invite constructors like `new House(3, true, false, "brick", null, …)`. Each new option multiplies overloads. Builder accumulates steps and validates before `build()`.
 
 ```
-Wizard fields
-  → LaunchCampaignBuilder
-      .withGoal()
-      .withBudget()
-      .withCreative()
-      .withGeo()
-      .build()  → LaunchRequest
+Director (optional) → Builder.setX().setY().build() → Product
 ```
+
+## Parts
 
 | Role | Responsibility |
 |------|----------------|
 | **Builder** | Step methods + `build()` |
-| **Concrete builder** | Knows product shape |
-| **Product** | Immutable launch request / domain object |
-| **Director** (optional) | Fixed sequence of steps |
+| **Product** | Immutable or fully configured object |
+| **Director** (optional) | Fixed recipe of builder calls |
 
-## Core idea
+## Fluent builder (common in Java/Go)
 
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-class LaunchCampaignBuilder {
-  private draft: Partial<LaunchRequest> = {};
-
-  withGoal(goalId: string) {
-    this.draft.goalId = goalId;
-    return this;
-  }
-  withBudget(daily: number, currency: string) {
-    this.draft.budget = { daily, currency };
-    return this;
-  }
-  withCreative(creative: CreativeInput) {
-    this.draft.creative = creative;
-    return this;
-  }
-  build(): LaunchRequest {
-    if (!this.draft.goalId || !this.draft.budget) {
-      throw new Error('LaunchRequest incomplete');
-    }
-    return this.draft as LaunchRequest;
-  }
-}
-
-const req = new LaunchCampaignBuilder()
-  .withGoal(body.goal)
-  .withBudget(body.daily, body.currency)
-  .withCreative(body.creative)
-  .build();
+```go
+type QueryBuilder struct { sql string }
+func (b *QueryBuilder) Select(cols string) *QueryBuilder { ...; return b }
+func (b *QueryBuilder) From(table string) *QueryBuilder { ...; return b }
+func (b *QueryBuilder) Build() (string, error) { ... }
 ```
 
-## Triage (when things break)
+## vs other patterns
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Invalid objects escape | `build()` too permissive | Validate required fields in `build()` |
-| Builder reused across requests | Mutable leftover state | New builder per request or `reset()` |
-| 12-arg constructor still exists | Call sites bypass builder | Delete public constructor; factory/builder only |
-| Steps order-dependent bugs | Implicit ordering | Document order or enforce in Director |
+- **Factory Method / Abstract Factory** — create whole product in one shot; Builder **stages** assembly.
+- **Prototype** — clone existing instance; Builder **constructs from scratch** via steps.
 
-## Gotchas
+## When it helps
 
-> [!WARNING]
-> Telescoping constructors (`new X(a)`, `new X(a,b)`, …) are the smell Builder replaces — don't keep both.
+- Many optional parameters with validation rules (HTTP requests, SQL, config objects).
+- Different representations from same process (JSON vs XML document builders).
 
-- Fluent `return this` is convenience, not required.
-- Builder holding a live DB connection mid-build = wrong boundary; build a DTO, then execute Command/Pipeline.
+## Pitfalls
 
-## Trade-offs
+- Simple objects — a struct literal or named constructor is enough.
+- Mutable builders returned to multiple callers — document whether steps are reusable or single-shot.
 
-| Gain | Cost |
-|------|------|
-| … | … |
+## Sources
 
-## When NOT to use
-
-- 2–3 required fields, no optionals — constructor is clearer ([[System Design/KISS]]).
-- Need a family of products — [[Design pattern/Creation pattern/Abstract Factory]].
-
-## Related
-
-[[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Command]] [[Design pattern/Template Method]] [[Design pattern/Facade]]
+- Gamma et al., *Design Patterns* (Builder)
+- [Builder pattern — Wikipedia](https://en.wikipedia.org/wiki/Builder_pattern)

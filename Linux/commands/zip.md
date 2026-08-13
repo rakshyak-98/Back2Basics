@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `zip` creates/updates an archive; `unzip` / `zipinfo` inspect and extract.
+## How it works
 
 ```txt
 dirs/files ──► zip -r archive.zip ──► .zip
@@ -37,7 +26,8 @@ dirs/files ──► zip -r archive.zip ──► .zip
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Create
@@ -67,7 +57,8 @@ git archive -o archive.zip HEAD
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@ git archive -o archive.zip HEAD
 | Huge unexpected size | Included build artifacts | `-x` or `git archive` |
 
 ---
+
 
 ## Gotchas
 
@@ -92,7 +84,8 @@ git archive -o archive.zip HEAD
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Backups with ownership/ACLs** — `tar` / [[rsync]].
 - **Incremental sync** — [[rsync]].
@@ -100,6 +93,11 @@ git archive -o archive.zip HEAD
 
 ---
 
+
 ## Related
 
 [[rsync]] [[gpg]] [[Find command]] [[commands]]
+
+## Sources
+
+- [Wikipedia — zip](https://en.wikipedia.org/wiki/zip)

@@ -6,17 +6,22 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```txt
+Dockerfile → docker build → image (layers, immutable)
+                ↓
+         docker run → container (writable layer + mounts)
+                ↓
+         processes, networks, volumes (daemon-managed)
+```
+
+**Image** = template; **container** = running (or stopped) instance. **Build context** = everything sent to daemon during `docker build` (`.dockerignore` matters).
+
+**Networking:** default bridge; user-defined networks for DNS between containers. **Volumes** persist past container delete; bind mounts tie to host path.
+
+---
+
 
 ## Quick reference
 
@@ -24,7 +29,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Validate Dockerfile
 
@@ -118,29 +124,22 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 
 ---
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-```txt
-Dockerfile → docker build → image (layers, immutable)
-                ↓
-         docker run → container (writable layer + mounts)
-                ↓
-         processes, networks, volumes (daemon-managed)
+## Examples
+
+```bash
+# …
 ```
 
-**Image** = template; **container** = running (or stopped) instance. **Build context** = everything sent to daemon during `docker build` (`.dockerignore` matters).
 
-**Networking:** default bridge; user-defined networks for DNS between containers. **Volumes** persist past container delete; bind mounts tie to host path.
-
----
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -156,6 +155,7 @@ Dockerfile → docker build → image (layers, immutable)
 | Network alias not resolving | Same user-defined network? | `docker network connect`; use service name in compose |
 
 ---
+
 
 ## Gotchas
 
@@ -176,7 +176,8 @@ Dockerfile → docker build → image (layers, immutable)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Production orchestration at scale** — [[Docker compose]] for development; Kubernetes/systemd for production HA.
 - **Rootful Docker for untrusted code** — use rootless mode or sandbox ([[Docker Runtime Security]]).
@@ -184,12 +185,11 @@ Dockerfile → docker build → image (layers, immutable)
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[Docker compose]] · [[docker file]] · [[docker container]] · [[Docker Runtime Security]] · [[kubectl]]
+
+## Sources
+
+- [Wikipedia — docker cli](https://en.wikipedia.org/wiki/docker_cli)

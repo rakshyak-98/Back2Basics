@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Write readable source; a renderer (GFM, CommonMark, Obsidian) turns it into HTML — dialects differ.
+## How it works
 
 ```txt
 .md → parser (flavor) → HTML
@@ -34,7 +23,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```markdown
 # Title
@@ -51,7 +41,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@
 | Preview ≠ GitHub | dialect drift | Stick to GFM subset |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Complex page layout** — real HTML/CSS.
 - **Strict legal pagination** — PDF.
 
+
 ## Related
 
 [[html]] [[LF and CRLF]] [[Mermaid (DSL)]]
+
+## Sources
+
+- [Wikipedia — Markdown](https://en.wikipedia.org/wiki/Markdown)

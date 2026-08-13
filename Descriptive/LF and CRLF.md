@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Text lines must end somehow; Git `core.autocrlf` / `.gitattributes` keep the repository consistent across OS.
+## How it works
 
 ```txt
 LF = \n          CRLF = \r\n
@@ -34,7 +23,8 @@ LF = \n          CRLF = \r\n
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 file file.sh           # shows CRLF if present
@@ -56,7 +46,8 @@ printf '\r\n' | od -c
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ printf '\r\n' | od -c
 | CI only | checkout eol | Align attributes |
 
 ---
+
 
 ## Gotchas
 
@@ -77,11 +69,17 @@ printf '\r\n' | od -c
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Binary formats** — don’t “normalize” images.
 - **Protocols that define their own framing** — HTTP already specifies CRLF in headers.
 
+
 ## Related
 
 [[Markdown]] [[Linux/commands/SSH]]
+
+## Sources
+
+- [Wikipedia — LF and CRLF](https://en.wikipedia.org/wiki/LF_and_CRLF)

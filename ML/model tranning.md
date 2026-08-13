@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Fit on train, tune on validation, report once on test — leaking test into training lies about production.
+## How it works
 
 ```txt
 raw → preprocess (fit on train only) → train → validate → test once
@@ -34,7 +23,8 @@ raw → preprocess (fit on train only) → train → validate → test once
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -52,7 +42,8 @@ print(model.score(X_test, y_test))
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ print(model.score(X_test, y_test))
 | Unstable scores | tiny test | Cross-val; bigger holdout |
 
 ---
+
 
 ## Gotchas
 
@@ -73,11 +65,17 @@ print(model.score(X_test, y_test))
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **No labels** — unsupervised / pretrained embeddings first.
 - **One-shot demo** — still keep a holdout if you’ll claim accuracy.
 
+
 ## Related
 
 [[scikitlearn]] [[data preprocessing]] [[supervised learning]]
+
+## Sources
+
+- [Wikipedia — model tranning](https://en.wikipedia.org/wiki/model_tranning)

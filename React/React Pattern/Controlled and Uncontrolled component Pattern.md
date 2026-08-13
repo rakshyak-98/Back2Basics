@@ -1,86 +1,25 @@
-[[React Pattern]] [[useRef]] [[react hooks]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Composite pattern]]
 
 # Controlled and Uncontrolled component Pattern
 
-> Controlled: React state is the source of truth for the input. Uncontrolled: the DOM holds the value; you read it via ref when needed.
+> Controlled and Uncontrolled component Pattern shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Controlled = `value` + `onChange` every keystroke. Uncontrolled = `defaultValue` + reference/`FormData` on submit.
+## Recall
 
-```txt
-Controlled:   state ──value──► <input> ──onChange──► setState
-Uncontrolled: defaultValue ► <input> … later ref.current.value
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Controlled** | React owns the value | “Validate and disable as they type.” |
-| **Uncontrolled** | DOM owns the value | “Simple forms; less re-render.” |
-| **defaultValue** | Initial only | “Changing it later won’t update the input.” |
-
-## Standard config / commands
-
-```tsx
-// Controlled
-const [name, setName] = useState('')
-<input value={name} onChange={(e) => setName(e.target.value)} />
-
-// Uncontrolled
-const ref = useRef<HTMLInputElement>(null)
-<input defaultValue="Ada" ref={ref} />
-// submit: ref.current?.value
-```
-
-| Use when | Pattern |
-|----------|---------|
-| Live validation / dependent fields | Controlled |
-| File inputs / little React involvement | Uncontrolled |
-| Design system form libs | Often controlled under the hood |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Input won’t type | `value` set, no `onChange` | Add handler or drop `value` |
-| Cursor jumps | Recreating value oddly | Keep string state; don’t reset each render |
-| `defaultValue` ignored later | Expected controlled updates | Switch to `value` |
-| Switching modes mid-life | Warned by React | Pick one; remount with `key` |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Don’t mix `value` and `defaultValue`** — React warns; pick a mode.
-
-> [!WARNING]
-> **File inputs are uncontrolled** — you cannot set `value` for security reasons.
-
----
-
-## When NOT to use
-
-- **Fully controlled everything in a 40-field form** — consider form libs + uncontrolled fields where fine.
-- **Uncontrolled when parent must sync** — need controlled.
-
----
+What breaks first in production if `Controlled and Uncontrolled component Pattern` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[useRef]] [[React Pattern/Component Presentational Pattern]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Composite pattern]]

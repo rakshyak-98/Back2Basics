@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Residuals should look like **random noise** around zero:
 
@@ -41,7 +32,8 @@ For **ordinal** models, off-by-k errors show as discrete bands — consider [[or
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import matplotlib.pyplot as plt
@@ -84,7 +76,8 @@ print(f"Outlier count: {outliers.sum()}")
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +91,7 @@ Pair with [[Visualization/predicated versus actual plot]] for full picture.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -108,7 +102,8 @@ Pair with [[Visualization/predicated versus actual plot]] for full picture.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Classification** — use calibration curves / confusion matrix.
 - **Huge datasets** — subsample scatter; use binned residual plots.
@@ -116,6 +111,11 @@ Pair with [[Visualization/predicated versus actual plot]] for full picture.
 
 ---
 
+
 ## Related
 
 [[Visualization/predicated versus actual plot]] · [[regression]] · [[Model/Polynomial regression]] · [[Model/Linear regression]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — Residual plot](https://en.wikipedia.org/wiki/Residual_plot)
