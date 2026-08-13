@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Kafka]]
 
 # Kafka distributed event streaming

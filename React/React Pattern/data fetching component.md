@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[Hooks/react useEffect]] [[react-query]]
 
 # data fetching component

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[systemd]] [[bash script]] [[Linux system management]]
 
 # crontab

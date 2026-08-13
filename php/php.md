@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[php error]] [[PHP-FPM]] [[Linux/commands/Services commands]]
 
 # PHP

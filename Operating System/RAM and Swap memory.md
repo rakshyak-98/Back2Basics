@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Heap memory]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[cgroup (Control Group)]]
 
 # RAM and Swap memory

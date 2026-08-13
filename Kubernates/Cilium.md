@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Kubernetes services]] [[ingress]] [[kubectl]] [[Pods]]
 
 # Cilium

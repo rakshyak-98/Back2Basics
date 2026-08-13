@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[systemd]] [[systemctl]] [[D-Bus]]
 
 # systemd-hostnamed

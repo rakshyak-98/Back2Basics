@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[Redux]] [[Redux/Immutability in Redux]] [[Redux/Redux createSlice]] [[javascript/Packages/Immer]]
 
 # Redux Error (common fixes)

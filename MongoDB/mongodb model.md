@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongoose middleware]] [[mongoose/Mongoose plugin]] [[Database/Data access patterns]]
 
 # MongoDB model (Mongoose schema)

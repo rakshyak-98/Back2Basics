@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ABR]] [[CRF (Constant Rate Factor)]] [[transcoding]] [[codecs]] [[rendition]] [[MPEG-TS]]
 
 # Bitrate streaming

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[bitrate streaming]] [[Encoding]] [[transcoding]] [[NVENC]] [[codecs]]
 
 # CRF (Constant Rate Factor)

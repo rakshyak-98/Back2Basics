@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/lexical analysis]] [[JavaScript/Lexical Grammer]]
 
 # pre-parser

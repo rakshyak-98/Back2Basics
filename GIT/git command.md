@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[git]] [[git merge]] [[git rebase]] [[git branch]] [[git diff]] [[git error]]
 
 # Git Commands — Recovery & Debug

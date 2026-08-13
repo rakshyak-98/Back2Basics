@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[css/Animation]] [[Nginx/nginx SPA deployment]] [[Rendering performance/SEO]]
 
 # Web development

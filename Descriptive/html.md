@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[Markdown]] [[embedded image]]
 
 # html

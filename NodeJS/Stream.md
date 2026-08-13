@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Stream/pipe]] [[Buffers]] [[Stream Events]]
 
 # Stream

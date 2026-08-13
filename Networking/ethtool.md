@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[10 NIC]] [[ss]] [[Linux]] [[MTU (Maximum Transmission Unit)]]
 
 # ethtool

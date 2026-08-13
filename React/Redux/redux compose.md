@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux/redux middleware]] [[Redux toolkit]] [[Redux/Redux createSlice]]
 
 # redux compose

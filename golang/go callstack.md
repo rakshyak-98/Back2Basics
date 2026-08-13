@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go error]] [[go-routines]]
 
 # go callstack

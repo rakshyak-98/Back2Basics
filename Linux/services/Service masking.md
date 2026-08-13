@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[systemctl]] [[Services commands]] [[systemd]] [[bluetoothctl]]
 
 # Service masking

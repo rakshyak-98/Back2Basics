@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[promise]] [[Callback]] [[NodeJS/node fs]]
 
 # JavaScript util module (Node.js)

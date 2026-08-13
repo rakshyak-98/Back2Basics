@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[php error]] [[Nginx/Configuration]] [[Linux/commands/Services commands]]
 
 # Apache modules

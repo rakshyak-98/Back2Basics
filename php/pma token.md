@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security/CORS (Cross Origin Request Sharing)]] [[php]] [[Database/mysql/MySQL Events]]
 
 # PMA token (phpMyAdmin)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[user management]] [[linux groups]] [[usermod]] [[useradd]] [[getent]]
 
 # groupadd

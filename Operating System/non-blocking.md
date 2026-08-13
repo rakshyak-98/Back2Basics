@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Blocking Vs Non-Blocking]] [[file descriptors]] [[system call]] [[Event Loop]] [[context switching]]
 
 # Non-blocking I/O

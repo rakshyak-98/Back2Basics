@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[NodeJS]] [[node command]] [[nvm]] [[Node.js run as a non-privileged user]] [[inputs]]
 
 # Node.js CLI

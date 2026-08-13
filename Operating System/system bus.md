@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[PCI (Peripheral Component Interconnect)]] [[bus]] [[base clock speed]] [[RAM and Swap memory]]
 
 # System bus

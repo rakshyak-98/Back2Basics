@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/execution context]] [[Descriptive/JavaScript/constructor function]] [[javascript]] [[NodeJS/Event Loop]]
 
 # Function (JavaScript)

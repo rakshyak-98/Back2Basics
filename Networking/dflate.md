@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mime type]] [[TCP]] [[HTTP]]
 
 # Deflate (dflate)

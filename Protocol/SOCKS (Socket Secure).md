@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TCP]] [[UDP]] [[SSH]]
 
 # SOCKS (Socket Secure)

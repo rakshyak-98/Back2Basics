@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[JavaScript]] [[Animation]] [[Frontend Datastructure]] [[webSocket]]
 
 # Progressive search functionality

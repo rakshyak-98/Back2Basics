@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh]] [[MongoDB query validation]]
 
 # mongodb shell

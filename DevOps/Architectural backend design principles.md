@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DevOps]] [[orchestration]] [[API design]] [[SOLID]]
 
 # Architectural backend design principles

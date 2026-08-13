@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NextJS]] [[Next JS]] [[NextJS configuration]]
 
 # Next js Build

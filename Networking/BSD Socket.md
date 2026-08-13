@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[POSIX Socket]] [[TCP]] [[UDP]] [[Inter Process Communication]]
 
 # BSD Socket

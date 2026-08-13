@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[routing table]] [[non-Routable address]]
 
 # CIDR (Classless Inter-Domain Routing)

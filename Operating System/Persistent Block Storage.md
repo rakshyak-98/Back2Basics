@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[MBR]] [[fsync]] [[disk IOPS]] [[Buffer cache]]
 
 # Persistent Block Storage

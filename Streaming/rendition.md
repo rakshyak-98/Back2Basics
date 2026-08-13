@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[ABR]] [[bitrate streaming]] [[HLS]] [[DASH]] [[transcoding]]
 
 # rendition

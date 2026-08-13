@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[Encoding]] [[ffmpeg]] [[ABR]] [[rendition]] [[NVENC]] [[codecs]]
 
 # transcoding

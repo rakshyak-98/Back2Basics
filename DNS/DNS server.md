@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[name server]] [[DNS zone]] [[DSN records]] [[Unbound]]
 
 # DNS server

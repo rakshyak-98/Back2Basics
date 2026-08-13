@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[node modules]]
 
 # re-export file (barrel)

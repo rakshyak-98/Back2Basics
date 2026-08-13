@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[helm]]
 
 # cli

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[X Desktop Group]]
 
 # Linux Templates Directory

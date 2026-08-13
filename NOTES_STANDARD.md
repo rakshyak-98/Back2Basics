@@ -4,7 +4,7 @@
 
 > How to write notes in this vault — retrieve fast, debug fast, configure correctly.
 
-**Before writing:** pick a strategy from [[NOTETAKING_STRATEGIES]], set `<!-- note-strategy: <id> -->` on line 1, then fill the matching template below.
+**Before writing:** pick a shape from [[NOTETAKING_STRATEGIES]], then fill the matching template below. Do not label the strategy inside the note — the section layout is the signal.
 
 ---
 
@@ -22,7 +22,7 @@
 | **Triage rows** | Symptom → command or log to run → exact fix for **this** topic | Copy-paste Auth/TLS/Deploy rows unrelated to the note |
 | **Abbreviations in tables** | Spell out in the "Plain meaning" column: "ESTABLISHED (fully open TCP connection)" | Leave kernel or protocol shorthand unexplained |
 | **Commands** | Keep flags and tool names literal (`git diff`, `ss -luntp`) | Expand command names inside code blocks |
-| **Strategy tag** | `<!-- note-strategy: operational -->` on line 1 when creating or restructuring | Mixing runbook steps into a reference card layout |
+| **Section shape** | Match layout to reader job (triage table for ops, quick-ref table for CLI) | Mixing runbook steps into a reference card layout |
 
 ### Interview map (words you can say)
 
@@ -41,7 +41,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Operational Field Note (`operational`) — default
 
 ```markdown
-<!-- note-strategy: operational -->
 [[ParentTopic]]
 
 # Title
@@ -121,7 +120,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Reference Card (`reference`)
 
 ```markdown
-<!-- note-strategy: reference -->
 [[ParentTopic]]
 
 # Title
@@ -180,7 +178,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Concept Note (`concept`)
 
 ```markdown
-<!-- note-strategy: concept -->
 [[ParentTopic]]
 
 # Title
@@ -244,7 +241,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Comparison Note (`comparison`)
 
 ```markdown
-<!-- note-strategy: comparison -->
 [[ParentTopic]]
 
 # Title A vs Title B
@@ -307,7 +303,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Runbook (`runbook`)
 
 ```markdown
-<!-- note-strategy: runbook -->
 [[ParentTopic]]
 
 # Title — recovery
@@ -377,7 +372,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Procedure Note (`procedure`)
 
 ```markdown
-<!-- note-strategy: procedure -->
 [[ParentTopic]]
 
 # Title — setup
@@ -437,7 +431,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Hub / Map of Content (`hub`)
 
 ```markdown
-<!-- note-strategy: hub -->
 [[ParentTopic]]
 
 # Domain hub title
@@ -483,7 +476,6 @@ Copy the block for your strategy. Replace `…` placeholders; delete unused subs
 ### Decision Record (`decision`)
 
 ```markdown
-<!-- note-strategy: decision -->
 [[ParentTopic]]
 
 # Title — decision

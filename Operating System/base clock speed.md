@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[SMT threads]] [[system bus]] [[TDP]] [[CPU IO Bound Task]]
 
 # Base clock speed

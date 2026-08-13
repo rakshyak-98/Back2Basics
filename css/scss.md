@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[css]] [[Animation]]
 
 # scss

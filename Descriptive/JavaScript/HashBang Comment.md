@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux/Scripting]] [[NodeJS/node command]] [[NodeJS/CLI]] [[javascript]]
 
 # HashBang comment (`#!`)

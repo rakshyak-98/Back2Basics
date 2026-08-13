@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS/open api specification]] [[ExpressJS/express error handler]] [[Security/JWT authentication]] [[Messaging/Web hooks]]
 
 # Postman

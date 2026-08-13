@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Event Loop]] [[Stream]] [[Node events driven]]
 
 # EventEmitter

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS/AWS EC2]] [[Operating System/Take snapshot]] [[Linux/Memory management]]
 
 # AWS EBS (Elastic Block Store)

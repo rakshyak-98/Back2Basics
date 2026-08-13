@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[css/tailwindcss]] [[css/scss]] [[css/Animation]]
 
 # CSS image sizing (clipped container)

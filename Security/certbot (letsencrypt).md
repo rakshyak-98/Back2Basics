@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[ACME server]] [[TLS (Transport Layer Security)]] [[certbot error]] [[https]]
 
 # certbot (letsencrypt)

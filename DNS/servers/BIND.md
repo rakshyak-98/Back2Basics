@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[servers]]
 
 # BIND (named) — Operations

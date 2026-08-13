@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[postgres]] [[psql user]] [[psql essential]]
 
 # psql user acl

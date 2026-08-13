@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[SQL/SQL]] [[database migration]] [[mysql table]]
 
 # ALTER TABLE

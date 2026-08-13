@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql/mysql connection]] [[connection pooling]] [[mysql/mysql ssl connection]] [[half-open connections]]
 
 # MySQL connection pool (app-side)

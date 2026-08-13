@@ -1,4 +1,3 @@
-<!-- note-strategy: procedure -->
 [[vim keybindings]] [[Descriptive/LSP]]
 
 # nvim setup

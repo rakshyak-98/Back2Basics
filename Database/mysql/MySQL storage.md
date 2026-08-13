@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql connection]] [[connection pooling]]
 
 # MySQL storage

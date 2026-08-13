@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[file mount]] [[rsync]] [[Find command]]
 
 # Linux file management

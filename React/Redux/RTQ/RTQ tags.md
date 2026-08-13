@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux/RTQ Toolkit]] [[Redux/Redux createApi]] [[API handling]] [[react-query]] [[React data management]]
 
 # RTQ tags

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Decision tree]] [[Random forest]] [[xg boost]] [[scikitlearn]] [[regression]] [[binary classification]]
 
 # Gradient boosting

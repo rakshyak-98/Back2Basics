@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[critical sections]] [[semaphores]] [[Thread]] [[multi-threaded]] [[context switching]]
 
 # Mutexes

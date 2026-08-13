@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[TCP]] [[UDP]] [[webSocket]] [[P2P (Peer-to-Peer)]]
 
 # Data transfer communication channels

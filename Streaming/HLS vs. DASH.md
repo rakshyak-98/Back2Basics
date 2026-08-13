@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[HLS]] [[DASH]] [[CMAF]] [[ABR]] [[MPD]]
 
 # HLS vs. DASH

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[system call]] [[file descriptors]] [[Buffer cache]]
 
 # OS program

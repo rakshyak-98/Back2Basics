@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Stack Frame]] [[stack pointer]] [[gdb]] [[NodeJS]]
 
 # Stack trace

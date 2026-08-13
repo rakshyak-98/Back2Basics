@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[java]] [[kotlin]] [[Design pattern]] [[method shadowing]]
 
 # Static members (class-level state and methods)

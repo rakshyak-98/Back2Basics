@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[React Architecture]] [[React Application Architecture for Production]]
 
 # Creating a stack from scratch

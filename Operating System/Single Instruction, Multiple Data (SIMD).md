@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[context switching]] [[Buffer cache]] [[Rolling Buffer]] [[NVENC]] [[ffmpeg]]
 
 # Single Instruction, Multiple Data (SIMD)

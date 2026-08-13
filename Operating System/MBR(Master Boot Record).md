@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[MBR]] [[UEFI]] [[Persistent Block Storage]]
 
 # MBR(Master Boot Record)

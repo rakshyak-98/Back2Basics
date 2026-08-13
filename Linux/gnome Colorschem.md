@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[gsetting]] [[X Desktop Group]]
 
 # gnome Colorschem

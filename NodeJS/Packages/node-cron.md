@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Packages/npm packages]] [[clustering]]
 
 # node-cron

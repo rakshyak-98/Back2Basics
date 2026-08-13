@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[IAM]] [[ARN (Amazon Resource Name)]] [[Docker]] [[AWS EC2]]
 
 # AWS ECR

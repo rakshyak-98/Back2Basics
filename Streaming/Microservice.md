@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[ingestion]] [[transcoding]] [[ABR]] [[MPEG-TS]] [[When scaling to hundreds of concurrent channels]]
 
 # Microservice (streaming)

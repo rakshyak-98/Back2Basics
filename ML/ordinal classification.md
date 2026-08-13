@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[multiclass classification]] [[binary classification]] [[ML Classifiers]] [[regression]]
 
 # Ordinal classification

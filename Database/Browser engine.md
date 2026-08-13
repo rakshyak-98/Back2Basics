@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[content security policy]] [[ESM]]
 
 # Browser engine

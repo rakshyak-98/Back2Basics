@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[core fundemental.md]]
 
 # 🧠 40-Year Core Computer Science Knowledge Checklist

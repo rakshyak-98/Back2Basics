@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb migration]] [[MongoDB query validation]]
 
 # mongodb schema

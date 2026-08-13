@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ML]] [[prompt]] [[prompt enginerring]] [[claude ai]]
 
 # GPT

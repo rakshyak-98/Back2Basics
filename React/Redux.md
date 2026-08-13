@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[flux]] [[Redux toolkit]] [[Redux/Redux Thunk]]
 
 # Redux

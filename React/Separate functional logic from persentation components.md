@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[React Pattern/Component Presentational Pattern]] [[React Pattern/Provider pattern]]
 
 # Separate functional logic from presentation components

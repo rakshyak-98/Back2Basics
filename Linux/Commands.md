@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[commands]] [[common commands]] [[CLI]] [[Find command]]
 
 # Commands

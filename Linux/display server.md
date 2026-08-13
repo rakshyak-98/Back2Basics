@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[x11]] [[wayland]] [[windowing system]] [[Linux display manager]] [[compositors]]
 
 # Display server

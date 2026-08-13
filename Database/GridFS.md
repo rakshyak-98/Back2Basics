@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[Database]] [[WiredTiger storage engine]]
 
 # GridFS

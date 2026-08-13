@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[stateless offset handling]] [[Real-time Subscription]] [[Streaming]]
 
 # stateless

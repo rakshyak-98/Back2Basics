@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[node environment configuration]] [[node package json]]
 
 # node-convict

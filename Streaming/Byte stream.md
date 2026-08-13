@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[MPEG-TS]] [[CMAF]] [[Byte stream]] [[file descriptors]]
 
 # Byte stream

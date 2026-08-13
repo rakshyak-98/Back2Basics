@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[file descriptors]] [[system call]] [[discriptors]]
 
 # handle

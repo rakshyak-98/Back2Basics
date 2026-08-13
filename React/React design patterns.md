@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[React]]
 
 # React design patterns

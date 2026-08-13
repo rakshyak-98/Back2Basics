@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[Database design]]
 
 # key Constraint

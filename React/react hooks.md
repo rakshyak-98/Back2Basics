@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[Hooks/react useEffect]] [[useRef]] [[Optimizing performance]]
 
 # react hooks

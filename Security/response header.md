@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[cross-site scripting]] [[cookies configuration]]
 
 # HTTP Response Headers (Security & Caching)

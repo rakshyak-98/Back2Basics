@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Protocol]] [[TCP]] [[TLS (Transport Layer Security)]] [[TFTP]] [[SCP (Secure Copy Protocol)]]
 
 # ftp

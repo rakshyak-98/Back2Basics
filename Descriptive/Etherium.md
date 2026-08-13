@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[web capabilities]] [[JWT authentication]]
 
 # Ethereum (filename Etherium.md)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database design]] [[OLTP]] [[connection pooling]] [[Data access patterns]] [[migration]]
 
 # Database application (app ↔ DB layer)

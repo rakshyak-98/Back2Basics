@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[child process]] [[spawn]] [[clustering]]
 
 # fork

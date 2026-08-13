@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git logs]] [[git command]] [[git alias]]
 
 # Git log formatting

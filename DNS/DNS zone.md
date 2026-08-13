@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[name server]] [[BIND]]
 
 # DNS zone

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[PCI (Peripheral Component Interconnect)]] [[system bus]] [[Electronic Control Unit (ECU)]]
 
 # Analog interface

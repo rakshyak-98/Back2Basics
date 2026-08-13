@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[pm2]]
 
 # pm2

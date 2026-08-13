@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure/dsa genera formula]] [[ML/Model/Linear regression]] [[javascript]] [[general]]
 
 # Percentage calculation

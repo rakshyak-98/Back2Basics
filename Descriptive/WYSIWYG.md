@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[React]] [[css]]
 
 # WYSIWYG (What You See Is What You Get)

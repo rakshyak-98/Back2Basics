@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[user management]] [[sudo]] [[linux groups]]
 
 # visudo

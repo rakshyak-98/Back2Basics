@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[WebRTC]] [[UDP]] [[TCP]] [[DTLS]] [[ICE (Interactive Connectivity Establishment)]]
 
 # SCTP (Stream Control Transmission Protocol)

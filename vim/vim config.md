@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[vim]]
 
 # - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard`

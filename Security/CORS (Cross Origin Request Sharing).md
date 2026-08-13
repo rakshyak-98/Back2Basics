@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[HTTP module]] [[JWT authentication]] [[SOP (Same-Origin Policy)]]
 
 # CORS (Cross Origin Request Sharing)

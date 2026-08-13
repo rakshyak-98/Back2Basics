@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Stream]] [[primitive non-primitive values]]
 
 # Buffers

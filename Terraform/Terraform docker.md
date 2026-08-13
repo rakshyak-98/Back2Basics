@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Terraform setup]] [[terraform provider]] [[terraform]] [[Terraform workflow]] [[variable file]] [[Terraform CLI]]
 
 # Terraform docker

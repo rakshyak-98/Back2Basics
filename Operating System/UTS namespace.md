@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[IPC namespace]] [[Linux]] [[Docker]] [[Kubernates]]
 
 # UTS namespace

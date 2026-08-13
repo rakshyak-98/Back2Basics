@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]]
 
 # Session Storage

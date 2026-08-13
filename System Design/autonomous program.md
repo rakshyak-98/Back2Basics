@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[orchestration]] [[event-driven]] [[Airflow]]
 
 # autonomous program

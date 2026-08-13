@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Observer]] [[Design pattern/State]] [[React/React design patterns]]
 
 # Mediator

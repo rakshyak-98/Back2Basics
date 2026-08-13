@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[buffer]] [[Buffer cache]] [[fsync]] [[file descriptors]] [[kernel subsystem]]
 
 # Multiple levels of buffering

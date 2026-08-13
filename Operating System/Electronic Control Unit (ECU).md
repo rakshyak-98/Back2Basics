@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Data Direction Register (DDR)]] [[bus]] [[analog interface]]
 
 # Electronic Control Unit (ECU)

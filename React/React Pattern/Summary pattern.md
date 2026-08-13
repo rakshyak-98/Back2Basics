@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[react hooks]] [[Managing complex component structure]] [[React code smells]] [[Separate functional logic from persentation components]]
 
 # Summary pattern

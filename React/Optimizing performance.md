@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[React code smells]] [[react hooks]] [[useRef]]
 
 # Optimizing performance

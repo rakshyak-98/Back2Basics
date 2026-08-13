@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[JWT authentication]] [[Token rotation]] [[openssl]] [[symmetrical encryption]]
 
 # HMAC

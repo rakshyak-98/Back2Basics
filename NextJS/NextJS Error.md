@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[NextJS]]
 
 # NextJS Error

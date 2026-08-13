@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git command]] [[git merge]] [[git rebase]] [[git diff]]
 
 # Git branches

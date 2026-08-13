@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[throttle]] [[user triggered event]] [[event listener]] [[Optimizing performance]] [[React]]
 
 # Debouncing

@@ -532,6 +532,21 @@ def infer_strategy(path: Path, title: str, sections: list[Section]) -> str:
 
     if name in {"INDEX.md", "README.md"}:
         return "hub"
+
+    known_hub_stems = {
+        "design pattern",
+        "general",
+        "docker",
+        "linux",
+        "aws",
+        "mongodb",
+        "message broker",
+        "broadcast",
+        "golang",
+    }
+    if stem in known_hub_stems:
+        return "hub"
+
     if len(rel_parts) > 1 and stem == rel_parts[-2].lower().replace(" ", "-"):
         return "hub"
 
@@ -755,8 +770,6 @@ def rebuild_note(path: Path, lines: list[str]) -> list[str]:
 
     ordered_headings: list[str] = []
     body: list[str] = []
-
-    body.append(f"<!-- note-strategy: {strategy} -->")
 
     if wikilinks:
         body.extend(wikilinks)

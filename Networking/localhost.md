@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[loopback]] [[non-Routable address]]
 
 # localhost

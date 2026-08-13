@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[query/mongodb lookup query]]
 
 # mongoDB Group query

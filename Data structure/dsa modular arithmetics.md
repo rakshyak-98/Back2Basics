@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure]] [[DSA algorithms]]
 
 # dsa modular arithmetics

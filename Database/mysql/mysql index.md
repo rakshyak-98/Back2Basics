@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[covering index]] [[mysql query]] [[mysql engine]]
 
 # mysql index

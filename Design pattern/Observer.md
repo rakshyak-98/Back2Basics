@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Command]] [[Design pattern/Template Method]] [[Messaging/Web hooks]]
 
 # Observer

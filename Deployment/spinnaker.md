@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Jenkins]] [[Airflow]] [[Docker compose]] [[Kubernates/kubectl]] [[Terraform workflow]]
 
 # Spinnaker

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database/mysql/mysql pool connection]] [[Database/postgres/psql keywords]]
 
 # Prisma query

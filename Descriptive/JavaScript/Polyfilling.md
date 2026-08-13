@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript/polyfills]] [[javascript]] [[Descriptive/JavaScript/javascript web API]] [[npm]]
 
 # Polyfilling

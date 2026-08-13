@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[MongoDB]] [[mongoose/mongoose schema]] [[mongodb connection]]
 
 # mongoose

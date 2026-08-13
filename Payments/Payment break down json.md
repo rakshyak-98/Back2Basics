@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Payments]]
 
 # Payment break down json

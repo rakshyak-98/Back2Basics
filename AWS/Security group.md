@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS Networking]] [[AWS EC2]] [[half-open connections]] [[TLS (Transport Layer Security)]]
 
 # Security Group

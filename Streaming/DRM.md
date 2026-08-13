@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[EME]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CPIX]]
 
 # DRM

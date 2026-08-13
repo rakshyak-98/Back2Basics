@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[postgres]] [[connection pooling]] [[ACID]]
 
 # psql essential

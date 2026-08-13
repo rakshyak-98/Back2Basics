@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[GridFS]] [[Database]] [[WAL (Write-Ahead Log)]] [[MMAP]] [[memory engine]]
 
 # WiredTiger storage engine

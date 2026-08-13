@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Optimizing performance]] [[react hooks]] [[React State management]] [[debouncing]]
 
 # Referential equality

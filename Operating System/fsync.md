@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[system call]] [[Buffer cache]] [[WAL (Write-Ahead Log)]] [[Persistent Block Storage]] [[multiple levels of buffering]]
 
 # fsync

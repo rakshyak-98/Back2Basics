@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[assembly language]] [[system call]] [[Single Instruction, Multiple Data (SIMD)]]
 
 # Opcode

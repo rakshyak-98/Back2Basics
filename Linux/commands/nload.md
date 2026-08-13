@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux network commands]] [[ip]] [[ss]] [[top]]
 
 # nload

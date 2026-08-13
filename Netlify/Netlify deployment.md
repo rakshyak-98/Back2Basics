@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Deployment/vercel cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Nginx/nginx SPA deployment]]
 
 # Netlify deployment

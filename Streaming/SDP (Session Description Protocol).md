@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[SIP]]
 
 # SDP (Session Description Protocol)

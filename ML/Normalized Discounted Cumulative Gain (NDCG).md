@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/Rank distribution]]
 
 # Normalized Discounted Cumulative Gain (NDCG)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[Linux Process Theory]] [[process]]
 
 # gdb

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Asymmetrical Encryption]] [[PKI]] [[Root certificate]] [[openssl]]
 
 # Code signing

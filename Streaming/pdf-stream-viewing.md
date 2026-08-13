@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[Byte stream]] [[How to attach stream to HTTP handlers]]
 
 # pdf-stream-viewing

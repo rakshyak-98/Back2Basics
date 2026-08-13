@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[CLI]] [[grep]] [[Find command]] [[Scripting]]
 
 # Common commands — daily ops cheat sheet

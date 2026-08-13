@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Observer]] [[Design pattern/Command]]
 
 # State

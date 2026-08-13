@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createApi]]
 
 # Redux toolkit

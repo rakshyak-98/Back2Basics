@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[regression]] [[Visualization/predicated versus actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
 
 # Residual plot

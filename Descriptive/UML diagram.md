@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design/HES Architecture]] [[Design pattern]] [[Architectures/DSL (Domain Specific Language)]] [[Projects/marketplace application]]
 
 # UML diagram

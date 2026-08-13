@@ -1,4 +1,3 @@
-<!-- note-strategy: procedure -->
 [[user management]] [[SSH]] [[Linux configuration]]
 
 # Fresh system sudo setup

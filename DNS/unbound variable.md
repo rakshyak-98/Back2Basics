@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux/Bash/Bash functions]] [[Linux/Scripting]] [[Linux/commands/common commands]]
 
 # Unbound variable (bash `set -u`)

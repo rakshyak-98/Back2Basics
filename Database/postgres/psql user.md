@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[postgres/psql essential]] [[postgres/psql keywords]] [[mysql/mysql user]] [[IAM]]
 
 # PostgreSQL users & roles

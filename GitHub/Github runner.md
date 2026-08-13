@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Github cli]] [[DevOps/Jenkins]] [[Docker/Docker compose]]
 
 # GitHub Actions runner

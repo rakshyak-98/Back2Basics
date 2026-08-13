@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Thread]] [[context switching]] [[multi-threaded]] [[SMT threads]] [[cgroup (Control Group)]]
 
 # Context switching

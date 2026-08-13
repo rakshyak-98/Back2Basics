@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security/KMS]] [[NodeJS/node-convict]] [[Deployment/vercel deployment]] [[AWS/IAM]]
 
 # Doppler

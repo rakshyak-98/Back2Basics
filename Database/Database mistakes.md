@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ACID]] [[covering index]] [[mysql index]] [[connection pooling]] [[Data access patterns]] [[WAL (Write-Ahead Log)]]
 
 # Database mistakes

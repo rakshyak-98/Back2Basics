@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[variables]] [[mysql function]] [[mysql triggers]]
 
 # mysql Programmable SQL

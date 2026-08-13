@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[display server]] [[windowing system]] [[x11]] [[wayland]] [[Linux configuration]]
 
 # Linux display manager

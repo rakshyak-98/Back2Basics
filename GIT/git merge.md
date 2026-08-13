@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git rebase]] [[git branch]]
 
 # Git Merge

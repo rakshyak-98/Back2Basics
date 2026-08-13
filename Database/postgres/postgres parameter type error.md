@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[postgres/postgres Error]] [[postgres/psql essential]] [[connection pooling]] [[Prisma query]]
 
 # PostgreSQL Error: `inconsistent types deduced for parameter $n`

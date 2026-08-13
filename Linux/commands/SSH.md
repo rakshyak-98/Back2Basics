@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # SSH

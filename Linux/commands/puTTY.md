@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[SSH]] [[Linux terminal]] [[terminal emulator]]
 
 # PuTTY

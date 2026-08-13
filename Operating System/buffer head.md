@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Buffer cache]] [[buffer]] [[buffer lifecycle]] [[fsync]]
 
 # Buffer head

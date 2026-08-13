@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Transporter in Email sending]] [[Protocol/gRPC]] [[Protocol/MQTT]] [[HTTP module]]
 
 # Transporters

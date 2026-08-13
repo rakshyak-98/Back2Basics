@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Data structure]] [[dsa intuition]] [[DSA algorithms]]
 
 # dsa problem solving Scaffold

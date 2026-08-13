@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[AMD module]] [[IIFC]] [[node modules]]
 
 # UMD global

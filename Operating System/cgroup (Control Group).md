@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux cgroup]] [[OOM (Linux Out Of Memory)]] [[Docker]] [[Kubernates]]
 
 # cgroup (Control Group)

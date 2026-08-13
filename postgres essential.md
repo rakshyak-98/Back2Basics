@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 # postgres essential
 
 > One-line: what / why for **postgres essential** — source TBD.

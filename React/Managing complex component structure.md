@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]] [[React Pattern/Summary pattern]] [[React Architecture]] [[React code smells]]
 
 # Managing complex component structure

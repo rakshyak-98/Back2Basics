@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Creation pattern/Abstract Factory]] [[Design pattern/Dependency Injection]] [[System Design/SOLID]]
 
 # Factory Method

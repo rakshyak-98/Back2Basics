@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Rendering performance]]
 
 # critical rendering path

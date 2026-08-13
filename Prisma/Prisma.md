@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[Prisma]]
 
 # Prisma

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Commands]] [[process]] [[top]] [[lsof]]
 
 # ps

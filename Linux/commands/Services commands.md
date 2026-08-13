@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[systemctl]] [[systemd]] [[D-Bus]] [[busctl]] [[journalctl]]
 
 # Services commands

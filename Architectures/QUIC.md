@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking/UDP]] [[Security/TLS (Transport Layer Security)]] [[Security/https]] [[Networking/half-open connections]]
 
 # QUIC

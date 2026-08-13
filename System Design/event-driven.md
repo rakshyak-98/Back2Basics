@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[orchestration]] [[backpressure]] [[Eventual consistency]]
 
 # event-driven

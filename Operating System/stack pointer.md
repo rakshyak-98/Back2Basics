@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Stack Frame]] [[Stack trace]] [[assembly language]] [[opcode]]
 
 # stack pointer

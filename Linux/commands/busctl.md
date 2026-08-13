@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[D-Bus]] [[systemd]] [[Services commands]] [[systemctl]]
 
 # busctl

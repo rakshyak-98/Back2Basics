@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Deployment/vercel cli]] [[Deployment/vercel deployment]] [[Netlify/Netlify deployment]]
 
 # Render CLI

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Concurrent modification]] [[Networking]]
 
 # ETAG or IF MATCH

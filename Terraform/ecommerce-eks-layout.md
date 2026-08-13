@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Terraform setup]] [[terraform]] [[Terraform workflow]] [[variable file]] [[helm]] [[ecommerce-platform-architecture]] [[ecommerce-cicd-environments]] [[ingress]] [[AWS ECR]]
 
 # ecommerce eks layout

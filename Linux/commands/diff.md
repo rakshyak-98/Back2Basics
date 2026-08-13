@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[rsync]] [[Scripting]] [[Linux file management]]
 
 # diff

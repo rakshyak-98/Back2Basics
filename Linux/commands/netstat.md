@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[ss]] [[Linux network commands]] [[lsof]]
 
 # netstat

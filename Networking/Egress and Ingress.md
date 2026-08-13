@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[outbound ip]] [[NAT (Network Address Translation)]] [[network gateway]]
 
 # Egress and Ingress

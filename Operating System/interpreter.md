@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[linker]] [[runtime]] [[Runtime Environment]]
 
 # Interpreter

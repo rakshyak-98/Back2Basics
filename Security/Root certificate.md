@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[PKI]] [[TLS (Transport Layer Security)]] [[fingerprint]] [[https]]
 
 # Root certificate

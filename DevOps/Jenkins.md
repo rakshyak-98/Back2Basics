@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[GIT/git command]] [[Docker compose]] [[terraform]]
 
 # Jenkins

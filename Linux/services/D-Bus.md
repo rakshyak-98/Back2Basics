@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[systemd]] [[busctl]] [[systemctl]]
 
 # D-Bus

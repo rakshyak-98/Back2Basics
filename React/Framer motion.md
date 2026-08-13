@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Optimizing performance]] [[react hooks]] [[React build]] [[css/Animation]]
 
 # Framer Motion

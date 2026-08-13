@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[opcode]] [[linker]] [[system call]] [[interpreter]]
 
 # Assembly language

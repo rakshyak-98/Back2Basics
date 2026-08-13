@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[TLS (Transport Layer Security)]] [[ACME server]] [[Configuration]]
 
 # Certbot error

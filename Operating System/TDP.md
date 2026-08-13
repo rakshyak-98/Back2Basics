@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[base clock speed]] [[SMT threads]] [[CPU IO Bound Task]] [[Linux]]
 
 # TDP

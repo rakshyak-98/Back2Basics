@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Proxy]]
 
 # Reverse Proxy

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Runtime Environment]] [[interpreter]] [[Heap memory]] [[system call]]
 
 # Runtime

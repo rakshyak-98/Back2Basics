@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[file descriptors]] [[fsync]] [[Buffer cache]] [[mmap]] [[multiple levels of buffering]]
 
 # How to manipulate memory directly

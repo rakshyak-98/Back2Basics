@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[Database]] [[mysql connection]] [[cli]] [[mysql query]] [[mysql dump]]
 
 # mysql

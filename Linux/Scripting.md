@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[bash script]] [[CLI]] [[Bash syntax]] [[Bash functions]]
 
 # Scripting

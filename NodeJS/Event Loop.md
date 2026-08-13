@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Epoll]] [[clustering]] [[worker threads]] [[Express middleware]]
 
 # Node.js Event Loop

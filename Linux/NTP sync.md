@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux system management]] [[Linux configuration]] [[date]] [[systemd]]
 
 # NTP sync

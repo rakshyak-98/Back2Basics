@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React data management]] [[expressjs]] [[Event Loop]] [[webSocket]]
 
 # Zustand

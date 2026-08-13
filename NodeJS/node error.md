@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[NodeJS]] [[Error handeling]] [[Runtime Errors]] [[mysql/mysql connection]]
 
 # node error

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
 
 # IAM

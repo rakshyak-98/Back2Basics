@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DRM]] [[IPTV]] [[MPEG-TS]] [[Streaming]] [[ingestion]]
 
 # CAS (Conditional Access System)

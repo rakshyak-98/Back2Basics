@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Programming paradigram/purely declarative]] [[Operating System/Stack based programming language]]
 
 # Functional programming

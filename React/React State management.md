@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React data management]] [[zustand]] [[Redux]] [[react hooks]] [[react-query]]
 
 # React State management

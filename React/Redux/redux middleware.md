@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux Thunk]] [[Redux/Redux createAsyncThunk]] [[Redux concept and data flow]]
 
 # redux middleware

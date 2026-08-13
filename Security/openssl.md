@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[read pem file]] [[PKI]] [[DER]]
 
 # openssl

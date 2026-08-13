@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[expressjs]] [[gRPC]] [[JWT authentication]] [[CORS (Cross Origin Request Sharing)]] [[webhook]]
 
 # OpenAPI specification

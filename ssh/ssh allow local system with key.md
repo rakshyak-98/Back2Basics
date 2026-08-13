@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[Commands]]
 
 # ssh allow local system with key

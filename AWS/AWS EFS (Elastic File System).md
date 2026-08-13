@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[NFS (Network File System)]]
 
 # AWS EFS (Elastic File System)

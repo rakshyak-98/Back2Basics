@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[symmetrical encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[openssl]]
 
 # yescrypt (yashcrypt)

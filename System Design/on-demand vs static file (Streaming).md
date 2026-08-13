@@ -1,4 +1,3 @@
-<!-- note-strategy: comparison -->
 [[System Design]] [[Streaming]] [[HLS]] [[DASH]] [[ABR]]
 
 # on-demand vs static file (Streaming)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[SOLID]] [[DRY]] [[API design]]
 
 # GRASP

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React build]] [[Typescript with react]] [[NodeJS/node package json]]
 
 # React project config

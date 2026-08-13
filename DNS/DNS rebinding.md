@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]]
 
 # DNS rebinding

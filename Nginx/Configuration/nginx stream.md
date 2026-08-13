@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]] [[nginx using unix socket]]
 
 # Nginx Stream (L4 TCP/UDP Proxy)

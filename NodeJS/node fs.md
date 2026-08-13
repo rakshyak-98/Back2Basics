@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[file]] [[fsync]] [[Stream]] [[Operating System/file descriptors]]
 
 # node fs

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React/React data management]] [[typescript]] [[javascript]] [[css/Animation]]
 
 # Intrinsic attributes (React / JSX)

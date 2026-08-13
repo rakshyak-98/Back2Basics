@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[GPT]] [[prompt]] [[prompt enginerring]] [[scikitlearn]]
 
 # AI chat with memory

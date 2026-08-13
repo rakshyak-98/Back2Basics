@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[vim keybindings]] [[nvim setup]]
 
 # commands

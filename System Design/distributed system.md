@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Quorum]] [[Raft]] [[Distributed computing]] [[Eventual consistency]]
 
 # distributed system

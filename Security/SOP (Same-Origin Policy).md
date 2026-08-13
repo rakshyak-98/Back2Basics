@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[CORS (Cross Origin Request Sharing)]] [[XSRF (cross-site request forgery)]] [[cross-site scripting]]
 
 # SOP (Same-Origin Policy)

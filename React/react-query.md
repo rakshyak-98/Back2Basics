@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[react cache]] [[Redux/Redux createApi]]
 
 # react-query (TanStack Query)

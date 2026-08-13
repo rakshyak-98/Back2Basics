@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[JWT authentication]] [[CORS (Cross Origin Request Sharing)]] [[cross-site scripting]]
 
 # IDOR (Insecure Direct Object Reference)

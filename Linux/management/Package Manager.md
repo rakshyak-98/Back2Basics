@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[apt package manager]] [[source list file]] [[keyrings]]
 
 # Package Manager

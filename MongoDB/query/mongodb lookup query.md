@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[MongoDB data populate]] [[mongoDB Group query]]
 
 # mongodb lookup query

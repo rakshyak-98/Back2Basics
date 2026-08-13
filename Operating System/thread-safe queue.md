@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[multi-threaded]] [[thread pool]] [[atomic ring buffer]]
 
 # Thread-safe queue

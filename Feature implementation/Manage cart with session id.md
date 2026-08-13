@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Feature implementation]]
 
 # Manage cart with session id

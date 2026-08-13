@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]]
 
 # XSRF (cross-site request forgery)

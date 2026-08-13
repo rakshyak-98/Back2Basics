@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Projects]]
 
 # MEDIAL SDE REMOTE ASSIGNMENT

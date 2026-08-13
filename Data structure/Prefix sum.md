@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[sliding window]] [[Data structure]] [[Algorithm]]
 
 # Prefix sum

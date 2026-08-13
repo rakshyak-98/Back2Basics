@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[React/React data management]] [[Packages/npm packages]]
 
 # normalizr

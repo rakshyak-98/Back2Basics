@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/web development]] [[css/Animation]] [[React/React data management]] [[Security/content security policy]]
 
 # WCAG (Web Content Accessibility Guidelines)

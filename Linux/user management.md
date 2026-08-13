@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[useradd]] [[usermod]] [[userdel]] [[passwd]] [[linux groups]] [[visudo]] [[getent]] [[chage]]
 
 # user management

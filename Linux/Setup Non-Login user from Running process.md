@@ -1,4 +1,3 @@
-<!-- note-strategy: procedure -->
 [[Linux]] [[useradd]] [[passwd]] [[login shell]] [[process]]
 
 # Setup Non-Login user from Running process

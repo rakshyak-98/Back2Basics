@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[event listener]] [[Event Loop]] [[debouncing]] [[throttle]] [[content security policy]]
 
 # User-triggered events

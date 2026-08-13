@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[GIT]]
 
 # git error

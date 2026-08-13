@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go learning]] [[go]] [[go-routines]]
 
 # go project

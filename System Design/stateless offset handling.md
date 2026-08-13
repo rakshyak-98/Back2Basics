@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[kafka]] [[kafka producer and consumer]] [[Kafka broker]] [[Idempotent-key]] [[Concurrent modification]]
 
 # Stateless offset handling

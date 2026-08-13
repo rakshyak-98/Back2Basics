@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Buffer cache]] [[fsync]] [[Persistent Block Storage]] [[Linux]]
 
 # Disk IOPS

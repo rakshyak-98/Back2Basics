@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql index]] [[mysql query]] [[show query]] [[OLTP]] [[MySQL storage]]
 
 # covering index

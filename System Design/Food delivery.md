@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Eventual consistency]] [[backpressure]] [[Real-time Subscription]]
 
 # Food delivery

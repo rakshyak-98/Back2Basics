@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[AWS Networking]] [[TLS (Transport Layer Security)]] [[How to connect Godaddy domain with AWS EC2 instance]]
 
 # Route53

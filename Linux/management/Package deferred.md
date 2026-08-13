@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[management]] [[Package Manager]] [[apt package manager]]
 
 # Package deferred

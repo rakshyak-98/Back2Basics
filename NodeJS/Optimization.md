@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[clustering]] [[worker]] [[Event Loop]] [[node debugger]]
 
 # Optimization

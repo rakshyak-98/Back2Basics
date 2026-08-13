@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql triggers]] [[mysql function]] [[OLTP]]
 
 # MySQL Events

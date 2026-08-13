@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[process]] [[multi-threaded]] [[mutexes]] [[context switching]]
 
 # Thread

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql transaction]] [[ACID]] [[mysql engine]]
 
 # mysql lock

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ML]] [[ANN]] [[sigmoid]]
 
 # Perceptron

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/doppler]] [[NodeJS/node-convict]] [[Terraform/variable file]] [[DevOps/Jenkins]]
 
 # Pkl environment variable management

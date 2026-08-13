@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[transcoding]] [[re-encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[ingestion]]
 
 # Encoding

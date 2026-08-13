@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Protocol]] [[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT Traversal]]
 
 # Relay server

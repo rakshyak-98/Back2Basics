@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Event Loop]] [[Descriptive/JavaScript/pre-parser]] [[wasm]] [[SWC]] [[NodeJS]]
 
 # JavaScript engine

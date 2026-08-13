@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql engine]] [[MySQL storage]] [[write-ahead logging]]
 
 # MySQL Engines

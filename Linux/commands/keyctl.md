@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux management]] [[Linux Key management]] [[process]]
 
 # keyctl

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Service Layer]] [[Multi-tier and Layered Architecture]] [[frontend layered architecture]]
 
 # presentation layer

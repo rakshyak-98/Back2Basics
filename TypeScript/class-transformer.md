@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TypeScript]] [[typescript types]] [[npm]]
 
 # class-transformer

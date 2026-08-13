@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[x11]] [[wayland]]
 
 # xrandr

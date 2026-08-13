@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[css]] [[scss]] [[Nginx]] [[React]] [[Flash of Unstyled Content]]
 
 # Tailwind CSS

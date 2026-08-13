@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Github runner]] [[Github cli]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
 
 # GitHub Actions

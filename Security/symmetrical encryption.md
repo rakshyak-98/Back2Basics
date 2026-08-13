@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[Asymmetrical Encryption]] [[TLS (Transport Layer Security)]] [[SSH]]
 
 # symmetrical encryption

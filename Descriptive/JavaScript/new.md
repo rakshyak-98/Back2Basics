@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]]
 
 # `new` operator

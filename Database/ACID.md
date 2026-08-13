@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[WAL (Write-Ahead Log)]] [[MVCC]] [[mysql transaction]] [[postgres essential]] [[OLTP]] [[connection pooling]]
 
 # ACID

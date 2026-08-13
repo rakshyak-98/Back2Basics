@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Route53]] [[Security group]] [[AWS EC2]] [[NAT (Network Address Translation)]] [[DNS]]
 
 # AWS Networking

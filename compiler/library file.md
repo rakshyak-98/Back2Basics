@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[compiler]] [[linker]] [[Operating System/file descriptors]]
 
 # library file

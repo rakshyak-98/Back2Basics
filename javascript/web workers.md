@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]]
 
 # Web Workers

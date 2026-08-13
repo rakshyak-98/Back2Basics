@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[TCP]] [[ss]] [[POSIX Socket]] [[Epoll]]
 
 # Half-open connections

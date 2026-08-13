@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[Database]] [[SQL Configurations]] [[ACID]] [[OLTP]] [[Database design]] [[Prisma]] [[psql essential]] [[mysql]]
 
 # SQL

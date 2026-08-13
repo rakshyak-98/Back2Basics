@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[DNS]] [[dns record]] [[DNS server]] [[DNS zone]] [[TCP]]
 
 # dig

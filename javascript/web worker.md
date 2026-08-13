@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[worker]] [[throttle]]
 
 # web worker

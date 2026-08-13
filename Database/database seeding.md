@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[migration]] [[mysql]] [[postgres essential]] [[Database design]] [[OLTP]]
 
 # Database seeding

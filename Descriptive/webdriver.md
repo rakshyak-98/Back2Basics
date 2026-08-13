@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[DAP (Debug Adapter Protocol)]]
 
 # webdriver

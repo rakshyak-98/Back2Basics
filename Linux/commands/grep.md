@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux network commands]] [[awk]] [[Find command]] [[journalctl]]
 
 # grep

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[Design pattern]] [[java]]
 
 # Go embedding (struct and interface)

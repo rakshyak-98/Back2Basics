@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mongoose]] [[mongoose schema]] [[mongoose methods]] [[MongoDB]] [[Data access patterns]]
 
 # Mongoose middleware

@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[zed configuration]] [[Descriptive/vscode]]
 
 # Zed keybindings

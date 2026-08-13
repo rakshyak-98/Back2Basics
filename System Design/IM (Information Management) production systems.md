@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[CMS]] [[Streaming]] [[System design]] [[Compliance Reporting to Broadcasters]]
 
 # IM (Information Management) production systems

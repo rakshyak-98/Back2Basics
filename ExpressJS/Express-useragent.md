@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[npm]]
 
 # Express-useragent

@@ -8,11 +8,11 @@
 
 ## How to use this file
 
-1. **Creating a new note** — run the decision tree below; set `<!-- note-strategy: <id> -->` on line 1 (see [Strategy IDs](#strategy-ids)).
-2. **Updating an existing note** — read the note's current strategy tag (or infer from topic); expand empty sections using the matching template in [[NOTES_STANDARD]].
-3. **Agents and scripts** — `scripts/apply_note_template.py` reads the strategy tag (or infers one) and applies the correct section skeleton.
+1. **Creating a new note** — run the decision tree below; shape sections using the matching template in [[NOTES_STANDARD]] (no strategy label inside the note).
+2. **Updating an existing note** — infer the right shape from topic, path, and headings; expand empty sections using the matching template.
+3. **Agents and scripts** — `scripts/apply_note_template.py` infers shape from path and headings and applies the correct section skeleton.
 
-All strategies share the **writing rules** in [[NOTES_STANDARD]] (full words, one-breath summaries, topic-specific triage rows).
+All shapes share the **writing rules** in [[NOTES_STANDARD]] (full words, one-breath summaries, topic-specific triage rows).
 
 ---
 
@@ -54,17 +54,13 @@ flowchart TD
 
 ---
 
-## Strategy IDs
+## Shape IDs (for templates and scripts only)
 
-Set on **line 1** of any note (HTML comment — invisible in Obsidian reading view):
-
-```html
-<!-- note-strategy: operational -->
-```
+These IDs name the section layouts in [[NOTES_STANDARD]] and power
+`scripts/apply_note_template.py`. **Do not put them in notes** — readers see
+section headings and content, not strategy metadata.
 
 Valid IDs: `operational` · `reference` · `concept` · `comparison` · `runbook` · `procedure` · `hub` · `decision`
-
-If omitted, the apply script infers from path and headings (see `scripts/apply_note_template.py`).
 
 ---
 
@@ -114,7 +110,7 @@ If omitted, the apply script infers from path and headings (see `scripts/apply_n
 
 **Quality bar:** A junior engineer can restate the idea; a senior can name the failure mode and an alternative.
 
-**Examples in vault:** [[Singleton]] · [[ACID]] · [[Clean Architecture]] · [[Design pattern]]
+**Examples in vault:** [[Singleton]] · [[ACID]] · [[Clean Architecture]] · [[Strategy pattern]]
 
 ---
 

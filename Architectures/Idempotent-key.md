@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Architectures]] [[System Design/Concurrent modification]]
 
 # Idempotent-key

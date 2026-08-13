@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[mongosh user management]] [[mongodb shell]]
 
 # mongosh

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[SMTP]] [[DNS]] [[TLS (Transport Layer Security)]]
 
 # E mail server

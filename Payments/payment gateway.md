@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Security/TLS (Transport Layer Security)]]
 
 # Payment gateway

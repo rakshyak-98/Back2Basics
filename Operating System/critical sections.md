@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[semaphores]] [[mutexes]] [[multi-threaded]] [[Thread]] [[shared memory]]
 
 # critical sections

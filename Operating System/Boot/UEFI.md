@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Boot]] [[MBR]] [[Extensible Firmware interface (efi)]]
 
 # UEFI

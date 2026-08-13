@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]] [[ExpressJS]]
 
 # Nginx + Unix Domain Socket Upstream

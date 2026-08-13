@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/vscode]] [[editor configuration]] [[Linux/CLI]] [[zed keybindings]]
 
 # Zed config

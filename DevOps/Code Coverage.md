@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DevOps/Jenkins]] [[npm/husk]] [[NodeJS/node command]] [[Design pattern/Dependency Injection]]
 
 # Code Coverage

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[bus]] [[system bus]] [[Persistent Block Storage]]
 
 # PCI (Peripheral Component Interconnect)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Terraform setup]] [[Terraform workflow]] [[terraform]] [[terraform provider]] [[Terraform CLI]]
 
 # variable file

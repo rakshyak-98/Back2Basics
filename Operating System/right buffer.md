@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[kernel ring buffer]] [[buffer]] [[Rolling Buffer]]
 
 # Right buffer

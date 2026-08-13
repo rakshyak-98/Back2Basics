@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[buffer]] [[buffer head]] [[non-blocking]] [[file descriptors]]
 
 # Buffer flags

@@ -1,4 +1,3 @@
-<!-- note-strategy: hub -->
 [[ingestion]] [[HLS]] [[DASH]] [[ABR]] [[WebRTC]] [[RTMP]] [[SRT]] [[RTSP]]
 
 # Streaming

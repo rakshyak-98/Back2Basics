@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Questions]]
 
 # File based configuration manager

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[npm command]] [[node modules]]
 
 # node environment configuration

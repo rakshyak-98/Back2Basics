@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[GIT]]
 
 # 1. When git runs a command like `git push` it internally calls.

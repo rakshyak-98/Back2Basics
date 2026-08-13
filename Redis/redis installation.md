@@ -1,4 +1,3 @@
-<!-- note-strategy: procedure -->
 [[redis-cli]] [[systemd]]
 
 # redis installation

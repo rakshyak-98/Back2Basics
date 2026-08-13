@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[npm/npm script]] [[NodeJS/node package json]] [[Release cycle]]
 
 # Yarn (Classic / Berry)

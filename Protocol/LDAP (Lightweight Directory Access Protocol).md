@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Protocol]] [[TLS (Transport Layer Security)]] [[TCP]]
 
 # LDAP (Lightweight Directory Access Protocol)

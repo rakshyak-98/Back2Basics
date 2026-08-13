@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[mysql index]] [[OLTP]]
 
 # MySQL table partitioning

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[apt package manager]] [[APT policy]] [[gpg]] [[source list file]]
 
 # apt config

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Messaging]]
 
 # SSE (Server-Sent Events)

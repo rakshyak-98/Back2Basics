@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[DNS]] [[DNS/DNS zone]] [[DNS/cloudflare]] [[AWS/Networking/Route53]]
 
 # DNS record

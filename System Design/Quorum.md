@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Raft]] [[distributed system]] [[Eventual consistency]]
 
 # Quorum

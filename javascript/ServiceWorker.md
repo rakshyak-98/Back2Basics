@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[web workers]] [[content security policy]] [[Event Loop]] [[React build]]
 
 # Service Worker

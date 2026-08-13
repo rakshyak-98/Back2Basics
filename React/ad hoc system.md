@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Architecture]] [[React design patterns]] [[React data management]] [[zustand]]
 
 # Ad hoc system (React context)

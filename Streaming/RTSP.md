@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ingestion]] [[Streaming]] [[MPEG-TS]] [[SDP (Session Description Protocol)]] [[HLS]] [[IPTV]]
 
 # RTSP (Real Time Streaming Protocol)

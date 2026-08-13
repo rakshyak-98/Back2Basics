@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Latency]] [[backpressure]] [[Scaling Throughput in High-load system]]
 
 # Throughput

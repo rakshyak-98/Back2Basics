@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[mysql query]]
 
 # mysql json

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Javascript]] [[html]]
 
 # fillReact

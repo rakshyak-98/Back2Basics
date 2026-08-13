@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[concurrent connection]] [[System design]] [[Event Loop]] [[Authentication web application]]
 
 # Server

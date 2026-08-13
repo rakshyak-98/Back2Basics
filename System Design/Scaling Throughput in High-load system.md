@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Throughput]] [[backpressure]] [[gRPC]] [[concurrent connection]]
 
 # Scaling Throughput in High-load system

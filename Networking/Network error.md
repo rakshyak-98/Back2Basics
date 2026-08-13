@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[TCP]] [[webSocket]] [[TLS (Transport Layer Security)]] [[CORS (Cross Origin Request Sharing)]]
 
 # Network error

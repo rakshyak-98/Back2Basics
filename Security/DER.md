@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[read pem file]] [[Base64]] [[PKI]] [[openssl]]
 
 # DER

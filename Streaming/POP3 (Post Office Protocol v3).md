@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[SMTP]] [[E mail server]] [[TLS (Transport Layer Security)]]
 
 # POP3 (Post Office Protocol v3)

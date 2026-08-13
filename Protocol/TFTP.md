@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Protocol]] [[UDP]] [[ftp]] [[dnsmasq]]
 
 # TFTP

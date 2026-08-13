@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Command]] [[Design pattern/Dependency Injection]] [[System Design/HES Architecture]]
 
 # Bridge pattern

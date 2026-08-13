@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[file descriptors]] [[OS program]]
 
 # TTY (teletypewriter)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Commands]] [[file descriptors]] [[process]] [[ss]]
 
 # lsof

@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[vim buffers]] [[Descriptive/LSP]] [[nvim setup]] [[zed keybindings]]
 
 # Vim / Neovim keybindings — go to

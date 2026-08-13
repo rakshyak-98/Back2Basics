@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[useRef]] [[react hooks]]
 
 # Typescript with react

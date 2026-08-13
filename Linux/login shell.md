@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[Linux terminal]] [[Bash/Bash syntax]] [[Setup Non-Login user from Running process]]
 
 # Login shell

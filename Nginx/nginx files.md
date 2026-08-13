@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx/Configuration]] [[Linux/loggging]] [[Linux/commands/journalctl]]
 
 # Nginx files (paths and log rotation)

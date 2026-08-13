@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git command]] [[git merge]] [[node package json]] [[Jenkins]] [[Docker compose]]
 
 # Husky (filename: husk.md)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[bus]] [[analog interface]] [[Electronic Control Unit (ECU)]]
 
 # Data Direction Register (DDR)

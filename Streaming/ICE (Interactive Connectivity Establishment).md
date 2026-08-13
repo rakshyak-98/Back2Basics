@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[WebRTC]] [[WebRTC Signaling channels]] [[TURN server (Traversal Using Relays around NAT)]]
 
 # ICE (Interactive Connectivity Establishment)

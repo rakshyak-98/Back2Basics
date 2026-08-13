@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[multi-threaded]] [[Thread]] [[thread-safe queue]] [[mutexes]] [[CPU IO Bound Task]]
 
 # thread pool

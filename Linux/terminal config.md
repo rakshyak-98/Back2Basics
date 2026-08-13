@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[terminal emulator]] [[Bash syntax]]
 
 # terminal config

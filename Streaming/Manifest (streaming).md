@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[HLS]] [[DASH]] [[MPD]] [[ABR]] [[CMAF]] [[Manifest (streaming)]]
 
 # Manifest (streaming)

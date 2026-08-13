@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[docker container]] [[docker file]] [[Docker Runtime Security]] [[Swarm network]]
 
 # Docker compose

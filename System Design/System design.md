@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[SOLID]] [[API design]] [[Distributed computing]]
 
 # System design

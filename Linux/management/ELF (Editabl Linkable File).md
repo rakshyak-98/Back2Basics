@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux system management]] [[compiler/library file]] [[process]]
 
 # ELF (Executable and Linkable Format)

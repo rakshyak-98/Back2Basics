@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[terraform]] [[variable file]]
 
 # Terraform CLI

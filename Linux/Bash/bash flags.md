@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Bash]] [[bash script]] [[Bash syntax]]
 
 # bash flags

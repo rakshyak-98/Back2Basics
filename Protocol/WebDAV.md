@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Protocol]] [[HTTP module]] [[TLS (Transport Layer Security)]]
 
 # WebDAV

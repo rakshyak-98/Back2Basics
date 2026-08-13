@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Message Broker.md]]
 
 # Message Broker
@@ -10,6 +9,8 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
@@ -21,6 +22,16 @@
 **Say it in one breath:** Message broker — middleware that queues or streams messages between producers and consumers.
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

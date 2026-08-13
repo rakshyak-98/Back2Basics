@@ -25,12 +25,13 @@ Non-obvious things worth knowing:
   routing map), `NOTETAKING_STRATEGIES.md` (pick the note shape),
   `NOTES_STANDARD.md` (detailed templates per strategy).
 - **Creating or updating notes:** Read `NOTETAKING_STRATEGIES.md` first to
-  choose a strategy (`operational`, `reference`, `concept`, `comparison`,
-  `runbook`, `procedure`, `hub`, `decision`). Set
-  `<!-- note-strategy: <id> -->` on line 1 and fill the matching template block
-  in `NOTES_STANDARD.md`. Run `python3 scripts/apply_note_template.py` on
-  specific files (or `--dry-run` first) to normalize section order — do not
-  mass-rewrite the vault unless explicitly requested.
+  pick the note shape that fits the reader's job (`operational`, `reference`,
+  `concept`, `comparison`, `runbook`, `procedure`, `hub`, `decision`). Shape
+  the note using the matching template in `NOTES_STANDARD.md` — do not add
+  strategy labels or HTML tags inside notes. Run
+  `python3 scripts/apply_note_template.py` on specific files (or `--dry-run`
+  first) to normalize section order — do not mass-rewrite the vault unless
+  explicitly requested.
 - **Validating the vault:** the meaningful integrity check is whether
   `[[wikilinks]]` resolve to existing notes. A quick way to preview rendered
   notes with working wikilink navigation in a browser is to serve the vault with

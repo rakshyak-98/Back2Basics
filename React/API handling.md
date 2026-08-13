@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React data management]] [[expressjs]] [[JWT authentication]] [[react-query]] [[Redux/RTQ/RTQ tags]]
 
 # API handling (React)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[iptables]] [[Linux network commands]] [[SSH]]
 
 # ufw

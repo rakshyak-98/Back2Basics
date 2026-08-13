@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Firebase]]
 
 # Firebase messaging

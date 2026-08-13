@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Rendering performance/INP]] [[Rendering performance/layout]] [[Rendering performance/paint]] [[Operating System/context switching]]
 
 # Refresh rate

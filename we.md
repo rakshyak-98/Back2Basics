@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[staff engineer]] [[general]] [[INDEX]] [[NOTES_STANDARD]]
 
 # we

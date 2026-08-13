@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[user management]] [[useradd]] [[passwd]] [[usermod]] [[groupadd]]
 
 # userdel

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[systemd]] [[systemctl]] [[Services commands]]
 
 # system service unit files

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[Root certificate]] [[certbot (letsencrypt)]]
 
 # PKI

@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[Release cycle]] [[Github action]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[ecommerce-platform-architecture]] [[ecommerce-eks-layout]] [[AWS ECR]]
 
 # ecommerce cicd environments

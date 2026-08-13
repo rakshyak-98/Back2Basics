@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[Markdown]]
 
 # LF and CRLF

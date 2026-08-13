@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[promise]] [[event listener]]
 
 # Callback

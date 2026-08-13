@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[java]] [[golang]] [[Design pattern]]
 
 # Method shadowing (embedding / inheritance)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[MySQL Engines]] [[ACID]] [[mysql lock]] [[write-ahead logging]]
 
 # mysql engine

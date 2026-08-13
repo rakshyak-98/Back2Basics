@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mysql]] [[cli]] [[mysql query]]
 
 # show query

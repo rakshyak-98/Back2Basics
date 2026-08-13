@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[CLI]] [[nvm]] [[Linux/commands/Services commands]]
 
 # Node.js run as a non-privileged user

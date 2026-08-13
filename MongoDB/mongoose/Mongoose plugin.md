@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[mongoose middleware]] [[mongodb model]] [[MongoDB]]
 
 # Mongoose plugin

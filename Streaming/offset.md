@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[MPD]] [[Manifest (streaming)]] [[DASH]] [[HLS]] [[Byte stream]]
 
 # offset

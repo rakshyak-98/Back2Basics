@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[NodeJS/Event Loop]] [[Networking/webSocket]] [[Security/CORS (Cross Origin Request Sharing)]]
 
 # JavaScript Web APIs

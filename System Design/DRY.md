@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[KISS]] [[SOLID]] [[System design]] [[Design pattern]]
 
 # DRY (Don't Repeat Yourself)

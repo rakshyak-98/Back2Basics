@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[javascript]] [[Asynchronous]]
 
 # Javascript

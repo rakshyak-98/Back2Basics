@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/Polyfilling]] [[javascript engine]] [[SWC]] [[React build]]
 
 # Polyfills

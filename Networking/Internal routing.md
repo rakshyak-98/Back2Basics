@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[localhost]] [[address port]] [[non-Routable address]]
 
 # Internal routing

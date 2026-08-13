@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS/file]] [[javascript]] [[Operating System/file descriptors]] [[python]]
 
 # PDF parser

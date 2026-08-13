@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[useRef]] [[react hooks]]
 
 # Controlled and Uncontrolled component Pattern

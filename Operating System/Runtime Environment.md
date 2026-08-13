@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[runtime]] [[interpreter]] [[linker]] [[assembly language]]
 
 # Runtime Environment

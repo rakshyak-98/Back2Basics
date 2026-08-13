@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Model/Linear regression]] [[regression]] [[data preprocessing]] [[Visualization/Residual plot]] [[scikitlearn]]
 
 # Polynomial regression

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Useful prompt for learning with AI chat.md]]
 
 # Useful prompt for learning with AI chat

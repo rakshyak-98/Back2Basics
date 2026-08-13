@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Perceptron]] [[sigmoid]] [[scikitlearn]] [[binary classification]] [[regression]]
 
 # ANN (Artificial Neural Network)

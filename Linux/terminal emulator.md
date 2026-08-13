@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[Linux terminal]] [[CLI]]
 
 # terminal emulator

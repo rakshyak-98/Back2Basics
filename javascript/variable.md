@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Lexical environment]] [[hoisting]] [[primitive non-primitive values]] [[abstract storage location]] [[javascript engine]]
 
 # Variable (JavaScript)

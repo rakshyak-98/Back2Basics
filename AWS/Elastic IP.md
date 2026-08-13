@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[AWS Networking]] [[AWS EC2]] [[Route53]] [[NAT (Network Address Translation)]] [[AWS Billing and cost management]]
 
 # AWS Elastic IP (EIP)

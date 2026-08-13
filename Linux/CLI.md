@@ -1,4 +1,3 @@
-<!-- note-strategy: reference -->
 [[Linux terminal]] [[bash script]] [[grep]] [[fzf]] [[Find command]]
 
 # CLI

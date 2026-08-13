@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Thread]] [[multi-threaded]] [[CPU IO Bound Task]]
 
 # SMT threads

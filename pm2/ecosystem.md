@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS/node command]] [[Linux/supervisorctl]] [[Linux/commands/Services commands]]
 
 # PM2 ecosystem file

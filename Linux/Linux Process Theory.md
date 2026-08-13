@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[process]] [[system call]] [[Stack Frame]]
 
 # Linux Process Theory

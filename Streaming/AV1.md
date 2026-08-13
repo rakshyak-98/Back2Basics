@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Streaming]] [[codecs]] [[Encoding]] [[NVENC]] [[ABR]] [[rendition]] [[transcoding]]
 
 # AV1

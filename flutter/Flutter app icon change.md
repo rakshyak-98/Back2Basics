@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[flutter]]
 
 # Flutter app icon change

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Payments]]
 
 # payment integration razorpay

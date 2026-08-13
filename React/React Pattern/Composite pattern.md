@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React Pattern]] [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]]
 
 # Composite pattern

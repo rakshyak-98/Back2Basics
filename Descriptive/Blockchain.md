@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Descriptive]] [[blockchain property]] [[Etherium]]
 
 # Blockchain

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Immutability in Redux]] [[Redux/Redux createSlice]] [[Redux concept and data flow]]
 
 # redux reducers

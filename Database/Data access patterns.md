@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database design]] [[OLTP]] [[OLAP]] [[connection pooling]] [[covering index]] [[BASE]]
 
 # Data access patterns

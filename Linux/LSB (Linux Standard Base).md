@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[systemd]] [[inittramfs]]
 
 # LSB (Linux Standard Base)

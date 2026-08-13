@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[loggging]] [[systemd]] [[Services commands]] [[grep]]
 
 # journalctl

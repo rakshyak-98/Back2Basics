@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Operating System]] [[Blocking Vs Non-Blocking]] [[non-blocking]] [[Epoll]] [[context switching]] [[system call]]
 
 # Blocking

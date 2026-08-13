@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[commands]] [[ffmpeg]] [[codecs]] [[MPEG-TS]] [[Streaming]]
 
 # ffprobe

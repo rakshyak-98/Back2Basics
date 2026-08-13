@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[git]] [[git rebase]] [[git error]] [[git worktree]]
 
 # git blame

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Configuration]] [[nginx using unix socket]] [[Epoll]] [[half-open connections]] [[ss]]
 
 # Nginx internals

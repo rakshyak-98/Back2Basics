@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[https]] [[response header]]
 
 # HTTP Strict Transport Security

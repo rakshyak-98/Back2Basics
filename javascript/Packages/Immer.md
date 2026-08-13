@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[javascript]] [[Packages/npm packages]] [[Redux/Immutability in Redux]]
 
 # Packages/Immer

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[JWT authentication]] [[TLS (Transport Layer Security)]] [[IDOR]]
 
 # Single-sign-on (SSO)

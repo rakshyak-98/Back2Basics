@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Python/pandas]] [[NodeJS/node package json]] [[Release cycle]]
 
 # Python wheel (`.whl`)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[media mount as read only]] [[fstab]]
 
 # file mount

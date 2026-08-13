@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 # Docker
 
 > One-line: what / why for **Docker** — source TBD.
@@ -8,6 +7,8 @@
 ## Index
 
 - [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
 - [[#Standard config / commands]]
 - [[#Triage (when things break)]]
 - [[#Gotchas]]
@@ -17,6 +18,16 @@
 ## Mental model
 
 …
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 
@@ -39,4 +50,4 @@
 
 ## Related
 
-[[…]]
+[[INDEX]] · [[NOTES_STANDARD]] · [[NOTETAKING_STRATEGIES]]

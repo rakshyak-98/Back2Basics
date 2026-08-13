@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Networking]] [[MTU (Maximum Transmission Unit)]] [[ICMP]] [[UDP]] [[TCP]]
 
 # Packet Fragment

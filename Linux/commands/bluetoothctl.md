@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[D-Bus]] [[Services commands]] [[Service masking]]
 
 # bluetoothctl

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Kafka]]
 
 # kafka producer and consumer

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[nginx fastcgi]] [[nginx using unix socket]] [[Nginx internals]] [[file descriptors]] [[half-open connections]]
 
 # PHP-FPM

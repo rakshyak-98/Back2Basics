@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Buffer cache]] [[system call]] [[kernel ring buffer]] [[cgroup (Control Group)]] [[context switching]]
 
 # Kernel subsystem

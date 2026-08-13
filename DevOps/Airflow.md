@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Python]] [[Docker compose]] [[Jenkins]]
 
 # Airflow

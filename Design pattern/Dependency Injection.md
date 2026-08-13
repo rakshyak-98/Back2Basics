@@ -1,4 +1,3 @@
-<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Bridge]] [[NodeJS/Express middleware]] [[MongoDB/mongoose middleware]]
 
 # Dependency Injection

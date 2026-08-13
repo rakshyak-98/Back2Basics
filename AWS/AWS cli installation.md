@@ -1,4 +1,3 @@
-<!-- note-strategy: procedure -->
 [[AWS]] [[AWS cli commands]] [[IAM]] [[aws STS (Security Token Service)]]
 
 # AWS cli installation

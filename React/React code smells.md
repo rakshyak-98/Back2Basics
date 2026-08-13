@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[Optimizing performance]] [[React Pattern/Component Presentational Pattern]]
 
 # React code smells

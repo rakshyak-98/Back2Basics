@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Linux]] [[SSH]] [[systemd]] [[Authentication command]] [[/etc files]]
 
 # sshd config

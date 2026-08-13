@@ -1,4 +1,3 @@
-<!-- note-strategy: runbook -->
 [[mysql]] [[cli]] [[mysql connection]] [[MySQL Engines]]
 
 # MySQL Error

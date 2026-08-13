@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[css/scss]] [[css/tailwindcss]] [[Optimizing performance]] [[React build]]
 
 # React style inside component

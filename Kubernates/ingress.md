@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Kubernetes services]] [[kubectl]] [[Cilium]] [[Nginx Configuration]]
 
 # ingress

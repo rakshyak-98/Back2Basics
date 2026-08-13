@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[scikitlearn]] [[estimator]] [[supervised learning]] [[Model/Linear regression]] [[Decision tree]]
 
 # Data preprocessing

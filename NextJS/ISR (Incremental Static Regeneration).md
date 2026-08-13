@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NextJS/NextJS navigation]] [[Deployment/vercel cli]] [[css/tailwindcss]]
 
 # ISR (Incremental Static Regeneration)

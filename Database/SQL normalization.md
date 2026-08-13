@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Database]] [[Database design]] [[OLTP]] [[OLAP]] [[Data access patterns]] [[mysql normalization]]
 
 # SQL normalization

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[Base64]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # digest access authentication

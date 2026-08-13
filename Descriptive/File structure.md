@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Nginx/Nginx internals]] [[Nginx/Configuration]] [[Operating System/kernel subsystem]] [[compiler/library file]]
 
 # File structure (NGINX source layout)

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[Common Naming terms.md]]
 
 # Common Naming terms

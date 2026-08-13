@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[System Design]] [[ingress]] [[Kubernetes services]] [[Configuration]] [[Epoll]]
 
 # HES Architecture

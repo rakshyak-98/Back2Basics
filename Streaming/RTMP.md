@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[HLS]] [[network management]]
 
 # RTMP (Real-Time Messaging Protocol)

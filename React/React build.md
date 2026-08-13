@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React project configuration]] [[Optimizing performance]] [[source map]] [[SWC]] [[Deployment/vercel deployment]]
 
 # React build

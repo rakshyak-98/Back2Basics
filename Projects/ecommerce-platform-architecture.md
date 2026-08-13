@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
 
 # ecommerce platform architecture

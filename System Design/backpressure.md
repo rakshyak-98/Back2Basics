@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[System Design]] [[Throughput]] [[race condition]] [[Token bucket]]
 
 # backpressure

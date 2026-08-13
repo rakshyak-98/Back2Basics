@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[React]] [[bundler]] [[NodeJS]] [[SWC]]
 
 # Metro Bundler

@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[JWT authentication]] [[KMS]] [[Security]] [[single-sign-on (SSO)]]
 
 # Token rotation

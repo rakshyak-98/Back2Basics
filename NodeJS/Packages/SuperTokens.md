@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[NodeJS]] [[Security/JWT authentication]] [[Security/single-sign-on (SSO)]] [[Express middleware]]
 
 # SuperTokens (Node SDK)

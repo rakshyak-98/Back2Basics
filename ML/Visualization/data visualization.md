@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[ML]] [[model tranning]]
 
 # data visualization

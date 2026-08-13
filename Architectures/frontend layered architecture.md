@@ -1,4 +1,3 @@
-<!-- note-strategy: decision -->
 [[presentation layer]] [[Service Layer]] [[React Application Architecture for Production]]
 
 # frontend layered architecture

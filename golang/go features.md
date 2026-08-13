@@ -1,4 +1,3 @@
-<!-- note-strategy: operational -->
 [[golang]] [[go embedding]] [[go interface]]
 
 # go features
