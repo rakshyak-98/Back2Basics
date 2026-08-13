@@ -529,32 +529,6 @@ We will … because …
 
 ---
 
-## Triage (when things break)
-
-Use this table only in **Operational**, **Procedure**, or **Runbook** notes when you have not yet filled topic-specific rows:
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Unexpected result | inputs and software versions | Reproduce with the smallest input that shows the bug |
-| Works on one machine only | environment differences between machines | Compare configuration files and software versions |
-| Silent failure | logs and metrics | Add checks and alerts at the step that should have produced output |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> Prefer simple words you can say in an interview — spell out abbreviations the first time they appear in prose.
-
----
-
-## When NOT to use
-
-- Skip it when a simpler existing tool already fits.
-- Skip the wrong strategy — see [[NOTETAKING_STRATEGIES#Decision tree]].
-
----
-
 ## Related
 
 [[NOTETAKING_STRATEGIES]] · [[INDEX]] · [[README]]
