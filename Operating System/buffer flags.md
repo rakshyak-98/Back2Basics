@@ -1,113 +1,28 @@
-[[buffer]] [[buffer head]] [[non-blocking]] [[file descriptors]]
+[[Operating System]] [[buffer head]] [[Buffer cache]] [[buffer lifecycle]] [[fsync]]
 
 # Buffer flags
 
-> Buffer flags — buffers move through a state machine. Flags encode that state without extra syscalls:
+> Buffer flags are kernel bitfields on a buffer head that record whether a block is dirty, locked, mapped, or mid-writeback — the block layer’s state machine in compact form.
 
----
+Each [[buffer head]] carries flags such as **`BH_Dirty`** (must reach disk), **`BH_Uptodate`** (cache matches media), **`BH_Lock`** (I/O in progress), and **`BH_Mapped`** (associated with a disk block). Together they prevent double writes, torn reads, and use-after-free during writeback.
 
-## Index
+## Common flags (conceptual)
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Flag role | Meaning if set |
+|-----------|----------------|
+| Dirty | RAM newer than backing store — needs flush |
+| Uptodate | Valid data for this block |
+| Lock | Holder is performing I/O; others wait |
+| Mapped | Block number bound to this buffer |
 
-## Mental model
+Flags interact with page dirty bits in the [[Buffer cache]]: filesystem code sets dirty when metadata or data changes; **`sync`** and [[fsync]] paths walk dirty structures and schedule I/O.
 
-Buffers move through a **state machine**. Flags encode that state without extra syscalls:
+## Why operators rarely touch them
 
-```txt
-  [FREE] ──queue──► [QUEUED] ──fill──► [DONE] ──dequeue──► [FREE]
-       ▲                                      │
-       └──────────── re-queue ────────────────┘
-```
+These flags exist in kernel memory. User space observes effects through latency (`iostat`, slow commits) and durability guarantees, not flag dumps. Debugging uses `tracepoints` / `block` subsystem trace or `crash` on vmcores.
 
-Flags appear at multiple layers:
+## Sources
 
-| Layer | Examples | Who sets |
-|-------|----------|----------|
-| **Page cache / buffer head** | dirty, locked, uptodate | Kernel VFS |
-| **Socket / pipe** | `O_NONBLOCK`, `MSG_DONTWAIT` | `fcntl`, send flags |
-| **V4L2 / DMA drivers** | `MAPPED`, `QUEUED`, `DONE`, `ERROR` | Driver + userspace ioctl |
-| **Rust / language** | `BytesMut` flags, `Vec` capacity vs len | Runtime |
-
-Confusion usually comes from mixing **fd flags** (`O_NONBLOCK`) with **buffer flags** (driver-specific bitmask) — different namespaces.
-
----
-
-## Standard config / commands
-
-### Generic fd / socket buffer behavior
-
-```bash
-# Non-blocking mode (fd-level, not buffer struct)
-fcntl(fd, F_SETFL, O_NONBLOCK)
-
-# Socket buffer sizes (bytes)
-sysctl net.core.rmem_max net.core.wmem_max
-ss -tm   # shows skmem in some builds
-```
-
-### V4L2 video capture (canonical buffer-flag example)
-
-```c
-// After VIDIOC_QBUF — buffer on incoming (driver) queue
-buf.flags |= V4L2_BUF_FLAG_QUEUED;
-
-// Driver fills → DONE on outgoing (app) queue
-if (buf.flags & V4L2_BUF_FLAG_DONE) { /* process frame */ }
-
-// mmap path
-buf.flags |= V4L2_BUF_FLAG_MAPPED;
-```
-
-```bash
-# Inspect driver buffer state (device-specific)
-v4l2-ctl -d /dev/video0 --stream-mmap --stream-count=10
-```
-
-### Linux page-cache dirty state (conceptual cousin)
-
-```bash
-grep Dirty /proc/meminfo
-# See [[buffer head]] for dirty writeback policy
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Dequeue returns empty forever | Buffer never transitioned to DONE | Re-queue after consume; check driver errors (`ERROR` flag) |
-| Use-after-free on mmap buffer | Dequeued while still MAPPED | Follow driver contract: unmap before free |
-| `EAGAIN` on read/write | `O_NONBLOCK` set on fd | Expected for [[non-blocking]]; poll then retry |
-| Stale frame / torn data | Reading buffer still QUEUED | Wait for DONE; double-buffering |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Driver buffer flags are not portable.** V4L2 flags ≠ ALSA ≠ GPU command buffers — read the subsystem docs.
-
-> [!WARNING]
-> **`O_NONBLOCK` on fd affects all operations** on that fd, not one buffer in a ring.
-
-> [!WARNING]
-> **Race: flag check without lock.** Producer sets DONE while consumer reads — use memory barriers or lockless ring design ([[Rolling Buffer]] / [[atomic ring buffer]]).
-
----
-
-## When NOT to use
-
-Do not mirror driver flag semantics in application-level enums unless you own the full queue protocol — prefer explicit state enums in your domain layer and translate at the ioctl boundary.
-
----
-
-## Related
-
-[[buffer]] [[buffer head]] [[Rolling Buffer]] [[atomic ring buffer]] [[non-blocking]] [[file descriptors]]
+- Linux kernel: `include/linux/buffer_head.h`
+- Linux kernel documentation: [Buffer Head API](https://docs.kernel.org/core-api/buffer.html)
+- Understanding the Linux Kernel (Bovet & Cesati) — block I/O chapter

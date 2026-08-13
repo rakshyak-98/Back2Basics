@@ -1,102 +1,30 @@
-[[PCI (Peripheral Component Interconnect)]] [[system bus]] [[Electronic Control Unit (ECU)]]
+[[Operating System]] [[bus]] [[system bus]] [[PCI (Peripheral Component Interconnect)]] [[Electronic Control Unit (ECU)]]
 
 # Analog interface
 
-> Analog interface — real world Analog front-end Digital domain
+> An analog interface moves continuously varying physical quantities — voltage, current, pressure — across the boundary between the real world and digital logic the operating system can schedule.
 
----
+Digital computers store discrete bits. Sensors and actuators in the physical world are analog. An **analog interface** (often an ADC or DAC plus conditioning circuitry) samples or drives those signals so firmware and drivers can treat them as numbers.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Analog** = infinite resolution in theory; **quantized noise and drift** in practice. **Digital** = sampled, encoded bits with defined noise margin.
+## Signal path
 
 ```txt
-Real world          Analog front-end           Digital domain
-──────────          ────────────────           ──────────────
-sound wave    →     mic + preamp        →     ADC → PCM samples
-temperature   →     thermistor divider  →     ADC → uint16
-radio carrier →     mixer / IF strip    →     demod → bits
+Physical quantity → sensor → amplifier/filter → ADC → digital bus → driver → user space
+User command      → DAC  → actuator → physical effect
 ```
 
-Engineering concerns:
-- **SNR** — noise floor versus signal
-- **Bandwidth** — Nyquist: sample ≥ 2× highest frequency
-- **Linearity** — gain errors across range
-- **Ground loops** — shared return paths inject hum
+On a general-purpose PC, analog work often lives on dedicated chips (audio codec, temperature sensor on the SMBus). On embedded targets such as an [[Electronic Control Unit (ECU)]], analog I/O may be the primary reason the microcontroller exists.
 
-Embedded / SBC paths: GPIO is **digital**; ADC pins (e.g. `/sys/bus/iio`) read **analog** after on-chip ADC.
+## Operating system view
 
----
+The kernel exposes analog-backed devices as **character devices**, **Industrial I/O (IIO)** channels, or platform-specific ioctls. User space reads structured samples (`read()`, `read()` on `/dev/iio:device0`) rather than raw pin voltages. Timing and sample rate are constrained by the [[bus]] bandwidth and interrupt latency — not by how fast a loop can spin in Python.
 
-## Standard config / commands
+## Contrast with digital I/O
 
-### Linux IIO (Industrial I/O) — read ADC
+[[Data Direction Register (DDR)]] style GPIO is on/off. Analog interfaces deal with resolution (bits of ADC), sampling rate, noise, and calibration. Choosing the wrong interface type — treating a slow analog sensor as a digital edge — loses information or adds aliasing.
 
-```bash
-# Find device
-ls /sys/bus/iio/devices/
-cat /sys/bus/iio/devices/iio:device0/in_voltage0_raw
-cat /sys/bus/iio/devices/iio:device0/in_voltage_scale
-# millivolts ≈ raw * scale
-```
+## Sources
 
-### ALSA capture (analog audio path)
-
-```bash
-arecord -l                    # hardware cards
-arecord -D hw:0,0 -f S16_LE -r 44100 -c 2 test.wav
-```
-
-### Scope / sanity (lab)
-
-```bash
-# Not CLI — use oscilloscope for analog integrity
-# Check: clipping, DC offset, ringing on lines
-```
-
-**Why differential pairs:** USB Ethernet, audio balanced XLR reject common-mode noise versus single-ended GPIO-adjacent wiring.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Noisy sensor readings | ADC reference voltage; long wire antenna | Shielding; ferrite; hardware filter; oversample + median |
-| Saturated / flat signal | Input exceeds Vref | Attenuator; gain stage; different range |
-| 50/60 Hz hum | Ground loop | Star ground; isolation amp; USB isolator |
-| Audio crackle on SBC | CPU EMI on analog rail | Separate analog supply; ferrite on mic line |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Floating analog inputs pick up garbage** — enable pull-down/up or terminate properly.
-
-> [!WARNING]
-> **Software can't fix aliasing** — anti-alias filter before ADC is hardware's job.
-
-> [!WARNING]
-> **"Digital sensor" often has analog front-end** — I2C temperature chip still analog die inside.
-
----
-
-## When NOT to use
-
-Don't run long analog runs next to switching power supplies or motor drivers — convert to digital **close to the sensor** (local ADC, CAN, I2C) and run digital back to the host.
-
----
-
-## Related
-
-[[Data Direction Register (DDR)]] [[Electronic Control Unit (ECU)]] [[system bus]] [[PCI (Peripheral Component Interconnect)]]
+- Wikipedia: [Analog-to-digital converter](https://en.wikipedia.org/wiki/Analog-to-digital_converter)
+- Linux kernel documentation: [Industrial I/O](https://docs.kernel.org/driver-api/iio/index.html)
+- Horowitz & Hill, *The Art of Electronics* — ADC/DAC fundamentals
