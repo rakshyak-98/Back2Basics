@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[React]] [[hydration]] [[react hooks]]
 
 # react error (common failures)
@@ -5,6 +6,46 @@
 > React runtime errors you’ll hit in prod — wrong hook counts, hydration mismatches, and security headers that break assets.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Rendered fewer/more hooks | Conditional hooks / early return | Call all hooks unconditionally |
+| Minified `#310` / `#418` | Decode via React error decoder | Usually hydration or hook order |
+| Script blocked / MIME | Response headers | Correct `Content-Type` + `nosniff` |
+| Hydration failed | Server vs client text | Defer dynamic bits; match SSR |
+| Invalid hook call | Duplicate React / call outside component | One React copy; only in function components/hooks |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -42,18 +83,6 @@ Content-Type: application/javascript; charset=utf-8
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Rendered fewer/more hooks | Conditional hooks / early return | Call all hooks unconditionally |
-| Minified `#310` / `#418` | Decode via React error decoder | Usually hydration or hook order |
-| Script blocked / MIME | Response headers | Correct `Content-Type` + `nosniff` |
-| Hydration failed | Server vs client text | Defer dynamic bits; match SSR |
-| Invalid hook call | Duplicate React / call outside component | One React copy; only in function components/hooks |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -70,6 +99,14 @@ Content-Type: application/javascript; charset=utf-8
 - **Treating hydration warnings as noise** — they often mean remounts and lost SSR wins.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

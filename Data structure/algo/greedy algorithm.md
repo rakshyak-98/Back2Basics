@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure/algo/binary search]] [[Data structure/dsa genera formula]]
 
 # Greedy algorithm
@@ -5,6 +6,15 @@
 > Locally optimal choice at each step — works when problem has **greedy choice property** and **optimal substructure**; otherwise wrong answer with confidence.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

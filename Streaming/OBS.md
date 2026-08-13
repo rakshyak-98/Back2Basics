@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]]
 
 # OBS (Open Broadcaster Software)
@@ -5,6 +6,15 @@
 > Desktop capture + encode + publish for live — **default RTMP publisher** for creators and ops smoke tests.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

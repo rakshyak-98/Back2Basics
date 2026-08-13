@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]]
 
 # Composite pattern
@@ -5,6 +6,15 @@
 > Treat a tree of UI parts as one unit — parent coordinates; children stay focused and reusable.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

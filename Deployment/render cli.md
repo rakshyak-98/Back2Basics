@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Deployment/vercel cli]] [[Deployment/vercel deployment]] [[Netlify/Netlify deployment]]
 
 # Render CLI
@@ -6,16 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-`render` talks to your **active workspace**. Interactive mode (TTY) is menu-driven; scripts/CI use **API key + `--confirm` + `-o json`**. Deploys are **triggers against an existing service** (`srv-…`), not “upload this folder like `vercel`” — Git/image is already wired on the service.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```
-local terminal → render CLI → Render API → service (build/deploy/logs/ssh)
-CI: RENDER_API_KEY + service ID → deploys create --wait --confirm
-```
+## Quick reference
 
-configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFIG_PATH`).
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -76,6 +84,23 @@ render deploys create "$RENDER_SERVICE_ID" --wait --confirm -o json
 
 Pin the CLI binary version in CI (GitHub releases) so upgrades don’t break pipelines.
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+`render` talks to your **active workspace**. Interactive mode (TTY) is menu-driven; scripts/CI use **API key + `--confirm` + `-o json`**. Deploys are **triggers against an existing service** (`srv-…`), not “upload this folder like `vercel`” — Git/image is already wired on the service.
+
+```
+local terminal → render CLI → Render API → service (build/deploy/logs/ssh)
+CI: RENDER_API_KEY + service ID → deploys create --wait --confirm
+```
+
+configuration lives at `$HOME/.render/cli.yaml` (override with `RENDER_CLI_CONFIG_PATH`).
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -104,6 +129,12 @@ Pin the CLI binary version in CI (GitHub releases) so upgrades don’t break pip
 - Don’t trigger production deploys from a laptop as the only gate — prefer Git + required checks, or CI calling `deploys create --wait`.
 - Don’t use the CLI as a substitute for IaC ownership of the whole stack — use Blueprints (`render.yaml`) for multi-service layout; CLI for day-2 operations.
 - Don’t put API keys in the repository — secrets manager / CI secrets only.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

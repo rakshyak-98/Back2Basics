@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[SMT threads]] [[system bus]] [[TDP]] [[CPU IO Bound Task]]
 
 # Base clock speed
@@ -5,6 +6,15 @@
 > Base clock speed — cPUs advertise base clock (guaranteed all-core floor under TDP) and max turbo (short-burst peak on few cores):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

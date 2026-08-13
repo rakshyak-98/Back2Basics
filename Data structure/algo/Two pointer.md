@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[sliding window]] [[dsa problem solving Scaffold]]
 
 # Two pointer
@@ -5,6 +6,15 @@
 > Two pointers walk a sequence from ends or in tandem — linear passes instead of nested loops when order helps.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

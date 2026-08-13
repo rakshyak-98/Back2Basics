@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Bash]] [[bash script]] [[Bash syntax]]
 
 # bash flags
@@ -5,6 +6,15 @@
 > Bash flags (`set -o` / `bash -e`) change shell behavior — strict mode, debug traces, noclobber, and friends.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

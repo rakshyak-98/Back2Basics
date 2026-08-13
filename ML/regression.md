@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Model/Linear regression]] [[binary classification]] [[sigmoid]] [[supervised learning]] [[Visualization/Residual plot]]
 
 # Regression
@@ -5,6 +6,15 @@
 > Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[multiclass classification]] [[binary classification]] [[ML Classifiers]] [[regression]]
 
 # Ordinal classification
@@ -5,6 +6,15 @@
 > Ordinal classification — nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode rank structure:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

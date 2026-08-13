@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Decision tree]] [[Random forest]] [[binary classification]] [[multiclass classification]] [[supervised learning]]
 
 # ML Classifiers
@@ -5,6 +6,15 @@
 > Algorithms that assign **discrete class labels** from features — pick by data size, interpretability, imbalance, and latency — **scikit-learn classifier zoo**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

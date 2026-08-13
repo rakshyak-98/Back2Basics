@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS/DNS zone]] [[DNS/cloudflare]] [[AWS/Networking/Route53]]
 
 # DNS record
@@ -5,6 +6,15 @@
 > DNS record — resolvers cache answers per TTL (seconds). Lower TTL before changes = faster global cutover. CNAME can't apex @ on all providers (use ALIAS/ANAME
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

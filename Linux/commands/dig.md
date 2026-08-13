@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[DNS]] [[dns record]] [[DNS server]] [[DNS zone]] [[TCP]]
 
 # dig
@@ -5,6 +6,15 @@
 > `dig` asks DNS questions and prints the raw answer — use it to see whether a name, type, or resolver is wrong.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

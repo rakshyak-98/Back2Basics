@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[SIP]]
 
 # SDP (Session Description Protocol)
@@ -5,6 +6,15 @@
 > Text blob that describes a media session — codecs, ports, ICE credentials — swapped as offer/answer before media flows.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TypeScript]] [[ambient modules]] [[tsconfig]]
 
 # Triple-Slash Directives
@@ -5,6 +6,15 @@
 > Triple-slash — `/// <reference … />` comments that pull in `.d.ts` or set a module path (legacy; prefer `import` / `tsconfig` includes).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

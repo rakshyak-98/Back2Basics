@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[response header]] [[HTTP]] [[cross-site scripting]]
 
 # User-Agent
@@ -5,6 +6,15 @@
 > Client-declared software identity string on HTTP requests — used for compatibility, analytics, and bot detection; easily spoofed.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

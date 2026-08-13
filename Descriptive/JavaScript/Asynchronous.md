@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Call stack]] [[promise]]
 
 # Asynchronous
@@ -5,6 +6,15 @@
 > Async JS schedules work for later — callbacks, promises, async/await on the event loop, not OS threads by default.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

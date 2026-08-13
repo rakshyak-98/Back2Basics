@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]]
 
 # WebRTC Signaling channels
@@ -5,6 +6,15 @@
 > Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

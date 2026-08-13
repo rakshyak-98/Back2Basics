@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT]]
 
 # git repo config
@@ -5,6 +6,15 @@
 > git repo config — know what it does, how to configure it, and how it fails in production.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -33,7 +43,6 @@ git commit -S -m <commit message>; # if auto-sign is not eanble
 git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
-
 
 ## Standard config / commands
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[multiclass classification]] [[sigmoid]] [[ML Classifiers]] [[scikitlearn]] [[Mean Average Precision (MAP)]]
 
 # Binary classification
@@ -5,6 +6,15 @@
 > Binary classification — score(x) → probability p → if p ≥ τ then positive else negative
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[React Application Architecture for Production]] [[React data management]] [[react routes]] [[RSC (React Server Component boundaries)]] [[API handling]]
 
 # React Architecture
@@ -5,6 +6,33 @@
 > React Architecture — routes / layouts → URL → screen composition
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -110,6 +138,12 @@ Document **data flow ADR** when choosing Redux versus Query versus zustand ([[Re
 - **Copy-paste architecture from blog** — match team size and release cadence.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

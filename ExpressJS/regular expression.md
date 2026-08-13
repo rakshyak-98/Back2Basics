@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[NodeJS]] [[express error handler]] [[express query handler]]
 
 # Express route regular expressions
@@ -5,6 +6,15 @@
 > Express path patterns are **not** full JavaScript RegExp — anchoring, capture groups, and `*` semantics differ; misread routes cause 404s, open redirects, and ReDoS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

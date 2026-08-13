@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT/git command]] [[Docker compose]] [[terraform]]
 
 # Jenkins
@@ -5,6 +6,15 @@
 > CI orchestrator — pipelines as code, agents execute steps; most outages are credentials, disk, or plugin drift — **operational field notes**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

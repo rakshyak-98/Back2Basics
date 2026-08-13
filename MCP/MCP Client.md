@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MCP]] [[webSocket]] [[JWT authentication]] [[gRPC]]
 
 # MCP Client
@@ -5,6 +6,15 @@
 > Model Context Protocol client ops — how Cursor and tooling hosts discover, auth, invoke, and debug MCP servers — **MCP spec (Anthropic ecosystem)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]]
 
 # Nginx ingress
@@ -5,6 +6,15 @@
 > Nginx ingress — acts as a load balancer and Reverse Proxy for kubernetes cluster.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -26,7 +36,6 @@ metadata:
 	name: basic-ingress # Name of the ingress resource
 spec:
 	rules: # specifies at leat one routing rule (host and path)
-
 
 ## Standard config / commands
 

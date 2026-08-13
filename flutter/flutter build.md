@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[flutter]] [[android]] [[dart/dart functions]]
 
 # Flutter build and release
@@ -5,6 +6,15 @@
 > Flutter build and release — dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/wasm (web)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

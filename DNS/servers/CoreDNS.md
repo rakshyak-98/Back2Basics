@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS server]] [[Unbound]] [[Pods]]
 
 # CoreDNS
@@ -5,6 +6,15 @@
 > CoreDNS — plugin-chained DNS server in Go; default cluster DNS in Kubernetes — forward, cache, kubernetes, rewrite by stacking plugins.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

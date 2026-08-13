@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[kernel ring buffer]] [[buffer]] [[Rolling Buffer]]
 
 # Right buffer
@@ -5,6 +6,15 @@
 > Linux kernel log ring (`dmesg`) — fixed circular buffer of recent kernel messages; oldest lines drop when full.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

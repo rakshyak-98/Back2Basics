@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[React code smells]] [[React Pattern/Provider pattern]]
 
 # Component Presentational Pattern
@@ -5,6 +6,15 @@
 > Split “how data is loaded” (container) from “how it looks” (presentational) — UI stays reusable and easy to test.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

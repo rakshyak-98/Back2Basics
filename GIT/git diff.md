@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT]]
 
 # git diff
@@ -5,6 +6,15 @@
 > git diff — show unstaged, staged, or commit-to-commit file changes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -44,7 +54,6 @@ git diff -- '*.js' '*.ts' '*.tsx';
 git diff -- . ':!node_modules';
 git diff --diff-filter=R --name-only;
 ```
-
 
 ## Standard config / commands
 

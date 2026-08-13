@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Packages/npm packages]] [[HTTP module]]
 
 # ngrok
@@ -5,6 +6,15 @@
 > Tunnel localhost to a public HTTPS URL — demo webhooks and mobile clients without deploying.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

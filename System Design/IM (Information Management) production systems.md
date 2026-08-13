@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[CMS]] [[Streaming]] [[System design]] [[Compliance Reporting to Broadcasters]]
 
 # IM (Information Management) production systems
@@ -5,6 +6,15 @@
 > IM (Information Management) production systems — information Management (IM) in broadcast is Media Asset Management (MAM) plus workflow orchestration: log content, attach metadata/CIDs, manage versions/rights, route
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

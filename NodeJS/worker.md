@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[worker threads]] [[child process]] [[clustering]]
 
 # worker (worker threads)
@@ -5,6 +6,15 @@
 > Run JS on extra OS threads inside one process — good for CPU-bound work without blocking the event loop.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[Packages]]
 
 # Intl Formattor
@@ -5,6 +6,15 @@
 > `Intl.*` — built-in locale formatting for numbers, dates, lists, plurals, and collation (no Moment required for basics).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

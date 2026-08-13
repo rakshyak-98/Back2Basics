@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[Package Manager]] [[apt package manager]]
 
 # Package deferred
@@ -5,6 +6,15 @@
 > Deferred/held packages skip upgrades until you say so — protect prod pins, kernel, or a carefully tested version.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

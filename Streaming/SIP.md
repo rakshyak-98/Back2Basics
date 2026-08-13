@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NAT (Network Address Translation)]] [[webSocket]] [[TCP]] [[UDP]] [[Streaming]]
 
 # SIP (Session Initiation Protocol)
@@ -5,6 +6,15 @@
 > SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Service Layer]] [[Multi-tier and Layered Architecture]] [[frontend layered architecture]]
 
 # presentation layer
@@ -5,6 +6,15 @@
 > Presentation layer is the UI/API edge — it shows data and takes input; it should not own business rules.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

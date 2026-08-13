@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[prompt]] [[GPT]] [[prompt enginerring]]
 
 # claude ai
@@ -5,6 +6,15 @@
 > Claude is Anthropic’s chat/tool model — same message loop as other LLMs, strict about `tool_use` ↔ `tool_result` pairing.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

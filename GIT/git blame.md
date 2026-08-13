@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git]] [[git rebase]] [[git error]] [[git worktree]]
 
 # git blame
@@ -5,6 +6,15 @@
 > Line-level authorship: which commit last touched each line — **forensics for regressions**, not a performance review weapon.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

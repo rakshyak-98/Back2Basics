@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[CMS]] [[database sharding]]
 
 # Compliance Reporting to Broadcasters
@@ -5,6 +6,15 @@
 > Compliance Reporting to Broadcasters — compliance reporting is the contractual data pipeline that proves how licensed content was sold, entitled, and consumed per Content ID (CID)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

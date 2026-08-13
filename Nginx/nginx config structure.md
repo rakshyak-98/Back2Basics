@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx/Configuration]] [[nginx files]] [[nginx fastcgi]] [[/etc files]]
 
 # nginx config structure
@@ -5,6 +6,15 @@
 > Config tree — `nginx.conf` sets globals; `include` pulls sites, snippets, and params.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[JavaScript]] [[Animation]] [[Frontend Datastructure]] [[webSocket]]
 
 # Progressive search functionality
@@ -5,6 +6,15 @@
 > Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

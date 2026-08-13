@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[helm]]
 
 # cli
@@ -5,6 +6,41 @@
 > cli — helm repo add <namespace> <url> <flag>;
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Standard config / commands
+
+```bash
+helm list -A
+helm status my-release -n prod
+helm get manifest my-release
+helm template my-release ./chart --debug
+```
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -26,18 +62,6 @@ helm status my-ingress -n ingress-nginx;
 helm upgrade my-ingress ingress-nginx/ingress-nginx -n ingress-nginx;
 helm uninstall my-ingress -n ingress-nginx;
 ```
-
-
-## Standard config / commands
-
-```bash
-helm list -A
-helm status my-release -n prod
-helm get manifest my-release
-helm template my-release ./chart --debug
-```
-
----
 
 ## Triage (when things break)
 
@@ -62,6 +86,12 @@ helm template my-release ./chart --debug
 
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

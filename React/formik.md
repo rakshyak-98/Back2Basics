@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[RSC (React Server Component boundaries)]] [[react hooks]] [[React State management]] [[React Pattern/Controlled and Uncontrolled component Pattern]]
 
 # Formik
@@ -5,6 +6,15 @@
 > React form state library — values, touched, errors, submit lifecycle — **client-only** (needs DOM + hooks) — **Formik docs**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

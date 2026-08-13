@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Single Stream]] [[ingestion]] [[RTMP]] [[Multi Stream]] [[ABR]] [[bitrate streaming]]
 
 # Multi Stream
@@ -5,6 +6,15 @@
 > Multiple renditions or simultaneous publish destinations from one source — **ABR ladders + multi-CDN push**, not "many viewers".
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

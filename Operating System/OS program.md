@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[system call]] [[file descriptors]] [[Buffer cache]]
 
 # OS program
@@ -5,6 +6,15 @@
 > User programs run in user space — they ask the kernel (via syscalls) for files, memory, and devices.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Bash]] [[Bash syntax]] [[bash script]]
 
 # Bash history
@@ -5,6 +6,15 @@
 > Bash history stores commands you ran — search, redo, and (carefully) avoid logging secrets.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

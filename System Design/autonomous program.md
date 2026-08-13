@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[orchestration]] [[event-driven]] [[Airflow]]
 
 # autonomous program
@@ -5,6 +6,15 @@
 > Autonomous program — long-running agent that watches inputs, decides, and acts with little human babysitting (jobs, bots, controllers).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

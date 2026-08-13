@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GPT]] [[prompt]] [[prompt enginerring]] [[scikitlearn]]
 
 # AI chat with memory
@@ -5,6 +6,15 @@
 > AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

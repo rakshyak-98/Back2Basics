@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[scikitlearn]] [[data preprocessing]]
 
 # model tranning
@@ -5,6 +6,15 @@
 > Training fits model parameters on labeled data — split, fit, validate, then lock the test set.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

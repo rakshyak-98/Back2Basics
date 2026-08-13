@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[DSN records]] [[name server]] [[top-level Domain]]
 
 # Sub Domain
@@ -5,6 +6,16 @@
 > Subdomain — a name under your zone (`api.example.com`) with its own records — or a delegated child zone with its own NS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#DNS record]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -61,6 +72,18 @@ corp    3600 IN  NS     ns2.corp-dns.net.
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| NXDOMAIN for `api.` | Record missing / wrong zone | Add A/AAAA/CNAME; publish serial |
+| Parent works, child dead | Broken delegation | Fix child NS + glue; check child SOA |
+| Some users hit old IP | TTL | Wait/flush; lower TTL next time |
+| Cert name mismatch | Hostname not on cert | Reissue with SAN for subdomain |
+| Wildcard not matching `a.b.example.com` | `*` is one label | Add explicit name or `*.b.example.com` |
+
+---
+
 ## DNS record
 
 | Type | Role for subdomains |
@@ -72,18 +95,6 @@ corp    3600 IN  NS     ns2.corp-dns.net.
 | **SOA** | Present at zone apex (parent or child) |
 
 Authoritative server = the DNS server with the official answers for that zone’s records.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| NXDOMAIN for `api.` | Record missing / wrong zone | Add A/AAAA/CNAME; publish serial |
-| Parent works, child dead | Broken delegation | Fix child NS + glue; check child SOA |
-| Some users hit old IP | TTL | Wait/flush; lower TTL next time |
-| Cert name mismatch | Hostname not on cert | Reissue with SAN for subdomain |
-| Wildcard not matching `a.b.example.com` | `*` is one label | Add explicit name or `*.b.example.com` |
 
 ---
 

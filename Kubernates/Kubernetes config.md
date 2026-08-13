@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kubernates]]
 
 # You are essentially reading from or writing to etcd through the kubernetes API server.
@@ -6,13 +7,21 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Say it in one breath:** You are essentially reading from or writing to etcd through the kubernetes API server. — etcd — highly reliable, distributed key-value store that serves as…
 
 etcd -> highly reliable, distributed key-value store that serves as the central data store and brain of Kubernetes.
 - highly-available key-value database designed specifically for distributed systems. It stores all critical configuration data, metadata, and the current state of the Kubernetes cluster.
-
 
 ## Standard config / commands
 

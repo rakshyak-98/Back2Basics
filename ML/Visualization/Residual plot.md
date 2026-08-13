@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[regression]] [[Visualization/predicated versus actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
 
 # Residual plot
@@ -5,6 +6,15 @@
 > Residual plot — residuals should look like random noise around zero:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

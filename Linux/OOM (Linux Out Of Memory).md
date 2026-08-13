@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Memory management]] [[Linux cgroup]] [[Linux out of memory daemon]] [[process]]
 
 # OOM (Linux Out Of Memory)
@@ -5,6 +6,15 @@
 > OOM kills a process when the kernel cannot free enough memory after reclaim — not when `free` simply looks low.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

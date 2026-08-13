@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[css]]
 
 # tailwindcss Error
@@ -5,6 +6,35 @@
 > tailwindcss Error — [plugin:@tailwindcss/vite:generate:serve] Cannot apply unknown utility class w-3. Are you using CSS modules or similar and missing…
 
 ---
+
+## Index
+
+- [[#Trigger / symptoms]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Trigger / symptoms
+
+…
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -14,6 +44,14 @@
 
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[node inspect]] [[REPL]] [[Runtime Errors]]
 
 # node debugger
@@ -5,6 +6,15 @@
 > Breakpoints and step-through for Node — Inspector protocol via `--inspect` / built-in debugger.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

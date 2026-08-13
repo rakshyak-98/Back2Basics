@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go project]] [[Useful prompt for learning with AI chat]]
 
 # go learning
@@ -5,6 +6,15 @@
 > Go learning path — foundations → concurrency/HTTP → interview drills; use AI as a coach with tight feedback loops, not as a code vending machine.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

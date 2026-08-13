@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kubernetes services]] [[kubectl]] [[Cilium]] [[Nginx Configuration]]
 
 # ingress
@@ -5,6 +6,16 @@
 > ingress — internet ──► LB / NodePort ──► Ingress Controller (nginx, traefik, cilium, ALB…)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage table]]
+- [[#502 / 503 debugging playbook]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -115,6 +126,18 @@ kubectl run curl --rm -it --image=curlimages/curl -- \
 kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=50
 ```
 
+## Triage table
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| 404 from ingress | host/path rule mismatch | Add rule; check `pathType` Prefix vs Exact |
+| 503 Service Unavailable | endpoints empty | Fix readiness; pod crash — [[kubectl]] CrashLoop |
+| 502 intermittent | controller + app logs | Timeouts; pod restarts; HPA flapping |
+| 525/526 SSL (CF) | origin cert | Full chain in secret `tls.crt`; SNI host match |
+| Wrong backend | multiple Ingress same host | Rule precedence; merge order |
+| Works via port-forward, not ingress | Service selector | Labels; different namespace |
+| Infinite redirect | http→https loop | `ssl-redirect` + backend HTTP scheme |
+
 ## 502 / 503 debugging playbook
 
 **502 Bad Gateway** — controller reached backend; backend returned garbage or connection failed.
@@ -152,18 +175,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "5"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
 ```
-
-## Triage table
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 404 from ingress | host/path rule mismatch | Add rule; check `pathType` Prefix vs Exact |
-| 503 Service Unavailable | endpoints empty | Fix readiness; pod crash — [[kubectl]] CrashLoop |
-| 502 intermittent | controller + app logs | Timeouts; pod restarts; HPA flapping |
-| 525/526 SSL (CF) | origin cert | Full chain in secret `tls.crt`; SNI host match |
-| Wrong backend | multiple Ingress same host | Rule precedence; merge order |
-| Works via port-forward, not ingress | Service selector | Labels; different namespace |
-| Infinite redirect | http→https loop | `ssl-redirect` + backend HTTP scheme |
 
 ## Gotchas
 

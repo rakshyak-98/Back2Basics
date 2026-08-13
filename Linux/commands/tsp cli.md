@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[commands]] [[crontab]] [[Linux process commands]]
 
 # tsp cli
@@ -5,6 +6,49 @@
 > `tsp` (Task Spooler) queues shell jobs on a single machine — simple FIFO/batch without full job schedulers.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Standard config / commands
+
+```bash
+tsp long_job.sh
+tsp -l
+tsp -c          # cat last job output
+tsp -i          # last job id
+tsp -k          # kill last
+TSP_NWORKERS=2 tsp heavy.sh
+tsp -D 3 ./step2.sh   # after job 3
+```
+
+| Knob | Why it matters |
+|------|----------------|
+| `TSP_NWORKERS` | Max parallel jobs |
+| `TS_SOCKET` | Separate queues per project |
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -25,25 +69,6 @@ tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
 | **job id** | Queue handle | “`tsp -i` last id; `tsp -c ID`.” |
 | **dependency** | `-D id` wait | “Chain jobs without shell & wait hacks.” |
 | **vs cron** | Ad-hoc vs schedule | “tsp is interactive batch; cron is calendar.” |
-
----
-
-## Standard config / commands
-
-```bash
-tsp long_job.sh
-tsp -l
-tsp -c          # cat last job output
-tsp -i          # last job id
-tsp -k          # kill last
-TSP_NWORKERS=2 tsp heavy.sh
-tsp -D 3 ./step2.sh   # after job 3
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| `TSP_NWORKERS` | Max parallel jobs |
-| `TS_SOCKET` | Separate queues per project |
 
 ---
 
@@ -74,6 +99,12 @@ tsp -D 3 ./step2.sh   # after job 3
 - **Calendar schedules** — [[crontab]] / systemd timers.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

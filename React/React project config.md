@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React build]] [[Typescript with react]] [[NodeJS/node package json]]
 
 # React project config
@@ -5,6 +6,15 @@
 > TypeScript, Vite, path aliases, env typing — **boring correct setup** so IDE and CI agree — **Vite + TS handbook**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

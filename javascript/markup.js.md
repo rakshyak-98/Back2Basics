@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[Packages]]
 
 # markup.js
@@ -5,6 +6,15 @@
 > Markup.js — tiny `Mark.up(template, context)` string templates (`{{path}}`, loops, filters); not React/HTML parsing.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

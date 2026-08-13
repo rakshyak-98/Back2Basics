@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[RTMP]] [[SRT]] [[RTSP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
 
 # Ingestion
@@ -5,6 +6,15 @@
 > Accept live or file video into the processing pipeline — **front door** where protocols, validation, and backpressure matter first.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

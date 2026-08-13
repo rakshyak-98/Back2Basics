@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[multi-threaded]] [[thread pool]] [[atomic ring buffer]]
 
 # Thread-safe queue
@@ -5,6 +6,15 @@
 > A queue you can push/pop from many threads safely — locking or lock-free sync is built in.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

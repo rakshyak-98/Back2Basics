@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[concurrent connection]] [[System design]] [[Event Loop]] [[Authentication web application]]
 
 # Server
@@ -5,6 +6,15 @@
 > Long-lived process accepting client requests — **connection model + state strategy** define scale and failure modes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

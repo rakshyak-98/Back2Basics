@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AAC (Advanced Audio Coding)]] [[AV1]] [[Encoding]] [[transcoding]] [[bitrate streaming]] [[HLS]] [[DASH]]
 
 # Codecs
@@ -5,6 +6,15 @@
 > Codecs — a codec (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at ingest, transcode, and playback — mismatches force expensive
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

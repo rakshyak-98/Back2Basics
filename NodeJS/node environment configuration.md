@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[npm command]] [[node modules]]
 
 # node environment configuration
@@ -5,6 +6,15 @@
 > Configure Node apps via env vars and files — `NODE_ENV`, secrets outside git, fail fast on missing required config.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go package]] [[go functions]]
 
 # go functions
@@ -5,6 +6,15 @@
 > Functions — first-class values with multiple returns; methods are functions with a receiver.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

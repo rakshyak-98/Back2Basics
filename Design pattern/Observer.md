@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Command]] [[Design pattern/Template Method]] [[Messaging/Web hooks]]
 
 # Observer
@@ -5,6 +6,18 @@
 > Subscribers react to events without the subject knowing who they are — **Dive Into Design Patterns + launchEventBus**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -22,6 +35,14 @@ LaunchPipeline ──emit──► LaunchEventBus
 | **Subject / publisher** | Holds subscribers; `emit(event, payload)` |
 | **Observer / subscriber** | `handle(payload)` |
 | **Event** | Named fact (`LaunchEvents.Succeeded`) |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -76,6 +97,12 @@ New launch side-effect → `launchEventBus.subscribe(LaunchEvents.*, …)`. Do n
 
 - Observer ≠ Command — command is intent to do; event is fact that happened.
 - Sync `emit` awaiting all handlers can stall requests — prefer queue for slow IO ([[Messaging/Web hooks]]).
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

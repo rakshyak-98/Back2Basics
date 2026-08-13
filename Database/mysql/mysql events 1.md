@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql Programmable SQL]] [[Configuration]]
 
 # mysql events 1
@@ -5,6 +6,15 @@
 > MySQL Event Scheduler — cron inside the database for one-shot or recurring SQL.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

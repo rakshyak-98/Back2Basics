@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[variable]] [[hoisting]] [[Descriptive/JavaScript/execution context]] [[javascript engine]] [[Callback]]
 
 # Lexical environment
@@ -5,6 +6,15 @@
 > Lexical environment — each scope (function, block, module) has a Lexical Environment:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

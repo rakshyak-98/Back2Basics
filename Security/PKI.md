@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[Root certificate]] [[certbot (letsencrypt)]]
 
 # PKI
@@ -5,6 +6,15 @@
 > PKI (Public Key Infrastructure) — the factory and phone book for certificates: who issues them, who trusts them, how you revoke them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

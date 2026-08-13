@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments]]
 
 # Payment integration Strip
@@ -5,6 +6,15 @@
 > Payment integration Strip — const handleCheckout = async () => {
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

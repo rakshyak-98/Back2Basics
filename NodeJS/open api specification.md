@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[expressjs]] [[gRPC]] [[JWT authentication]] [[CORS (Cross Origin Request Sharing)]] [[webhook]]
 
 # OpenAPI specification
@@ -5,6 +6,16 @@
 > API contract as machine-readable truth — design, codegen, validation, and breaking-change discipline for service engineers — **OpenAPI 3.x**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Breaking change rules (SE discipline)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -113,6 +124,18 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| 400 "request did not match schema" | Validator logs; compare body vs spec | Spec too strict or client drift — fix spec or client |
+| Generated types out of date | CI codegen diff | Regenerate on spec merge; commit generated output |
+| Prod 500, dev fine | `validateResponses: true` in prod | Disable response validation in prod |
+| Gateway rejects valid JWT | `securitySchemes` mismatch | Align bearer format with [[JWT authentication]] |
+| False breaking CI | Intentional major bump | Bump `/v2`, baseline new spec file |
+
+---
+
 ## Breaking change rules (SE discipline)
 
 | Change | Breaking? | Safe alternative |
@@ -125,18 +148,6 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 | Change error shape | Often yes | Version media type or path |
 
 **Versioning:** prefer URL `/v1` or header `Accept: application/vnd.company.orders.v2+json`. Don't rely on `info.version` alone — consumers ignore it.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 400 "request did not match schema" | Validator logs; compare body vs spec | Spec too strict or client drift — fix spec or client |
-| Generated types out of date | CI codegen diff | Regenerate on spec merge; commit generated output |
-| Prod 500, dev fine | `validateResponses: true` in prod | Disable response validation in prod |
-| Gateway rejects valid JWT | `securitySchemes` mismatch | Align bearer format with [[JWT authentication]] |
-| False breaking CI | Intentional major bump | Bump `/v2`, baseline new spec file |
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[CORS (Cross Origin Request Sharing)]] [[XSRF (cross-site request forgery)]] [[cross-site scripting]]
 
 # SOP (Same-Origin Policy)
@@ -5,6 +6,15 @@
 > SOP (Same-Origin Policy) — the browser wall: page JS on one origin cannot read another origin’s responses or DOM.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

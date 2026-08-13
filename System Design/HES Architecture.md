@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[System Design]] [[ingress]] [[Kubernetes services]] [[Configuration]] [[Epoll]]
 
 # HES Architecture
@@ -5,6 +6,33 @@
 > HES Architecture — │ Edge / HES tier │
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -137,6 +165,12 @@ Alerts:  queue_depth high 15m, cert expiry 14d
 - **Custom binary protocol without schema registry** — versioning hell at 10k firmware variants.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

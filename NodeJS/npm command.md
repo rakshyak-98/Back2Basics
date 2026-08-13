@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[NodeJS]] [[node package json]] [[Packages/npm packages]]
 
 # npm command
@@ -6,22 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** `npm install` resolves the tree into `node_modules` + lockfile; `npm run` executes `package.json` scripts; `npm ci` is the clean CI install from the lockfile.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-package.json + lockfile ──npm ci──► node_modules
-npm run start -- --port 4000  →  script gets --port
-```
+## Quick reference
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`--`** | End of npm args | “Pass flags through to the script.” |
-| **npm ci** | Clean lockfile install | “Reproducible CI; deletes node_modules.” |
-| **dedupe / outdated** | Tree hygiene | “Find duplicates and stale ranges.” |
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -46,6 +48,29 @@ npm cache clean --force
 | `npm ci` vs `install` | CI vs local tinkering |
 
 ---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** `npm install` resolves the tree into `node_modules` + lockfile; `npm run` executes `package.json` scripts; `npm ci` is the clean CI install from the lockfile.
+
+```txt
+package.json + lockfile ──npm ci──► node_modules
+npm run start -- --port 4000  →  script gets --port
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`--`** | End of npm args | “Pass flags through to the script.” |
+| **npm ci** | Clean lockfile install | “Reproducible CI; deletes node_modules.” |
+| **dedupe / outdated** | Tree hygiene | “Find duplicates and stale ranges.” |
 
 ## Triage (when things break)
 
@@ -73,6 +98,12 @@ npm cache clean --force
 - **Other package managers** — pnpm/yarn if the repository standard says so; don’t mix casually.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS Networking]] [[AWS EC2]] [[half-open connections]] [[TLS (Transport Layer Security)]]
 
 # Security Group
@@ -5,6 +6,15 @@
 > Security Group — a Security Group (SG) is a label + rule set attached to ENIs (instances, load balancers, RDS). Rules are allow-only (no deny rules).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[MBR]] [[Persistent Block Storage]] [[cgroup (Control Group)]]
 
 # Logical partitions
@@ -5,6 +6,15 @@
 > Split one physical machine into isolated OS instances (LPARs) — each gets its own CPU, RAM, and disks from the hypervisor.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

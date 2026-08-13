@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[sudo]]
 
 # tee
@@ -5,6 +6,15 @@
 > tee splits the pipe — write the same bytes to a file and still pass them downstream (and to your screen).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

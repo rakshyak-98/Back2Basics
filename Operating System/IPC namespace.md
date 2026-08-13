@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Inter Process Communication]] [[shared memory]] [[UTS namespace]] [[Linux]]
 
 # IPC namespace
@@ -5,6 +6,15 @@
 > Isolates System V IPC and POSIX message queues — processes in different IPC namespaces cannot see each other's semaphores, shared memory segments, or mq.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

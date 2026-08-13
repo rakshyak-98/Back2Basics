@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Lexical environment]] [[hoisting]] [[primitive non-primitive values]] [[abstract storage location]] [[javascript engine]]
 
 # Variable (JavaScript)
@@ -5,6 +6,15 @@
 > Variable (JavaScript) — a variable is not the value itself — it's an identifier bound in an Environment Record (Lexical environment):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

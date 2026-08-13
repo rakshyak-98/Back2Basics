@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[Linux terminal]] [[CLI]]
 
 # terminal emulator
@@ -5,6 +6,15 @@
 > A terminal emulator is a GUI/TUI app that hosts a shell over a pty — Kitty, Alacritty, GNOME Terminal, xterm.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

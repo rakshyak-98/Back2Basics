@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ACID]] [[ARIES]] [[write-ahead logging]] [[fsync]] [[MMAP]]
 
 # WAL (Write-Ahead Log)
@@ -5,6 +6,15 @@
 > Append-only durability journal: log the intent **before** mutating data pages — **Designing Data-Intensive Applications** (Kleppmann, Ch. 3).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

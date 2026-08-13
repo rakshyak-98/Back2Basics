@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[NodeJS]]
 
 # Error handeling
@@ -5,6 +6,44 @@
 > Error handeling — create errors with a custom name is to extend the built-in Error class using ES6 class syntax
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -30,16 +69,6 @@
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -52,6 +81,14 @@
 - Skip when a simpler existing approach already fits.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

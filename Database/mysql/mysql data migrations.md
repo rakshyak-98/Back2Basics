@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[migration]] [[mysql dump]]
 
 # mysql data migrations
@@ -5,6 +6,15 @@
 > Move table data between databases or reshape columns — dump/restore across hosts, or `CREATE … AS SELECT` / UPDATE…JOIN on the same server.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

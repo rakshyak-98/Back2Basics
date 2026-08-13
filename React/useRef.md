@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[react hooks]]
 
 # useRef
@@ -5,6 +6,15 @@
 > Holds a mutable box that survives renders without re-rendering — DOM nodes or “remember this value.”
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[E mail server]] [[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]]
 
 # mail server
@@ -5,6 +6,15 @@
 > Mail server — the box (or service) that accepts, routes, stores, and lets clients fetch email — SMTP out, IMAP/POP in.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

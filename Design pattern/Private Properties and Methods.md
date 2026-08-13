@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]]
 
 # Private Properties and Methods
@@ -5,6 +6,18 @@
 > Private Properties and Methods — just a name given to the public methods that have access to the private member.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -42,6 +55,14 @@ toy.getName(); // iPod
 
 ---
 
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
+
 ## Standard config / commands
 
 ```bash
@@ -67,6 +88,12 @@ toy.getName(); // iPod
 > Draw the failure mode before the happy path.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[NAT Traversal]] [[ICE (Interactive Connectivity Establishment)]] [[STUN (Session Traversal Utilities for NAT)]]
 
 # TURN server (Traversal Using Relays around NAT)
@@ -5,6 +6,15 @@
 > TURN relays media through a server when two peers cannot punch through NATs — last resort path, not the first try.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

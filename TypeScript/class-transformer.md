@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TypeScript]] [[typescript types]] [[npm]]
 
 # class-transformer
@@ -5,6 +6,15 @@
 > `class-transformer` — map plain JSON ↔ class instances (`plainToInstance`); often paired with `class-validator` in NestJS DTOs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

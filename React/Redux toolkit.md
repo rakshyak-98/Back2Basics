@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createApi]]
 
 # Redux toolkit
@@ -5,6 +6,15 @@
 > Official Redux batteries — `configureStore`, `createSlice`, Immer, thunks, and optional RTK Query with less boilerplate.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS/file]] [[javascript]] [[Operating System/file descriptors]] [[python]]
 
 # PDF parser
@@ -5,6 +6,15 @@
 > Extract text, structure, and metadata from PDF byte streams — operators, fonts, and page trees — **PDF spec + production extraction pitfalls**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

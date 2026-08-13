@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh]] [[mognodb indexing]]
 
 # mongosh query
@@ -5,6 +6,15 @@
 > Everyday find/aggregate patterns in mongosh — filter, project, sort, explain.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

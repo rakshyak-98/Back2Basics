@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[routing table]] [[ip]] [[Linux network commands]] [[netstat]]
 
 # route
@@ -5,6 +6,15 @@
 > legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

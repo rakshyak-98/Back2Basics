@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[JWT authentication]] [[Token rotation]] [[openssl]] [[symmetrical encryption]]
 
 # HMAC
@@ -5,6 +6,15 @@
 > Hash-based Message Authentication Code — proves integrity and shared-secret authenticity of a message without encryption.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

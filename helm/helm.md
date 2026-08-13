@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[helm]]
 
 # helm
@@ -5,6 +6,17 @@
 > helm — the kind field is not part of the basic required fields, but it can be added to specify the type of chart. The kind field should
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -16,6 +28,15 @@ helm get values
 ```
 - The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
 
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

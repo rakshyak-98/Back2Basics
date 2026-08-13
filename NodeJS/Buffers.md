@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Stream]] [[primitive non-primitive values]]
 
 # Buffers
@@ -5,6 +6,15 @@
 > Fixed-size bytes in memory outside the V8 string heap — binary I/O, crypto, and stream chunks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

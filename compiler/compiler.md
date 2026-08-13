@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[compiler/transpiler]] [[compiler/compile time]] [[Operating System/Runtime Environment]]
 
 # Compiler
@@ -5,6 +6,17 @@
 > Translates source in a high-level language to machine code or bytecode for a target platform — portability via abstraction over CPU ISAs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -14,6 +26,16 @@ Source → **frontend** (parse, AST) → **optimizer** → **backend** (codegen 
 source.c → compiler (clang) → object file → linker → executable
 source.ts → tsc → JavaScript → (optional) V8 JIT
 ```
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

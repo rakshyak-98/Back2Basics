@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[RAM and Swap memory]] [[OOM (Linux Out Of Memory)]] [[cgroup (Control Group)]]
 
 # Heap memory
@@ -5,6 +6,15 @@
 > Heap memory is the process region for `malloc` / `new` — grows and shrinks at runtime, unlike the fixed stack frames.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

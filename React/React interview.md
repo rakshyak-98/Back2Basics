@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[react hooks]] [[Hooks/react useEffect]]
 
 # React interview
@@ -5,6 +6,15 @@
 > Common interview fetch/effect pitfalls — abort races, handle errors, keep effects sync.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

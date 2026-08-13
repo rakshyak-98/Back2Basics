@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Firebase]]
 
 # firebase reminders configuration
@@ -5,6 +6,15 @@
 > firebase reminders configuration — exports.sendClassReminders = functions.pubsub.schedule("every 5 minutes").onRun(async () => {
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

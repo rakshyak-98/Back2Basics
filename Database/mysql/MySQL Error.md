@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[mysql]] [[cli]] [[mysql connection]] [[MySQL Engines]]
 
 # MySQL Error
@@ -5,6 +6,47 @@
 > Decode common MySQL failures — crashed tables, access denied, socket perms, client bind mistakes, apt key, and service start.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Table marked as crashed | Engine MyISAM? | Backup `.MYD`/`.MYI`; `REPAIR TABLE` |
+| Access denied root@_gateway | No matching user@host | CREATE USER for that host; RDS: app user |
+| Socket error (13) | Perms on sock/dir | Fix group/perms; use TCP `-h 127.0.0.1` |
+| mysql.service Error 22 | `journalctl`, my.cnf | Fix config/datadir perms; clear bad args |
+| Bind parameters must be array | mysql2 execute + object | Array binds, `query()`, or `namedPlaceholders` |
+| apt NO_PUBKEY | Repo key missing | Import vendor key |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -56,19 +98,6 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Table marked as crashed | Engine MyISAM? | Backup `.MYD`/`.MYI`; `REPAIR TABLE` |
-| Access denied root@_gateway | No matching user@host | CREATE USER for that host; RDS: app user |
-| Socket error (13) | Perms on sock/dir | Fix group/perms; use TCP `-h 127.0.0.1` |
-| mysql.service Error 22 | `journalctl`, my.cnf | Fix config/datadir perms; clear bad args |
-| Bind parameters must be array | mysql2 execute + object | Array binds, `query()`, or `namedPlaceholders` |
-| apt NO_PUBKEY | Repo key missing | Import vendor key |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -85,6 +114,14 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
 - **Disabling authentication to “unblock”** — fix the account/SG instead.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

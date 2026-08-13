@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[postgres]] [[psql essential]] [[ACL (postgreSQL)]]
 
 # psql table
@@ -5,6 +6,15 @@
 > Postgres tables live in schemas; `updated_at` needs a trigger (no MySQL-style `ON UPDATE CURRENT_TIMESTAMP` column attribute).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

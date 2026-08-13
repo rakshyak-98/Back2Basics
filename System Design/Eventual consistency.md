@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[distributed system]] [[Quorum]] [[cache system]]
 
 # Eventual consistency
@@ -5,6 +6,15 @@
 > Eventual consistency — replicas may disagree briefly after a write; if you stop writes, they converge to the same values.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

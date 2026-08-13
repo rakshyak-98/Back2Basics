@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Concurrency]] [[Concurrent modification]] [[backpressure]]
 
 # race condition
@@ -5,6 +6,15 @@
 > Race condition — result depends on who wins the timing; two actors touch shared state without a safe order.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

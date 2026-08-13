@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Packages/npm packages]] [[open api specification]]
 
 # Ajv (Another JSON validator)
@@ -5,6 +6,15 @@
 > Fast JSON Schema validator — compile a schema once, validate many payloads; get structured errors.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

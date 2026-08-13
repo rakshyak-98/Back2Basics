@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[mail server]] [[SMTP]]
 
 # DSN records
@@ -5,6 +6,17 @@
 > DNS records — rows in a zone that tell resolvers where a name points (A/AAAA), who receives mail (MX), which NS is authoritative, and more.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Records]]
+- [[#MX]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -55,6 +67,19 @@ dig +trace example.com
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Site IP wrong after change | TTL / old cache | Wait TTL; flush local; lower TTL before next cut |
+| Mail won’t deliver | MX + A for MX host | Fix MX target; add A/AAAA; check PTR |
+| CNAME + other records | Apex CNAME conflict | Use ALIAS/ANAME at provider or A/AAAA at apex |
+| SPF fail | TXT `v=spf1` | Align sending IPs; avoid too many lookups |
+| Cert issuance denied | CAA | Add CA; wait TTL |
+| Some regions old data | Secondary lag | Check serial/NOTIFY/AXFR |
+
+---
+
 ## Records
 
 | Type | Job |
@@ -83,19 +108,6 @@ send to alice@example.com
    → dig A mail.example.com → 203.0.113.50
    → [[SMTP]] connect
 ```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Site IP wrong after change | TTL / old cache | Wait TTL; flush local; lower TTL before next cut |
-| Mail won’t deliver | MX + A for MX host | Fix MX target; add A/AAAA; check PTR |
-| CNAME + other records | Apex CNAME conflict | Use ALIAS/ANAME at provider or A/AAAA at apex |
-| SPF fail | TXT `v=spf1` | Align sending IPs; avoid too many lookups |
-| Cert issuance denied | CAA | Add CA; wait TTL |
-| Some regions old data | Secondary lag | Check serial/NOTIFY/AXFR |
 
 ---
 

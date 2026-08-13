@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[java]] [[golang]] [[Design pattern]]
 
 # Method shadowing (embedding / inheritance)
@@ -5,6 +6,18 @@
 > Method shadowing — same method name on outer and inner types; the static type picks which runs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -21,6 +34,14 @@ Java field:   Child.x shadows Parent.x — no polymorphism on fields
 Go: embedding promotes methods; if outer defines `Log`, it **replaces** promoted `Logger.Log` for `Car` receivers — not a runtime override chain.
 
 Java: instance method **override** needs `@Override` + same signature; **hide** if static or mismatched signature.
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -110,6 +131,12 @@ class Derived : Base() {
 
 > [!WARNING]
 > **JSON/API models shadowing** — Lombok `@Data` on hierarchy can expose wrong property if fields shadow.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

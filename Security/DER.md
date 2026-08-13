@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[read pem file]] [[Base64]] [[PKI]] [[openssl]]
 
 # DER
@@ -5,6 +6,15 @@
 > Distinguished Encoding Rules — canonical binary ASN.1 encoding for X.509 certs, keys, and CSRs; PEM is Base64-wrapped DER with headers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -14,7 +24,7 @@ Logical cert (ASN.1 structure)
         ▼ DER encode (binary, canonical)
    cert.der
         │
-        ▼ Base64 + -----BEGIN CERTIFICATE----- 
+        ▼ Base64 + -----BEGIN CERTIFICATE-----
    cert.pem  (human portable)
 ```
 

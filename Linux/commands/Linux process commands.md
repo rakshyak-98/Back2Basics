@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Commands]] [[process]] [[ps]] [[top]] [[lsof]]
 
 # Linux process commands
@@ -6,41 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** Find with `ps`/`pgrep`, watch with `top`, explain open resources with `lsof`/`/proc`, stop with signals — escalate from `TERM` to `KILL`.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-find  →  ps / pgrep / pidof
-watch →  top / htop / pidstat
-why   →  lsof /ls /proc/PID/{fd,status,stack}
-act   →  kill / pkill / renice / systemctl
-```
+## Quick reference
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`pgrep` / `pkill`** | Find / signal by name | “Safer than `kill $(ps \| grep)` if you check `-a` first.” |
-| **Signal** | Soft ask vs hard stop | “`TERM` (15) then `KILL` (9).” |
-| **Nice / renice** | CPU scheduling priority | “Lower niceness → higher priority; needs rights.” |
-| **`/proc`** | Kernel’s process API as files | “Scripts should prefer `/proc` over parsing `ps`.” |
-| **Job control** | `fg`/`bg`/`Ctrl-Z` in a shell | “Only for that shell’s children — not systemd services.” |
-| **Service manager** | systemd owns long-running daemons | “Prefer `systemctl restart` over raw `kill`.” |
-
-### Tool roles
-
-| Tool | Best for |
-|------|----------|
-| [[ps]] | Snapshot, scripts, custom columns |
-| [[top]] | Live CPU/RAM/load |
-| [[lsof]] | fds, ports, deleted files |
-| `pgrep`/`pkill` | Name-based select |
-| `pstree` | Parent/child map |
-| `pidstat` | Per-PID CPU/IO over time |
-| `strace` | Syscall-level “what is it doing?” |
-
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -92,6 +75,48 @@ systemctl restart foo.service
 
 ---
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** Find with `ps`/`pgrep`, watch with `top`, explain open resources with `lsof`/`/proc`, stop with signals — escalate from `TERM` to `KILL`.
+
+```txt
+find  →  ps / pgrep / pidof
+watch →  top / htop / pidstat
+why   →  lsof /ls /proc/PID/{fd,status,stack}
+act   →  kill / pkill / renice / systemctl
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`pgrep` / `pkill`** | Find / signal by name | “Safer than `kill $(ps \| grep)` if you check `-a` first.” |
+| **Signal** | Soft ask vs hard stop | “`TERM` (15) then `KILL` (9).” |
+| **Nice / renice** | CPU scheduling priority | “Lower niceness → higher priority; needs rights.” |
+| **`/proc`** | Kernel’s process API as files | “Scripts should prefer `/proc` over parsing `ps`.” |
+| **Job control** | `fg`/`bg`/`Ctrl-Z` in a shell | “Only for that shell’s children — not systemd services.” |
+| **Service manager** | systemd owns long-running daemons | “Prefer `systemctl restart` over raw `kill`.” |
+
+### Tool roles
+
+| Tool | Best for |
+|------|----------|
+| [[ps]] | Snapshot, scripts, custom columns |
+| [[top]] | Live CPU/RAM/load |
+| [[lsof]] | fds, ports, deleted files |
+| `pgrep`/`pkill` | Name-based select |
+| `pstree` | Parent/child map |
+| `pidstat` | Per-PID CPU/IO over time |
+| `strace` | Syscall-level “what is it doing?” |
+
+---
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -128,6 +153,12 @@ systemctl restart foo.service
 - **Don’t renice as a substitute for capacity planning** — fix the bottleneck or scale.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

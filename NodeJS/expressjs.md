@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Express middleware]] [[HTTP module]]
 
 # expressjs
@@ -5,6 +6,15 @@
 > Minimal HTTP framework on Node’s `http` — routers and middleware; concurrency is still the single-threaded event loop.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

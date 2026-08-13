@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[prototype]] [[Packages/Immer]]
 
 # mixin
@@ -5,6 +6,15 @@
 > Copy or compose behavior into objects/classes — share methods without deep inheritance trees.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

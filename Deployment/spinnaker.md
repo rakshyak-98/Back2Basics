@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Jenkins]] [[Airflow]] [[Docker compose]] [[Kubernates/kubectl]] [[Terraform workflow]]
 
 # Spinnaker
@@ -5,6 +6,15 @@
 > Multi-cloud continuous delivery control plane — pipelines, bakes, deploy stages, and rollback — **Netflix OSS CD mental model**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

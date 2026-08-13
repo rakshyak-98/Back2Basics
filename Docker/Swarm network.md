@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Docker]] [[Docker compose]] [[docker cli]] [[P2P (Peer-to-Peer)]]
 
 # Swarm network
@@ -5,6 +6,15 @@
 > Docker Swarm overlay network — multi-host virtual network so Swarm services reach each other by name across nodes (not BitTorrent “swarm”).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

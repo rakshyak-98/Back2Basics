@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kubernetes services]] [[ingress]] [[kubectl]] [[Pods]]
 
 # Cilium
@@ -5,6 +6,15 @@
 > eBPF-powered CNI: pod networking, kube-proxy replacement, NetworkPolicy enforcement, Hubble observability — **Kubernetes: Up and Running** (Burns et al.) + Cilium docs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

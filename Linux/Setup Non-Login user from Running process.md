@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[Linux]] [[useradd]] [[passwd]] [[login shell]] [[process]]
 
 # Setup Non-Login user from Running process
@@ -5,6 +6,32 @@
 > Turn a long-running process’s identity into a proper system user — stable UID, nologin shell, owned files — without leaving orphan UIDs.
 
 ---
+
+## Index
+
+- [[#Prerequisites]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Triage (when things break)]]
+- [[#Related]]
+
+## Prerequisites
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# smoke test
+```
 
 ## Mental model
 
@@ -57,17 +84,6 @@ sudo systemctl restart myapp
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Permission denied after switch | Paths still root-owned | `chown` data + logs + sockets |
-| useradd UID in use | `getent passwd` | Pick free UID or keep old |
-| Service starts as root | Unit missing User= | Drop-in + restart |
-| Can’t debug interactively | nologin | `sudo -u myapp` with explicit shell |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -82,6 +98,17 @@ sudo systemctl restart myapp
 
 - **One-off root cron** — fix the job instead of inventing a user.
 - **Containers** — use image USER + K8s runAsUser, not host useradd.
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Permission denied after switch | Paths still root-owned | `chown` data + logs + sockets |
+| useradd UID in use | `getent passwd` | Pick free UID or keep old |
+| Service starts as root | Unit missing User= | Drop-in + restart |
+| Can’t debug interactively | nologin | `sudo -u myapp` with explicit shell |
 
 ---
 

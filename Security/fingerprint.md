@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TLS (Transport Layer Security)]] [[PKI]] [[openssl]] [[ssh allow local system with key]]
 
 # Fingerprint
@@ -5,6 +6,15 @@
 > Short hash of a public key or certificate — human-verifiable identity for trust-on-first-use (TOFU) and MITM detection.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[binary classification]] [[multiclass classification]] [[Model/Linear regression]] [[ANN]] [[Perceptron]]
 
 # Sigmoid
@@ -5,6 +6,15 @@
 > Sigmoid — the sigmoid is a smooth S-curve saturating at 0 and 1. In logistic regression:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

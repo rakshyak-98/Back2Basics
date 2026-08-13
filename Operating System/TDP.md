@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[base clock speed]] [[SMT threads]] [[CPU IO Bound Task]] [[Linux]]
 
 # TDP
@@ -5,6 +6,15 @@
 > Thermal Design Power — watts of heat the cooling solution must dissipate at the vendor's reference workload; not peak power, not idle power.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

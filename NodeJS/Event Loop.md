@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Epoll]] [[clustering]] [[worker threads]] [[Express middleware]]
 
 # Node.js Event Loop
@@ -5,6 +6,16 @@
 > Node event loop — one JS thread plus libuv; never block it with heavy sync work.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Six phases (one "tick")]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -76,6 +87,19 @@ UV_THREADPOOL_SIZE=16 node app.js      # default 4 — raise for heavy sync fs/c
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| API latency spikes globally | Event loop delay metric; `clinic bubbleprof` | Find sync/blocking handler; move to worker |
+| Timeouts "random" under load | Single thread saturated | [[clustering]] or horizontal scale |
+| `setImmediate` vs `setTimeout(0)` confusion | I/O vs non-I/O context | Use `setImmediate` inside I/O callbacks |
+| Memory grows, connections hang | Missing `close` handlers | Register cleanup in close phase |
+| fs ops queue forever | Thread pool exhaustion | Increase `UV_THREADPOOL_SIZE`; use async fs |
+| Promises never resolve | Microtask deadlock patterns | Avoid nextTick recursion flooding |
+
+---
+
 ## Six phases (one "tick")
 
 | Phase | Handles | Senior note |
@@ -98,19 +122,6 @@ process.nextTick(() => console.log('nextTick'));
 Promise.resolve().then(() => console.log('promise'));
 // sync first, then nextTick, promise, then timeout/immediate (order of latter two varies by context)
 ```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| API latency spikes globally | Event loop delay metric; `clinic bubbleprof` | Find sync/blocking handler; move to worker |
-| Timeouts "random" under load | Single thread saturated | [[clustering]] or horizontal scale |
-| `setImmediate` vs `setTimeout(0)` confusion | I/O vs non-I/O context | Use `setImmediate` inside I/O callbacks |
-| Memory grows, connections hang | Missing `close` handlers | Register cleanup in close phase |
-| fs ops queue forever | Thread pool exhaustion | Increase `UV_THREADPOOL_SIZE`; use async fs |
-| Promises never resolve | Microtask deadlock patterns | Avoid nextTick recursion flooding |
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[throttle]] [[user triggered event]] [[event listener]] [[Optimizing performance]] [[React]]
 
 # Debouncing
@@ -5,6 +6,15 @@
 > Delay function execution until **input stops** for N ms — coalesce burst calls into one — **UI search, resize, autocomplete**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

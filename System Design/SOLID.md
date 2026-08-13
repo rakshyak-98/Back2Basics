@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[DRY]] [[GRASP]] [[solid diagram]]
 
 # SOLID
@@ -5,6 +6,15 @@
 > SOLID — five OOP habits: one reason to change, extend without edit, subtypes safe, small interfaces, depend on abstractions.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

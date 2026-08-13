@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[pdf parser]] [[embedded image]]
 
 # PDF (Portable Document Format)
@@ -5,6 +6,15 @@
 > PDF is a fixed-layout document format — pages, fonts, and vectors aimed at print-faithful rendering.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Creation pattern/Abstract Factory]] [[Design pattern/Dependency Injection]] [[System Design/SOLID]]
 
 # Factory Method
@@ -5,6 +6,18 @@
 > Defer instantiation to a method subclasses (or a registry) can override — caller depends on product interface, not `new Concrete` — **Dive Into Design Patterns**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +38,14 @@ Creator.createProduct()  ──►  Product (interface)
 | **Concrete creator** | Overrides to return a specific product |
 
 In JS/TS services, a **registry function** (`createPlatformFactory(platformId)`) often replaces subclassing — same intent, less hierarchy.
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -74,6 +95,12 @@ await factory.campaignService().launch(dto);
 
 - Creator owning too much business + creation → split: keep factory thin, pipeline owns orchestration ([[Design pattern/Template Method]]).
 - Static factory methods are fine; "Factory" class hierarchy is optional.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

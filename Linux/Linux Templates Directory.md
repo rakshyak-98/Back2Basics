@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[X Desktop Group]]
 
 # Linux Templates Directory
@@ -5,6 +6,15 @@
 > `Templates/` (often `~/Templates`) holds starter files that file managers offer via “Create Document” — empty doc skeletons, not system `/etc` templates.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

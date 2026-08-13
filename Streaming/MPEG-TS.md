@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[IPTV]] [[ingestion]] [[CAS (Conditional Access System)]] [[Byte stream]] [[CMAF]]
 
 # MPEG-TS
@@ -5,6 +6,15 @@
 > MPEG-TS packs video, audio, and tables into 188-byte packets — the broadcast-friendly container for IPTV and UDP ingest.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

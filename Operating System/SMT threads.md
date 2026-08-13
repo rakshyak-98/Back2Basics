@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Thread]] [[multi-threaded]] [[CPU IO Bound Task]]
 
 # SMT threads
@@ -5,6 +6,15 @@
 > SMT (Simultaneous Multithreading) runs two+ hardware threads on one core — Intel Hyper-Threading is the common name.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

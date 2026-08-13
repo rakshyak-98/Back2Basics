@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[buffer]] [[Buffer cache]] [[buffer flags]] [[buffer head]] [[fsync]] [[multiple levels of buffering]]
 
 # buffer lifecycle
@@ -5,6 +6,15 @@
 > Buffer lifecycle is the path a kernel (or app) buffer takes — allocate, fill, use, write back, then reuse or free.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

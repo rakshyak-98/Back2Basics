@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Distributed computing]] [[System design]] [[cache system]] [[connection pooling]]
 
 # Database sharding
@@ -5,6 +6,15 @@
 > Split one logical database into independent shards — **horizontal scale when single-node limits hit**, not day-one default.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

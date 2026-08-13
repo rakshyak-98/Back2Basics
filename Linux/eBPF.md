@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[process]] [[Linux cgroup]] [[Commands]]
 
 # eBPF
@@ -5,6 +6,15 @@
 > eBPF — a JIT’d bytecode VM inside the kernel. You attach small programs to hooks (kprobes, tracepoints, XDP, tc, cgroup, LSM, …); the verifier proves they terminate and
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

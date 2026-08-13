@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure/dsa genera formula]] [[Data structure/sliding window]] [[Data structure/Prefix sum]]
 
 # Binary search
@@ -5,6 +6,15 @@
 > Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

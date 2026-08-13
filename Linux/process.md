@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[Linux Process Theory]] [[TTY (teletypewriter)]] [[file descriptors]]
 
 # Process
@@ -5,6 +6,15 @@
 > A process is a running program with its own PID, memory, and open files — the unit Linux schedules and isolates.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

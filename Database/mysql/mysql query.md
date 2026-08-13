@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql index]] [[cli]] [[mysql json]]
 
 # mysql query
@@ -5,6 +6,15 @@
 > Everyday MySQL SQL in the CLI — format results, find objects, and read metadata without guessing table names.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

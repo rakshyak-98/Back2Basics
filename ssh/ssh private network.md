@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ssh]]
 
 # ssh private network
@@ -5,6 +6,15 @@
 > ssh private network — ip addr show | grep inet
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -32,7 +42,6 @@ sudo ufw allow from 192.168.1.0/24 port 22 proto tcp
 sudo ufw reload; # reload
 sudo ufw status numbered; # verify the rule
 ```
-
 
 ## Standard config / commands
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux createApi]] [[Redux/RTQ Toolkit]]
 
 # RTQ store
@@ -5,6 +6,15 @@
 > Wire RTK Query into the Redux store — mount reducer + middleware, then `setupListeners`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

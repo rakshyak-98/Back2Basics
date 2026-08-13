@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[WAL (Write-Ahead Log)]] [[fsync]] [[WiredTiger storage engine]] [[Buffer cache]] [[How to manipulate memory directly]]
 
 # MMAP
@@ -5,6 +6,16 @@
 > Map a file into the process address space — the OS page cache becomes your buffer pool; load and write look like pointer access.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Interview map (words you can say)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -20,19 +31,6 @@ store *ptr        ──dirty──►  same pages  ──writeback / msync─�
 Databases historically used mmap as a **storage engine** (MongoDB MMAPv1; some embedded engines). Modern MongoDB uses [[WiredTiger storage engine]] (not MMAPv1). Many engines prefer an explicit buffer pool + [[WAL (Write-Ahead Log)]] so they control eviction and [[fsync]] timing.
 
 OS-level mmap mechanics: [[How to manipulate memory directly]].
-
-## Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **mmap** | Map file ↔ virtual memory | “I touch memory; the kernel does the I/O.” |
-| **Page fault** | First touch loads from disk/cache | “Working set too big ⇒ fault storm.” |
-| **Dirty page** | Modified mapped page not yet on disk | “Durability needs `msync` / `fsync`, not just `store`.” |
-| **Buffer pool** | Engine-managed cache | “Explicit pool beats mmap when you need predictable eviction.” |
-| **Double caching** | Engine cache + OS page cache | “mmap engines lean on OS cache; WiredTiger can use direct I/O.” |
-| **MMAPv1** | Old MongoDB engine | “Removed; don’t design new systems around it.” |
-
----
 
 ## Standard config / commands
 
@@ -77,6 +75,19 @@ WiredTiger → cache + journal / WAL-style durability  ([[WiredTiger storage eng
 | Huge VSZ, OOM killer | Large maps + overcommit | Cap cache; avoid mapping entire multi-TB file blindly |
 | Double memory use | Engine cache + OS cache | `O_DIRECT` / tuned WiredTiger; or accept mmap single-cache model |
 | MongoDB old docs mention mmap | Version check | Upgrade path to WiredTiger; ignore MMAPv1 tuning |
+
+---
+
+## Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **mmap** | Map file ↔ virtual memory | “I touch memory; the kernel does the I/O.” |
+| **Page fault** | First touch loads from disk/cache | “Working set too big ⇒ fault storm.” |
+| **Dirty page** | Modified mapped page not yet on disk | “Durability needs `msync` / `fsync`, not just `store`.” |
+| **Buffer pool** | Engine-managed cache | “Explicit pool beats mmap when you need predictable eviction.” |
+| **Double caching** | Engine cache + OS page cache | “mmap engines lean on OS cache; WiredTiger can use direct I/O.” |
+| **MMAPv1** | Old MongoDB engine | “Removed; don’t design new systems around it.” |
 
 ---
 

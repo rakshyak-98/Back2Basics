@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[Linux terminal]] [[Bash/Bash syntax]] [[Setup Non-Login user from Running process]]
 
 # Login shell
@@ -5,6 +6,15 @@
 > A login shell is the first shell after you sign in — it loads profile files to build your environment.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

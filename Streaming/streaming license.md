@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[CPIX]] [[Pallycon(DoveRunner)]] [[EME]]
 
 # streaming license
@@ -5,6 +6,15 @@
 > A streaming license token proves the player may fetch decryption keys — not the same as the CPIX packaging key token.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[flutter]]
 
 # Flutter app icon change
@@ -5,6 +6,15 @@
 > Flutter app icon change — instructions for replacing the default Flutter launcher icon with the green recycling trash icon (WasteManagement.png).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

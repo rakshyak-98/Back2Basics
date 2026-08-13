@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]] [[React Pattern/Summary pattern]] [[React Architecture]] [[React code smells]]
 
 # Managing complex component structure
@@ -5,6 +6,15 @@
 > Managing complex component structure — complex UI = state + composition + data fetching tangled in one file. Three levers:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

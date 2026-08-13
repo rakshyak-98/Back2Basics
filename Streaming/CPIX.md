@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[HLS]] [[DASH]] [[Pallycon(DoveRunner)]]
 
 # CPIX
@@ -5,6 +6,15 @@
 > CPIX (Content Protection Information Exchange) is XML that hands your packager the keys and PSSH needed to encrypt media.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

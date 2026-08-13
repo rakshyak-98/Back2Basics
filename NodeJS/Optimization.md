@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[clustering]] [[worker]] [[Event Loop]] [[node debugger]]
 
 # Optimization
@@ -5,6 +6,15 @@
 > Make Node faster and safer under load — find the bottleneck first (CPU, I/O, GC), then cache, cluster, or compress.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

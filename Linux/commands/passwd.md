@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[user management]] [[useradd]] [[userdel]] [[Authentication command]] [[chage]]
 
 # passwd
@@ -5,6 +6,15 @@
 > passwd — login attempt ──► PAM ──► /etc/shadow hash compare
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

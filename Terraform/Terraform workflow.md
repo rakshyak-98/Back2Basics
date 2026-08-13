@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Terraform setup]] [[terraform]] [[terraform provider]] [[Terraform CLI]] [[variable file]]
 
 # Terraform workflow
@@ -5,6 +6,21 @@
 > Core loop & state — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
 
 ---
+
+## Index
+
+- [[#Mental model (both books)]]
+- [[#Triage (when things break)]]
+- [[#The four commands]]
+- [[#Dependency graph (Winkler)]]
+- [[#What `init` does]]
+- [[#What `plan` / `apply` do]]
+- [[#State: why it exists (Brikman)]]
+- [[#Lifecycle meta-arguments (Winkler)]]
+- [[#Safe team loop (Brikman)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model (both books)
 
@@ -32,6 +48,16 @@ Concepts used in this loop:
 | State | Record of what Terraform owns | [[Terraform setup]] backends |
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
+| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
+| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
+| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
+| Wrong backend | `backend` block vs old state | `init -migrate-state` |
 
 ## The four commands
 
@@ -151,16 +177,6 @@ resource "aws_instance" "web" {
 4. Pin versions (`.terraform.lock.hcl` committed)
 
 ---
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
-| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
-| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
-| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
-| Wrong backend | `backend` block vs old state | `init -migrate-state` |
 
 ## Gotchas
 

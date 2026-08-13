@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Jenkins]] [[spinnaker]] [[Docker compose]] [[Terraform workflow]] [[git merge]]
 
 # Release cycle
@@ -5,6 +6,15 @@
 > How staff teams ship safely — release trains, feature flags, rollback criteria — **operational maturity, not semver trivia**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

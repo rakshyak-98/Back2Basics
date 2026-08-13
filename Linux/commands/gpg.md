@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[keyrings]] [[apt package manager]] [[Authentication command]]
 
 # gpg
@@ -5,6 +6,16 @@
 > gpg (GNU Privacy Guard) encrypts, decrypts, signs, and verifies with OpenPGP keys — also how apt trusts third-party repos.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#APT keyrings (dearmor)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -60,6 +71,18 @@ gpg --delete-keys <id>
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `no valid OpenPGP data` | HTML error page / wrong URL | `file` the download; fix mirror |
+| Can’t decrypt | Wrong recipient / missing secret | `list-secret-keys`; import private |
+| apt `NO_PUBKEY` | Key not in keyring | Dearmor into `/etc/apt/keyrings` + `signed-by=` |
+| Signature bad after edit | Detached sig for old bytes | Re-sign after change |
+| Agent passphrase loops | pinentry / TTY | `export GPG_TTY=$(tty)`; check pinentry |
+
+---
+
 ## APT keyrings (dearmor)
 
 ```bash
@@ -77,18 +100,6 @@ curl -fsSL https://example.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/exa
 ```
 
 Armor = human-readable OpenPGP text. Dearmor = back to binary for `signed-by=` in sources.list.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `no valid OpenPGP data` | HTML error page / wrong URL | `file` the download; fix mirror |
-| Can’t decrypt | Wrong recipient / missing secret | `list-secret-keys`; import private |
-| apt `NO_PUBKEY` | Key not in keyring | Dearmor into `/etc/apt/keyrings` + `signed-by=` |
-| Signature bad after edit | Detached sig for old bytes | Re-sign after change |
-| Agent passphrase loops | pinentry / TTY | `export GPG_TTY=$(tty)`; check pinentry |
 
 ---
 

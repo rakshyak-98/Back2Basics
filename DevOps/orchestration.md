@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Architectures/Orchestration layer]] [[DevOps/Airflow]] [[Kubernates/kubectl]] [[DevOps/Jenkins]]
 
 # Orchestration (DevOps)
@@ -5,6 +6,15 @@
 > Orchestration (DevOps) — orchestration sequences tasks/services to achieve a workflow. Contrast choreography (each service reacts to events without central brain) — see Architectures/Orchestration layer for distributed-systems
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

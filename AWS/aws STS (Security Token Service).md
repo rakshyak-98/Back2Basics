@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[IAM]] [[ARN (Amazon Resource Name)]] [[JWT authentication]] [[Security]]
 
 # AWS STS (Security Token Service)
@@ -5,6 +6,15 @@
 > Short-lived **temporary credentials** (AccessKeyId, SecretAccessKey, SessionToken) instead of long-lived IAM user keys — foundation for roles, federation, and cross-account access. **AWS IAM docs** + incident stories
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

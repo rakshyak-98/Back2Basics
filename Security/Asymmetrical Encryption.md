@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[RSA]] [[symmetrical encryption]] [[TLS (Transport Layer Security)]] [[PKI]]
 
 # Asymmetrical encryption
@@ -5,6 +6,15 @@
 > Public-key cryptography — encrypt or verify with public key; decrypt or sign with private key; solves key distribution at cost of CPU and size limits.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

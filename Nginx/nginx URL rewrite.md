@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]]
 
 # nginx URL rewrite
@@ -5,6 +6,15 @@
 > nginx URL rewrite — what happens when user goes to /about
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -17,7 +27,6 @@
 |`try_files`|“Look here, then here, then fallback”|unchanged|multiple places|
 |`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
 |`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
-
 
 ## Standard config / commands
 

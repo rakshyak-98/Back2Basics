@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Quorum]] [[Raft]] [[Distributed computing]] [[Eventual consistency]]
 
 # distributed system
@@ -5,6 +6,15 @@
 > Distributed system — multiple machines coordinate over the network; design for partial failure, replication, and clocks that lie.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

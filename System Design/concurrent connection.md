@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Throughput]] [[backpressure]] [[TCP]]
 
 # concurrent connection
@@ -5,6 +6,15 @@
 > Concurrent connections — how many live sockets/sessions you hold at once; often the real limit before CPU is.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

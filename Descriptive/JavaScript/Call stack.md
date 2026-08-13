@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Asynchronous]] [[JavaScript/execution context]]
 
 # Call stack
@@ -5,6 +6,15 @@
 > The call stack tracks nested function frames — push on call, pop on return; overflow when recursion is too deep.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

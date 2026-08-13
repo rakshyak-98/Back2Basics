@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[scikitlearn]] [[estimator]] [[supervised learning]] [[Model/Linear regression]] [[Decision tree]]
 
 # Data preprocessing
@@ -5,6 +6,15 @@
 > Turn raw tables into **leak-safe, scaled, encoded** matrices estimators can fit — garbage in → un-debuggable models — **scikit-learn Pipeline docs**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

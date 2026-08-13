@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[node debugger]] [[REPL]]
 
 # node inspect
@@ -5,6 +6,15 @@
 > Built-in CLI debugger — `node inspect script.js`; step with `n`/`s`/`c`, inspect with `repl`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

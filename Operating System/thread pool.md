@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[multi-threaded]] [[Thread]] [[thread-safe queue]] [[mutexes]] [[CPU IO Bound Task]]
 
 # thread pool
@@ -5,6 +6,15 @@
 > A thread pool keeps N reusable workers and a queue — submit tasks instead of spawning a new thread every time.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

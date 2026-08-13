@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[javascript]] [[Asynchronous]]
 
 # Javascript
@@ -5,6 +6,15 @@
 > JavaScript — language of the browser (and Node): single-threaded event loop, prototypes, and first-class functions.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

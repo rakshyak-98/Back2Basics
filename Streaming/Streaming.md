@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[ingestion]] [[HLS]] [[DASH]] [[ABR]] [[WebRTC]] [[RTMP]] [[SRT]] [[RTSP]]
 
 # Streaming
@@ -5,6 +6,17 @@
 > Streaming moves live or file video from ingest to the viewer — package, protect, and play over the network.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -50,6 +62,16 @@ Publisher (OBS / encoder / file)
 Video and audio encode apart; a **muxer** interleaves them with timestamps (PTS/DTS) into one container. The player **demuxes** to decode. Common containers: [[MPEG-TS]] (live/broadcast), MP4/fMP4 (HLS/DASH), FLV ([[RTMP]] ingest).
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

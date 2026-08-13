@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Questions]]
 
 # Logger
@@ -5,6 +6,15 @@
 > Logger — you are tasked with developing a logging module for a complex software application. The logging module needs to maintain a single log file…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

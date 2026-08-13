@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/lexical analysis]] [[JavaScript/Lexical Grammer]]
 
 # pre-parser
@@ -5,6 +6,15 @@
 > Engines skim source before full parse — find functions/boundaries early for faster startup and lazy compile.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

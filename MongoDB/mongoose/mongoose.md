@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[MongoDB]] [[mongoose/mongoose schema]] [[mongodb connection]]
 
 # mongoose
@@ -5,6 +6,17 @@
 > Mongoose is the Node ODM for MongoDB — schemas, models, and connection pooling on top of the driver.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -26,6 +38,16 @@ URI → mongoose.connect → Model(schema) → find/save
 | **Middleware** | pre/post hooks | “hash password pre('save').” |
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

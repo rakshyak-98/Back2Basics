@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[vim buffers]] [[Descriptive/LSP]] [[nvim setup]] [[zed keybindings]]
 
 # Vim / Neovim keybindings — go to
@@ -5,6 +6,39 @@
 > LSP-powered navigation (definition, references, implementation) plus jump-back — requires Neovim with a language server attached; plain Vim needs ctags or a plugin.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Standard config / commands
+
+```bash
+# version / help / dry-run when available
+# keep env-specific values out of git
+```
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -34,15 +68,6 @@ See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementa
 
 ---
 
-## Standard config / commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -65,6 +90,12 @@ See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementa
 - Skip when a simpler existing approach already fits.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

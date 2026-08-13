@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[grep]] [[jq]]
 
 # awk
@@ -5,6 +6,15 @@
 > awk walks a file line by line — match a pattern, run an action on fields.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/vscode]] [[javascript]] [[NodeJS/node command]] [[compiler/library file]]
 
 # Unbound breakpoint
@@ -5,6 +6,15 @@
 > Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

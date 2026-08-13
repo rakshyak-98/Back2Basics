@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
 
 # IAM
@@ -5,6 +6,15 @@
 > IAM — users, roles, and policies that decide who can call which AWS APIs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

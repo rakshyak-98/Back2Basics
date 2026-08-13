@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx/Configuration]] [[Nginx/nginx internals]] [[Nginx/How does directive work]]
 
 # How Nginx directives work
@@ -5,6 +6,15 @@
 > Directives in context blocks compose request handling — inheritance, merge rules, and phase order determine which `location` wins.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[DNS]]
 
 # Network Information Service (NIS)
@@ -5,6 +6,15 @@
 > NIS (Network Information Service) is an old shared directory for users, hosts, and maps — central admin for a LAN, not a streaming protocol.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[Redux]] [[Redux toolkit]] [[Redux/RTQ/Middleware]] [[Redux/Redux createApi]]
 
 # Store Architecture Guide
@@ -5,6 +6,33 @@
 > Feature slices + split listeners + API endpoints — keep storage, API side effects, and cross-slice sync in separate middleware files.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -103,6 +131,12 @@ effect: (_a, listenerApi) => {
 - **Server cache only** — RTK Query without custom storage sync.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

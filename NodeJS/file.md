@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[node fs]] [[Buffers]] [[Stream]]
 
 # Node.js `file` module patterns
@@ -5,6 +6,15 @@
 > Node.js `file` module patterns — node has no separate file package — file I/O lives in node:fs. Three API surfaces:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

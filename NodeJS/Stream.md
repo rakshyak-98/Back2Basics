@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Stream/pipe]] [[Buffers]] [[Stream Events]]
 
 # Stream
@@ -5,6 +6,15 @@
 > Process data in chunks — don’t load the whole file/response into RAM; backpressure keeps readers and writers in pace.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

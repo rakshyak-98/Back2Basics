@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[name server]] [[top-level Domain]] [[Route53]]
 
 # Top-Level Domain (TLD)
@@ -5,6 +6,15 @@
 > TLD (top-level domain) — rightmost DNS label (`com`, `org`) under the root.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

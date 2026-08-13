@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[npm]]
 
 # zod
@@ -5,6 +6,15 @@
 > zod — message: 'Confirm password is required when setting a password',
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

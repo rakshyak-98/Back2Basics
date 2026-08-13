@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[psql essential]] [[connection pooling]] [[ACID]]
 
 # postgres
@@ -5,6 +6,15 @@
 > PostgreSQL is a relational database with strong SQL — connections, roles, and constraints are first-class ops concerns.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Linux terminal]] [[bash script]] [[grep]] [[fzf]] [[Find command]]
 
 # CLI
@@ -6,40 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-Everything is a file descriptor: **stdin (0)**, **stdout (1)**, **stderr (2)**. Programs read stdin, write stdout, errors to stderr. The shell connects them with pipes (`|`), redirects (`>`, `>>`, `2>&1`), and subshells (`$()`, `$()`).
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```
-Keyboard ──stdin──► command ──stdout──► pipe ──► next command ──► terminal/file
-                      │
-                      └──stderr──► journal / 2>&1 merge
-```
+## Quick reference
 
-| Concept | Meaning |
-|---------|---------|
-| Exit code | 0 = success; non-zero = failure (`$?`) |
-| Pipe | stdout of left → stdin of right |
-| `2>&1` | Merge stderr into stdout |
-| `\|` pipeline | Each stage is separate process |
-| `$()` | Capture output as string |
-| `set -euo pipefail` | Fail fast in scripts ([[bash script]]) |
-
-**Operator workflow:** observe → narrow → act → verify.
-
-```
-symptom ──► ss/journalctl/ps ──► grep/awk ──► fix ──► re-check
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **shell** | User ↔ kernel via commands | “CLI is the ops API of Linux.” |
-| **stdin/stdout/stderr** | Three streams | “2>&1 merges errors into out.” |
-| **pipeline** | cmd | cmd | “Small tools compose.” |
-| **exit status** | 0 success | “Scripts must check failures.” |
-| **man / --help** | Docs on box | “man 5 for file formats.” |
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -111,6 +95,47 @@ man ss                       # local docs
 help cd                      # shell builtins
 ```
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+Everything is a file descriptor: **stdin (0)**, **stdout (1)**, **stderr (2)**. Programs read stdin, write stdout, errors to stderr. The shell connects them with pipes (`|`), redirects (`>`, `>>`, `2>&1`), and subshells (`$()`, `$()`).
+
+```
+Keyboard ──stdin──► command ──stdout──► pipe ──► next command ──► terminal/file
+                      │
+                      └──stderr──► journal / 2>&1 merge
+```
+
+| Concept | Meaning |
+|---------|---------|
+| Exit code | 0 = success; non-zero = failure (`$?`) |
+| Pipe | stdout of left → stdin of right |
+| `2>&1` | Merge stderr into stdout |
+| `\|` pipeline | Each stage is separate process |
+| `$()` | Capture output as string |
+| `set -euo pipefail` | Fail fast in scripts ([[bash script]]) |
+
+**Operator workflow:** observe → narrow → act → verify.
+
+```
+symptom ──► ss/journalctl/ps ──► grep/awk ──► fix ──► re-check
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **shell** | User ↔ kernel via commands | “CLI is the ops API of Linux.” |
+| **stdin/stdout/stderr** | Three streams | “2>&1 merges errors into out.” |
+| **pipeline** | cmd | cmd | “Small tools compose.” |
+| **exit status** | 0 success | “Scripts must check failures.” |
+| **man / --help** | Docs on box | “man 5 for file formats.” |
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -141,6 +166,12 @@ help cd                      # shell builtins
 - **Heavy data transformation at scale** → Python/awk scripts, DB, dedicated tools.
 - **GUI-only tasks** → desktop settings (unless [[gsetting]] / D-Bus).
 - **Immutable infra** → configuration management API, not manual SSH edits (still CLI, different workflow).
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

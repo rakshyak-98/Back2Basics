@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[orm]] [[mysql]] [[mysql connection]]
 
 # sequalizer
@@ -5,6 +6,15 @@
 > Sequelize model hooks — run code around validate/save so invariants (slug, password hash) stay in one place.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

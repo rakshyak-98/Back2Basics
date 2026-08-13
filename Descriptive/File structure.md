@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx/Nginx internals]] [[Nginx/Configuration]] [[Operating System/kernel subsystem]] [[compiler/library file]]
 
 # File structure (NGINX source layout)
@@ -5,6 +6,15 @@
 > File structure (NGINX source layout) — ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

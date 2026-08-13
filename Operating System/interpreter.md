@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[linker]] [[runtime]] [[Runtime Environment]]
 
 # Interpreter
@@ -5,6 +6,15 @@
 > Runs program source (or bytecode) by executing it now — no separate ahead-of-time machine binary required.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

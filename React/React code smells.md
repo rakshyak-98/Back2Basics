@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[Optimizing performance]] [[React Pattern/Component Presentational Pattern]]
 
 # React code smells
@@ -5,6 +6,15 @@
 > Patterns that make React apps hard to change — god components, prop drilling, and mirrored state.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

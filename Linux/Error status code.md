@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[Linux]] [[process]] [[Linux/commands/gdb]] [[OOM (Linux Out Of Memory)]]
 
 # Error status code
@@ -5,6 +6,46 @@
 > Exit status is the 8-bit code a process returns to its parent — `0` means success; non-zero means failure or death by signal.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Exit 127 | `which cmd`; PATH in service env | Install binary; fix unit `Environment=` |
+| Exit 126 | `ls -l`; noexec mount | `chmod +x`; fix mount options |
+| Exit 137 | `dmesg` OOM; `kill -9` | Memory limit / leak — [[OOM (Linux Out Of Memory)]] |
+| Exit 139 | core / gdb `bt` | Fix segfault — [[Stack trace]] |
+| Exit 1, vague | App logs; run foreground | Don’t guess — print your own codes |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -79,18 +120,6 @@ if (WIFSIGNALED(status)) sig  = WTERMSIG(status);
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Exit 127 | `which cmd`; PATH in service env | Install binary; fix unit `Environment=` |
-| Exit 126 | `ls -l`; noexec mount | `chmod +x`; fix mount options |
-| Exit 137 | `dmesg` OOM; `kill -9` | Memory limit / leak — [[OOM (Linux Out Of Memory)]] |
-| Exit 139 | core / gdb `bt` | Fix segfault — [[Stack trace]] |
-| Exit 1, vague | App logs; run foreground | Don’t guess — print your own codes |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -114,6 +143,14 @@ if (WIFSIGNALED(status)) sig  = WTERMSIG(status);
 - **Distinguishing 50 application failures** — stick to small reserved sets; document them.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

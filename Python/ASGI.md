@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Python]]
 
 # ASGI
@@ -5,6 +6,15 @@
 > ASGI — web servers to forward request to asynchronous-capable python programming language frameworks, and applications.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

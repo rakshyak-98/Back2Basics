@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[Release cycle]] [[Github action]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[ecommerce-platform-architecture]] [[ecommerce-eks-layout]] [[AWS ECR]]
 
 # ecommerce cicd environments
@@ -5,6 +6,56 @@
 > Five concurrent environments, promotion gates, and per-stage deployment strategy for the e-commerce microservice platform on EKS — **ops contract**, not tool marketing.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Config & secrets per environment]]
+- [[#Environment topology]]
+- [[#Promotion gates (dev → test → staging → prod → live)]]
+- [[#CI/CD pipeline]]
+- [[#Deployment strategy per environment]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback strategy]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Staging OK, prod fails | Values diff, secrets, scale | Compare Helm values; IRSA role ARNs |
+| Canary red, stable green | New code only on canary | Rollouts abort; inspect payment metrics |
+| Pipeline won't promote | Gate job logs | Fix scan/CVE or flaky contract test |
+| Wrong env webhook | PSP dashboard URL | Separate ingress per env subdomain |
+| Deploy stuck | PDB, insufficient nodes | CA max; temporary raise max surge |
+
+```shell
+kubectl argo rollouts get rollout payment -n prod
+kubectl rollout undo deployment/catalog -n prod
+helm rollback payment 42 -n prod
+```
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -155,41 +206,6 @@ jobs:
 
 ---
 
-## Rollback strategy
-
-| Layer | Action | When |
-|-------|--------|------|
-| **Live canary** | Rollouts `abort` or undo promotion | SLO breach during canary |
-| **K8s deployment** | `kubectl rollout undo` / Argo CD sync previous revision | Prod error spike |
-| **Helm** | `helm rollback <release> <revision>` | Bad chart values |
-| **Feature flag** | Disable flag | Logic bug without infra rollback ([[Release cycle]]) |
-| **Kafka consumer** | Pause consumer + skip bad offset after fix | Poison message |
-| **Terraform** | Revert commit + `terraform apply` previous | Infra regression |
-
-**Do not rollback** if forward-only migration already applied — forward fix + flag off.
-
-**Immutable artifacts:** rollback = redeploy **previous digest** from ECR, not rebuild old branch unless source fix needed.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Staging OK, prod fails | Values diff, secrets, scale | Compare Helm values; IRSA role ARNs |
-| Canary red, stable green | New code only on canary | Rollouts abort; inspect payment metrics |
-| Pipeline won't promote | Gate job logs | Fix scan/CVE or flaky contract test |
-| Wrong env webhook | PSP dashboard URL | Separate ingress per env subdomain |
-| Deploy stuck | PDB, insufficient nodes | CA max; temporary raise max surge |
-
-```shell
-kubectl argo rollouts get rollout payment -n prod
-kubectl rollout undo deployment/catalog -n prod
-helm rollback payment 42 -n prod
-```
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -212,6 +228,27 @@ helm rollback payment 42 -n prod
 - **No SLOs** — canary is theater; define payment success + p99 first ([[Release cycle]]).
 
 ---
+
+## Rollback strategy
+
+| Layer | Action | When |
+|-------|--------|------|
+| **Live canary** | Rollouts `abort` or undo promotion | SLO breach during canary |
+| **K8s deployment** | `kubectl rollout undo` / Argo CD sync previous revision | Prod error spike |
+| **Helm** | `helm rollback <release> <revision>` | Bad chart values |
+| **Feature flag** | Disable flag | Logic bug without infra rollback ([[Release cycle]]) |
+| **Kafka consumer** | Pause consumer + skip bad offset after fix | Poison message |
+| **Terraform** | Revert commit + `terraform apply` previous | Infra regression |
+
+**Do not rollback** if forward-only migration already applied — forward fix + flag off.
+
+**Immutable artifacts:** rollback = redeploy **previous digest** from ECR, not rebuild old branch unless source fix needed.
+
+---
+
+## Escalation
+
+…
 
 ## Related
 

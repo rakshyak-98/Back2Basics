@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[HLS]] [[network management]]
 
 # RTMP (Real-Time Messaging Protocol)
@@ -5,6 +6,15 @@
 > RTMP (Real-Time Messaging Protocol) — OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

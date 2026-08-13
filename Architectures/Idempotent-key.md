@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Architectures]] [[System Design/Concurrent modification]]
 
 # Idempotent-key
@@ -5,6 +6,15 @@
 > Idempotency key lets a client safely retry a write — same key returns the first result, not a duplicate.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

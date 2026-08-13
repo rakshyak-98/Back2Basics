@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[NodeJS]] [[node command]] [[nvm]] [[Node.js run as a non-privileged user]] [[inputs]]
 
 # Node.js CLI
@@ -6,17 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```
-Developer shell          CI / systemd
-     │                        │
-     ├─ node app.js           ├─ /opt/node/bin/node app.js
-     ├─ npm run start         ├─ EnvironmentFile + User=
-     └─ npx tsx watch src     └─ no nvm unless explicit load
-```
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -70,6 +77,24 @@ node --max-old-space-size=4096 server.js
 node --trace-warnings server.js
 ```
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+The **`node` binary** executes JavaScript (file or `-e`). **`npm run`** sets PATH to local `node_modules/.bin` and injects npm lifecycle environment. **`npx`** runs package binaries without global install. Production services rarely use CLI ad hoc — they use systemd/Docker with pinned paths.
+
+```
+Developer shell          CI / systemd
+     │                        │
+     ├─ node app.js           ├─ /opt/node/bin/node app.js
+     ├─ npm run start         ├─ EnvironmentFile + User=
+     └─ npx tsx watch src     └─ no nvm unless explicit load
+```
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -96,6 +121,12 @@ node --trace-warnings server.js
 
 - **Production scaling** — process manager (systemd, K8s) not manual CLI.
 - **Heavy REPL exploration** — use `node` REPL or [[REPL]] note for interactive debugging.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

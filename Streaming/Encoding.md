@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[transcoding]] [[re-encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[ingestion]]
 
 # Encoding
@@ -5,6 +6,15 @@
 > Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

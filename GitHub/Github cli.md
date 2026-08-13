@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[GIT]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
 
 # GitHub CLI (`gh`)
@@ -6,9 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-`gh` wraps GitHub REST/GraphQL with repository-aware defaults (current directory's remote). authentication is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repository, environment, or org.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -61,6 +76,16 @@ gh repo delete owner/repo --yes   # destructive; needs admin
 gh pr list --json number,title,author --jq '.[] | "\(.number) \(.title)"'
 ```
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+`gh` wraps GitHub REST/GraphQL with repository-aware defaults (current directory's remote). authentication is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repository, environment, or org.
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -84,6 +109,12 @@ gh pr list --json number,title,author --jq '.[] | "\(.number) \(.title)"'
 
 - Don't use `gh` in CI instead of `GITHUB_TOKEN` + native actions — use `gh` locally and in ad-hoc scripts.
 - Don't store long-lived PATs in shell profiles — use `gh auth login` credential store.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

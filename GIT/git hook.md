@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git commit]]
 
 # Git Hooks
@@ -5,6 +6,16 @@
 > scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Common hooks reference]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -92,6 +103,18 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Commit silently slow | Hook running full test suite | Scope to staged files; move heavy checks to CI/pre-push |
+| Hook not running | `ls -la .git/hooks/pre-commit` | Must be executable; verify `core.hooksPath` |
+| Works locally, not for teammate | Hooks not in repo | Commit husky/lefthook config; hooks aren't cloned from `.git/hooks` |
+| CI passes, pre-commit fails | Different Node/Python version | Pin versions in `.tool-versions` / `engines` |
+| `--no-verify` abuse | Audit culture | Protected branches on remote + required checks |
+
+---
+
 ## Common hooks reference
 
 | Hook | Trigger | Typical use |
@@ -103,18 +126,6 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 | `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
 
 Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Commit silently slow | Hook running full test suite | Scope to staged files; move heavy checks to CI/pre-push |
-| Hook not running | `ls -la .git/hooks/pre-commit` | Must be executable; verify `core.hooksPath` |
-| Works locally, not for teammate | Hooks not in repo | Commit husky/lefthook config; hooks aren't cloned from `.git/hooks` |
-| CI passes, pre-commit fails | Different Node/Python version | Pin versions in `.tool-versions` / `engines` |
-| `--no-verify` abuse | Audit culture | Protected branches on remote + required checks |
 
 ---
 

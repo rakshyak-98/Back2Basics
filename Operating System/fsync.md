@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[system call]] [[Buffer cache]] [[WAL (Write-Ahead Log)]] [[Persistent Block Storage]] [[multiple levels of buffering]]
 
 # fsync
@@ -5,6 +6,15 @@
 > fsync — write() returning success means data reached kernel page cache, not necessarily the physical medium. fsync(fd) (or fdatasync, sync_file_range) is the contract boundary: "make this
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

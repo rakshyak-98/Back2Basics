@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[user management]] [[SSH]] [[Linux configuration]]
 
 # Fresh system sudo setup
@@ -5,6 +6,32 @@
 > Fresh system sudo setup — install ──► create admin user ──► SSH key auth ──► verify sudo ──► harden sshd ──► disable root password login
 
 ---
+
+## Index
+
+- [[#Prerequisites]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Triage (when things break)]]
+- [[#Related]]
+
+## Prerequisites
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# smoke test
+```
 
 ## Mental model
 
@@ -96,6 +123,25 @@ grep sudo /var/log/auth.log
 journalctl _COMM=sudo
 ```
 
+## Gotchas
+
+> [!WARNING]
+> **Order matters:** SSH key verified → then disable password auth. Reversing the order is the #1 fresh-VPS lockout.
+
+> [!WARNING]
+> **`chmod 777 /etc/sudoers`** or editing with `nano` without `visudo` — one typo disables **all** sudo.
+
+- **`sudo` group empty on minimal images** — cloud images often ship root-only; create user before disconnecting root session.
+- **Two sessions rule:** keep one root/ssh session open while reloading sshd.
+- **`Defaults secure_path`** — scripts using `sudo cmd` may not see your custom `/usr/local/bin`; use full paths in sudoers.
+- **Wheel on Debian** — group may exist but not be in sudoers unless configured; use `sudo` group on Ubuntu.
+
+## When NOT to use
+
+- **Shared developer laptops** — NOPASSWD ALL for convenience trades away sudo audit and password second factor.
+- **Production application runtime as sudo user** — services get dedicated users, no shell, no sudo ([[Setup Non-Login user from Running process]]).
+- **Disabling root entirely before testing administrator** — always validate `deploy` sudo in a second session first.
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -124,25 +170,6 @@ chmod 440 /mnt/etc/sudoers.d/deploy
 # Or reset sshd
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /mnt/etc/ssh/sshd_config.d/*.conf
 ```
-
-## Gotchas
-
-> [!WARNING]
-> **Order matters:** SSH key verified → then disable password auth. Reversing the order is the #1 fresh-VPS lockout.
-
-> [!WARNING]
-> **`chmod 777 /etc/sudoers`** or editing with `nano` without `visudo` — one typo disables **all** sudo.
-
-- **`sudo` group empty on minimal images** — cloud images often ship root-only; create user before disconnecting root session.
-- **Two sessions rule:** keep one root/ssh session open while reloading sshd.
-- **`Defaults secure_path`** — scripts using `sudo cmd` may not see your custom `/usr/local/bin`; use full paths in sudoers.
-- **Wheel on Debian** — group may exist but not be in sudoers unless configured; use `sudo` group on Ubuntu.
-
-## When NOT to use
-
-- **Shared developer laptops** — NOPASSWD ALL for convenience trades away sudo audit and password second factor.
-- **Production application runtime as sudo user** — services get dedicated users, no shell, no sudo ([[Setup Non-Login user from Running process]]).
-- **Disabling root entirely before testing administrator** — always validate `deploy` sudo in a second session first.
 
 ## Related
 

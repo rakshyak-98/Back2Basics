@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[zustand]] [[expressjs]] [[Event Loop]] [[webSocket]] [[JWT authentication]]
 
 # React data management
@@ -5,6 +6,15 @@
 > React data management — split state by source of truth and lifecycle:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

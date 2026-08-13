@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[BSD Socket]] [[TCP]] [[UDP]] [[address port]]
 
 # POSIX Socket
@@ -5,6 +6,15 @@
 > POSIX sockets are the portable `socket()`/`bind()`/`connect()` API — a socket is a file descriptor you `read`/`write`/`close`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

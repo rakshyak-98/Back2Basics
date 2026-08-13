@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ingestion]] [[Streaming]] [[MPEG-TS]] [[RTMP]] [[Encoding]] [[network management]]
 
 # SRT (Secure Reliable Transport)

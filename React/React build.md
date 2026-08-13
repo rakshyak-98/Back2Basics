@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React project configuration]] [[Optimizing performance]] [[source map]] [[SWC]] [[Deployment/vercel deployment]]
 
 # React build
@@ -5,6 +6,15 @@
 > React build — source (TSX, CSS) → bundler (Vite/webpack/esbuild) → chunks + hashed filenames → CDN
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

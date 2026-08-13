@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DRM]]
 
 # CDM (Content Decryption Module)
@@ -5,6 +6,15 @@
 > CDM (Content Decryption Module) — decrypts DRM media inside a secure player sandbox.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -48,6 +58,25 @@ Playback Flow
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

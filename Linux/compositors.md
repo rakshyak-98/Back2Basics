@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[wayland]] [[x11]] [[Linux window manager]]
 
 # compositors
@@ -5,6 +6,15 @@
 > A compositor builds the final screen image — vsync, transparency, screenshots — either as an X helper or as the Wayland display server itself.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

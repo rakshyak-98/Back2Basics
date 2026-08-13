@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[symmetrical encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[openssl]]
 
 # yescrypt (yashcrypt)
@@ -5,6 +6,15 @@
 > Memory-hard password hashing KDF — successor to scrypt; increases attacker cost by requiring large RAM per guess. Filename `yashcrypt.md` is a vault typo for **yescrypt**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

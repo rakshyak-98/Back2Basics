@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]]
 
 # rank prediction
@@ -5,6 +6,15 @@
 > Rank prediction orders items by relevance — learning-to-rank, not just classify/regress one score in isolation.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

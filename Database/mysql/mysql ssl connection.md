@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql/mysql connection]] [[mysql pool connection]] [[Security/TLS (Transport Layer Security)]] [[connection pooling]]
 
 # MySQL SSL/TLS connections
@@ -5,6 +6,15 @@
 > encrypt client↔server traffic and optionally verify server (and client) identity — required for compliance and public-network RDS; configure both server certs and driver `ssl` options.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

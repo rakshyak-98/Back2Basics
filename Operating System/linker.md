@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[interpreter]] [[OS program]] [[opcode]]
 
 # Linker
@@ -5,6 +6,15 @@
 > The linker merges object files and libraries into one executable or shared library — it resolves symbols to real addresses.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

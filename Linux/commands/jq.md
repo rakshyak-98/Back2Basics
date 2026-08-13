@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[awk]] [[curl]]
 
 # jq
@@ -5,6 +6,15 @@
 > jq is a JSON filter for the shell — select, reshape, and print without writing a script.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

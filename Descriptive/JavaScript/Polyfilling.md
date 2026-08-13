@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript/polyfills]] [[javascript]] [[Descriptive/JavaScript/javascript web API]] [[npm]]
 
 # Polyfilling
@@ -5,6 +6,15 @@
 > Polyfilling — transpiling rewrites syntax (class → function). Polyfilling adds missing functions or prototypes at runtime. No syntax change — only implementation.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

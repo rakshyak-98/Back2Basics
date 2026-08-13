@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git command]] [[git merge]] [[node package json]] [[Jenkins]] [[Docker compose]]
 
 # Husky (filename: husk.md)
@@ -5,6 +6,15 @@
 > Husky (filename: husk.md) — husky installs scripts into .husky/ that Git invokes on events (pre-commit, pre-push, commit-msg). It bridges npm lifecycle and Git hooks so CI
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

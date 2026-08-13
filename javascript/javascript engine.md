@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Event Loop]] [[Descriptive/JavaScript/pre-parser]] [[wasm]] [[SWC]] [[NodeJS]]
 
 # JavaScript engine
@@ -5,6 +6,15 @@
 > JavaScript engine — source → parser → AST → interpreter (Ignition) → optimizing compiler (TurboFan/V8)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

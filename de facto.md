@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[de facto]] [[Release cycle]] [[general]]
 
 # de facto standard
@@ -5,6 +6,15 @@
 > De facto standard — so widely used it behaves like a standard without formal ratification.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -14,6 +24,25 @@
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

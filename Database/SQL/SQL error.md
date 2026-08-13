@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[SQL]] [[cli]] [[mysql]] [[mysql user]] [[TLS (Transport Layer Security)]]
 
 # SQL error
@@ -5,6 +6,46 @@
 > `Public Key Retrieval is not allowed` — MySQL 8 password auth needs the server public key over insecure links; the JDBC client refused to fetch it.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Public Key Retrieval is not allowed | JDBC URL + user plugin | Allow retrieval **or** enable TLS |
+| Works in CLI, fails in Java | Driver defaults | Update Connector/J; set URL flags |
+| Only some users fail | `plugin` per user | Align plugin or client capabilities |
+| TLS handshake errors | Certs / `sslMode` | Fix trust store; don’t silently disable SSL in prod |
+| Confused with ERROR 1698 | Auth plugin socket | That’s CLI root socket auth — see [[cli]] |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -62,18 +103,6 @@ jdbc:mysql://host:3306/db?sslMode=REQUIRED
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Public Key Retrieval is not allowed | JDBC URL + user plugin | Allow retrieval **or** enable TLS |
-| Works in CLI, fails in Java | Driver defaults | Update Connector/J; set URL flags |
-| Only some users fail | `plugin` per user | Align plugin or client capabilities |
-| TLS handshake errors | Certs / `sslMode` | Fix trust store; don’t silently disable SSL in prod |
-| Confused with ERROR 1698 | Auth plugin socket | That’s CLI root socket auth — see [[cli]] |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -94,6 +123,14 @@ jdbc:mysql://host:3306/db?sslMode=REQUIRED
 - **Changing authentication plugins without understanding clients** — breaks other apps mid-flight.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

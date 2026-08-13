@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[gnome Colorschem]] [[X Desktop Group]]
 
 # gsetting
@@ -5,6 +6,15 @@
 > `gsettings` reads/writes GNOME/dconf keys — the schema’d way to change desktop settings from the shell.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Github runner]] [[Github cli]] [[DevOps/Jenkins]] [[Deployment/spinnaker]]
 
 # GitHub Actions
@@ -5,6 +6,15 @@
 > GitHub Actions — trigger (push, PR, cron, dispatch)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

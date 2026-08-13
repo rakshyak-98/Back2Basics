@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[dsa problem solving Scaffold]] [[dsa intuition]]
 
 # Questions
@@ -5,6 +6,15 @@
 > DSA question bank mindset — classify the prompt, pick a pattern, then solve with the scaffold.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

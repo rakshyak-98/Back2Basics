@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Rendering performance/INP]] [[Rendering performance/layout]] [[Rendering performance/paint]] [[Operating System/context switching]]
 
 # Refresh rate
@@ -5,6 +6,15 @@
 > Display hardware cadence — frames must be ready before vsync or user sees jank — **60 Hz ≈ 16.67 ms budget**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

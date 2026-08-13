@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[binary classification]] [[ML Classifiers]] [[sigmoid]] [[scikitlearn]] [[Decision tree]]
 
 # Multiclass classification
@@ -5,6 +6,15 @@
 > Predict one label from **K > 2** classes — reduction strategies, metrics, and production pitfalls.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

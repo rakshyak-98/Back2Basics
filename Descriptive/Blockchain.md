@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[blockchain property]] [[Etherium]]
 
 # Blockchain
@@ -5,6 +6,15 @@
 > A blockchain is a linked, append-only ledger of blocks — useful when many parties need a shared history without one admin DB.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Buffer cache]] [[system call]] [[kernel ring buffer]] [[cgroup (Control Group)]] [[context switching]]
 
 # Kernel subsystem
@@ -5,6 +6,15 @@
 > Kernel subsystem — the Linux kernel is not one blob — it's subsystems with defined boundaries, sharing locks, caches, and the same address space (kernel mode).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

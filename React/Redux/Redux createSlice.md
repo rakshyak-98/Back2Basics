@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Immutability in Redux]]
 
 # Redux createSlice
@@ -5,6 +6,15 @@
 > One RTK call that builds a reducer, action creators, and action types for a feature slice — Immer drafts inside.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure/dsa genera formula]] [[ML/Model/Linear regression]] [[javascript]] [[general]]
 
 # Percentage calculation
@@ -5,6 +6,15 @@
 > Mental math and code patterns for `%` of a value, change, and reverse-percent — **on-call sizing + discount math without a calculator**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Route53]] [[Elastic IP]] [[DNS]] [[DNS zone]] [[NAT (Network Address Translation)]] [[certbot (letsencrypt)]] [[CORS (Cross Origin Request Sharing)]]
 
 # Connect GoDaddy domain to AWS EC2
@@ -5,6 +6,15 @@
 > Runbook: point a GoDaddy-registered domain at an EC2 instance with correct DNS, networking, and HTTPS — **Route53 vs GoDaddy NS decision first**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

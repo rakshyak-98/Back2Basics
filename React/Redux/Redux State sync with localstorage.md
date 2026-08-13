@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/redux persist]] [[Redux/redux middleware]]
 
 # Redux State sync with localStorage
@@ -5,6 +6,15 @@
 > Persist a slice across reloads — hydrate on store create, write on change via middleware.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

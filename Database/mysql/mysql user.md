@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql Privileges]] [[cli]]
 
 # mysql user
@@ -5,6 +6,15 @@
 > Create and manage MySQL accounts as `'user'@'host'` — password, plugin, then GRANT.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[vim keybindings]] [[Descriptive/LSP]]
 
 # nvim setup
@@ -5,6 +6,29 @@
 > nvim setup — short field notes on what it is and how to use it.
 
 ---
+
+## Index
+
+- [[#Prerequisites]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Troubleshooting]]
+- [[#Related]]
+
+## Prerequisites
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# smoke test
+```
 
 ## Mental model
 
@@ -40,6 +64,12 @@ require("lazy").setup({
 
 
 ---
+
+## Troubleshooting
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
 
 ## Related
 

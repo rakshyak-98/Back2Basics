@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[React code smells]] [[react hooks]] [[useRef]]
 
 # Optimizing performance
@@ -5,6 +6,15 @@
 > Cut wasted re-renders and expensive work — measure first, then memoize or split.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[D-Bus]] [[Services commands]] [[Service masking]]
 
 # bluetoothctl
@@ -5,6 +6,15 @@
 > BlueZ interactive CLI — pair headsets, debug `org.bluez.Error.Busy`, and script BT when GUI applets lie about power state.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

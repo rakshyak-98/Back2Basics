@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[MCP/MCP Client]] [[Descriptive/vscode]] [[Protocol/MQTT]]
 
 # MCP (Model Context Protocol)
@@ -5,6 +6,17 @@
 > Open protocol for AI clients to discover and call tools, read resources, and exchange prompts with servers — USB-C for LLM integrations.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -15,6 +27,16 @@ Host (IDE) → MCP Client ↔ transport ↔ MCP Server (git, DB, browser, …)
 ```
 
 specification evolves — streamable HTTP supersedes early SSE-only patterns for remote servers.
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

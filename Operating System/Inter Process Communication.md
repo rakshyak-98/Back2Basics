@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[process]] [[shared memory]] [[file descriptors]] [[Thread]]
 
 # Inter Process Communication
@@ -5,6 +6,15 @@
 > IPC is how separate processes exchange data — pipes, sockets, shared memory, and messages — instead of sharing an address space.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[Asymmetrical Encryption]] [[TLS (Transport Layer Security)]] [[SSH]]
 
 # symmetrical encryption
@@ -5,6 +6,15 @@
 > Symmetric encryption — same secret key encrypts and decrypts; fast bulk crypto once both sides share the key.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

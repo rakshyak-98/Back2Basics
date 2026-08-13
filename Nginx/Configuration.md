@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]] [[web server]] [[directives]] [[nginx SPA deployment]] [[nginx fastcgi]] [[nginx configuration structure]]
 
 # Nginx Configuration
@@ -5,6 +6,15 @@
 > Reverse proxy + static files — validate with `nginx -t`, reload without dropping connections.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

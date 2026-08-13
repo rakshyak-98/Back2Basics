@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ss]] [[route]] [[ip]] [[Linux]]
 
 # NetworkManager (network managmeen)
@@ -5,6 +6,15 @@
 > NetworkManager (network managmeen) — networkManager (NM) sits between kernel netlink and admin intent (CLI, GUI, cloud-init):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

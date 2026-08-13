@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[terraform]] [[terraform provider]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]
 
 # Terraform setup
@@ -6,9 +7,28 @@
 
 ---
 
-## Mental model
+## Index
 
-Setup = install CLI → pin versions → configure [[terraform provider]] → authentication → (optional) remote state → first [[Terraform workflow]].
+- [[#Prerequisites]]
+- [[#Install CLI]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Version constraints (Brikman)]]
+- [[#AWS configuration]]
+- [[#GCP configuration]]
+- [[#Other providers (same pattern)]]
+- [[#Remote state rules (Brikman — state chapter)]]
+- [[#File layout (both books)]]
+- [[#First-run checklist]]
+- [[#Book map]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Triage (when things break)]]
+- [[#Related]]
+
+## Prerequisites
+
+…
 
 ## Install CLI
 
@@ -24,6 +44,16 @@ terraform version
 ```
 
 ---
+
+## Verification
+
+```bash
+# smoke test
+```
+
+## Mental model
+
+Setup = install CLI → pin versions → configure [[terraform provider]] → authentication → (optional) remote state → first [[Terraform workflow]].
 
 ## Version constraints (Brikman)
 
@@ -257,16 +287,6 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 | Non-cloud practice | [[Terraform docker]] |
 | E-commerce EKS layout (extends setup) | [[ecommerce-eks-layout]] |
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `terraform` not found | PATH / install | Reinstall CLI; check `terraform version` |
-| Provider auth fail | Cloud creds / SSO | Fix profile/role; never commit keys |
-| Backend init fail | Bucket / lock table / perms | Create backend resources; fix IAM |
-| Version clash | `required_version` vs binary | Upgrade CLI or relax constraint |
-| Wrong account | Profile / assume_role | Confirm `aws sts get-caller-identity` |
-
 ## Gotchas
 
 > [!WARNING]
@@ -279,6 +299,16 @@ Prefer **separate directories** (or separate state keys) for `dev` / `stage` / `
 
 - **Exploring a single console resource** — click first, then codify.
 - **No cloud account yet** — practice with [[Terraform docker]] first.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `terraform` not found | PATH / install | Reinstall CLI; check `terraform version` |
+| Provider auth fail | Cloud creds / SSO | Fix profile/role; never commit keys |
+| Backend init fail | Bucket / lock table / perms | Create backend resources; fix IAM |
+| Version clash | `required_version` vs binary | Upgrade CLI or relax constraint |
+| Wrong account | Profile / assume_role | Confirm `aws sts get-caller-identity` |
 
 ## Related
 

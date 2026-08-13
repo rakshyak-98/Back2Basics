@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx/Configuration]] [[Linux/loggging]] [[Linux/commands/journalctl]]
 
 # Nginx files (paths and log rotation)
@@ -5,6 +6,15 @@
 > Nginx files (paths and log rotation) — package layout varies Debian (/etc/nginx/) vs RHEL (/etc/nginx/ similar) but patterns hold: main config includes snippets and sites-enabled. See
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

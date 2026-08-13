@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[hoisting]] [[mixin]]
 
 # prototype
@@ -5,6 +6,15 @@
 > Objects inherit via a prototype chain — property lookup walks `__proto__` until found or `null`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Bash]] [[Bash syntax]] [[bash flags]]
 
 # bash script
@@ -5,6 +6,15 @@
 > A bash script is a reproducible command file — shebang, arguments, tests, and loops so humans aren’t the runbook.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

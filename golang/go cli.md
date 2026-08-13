@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[golang]] [[go]] [[go package]] [[go debugging]]
 
 # go cli
@@ -6,23 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** One binary drives modules (`mod`), compile (`build`/`run`), tests, and docs. Prefer `./...` patterns and modules over old `GOPATH` mode.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-go mod init → edit code → go test ./... → go build
-```
+## Quick reference
 
-| Command | Job |
-|---------|-----|
-| `go mod tidy` | Sync require/sum |
-| `go run` | Compile+run |
-| `go build` / `install` | Artifact |
-| `go test -race` | Race detector |
-| `go doc` | Quick docs |
-
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -50,6 +51,30 @@ grep Vm /proc/$pid/status
 | `-race` | Catch data races |
 | `-trimpath` | Reproducible builds |
 | `replace` | Local module override |
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** One binary drives modules (`mod`), compile (`build`/`run`), tests, and docs. Prefer `./...` patterns and modules over old `GOPATH` mode.
+
+```txt
+go mod init → edit code → go test ./... → go build
+```
+
+| Command | Job |
+|---------|-----|
+| `go mod tidy` | Sync require/sum |
+| `go run` | Compile+run |
+| `go build` / `install` | Artifact |
+| `go test -race` | Race detector |
+| `go doc` | Quick docs |
 
 ---
 
@@ -85,6 +110,12 @@ grep Vm /proc/$pid/status
 - **`GO111MODULE=off` in 2026** — modules only.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

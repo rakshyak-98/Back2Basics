@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[vite]]
 
 # vite config
@@ -5,6 +6,15 @@
 > vite config — a module runner is instantiated in the target runtime.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

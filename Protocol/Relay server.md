@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT Traversal]]
 
 # Relay server
@@ -5,6 +6,15 @@
 > Relay server — both peers dial out to a middle box that forwards bytes when they cannot connect directly through NAT.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

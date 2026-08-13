@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TypeScript]] [[typescript]] [[tsconfig]]
 
 # typescript types
@@ -5,6 +6,15 @@
 > Types — unions, generics, utility types, and narrowing; describe values without existing at runtime.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

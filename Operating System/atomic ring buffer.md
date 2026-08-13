@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[buffer]] [[Rolling Buffer]] [[multi-threaded]]
 
 # Atomic ring buffer
@@ -5,6 +6,15 @@
 > Fixed-size circular queue with atomic head/tail — lock-free handoff between producer and consumer threads.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[HTTP module]] [[JWT authentication]] [[SOP (Same-Origin Policy)]]
 
 # CORS (Cross Origin Request Sharing)
@@ -5,6 +6,15 @@
 > CORS (Cross Origin Request Sharing) — CORS is not server access control — it stops browser JavaScript on https://evil.com from reading responses from https://api.example.com unless the
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[ss]] [[Linux network commands]] [[lsof]]
 
 # netstat
@@ -5,6 +6,15 @@
 > netstat lists sockets, listeners, and some interface/protocol stats — legacy; prefer [[ss]] on modern Linux.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

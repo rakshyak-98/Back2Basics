@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[windowing system]] [[Linux window manager]] [[i3 Window Manager Starter Guide]] [[display server]]
 
 # WM_CLASS
@@ -5,6 +6,15 @@
 > X11 window identity string — how WMs and tools distinguish two Firefox windows or force rules per app instance. Set via `.desktop` `StartupWMClass` when matching fails.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

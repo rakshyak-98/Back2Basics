@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[ABR]] [[bitrate streaming]] [[HLS]] [[DASH]] [[transcoding]]
 
 # rendition
@@ -5,6 +6,15 @@
 > A rendition is one encoded quality of the same source — resolution, bitrate, or codec — so ABR can switch without stopping.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

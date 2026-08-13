@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[WebRTC]] [[UDP]] [[TCP]] [[DTLS]] [[ICE (Interactive Connectivity Establishment)]]
 
 # SCTP (Stream Control Transmission Protocol)
@@ -5,6 +6,15 @@
 > SCTP (Stream Control Transmission Protocol) — SCTP sits above IP, offering multiple streams with optional reliable ordered delivery — unlike TCP's single byte stream. In WebRTC, SCTP runs
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

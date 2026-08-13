@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[dsa problem solving Scaffold]] [[DSA algorithms]]
 
 # dsa intuition
@@ -5,6 +6,15 @@
 > DSA intuition is recognizing which pattern fits — before you write a line of code.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
 
 # Vercel CLI
@@ -6,13 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). environment variables pulled from dashboard or `vercel env pull`.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```
-local repo → vercel → remote build → *.vercel.app preview → --prod → custom domain
-```
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -57,6 +68,20 @@ vercel inspect <url>
 vercel logs <deployment-url>
 ```
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). environment variables pulled from dashboard or `vercel env pull`.
+
+```
+local repo → vercel → remote build → *.vercel.app preview → --prod → custom domain
+```
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -81,6 +106,12 @@ vercel logs <deployment-url>
 
 - Don't use CLI production deploy without CI checks — wire Git integration + required checks.
 - Don't commit `.vercel` with tokens — only project ids; secrets stay in dashboard.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

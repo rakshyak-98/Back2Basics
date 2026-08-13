@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[LSP]]
 
 # Debugger configuratoin
@@ -5,6 +6,15 @@
 > Debugger config wires your editor to a debug adapter — breakpoints, env, and program args in one launch profile.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

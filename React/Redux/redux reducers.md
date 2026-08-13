@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Immutability in Redux]] [[Redux/Redux createSlice]] [[Redux concept and data flow]]
 
 # redux reducers
@@ -5,6 +6,15 @@
 > **Pure functions** `(state, action) => newState` — only place state shape changes — **Redux fundamentals**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

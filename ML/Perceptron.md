@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[ANN]] [[sigmoid]]
 
 # Perceptron
@@ -5,6 +6,15 @@
 > A perceptron is a tiny linear classifier — weighted sum + threshold; the building block of neural nets.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

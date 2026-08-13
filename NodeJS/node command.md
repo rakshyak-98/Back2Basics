@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[NodeJS]] [[CLI]] [[nvm]] [[node package json]] [[node inspect]]
 
 # node command
@@ -6,17 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```
-node [options] [ -e script | script.js ] [arguments]
-         │
-         ├── --import / -r     preload modules (dotenv, tsx)
-         ├── --inspect         debugger
-         └── --max-old-space-size
-```
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -74,6 +81,24 @@ node cli.js --port 4000
 # process.argv: ['node', 'cli.js', '--port', '4000']
 ```
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
+
+```
+node [options] [ -e script | script.js ] [arguments]
+         │
+         ├── --import / -r     preload modules (dotenv, tsx)
+         ├── --inspect         debugger
+         └── --max-old-space-size
+```
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -97,6 +122,12 @@ node cli.js --port 4000
 
 - **Package binary** — prefer `npm run` / `npx` for local CLI tools.
 - **Production multi-process** — systemd/K8s with explicit ExecStart, not shell aliases.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

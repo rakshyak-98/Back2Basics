@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[flutter]]
 
 # flutter widget
@@ -5,6 +6,15 @@
 > flutter widget — if MaterialPageRoute took a direct widget instance instead of a builder, you would have to create that screen's widget in memory before you…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -21,6 +31,25 @@ builder: (BuildContext context) => MyNewScreen(),
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

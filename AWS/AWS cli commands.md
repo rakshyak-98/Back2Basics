@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[AWS]] [[AWS cli installation]] [[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]]
 
 # AWS cli commands
@@ -6,15 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** Every command is an API call under a principal (user/role). `sts get-caller-identity` is the stethoscope. JMESPath `--query` slices JSON.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-aws <service> <operation> [--profile] [--region] [--query] [--output]
-```
+## Quick reference
 
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -43,6 +52,22 @@ aws ec2 describe-instances --filters Name=instance-state-name,Values=running
 | `--region` | Many resources are regional |
 | `--query` | Avoid piping giant JSON to `jq` for simple fields |
 | STS session | Temp creds beat long-lived keys ([[aws STS (Security Token Service)]]) |
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** Every command is an API call under a principal (user/role). `sts get-caller-identity` is the stethoscope. JMESPath `--query` slices JSON.
+
+```txt
+aws <service> <operation> [--profile] [--region] [--query] [--output]
+```
 
 ---
 
@@ -79,6 +104,12 @@ aws ec2 describe-instances --filters Name=instance-state-name,Values=running
 - **Audited break-glass only** — still log; prefer SSO short sessions.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

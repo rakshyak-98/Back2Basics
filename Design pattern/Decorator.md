@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Proxy]] [[Design pattern/Adapter]] [[Design pattern/Dependency Injection]]
 
 # Decorator
@@ -5,6 +6,18 @@
 > Decorator — instead of subclassing MetaClient into LoggingMetaClient, RetryMetaClient, LoggingRetryMetaClient, … wrap the same interface:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -24,6 +37,14 @@ Callers still see `MetaClient`. Order of wrapping matters (retry outside logging
 | **Component** | Interface (`request(path, body)`) |
 | **Concrete component** | Real HTTP client |
 | **Decorator** | Implements interface; holds inner component; adds work before/after |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -87,6 +108,12 @@ Favor decorator stacks for cross-cutting concerns. Subclassing for every combina
 
 - Proxy versus Decorator — Proxy controls *access* (lazy, authentication, caching); Decorator *adds* behavior. Same structure, different intent. See [[Design pattern/Proxy]].
 - Do not put domain mapping in Decorator — [[Design pattern/Adapter]].
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

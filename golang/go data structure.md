@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go features]] [[array]]
 
 # go data structure
@@ -5,6 +6,15 @@
 > Go builtins — arrays (fixed), slices (view+len+cap), maps (hash), structs (records); pick by growth and ownership.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

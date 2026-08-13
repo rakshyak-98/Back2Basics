@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]]
 
 # OOPS
@@ -5,6 +6,18 @@
 > OOPS — block of memory created when the constructor of a function is invoked.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -47,6 +60,14 @@ Unified Modeling Language
 
 ---
 
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
+
 ## Standard config / commands
 
 ```bash
@@ -72,6 +93,12 @@ Unified Modeling Language
 > Draw the failure mode before the happy path.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[postgres]] [[connection pooling]] [[ACID]]
 
 # psql essential
@@ -5,6 +6,15 @@
 > `psql` is Postgres’s CLI — connect, inspect, change schema, and manage roles without leaving the terminal.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -108,7 +118,7 @@ DROP USER IF EXISTS wateradmin;
 - **application runtime data access** — use a driver + pool, not shelling out to `psql`.
 - **Killing backends casually in production** — can abort in-flight txns; coordinate first.
 - **Granting CREATE on `public` to every application role** — tighten schema ownership in shared clusters.
-	
+
 ---
 
 ## Related

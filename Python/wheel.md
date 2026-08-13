@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Python/pandas]] [[NodeJS/node package json]] [[Release cycle]]
 
 # Python wheel (`.whl`)
@@ -5,6 +6,15 @@
 > Built distribution format — pre-built zip of code + metadata for fast `pip install` without compile on target.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

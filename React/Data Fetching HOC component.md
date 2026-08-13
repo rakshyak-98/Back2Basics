@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[React Pattern/Higher order Component (HOCs)]] [[react-query]]
 
 # Data Fetching HOC component
@@ -5,6 +6,15 @@
 > Wrap a presentational list with fetch/loading/error — HOC owns the request; child gets `data`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

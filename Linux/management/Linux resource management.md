@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]]
 
 # Linux resource management
@@ -5,6 +6,15 @@
 > Resource management caps CPU, memory, I/O, and PIDs so one tenant can’t sink the host — niceness is soft; cgroups are hard.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

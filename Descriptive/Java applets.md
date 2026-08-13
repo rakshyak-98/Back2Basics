@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[JavaScript]] [[web capabilities]]
 
 # Java applets
@@ -5,6 +6,15 @@
 > Historical browser plug-in model (1990s–2010s) — **removed from all major browsers** because the security boundary was unsalvageable.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

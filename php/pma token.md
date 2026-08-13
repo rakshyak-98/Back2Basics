@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security/CORS (Cross Origin Request Sharing)]] [[php]] [[Database/mysql/MySQL Events]]
 
 # PMA token (phpMyAdmin)
@@ -5,6 +6,15 @@
 > CSRF token in phpMyAdmin sessions — validates that form POSTs came from your logged-in UI, not a malicious site.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

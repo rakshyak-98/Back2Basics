@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[Clean Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[Database application]] [[Microservice]] [[Orchestration layer]] [[SOLID]] [[KISS]]
 
 # Multi-tier and Layered Architecture
@@ -5,6 +6,56 @@
 > Tiers are where code runs; layers are how code is organized — keep them separate.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision table: which model when?]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / structure]]
+- [[#Physical tiers (deployment models)]]
+- [[#Logical layers (inside one deployable)]]
+- [[#Hexagonal / Clean Architecture (ports and adapters)]]
+- [[#Microservices (distribution-level multi-tier)]]
+- [[#Validation: Robert C. Martin alignment]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision table: which model when?
+
+| Situation | Start with | Evolve to |
+|-----------|------------|-----------|
+| MVP, < 10k users, small team | **Layered monolith** (3 logical layers, 1–3 tiers) | Extract hot paths |
+| Regulated domain, long product life | **Hexagonal monolith** | Services at proven seams |
+| Mobile + web different APIs | 3-tier + **BFF** layer | Not separate microservices per screen |
+| Independent scale (GPU encode vs API) | **N-tier / microservices** | [[Microservice]] boundaries |
+| Offline desktop / embedded | **1-tier** + logical layers | — |
+| Internal admin + public API | **3-tier** + network segmentation | Gateway tier |
+
+### Layers vs tiers — common combinations
+
+| Physical tiers | Logical layers | Example |
+|----------------|----------------|---------|
+| 1 | 4 (layered) | Spring Boot monolith: controller→service→repo→DB in one JVM |
+| 3 | 4 | Classic Rails/Django/nginx → app → Postgres |
+| 3 | 4 per service | E-commerce: 8 microservices, each internally layered |
+| 1 | 4 (hexagonal) | CLI tool with ports for file system and clock |
+
+---
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -340,28 +391,6 @@ See [[Microservice]] (streaming boundaries) and [[KISS]] — don't split before 
 
 ---
 
-## Decision table: which model when?
-
-| Situation | Start with | Evolve to |
-|-----------|------------|-----------|
-| MVP, < 10k users, small team | **Layered monolith** (3 logical layers, 1–3 tiers) | Extract hot paths |
-| Regulated domain, long product life | **Hexagonal monolith** | Services at proven seams |
-| Mobile + web different APIs | 3-tier + **BFF** layer | Not separate microservices per screen |
-| Independent scale (GPU encode vs API) | **N-tier / microservices** | [[Microservice]] boundaries |
-| Offline desktop / embedded | **1-tier** + logical layers | — |
-| Internal admin + public API | **3-tier** + network segmentation | Gateway tier |
-
-### Layers vs tiers — common combinations
-
-| Physical tiers | Logical layers | Example |
-|----------------|----------------|---------|
-| 1 | 4 (layered) | Spring Boot monolith: controller→service→repo→DB in one JVM |
-| 3 | 4 | Classic Rails/Django/nginx → app → Postgres |
-| 3 | 4 per service | E-commerce: 8 microservices, each internally layered |
-| 1 | 4 (hexagonal) | CLI tool with ports for file system and clock |
-
----
-
 ## Validation: Robert C. Martin alignment
 
 Cross-check any design against Martin's *Clean Architecture* ([blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), book Ch. 20–22). This note's tier/layer content is **compatible** when applied as below.
@@ -481,6 +510,12 @@ FAIL when:
 **Rule of thumb:** Default to **3-tier deployment + layered (or hexagonal) monolith**. Split tiers and services when you have **measured** pain: deploy frequency, scale shape, blast radius, or compliance boundary — not because the diagram looks enterprise.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

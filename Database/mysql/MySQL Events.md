@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql triggers]] [[mysql function]] [[OLTP]]
 
 # MySQL Events
@@ -5,6 +6,15 @@
 > Built-in job scheduler — run SQL on a cron-like schedule inside the server; no external cron required, but visibility and failure handling are weaker than app-level workers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

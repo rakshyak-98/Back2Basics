@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Byte stream]] [[How to attach stream to HTTP handlers]]
 
 # pdf-stream-viewing
@@ -5,6 +6,15 @@
 > Stream a PDF into the browser — render pages as bytes arrive (PDF.js + HTTP range), don’t wait for the whole file.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

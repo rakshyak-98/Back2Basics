@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Docker]] [[docker cli]] [[docker file]] [[Docker compose]]
 
 # docker container
@@ -5,6 +6,17 @@
 > Container — a running (or created) instance of an image: isolated process + writable layer + optional mounts/ports.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Snapshot a container]]
+- [[#Run with working directory]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -38,6 +50,19 @@ docker start -ai my-container
 | `--rm` | Auto-delete on exit |
 | `-e` / `--env-file` | Config |
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Exits immediately | `docker logs`; CMD | Fix entrypoint; run `-it` to debug |
+| Port already allocated | `ss -tlnp` | Change `-p` or stop conflict |
+| Can’t reach published port | bound to localhost only / firewall | `-p 0.0.0.0:…`; check UFW |
+| Data lost after rm | No volume | Use named volume / bind mount |
+| Permission denied on bind | UID mismatch | Match user or chown |
+| `name already in use` | Stale container | `docker rm -f name` |
+
+---
+
 ## Snapshot a container
 
 ```bash
@@ -57,19 +82,6 @@ docker run -it -w /app ubuntu:24.04 bash
 ```
 
 `-w` sets current working directory (created if missing).
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Exits immediately | `docker logs`; CMD | Fix entrypoint; run `-it` to debug |
-| Port already allocated | `ss -tlnp` | Change `-p` or stop conflict |
-| Can’t reach published port | bound to localhost only / firewall | `-p 0.0.0.0:…`; check UFW |
-| Data lost after rm | No volume | Use named volume / bind mount |
-| Permission denied on bind | UID mismatch | Match user or chown |
-| `name already in use` | Stale container | `docker rm -f name` |
 
 ---
 

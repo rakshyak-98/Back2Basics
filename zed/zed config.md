@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/vscode]] [[editor configuration]] [[Linux/CLI]] [[zed keybindings]]
 
 # Zed config
@@ -5,6 +6,15 @@
 > Zed config — zed reads JSON settings (user + optional project .zed/settings.json). Language servers attach per language block. Remote files use zed ssh://user@host/path with remote LSP
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

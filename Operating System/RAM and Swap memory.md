@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Heap memory]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[cgroup (Control Group)]]
 
 # RAM and Swap memory
@@ -5,6 +6,15 @@
 > RAM is fast working memory for live pages; swap is disk-backed overflow so the machine can keep running when RAM is full — slowly.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

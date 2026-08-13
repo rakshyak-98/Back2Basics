@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NextJS]]
 
 # NextJS Deployment
@@ -5,6 +6,15 @@
 > NextJS Deployment — executes getStaticProps() or getServerSideProps() of reach route.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

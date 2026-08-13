@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git logs]] [[git command]] [[git alias]]
 
 # Git log formatting
@@ -5,6 +6,15 @@
 > `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

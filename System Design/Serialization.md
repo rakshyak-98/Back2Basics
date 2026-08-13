@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[marshalling]] [[gRPC]] [[API design]]
 
 # Serialization
@@ -5,6 +6,15 @@
 > Serialization — turn in-memory objects into bytes for disk/network, and back; the contract between producers and consumers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

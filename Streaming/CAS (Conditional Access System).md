@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DRM]] [[IPTV]] [[MPEG-TS]] [[Streaming]] [[ingestion]]
 
 # CAS (Conditional Access System)
@@ -5,6 +6,21 @@
 > CAS controls who can watch scrambled pay-TV — headend encrypts; only entitled STBs get the control word.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Components]]
+- [[#Standard flow / example]]
+- [[#CAS vs DRM]]
+- [[#CAS in IPTV]]
+- [[#CAS in OTT]]
+- [[#Popular CAS vendors]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -72,6 +88,19 @@ ffprobe -hide_banner udp://@<addr>:<port>   # programs present?
 | Scrambler algorithm | Must match STB CAS client (vendor stack) |
 
 Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → force EMM → STB pairing logs.
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen / "Not Authorized" | Subscription active? EMM refreshed? | Re-provision entitlements; force EMM push |
+| One channel only fails | ECM present in TS? Scrambler PID | Verify ECM PID in SI tables; headend scrambler config |
+| All channels fail after card swap | Smart card paired to STB? | Re-pair card; verify CAS ID / box ID in CAS server |
+| Intermittent freeze / macroblocking | CW rotation sync | Check ECM timing vs scrambler; clock skew on headend |
+| IPTV multicast works clear, fails scrambled | IGMP + CAS path | Confirm STB reaches CAS over return path (IP or phone line) |
+| OTT app works, STB does not | Wrong protection stack | STB needs CAS; app needs [[DRM]] — don't mix license paths |
 
 ---
 
@@ -189,19 +218,6 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 - Viaccess-Orca
 - Conax
 - Verimatrix
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen / "Not Authorized" | Subscription active? EMM refreshed? | Re-provision entitlements; force EMM push |
-| One channel only fails | ECM present in TS? Scrambler PID | Verify ECM PID in SI tables; headend scrambler config |
-| All channels fail after card swap | Smart card paired to STB? | Re-pair card; verify CAS ID / box ID in CAS server |
-| Intermittent freeze / macroblocking | CW rotation sync | Check ECM timing vs scrambler; clock skew on headend |
-| IPTV multicast works clear, fails scrambled | IGMP + CAS path | Confirm STB reaches CAS over return path (IP or phone line) |
-| OTT app works, STB does not | Wrong protection stack | STB needs CAS; app needs [[DRM]] — don't mix license paths |
 
 ---
 

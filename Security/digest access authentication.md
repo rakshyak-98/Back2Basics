@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[Base64]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # digest access authentication
@@ -5,6 +6,15 @@
 > Digest auth — browser proves it knows the password by sending a hash (with nonce), not the raw password — still prefer TLS + modern auth.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

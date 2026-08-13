@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Etherium]] [[Descriptive]] [[Security]]
 
 # Blockchain properties (engineering lens)
@@ -5,6 +6,15 @@
 > Distributed ledger guarantees for builders — immutability, consensus, and transparency trade off against latency, cost, and privacy; don't treat "on-chain" as magic persistence.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

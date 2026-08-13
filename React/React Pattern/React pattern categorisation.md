@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[React Pattern/Summary pattern]] [[React design patterns]]
 
 # React pattern categorisation
@@ -5,6 +6,15 @@
 > Map UI jobs to patterns — composition, hooks, compounds, providers — so a large codebase stays consistent.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[staff engineer.md]]
 
 # staff engineer
@@ -5,6 +6,15 @@
 > Staff engineer — technical leadership through scope, influence, and craft over titles.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

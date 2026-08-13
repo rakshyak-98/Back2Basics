@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Bridge]] [[System Design/SOLID]]
 
 # Abstract Factory
@@ -5,6 +6,18 @@
 > Create families of related products without binding to concrete classes — **Dive Into Design Patterns** (Marketing platform = campaign + adset + creative + ad + insights).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -24,6 +37,14 @@ AbstractFactory
 | **Concrete products** | Platform-specific implementations |
 | **Abstract Factory** | Interface of create* methods |
 | **Concrete Factory** | One class per platform/variant |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -68,6 +89,12 @@ New platform → new `*MarketingFactory` + register in [[Design pattern/Factory 
 
 - Do not confuse with Builder (one complex object) or Factory Method (one product).
 - "Family" must be real — unrelated create methods in one factory is a god factory.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

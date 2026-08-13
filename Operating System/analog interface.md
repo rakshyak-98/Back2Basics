@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[PCI (Peripheral Component Interconnect)]] [[system bus]] [[Electronic Control Unit (ECU)]]
 
 # Analog interface
@@ -5,6 +6,15 @@
 > Analog interface — real world Analog front-end Digital domain
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

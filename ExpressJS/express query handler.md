@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[mongosh query]]
 
 # express query handler
@@ -5,6 +6,15 @@
 > Query handlers — read `req.query` / `req.params` / `req.body`, validate, call services, return status + JSON.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

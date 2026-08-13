@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ACID]] [[covering index]] [[mysql index]] [[connection pooling]] [[Data access patterns]] [[WAL (Write-Ahead Log)]]
 
 # Database mistakes
@@ -5,6 +6,15 @@
 > Schema and modeling errors that pass code review but fail in production — **Kleppmann (DDIA)** + years of migration pain.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

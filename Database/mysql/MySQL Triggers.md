@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[mysql triggers]]
 
 # MySQL triggers
@@ -5,6 +6,15 @@
 > MySQL triggers — BEFORE INSERT trigger (validate, set defaults)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

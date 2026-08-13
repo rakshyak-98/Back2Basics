@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[react hooks]] [[Managing complex component structure]] [[React code smells]] [[Separate functional logic from persentation components]]
 
 # Summary pattern
@@ -5,6 +6,15 @@
 > Pack component logic into **custom hooks** so the component body is mostly JSX — "summarize" behavior above the return — **React community pattern (hooks era)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

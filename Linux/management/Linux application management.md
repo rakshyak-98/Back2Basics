@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[Package Manager]] [[system service unit files]] [[supervisorctl]]
 
 # Linux application management
@@ -5,6 +6,15 @@
 > Application management on Linux is how you install, run, upgrade, and supervise a service — packages or images, plus systemd (or a process manager).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

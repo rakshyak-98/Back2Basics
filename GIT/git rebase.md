@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git error]] [[git worktree]] [[git ssh configuration]] [[INDEX]]
 
 # git rebase
@@ -5,6 +6,15 @@
 > Replay your commits on top of a moving base — linear history without merge commits — **Pro Git (Chacon)**; dangerous on shared branches without agreement.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

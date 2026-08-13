@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DER]] [[openssl]] [[RSA]] [[Root certificate]]
 
 # Read PEM file
@@ -5,6 +6,15 @@
 > Inspect PEM-encoded certs, keys, and CSRs with OpenSSL — confirm subject, expiry, SANs, and key type before install or debug TLS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

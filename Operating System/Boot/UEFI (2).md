@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Boot]] [[UEFI]] [[MBR]] [[Persistent Block Storage]]
 
 # UEFI (2)
@@ -5,6 +6,15 @@
 > Pick GPT for UEFI boots and MBR for legacy BIOS — wrong pair = USB/disk that won’t boot on the target machine.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

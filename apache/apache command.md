@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[apache]]
 
 # apache command
@@ -5,6 +6,33 @@
 > apache command — enables the Apache module named mod_rewrite.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Common commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Common commands
+
+```bash
+# …
+```
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -20,6 +48,12 @@ sudo a2enmod rewrite;
 
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

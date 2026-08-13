@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[systemctl]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]]
 
 # systemd
@@ -5,6 +6,15 @@
 > systemd is PID 1 on modern Linux — it starts units in parallel, tracks deps, and restarts services you declare in unit files.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

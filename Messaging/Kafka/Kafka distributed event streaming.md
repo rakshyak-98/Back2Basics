@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kafka]]
 
 # Kafka distributed event streaming
@@ -5,6 +6,15 @@
 > Kafka distributed event streaming — kafka is a distributed event streaming platform used for real-time data processing.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

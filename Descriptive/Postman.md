@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS/open api specification]] [[ExpressJS/express error handler]] [[Security/JWT authentication]] [[Messaging/Web hooks]]
 
 # Postman
@@ -5,6 +6,15 @@
 > API client + collection runner + Newman CLI for CI — design, debug, and regression-test HTTP APIs — **Postman docs + contract testing in pipelines**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

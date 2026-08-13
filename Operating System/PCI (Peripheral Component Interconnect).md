@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[bus]] [[system bus]] [[Persistent Block Storage]]
 
 # PCI (Peripheral Component Interconnect)
@@ -5,6 +6,15 @@
 > PCI/PCIe is the motherboard bus for add-in cards — today “PCI” almost always means PCI Express lanes to GPUs, NICs, and NVMe.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

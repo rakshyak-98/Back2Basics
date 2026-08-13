@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[critical sections]] [[mutexes]] [[Thread]] [[multi-threaded]] [[shared memory]]
 
 # semaphores
@@ -5,6 +6,15 @@
 > A semaphore is a counter that lets N waiters into a critical section — others sleep until someone signals.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

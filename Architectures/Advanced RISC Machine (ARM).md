@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System/base clock speed]] [[Operating System/Single Instruction, Multiple Data (SIMD)]] [[Operating System/context switching]] [[AWS/AWS EC2]]
 
 # Advanced RISC Machine (ARM)
@@ -5,6 +6,15 @@
 > Advanced RISC Machine (ARM) — ARM (Advanced RISC Machine) uses Reduced Instruction Set Computing: simple instructions, register-register ops, explicit load/store to memory. AArch64 (64-bit) is the
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

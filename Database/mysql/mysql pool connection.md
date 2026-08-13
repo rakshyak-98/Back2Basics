@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql/mysql connection]] [[connection pooling]] [[mysql/mysql ssl connection]] [[half-open connections]]
 
 # MySQL connection pool (app-side)
@@ -5,6 +6,15 @@
 > MySQL connection pool (app-side) — without pool: req A ──conn──► START TX ... (held)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

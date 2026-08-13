@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[Byte stream]] [[UDP]] [[SSH]]
 
 # TCP
@@ -5,6 +6,15 @@
 > TCP is a reliable ordered byte stream between two hosts — handshake, acks, retransmit; not message frames.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang/go embedding]] [[golang/go build]] [[Design pattern/Static Members]]
 
 # Go SOLID (idiomatic Go)
@@ -5,6 +6,15 @@
 > SOLID adapted to Go's interfaces, composition, and small-package culture — not Java inheritance.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

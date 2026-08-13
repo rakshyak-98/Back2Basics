@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[lspci]] [[OOM (Linux Out Of Memory)]]
 
 # nvidia-smi
@@ -5,6 +6,15 @@
 > nvidia-smi queries the NVIDIA driver for GPU health — utilization, VRAM, processes, power/ECC.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

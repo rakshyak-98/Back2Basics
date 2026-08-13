@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Common Naming terms.md]]
 
 # Common Naming terms
@@ -5,6 +6,15 @@
 > Common Naming terms — daemon: Used for background processes that run continuously.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -30,6 +40,25 @@ Agent: A general term for agents performing network tasks.
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

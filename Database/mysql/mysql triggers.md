@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql Programmable SQL]] [[mysql transaction]]
 
 # mysql triggers
@@ -5,6 +6,15 @@
 > SQL that runs automatically BEFORE/AFTER INSERT, UPDATE, or DELETE on a table — same transaction as the firing statement.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Redux createSlice]]
 
 # redux toolkit features
@@ -5,6 +6,15 @@
 > RTK’s toolkit map — store, slices, thunks, Query, entities, selectors — what each is for.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

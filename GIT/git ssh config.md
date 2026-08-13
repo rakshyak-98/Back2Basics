@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT]]
 
 # git ssh config
@@ -6,10 +7,18 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Say it in one breath:** git ssh configuration — bad owner or permissions on /home/mihir/.ssh/config
-
 
 ## Standard config / commands
 

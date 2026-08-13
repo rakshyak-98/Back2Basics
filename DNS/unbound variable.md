@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux/Bash/Bash functions]] [[Linux/Scripting]] [[Linux/commands/common commands]]
 
 # Unbound variable (bash `set -u`)
@@ -5,6 +6,15 @@
 > Referencing an unset shell variable is an error when `set -u` (nounset) is on — catches typos before prod scripts half-run.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

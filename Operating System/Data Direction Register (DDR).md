@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[bus]] [[analog interface]] [[Electronic Control Unit (ECU)]]
 
 # Data Direction Register (DDR)
@@ -5,6 +6,15 @@
 > DDR bits set each MCU GPIO pin as input or output — `1` drives the pin, `0` reads it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

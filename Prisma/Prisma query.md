@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database/mysql/mysql pool connection]] [[Database/postgres/psql keywords]]
 
 # Prisma query
@@ -5,6 +6,15 @@
 > Type-safe DB access via generated client — `findMany`, relations, filters, and `include` for joins.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

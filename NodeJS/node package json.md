@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[npm command]] [[nvm]] [[node environment configuration]]
 
 # package.json
@@ -5,6 +6,15 @@
 > package.json — npm's contract with the repo: dependencies (runtime), devDependencies (build/test), scripts (automation entrypoints), engines (supported Node/npm), and type (module vs CommonJS default).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

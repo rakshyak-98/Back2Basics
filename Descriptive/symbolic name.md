@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[Operating System/abstract storage location]] [[Design pattern/Static Members]] [[compiler/library file]]
 
 # Symbolic name
@@ -5,6 +6,15 @@
 > Human-readable identifier bound to a program entity — variables, functions, constants — instead of raw literals — **readability + refactor safety**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

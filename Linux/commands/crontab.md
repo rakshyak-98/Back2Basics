@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[systemd]] [[bash script]] [[Linux system management]]
 
 # crontab
@@ -5,6 +6,15 @@
 > crontab — cron reads /var/spool/cron/crontabs/<user> (or /etc/cron.d/* for system jobs). The crond daemon wakes every minute, checks whether any entry's five fields match *now*, and spawns
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

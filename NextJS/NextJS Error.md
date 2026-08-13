@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[NextJS]]
 
 # NextJS Error
@@ -5,6 +6,44 @@
 > NextJS Error — error comes from Next.js v13+ App Router
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Runtime error | stack / overlay | Null-check; fix import |
+| Build fail | deps / tsconfig | Align versions; clear cache |
+| Auth/CORS | network tab | Headers and tokens |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -59,16 +98,6 @@ this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/se
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -81,6 +110,14 @@ this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/se
 - Skip when a simpler existing approach already fits.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

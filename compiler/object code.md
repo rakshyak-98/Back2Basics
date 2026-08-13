@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[compiler]]
 
 # object code
@@ -5,6 +6,15 @@
 > object code — a product of a compiler.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -24,6 +34,25 @@ Typically, an object file can contain three kinds of symbols:
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

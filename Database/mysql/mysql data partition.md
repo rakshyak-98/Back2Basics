@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[mysql index]] [[OLTP]]
 
 # MySQL table partitioning
@@ -5,6 +6,15 @@
 > MySQL table partitioning — partitioning divides rows by a partition key expression. Optimizer partition pruning skips irrelevant partitions on queries that constrain the key.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

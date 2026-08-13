@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]]
 
 # Optional: redirects HTTP -> HTTPS
@@ -5,6 +6,15 @@
 > Optional: redirects HTTP -> HTTPS — you can ping api.localhost and it'll look back to your machine.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -51,7 +61,6 @@ sudo systemctl reload nginx;
 ```
 ### TLS self-signed certificate
 Generate a self signed certificate [[openssl#Generate self signed certificate]]
-
 
 ## Standard config / commands
 

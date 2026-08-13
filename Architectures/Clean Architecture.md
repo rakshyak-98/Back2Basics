@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[SOLID]] [[Design pattern/Dependency Injection]] [[Design pattern/Adapter]] [[KISS]]
 
 # Clean Architecture
@@ -5,6 +6,50 @@
 > Clean Architecture — a dependency-management pattern, not a deployment diagram. Martin unified Hexagonal (Cockburn), Onion (Palermo), Screaming Architecture, DCI (Coplien/Reenskaug), and BCE (Jacobson) into one actionable
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision table: when Clean Architecture earns its cost]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Lineage (what Clean Architecture synthesizes)]]
+- [[#The four rings (typical layers)]]
+- [[#The Dependency Rule (the invariant)]]
+- [[#Crossing boundaries: Dependency Inversion in practice]]
+- [[#Screaming Architecture]]
+- [[#Comparison: Clean vs Hexagonal vs Onion]]
+- [[#Standard structure / code]]
+- [[#Triage (design review / when architecture breaks)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision table: when Clean Architecture earns its cost
+
+| Signal | Lean toward Clean | Lean toward simpler layering / [[KISS]] |
+|--------|-------------------|----------------------------------------|
+| Domain complexity | Rich invariants, rules change independently of infra | Pure CRUD, no business rules |
+| Lifespan | Multi-year product, multiple teams | Prototype, throwaway, weekend MVP |
+| Testability need | Must unit-test rules without DB/UI | Integration tests sufficient |
+| Interface count | Web + CLI + batch + events share core | Single REST API |
+| Infra volatility | Expect DB/framework swaps | Stack locked for project life |
+| Team size | Boundaries prevent stepping on each other | Solo dev, < 3 engineers |
+
+**Martin's bar:** Earn structure when **testability and longevity** justify ~2–3× more types/files. Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)): relaxed layers, remove interfaces with only one implementation, merge one-liner pass-through controllers.
+
+---
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -299,21 +344,6 @@ If business-rule tests require Docker, the Dependency Rule is already violated.
 
 ---
 
-## Decision table: when Clean Architecture earns its cost
-
-| Signal | Lean toward Clean | Lean toward simpler layering / [[KISS]] |
-|--------|-------------------|----------------------------------------|
-| Domain complexity | Rich invariants, rules change independently of infra | Pure CRUD, no business rules |
-| Lifespan | Multi-year product, multiple teams | Prototype, throwaway, weekend MVP |
-| Testability need | Must unit-test rules without DB/UI | Integration tests sufficient |
-| Interface count | Web + CLI + batch + events share core | Single REST API |
-| Infra volatility | Expect DB/framework swaps | Stack locked for project life |
-| Team size | Boundaries prevent stepping on each other | Solo dev, < 3 engineers |
-
-**Martin's bar:** Earn structure when **testability and longevity** justify ~2–3× more types/files. Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)): relaxed layers, remove interfaces with only one implementation, merge one-liner pass-through controllers.
-
----
-
 ## Triage (design review / when architecture breaks)
 
 | Symptom | Check | Fix |
@@ -388,6 +418,12 @@ FAIL:
 
 ---
 
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
+
 ## Related
 
 **Vault siblings:** [[Multi-tier and Layered Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Orchestration layer]]
@@ -400,7 +436,9 @@ FAIL:
 
 ---
 
-## References
+
+### References
+
 
 ### Primary sources (Robert C. Martin)
 

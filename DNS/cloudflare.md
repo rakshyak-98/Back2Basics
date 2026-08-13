@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[TLS (Transport Layer Security)]] [[Route53]] [[CORS (Cross Origin Request Sharing)]]
 
 # Cloudflare
@@ -5,6 +6,15 @@
 > Cloudflare — sits between users and origin: as DNS provider (nameservers → Cloudflare) and optionally HTTP proxy (proxied records). Proxied traffic: client → Cloudflare edge →
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

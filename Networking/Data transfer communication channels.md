@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[TCP]] [[UDP]] [[webSocket]] [[P2P (Peer-to-Peer)]]
 
 # Data transfer communication channels
@@ -5,6 +6,15 @@
 > Pick the channel that matches the job — request/response, push, queue, or peer media — not one protocol for everything.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

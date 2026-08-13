@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[loopback]] [[non-Routable address]]
 
 # localhost
@@ -5,6 +6,17 @@
 > `localhost` always means “this device” — the machine running the code, not your laptop by magic.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#What localhost means on each device]]
+- [[#HTTPS on localhost (mkcert)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -45,6 +57,18 @@ ss -tlnp | grep 3000
 | Bind host | `127.0.0.1` = local only; `0.0.0.0` = LAN-reachable |
 | Firewall | UFW/security group must allow the port from LAN |
 | `/etc/hosts` | `localhost` → 127.0.0.1; don’t point it at a remote IP |
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Phone “unable to connect” | URL is `localhost` | Use laptop LAN IP; bind `0.0.0.0` |
+| Works in browser, not emulator | Used `127.0.0.1` in Android | Use `10.0.2.2` |
+| CORS / mixed content | HTTP page → HTTPS API | Serve both HTTPS via mkcert |
+| Container can’t reach host API | `localhost` inside container | Host gateway / `extra_hosts` |
+| Only IPv6 or only IPv4 fails | `localhost` → `::1` vs `127.0.0.1` | Pin family or listen on both |
 
 ---
 
@@ -90,18 +114,6 @@ server: {
   host: '0.0.0.0', // if phones need access (still need LAN IP + trust)
 }
 ```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Phone “unable to connect” | URL is `localhost` | Use laptop LAN IP; bind `0.0.0.0` |
-| Works in browser, not emulator | Used `127.0.0.1` in Android | Use `10.0.2.2` |
-| CORS / mixed content | HTTP page → HTTPS API | Serve both HTTPS via mkcert |
-| Container can’t reach host API | `localhost` inside container | Host gateway / `extra_hosts` |
-| Only IPv6 or only IPv4 fails | `localhost` → `::1` vs `127.0.0.1` | Pin family or listen on both |
 
 ---
 

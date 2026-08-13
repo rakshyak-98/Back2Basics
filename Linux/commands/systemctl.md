@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[systemd]] [[Services commands]] [[journalctl]] [[Service masking]]
 
 # systemctl
@@ -5,6 +6,15 @@
 > `systemctl` controls systemd units — start/stop/enable/status — the everyday service remote control.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

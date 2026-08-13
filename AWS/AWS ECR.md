@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[IAM]] [[ARN (Amazon Resource Name)]] [[Docker]] [[AWS EC2]]
 
 # AWS ECR
@@ -5,6 +6,15 @@
 > ECR (Elastic Container Registry) — private Docker/OCI image registry in AWS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

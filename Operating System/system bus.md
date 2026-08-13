@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[PCI (Peripheral Component Interconnect)]] [[bus]] [[base clock speed]] [[RAM and Swap memory]]
 
 # System bus
@@ -5,6 +6,15 @@
 > System bus — the system bus is the plumbing that moves addresses, data, and control between major components:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

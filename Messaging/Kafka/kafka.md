@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[Kafka]]
 
 # kafka
@@ -5,6 +6,17 @@
 > kafka — event streaming platform designed to handle real-time data feeds.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -23,6 +35,16 @@
 
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

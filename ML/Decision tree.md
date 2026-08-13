@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[ML Classifiers]] [[Random forest]] [[Gradient boosting]] [[scikitlearn]] [[supervised learning]]
 
 # Decision tree
@@ -5,6 +6,33 @@
 > Decision tree — a decision tree asks a sequence of yes/no questions on one feature at a time until a leaf assigns a class (classification) or
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -110,6 +138,12 @@ print(export_text(clf, feature_names=list(X.columns)))
 - **Production latency at massive depth** — shallow tree or linear model; cache feature lookups.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

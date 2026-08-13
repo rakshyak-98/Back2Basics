@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]]
 
 # public resolver
@@ -5,6 +6,15 @@
 > public resolver — s (like 8.8.8.8 or 1.1.1.1) don’t store domain → IP mappings permanently.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

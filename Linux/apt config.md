@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[apt package manager]] [[APT policy]] [[gpg]] [[source list file]]
 
 # apt config
@@ -5,6 +6,16 @@
 > apt config is the file layout that steers repos, pins, and keys — sources, preferences, apt.conf snippets, keyrings.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#update output lexicon]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -55,6 +66,18 @@ sudo apt autoclean
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Err:` 404 | Codename / path | Align suite with `/etc/os-release` |
+| Signature errors | keyrings + `signed-by` | [[gpg]] dearmor into keyrings |
+| Proxy needed | Environment / apt.conf | `Acquire::http::Proxy` in apt.conf.d |
+| Stale packages | Old lists | `apt update`; check clock (TLS) |
+| Mysterious pin | preferences.d | `apt policy pkg` |
+
+---
+
 ## update output lexicon
 
 | Prefix | Meaning | Action |
@@ -65,18 +88,6 @@ sudo apt autoclean
 | **Err:** | Fetch/auth failed | Fix URL/key/network |
 | **W:** | Warning | Often unsigned/hash — investigate |
 | **E:** | Fatal | Blocks install until fixed |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Err:` 404 | Codename / path | Align suite with `/etc/os-release` |
-| Signature errors | keyrings + `signed-by` | [[gpg]] dearmor into keyrings |
-| Proxy needed | Environment / apt.conf | `Acquire::http::Proxy` in apt.conf.d |
-| Stale packages | Old lists | `apt update`; check clock (TLS) |
-| Mysterious pin | preferences.d | `apt policy pkg` |
 
 ---
 

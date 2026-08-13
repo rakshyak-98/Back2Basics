@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Raft]] [[distributed system]] [[Eventual consistency]]
 
 # Quorum
@@ -5,6 +6,15 @@
 > Quorum — minimum votes (nodes) that must agree before a read/write counts; trades availability against consistency.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

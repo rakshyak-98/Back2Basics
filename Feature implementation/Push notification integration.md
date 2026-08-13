@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Feature implementation]]
 
 # Push notification integration
@@ -5,6 +6,15 @@
 > Push notification integration — APNs certificate is Apple's way of authenticating your backend server to send push notification to ISO devices.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -15,6 +25,25 @@ APNs certificate is Apple's way of authenticating your backend server to send pu
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

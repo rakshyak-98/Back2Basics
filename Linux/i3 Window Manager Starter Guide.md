@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[WM_CLASS]] [[Linux window manager]] [[window manager/X window system (X11)]] [[wayland]] [[Linux display manager]] [[zed configuration]]
 
 # i3wm — developer minimal setup
@@ -5,6 +6,32 @@
 > i3wm — developer minimal setup — i3 is a tiling window manager, not a desktop environment. It tiles windows into a tree of containers — no overlap by
 
 ---
+
+## Index
+
+- [[#Prerequisites]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Triage (when things break)]]
+- [[#Related]]
+
+## Prerequisites
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# smoke test
+```
 
 ## Mental model
 
@@ -298,25 +325,6 @@ i3-msg -t get_workspaces          # debug workspace state
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen after login | `journalctl -b -u lightdm` | Disable `picom` in config; reload; fix `picom.conf` |
-| Config change ignored | Wrong file? | Edit `~/.config/i3/config` not `/etc/i3/config`; `i3 -C` |
-| `i3 -C` parse error | Line number in output | Fix bindsym syntax; no duplicate `mode` names |
-| Keybinding dead | Mod key wrong | `set $mod Mod4`; logout/login |
-| `assign` rule ignored | Wrong [[WM_CLASS]] | `xprop WM_CLASS` on target window; fix case/class |
-| App on wrong monitor | `xrandr` names | Update `monitors.sh`; `workspace N output NAME` |
-| No WiFi icon | nm-applet running? | `exec nm-applet`; NetworkManager installed |
-| Polkit password loop | No auth agent | Install `polkit-gnome` or `lxpolkit`; add exec line |
-| Gaps directive error | Old i3 | `i3 --version` — need ≥4.22 or remove `gaps` lines |
-| Can't exit i3 | Stuck session | TTY `Ctrl+Alt+F3` → `i3-msg exit` or `pkill i3` |
-| JetBrains dialog tiled wrong | WM_CLASS shared | `for_window [class="jetbrains-idea"] floating enable` for dialogs only — use title regex |
-| Screen lock missing | No locker bound | `bindsym $mod+Shift+l exec i3lock` |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -351,6 +359,25 @@ i3-msg -t get_workspaces          # debug workspace state
 | Gaming-first, anti-cheat quirks | Test before daily-driving; some titles dislike bare X11 compositors |
 
 **Rule of thumb:** i3 shines for keyboard-heavy development work on stable X11 — one configuration file, git-trackable, fast. Invest setup time once; pay off on every workspace switch.
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen after login | `journalctl -b -u lightdm` | Disable `picom` in config; reload; fix `picom.conf` |
+| Config change ignored | Wrong file? | Edit `~/.config/i3/config` not `/etc/i3/config`; `i3 -C` |
+| `i3 -C` parse error | Line number in output | Fix bindsym syntax; no duplicate `mode` names |
+| Keybinding dead | Mod key wrong | `set $mod Mod4`; logout/login |
+| `assign` rule ignored | Wrong [[WM_CLASS]] | `xprop WM_CLASS` on target window; fix case/class |
+| App on wrong monitor | `xrandr` names | Update `monitors.sh`; `workspace N output NAME` |
+| No WiFi icon | nm-applet running? | `exec nm-applet`; NetworkManager installed |
+| Polkit password loop | No auth agent | Install `polkit-gnome` or `lxpolkit`; add exec line |
+| Gaps directive error | Old i3 | `i3 --version` — need ≥4.22 or remove `gaps` lines |
+| Can't exit i3 | Stuck session | TTY `Ctrl+Alt+F3` → `i3-msg exit` or `pkill i3` |
+| JetBrains dialog tiled wrong | WM_CLASS shared | `for_window [class="jetbrains-idea"] floating enable` for dialogs only — use title regex |
+| Screen lock missing | No locker bound | `bindsym $mod+Shift+l exec i3lock` |
 
 ---
 

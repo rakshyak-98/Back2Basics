@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ACID]] [[Database mistakes]] [[OLTP]] [[Vector database]]
 
 # BASE
@@ -5,6 +6,15 @@
 > distributed-systems tradeoff label — **B**asically **A**vailable, **S**oft state, **E**ventual consistency — opposite emphasis from [[ACID]]; know what you're giving up.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

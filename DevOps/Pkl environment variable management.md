@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/doppler]] [[NodeJS/node-convict]] [[Terraform/variable file]] [[DevOps/Jenkins]]
 
 # Pkl environment variable management
@@ -5,6 +6,15 @@
 > Pkl environment variable management — ▼ pkl eval -p env=production
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

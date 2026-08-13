@@ -1,3 +1,4 @@
+<!-- note-strategy: comparison -->
 [[regression]] [[Visualization/Residual plot]] [[rank prediction]] [[Mean Average Precision (MAP)]]
 
 # Predicted vs actual plot
@@ -5,6 +6,33 @@
 > Predicted vs actual plot — perfect predictions lie on the diagonal y = x:
 
 ---
+
+## Index
+
+- [[#Decision context]]
+- [[#Comparison matrix]]
+- [[#Selection guide]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Gotchas]]
+- [[#Related]]
+
+## Decision context
+
+…
+
+## Comparison matrix
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+## Selection guide
+
+- Choose **A** when …
+- Choose **B** when …
 
 ## Mental model
 
@@ -78,6 +106,14 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 
 ---
 
+## When NOT to use
+
+- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
+- **High-dimensional output** — per-target subplots or aggregate metrics.
+- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
+
+---
+
 ## Gotchas
 
 > [!WARNING]
@@ -85,14 +121,6 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 
 > [!WARNING]
 > **Filename typo:** this note is `predicated vs actual plot.md` in the vault — link as `[[Visualization/predicated vs actual plot]]`.
-
----
-
-## When NOT to use
-
-- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
-- **High-dimensional output** — per-target subplots or aggregate metrics.
-- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
 
 ---
 

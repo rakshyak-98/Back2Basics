@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[SOLID]] [[DRY]] [[API design]]
 
 # GRASP
@@ -5,6 +6,15 @@
 > GRASP — patterns for assigning responsibilities to classes/objects so the right object does the work.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

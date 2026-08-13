@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Route53]] [[Security group]] [[AWS EC2]] [[NAT (Network Address Translation)]] [[DNS]]
 
 # AWS Networking
@@ -5,6 +6,15 @@
 > AWS Networking — internet ──► IGW ──► public subnet (ALB, bastion)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

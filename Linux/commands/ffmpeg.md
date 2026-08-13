@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[re-encoding]] [[codecs]] [[transcoding]] [[ffprobe]] [[MPEG-TS]] [[Streaming]] [[RTMP]] [[SRT]] [[RTSP]]
 
 # ffmpeg
@@ -5,6 +6,16 @@
 > ffmpeg builds a media pipeline — read inputs, transform (or copy), write outputs or streams.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Live / UDP / RTMP patterns]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -89,6 +100,20 @@ tmux attach -t ffmpeg
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Instant “done”, not live | Missing `-re` | Add `-re` for live pacing |
+| Stream dies at EOF | No loop | `-stream_loop -1` |
+| `Could not find tag for codec` | Copy into wrong muxer | Re-encode (`-c:v libx264 -c:a aac`) or change `-f` |
+| A/V drift after mux | Start times / offset | `-itsoffset`; check with [[ffprobe]] `start_time` |
+| UDP receiver sees nothing | Wrong iface / multicast | Use correct group + iface; try unicast first |
+| High CPU on “simple” job | Accidental re-encode | Prefer `-c copy` when possible |
+| RTMP rejected | Codec/container | H.264 + AAC + `-f flv` |
+
+---
+
 ## Live / UDP / RTMP patterns
 
 ```bash
@@ -108,20 +133,6 @@ ffmpeg -re -stream_loop -1 -i 586000000.ts -c copy -f mpegts \
 ```
 
 Receive: `ffplay udp://127.0.0.1:5000` or `vlc udp://@:5000`.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Instant “done”, not live | Missing `-re` | Add `-re` for live pacing |
-| Stream dies at EOF | No loop | `-stream_loop -1` |
-| `Could not find tag for codec` | Copy into wrong muxer | Re-encode (`-c:v libx264 -c:a aac`) or change `-f` |
-| A/V drift after mux | Start times / offset | `-itsoffset`; check with [[ffprobe]] `start_time` |
-| UDP receiver sees nothing | Wrong iface / multicast | Use correct group + iface; try unicast first |
-| High CPU on “simple” job | Accidental re-encode | Prefer `-c copy` when possible |
-| RTMP rejected | Codec/container | H.264 + AAC + `-f flv` |
 
 ---
 

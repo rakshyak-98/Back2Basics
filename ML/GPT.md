@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[prompt]] [[prompt enginerring]] [[claude ai]]
 
 # GPT
@@ -5,6 +6,15 @@
 > GPT-style models predict the next token — chat APIs wrap that into messages, tools, and completions.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[HTTP module]] [[expressjs]]
 
 # agent (http.Agent)
@@ -5,6 +6,15 @@
 > Connection pool for outbound HTTP — keep-alive sockets, max sockets per host, and fewer TCP/TLS handshakes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

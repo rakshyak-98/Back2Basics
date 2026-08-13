@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[certbot (letsencrypt)]] [[TLS (Transport Layer Security)]] [[PKI]]
 
 # ACME server
@@ -5,6 +6,16 @@
 > ACME server — the CA’s API that ACME clients (Certbot, Caddy, Traefik) call to prove domain control and get certificates.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#ACME endpoints]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -38,18 +49,6 @@ sudo certbot certonly --server https://acme.zerossl.com/v2/DV90 ...
 sudo certbot certonly --server https://ca.internal/acme/directory ...
 ```
 
-## ACME endpoints
-
-| ACME server | Operator | Free? | Browser trusted? | Certbot |
-|-------------|----------|-------|------------------|---------|
-| Let’s Encrypt prod | ISRG | Yes | Yes | Default |
-| Let’s Encrypt staging | ISRG | Yes | No | `--staging` |
-| ZeroSSL | ZeroSSL | Limited | Yes | `--server` |
-| Google Trust Services | Google | Yes | Yes | `--server` |
-| step-ca / Boulder | You | Self-hosted | Only if you trust the root | `--server` |
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -59,6 +58,18 @@ sudo certbot certonly --server https://ca.internal/acme/directory ...
 | Client talks to wrong directory | `--server` / staging flag | Match intended CA URL |
 | Private CA untrusted externally | Root not in public stores | Distribute root only inside org |
 | Account key lost | New account = fine; certs independent | Recreate account; keep backup of account key if required by CA |
+
+---
+
+## ACME endpoints
+
+| ACME server | Operator | Free? | Browser trusted? | Certbot |
+|-------------|----------|-------|------------------|---------|
+| Let’s Encrypt prod | ISRG | Yes | Yes | Default |
+| Let’s Encrypt staging | ISRG | Yes | No | `--staging` |
+| ZeroSSL | ZeroSSL | Limited | Yes | `--server` |
+| Google Trust Services | Google | Yes | Yes | `--server` |
+| step-ca / Boulder | You | Self-hosted | Only if you trust the root | `--server` |
 
 ---
 

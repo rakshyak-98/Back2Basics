@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS Networking]] [[Security group]] [[AMI (Amazon Machine Image)]] [[EBS (Elastic Block Store)]] [[ARN (Amazon Resource Name)]]
 
 # AWS EC2
@@ -5,6 +6,15 @@
 > EC2 — virtual machines in AWS with chooseable CPU, memory, disk, and network.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

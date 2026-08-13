@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[systemd]] [[systemctl]] [[D-Bus]]
 
 # systemd-hostnamed
@@ -5,6 +6,15 @@
 > systemd-hostnamed is the daemon behind `hostnamectl` — static/pretty/transient hostname via D-Bus.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

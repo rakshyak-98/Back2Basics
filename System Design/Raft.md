@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Quorum]] [[distributed system]] [[Eventual consistency]]
 
 # Raft
@@ -5,6 +6,15 @@
 > Raft — consensus algorithm: elect a leader, replicate a log, stay consistent if a majority of nodes are up.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

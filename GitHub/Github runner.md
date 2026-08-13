@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Github cli]] [[DevOps/Jenkins]] [[Docker/Docker compose]]
 
 # GitHub Actions runner
@@ -5,6 +6,15 @@
 > Machine that executes workflow jobs — GitHub-hosted VM or your own hardware with the runner agent.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

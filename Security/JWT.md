@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[JWT authentication]] [[Token rotation]] [[single-sign-on (SSO)]]
 
 # JWT
@@ -5,6 +6,15 @@
 > JWT (JSON Web Token) — a signed blob of claims the client carries; the server verifies the signature instead of looking up a session.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

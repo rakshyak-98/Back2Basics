@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[iptables]] [[Linux network commands]] [[SSH]]
 
 # ufw
@@ -5,6 +6,16 @@
 > ufw (Uncomplicated Firewall) is a thin front-end for iptables/nft — allow/deny ports without writing raw rules by hand.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Application profiles]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -56,6 +67,18 @@ sudo ufw reset                     # nuclear — re-approve SSH first
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Locked out after enable | No SSH allow | Console/IPMI; `ufw allow OpenSSH`; `ufw disable` if needed |
+| Rule “there” but still blocked | Order / IPv6 | `status verbose`; check `ufw default` and v6 rules |
+| App name not found | Profile missing | `app list`; install package or allow raw ports |
+| Cloud still unreachable | Security group / NSG | UFW ≠ cloud firewall — open both |
+| `reset` regret | All rules gone | Recreate from runbook; never reset blind on prod |
+
+---
+
 ## Application profiles
 
 Profiles live in:
@@ -70,18 +93,6 @@ sudo ufw allow "Nginx Full"
 sudo ufw deny "Apache"
 sudo ufw delete allow "Nginx HTTP"
 ```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Locked out after enable | No SSH allow | Console/IPMI; `ufw allow OpenSSH`; `ufw disable` if needed |
-| Rule “there” but still blocked | Order / IPv6 | `status verbose`; check `ufw default` and v6 rules |
-| App name not found | Profile missing | `app list`; install package or allow raw ports |
-| Cloud still unreachable | Security group / NSG | UFW ≠ cloud firewall — open both |
-| `reset` regret | All rules gone | Recreate from runbook; never reset blind on prod |
 
 ---
 

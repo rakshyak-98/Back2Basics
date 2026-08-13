@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[Hooks/react useEffect]] [[react-query]]
 
 # data fetching component
@@ -5,6 +6,15 @@
 > Ways a component loads remote data — classic `useEffect`, Suspense `use()`, or a cache library.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[DRM]] [[CPIX]] [[streaming license]] [[EME]]
 
 # Pallycon(DoveRunner)
@@ -5,6 +6,17 @@
 > PallyCon (now DoveRunner) is multi-DRM SaaS — your backend mints a signed token so the player can ask for decryption keys.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#PallyCon DevConsole API]]
+- [[#Concurrent Stream Limiting Guide]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -87,6 +99,19 @@ player.configure({
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| License 401 / invalid token | Token age, Site Key, content id | Remint server-side; verify Site ID; NTP on token host |
+| Encrypt works, play fails | Player missing `pallycon-customdata-v2` | Wire license request filter / header |
+| Safari only fails | FairPlay cert / HLS key path | Enable FPS in DoveRunner + packager |
+| “Too many streams” | CSL + renewals | Raise limit, end stale sessions, check renewal interval |
+| Token from DevConsole works, app fails | App builds token wrong | Diff policy JSON / encryption of customdata vs docs |
+| Keys from CPIX OK, license rejects | Content id mismatch | Align packaging content id with token `cid` |
+
+---
+
 ## PallyCon DevConsole API
 
 Access is through DoveRunner’s developer portal.
@@ -114,19 +139,6 @@ Docs: [CSL guide](https://docs.doverunner.com/content-security/multi-drm/license
 | Short license + renew | Server sees active playback |
 | Cap N devices | N’th license denied or oldest kicked (per policy) |
 | Account id in token | CSL keys off user identity you put in the token |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| License 401 / invalid token | Token age, Site Key, content id | Remint server-side; verify Site ID; NTP on token host |
-| Encrypt works, play fails | Player missing `pallycon-customdata-v2` | Wire license request filter / header |
-| Safari only fails | FairPlay cert / HLS key path | Enable FPS in DoveRunner + packager |
-| “Too many streams” | CSL + renewals | Raise limit, end stale sessions, check renewal interval |
-| Token from DevConsole works, app fails | App builds token wrong | Diff policy JSON / encryption of customdata vs docs |
-| Keys from CPIX OK, license rejects | Content id mismatch | Align packaging content id with token `cid` |
 
 ---
 

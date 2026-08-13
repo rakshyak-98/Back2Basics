@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[NAT (Network Address Translation)]] [[outbound ip]] [[CIDR (Classless Inter-Domain Routing)]]
 
 # network gateway
@@ -5,6 +6,15 @@
 > A gateway is the next hop for traffic that isn’t local — usually your router’s LAN IP, or `0.0.0.0/0` in the route table.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

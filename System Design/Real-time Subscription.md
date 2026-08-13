@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[stateless]] [[WebSocket]] [[SSE]] [[backpressure]]
 
 # Real-time Subscription
@@ -5,6 +6,15 @@
 > Real-time subscription — client stays connected (or long-polls) and receives pushes when data changes, instead of hammering polls.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

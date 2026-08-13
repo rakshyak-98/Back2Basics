@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[npm]]
 
 # Express-useragent
@@ -5,6 +6,15 @@
 > `express-useragent` — middleware that parses `User-Agent` into a structured object on `req` (browser/OS/device flags).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

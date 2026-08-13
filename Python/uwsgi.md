@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Python]]
 
 # User web server gateway interface
@@ -5,6 +6,15 @@
 > User web server gateway interface — uWSGI acts as a bridge between your web application and the web server (like Nginx or Apache). It takes care of…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

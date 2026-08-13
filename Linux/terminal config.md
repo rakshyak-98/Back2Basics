@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[terminal emulator]] [[Bash syntax]]
 
 # terminal config
@@ -5,6 +6,15 @@
 > Terminal config is how the emulator and shell look/behave — fonts, colors, scrollback, keybindings, and shell rc files.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

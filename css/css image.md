@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[css/tailwindcss]] [[css/scss]] [[css/Animation]]
 
 # CSS image sizing (clipped container)
@@ -5,6 +6,15 @@
 > CSS image sizing (clipped container) — └─ img (100% × 100%) ← ambiguous containing block
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

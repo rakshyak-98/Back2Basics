@@ -12,7 +12,8 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 
 | Need | Open |
 |------|------|
-| How notes are structured | [[NOTES_STANDARD]] |
+| Which note shape to use | [[NOTETAKING_STRATEGIES]] |
+| Detailed templates per strategy | [[NOTES_STANDARD]] |
 | Symptom → note map | [[INDEX]] |
 | Staff-level skill model | [[staff engineer]] |
 
@@ -41,7 +42,7 @@ Use [[INDEX]] for on-call routing.
 
 ## Contributing to this vault
 
-1. Read [[NOTES_STANDARD]] before writing.
+1. Pick a strategy in [[NOTETAKING_STRATEGIES]]; fill the matching template in [[NOTES_STANDARD]].
 2. Prefer expanding one empty/stub over adding a fifth synonym.
 3. Merge duplicates with a redirect (`→ [[Canonical]]`).
 4. Strip wiki/ChatGPT citation spam; keep book/source attributions that are real (Kleppmann, Kerrisk, Brikman, Stevens, Burns).

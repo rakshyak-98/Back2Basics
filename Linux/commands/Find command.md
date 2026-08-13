@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[commands]] [[FileManagement]] [[rsync]]
 
 # Find command
@@ -6,27 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** start at a path, apply tests (`-name`, `-mtime`, …), then an action (`-print`, `-delete`, `-exec`).
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-path ──► descend ──► match predicates ──► action
-              -maxdepth limits how deep
-              {} + batches like xargs
-```
+## Quick reference
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`-type f/d/l`** | File / dir / symlink | “Narrow before you delete.” |
-| **`-name` / `-iname`** | Glob match | “Quoted globs — shell must not expand them.” |
-| **`-mtime -7`** | Modified in last 7 days | “Negative means *within*; positive means *older than*.” |
-| **`-exec … {} +`** | Run command in batches | “`+` is fast; `\;` forks once per file.” |
-| **`-delete`** | Remove matches | “Depth-first; safer than naive `rm` loops.” |
-
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -58,6 +55,34 @@ find /path -maxdepth 2 -mindepth 1 -type d
 | `{}` | Placeholder for matched path |
 | `+` | Batch many paths into one command |
 | `\;` | One invocation per file (slow) |
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** start at a path, apply tests (`-name`, `-mtime`, …), then an action (`-print`, `-delete`, `-exec`).
+
+```txt
+path ──► descend ──► match predicates ──► action
+              -maxdepth limits how deep
+              {} + batches like xargs
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`-type f/d/l`** | File / dir / symlink | “Narrow before you delete.” |
+| **`-name` / `-iname`** | Glob match | “Quoted globs — shell must not expand them.” |
+| **`-mtime -7`** | Modified in last 7 days | “Negative means *within*; positive means *older than*.” |
+| **`-exec … {} +`** | Run command in batches | “`+` is fast; `\;` forks once per file.” |
+| **`-delete`** | Remove matches | “Depth-first; safer than naive `rm` loops.” |
 
 ---
 
@@ -93,6 +118,12 @@ find /path -maxdepth 2 -mindepth 1 -type d
 - **Sync trees** — [[rsync]].
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

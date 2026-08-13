@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Event Loop]] [[Node events driven]]
 
 # EventMachine
@@ -5,6 +6,15 @@
 > Ruby’s reactor for non-blocking network I/O — same idea as Node’s event loop: one thread, callbacks on readiness.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

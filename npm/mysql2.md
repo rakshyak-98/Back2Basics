@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[npm]]
 
 # mysql2
@@ -5,6 +6,15 @@
 > mysql2 — short field notes on what it is and how to use it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[process]] [[Linux Process Theory]] [[Linux resource management]] [[OOM (Linux Out Of Memory)]]
 
 # renice
@@ -5,6 +6,15 @@
 > renice — change CPU priority of a running process without restarting it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[apache]]
 
 # apache configurations
@@ -5,6 +6,15 @@
 > apache configurations — if you are using something else like /var/www/myproject/public, make sure it's set correctly.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -22,6 +32,25 @@ export APACHE_RUN_GROUP=www-data
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

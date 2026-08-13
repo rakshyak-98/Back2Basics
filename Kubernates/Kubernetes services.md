@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kubernates]]
 
 # Kubernetes services
@@ -5,6 +6,15 @@
 > Kubernetes services — in Kubernetes, a service is a method for exposing a network application that is running as one or more Pods in your cluster.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -31,7 +41,6 @@ spec:
    # Optional field
    # By default and for convenience, the Kubernetes control plane
    # will allocate a port from a range (default: 30000-32767)
-
 
 ## Standard config / commands
 

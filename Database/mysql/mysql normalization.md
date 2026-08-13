@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[SQL normalization]] [[Database design]]
 
 # mysql normalization
@@ -5,6 +6,15 @@
 > Normalize relational schemas to cut redundancy and update anomalies — 1NF→BCNF (and beyond) as interview vocabulary; denormalize only with a measured reason.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

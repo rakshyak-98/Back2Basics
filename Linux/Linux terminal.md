@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[terminal emulator]] [[CLI]] [[login shell]]
 
 # Linux terminal
@@ -5,6 +6,15 @@
 > A Linux terminal is the text I/O path to a shell — local emulator, TTY/getty, or SSH session over a pty.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

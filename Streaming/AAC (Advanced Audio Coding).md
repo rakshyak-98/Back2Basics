@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[codecs]] [[Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[Lossy Audio Compression]]
 
 # AAC (Advanced Audio Coding)
@@ -5,6 +6,15 @@
 > AAC (Advanced Audio Coding) — PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

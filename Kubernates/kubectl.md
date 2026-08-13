@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Pods]] [[kubectl pod creation]] [[ingress]] [[Kubernetes services]] [[Kubernetes configuration]] [[Cilium]] [[distributed system]] [[orchestration]]
 
 # kubectl
@@ -5,6 +6,18 @@
 > CLI to the Kubernetes API — read cluster state, ship manifests, debug failing pods — **Kubernetes: Up and Running** (Burns et al.) + **The Kubernetes Book** (Sayed).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage table]]
+- [[#CrashLoopBackOff triage]]
+- [[#Multi-scaling systems (real-time triage)]]
+- [[#Microservices (real-time triage)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -95,6 +108,24 @@ kubectl debug node/worker-2 -it --image=nicolaka/netshoot -- chroot /host bash
 # Port forward local → service
 kubectl port-forward -n prod svc/api 8080:80
 ```
+
+## Triage table
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| CrashLoopBackOff | logs `--previous`, describe | Fix exit reason; probes; secrets |
+| ImagePullBackOff | describe → `Failed to pull` | Tag/registry creds; `imagePullSecrets` |
+| Pending | describe → scheduling | Resources; taints; PVC bind |
+| Running not Ready | readiness probe logs | Fix `/ready`; dependency down |
+| 502 from ingress | endpoints empty | Readiness failing; selector mismatch |
+| Works locally, fails cluster | `kubectl exec` DNS/curl | NetworkPolicy; wrong service name |
+| Random restarts | OOMKilled in describe | Raise limit or fix leak |
+| Traffic spike, elevated 5xx | HPA status; endpoints count; `top pods` | Scale max; reduce startup time; PDB + surge tuning |
+| HPA not scaling | `describe hpa`; metrics-server | Set CPU requests; fix metrics adapter |
+| Pods Pending after scale-up | FailedScheduling events; CA events | Raise node pool; fix affinity; quotas |
+| One microservice down takes out many | Shared ConfigMap/Secret; dependency SLO | Isolate config versions; timeout + bulkhead in callers |
+| Cross-service timeout only in prod | netpol; mesh mTLS; wrong namespace DNS | Allow egress/ingress; FQDN `svc.ns.svc.cluster.local` |
+| After deploy, mixed old/new behavior | ReplicaSets; endpoint subsets | Finish rollout; verify single label selector on Service |
 
 ## CrashLoopBackOff triage
 
@@ -316,24 +347,6 @@ kubectl get endpoints api -n prod -o yaml | yq '.subsets[].addresses | length'
 | Prove policy | `kubectl describe netpol -n <ns>` + temporary allow-all in staging only |
 | Prove rollout | `kubectl rollout status deploy/<name> -n <ns>` |
 | Prove quota | `kubectl describe resourcequota -n <ns>` |
-
-## Triage table
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| CrashLoopBackOff | logs `--previous`, describe | Fix exit reason; probes; secrets |
-| ImagePullBackOff | describe → `Failed to pull` | Tag/registry creds; `imagePullSecrets` |
-| Pending | describe → scheduling | Resources; taints; PVC bind |
-| Running not Ready | readiness probe logs | Fix `/ready`; dependency down |
-| 502 from ingress | endpoints empty | Readiness failing; selector mismatch |
-| Works locally, fails cluster | `kubectl exec` DNS/curl | NetworkPolicy; wrong service name |
-| Random restarts | OOMKilled in describe | Raise limit or fix leak |
-| Traffic spike, elevated 5xx | HPA status; endpoints count; `top pods` | Scale max; reduce startup time; PDB + surge tuning |
-| HPA not scaling | `describe hpa`; metrics-server | Set CPU requests; fix metrics adapter |
-| Pods Pending after scale-up | FailedScheduling events; CA events | Raise node pool; fix affinity; quotas |
-| One microservice down takes out many | Shared ConfigMap/Secret; dependency SLO | Isolate config versions; timeout + bulkhead in callers |
-| Cross-service timeout only in prod | netpol; mesh mTLS; wrong namespace DNS | Allow egress/ingress; FQDN `svc.ns.svc.cluster.local` |
-| After deploy, mixed old/new behavior | ReplicaSets; endpoint subsets | Finish rollout; verify single label selector on Service |
 
 ## Gotchas
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Decision tree]] [[Random forest]] [[xg boost]] [[scikitlearn]] [[regression]] [[binary classification]]
 
 # Gradient boosting
@@ -5,6 +6,15 @@
 > Sequential ensemble: each new tree fits the **residual errors** of the ensemble so far — **Friedman (1999)** + modern GBDT libraries.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

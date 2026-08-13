@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[systemd]] [[inittramfs]]
 
 # LSB (Linux Standard Base)
@@ -5,6 +6,15 @@
 > LSB (Linux Standard Base) tried to standardize paths, runlevels, and package shapes across distros — today you mostly meet legacy `/etc/init.d` scripts and `lsb_release`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

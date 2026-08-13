@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TypeScript]] [[typescript]] [[Triple-Slash Directives]]
 
 # ambient modules
@@ -5,6 +6,15 @@
 > Ambient modules — `declare module` / `.d.ts` that describe JS libraries TypeScript can’t see types for.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

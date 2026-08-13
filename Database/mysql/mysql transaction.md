@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[ACID]] [[mysql lock]] [[write-ahead logging]]
 
 # mysql transaction
@@ -5,6 +6,15 @@
 > A transaction bundles multiple writes so they all commit or all roll back — one unit of work for correctness.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[flux]] [[Redux toolkit]] [[Redux/Redux Thunk]]
 
 # Redux
@@ -5,6 +6,15 @@
 > One predictable store for app state — dispatch actions, pure reducers return the next tree, views select slices.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

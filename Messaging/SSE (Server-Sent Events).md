@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Messaging]]
 
 # SSE (Server-Sent Events)
@@ -5,6 +6,15 @@
 > SSE (Server-Sent Events) — uni directional push from server to browser over HTTP.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

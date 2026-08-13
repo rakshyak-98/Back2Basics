@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[handle]] [[file descriptors]] [[system call]] [[Epoll]] [[fsync]]
 
 # descriptors
@@ -5,6 +6,15 @@
 > File descriptors (fds) are small integers your Unix process uses as handles for open files, sockets, and pipes — 0/1/2 are stdin/stdout/stderr.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

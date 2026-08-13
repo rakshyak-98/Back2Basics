@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[NAT Traversal]] [[WebRTC]]
 
 # P2P (Peer-to-Peer)
@@ -5,6 +6,15 @@
 > P2P means peers talk to each other — share load and data without every byte going through your central server.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

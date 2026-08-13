@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[OLTP]] [[Data access patterns]] [[ACID]] [[Database design]] [[mysql]]
 
 # OLAP (Online Analytical Processing)
@@ -5,6 +6,15 @@
 > OLAP (Online Analytical Processing) — OLTP answers "create this order now" (few rows, ms latency). OLAP answers "revenue by region last 36 months" (millions–billions of rows, seconds OK).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

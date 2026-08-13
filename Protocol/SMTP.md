@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[E mail server]] [[TCP]] [[DNS]]
 
 # SMTP
@@ -5,6 +6,15 @@
 > SMTP — command/response between mail agents. Submission (client → MSA, port 587) differs from relay (MTA → MTA, port 25). Delivery authenticity is enforced separately via
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

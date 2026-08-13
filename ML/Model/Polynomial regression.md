@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Model/Linear regression]] [[regression]] [[data preprocessing]] [[Visualization/Residual plot]] [[scikitlearn]]
 
 # Polynomial regression
@@ -5,6 +6,15 @@
 > Extend linear models with **x, x², x³, interactions** to capture curvature — still linear in coefficients, nonlinear in features — **ESL**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

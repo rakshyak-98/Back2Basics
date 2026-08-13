@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Terraform setup]] [[terraform]] [[Terraform workflow]] [[variable file]] [[helm]] [[ecommerce-platform-architecture]] [[ecommerce-cicd-environments]] [[ingress]] [[AWS ECR]]
 
 # ecommerce eks layout
@@ -5,6 +6,20 @@
 > ecommerce eks layout — environments/ # one state per env (dev, test, staging, prod)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#AWS / cluster strategy]]
+- [[#Sample Terraform directory structure]]
+- [[#Sample Helm directory structure]]
+- [[#Terraform ↔ Helm handoff]]
+- [[#CI integration touchpoints]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -32,6 +47,18 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Pod `AccessDenied` Secrets | IRSA annotation vs Terraform role | Align SA name, namespace, trust policy |
+| Helm upgrade loop | CRD / Rollout conflict | Separate platform chart upgrade window |
+| RDS connection storm | Too many pods, no [[connection pooling]] | PgBouncer sidecar or RDS Proxy in Terraform module |
+| Wrong cluster deploy | Argo CD destination | `destination.server` + namespace guardrails |
+| State lock | [[Terraform workflow]] | `terraform force-unlock` after confirming no run |
+
+---
 
 ## AWS / cluster strategy
 
@@ -290,18 +317,6 @@ Use **External Secrets Operator** — Terraform creates Secrets Manager entries;
 | Image push | Updates values digest or Argo CD Image Updater |
 | Helm template test | `helm template payment deploy/helm/charts/services/payment -f deploy/helm/values/staging/payment.yaml` |
 | Deploy | Argo CD sync or `helm upgrade` from [[Github action]] |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Pod `AccessDenied` Secrets | IRSA annotation vs Terraform role | Align SA name, namespace, trust policy |
-| Helm upgrade loop | CRD / Rollout conflict | Separate platform chart upgrade window |
-| RDS connection storm | Too many pods, no [[connection pooling]] | PgBouncer sidecar or RDS Proxy in Terraform module |
-| Wrong cluster deploy | Argo CD destination | `destination.server` + namespace guardrails |
-| State lock | [[Terraform workflow]] | `terraform force-unlock` after confirming no run |
 
 ---
 

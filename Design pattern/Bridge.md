@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Command]] [[Design pattern/Dependency Injection]] [[System Design/HES Architecture]]
 
 # Bridge pattern
@@ -5,6 +6,18 @@
 > Bridge pattern — without Bridge, one class dimension multiplies subclasses (BasicRemote+TV, BasicRemote+Radio, …). Bridge splits:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +38,14 @@ Abstraction holds a reference to implementor interface — calls delegate at run
 | **Refined abstraction** | Variants (`ProRemote`) |
 | **Implementor** | Interface (`Device`) |
 | **Concrete implementor** | `TV`, `Projector` |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -90,6 +111,12 @@ remote.toggle();
 - **Naming confusion:** "bridge" in networking ([[Networking/BGP]]) is unrelated.
 - **Refined abstraction** can re-introduce coupling if it downcasts implementors.
 - **Serialization** of abstraction may drop implementor reference — reconstruct via type tag.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

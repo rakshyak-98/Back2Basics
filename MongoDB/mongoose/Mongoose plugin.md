@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mongoose middleware]] [[mongodb model]] [[MongoDB]]
 
 # Mongoose plugin
@@ -5,6 +6,15 @@
 > Mongoose plugin — a plugin is a function (schema, options) => void registered on a schema before mongoose.model(). Global plugins apply to every schema. Plugins compose
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

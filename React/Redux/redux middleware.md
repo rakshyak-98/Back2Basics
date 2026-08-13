@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux Thunk]] [[Redux/Redux createAsyncThunk]] [[Redux concept and data flow]]
 
 # redux middleware
@@ -5,6 +6,15 @@
 > redux middleware — middleware₁ (can call next(action), delay, swallow)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

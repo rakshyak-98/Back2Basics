@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]]
 
 # XSRF (cross-site request forgery)
@@ -5,6 +6,15 @@
 > CSRF/XSRF — evil.com tricks the browser into sending your bank.com cookies on a forged request; the bank thinks it’s you.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

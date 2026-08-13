@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
 
 # SAQ GSS (Self-Assessment Questionnaire — Guest Service System)
@@ -5,6 +6,15 @@
 > PCI DSS self-assessment path when checkout is fully outsourced — merchant attests reduced cardholder-data environment — **PCI SSC SAQ programs**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

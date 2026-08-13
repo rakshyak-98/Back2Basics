@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[event listener]] [[Event Loop]] [[debouncing]] [[throttle]] [[content security policy]]
 
 # User-triggered events
@@ -5,6 +6,15 @@
 > Browser events caused directly by user input — the gate for privileged APIs, popup blockers, and "did the user mean this?" security checks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

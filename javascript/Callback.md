@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[promise]] [[event listener]]
 
 # Callback
@@ -5,6 +6,15 @@
 > Function passed to be called later — Node-style `(err, value)` or browser event handlers; precursor to Promises.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

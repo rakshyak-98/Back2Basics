@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[NodeJS/Event Loop]]
 
 # INP (Interaction to Next Paint)
@@ -5,6 +6,15 @@
 > Core Web Vital measuring responsiveness — latency from user input to next frame paint — **replaces FID (2024)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

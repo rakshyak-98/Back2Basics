@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[cli]] [[mysql dump]] [[SQL Configurations]]
 
 # Configuration
@@ -5,6 +6,15 @@
 > MySQL config is defaults + `my.cnf` / `.my.cnf` — client prefs, dump flags, and server knobs in one place.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

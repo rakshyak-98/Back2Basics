@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[hydration]] [[SSR]]
 
 # RSC (React Server Component boundaries)
@@ -5,6 +6,15 @@
 > Compile-time split: server components render on the server; `"use client"` marks the interactive island that hydrates in the browser.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

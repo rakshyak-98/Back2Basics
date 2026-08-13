@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[Prisma]]
 
 # Prisma
@@ -5,6 +6,13 @@
 > Prisma — the Prisma client is generated as a set of TypeScript or JavaScript files and is located in the node_modules directory.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Related]]
 
 ## Mental model
 
@@ -22,6 +30,16 @@ npx prisma generate; # generat the prisma client
 
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Related
 

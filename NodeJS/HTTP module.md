@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[expressjs]] [[Stream]]
 
 # HTTP module
@@ -5,6 +6,15 @@
 > Node’s built-in `http`/`https` servers and clients — Express sits on top; use raw server when you need the `Server` handle (WS, dual HTTP/HTTPS, graceful shutdown).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

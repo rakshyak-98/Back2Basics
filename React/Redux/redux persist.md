@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Redux State sync with localstorage]]
 
 # redux persist
@@ -5,6 +6,15 @@
 > Save Redux state to storage and rehydrate on boot — `PersistGate` waits so UI doesn’t flash empty.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

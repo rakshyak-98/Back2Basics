@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[HTTP]]
 
 # mime type
@@ -5,6 +6,15 @@
 > MIME type labels what bytes are — browser/OS picks how to open, render, or download them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

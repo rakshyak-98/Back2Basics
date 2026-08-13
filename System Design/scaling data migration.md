@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Horizontal vs Vertical Scaling]] [[database sharding]] [[database migration]] [[mysql]] [[postgres]] [[BASE]] [[ACID]]
 
 # Scaling data migration
@@ -5,6 +6,16 @@
 > Moving data between database servers or nodes while scaling — much harder for relational databases introducing sharding than for partition-native NoSQL; replication and sharding solve different problems.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Interview map (words you can say)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -279,18 +290,6 @@ But it makes application and database architecture more complicated.
 | NoSQL rebalance | Partition ranges | Add nodes with less app change | Zero cost — data still physically moves |
 | Distributed SQL | Automatic range moves | SQL + distribution | Coordination latency and ops complexity |
 
-## Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Resharding** | Change shard map and move rows | "Dual-write, backfill, verify, cut over." |
-| **Rebalancing** | NoSQL moves partition ranges | "Built-in but still moves bytes on the wire." |
-| **Dual-write** | App writes old + new during migration | "Bridge until backfill catches up." |
-| **Replication** | Same data, more copies | "Read scale — not write scale." |
-| **Cutover** | Switch reads/writes to new topology | "Needs checksums and rollback plan." |
-
----
-
 ## Standard config / commands
 
 ### SQL sharding migration (common phases)
@@ -336,6 +335,18 @@ Scaling data migration (this note): move rows across nodes while scaling
 | App still hits old node | Routing config / connection pool | Feature flag shard map; drain old pool |
 | Rebalance never finishes | Node down; token imbalance | Cluster health; manual move ranges |
 | Writes spike during rebalance | Hot partition | Salt keys; add capacity before rebalance |
+
+---
+
+## Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Resharding** | Change shard map and move rows | "Dual-write, backfill, verify, cut over." |
+| **Rebalancing** | NoSQL moves partition ranges | "Built-in but still moves bytes on the wire." |
+| **Dual-write** | App writes old + new during migration | "Bridge until backfill catches up." |
+| **Replication** | Same data, more copies | "Read scale — not write scale." |
+| **Cutover** | Switch reads/writes to new topology | "Needs checksums and rollback plan." |
 
 ---
 

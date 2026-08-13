@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Architectures]] [[Database]] [[ACID]] [[WAL (Write-Ahead Log)]]
 
 # MVCC
@@ -5,6 +6,15 @@
 > MVCC (Multi-Version Concurrency Control) keeps old row versions so readers see a snapshot — reads don’t block writers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

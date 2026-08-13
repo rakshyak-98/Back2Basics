@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[mongodb schema]]
 
 # mognodb indexing
@@ -5,6 +6,15 @@
 > Indexes make MongoDB finds fast — without them, every query is a collection scan.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

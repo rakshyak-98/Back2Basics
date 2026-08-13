@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[postgres]] [[psql essential]] [[migration]]
 
 # psql database dump
@@ -5,6 +6,15 @@
 > Snapshot a Postgres database to a file — `pg_dump` out, `pg_restore` (or `psql`) back in.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

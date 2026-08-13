@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb schema]] [[mongodb shell]]
 
 # MongoDB query validation
@@ -5,6 +6,15 @@
 > Collection validators reject bad writes — JSON Schema (or operators) enforced by the server.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

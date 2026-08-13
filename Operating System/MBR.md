@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Persistent Block Storage]] [[logical partitions]] [[OS program]]
 
 # MBR (Master Boot Record)
@@ -5,6 +6,15 @@
 > MBR (Master Boot Record) — MBR is the first 512-byte sector (LBA 0) of a disk. Classic layout:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

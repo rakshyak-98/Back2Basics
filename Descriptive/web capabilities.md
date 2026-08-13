@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[JavaScript]] [[webSocket]]
 
 # web capabilities
@@ -5,6 +6,15 @@
 > Browser **capability APIs** gated by **Permissions Policy** (formerly Feature Policy) + user consent — know what works in iframe, third-party, and locked-down enterprise.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

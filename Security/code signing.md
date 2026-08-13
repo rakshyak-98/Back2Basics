@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Asymmetrical Encryption]] [[PKI]] [[Root certificate]] [[openssl]]
 
 # Code signing
@@ -5,6 +6,15 @@
 > Cryptographic signature on binaries, packages, or scripts — proves publisher identity and detects tampering since build.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

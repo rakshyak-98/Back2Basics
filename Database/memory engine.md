@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql/MySQL Engines]] [[mysql/mysql engine]] [[mysql]]
 
 # MEMORY storage engine (MySQL)
@@ -5,6 +6,15 @@
 > MEMORY storage engine (MySQL) — mySQL MEMORY (historically HEAP) stores rows in memory hash or fixed structure. No durable on-disk data file for table contents —
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

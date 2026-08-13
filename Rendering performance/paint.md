@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Rendering performance/layout]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
 
 # Paint (repaint)
@@ -5,6 +6,15 @@
 > Fill pixels after layout — text, colors, borders, shadows — **often split into layers for compositing**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

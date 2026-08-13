@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[bitrate streaming]] [[Encoding]] [[transcoding]] [[NVENC]] [[codecs]]
 
 # CRF (Constant Rate Factor)
@@ -5,6 +6,15 @@
 > CRF (Constant Rate Factor) — CRF 18 ──► high quality, large files (archival-ish VoD)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

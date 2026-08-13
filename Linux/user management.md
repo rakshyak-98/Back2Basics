@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[useradd]] [[usermod]] [[userdel]] [[passwd]] [[linux groups]] [[visudo]] [[getent]] [[chage]]
 
 # user management
@@ -5,6 +6,16 @@
 > Linux user management is accounts + groups + sudo — who can log in, own files, and elevate.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Files that define a user]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -26,21 +37,6 @@ elevate   /etc/sudoers(+.d)   via [[visudo]]
 | **`!` / `*` in shadow** | Locked / no password | “Service accounts shouldn’t have a login password.” |
 | **nologin / false** | Non-interactive shell | “Daemons don’t get a bash.” |
 | **`-aG`** | Append supplementary groups | “Without `-a` you wipe group membership.” |
-
----
-
-## Files that define a user
-
-| File | Holds |
-|------|-------|
-| `/etc/passwd` | Login name, UID, primary GID, home, shell |
-| `/etc/shadow` | Password hash, aging, lock flags |
-| `/etc/group` | Group names, GIDs, supplementary members |
-| `/etc/gshadow` | Group passwords/admins (rare day-to-day) |
-| `/etc/shells` | Legal login shells |
-| `/etc/skel` | Template for new homes |
-
-Shells: `/bin/bash` for humans; `/usr/sbin/nologin` or `/bin/false` for system users.
 
 ---
 
@@ -83,6 +79,21 @@ Useful groups: `sudo` (administrator), `docker`, `adm` (logs), `plugdev`, `lpadm
 | Permission on shared dir | Primary vs supplementary | Shared group + `chmod g+s` or ACLs |
 | Orphan files after delete | Forgot migration | `find / -user UID`; change ownership first |
 | Can’t SSH | Shell nologin / no home | `usermod -s`; create home |
+
+---
+
+## Files that define a user
+
+| File | Holds |
+|------|-------|
+| `/etc/passwd` | Login name, UID, primary GID, home, shell |
+| `/etc/shadow` | Password hash, aging, lock flags |
+| `/etc/group` | Group names, GIDs, supplementary members |
+| `/etc/gshadow` | Group passwords/admins (rare day-to-day) |
+| `/etc/shells` | Legal login shells |
+| `/etc/skel` | Template for new homes |
+
+Shells: `/bin/bash` for humans; `/usr/sbin/nologin` or `/bin/false` for system users.
 
 ---
 

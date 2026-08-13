@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments/payment gateway]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Security/TLS (Transport Layer Security)]]
 
 # PSP (Payment Service Provider)
@@ -5,6 +6,15 @@
 > PSP (Payment Service Provider) — a PSP connects payers and merchants: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

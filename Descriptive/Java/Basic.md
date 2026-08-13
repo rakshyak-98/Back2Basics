@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[Java applets]]
 
 # Java Basic
@@ -5,6 +6,15 @@
 > Java basics — classes, `javac`/`java`, JVM bytecode, and the usual entrypoint `main`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

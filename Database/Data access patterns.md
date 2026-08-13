@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database design]] [[OLTP]] [[OLAP]] [[connection pooling]] [[covering index]] [[BASE]]
 
 # Data access patterns
@@ -5,6 +6,15 @@
 > Data access patterns — schema follows access paths, not ER diagrams drawn once. Ask every feature:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

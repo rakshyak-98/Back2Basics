@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Commands]] [[process]] [[top]] [[lsof]]
 
 # ps
@@ -5,6 +6,15 @@
 > `ps` snapshots processes right now — PID, state, TTY, CPU, memory, and command line.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking/UDP]] [[Security/TLS (Transport Layer Security)]] [[Security/https]] [[Networking/half-open connections]]
 
 # QUIC
@@ -5,6 +6,15 @@
 > QUIC — (Quick UDP Internet Connections) moves transport into user space over UDP, integrating encryption and stream multiplexing. Designed to fix TCP head-of-line blocking and slow
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

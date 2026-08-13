@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[KISS]] [[SOLID]] [[System design]] [[Design pattern]]
 
 # DRY (Don't Repeat Yourself)
@@ -5,6 +6,15 @@
 > Single source of truth for knowledge — **dedupe logic and config**, not every similar-looking line.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

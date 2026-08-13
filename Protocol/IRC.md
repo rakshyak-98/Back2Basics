@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[TCP]]
 
 # IRC
@@ -5,6 +6,15 @@
 > IRC (Internet Relay Chat) — clients join a server (or network of servers) for channels and DMs; text chat over a simple TCP protocol.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

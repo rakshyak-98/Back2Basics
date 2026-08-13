@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Messaging/webhook]] [[android/sdkmanager]] [[Security/Token rotation]]
 
 # FCM token (Firebase Cloud Messaging)
@@ -5,6 +6,15 @@
 > Device-scoped token identifying one app install for push delivery — rotate on reinstall, clear data, or token refresh.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

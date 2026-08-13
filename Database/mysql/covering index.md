@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql index]] [[mysql query]] [[show query]] [[OLTP]] [[MySQL storage]]
 
 # covering index
@@ -5,6 +6,15 @@
 > covering index — innoDB secondary indexes store (index_cols…, PK) in a B+ tree. Non-covering query:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / DDL]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

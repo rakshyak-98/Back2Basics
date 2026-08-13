@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[TypeScript]] [[tsconfig]] [[javascript]]
 
 # typescript
@@ -5,6 +6,17 @@
 > TypeScript — JavaScript plus a type layer erased at compile time; catches interface mistakes before runtime.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -22,6 +34,16 @@
 | Declaration `.d.ts` | Types for JS libs |
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

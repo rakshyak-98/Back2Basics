@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[POSIX Socket]] [[TCP]] [[UDP]] [[webSocket]]
 
 # Berkeley sockets
@@ -5,6 +6,15 @@
 > BSD-origin API (`socket`, `bind`, `listen`, `connect`, `send`, `recv`) — the POSIX façade for Internet and Unix domain communication.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[mysql]] [[Configuration]] [[mysql dump]] [[mysql user]]
 
 # cli
@@ -6,28 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** `mysql` speaks the wire protocol; on Debian/Ubuntu, OS `root` often uses `auth_socket`, so `mysql -u root -p` fails until you change the plugin or use `sudo`.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-mysql client ──► Unix socket (localhost) or TCP (127.0.0.1)
-                      │
-                      ├─ auth_socket  → OS user must match
-                      └─ password plugin → -p / .my.cnf
-```
+## Quick reference
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **auth_socket** | Login as matching OS user | “Ubuntu root MySQL has no password path by default.” |
-| **caching_sha2_password** | MySQL 8 default password plugin | “Old clients may need TLS or `allowPublicKeyRetrieval`.” |
-| **Unix socket** | Local IPC path | “`localhost` → socket; IP → TCP.” |
-| **SOURCE** | Run a SQL file in-session | “Import with FK checks considered.” |
-| **mysqlcheck** | Table check/repair helper | “Health check before blaming the app.” |
-
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -66,6 +62,35 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ---
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** `mysql` speaks the wire protocol; on Debian/Ubuntu, OS `root` often uses `auth_socket`, so `mysql -u root -p` fails until you change the plugin or use `sudo`.
+
+```txt
+mysql client ──► Unix socket (localhost) or TCP (127.0.0.1)
+                      │
+                      ├─ auth_socket  → OS user must match
+                      └─ password plugin → -p / .my.cnf
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **auth_socket** | Login as matching OS user | “Ubuntu root MySQL has no password path by default.” |
+| **caching_sha2_password** | MySQL 8 default password plugin | “Old clients may need TLS or `allowPublicKeyRetrieval`.” |
+| **Unix socket** | Local IPC path | “`localhost` → socket; IP → TCP.” |
+| **SOURCE** | Run a SQL file in-session | “Import with FK checks considered.” |
+| **mysqlcheck** | Table check/repair helper | “Health check before blaming the app.” |
+
+---
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -98,6 +123,12 @@ SET FOREIGN_KEY_CHECKS = 1;
 - **Blind `FOREIGN_KEY_CHECKS=0` in application paths** — dumps/migrations only.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[child process]] [[fork]]
 
 # spawn
@@ -5,6 +6,15 @@
 > run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: comparison -->
 [[Blocking]] [[non-blocking]] [[Event Loop]] [[libuv]] [[Callback]] [[context switching]]
 
 # Blocking vs Non-Blocking
@@ -5,6 +6,34 @@
 > Blocking vs Non-Blocking — non-blocking + reactor: [Event loop]──read(EAGAIN)──epoll──►read──►work
 
 ---
+
+## Index
+
+- [[#Decision context]]
+- [[#Comparison matrix]]
+- [[#Selection guide]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Decision table]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Gotchas]]
+- [[#Related]]
+
+## Decision context
+
+…
+
+## Comparison matrix
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+## Selection guide
+
+- Choose **A** when …
+- Choose **B** when …
 
 ## Mental model
 
@@ -84,6 +113,13 @@ See [[non-blocking]] for `fcntl O_NONBLOCK`, epoll, and `EAGAIN` handling.
 
 ---
 
+## When NOT to use
+
+- Don't rewrite blocking CRUD application to epoll for ideology — measure connection count and team expertise.
+- Don't use non-blocking disk patterns without [[fsync]] / durability design for stateful writes.
+
+---
+
 ## Gotchas
 
 > [!WARNING]
@@ -100,13 +136,6 @@ See [[non-blocking]] for `fcntl O_NONBLOCK`, epoll, and `EAGAIN` handling.
 
 > [!WARNING]
 > **Mixed model deadlocks** — async code calling sync wrapper that waits on future — classic Java/Python/Node bridge bugs.
-
----
-
-## When NOT to use
-
-- Don't rewrite blocking CRUD application to epoll for ideology — measure connection count and team expertise.
-- Don't use non-blocking disk patterns without [[fsync]] / durability design for stateful writes.
 
 ---
 

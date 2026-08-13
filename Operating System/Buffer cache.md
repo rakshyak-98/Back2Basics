@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[kernel subsystem]] [[fsync]] [[buffer]] [[file descriptors]]
 
 # Buffer cache
@@ -5,6 +6,15 @@
 > The buffer/page cache keeps recent disk blocks in RAM so reads avoid the disk and writes can flush later.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

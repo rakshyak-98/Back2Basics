@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[semaphores]] [[mutexes]] [[multi-threaded]] [[Thread]] [[shared memory]]
 
 # critical sections
@@ -5,6 +6,15 @@
 > A critical section is the short stretch of code that touches shared state — only one thread (or N, by design) may run it at a time.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

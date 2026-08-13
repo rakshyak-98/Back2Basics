@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[LSP]]
 
 # How does debugger work
@@ -5,6 +6,15 @@
 > Debugger — runs (or attaches to) a process, stops at breakpoints, lets you inspect memory/stack and step.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

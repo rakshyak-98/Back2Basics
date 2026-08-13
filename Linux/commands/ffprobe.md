@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[ffmpeg]] [[codecs]] [[MPEG-TS]] [[Streaming]]
 
 # ffprobe
@@ -5,6 +6,15 @@
 > ffprobe reads media metadata — codecs, duration, timestamps, programs — without rewriting the file.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

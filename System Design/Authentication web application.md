@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[JWT]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]]
 
 # Authentication web application
@@ -5,6 +6,16 @@
 > Web authentication — prove who the user is (session, token, or IdP), then enforce authz on every request.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Login form flow]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -53,16 +64,6 @@ app.post('/login', async (req, res) => {
 | BFF | SPA + httpOnly cookies |
 | OIDC | Workforce / social login |
 
-## Login form flow
-
-1. GET form (CSRF token if cookie session).
-2. POST credentials over HTTPS.
-3. Verify hash ([[yashcrypt]] / argon2); optional MFA.
-4. Establish session; regenerate session id.
-5. Subsequent requests carry cookie or `Authorization`.
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -73,6 +74,16 @@ app.post('/login', async (req, res) => {
 | JWT forever valid | No `exp` / no revoke | Short TTL + refresh rotation |
 | MFA codes fail | NTP skew | Sync time; widen window slightly |
 | Session fixation | Id not rotated at login | Regenerate session id |
+
+---
+
+## Login form flow
+
+1. GET form (CSRF token if cookie session).
+2. POST credentials over HTTPS.
+3. Verify hash ([[yashcrypt]] / argon2); optional MFA.
+4. Establish session; regenerate session id.
+5. Subsequent requests carry cookie or `Authorization`.
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Proxy]]
 
 # Reverse Proxy
@@ -5,6 +6,15 @@
 > Reverse Proxy — a reverse proxy is used by the server-side to accept request from clients on behalf of the actual server, hiding the server's identity. The…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -16,6 +26,25 @@ A reverse proxy is used by the server to handle incoming traffic from multiple c
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

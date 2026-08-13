@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Facade]] [[System Design/KISS]]
 
 # Builder
@@ -5,6 +6,18 @@
 > Construct a complex object step by step — same construction process, different representations — **Dive Into Design Patterns + wizard → launch request**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -26,6 +39,14 @@ Wizard fields
 | **Concrete builder** | Knows product shape |
 | **Product** | Immutable launch request / domain object |
 | **Director** (optional) | Fixed sequence of steps |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -76,6 +97,12 @@ const req = new LaunchCampaignBuilder()
 
 - Fluent `return this` is convenience, not required.
 - Builder holding a live DB connection mid-build = wrong boundary; build a DTO, then execute Command/Pipeline.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

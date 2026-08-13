@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Packages/npm packages]] [[clustering]]
 
 # node-cron
@@ -5,6 +6,15 @@
 > In-process cron schedules — fires JS callbacks on a crontab pattern while the Node process is alive.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

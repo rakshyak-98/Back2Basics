@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Creation pattern]]
 
 # Abstract Factor
@@ -5,6 +6,18 @@
 > Abstract Factor — → Design pattern/Creation pattern/Abstract Factory
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -16,6 +29,14 @@ Typo stub. Canonical note: [[Design pattern/Creation pattern/Abstract Factory]].
 
 
 ---
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -42,6 +63,12 @@ Typo stub. Canonical note: [[Design pattern/Creation pattern/Abstract Factory]].
 > Draw the failure mode before the happy path.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

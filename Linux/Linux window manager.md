@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[wayland]] [[x11]] [[compositors]]
 
 # Linux window manager
@@ -5,6 +6,15 @@
 > A window manager (WM) places and decorates windows — tiling (i3) or stacking (Openbox) — on top of a display server.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

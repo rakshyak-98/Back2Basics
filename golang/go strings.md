@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang/go]] [[golang/go functions]] [[golang/go data structure]]
 
 # Go strings — bytes, UTF-8, and runes
@@ -5,6 +6,15 @@
 > Go strings — bytes, UTF-8, and runes — a Go string is not a sequence of characters. It is an immutable, read-only view over a byte
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

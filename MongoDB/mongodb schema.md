@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb migration]] [[MongoDB query validation]]
 
 # mongodb schema
@@ -5,6 +6,15 @@
 > MongoDB documents are flexible by default — add fields freely; use JSON Schema validation when you need guardrails.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

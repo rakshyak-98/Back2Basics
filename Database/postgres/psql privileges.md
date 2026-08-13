@@ -1,3 +1,23 @@
+<!-- note-strategy: operational -->
+[[postgres]]
+
+# psql privileges
+
+> One-line: what / why for **psql privileges** — source TBD.
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
+## Mental model
+
 ```txt
 drm_tester = arwdDxtm / drm_tester +
             │         │
@@ -5,7 +25,6 @@ drm_tester = arwdDxtm / drm_tester +
             └──────────── privileges
 ```
 - `+` means there are more [[ACL (postgreSQL)]] entries associated with the object
-
 | Letter | Privilege  | Meaning                            |
 | ------ | ---------- | ---------------------------------- |
 | `a`    | INSERT     | Can insert rows                    |
@@ -17,3 +36,25 @@ drm_tester = arwdDxtm / drm_tester +
 | `t`    | TRIGGER    | Can create triggers                |
 | `m`    | MAINTAIN   | Can perform maintenance operations |
 
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
+
+## Related
+
+[[…]]

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[outbound ip]] [[NAT (Network Address Translation)]] [[network gateway]]
 
 # Egress and Ingress
@@ -5,6 +6,15 @@
 > Ingress is traffic in; egress is traffic out — cloud bills and firewalls care most about egress.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

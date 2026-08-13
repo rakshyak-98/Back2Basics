@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[npm]]
 
 # npm error
@@ -5,6 +6,44 @@
 > npm error — [baseline-browser-mapping] The data in this module is over two months old. To ensure accurate Baseline data, please update: npm i…
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -48,16 +87,6 @@ Heap becomes full
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -70,6 +99,14 @@ Heap becomes full
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

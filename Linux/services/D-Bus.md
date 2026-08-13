@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[systemd]] [[busctl]] [[systemctl]]
 
 # D-Bus
@@ -5,6 +6,15 @@
 > D-Bus is the Linux IPC message bus — services expose methods/signals; desktop and systemd lean on it heavily.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

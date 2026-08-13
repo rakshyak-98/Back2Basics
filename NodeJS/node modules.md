@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[node package json]] [[npm command]]
 
 # node modules
@@ -5,6 +6,15 @@
 > Each file is a module — dependencies resolve at runtime via `require` / `import`, not a C-style linker.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

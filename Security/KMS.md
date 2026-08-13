@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TLS (Transport Layer Security)]] [[JWT authentication]] [[Security]] [[Token rotation]]
 
 # KMS (Key Management Service)
@@ -5,6 +6,15 @@
 > KMS (Key Management Service) — managed keys for encrypting data; keys stay in the HSM.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

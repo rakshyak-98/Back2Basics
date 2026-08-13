@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux system management]] [[inittramfs]] [[Linux configuration]]
 
 # GRUB
@@ -5,6 +6,15 @@
 > GRUB — firmware (BIOS or UEFI) loads GRUB from the ESP (EFI System Partition) or MBR. GRUB reads /boot/grub/grub.cfg (generated — do not hand-edit) from templates
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

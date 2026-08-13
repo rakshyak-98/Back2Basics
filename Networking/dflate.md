@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mime type]] [[TCP]] [[HTTP]]
 
 # Deflate (dflate)
@@ -5,6 +6,15 @@
 > Lossless compression combining LZ77 dictionary matching + Huffman coding — raw DEFLATE is the payload inside gzip and zlib wrappers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

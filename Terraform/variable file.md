@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Terraform setup]] [[Terraform workflow]] [[terraform]] [[terraform provider]] [[Terraform CLI]]
 
 # variable file
@@ -5,6 +6,21 @@
 > Inputs, locals, outputs, tfvars — make one config work across envs. **Brikman / Winkler**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Declare inputs (`variables.tf`)]]
+- [[#How values are supplied (precedence)]]
+- [[#Locals (named expressions)]]
+- [[#Outputs (`outputs.tf`)]]
+- [[#Module variables]]
+- [[#Book takeaways]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -17,6 +33,16 @@ terraform plan -var-file=env/prod.tfvars
 terraform apply -var-file=env/prod.tfvars
 # or: TF_VAR_region=us-east-1 terraform plan
 ```
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Missing required var | `terraform plan` error | Pass `-var`, tfvars, or env `TF_VAR_` |
+| Wrong value wins | precedence order | Remember CLI > tfvars > env > default |
+| Sensitive still logged | provider debug logs | Avoid TRACE; mark sensitive; scrub CI logs |
+| Type mismatch | variable type vs value | Fix type or cast in locals |
+| Module can't see root var | not passed into module | Pass explicitly in module block |
 
 ## Declare inputs (`variables.tf`)
 
@@ -181,16 +207,6 @@ Module overview: [[terraform]]
 | Validate + `sensitive` | Both / modern Terraform |
 | Wire into provider | [[terraform provider]] · [[Terraform setup]] |
 | Used at plan/apply | [[Terraform workflow]] · [[Terraform CLI]] |
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Missing required var | `terraform plan` error | Pass `-var`, tfvars, or env `TF_VAR_` |
-| Wrong value wins | precedence order | Remember CLI > tfvars > env > default |
-| Sensitive still logged | provider debug logs | Avoid TRACE; mark sensitive; scrub CI logs |
-| Type mismatch | variable type vs value | Fix type or cast in locals |
-| Module can't see root var | not passed into module | Pass explicitly in module block |
 
 ## Gotchas
 

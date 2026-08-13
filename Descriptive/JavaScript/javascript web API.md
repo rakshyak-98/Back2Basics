@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[NodeJS/Event Loop]] [[Networking/webSocket]] [[Security/CORS (Cross Origin Request Sharing)]]
 
 # JavaScript Web APIs
@@ -5,6 +6,15 @@
 > Browser and runtime surfaces beyond ECMAScript — DOM, fetch, timers, storage — **MDN + integration debugging**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

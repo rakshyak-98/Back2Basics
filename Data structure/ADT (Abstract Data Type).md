@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[Data structure]]
 
 # ADT (Abstract Data Type)
@@ -5,6 +6,15 @@
 > An ADT describes behavior (ops + rules) — not the concrete bytes in memory.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

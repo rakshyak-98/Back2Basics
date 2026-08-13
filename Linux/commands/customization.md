@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux configuration]] [[gsetting]] [[Linux display manager]]
 
 # GNOME customization (extensions CLI)
@@ -5,6 +6,15 @@
 > GNOME customization (extensions CLI) — extension .zip → gnome-extensions install → enable → Shell reload (sometimes logout)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

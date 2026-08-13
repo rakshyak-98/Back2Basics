@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[WebRTC]] [[SSE (Server-Sent Events)]]
 
 # Socket IO
@@ -5,6 +6,15 @@
 > Socket.IO — realtime library with fallbacks (WebSocket first); events, rooms, and reconnect—broader than raw WS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Messaging]]
 
 # RabbitMQ
@@ -5,6 +6,15 @@
 > RabbitMQ — they will be loaded in alphabetical order. A common naming practice uses numerical prefixes in filenames to make it easier to reason about the…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

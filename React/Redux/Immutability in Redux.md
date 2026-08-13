@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Packages/Immer]] [[Redux toolkit]]
 
 # Immutability in Redux
@@ -5,6 +6,15 @@
 > Never mutate the state tree in place — return new objects/arrays so React-Redux can detect changes by reference.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

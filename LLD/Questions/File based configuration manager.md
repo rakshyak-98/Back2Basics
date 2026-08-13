@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Questions]]
 
 # File based configuration manager
@@ -5,6 +6,15 @@
 > File based configuration manager — you are tasked with creating a system-wide configuration manager for a complex software suite. The configuration manager…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

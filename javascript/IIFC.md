@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[hoisting]] [[Callback]]
 
 # IIFC (IIFE)
@@ -5,6 +6,15 @@
 > Immediately Invoked Function Expression — run a function once at definition time to make a private scope.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

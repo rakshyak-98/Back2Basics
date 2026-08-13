@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[JWT authentication]] [[TOTP (Time based One Time Password)]] [[single-sign-on (SSO)]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # Authentication terms
@@ -5,6 +6,15 @@
 > Glossary of identity primitives — use consistent vocabulary in design reviews, incident docs, and API specs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

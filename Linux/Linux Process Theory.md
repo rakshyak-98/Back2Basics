@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[process]] [[system call]] [[Stack Frame]]
 
 # Linux Process Theory
@@ -5,6 +6,15 @@
 > Linux starts a new program with fork then exec — copy the parent, then replace the child’s memory with the new binary.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

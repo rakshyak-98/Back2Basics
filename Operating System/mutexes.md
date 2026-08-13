@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[critical sections]] [[semaphores]] [[Thread]] [[multi-threaded]] [[context switching]]
 
 # Mutexes
@@ -5,6 +6,15 @@
 > Mutexes — thread A mutex Thread B
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Blocking Vs Non-Blocking]] [[file descriptors]] [[system call]] [[Event Loop]] [[context switching]]
 
 # Non-blocking I/O
@@ -5,6 +6,15 @@
 > Non-blocking I/O — blocking: read(fd) sleeps until data arrives — thread tied up, scheduler switches away.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

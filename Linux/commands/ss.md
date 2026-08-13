@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]]
 
 # ss
@@ -5,6 +6,15 @@
 > ss — socket stats from the kernel; faster, richer replacement for netstat.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

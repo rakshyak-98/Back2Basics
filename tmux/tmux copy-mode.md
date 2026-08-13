@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux/CLI]] [[Linux/Scripting]]
 
 # tmux copy-mode
@@ -5,6 +6,15 @@
 > Keyboard selection + copy from scrollback into tmux paste buffers — essential before yanking to system clipboard.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

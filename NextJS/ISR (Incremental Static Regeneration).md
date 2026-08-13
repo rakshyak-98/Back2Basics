@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NextJS/NextJS navigation]] [[Deployment/vercel cli]] [[css/tailwindcss]]
 
 # ISR (Incremental Static Regeneration)
@@ -5,6 +6,15 @@
 > Regenerate static pages on a timer or on-demand without full site rebuild — Next.js stale-while-revalidate for CDN-backed pages.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

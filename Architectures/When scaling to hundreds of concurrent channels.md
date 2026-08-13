@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]] [[backpressure]]
 
 # When scaling to hundreds of concurrent channels
@@ -5,6 +6,15 @@
 > Many live channels at once — isolate encode/ingest per channel so one bad feed doesn’t take the fleet.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

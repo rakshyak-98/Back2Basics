@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[prompt]] [[GPT]] [[claude ai]]
 
 # prompt enginerring
@@ -5,6 +6,15 @@
 > Prompt engineering shapes LLM behavior with instructions, examples, and structure — not weight updates.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

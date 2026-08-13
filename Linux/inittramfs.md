@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[grub]] [[systemd]]
 
 # inittramfs
@@ -5,6 +6,15 @@
 > initramfs (initial RAM filesystem) is a tiny root the kernel unpacks first — load modules, find disks, then pivot to the real root.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

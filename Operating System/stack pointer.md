@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Stack Frame]] [[Stack trace]] [[assembly language]] [[opcode]]
 
 # stack pointer
@@ -5,6 +6,15 @@
 > The stack pointer (SP) is the CPU register that holds the address of the current stack top — push lowers it, pop raises it on typical ABIs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

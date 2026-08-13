@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[interview.md]]
 
 # Indexing
@@ -5,6 +6,15 @@
 > Indexing — what is functional dependency means ?
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -26,6 +36,25 @@ What is functional dependency means ?
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

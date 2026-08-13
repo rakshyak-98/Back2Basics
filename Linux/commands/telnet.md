@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[nc]] [[nmap]] [[ss]] [[SMTP]] [[Linux network commands]]
 
 # telnet
@@ -5,6 +6,15 @@
 > cleartext TCP client — still the fastest manual probe for "does this port accept connections and speak text?" Mail debugging and legacy gear; never for secrets
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

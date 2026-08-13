@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[Descriptive]]
 
 # GPL (GNU General Public License)
@@ -5,6 +6,15 @@
 > Copyleft open-source license — distribute derivatives **only** if you provide corresponding source under the same license; understand v2 vs v3 and linking boundaries before shipping products.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[MongoDB data populate]] [[mongoDB Group query]]
 
 # mongodb lookup query
@@ -5,6 +6,15 @@
 > `$lookup` joins collections in an aggregation — Mongo’s left outer join.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

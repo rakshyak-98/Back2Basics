@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[HTTP module]] [[TCP]] [[webSocket]]
 
 # gRPC
@@ -5,6 +6,16 @@
 > gRPC — RPC over HTTP/2 with Protocol Buffers: you define a `.proto` contract, generate stubs, and call methods like local functions.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Interface Definition (Protobuf IDL)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -83,6 +94,19 @@ grpcurl -d '{"sku":"ABC","quantity":1}' localhost:50051 inventory.v1.InventoryAP
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Unavailable` / dial fail | DNS, port, TLS, HTTP/2 on LB | Fix target; enable h2; bypass broken proxy |
+| `DeadlineExceeded` | Client timeout too tight / slow dep | Raise deadline; fix slow DB; check ctx propagation |
+| `Canceled` storms | Client disconnect / retry loop | Stop work on `ctx.Done()`; fix client retries |
+| `ResourceExhausted` | Message too big / quota | Raise limits; paginate; backpressure |
+| Browser can’t call gRPC | Browsers need grpc-web | Use grpc-web proxy or JSON gateway |
+| Version skew | Old stub vs new server | Compatible field adds; bump package on breaks |
+
+---
+
 ## Interface Definition (Protobuf IDL)
 
 - **Version in package** — `api.v1` versus `api.v2`; don’t break wire fields (tag numbers).
@@ -96,19 +120,6 @@ st, _ = st.WithDetails(&errdetails.BadRequest{FieldViolations: []*errdetails.Bad
 }}})
 return nil, st.Err()
 ```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Unavailable` / dial fail | DNS, port, TLS, HTTP/2 on LB | Fix target; enable h2; bypass broken proxy |
-| `DeadlineExceeded` | Client timeout too tight / slow dep | Raise deadline; fix slow DB; check ctx propagation |
-| `Canceled` storms | Client disconnect / retry loop | Stop work on `ctx.Done()`; fix client retries |
-| `ResourceExhausted` | Message too big / quota | Raise limits; paginate; backpressure |
-| Browser can’t call gRPC | Browsers need grpc-web | Use grpc-web proxy or JSON gateway |
-| Version skew | Old stub vs new server | Compatible field adds; bump package on breaks |
 
 ---
 

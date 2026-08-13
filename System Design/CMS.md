@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System design]] [[API design]] [[Authentication web application]] [[cache system]]
 
 # CMS (Content Management System)
@@ -5,6 +6,15 @@
 > Authoring + storage + delivery API for structured content — **headless** separates editorial from presentation.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[git]] [[git merge]] [[git rebase]] [[git branch]] [[git diff]] [[git error]]
 
 # Git Commands — Recovery & Debug
@@ -6,17 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** Refs move; `reflog` remembers where they were — recover lost commits until `gc` prunes them.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-Working tree → index → commits → remote refs
-                 ↑
-           reflog = local undo log
-```
+## Quick reference
 
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -42,6 +49,24 @@ git stash list && git stash apply stash@{0}
 | Annotated tag `-a` | Release metadata |
 | `ORIG_HEAD` | Quick undo after rebase/merge |
 | Triple-dot `A...B` | Review / PR shape |
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** Refs move; `reflog` remembers where they were — recover lost commits until `gc` prunes them.
+
+```txt
+Working tree → index → commits → remote refs
+                 ↑
+           reflog = local undo log
+```
 
 ---
 
@@ -77,6 +102,12 @@ git stash list && git stash apply stash@{0}
 - **Bisect on flaky tests** — script must be deterministic.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

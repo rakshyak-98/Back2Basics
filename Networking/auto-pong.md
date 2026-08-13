@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[webSocket]] [[ICMP]] [[half-open connections]]
 
 # auto-pong
@@ -5,6 +6,15 @@
 > Auto-pong answers a ping automatically — prove the path is alive without app-level chatter.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

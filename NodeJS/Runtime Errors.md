@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Error handeling]] [[node modules]] [[node error]]
 
 # Runtime Errors
@@ -5,6 +6,15 @@
 > Common Node runtime failures — await/module-mode mistakes, ESM path helpers, and `super()` order in custom errors.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

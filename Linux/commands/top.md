@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Commands]] [[process]] [[ps]] [[renice]] [[OOM (Linux Out Of Memory)]]
 
 # top
@@ -5,6 +6,15 @@
 > `top` is a live process monitor — CPU, RAM, and load, refreshing until you quit.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

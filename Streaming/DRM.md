@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[EME]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CPIX]]
 
 # DRM
@@ -5,6 +6,16 @@
 > DRM (Digital Rights Management) encrypts the stream and only hands keys to entitled players — stops casual copying.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Multi-DRM]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -90,6 +101,20 @@ Debug: browser `chrome://media-internals` + player DRM logs; confirm `ContentPro
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen, no error | Manifest missing `ContentProtection` / `#EXT-X-KEY` | Re-package with PSSH/KID; verify packager KMS reachability |
+| `MEDIA_ERR_ENCRYPTED` / license 401 | Token / site key / user auth | Mint fresh [[streaming license]] token server-side; clock skew |
+| Works on Chrome, fails Safari | FairPlay not configured | Add FPS cert + HLS SAMPLE-AES / fMP4 path |
+| Works on phone browser, fails STB | Wrong protection stack | STB may need [[CAS (Conditional Access System)]], not Widevine EME |
+| “DRM secured” but local VLC fails | Expected — no CDM path | Test with Shaka / Bitmovin / vendor sample player |
+| HD blocked, SD plays | Widevine L3 only | Require L1 devices or lower policy max resolution |
+| Live encrypt OK, VOD fails | Different key endpoint / content id | Align content id + CPIX request with asset id |
+
+---
+
 ## Multi-DRM
 
 **Multi-DRM** means one CENC-encrypted asset (ISO/IEC 23001-7) with several DRM signaling blobs so Widevine, PlayReady, and FairPlay clients can each get a license for the **same** ciphertext.
@@ -102,20 +127,6 @@ One encrypted ladder
 ```
 
 Pack once; license paths differ per platform. Do not re-encode per DRM.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen, no error | Manifest missing `ContentProtection` / `#EXT-X-KEY` | Re-package with PSSH/KID; verify packager KMS reachability |
-| `MEDIA_ERR_ENCRYPTED` / license 401 | Token / site key / user auth | Mint fresh [[streaming license]] token server-side; clock skew |
-| Works on Chrome, fails Safari | FairPlay not configured | Add FPS cert + HLS SAMPLE-AES / fMP4 path |
-| Works on phone browser, fails STB | Wrong protection stack | STB may need [[CAS (Conditional Access System)]], not Widevine EME |
-| “DRM secured” but local VLC fails | Expected — no CDM path | Test with Shaka / Bitmovin / vendor sample player |
-| HD blocked, SD plays | Widevine L3 only | Require L1 devices or lower policy max resolution |
-| Live encrypt OK, VOD fails | Different key endpoint / content id | Align content id + CPIX request with asset id |
 
 ---
 

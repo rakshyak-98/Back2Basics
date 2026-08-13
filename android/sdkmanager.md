@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[android]] [[Docker compose]] [[kubectl]]
 
 # sdkmanager
@@ -5,6 +6,15 @@
 > Android SDK command-line package manager — install platforms, build-tools, NDK in **headless CI** without Android Studio.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

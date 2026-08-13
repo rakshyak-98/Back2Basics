@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql user]] [[cli]]
 
 # mysql Privileges
@@ -5,6 +6,15 @@
 > GRANT/REVOKE who can read, write, or admin which databases — login alone is not permission.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

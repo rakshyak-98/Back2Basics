@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Manifest (streaming)]] [[HLS]] [[DASH]] [[MPD]] [[flussonic]] [[How to attach stream to HTTP handlers]]
 
 # streaming manifest file
@@ -5,6 +6,15 @@
 > A streaming manifest lists segments and bitrates — if it embeds absolute origin URLs, rewrite them when you proxy so the player stays on your app host.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

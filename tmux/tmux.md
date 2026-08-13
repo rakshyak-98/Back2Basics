@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[tmux]]
 
 # tmux
@@ -5,6 +6,13 @@
 > tmux — window → full screen workspace
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Related]]
 
 ## Mental model
 
@@ -24,6 +32,16 @@ ctrl+<space>; # Toggle pane layout
 
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[routing table]] [[non-Routable address]]
 
 # CIDR (Classless Inter-Domain Routing)
@@ -5,6 +6,15 @@
 > CIDR writes an IP plus how many bits are the network — one slash instead of old Class A/B/C masks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

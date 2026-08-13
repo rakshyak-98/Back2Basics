@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[query/mongodb lookup query]]
 
 # mongoDB Group query
@@ -5,6 +6,15 @@
 > `$group` aggregates rows into buckets — sum, count, push — like SQL GROUP BY.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

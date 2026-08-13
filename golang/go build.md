@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang/go embedding]] [[compiler/compiler]] [[Release cycle]]
 
 # go build
@@ -5,6 +6,15 @@
 > `go build` compiles a module into a binary — modules replace GOPATH; cross-compile with `GOOS`/`GOARCH`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[diff]] [[SSH]] [[Linux file management]] [[file mount]]
 
 # rsync
@@ -5,6 +6,15 @@
 > delta file sync over SSH or local — production backups and deploys with `-a`, dry-run, and explicit trailing slashes. The trailing slash rule causes more outages
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[IPC namespace]] [[Linux]] [[Docker]] [[Kubernates]]
 
 # UTS namespace
@@ -5,6 +6,15 @@
 > Isolates hostname and NIS domain name — lets each container think it has its own `uname -n` without changing the host.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

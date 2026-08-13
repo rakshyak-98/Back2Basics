@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Bash syntax]] [[bash script]] [[Scripting]]
 
 # Bash functions
@@ -5,6 +6,15 @@
 > Bash functions — reusable shell blocks in the current session or a sourced file.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

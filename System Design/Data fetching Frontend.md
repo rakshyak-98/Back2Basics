@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]]
 
 # Data fetching Frontend
@@ -5,6 +6,15 @@
 > Frontend data fetching — load remote state into the UI with caching, dedupe, and clear loading/error paths (not ad-hoc `useEffect` soup).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

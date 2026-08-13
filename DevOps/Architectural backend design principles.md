@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DevOps]] [[orchestration]] [[API design]] [[SOLID]]
 
 # Architectural backend design principles
@@ -5,6 +6,15 @@
 > Backend architecture principles — stable interfaces, clear module boundaries, and short data paths so services stay changeable under load.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

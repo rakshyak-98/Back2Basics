@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[SOLID]] [[API design]] [[Distributed computing]]
 
 # System design
@@ -5,6 +6,16 @@
 > System design — split what the system means (abstraction) from how it runs (implementation) so either can change without wrecking the other.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Abstraction and implementation hierarchies]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -29,17 +40,6 @@ Design checklist
 [ ] Observability: red metrics + traces
 ```
 
-## Abstraction and implementation hierarchies
-
-| Side | Holds |
-|------|-------|
-| **Abstraction** | Interfaces, use-cases, policies |
-| **Implementation** | Drivers, frameworks, vendor SDKs |
-
-Why separate: swap Postgres → Aurora, or REST → gRPC, without rewriting business rules.
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -49,6 +49,17 @@ Why separate: swap Postgres → Aurora, or REST → gRPC, without rewriting busi
 | Vendor lock in domain | SDK types in core | Anti-corruption layer |
 | “Architecture astronaut” | Too many layers | Collapse until pain returns |
 | SLO miss unknown where | No metrics per layer | Instrument adapters + use-cases |
+
+---
+
+## Abstraction and implementation hierarchies
+
+| Side | Holds |
+|------|-------|
+| **Abstraction** | Interfaces, use-cases, policies |
+| **Implementation** | Drivers, frameworks, vendor SDKs |
+
+Why separate: swap Postgres → Aurora, or REST → gRPC, without rewriting business rules.
 
 ---
 

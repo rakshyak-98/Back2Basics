@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[regression]] [[binary classification]] [[multiclass classification]] [[data preprocessing]] [[estimator]]
 
 # Supervised learning
@@ -5,6 +6,15 @@
 > Supervised learning — you have pairs (xᵢ, yᵢ). The algorithm picks a function class (linear, tree, neural net) and minimizes empirical risk + regularization on training
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

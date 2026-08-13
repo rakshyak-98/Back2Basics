@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[user management]] [[userdel]] [[usermod]] [[passwd]] [[linux groups]]
 
 # useradd
@@ -5,6 +6,15 @@
 > useradd creates an account record — UID, home, shell, groups — usually lower-level than `adduser` on Debian/Ubuntu.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

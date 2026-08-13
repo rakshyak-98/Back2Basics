@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[read pem file]] [[PKI]] [[DER]]
 
 # openssl
@@ -5,6 +6,16 @@
 > OpenSSL — the Swiss-army CLI for keys, CSRs, certs, and TLS debugging on the box.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Generate random string]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -53,14 +64,6 @@ openssl s_client -connect example.com:443 -servername example.com </dev/null | o
 | `-subj "/CN=…"` | Non-interactive; still prefer SANs for modern clients |
 | `-servername` | SNI — right cert on multi-vhost hosts |
 
-## Generate random string
-
-```bash
-openssl rand -hex 32
-```
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -71,6 +74,14 @@ openssl rand -hex 32
 | `s_client` shows wrong cert | SNI missing | Add `-servername` |
 | Permission denied reading key | File mode / user | `chmod 600`; run service as owner |
 | Typo `private.key` vs `privatekey.pem` | Path in docs vs disk | Align filenames in scripts |
+
+---
+
+## Generate random string
+
+```bash
+openssl rand -hex 32
+```
 
 ---
 

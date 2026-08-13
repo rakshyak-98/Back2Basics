@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[Redux]] [[Redux/Immutability in Redux]] [[Redux/Redux createSlice]] [[javascript/Packages/Immer]]
 
 # Redux Error (common fixes)
@@ -5,6 +6,46 @@
 > Redux Error (common fixes) — state tree → plain objects/arrays (serializable)
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| MapSet Immer error | Map/Set in slice | `enableMapSet()` or plain object |
+| Console serializable flood | RTK Query meta | Ignore paths or strip in transform |
+| State unchanged after dispatch | Mutated nested object outside Immer | Return new object or use createSlice |
+| DevTools empty actions | Middleware stripped | Don't disable default middleware |
+| Infinite loop dispatch | Middleware dispatching same action | Guard conditions in middleware |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -82,18 +123,6 @@ Ensure [[Redux/redux persist]] whitelist excludes non-serializable slices; call 
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| MapSet Immer error | Map/Set in slice | `enableMapSet()` or plain object |
-| Console serializable flood | RTK Query meta | Ignore paths or strip in transform |
-| State unchanged after dispatch | Mutated nested object outside Immer | Return new object or use createSlice |
-| DevTools empty actions | Middleware stripped | Don't disable default middleware |
-| Infinite loop dispatch | Middleware dispatching same action | Guard conditions in middleware |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -110,6 +139,14 @@ Ensure [[Redux/redux persist]] whitelist excludes non-serializable slices; call 
 - **Map/Set for convenience** — normalized `{ byId, allIds }` pattern scales better with RTK.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

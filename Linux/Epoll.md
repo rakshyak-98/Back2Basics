@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[process]] [[ss]] [[half-open connections]]
 
 # epoll
@@ -5,6 +6,15 @@
 > epoll — select / poll: every wake, kernel scans all watched FDs → O(n).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

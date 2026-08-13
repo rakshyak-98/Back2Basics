@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[postgres]] [[psql user]] [[psql essential]]
 
 # psql user acl
@@ -5,6 +6,15 @@
 > Postgres ACL strings show who can connect/create/temp on a database — decode `{role=privs/grantor}`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

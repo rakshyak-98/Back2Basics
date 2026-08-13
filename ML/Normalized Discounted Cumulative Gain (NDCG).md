@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Mean Average Precision (MAP)]] [[rank prediction]] [[Visualization/Rank distribution]]
 
 # Normalized Discounted Cumulative Gain (NDCG)
@@ -5,6 +6,15 @@
 > Graded ranking metric — relevant items higher in the list score more; normalized to [0,1] vs ideal ranking — **Järvelin & Kekäläinen (2002)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS/AWS EC2]] [[Operating System/Take snapshot]] [[Linux/Memory management]]
 
 # AWS EBS (Elastic Block Store)
@@ -5,6 +6,15 @@
 > Network-attached block volumes for EC2 — persistent disk, snapshots, resize, and **Delete on Termination** gotcha.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

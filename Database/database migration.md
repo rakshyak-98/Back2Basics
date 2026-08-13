@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[Alter table]] [[mysql data migrations]] [[ACID]]
 
 # database migration
@@ -5,6 +6,15 @@
 > versioned, reversible schema changes applied in order — single source of truth for DDL; never edit applied migrations.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[node modules]]
 
 # re-export file (barrel)
@@ -5,6 +6,15 @@
 > One `index.ts` that re-exports a folder’s public API — shorter imports, clear package surface.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

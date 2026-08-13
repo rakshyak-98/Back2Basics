@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS/AWS EC2]] [[Elastic IP]] [[AWS/IAM]] [[AWS/ARN (Amazon Resource Name)]]
 
 # AWS Billing and Cost Management
@@ -5,6 +6,15 @@
 > Where money leaks show up — Free Tier tracking, Cost Explorer, bills by service, and alarms before finance pings you.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Random forest]] [[Gradient boosting]] [[xg boost]] [[Decision tree]] [[Visualization/Residual plot]]
 
 # Feature importance
@@ -5,6 +6,15 @@
 > Feature importance — "Importance" is not one number — definition depends on method:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

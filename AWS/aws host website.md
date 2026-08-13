@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS]] [[How to connect Godaddy domain with AWS EC2 instance]] [[Networking/Route53]]
 
 # aws host website
@@ -5,6 +6,15 @@
 > S3 static website hosting — flip a bucket into an HTTP endpoint that serves `index.html` (and a custom error doc).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

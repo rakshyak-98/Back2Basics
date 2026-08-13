@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[psql essential]] [[ACID]] [[Database mistakes]] [[half-open connections]]
 
 # connection pooling
@@ -5,6 +6,15 @@
 > connection pooling — without pool: Request → connect → auth → query → disconnect (expensive)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

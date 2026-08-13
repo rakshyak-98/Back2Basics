@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kafka]]
 
 # kafka producer and consumer
@@ -5,6 +6,15 @@
 > kafka producer and consumer — a kafka producer is a component responsible for sending messages (events) to Kafka topics.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

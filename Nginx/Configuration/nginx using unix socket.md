@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]] [[ExpressJS]]
 
 # Nginx + Unix Domain Socket Upstream
@@ -5,6 +6,15 @@
 > skip TCP loopback — bind the app to a unix socket for lower latency and no port conflicts; permissions must allow Nginx to connect.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

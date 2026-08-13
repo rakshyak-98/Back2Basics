@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[commands]] [[SSH]] [[gpg]] [[keyrings]]
 
 # Authentication command
@@ -5,6 +6,38 @@
 > Host and user crypto helpers — ssh-keygen/keyscan/ssh-add for SSH trust; gpg for signing and encrypting.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Common commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#SSH trust & keys]]
+- [[#GPG for commits / files]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Common commands
+
+```bash
+# …
+```
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -103,6 +136,12 @@ Deeper encrypt/sign operations: [[gpg]].
 - **Full GPG keyring operations** — see dedicated [[gpg]] note.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

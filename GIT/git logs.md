@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git command]] [[git diff]] [[git blame]] [[git branch]]
 
 # Git log
@@ -5,6 +6,15 @@
 > traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

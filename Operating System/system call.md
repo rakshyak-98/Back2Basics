@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[fsync]] [[file descriptors]] [[process]] [[Epoll]]
 
 # System call
@@ -5,6 +6,15 @@
 > A system call is how a user program asks the kernel for work — open files, create processes, send network data.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

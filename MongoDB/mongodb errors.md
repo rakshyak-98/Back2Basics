@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb connection]] [[mongodb model]]
 
 # MongoDB errors
@@ -5,6 +6,15 @@
 > Symptom → cause → fix for the errors that show up in prod logs and Compass — **MongoDB Manual** + Mongoose gotchas.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

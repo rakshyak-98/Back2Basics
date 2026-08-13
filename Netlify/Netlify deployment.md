@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Deployment/vercel cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Nginx/nginx SPA deployment]]
 
 # Netlify deployment
@@ -5,6 +6,15 @@
 > Netlify deployment — netlify runs your build command, publishes publish directory to CDN, and optionally runs serverless functions at the edge. Next.js needs @netlify/plugin-nextjs for App
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

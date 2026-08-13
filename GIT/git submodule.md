@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git branch]]
 
 # Git Submodule
@@ -5,6 +6,15 @@
 > pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

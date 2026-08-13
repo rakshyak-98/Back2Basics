@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[file mount]] [[rsync]]
 
 # media mount as read only
@@ -5,6 +6,15 @@
 > Mount removable or network media read-only when you must inspect without risk of writes — forensics, untrusted USB, golden images.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

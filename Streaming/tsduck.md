@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[MPEG-TS]] [[IPTV]] [[ingestion]] [[Multicast]]
 
 # tsduck
@@ -5,6 +6,15 @@
 > TSDuck — CLI tools to capture, filter, and rewrite MPEG-TS (join multicast, zap a channel, analyze PIDs).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

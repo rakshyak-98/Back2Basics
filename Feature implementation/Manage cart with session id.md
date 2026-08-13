@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Feature implementation]]
 
 # Manage cart with session id
@@ -5,6 +6,15 @@
 > Manage cart with session id — here’s how you can structure your project:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -33,6 +43,25 @@ Here’s how you can structure your project:
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

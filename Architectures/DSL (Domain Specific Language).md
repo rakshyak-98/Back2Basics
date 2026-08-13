@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/Mermaid (DSL)]] [[Terraform/variable file]] [[Nginx/Configuration]] [[Architectures/Orchestration layer]]
 
 # DSL (Domain Specific Language)
@@ -5,6 +6,15 @@
 > Language tuned to one problem domain — expressive for experts, useless elsewhere — **contrast with general-purpose languages**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

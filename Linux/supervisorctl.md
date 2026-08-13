@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[systemd]] [[Services commands]] [[process]] [[Linux application management]]
 
 # supervisorctl
@@ -5,6 +6,15 @@
 > Supervisord process control — keep worker processes (Celery, gunicorn, custom daemons) alive when systemd units aren't the chosen layer. `reread` vs `update` trips everyone once.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

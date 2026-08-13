@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database design]] [[OLTP]] [[connection pooling]] [[Data access patterns]] [[migration]]
 
 # Database application (app ↔ DB layer)
@@ -5,6 +6,15 @@
 > Database application — app code that queries data and enforces business rules.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

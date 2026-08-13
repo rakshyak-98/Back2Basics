@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql Programmable SQL]] [[mysql query]]
 
 # mysql function
@@ -5,6 +6,15 @@
 > Stored functions return one value for use in SQL expressions; procedures run action batches via `CALL`. Also: CAST/CONVERT helpers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

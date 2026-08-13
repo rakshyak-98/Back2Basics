@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[compiler/compiler]] [[compiler/compile time]] [[javascript/metro bundler]]
 
 # Transpiler
@@ -5,6 +6,15 @@
 > Source-to-source translator — modern syntax down-levelled for older runtimes; runs at **build time**, not in user's browser (usually).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[user management]] [[linux groups]] [[usermod]] [[useradd]] [[getent]]
 
 # groupadd
@@ -5,6 +6,15 @@
 > groupadd — groups are numeric GID + name mappings. File permissions use UID for owner, GID for group (ls -l third column). Users gain group membership
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

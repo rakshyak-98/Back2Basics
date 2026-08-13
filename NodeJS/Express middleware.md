@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[expressjs]] [[node error]]
 
 # Express middleware
@@ -5,6 +6,15 @@
 > Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call `next()` or end the response.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

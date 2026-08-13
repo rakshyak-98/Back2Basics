@@ -1,7 +1,7 @@
 # Vault INDEX — Fast Retrieval
 
 > Symptom → note map — start here under pressure to find the right playbook fast.
-> Note format: [[NOTES_STANDARD]]
+> Note format: [[NOTETAKING_STRATEGIES]] → [[NOTES_STANDARD]]
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go-routines]]
 
 # Unbuffered channel
@@ -5,6 +6,15 @@
 > Unbuffered channel — send and receive happen together; no queue — the handoff *is* the sync point.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

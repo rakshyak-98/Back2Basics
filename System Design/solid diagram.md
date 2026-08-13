@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[SOLID]] [[GRASP]]
 
 # solid diagram
@@ -5,6 +6,16 @@
 > SOLID diagrams — UML arrows that show whether you depend on an abstraction or a concrete mess.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#UML Notation summary]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -29,16 +40,6 @@
 4. Inheritance only when LSP holds
 ```
 
-## UML Notation summary
-
-| Relationship | Arrow | SOLID angle |
-|--------------|-------|-------------|
-| **Realization** | Dashed, hollow triangle | Implements abstraction (DIP/ISP) |
-| **Generalization** | Solid, hollow triangle | Inheritance (LSP/OCP) |
-| **Dependency** | Dashed, open arrow | Usage / knowledge direction |
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -48,6 +49,16 @@
 | Concrete DB type in domain box | DIP inverted | Port/adapter |
 | Team argues arrow meaning | No legend | Stick to table above |
 | Diagram ≠ code | Drift | Generate from imports or delete diagram |
+
+---
+
+## UML Notation summary
+
+| Relationship | Arrow | SOLID angle |
+|--------------|-------|-------------|
+| **Realization** | Dashed, hollow triangle | Implements abstraction (DIP/ISP) |
+| **Generalization** | Solid, hollow triangle | Inheritance (LSP/OCP) |
+| **Dependency** | Dashed, open arrow | Usage / knowledge direction |
 
 ---
 

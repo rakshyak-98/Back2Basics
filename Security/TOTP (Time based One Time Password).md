@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[Authentication terms]] [[JWT]] [[single-sign-on (SSO)]]
 
 # TOTP (Time based One Time Password)
@@ -5,6 +6,15 @@
 > TOTP — six-digit codes from a shared secret + current time (Authenticator apps); second factor after password.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
