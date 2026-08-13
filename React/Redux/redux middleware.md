@@ -1,125 +1,49 @@
-[[Redux]] [[Redux/Redux Thunk]] [[Redux/Redux createAsyncThunk]] [[Redux concept and data flow]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # redux middleware
 
-> redux middleware — middleware₁ (can call next(action), delay, swallow)
+> redux middleware shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-```txt
-dispatch(action)
-   ↓
-middleware₁ (can call next(action), delay, swallow)
-   ↓
-middleware₂
-   ↓
-reducer → new state
-```
+## Operating it
 
-Signature:
-
-```javascript
-store => next => action => { /* ... */ return next(action); }
-```
-
-Middleware powers **async** ([[Redux/Redux Thunk]], RTK Query), **analytics**, **crash reporting**, and **router sync**. It must stay **predictable** — side effects belong here or in listeners, not in reducers ([[Redux/redux reducers]]).
-
-RTK default middleware (development): `redux-thunk` + serializable/immutable invariant checks.
-
----
-
-## Standard config / commands
-
-### Custom logging middleware
-
-```typescript
-import type { Middleware } from "@reduxjs/toolkit";
-
-export const logger: Middleware = (store) => (next) => (action) => {
-  console.log("dispatching", action);
-  const result = next(action);
-  console.log("next state", store.getState());
-  return result;
-};
-
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefault) => getDefault().concat(logger),
+```ts
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
+  },
 });
 ```
 
-### Thunk (async in action creator)
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
-```typescript
-export const fetchUser = (id: string) => async (dispatch, getState) => {
-  dispatch(setLoading(true));
-  try {
-    const user = await api.getUser(id);
-    dispatch(setUser(user));
-  } finally {
-    dispatch(setLoading(false));
-  }
-};
-```
+## What breaks first
 
-Prefer **`createAsyncThunk`** ([[Redux/Redux createAsyncThunk]]) for pending/fulfilled/rejected lifecycle.
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-### Middleware that blocks
+## Recall
 
-```typescript
-const crashReporter: Middleware = () => (next) => (action) => {
-  try {
-    return next(action);
-  } catch (err) {
-    report(err);
-    throw err;
-  }
-};
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Action never hits reducer | Forgot `next(action)` | Return `next(action)` unless intentionally blocking |
-| Async never runs | Not using thunk middleware | RTK `getDefaultMiddleware` includes thunk |
-| Infinite dispatch loop | Middleware dispatches same type | Add guard / compare action type |
-| Dev slow | invariant middleware | Normal in dev; disable only if needed |
-| RTK Query not caching | Query middleware missing | Include `api.middleware` in concat |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Mutating action in middleware** — breaks time-travel; treat actions as read-only.
-
-> [!WARNING]
-> **Heavy work synchronous in middleware** — blocks dispatch pipeline; defer with queue/microtask.
-
----
-
-## When NOT to use
-
-- **Simple sync state** — middleware adds noise without async/logging need.
-- **Fetch in middleware instead of RTK Query** — reinventing cache/invalidation ([[Redux/RTQ/RTQ tags]]).
-- **Business logic in reducer** — reducers stay pure; async in middleware/thunk.
-
----
+What breaks first in production if `redux middleware` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux]] · [[Redux/redux compose]] · [[Redux/Redux Thunk]] · [[Redux/Redux createAsyncThunk]] · [[Redux/RTQ/Middleware]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

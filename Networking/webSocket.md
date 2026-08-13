@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 WebSocket starts as HTTP/1.1 with an **Upgrade** handshake, then switches to a binary-framed protocol. No repeated HTTP headers per message — ideal for push, chat, live dashboards.
 
@@ -32,7 +23,8 @@ Client                          Server / Proxy
 
 Browsers only speak `ws://` / `wss://`. They **cannot** use standard HTTP proxy environment variables for WebSocket — needs HTTP CONNECT tunnel or [[SOCKS (Socket Secure)]].
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Nginx reverse proxy (production baseline)
 
@@ -82,7 +74,8 @@ curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
   https://example.com/ws/
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
 | `403` / `400 Bad Request` on upgrade | WAF blocking Upgrade header | Allowlist `/ws/` path; disable request body inspection on upgrade |
 | SSL termination breaks WS | Client uses `wss://`, origin uses `ws://` internally | Terminate TLS at nginx; proxy to backend over HTTP with correct `X-Forwarded-Proto` |
 | Reconnect storm after deploy | Connection count spike, CPU peg | Implement exponential backoff + jitter on client; drain old pods gracefully |
+
 
 ## Gotchas
 
@@ -123,11 +117,17 @@ function connect(url, attempt = 0) {
 }
 ```
 
-## When NOT to use
+
+## When not to use
 
 - High-frequency fan-out to millions of clients → dedicated pub/sub ([[MQTT]], SSE, or managed realtime service) scales better operationally.
 - Request/response CRUD → ordinary HTTP/REST or [[gRPC]] is simpler to cache, debug, and load-balance.
 
+
 ## Related
 
 [[HTTP module]] · [[TCP]] · [[SOCKS (Socket Secure)]] · [[Configuration]] · [[half-open connections]] · [[concurrent connection]]
+
+## Sources
+
+- [Wikipedia — webSocket](https://en.wikipedia.org/wiki/webSocket)

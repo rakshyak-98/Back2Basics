@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `git log` walks commits reachable from refs, newest first by default. Ranges use **double-dot** `A..B` = commits reachable from B not from A (merge-base relative). **Path filter** limits.
+## How it works
 
 
 ```
@@ -28,7 +17,8 @@ git show <sha>            one commit detail
 
 For merge commits, default log may hide individual parents — use `-m` or `--first-parent` depending on question.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basics
 
@@ -90,7 +80,8 @@ git log --since="2025-01-01" --until="2025-06-01"
 git log --after="2 weeks ago"
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +91,7 @@ git log --after="2 weeks ago"
 | Merge commit shows no files | Need `-m` | `git log -m -1 merge_sha` |
 | Huge slow log | Entire repo history | Narrow path/date; `--oneline` |
 | Wrong author in audit | Author vs committer | `%an` vs `%cn` in format |
+
 
 ## Gotchas
 
@@ -112,11 +104,17 @@ git log --after="2 weeks ago"
 > [!WARNING]
 > **Rebase rewrites SHAs** — old SHAs from tickets may not exist locally.
 
-## When NOT to use
+
+## When not to use
 
 - **Working tree diff** — use [[git diff]] for unstaged/staged changes.
 - **Find introducing bug** — prefer `git bisect` over manual log scroll.
 
+
 ## Related
 
 [[git command]] [[git formating]] [[git diff]] [[git blame]] [[git branch]]
+
+## Sources
+
+- [Wikipedia — git logs](https://en.wikipedia.org/wiki/git_logs)

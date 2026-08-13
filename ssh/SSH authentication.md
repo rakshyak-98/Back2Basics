@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** SSH authentication — decrypting the signed challenge with the public key.
+## How it works
 
 #### The verification process involves:
 - **Decrypting** the signed challenge with the public key.
@@ -27,7 +16,8 @@
 SSH key-based authentication is built on **public-key cryptography**, which allows for secure, passwordless authentication. The core idea is that the client proves its identity to the server by signing a challenge with its private key, and the server verifies the signature using the client's public key.
 Here’s how the **key authentication process** works step-by-step:
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ssh -v user@host                 # verbose auth debug
@@ -37,7 +27,8 @@ cat ~/.ssh/authorized_keys
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -48,6 +39,7 @@ cat ~/.ssh/authorized_keys
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -55,13 +47,19 @@ cat ~/.ssh/authorized_keys
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not share private keys between users or machines.
 
 
 ---
 
+
 ## Related
 
 [[ssh]]
+
+## Sources
+
+- [Wikipedia — SSH authentication](https://en.wikipedia.org/wiki/SSH_authentication)

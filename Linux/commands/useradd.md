@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** writes `/etc/passwd` (+ shadow/group); flags decide home, shell, system versus login user.
+## How it works
 
 ```txt
 useradd ──► passwd/shadow/group entries
@@ -39,7 +28,8 @@ useradd ──► passwd/shadow/group entries
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Typical login user
@@ -64,7 +54,8 @@ Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +66,7 @@ Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
 | `useradd: group exists` | Primary group name taken | `-g` existing GID or different username |
 
 ---
+
 
 ## Gotchas
 
@@ -89,7 +81,8 @@ Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Directory/IdP users** — SSSD/LDAP; don’t duplicate locally.
 - **Kubernetes service identity** — ServiceAccounts, not Linux users on every node.
@@ -97,6 +90,11 @@ Defaults live in `/etc/default/useradd` and `/etc/login.defs` (UID ranges).
 
 ---
 
+
 ## Related
 
 [[user management]] [[usermod]] [[userdel]] [[passwd]] [[linux groups]] [[visudo]] [[commands]]
+
+## Sources
+
+- [Wikipedia — useradd](https://en.wikipedia.org/wiki/useradd)

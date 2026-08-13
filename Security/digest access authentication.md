@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Server sends `WWW-Authenticate: Digest` with a nonce; client responds with `Authorization: Digest` containing hashes of username/realm/password/nonce/URI. Better than Basic-over-HTTP; weaker than Bearer/OIDC today.
+## How it works
 
 ```txt
 Client                     Server
@@ -34,7 +23,8 @@ Client                     Server
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 # Example concept — many stacks discourage Digest now
@@ -57,7 +47,8 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 | Intermittent replay rejects | Nonce count (`nc`) | Sticky sessions or disable strict nc if legacy client |
 
 ---
+
 
 ## Gotchas
 
@@ -82,7 +74,8 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New public APIs** — Bearer JWT/OIDC or HMAC-signed requests.
 - **Browser SPAs** — interactive login + CSRF-safe cookies or Authorization header.
@@ -90,6 +83,11 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 
 ---
 
+
 ## Related
 
 [[TLS (Transport Layer Security)]] [[HMAC (Hash based Message Authentication Codes)]] [[JWT]] [[Base64]] [[Authentication terms]]
+
+## Sources
+
+- [Wikipedia — digest access authentication](https://en.wikipedia.org/wiki/digest_access_authentication)

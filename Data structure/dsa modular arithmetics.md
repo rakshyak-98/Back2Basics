@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Work mod `m` so values stay in `0…m-1`; watch negative mods and overflow before `%`.
+## How it works
 
 ```txt
 (a + b) mod m = ((a mod m) + (b mod m)) mod m
@@ -34,7 +23,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const mod = (x, m) => ((x % m) + m) % m // positive remainder
@@ -49,7 +39,8 @@ const add = (a, b, m) => mod(a + b, m)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ const add = (a, b, m) => mod(a + b, m)
 | Off-by-wrap | index -1 | `mod(i-1, n)` |
 
 ---
+
 
 ## Gotchas
 
@@ -70,11 +62,17 @@ const add = (a, b, m) => mod(a + b, m)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Plain floats** — rounding ≠ modular rings.
 - **Crypto without a library** — don’t roll your own.
 
+
 ## Related
 
 [[DSA algorithms]] [[dsa problem solving Scaffold]]
+
+## Sources
+
+- [Wikipedia — dsa modular arithmetics](https://en.wikipedia.org/wiki/dsa_modular_arithmetics)

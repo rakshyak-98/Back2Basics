@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Three Base64 segments — header.payload.signature. Anyone can read the payload; only holders of the secret/key can forge a valid signature.
+## How it works
 
 ```txt
 Client                         Server
@@ -39,7 +28,8 @@ Client                         Server
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const jwt = require('jsonwebtoken')
@@ -69,7 +59,8 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,6 +73,7 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 | Role claim ignored / wrong | Custom claim name collision | Namespace claims; verify before use |
 
 ---
+
 
 ## Gotchas
 
@@ -99,7 +91,8 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Need instant server-side logout / session kill** — opaque session IDs in Redis/DB.
 - **Huge authorization graphs in every request** — keep JWT thin; fetch permissions server-side.
@@ -107,6 +100,11 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 
 ---
 
+
 ## Related
 
 [[JWT authentication]] [[Token rotation]] [[HMAC (Hash based Message Authentication Codes)]] [[Asymmetrical Encryption]] [[single-sign-on (SSO)]] [[Authentication terms]]
+
+## Sources
+
+- [Wikipedia — JWT](https://en.wikipedia.org/wiki/JWT)

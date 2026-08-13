@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#APT keyrings (dearmor)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** public key encrypts / verifies; private key decrypts / signs; ASCII armor is the portable text form (`.asc`).
+## How it works
 
 ```txt
 plaintext ──encrypt(+recipient pubkey)──► ciphertext
@@ -39,7 +27,8 @@ armor ◄──► binary   (ASCII-safe email/git/apt)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 gpg --full-generate-key
@@ -70,7 +59,8 @@ gpg --delete-keys <id>
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +71,30 @@ gpg --delete-keys <id>
 | Agent passphrase loops | pinentry / TTY | `export GPG_TTY=$(tty)`; check pinentry |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Never email private keys** — armor doesn’t mean safe; it means text-shaped.
+
+> [!WARNING]
+> **Deleting `~/.gnupg` is irreversible** without backups — revoke first if the key was published.
+
+> [!WARNING]
+> **apt key in the old global trusted.gpg** — prefer `/etc/apt/keyrings` + per-source `signed-by=`.
+
+---
+
+
+## When not to use
+
+- **TLS for HTTPS APIs** — certificates / ACME.
+- **SSH user authentication** — [[SSH]] / [[Authentication command]].
+- **Password hashing for accounts** — `/etc/shadow` via `passwd`.
+
+---
+
 
 ## APT keyrings (dearmor)
 
@@ -102,27 +116,11 @@ Armor = human-readable OpenPGP text. Dearmor = back to binary for `signed-by=` i
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Never email private keys** — armor doesn’t mean safe; it means text-shaped.
-
-> [!WARNING]
-> **Deleting `~/.gnupg` is irreversible** without backups — revoke first if the key was published.
-
-> [!WARNING]
-> **apt key in the old global trusted.gpg** — prefer `/etc/apt/keyrings` + per-source `signed-by=`.
-
----
-
-## When NOT to use
-
-- **TLS for HTTPS APIs** — certificates / ACME.
-- **SSH user authentication** — [[SSH]] / [[Authentication command]].
-- **Password hashing for accounts** — `/etc/shadow` via `passwd`.
-
----
 
 ## Related
 
 [[Authentication command]] [[keyrings]] [[apt package manager]] [[apt configuration]] [[commands]]
+
+## Sources
+
+- [Wikipedia — gpg](https://en.wikipedia.org/wiki/gpg)

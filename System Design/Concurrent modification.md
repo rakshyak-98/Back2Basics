@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Gap between read and write lets another actor sneak in — status machines, counters, and document edits are classic victims.
+## How it works
 
 ```txt
 A reads v1 ──edit──► writes v1'
@@ -33,7 +22,8 @@ B reads v1 ──edit──► writes v1''  (A’s change lost)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```sql
 UPDATE tickets
@@ -48,7 +38,8 @@ If-Match: "etag-88"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ If-Match: "etag-88"
 | Two admins clash | UX | Show conflict; merge UI |
 
 ---
+
 
 ## Gotchas
 
@@ -73,7 +65,8 @@ If-Match: "etag-88"
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Append-only logs** — conflicts become new events.
 - **Immutable objects** — create new versions instead of edit-in-place.
@@ -81,6 +74,11 @@ If-Match: "etag-88"
 
 ---
 
+
 ## Related
 
 [[race condition]] [[ETAG or IF MATCH]] [[Eventual consistency]] [[critical sections]]
+
+## Sources
+
+- [Wikipedia — Concurrent modification](https://en.wikipedia.org/wiki/Concurrent_modification)

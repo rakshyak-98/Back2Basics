@@ -1,124 +1,50 @@
-[[Design pattern]] [[Design pattern/Proxy]] [[Design pattern/Adapter]] [[Design pattern/Dependency Injection]]
+[[Design pattern]] [[Design pattern/Proxy]] [[Design pattern/Adapter]]
 
 # Decorator
 
-> Decorator — instead of subclassing MetaClient into LoggingMetaClient, RetryMetaClient, LoggingRetryMetaClient, … wrap the same interface:
+> Decorator wraps an object to add responsibilities dynamically while keeping the same interface — stacking layers instead of subclassing every combination.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Instead of subclassing `MetaClient` into `LoggingMetaClient`, `RetryMetaClient`, `LoggingRetryMetaClient`, … wrap the same interface:
+## Structure
 
 ```
-MetaClient
-  └─ RetryDecorator
-       └─ LoggingDecorator
-            └─ RawMetaClient
+Component interface
+  ConcreteComponent
+  Decorator (holds Component, implements interface)
+    ConcreteDecoratorA (+ border)
+    ConcreteDecoratorB (+ scroll)
 ```
 
-Callers still see `MetaClient`. Order of wrapping matters (retry outside logging versus inside).
+Client calls `decorated.operation()`; each decorator may pre/post-process and delegate inward.
 
-| Role | Responsibility |
-|------|----------------|
-| **Component** | Interface (`request(path, body)`) |
-| **Concrete component** | Real HTTP client |
-| **Decorator** | Implements interface; holds inner component; adds work before/after |
+## vs inheritance
 
-## Core idea
+Subclass explosion: `BorderedScrollableTextView` vs `ScrollableBorderedTextView`. Decorators compose:
 
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-interface MetaClient {
-  request(path: string, body?: unknown): Promise<unknown>;
-}
-
-class LoggingMetaClient implements MetaClient {
-  constructor(private inner: MetaClient) {}
-  async request(path: string, body?: unknown) {
-    console.log('graph', path);
-    try {
-      const res = await this.inner.request(path, body);
-      console.log('graph ok', path);
-      return res;
-    } catch (e) {
-      console.error('graph fail', path, e);
-      throw e;
-    }
-  }
-}
-
-class RetryMetaClient implements MetaClient {
-  constructor(private inner: MetaClient, private times = 3) {}
-  async request(path: string, body?: unknown) {
-    let last: unknown;
-    for (let i = 0; i < this.times; i++) {
-      try {
-        return await this.inner.request(path, body);
-      } catch (e) {
-        last = e;
-      }
-    }
-    throw last;
-  }
-}
-
-const client: MetaClient = new LoggingMetaClient(
-  new RetryMetaClient(new RawMetaClient(token)),
-);
+```text
+new ScrollDecorator(new BorderDecorator(new TextView()))
 ```
 
-### Composition over inheritance
+## vs Proxy
 
-Favor decorator stacks for cross-cutting concerns. Subclassing for every combination is the anti-pattern the book (and production Graph clients) warn against.
+| | Decorator | Proxy |
+|---|-----------|-------|
+| Focus | Add behavior | Control access / lazy load |
+| Transparency | Often multiple wrappers | Usually one proxy |
 
-## Triage (when things break)
+Both wrap and delegate; intent differs.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Double logging / double retry | Wrapped twice | Compose once at composition root |
-| Retry hides 4xx forever | Retrying non-idempotent / client errors | Retry only 429/5xx; respect Retry-After |
-| Decorator breaks interface | Extra methods only on wrapper | Keep strict same interface |
-| Hard to test order | Opaque stack | Unit-test each decorator with fake inner |
+## When to use
 
-## Gotchas
+- Optional features on streams (`io` wrappers in Go/Java).
+- UI styling layers, middleware stacks.
 
-> [!WARNING]
-> Decorator that changes return semantics (swallows errors, mutates payload) surprises callers — keep additive and transparent.
+## Pitfalls
 
-- Proxy versus Decorator — Proxy controls *access* (lazy, authentication, caching); Decorator *adds* behavior. Same structure, different intent. See [[Design pattern/Proxy]].
-- Do not put domain mapping in Decorator — [[Design pattern/Adapter]].
+- Order of decorators matters.
+- Hard to reason about deep stacks — document composition order.
+- Small objects — function composition may be simpler.
 
-## Trade-offs
+## Sources
 
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- Single concern, single class — plain wrapper function is enough.
-- Need to change the interface — Adapter, not Decorator.
-
-## Related
-
-[[Design pattern]] [[Design pattern/Proxy]] [[Design pattern/Adapter]] [[Design pattern/Bridge]] [[Design pattern/Dependency Injection]]
+- Gamma et al., *Design Patterns* (Decorator)
+- [Decorator pattern — Wikipedia](https://en.wikipedia.org/wiki/Decorator_pattern)

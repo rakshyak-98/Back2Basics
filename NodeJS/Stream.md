@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Readable pulls/pushes chunks; Writable consumes them; `.pipe` / `pipeline` connects them and handles backpressure.
+## How it works
 
 ```txt
 Readable ──chunk──► Writable
@@ -34,7 +23,8 @@ Readable ──chunk──► Writable
 | **Backpressure** | Slow consumer signals pause | “Pipe respects it; manual `write` must check return.” |
 | **highWaterMark** | Buffer size before pause | “Tune for throughput vs memory.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import fs from 'node:fs'
@@ -54,7 +44,8 @@ await pipeline(
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ await pipeline(
 | Slow consumer OOM | Ignoring `write` false | Wait for `drain` |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ await pipeline(
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny payloads already in memory** — a Buffer/string is simpler.
 - **Random access DB rows** — not a byte stream problem.
 
 ---
 
+
 ## Related
 
 [[Stream/pipe]] [[Buffers]] [[Stream Events]] [[Stream/stream error]]
+
+## Sources
+
+- [Wikipedia — Stream](https://en.wikipedia.org/wiki/Stream)

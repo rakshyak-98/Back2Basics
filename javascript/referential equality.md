@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Primitives compared by **value**; objects, arrays, functions by **reference**:
 
@@ -38,7 +29,8 @@ Stable references let you **skip** subtree work ([[Optimizing performance]]).
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Stable callback with useCallback
 
@@ -74,7 +66,8 @@ See [[React State management]] — don't memo everything; profile first.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +79,7 @@ See [[React State management]] — don't memo everything; profile first.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -96,7 +90,8 @@ See [[React State management]] — don't memo everything; profile first.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Cheap leaf components** — memo + callback overhead > re-render cost.
 - **Server Components** — client referential equality rules don't apply on server.
@@ -104,6 +99,11 @@ See [[React State management]] — don't memo everything; profile first.
 
 ---
 
+
 ## Related
 
 [[Optimizing performance]] · [[react hooks]] · [[React State management]] · [[debouncing]] · [[Lexical environment]]
+
+## Sources
+
+- [Wikipedia — referential equality](https://en.wikipedia.org/wiki/referential_equality)

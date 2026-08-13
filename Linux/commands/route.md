@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The kernel holds one or more **routing tables** (main table by default). Each route maps a destination prefix to a **next hop** (gateway), **outgoing interface**, or local delivery. `route` reads/writes via the old ioctl API; `ip route` uses **netlink** (same API NetworkManager, systemd-networkd, and Cilium use).
 
@@ -52,7 +43,8 @@ The kernel holds one or more **routing tables** (main table by default). Each ro
 | **on-link** | No gateway needed | “Direct L2 on that iface.” |
 | **policy routing** | Rules by mark/src | “ip rule + multiple tables.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Quick numeric view (no DNS — always -n under pressure)
@@ -92,7 +84,8 @@ route add -net 172.16.0.0/12 gw 10.0.0.254
 
 Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`, or cloud-initialize — not bare CLI on production hosts unless you know they won't reboot.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -103,6 +96,7 @@ Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`
 | Two default routes | `ip route \| grep default` | Remove duplicate; lower metric wins on tie |
 | Can ping gateway, not internet | Default route missing/wrong | `ip route replace default via <gw> dev <iface>` |
 | Asymmetric routing | `ip route get` from both hosts | Align forward + reverse paths; check [[routing table]] PBR |
+
 
 ## Gotchas
 
@@ -118,13 +112,19 @@ Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`
 > [!WARNING]
 > **`route -n` shows main table only** — policy routing (`ip rule`, custom tables) invisible here. Use [[ip]] `route show table all`.
 
-## When NOT to use
+
+## When not to use
 
 - **New automation or playbooks** → [[ip]] exclusively.
 - **Socket/port debugging** → [[ss]], not route.
 - **DNS resolution issues** → `resolvectl`, `/etc/resolv.conf` — routing is L3, not name lookup.
 - **Cloud VPC routing** → AWS route tables / GCP routes — host table is only one layer.
 
+
 ## Related
 
 [[routing table]] [[ip]] [[Linux network commands]] [[netstat]] [[ss]] [[BGP]]
+
+## Sources
+
+- [Wikipedia — route](https://en.wikipedia.org/wiki/route)

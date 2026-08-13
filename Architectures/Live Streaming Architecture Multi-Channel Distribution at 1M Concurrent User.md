@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
-
-## Context
-
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
-
-**Say it in one breath:** Ingest → transcode ABR ladder → packager (HLS/DASH) → origin → CDN edge → players. Scale viewers at the edge; scale channels at encode/packager capacity.
+## How it works
 
 ```txt
 camera/encoder → origin ingest → transcoder → packager
@@ -53,7 +24,8 @@ camera/encoder → origin ingest → transcoder → packager
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 ABR: 1080p/720p/480p ladders, 2–6s segments
@@ -71,7 +43,8 @@ Health: stale manifest / 404 segment alerts
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,6 +55,26 @@ Health: stale manifest / 404 segment alerts
 | Hot manifest | Tiny TTL + thundering herd | Soft TTL; collapse requests |
 
 ---
+
+
+## Decision
+
+We will … because …
+
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
+
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
+
 
 ## Gotchas
 
@@ -96,7 +89,8 @@ Health: stale manifest / 404 segment alerts
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **<1k viewers interactive** — WebRTC/SFU maybe.
 - **VOD only** — simpler caching.
@@ -104,12 +98,11 @@ Health: stale manifest / 404 segment alerts
 
 ---
 
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
 
 ## Related
 
 [[Streaming]] [[HLS]] [[DASH]] [[ABR]] [[CDN]] [[When scaling to hundreds of concurrent channels]]
+
+## Sources
+
+- [Wikipedia — Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User](https://en.wikipedia.org/wiki/Live_Streaming_Architecture_Multi-Channel_Distribution_at_1M_Concurrent_User)

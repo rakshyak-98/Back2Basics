@@ -1,92 +1,33 @@
-[[React Pattern]] [[React code smells]] [[Optimizing performance]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Composite pattern]]
 
 # Provider pattern
 
-> Put shared state in React context — consumers subscribe without prop drilling; split state vs actions to limit re-renders.
+> The provider model is a design pattern formulated by Microsoft for use in the ASP.NET Starter Kits and formalized in .NET version 2.0.
 
----
+## What this is
 
-## Index
+The provider model is a design pattern formulated by Microsoft for use in the ASP.NET Starter Kits and formalized in .NET version 2.0. It is used to allow an application to choose from one of multiple implementations or "condiments" in the application configuration, for example, to provide access to different data stores to retrieve login information, or to use different storage methodologies such as a database, binary to disk, XML, etc.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
 
-**Say it in one breath:** Provider holds value; `useContext` reads it. If the value object is new every render, every consumer re-renders — split contexts or memoize.
+React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
 
-```txt
-<AuthProvider>  value={{ user, login }}
-   └─ useAuth() in deep child (no prop chain)
-```
+## What breaks first
 
-### Interview map (words you can say)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Provider** | Context root | “Injects dependencies down the tree.” |
-| **Split context** | State vs stable actions | “Actions context rarely changes.” |
-| **vs Redux** | Built-in, local | “Context for theme/auth; Redux for complex client state.” |
+## Recall
 
-## Standard config / commands
-
-```tsx
-const AuthStateContext = createContext<User | null>(null)
-const AuthActionsContext = createContext<{ login: () => void; logout: () => void } | null>(null)
-
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const login = useCallback(() => { /* … */ setUser(/* … */) }, [])
-  const logout = useCallback(() => setUser(null), [])
-  const actions = useMemo(() => ({ login, logout }), [login, logout])
-  return (
-    <AuthStateContext.Provider value={user}>
-      <AuthActionsContext.Provider value={actions}>{children}</AuthActionsContext.Provider>
-    </AuthStateContext.Provider>
-  )
-}
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| Separate state/actions | Button-only consumers skip user updates |
-| `useMemo` value | Stable reference when contents unchanged |
-| Default null + hook assert | Fail fast outside provider |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Whole tree re-renders | Inline `{…}` value | Memoize or split context |
-| null context crash | Used outside provider | Guard in `useX` hook |
-| Stale actions | Missing `useCallback` | Stabilize action fns |
-| Prop drilling returns | Forgot provider high enough | Lift provider to layout |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Context is not a silver bullet** — high-frequency state (mouse coords) will thrash consumers; use refs or external stores.
-
-> [!WARNING]
-> **Default value traps** — a working default hides missing providers in tests.
-
----
-
-## When NOT to use
-
-- **Pass 1–2 levels** — props are clearer.
-- **Server cache** — [[react-query]] / RTK Query.
-
----
+What breaks first in production if `Provider pattern` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React code smells]] [[Optimizing performance]] [[Render props]] [[Redux]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Composite pattern]]
+
+## Sources
+
+- [Wikipedia — Provider model](https://en.wikipedia.org/wiki/Provider_model)

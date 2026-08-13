@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `deb [options] URI suite component…` is one repository; `signed-by=` pins trust.
+## How it works
 
 ```txt
 deb [arch=amd64 signed-by=/usr/share/keyrings/foo.gpg] https://ex/apt jammy main
@@ -37,7 +26,8 @@ deb [arch=amd64 signed-by=/usr/share/keyrings/foo.gpg] https://ex/apt jammy main
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # /etc/apt/sources.list.d/nginx.list
@@ -56,7 +46,8 @@ sudo mv /etc/apt/sources.list.d/bad.list{,.disabled}
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ sudo mv /etc/apt/sources.list.d/bad.list{,.disabled}
 | apt-key warnings | Legacy trust | Migrate to keyrings + signed-by |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ sudo mv /etc/apt/sources.list.d/bad.list{,.disabled}
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One random binary** — prefer vendor packages or a container, not a shady PPA.
 - **Air-gapped fleets** — use a local mirror, not one-off list edits.
 
 ---
 
+
 ## Related
 
 [[apt package manager]] [[apt configuration]] [[keyrings]] [[Package Manager]]
+
+## Sources
+
+- [Wikipedia — source list file](https://en.wikipedia.org/wiki/source_list_file)

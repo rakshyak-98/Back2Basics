@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Maintain indices `left` and `right` defining window `[left, right]`. Advance `right` to grow; advance `left` to shrink when a **validity invariant** breaks (sum too large, duplicate char seen, etc.).
 
@@ -33,7 +24,8 @@ Two flavors:
 
 Works when the problem asks: *longest/shortest subarray/substring such that …* or *count subarrays where …* (sometimes needs prefix sum + hash map instead).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Template — variable window (longest substring without repeating char)
 
@@ -94,7 +86,8 @@ function minSubArrayLen(target, nums) {
 // Prefix sum + hash map frequency — not sliding window
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ function minSubArrayLen(target, nums) {
 | TLE on large input | Nested loops resetting `left` to 0 each `right` | `left` only moves forward — total O(n) |
 | Works for positives, fails with negatives | Monotonic shrink assumption broken | Switch to prefix sum + hash map |
 | Count subarrays off by one | Count at shrink vs expand step | Define whether each valid window counted once |
+
 
 ## Gotchas
 
@@ -119,12 +113,18 @@ function minSubArrayLen(target, nums) {
 > [!WARNING]
 > **String vs array indexing** — same logic; watch Unicode code points vs UTF-16 code units for emoji substrings.
 
-## When NOT to use
+
+## When not to use
 
 - **Subsequence (non-contiguous)** — window requires contiguous segment; use DP or two-pointer on sorted arrays differently.
 - **Arbitrary numeric targets with negatives** — use [[Prefix sum]] + hash map.
 - **Global optimization without contiguous constraint** — e.g. max subarray sum with one deletion — may need Kadane variant, not pure window.
 
+
 ## Related
 
 [[Prefix sum]] [[Data structure]] [[Algorithm]] [[dsa genera formula]]
+
+## Sources
+
+- [Wikipedia — sliding window](https://en.wikipedia.org/wiki/sliding_window)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** same demuxers as ffmpeg, but print facts (JSON/text) instead of encoding.
+## How it works
 
 ```txt
 file / UDP URL ──► ffprobe ──► streams, format, frames, programs
@@ -36,7 +25,8 @@ file / UDP URL ──► ffprobe ──► streams, format, frames, programs
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ffprobe -hide_banner input.mp4
@@ -64,7 +54,8 @@ Stream #0:1 Audio: aac    start_time=0.000000
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +66,7 @@ Stream #0:1 Audio: aac    start_time=0.000000
 | Duration N/A | Live / incomplete mux | Use bitrate × size estimate or container trailers |
 
 ---
+
 
 ## Gotchas
 
@@ -89,7 +81,8 @@ Stream #0:1 Audio: aac    start_time=0.000000
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Transcoding / streaming out** — [[ffmpeg]].
 - **Only file size/name** — `stat` / [[Find command]].
@@ -97,6 +90,11 @@ Stream #0:1 Audio: aac    start_time=0.000000
 
 ---
 
+
 ## Related
 
 [[ffmpeg]] [[MPEG-TS]] [[codecs]] [[Streaming]] [[commands]]
+
+## Sources
+
+- [Wikipedia — ffprobe](https://en.wikipedia.org/wiki/ffprobe)

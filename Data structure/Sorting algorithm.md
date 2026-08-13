@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Comparison sorts need ≥ O(n log n) worst case; counting/radix win on limited keys; timsort exploits runs.
+## How it works
 
 ```txt
 input → (compare | count keys) → ordered output
@@ -34,7 +23,8 @@ input → (compare | count keys) → ordered output
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 arr.sort((a, b) => a - b) // know if stable in your runtime
@@ -49,7 +39,8 @@ arr.sort((a, b) => a - b) // know if stable in your runtime
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ arr.sort((a, b) => a - b) // know if stable in your runtime
 | Too slow | O(n²) on large n | n log n algorithm |
 
 ---
+
 
 ## Gotchas
 
@@ -70,11 +62,17 @@ arr.sort((a, b) => a - b) // know if stable in your runtime
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Already sorted stream** — maintain a structure instead.
 - **Need order stats only** — quickselect / heap, not full sort.
 
+
 ## Related
 
 [[DSA algorithms]] [[array]] [[algo/binary search]]
+
+## Sources
+
+- [Wikipedia — Sorting algorithm](https://en.wikipedia.org/wiki/Sorting_algorithm)

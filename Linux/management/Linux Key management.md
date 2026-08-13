@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** long-lived trust in files/HSM; short-lived session credentials in kernel keyrings; agents (ssh-agent/gpg-agent) broker use.
+## How it works
 
 ```txt
 disk:  *.pem / gpg homedir / keyrings/*.gpg
@@ -37,7 +26,8 @@ agents: ssh-agent, gpg-agent
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # file perms
@@ -58,7 +48,8 @@ ssh-add -l
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ ssh-add -l
 | keyctl gone after logout | Session keyring | Link to user keyring / persist design |
 
 ---
+
 
 ## Gotchas
 
@@ -79,13 +71,19 @@ ssh-add -l
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **application secrets at scale** — use a secrets manager (Vault/SOPS/cloud KMS).
 - **Embedding keys in images** — inject at runtime.
 
 ---
 
+
 ## Related
 
 [[keyrings]] [[keyctl]] [[gpg]] [[SSH]]
+
+## Sources
+
+- [Wikipedia — Linux Key management](https://en.wikipedia.org/wiki/Linux_Key_management)

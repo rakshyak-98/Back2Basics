@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Embedding places a type inside another **without a field name**. The outer type **promotes** the embedded type's exported methods and fields to the outer type's method set.
+## How it works
 
 
 ```go
@@ -35,7 +24,8 @@ Two cases:
 
 No virtual dispatch chain — method on outer replaces promoted method when called on outer type.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Struct embedding — promotion
 
@@ -107,7 +97,8 @@ func NewServer(addr string) *Server {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +108,7 @@ func NewServer(addr string) *Server {
 | Unexpected nil panic | Embedded pointer nil | Use value embed or construct with `&T{}` |
 | JSON/tags wrong | Tags on embedded struct | Tag outer or embed with named field for custom marshaling |
 | `promoted method` hidden in interface assertion | Outer doesn't implement extra methods | Define all interface methods on outer explicitly |
+
 
 ## Gotchas
 
@@ -132,12 +124,18 @@ func NewServer(addr string) *Server {
 > [!WARNING]
 > **Testing mocks** — embedding mock interface in struct is idiomatic but nil embedded interface causes panic on call.
 
-## When NOT to use
+
+## When not to use
 
 - **Pure "has-a" with no promotion** — use named field `logger Logger` for clarity.
 - **Deep embedding chains** — hard to trace method origin; prefer explicit delegation.
 - **Hiding third-party types** — embed locks API surface to theirs; wrap with named field + forwarders if stability matters.
 
+
 ## Related
 
 [[golang]] [[method shadowing]] [[Design pattern]] [[java]]
+
+## Sources
+
+- [Wikipedia — go embedding](https://en.wikipedia.org/wiki/go_embedding)

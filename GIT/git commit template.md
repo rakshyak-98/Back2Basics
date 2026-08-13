@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** git commit template — git config to use custom commit template
+## How it works
 
 **Git configuration to use custom commit template**
 ```bash
@@ -42,7 +31,8 @@ See also: #456
 - chore       → maintenance (gitignore, scripts, rename...)
 - revert      → revert previous commit
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 git config --global commit.template ~/.config/git/commit-template
@@ -51,7 +41,8 @@ cat ~/.config/git/commit-template
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ cat ~/.config/git/commit-template
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -68,13 +60,19 @@ cat ~/.config/git/commit-template
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip a template when a project mandates commitizen or another enforced format.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git commit template](https://en.wikipedia.org/wiki/git_commit_template)

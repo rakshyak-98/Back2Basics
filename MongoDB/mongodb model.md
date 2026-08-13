@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **model** is a compiled schema bound to a collection. The schema declares fields, types, defaults, validators, indexes, and middleware. MongoDB is schemaless at storage time; Mongoose enforces structure at the application layer unless you bypass it with `strict: false` or raw collection calls.
 
@@ -25,7 +16,8 @@ Schema (shape + rules) → Model (collection API) → MongoDB collection
     indexes, hooks, virtuals
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Schema with compound unique index
 
@@ -54,7 +46,8 @@ await User.createIndexes(); // idempotent; run after schema change
 const users = await User.find({ tenantId }).lean(); // plain objects, faster
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +56,7 @@ const users = await User.find({ tenantId }).lean(); // plain objects, faster
 | Field missing after update | `strict` mode | Add field to schema or use `$set` with defined paths |
 | Slow list queries | `explain()` | Add index on filter + sort fields |
 | Stale subdocs | `.markModified('path')` | Required when Mixed/Array mutated in place |
+
 
 ## Gotchas
 
@@ -73,11 +67,17 @@ const users = await User.find({ tenantId }).lean(); // plain objects, faster
 >
 > **Hooks don't run on `updateMany`** — use middleware type `updateOne`/`findOneAndUpdate` or move logic to service layer.
 
-## When NOT to use
+
+## When not to use
 
 - Don't mirror SQL normalized schemas 1:1 — embed when read together, reference when independent lifecycle.
 - Don't skip indexes because "Mongo is fast" — unindexed collection scans hurt at scale.
 
+
 ## Related
 
 [[mongoose middleware]] [[mongoose/Mongoose plugin]] [[mongodb connection]] [[GridFS]]
+
+## Sources
+
+- [Wikipedia — mongodb model](https://en.wikipedia.org/wiki/mongodb_model)

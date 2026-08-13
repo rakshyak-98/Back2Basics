@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Every HTTP request may include:
 
@@ -42,7 +33,8 @@ curl/8.5.0             → scripts, health checks
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Inspect
 
@@ -76,7 +68,8 @@ proxy_set_header User-Agent $http_user_agent;
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +79,7 @@ proxy_set_header User-Agent $http_user_agent;
 | SEO/bot traffic | Search bot UA spoof | Verify bot via reverse DNS + IP ranges |
 
 ---
+
 
 ## Gotchas
 
@@ -100,12 +94,18 @@ proxy_set_header User-Agent $http_user_agent;
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't branch **authorization** on User-Agent. Use tokens, mTLS, or attestation for API clients.
 
 ---
 
+
 ## Related
 
 [[response header]] [[mime type]] [[Network error]] [[cross-site scripting]]
+
+## Sources
+
+- [Wikipedia — useragent](https://en.wikipedia.org/wiki/useragent)

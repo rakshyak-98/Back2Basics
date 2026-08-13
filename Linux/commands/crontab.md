@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `cron` reads `/var/spool/cron/crontabs/<user>` (or `/etc/cron.d/*` for system jobs). The **crond** daemon wakes every minute, checks whether any entry's five fields match *now*, and spawns the command in a minimal environment (not your interactive shell).
 
@@ -48,7 +39,8 @@ Environment is **sparse**: often only `HOME`, `LOGNAME`, `SHELL`, `PATH=/usr/bin
 | **/etc/cron.d** | System drop-ins | “Prefer files over root crontab for packages.” |
 | **MAILTO** | Cron email | “Silence with MAILTO="" if noisy.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Edit current user's crontab
@@ -104,7 +96,8 @@ systemctl status cron              # Debian/Ubuntu
 systemctl status crond             # RHEL/CentOS
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ systemctl status crond             # RHEL/CentOS
 | Works in shell, fails in cron | Missing env vars, relative paths, no `cd` | Set `SHELL`, `PATH`, `HOME` in crontab header or script; `cd /opt/app && ./run.sh` |
 | Duplicate runs / overlap | Long-running job + frequent schedule | `flock`; widen interval; use systemd timer with `OnUnitActiveSec` |
 | `%` in command breaks | `%` is newline in crontab | Escape as `\%` or put command in a script |
+
 
 ## Gotchas
 
@@ -130,13 +124,19 @@ systemctl status crond             # RHEL/CentOS
 > [!WARNING]
 > **Editing `/var/spool/cron/` directly** — use `crontab -e`; direct edits can be overwritten or miss syntax validation.
 
-## When NOT to use
+
+## When not to use
 
 - **Sub-minute scheduling** → systemd timer, supervisor, or application-internal scheduler.
 - **Boot-order dependencies** → [[systemd]] unit with `After=` / `Requires=`.
 - **One-shot delayed tasks** → `at`, not cron.
 - **Complex retry/backoff** → dedicated job runner (Sidekiq, Celery, Airflow), not cron loops.
 
+
 ## Related
 
 [[systemd]] [[bash script]] [[Linux system management]] [[Services commands]]
+
+## Sources
+
+- [Wikipedia — crontab](https://en.wikipedia.org/wiki/crontab)

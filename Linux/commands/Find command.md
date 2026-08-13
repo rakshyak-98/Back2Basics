@@ -6,17 +6,26 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```txt
+path ──► descend ──► match predicates ──► action
+              -maxdepth limits how deep
+              {} + batches like xargs
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`-type f/d/l`** | File / dir / symlink | “Narrow before you delete.” |
+| **`-name` / `-iname`** | Glob match | “Quoted globs — shell must not expand them.” |
+| **`-mtime -7`** | Modified in last 7 days | “Negative means *within*; positive means *older than*.” |
+| **`-exec … {} +`** | Run command in batches | “`+` is fast; `\;` forks once per file.” |
+| **`-delete`** | Remove matches | “Depth-first; safer than naive `rm` loops.” |
+
+---
+
 
 ## Quick reference
 
@@ -24,7 +33,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Names / types
@@ -57,35 +67,22 @@ find /path -maxdepth 2 -mindepth 1 -type d
 
 ---
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-**Say it in one breath:** start at a path, apply tests (`-name`, `-mtime`, …), then an action (`-print`, `-delete`, `-exec`).
+## Examples
 
-```txt
-path ──► descend ──► match predicates ──► action
-              -maxdepth limits how deep
-              {} + batches like xargs
+```bash
+# …
 ```
 
-### Interview map (words you can say)
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`-type f/d/l`** | File / dir / symlink | “Narrow before you delete.” |
-| **`-name` / `-iname`** | Glob match | “Quoted globs — shell must not expand them.” |
-| **`-mtime -7`** | Modified in last 7 days | “Negative means *within*; positive means *older than*.” |
-| **`-exec … {} +`** | Run command in batches | “`+` is fast; `\;` forks once per file.” |
-| **`-delete`** | Remove matches | “Depth-first; safer than naive `rm` loops.” |
-
----
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +93,7 @@ path ──► descend ──► match predicates ──► action
 | `-type -f` typo | Extra dash | `-type f` |
 
 ---
+
 
 ## Gotchas
 
@@ -110,7 +108,8 @@ path ──► descend ──► match predicates ──► action
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Interactive fuzzy file pick** — `fzf`, IDE search.
 - **Content search** — [[grep]] / `rg` (find locates *names*, not text).
@@ -118,12 +117,11 @@ path ──► descend ──► match predicates ──► action
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[grep]] [[rsync]] [[zip]] [[commands]]
+
+## Sources
+
+- [Wikipedia — Find command](https://en.wikipedia.org/wiki/Find_command)

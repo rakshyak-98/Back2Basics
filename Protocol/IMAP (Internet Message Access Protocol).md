@@ -1,109 +1,63 @@
-[[SMTP]] [[POP3 (Post Office Protocol v3)]] [[E mail server]] [[TCP]]
+[[SMTP]] · [[E mail server]] · [[mail server]] · [[TCP]] · [[TLS (Transport Layer Security)]]
 
 # IMAP (Internet Message Access Protocol)
 
-> IMAP (Internet Message Access Protocol) — client ──IMAP──► MDA (Dovecot, Cyrus, Exchange)
+> IMAP lets mail clients synchronize folders and flags with a server-side mailbox over TCP — unlike POP3, messages stay on the server and multiple devices see the same state.
 
 ---
 
-## Index
+## Model
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-IMAP lets MUAs **read and organize mail on the server** (unlike [[POP3 (Post Office Protocol v3)]] which typically downloads and deletes). Server holds canonical state; client syncs flags (`\Seen`, `\Deleted`), folders, and UIDs. Multiple devices see the same mailbox.
+[IMAP4rev1 (RFC 3501)](https://datatracker.ietf.org/doc/html/rfc3501) maintains **mailbox hierarchy** (folders), **UIDs**, **flags** (`\Seen`, `\Answered`), and **partial fetch** of MIME parts.
 
 ```
-Client ──IMAP──► MDA (Dovecot, Cyrus, Exchange)
-   │                  │
-   ├── SELECT INBOX   ├── FETCH headers/body (partial)
-   ├── UID SEARCH     ├── STORE flags
-   └── IDLE (push)    └── APPEND sent mail
+Client                    Server
+  LOGIN user pass
+  SELECT INBOX
+  FETCH 1 (FLAGS BODY[HEADER.FIELDS (FROM SUBJECT)])
+  STORE 1 +FLAGS (\Seen)
+  IDLE                    (push new mail notification)
 ```
 
-Modern flow: **587 [[SMTP]]** to send, **993 IMAPS** to read. authentication: LOGIN/PLAIN over TLS, OAuth2 (Gmail/365).
-
-## Standard config / commands
-
-### Ports & TLS
+## Ports
 
 | Port | Mode |
 |------|------|
-| 143 | STARTTLS (upgrade to TLS) |
-| 993 | Implicit TLS (IMAPS) |
+| **143** | Cleartext + optional STARTTLS |
+| **993** | Implicit TLS (IMAPS) — prefer this |
 
-### Manual session (debug)
+## vs POP3
+
+| IMAP | POP3 |
+|------|------|
+| Server-side folders | Usually download-and-delete |
+| Multi-device sync | Single-device oriented |
+| Higher server storage | Offloads to client |
+
+## IDLE extension
+
+`IDLE` ([RFC 2177](https://datatracker.ietf.org/doc/html/rfc2177)) holds connection open for server push — mobile clients often use periodic polling instead to save battery.
+
+## Common with [[SMTP]]
+
+- **SMTP** (587) sends mail
+- **IMAP** (993) reads mail
+- Same credentials via Dovecot SASL or OAuth2 (modern providers)
+
+## Debugging
 
 ```bash
-openssl s_client -connect imap.example.com:993 -quiet
-# a001 LOGIN user password
+openssl s_client -connect imap.example.com:993
+# a001 LOGIN user pass
 # a002 LIST "" "*"
-# a003 SELECT INBOX
-# a004 FETCH 1 (UID FLAGS BODY[HEADER.FIELDS (FROM SUBJECT)])
-# a005 LOGOUT
 ```
 
-STARTTLS on 143:
+## Recall
 
-```bash
-openssl s_client -connect imap.example.com:143 -starttls imap
-```
+- Why does IMAP suit mobile plus desktop better than POP3?
+- What does the `\Seen` flag change for other clients?
 
-### Common commands
+## Sources
 
-| Command | Purpose |
-|---------|---------|
-| CAPABILITY | Server features |
-| LOGIN / AUTHENTICATE | Auth |
-| SELECT / EXAMINE | Open mailbox (rw / ro) |
-| FETCH | Retrieve parts |
-| UID SEARCH | Query UNSEEN, SINCE, etc. |
-| STORE | Set flags |
-| IDLE | Server push new mail (long-lived) |
-| MOVE / COPY | RFC 6851 folder ops |
-
-### Dovecot snippet (server)
-
-```conf
-protocols = imap
-ssl = required
-mail_location = maildir:~/Maildir
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Auth failed | App password; OAuth | Enable IMAP in provider; correct token scope |
-| Certificate error | Hostname mismatch | Full SAN cert; use correct server name |
-| Empty INBOX on one client | Wrong folder namespace | LIST folders; prefix INBOX |
-| Slow sync mobile | FETCH entire body | CONDSTORE/QRESYNC; partial FETCH |
-| IDLE disconnects | NAT/firewall timeout | Client reconnect; TCP keepalive |
-| Messages "duplicate" | POP3 + IMAP mixed | Pick one protocol per account |
-| Login plain rejected | Secure auth required | TLS first; OAuth2 |
-
-## Gotchas
-
-> [!WARNING]
-> **PLAIN without TLS** — credentials leak; always TLS or localhost.
-
-> [!WARNING]
-> **Deleting only local** — must `\Deleted` + EXPUNGE or MOVE to Trash on server.
-
-> [!WARNING]
-> **Provider rate limits** — bulk FETCH triggers throttling; batch UIDs.
-
-## When NOT to use
-
-- **Offline-first archive download only** — POP3 or one-shot migration tool simpler.
-- **Transactional application notifications** — use webhooks/API, not mailbox polling.
-
-## Related
-
-[[POP3 (Post Office Protocol v3)]] [[SMTP]] [[E mail server]] [[Security/TLS (Transport Layer Security)]]
+- [RFC 3501 — IMAP4rev1](https://datatracker.ietf.org/doc/html/rfc3501)
+- [RFC 8314 — Use of TLS for Email](https://datatracker.ietf.org/doc/html/rfc8314)

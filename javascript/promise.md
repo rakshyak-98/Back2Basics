@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A Promise settles once. `.then` chains transform values; `.catch` handles rejection; `await` pauses an async function until settle.
+## How it works
 
 ```txt
 pending → fulfilled(value) | rejected(reason)
@@ -31,7 +20,8 @@ pending → fulfilled(value) | rejected(reason)
 | **microtask** | then/await queue | “Runs before next macrotask (timers).” |
 | **all / allSettled / race** | Combine promises | “all = fail-fast; settled = gather.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const p = fetch('/api').then((r) => r.json())
@@ -49,7 +39,8 @@ await Promise.allSettled([a(), b()])
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ await Promise.allSettled([a(), b()])
 | Floating promise | fire-and-forget | void + catch or await |
 
 ---
+
 
 ## Gotchas
 
@@ -70,13 +62,19 @@ await Promise.allSettled([a(), b()])
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Sync pure computation** — just return the value.
 - **Event streams** — Observables/EventTarget may fit better.
 
 ---
 
+
 ## Related
 
 [[Callback]] [[async utils]] [[Coroutine]]
+
+## Sources
+
+- [Wikipedia — promise](https://en.wikipedia.org/wiki/promise)

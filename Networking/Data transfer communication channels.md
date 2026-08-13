@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Channels differ by who starts, whether they stay open, and where the data lives (wire, broker, or shared memory).
+## How it works
 
 ```txt
 Same machine          Across network
@@ -52,7 +41,8 @@ Unix sockets   →      queues / WebRTC / FTP
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Is something listening?
@@ -77,7 +67,8 @@ ss -xlnp | grep my.sock
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +79,7 @@ ss -xlnp | grep my.sock
 | Huge payloads over WS | Wrong tool | Object store + URL; keep WS for control |
 
 ---
+
 
 ## Gotchas
 
@@ -102,7 +94,8 @@ ss -xlnp | grep my.sock
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One golden hammer** — don’t put file sync, RPC, and chat all on raw WebSockets.
 - **Email as a data bus** — high latency; use queues for systems, email for humans.
@@ -110,6 +103,11 @@ ss -xlnp | grep my.sock
 
 ---
 
+
 ## Related
 
 [[Networking]] [[TCP]] [[UDP]] [[webSocket]] [[P2P (Peer-to-Peer)]] [[ICE (Interactive Connectivity Establishment)]] [[half-open connections]]
+
+## Sources
+
+- [Wikipedia — Data transfer communication channels](https://en.wikipedia.org/wiki/Data_transfer_communication_channels)

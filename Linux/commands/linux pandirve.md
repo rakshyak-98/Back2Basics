@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 USB block device appears as `/dev/sdX` (whole disk) and `/dev/sdX1` (first partition). Kernel + udev may **auto-mount** under `/media/$USER/`. Manual workflow: identify device → unmount if busy → partition (optional) → mkfs → mount → sync before physical remove.
 
@@ -42,7 +33,8 @@ lsblk ──► /dev/sdb1 ──► mkfs.vfat ──► mount ──► cp data 
 | **citeproc** | Citations | “Bibliography via --citeproc.” |
 | **templates** | Output chrome | “--template for branded PDF.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Identify — look at SIZE and RM (removable)
@@ -85,7 +77,8 @@ blkid /dev/sdb1
 # UUID=XXXX  /mnt/usb  vfat  defaults,noauto,user  0  0
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,6 +88,7 @@ blkid /dev/sdb1
 | Wrong `/dev/sdX` after replug | Names shuffle | Use `/dev/disk/by-id/usb-...` in scripts |
 | `Permission denied` on copy | Mount options | Remount with `uid=` or run as root (avoid) |
 | Slow writes | Cheap stick or USB2 | Expected; use exfat/ext4 for large sequential |
+
 
 ## Gotchas
 
@@ -110,12 +104,18 @@ blkid /dev/sdb1
 > [!WARNING]
 > **FAT32 4GB file limit** — large ISOs need exfat or split archives.
 
-## When NOT to use
+
+## When not to use
 
 - **Production data transfer** → encrypted media, signed artifacts, object storage — not random USB.
 - **Document conversion** → that's **pandoc**, unrelated tool.
 - **Persistent server storage** → proper block volume + ext4/xfs, not consumer flash.
 
+
 ## Related
 
 [[file mount]] [[Linux file management]] [[Linux system management]] [[MBR]]
+
+## Sources
+
+- [Wikipedia — linux pandirve](https://en.wikipedia.org/wiki/linux_pandirve)

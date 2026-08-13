@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Middleware** runs between Mongoose API call and MongoDB operation. Hooks attach to **`save`**, **`validate`**, **`remove`**, and **`find*` query methods** — not all methods trigger all hook types.
 
@@ -40,7 +31,8 @@ User.findOneAndUpdate(...)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Document middleware (save path)
 
@@ -97,7 +89,8 @@ User.find().bypassMiddleware(); // if plugin supports — prefer explicit flag o
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ console.log(userSchema._pres.get('save'));
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -138,7 +132,8 @@ console.log(userSchema._pres.get('save'));
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Authorization / tenancy** — enforce at API/gateway layer; query middleware is defense-in-depth only.
 - **Cross-collection invariants** — use transaction + explicit domain service, not cascading hooks.
@@ -146,6 +141,11 @@ console.log(userSchema._pres.get('save'));
 
 ---
 
+
 ## Related
 
 [[mongoose]] [[mongoose schema]] [[mongoose methods]] [[Mongoose plugin]] [[Data access patterns]] [[ACID]]
+
+## Sources
+
+- [Wikipedia — mongoose middleware](https://en.wikipedia.org/wiki/mongoose_middleware)

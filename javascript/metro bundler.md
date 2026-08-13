@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development loops**: watch files, transform on demand, serve over the development server to the application.
 
@@ -35,7 +26,8 @@ Key concepts:
 - **Serializer** — outputs the bundle string the native side loads.
 - **Cache** — file-system cache keyed by transform inputs; stale cache = weird runtime errors.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### CLI (via React Native)
 
@@ -103,7 +95,8 @@ const config = {
 NODE_ENV=production npx react-native bundle ...
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ NODE_ENV=production npx react-native bundle ...
 | Hermes bytecode issues | Wrong Hermes compiler version vs RN version | Align RN + Hermes versions; rebuild release bundle |
 | Asset not in APK/IPA | Missing `--assets-dest` on bundle command | Re-run `react-native bundle` with assets path |
 | Different behavior iOS vs Android | Platform-specific file not picked up | Use `.ios.js` / `.android.js` suffixes |
+
 
 ## Gotchas
 
@@ -130,12 +124,18 @@ NODE_ENV=production npx react-native bundle ...
 > [!WARNING]
 > **Expo vs bare** — Expo wraps Metro with its own config; merging custom `metro.config.js` requires `expo/metro-config` merge pattern.
 
-## When NOT to use
+
+## When not to use
 
 - **Web-only React (Vite/webpack)** — Metro is RN-specific; don't force it for SPA builds.
 - **Replacing Babel blindly with SWC** — RN toolchain assumptions (inline requires, Flow) may break; test on both platforms.
 - **Custom bundler for simple RN application** — default Metro + reset-cache solves 95% of cases; only eject configuration for monorepos, aliases, or asset pipelines.
 
+
 ## Related
 
 [[bundler]] [[React]] [[SWC]] [[NodeJS]] [[source map]]
+
+## Sources
+
+- [Wikipedia — metro bundler](https://en.wikipedia.org/wiki/metro_bundler)

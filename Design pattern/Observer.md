@@ -1,113 +1,44 @@
-[[Design pattern]] [[Design pattern/Command]] [[Design pattern/Template Method]] [[Messaging/Web hooks]]
+[[Design pattern]] [[Design pattern/Command]] [[Design pattern/Memento]]
 
 # Observer
 
-> Subscribers react to events without the subject knowing who they are — **Dive Into Design Patterns + launchEventBus**.
+> Observer defines a one-to-many dependency — when one object changes state, all dependents are notified and updated automatically.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-After a successful launch you want metrics, audit log, webhook, cache invalidate. Subject (`LaunchEventBus`) emits; observers subscribe. Adding a side-effect = new subscription — subject stays closed (OCP).
+## Structure
 
 ```
-LaunchPipeline ──emit──► LaunchEventBus
-                            │
-              ┌─────────────┼─────────────┐
-           Metrics       Audit         Webhook
+Subject
+  attach(observer)
+  detach(observer)
+  notify() → observer.update()
+
+Observer.update(event)
 ```
 
-| Role | Responsibility |
-|------|----------------|
-| **Subject / publisher** | Holds subscribers; `emit(event, payload)` |
-| **Observer / subscriber** | `handle(payload)` |
-| **Event** | Named fact (`LaunchEvents.Succeeded`) |
+Push model sends full data; pull model observers query subject after notification.
 
-## Core idea
+## Modern variants
 
-…
+- **Event listeners** (DOM, Node `EventEmitter`).
+- **Reactive streams** (RxJS, Observables) with backpressure.
+- **Pub/sub brokers** (Kafka topics) at system scale — same idea, distributed.
 
-## Variations / implementations
+## vs Mediator
 
-…
+Observer is **broadcast from subject**; [[Design pattern/Mediator]] is **hub routing** between peers.
 
-## Standard config / commands
+## When to use
 
-```typescript
-type Handler<T> = (payload: T) => void | Promise<void>;
+- Model-view separation (model notifies views).
+- Domain events inside an application boundary.
 
-class LaunchEventBus {
-  private handlers = new Map<string, Set<Handler<any>>>();
+## Pitfalls
 
-  subscribe<T>(event: string, handler: Handler<T>) {
-    if (!this.handlers.has(event)) this.handlers.set(event, new Set());
-    this.handlers.get(event)!.add(handler);
-    return () => this.handlers.get(event)!.delete(handler);
-  }
+- **Update order** undefined — observers may see inconsistent intermediate states.
+- **Memory leaks** — forgotten subscriptions (always detach or use weak references).
+- **Cascading notifications** — observer A updates subject B which notifies again.
 
-  async emit<T>(event: string, payload: T) {
-    const set = this.handlers.get(event);
-    if (!set) return;
-    for (const h of set) await h(payload);
-  }
-}
+## Sources
 
-const bus = new LaunchEventBus();
-
-// extension seam — new side-effect
-bus.subscribe('launch.succeeded', async (p) => {
-  await metrics.increment('launch.ok', { platform: p.platform });
-});
-
-bus.subscribe('launch.succeeded', async (p) => {
-  await audit.write({ type: 'launch', id: p.campaignId });
-});
-```
-
-### Extending
-
-New launch side-effect → `launchEventBus.subscribe(LaunchEvents.*, …)`. Do not edit the pipeline for every notifier.
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Side-effect failure rolls back launch | Observer in critical path | Emit after commit; make handlers best-effort or outbox |
-| Subscriber never fires | Wrong event name / subscribe after emit | Central event constants; subscribe at boot |
-| Ordering assumptions | Set iteration order | Do not rely on order; or use explicit pipeline step |
-| Memory leak | Forgotten unsubscribe in hot paths | Return disposer; clear on shutdown |
-
-## Gotchas
-
-> [!WARNING]
-> If a "subscriber" is required for correctness (must create billing record), it is **not** a side-effect — put it in the Template Method steps or outbox with retry.
-
-- Observer ≠ Command — command is intent to do; event is fact that happened.
-- Sync `emit` awaiting all handlers can stall requests — prefer queue for slow IO ([[Messaging/Web hooks]]).
-
-## Trade-offs
-
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- One caller, one reaction — plain function call.
-- Need guaranteed transactional coupling — same unit of work, not bus.
-
-## Related
-
-[[Design pattern]] [[Design pattern/Command]] [[Design pattern/Template Method]] [[Design pattern/Mediator]] [[Messaging/Web hooks]] [[DevOps/Slack]]
+- Gamma et al., *Design Patterns* (Observer)
+- [Observer pattern — Wikipedia](https://en.wikipedia.org/wiki/Observer_pattern)

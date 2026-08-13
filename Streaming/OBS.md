@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **OBS** composes **scenes** (camera, display, browser, images), **encodes** in real time, and **publishes** via **[[RTMP]]** (or RTMPS) to an **ingest** endpoint, or **records** locally. It is a **single-publisher client** — not a CDN, packager, or DRM layer. Production stacks receive OBS at **[[ingestion]]**, then transcode/package to **[[HLS]]/[[DASH]]**.
 
@@ -40,7 +31,8 @@ Sources (mic, cam, display)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Standard live publish setup
 
@@ -102,7 +94,8 @@ Linux: ~/.config/obs-studio/logs/
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -115,6 +108,7 @@ Linux: ~/.config/obs-studio/logs/
 | Stream OK, record corrupt | Disk full | MKV recoverable vs MP4 |
 
 ---
+
 
 ## Gotchas
 
@@ -135,7 +129,8 @@ Linux: ~/.config/obs-studio/logs/
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **24/7 unattended headless channel** — use ffmpeg/GStreamer on server with watchdog.
 - **Multi-bitrate direct to players** — OBS sends one RTMP; packager creates ladder.
@@ -143,6 +138,11 @@ Linux: ~/.config/obs-studio/logs/
 
 ---
 
+
 ## Related
 
 [[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]] [[network management]] [[transcoding]]
+
+## Sources
+
+- [Wikipedia — OBS](https://en.wikipedia.org/wiki/OBS)

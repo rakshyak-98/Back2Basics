@@ -1,84 +1,29 @@
-[[React]]
+[[React State management]] [[React pattern categorisation]] [[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]]
 
 # React design patterns
 
-> React design patterns — a function that takes a component and returns an enhanced version. Less common now due to hooks, but still useful for legacy code or
+> React design patterns shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
 
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** React design patterns — I can explain the job, the configuration, and the top failure without jargon.
+## Recall
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **React design patterns** | This note’s core idea | “I explain React design patterns in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-## Trade-offs
-
-| Gain | Cost |
-|------|------|
-| … | … |
-
-## When NOT to use
-
-- Skip when a simpler existing approach already fits.
-
----
+What breaks first in production if `React design patterns` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React]]
+[[React State management]] [[React pattern categorisation]] [[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]]
+
+## Sources
+
+- [React official documentation](https://react.dev)

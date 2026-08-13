@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Without keep-alive, every `http.request` pays handshake cost. An `Agent` reuses sockets up to configured limits.
+## How it works
 
 ```txt
 request → Agent → idle socket? reuse : connect
@@ -31,7 +20,8 @@ request → Agent → idle socket? reuse : connect
 | **maxSockets** | Cap per host | “Protect yourself and the peer.” |
 | **free sockets** | Idle pool | “`maxFreeSockets` bounds memory.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import http from 'node:http'
@@ -50,7 +40,8 @@ http.get('http://example.com', { agent }, (res) => res.resume())
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ http.get('http://example.com', { agent }, (res) => res.resume())
 | Hang forever | No timeout | Set agent/request timeouts |
 
 ---
+
 
 ## Gotchas
 
@@ -71,13 +63,19 @@ http.get('http://example.com', { agent }, (res) => res.resume())
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off scripts** — defaults fine.
 - **Mis-tuning maxSockets to “unlimited”** — you can DoS the dependency.
 
 ---
 
+
 ## Related
 
 [[HTTP module]] [[Optimization]] [[expressjs]]
+
+## Sources
+
+- [Wikipedia — agent](https://en.wikipedia.org/wiki/agent)

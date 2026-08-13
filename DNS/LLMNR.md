@@ -1,112 +1,61 @@
-[[DNS]] [[mDNS]] [[DNS server]]
+[[DNS]] · [[mDNS]] · [[UDP]] · [[localhost]]
 
 # LLMNR
 
-> LLMNR (Link-Local Multicast Name Resolution) — Windows-style LAN name lookup over multicast when unicast DNS fails — spoofable; usually turn it off.
+> Link-Local Multicast Name Resolution lets Windows hosts resolve single-label names on the local subnet without DNS — convenient on LANs, dangerous on coffee-shop Wi-Fi because any peer can answer.
 
 ---
 
-## Index
+## Protocol summary
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+LLMNR ([RFC 4795](https://datatracker.ietf.org/doc/html/rfc4795), obsoleted by [RFC 9363](https://datatracker.ietf.org/doc/html/rfc9363) updates) uses multicast **224.0.0.252:5355** (IPv4) and **ff02::1:3** (IPv6). Queries look like DNS but stay on the link.
 
-## Mental model
-
-**Say it in one breath:** If DNS can’t answer a short hostname, a Windows host may multicast an LLMNR query on the LAN; whoever answers wins — including an attacker.
-
-```txt
-Host A: "where's FILESERVER?"
-   │  LLMNR multicast (UDP 5355)
-   ▼
-Any LAN host can reply with an IP  ← trust boundary problem
+```
+Workstation: "FILESERVER" (single label)
+Multicast query → another host claims the name
 ```
 
-Sibling of [[mDNS]] (`.local` / Bonjour). LLMNR is the Microsoft-oriented path; both are link-local and unauthenticated.
+Used when DNS fails for non-FQDN names and NetBIOS is unavailable.
 
-### Interview map (words you can say)
+## Windows behavior
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Link-local** | Same L2 segment only | “Doesn’t cross routers without helpers.” |
-| **Fallback** | Used after DNS miss | “Typos and missing suffixes trigger it.” |
-| **Spoofing / Responder** | Fake answers steal hashes | “LLMNR/NBT-NS poisoning is a classic AD attack.” |
-| **Disable** | Prefer real DNS | “Hardening guide: turn LLMNR off.” |
-| **vs mDNS** | Different stacks, same class of risk | “Mac/Linux lean mDNS; Windows lean LLMNR.” |
+Enabled by default on many Windows versions for **private** network profiles. Corporate hardening often disables LLMNR via Group Policy because it enables **credential relay** and **name spoofing** attacks (Responder, mitm6).
 
-### Docker / DNS aside
+## Disable (enterprise)
 
-Containers inherit `/etc/resolv.conf` unless you set daemon or network DNS. LLMNR on the host does **not** fix container resolution — fix [[DNS server]] / Docker DNS configuration instead.
+Group Policy:
 
----
+```
+Computer Configuration → Administrative Templates → Network → DNS Client
+→ Turn off multicast name resolution = Enabled
+```
 
-## Standard config / commands
+PowerShell (verify policy precedence):
 
 ```powershell
-# Windows: disable via policy / registry (sketch)
-# HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient
-# EnableMulticast = 0
+Get-ItemProperty HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
 ```
 
-```bash
-# Linux: systemd-resolved — LLMNR mode
-resolvectl status | grep -i llmnr
-# /etc/systemd/resolved.conf
-# LLMNR=no
-sudo systemctl restart systemd-resolved
-```
+## vs [[mDNS]] and [[DNS]]
 
-```bash
-# Confirm unicast DNS works so you don't need fallbacks
-dig +short myserver.example.com
-getent hosts myserver
-```
+| Mechanism | Name shape | Typical environment |
+|-----------|------------|---------------------|
+| **DNS** | FQDN `host.example.com` | Global, server-based |
+| **mDNS** | `host.local` | Apple/Linux LAN |
+| **LLMNR** | `HOSTNAME` single label | Windows LAN fallback |
 
-| Knob | Why it matters |
-|------|----------------|
-| `LLMNR=no` | Removes multicast fallback attack surface |
-| Search domains in resolv.conf | Stops short-name DNS misses that trigger LLMNR |
-| Firewall UDP/5355 | Block cross-VLAN if you can’t disable endpoints |
+## Defense
 
----
+- Disable LLMNR/NetBIOS on servers that do not need it
+- Require **SMB signing**, **LDAP signing**, **Kerberos** with SPN validation
+- Segment sensitive VLANs; treat workstation subnets as hostile
 
-## Triage (when things break)
+## Recall
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Random hosts resolve on LAN only | LLMNR/mDNS answering | Publish real DNS A/AAAA; disable LLMNR |
-| Auth prompts / weird SMB targets | Responder-style spoof | Disable LLMNR/NBT-NS; network detection |
-| Docker can’t resolve public names | Container DNS, not LLMNR | Fix Docker `dns` / host `resolv.conf` |
-| Short name works on Win, not Linux | LLMNR vs search domain | Add DNS search suffix / FQDN records |
-| After disable, names break | Relied on multicast | Create proper [[DNS zone]] records |
+- Why do penetration testers love LLMNR on flat networks?
+- When does Windows choose LLMNR over [[DNS]]?
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **Unauthenticated answers** — any local device can claim `payroll`. Never treat LLMNR as identity.
-
-> [!WARNING]
-> **Disabling without DNS** — users will say “network is broken”; ship internal zone records first.
-
-> [!WARNING]
-> **NBT-NS often sits beside LLMNR** — harden both on Windows fleets.
-
----
-
-## When NOT to use
-
-- **Any managed network with a real [[DNS server]]** — disable LLMNR.
-- **Cross-subnet service discovery** — use DNS-SD via unicast DNS or a service registry.
-- **Security-sensitive name → IP binding** — DNSSEC/internal CA + unicast DNS only.
-
----
-
-## Related
-
-[[mDNS]] [[DNS]] [[DNS server]] [[DNS zone]] [[name server]] [[DNS rebinding]]
+- [RFC 4795 — LLMNR](https://datatracker.ietf.org/doc/html/rfc4795)
+- [Microsoft — LLMNR overview](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-llmnr/)

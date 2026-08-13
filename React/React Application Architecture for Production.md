@@ -1,131 +1,29 @@
-[[React]] [[RSC (React Server Component boundaries)]] [[React Architecture]]
+[[react hooks]] [[React Architecture]] [[RSC (React Server Component boundaries)]] [[React State management]] [[React build]] [[React code smells]]
 
 # React Application Architecture for Production
 
-> Structure a production React/Next app — feature folders, providers, and pick render strategy per page.
+> React Application Architecture for Production shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
+## What breaks first
 
-## Context
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-…
+## Recall
 
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
-
-**Say it in one breath:** Next.js wins when each route can choose SSR/SSG/CSR/RSC independently. Keep shared UI in `components`, domain in `features`, and wire one application-level provider tree.
-
-```txt
-pages/app (render strategy)
-  → features/* (api, components, types, public index)
-  → providers (one AppProvider)
-  → lib / stores / utils
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Feature folder** | Vertical slice | “API + UI colocated; export only public surface.” |
-| **Render strategy** | Per-page SSR/SSG/CSR | “Why teams pick Next.” |
-| **providers/** | Compose contexts | “One wrapper in root layout.” |
-
-## Standard config / commands
-
-```txt
-src/
-  components/     # shared UI
-  config/
-  features/
-    booking/
-      api/
-      components/
-      types/
-      index.ts    # public exports only
-  layouts/
-  lib/
-  providers/      # → AppProvider
-  stores/
-  testing/
-  types/
-  utils/
-```
-
-```tsx
-// providers/index.tsx
-export function AppProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <QueryClientProvider client={qc}>
-      <ThemeProvider>{children}</ThemeProvider>
-    </QueryClientProvider>
-  )
-}
-```
-
-| Knob | Why it matters |
-|------|----------------|
-| `features/*/index.ts` | Prevents deep imports across features |
-| `api/` inside feature | Keeps UI ↔ network boundary clear |
-| Page-level render mode | Mix marketing SSG + app SSR |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Circular imports | Feature A imports B internals | Export via `index.ts` only |
-| Provider order bugs | Auth under Query | Nest: theme → query → auth |
-| Huge shared `components/` | Feature UI leaked up | Move into `features/x/components` |
-| Wrong cache/SSR mix | Page used client fetch only | Align with Next render mode |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **“Everything in components/” becomes a junk drawer** — feature-scope first.
-
-> [!WARNING]
-> **Multiple Providers without a single AppProvider** — root layout becomes unreadable.
-
----
-
-## When NOT to use
-
-- **Tiny marketing site** — flat folders beat ceremony.
-- **No SSR needs** — Vite SPA may be enough; don’t force Next.
-
----
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
+What breaks first in production if `React Application Architecture for Production` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React Architecture]] [[RSC (React Server Component boundaries)]] [[React project configuration]] [[Managing complex component structure]]
+[[react hooks]] [[React Architecture]] [[RSC (React Server Component boundaries)]] [[React State management]] [[React build]] [[React code smells]]
+
+## Sources
+
+- [React official documentation](https://react.dev)

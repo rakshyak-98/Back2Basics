@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Middleware runs in registration order. If it doesn’t send a response, it must `next()` or `next(err)`.
+## How it works
 
 ```txt
 app.use(A) → app.use(B) → app.get('/') → error mw
@@ -31,7 +20,8 @@ app.use(A) → app.use(B) → app.get('/') → error mw
 | **Error middleware** | `(err,req,res,next)` | “Four args — must be last.” |
 | **Router-level** | `router.use` | “Scope middleware to a mount.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 app.use(express.json())
@@ -54,7 +44,8 @@ app.use((err, _req, res, _next) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ app.use((err, _req, res, _next) => {
 | Auth skipped | Middleware after route | `app.use(auth)` before protected routes |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ app.use((err, _req, res, _next) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Business logic only used by one route** — put it in the route/handler module.
 - **Heavy CPU** — don’t block the middleware chain; queue/worker.
 
 ---
 
+
 ## Related
 
 [[expressjs]] [[node error]] [[Runtime Errors]]
+
+## Sources
+
+- [Wikipedia — Express middleware](https://en.wikipedia.org/wiki/Express_middleware)

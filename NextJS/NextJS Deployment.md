@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** NextJS Deployment — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 > [!NOTE]
@@ -59,7 +48,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -68,7 +58,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -85,12 +77,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[NextJS]]
+
+## Sources
+
+- [Wikipedia — NextJS Deployment](https://en.wikipedia.org/wiki/NextJS_Deployment)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **yescrypt** is a **password hashing** function (not general encryption), designed for **stored credentials**:
 
@@ -36,7 +27,8 @@ Used where:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Linux password hash (yescrypt)
 
@@ -69,7 +61,8 @@ await bcrypt.compare(password, hash);
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ await bcrypt.compare(password, hash);
 | Unknown `yashcrypt` reference | Typo / internal name | Map to yescrypt or audit codebase |
 
 ---
+
 
 ## Gotchas
 
@@ -96,12 +90,18 @@ await bcrypt.compare(password, hash);
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't use password KDFs for **API signing** or **session tokens** — use [[HMAC (Hash based Message Authentication Codes)]] or random opaque tokens. KDFs are slow by design.
 
 ---
 
+
 ## Related
 
 [[HMAC (Hash based Message Authentication Codes)]] [[Authentication terms]] [[Securing a hash key authentication]] [[JWT authentication]]
+
+## Sources
+
+- [Wikipedia — yashcrypt](https://en.wikipedia.org/wiki/yashcrypt)

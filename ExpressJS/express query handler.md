@@ -1,32 +1,23 @@
-[[ExpressJS]] [[express concepts]] [[mongosh query]]
+[[ExpressJS]] [[express concepts]] [[mongosh query]] [[Express middleware]]
 
 # express query handler
 
-> Query handlers — read `req.query` / `req.params` / `req.body`, validate, call services, return status + JSON.
+> Route handlers are adapters: read `req.query`, `req.params`, and `req.body`, validate input, call a service layer, and map outcomes to HTTP status codes and JSON — keep database logic out of the handler when possible.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Handlers are adapters: parse input → validate → service → map errors to HTTP. Keep SQL/Mongo out of the handler when possible.
+## Handler as adapter
 
 ```txt
-HTTP → handler → service → DB
-         ↘ 400/401/404/500
+HTTP request → handler → service → database
+                  ↘ 400 / 401 / 404 / 500
 ```
+
+The handler's job is translation, not business logic. Validation (Zod, Joi) runs before the service call. Errors flow to [[express error handler]] via `next(err)`.
 
 ---
 
-## Standard config / commands
+## Example
 
 ```js
 app.get('/users/:id', async (req, res, next) => {
@@ -41,42 +32,34 @@ app.get('/users/:id', async (req, res, next) => {
 })
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Validation | Zod/Joi before service |
-| Status codes | Clients branch correctly |
-| Pagination query | `limit`/`cursor` |
+| Concern | Practice |
+|---------|----------|
+| Validation | Schema-check before service call |
+| Status codes | Clients branch on 4xx vs 5xx |
+| Pagination | `limit`, `cursor`, or `page` in `req.query` |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Query always strings | `req.query` types | Coerce/validate |
-| Empty body | Parser missing | `express.json()` |
-| Unhandled async | No try/next | Wrap async |
-| 200 with error payload | Wrong status | Set codes |
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Query values always strings | `req.query` is untyped | Coerce and validate |
+| Empty body | Parser missing | `express.json()` before routes |
+| Unhandled async error | No `try/next` | Wrap async handlers |
+| 200 with error payload | Wrong status code | Set explicit `res.status()` |
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Prototype pollution via query** — don’t merge blindly into objects.
-
-> [!WARNING]
-> **Array query params** — `?tag=a&tag=b` shapes vary.
+**Prototype pollution:** do not merge `req.query` blindly into objects. **Array query params** (`?tag=a&tag=b`) vary in shape depending on parser settings.
 
 ---
 
-## When NOT to use
+## When handlers are not the right layer
 
-- **GraphQL-only APIs** — different resolver model.
-- **Raw static files** — `express.static`.
+- **GraphQL APIs** — resolvers replace this pattern; see [[graphql-yoga]].
+- **Static assets** — use `express.static` instead.
 
 ---
 
 ## Related
 
-[[express concepts]] [[Express middleware]] [[Service Layer]]
+[[express concepts]] · [[Express middleware]] · [[Service Layer]]

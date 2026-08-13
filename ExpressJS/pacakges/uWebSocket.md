@@ -1,31 +1,22 @@
-[[ExpressJS]] [[Socket IO]] [[express concepts]]
+[[ExpressJS]] [[Socket IO]] [[express concepts]] [[SSE (Server-Sent Events)]]
 
 # uWebSocket
 
-> µWebSockets.js — high-performance Node WebSocket/HTTP library; lower-level and faster than Express+ws for realtime fanout.
+> µWebSockets.js is a high-performance Node WebSocket and HTTP server — lower overhead than Express plus `ws` for realtime fanout, with a different API and no Express middleware drop-in.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Native-ish performance server for WS/HTTP. Different API from Express—don’t expect middleware ecosystem drop-in.
+## API shape
 
 ```txt
 uWS.App().ws('/ws', handlers).listen(port)
 ```
 
+Backpressure via `getBufferedAmount`, built-in topic pub/sub, and `uWS.SSLApp` for TLS. Not compatible with Express middleware out of the box.
+
 ---
 
-## Standard config / commands
+## Example
 
 ```js
 import uWS from 'uWebSockets.js'
@@ -39,42 +30,32 @@ uWS.App()
   })
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Backpressure | `getBufferedAmount` |
-| SSL app | `uWS.SSLApp` |
-| Pub/sub topics | Built-in topic broadcast |
+| Concern | Practice |
+|---------|----------|
+| Backpressure | Monitor `getBufferedAmount`; drop or slow producers |
+| Binary vs text | Check `isBinary` in message handler |
+| Native build | Install may require toolchain or prebuilds |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Install fail | Native build | Toolchain/prebuilds |
-| Express habits fail | Different API | Port handlers deliberately |
-| Memory growth | Slow consumers | Backpressure; drop |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Not Express middleware compatible** out of the box.
-
-> [!WARNING]
-> **Binary vs string** — check `isBinary`.
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| `npm install` fails | Native addon build | Toolchain or prebuilt binaries |
+| Express patterns fail | Different API | Port handlers deliberately |
+| Memory growth | Slow consumers | Backpressure; disconnect slow clients |
 
 ---
 
-## When NOT to use
+## When µWebSockets is a poor fit
 
-- **CRUD apps with big middleware needs** — Express/Fastify.
-- **Socket.IO features (rooms fallbacks)** — Socket.IO.
-- **Beginners learning HTTP** — Express first.
+- CRUD apps needing a large middleware ecosystem — Express or Fastify.
+- Socket.IO features (rooms, fallbacks) — use [[Socket IO]].
+- Learning HTTP basics — start with [[express concepts]].
 
 ---
 
 ## Related
 
-[[Socket IO]] [[express concepts]] [[SSE (Server-Sent Events)]]
+[[Socket IO]] · [[express concepts]] · [[SSE (Server-Sent Events)]]

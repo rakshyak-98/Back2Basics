@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Remote APIs whitelist and log *your* source IP; behind NAT that source is the gateway’s public address.
+## How it works
 
 ```txt
 App 10.0.1.5 ──► NAT / egress GW 203.0.113.9 ──► api.example.com
@@ -44,7 +33,8 @@ App 10.0.1.5 ──► NAT / egress GW 203.0.113.9 ──► api.example.com
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # What the internet sees right now
@@ -64,7 +54,8 @@ curl -4 https://ifconfig.me
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +65,7 @@ curl -4 https://ifconfig.me
 | Inbound DNS OK, outbound blocked | Confused inbound vs outbound IP | Separate LB address from NAT address in docs |
 
 ---
+
 
 ## Gotchas
 
@@ -88,7 +80,8 @@ curl -4 https://ifconfig.me
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **IP allowlist as the only authentication** — stealable/shared; use tokens + mTLS.
 - **Assuming instance metadata public IP is egress** — routing may force a NAT.
@@ -96,6 +89,11 @@ curl -4 https://ifconfig.me
 
 ---
 
+
 ## Related
 
 [[Networking]] [[Egress and Ingress]] [[NAT (Network Address Translation)]] [[network gateway]] [[address port]]
+
+## Sources
+
+- [Wikipedia — outbound ip](https://en.wikipedia.org/wiki/outbound_ip)

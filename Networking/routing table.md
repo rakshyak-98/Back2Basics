@@ -6,17 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Cloud route table mapping]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Each entry stores a **destination prefix** and a **target** (gateway, interface, or local delivery). The kernel picks the **most specific** matching route; on tie, lowest **metric** wins.
 
@@ -34,7 +24,8 @@ Configuration is two-tier: ephemeral kernel state (`ip route`) and persistent st
 > [!INFO]
 > In AWS, every subnet associates with a route table (explicit or VPC main). Public subnets route `0.0.0.0/0` → IGW; private subnets route to NAT Gateway or VPC endpoints.
 
-## Standard config / commands
+
+## Configuration and commands
 
 View routes and DNS resolver (often confused during triage):
 
@@ -80,7 +71,8 @@ sudo tcpdump -ni any 'tcp[tcpflags] & tcp-syn != 0' and host <peer-ip>
 sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +88,21 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 > [!WARNING]
 > **Persistence daemon overwrites:** Manually inserting routes via `ip route add` while systemd-networkd or NetworkManager controls the link — a DHCP lease renewal or carrier flap triggers the daemon to sync state, wiping manual kernel routes and causing **silent failures**.
 
+
+## Gotchas
+
+- **Longest prefix wins**, not "first match" — `/32` beats `/24` beats `0.0.0.0/0`.
+- **`ip route get`** is the fastest sanity check; don't guess from `ip route show` alone.
+- **Source-based routing** bites during SNAT: reply may leave a different interface than request arrived on.
+- **Docker/K8s** inject routes into `main` or custom tables; CNI plugins can clobber manual entries on restart.
+
+
+## When not to use
+
+- Don't hand-edit routes on managed instances (EKS nodes, GKE nodes) — fix the CNI/cloud route table instead.
+- Don't add static routes for every microservice; use service mesh or DNS-based discovery for application-level routing.
+
+
 ## Cloud route table mapping
 
 | Concept | AWS VPC | GCP | Azure |
@@ -110,18 +117,11 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 
 **Mental map:** cloud route table = Linux `main` table per subnet; NACLs/security groups are **not** routing — they filter after routing decision.
 
-## Gotchas
-
-- **Longest prefix wins**, not "first match" — `/32` beats `/24` beats `0.0.0.0/0`.
-- **`ip route get`** is the fastest sanity check; don't guess from `ip route show` alone.
-- **Source-based routing** bites during SNAT: reply may leave a different interface than request arrived on.
-- **Docker/K8s** inject routes into `main` or custom tables; CNI plugins can clobber manual entries on restart.
-
-## When NOT to use
-
-- Don't hand-edit routes on managed instances (EKS nodes, GKE nodes) — fix the CNI/cloud route table instead.
-- Don't add static routes for every microservice; use service mesh or DNS-based discovery for application-level routing.
 
 ## Related
 
 [[FIB (Forwarding Information Base)]] · [[PBR (Policy Based Routing)]] · [[NAT (Network Address Translation)]] · [[CIDR (Classless Inter-Domain Routing)]] · [[ip]] · [[route]]
+
+## Sources
+
+- [Wikipedia — routing table](https://en.wikipedia.org/wiki/routing_table)

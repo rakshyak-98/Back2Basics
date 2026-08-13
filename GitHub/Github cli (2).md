@@ -6,14 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Common commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Examples]]
-- [[#Related]]
+---
+
 
 ## Quick reference
 
@@ -21,23 +17,20 @@
 |------|---------|
 | … | `…` |
 
+
 ## Common commands
 
 ```bash
 # …
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
-
-**Say it in one breath:** Github cli (2) — short field notes on what it is and how to use it.
-
----
 
 ## Examples
 
@@ -45,6 +38,11 @@
 # …
 ```
 
+
 ## Related
 
 [[GitHub]]
+
+## Sources
+
+- [Wikipedia — Github cli](https://en.wikipedia.org/wiki/Github_cli)

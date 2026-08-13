@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **ECMAScript** defines the language (syntax, Promise, Map). **Web APIs** (browser) and **Node APIs** (`fs`, `http`) are host-provided, often asynchronous, and bound to the event loop.
 
@@ -31,7 +22,8 @@ Your JS
 
 Same name, different host: `fetch` exists in modern Node and all browsers; `setImmediate` is Node-only; `requestAnimationFrame` is browser-only.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Fetch (browser + Node 18+)
 
@@ -80,7 +72,8 @@ ws.onmessage = (e) => console.log(JSON.parse(e.data));
 ws.send(JSON.stringify({ type: 'ping' }));
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,6 +82,7 @@ ws.send(JSON.stringify({ type: 'ping' }));
 | Timer never fires | Tab throttled (background) | `visibilitychange`; Web Worker for critical timers |
 | `localStorage` null | Private mode / SSR | Feature detect; server-side session |
 | WebSocket closes 1006 | Proxy idle timeout | Heartbeat ping; reverse proxy read timeout |
+
 
 ## Gotchas
 
@@ -99,11 +93,17 @@ ws.send(JSON.stringify({ type: 'ping' }));
 - **Third-party cookie phase-out** affects storage partitioning — test Safari/Firefox.
 - **Node `fetch` undici** — connection pooling differs from `axios`; tune `agent` for high throughput.
 
-## When NOT to use
+
+## When not to use
 
 - Heavy file I/O in browser — use streams + download, not read entire blob into memory.
 - Replacing REST with WebSocket for simple CRUD — HTTP caching wins.
 
+
 ## Related
 
 [[javascript]] [[NodeJS/Event Loop]] [[Networking/webSocket]] [[javascript/Session Storage]]
+
+## Sources
+
+- [Wikipedia — javascript web API](https://en.wikipedia.org/wiki/javascript_web_API)

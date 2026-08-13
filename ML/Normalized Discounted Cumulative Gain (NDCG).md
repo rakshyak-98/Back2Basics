@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **DCG** sums relevance with a **logarithmic position discount** (top ranks matter most):
 
@@ -35,7 +26,8 @@ versus [[Mean Average Precision (MAP)]]: MAP is binary relevance; NDCG handles *
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import numpy as np
@@ -68,7 +60,8 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -90,7 +84,8 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Binary classification without ranking** — [[binary classification]] metrics.
 - **Continuous score prediction** — [[regression]] + [[Visualization/predicated versus actual plot]].
@@ -98,6 +93,11 @@ Report **NDCG@5** and **NDCG@10** separately — product surfaces differ.
 
 ---
 
+
 ## Related
 
 [[Mean Average Precision (MAP)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Gradient boosting]]
+
+## Sources
+
+- [Wikipedia — Normalized Discounted Cumulative Gain](https://en.wikipedia.org/wiki/Normalized_Discounted_Cumulative_Gain)

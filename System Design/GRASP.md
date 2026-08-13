@@ -1,84 +1,53 @@
-[[System Design]] [[SOLID]] [[DRY]] [[API design]]
+[[SOLID]] [[DRY]] [[API design]] [[System design]]
 
 # GRASP
 
-> GRASP — patterns for assigning responsibilities to classes/objects so the right object does the work.
+> GRASP (General Responsibility Assignment Software Patterns) guides which object should own a behavior — answering "who should know this?" and "who should create that?" before [[SOLID]] shapes the type relationships.
 
 ---
 
-## Index
+## Core patterns
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Craig Larman documented GRASP in *Applying UML and Patterns*. The patterns are questions, not ceremony:
 
-## Mental model
+| Pattern | Question | Typical answer |
+|---------|----------|----------------|
+| **Information Expert** | Who has the data needed for this rule? | Put behavior on the object that already holds the facts |
+| **Creator** | Who should instantiate this object? | Aggregator that contains or closely uses the new instance |
+| **Controller** | Who handles this system event or use case? | Application-layer coordinator (not only HTTP controller) |
+| **Low Coupling** | How do we minimize dependencies? | Depend on interfaces; avoid god imports |
+| **High Cohesion** | Are responsibilities related? | Split classes that change for unrelated reasons |
+| **Polymorphism** | Where is `switch (type)`? | Replace with subtype polymorphism |
+| **Pure Fabrication** | No domain object fits this technical role? | Gateway, repository, notifier — invented for indirection |
+| **Indirection** | Two classes too tightly coupled? | Introduce mediator between them |
+| **Protected Variations** | What is likely to change? | Stable interface around volatile implementation |
 
-**Say it in one breath:** General Responsibility Assignment Software Patterns — who creates what, who knows what, who controls the flow.
-
-| Pattern | Plain ask |
-|---------|-----------|
-| **Information Expert** | Who has the data to decide? |
-| **Creator** | Who should `new` this? |
-| **Controller** | Who handles the system event / use-case? |
-| **Low Coupling** | Who depends on few others? |
-| **High Cohesion** | Are responsibilities related? |
-| **Polymorphism** | Replace `switch(type)` with types |
-| **Pure Fabrication** | Need a helper not in the domain? (e.g. Gateway) |
-| **Indirection** | Insert a middle to cut coupling |
-| **Protected Variations** | Stable interface around volatility |
-
----
-
-## Standard config / commands
+## Design pass (lightweight)
 
 ```txt
-Design pass
-1. List use-cases / events
-2. Assign Controller per use-case
-3. Put rules with Information Experts
-4. Create objects near their Experts
-5. Extract Pure Fabrications for infra (email, DB)
+1. List use cases or domain events
+2. Assign a Controller per use case entry
+3. Place business rules on Information Experts
+4. Create new instances near their Creator / Expert
+5. Extract Pure Fabrications for email, database, payment software development kits
 ```
 
----
+## Smells
 
-## Triage (when things break)
+| Smell | GRASP lens |
+|-------|------------|
+| God service class | Split Controllers and Experts |
+| Domain imports Simple Mail Transfer Protocol software development kit | Pure Fabrication gateway |
+| Enum switch in ten places | Polymorphism / Strategy |
+| Cannot test without database | Creator and coupling — inject factories |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| God service class | Too many responsibilities | Split controllers / experts |
-| Domain imports SMTP SDK | Coupling | Pure Fabrication gateway |
-| Switch on enum everywhere | Missed polymorphism | Strategy objects |
-| Can’t test without DB | Creator/coupling | Inject factories |
-| Feature touches 20 files | Low cohesion | Re-bound modules |
+## Relationship to [[SOLID]]
 
----
+GRASP assigns **responsibilities** at design time. SOLID refines **type structure** (substitutability, interface size, dependency direction). Both apply at module boundaries in [[System design]].
 
-## Gotchas
+Avoid **ManagerFactoryBuilder** over-fabrication — not every line needs a new class.
 
-> [!WARNING]
-> **Controller ≠ MVC web controller only** — application/service layer entry.
+## Sources
 
-> [!WARNING]
-> **Over-fabrication** — not every line needs a ManagerFactoryBuilder.
-
-> [!WARNING]
-> **Expert with too much data** — becomes god object; split.
-
----
-
-## When NOT to use
-
-- **Scripts** — procedural is fine.
-- **Anemic CRUD generators** — don’t fake rich domain.
-- **Interview buzzword dump** — show one pattern applied cleanly.
-
----
-
-## Related
-
-[[SOLID]] [[DRY]] [[API design]] [[Architectural backend design principles]]
+- Craig Larman, *Applying UML and Patterns* (Prentice Hall, 3rd ed.) — GRASP patterns.
+- Robert C. Martin, *Clean Architecture* — controllers and use-case boundaries.

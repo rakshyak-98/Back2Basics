@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `telnet host port` opens a **raw TCP session** and prints bytes to your terminal. It does not encrypt. For production checks, prefer [[nc]] `-zv` for port-only tests and `openssl s_client` for TLS. telnet shines when you need to **type protocol lines** (SMTP, HTTP/1.0, IMAP) interactively.
 
@@ -41,7 +32,8 @@ telnet web 80   →  GET / HTTP/1.0  →  headers back
 | **TLS** | Not encrypted | “Use openssl s_client for TLS.” |
 | **nc vs telnet** | Modern alternative | “Prefer nc for scripting.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Mail server smoke test (port 25, cleartext):**
 
@@ -87,7 +79,8 @@ ss -lntup
 sudo nmap -p 25,587,465 localhost
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +90,7 @@ sudo nmap -p 25,587,465 localhost
 | Garbled characters | Binary protocol | Don't use telnet; use client library |
 | EHLO rejected | Relay policy | Auth required; use authenticated submission |
 | Works telnet, fails app | App TLS/cert config | Not a network issue — check app logs |
+
 
 ## Gotchas
 
@@ -109,12 +103,18 @@ sudo nmap -p 25,587,465 localhost
 - **Escape character** — Ctrl+] then `quit` to exit telnet session (not Ctrl+C alone in all states).
 - **IPv6** — `telnet -6 host port` if available; or `nc -6`.
 
-## When NOT to use
+
+## When not to use
 
 - **Remote administrator** — use [[SSH]]; telnetd on servers should be absent/disabled.
 - **Encrypted service validation** — openssl/curl, not cleartext telnet.
 - **Automated monitoring** — use health checks; telnet scripts are brittle.
 
+
 ## Related
 
 [[nc]] [[nmap]] [[ss]] [[SMTP]] [[Linux network commands]] [[SSH]]
+
+## Sources
+
+- [Wikipedia — telnet](https://en.wikipedia.org/wiki/telnet)

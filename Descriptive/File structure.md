@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 NGINX is modular C. The **core** owns memory pools, strings, and configuration parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.
 
@@ -36,7 +27,8 @@ accept (event/) → parse HTTP (http/) → upstream (http/) → write (event/)
          ↑________________ core/ alloc + logging ________________|
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Build from source (inspect structure locally)
 
@@ -65,7 +57,8 @@ rg "ngx_http_upstream" src/http/
 
 Third-party modules typically live under `modules/` or are compiled via `--add-module=` pointing at your module's `config` script — same hook points as built-ins under `src/http/modules/`.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +66,7 @@ Third-party modules typically live under `modules/` or are compiled via `--add-m
 | Worker spins at 100% CPU | `event/` loop stuck in tight read | Enable `--with-debug`; trace `ngx_event_process_events` |
 | Reload drops connections | `core/` cycle vs old workers | Expected brief overlap; check `worker_shutdown_timeout` |
 | Can't find symbol at link time | Wrong `objs/ngx_modules.c` | Clean `make clean` + reconfigure |
+
 
 ## Gotchas
 
@@ -83,11 +77,17 @@ Third-party modules typically live under `modules/` or are compiled via `--add-m
 - **Memory:** almost everything uses `ngx_pool_t` from `core/` — freeing individual allocations is rare; pool destroy at request end.
 - **Version skew:** distro packages (`nginx-extras`) may patch paths — always match headers to the binary you run.
 
-## When NOT to use
+
+## When not to use
 
 - You only need runtime behavior — read [[Nginx/Configuration]] and `nginx -T`, not the full source tree.
 - Application-level folder layout (React `src/components`) — different topic; this note is NGINX C source structure.
 
+
 ## Related
 
 [[Nginx/Nginx internals]] [[Nginx/Configuration]] [[Linux/Epoll]] [[Operating System/kernel subsystem]]
+
+## Sources
+
+- [Wikipedia — File structure](https://en.wikipedia.org/wiki/File_structure)

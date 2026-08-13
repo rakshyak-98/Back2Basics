@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 An **Autonomous System (AS)** is how the Internet names **who owns which IP blocks** at the routing layer:
 
@@ -34,7 +25,8 @@ Key ideas:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Lookup ASN for prefix or IP
 
@@ -65,7 +57,8 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,6 +68,7 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 | ASN not in global table | Registration not complete | Complete RIR SWIP; wait propagation |
 
 ---
+
 
 ## Gotchas
 
@@ -89,12 +83,18 @@ vtysh -c 'show bgp ipv4 unicast 203.0.113.0/24'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't run BGP at the edge without **filtering, RPKI, and on-call** — default static routes or provider BGP are enough for single-homed sites.
 
 ---
 
+
 ## Related
 
 [[BGP]] [[CIDR (Classless Inter-Domain Routing)]] [[routing table]] [[NAT (Network Address Translation)]]
+
+## Sources
+
+- [Wikipedia — autonomous system](https://en.wikipedia.org/wiki/autonomous_system)

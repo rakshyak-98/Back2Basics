@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** watch pressure stalls → kill the offending cgroup (often a user slice or service) → keep sshd/system alive.
+## How it works
 
 ```txt
 memory.pressure high ──► systemd-oomd ──► kill cgroup
@@ -37,7 +26,8 @@ global OOM killer (last resort, whole machine)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 systemctl status systemd-oomd
@@ -56,7 +46,8 @@ cat /proc/pressure/memory
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ cat /proc/pressure/memory
 | Still global OOM | oomd not covering cgroup | Enable ManagedOOM on slice |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ cat /proc/pressure/memory
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny embedded** without PSI — won’t work well.
 - **When you need deterministic victim** — prefer explicit cgroup `memory.max`.
 
 ---
 
+
 ## Related
 
 [[OOM (Linux Out Of Memory)]] [[Linux cgroup]] [[Memory management]] [[systemd]]
+
+## Sources
+
+- [Wikipedia — Linux out of memory daemon](https://en.wikipedia.org/wiki/Linux_out_of_memory_daemon)

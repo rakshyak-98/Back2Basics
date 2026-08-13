@@ -6,48 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| chunk must be string/Buffer | Wrote number/object | Buffer/string or `objectMode` |
-| streams[last] must be function | Callback `pipeline` sans cb | Add cb or use promises API |
-| Socket left open | Raw `pipe` + error | `pipeline` |
-| Readable.from(Buffer) odd | API expects iterable | `Readable.from([buf])` or `.end(buf)` |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** Writable wants string/Buffer/Uint8Array (unless `objectMode`). Callback-style `pipeline` needs a final function; promise API does not.
+## How it works
 
 ```txt
 bad: Readable.from(alreadyBuffer) mistyped / number chunk
@@ -63,7 +22,8 @@ good: pipeline from 'stream/promises' or callback last
 | **chunk type** | Must be Buffer/string | “Don’t write raw numbers.” |
 | **destroy** | Tear down on error | “pipeline does this for you.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import { pipeline } from 'node:stream/promises'
@@ -88,6 +48,36 @@ await pipeline(
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| chunk must be string/Buffer | Wrote number/object | Buffer/string or `objectMode` |
+| streams[last] must be function | Callback `pipeline` sans cb | Add cb or use promises API |
+| Socket left open | Raw `pipe` + error | `pipeline` |
+| Readable.from(Buffer) odd | API expects iterable | `Readable.from([buf])` or `.end(buf)` |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -98,20 +88,18 @@ await pipeline(
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Happy-path only demos** — still add error paths before production.
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[Stream]] [[Stream/pipe]] [[Stream Events]] [[Buffers]]
+
+## Sources
+
+- [Wikipedia — stream error](https://en.wikipedia.org/wiki/stream_error)

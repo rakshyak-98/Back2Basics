@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Most “mysterious” Node errors are mode mismatches (CJS versus ESM) or using APIs before the language allows them (`await`, `super`).
+## How it works
 
 ```txt
 CJS: require, __dirname     ESM: import, import.meta.url
@@ -32,7 +21,8 @@ await: async fn or ESM top-level — not bare CJS top-level
 | **`import.meta.url`** | Module URL | “Build `__dirname` yourself in ESM.” |
 | **`super()` first** | Derived ctor rule | “Touch `this` only after super.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // ESM __dirname
@@ -59,7 +49,8 @@ class AppError extends Error {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +60,7 @@ class AppError extends Error {
 | sudo needs TTY | CI `sudo nginx -t` | NOPASSWD or non-interactive `-S` |
 
 ---
+
 
 ## Gotchas
 
@@ -80,12 +72,18 @@ class AppError extends Error {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - This is a **symptom catalog** — for intentional error design see [[Error handeling]].
 
 ---
 
+
 ## Related
 
 [[Error handeling]] [[node modules]] [[node error]] [[Node.js run as a non-privileged user]]
+
+## Sources
+
+- [Wikipedia — Runtime Errors](https://en.wikipedia.org/wiki/Runtime_Errors)

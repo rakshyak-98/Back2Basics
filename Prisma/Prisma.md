@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Prisma — the Prisma client is generated as a set of TypeScript or JavaScript files and is located in the node_modules directory.
+## How it works
 
 [Prisma document Manifesto](https://www.prisma.io/blog/prisma-orm-manifesto?reference=dailydev)
 The Prisma client is generated as a set of TypeScript or JavaScript files and is located in the `node_modules` directory.
@@ -30,16 +21,23 @@ npx prisma generate; # generat the prisma client
 
 ---
 
-## Routing table
+
+## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
 | … | [[…]] |
 
-## Domain links
+
+## Related topics in this domain
 
 - …: [[…]]
+
 
 ## Related
 
 [[Prisma]]
+
+## Sources
+
+- [Wikipedia — Prisma](https://en.wikipedia.org/wiki/Prisma)

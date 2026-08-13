@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 UML is a **visual DSL** for software design. Use a **small subset** in practice: class, sequence, component, deployment. Diagrams are contracts for conversation, not exhaustive code generators.
 
@@ -37,7 +28,8 @@ UML is a **visual DSL** for software design. Use a **small subset** in practice:
 | **Component** | Modules / services |
 | **Deployment** | Nodes, containers, networks |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Class diagram notation
 
@@ -90,7 +82,8 @@ sequenceDiagram
   API-->>Client: 201
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,6 +92,7 @@ sequenceDiagram
 | Wrong arrow type | Relationship semantics | Composition vs aggregation vs dependency |
 | Stakeholders confused | Too much UML | Switch to C4 or box diagram for execs |
 | Tool lock-in | Proprietary format | Store Mermaid/PlantUML in git |
+
 
 ## Gotchas
 
@@ -109,11 +103,17 @@ sequenceDiagram
 - **Deployment diagram ≠ K8s YAML** — note replicas, LB, external SaaS.
 - **State machines** — don't mix with sequence unless showing transitions explicitly.
 
-## When NOT to use
+
+## When not to use
 
 - Solo script < 500 LOC — comment + function names beat ceremony.
 - Real-time pair programming — whiteboard sketch beats formal UML latency.
 
+
 ## Related
 
 [[Architectures/DSL (Domain Specific Language)]] [[Descriptive/Mermaid (DSL)]] [[Design pattern]] [[System Design/HES Architecture]]
+
+## Sources
+
+- [Wikipedia — UML diagram](https://en.wikipedia.org/wiki/UML_diagram)

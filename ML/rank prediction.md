@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** For each query/user, score candidates and sort; optimize ranking metrics (NDCG/MAP), not only pointwise MSE.
+## How it works
 
 ```txt
 query → candidates → score → sort → top-K
@@ -34,7 +23,8 @@ query → candidates → score → sort → top-K
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 # sketch: score then sort
@@ -51,7 +41,8 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 | Slow serving | huge candidate set | Two-stage retrieval + rank |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Binary gate only** — plain classifier may suffice.
 - **Tiny catalogs** — hand rules / editorial order.
 
+
 ## Related
 
 [[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[xg boost]]
+
+## Sources
+
+- [Wikipedia — rank prediction](https://en.wikipedia.org/wiki/rank_prediction)

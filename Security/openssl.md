@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Generate random string]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Generate key → make CSR (or self-sign) → inspect/verify PEMs → probe remote TLS with `s_client`. Trust store often `/etc/ssl/certs/ca-certificates.crt`.
+## How it works
 
 ```txt
 private key ──► CSR ──► CA signs ──► leaf.crt
@@ -28,7 +16,8 @@ private key ──► CSR ──► CA signs ──► leaf.crt
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Self-signed lab cert (no passphrase on key)
@@ -63,7 +52,8 @@ openssl s_client -connect example.com:443 -servername example.com </dev/null | o
 | `-subj "/CN=…"` | Non-interactive; still prefer SANs for modern clients |
 | `-servername` | SNI — right cert on multi-vhost hosts |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,13 +66,6 @@ openssl s_client -connect example.com:443 -servername example.com </dev/null | o
 
 ---
 
-## Generate random string
-
-```bash
-openssl rand -hex 32
-```
-
----
 
 ## Gotchas
 
@@ -97,7 +80,8 @@ openssl rand -hex 32
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Public production certs** — use [[certbot (letsencrypt)]] / ACME, not hand-rolled OpenSSL + email CSR unless required.
 - **application-level crypto APIs** — prefer language libs (crypto, NaCl); don’t shell out to openssl in hot paths.
@@ -105,6 +89,20 @@ openssl rand -hex 32
 
 ---
 
+
+## Generate random string
+
+```bash
+openssl rand -hex 32
+```
+
+---
+
+
 ## Related
 
 [[read pem file]] [[PKI]] [[TLS (Transport Layer Security)]] [[DER]] [[Root certificate]] [[certbot (letsencrypt)]]
+
+## Sources
+
+- [Wikipedia — openssl](https://en.wikipedia.org/wiki/openssl)

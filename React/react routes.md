@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 URL /billing/invoices/42
@@ -42,7 +33,8 @@ React Router v6 uses nested routes:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```tsx
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
@@ -93,7 +85,8 @@ Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +98,7 @@ Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -115,13 +109,19 @@ Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **File-based routing only** — Next.js application Router owns routes; don't fight framework.
 - **Hash routing (`#/`)** — only legacy embeds without server rewrite support.
 
 ---
 
+
 ## Related
 
 [[React Architecture]] · [[React build]] · [[API handling]] · [[RSC (React Server Component boundaries)]]
+
+## Sources
+
+- [Wikipedia — react routes](https://en.wikipedia.org/wiki/react_routes)

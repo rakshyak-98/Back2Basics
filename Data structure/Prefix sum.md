@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Build array `P` where `P[i]` = sum of `arr[0..i]` (0-indexed). Range sum `[l, r]` = `P[r] - P[l-1]` (define `P[-1] = 0`).
 
@@ -31,7 +22,8 @@ Extensions:
 - **Prefix sum + hash map** — count subarrays with sum `k` (handles negatives).
 - **Difference array** — inverse of prefix sum for range updates.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### 1D build and query
 
@@ -84,7 +76,8 @@ function subarraySum(nums, k) {
 // Apply prefix sum to diff → final array after all range updates
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ function subarraySum(nums, k) {
 | 2D query wrong | Inclusion-exclusion order | Draw rectangle diagram; verify four corners |
 | TLE with many queries | Rebuilding prefix per query | Preprocess once; each query O(1) |
 | Sliding window used on negatives | Monotonic assumption | Switch to prefix + hash map |
+
 
 ## Gotchas
 
@@ -109,12 +103,18 @@ function subarraySum(nums, k) {
 > [!WARNING]
 > **"Elements ≤ value" queries** — often sort + prefix on sorted array, not raw prefix on unsorted.
 
-## When NOT to use
+
+## When not to use
 
 - **Non-contiguous subsequence sums** — prefix sum assumes contiguous ranges.
 - **Dynamic point/range updates with interleaved queries** — use Fenwick tree or segment tree.
 - **Only single full-array sum** — plain loop is simpler; don't over-engineer.
 
+
 ## Related
 
 [[sliding window]] [[dsa genera formula]] [[dsa modular arithmetics]] [[Data structure]]
+
+## Sources
+
+- [Wikipedia — Prefix sum](https://en.wikipedia.org/wiki/Prefix_sum)

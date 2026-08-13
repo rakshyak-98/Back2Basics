@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Transpiling** rewrites syntax (`class` → function). **Polyfilling** adds **missing functions or prototypes** at runtime. No syntax change — only implementation.
 
@@ -37,7 +28,8 @@ Bundle: your app + polyfills (Promise, Array.prototype.flat, fetch)
 
 See also: [[polyfills]] (companion note on mechanics).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Browsers — core-js + Babel preset-env
 
@@ -85,7 +77,8 @@ Prefer specification-accurate implementations from core-js over hand-rolled shim
 
 Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Node 16 LTS.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Nod
 | Bundle size exploded | Full `core-js/stable` | Switch to `usage` + narrow `targets` |
 | Subtle spec mismatch | Hand-rolled shim | Replace with core-js |
 | CSP blocks CDN polyfill | Inline script policy | Self-host bundle |
+
 
 ## Gotchas
 
@@ -104,12 +98,18 @@ Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Nod
 - **Frozen environments** (SES, some embeds) forbid polyfills — target native only.
 - **polyfill.io supply-chain history** — self-host or npm, don't trust blind CDN in production.
 
-## When NOT to use
+
+## When not to use
 
 - Internal apps on locked Chrome version — set baseline, skip polyfills.
 - Syntax-only gaps — use Babel/TypeScript transpile, not polyfill.
 - Server Node with pinned LTS — upgrade runtime instead of patching `fetch`.
 
+
 ## Related
 
 [[polyfills]] [[javascript]] [[Descriptive/JavaScript/javascript web API]] [[npm]]
+
+## Sources
+
+- [Wikipedia — Polyfilling](https://en.wikipedia.org/wiki/Polyfilling)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `http.createServer(handler)` returns a `Server` you `listen` on. Pass an Express `app` as the handler when you need Socket.IO or custom lifecycle beyond `app.listen`.
+## How it works
 
 ```txt
 http.Server → 'request' (req, res)
@@ -32,7 +21,8 @@ http.Server → 'request' (req, res)
 | **ServerResponse** | res writable | “`writeHead` / `end`.” |
 | **createServer(app)** | Express as handler | “Same app; you own the Server object.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import http from 'node:http'
@@ -56,7 +46,8 @@ process.on('SIGTERM', () => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ process.on('SIGTERM', () => {
 | Body never read | Forgot consume stream | Read/pipe or reject |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ process.on('SIGTERM', () => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Simple apps happy with `app.listen`** — fine until you need the Server.
 - **Prefer frameworks’ abstractions** unless you need low-level control.
 
 ---
 
+
 ## Related
 
 [[expressjs]] [[Express middleware]] [[Stream]]
+
+## Sources
+
+- [Wikipedia — HTTP module](https://en.wikipedia.org/wiki/HTTP_module)

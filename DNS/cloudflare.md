@@ -1,113 +1,59 @@
-[[DNS]] [[DNS zone]] [[TLS (Transport Layer Security)]] [[Route53]] [[CORS (Cross Origin Request Sharing)]]
+[[DNS]] · [[public resolver]] · [[Route53]] · [[DNS zone]]
 
-# Cloudflare
+# cloudflare
 
-> Cloudflare — sits between users and origin: as DNS provider (nameservers → Cloudflare) and optionally HTTP proxy (proxied records). Proxied traffic: client → Cloudflare edge →
+> Cloudflare operates a global anycast DNS network as registrar, authoritative DNS host, and public resolver (1.1.1.1) — the orange-cloud proxy adds CDN, DDoS protection, and WAF in front of your origin.
 
 ---
 
-## Index
+## Products relevant to DNS operations
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Product | Role |
+|---------|------|
+| **Authoritative DNS** | Host zones; fast propagation; API-driven records |
+| **1.1.1.1 resolver** | [[public resolver]] for clients |
+| **Proxy (orange cloud)** | HTTP/S traffic through Cloudflare edge; hides origin IP |
+| **DNSSEC** | One-click signing for hosted zones |
+| **Workers / R2** | Edge compute and storage adjacent to DNS |
 
-## Mental model
-
-Cloudflare sits between users and origin: as **DNS provider** (nameservers → Cloudflare) and optionally **HTTP proxy** (proxied records). Proxied traffic: client → Cloudflare edge → your origin. **OID** identifies objects in Cloudflare API (zones, records, rulesets).
+## DNS-only vs proxied records
 
 ```
-User ──► CF edge (TLS, cache, WAF) ──► origin (ALB, nginx, Vercel)
-              │
-              └── DNS only (grey cloud) = CF DNS, direct to origin IP
+A  www  203.0.113.10  Proxied (orange)  → clients see Cloudflare anycast IPs
+A  api  10.0.0.5      DNS only (grey)    → direct to origin IP exposed
 ```
 
-**Orange cloud (proxied)** hides origin IP, enables CDN/WAF; **grey cloud (DNS only)** is just DNS — origin must handle TLS and DDoS alone.
+Proxied mode enables caching, bot management, and SSL modes (flexible/full/strict) — misconfigured SSL mode causes redirect loops or certificate errors.
 
-## Standard config / commands
+## Common record tasks
 
-### Zone setup
+- **APEX** — CNAME flattening at `@` to external targets
+- **Workers routes** — `workers.dev` or custom host patterns
+- **Email** — keep MX/TXT grey-cloud or use Email Routing product
 
-1. Add site in Cloudflare dashboard → import/copy DNS records.
-2. Change registrar **NS** to Cloudflare-assigned nameservers.
-3. Choose proxied versus DNS-only per record (A/AAAA/CNAME).
-
-### SSL/TLS modes (critical)
-
-| Mode | Origin cert | When |
-|------|-------------|------|
-| **Full (strict)** | Valid cert on origin (Let's Encrypt, ACM) | **Prod default** |
-| Full | Self-signed OK on origin | Lab only |
-| Flexible | Origin can be HTTP | **Avoid** — CF→origin unencrypted |
-
-### Origin real IP (when proxied)
-
-```nginx
-# nginx — trust CF connecting IPs + header
-set_real_ip_from 173.245.48.0/20;  # + all CF ranges from https://www.cloudflare.com/ips/
-real_ip_header CF-Connecting-IP;
-```
-
-application logs: use `CF-Connecting-IP`, not `$remote_addr` (which is CF edge).
-
-### Wrangler CLI (Workers, Pages, R2)
+## API example
 
 ```bash
-npm i -g wrangler
-wrangler login
-wrangler whoami
-wrangler pages deploy ./dist
-wrangler r2 object put my-bucket/key --file=./local
+curl -X GET "https://api.cloudflare.com/client/v4/zones" \
+  -H "Authorization: Bearer $CF_API_TOKEN"
 ```
 
-**OID** in API responses = stable id for `zone_id`, `dns_record_id`, etc. — use in Terraform/API, not hostname.
+## vs [[Route53]]
 
-### Page Rules / Cache (basics)
+| | Cloudflare DNS | Route 53 |
+|---|----------------|----------|
+| **Integration** | CDN/WAF bundled | Native AWS alias to ALB/S3 |
+| **Pricing** | Free tier generous for DNS | Per-zone + query pricing |
+| **Private zones** | Limited patterns | VPC private hosted zones |
 
-- Cache static assets aggressively (`Cache-Control: public, max-age=31536000`).
-- Bypass cache on `/api/*` (Cache Level: Bypass).
-- **Always Use HTTPS** + HSTS after validating origin.
+Many teams use Cloudflare at the edge and AWS behind it.
 
-## Triage (when things break)
+## Recall
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Too many redirects | SSL mode vs origin HTTP/HTTPS | Full (strict) + HTTPS origin; or fix origin redirect loop |
-| 522 / 523 connection to origin | Origin down; SG/firewall blocks CF IPs | Open firewall to [CF IP ranges](https://www.cloudflare.com/ips/); health check origin |
-| 525 SSL handshake failed | Origin cert expired/wrong name | Renew cert; match hostname |
-| Wrong client IP in logs | Not reading CF header | `CF-Connecting-IP` / `True-Client-IP` (Enterprise) |
-| API CORS breaks after CF | Transform rules; cached OPTIONS | Bypass cache; preserve headers ([[CORS (Cross Origin Request Sharing)]]) |
-| DNS propagates but site wrong | Orange vs grey cloud; old A record | Toggle proxy; purge DNS cache |
-| Webhook HMAC fail | Body buffered/transformed | Disable buffering on webhook path |
+- What changes when you toggle a record from grey to orange cloud?
+- Why might email break if you accidentally proxy MX records?
 
-```bash
-dig +short NS example.com
-curl -I https://example.com --resolve example.com:443:ORIGIN_IP  # bypass CF test
-```
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **Flexible SSL** — users see HTTPS, CF→origin may be plain HTTP. Compliance fail and session hijack on that leg.
-
-> [!WARNING]
-> **Proxied records expose only CF IPs** — lock origin to CF IP allowlist; otherwise attackers bypass WAF via direct IP.
-
-> [!WARNING]
-> **Caching POST/GraphQL** — default doesn't cache POST, but misconfigured Cache Rules can break mutations.
-
-> [!WARNING]
-> **Let's Encrypt HTTP-01 behind proxy** — use DNS-01 or CF origin cert; HTTP-01 needs temporary grey cloud or token path.
-
-## When NOT to use
-
-- **Internal-only services** — no public DNS/proxy needed; use private DNS ([[Route53]] private zone, [[mDNS]]).
-- **WebSockets/long polling without configuration** — works on CF but verify timeout/cache rules.
-- **Replacing WAF on complex custom protocols** — CF is HTTP-centric; raw TCP needs Spectrum (paid).
-
-## Related
-
-[[DNS]] · [[DNS zone]] · [[Route53]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]] · [[top-level Domain]]
+- [Cloudflare DNS documentation](https://developers.cloudflare.com/dns/)
+- [Cloudflare Learning — DNS](https://www.cloudflare.com/learning/dns/what-is-dns/)

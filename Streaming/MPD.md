@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The **MPD** is the **root document** for **[[DASH]]** playback. It describes **Periods** (timeline slices), **AdaptationSets** (video/audio/subtitle tracks), and **Representations** (bitrate rungs). Players fetch the MPD, pick a Representation, then request **segments** via `SegmentTemplate`, `SegmentList`, or `SegmentBase`.
 
@@ -41,7 +32,8 @@ GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal static VoD MPD (single representation)
 
@@ -109,7 +101,8 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -122,6 +115,7 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 | MPD parse error | XML namespace | Valid `xmlns`; escape special chars |
 
 ---
+
 
 ## Gotchas
 
@@ -139,7 +133,8 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
 - **Sub-second live** — DASH segment model adds latency; LL-HLS or WebRTC.
@@ -147,6 +142,11 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 
 ---
 
+
 ## Related
 
 [[DASH]] [[Manifest (streaming)]] [[HLS]] [[CMAF]] [[ABR]] [[DRM]] [[EME]] [[HLS vs. DASH]]
+
+## Sources
+
+- [Wikipedia — MPD](https://en.wikipedia.org/wiki/MPD)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** kafka producer and consumer — a kafka producer is a component responsible for sending messages (events) to Kafka topics.
+## How it works
 
 A kafka producer is a component responsible for sending messages (events) to Kafka topics.
 - used to notify other microservices (e.g., Inventory, Order, and Discount services).
@@ -73,3 +62,7 @@ const producer = kafka.producer();
 ## Related
 
 [[Kafka]]
+
+## Sources
+
+- [Wikipedia — kafka producer and consumer](https://en.wikipedia.org/wiki/kafka_producer_and_consumer)

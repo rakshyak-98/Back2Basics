@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Encoding** converts **uncompressed or mezzanine** video/audio into a **codec bitstream** (H.264, AAC, etc.) suitable for containers ([[CMAF]], TS) and protocols ([[HLS]], [[DASH]], [[RTMP]]). It is **lossy** for delivery codecs — you cannot recover discarded detail. Downstream **packaging** muxes encoded streams; **[[transcoding]]** is encode-after-decode when format changes.
 
@@ -39,7 +30,8 @@ Camera / file ──► Encode (codec params) ──► Elementary streams
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### VoD mezzanine (quality master)
 
@@ -92,7 +84,8 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 | GPU encode banding | NVENC rate control | Tune CQ/VBR; increase `-b:v` floor |
 
 ---
+
 
 ## Gotchas
 
@@ -121,7 +115,8 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
 - **Encode on every playback** — edge transcode is emergency; pre-encode ladders at origin.
@@ -129,6 +124,11 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 
 ---
 
+
 ## Related
 
 [[transcoding]] [[re-encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[ingestion]] [[bitrate streaming]] [[OBS]]
+
+## Sources
+
+- [Wikipedia — Encoding](https://en.wikipedia.org/wiki/Encoding)

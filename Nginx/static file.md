@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** static file — try_files — checks the filesystem for one or more paths in order.
+## How it works
 
 ### Nginx static file serving rule for a location
 ```nginx
@@ -35,7 +24,8 @@ location / {
 - If neither exists → return `404 Not Found`.
 - It **avoids unnecessary backend calls** — Nginx won’t forward these requests to PHP/Python/etc. unless they match a different location.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 location /assets/ {
@@ -47,7 +37,8 @@ location /assets/ {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,6 +48,7 @@ location /assets/ {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -64,13 +56,19 @@ location /assets/ {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not serve user-uploaded files from the same path as executable scripts.
 
 
 ---
 
+
 ## Related
 
 [[Nginx]]
+
+## Sources
+
+- [Wikipedia — static file](https://en.wikipedia.org/wiki/static_file)

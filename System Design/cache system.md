@@ -1,43 +1,32 @@
-[[Redis]] [[Distributed computing]] [[System design]] [[database sharding]]
+[[Redis]] [[System design]] [[Distributed computing]] [[database sharding]] [[Eventual consistency]] [[DNS]]
 
 # Cache system
 
-> Cache system — a cache stores copies of data closer to readers (memory, edge, CDN) to cut latency and load on origin (DB, API). Caches are
+> A cache stores copies of data closer to readers — process memory, distributed memory, content delivery network edge — to reduce latency and protect the origin database or application programming interface from repeated work.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-A **cache** stores **copies** of data closer to readers (memory, edge, CDN) to cut latency and load on origin (DB, API). Caches are **eventually consistent** by definition — the hard part is **when to expire** and **how to invalidate** without thundering herds.
+## Read path and write path
 
 ```txt
-Read:  App ──► L1 (in-process) ──► L2 (Redis) ──► DB
-Write: App ──► DB ──► invalidate/publish ──► cache entries drop
+Read:  Application → L1 (in-process) → L2 (Redis) → Database
+Write: Application → Database → invalidate or publish → cache entries expire
 ```
 
-| Layer | Typical | TTL | Invalidation |
-|-------|---------|-----|--------------|
-| **Browser/CDN** | HTTP `Cache-Control` | seconds–days | Purge API |
-| **App local** | Caffeine, sync.Map | seconds | Event / TTL |
-| **Distributed** | [[Redis]] | minutes | Key delete, pub/sub |
-| **Query cache** | ORM / materialized view | tricky | Write-through or bust |
+Caches are **eventually consistent** by definition. The design question is how stale data is allowed to be and how invalidation happens without melting the origin under load.
 
-**DNS cache** is a special case — stale resolver data looks like "random" connectivity failures.
+| Layer | Examples | Typical time-to-live | Invalidation |
+|-------|----------|----------------------|--------------|
+| Browser / content delivery network | `Cache-Control`, `ETag` | Seconds to days | Purge application programming interface |
+| In-process | Caffeine, `sync.Map` | Seconds | Event bus or short time-to-live |
+| Distributed | [[Redis]] | Minutes | Key delete, pub/sub channel |
+| Query / object cache | Object-relational mapper second-level cache | Risky | Write-through or explicit bust |
 
----
+**DNS resolver cache** is a special case — stale name records look like random connectivity failures after a cutover.
 
-## Standard config / commands
+## Cache-aside (lazy loading)
 
-### Redis cache-aside (read-through pattern)
+The application checks the cache first; on miss, loads from origin and populates:
 
 ```python
 def get_user(user_id):
@@ -46,20 +35,24 @@ def get_user(user_id):
     if cached:
         return json.loads(cached)
     user = db.query(user_id)
-    redis.setex(key, 300, json.dumps(user))  # TTL 5 min
+    redis.setex(key, 300, json.dumps(user))
     return user
 ```
 
-### Invalidation on write
+On update, **delete** the key (or publish an invalidation message) — relying on time-to-live alone means users see wrong state until expiry.
 
-```python
-def update_user(user_id, data):
-    db.update(user_id, data)
-    redis.delete(f"user:{user_id}")
-    # Or: redis.publish("invalidate", f"user:{user_id}")
+## Stampede protection
+
+When a hot key expires, every request may miss simultaneously and hammer the database (**cache stampede**):
+
+```txt
+On miss: one worker acquires lock → rebuilds → others wait or serve stale
+Redis: SET lock:resource NX EX 30 → build → SET data → DEL lock
 ```
 
-### HTTP CDN cache (static + API cautiously)
+Add **jitter** to time-to-live values so keys do not all expire at the same second.
+
+## HTTP caching cautions
 
 ```http
 Cache-Control: public, max-age=3600, stale-while-revalidate=60
@@ -67,74 +60,31 @@ ETag: "abc123"
 Vary: Accept-Encoding
 ```
 
-Never `Cache-Control: public` on personalized JSON without `Vary: Authorization` review.
+Never mark authenticated JSON as `public` without reviewing `Vary: Authorization`. Personalized responses belong behind `private` or `no-store`.
 
-### DNS resolver cache (Linux systemd)
-
-```bash
-resolvectl status
-resolvectl statistics
-resolvectl flush-caches    # after DNS cutover — ops playbook
-dig +trace example.com
-```
-
-### Stampede protection (singleflight)
+## Sizing and monitoring
 
 ```txt
-On cache miss: one worker rebuilds; others wait on lock/mutex key
-Redis: SET lock:resource NX EX 30 → build → SET data → DEL lock
+Working set (hot keys) × average value size × replica factor < memory budget
+Watch: hit rate, evicted_keys, latency p99, memory fragmentation
 ```
 
-### Cache sizing heuristic
+Oversized values (megabyte blobs at high queries per second) saturate network before central processing unit.
 
-```txt
-Working set hot keys × average value size × replica factor < Redis memory
-Monitor: hit rate, evicted_keys, latency p99
-```
+## Common mistakes
 
----
+| Mistake | Consequence |
+|---------|-------------|
+| Cache as source of truth | Data loss on eviction; no durability guarantee |
+| No invalidation on write | Stale reads until time-to-live |
+| Cache null forever | Attackers or bugs amplify database load — use short time-to-live for misses |
+| Local cache in multi-instance fleet | Instance A invalidates; instance B still stale — use pub/sub or skip L1 |
+| Long DNS time-to-live before migration | Clients hit old addresses for days |
 
-## Triage (when things break)
+*What breaks first when the origin slows?* An unprotected cache miss path — design singleflight and circuit breakers ([[backpressure]]).
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Stale data after update | TTL only, no invalidation | Delete key on write; shorter TTL |
-| Redis OOM | `INFO memory`; evictions | Raise maxmemory; LRU policy; smaller values |
-| Thundering herd on expiry | Spike on DB at T+0 | Jitter TTL; singleflight rebuild |
-| "Random" DNS failures | `resolvectl statistics` | Flush cache; fix authoritative NS |
-| CDN serves old API | Wrong Cache-Control | private/no-store on auth responses |
-| Cache hit rate 0 | Key churn / wrong prefix | Namespace keys; log miss reason |
-| Inconsistent replicas | Read from replica lag | Read-your-writes: primary or version check |
+## Sources
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Cache null results** — cache "user not found" with short TTL or attackers/bugs hammer DB.
-
-> [!WARNING]
-> **Serializing huge objects** — 1 MB × 10k QPS = Redis network death; store IDs + field subset.
-
-> [!WARNING]
-> **TTL as only invalidation** — users see wrong state for TTL window after edits.
-
-> [!WARNING]
-> **Local cache in multi-instance** — instance A invalidates, B still stale — use Redis pub/sub or skip L1.
-
-> [!WARNING]
-> **DNS TTL 86400 during migration** — plan lower TTL days before cutover.
-
----
-
-## When NOT to use
-
-- **Strong consistency required** — read from primary or use linearizable store; no silent cache.
-- **Write-heavy counters** — aggregate in DB/Redis INCR, not read-modify-write cache loop.
-- **Secrets** — don't cache API keys in CDN edge.
-
----
-
-## Related
-
-[[Redis]] [[System design]] [[Distributed computing]] [[database sharding]] [[Eventual consistency]] [[DNS]]
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), chapter on caching.
+- [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111) — HTTP Caching.
+- Redis documentation — eviction policies (`allkeys-lru`, `volatile-lru`), memory limits.

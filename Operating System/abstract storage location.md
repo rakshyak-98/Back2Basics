@@ -1,102 +1,34 @@
-[[Persistent Block Storage]] [[Buffer cache]] [[file descriptors]]
+[[Operating System]] [[Persistent Block Storage]] [[Buffer cache]] [[file descriptors]] [[logical partitions]]
 
 # Abstract storage location
 
-> API that hides physical placement — callers use logical names (paths, URIs, keys) while the system maps to blocks, objects, or remote stores.
+> An abstract storage location is any addressable place where bytes live — file, block device, memory-mapped region, or cloud object — without naming the physical medium underneath.
 
----
+Operating systems and applications rarely talk to spinning platters or NAND cells directly. They talk to **abstract locations**: paths, volume identifiers, logical block addresses, or handles returned by the kernel. The abstraction hides geometry, vendor firmware, and RAID layout while still exposing read, write, seek, and durability semantics.
 
-## Index
+## Why abstraction matters
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Layer | What the caller sees | What is hidden |
+|-------|----------------------|----------------|
+| Application | `open("/var/log/app.log")` | inode, extents, SSD wear leveling |
+| Database | tablespace file or raw device | partition table, LVM striping |
+| Container | bind-mounted path in a namespace | host filesystem, copy-on-write graph driver |
+| Cloud VM | EBS volume or persistent disk | hypervisor storage backend |
 
-## Mental model
+Abstraction lets the same program run on a laptop SSD, a SAN LUN, or a network file system. It also centralizes policy: permissions, quotas, encryption, and caching apply at the abstract boundary ([[file descriptors]], [[Buffer cache]]).
 
-An **abstract storage location** decouples **what** you access from **where** bits live:
+## How locations are named
 
-```txt
-Application          Abstraction layer              Physical
-─────────────        ─────────────────              ────────
-open("s3://b/k")  →  object store driver       →   REST + erasure-coded disks
-write(fd, buf)    →  VFS + page cache          →   NVMe LBA 0x4a2f…
-SELECT …          →  tablespace / table        →   InnoDB files on ext4
-```
+**Path names** resolve through a virtual file system layer to an inode and backing store. **Block devices** (`/dev/nvme0n1p2`) expose fixed-size sectors; user space often still uses a filesystem on top. **Memory-mapped files** map an abstract file range into the process address space — the same cached pages may back both `read()` and a direct load instruction.
 
-Benefits: portability, migration, tiering (hot SSD → cold object store). Cost: **weaker latency predictability** unless you understand the mapping.
+Persistent storage notes tie the idea to concrete boot and layout topics: [[MBR]], [[logical partitions]], [[Persistent Block Storage]].
 
-Layers engineers confuse:
-- **Path** (`/var/lib/data`) — mount namespace + filesystem
-- **URI** (`s3://`, `gs://`) — vendor API semantics
-- **Key-value** (Redis, etcd) — no hierarchical byte offset
-- **DB logical** (table/index) — buffer manager hides file layout
+## Durability is not automatic
 
----
+Writing to an abstract location usually lands in a cache first ([[Buffer cache]], page cache). The bytes are visible to readers on the same machine, but survive power loss only after the kernel and device flush dirty data — see [[fsync]] and [[Persistent Block Storage]].
 
-## Standard config / commands
+## Sources
 
-### Unix path abstraction (most common)
-
-```bash
-# Logical path → inode on backing device
-ls -li /var/lib/postgresql/data
-findmnt /var/lib/postgresql/data
-stat /var/lib/postgresql/data
-```
-
-### Object storage (location opaque)
-
-```bash
-aws s3 cp ./dump.sql s3://mybucket/backups/
-aws s3 ls s3://mybucket/backups/
-# No LBA — consistency model is eventual (list) vs read-after-write (new object)
-```
-
-### Bind mount — remap logical path
-
-```bash
-mount --bind /mnt/fast-disk/pgdata /var/lib/postgresql/data
-# App sees same path; bits on different device
-```
-
-**Why bind mounts:** migrate data without reconfiguring application paths — common in container volume patterns.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| "File not found" after migration | Path vs actual mount | `findmnt`; fix bind mount / symlink |
-| Slow "local" writes | NFS/EBS/network backing | Move hot data to local NVMe; check [[disk IOPS]] |
-| S3 404 on existing object | Wrong region/bucket/prefix | URI spelling; IAM scope |
-| DB on wrong disk tier | Tablespace location | `SHOW data_directory`; relocate tablespace |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Abstraction ≠ durability.** Object upload "success" may be regional; DB commit needs WAL/fsync policy — see [[fsync]].
-
-> [!WARNING]
-> **Copy-by-path assumptions break** across abstraction boundaries — `cp` works on POSIX files, not always on object prefixes without tools.
-
-> [!WARNING]
-> **Container paths** — `/app/data` may be ephemeral overlay unless volume mounted; rebuild loses "logical" path.
-
----
-
-## When NOT to use
-
-Avoid stacking opaque abstractions without observability (FUSE on NFS on loopback). For latency-sensitive systems, make **one** clear mapping from logical name to physical device measurable.
-
----
-
-## Related
-
-[[Persistent Block Storage]] [[Buffer cache]] [[file descriptors]] [[one-level storage system]]
+- Linux kernel documentation: [Page Cache](https://docs.kernel.org/mm/page_cache.html)
+- Tanenbaum & Bos, *Modern Operating Systems* — file system and I/O abstraction layers
+- Wikipedia: [Computer data storage](https://en.wikipedia.org/wiki/Computer_data_storage)

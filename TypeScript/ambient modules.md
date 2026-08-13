@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Ambient decls invent types for existing JS. Global (`declare var`) versus module (`declare module 'pkg'`). Prefer DefinitelyTyped or the package’s own types when available.
+## How it works
 
 ```txt
 import 'pkg' ──needs──► node_modules/pkg/*.d.ts  or  declare module 'pkg'
@@ -31,7 +20,8 @@ import 'pkg' ──needs──► node_modules/pkg/*.d.ts  or  declare module 'p
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 // types/shim.d.ts
@@ -55,7 +45,8 @@ export {}
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ export {}
 | Wrong shapes | Stale shim | Sync with runtime |
 
 ---
+
 
 ## Gotchas
 
@@ -79,7 +71,8 @@ export {}
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Package already ships types** — don’t override casually.
 - **Your own TS code** — normal exports.
@@ -87,6 +80,11 @@ export {}
 
 ---
 
+
 ## Related
 
 [[Triple-Slash Directives]] [[tsconfig]] [[typescript error]]
+
+## Sources
+
+- [Wikipedia — ambient modules](https://en.wikipedia.org/wiki/ambient_modules)

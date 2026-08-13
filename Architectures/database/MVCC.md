@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Instead of locking every reader while a writer updates in place, MVCC keeps old versions so a transaction reads the world as of its snapshot.
+## How it works
 
 ```txt
 Writer updates row  →  new version (xmin=TxW)
@@ -39,7 +28,8 @@ versus locking: fewer read/write stalls; cost is version storage + cleanup (VACU
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```sql
 -- Postgres: bloat / dead tuples
@@ -53,7 +43,8 @@ MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -75,13 +67,19 @@ MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Engine without versions** — some embedded DBs use locks only.
 - **You need strict serial locking semantics** — understand isolation first; don’t “turn off” MVCC casually.
 
 ---
 
+
 ## Related
 
 [[ACID]] [[WAL (Write-Ahead Log)]] [[OCC]] [[Database]] [[connection pooling]]
+
+## Sources
+
+- [Wikipedia — MVCC](https://en.wikipedia.org/wiki/MVCC)

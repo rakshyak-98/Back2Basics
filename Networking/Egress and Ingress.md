@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** From the VPC’s view — ingress enters from the internet (or peers); egress leaves toward the internet (or other networks).
+## How it works
 
 ```txt
 Internet ── ingress ──► VPC / host
@@ -46,7 +35,8 @@ Internet ◄── egress ─── VPC / host
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # AWS: rough data-transfer spend this month
@@ -67,7 +57,8 @@ aws ce get-cost-and-usage \
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +68,7 @@ aws ce get-cost-and-usage \
 | Cross-AZ surprise cost | Architecture diagram | Collapse chatty tiers into one AZ or accept the fee |
 
 ---
+
 
 ## Gotchas
 
@@ -91,7 +83,8 @@ aws ce get-cost-and-usage \
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Treating “ingress/egress” as only AWS terms** — same words apply to k8s NetworkPolicies, service meshes, and host firewalls.
 - **Optimizing ingress while ignoring egress** — most surprise bills are outbound.
@@ -99,6 +92,11 @@ aws ce get-cost-and-usage \
 
 ---
 
+
 ## Related
 
 [[Networking]] [[outbound ip]] [[NAT (Network Address Translation)]] [[network gateway]] [[CIDR (Classless Inter-Domain Routing)]]
+
+## Sources
+
+- [Wikipedia — Egress and Ingress](https://en.wikipedia.org/wiki/Egress_and_Ingress)

@@ -1,100 +1,34 @@
-[[mysql]] [[cli]] [[mysql query]]
+[[mysql query]] [[mysql]] [[variables]]
 
 # show query
 
-> `SHOW …` and `INFORMATION_SCHEMA` — inspect databases, tables, grants, processlist, and engine status fast.
+> MySQL statements to inspect live and historical queries—`SHOW PROCESSLIST`, Performance Schema, and slow query log—for finding what blocks production.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `SHOW` is the quick human-facing catalog; for scripting/filters use `INFORMATION_SCHEMA` (or `performance_schema` for runtime).
-
-```txt
-SHOW DATABASES / TABLES / COLUMNS / INDEX / GRANTS / PROCESSLIST
-INFORMATION_SCHEMA.* ──► same facts, SQL-filterable
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **SHOW** | Snapshot of metadata | “First tool when I don’t know the schema.” |
-| **PROCESSLIST** | Running threads | “Find stuck queries / who holds locks.” |
-| **VARIABLES / STATUS** | Config vs counters | “STATUS for rates; VARIABLES for knobs.” |
-| **INFORMATION_SCHEMA** | SQL catalog | “Automate what SHOW prints.” |
-
----
-
-## Standard config / commands
+## Live sessions
 
 ```sql
-SHOW DATABASES;
-SHOW CREATE DATABASE dbname;
-SHOW TABLES;
-SHOW FULL TABLES;                 -- BASE TABLE vs VIEW
-SHOW CREATE TABLE tablename;
-SHOW TABLE STATUS LIKE 'table%';
-SHOW COLUMNS FROM tablename;
-SHOW INDEX FROM tablename;
-SHOW GRANTS FOR 'user'@'host';
-SHOW PROCESSLIST;
-SHOW GLOBAL VARIABLES LIKE 'innodb%';
-SHOW GLOBAL STATUS LIKE 'Threads%';
-SHOW ENGINES;
-SHOW BINARY LOGS;
-SHOW MASTER STATUS;
-SHOW EVENTS;
-
-SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS
-WHERE TABLE_SCHEMA = DATABASE();
+SHOW FULL PROCESSLIST;
+-- or
+SELECT * FROM information_schema.processlist WHERE command != 'Sleep';
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `SHOW FULL …` | Extra type/collation/priv columns |
-| `LIKE` filters | Cut noise on big instances |
-| `\G` in cli | Vertical format for wide rows |
+## Kill runaway query
 
----
+```sql
+KILL QUERY 12345;
+```
 
-## Triage (when things break)
+## Performance Schema (MySQL 8+)
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Don’t know schema | `SHOW TABLES` / `SHOW CREATE` | Read DDL; fix wrong DB (`USE`) |
-| Who is locking? | `SHOW PROCESSLIST` / InnoDB status | Kill/optimize long query |
-| View vs table confusion | `SHOW FULL TABLES` | Query base table or fix view |
-| Replication position | `SHOW MASTER STATUS` | Note file+pos for dump sync |
+```sql
+SELECT sql_text, timer_wait/1e12 AS sec
+FROM performance_schema.events_statements_history_long
+ORDER BY timer_wait DESC LIMIT 10;
+```
 
----
+Enable **slow query log** with `long_query_time` for offline analysis.
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **`SHOW GRANTS FROM` is wrong** — it’s `SHOW GRANTS FOR`.
-
-> [!WARNING]
-> **PROCESSLIST truncates SQL** — use `performance_schema` for full text when needed.
-
----
-
-## When NOT to use
-
-- **Application runtime catalog discovery on every request** — cache schema; don’t `SHOW` in hot paths.
-- **Cross-engine monitoring** — prefer metrics exporters over scraping SHOW STATUS.
-
----
-
-## Related
-
-[[cli]] [[mysql query]] [[mysql Privileges]] [[Configuration]]
+- MySQL Reference Manual — [SHOW PROCESSLIST](https://dev.mysql.com/doc/refman/en/show-processlist.html)
+- MySQL Reference Manual — [The Slow Query Log](https://dev.mysql.com/doc/refman/en/slow-query-log.html)

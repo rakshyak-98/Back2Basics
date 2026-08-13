@@ -1,114 +1,74 @@
-[[IAM]] [[ARN (Amazon Resource Name)]] [[JWT authentication]] [[Security]]
+[[IAM]] · [[ARN (Amazon Resource Name)]] · [[AWS EC2]] · [[AWS Lambda]] · [[AWS cli commands]]
 
-# AWS STS (Security Token Service)
+# aws STS (Security Token Service)
 
-> Short-lived **temporary credentials** (AccessKeyId, SecretAccessKey, SessionToken) instead of long-lived IAM user keys — foundation for roles, federation, and cross-account access. **AWS IAM docs** + incident stories
+> STS issues temporary security credentials after a principal proves it may assume a role — production AWS access should flow through STS rather than static access keys.
 
 ---
 
-## Index
+## What STS provides
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+STS returns **temporary credentials** (access key ID, secret access key, session token) with a defined expiration. Callers use these credentials like long-lived keys, but they expire automatically and can be scoped with session policies.
 
-## Mental model
+Common operations:
 
-STS is AWS's **token mint**: you prove identity (IAM user, role, SAML/OIDC, or another account's role), STS returns credentials valid for **minutes to hours**, bound to an **IAM role's permissions**. Every `AssumeRole`, EC2 instance profile, Lambda execution role, and `aws sso login` session flows through STS.
+| API | Purpose |
+|-----|---------|
+| `AssumeRole` | Cross-account or same-account role assumption |
+| `AssumeRoleWithWebIdentity` | OIDC/SAML federation (GitHub Actions, Google, etc.) |
+| `GetSessionToken` | MFA-protected session from IAM user |
+| `GetCallerIdentity` | Who am I right now? |
+
+## AssumeRole flow
 
 ```
-Caller ──► sts:AssumeRole ──► temporary creds ──► AWS APIs (scoped to role policy)
-                │
-                └── CloudTrail logs who assumed what, when
+Principal (user, role, service)
+        │
+        ▼
+  sts:AssumeRole  ──►  Evaluate trust policy on target role
+        │
+        ▼
+  Temporary credentials (15 min – 12 hours typical)
+        │
+        ▼
+  AWS API calls signed with session credentials
 ```
 
-**Permanent access keys** = long-lived secret on disk. **STS** = rotate automatically, auditable session, optional external-id/confused-deputy protection.
+The **trust policy** on the role defines who may call `AssumeRole`. The **permission policy** on the role defines what the session may do. An optional **inline session policy** further restricts the session for that single assumption.
 
-## Standard config / commands
+## Where you meet STS daily
 
-### AssumeRole (CLI / automation)
+- **EC2 instance profiles** — metadata service delivers rotating role credentials.
+- **Lambda execution roles** — runtime receives temporary credentials automatically.
+- **CI/CD OIDC** — pipeline assumes a deployment role without storing secrets.
+- **Cross-account access** — account A's role trusts account B's principal.
+
+## CLI example
 
 ```bash
-# Who am I right now?
-aws sts get-caller-identity
-
-# Assume role in same or cross account
 aws sts assume-role \
-  --role-arn arn:aws:iam::123456789012:role/DeployRole \
-  --role-session-name ci-deploy-$(date +%s) \
-  --external-id "$EXTERNAL_ID"   # required if trust policy enforces it
+  --role-arn arn:aws:iam::123456789012:role/CrossAccountReader \
+  --role-session-name deploy-job
 
-# Export for shell (15–60 min typical)
-eval "$(aws sts assume-role ... --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text | \
-  awk '{print "export AWS_ACCESS_KEY_ID="$1"\nexport AWS_SECRET_ACCESS_KEY="$2"\nexport AWS_SESSION_TOKEN="$3}')"
+aws sts get-caller-identity
 ```
 
-### Trust policy (cross-account — **ExternalId** for third parties)
+Export the returned `AccessKeyId`, `SecretAccessKey`, and `SessionToken` into the environment for subsequent CLI calls, or use `aws sts assume-role` with `--profile` and role chaining in `~/.aws/config`.
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Effect": "Allow",
-    "Principal": { "AWS": "arn:aws:iam::PARTNER:role/TheirRole" },
-    "Action": "sts:AssumeRole",
-    "Condition": { "StringEquals": { "sts:ExternalId": "unique-shared-secret" } }
-  }]
-}
-```
+## Failure signals
 
-### Instance / pod identity (no keys on disk)
+| Error | Typical cause |
+|-------|----------------|
+| `AccessDenied` on AssumeRole | Trust policy does not list your principal |
+| `ExpiredToken` | Session exceeded `DurationSeconds` |
+| `RegionDisabledException` | STS regional endpoint issue in opt-in regions |
 
-- **EC2 instance profile** → IMDS delivers rotating role credentials (prefer IMDSv2: `HttpTokens: required`).
-- **EKS IRSA** → OIDC trust to `sts:AssumeRoleWithWebIdentity`.
-- **Lambda** → execution role credentials injected by runtime.
+## Recall
 
-### SSO / Identity Center
+- Why are temporary credentials safer than IAM user access keys on a laptop?
+- What is the difference between a trust policy and a permissions policy on a role?
 
-```bash
-aws sso login --profile prod
-aws sts get-caller-identity --profile prod   # shows assumed SSO role ARN
-```
+## Sources
 
-### Duration knobs
-
-- `DurationSeconds`: 900–43200 (role max in trust policy caps this).
-- Shorter for human sessions; CI can use 1h with OIDC federation (GitHub Actions → AWS).
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `AccessDenied` on `AssumeRole` | Trust policy Principal; role name/ARN; ExternalId | Fix trust `Principal`; pass correct ExternalId |
-| `ExpiredToken` mid-deploy | Session duration; clock skew on host | Re-assume; sync NTP; increase duration within max |
-| Works locally, fails in CI | OIDC thumbprint/audience; repo/org condition | Fix IdP trust; scope `sub`/`aud` conditions |
-| EC2/Lambda "can't reach AWS APIs" | Instance profile attached? IMDS blocked? | Attach profile; fix IMDS hop limit (containers need 2) |
-| Cross-account S3/KMS denied after assume | **Resource policy** on bucket/key must trust role ARN | Update bucket/key policy for assumed role principal |
-| `InvalidIdentityToken` (EKS) | Service account annotation `eks.amazonaws.com/role-arn` | IRSA setup; OIDC provider on cluster |
-
-## Gotchas
-
-> [!WARNING]
-> **Assumed-role creds need all three env vars** — `AWS_SESSION_TOKEN` missing → obscure signature errors.
-
-> [!WARNING]
-> **Confused deputy**: cross-account trust without `ExternalId` or `aws:SourceAccount` condition — partner account could trick your role into acting on their resources. Always scope trust policies.
-
-> [!WARNING]
-> **IMDSv1 + SSRF** — attacker on instance steals role creds via metadata. Enforce IMDSv2; block metadata from untrusted containers (hop limit).
-
-> [!WARNING]
-> **CloudTrail `AssumeRole` ≠ data-plane access** — session may be valid but IAM policy or SCP denies the API call. Check identity **and** permission boundaries.
-
-## When NOT to use
-
-- **Long-lived IAM user access keys for apps** — use roles + STS; keys for break-glass humans only, rotated and scoped.
-- **Embedding AssumeRole in every micro-request** — cache credentials until ~5 min before expiry; use SDK default credential chain.
-- **One mega-role for all environments** — separate roles per environment/account; STS makes splitting cheap.
-
-## Related
-
-[[IAM]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[JWT authentication]]
+- [AWS STS API Reference](https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html)
+- [Temporary security credentials in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html)

@@ -6,17 +6,40 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```txt
+find  →  ps / pgrep / pidof
+watch →  top / htop / pidstat
+why   →  lsof /ls /proc/PID/{fd,status,stack}
+act   →  kill / pkill / renice / systemctl
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **`pgrep` / `pkill`** | Find / signal by name | “Safer than `kill $(ps \| grep)` if you check `-a` first.” |
+| **Signal** | Soft ask vs hard stop | “`TERM` (15) then `KILL` (9).” |
+| **Nice / renice** | CPU scheduling priority | “Lower niceness → higher priority; needs rights.” |
+| **`/proc`** | Kernel’s process API as files | “Scripts should prefer `/proc` over parsing `ps`.” |
+| **Job control** | `fg`/`bg`/`Ctrl-Z` in a shell | “Only for that shell’s children — not systemd services.” |
+| **Service manager** | systemd owns long-running daemons | “Prefer `systemctl restart` over raw `kill`.” |
+
+### Tool roles
+
+| Tool | Best for |
+|------|----------|
+| [[ps]] | Snapshot, scripts, custom columns |
+| [[top]] | Live CPU/RAM/load |
+| [[lsof]] | fds, ports, deleted files |
+| `pgrep`/`pkill` | Name-based select |
+| `pstree` | Parent/child map |
+| `pidstat` | Per-PID CPU/IO over time |
+| `strace` | Syscall-level “what is it doing?” |
+
+---
+
 
 ## Quick reference
 
@@ -24,7 +47,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Find
@@ -74,49 +98,22 @@ systemctl restart foo.service
 
 ---
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-**Say it in one breath:** Find with `ps`/`pgrep`, watch with `top`, explain open resources with `lsof`/`/proc`, stop with signals — escalate from `TERM` to `KILL`.
+## Examples
 
-```txt
-find  →  ps / pgrep / pidof
-watch →  top / htop / pidstat
-why   →  lsof /ls /proc/PID/{fd,status,stack}
-act   →  kill / pkill / renice / systemctl
+```bash
+# …
 ```
 
-### Interview map (words you can say)
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`pgrep` / `pkill`** | Find / signal by name | “Safer than `kill $(ps \| grep)` if you check `-a` first.” |
-| **Signal** | Soft ask vs hard stop | “`TERM` (15) then `KILL` (9).” |
-| **Nice / renice** | CPU scheduling priority | “Lower niceness → higher priority; needs rights.” |
-| **`/proc`** | Kernel’s process API as files | “Scripts should prefer `/proc` over parsing `ps`.” |
-| **Job control** | `fg`/`bg`/`Ctrl-Z` in a shell | “Only for that shell’s children — not systemd services.” |
-| **Service manager** | systemd owns long-running daemons | “Prefer `systemctl restart` over raw `kill`.” |
-
-### Tool roles
-
-| Tool | Best for |
-|------|----------|
-| [[ps]] | Snapshot, scripts, custom columns |
-| [[top]] | Live CPU/RAM/load |
-| [[lsof]] | fds, ports, deleted files |
-| `pgrep`/`pkill` | Name-based select |
-| `pstree` | Parent/child map |
-| `pidstat` | Per-PID CPU/IO over time |
-| `strace` | Syscall-level “what is it doing?” |
-
----
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -128,6 +125,7 @@ act   →  kill / pkill / renice / systemctl
 | Too many processes | `ps` count; `pids.max` | Fix fork bomb / raise cgroup pids |
 
 ---
+
 
 ## Gotchas
 
@@ -145,7 +143,8 @@ act   →  kill / pkill / renice / systemctl
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Don’t raw-signal Kubernetes/container PIDs on the host** — use the orchestrator / `docker kill` / enter the pidns.
 - **Don’t use this toolkit for packet-level debugging** — use `ss`, `tcpdump`, metrics.
@@ -153,12 +152,11 @@ act   →  kill / pkill / renice / systemctl
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[process]] [[Linux Process Theory]] [[ps]] [[top]] [[lsof]] [[renice]] [[systemctl]] [[Services commands]] [[file descriptors]] [[OOM (Linux Out Of Memory)]] [[ss]]
+
+## Sources
+
+- [Wikipedia — Linux process commands](https://en.wikipedia.org/wiki/Linux_process_commands)

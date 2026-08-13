@@ -6,21 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Renew certificate]]
-- [[#Webroot]]
-- [[#HTTP-01 Challenge]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Certbot talks to an [[ACME server]], completes HTTP-01 or DNS-01, writes certs under `/etc/letsencrypt/live/<name>/`, and a timer runs `certbot renew`.
+## How it works
 
 ```txt
 certbot ──ACME──► Let's Encrypt
@@ -42,7 +28,8 @@ Use **`--staging`** while debugging — avoids production rate limits; staging c
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 certbot plugins
@@ -67,7 +54,8 @@ sudo certbot certonly --staging --standalone \
 | `--standalone` | No web server, or stop it briefly |
 | `--dns-<provider>` | Wildcards / blocked port 80 |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,28 +68,6 @@ sudo certbot certonly --staging --standalone \
 
 ---
 
-## Renew certificate
-
-```bash
-sudo certbot renew
-sudo certbot renew --dry-run
-sudo certbot renew --deploy-hook "systemctl reload nginx"
-sudo certbot renew --quiet   # cron/systemd timer
-```
-
-## Webroot
-
-Writes challenge files into your docroot so the running server serves them:
-
-```bash
-sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
-```
-
-## HTTP-01 Challenge
-
-Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
-
----
 
 ## Gotchas
 
@@ -116,7 +82,8 @@ Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal-only hostnames** — public LE can’t validate private DNS; use private CA / step-ca.
 - **Devices without inbound 80/DNS API** — pre-provision or use DNS-01 with automation.
@@ -124,6 +91,37 @@ Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on
 
 ---
 
+
+## Renew certificate
+
+```bash
+sudo certbot renew
+sudo certbot renew --dry-run
+sudo certbot renew --deploy-hook "systemctl reload nginx"
+sudo certbot renew --quiet   # cron/systemd timer
+```
+
+
+## Webroot
+
+Writes challenge files into your docroot so the running server serves them:
+
+```bash
+sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
+```
+
+
+## HTTP-01 Challenge
+
+Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
+
+---
+
+
 ## Related
 
 [[ACME server]] [[certbot error]] [[TLS (Transport Layer Security)]] [[https]] [[openssl]] [[PKI]]
+
+## Sources
+
+- [Wikipedia — certbot](https://en.wikipedia.org/wiki/certbot)

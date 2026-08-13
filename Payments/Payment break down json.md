@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Payment break down json — "lengthOfStay": "At check in, the front desk will verify your check-out date. Rates quoted are based on check-in date and length…
+## How it works
 
 ```json
 {
@@ -90,3 +79,7 @@
 ## Related
 
 [[Payments]]
+
+## Sources
+
+- [Wikipedia — Payment break down json](https://en.wikipedia.org/wiki/Payment_break_down_json)

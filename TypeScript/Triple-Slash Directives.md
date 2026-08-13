@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Old way to declare dependencies between declaration files. Still appears in generated `.d.ts` and some polyfill setups.
+## How it works
 
 ```ts
 /// <reference types="node" />
@@ -32,7 +21,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 /// <reference types="vite/client" />
@@ -49,7 +39,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@
 | Path not found | Wrong relative | Fix path; use include |
 
 ---
+
 
 ## Gotchas
 
@@ -72,7 +64,8 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Modern application code** — ES imports.
 - **Controlling `@types` set** — `compilerOptions.types`.
@@ -80,6 +73,11 @@
 
 ---
 
+
 ## Related
 
 [[ambient modules]] [[tsconfig]] [[typescript]]
+
+## Sources
+
+- [Wikipedia — Triple-Slash Directives](https://en.wikipedia.org/wiki/Triple-Slash_Directives)

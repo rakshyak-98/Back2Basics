@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A CA signs a certificate that binds a public key to a name (DNS, email, code signer). Browsers/OS trust a set of root CAs; intermediates bridge root → leaf.
+## How it works
 
 ```txt
 Root CA (offline, trusted store)
@@ -39,7 +28,8 @@ TLS uses PKI for **server identity**; mTLS extends it to clients.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Inspect leaf + chain
@@ -59,7 +49,8 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,6 +62,7 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 | Corporate MITM “cert errors” | Proxy TLS inspection | Install corp root or exclude break-glass hosts |
 
 ---
+
 
 ## Gotchas
 
@@ -85,7 +77,8 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off local HTTPS demo** — self-signed or `mkcert` is enough; full PKI is overhead.
 - **Encrypting application payloads at rest** — use [[KMS]] / envelope encryption, not X.509 PKI.
@@ -93,6 +86,11 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 
 ---
 
+
 ## Related
 
 [[TLS (Transport Layer Security)]] [[Root certificate]] [[read pem file]] [[ACME server]] [[certbot (letsencrypt)]] [[Asymmetrical Encryption]]
+
+## Sources
+
+- [Wikipedia — PKI](https://en.wikipedia.org/wiki/PKI)

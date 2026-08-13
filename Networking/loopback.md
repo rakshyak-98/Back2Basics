@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Loopback** shortcuts the stack:
 
@@ -35,7 +26,8 @@ Distinct from **[[localhost]]** hostname convention — loopback is the interfac
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Interface status
 
@@ -68,7 +60,8 @@ curl -v http://127.0.0.1:8080/health
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +71,7 @@ curl -v http://127.0.0.1:8080/health
 | SSRF to metadata | App fetches user URL → 169.254/127 | Block link-local and loopback in fetcher |
 
 ---
+
 
 ## Gotchas
 
@@ -92,12 +86,18 @@ curl -v http://127.0.0.1:8080/health
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't rely on loopback binding alone in **multi-tenant hosts** — containers share kernel; use network namespaces and authentication.
 
 ---
 
+
 ## Related
 
 [[localhost]] [[DNS rebinding]] [[TCP]] [[UDP]] [[Network error]]
+
+## Sources
+
+- [Wikipedia — loopback](https://en.wikipedia.org/wiki/loopback)

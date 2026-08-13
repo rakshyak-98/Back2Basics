@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Start with inspect flag → Chrome DevTools or VS Code attaches → set breakpoints, watch closures, profile CPU.
+## How it works
 
 ```txt
 node --inspect=9229 app.js → DevTools → chrome://inspect
@@ -32,7 +21,8 @@ node --inspect-brk app.js  → break before user code
 | **inspect-brk** | Pause on start | “Catch boot issues.” |
 | **debugger;** | Hardcoded breakpoint | “Trips only when attached.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 node --inspect app.js
@@ -51,7 +41,8 @@ debugger // breakpoint when inspector connected
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ debugger // breakpoint when inspector connected
 | Prod compromised | Inspect on 0.0.0.0 | Bind localhost; auth tunnel |
 
 ---
+
 
 ## Gotchas
 
@@ -72,13 +64,19 @@ debugger // breakpoint when inspector connected
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Production traffic debugging** — prefer logs/metrics/traces.
 - **Flaky tests** — fix determinism; don’t rely on stepping forever.
 
 ---
 
+
 ## Related
 
 [[node inspect]] [[REPL]] [[Optimization]]
+
+## Sources
+
+- [Wikipedia — node debugger](https://en.wikipedia.org/wiki/node_debugger)

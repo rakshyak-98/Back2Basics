@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Kafka broker — a broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
+## How it works
 
 A broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
 | feature              | Description                                                       |
@@ -34,7 +23,8 @@ The term _topic_ in kafka is inspired by publish-subscribe messaging systems.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -43,7 +33,8 @@ The term _topic_ in kafka is inspired by publish-subscribe messaging systems.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -53,6 +44,7 @@ The term _topic_ in kafka is inspired by publish-subscribe messaging systems.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -60,12 +52,18 @@ The term _topic_ in kafka is inspired by publish-subscribe messaging systems.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Kafka]]
+
+## Sources
+
+- [Wikipedia — Kafka broker](https://en.wikipedia.org/wiki/Kafka_broker)

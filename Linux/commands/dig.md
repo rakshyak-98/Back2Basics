@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** You query a resolver (or an authoritative NS) for a name + type; look at `status` and the `ANSWER SECTION` before blaming the application.
+## How it works
 
 ```txt
 dig example.com A
@@ -51,7 +40,8 @@ dig example.com A
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 dig example.com
@@ -77,7 +67,8 @@ resolvectl status                     # systemd-resolved upstream
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,6 +90,7 @@ dig @$(dig +short example.com NS | head -1) example.com A
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -115,7 +107,8 @@ dig @$(dig +short example.com NS | head -1) example.com A
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **HTTP debugging** — use `curl -v`; dig only proves name→IP.
 - **DNSSEC deep validation UX** — specialized tools; dig can show `AD` bits but isn’t a full auditor.
@@ -123,6 +116,11 @@ dig @$(dig +short example.com NS | head -1) example.com A
 
 ---
 
+
 ## Related
 
 [[DNS]] [[dns record]] [[DNS server]] [[DNS zone]] [[getent]] [[nc]] [[Linux network commands]]
+
+## Sources
+
+- [Wikipedia — dig](https://en.wikipedia.org/wiki/dig)

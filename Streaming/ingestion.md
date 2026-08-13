@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, authentication, and isolation per tenant**.
 
@@ -44,7 +35,8 @@ Ingest is **not** CDN delivery — keep hot path lean; don't sync-call catalog D
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### RTMP ingest auth pattern (nginx-rtmp style)
 
@@ -104,7 +96,8 @@ Max bitrate enforcement at ingest (drop or disconnect)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +110,7 @@ Max bitrate enforcement at ingest (drop or disconnect)
 | High latency from day one | Too many sync transcode hops | `-c copy` to packager when possible |
 
 ---
+
 
 ## Gotchas
 
@@ -137,7 +131,8 @@ Max bitrate enforcement at ingest (drop or disconnect)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Client-direct to CDN** — browsers don't publish RTMP; use WebRTC/WHIP or dedicated encoder.
 - **Heavy ML on ingest thread** — offload analysis async; keep ingest I/O bound.
@@ -145,6 +140,11 @@ Max bitrate enforcement at ingest (drop or disconnect)
 
 ---
 
+
 ## Related
 
 [[RTMP]] [[SRT]] [[RTSP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]
+
+## Sources
+
+- [Wikipedia — ingestion](https://en.wikipedia.org/wiki/ingestion)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Web hooks — → See webhook (canonical note).
+## How it works
 
 → See **[[webhook]]** (canonical note).
 This page is a redirect alias for plural search / legacy links.
@@ -25,7 +14,8 @@ This page is a redirect alias for plural search / legacy links.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -34,7 +24,8 @@ This page is a redirect alias for plural search / legacy links.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -44,6 +35,7 @@ This page is a redirect alias for plural search / legacy links.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -51,12 +43,18 @@ This page is a redirect alias for plural search / legacy links.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[webhook]]] [[[HTTP module]]] [[[JWT authentication]]
+
+## Sources
+
+- [Wikipedia — Web hooks](https://en.wikipedia.org/wiki/Web_hooks)

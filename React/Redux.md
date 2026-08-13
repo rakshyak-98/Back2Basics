@@ -1,87 +1,50 @@
-[[React]] [[flux]] [[Redux toolkit]] [[Redux/Redux Thunk]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux Error]] [[Redux State sync with localstorage]]
 
 # Redux
 
-> One predictable store for app state — dispatch actions, pure reducers return the next tree, views select slices.
+> Redux shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** UI dispatches → reducers compute new state immutably → subscribers re-render. Prefer Redux Toolkit (`configureStore`, `createSlice`) over hand-rolled boilerplate.
-
-```txt
-Component → dispatch(action) → reducer → store → useSelector → Component
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Store** | Single state tree | “One source of truth for cross-cutting state.” |
-| **Reducer** | `(state, action) => next` | “Pure — no fetch inside.” |
-| **Dispatch** | Send an action | “The only way to request a change.” |
-| **Selector** | Read a slice | “Keep components decoupled from shape.” |
-
-## Standard config / commands
-
-```bash
-npm install @reduxjs/toolkit react-redux
-```
+## Operating it
 
 ```ts
-const store = configureStore({ reducer: { user: userReducer } })
-// App
-<Provider store={store}><App /></Provider>
-const user = useSelector((s: RootState) => s.user)
-dispatch(userSlice.actions.logout())
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
+  },
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| RTK defaults | Thunk + immutability/serializable checks |
-| Slices | Colocate actions + reducer |
-| RTK Query | Server cache without hand thunks |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Component not updating | Selector identity / mutation | Return new refs; fix immutable updates |
-| “Actions must be plain objects” | Missing thunk middleware | Use `configureStore` |
-| Serializable warnings | Date/Map/class in state | Store plain data; ignore known actions |
-| Too much re-rendering | Fat selectors / mapState | Narrow selectors; memoize |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Not everything belongs in Redux** — static config and local UI toggles often shouldn’t.
-
-> [!WARNING]
-> **Async stays out of reducers** — thunks/RTK Query/listeners own side effects.
-
----
-
-## When NOT to use
-
-- **Mostly server cache** — [[react-query]] may be enough.
-- **Tiny apps** — `useState` / context until cross-route shared client state hurts.
-
----
+What breaks first in production if `Redux` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux toolkit]] [[flux]] [[Redux/Redux createSlice]] [[Redux/Redux Thunk]] [[Redux/Redux createApi]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux Error]] [[Redux State sync with localstorage]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)
+- [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started)

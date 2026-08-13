@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** apache configurations — if you are using something else like /var/www/myproject/public, make sure it's set correctly.
+## How it works
 
 ```bash
 sudo a2enmod rewrite;
@@ -32,25 +21,24 @@ export APACHE_RUN_GROUP=www-data
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[apache]]
+
+## Sources
+
+- [Wikipedia — apache configurations](https://en.wikipedia.org/wiki/apache_configurations)

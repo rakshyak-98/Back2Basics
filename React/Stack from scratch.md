@@ -1,84 +1,25 @@
-[[React]] [[React Architecture]] [[React Application Architecture for Production]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Separate functional logic from persentation components]]
 
-# Creating a stack from scratch
+# Stack from scratch
 
-> Pick foundation + data + styling from constraints — risk, speed, or legacy — not fashion.
+> Stack from scratch shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## What breaks first
 
-## Mental model
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-**Say it in one breath:** Stack choice is a constraint match: regulated enterprise wants boring/typed; prototype wants batteries included; legacy wants minimal churn.
+## Recall
 
-```txt
-Constraints → Foundation → Data layer → Styling
-enterprise     React+TS      Apollo/RTK    styled / DS
-prototype      Remix         Supabase+SWR  Ant Design
-legacy         CRA/Vite      Redux         CSS Modules
-```
-
-### Interview map (words you can say)
-
-| Scenario | Bias | Why |
-|----------|------|-----|
-| **Financial / regulated** | React+TS, explicit data layer | Auditability, hiring pool, fewer magic frameworks |
-| **Investor prototype** | Remix/Next + BaaS + SWR | Ship features; UI uniqueness secondary |
-| **Legacy dashboard** | Keep Redux + CSS Modules | Change surface area small |
-
-## Standard config / commands
-
-| Stack | Foundation | Data | Style |
-|-------|------------|------|-------|
-| Enterprise | React + TypeScript | Apollo or RTK Query | Design system / styled-components |
-| Prototype | Remix (or Next) | Supabase + SWR | Ant Design |
-| Legacy maintain | CRA → Vite migrate later | Redux | CSS Modules |
-
-```txt
-Decide:
-1) SSR needed? → Next/Remix : Vite SPA
-2) GraphQL org standard? → Apollo : REST + RTK Query/react-query
-3) Design system exists? → use it : don’t invent one in week one
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Prototype stuck in Ant defaults | Product needs brand | Swap UI kit early or budget redesign |
-| Enterprise rejected Remix | Risk/compliance | Stick to React+TS + known libs |
-| Legacy can’t hire CRA experts | Tooling frozen | Vite migration plan; keep Redux |
-| Two data libraries | Apollo + React Query | Pick one cache story |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **“Comprehensive web app” ≠ maximal stack** — every library is an ops surface.
-
-> [!WARNING]
-> **CRA is maintenance mode** — new work should plan Vite/Next exit.
-
----
-
-## When NOT to use
-
-- **Copying a blog’s “perfect stack”** — ignore if constraints differ.
-- **Rewriting legacy for fashion** — stabilize first.
-
----
+What breaks first in production if `Stack from scratch` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[React Architecture]] [[React Application Architecture for Production]] [[React project configuration]] [[React build]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Separate functional logic from persentation components]]

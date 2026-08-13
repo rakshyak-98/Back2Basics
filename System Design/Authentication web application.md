@@ -1,112 +1,87 @@
-[[System Design]] [[JWT]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]]
+[[JWT authentication]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]] [[API design]] [[IDOR]]
 
 # Authentication web application
 
-> Web authentication — prove who the user is (session, token, or IdP), then enforce authz on every request.
+> Web authentication proves who the user is on each request; authorization decides what they may do — sessions, tokens, and identity providers are transport mechanisms, not substitutes for object-level checks.
 
 ---
 
-## Index
+## Authentication versus authorization
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Login form flow]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Term | Question |
+|------|----------|
+| **Authentication** | Who are you? |
+| **Authorization** | What may you do on this resource? |
 
-## Mental model
+Logging in successfully does not imply access to another user's invoice ([[IDOR]]) — enforce authorization on every handler.
 
-**Say it in one breath:** Credentials → server verifies → issues session cookie or tokens → browser sends them → server checks on each call. MFA adds a second factor; SSO moves verify to an IdP.
+## Common patterns
 
 ```txt
-Browser ──HTTPS──► App
-   │ login form / OIDC redirect
+Browser ──HTTPS──► Application
+   │ login form / OpenID Connect redirect
    ▼
-IdP or local user store → session / JWT → APIs
+Identity provider or local user store → session or JSON Web Token → APIs
 ```
 
-| Term | Plain |
-|------|-------|
-| AuthN | Who are you? |
-| AuthZ | What may you do? |
-| Session cookie | Server-side session id |
-| JWT | Signed claims client carries |
-| OAuth/OIDC | Delegate login to IdP |
-| Passkey/WebAuthn | Phishing-resistant public-key auth |
-| TOTP/MFA | Second factor |
+| Pattern | Fit |
+|---------|-----|
+| Server-side session cookie | Classic server-rendered applications |
+| Bearer JSON Web Token | Mobile and single-page application APIs |
+| Backend-for-frontend | Single-page application with httpOnly cookie |
+| OpenID Connect | Workforce or social login via [[single-sign-on (SSO)]] |
+| WebAuthn passkeys | Phishing-resistant public-key authentication |
+| Time-based one-time password | Second factor ([[TOTP (Time based One Time Password)]]) |
 
-Threats: MITM (use HTTPS), phishing, credential stuffing, XSS stealing tokens, CSRF on cookie sessions.
+### Session cookie attributes
 
----
-
-## Standard config / commands
-
-```txt
+```http
 Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax; Path=/
 ```
 
-```js
-// Sketch: local session
-app.post('/login', async (req, res) => {
-  const user = await verifyPassword(req.body)
-  req.session.userId = user.id
-  res.redirect('/app')
-})
-```
+- **HttpOnly** — JavaScript cannot read (reduces cross-site scripting token theft).
+- **Secure** — Transport Layer Security only.
+- **SameSite** — reduces [[XSRF (cross-site request forgery)]] on cross-site posts.
 
-| Pattern | Use |
-|---------|-----|
-| Cookie session | Classic SSR apps |
-| Bearer JWT | APIs / mobile |
-| BFF | SPA + httpOnly cookies |
-| OIDC | Workforce / social login |
+## Login flow (local credentials)
 
-## Triage (when things break)
+1. Serve form (include cross-site request forgery token for cookie sessions).
+2. Post credentials over Transport Layer Security.
+3. Verify password hash (Argon2, bcrypt) — never store plaintext.
+4. Optional multi-factor authentication step.
+5. Create session; **regenerate session identifier** after login (prevents session fixation).
+6. Subsequent requests send cookie or `Authorization` header.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Login works, API 401 | Cookie domain/Secure/SameSite | Align site + HTTPS |
-| CSRF on state change | Missing token / SameSite | [[XSRF (cross-site request forgery)]] |
-| SSO redirect loop | `redirect_uri`, clock | Fix IdP app config |
-| JWT forever valid | No `exp` / no revoke | Short TTL + refresh rotation |
-| MFA codes fail | NTP skew | Sync time; widen window slightly |
-| Session fixation | Id not rotated at login | Regenerate session id |
+## JSON Web Token cautions
 
----
+Short-lived access tokens, refresh rotation, and revocation strategy for stolen tokens. Storing tokens in `localStorage` is vulnerable to cross-site scripting — prefer httpOnly cookies or strict Content Security Policy.
 
-## Login form flow
+See [[JWT authentication]] for claim design and validation.
 
-1. GET form (CSRF token if cookie session).
-2. POST credentials over HTTPS.
-3. Verify hash ([[yashcrypt]] / argon2); optional MFA.
-4. Establish session; regenerate session id.
-5. Subsequent requests carry cookie or `Authorization`.
+## Threat model highlights
 
----
+| Threat | Mitigation |
+|--------|------------|
+| Credential stuffing | Rate limit, breached-password checks, multi-factor |
+| Phishing | WebAuthn, identity provider hardening |
+| Man-in-the-middle | Transport Layer Security everywhere |
+| Cross-site scripting | Content Security Policy, output encoding |
+| Cross-site request forgery | SameSite cookies, anti-forgery tokens |
 
-## Gotchas
+## Symptom → direction
 
-> [!WARNING]
-> **HTTPS terminates elsewhere** — app must still set `Secure` cookies correctly behind proxy (`X-Forwarded-Proto`).
+| Symptom | Check |
+|---------|-------|
+| Login works, API returns 401 | Cookie domain, `Secure`, `SameSite`, proxy `X-Forwarded-Proto` |
+| Single sign-on redirect loop | Redirect URI mismatch, clock skew |
+| Multi-factor codes fail | Network Time Protocol on server |
+| Token valid forever | Missing `exp`, no revocation list |
 
-> [!WARNING]
-> **XSS + localStorage JWT** — prefer httpOnly cookies or strict CSP.
+Service-to-service calls use mutual Transport Layer Security or signed tokens — not human login forms.
 
-> [!WARNING]
-> **AuthN ≠ AuthZ** — logged-in user still needs object-level checks ([[IDOR]]).
+## Sources
 
----
-
-## When NOT to use
-
-- **Public read-only content** — no authentication tax.
-- **Service-to-service** — mTLS or signed tokens, not human login forms.
-- **Building your own crypto password protocol** — use vetted libs + IdP when possible.
-
----
-
-## Related
-
-[[JWT]] [[single-sign-on (SSO)]] [[TOTP (Time based One Time Password)]] [[XSRF (cross-site request forgery)]] [[Authentication terms]]
+- [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html).
+- [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749) — OAuth 2.0.
+- [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
+- NIST SP 800-63B — digital identity guidelines.

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Pipeline (simplified):
 
@@ -40,7 +31,8 @@ Node uses **V8** + libuv for I/O — same language, different embed API than bro
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Inspect V8 flags (Node)
 
@@ -65,7 +57,8 @@ Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for miss
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +70,7 @@ Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for miss
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -87,13 +81,19 @@ Prefer **Babel/target** ([[SWC]]) for syntax, polyfills ([[polyfills]]) for miss
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Choosing framework** — engine differences rarely matter versus architecture.
 - **Security boundaries** — sandbox with CSP/isolation, not "pick V8 version".
 
 ---
 
+
 ## Related
 
 [[Event Loop]] · [[Lexical environment]] · [[wasm]] · [[SWC]] · [[polyfills]] · [[web workers]]
+
+## Sources
+
+- [Wikipedia — javascript engine](https://en.wikipedia.org/wiki/javascript_engine)

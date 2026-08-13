@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `methods` run on a document (`this`); `statics` run on the model; `query` helpers chain on find.
+## How it works
 
 ```txt
 doc.method() | Model.static() | Model.find().byEmail()
@@ -34,7 +23,8 @@ doc.method() | Model.static() | Model.find().byEmail()
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 schema.methods.displayName = function () {
@@ -56,7 +46,8 @@ schema.query.byTenant = function (tenantId) {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ schema.query.byTenant = function (tenantId) {
 | Side effects in getters | hidden I/O | Move to explicit methods |
 
 ---
+
 
 ## Gotchas
 
@@ -77,11 +69,17 @@ schema.query.byTenant = function (tenantId) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure utilities** — plain functions may be clearer.
 - **Cross-model workflows** — service layer, not one model’s statics.
 
+
 ## Related
 
 [[mongoose/mongoose schema]] [[mongoose/mongoose custome function]] [[mongoose/mongoose]]
+
+## Sources
+
+- [Wikipedia — mongoose methods](https://en.wikipedia.org/wiki/mongoose_methods)

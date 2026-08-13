@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **RTMP** maintains a **persistent TCP connection** from **encoder (publisher)** to **ingest server**, sending **FLV-muxed** H.264/AAC (typical). Low protocol overhead → **~2–5 s glass-to-glass** to origin before packaging. **Players no longer use RTMP** in browsers (Flash removed); CDNs terminate RTMP at ingest and deliver **HTTP segments** to viewers.
 
@@ -37,7 +28,8 @@ OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### ffmpeg publish (smoke test)
 
@@ -97,7 +89,8 @@ timeout 10 ffplay rtmp://ingest/live/key
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -110,6 +103,7 @@ timeout 10 ffplay rtmp://ingest/live/key
 | SSL handshake fail | RTMPS cert chain | Full chain; SNI match |
 
 ---
+
 
 ## Gotchas
 
@@ -130,7 +124,8 @@ timeout 10 ffplay rtmp://ingest/live/key
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
 - **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
@@ -138,6 +133,11 @@ timeout 10 ffplay rtmp://ingest/live/key
 
 ---
 
+
 ## Related
 
 [[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[SRT]] [[RTSP]] [[network management]] [[How to attach stream to HTTP handlers]]
+
+## Sources
+
+- [Wikipedia — RTMP](https://en.wikipedia.org/wiki/RTMP)

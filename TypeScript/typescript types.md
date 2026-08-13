@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Prefer unions + narrowing over deep inheritance. Generics parameterize shapes. Utility types (`Partial`, `Pick`, `Omit`, `Record`) transform existing types.
+## How it works
 
 ```txt
 value ──typeof/guard──► narrowed type
@@ -33,7 +22,8 @@ Generic<T> ──reuse──► concrete
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 type Result<T> = { ok: true; value: T } | { ok: false; error: string }
@@ -55,7 +45,8 @@ type PublicUser = Omit<User, 'email'>
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ type PublicUser = Omit<User, 'email'>
 | Excess property errors | Fresh object literal | Variable first or widen |
 
 ---
+
 
 ## Gotchas
 
@@ -79,7 +71,8 @@ type PublicUser = Omit<User, 'email'>
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Runtime schema** — Zod.
 - **Complex conditional types for business rules** — keep readable.
@@ -87,6 +80,11 @@ type PublicUser = Omit<User, 'email'>
 
 ---
 
+
 ## Related
 
 [[typescript extend types]] [[typescript]] [[class-transformer]]
+
+## Sources
+
+- [Wikipedia — typescript types](https://en.wikipedia.org/wiki/typescript_types)

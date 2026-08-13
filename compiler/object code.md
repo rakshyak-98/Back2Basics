@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** object code — a product of a compiler.
+## How it works
 
 is a product of a [[compiler]].
  - sequence of statements or instructions in a computer language.
@@ -34,25 +23,24 @@ Typically, an object file can contain three kinds of symbols:
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[compiler]]
+
+## Sources
+
+- [Wikipedia — object code](https://en.wikipedia.org/wiki/object_code)

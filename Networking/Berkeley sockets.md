@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Berkeley sockets** are the **C ABI** most languages wrap:
 
@@ -33,7 +24,8 @@ Also see [[POSIX Socket]] for portable behavior details and [[BSD Socket]] if pr
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal TCP server (C pattern)
 
@@ -70,7 +62,8 @@ ss -tin 'sport = :8080'
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ ss -tin 'sport = :8080'
 | Accept queue overflow | `ss -lnt` Send-Q vs `somaxconn` | Raise `net.core.somaxconn`; tune backlog |
 
 ---
+
 
 ## Gotchas
 
@@ -94,12 +88,18 @@ ss -tin 'sport = :8080'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 For same-host IPC only, **Unix domain sockets** avoid IP stack overhead. For HTTP/gRPC, use libraries — don't hand-roll protocol on bare sockets unless necessary.
 
 ---
 
+
 ## Related
 
 [[POSIX Socket]] [[TCP]] [[UDP]] [[Berkeley sockets]] [[Inter Process Communication]] [[file descriptors]]
+
+## Sources
+
+- [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets)

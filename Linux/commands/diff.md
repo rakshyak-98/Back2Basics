@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `diff` compares **file contents line-by-line** (default unified output). For directories, combine `-r` with `-q` for a fast "any difference?" answer. Exit code matters in scripts: `0` = identical, `1` = different, `2` = error.
 
@@ -42,7 +33,8 @@ rsync -avnc          → checksum-level dry-run (heavier, authoritative for sync
 | **patch** | Apply diff | “patch -p1 < fix.diff.” |
 | **exit 1** | Differences found | “Not always an error in CI.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Two directories — only report if different (silent = identical)
@@ -75,7 +67,8 @@ else
 fi
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +77,7 @@ fi
 | "Only in dir1" spam | Extra files in deploy | `--exclude` patterns; clean staging dir |
 | Binary files mess terminal | Used diff without `-q` | `diff -q` or `cmp -s` |
 | diff says same, rsync transfers | Timestamp-only change | Expected; use `rsync -c` if content matters |
+
 
 ## Gotchas
 
@@ -96,11 +90,17 @@ fi
 - **Order in `diff -u A B`** — patch applies as "change A into B"; reversing order inverts patch.
 - **Large trees** — `diff -rq` still reads every file; for TB-scale use `rsync -avnc` or dedicated tools.
 
-## When NOT to use
+
+## When not to use
 
 - **Live DB row comparison** — export and use SQL/`md5sum` on dumps, not diff on running files.
 - **Semantic JSON/YAML equivalence** — key order differs; use `jq -S` normalize or structural diff tools.
 
+
 ## Related
 
 [[rsync]] [[Scripting]] [[Linux file management]]
+
+## Sources
+
+- [Wikipedia — diff](https://en.wikipedia.org/wiki/diff)

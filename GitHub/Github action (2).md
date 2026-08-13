@@ -6,40 +6,28 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Github action (2) — short field notes on what it is and how to use it.
+## How it works
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[GitHub]]
+
+## Sources
+
+- [Wikipedia — Github action](https://en.wikipedia.org/wiki/Github_action)

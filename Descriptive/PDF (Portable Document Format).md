@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A PDF is objects + a cross-reference table; viewers draw pages, not a live DOM like HTML.
+## How it works
 
 ```txt
 objects (page, font, stream) → xref → viewer renders page N
@@ -34,7 +23,8 @@ objects (page, font, stream) → xref → viewer renders page N
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 pdftotext file.pdf -     # extract text
@@ -50,7 +40,8 @@ qpdf --check file.pdf    # structural check
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ qpdf --check file.pdf    # structural check
 | Corrupt xref | bad merge | qpdf repair / regenerate |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ qpdf --check file.pdf    # structural check
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Editable web content** — HTML.
 - **Data interchange** — JSON/CSV.
 
+
 ## Related
 
 [[pdf parser]] [[pdf-stream-viewing]] [[Markdown]]
+
+## Sources
+
+- [Wikipedia — PDF](https://en.wikipedia.org/wiki/PDF)

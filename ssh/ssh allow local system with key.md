@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
+## How it works
 
 ```
                                               │
@@ -33,7 +22,8 @@
 /home/user               not group/world writable (sshd checks)
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Client: generate key
 
@@ -123,7 +113,8 @@ Same steps — sshd listens on all interfaces by default:
 
 Loopback test validates sshd + keys without network/firewall variables.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -150,6 +141,7 @@ Common log lines:
 - `User user from 1.2.3.4 not allowed because not listed in AllowUsers`
 - `Failed publickey for user from …`
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -164,12 +156,18 @@ Common log lines:
 - **SELinux** — `restorecon -Rv ~/.ssh` if context wrong on RHEL.
 - **ForceCommand + SFTP** — use `internal-sftp` subsystem pattern for chrooted SFTP, not random shell script.
 
-## When NOT to use
+
+## When not to use
 
 - **Shared private key across team** — per-user keys + audit; use SSO bastion for org scale.
 - **command= bypass with scp** — scp/sftp use different subsystem; design restrictions explicitly.
 - **PasswordAuthentication no before confirming key** — classic outage pattern.
 
+
 ## Related
 
 [[Linux]] [[Commands]] [[loopback]] [[Networking]]
+
+## Sources
+
+- [Wikipedia — ssh allow local system with key](https://en.wikipedia.org/wiki/ssh_allow_local_system_with_key)

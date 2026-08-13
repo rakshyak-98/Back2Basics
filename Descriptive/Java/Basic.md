@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Source → bytecode (`.class`) → JVM executes; packages and classpath find your types.
+## How it works
 
 ```txt
 .java → javac → .class → java Main
@@ -34,7 +23,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 javac Hello.java
@@ -58,7 +48,8 @@ public class Hello {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ public class Hello {
 | Package mismatch | folder vs package | Match directory layout |
 
 ---
+
 
 ## Gotchas
 
@@ -79,11 +71,17 @@ public class Hello {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny CLI glue** — scripting language may be faster to ship.
 - **Browser applets** — dead; use modern web stacks.
 
+
 ## Related
 
 [[Java applets]] [[Operating System/JVM]]
+
+## Sources
+
+- [Wikipedia — Basic](https://en.wikipedia.org/wiki/Basic)

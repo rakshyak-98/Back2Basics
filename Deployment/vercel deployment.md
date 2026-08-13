@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Vercel builds from Git (or CLI `vercel deploy`) → **static assets** on global CDN + **serverless functions** (`/api/*`, Next.js routes). Routing is **filesystem-based** (Next) or **`vercel.json` rewrites** (CRA/Vite SPA). No long-lived server — cold starts and regional execution matter for APIs.
 
@@ -25,7 +16,8 @@ Git push ──► build ──► static (CDN) + lambdas (region)
 User refresh /deep link ──► must rewrite to index or SSR route
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SPA fallback (Vite/CRA — fix refresh 404)
 
@@ -76,7 +68,8 @@ vercel logs <deployment-url>
 ```
 Or set **Root Directory** in project settings.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,6 +86,7 @@ vercel inspect <url> --logs
 curl -I https://your-app.vercel.app/deep/route
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -107,12 +101,18 @@ curl -I https://your-app.vercel.app/deep/route
 > [!WARNING]
 > **Regional functions + global DB** — latency; co-locate or use edge-compatible data (Planetscale/Vercel Postgres region hints).
 
-## When NOT to use
+
+## When not to use
 
 - **Long-running workers / queues** — use Railway/Fly/ECS/K8s ([[Deployment]]).
 - **Stateful TCP services** — Vercel is HTTP-centric.
 - **Full control of nginx tuning** — compare [[nginx SPA deployment]] on own VM.
 
+
 ## Related
 
 [[nginx SPA deployment]] · [[React]] · [[CORS (Cross Origin Request Sharing)]] · [[Deployment]] · [[Release cycle]]
+
+## Sources
+
+- [Wikipedia — vercel deployment](https://en.wikipedia.org/wiki/vercel_deployment)

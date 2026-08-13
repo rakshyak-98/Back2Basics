@@ -6,50 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Permission denied (publickey) | SSH key loaded; remote URL | `ssh -T git@github.com`; fix `~/.ssh/config` |
-| Repository not found | Remote URL; access token scope | Verify org/repo name and credentials |
-| Failed to push (non-fast-forward) | Remote has new commits | `git pull --rebase` then push |
-| Unable to index file | File permissions; line endings | `chmod`; check `core.autocrlf` |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** git error — drwxr-xr-x 2 root root 4096 Jul 3 18:35 test/
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 git status
@@ -60,6 +20,36 @@ git config --list --show-origin
 
 ---
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Permission denied (publickey) | SSH key loaded; remote URL | `ssh -T git@github.com`; fix `~/.ssh/config` |
+| Repository not found | Remote URL; access token scope | Verify org/repo name and credentials |
+| Failed to push (non-fast-forward) | Remote has new commits | `git pull --rebase` then push |
+| Unable to index file | File permissions; line endings | `chmod`; check `core.autocrlf` |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Rollback
+
+1. …
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -67,21 +57,19 @@ git config --list --show-origin
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not force-push to shared branches to silence errors — coordinate with the team.
 
 
 ---
 
-## Rollback
-
-1. …
-
-## Escalation
-
-…
 
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git error](https://en.wikipedia.org/wiki/git_error)

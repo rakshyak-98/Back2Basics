@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for each newline-terminated chunk — no manual buffering.
 
@@ -27,7 +18,8 @@ prompt ───────────────────────┴�
 
 For password input, use `readline` with muted output or a dedicated package. For one-shot arguments, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactive prompts in scripts.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic prompt loop
 
@@ -90,7 +82,8 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +93,7 @@ process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 | Broken pipes | Piped to `head` | Ignore `EPIPE` on stdout |
 | Unicode garbled | Encoding | `setEncoding('utf8')` on stdin |
 | `ReferenceError: stdir` | Typo | Use `stdin`, not `stdir` |
+
 
 ## Gotchas
 
@@ -112,12 +106,18 @@ process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 > [!WARNING]
 > **CI/non-interactive** — always provide env/flag bypass for automation.
 
-## When NOT to use
+
+## When not to use
 
 - **HTTP/API input** — use request body parsers, not readline.
 - **Binary stdin** — use stream `read()` without UTF-8 encoding.
 - **Complex CLI** — use `commander`/`yargs` for flags/subcommands.
 
+
 ## Related
 
 [[CLI]] [[REPL]] [[Stream]] [[node command]]
+
+## Sources
+
+- [Wikipedia — inputs](https://en.wikipedia.org/wiki/inputs)

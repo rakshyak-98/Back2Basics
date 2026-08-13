@@ -1,143 +1,47 @@
-[[Blocking]] [[non-blocking]] [[Event Loop]] [[libuv]] [[Callback]] [[context switching]]
+[[Operating System]] [[Blocking]] [[non-blocking]] [[Epoll]] [[system call]] [[CPU IO Bound Task]]
 
-# Blocking vs Non-Blocking
+# Blocking Vs Non-Blocking
 
-> Blocking vs Non-Blocking — non-blocking + reactor: [Event loop]──read(EAGAIN)──epoll──►read──►work
+> Blocking waits inside the kernel until I/O is ready; non-blocking returns immediately and pushes the wait into your event loop — choose based on concurrency shape, not ideology.
 
----
+Both modes are properties of **how a file descriptor (or socket) is configured**, combined with how the [[Thread]] model uses them. They are not separate “kinds” of network stack.
 
-## Index
+## Comparison
 
-- [[#Decision context]]
-- [[#Comparison matrix]]
-- [[#Selection guide]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Decision table]]
-- [[#Triage (when things break)]]
-- [[#When NOT to use]]
-- [[#Gotchas]]
-- [[#Related]]
+| Aspect | Blocking | Non-blocking |
+|--------|----------|--------------|
+| Call behavior | Thread sleeps until ready | Returns `EAGAIN` / `EWOULDBLOCK` if not ready |
+| Code style | Linear, one thread per flow | State machine or callback / async |
+| Scalability | Thread count ≈ concurrent waits | Few threads + [[Epoll]] / kqueue |
+| Latency under load | Scheduler and stack overhead | Lower thread overhead; complex app logic |
+| Error handling | Simple return codes | Must retry on `EINTR` and `EAGAIN` |
 
-## Decision context
-
-…
-
-## Comparison matrix
-
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
-
-## Selection guide
-
-- Choose **A** when …
-- Choose **B** when …
-
-## Mental model
-
-| Term | Meaning | Who waits |
-|------|---------|-----------|
-| **Blocking I/O** | Syscall doesn't return until data ready / buffer space | Thread sleeps → [[context switching]] |
-| **Non-blocking I/O** | Syscall returns immediately; may get `EAGAIN` | Thread continues → poll/epoll [[non-blocking]] |
-| **Blocking API (JS)** | Callback/promise not invoked until operation completes | Event loop free for other work |
-| **Sync API (JS)** | Entire **main thread** stuck until syscall returns | Starves [[Event Loop]] |
+## Typical architectures
 
 ```txt
-Blocking thread model:     [Thread]──read(block)──sleep──►wake──►work
-Non-blocking + reactor:    [Event loop]──read(EAGAIN)──epoll──►read──►work
-                           (few threads, many connections)
+Blocking model:
+  Thread 1 ── accept ── read ── write ── close
+  Thread 2 ── accept ── read ── write ── close
+  (N threads for N idle clients)
+
+Non-blocking model:
+  Event loop ── epoll_wait ── dispatch read/write on ready fds
+  (few threads, many connections)
 ```
 
-**Node canonical rule:** only the main JavaScript thread must never do **long blocking** work (sync fs, `bcrypt` sync, huge JSON parse). libuv hides **non-blocking** network/disk behind a thread pool for some operations.
+## Hybrid patterns
 
-**Go:** goroutine blocking on `conn.Read` blocks an OS thread from the pool — cheap until GOMAXPROCS threads all block.
+Thread pools handle **blocking** disk or database calls while the accept loop stays non-blocking. Runtimes (Node.js, Go) multiplex many logical tasks onto fewer OS threads — know which layer is blocking ([[CPU IO Bound Task]]).
 
-**Java:** thread-per-request **blocking** servlets versus Netty **non-blocking** — thread count versus complexity tradeoff.
+Setting non-blocking mode:
 
----
-
-## Standard config / commands
-
-### Spot blocking on event-loop runtimes
-
-```shell
-# Node: event loop delay (built-in or clinic.js)
-node --trace-sync-io server.js    # warns on sync I/O
-
-# strace: long blocking read on main thread PID
-strace -p PID -e read,write,fsync -T
-
-# Go: goroutine dump if all threads blocked
-curl localhost:6060/debug/pprof/goroutine?debug=2
-
-# Java: thread dump
-jcmd PID Thread.print | grep -A5 BLOCKED
+```c
+int flags = fcntl(fd, F_GETFL, 0);
+fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 ```
 
-### Move from blocking to non-blocking (patterns)
+## Sources
 
-**Node:** `fs.readFile` → `fs.promises.readFile`; never `fs.readFileSync` in request path. CPU work → `worker_threads`.
-
-**Go:** `net/http` is goroutine-per-connection (blocking reads) — fine at moderate scale; switch to `netpoll` tuning or fewer handlers if thread count explodes.
-
-**Java:** Tomcat `maxThreads` caps blocking workers; reactive stack (WebFlux) for non-blocking end-to-end **only if** DB/driver also async.
-
-See [[non-blocking]] for `fcntl O_NONBLOCK`, epoll, and `EAGAIN` handling.
-
----
-
-## Decision table
-
-| Workload | Prefer | Why |
-|----------|--------|-----|
-| High fan-in HTTP/WebSocket | Non-blocking + event loop | Few [[file descriptors]] threads, many conns |
-| CRUD API moderate QPS | Blocking + thread pool | Simpler code; pool size tuned to cores |
-| Disk-heavy batch ETL | Blocking threads or async IO | Throughput over latency |
-| CPU-bound (hash, ML) | Worker threads/processes | I/O model irrelevant — avoid blocking event loop |
-| Postgres client | Blocking JDBC common | Pool limits connections; pgbouncer |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Node API freezes under load | sync fs/crypto; CPU on main thread | Remove sync APIs; offload workers |
-| Timeouts cascade | thread pool exhausted (Java/Go) | Pool size; circuit breakers; faster downstream |
-| Low CPU, requests queue | blocked on external I/O | Timeouts; async client; non-blocking [[non-blocking]] |
-| p99 fine, p999 awful | occasional sync path | `--trace-sync-io`; audit deps |
-| Works in dev, stalls prod | larger files / slower disk | Don't sync read logs on request path |
-| "Non-blocking" still slow | thread pool saturation (libuv) | UV_THREADPOOL_SIZE; separate disk ops |
-
----
-
-## When NOT to use
-
-- Don't rewrite blocking CRUD application to epoll for ideology — measure connection count and team expertise.
-- Don't use non-blocking disk patterns without [[fsync]] / durability design for stateful writes.
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Async API ≠ non-blocking I/O.** Some "async" DB drivers block a thread pool thread — end-to-end latency still tied to pool size.
-
-> [!WARNING]
-> **libuv thread pool** — `fs` operations and DNS often block **worker threads**, not the main loop — default pool size 4.
-
-> [!WARNING]
-> **Blocking in callback** blocks the event loop even after non-blocking I/O delivered data.
-
-> [!WARNING]
-> **False comfort from `setImmediate`** — doesn't parallelize CPU; still one JS thread.
-
-> [!WARNING]
-> **Mixed model deadlocks** — async code calling sync wrapper that waits on future — classic Java/Python/Node bridge bugs.
-
----
-
-## Related
-
-[[non-blocking]] [[Blocking]] [[Event Loop]] [[libuv]] [[Callback]] [[thread pool]] [[context switching]] [[file descriptors]] [[CPU IO Bound Task]]
+- Kerrisk, *The Linux Programming Interface* — non-blocking I/O, `select`, `poll`, `epoll`
+- Linux `fcntl(2)`, `epoll(7)` manual pages
+- Wikipedia: [C10k problem](https://en.wikipedia.org/wiki/C10k_problem)

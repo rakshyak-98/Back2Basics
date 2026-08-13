@@ -1,32 +1,23 @@
-[[ExpressJS]] [[express concepts]] [[WebRTC]] [[SSE (Server-Sent Events)]]
+[[ExpressJS]] [[express concepts]] [[WebRTC]] [[SSE (Server-Sent Events)]] [[uWebSocket]]
 
 # Socket IO
 
-> Socket.IO — realtime library with fallbacks (WebSocket first); events, rooms, and reconnect—broader than raw WS.
+> Socket.IO is a realtime event library with transport fallbacks (WebSocket first, then polling) — rooms, reconnect, and named events; not interchangeable with the browser's native WebSocket API.
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Client and server share event names. Engine.IO negotiates transport. Not identical to browser `WebSocket` API—need matching Socket.IO client.
+## Client and server events
 
 ```txt
-client emit ──► server on
-server to(room).emit ──► clients
+client.emit('chat', msg) ──► server.on('chat')
+server.to('lobby').emit('chat', msg) ──► all clients in room
 ```
+
+Engine.IO negotiates transport. The client must use the Socket.IO client library — a raw WebSocket client cannot speak the protocol.
 
 ---
 
-## Standard config / commands
+## With Express
 
 ```js
 import { createServer } from 'http'
@@ -42,41 +33,33 @@ httpServer.listen(3000)
 
 | Knob | Why it matters |
 |------|----------------|
-| CORS | Browser clients |
-| Adapter (Redis) | Multi-node rooms |
-| Auth middleware | `socket.handshake` |
+| CORS | Browser clients need allowed origins |
+| Redis adapter | Multi-node room broadcast |
+| Auth middleware | Validate `socket.handshake` (token in auth payload) |
 
 ---
 
-## Triage (when things break)
+## What breaks first
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Connect loop | Version mismatch | Align major versions |
-| Works single node only | Sticky/adapter | Redis adapter + sticky |
-| CORS errors | Origin | Configure cors |
-| Auth missing | Handshake | Middleware reject |
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Connect loop | Client/server version mismatch | Align major versions |
+| Works on one node only | No shared adapter | Redis adapter + sticky sessions |
+| CORS errors | Origin not allowed | Configure `cors` option |
+| Unauthorized connections | No handshake auth | Middleware on `io.use` |
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Socket.IO ≠ WS** — different protocol framing.
-
-> [!WARNING]
-> **Horizontal scale** — need pub/sub adapter.
+Socket.IO protocol ≠ raw WebSocket framing. Horizontal scale requires a pub/sub adapter.
 
 ---
 
-## When NOT to use
+## When to choose something else
 
-- **Simple one-way server push** — SSE.
-- **Binary media P2P** — WebRTC.
-- **Standards-only WS clients** — `ws` library.
+- **One-way server push** — [[SSE (Server-Sent Events)]] is simpler.
+- **Peer-to-peer media** — [[WebRTC]].
+- **Standards-only WebSocket clients** — `ws` or [[uWebSocket]].
 
 ---
 
 ## Related
 
-[[uWebSocket]] [[SSE (Server-Sent Events)]] [[express concepts]]
+[[uWebSocket]] · [[SSE (Server-Sent Events)]] · [[express concepts]]

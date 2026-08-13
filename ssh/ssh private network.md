@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** ssh private network — ip addr show | grep inet
+## How it works
 
 ```bash
 ip addr show | grep inet
@@ -42,7 +31,8 @@ sudo ufw reload; # reload
 sudo ufw status numbered; # verify the rule
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ip route
@@ -52,7 +42,8 @@ ssh -J bastion.internal user@10.0.5.20
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ ssh -J bastion.internal user@10.0.5.20
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -70,13 +62,19 @@ ssh -J bastion.internal user@10.0.5.20
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not expose private RFC1918 addresses directly to the internet with port forwarding.
 
 
 ---
 
+
 ## Related
 
 [[ssh]]
+
+## Sources
+
+- [Wikipedia — ssh private network](https://en.wikipedia.org/wiki/ssh_private_network)

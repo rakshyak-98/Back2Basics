@@ -1,104 +1,31 @@
-[[SMT threads]] [[system bus]] [[TDP]] [[CPU IO Bound Task]]
+[[Operating System]] [[SMT threads]] [[TDP]] [[CPU IO Bound Task]] [[context switching]]
 
 # Base clock speed
 
-> Base clock speed — cPUs advertise base clock (guaranteed all-core floor under TDP) and max turbo (short-burst peak on few cores):
+> Base clock speed is the guaranteed steady-state frequency of a CPU core under nominal thermal and power limits — not the short turbo burst you see in marketing.
 
----
+Modern processors expose **base** and **maximum turbo** frequencies (GHz). The **base clock** is the speed the vendor certifies when all cores run a typical workload within thermal design power ([[TDP]]). Turbo raises frequency when headroom exists; under sustained load the core often settles near base or an intermediate all-core frequency.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-CPUs advertise **base clock** (guaranteed all-core floor under TDP) and **max turbo** (short-burst peak on few cores):
+## What actually sets frequency
 
 ```txt
-Marketing label          Reality under load
-────────────────         ──────────────────
-"3.2 GHz base"      →    all cores ≥ 3.2 GHz if cooling/TDP allows
-"5.0 GHz boost"     →    1–2 cores briefly; drops as power/thermal limits hit
+Workload demand → OS scheduler places threads on cores
+                → hardware P-states / CPPC choose frequency
+                → thermal and power limits (TDP, PL1/PL2) cap or throttle
 ```
 
-**Effective frequency** varies with:
-- Workload (AVX-512 draws more power → lower clock)
-- [[TDP]] and cooling
-- `intel_pstate` / `amd-pstate` governor
-- Container CPU quota (cfs bandwidth)
+Linux exposes this through `cpufreq` governors (`performance`, `powersave`, `schedutil`), `/proc/cpuinfo`, and tools like `turbostat`. Container CPU quotas ([[cgroup (Control Group)]]) limit effective compute even when the hardware could turbo higher.
 
-**Service impact:** latency-sensitive single-thread work cares about **turbo**; batch/parallel work cares about ** sustained all-core frequency** and memory bandwidth ([[system bus]]).
+## Why it matters for systems work
 
----
+- **[[CPU IO Bound Task]]** — an I/O-bound service rarely needs peak GHz; wrong-sizing leads to paying for idle turbo headroom.
+- **[[context switching]]** — higher frequency reduces time per quantum but does not remove scheduler overhead.
+- **[[SMT threads]]** — two logical CPUs share one core’s execution units; both compete for the same frequency and cache budget.
 
-## Standard config / commands
+Base clock is a hardware specification; observed performance still depends on memory latency, disk ([[disk IOPS]]), and lock contention ([[mutexes]]).
 
-### Read current vs base frequency
+## Sources
 
-```bash
-lscpu | grep -E 'MHz|Model name|CPU max|CPU min'
-watch -n1 'grep MHz /proc/cpuinfo | head'
-
-# Detailed (if turbostat available)
-sudo turbostat --Summary --show Core,CPU,Avg_MHz,Busy% --interval 1
-```
-
-### Governors
-
-```bash
-cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-# performance | powersave | schedutil
-
-echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-# Latency-sensitive bare metal — higher power bill
-```
-
-### Container CPU limits
-
-```bash
-# cgroup v2 cpu.max — quota affects effective MHz
-cat /sys/fs/cgroup/myapp/cpu.max
-```
-
-**Why `performance` governor:** reduces frequency transition latency for trading/ad-tech style tail-SLA services — not default for cloud cost optimization.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slower than "spec sheet" | Thermal throttle; `dmesg \| grep -i throttle` | Improve cooling; reduce AVX load; spread jobs |
-| Variable benchmark results | Turbo + governor | Pin governor; disable turbo in BIOS for reproducibility |
-| Container "3 GHz" but sluggish | CPU quota throttling | Raise `cpu.max`; check `cpu.stat` `nr_throttled` |
-| All-core boost never hits | Power limit PL1/PL2 | Datacenter power cap; BIOS limits |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **GHz across vendors ≠ IPC** — compare benchmarks for your workload, not clock alone.
-
-> [!WARNING]
-> **Hypervisor steals cycles** — stolen time in `top`/`vmstat` on VMs; frequency may look fine while effective CPU is low.
-
-> [!WARNING]
-> **`/proc/cpuinfo` MHz is instantaneous** — sample over time for capacity planning.
-
----
-
-## When NOT to use
-
-Don't buy CPUs on base clock alone for **parallel batch** — core count, cache, and memory channels often dominate. For **single-thread** latency, prioritize turbo behavior and cache.
-
----
-
-## Related
-
-[[TDP]] [[SMT threads]] [[system bus]] [[context switching]] [[CPU IO Bound Task]]
+- Intel® 64 Architecture Software Developer’s Manual — power management
+- Linux kernel documentation: [CPUFreq](https://docs.kernel.org/admin-guide/pm/cpufreq.html)
+- Wikipedia: [CPU multiplier](https://en.wikipedia.org/wiki/CPU_multiplier), [Dynamic frequency scaling](https://en.wikipedia.org/wiki/Dynamic_frequency_scaling)

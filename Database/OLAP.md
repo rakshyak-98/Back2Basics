@@ -1,116 +1,33 @@
-[[OLTP]] [[Data access patterns]] [[ACID]] [[Database design]] [[mysql]]
+[[Database]] [[OLTP]] [[Data access patterns]] [[SQL]]
 
-# OLAP (Online Analytical Processing)
+# OLAP
 
-> OLAP (Online Analytical Processing) — OLTP answers "create this order now" (few rows, ms latency). OLAP answers "revenue by region last 36 months" (millions–billions of rows, seconds OK).
+> Online Analytical Processing—large scans and aggregations over historical data where throughput and columnar compression beat single-row latency.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-OLTP answers **"create this order now"** (few rows, ms latency). OLAP answers **"revenue by region last 36 months"** (millions–billions of rows, seconds OK). OLAP stores favor **columnar layout**, **compression**, **star/snowflake schemas**, **pre-aggregations**, and **eventual consistency** from ETL — not row locks on hot paths.
-
-```
-OLTP (Postgres/MySQL) ──ETL/CDC──► OLAP (BigQuery, Snowflake, ClickHouse, Redshift)
-         │                                    │
-    source of truth                      dashboards, ML features
-```
-
-Running heavy OLAP on primary OLTP **without isolation** is a classic production outage ([[Database mistakes]]).
-
-## Standard config / commands
-
-### When to split OLTP vs OLAP
-
-| Signal | Action |
-|--------|--------|
-| Reporting queries slow OLTP | Read replica + timeout, or warehouse |
-| Full table scans on facts | Columnar warehouse |
-| Cross-system metrics | ETL to single OLAP |
-| Real-time-ish analytics | CDC stream (Debezium) → ClickHouse/Druid |
-
-### Star schema (warehouse baseline)
-
-```
-fact_sales (date_key, product_key, customer_key, amount)
-    ├── dim_date
-    ├── dim_product
-    └── dim_customer
-```
-
-- **Facts** = measurable events; **dims** = filter/group attributes.
-- Denormalize dims for query simplicity; normalize OLTP separately.
-
-### ETL patterns
+## Typical queries
 
 ```sql
--- nightly batch (idempotent load)
-INSERT INTO warehouse.fact_orders
-SELECT o.id, d.date_key, SUM(li.qty * li.price)
-FROM oltp.orders o
-JOIN oltp.line_items li ON ...
-JOIN dim_date d ON d.date = DATE(o.created_at)
-WHERE o.updated_at >= :watermark;
+SELECT region, SUM(revenue)
+FROM sales_fact
+WHERE sold_date BETWEEN '2024-01-01' AND '2024-12-31'
+GROUP BY region;
 ```
 
-- **CDC** (preferred near-real-time): logical replication / Debezium → object storage → warehouse external tables.
+These patterns stress **sequential I/O** and **CPU for aggregation**, not index point lookups.
 
-### Engine cheat sheet
+## Architecture patterns
 
-| Engine | Sweet spot |
-|--------|------------|
-| BigQuery / Snowflake | Managed, separate storage/compute |
-| ClickHouse | Fast aggregations, high ingest |
-| Redshift | AWS-native, spectrum to S3 |
-| Postgres + Citus/columnar ext | Small team, moderate scale |
-| Materialized views on replica | Lightweight stepping stone |
+- **Columnar stores** (Parquet, ClickHouse, BigQuery) — read only needed columns
+- **Star schema** — fact table + dimension tables; trades [[SQL normalization]] for scan speed
+- **ETL/ELT** from [[OLTP]] source — eventual consistency acceptable ([[BASE]])
 
-### Query habits
+## Isolation from production
 
-- Filter on **partition key** (date) first — partition pruning.
-- Avoid `SELECT *` on wide fact tables.
-- Pre-aggregate with **rollup tables** or MVs for dashboards hit every 30s.
+Never let ad-hoc analyst queries saturate the primary. Use read replicas with lag monitoring, or a dedicated warehouse fed by change-data-capture.
 
-## Triage (when things break)
+*What breaks first if OLAP and OLTP share one MySQL primary?* Buffer pool eviction of hot OLTP pages and replication lag on replicas used for reporting.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Dashboard timeout | Full scan; missing partition filter | Add date predicate; sort key; MV |
-| OLTP prod slow during report | Report on primary | Move to replica/warehouse; kill query |
-| ETL duplicate rows | Non-idempotent load | Merge/upsert on natural key; dedupe window |
-| Stale numbers vs OLTP | Batch lag; failed job | Alert on watermark; rerun from checkpoint |
-| Cost spike (BigQuery) | Bytes scanned | Partition/cluster; avoid SELECT *; slot caps |
-| Schema drift break ETL | OLTP migration without pipeline update | Contract tests; versioned exports |
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **Materialized view on OLTP primary refreshed every minute** — still write/load pressure; prefer warehouse.
-
-> [!WARNING]
-> **COUNT(*) on billion-row fact without filter** — always bound time range in UI defaults.
-
-> [!WARNING]
-> **JOIN OLTP live in Metabase** — one analyst can lock or OOM small Postgres.
-
-> [!WARNING]
-> **Eventually consistent OLAP** — don't use warehouse balance for fraud check without sync guarantee.
-
-## When NOT to use
-
-- **Operational reads in user request path** — use OLTP + cache.
-- **OLAP engine as primary application DB** — poor fit for high-frequency row updates ([[OLTP]]).
-- **Premature Snowflake for 10GB** — replica + indexed aggregates may suffice ([[Data access patterns]]).
-
-## Related
-
-[[OLTP]] · [[Data access patterns]] · [[ACID]] · [[Database design]] · [[Database mistakes]] · [[connection pooling]]
+- Kleppmann, *DDIA*, Ch. 3
+- Wikipedia — [Online analytical processing](https://en.wikipedia.org/wiki/Online_analytical_processing)

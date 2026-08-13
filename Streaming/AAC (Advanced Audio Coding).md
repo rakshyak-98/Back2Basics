@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **AAC** is a **lossy** perceptual audio codec: it throws away information humans rarely hear, yielding smaller files than MP3 at the same bitrate. In streaming stacks it sits inside **fMP4/CMAF segments** alongside H.264/HEVC/AV1 video; players decode AAC in software or hardware.
 
@@ -38,7 +29,8 @@ PCM (raw) ──► AAC encoder ──► ADTS or raw AAC in MP4 (mp4a)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### ffmpeg — AAC for HLS/fMP4 (production default)
 
@@ -88,7 +80,8 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +93,7 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 | Loudness jumps between ads | No loudness normalization | EBU R128 / `-af loudnorm` on mezzanine |
 
 ---
+
 
 ## Gotchas
 
@@ -117,7 +111,8 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **WebRTC voice** — prefer Opus (built into WebRTC); AAC adds encode latency.
 - **Archival master** — store lossless (FLAC/PCM mezzanine); AAC only at delivery edge.
@@ -125,6 +120,11 @@ mediainfo --Inform="Audio;%Format% %BitRate% %SamplingRate%" output.mp4
 
 ---
 
+
 ## Related
 
 [[codecs]] [[Encoding]] [[HLS]] [[DASH]] [[CMAF]] [[bitrate streaming]] [[DRM]] [[re-encoding]]
+
+## Sources
+
+- [Wikipedia — AAC](https://en.wikipedia.org/wiki/AAC)

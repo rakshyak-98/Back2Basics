@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** composite — compositing is where the painted parts of the page are put together for displaying on screen.
+## How it works
 
 Compositing is where the painted parts of the page are put together for displaying on screen.
 since the part of the page were potentially drawn onto multiple layers, they need to be applied to the screen in the correct order.
@@ -32,25 +21,24 @@ since the part of the page were potentially drawn onto multiple layers, they nee
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[Rendering performance]]
+
+## Sources
+
+- [Wikipedia — composite](https://en.wikipedia.org/wiki/composite)

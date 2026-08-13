@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A mixin is a bag of methods you assign onto a prototype or fold into a class. Prefer composition (has-a) when possible; mixins when many types need the same behavior.
+## How it works
 
 ```txt
 Object.assign(Target.prototype, editableMixin)
@@ -31,7 +20,8 @@ Object.assign(Target.prototype, editableMixin)
 | **composition** | Own a helper object | “Often clearer than mixin.” |
 | **conflict** | Same method name | “Last assign wins — dangerous.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const canSpeak = {
@@ -54,7 +44,8 @@ const withSpeak = (Base) => class extends Base {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ const withSpeak = (Base) => class extends Base {
 | Broken instanceof expectations | Prototype soup | Document lineage |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ const withSpeak = (Base) => class extends Base {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One class needs the behavior** — just write a method.
 - **React** — hooks/HOCs replaced mixin era (`React.createClass` mixins are gone).
 
 ---
 
+
 ## Related
 
 [[prototype]] [[React Pattern/Higher order Component (HOCs)]] [[Packages/Immer]]
+
+## Sources
+
+- [Wikipedia — mixin](https://en.wikipedia.org/wiki/mixin)

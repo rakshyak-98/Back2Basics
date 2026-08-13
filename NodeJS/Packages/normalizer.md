@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 APIs often return **nested graphs** (posts with embedded authors and comments). Updating one entity forces copying whole trees. **normalizr** maps response shapes to **entity tables** keyed by id:
 
@@ -27,7 +18,8 @@ API response                    normalized store
 
 Only fields described in the **schema** are normalized; everything else is copied as-is onto the entity. Relationships use `schema.Entity` references or arrays of entities.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Schema + normalize
 
@@ -77,7 +69,8 @@ import { denormalize } from 'normalizr';
 const postWithAuthor = denormalize(result.posts[0], post, entities);
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +79,7 @@ const postWithAuthor = denormalize(result.posts[0], post, entities);
 | Undefined entity merge | Wrong result shape | Log `result` keys vs reducer expectations |
 | Stale nested objects | Partial normalize | Normalize full subgraph or merge carefully |
 | Performance on huge payloads | Deep nesting | Paginate API; normalize incrementally |
+
 
 ## Gotchas
 
@@ -98,12 +92,18 @@ const postWithAuthor = denormalize(result.posts[0], post, entities);
 > [!WARNING]
 > **Over-normalizing tiny payloads** — overhead not worth it for flat CRUD lists.
 
-## When NOT to use
+
+## When not to use
 
 - **Flat list with no shared references** — store array directly.
 - **GraphQL with normalized cache** — Apollo/Relay already dedupe; don't double-normalize.
 - **Real-time partial patches** — merge strategy may be simpler with Immer + id map by hand.
 
+
 ## Related
 
 [[React/React data management]] [[zustand]] [[Packages/npm packages]] [[NodeJS]]
+
+## Sources
+
+- [Wikipedia — normalizer](https://en.wikipedia.org/wiki/normalizer)

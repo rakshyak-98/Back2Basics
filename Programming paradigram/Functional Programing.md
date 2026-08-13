@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Core ideas: **pure functions** (same input → same output), **immutability**, **first-class functions**, **referential transparency**. State changes via new values, not mutation. Higher-order functions (`map`, `filter`, `reduce`) replace many loops. IO/monads/effects pushed to boundaries ("functional core, imperative shell").
 
@@ -24,7 +15,8 @@ input → f(g(h(x))) → output
 no hidden globals; mutation → new copy
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Pure function shape
 
@@ -63,7 +55,8 @@ const nextList = [...items, newItem];
 const visible = items.filter(i => i.active);
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Smell | Check | Fix |
 |-------|-------|-----|
@@ -72,6 +65,7 @@ const visible = items.filter(i => i.active);
 | Stack overflow | Deep recursion | Tail-call (where supported) or loop |
 | Performance | Excess copying | Structural sharing (Immer), persistent DS |
 | "Same input diff output" | Hidden Date/random/network | Inject clock/RNG; isolate IO |
+
 
 ## Gotchas
 
@@ -82,11 +76,17 @@ const visible = items.filter(i => i.active);
 >
 > **FP in JS without types** — easy to pass wrong arity; use TS.
 
-## When NOT to use
+
+## When not to use
 
 - Don't clone huge graphs every tick in hot paths — profile first.
 - Don't ban all mutation in low-level perf code (games, codecs) — isolate instead.
 
+
 ## Related
 
 [[Programming paradigram/purely declarative]] [[React/React data management]] [[Design pattern/Static Members]]
+
+## Sources
+
+- [Wikipedia — Functional Programing](https://en.wikipedia.org/wiki/Functional_Programing)

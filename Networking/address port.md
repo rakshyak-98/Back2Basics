@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** IP picks the host; port picks the process/service on that host. A TCP connection is two endpoints: local and peer.
+## How it works
 
 ```txt
 Your app                          Remote service
@@ -45,7 +34,8 @@ local 192.168.1.10:54321  ←→  peer 203.0.113.5:443
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Who is listening / connected?
@@ -68,7 +58,8 @@ cat /proc/sys/net/ipv4/ip_local_port_range
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +70,7 @@ cat /proc/sys/net/ipv4/ip_local_port_range
 | Permission denied bind | Port < 1024 as non-root | Use ≥1024 or grant `CAP_NET_BIND_SERVICE` |
 
 ---
+
 
 ## Gotchas
 
@@ -93,7 +85,8 @@ cat /proc/sys/net/ipv4/ip_local_port_range
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Hard-coding client ports** — let the OS assign ephemeral ports unless a firewall demands otherwise.
 - **Using port as authentication** — security groups help; they are not credentials.
@@ -101,6 +94,11 @@ cat /proc/sys/net/ipv4/ip_local_port_range
 
 ---
 
+
 ## Related
 
 [[Networking]] [[TCP]] [[UDP]] [[BSD Socket]] [[POSIX Socket]] [[outbound ip]] [[localhost]]
+
+## Sources
+
+- [Wikipedia — address port](https://en.wikipedia.org/wiki/address_port)

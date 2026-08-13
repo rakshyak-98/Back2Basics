@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Multicast — one sender to many interested receivers on a multicast group.
+## How it works
 
 Multicast = one sender -> Selected group of receivers.
 ```txt
@@ -42,25 +31,24 @@ Characteristics
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[IGMP]]] [[[IPTV]]] [[[PIM]]
+
+## Sources
+
+- [Wikipedia — Multicast](https://en.wikipedia.org/wiki/Multicast)

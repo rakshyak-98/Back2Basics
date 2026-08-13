@@ -6,52 +6,40 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Linux folder hub — kernel, shell, processes, filesystems, and ops commands.
+## How it works
 
 ---
 
-## Routing table
+
+## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
 | … | [[…]] |
 
-## Domain links
+
+## Related topics in this domain
 
 - …: [[…]]
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[Linux.md]]
+
+## Sources
+
+- [Wikipedia — Linux](https://en.wikipedia.org/wiki/Linux)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` versus `String?`.
 
@@ -25,7 +16,8 @@ Java static         →  object / companion object
 Java getter/setter  →  property syntax
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basics
 
@@ -117,7 +109,8 @@ suspend fun load(): Data = withContext(Dispatchers.IO) {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -126,6 +119,7 @@ suspend fun load(): Data = withContext(Dispatchers.IO) {
 | Platform type warning | Java API returns unknown null | Annotate Java `@Nullable` / `@NonNull` or explicit Kotlin type |
 | `when` not exhaustive | Sealed/interface not covered | Add branches or `else` |
 | Coroutine crash | Blocking on Main | `withContext(IO)` for network/disk |
+
 
 ## Gotchas
 
@@ -138,11 +132,17 @@ suspend fun load(): Data = withContext(Dispatchers.IO) {
 > [!WARNING]
 > **`==` is structural equality** — reference equality is `===`.
 
-## When NOT to use
+
+## When not to use
 
 - **Full Kotlin course** — this is a cheat sheet; use official docs for coroutines flow, inline classes, DSL builders.
 - **`!!` to silence compiler** — fix nullability model instead.
 
+
 ## Related
 
 [[java]] [[android]] [[golang]] [[Design pattern]]
+
+## Sources
+
+- [Wikipedia — kotlin syntax](https://en.wikipedia.org/wiki/kotlin_syntax)

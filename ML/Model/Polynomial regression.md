@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Start with [[Model/Linear regression]]: ŷ = β₀ + β₁x. Add powers and cross-terms:
 
@@ -35,7 +26,8 @@ High degree + unregularized OLS **overfits** wildly between points (Runge phenom
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.preprocessing import PolynomialFeatures
@@ -71,7 +63,8 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,6 +76,7 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -93,7 +87,8 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Many categorical / high-dimensional tabular** — [[Decision tree]] / [[Gradient boosting]] find interactions automatically.
 - **Sharp discontinuities** — trees handle better than smooth polynomials.
@@ -101,6 +96,11 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 
 ---
 
+
 ## Related
 
 [[Model/Linear regression]] · [[regression]] · [[Visualization/Residual plot]] · [[Visualization/predicated versus actual plot]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — Polynomial regression](https://en.wikipedia.org/wiki/Polynomial_regression)

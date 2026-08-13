@@ -1,123 +1,65 @@
-[[DNS]] [[DNS zone]] [[DSN records]] [[name server]] [[top-level Domain]]
+[[DNS]] · [[top-level Domain]] · [[DNS zone]] · [[dns record]]
 
 # Sub Domain
 
-> Subdomain — a name under your zone (`api.example.com`) with its own records — or a delegated child zone with its own NS.
+> A subdomain is any domain below another in the DNS tree (`api.example.com` under `example.com`) — you delegate it with NS records or manage it in the same zone with individual records.
 
 ---
 
-## Index
+## Naming
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#DNS record]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `api.example.com` is just another owner name in the `example.com` [[DNS zone]] (usually an A/AAAA/CNAME) — unless you **delegate** it with NS records to another name server.
-
-```txt
-example.com (zone)
-├── www     A/CNAME     ← subdomain label in same zone
-├── api     A
-└── corp    NS ns1.other…  ← delegated subdomain (child zone)
+```
+api.example.com
+│   │      │
+│   │      └── registered domain (apex)
+│   └── labels (subdomains)
+└── leftmost = most specific host
 ```
 
-Browser types `https://api.example.com` → stub resolver asks recursive → authoritative returns records for that label.
+Each label can have its own records or be **delegated** to a separate [[DNS zone]] with its own [[name server]] set.
 
-### Interview map (words you can say)
+## Same zone vs delegation
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Label** | One hop (`api`) | “Subdomain is a label under the parent.” |
-| **Zone cut** | Delegation via NS | “Child has its own SOA and NS.” |
-| **Glue** | A/AAAA for in-bailiwick NS | “Needed when NS lives under the child.” |
-| **Wildcard** | `*.example.com` | “Matches one label; not a substitute for real names.” |
-| **TTL** | Cache lifetime | “Cut TTL before a subdomain migration.” |
+| Approach | When |
+|----------|------|
+| **Records in parent zone** | `api.example.com A 10.0.0.5` — simple, one admin |
+| **Child zone delegation** | Team owns `staging.example.com` NS → their DNS host |
 
----
+Delegation example in parent zone:
 
-## Standard config / commands
-
-```bash
-# Same-zone subdomain
-dig +short api.example.com A
-dig api.example.com ANY +noall +answer
-
-# Is it delegated?
-dig NS api.example.com
-dig +trace api.example.com
+```
+staging.example.com.  NS  ns1.staging-provider.net.
+staging.example.com.  NS  ns2.staging-provider.net.
 ```
 
-```txt
-; in example.com zone — simple subdomain
-api     300  IN  A      203.0.113.20
-www     300  IN  CNAME  api.example.com.
+## Wildcards
 
-; delegated subdomain
-corp    3600 IN  NS     ns1.corp-dns.net.
-corp    3600 IN  NS     ns2.corp-dns.net.
+```
+*.example.com.  A  203.0.113.50
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| CNAME vs A | CNAME can’t sit with other types at that node |
-| Delegation NS | Wrong NS = corp.example.com black hole |
-| Certificates | Each hostname needs SAN/coverage |
+Matches one level (`foo.example.com`) but not `bar.foo.example.com` unless another wildcard exists deeper.
 
----
+## Common patterns
 
-## Triage (when things break)
+| Subdomain | Typical use |
+|-----------|-------------|
+| `www` | Web front door (often CNAME to CDN) |
+| `api` | REST/gRPC backends |
+| `mail` | MX target host |
+| `_dmarc`, `_domainkey` | Email authentication [[dns record]] |
+| `internal` | Private split-horizon only |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| NXDOMAIN for `api.` | Record missing / wrong zone | Add A/AAAA/CNAME; publish serial |
-| Parent works, child dead | Broken delegation | Fix child NS + glue; check child SOA |
-| Some users hit old IP | TTL | Wait/flush; lower TTL next time |
-| Cert name mismatch | Hostname not on cert | Reissue with SAN for subdomain |
-| Wildcard not matching `a.b.example.com` | `*` is one label | Add explicit name or `*.b.example.com` |
+## Certificate coverage
 
----
+TLS certificates must include every hostname clients hit — use SAN certificates or wildcard `*.example.com` (does not cover apex).
 
-## DNS record
+## Recall
 
-| Type | Role for subdomains |
-|------|---------------------|
-| **A / AAAA** | Point host to address |
-| **CNAME** | Alias to another hostname |
-| **MX** | Mail for that name (rare on deep subs) |
-| **NS** | Delegate a child zone |
-| **SOA** | Present at zone apex (parent or child) |
+- What is the difference between `api.example.com` as an A record vs delegated child zone?
+- Does a wildcard at `*.example.com` cover `deep.api.example.com`?
 
-Authoritative server = the DNS server with the official answers for that zone’s records.
+## Sources
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Delegation orphans** — parent NS points at child that isn’t configured; looks like random SERVFAIL.
-
-> [!WARNING]
-> **`www` as CNAME to apex** — fine; **apex as CNAME** — usually not (use ALIAS/ANAME or A/AAAA).
-
-> [!WARNING]
-> **Cookie / CORS / TLS are per-hostname** — a subdomain is a different security origin.
-
----
-
-## When NOT to use
-
-- **Per-tenant isolation on the public internet** — careful with cookie scope and wildcards; sometimes separate registrable domains.
-- **Replacing service discovery inside a mesh** — use mesh DNS/CoreDNS, not public subdomain sprawl.
-- **Secrets in hostname labels** — names appear in logs and Cert transparency.
-
----
-
-## Related
-
-[[DNS]] [[DNS zone]] [[DSN records]] [[dns record]] [[name server]] [[top-level Domain]] [[cloudflare]]
+- [RFC 1034 — Domain name space and resource records](https://datatracker.ietf.org/doc/html/rfc1034)
+- [RFC 4592 — Wildcards in the DNS](https://datatracker.ietf.org/doc/html/rfc4592)

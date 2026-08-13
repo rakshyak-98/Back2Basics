@@ -1,88 +1,49 @@
-[[Redux]] [[Redux toolkit]] [[Redux/Redux createAsyncThunk]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # Redux Thunk
 
-> Middleware that lets action creators return functions — put async work (fetch, delay) next to dispatch.
+> Redux Thunk shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** Plain Redux actions are sync objects. A thunk is a function `(dispatch, getState) => …` that can await APIs then dispatch real actions. RTK’s `configureStore` includes thunk by default.
-
-```txt
-UI → dispatch(thunkFn) → thunk middleware runs fn
-                              ├─ await api
-                              └─ dispatch({ type, payload })
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Thunk** | Function-as-action | “I return a function that later dispatches.” |
-| **Side effect** | I/O outside reducers | “Reducers stay pure; thunks own fetch.” |
-| **RTK default** | Thunk already installed | “No need to `applyMiddleware(thunk)` with RTK.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-// Hand-written thunk
-const loadUser = (id) => async (dispatch, getState) => {
-  dispatch({ type: 'user/pending' })
-  const data = await api.getUser(id)
-  dispatch({ type: 'user/fulfilled', payload: data })
-}
-
-// Prefer RTK helper
-export const loadUser = createAsyncThunk('user/load', async (id) => api.getUser(id))
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
+  },
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `getDefaultMiddleware()` | Already has thunk + immutability checks |
-| Custom middleware | Spread defaults then `.concat(logger)` — don’t drop thunk |
-| `createAsyncThunk` | Pending/fulfilled/rejected for free |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| “Actions must be plain objects” | Thunk middleware missing | Use RTK store or add `redux-thunk` |
-| Race: old response wins | No abort / ignore | AbortController or requestId check |
-| Double fetch | Multiple mounts dispatch | Dedup in thunk or use RTK Query |
-| Non-serializable in state | Put Promise/Map in reducer | Keep async results as plain data |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Overriding middleware without defaults** — `middleware: [logger]` drops thunk. Use `getDefaultMiddleware().concat(logger)`.
-
-> [!WARNING]
-> **Thunk ≠ saga** — complex cancel/retry flows may want RTK Query or a dedicated async layer.
-
----
-
-## When NOT to use
-
-- **Server/cache state** — [[react-query]] / [[Redux/Redux createApi]] fit better than hand thunks.
-- **Sync UI toggles** — plain actions / `createSlice` reducers.
-
----
+What breaks first in production if `Redux Thunk` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux/Redux createAsyncThunk]] [[Redux toolkit]] [[Redux/Redux concept and data flow]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

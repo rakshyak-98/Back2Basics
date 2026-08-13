@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** system bus is machine-wide; session bus is per-login; clients call well-known names.
+## How it works
 
 ```txt
 client ──method call──► dbus-daemon/broker ──► service
@@ -38,7 +27,8 @@ session:    $DBUS_SESSION_BUS_ADDRESS
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 busctl list
@@ -56,7 +46,8 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 | Hang on call | Dead service | `busctl monitor`; restart provider |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Cross-host RPC** — use gRPC/HTTP; D-Bus is local.
 - **High-throughput data plane** — use shared memory/sockets; D-Bus is control plane.
 
 ---
 
+
 ## Related
 
 [[busctl]] [[systemd]] [[systemd-hostnamed]] [[Service masking]]
+
+## Sources
+
+- [Wikipedia — D-Bus](https://en.wikipedia.org/wiki/D-Bus)

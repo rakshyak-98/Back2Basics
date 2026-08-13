@@ -6,20 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
-
-**Say it in one breath:** A **DataFrame** is labeled columns (Series) with a shared index. Operations are vectorized (C-backed) when possible. Missing data is `NaN`. Dtype matters: object versus int versus category affects.
-
-## Standard config / commands
+## Configuration and commands
 
 ### Load and inspect
 
@@ -55,7 +45,8 @@ df["col"].astype("category")     # low-cardinality strings
 df.filter(regex="^metric_")      # column subset early
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ df.filter(regex="^metric_")      # column subset early
 | Merge explosion | Key duplicates | `validate="m:1"`; dedupe keys |
 | NaN after math | Dtype object | Coerce numeric first |
 | Slow loop over rows | `iterrows` | Vectorize or `.apply` axis=0 sparingly |
+
 
 ## Gotchas
 
@@ -74,11 +66,17 @@ df.filter(regex="^metric_")      # column subset early
 >
 > **Timezone-naive datetimes** — always UTC in storage.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use pandas for row-by-row OLTP — use SQL/ORM.
 - Don't load 100GB CSV on a laptop — use DuckDB/Polars/spark for out-of-core.
 
+
 ## Related
 
 [[Python/wheel]] [[Database/OLAP]] [[Database/mysql/mysql dump]]
+
+## Sources
+
+- [Wikipedia — pandas](https://en.wikipedia.org/wiki/pandas)

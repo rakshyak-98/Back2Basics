@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A `Buffer` is a Uint8Array-backed slab of raw bytes. Streams give you Buffers (or strings if decoded); don’t confuse with browser `ArrayBuffer` alone — Node wraps it.
+## How it works
 
 ```txt
 file/socket → Buffer chunks → process → write Buffer
@@ -31,7 +20,8 @@ file/socket → Buffer chunks → process → write Buffer
 | **alloc vs allocUnsafe** | Zeroed vs faster dirty | “Unsafe can leak old memory — zero first if needed.” |
 | **highWaterMark** | Stream chunk target size | “Controls Buffer sizes from reads.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const a = Buffer.from('hello', 'utf8')
@@ -52,7 +42,8 @@ fs.createReadStream('in.bin', { highWaterMark: 16 * 1024 })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ fs.createReadStream('in.bin', { highWaterMark: 16 * 1024 })
 | Partial JSON parse | Split across chunks | Accumulate until complete frame |
 
 ---
+
 
 ## Gotchas
 
@@ -73,13 +65,19 @@ fs.createReadStream('in.bin', { highWaterMark: 16 * 1024 })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure text APIs** — strings are fine until you hit binary.
 - **Huge files in one Buffer** — use [[Stream]].
 
 ---
 
+
 ## Related
 
 [[Stream]] [[Stream/pipe]] [[HTTP module]]
+
+## Sources
+
+- [Wikipedia — Buffers](https://en.wikipedia.org/wiki/Buffers)

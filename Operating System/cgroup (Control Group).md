@@ -1,106 +1,36 @@
-[[Linux cgroup]] [[OOM (Linux Out Of Memory)]] [[Docker]] [[Kubernates]]
+[[Operating System]] [[process]] [[RAM and Swap memory]] [[IPC namespace]] [[Linux/management/Linux cgroup]]
 
 # cgroup (Control Group)
 
-> cgroup (Control Group) — cgroups answer: *which processes share a budget, and what happens when they exceed it?*
+> Control groups (cgroups) are the Linux kernel mechanism that limits and accounts for CPU, memory, I/O, and pids — the enforcement layer behind containers and systemd slices.
 
----
+**Cgroups v2** (unified hierarchy) attach each process to groups with limits such as:
 
-## Index
+| Controller | Limits |
+|------------|--------|
+| `cpu` | Quota, weight, burst |
+| `memory.max` | RSS + cache charged to cgroup — OOM kill inside group |
+| `io` | Bandwidth on block devices |
+| `pids.max` | Fork bomb containment |
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Docker, Kubernetes, and systemd (`system.slice`, `user.slice`) all write cgroup files under `/sys/fs/cgroup/`.
 
-## Mental model
+## Interaction with namespaces
 
-**cgroups** answer: *which processes share a budget, and what happens when they exceed it?*
+[[IPC namespace]], [[UTS namespace]], and PID/network namespaces **isolate view**; cgroups **isolate resources**. A pod is typically namespaces + cgroup limits together.
 
-```txt
-systemd slice
-  └─ docker/kubepods
-       └─ container cgroup
-            ├─ memory.max  → OOM kill inside group
-            ├─ cpu.max     → throttle
-            └─ pids.max    → fork bomb cap
-```
-
-Modern Linux uses **cgroup v2** unified hierarchy at `/sys/fs/cgroup`. Legacy v1 split controllers per mount — still seen on older nodes.
-
-**systemd** places every service in a cgroup automatically — forks stay in the same group (no orphan processes escaping limits).
-
-> Full ops playbook: **[[Linux cgroup]]** (limits, triage, Docker/K8s knobs).
-
----
-
-## Standard config / commands
-
-### Quick inspect
+## Debugging
 
 ```bash
 systemd-cgls
-systemctl status nginx.service   # shows cgroup path
-cat /sys/fs/cgroup/$(systemd-cgls -p | grep nginx | awk '{print $3}')/memory.current 2>/dev/null
+cat /sys/fs/cgroup/user.slice/user-1000.slice/memory.current
+cat /sys/fs/cgroup/.../cpu.stat   # nr_throttled → [[context switching]] pressure
 ```
 
-### systemd resource caps
+See also [[Linux/management/Linux cgroup]] and [[logical partitions]] (conceptual analogy: dividing machine resources).
 
-```ini
-# /etc/systemd/system/myapp.service.d/limits.conf
-[Service]
-MemoryMax=512M
-CPUQuota=200%
-TasksMax=1024
-```
+## Sources
 
-```bash
-sudo systemctl daemon-reload && sudo systemctl restart myapp
-```
-
-### Docker
-
-```bash
-docker run -m 512m --cpus=1.5 myimage
-docker inspect --format '{{.HostConfig.Memory}}' CONTAINER
-```
-
-**Why cgroups beat ulimit alone:** apply to **process tree**, survive fork/execute, integrate with orchestrators.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Process killed, exit 137 | `dmesg \| grep oom` cgroup name | Raise `memory.max`; fix leak — see [[Linux cgroup]] |
-| CPU starvation | `cpu.stat` `nr_throttled` | Increase quota; reduce competing pods |
-| Can't fork | `pids.max` | Raise TasksMax; fix fork bomb bug |
-| Limits ignored | cgroup v1/v2 mix; delegate off | Mount v2; enable controllers in `cgroup.subtree_control` |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **OOM kills the largest consumer in the cgroup** — may not be the leak if one process legitimately caches.
-
-> [!WARNING]
-> **Java/Go heap defaults ignore cgroup** unless `-XX:MaxRAMPercentage` / Go 1.19+ auto — classic container OOM.
-
-> [!WARNING]
-> **`--oom-score-adj` ≠ cgroup memory** — both affect who dies under pressure.
-
----
-
-## When NOT to use
-
-Don't hand-roll cgroup filesystem writes in production if **systemd/K8s/Docker** already manage hierarchy — fighting the initialize system breaks delegation.
-
----
-
-## Related
-
-[[Linux cgroup]] [[OOM (Linux Out Of Memory)]] [[TDP]] [[Docker]] [[Kubernates]]
+- Linux kernel documentation: [Control Groups v2](https://docs.kernel.org/admin-guide/cgroup-v2.html)
+- systemd.resource-control(5)
+- Wikipedia: [Cgroups](https://en.wikipedia.org/wiki/Cgroups)

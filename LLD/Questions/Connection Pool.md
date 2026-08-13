@@ -6,23 +6,13 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Connection Pool is a design idea — I trade something off and I can name the failure mode.
+## How it works
 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # sketch
@@ -31,7 +21,8 @@
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -41,6 +32,7 @@
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -48,12 +40,18 @@
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Don’t over-design a CRUD application into Kafka+K8s on day one.
 
 ---
 
+
 ## Related
 
 [[Questions]]
+
+## Sources
+
+- [Wikipedia — Connection Pool](https://en.wikipedia.org/wiki/Connection_Pool)

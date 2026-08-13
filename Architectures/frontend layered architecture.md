@@ -6,36 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
-
-## Context
-
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
-
-**Say it in one breath:** Views render; hooks/stores hold UI state; an API/data layer talks to the backend — keep side effects out of leaf components.
+## How it works
 
 ```txt
 Pages/Views → State (hooks/store) → API client → Backend
@@ -53,7 +24,8 @@ Pages/Views → State (hooks/store) → API client → Backend
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 // data layer
@@ -80,7 +52,8 @@ export function OrderPage({ id }: { id: string }) {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,6 +63,26 @@ export function OrderPage({ id }: { id: string }) {
 | Business rules only in UI | Pricing in React | Enforce on API too |
 
 ---
+
+
+## Decision
+
+We will … because …
+
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
+
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
+
 
 ## Gotchas
 
@@ -101,17 +94,17 @@ export function OrderPage({ id }: { id: string }) {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Marketing static page** — no need for stores and API modules.
 - **Tiny widget** — one component + fetch is fine until it grows.
 
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
 
 ## Related
 
 [[presentation layer]] [[React Application Architecture for Production]] [[feature flag]]
+
+## Sources
+
+- [Wikipedia — frontend layered architecture](https://en.wikipedia.org/wiki/frontend_layered_architecture)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `code` CLI talks to a running VS Code (or Cursor-compatible) instance via IPC. Opening paths attaches folders to the **current window** or spawns new windows depending on flags and settings.
 
@@ -27,7 +18,8 @@ code . ──► running instance ──► opens folder in window
 
 Remote: `vscode-remote://` URIs target SSH/WSL/development Containers attach points.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Open workspace
 
@@ -112,7 +104,8 @@ Common IDs:
 # Settings: terminal.integrated.cwd, shell args
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -123,6 +116,7 @@ Common IDs:
 | Extension missing in remote | Local vs remote install | Install extension on SSH/WSL side |
 | Format on save broken | No default formatter | Set `"editor.defaultFormatter"` per language |
 | Keybinding no effect | Conflicting chord | Troubleshooting log; unbind conflict |
+
 
 ## Gotchas
 
@@ -138,11 +132,17 @@ Common IDs:
 > [!WARNING]
 > **Settings sync** — machine-specific paths in settings break remote dev; use relative or env vars.
 
-## When NOT to use
+
+## When not to use
 
 - **Production server editing** — use CI-deployed configuration management, not remote VS Code on production.
 - **Heavy batch refactors** — prefer `sed`/codemod/IDE refactoring with VCS checkpoint.
 
+
 ## Related
 
 [[GIT/git command]] [[ssh/ssh allow local system with key]] [[Descriptive]]
+
+## Sources
+
+- [Wikipedia — vscode](https://en.wikipedia.org/wiki/vscode)

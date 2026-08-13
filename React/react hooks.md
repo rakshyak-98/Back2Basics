@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Hooks attach state/effects to a component fiber. Rules: only call from React functions, never conditionally, always in the same order.
+## How it works
 
 ```txt
 useState  → UI state
@@ -35,7 +24,8 @@ useContext → read provider
 | **Custom hook** | `useX` composing hooks | “Share logic without HOCs.” |
 | **Deps** | When effects/memos refresh | “Declare everything you read — or justify.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```tsx
 function useWindowWidth() {
@@ -58,7 +48,8 @@ function useWindowWidth() {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ function useWindowWidth() {
 | Invalid hook call | Called outside component | Only in components/custom hooks |
 
 ---
+
 
 ## Gotchas
 
@@ -79,13 +71,19 @@ function useWindowWidth() {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Class components you won’t touch** — don’t rewrite just to use hooks.
 - **Data fetching sprawl** — prefer [[react-query]] over many raw effects.
 
 ---
 
+
 ## Related
 
 [[Hooks/react useEffect]] [[useRef]] [[Optimizing performance]] [[React Pattern/Higher order Component (HOCs)]]
+
+## Sources
+
+- [Wikipedia — react hooks](https://en.wikipedia.org/wiki/react_hooks)

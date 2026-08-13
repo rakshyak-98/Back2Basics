@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Declare dependencies in `define([...], factory)` so the loader fetches them async, then runs the factory. Today: prefer ESM + bundlers.
+## How it works
 
 ```txt
 define(['dep'], function (dep) { return api })
@@ -31,7 +20,8 @@ define(['dep'], function (dep) { return api })
 | **define** | Register module | “Deps + factory.” |
 | **vs CJS** | Sync `require` | “CJS grew on server; AMD on browsers.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 define(['./math'], function (math) {
@@ -49,7 +39,8 @@ require(['app'], function (app) { app.start() })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,6 +50,7 @@ require(['app'], function (app) { app.start() })
 | Mixed ESM | Modern import in AMD app | Migrate to bundler ESM |
 
 ---
+
 
 ## Gotchas
 
@@ -70,13 +62,19 @@ require(['app'], function (app) { app.start() })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New greenfield** — ESM.
 - **Node services** — CJS/ESM, not RequireJS.
 
 ---
 
+
 ## Related
 
 [[UMD global]] [[IIFC]] [[node modules]]
+
+## Sources
+
+- [Wikipedia — AMD module](https://en.wikipedia.org/wiki/AMD_module)

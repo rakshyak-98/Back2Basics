@@ -1,118 +1,27 @@
-[[mysql/mysql connection]] [[connection pooling]] [[mysql/mysql ssl connection]] [[half-open connections]]
+[[mysql connection]] [[connection pooling]] [[mysql]]
 
-# MySQL connection pool (app-side)
+# mysql pool connection
 
-> MySQL connection pool (app-side) — without pool: req A ──conn──► START TX ... (held)
+> Application-side pool of reusable MySQL sessions—HikariCP, mysql2 pool, SQLAlchemy `QueuePool`—to cap server connections and amortize handshake cost.
 
----
+## Configuration sketch (HikariCP)
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Each MySQL connection is a **server session** (memory, temporary tables, transaction state). **Pool** maintains N open connections; application **borrows** for query duration and **releases** back.
-
-```
-Without pool:  req A ──conn──► START TX ... (held)
-               req B ──same conn──► START TX  ← transaction interference
-
-With pool:     req A ──borrow conn1──► commit ──release
-               req B ──borrow conn2──► isolated session
+```properties
+maximumPoolSize=20
+connectionTimeout=30000
+idleTimeout=600000
+maxLifetime=1800000
 ```
 
-See [[connection pooling]] for cross-DB theory (PgBouncer, sizing). This note is **Node/mysql2** and MySQL-specific session rules.
+## Failure modes
 
-## Standard config / commands
+| Symptom | Check |
+|---------|-------|
+| `Too many connections` on MySQL | Pool max × instances vs `max_connections` |
+| Stale connection errors | Enable test query on checkout; reduce `maxLifetime` |
+| Pool wait timeouts | Slow queries holding connections |
 
-### mysql2 pool (production pattern)
+## Sources
 
-```javascript
-import mysql from 'mysql2/promise';
-
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  waitForConnections: true,
-  connectionLimit: 10,        // per app instance — aggregate across pods
-  queueLimit: 0,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 10_000,
-  ssl: { /* see [[mysql ssl connection]] */ },
-});
-
-export async function query(sql, params) {
-  const [rows] = await pool.execute(sql, params);
-  return rows;
-}
-```
-
-### Transaction with dedicated connection
-
-```javascript
-const conn = await pool.getConnection();
-try {
-  await conn.beginTransaction();
-  await conn.execute('UPDATE accounts SET balance = balance - ? WHERE id = ?', [100, 1]);
-  await conn.execute('UPDATE accounts SET balance = balance + ? WHERE id = ?', [100, 2]);
-  await conn.commit();
-} catch (e) {
-  await conn.rollback();
-  throw e;
-} finally {
-  conn.release();  // mandatory
-}
-```
-
-### Pool sizing
-
-```txt
-max_connections (MySQL) ≥ Σ (app_instances × connectionLimit) + admin
-Typical app instance: 5–20 connections
-```
-
-### Health check
-
-```sql
-SELECT 1;
-SHOW STATUS LIKE 'Threads_connected';
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `PROTOCOL_CONNECTION_LOST` | Idle timeout; firewall | `enableKeepAlive`; lower idle; validate pool on checkout |
-| Wrong rollback / mixed transactions | Shared single connection | Use pool + `getConnection()` per transaction |
-| Pool queue timeout | `connectionLimit` too low | Fix slow queries; modest ↑ limit; scale read replicas |
-| `Too many connections` | Pods × limit | Reduce per-pod limit; ProxySQL; raise MySQL max carefully |
-| Connection leak | Missing `release()` | `finally { conn.release() }`; monitor pool metrics |
-| Prepared statement errors | Server restart | Pool handles reconnect; retry logic at app layer |
-
-## Gotchas
-
-> [!WARNING]
-> **`createConnection` per request** — TCP+auth overhead and transaction cross-talk under concurrency.
-
-> [!WARNING]
-> **Long txn holds pool slot** — external HTTP inside transaction starves pool.
-
-> [!WARNING]
-> **Serverless many instances** — connection storm; use RDS Proxy or lower limit + fewer concurrency.
-
-## When NOT to use
-
-- **One-shot CLI script** — single connection is fine.
-- **Cross-process sharing** — pool is in-process; use ProxySQL between services.
-
-## Related
-
-[[connection pooling]] [[mysql/mysql connection]] [[mysql/mysql ssl connection]] [[Database mistakes]]
+- MySQL Reference Manual — [Connection Interfaces](https://dev.mysql.com/doc/connector-j/en/connector-j-usagenotes-connect-drivermanager.html)
+- HikariCP — [Configuration](https://github.com/brettwooldridge/HikariCP#configuration-knobs)

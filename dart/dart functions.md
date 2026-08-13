@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Functions are objects: assign to variables, pass as arguments, return from functions. Dart is single-threaded event-loop async ([[flutter]] isolates for parallelism).
 
@@ -29,7 +20,8 @@ Top-level fn
 
 Parameter forms: positional, optional positional `[ ]`, named `{ }`, required named `{required x}`.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Declarations
 
@@ -108,7 +100,8 @@ final fn = myObj.handle; // bound if instance method
 list.forEach(print);     // top-level tear-off
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,6 +111,7 @@ list.forEach(print);     // top-level tear-off
 | Stack overflow | Unbounded recursion | Iterate or tail-call refactor |
 | Type error on Function | Raw `Function` vs typed | Use `void Function(int)` or typedef |
 | Nested fn not visible outside | Scope is lexical | Move to private top-level `_helper` if needed wider |
+
 
 ## Gotchas
 
@@ -133,12 +127,18 @@ list.forEach(print);     // top-level tear-off
 > [!WARNING]
 > **Equality on Function** — closures are never equal unless same reference; don't use as Map keys without care.
 
-## When NOT to use
+
+## When not to use
 
 - **Nested functions for large logic** — extract class or top-level private function for testability.
 - **Dynamic `Function` everywhere** — defeats analyzer; use typedefs/generics.
 - **Isolates for tiny work** — message copy cost; use compute/isolate only for CPU-heavy jobs.
 
+
 ## Related
 
 [[flutter]] [[Descriptive/JavaScript/function]] [[Callback]]
+
+## Sources
+
+- [Wikipedia — dart functions](https://en.wikipedia.org/wiki/dart_functions)

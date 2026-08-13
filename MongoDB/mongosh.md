@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** REPL + scripting host that speaks the driver protocol; prefer it over legacy `mongo`.
+## How it works
 
 ```txt
 mongosh "mongodb://…" → use db → helpers / scripts
@@ -34,7 +23,8 @@ mongosh "mongodb://…" → use db → helpers / scripts
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 mongosh "mongodb://user:pass@localhost:27017/app?authSource=admin"
@@ -56,7 +46,8 @@ db.users.find().limit(5)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ db.users.find().limit(5)
 | Slow shell queries | no index / huge result | Limit + index |
 
 ---
+
 
 ## Gotchas
 
@@ -77,11 +69,17 @@ db.users.find().limit(5)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Application runtime** — use the official driver.
 - **Complex application logic** — keep business code out of shell scripts.
 
+
 ## Related
 
 [[mongosh query]] [[mongosh user management]] [[mongodb shell]]
+
+## Sources
+
+- [Wikipedia — mongosh](https://en.wikipedia.org/wiki/mongosh)

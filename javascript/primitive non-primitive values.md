@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Assigning a primitive copies the bit pattern; assigning an object copies the pointer — mutate via one variable, the other sees it.
+## How it works
 
 ```txt
 let a = 1; let b = a; b = 2        // a still 1
@@ -32,7 +21,8 @@ let x = { n: 1 }; let y = x; y.n = 2  // x.n is 2
 | **reference** | Pointer to heap object | “Equality is identity for objects.” |
 | **shallow copy** | New object, same nested refs | “`{...obj}` / `slice`.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 Object.is(NaN, NaN) // true — better than === for NaN
@@ -48,7 +38,8 @@ const deep = structuredClone(obj) // deep (modern)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +49,7 @@ const deep = structuredClone(obj) // deep (modern)
 | Accidental box | `new String` | Prefer primitives |
 
 ---
+
 
 ## Gotchas
 
@@ -69,13 +61,19 @@ const deep = structuredClone(obj) // deep (modern)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Over-cloning huge graphs** — share immutably with care ([[Packages/Immer]]).
 - **Micro-optimizing primitives** — readability first.
 
 ---
 
+
 ## Related
 
 [[prototype]] [[Packages/Immer]] [[Destructuring]]
+
+## Sources
+
+- [Wikipedia — primitive non-primitive values](https://en.wikipedia.org/wiki/primitive_non-primitive_values)

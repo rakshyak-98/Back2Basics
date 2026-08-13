@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Server stores a Base32 secret; phone and server both compute `HMAC(secret, time_step)`. Codes match within a small window (±1 step).
+## How it works
 
 ```txt
 Enroll: server → secret → QR (otpauth://…) → app stores secret
@@ -33,7 +22,8 @@ Login:  user types 6 digits → server checks(secret, now) → ok / fail
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const otplib = require('otplib')
@@ -54,7 +44,8 @@ const ok = otplib.authenticator.check(userInputCode, secret)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ const ok = otplib.authenticator.check(userInputCode, secret)
 | SMS fallback abused | SIM swap | Prefer TOTP/WebAuthn over SMS |
 
 ---
+
 
 ## Gotchas
 
@@ -80,7 +72,8 @@ const ok = otplib.authenticator.check(userInputCode, secret)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Passwordless high-security** — WebAuthn/passkeys beat TOTP.
 - **Non-interactive machine authentication** — use mTLS or signed service tokens.
@@ -88,6 +81,11 @@ const ok = otplib.authenticator.check(userInputCode, secret)
 
 ---
 
+
 ## Related
 
 [[Authentication terms]] [[JWT]] [[single-sign-on (SSO)]] [[yashcrypt]] [[HMAC (Hash based Message Authentication Codes)]]
+
+## Sources
+
+- [Wikipedia — TOTP](https://en.wikipedia.org/wiki/TOTP)

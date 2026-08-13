@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Tag each problem (array/string/tree/graph/DP), list constraints, then apply the matching pattern from [[dsa intuition]].
+## How it works
 
 ```txt
 read → tag → constraints → pattern → code → edges
@@ -34,7 +23,8 @@ read → tag → constraints → pattern → code → edges
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```text
 Checklist per question:
@@ -54,7 +44,8 @@ Checklist per question:
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ Checklist per question:
 | Repeat misses | no journal | Log pattern → question |
 
 ---
+
 
 ## Gotchas
 
@@ -75,11 +67,17 @@ Checklist per question:
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **On-call incident** — use runbooks, not puzzle mode.
 - **production feature with clear CRUD** — don’t force interview patterns.
 
+
 ## Related
 
 [[dsa problem solving Scaffold]] [[dsa intuition]] [[DSA algorithms]]
+
+## Sources
+
+- [Wikipedia — Questions](https://en.wikipedia.org/wiki/Questions)

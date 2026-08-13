@@ -1,94 +1,51 @@
-[[Redux]] [[Redux toolkit]] [[Redux/Immutability in Redux]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # Redux createSlice
 
-> One RTK call that builds a reducer, action creators, and action types for a feature slice — Immer drafts inside.
+> Redux createSlice shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** Name the slice, give `initialState` and `reducers`; RTK emits `actions` and a `reducer` you mount on the store.
-
-```txt
-createSlice({ name, initialState, reducers })
-  → slice.actions.foo(payload)
-  → slice.reducer
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Slice** | Feature state + reducers | “Colocated instead of giant switch.” |
-| **PayloadAction** | Typed action payload | “`action.payload` is T.” |
-| **extraReducers** | React to other actions/thunks | “Listen to async lifecycle.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-const todosSlice = createSlice({
+const slice = createSlice({
   name: 'todos',
-  initialState: { items: [] as { id: string; text: string; done: boolean }[] },
+  initialState: { items: [], status: 'idle' },
   reducers: {
-    added(state, action: PayloadAction<string>) {
-      state.items.push({ id: crypto.randomUUID(), text: action.payload, done: false })
-    },
-    toggled(state, action: PayloadAction<string>) {
-      const t = state.items.find((i) => i.id === action.payload)
-      if (t) t.done = !t.done
-    },
+    added(state, action) { state.items.push(action.payload); },
   },
-})
-export const { added, toggled } = todosSlice.actions
-export default todosSlice.reducer
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `name` | Prefixes `todos/added` |
-| Draft mutation | Immer → immutable next state |
-| `prepare` callback | Customize payload (ids, meta) |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Action no-ops | Wrong reducer key on store | Mount `todos: todosReducer` |
-| Type errors on payload | Missing `PayloadAction<T>` | Annotate reducer args |
-| Async not handled | Only sync reducers | `extraReducers` + `createAsyncThunk` |
-| Mutation outside slice | Changed state in component | Dispatch an action instead |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Don’t spread the whole action into state** — pick `payload` fields you need.
-
-> [!WARNING]
-> **`name` collisions** across slices make DevTools harder — keep names unique.
-
----
-
-## When NOT to use
-
-- **Remote-only CRUD** — consider [[Redux/Redux createApi]] instead of hand slices.
-- **Ephemeral local UI** — `useState`, not a slice.
-
----
+What breaks first in production if `Redux createSlice` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux toolkit]] [[Redux/Redux createAsyncThunk]] [[Redux/Immutability in Redux]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)
+- [Redux Toolkit — createSlice](https://redux-toolkit.js.org/api/createSlice)
+- [RFC 8445 — ICE](https://www.rfc-editor.org/rfc/rfc8445)

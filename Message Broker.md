@@ -6,52 +6,40 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Message broker — middleware that queues or streams messages between producers and consumers.
+## How it works
 
 ---
 
-## Routing table
+
+## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
 | … | [[…]] |
 
-## Domain links
+
+## Related topics in this domain
 
 - …: [[…]]
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[Message Broker.md]]
+
+## Sources
+
+- [Wikipedia — Message Broker](https://en.wikipedia.org/wiki/Message_Broker)

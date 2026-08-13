@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Orchestration** sequences tasks/services to achieve a workflow. Contrast **choreography** (each service reacts to events without central brain) — see [[Architectures/Orchestration layer]] for distributed-systems detail.
 
@@ -29,7 +20,8 @@ Orchestrator (Airflow, Temporal, Jenkins pipeline)
 
 Use orchestration when you need **central error handling**, **retries/timeouts**, **strict sequencing**.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### When to orchestrate (decision table)
 
@@ -98,7 +90,8 @@ pipeline {
 curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +100,7 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 | Duplicate side effects | Retry without idempotency | Idempotency keys; mark completed steps |
 | DAG never runs | `catchup=True` backlog | Disable catchup; reset start_date |
 | K8s hook ran twice | Failed release retried | Helm hook weights + delete policy |
+
 
 ## Gotchas
 
@@ -117,11 +111,17 @@ curl -X POST --max-time 30 -H "Idempotency-Key: $BUILD_ID" …
 - **Secrets in DAG repository** — use vault/CI secrets, not plain text Variables.
 - **Long synchronous pipelines** — block releases; split verify versus promote stages.
 
-## When NOT to use
+
+## When not to use
 
 - Two independent cron jobs with no ordering — keep separate.
 - High-scale event systems where central state doesn't scale — prefer choreography + [[Messaging/Web hooks]].
 
+
 ## Related
 
 [[Architectures/Orchestration layer]] [[DevOps/Airflow]] [[Kubernates/kubectl]] [[DevOps/Jenkins]]
+
+## Sources
+
+- [Wikipedia — orchestration](https://en.wikipedia.org/wiki/orchestration)

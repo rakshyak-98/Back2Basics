@@ -1,98 +1,50 @@
-[[Redux]] [[Redux/Redux Thunk]] [[Redux toolkit]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
 # Redux createAsyncThunk
 
-> RTK helper that turns an async function into pending/fulfilled/rejected actions — wire loading and errors in the slice.
+> Redux createAsyncThunk shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** You write the async work once; RTK dispatches lifecycle actions you handle in `extraReducers` (or `builder`).
-
-```txt
-dispatch(fetchUser(id))
-  → pending → fulfilled|rejected
-slice listens → status/data/error
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **createAsyncThunk** | Async action creator | “Generates three action types for me.” |
-| **rejectWithValue** | Typed error payload | “Put API error body on `action.payload`.” |
-| **condition** | Skip if in flight | “Dedup duplicate loads.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-export const fetchUserById = createAsyncThunk(
-  'user/fetchById',
-  async (userId: string, { rejectWithValue }) => {
-    const res = await fetch(`/api/users/${userId}`)
-    if (!res.ok) return rejectWithValue(await res.text())
-    return res.json()
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
   },
-)
-
-const userSlice = createSlice({
-  name: 'user',
-  initialState: { data: null as User | null, status: 'idle', error: null as string | null },
-  reducers: {},
-  extraReducers: (b) => {
-    b.addCase(fetchUserById.pending, (s) => { s.status = 'loading' })
-    b.addCase(fetchUserById.fulfilled, (s, a) => { s.status = 'succeeded'; s.data = a.payload })
-    b.addCase(fetchUserById.rejected, (s, a) => { s.status = 'failed'; s.error = String(a.payload ?? a.error.message) })
-  },
-})
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `thunkAPI.signal` | Abort on unmount / newer request |
-| `condition` | Prevent double-fetch |
-| `serializeError` | Control what lands in rejected |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Always `rejected` with opaque error | Threw non-serializable | `rejectWithValue` plain data |
-| Race shows wrong user | No abort | Pass `signal` to fetch; ignore stale |
-| Pending stuck forever | Unhandled throw outside | Ensure promise settles; catch network |
-| Type errors on payload | Generic args missing | `createAsyncThunk<Returned, Arg, { rejectValue }>` |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Throw vs rejectWithValue** — bare `throw` still rejects, but payload shape differs; be consistent.
-
-> [!WARNING]
-> **Prefer RTK Query** when the feature is mostly CRUD cache — less hand-written status fields.
-
----
-
-## When NOT to use
-
-- **Sync updates** — plain `createSlice` reducers.
-- **Server-state-heavy apps** — [[Redux/Redux createApi]] / [[react-query]].
-
----
+What breaks first in production if `Redux createAsyncThunk` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux/Redux Thunk]] [[Redux toolkit]] [[Redux/Redux createSlice]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)
+- [Redux Toolkit — createAsyncThunk](https://redux-toolkit.js.org/api/createAsyncThunk)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Logical cert (ASN.1 structure)
@@ -41,7 +32,8 @@ Formats engineers confuse:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### PEM ↔ DER conversion
 
@@ -74,7 +66,8 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +77,7 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 | Java keystore import fail | Wrong format | `keytool -importcert -file cert.der` |
 
 ---
+
 
 ## Gotchas
 
@@ -98,12 +92,18 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Humans editing certs → **PEM**. Wire protocols and some embedded parsers → **DER**. Don't hand-edit DER bytes.
 
 ---
 
+
 ## Related
 
 [[read pem file]] [[Base64]] [[Root certificate]] [[fingerprint]] [[RSA]] [[openssl]]
+
+## Sources
+
+- [Wikipedia — DER](https://en.wikipedia.org/wiki/DER)

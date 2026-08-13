@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** TCP connect → agree session crypto → prove who you are (key or password) → you get a shell or a tunnel.
+## How it works
 
 ```txt
 Client                         Server (sshd)
@@ -50,7 +39,8 @@ Client                         Server (sshd)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ssh user@host
@@ -87,7 +77,8 @@ Server policy: [[sshd configuration]] (`/etc/ssh/sshd_config`) — `PasswordAuth
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +89,7 @@ Server policy: [[sshd configuration]] (`/etc/ssh/sshd_config`) — `PasswordAuth
 | Tunnel open, app fails | Bound to localhost only | `-L` bind address; remote firewall |
 
 ---
+
 
 ## Gotchas
 
@@ -115,7 +107,8 @@ Server policy: [[sshd configuration]] (`/etc/ssh/sshd_config`) — `PasswordAuth
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Public machine-to-machine APIs** — HTTPS + application authentication; don’t expose SSH broadly.
 - **Bulk file sync as primary transport** — consider object storage; `scp`/`rsync`-over-SSH for operations, not CDN.
@@ -123,6 +116,11 @@ Server policy: [[sshd configuration]] (`/etc/ssh/sshd_config`) — `PasswordAuth
 
 ---
 
+
 ## Related
 
 [[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[nc]] [[puTTY]] [[ufw]]
+
+## Sources
+
+- [Wikipedia — SSH](https://en.wikipedia.org/wiki/SSH)

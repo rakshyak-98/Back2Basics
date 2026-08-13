@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Nginx terminates HTTP, serves static files, and proxies to upstreams — master owns sockets; workers handle requests.
+## How it works
 
 ```txt
 Client → nginx (location match) → root/alias | proxy_pass | fastcgi_pass
@@ -32,7 +21,8 @@ Location priority: `=` exact → `^~` prefix (stops regex) → `~`/`~*` regex �
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo nginx -t && sudo nginx -s reload
@@ -69,7 +59,8 @@ location /api/ { limit_req zone=api burst=20 nodelay; proxy_pass http://api; }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +72,7 @@ location /api/ { limit_req zone=api burst=20 nodelay; proxy_pass http://api; }
 | reload fails | `nginx -t` | Fix syntax before reload |
 
 ---
+
 
 ## Gotchas
 
@@ -95,7 +87,8 @@ location /api/ { limit_req zone=api burst=20 nodelay; proxy_pass http://api; }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **application business logic in Nginx** — keep in the application.
 - **DB connection pooling** — use PgBouncer / application pool.
@@ -103,6 +96,11 @@ location /api/ { limit_req zone=api burst=20 nodelay; proxy_pass http://api; }
 
 ---
 
+
 ## Related
 
 [[nginx SPA deployment]] [[nginx using unix socket]] [[nginx stream]] [[static file]] [[Nginx internals]]
+
+## Sources
+
+- [Wikipedia — Configuration](https://en.wikipedia.org/wiki/Configuration)

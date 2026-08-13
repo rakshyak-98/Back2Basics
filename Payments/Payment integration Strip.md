@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Payment integration Strip — const handleCheckout = async () => {
+## How it works
 
 ```ts
   const handleCheckout = async () => {
@@ -83,3 +72,7 @@
 ## Related
 
 [[Payments]]
+
+## Sources
+
+- [Wikipedia — Payment integration Strip](https://en.wikipedia.org/wiki/Payment_integration_Strip)

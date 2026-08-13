@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Authentication stack layers:
 
@@ -48,7 +39,8 @@ Identity proof  →  Session/token  →  Authorization (what you may do)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### TOTP setup (concept)
 
@@ -81,7 +73,8 @@ authz_denied  user_id=... resource=... action=delete
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -92,6 +85,7 @@ authz_denied  user_id=... resource=... action=delete
 | Session fixation | Cookie not rotated on login | Regenerate session ID |
 
 ---
+
 
 ## Gotchas
 
@@ -109,12 +103,18 @@ authz_denied  user_id=... resource=... action=delete
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't roll custom crypto authentication protocols — use OIDC/SAML libraries and proven password KDFs ([[yashcrypt]] / argon2 / bcrypt).
 
 ---
 
+
 ## Related
 
 [[JWT authentication]] [[TOTP (Time based One Time Password)]] [[single-sign-on (SSO)]] [[Token rotation]] [[digest access authentication]]
+
+## Sources
+
+- [Wikipedia — Authentication terms](https://en.wikipedia.org/wiki/Authentication_terms)

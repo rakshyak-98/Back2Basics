@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `git blame` maps each line to the last commit that touched it — who changed what and when.
+## How it works
 
 ```txt
 ```
@@ -30,7 +19,8 @@
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic
 
@@ -83,7 +73,8 @@ VS Code / Cursor: GitLens or built-in blame gutter
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,6 +86,7 @@ VS Code / Cursor: GitLens or built-in blame gutter
 | Slow on huge file | Full history | `-L` range; or blame specific commit snapshot |
 
 ---
+
 
 ## Gotchas
 
@@ -112,7 +104,8 @@ VS Code / Cursor: GitLens or built-in blame gutter
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Finding why code exists** — read commit message + PR + tests; blame only points to where.
 - **Binary files** — meaningless line blame.
@@ -120,6 +113,11 @@ VS Code / Cursor: GitLens or built-in blame gutter
 
 ---
 
+
 ## Related
 
 [[git rebase]] · [[git error]] · [[git worktree]] · [[git ssh configuration]]
+
+## Sources
+
+- [Wikipedia — git blame](https://en.wikipedia.org/wiki/git_blame)

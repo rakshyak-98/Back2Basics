@@ -1,83 +1,61 @@
-[[System Design]] [[ingress]] [[Kubernetes services]] [[Configuration]] [[Epoll]]
+[[ingress]] [[Kubernetes services]] [[Configuration]] [[MQTT]] [[connection pooling]] [[WAL (Write-Ahead Log)]]
 
 # HES Architecture
 
-> HES Architecture — │ Edge / HES tier │
+> A Head-End System (HES) sits at the edge of trust between devices and the core platform — ingesting telemetry, validating identity, buffering bursts, and forwarding with at-least-once delivery that the core must deduplicate.
 
 ---
 
-## Index
+## What "HES" means in practice
 
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
+The acronym collides by industry:
 
-## Context
+| Domain | HES role |
+|--------|----------|
+| **Utilities / smart grid** | Meter data collection (DLMS/COSEM, IEC 61850 adapters) |
+| **Healthcare** | Clinical edge gateway — protected health information boundary before cloud |
+| **Generic IoT** | Device ingest tier with store-and-forward |
 
-…
+Confirm scope with stakeholders before designing — compliance and protocol adapters differ.
 
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
+## Reference flow
 
 ```txt
-Devices / Clients
-      ↓  (MQTT/HTTPS/batch)
+Devices / clients
+      ↓  (MQTT, HTTPS, batch files)
 ┌─────────────────────────────────────┐
 │  Edge / HES tier                    │
-│  ingest → validate → buffer → route │
+│  authenticate → validate → buffer → route │
 └──────────┬──────────────────────────┘
            ↓
-    Core platform (cloud/on-prem)
-    analytics · billing · EHR · SCADA
+    Core platform (cloud or on-premises)
+    analytics · billing · electronic health record · supervisory control
 ```
 
-**HES role:** sit at the **edge of trust** — authenticate devices, normalize payloads, absorb burst traffic, survive upstream outages, never lose acknowledged reads.
+**Non-functional targets** common to HES deployments:
 
-**Typical non-functional reqs:**
-- 99.9%+ availability at edge cluster
-- At-least-once ingest with idempotent core
+- High availability at the edge cluster (often 99.9%+)
+- At-least-once ingest with **idempotent core** writes
 - Certificate-based device identity
-- Store-and-forward when WAN down
-- Observability with device correlation id
+- Store-and-forward when wide-area network is down
+- Correlation identifiers in logs (device identifier, sequence)
 
-If your HES = **utility head-end:** add protocol adapters (DLMS/COSEM, IEC 61850). If **health edge:** PHI encryption, audit, HIPAA boundary before cloud.
-
----
-
-## Standard config / commands
-
-### Reference topology (K8s edge + cloud)
+## Kubernetes edge topology (example)
 
 ```txt
-Edge cluster (per region / substation / clinic)
-  - DaemonSet: protocol adapter agents
-  - StatefulSet: local queue (Kafka/NATS JetStream) + Redis dedupe
-  - Deployment: HES API (validate, enrich, forward)
-  - PVC: spool for WAN outage (hours not days)
+Edge cluster per region / substation / clinic
+  DaemonSet: protocol adapter agents
+  StatefulSet: local queue (Kafka, NATS JetStream) + deduplication store
+  Deployment: HES application programming interface (validate, enrich, forward)
+  Persistent volume: spool for outage hours
 
 Cloud
-  - Ingest API + [[connection pooling]] to OLTP
-  - Stream processor (Flink/ksql) for anomalies
-  - Cold storage (S3 + parquet)
+  Ingest application programming interface + [[connection pooling]] to online transaction processing
+  Stream processor for anomalies
+  Object storage for cold archive
 ```
 
-### Ingest API contract
+## Ingest contract
 
 ```http
 POST /v1/readings
@@ -89,7 +67,7 @@ Content-Type: application/json
 → 202 Accepted + correlationId
 ```
 
-### Idempotent write (core DB)
+Core database:
 
 ```sql
 INSERT INTO readings (device_id, seq, ts, payload)
@@ -97,80 +75,26 @@ VALUES ($1, $2, $3, $4)
 ON CONFLICT (device_id, seq) DO NOTHING;
 ```
 
-### Health checks
+## Edge proxy and health
 
-```yaml
-# k8s probes — distinguish "alive" vs "can reach cloud"
-livenessProbe:  /healthz
-readinessProbe: /ready  # fails if local queue > threshold OR cert expiry < 7d
-```
+[[Configuration]] example (nginx): rate limit per device, body size cap, read timeout aligned with upstream.
 
-### Nginx edge proxy ([[Configuration]])
+Kubernetes **readiness** should fail when local queue depth exceeds threshold or certificate expires within seven days — distinguish "alive" from "can forward."
 
-```nginx
-location /v1/ {
-  proxy_pass http://hes-api;
-  proxy_read_timeout 30s;
-  client_max_body_size 1m;
-  limit_req zone=device burst=20 nodelay;
-}
-```
+## Failure modes
 
-### Observability minimum
+| Symptom | Direction |
+|---------|-----------|
+| Device retry storm | Scale HES pods; fix upstream 5xx; backoff in firmware |
+| Duplicate billing reads | Enforce `(device_id, seq)` uniqueness |
+| Edge disk full | Restore WAN; define reject versus drop policy before incident |
+| Authentication spike | Certificate rotation; Network Time Protocol skew |
+| Latency service level objective miss | Hot device partition — shard by device identifier |
 
-```txt
-Metrics: ingest_rate, queue_depth, forward_lag_seconds, device_auth_failures
-Logs:    correlationId, deviceId (not PII payload)
-Traces:  edge → cloud ingest span
-Alerts:  queue_depth high 15m, cert expiry 14d
-```
+*What breaks first during partition?* Spool disk without a defined overflow policy.
 
----
+## Sources
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Devices retry storm | 5xx rate, timeout | Scale HES pods; extend adapter backoff; fix DB pool |
-| Duplicate readings in billing | Idempotency key | Enforce (device_id, seq) unique; audit adapter gen |
-| Edge disk full | Spool PVC usage | Increase retention policy; restore WAN; drop policy w/ audit |
-| Auth failures spike | Cert rotation | Push new device certs; check clock skew (NTP) |
-| Cloud sees gaps | forward_lag metric | Network partition — expected; backfill from spool |
-| Latency SLO miss | Hot partition device | Shard by deviceId; async pipeline |
-| "HES" means different thing per team | Glossary | Rename service in docs; link domain spec |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **At-least-once everywhere** — without idempotent core, duplicates become revenue or clinical errors.
-
-> [!WARNING]
-> **Edge clock drift** — device timestamps untrusted; record server ingest time separately.
-
-> [!WARNING]
-> **Full disk on spool** — define drop vs reject policy **before** incident; regulators may require no silent loss.
-
-> [!WARNING]
-> **Acronym collision** — confirm with stakeholders: Energy HES ≠ Hospital HES compliance scope.
-
----
-
-## When NOT to use
-
-- **Direct device-to-cloud only** — no outage buffer; fine for low-value telemetry, not billing/medical grade.
-- **Monolith ingest in single VM** — first WAN blip becomes data loss without queue.
-- **Custom binary protocol without schema registry** — versioning hell at 10k firmware variants.
-
----
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
-
-## Related
-
-[[ingress]] · [[Kubernetes services]] · [[MQTT]] · [[connection pooling]] · [[WAL (Write-Ahead Log)]] · [[half-open connections]] · [[Mermaid (DSL)]]
+- IEC 61968 / utility head-end integration guides (domain-specific).
+- NIST SP 800-207 — zero trust at the edge (identity and policy).
+- Kubernetes edge computing patterns — CNCF TAG Runtime.

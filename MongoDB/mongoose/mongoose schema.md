@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Paths map to document fields; type + validators run before save; indexes can be declared beside paths.
+## How it works
 
 ```txt
 Schema({ email: String, … }) → Model → collection
@@ -34,7 +23,8 @@ Schema({ email: String, … }) → Model → collection
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const schema = new mongoose.Schema({
@@ -52,7 +42,8 @@ const schema = new mongoose.Schema({
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ const schema = new mongoose.Schema({
 | Huge nested docs | unbounded arrays | Cap / bucket |
 
 ---
+
 
 ## Gotchas
 
@@ -73,11 +65,17 @@ const schema = new mongoose.Schema({
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Schemaless event blobs** — Mixed carefully or native driver.
 - **One-off import** — skip elaborate schemas.
 
+
 ## Related
 
 [[mongoose/mongoose]] [[mongoose/mongoose methods]] [[MongoDB query validation]]
+
+## Sources
+
+- [Wikipedia — mongoose schema](https://en.wikipedia.org/wiki/mongoose_schema)

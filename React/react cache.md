@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Mutation succeeds → patch the cached query (or invalidate) so every subscriber re-renders with fresh data.
+## How it works
 
 ```txt
 queryKey → QueryCache (RAM)
@@ -33,7 +22,8 @@ failure  ──► rollback optimistic patch
 | **invalidate** | Mark stale, refetch | “After create, invalidate the list.” |
 | **Optimistic update** | Patch UI before server replies | “Roll back if the request fails.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```ts
 useMutation({
@@ -57,7 +47,8 @@ useMutation({
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ useMutation({
 | Duplicate fetches | Different queryKeys | Normalize keys (stable serialization) |
 
 ---
+
 
 ## Gotchas
 
@@ -78,13 +70,19 @@ useMutation({
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Client-only UI state** — `useState` / Zustand, not Query cache.
 - **authentication secrets** — don’t persist sensitive query data to `localStorage`.
 
 ---
 
+
 ## Related
 
 [[react-query]] [[Redux/Redux createApi]] [[Optimizing performance]]
+
+## Sources
+
+- [Wikipedia — react cache](https://en.wikipedia.org/wiki/react_cache)

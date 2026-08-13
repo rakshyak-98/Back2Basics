@@ -1,43 +1,23 @@
-[[Database]] [[mysql data partition]]
+[[partitioning]] [[mysql data partition]] [[mysql/mysql partitioning]] [[mysql table]]
 
 # mysql partitioning
 
-> Alias stub — full RANGE/LIST/HASH partitioning, pruning, and triage live in [[mysql data partition]].
+> Routing note for MySQL table partitioning—when to split tables by RANGE/LIST/HASH and where to find detailed syntax in [[mysql/mysql partitioning]].
 
----
+## Why partition
 
-## Index
+- Fast retention (`DROP PARTITION` vs `DELETE` millions of rows)
+- Partition pruning when queries filter on the partition key
+- Manageable maintenance windows per time slice
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## Start here
 
-## Mental model
+| Depth | Note |
+|-------|------|
+| Concepts | [[partitioning]] |
+| DDL examples | [[mysql data partition]] |
+| MySQL rules | [[mysql/mysql partitioning]] |
 
-**Say it in one breath:** This filename is a redirect. Use [[mysql data partition]] for create/alter, pruning, and “query scans every partition” triage.
+## Sources
 
-## Standard config / commands
-
-…
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
-
-## Related
-
-[[mysql data partition]] [[mysql table]] [[mysql index]]
+- MySQL Reference Manual — [Partitioning Overview](https://dev.mysql.com/doc/refman/en/partitioning-overview.html)

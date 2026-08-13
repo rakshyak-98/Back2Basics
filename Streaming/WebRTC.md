@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** WebRTC lets two browsers (or a browser and a media server) send live audio, video, and data over UDP with encryption — you only write signaling; the browser does capture, encode, NAT traversal, and SRTP.
+## How it works
 
 ```txt
 getUserMedia / getDisplayMedia
@@ -69,7 +58,8 @@ getUserMedia / getDisplayMedia
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const pc = new RTCPeerConnection({
@@ -111,7 +101,8 @@ See [[WebRTC Get Started Guide]] for constraints / device enumeration.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -124,6 +115,7 @@ See [[WebRTC Get Started Guide]] for constraints / device enumeration.
 | High CPU / choppy | Encoder overload in stats | Lower resolution/fps; prefer hardware codecs |
 
 ---
+
 
 ## Gotchas
 
@@ -144,7 +136,8 @@ See [[WebRTC Get Started Guide]] for constraints / device enumeration.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-to-many OTT (millions of viewers)** — [[HLS]] / [[DASH]] + CDN; WebRTC is for few peers or SFU-scale interactive.
 - **OBS → origin ingest for linear** — usually [[RTMP]] / SRT into a packager ([[flussonic]]), not browser WebRTC.
@@ -152,6 +145,11 @@ See [[WebRTC Get Started Guide]] for constraints / device enumeration.
 
 ---
 
+
 ## Related
 
 [[WebRTC Get Started Guide]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]] [[SCTP (Stream Control Transmission Protocol)]] [[SDP (Session Description Protocol)]] [[HLS]] [[DASH]] [[RTMP]]
+
+## Sources
+
+- [Wikipedia — WebRTC](https://en.wikipedia.org/wiki/WebRTC)

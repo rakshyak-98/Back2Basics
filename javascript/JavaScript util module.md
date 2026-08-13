@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Legacy Node core APIs are **callback-last** `(err, result) =>`. `util.promisify` wraps them into **Promises** for `async/await` composition with [[promise]] chains.
 
@@ -35,7 +26,8 @@ Modern Node exposes **`fs/promises`** natively — prefer those over promisify f
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```javascript
 import { promisify } from "node:util";
@@ -73,7 +65,8 @@ const readCb = callbackify(async () => readFileP("x"));
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,6 +78,7 @@ const readCb = callbackify(async () => readFileP("x"));
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -95,7 +89,8 @@ const readCb = callbackify(async () => readFileP("x"));
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **New code with native promise APIs** — `fs/promises`, `dns/promises`.
 - **Browser / Deno client** — no Node utility module.
@@ -103,6 +98,11 @@ const readCb = callbackify(async () => readFileP("x"));
 
 ---
 
+
 ## Related
 
 [[NodeJS]] · [[promise]] · [[Callback]] · [[NodeJS/node fs]] · [[Event Loop]]
+
+## Sources
+
+- [Wikipedia — JavaScript util module](https://en.wikipedia.org/wiki/JavaScript_util_module)

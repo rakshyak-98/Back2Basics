@@ -1,104 +1,32 @@
-[[Buffer cache]] [[fsync]] [[Persistent Block Storage]] [[Linux]]
+[[Operating System]] [[Persistent Block Storage]] [[Buffer cache]] [[CPU IO Bound Task]] [[fsync]]
 
-# Disk IOPS
+# disk IOPS
 
-> Disk IOPS — IOPS = completed I/O operations per second (reads + writes, often reported separately). Distinct from throughput (MB/s):
+> IOPS (I/O operations per second) counts how many read/write commands a storage device completes per second — throughput in bytes and latency in milliseconds both matter for real workloads.
 
----
+**IOPS** rises with smaller random IO on SSDs/NVMe; large sequential transfers measure **MB/s** instead. Controllers, queue depth, and block size all change the number.
 
-## Index
+## Rough reference (order of magnitude, not guarantees)
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Media | Random 4K IOPS (typical class) |
+|-------|--------------------------------|
+| HDD | tens to low hundreds |
+| SATA SSD | tens of thousands |
+| NVMe | hundreds of thousands+ |
 
-## Mental model
+## OS stack effects
 
-**IOPS** = completed I/O operations per second (reads + writes, often reported separately). Distinct from **throughput** (MB/s):
-
-```txt
-Large sequential read  →  few ops, high MB/s
-Random 4 KiB read      →  many ops, IOPS-bound (latency × queue depth)
-```
-
-Rough ceiling (order of magnitude):
-| Media | Random 4K IOPS (single device) |
-|-------|-------------------------------|
-| HDD | 100–200 |
-| SATA SSD | 10k–90k |
-| NVMe | 100k–1M+ |
-| EBS gp3 | provisioned IOPS (3k–16k+ per volume) |
-
-Queue depth (`nr_requests`, application concurrency) multiplies effective IOPS until device or CPU saturates.
-
-**Service impact:** Postgres/MySQL with fsync-heavy commits, etcd, and metrics backends hit **IOPS and latency** before raw bandwidth.
-
----
-
-## Standard config / commands
-
-### Host-level IOPS and latency
+The [[Buffer cache]] merges and delays writes — measured IOPS at the disk may be lower than application `write()` calls. [[fsync]] forces flush and can collapse IOPS under sync-heavy databases.
 
 ```bash
-iostat -dx 1
-# r/s w/s await util — util near 100% → saturated
-
-# Per-process I/O
-pidstat -d 1 -p PID
+iostat -xz 1
+fio --name=test --rw=randread --bs=4k --iodepth=32 --numjobs=1
 ```
 
-### Cloud dashboards
+[[CPU IO Bound Task]] services waiting on disk show low CPU and high `await` in `iostat`.
 
-| Provider | Metrics |
-|----------|---------|
-| AWS RDS/EBS | `ReadIOPS`, `WriteIOPS`, `VolumeQueueLength` |
-| Azure | Disk IOPS consumed % |
-| GCP | `disk/read_ops_count`, `write_ops_count` |
+## Sources
 
-### DB-specific
-
-```bash
-pidof postgres mysqld
-pidstat -d 1 -p $(pidof postgres)
-```
-
-**Why `await` matters:** high IOPS with rising `await` means queueing — users see tail latency, not average throughput.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| DB slow commits | `iostat await`; fsync rate | Faster disk; group commit; reduce fsync frequency (risk tradeoff) |
-| EBS throttling | Cloud `VolumeQueueLength`, burst balance | Provision IOPS; gp3 IOPS/throughput knobs |
-| High IOPS, low useful work | Small random reads | [[Buffer cache]] hit ratio; index tuning; larger page cache |
-| SSD wear / latency creep | SMART, `nvme smart-log` | Replace drive; spread writes |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Benchmark IOPS ≠ sustained prod IOPS** — burst buckets on cloud volumes lie in short tests.
-
-> [!WARNING]
-> **Splitting one workload across many small volumes** doesn't bypass per-instance limits on shared hardware.
-
-> [!WARNING]
-> **IOPS without block size** is ambiguous — always note IO size (4K vs 128K).
-
----
-
-## When NOT to use
-
-Don't size purely on IOPS if workload is **sequential streaming** (video, bulk ETL) — size on **throughput** (MB/s) instead.
-
----
-
-## Related
-
-[[Buffer cache]] [[fsync]] [[Persistent Block Storage]] [[system bus]] [[Linux]]
+- Brendan Gregg — storage performance methodology
+- Wikipedia: [IOPS](https://en.wikipedia.org/wiki/IOPS)
+- SNIA storage performance specifications

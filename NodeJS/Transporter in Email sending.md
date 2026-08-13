@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.
 
@@ -29,7 +20,8 @@ Each email ─────┴──► sendMail({ from, to, subject, html })
 
 Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### SMTP transporter (submission port 587)
 
@@ -91,7 +83,8 @@ nodemailer.createTransport({
 createTransport({ ..., logger: true, debug: true });
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -101,6 +94,7 @@ createTransport({ ..., logger: true, debug: true });
 | `self signed certificate` | Corporate MITM TLS | Provide `tls.ca` or fix proxy; never `rejectUnauthorized: false` in prod |
 | Intermittent slow sends | No pooling | `pool: true`; reuse transporter singleton |
 | Message accepted but not delivered | Provider dashboard | Check bounce/webhook; verify `MAIL FROM` domain |
+
 
 ## Gotchas
 
@@ -116,11 +110,17 @@ createTransport({ ..., logger: true, debug: true });
 > [!WARNING]
 > **Sync send in request path** — queue outbound mail (Bull, SQS) for user-facing latency.
 
-## When NOT to use
+
+## When not to use
 
 - **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from application servers.
 - **Receiving mail** — transporter is outbound only; use [[IMAP (Internet Message Access Protocol)]] / [[POP3 (Post Office Protocol v3)]] for inbound.
 
+
 ## Related
 
 [[SMTP]] [[E mail server]] [[NodeJS]] [[webhook]]
+
+## Sources
+
+- [Wikipedia — Transporter in Email sending](https://en.wikipedia.org/wiki/Transporter_in_Email_sending)

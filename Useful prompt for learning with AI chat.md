@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Useful prompt for learning with AI chat — _What are the most important facts, dates, or formulas related to (topic)? Help me create a memorization technique…
+## How it works
 
 **_What are the most important facts, dates, or formulas related to (topic)? Help me create a memorization technique to remember them easily.”_**
 - helpful approach is to develop mnemonics, which are mental shortcuts that associate new information with existing knowledge, making it easier to retain.
@@ -28,25 +17,24 @@
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[Useful prompt for learning with AI chat.md]]
+
+## Sources
+
+- [Wikipedia — Useful prompt for learning with AI chat](https://en.wikipedia.org/wiki/Useful_prompt_for_learning_with_AI_chat)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Private and special-use IPs are for LAN, loopback, or link-local — routers on the internet drop or never advertise them.
+## How it works
 
 ```txt
 Internet ──✗── 10.x / 172.16–31 / 192.168.x
@@ -49,7 +38,8 @@ Internet ──✗── 10.x / 172.16–31 / 192.168.x
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ip -4 addr show
@@ -70,7 +60,8 @@ ss -tlnp | grep ':8080'
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +72,7 @@ ss -tlnp | grep ':8080'
 | Overlap after VPC peer | Same RFC1918 on both sides | Renumber or use NAT |
 
 ---
+
 
 ## Gotchas
 
@@ -95,7 +87,8 @@ ss -tlnp | grep ':8080'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Publishing a service to the world** — need a public IP, LB, or tunnel — not RFC1918 alone.
 - **Cross-org peering without a plan** — colliding `10/8` blocks; design non-overlapping CIDRs first.
@@ -103,6 +96,11 @@ ss -tlnp | grep ':8080'
 
 ---
 
+
 ## Related
 
 [[Networking]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[localhost]] [[loopback]] [[network gateway]]
+
+## Sources
+
+- [Wikipedia — non-Routable address](https://en.wikipedia.org/wiki/non-Routable_address)

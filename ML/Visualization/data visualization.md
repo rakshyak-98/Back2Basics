@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Look at distributions, class balance, and errors — a bad chart beats a wrong AUC story.
+## How it works
 
 ```txt
 EDA plots → train → residual / pred-vs-actual → decide next feature
@@ -34,7 +23,8 @@ EDA plots → train → residual / pred-vs-actual → decide next feature
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import matplotlib.pyplot as plt
@@ -51,7 +41,8 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 | Overplot ink | millions of points | Hexbin / sample |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Automated nightly metrics only** — still sample-plot failures.
 - **Huge dashboards nobody reads** — fewer sharper plots.
 
+
 ## Related
 
 [[Visualization/Residual plot]] [[Visualization/predicated versus actual plot]] [[model tranning]]
+
+## Sources
+
+- [Wikipedia — data visualization](https://en.wikipedia.org/wiki/data_visualization)

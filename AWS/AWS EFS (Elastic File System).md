@@ -1,89 +1,61 @@
-[[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[NFS (Network File System)]]
+[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS Networking]] · [[Security group]]
 
 # AWS EFS (Elastic File System)
 
-> EFS — managed NFS that many Linux EC2/containers mount at once; grows/shrinks with data across AZs.
+> EFS is a managed, regional NFS file system that multiple EC2 instances mount concurrently — ideal for shared content, not for low-latency database block I/O.
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Create filesystem → mount targets in subnets → `mount -t nfs4`. Shared home dirs, CMS uploads, lift-and-shift apps that need a real filesystem — not a block device.
-
-```txt
-EC2-a ─┐
-EC2-b ─┼── NFSv4 ──► EFS (multi-AZ)
-ECS   ─┘
-```
-
-| Mode | Tradeoff |
-|------|----------|
-| General Purpose | Default latency |
-| Max I/O | Higher aggregate throughput, more latency |
-| Bursting vs Elastic/Provisioned | Throughput accounting / cost |
-
----
-
-## Standard config / commands
+EFS presents a **POSIX file system** over NFSv4.1. Mount targets (one per AZ in your VPC) provide ENIs in your subnets. Clients mount:
 
 ```bash
-# Mount (Amazon Linux helper often available)
-sudo mount -t nfs4 -o nfsvers=4.1 fs-….efs.region.amazonaws.com:/ /mnt/efs
-
-# Security: NFS port 2049 from clients’ SG → EFS SG
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
+  fs-0abc1234.efs.us-east-1.amazonaws.com:/ /mnt/efs
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Mount targets | One per AZ you use; private subnets |
-| SG on EFS | Inbound 2049 from instance SG |
-| Encryption in transit | TLS mount helper / stunnel |
-| Access points | Enforce path + POSIX uid/gid for apps |
+Use **EFS mount helper** (`amazon-efs-utils`) for TLS in transit and simpler DNS.
 
----
+## Performance modes and classes
 
-## Triage (when things break)
+| Option | Trade-off |
+|--------|-----------|
+| **Bursting throughput** | Scales with stored data size |
+| **Provisioned throughput** | Pay for fixed throughput regardless of size |
+| **Elastic throughput** | Scales automatically (default on new file systems) |
+| **Standard vs Infrequent Access (IA)** | Lifecycle policy moves cold files to cheaper storage |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Connection timed out` | SG/NACL/mount target subnet | Open 2049; fix route to mount target |
-| `access denied` | Policy / AP uid | Fix filesystem policy; access point identity |
-| Slow under load | Throughput mode / credits | Elastic throughput or provisioned |
-| Permission weirdness | NFS root squash / uid | Align container user with AP |
-| Mount works one AZ only | Missing mount target | Create MT in each AZ used |
+**General Purpose** performance suits latency-sensitive workloads; **Max I/O** (legacy) handled higher aggregate throughput with higher latency.
 
----
+## Security
 
-## Gotchas
+- Mount targets need [[Security group]] allowing NFS (TCP 2049) from clients.
+- **Encryption at rest** (KMS) and **in transit** (TLS via mount helper).
+- **Access points** provide application-specific POSIX user/group and root directory isolation.
 
-> [!WARNING]
-> **Not a Windows first-class FS** — Linux/NFS oriented.
+## vs [[EBS (Elastic Block Store)]]
 
-> [!WARNING]
-> **Small-file heavy workloads** — EFS can look expensive/slow vs local SSD or S3.
+| Need | Pick |
+|------|------|
+| Database data directory on one host | EBS io2/gp3 |
+| Shared WordPress uploads across web tier | EFS |
+| Read-heavy static assets | EFS + CloudFront origin |
 
-> [!WARNING]
-> **Delete filesystem = delete data** — backups via AWS Backup.
+## Failure signals
 
----
+| Symptom | Check |
+|---------|-------|
+| Mount timeout | Security group, subnet routing, mount target health |
+| Stale file handle | Client lost connectivity; remount |
+| High cost | IA lifecycle, throughput mode, data growth |
 
-## When NOT to use
+## Recall
 
-- **Single-instance DB data dir** — [[EBS (Elastic Block Store)]] is lower latency.
-- **Static website / blob store** — S3.
-- **Windows SMB shares** — FSx for Windows / NetApp.
+- Why does EFS need a mount target per Availability Zone?
+- When is EFS the wrong choice compared to S3?
 
----
+## Sources
 
-## Related
-
-[[EBS (Elastic Block Store)]] [[AWS EC2]] [[Security group]] [[AWS Networking]]
+- [Amazon EFS User Guide](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html)
+- [NFSv4.1 protocol (RFC 5661)](https://datatracker.ietf.org/doc/html/rfc5661)

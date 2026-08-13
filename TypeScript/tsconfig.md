@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** One configuration (or solution-style references) tells `tsc` what to include and how strict to be. Bundlers may typecheck separately — keep options aligned.
+## How it works
 
 ```txt
 include/exclude → parse → typecheck → emit?
@@ -32,7 +21,8 @@ include/exclude → parse → typecheck → emit?
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```json
 {
@@ -63,7 +53,8 @@ npx tsc -b  # project references
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,6 +65,7 @@ npx tsc -b  # project references
 | Emit into repo mess | Accidental emit | `noEmit` or clean `outDir` |
 
 ---
+
 
 ## Gotchas
 
@@ -88,7 +80,8 @@ npx tsc -b  # project references
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off `tsc` file** — `--allowJs` script maybe.
 - **Fighting the bundler** — let Vite/webpack own emit; use `noEmit`.
@@ -96,6 +89,11 @@ npx tsc -b  # project references
 
 ---
 
+
 ## Related
 
 [[typescript]] [[typescript error]] [[ambient modules]] [[Triple-Slash Directives]]
+
+## Sources
+
+- [Wikipedia — tsconfig](https://en.wikipedia.org/wiki/tsconfig)

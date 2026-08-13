@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#cgroup v2 — memory (containers)]]
-- [[#cgroup v2 — CPU]]
-- [[#Other controllers (brief)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **cgroups** (control groups) group processes and apply limits/priorities. Modern distros mount **cgroup v2** unified at `/sys/fs/cgroup`.
 
@@ -43,7 +31,8 @@ v1 (legacy): separate hierarchies per controller (`memory`, `cpuacct`, …). v2:
 | **CPUQuota** | systemd CPU % limit | “CPUQuota=200% = two cores worth.” |
 | **slice** | systemd grouping | “Services hang under slices for shared limits.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Detect version
 
@@ -66,7 +55,8 @@ systemd-run --scope -p MemoryMax=512M stress-ng --vm 1 --vm-bytes 600M
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,6 +76,35 @@ cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.max
 Path varies by distro (cgroup driver: systemd versus cgroupfs).
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Memory limit without swap limit** — container swaps → latency death spiral. Set `memory.swap.max=0` or equal total.
+
+> [!WARNING]
+> **JVM/container ergonomics** — JVM reads cgroup limits for default heap; mismatch after Java 8u191+ but verify version.
+
+> [!WARNING]
+> **CPU limits ≠ exclusive cores** — throttling is bursty; use `cpuset` for pinning.
+
+> [!WARNING]
+> **v1 and v2 mixed mounts** — some hosts hybrid; Docker may use v2 delegation.
+
+> [!WARNING]
+> **`memory.high` vs `memory.max`** — high causes reclaim pressure; max kills. Use high for soft SLO.
+
+---
+
+
+## When not to use
+
+- **Bare-metal tuning without measurement** — wrong `cpu.max` hides bottlenecks; profile first.
+- **Replacing ulimits entirely** — RLIMIT_NOFILE etc. still matter alongside cgroups.
+
+---
+
 
 ## cgroup v2 — memory (containers)
 
@@ -140,6 +159,7 @@ Pod OOMKilled → hit `memory.limit`; check `kubectl describe pod` → `Last Sta
 
 ---
 
+
 ## cgroup v2 — CPU
 
 | File | Meaning |
@@ -160,6 +180,7 @@ Kubernetes CPU limit: **throttled**, not killed — unlike memory.
 
 ---
 
+
 ## Other controllers (brief)
 
 | Controller | v2 knob | Use |
@@ -172,32 +193,11 @@ v1 names still appear in old docs: `cpuacct`, `blkio`, `net_cls`.
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Memory limit without swap limit** — container swaps → latency death spiral. Set `memory.swap.max=0` or equal total.
-
-> [!WARNING]
-> **JVM/container ergonomics** — JVM reads cgroup limits for default heap; mismatch after Java 8u191+ but verify version.
-
-> [!WARNING]
-> **CPU limits ≠ exclusive cores** — throttling is bursty; use `cpuset` for pinning.
-
-> [!WARNING]
-> **v1 and v2 mixed mounts** — some hosts hybrid; Docker may use v2 delegation.
-
-> [!WARNING]
-> **`memory.high` vs `memory.max`** — high causes reclaim pressure; max kills. Use high for soft SLO.
-
----
-
-## When NOT to use
-
-- **Bare-metal tuning without measurement** — wrong `cpu.max` hides bottlenecks; profile first.
-- **Replacing ulimits entirely** — RLIMIT_NOFILE etc. still matter alongside cgroups.
-
----
 
 ## Related
 
 [[Memory management]] [[OOM (Linux Out Of Memory)]] [[management/Linux out of memory daemon]] [[process]] [[management/Linux resource management]]
+
+## Sources
+
+- [Wikipedia — Linux cgroup](https://en.wikipedia.org/wiki/Linux_cgroup)

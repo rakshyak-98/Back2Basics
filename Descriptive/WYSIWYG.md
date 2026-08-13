@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirror JSON, Slate tree) synced to a visible **editable surface**. Toolbar commands mutate that model; export/publish serializes to HTML/Markdown/PDF.
 
@@ -37,7 +28,8 @@ Categories:
 - **Framework editors** — TipTap (ProseMirror), Slate, Quill, CKEditor 5, TinyMCE.
 - **Block builders** — Notion-like; still WYSIWYG at block level.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### TipTap (React) minimal
 
@@ -106,7 +98,8 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 .article-body { /* same rules */ }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +110,7 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 | Undo broken across transactions | Custom commands bypass history | Use editor's chain API |
 | Mobile keyboard covers toolbar | Fixed toolbar z-index | `visualViewport` adjust; bottom sheet UI |
 | Huge HTML in DB | Nested spans from toggles | Normalize schema; store JSON |
+
 
 ## Gotchas
 
@@ -132,12 +126,18 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 > [!WARNING]
 > **Collaboration** — CRDT/OT (Yjs) is separate concern from WYSIWYG shell.
 
-## When NOT to use
+
+## When not to use
 
 - **Developer-only content (Markdown in git)** — plain MD + preview is simpler.
 - **Highly structured content (products, legal clauses)** — use structured CMS fields, not free-form HTML.
 - **Email composition** — email HTML is its own nightmare; use email-specific builders.
 
+
 ## Related
 
 [[React]] [[css]] [[Security]] [[Descriptive]]
+
+## Sources
+
+- [Wikipedia — WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG)

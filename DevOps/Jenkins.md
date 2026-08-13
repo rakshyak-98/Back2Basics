@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Controller holds job configuration, queue, and UI. **Agents** (static VMs, Docker, K8s pods) run build steps. **Pipeline** = Groovy DSL (`Jenkinsfile`) or declarative stages calling shell, git, docker, etc.
 
@@ -34,7 +25,8 @@ Developer push → webhook/poll SCM → Jenkins queue
 | Credential | Username/password, SSH key, secret text — bound by ID |
 | Shared library | Reusable Groovy `@Library` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```groovy
 // Jenkinsfile (declarative baseline)
@@ -83,7 +75,8 @@ du -sh /var/lib/jenkins/workspace/* | sort -h
 kill -3 $(pgrep -f jenkins.war)   # or Groovy script console: Thread.currentThread().getAllStackTraces()
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,6 +92,7 @@ kill -3 $(pgrep -f jenkins.war)   # or Groovy script console: Thread.currentThre
 | Docker pipeline fails | Agent has no docker.sock / DinD | Mount socket (security tradeoff) or Kaniko/buildkit |
 | Slow every build | Checkout every time; no cache | shallow clone; cache deps; separate lightweight agents |
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -113,11 +107,17 @@ kill -3 $(pgrep -f jenkins.war)   # or Groovy script console: Thread.currentThre
 - **Reverse proxy** (`X-Forwarded-For`, `JenkinsUrl`) misconfig → broken webhooks and agent URLs.
 - **Orphaned agents** after K8s pod recycle — use ephemeral agents + pod template, not static pod names.
 
-## When NOT to use
+
+## When not to use
 
 - Greenfield CI with container-native GitOps → GitHub Actions / GitLab CI may be simpler operations.
 - Complex DAG data pipelines → [[Airflow]] or dedicated orchestrator, not Jenkins Groovy hacks.
 
+
 ## Related
 
 [[GIT/git command]] · [[Docker compose]] · [[terraform]] · [[Airflow]]
+
+## Sources
+
+- [Wikipedia — Jenkins](https://en.wikipedia.org/wiki/Jenkins)

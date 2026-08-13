@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Paused = you `read()` on demand; flowing = `data` events push chunks. `write` returns `false` → wait for `drain` (backpressure).
+## How it works
 
 ```txt
 paused: pull via read()
@@ -33,7 +22,8 @@ write() false → wait 'drain'
 | **Backpressure** | Slow sink signals stop | “Honor `false` from `write`.” |
 | **`error`** | Failure anytime | “Always listen — even with pipe.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 readable.on('data', (chunk) => {
@@ -53,7 +43,8 @@ writable.on('error', handler)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ writable.on('error', handler)
 | Hang | Never `end` | Forward `end` / destroy on error |
 
 ---
+
 
 ## Gotchas
 
@@ -74,13 +66,19 @@ writable.on('error', handler)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Manual event wiring for simple copies** — `pipeline` is enough.
 - **Tiny in-memory data** — Buffer/string, not streams.
 
 ---
 
+
 ## Related
 
 [[Stream]] [[Stream/pipe]] [[Stream/stream error]] [[Buffers]]
+
+## Sources
+
+- [Wikipedia — Stream Events](https://en.wikipedia.org/wiki/Stream_Events)

@@ -1,93 +1,38 @@
-[[Design pattern]] [[Design pattern/State]] [[Design pattern/Command]]
+[[Design pattern]] [[Design pattern/Command]] [[Design pattern/Chain of Responsibility]]
 
 # Memento
 
-> Memento — draft (originator) ──createMemento──► Memento ──stored by──► History
+> Memento captures and externalizes an object's internal state so it can be restored later — without exposing implementation details to outsiders.
 
----
+## Roles
 
-## Index
-
-- [[#Mental model]]
-- [[#Core idea]]
-- [[#Variations / implementations]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#Trade-offs]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Originator (draft) creates an opaque memento; caretaker (history stack) stores it. Restore returns the draft to a prior snapshot without caretaker reading fields.
-
-```
-Draft (originator) ──createMemento──► Memento ──stored by──► History
-                 ◄──restore──────────┘
-```
-
-## Core idea
-
-…
-
-## Variations / implementations
-
-…
-
-## Standard config / commands
-
-```typescript
-type DraftSnapshot = Readonly<{ name: string; budget: number; goalId: string }>;
-
-class CampaignDraft {
-  constructor(public data: { name: string; budget: number; goalId: string }) {}
-
-  save(): DraftSnapshot {
-    return Object.freeze({ ...this.data });
-  }
-
-  restore(m: DraftSnapshot) {
-    this.data = { ...m };
-  }
-}
-
-const history: DraftSnapshot[] = [];
-const draft = new CampaignDraft({ name: '', budget: 0, goalId: '' });
-
-function checkpoint() {
-  history.push(draft.save());
-}
-function undo() {
-  const m = history.pop();
-  if (m) draft.restore(m);
-}
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Undo leaks private fields | Caretaker reads memento | Keep snapshot opaque / readonly |
-| Memory blowup | Unbounded history | Cap stack; persist to disk |
-| Partial restore | Nested objects shared by ref | Deep clone on save |
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-## Trade-offs
-
-| Gain | Cost |
+| Role | Role |
 |------|------|
-| … | … |
+| **Originator** | Creates memento from its state; restores from memento |
+| **Memento** | Stores snapshot (often immutable) |
+| **Caretaker** | Holds mementos; should not inspect contents |
 
-## When NOT to use
+```
+Originator.createMemento() → Caretaker.store
+Caretaker.retrieve → Originator.restore(memento)
+```
 
-- Full event sourcing already provides replay — don't dual-write mementos.
-- Need undo of side-effects on server — [[Design pattern/Command]] with compensating `undo()`.
+## vs Command undo
 
-## Related
+Command undo often stores **inverse operations**; Memento stores **state snapshots** — better when operations are hard to reverse analytically.
 
-[[Design pattern]] [[Design pattern/State]] [[Design pattern/Command]]
+## When to use
+
+- Editor undo, game save states, transactional rollback of complex objects.
+- Checkpoint before risky operations.
+
+## Pitfalls
+
+- **Memory** — deep copies of large graphs; consider incremental snapshots.
+- **Encapsulation leak** — caretaker must not mutate memento internals.
+- **Versioning** — old mementos after schema change need migration or discard.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Memento)
+- [Memento pattern — Wikipedia](https://en.wikipedia.org/wiki/Memento_pattern)

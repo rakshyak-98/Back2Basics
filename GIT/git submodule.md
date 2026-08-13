@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A submodule is a **gitlink**: parent repository records a path + exact commit SHA of nested repository. Cloning parent does not auto-fetch submodule contents unless `--recurse-submodules`.
+## How it works
 
 
 ```
@@ -30,7 +19,8 @@ Parent tracks **pointer**, not submodule files directly.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Clone with submodules
 
@@ -80,7 +70,8 @@ git commit -m "Remove lib submodule"
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,6 +90,7 @@ git submodule foreach 'git rev-parse HEAD'
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -115,13 +107,19 @@ git submodule foreach 'git rev-parse HEAD'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
 - **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
 
 ---
 
+
 ## Related
 
 [[git command]] [[git worktree]] [[git merge]]
+
+## Sources
+
+- [Wikipedia — git submodule](https://en.wikipedia.org/wiki/git_submodule)

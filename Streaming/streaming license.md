@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Your backend mints a short-lived license token after user authentication; the player sends it to the DRM license server; the CDM gets content keys.
+## How it works
 
 ```txt
 Auth OK → mint license token → player license request + token → keys → decrypt
@@ -41,7 +30,8 @@ IV (Initialization Vector) randomizes ciphertext so identical frames don’t loo
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```txt
 Player → POST license URL
@@ -53,7 +43,8 @@ Mint tokens only on the server (Site ID + Site Key). Set validity short (minutes
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ Mint tokens only on the server (Site ID + Site Key). Set validity short (minutes
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -75,13 +67,19 @@ Mint tokens only on the server (Site ID + Site Key). Set validity short (minutes
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Clear (unencrypted) streams** — no license path.
 - **Internal tools with trusted network only** — simpler authentication may suffice (still encrypt if needed).
 
 ---
 
+
 ## Related
 
 [[DRM]] [[CPIX]] [[Pallycon(DoveRunner)]] [[EME]] [[CAS (Conditional Access System)]]
+
+## Sources
+
+- [Wikipedia — streaming license](https://en.wikipedia.org/wiki/streaming_license)

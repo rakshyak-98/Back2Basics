@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** staff engineer — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 As a Staff Engineer with 30 years in the industry, I have seen technologies rise and fall, but the path to the "Staff-plus" level remains anchored in one truth: **Your value is no longer measured by your output, but by your impact on the output of others.**
@@ -34,7 +23,8 @@ To reach this level as a self-taught programmer, you must move from being a "sol
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -43,7 +33,8 @@ To reach this level as a self-taught programmer, you must move from being a "sol
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -53,6 +44,7 @@ To reach this level as a self-taught programmer, you must move from being a "sol
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -60,12 +52,18 @@ To reach this level as a self-taught programmer, you must move from being a "sol
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[staff engineer.md]]
+
+## Sources
+
+- [Wikipedia — staff engineer](https://en.wikipedia.org/wiki/staff_engineer)

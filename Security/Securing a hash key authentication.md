@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Hash-key authentication** = server and client share a secret used to compute [[HMAC (Hash based Message Authentication Codes)]] or compare API key hashes:
 
@@ -33,7 +24,8 @@ Security = **key hygiene** + **transport** + **verification discipline**.
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Generate strong secrets
 
@@ -89,7 +81,8 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,6 +93,7 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 | Timing attacks | Non-constant compare | `crypto.timingSafeEqual` |
 
 ---
+
 
 ## Gotchas
 
@@ -117,12 +111,18 @@ if ($scheme != "https") { return 301 https://$host$request_uri; }
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Shared MAC keys **don't scale** to untrusted third-party integrators — use OAuth/mTLS or asymmetric webhook signatures per consumer.
 
 ---
 
+
 ## Related
 
 [[HMAC (Hash based Message Authentication Codes)]] [[Token rotation]] [[KMS]] [[https]] [[Authentication terms]]
+
+## Sources
+
+- [Wikipedia — Securing a hash key authentication](https://en.wikipedia.org/wiki/Securing_a_hash_key_authentication)

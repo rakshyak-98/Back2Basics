@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Swap the wire without rewriting domain logic — same interface over different protocols (HTTP, AMQP, NATS, MQTT, gRPC).
+## How it works
 
 ```txt
 Service ──transporter.send──► HTTP | gRPC | MQTT | broker
@@ -31,7 +20,8 @@ Service ──transporter.send──► HTTP | gRPC | MQTT | broker
 | **Broker vs RPC** | Async bus vs request/reply | “Pick semantics, not just speed.” |
 | **Email transporter** | Nodemailer SMTP/API | “See [[Transporter in Email sending]].” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // Pattern — interface, many backends
@@ -52,7 +42,8 @@ await transporter.send({ type: 'order.created', payload })
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ await transporter.send({ type: 'order.created', payload })
 | Auth mismatch | Per-protocol creds | Centralize secrets in config |
 
 ---
+
 
 ## Gotchas
 
@@ -73,13 +65,19 @@ await transporter.send({ type: 'order.created', payload })
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One protocol forever** — direct client may be simpler.
 - **Ultra-low latency peer path** — specialized stacks (e.g. raw sockets) without a bus.
 
 ---
 
+
 ## Related
 
 [[Transporter in Email sending]] [[Protocol/gRPC]] [[MQTT]] [[Message Broker]] [[HTTP module]]
+
+## Sources
+
+- [Wikipedia — Transporters](https://en.wikipedia.org/wiki/Transporters)

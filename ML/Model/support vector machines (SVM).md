@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification versus margin width.
 
@@ -36,7 +27,8 @@ SVMs shine on **medium-sized, dense** data; struggle on **large sparse text** un
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.svm import SVC
@@ -75,7 +67,8 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -97,7 +91,8 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Huge datasets (millions+ rows)** — [[Gradient boosting]] / linear models scale better.
 - **Need feature importances for compliance** — prefer [[Decision tree]] or linear models.
@@ -105,6 +100,11 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 
 ---
 
+
 ## Related
 
 [[ML Classifiers]] · [[binary classification]] · [[regression]] · [[Model/Linear regression]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — support vector machines](https://en.wikipedia.org/wiki/support_vector_machines)

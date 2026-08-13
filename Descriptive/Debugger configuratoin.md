@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `launch.json` / adapter settings tell the IDE what to start or attach to; [[DAP (Debug Adapter Protocol)]] carries the breakpoints.
+## How it works
 
 ```txt
 IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
@@ -34,7 +23,8 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```json
 {
@@ -55,7 +45,8 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 | Breaks in wrong file | path mapping | Fix `sourceMapPathOverrides` |
 
 ---
+
 
 ## Gotchas
 
@@ -76,11 +68,17 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-line print in a script** — logging may be faster.
 - **production live traffic** — prefer tracing; debugger pauses freeze work.
 
+
 ## Related
 
 [[DAP (Debug Adapter Protocol)]] [[How does debugger work]] [[unbound breakpoint]]
+
+## Sources
+
+- [Wikipedia — Debugger configuratoin](https://en.wikipedia.org/wiki/Debugger_configuratoin)

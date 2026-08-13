@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 Browser page → <applet> → JVM plugin in browser process → bytecode + full OS API
@@ -32,7 +23,8 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Recognize legacy artifacts
 
@@ -59,7 +51,8 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,6 +62,7 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 | Signed jar trust prompts | Old cert chain | Not fixable in browser — replace integration |
 
 ---
+
 
 ## Gotchas
 
@@ -83,12 +77,18 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Always** — for any new feature. Full stop.
 
 ---
 
+
 ## Related
 
 [[JavaScript]] · [[web capabilities]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]]
+
+## Sources
+
+- [Wikipedia — Java applets](https://en.wikipedia.org/wiki/Java_applets)

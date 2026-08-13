@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** feed JSON in, write a filter that walks paths like `.users[].id`, get JSON (or raw text) out.
+## How it works
 
 ```txt
 stdin / file.json  ──►  jq 'filter'  ──►  stdout
@@ -40,7 +29,8 @@ stdin / file.json  ──►  jq 'filter'  ──►  stdout
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Read / pretty
@@ -79,7 +69,8 @@ jq -e '.ok == true' resp.json     # exit 1 if false/null
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +82,7 @@ jq -e '.ok == true' resp.json     # exit 1 if false/null
 | Multiple top-level values | NDJSON | `jq -c .` per line or `jq -s` to slurp |
 
 ---
+
 
 ## Gotchas
 
@@ -105,7 +97,8 @@ jq -e '.ok == true' resp.json     # exit 1 if false/null
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Line/column text logs** — [[awk]] / [[grep]].
 - **YAML/TOML configs** — `yq` / dedicated parsers.
@@ -113,6 +106,11 @@ jq -e '.ok == true' resp.json     # exit 1 if false/null
 
 ---
 
+
 ## Related
 
 [[awk]] [[curl]] [[commands]] [[Authentication command]]
+
+## Sources
+
+- [Wikipedia — jq](https://en.wikipedia.org/wiki/jq)

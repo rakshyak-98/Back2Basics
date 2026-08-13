@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Connect, pick a DB, run helpers (`find`, `createCollection`) or raw `runCommand`.
+## How it works
 
 ```txt
 mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
@@ -34,7 +23,8 @@ mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 db.createCollection('users', {
@@ -63,7 +53,8 @@ session.endSession()
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,6 +64,7 @@ session.endSession()
 | Validation errors | Schema vs doc | Fix doc or collMod |
 
 ---
+
 
 ## Gotchas
 
@@ -84,11 +76,17 @@ session.endSession()
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **application data path** — use a driver, not the shell.
 - **CI automation** — prefer mongosh non-interactive + scripts.
 
+
 ## Related
 
 [[mongosh]] [[mongosh query]] [[MongoDB query validation]]
+
+## Sources
+
+- [Wikipedia — mongodb shell](https://en.wikipedia.org/wiki/mongodb_shell)

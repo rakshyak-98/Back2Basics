@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Editor speaks JSON-RPC to a server that understands the language — one server, many editors.
+## How it works
 
 ```txt
 Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
@@ -34,7 +23,8 @@ Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # examples
@@ -51,7 +41,8 @@ pylsp --help
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,6 +52,7 @@ pylsp --help
 | Slow IDE | huge project | Exclude build dirs |
 
 ---
+
 
 ## Gotchas
 
@@ -72,11 +64,17 @@ pylsp --help
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Tiny throwaway script in notepad** — overkill.
 - **Formatting only** — formatter CLI may suffice.
 
+
 ## Related
 
 [[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]]
+
+## Sources
+
+- [Wikipedia — LSP](https://en.wikipedia.org/wiki/LSP)

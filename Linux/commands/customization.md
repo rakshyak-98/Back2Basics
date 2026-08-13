@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 GNOME Shell extensions are **UUID-keyed bundles** under `~/.local/share/gnome-shell/extensions/` (user) or `/usr/share/gnome-shell/extensions/` (system). The CLI talks to Shell over D-Bus; if Shell isn't running (SSH session), most commands fail.
 
@@ -41,7 +32,8 @@ gnome-extensions list → UUID → info / disable / reset
 | **PS1** | Prompt | “Show git branch / exit code.” |
 | **XDG dirs** | Config locations | “Prefer ~/.config.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Inventory
@@ -69,7 +61,8 @@ sudo apt install gnome-shell-extension-manager
 
 **After GNOME upgrade:** extensions lag Shell version — check `gnome-extensions info` for `"state": ERROR` or version mismatch on extensions.gnome.org.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +71,7 @@ sudo apt install gnome-shell-extension-manager
 | Settings revert | `reset` vs manual dconf | Conflicting extension; check `dconf dump /` |
 | CLI says "not found" | `echo $XDG_SESSION_TYPE` | Not on GNOME/Wayland session; use gsettings or DE-specific tool |
 | Install fails | Zip structure / metadata.json | Must contain UUID folder; not raw git clone |
+
 
 ## Gotchas
 
@@ -88,11 +82,17 @@ sudo apt install gnome-shell-extension-manager
 - **System extensions versus user** — `-system` flag for packaged extensions; don't mix install paths.
 - **Extension "reset"** — clears extension prefs, not Shell core settings.
 
-## When NOT to use
+
+## When not to use
 
 - **KDE, i3, Sway** — different extension systems; this CLI is GNOME-only.
 - **System-wide policy** — use `/etc/dconf/db` locks for corporate baselines, not per-user enable/disable scripts.
 
+
 ## Related
 
 [[gsetting]] [[Linux configuration]] [[Linux display manager]] [[wayland]] [[x11]]
+
+## Sources
+
+- [Wikipedia — customization](https://en.wikipedia.org/wiki/customization)

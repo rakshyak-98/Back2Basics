@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Multiply inputs by weights, add bias, step/activate — if the pattern isn’t linearly separable, one perceptron can’t learn it.
+## How it works
 
 ```txt
 x · w + b  →  activation  →  ŷ
@@ -35,7 +24,8 @@ x · w + b  →  activation  →  ŷ
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import numpy as np
@@ -55,7 +45,8 @@ b += lr * (y - ŷ)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,6 +56,7 @@ b += lr * (y - ŷ)
 | Good train, bad test | tiny data | More data / simpler model |
 
 ---
+
 
 ## Gotchas
 
@@ -76,11 +68,17 @@ b += lr * (y - ŷ)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **XOR-like problems** — need MLP.
 - **Raw images/text** — use modern architectures.
 
+
 ## Related
 
 [[ANN]] [[sigmoid]] [[supervised learning]]
+
+## Sources
+
+- [Wikipedia — Perceptron](https://en.wikipedia.org/wiki/Perceptron)

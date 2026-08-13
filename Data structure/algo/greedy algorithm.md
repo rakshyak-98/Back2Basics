@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 At each step, pick the best-looking option now without backtracking. Fast (often O(n log n) from sorting). Proof burden is on you: exchange argument or matroid. Classic wins: interval scheduling, Huffman, Dijkstra (non-negative weights), activity selection.
 
@@ -23,7 +14,8 @@ At each step, pick the best-looking option now without backtracking. Fast (often
 Sort/preprocess → for each step pick max profit / min finish time / closest fit
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Activity selection (max non-overlapping intervals)
 
@@ -58,7 +50,8 @@ function minCoins(amount) {
 // coins [1, 3, 4], amount 6 → greedy gives 4+1+1=3 coins; optimal 3+3=2
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +60,7 @@ function minCoins(amount) {
 | Suboptimal path | Graph negative edges | Dijkstra fails — Bellman-Ford |
 | Interval bug | Sort by wrong endpoint | Activity: sort by **finish** time |
 | Knapsack wrong | Fractional vs 0/1 | Fractional greedy by value/weight; 0/1 needs DP |
+
 
 ## Gotchas
 
@@ -77,11 +71,17 @@ function minCoins(amount) {
 >
 > **Stable sort matters** — tie-breaking can change interval results.
 
-## When NOT to use
+
+## When not to use
 
 - Don't greedy 0/1 knapsack or general coin change without proof.
 - Don't skip proof in interview — state why greedy safe or pivot to DP.
 
+
 ## Related
 
 [[Data structure/algo/binary search]] [[Data structure/dsa genera formula]] [[Data structure/sliding window]]
+
+## Sources
+
+- [Wikipedia — greedy algorithm](https://en.wikipedia.org/wiki/greedy_algorithm)

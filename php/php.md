@@ -6,32 +6,12 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 PHP executes per request (FPM worker pool) or CLI (cron, Composer). The **SAPI** (FPM, CLI, Apache module) loads `php.ini` + conf.d snippets. Composer manages dependencies; autoload maps classes. Production = FPM behind Nginx/Apache, opcache on, errors to log not browser.
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ### Debian/Ubuntu install
 
@@ -69,7 +49,20 @@ opcache.validate_timestamps = 0   ; restart FPM on deploy
 memory_limit = 256M
 ```
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -77,6 +70,7 @@ memory_limit = 256M
 | CLI vs FPM different behavior | Compare `php -i` vs FPM | Align ini files |
 | Composer memory exhausted | `memory_limit` | `COMPOSER_MEMORY_LIMIT=-1 composer install` |
 | Version mismatch | `php -v` on nginx vs cli | Point nginx to correct FPM socket version |
+
 
 ## Gotchas
 
@@ -87,11 +81,17 @@ memory_limit = 256M
 >
 > **Deprecated `mysql_*`** — use PDO/mysqli.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use built-in PHP development server (`php -S`) in production — no FPM isolation or robustness.
 - Don't install every extension "just in case" — attack surface and memory.
 
+
 ## Related
 
 [[php error]] [[PHP-FPM]] [[apache/apache modules]] [[Nginx/Configuration]]
+
+## Sources
+
+- [Wikipedia — php](https://en.wikipedia.org/wiki/php)

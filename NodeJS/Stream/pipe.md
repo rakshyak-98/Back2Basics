@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `pipe` wires source to sink and pauses the source when the sink is full. Chain transforms (e.g. gzip) between them.
+## How it works
 
 ```txt
 ReadStream ──pipe──► Transform ──pipe──► WriteStream
@@ -31,7 +20,8 @@ ReadStream ──pipe──► Transform ──pipe──► WriteStream
 | **pipeline** | pipe + error cleanup | “Destroys all streams on failure.” |
 | **Chain** | Multi-step | “compress then write.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 import fs from 'node:fs'
@@ -58,7 +48,8 @@ fs.createReadStream('index.html').pipe(res)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,6 +59,7 @@ fs.createReadStream('index.html').pipe(res)
 | Wrong API | Typo `createReadStrema` | Fix method name |
 
 ---
+
 
 ## Gotchas
 
@@ -79,13 +71,19 @@ fs.createReadStream('index.html').pipe(res)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **ObjectMode graphs needing custom control** — manual `write`/`drain` may be clearer.
 - **Already-buffered tiny payloads** — skip streams.
 
 ---
 
+
 ## Related
 
 [[Stream]] [[Stream Events]] [[Stream/stream error]] [[Buffers]]
+
+## Sources
+
+- [Wikipedia — pipe](https://en.wikipedia.org/wiki/pipe)

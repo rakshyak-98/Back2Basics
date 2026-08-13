@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Single stream** means **one active encode pipeline** from source to **one ingest endpoint** — not multiple ladder rungs ([[Multi Stream]] ABR) and not fan-out to YouTube + origin simultaneously. OBS defaults here: **one RTMP push** at **one resolution/bitrate**. Origin may still **transcode to ABR** downstream — that's server-side, not publisher multi-stream.
 
@@ -37,7 +28,8 @@ Contrast [[Multi Stream]]:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### OBS single publish (canonical)
 
@@ -85,7 +77,8 @@ Manual switch on primary failure — not simultaneous push
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +89,7 @@ Manual switch on primary failure — not simultaneous push
 | Duplicate events on key reuse | Stale CDN cache | New key per event; purge manifest |
 
 ---
+
 
 ## Gotchas
 
@@ -110,7 +104,8 @@ Manual switch on primary failure — not simultaneous push
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Need simultaneous YouTube + private origin** — [[Multi Stream]] multi-push.
 - **Direct ABR from publisher** — multiple encodes or hardware ladder (rare); usually server-side.
@@ -118,6 +113,11 @@ Manual switch on primary failure — not simultaneous push
 
 ---
 
+
 ## Related
 
 [[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Encoding]] [[bitrate streaming]] [[HLS]]
+
+## Sources
+
+- [Wikipedia — Single Stream](https://en.wikipedia.org/wiki/Single_Stream)

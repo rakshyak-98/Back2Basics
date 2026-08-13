@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** One input becomes N outputs; each output is a rendition the player may pick as network changes.
+## How it works
 
 ```txt
 Source mezzanine / live ingest
@@ -47,7 +36,8 @@ Source mezzanine / live ingest
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Name them in the HLS master
 
@@ -78,7 +68,8 @@ ffmpeg -i in.mp4 \
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +82,7 @@ ffmpeg -i in.mp4 \
 | Loudness jump between rungs | Different audio encodes | One audio rendition or matched loudness |
 
 ---
+
 
 ## Gotchas
 
@@ -108,7 +100,8 @@ ffmpeg -i in.mp4 \
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Single-bitrate contribution link** — one rendition to ingest; ladder after origin.
 - **Archive mezzanine** — store one master; spawn renditions at package time.
@@ -116,6 +109,11 @@ ffmpeg -i in.mp4 \
 
 ---
 
+
 ## Related
 
 [[ABR]] [[bitrate streaming]] [[HLS]] [[DASH]] [[transcoding]] [[Encoding]] [[NVENC]] [[codecs]] [[Manifest (streaming)]]
+
+## Sources
+
+- [Wikipedia — rendition](https://en.wikipedia.org/wiki/rendition)

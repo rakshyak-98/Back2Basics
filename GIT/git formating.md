@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `git log` output is templated. **`--pretty=format:"..."`** uses placeholders; **`--oneline`** and **`--medium`** are presets. Combine with `--graph`, `--decorate`, `--date=iso` for dashboards.
+## How it works
 
 
 ```
@@ -27,7 +16,8 @@ git log --pretty=format:"%h %ad | %an | %s" --date=short
 
 **Author** (`%an`) wrote the patch; **committer** (`%cn`) applied it — differ after rebase/cherry-pick.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Common one-liners
 
@@ -79,7 +69,8 @@ git log --pretty=format:'{%n  "hash": "%H",%n  "author": "%an",%n  "subject": "%
 git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%ad%Creset %s %Cgreen(%an)%Creset' --date=short -20"
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +79,7 @@ git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(
 | Empty `%d` | Detached or no refs | Normal for old commits |
 | Garbled colors in CI | `%Cred` color codes | Drop `%C…` for plain logs |
 | `%s` multiline breaks parser | Subject has newline | Use `%s` with `--no-merges` filter |
+
 
 ## Gotchas
 
@@ -100,11 +92,17 @@ git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(
 > [!WARNING]
 > **Shell quoting** — nested quotes in aliases break zsh/bash differently; test both.
 
-## When NOT to use
+
+## When not to use
 
 - **Structured JSON export at scale** — `git cat-file`, libgit2, or platform API.
 - **File content history** — add `-p` or use [[git diff]].
 
+
 ## Related
 
 [[git logs]] [[git alias]] [[git command]] [[Release cycle]]
+
+## Sources
+
+- [Wikipedia — git formating](https://en.wikipedia.org/wiki/git_formating)

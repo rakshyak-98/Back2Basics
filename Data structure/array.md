@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Random access O(1); insert/delete in the middle is O(n) because you shift elements.
+## How it works
 
 ```txt
 base → [0][1][2]…[n-1]   address(i) = base + i*elem_size
@@ -34,7 +23,8 @@ base → [0][1][2]…[n-1]   address(i) = base + i*elem_size
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const a = [10, 20, 30]
@@ -50,7 +40,8 @@ a.splice(1, 0, 15) // middle insert — shifts
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ a.splice(1, 0, 15) // middle insert — shifts
 | Off-by-one | loop `<= n` | Prefer half-open `[lo, hi)` |
 
 ---
+
 
 ## Gotchas
 
@@ -71,11 +63,17 @@ a.splice(1, 0, 15) // middle insert — shifts
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Frequent middle insert/delete** — list / gap buffer / rope.
 - **Sparse keys** — hash map.
 
+
 ## Related
 
 [[ADT (Abstract Data Type)]] [[linked list]] [[Data structure]]
+
+## Sources
+
+- [Wikipedia — array](https://en.wikipedia.org/wiki/array)

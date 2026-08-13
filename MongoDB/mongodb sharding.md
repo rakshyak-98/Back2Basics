@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A sharded cluster has three roles:
 
@@ -41,7 +32,8 @@ Documents land on shards by **shard key** ranges (or hashes). The **balancer** m
 
 **Shard key choice is hard to undo** — changing it means `reshardCollection` (or rebuild). Design for: high cardinality, even write spread, and queries that include the key (avoid scatter-gather).
 
-## Standard config / commands
+
+## Configuration and commands
 
 All administrator below runs against **mongos** (`mongosh` → cluster router), not a single shard primary.
 
@@ -159,7 +151,8 @@ db.collection.getShardDistribution()   // from mongos, per collection
 sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -170,6 +163,7 @@ sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 | mongos flapping / stale routing | mongos logs; CSRS health | Fix config RS; bounce mongos; ensure majority CSRS |
 | Writes fail `ShardKeyNotFound` / immutable key | Update tries to change shard key fields | Don't mutate shard key; delete+insert or redesign |
 | Orphaned docs after failed migrate | Range deleter lag; disk | Let range deleter finish; check recipient health |
+
 
 ## Gotchas
 
@@ -188,12 +182,18 @@ sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 > [!WARNING]
 > **Transactions / joins across shards** — multi-doc transactions work but cost more; design for single-shard affinity when you can.
 
-## When NOT to use
+
+## When not to use
 
 - Dataset and write QPS still fit one primary + [[mongodb replicaset]] secondaries — sharding adds mongos/CSRS/balancer complexity.
 - Access pattern is mostly global scans / heavy cross-entity analytics — use a warehouse, not more shards.
 - You cannot pick a stable shard key aligned to queries — fix the model first ([[mongodb schema]], [[mongodb denormalization]]).
 
+
 ## Related
 
 [[mongodb replicaset]] [[System Design/database sharding]] [[mognodb indexing]] [[mongodb schema]] [[mongodb connection]] [[mongodb migration]]
+
+## Sources
+
+- [Wikipedia — mongodb sharding](https://en.wikipedia.org/wiki/mongodb_sharding)

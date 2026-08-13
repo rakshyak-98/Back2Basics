@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Compress video with AV1 to save bits; ship a fallback rung where players cannot decode it yet.
+## How it works
 
 ```txt
 Mezzanine / live source
@@ -54,7 +43,8 @@ Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Software (VOD-oriented sketch)
@@ -84,7 +74,8 @@ Debug: `ffprobe` codec → chrome://media-internals or player codec log → comp
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,6 +87,7 @@ Debug: `ffprobe` codec → chrome://media-internals or player codec log → comp
 | Safari / old STB fails only | No AV1 decode | Expected — serve fallback family |
 
 ---
+
 
 ## Gotchas
 
@@ -113,7 +105,8 @@ Debug: `ffprobe` codec → chrome://media-internals or player codec log → comp
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Broad STB estate without AV1 decode** — stay on H.264/HEVC until devices catch up.
 - **Cheap live on pre-Ada GPUs** — no AV1 NVENC; software live may miss latency SLOs.
@@ -122,6 +115,11 @@ Debug: `ffprobe` codec → chrome://media-internals or player codec log → comp
 
 ---
 
+
 ## Related
 
 [[codecs]] [[Encoding]] [[NVENC]] [[transcoding]] [[ABR]] [[rendition]] [[HLS]] [[DASH]] [[bitrate streaming]]
+
+## Sources
+
+- [Wikipedia — AV1](https://en.wikipedia.org/wiki/AV1)

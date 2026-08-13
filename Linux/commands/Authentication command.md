@@ -6,41 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Quick reference]]
-- [[#Common commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#SSH trust & keys]]
-- [[#GPG for commits / files]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Common commands
-
-```bash
-# …
-```
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** SSH proves *server* identity via `known_hosts` and *user* via keypairs; GPG proves *you* signed or encrypted data.
+## How it works
 
 ```txt
 SSH:  client ──► verify host key (known_hosts)
@@ -60,6 +26,71 @@ GPG:  sign / encrypt with your keyring; verify with their public key
 | **GPG sign** | Detached / clear signature | “Git `-S` uses your signing key.” |
 
 ---
+
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+
+## Common commands
+
+```bash
+# …
+```
+
+
+## Options and flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+
+## Examples
+
+```bash
+# …
+```
+
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `REMOTE HOST IDENTIFICATION HAS CHANGED` | Reimage vs attack | Verify out-of-band; then `ssh-keygen -R host` |
+| Permission denied (publickey) | Wrong key / agent | `ssh -v`; `ssh-add -l`; correct `IdentityFile` |
+| `ssh-copy-id` fails | Password auth disabled | Install pubkey via console/cloud-init |
+| Git says no secret key | Wrong `signingkey` | `gpg --list-secret-keys`; fix git config |
+| Agent empty after reboot | No auto-start | `ssh-add` / keychain / systemd user unit |
+
+---
+
+
+## Gotchas
+
+> [!WARNING]
+> **Blind `ssh-keyscan >> known_hosts` in CI** — you trust whatever answers on the network that day. Pin fingerprints when you can.
+
+> [!WARNING]
+> **Host key change can be legitimate** — still verify via cloud console fingerprint before removing the old entry.
+
+> [!WARNING]
+> **Exporting secret GPG keys** — treat `.asc` like a password dump.
+
+---
+
+
+## When not to use
+
+- **application-level OAuth/OIDC** — different layer than SSH host trust.
+- **TLS cert management** — certbot/ACME, not ssh-keyscan.
+- **Full GPG keyring operations** — see dedicated [[gpg]] note.
+
+---
+
 
 ## SSH trust & keys
 
@@ -84,6 +115,7 @@ On first connect, SSH prompts and stores the host key; later mismatches = warnin
 
 ---
 
+
 ## GPG for commits / files
 
 ```bash
@@ -103,45 +135,11 @@ Deeper encrypt/sign operations: [[gpg]].
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `REMOTE HOST IDENTIFICATION HAS CHANGED` | Reimage vs attack | Verify out-of-band; then `ssh-keygen -R host` |
-| Permission denied (publickey) | Wrong key / agent | `ssh -v`; `ssh-add -l`; correct `IdentityFile` |
-| `ssh-copy-id` fails | Password auth disabled | Install pubkey via console/cloud-init |
-| Git says no secret key | Wrong `signingkey` | `gpg --list-secret-keys`; fix git config |
-| Agent empty after reboot | No auto-start | `ssh-add` / keychain / systemd user unit |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Blind `ssh-keyscan >> known_hosts` in CI** — you trust whatever answers on the network that day. Pin fingerprints when you can.
-
-> [!WARNING]
-> **Host key change can be legitimate** — still verify via cloud console fingerprint before removing the old entry.
-
-> [!WARNING]
-> **Exporting secret GPG keys** — treat `.asc` like a password dump.
-
----
-
-## When NOT to use
-
-- **application-level OAuth/OIDC** — different layer than SSH host trust.
-- **TLS cert management** — certbot/ACME, not ssh-keyscan.
-- **Full GPG keyring operations** — see dedicated [[gpg]] note.
-
----
-
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[SSH]] [[gpg]] [[keyrings]] [[visudo]] [[commands]]
+
+## Sources
+
+- [Wikipedia — Authentication command](https://en.wikipedia.org/wiki/Authentication_command)

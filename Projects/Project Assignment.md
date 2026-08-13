@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** MEDIAL SDE REMOTE ASSIGNMENT — objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the…
+## How it works
 
 |Action|Type|Information|Frequency|Priority|
 |---|---|---|---|---|
@@ -31,25 +20,24 @@
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[Projects]]
+
+## Sources
+
+- [Wikipedia — Project Assignment](https://en.wikipedia.org/wiki/Project_Assignment)

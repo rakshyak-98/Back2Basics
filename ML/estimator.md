@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 In sklearn, **Estimator** is the base contract:
 
@@ -42,7 +33,8 @@ Pipeline: [Transformer₁ → Transformer₂ → Predictor]
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -83,7 +75,8 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,6 +88,7 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -105,13 +99,19 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-off SQL aggregate** — not every computation needs a reusable Estimator class.
 - **Online learning at high QPS** — sklearn estimators batch-fit; use streaming libraries (River, Vowpal) or serve frozen weights.
 
 ---
 
+
 ## Related
 
 [[scikitlearn]] · [[data preprocessing]] · [[supervised learning]] · [[regression]] · [[binary classification]]
+
+## Sources
+
+- [Wikipedia — estimator](https://en.wikipedia.org/wiki/estimator)

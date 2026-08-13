@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `history.pushState` / `replaceState` change the URL and stash a state object; Back/Forward fires `popstate`. The browser does **not** keep a full application snapshot of every visit unless you put it in `state` (and size is limited).
+## How it works
 
 ```txt
 pushState → stack grows
@@ -33,7 +22,8 @@ Back/Forward → popstate (state from entry)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 history.pushState({ page: 1 }, '', '/page1')
@@ -52,7 +42,8 @@ window.addEventListener('popstate', (e) => {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ window.addEventListener('popstate', (e) => {
 | Duplicate entries | push on every render | `replaceState` for query tweaks |
 
 ---
+
 
 ## Gotchas
 
@@ -77,7 +69,8 @@ window.addEventListener('popstate', (e) => {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Full document navigations** — normal links are fine.
 - **Storing huge caches** — IndexedDB / Cache API.
@@ -85,6 +78,11 @@ window.addEventListener('popstate', (e) => {
 
 ---
 
+
 ## Related
 
 [[event listener]] [[Session Storage]] [[ServiceWorker]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — JavaScript History API](https://en.wikipedia.org/wiki/JavaScript_History_API)

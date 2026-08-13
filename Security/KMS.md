@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 KMS stores **Customer Master Keys (CMKs)** — symmetric (default) or asymmetric (sign/verify). Data is encrypted with **data keys**; data keys are wrapped by CMK (**envelope encryption**). Every use calls `kms:Decrypt/GenerateDataKey` — logged in CloudTrail.
 
@@ -27,7 +18,8 @@ App ──► GenerateDataKey ──► plaintext data key + encrypted blob
 
 **Key policy** (resource-based, mandatory on CMK) + **IAM** (identity-based) **both** must allow — unlike most AWS resources where IAM alone suffices.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### CMK key policy (minimum + admin)
 
@@ -69,7 +61,8 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 
 - `CreateGrant` for scoped delegate access (e.g. AWS service on your behalf) — audit in CloudTrail.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +72,7 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 | Cross-account Deny | CMK not shared; external account principal | Key policy `Principal` for other account role |
 | `DisabledException` | Key disabled or pending deletion | Re-enable; cancel deletion window (7–30 days) |
 | Higher latency | KMS API per-object encrypt | Data key caching (within compliance bounds); batch |
+
 
 ## Gotchas
 
@@ -94,12 +88,18 @@ aws kms decrypt --ciphertext-blob fileb://blob.bin --query Plaintext --output te
 > [!WARNING]
 > **Multi-Region keys (MRK)** — replicate for DR; same key material; not the same as automatic rotation.
 
-## When NOT to use
+
+## When not to use
 
 - **application-level secrets in environment variables without envelope** — use Secrets Manager/SSM Parameter Store **with** KMS CMK.
 - **Password hashing** — KMS encrypt ≠ bcrypt/Argon2; use for **encryption at rest**, not password storage.
 - **High-frequency per-field encrypt on hot path without cache** — cost + latency; batch or use AES-GCM with rotated data keys.
 
+
 ## Related
 
 [[TLS (Transport Layer Security)]] · [[JWT authentication]] · [[Token rotation]] · [[Security]] · [[aws STS (Security Token Service)]]
+
+## Sources
+
+- [Wikipedia — KMS](https://en.wikipedia.org/wiki/KMS)

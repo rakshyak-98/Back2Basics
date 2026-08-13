@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Code signing** binds artifact hash to **publisher private key**:
 
@@ -36,7 +27,8 @@ Failure modes: expired cert, revoked cert, unsigned sideload, supply-chain swap 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Sign Windows (signtool — concept)
 
@@ -70,7 +62,8 @@ openssl cms -verify -in signature.p7s -inform DER -content binary -noverify
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ openssl cms -verify -in signature.p7s -inform DER -content binary -noverify
 | Users still run malware | Unsigned build channel | Disable sideload; enforce policy |
 
 ---
+
 
 ## Gotchas
 
@@ -94,12 +88,18 @@ openssl cms -verify -in signature.p7s -inform DER -content binary -noverify
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Internal-only scripts between trusted admins may use **checksum in git** instead of full code signing — still sign anything distributed to customers or endpoints.
 
 ---
 
+
 ## Related
 
 [[Asymmetrical Encryption]] [[PKI]] [[Root certificate]] [[fingerprint]] [[DER]]
+
+## Sources
+
+- [Wikipedia — code signing](https://en.wikipedia.org/wiki/code_signing)

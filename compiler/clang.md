@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** clang — a compiler front-end for the C, C++, Objective-C and Objective C++ programming languages.
+## How it works
 
 - is a compiler front-end for the C, C++, Objective-C and Objective C++ programming languages.
 - it is part of the LLVM (Low-Level Virtual Machine) project and is designed to offer fast compilation.
@@ -26,25 +15,24 @@
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[compiler]]
+
+## Sources
+
+- [Wikipedia — clang](https://en.wikipedia.org/wiki/clang)

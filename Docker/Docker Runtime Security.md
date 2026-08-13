@@ -6,17 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Hardening checklist]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A container is **namespaced processes** on shared kernel — not a VM. Security = **defense in depth**:
 
@@ -33,7 +23,8 @@ Host kernel
 
 **Goal:** compromise of application → contained to least privilege; no host root, no new privs, no sensitive syscalls.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Non-root user (Dockerfile — primary lever)
 
@@ -132,7 +123,8 @@ networks:
   - internal-only          # no published ports on sensitive tiers
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -143,18 +135,6 @@ networks:
 | DNS works in dev, fails hardened | `NET_RAW` dropped | Usually not needed; check outbound firewall |
 | JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
 
-## Hardening checklist
-
-```
-□ USER non-zero in Dockerfile (distroless/nonroot ideal)
-□ read_only: true + tmpfs/volumes for writes
-□ cap_drop: [ALL] + minimal cap_add
-□ no-new-privileges:true
-□ no --privileged, no host PID/net unless required
-□ secrets via runtime secret mount, not ENV in image layers
-□ scan images (Trivy/Grype); pin digests
-□ host: Docker socket NOT mounted into app container
-```
 
 ## Gotchas
 
@@ -170,12 +150,32 @@ networks:
 - **LSM disabled hosts** — seccomp ≠ MAC; AppArmor/SELinux adds profile on top.
 - **K8s `securityContext` wins** — don't harden compose but leave K8s pods wide open.
 
-## When NOT to use
+
+## When not to use
 
 - **Hardware/device containers** (GPU, BPF loaders) — may legitimately need extra caps; document exception.
 - **seccomp-unconfined as default** — only narrow debug window.
 - **Security theater** — read-only rootfs while running root with `--privileged` undoes everything.
 
+
+## Hardening checklist
+
+```
+□ USER non-zero in Dockerfile (distroless/nonroot ideal)
+□ read_only: true + tmpfs/volumes for writes
+□ cap_drop: [ALL] + minimal cap_add
+□ no-new-privileges:true
+□ no --privileged, no host PID/net unless required
+□ secrets via runtime secret mount, not ENV in image layers
+□ scan images (Trivy/Grype); pin digests
+□ host: Docker socket NOT mounted into app container
+```
+
+
 ## Related
 
 [[docker container]] [[docker OCI]] [[Docker compose]] [[docker file]] [[Pods]]
+
+## Sources
+
+- [Wikipedia — Docker Runtime Security](https://en.wikipedia.org/wiki/Docker_Runtime_Security)

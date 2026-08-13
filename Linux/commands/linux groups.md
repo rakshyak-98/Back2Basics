@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** primary group lives in `/etc/passwd`; supplementary members are listed in `/etc/group` — both phrases “add user to group” / “add group to user” mean the same `usermod -aG`.
+## How it works
 
 ```txt
 /etc/passwd  → user:…:UID:GID:…     (primary)
@@ -38,7 +27,8 @@ effective access = owner | group | other  (plus ACLs)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Inspect
@@ -68,7 +58,8 @@ Common groups: `sudo`/`wheel` (administrator), `docker`, `adm` (logs), `users`.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,6 +70,7 @@ Common groups: `sudo`/`wheel` (administrator), `docker`, `adm` (logs), `users`.
 | File group wrong | Primary vs setgid dir | `chgrp`; `chmod g+s` on shared dirs |
 
 ---
+
 
 ## Gotchas
 
@@ -93,7 +85,8 @@ Common groups: `sudo`/`wheel` (administrator), `docker`, `adm` (logs), `users`.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Fine-grained per-file exceptions** — ACLs (`setfacl`) or shared service users.
 - **Cross-host identity** — LDAP/IdP groups via SSSD.
@@ -101,6 +94,11 @@ Common groups: `sudo`/`wheel` (administrator), `docker`, `adm` (logs), `users`.
 
 ---
 
+
 ## Related
 
 [[user management]] [[useradd]] [[groupadd]] [[gpasswd]] [[getent]] [[visudo]] [[commands]]
+
+## Sources
+
+- [Wikipedia — linux groups](https://en.wikipedia.org/wiki/linux_groups)

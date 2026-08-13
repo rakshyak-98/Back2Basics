@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 You have pairs `(xᵢ, yᵢ)`. The algorithm picks a function class (linear, tree, neural net) and minimizes **empirical risk** + regularization on training data. Success = low error on **new** data from the same distribution.
 
@@ -37,7 +28,8 @@ Test set        → report once (never tune on this)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -68,7 +60,8 @@ baseline.fit(X_train, y_train)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ baseline.fit(X_train, y_train)
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -90,7 +84,8 @@ baseline.fit(X_train, y_train)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **No labels / labels too expensive** — semi-supervised or unsupervised clustering (different playbook).
 - **Need causal effect** ("what if we change price") — predictive model ≠ causal inference.
@@ -98,6 +93,11 @@ baseline.fit(X_train, y_train)
 
 ---
 
+
 ## Related
 
 [[regression]] · [[binary classification]] · [[multiclass classification]] · [[data preprocessing]] · [[estimator]] · [[scikitlearn]]
+
+## Sources
+
+- [Wikipedia — supervised learning](https://en.wikipedia.org/wiki/supervised_learning)

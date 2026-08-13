@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Groups are numeric **GID** + name mappings. File permissions use UID for owner, GID for group (`ls -l` third column). Users gain group membership via primary group (set at `useradd`) or secondary groups (`usermod -aG`). `groupadd` only creates the group — it does not add members.
 
@@ -45,7 +36,8 @@ usermod -aG devops alice ──► alice in supplementary groups
 | **/etc/group** | Membership file | “getent group to verify.” |
 | **usermod -aG** | Add members | “groupadd creates; usermod joins.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Create application group
@@ -83,7 +75,8 @@ sudo groupdel oldproject
 | `adm` | Read `/var/log` |
 | `www-data` | Web server file ownership |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,6 +86,7 @@ sudo groupdel oldproject
 | `usermod -G` wiped other groups | Forgot `-a` | Restore from backup; `usermod -aG g1,g2,user` |
 | Permission denied on setgid dir | Wrong group / no membership | `ls -ld`; add user to group |
 | `groupdel` fails | Primary group of user | Change user's primary group first |
+
 
 ## Gotchas
 
@@ -108,12 +102,18 @@ sudo groupdel oldproject
 > [!WARNING]
 > **`groupadd` on LDAP/SSSD systems** — may create local group shadowing directory group. Check `getent group`.
 
-## When NOT to use
+
+## When not to use
 
 - **One-off file share for two users** → ACLs (`setfacl`) or project directories with setgid.
 - **Cloud IAM** → AWS/GCP roles, not Unix groups.
 - **Rename** → `groupmod -n`, not delete + add (breaks ownership).
 
+
 ## Related
 
 [[user management]] [[linux groups]] [[usermod]] [[useradd]] [[getent]] [[passwd]]
+
+## Sources
+
+- [Wikipedia — groupadd](https://en.wikipedia.org/wiki/groupadd)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Insert breakpoints (software INT or hardware). On hit, freeze thread, map PC → source via debug information/sourcemaps, show frames/variables, then continue/step.
+## How it works
 
 ```txt
 run → hit BP → inspect → step/continue
@@ -31,7 +20,8 @@ run → hit BP → inspect → step/continue
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 node --inspect=9229 app.js
@@ -47,7 +37,8 @@ gdb ./app
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,6 +48,7 @@ gdb ./app
 | Attach refused | Permissions/port | Correct pid/port |
 
 ---
+
 
 ## Gotchas
 
@@ -68,13 +60,19 @@ gdb ./app
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Trivial print bugs** — log first.
 - **Race without repro** — `-race`/stress first.
 
 ---
 
+
 ## Related
 
 [[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]] [[go debugging]] [[node debugger]]
+
+## Sources
+
+- [Wikipedia — How does debugger work](https://en.wikipedia.org/wiki/How_does_debugger_work)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Production ships `app.js` (one line, mangled names). Browser loads optional `app.js.map`:
 
@@ -38,7 +29,8 @@ Works with [[SWC]], Babel, TypeScript, Sass — anything that emits `//# sourceM
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Vite
 
@@ -79,7 +71,8 @@ Settings → enable source maps → trigger error → stack links to original fi
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,6 +84,7 @@ Settings → enable source maps → trigger error → stack links to original fi
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -101,13 +95,19 @@ Settings → enable source maps → trigger error → stack links to original fi
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Public library npm package** — ship types + docs, not full source maps to consumers.
 - **Tiny internal scripts** — readable unminified code may suffice.
 
 ---
 
+
 ## Related
 
 [[SWC]] · [[React build]] · [[React project configuration]] · [[javascript engine]] · [[Security/content security policy]]
+
+## Sources
+
+- [Wikipedia — source map](https://en.wikipedia.org/wiki/source_map)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `npm run <script>` executes the command in a shell with `node_modules/.bin` on PATH. Lifecycle hooks (`prestart`, `postinstall`) run automatically around named scripts. Arguments after `--` pass through to.
+## How it works
 
 
 ```
@@ -25,7 +14,8 @@ package.json scripts → npm run dev → nodemon (local bin)
 npm run dev -- file.js  → nodemon file.js
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Pass args through `--`
 
@@ -78,7 +68,8 @@ npm install minimist yargs commander
 // bin/cli.js with commander — npm run cli -- deploy --env prod
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +78,7 @@ npm install minimist yargs commander
 | Works on Mac, fails Windows | Shell syntax | Use `cross-env`, avoid bash-only |
 | `ELIFECYCLE` opaque error | Scroll up | Run underlying command directly |
 | Infinite restart | nodemon watching wrong | `--ignore` or fix glob |
+
 
 ## Gotchas
 
@@ -97,11 +89,17 @@ npm install minimist yargs commander
 >
 > **`pre*` hooks surprise** — `predeploy` runs before `deploy` automatically.
 
-## When NOT to use
+
+## When not to use
 
 - Don't put 50-line bash in scripts — extract to `scripts/` shell file.
 - Don't use npm scripts as a process manager in production — use [[pm2/ecosystem]] or systemd.
 
+
 ## Related
 
 [[NodeJS/node package json]] [[npm/yarn]] [[NodeJS/nvm]] [[pm2/ecosystem]]
+
+## Sources
+
+- [Wikipedia — npm script](https://en.wikipedia.org/wiki/npm_script)

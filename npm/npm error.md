@@ -6,47 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback]]
-- [[#Escalation]]
-- [[#Related]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
-
----
-
-## Preconditions
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# …
-```
-
-## Mental model
-
-**Say it in one breath:** npm error — [baseline-browser-mapping] The data in this module is over two months old. To ensure accurate Baseline data, please update: npm i…
+## How it works
 
 ```text
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
@@ -110,3 +70,30 @@ Heap becomes full
 ## Related
 
 [[npm]]
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Retry storm | backoff / jitter | Cap retries; circuit break |
+| Config drift | plan/apply or lockfile | Single source of truth |
+| Poison message | DLQ | Quarantine and alert |
+
+---
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# …
+```
+
+
+## Sources
+
+- [Wikipedia — npm error](https://en.wikipedia.org/wiki/npm_error)

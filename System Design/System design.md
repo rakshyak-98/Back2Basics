@@ -1,88 +1,87 @@
-[[System Design]] [[SOLID]] [[API design]] [[Distributed computing]]
+[[SOLID]] [[API design]] [[Distributed computing]] [[Horizontal vs Vertical Scaling]] [[cache system]]
 
 # System design
 
-> System design — split what the system means (abstraction) from how it runs (implementation) so either can change without wrecking the other.
+> System design is the practice of shaping software so requirements (scale, reliability, cost) are met while keeping boundaries clear enough that implementation can change without rewriting the product.
 
 ---
 
-## Index
+## What system design is asking
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Abstraction and implementation hierarchies]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+Whether in an interview or a production review, the same questions recur:
 
-## Mental model
+| Question | What a good answer names |
+|----------|--------------------------|
+| Who uses it and how often? | Read/write ratio, peak queries per second, geographic spread |
+| What must never be lost? | Durability, backup, replication |
+| What can be briefly wrong? | Consistency trade-offs ([[Eventual consistency]]) |
+| What fails first? | Single host, zone, region, dependency |
+| How do you know it is healthy? | Metrics, traces, synthetic checks |
 
-**Say it in one breath:** Interfaces/APIs describe *what*; adapters/DB/engines do *how*. Interviews and production both fail when those layers glue together.
+System design is not drawing boxes for its own sake. Every component should map to a requirement or a failure mode you are mitigating.
+
+## Abstraction versus implementation
+
+Stable systems separate **what** the product does from **how** it is wired today:
 
 ```txt
-Use-case / domain  →  ports (interfaces)
-                           ↑
-                      adapters (HTTP, SQL, S3)
+Domain / use cases  →  ports (interfaces, policies)
+                              ↑
+                    adapters (HTTP, SQL, message bus, object storage)
 ```
 
----
+| Layer | Holds | Changes when |
+|-------|-------|--------------|
+| Domain | Business rules, invariants | Product requirements change |
+| Ports | Contracts between domain and outside world | Integration shape changes |
+| Adapters | Frameworks, databases, vendor software development kits | You swap vendors or protocols |
 
-## Standard config / commands
+This mirrors [[SOLID]] dependency inversion and hexagonal architecture: business logic should not import a specific database driver type.
+
+## A practical design loop
+
+1. **Clarify scope** — functional requirements, scale targets, latency budget, consistency needs.
+2. **Sketch the data path** — who writes, who reads, where state lives ([[database sharding]], [[cache system]]).
+3. **Identify coordination** — single leader, [[Quorum]], or fully independent replicas ([[Raft]] when you need a replicated log).
+4. **Plan for failure** — timeouts, retries with jitter, idempotent handlers, [[backpressure]].
+5. **Make it operable** — dashboards, runbooks, capacity headroom before launch.
+
+## Scaling path (typical order)
+
+Most products grow through a predictable sequence; skipping steps often creates rework:
 
 ```txt
-Design checklist
-[ ] Requirements: QPS, data size, consistency, latency SLO
-[ ] API sketch + failure modes
-[ ] Data model + ownership
-[ ] Scaling path (vertical → shard → cache → async)
-[ ] Observability: red metrics + traces
+Single service + single database
+  → read replicas + caching
+  → vertical scaling (bigger machine)
+  → horizontal scaling (more stateless replicas)
+  → partition data ([[database sharding]])
+  → async pipelines ([[event-driven]])
 ```
 
-## Triage (when things break)
+[[Horizontal vs Vertical Scaling]] is a cost and complexity decision, not a moral one. Vertical scaling is simpler until hardware limits or blast radius force distribution.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Feature needs 12-file edit | Leaky abstraction | Re-draw ports |
-| Can’t load-test one piece | No seams | Add interface + fake |
-| Vendor lock in domain | SDK types in core | Anti-corruption layer |
-| “Architecture astronaut” | Too many layers | Collapse until pain returns |
-| SLO miss unknown where | No metrics per layer | Instrument adapters + use-cases |
+## Common failure patterns in design reviews
 
----
+- **Leaky boundaries** — domain code imports HTTP framework types or raw SQL rows; every feature touches twelve files.
+- **Distributed monolith** — microservices that must deploy together because they share a database transaction.
+- **Missing idempotency** — retries duplicate payments or orders ([[API design]] idempotency keys).
+- **Cache as source of truth** — [[cache system]] accelerates reads; it does not replace durability guarantees.
+- **No observability** — you cannot fix what you cannot see per layer.
 
-## Abstraction and implementation hierarchies
+*What breaks first when traffic doubles?* Usually the database connection pool or an unbounded queue — design limits before you need them.
 
-| Side | Holds |
-|------|-------|
-| **Abstraction** | Interfaces, use-cases, policies |
-| **Implementation** | Drivers, frameworks, vendor SDKs |
+## Related design principles in this vault
 
-Why separate: swap Postgres → Aurora, or REST → gRPC, without rewriting business rules.
+| Principle | Focus |
+|-----------|-------|
+| [[KISS]] | Prefer the simplest design that meets requirements |
+| [[DRY]] | One authoritative definition of each rule |
+| [[SOLID]] | Object-oriented modularity at class and module boundaries |
+| [[GRASP]] | Responsibility assignment in object models |
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **Premature microservices** — separate *modules* before separate *deploys*.
-
-> [!WARNING]
-> **Interface per class** — noise; ports at boundaries only.
-
-> [!WARNING]
-> **Ignoring ops** — design that can’t be deployed/observed isn’t done.
-
----
-
-## When NOT to use
-
-- **Throwaway spikes** — one file is fine.
-- **CRUD internal tools** — boring MVC may win.
-- **Interview cargo-cult boxes** — justify every box with load/failure.
-
----
-
-## Related
-
-[[SOLID]] [[API design]] [[Distributed computing]] [[cache system]] [[Quorum]] [[Horizontal vs Vertical Scaling]]
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017) — replication, partitioning, consistency.
+- Google SRE Book — reliability targets, capacity planning, incident response.
+- AWS Well-Architected Framework — operational excellence, reliability, performance efficiency.

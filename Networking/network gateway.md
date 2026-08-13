@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** If the destination isn’t on your subnet, send the packet to the default gateway; it knows (or NATs) the rest of the path.
+## How it works
 
 ```txt
 Host 192.168.1.10
@@ -46,7 +35,8 @@ Gateway 192.168.1.1 ── NAT / ISP ──► Internet
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Default route / gateway
@@ -68,7 +58,8 @@ ssh -R 8080:localhost:3000 user@public-server.example
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@ ssh -R 8080:localhost:3000 user@public-server.example
 | Can egress, can’t ingress | CGNAT / ISP blocks inbound | Tunnel/VPN instead of port forward |
 
 ---
+
 
 ## Gotchas
 
@@ -92,7 +84,8 @@ ssh -R 8080:localhost:3000 user@public-server.example
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Port-forwarding every hobby service** — prefer Tailscale/Cloudflare Tunnel for administrator UIs.
 - **Assuming the gateway is a firewall policy engine** — many home routers are weak; don’t rely on them for zero-trust.
@@ -100,6 +93,11 @@ ssh -R 8080:localhost:3000 user@public-server.example
 
 ---
 
+
 ## Related
 
 [[Networking]] [[NAT (Network Address Translation)]] [[outbound ip]] [[Internal routing]] [[CIDR (Classless Inter-Domain Routing)]] [[Egress and Ingress]]
+
+## Sources
+
+- [Wikipedia — network gateway](https://en.wikipedia.org/wiki/network_gateway)

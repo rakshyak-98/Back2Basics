@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Bitrate streaming** means encoding the same content at **multiple bitrates/resolutions** so the player ([[ABR]]) switches renditions without rebuffering. The **ladder** is the set of rungs; the **manifest** (HLS/DASH) advertises `BANDWIDTH` + `RESOLUTION` per rung.
 
@@ -38,7 +29,8 @@ Player buffer ──► picks rung from throughput + buffer health
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Ladder design (1080p live starting point)
 
@@ -89,7 +81,8 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -minrate 3000k -maxrate 3000k -bufsi
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,6 +100,7 @@ mediainfo segment000.ts
 ```
 
 ---
+
 
 ## Gotchas
 
@@ -130,7 +124,8 @@ mediainfo segment000.ts
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal mezzanine archive** — single high-bitrate master; ladder only at origin edge.
 - **CRF for live broadcast contractual bitrate** — use CBR/ capped VBR.
@@ -138,6 +133,11 @@ mediainfo segment000.ts
 
 ---
 
+
 ## Related
 
 [[ABR]] [[CRF (Constant Rate Factor)]] [[transcoding]] [[codecs]] [[rendition]] [[MPEG-TS]] [[NVENC]]
+
+## Sources
+
+- [Wikipedia — bitrate streaming](https://en.wikipedia.org/wiki/bitrate_streaming)

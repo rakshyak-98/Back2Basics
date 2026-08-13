@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Throttle = rate limit. Debounce = wait until quiet. Don’t confuse them.
+## How it works
 
 ```txt
 events: |||||│|||| → throttle → |    |    |
@@ -32,7 +21,8 @@ debounce waits for silence then fires once
 | **debounce** | After pause | “Search box after typing stops.” |
 | **leading/trailing** | Edge of window | “Fire immediately and/or at end.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 function throttle(fn, ms) {
@@ -56,7 +46,8 @@ window.addEventListener('scroll', throttle(onScroll, 100))
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,6 +57,7 @@ window.addEventListener('scroll', throttle(onScroll, 100))
 | Stale `this` | Lost context | Arrow or bind |
 
 ---
+
 
 ## Gotchas
 
@@ -77,13 +69,19 @@ window.addEventListener('scroll', throttle(onScroll, 100))
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Rare clicks** — no need.
 - **Must process every event** — queue instead of drop.
 
 ---
 
+
 ## Related
 
 [[event listener]] [[web worker]] [[Optimizing performance]]
+
+## Sources
+
+- [Wikipedia — throttle](https://en.wikipedia.org/wiki/throttle)

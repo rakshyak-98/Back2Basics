@@ -1,88 +1,47 @@
-[[Linux]] [[lspci]] [[OOM (Linux Out Of Memory)]]
+[[commands/lspci]] [[management/Linux resource management]]
 
 # nvidia-smi
 
-> nvidia-smi queries the NVIDIA driver for GPU health — utilization, VRAM, processes, power/ECC.
+> `nvidia-smi` queries NVIDIA GPU driver state — utilization, memory, temperature, and processes using the device.
 
----
+Requires proprietary or open NVIDIA kernel module loaded. Part of NVIDIA driver install on Linux.
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** smi talks to the driver — if it works, the module is loaded; VRAM OOM ≠ host OOM.
-
-```txt
-nvidia-smi ──► NVIDIA kernel driver ──► GPU
-                 │
-                 └─ PIDs holding GPU memory
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **nvidia-smi** | Driver management CLI | “First check when GPU jobs ‘vanish’.” |
-| **VRAM** | GPU framebuffer memory | “GPU OOM is not host OOM.” |
-| **persistence mode** | Keep driver warm | “Cuts init latency on servers.” |
-| **MIG** | Multi-instance GPU | “Slice one A100 into several.” |
-| **ECC** | Error-correcting memory | “Data-center cards report ECC counts.” |
-
----
-
-## Standard config / commands
+## Quick status
 
 ```bash
 nvidia-smi
-nvidia-smi -L
-nvidia-smi --query-gpu=name,memory.used,utilization.gpu --format=csv
-nvidia-smi -pm 1
-# drain jobs first:
-sudo nvidia-smi -r
+watch -n1 nvidia-smi
+
+# Query fields
+nvidia-smi --query-gpu=name,temperature.gpu,utilization.gpu,memory.used,memory.total --format=csv
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `-pm 1` | Persistence for servers |
-| `--query-gpu` | Scriptable CSV metrics |
+## Processes on GPU
 
----
+```bash
+nvidia-smi pmon -c 1
+fuser -v /dev/nvidia*
+```
 
-## Triage (when things break)
+## Persistence / compute mode
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| NVIDIA-SMI has failed | Module/driver | `lsmod \| grep nvidia`; reinstall matching driver |
-| CUDA mismatch | Driver vs toolkit | Driver must be ≥ CUDA need |
-| VRAM full | Zombie PID in smi | Kill PID; `fuser -v /dev/nvidia*` |
-| No devices | PCI/passthrough | `lspci \| grep -i nvidia` |
+```bash
+sudo nvidia-smi -pm 1
+nvidia-smi -c EXCLUSIVE_PROCESS   # caution in shared hosts
+```
 
----
+## Troubleshooting
 
-## Gotchas
-
-> [!WARNING]
-> **Needs the NVIDIA driver** — nouveau does not speak this interface.
-
-> [!WARNING]
-> **Reset while jobs run** corrupts workloads — drain first.
-
----
-
-## When NOT to use
-
-- **AMD/Intel GPUs** — `rocm-smi` / `intel_gpu_top`.
-- **CPU-only CI** — skip or mock; don’t require smi in unit tests.
-
----
+| Symptom | Check |
+|---------|-------|
+| `NVIDIA-SMI has failed` | Driver not loaded: `lsmod | grep nvidia`; DKMS build |
+| ECC errors | `nvidia-smi -q -d ECC` |
+| MIG partitions | `nvidia-smi mig -lgip` (A100/H100 class) |
 
 ## Related
 
-[[lspci]] [[OOM (Linux Out Of Memory)]] [[Linux resource management]]
+[[commands/lspci]] · [[process]]
+
+## Sources
+
+- [NVIDIA SMI documentation](https://docs.nvidia.com/deploy/nvidia-smi/)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A **PSP** connects **payers** and **merchants**: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
+## How it works
 
 
 ```
@@ -31,7 +20,8 @@ Customer payment ──► PSP ──► Acquiring bank ──► Card schemes �
 
 PSPs provide **integration SDKs** for e-commerce and [[POS]] — checkout plugins, hosted pages, terminal APIs.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Choose PSP criteria
 
@@ -69,7 +59,8 @@ CREATE TABLE payment_events (
 # Alert on amount mismatch > threshold
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,6 +69,7 @@ CREATE TABLE payment_events (
 | Method not available | Country/currency matrix | Enable payment method in dashboard |
 | FX surprise | Presentment vs settlement currency | Display correct currency to user |
 | Webhook secret rotated | 401 on verify | Update env; dual-secret window |
+
 
 ## Gotchas
 
@@ -88,11 +80,17 @@ CREATE TABLE payment_events (
 - **Multi-PSP** — failover routing complex; prefer one PSP until scale demands.
 - **Stored credentials** — network tokens for subscriptions; PCI still applies to how you store tokens.
 
-## When NOT to use
+
+## When not to use
 
 - Cash-only micro business — PSP fees exceed benefit.
 - You are the bank — need licensing, not just API integration.
 
+
 ## Related
 
 [[Payments/payment gateway]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[Messaging/webhook]]
+
+## Sources
+
+- [Wikipedia — PSP](https://en.wikipedia.org/wiki/PSP)

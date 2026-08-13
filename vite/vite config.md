@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** vite configuration — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 ```bash
@@ -37,7 +26,8 @@ vite --config my-config.js;
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -46,7 +36,8 @@ vite --config my-config.js;
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,6 +47,7 @@ vite --config my-config.js;
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -63,12 +55,18 @@ vite --config my-config.js;
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[vite]]
+
+## Sources
+
+- [Wikipedia — vite config](https://en.wikipedia.org/wiki/vite_config)

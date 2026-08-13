@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** JS runs on one main thread; async I/O callbacks/promises resume on the loop. CPU-heavy work blocks everyone unless moved to [[worker]] / [[child process]].
+## How it works
 
 ```txt
 timers → pending → poll (I/O) → check → close
@@ -34,17 +21,8 @@ timers → pending → poll (I/O) → check → close
 | **libuv** | C library under Node | “FS/DNS/network primitives.” |
 | **Threadpool** | Default 4 threads | “Some fs/crypto/dns use it.” |
 
-## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-## Domain links
-
-- …: [[…]]
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 node app.js
@@ -60,7 +38,20 @@ node -e 'console.log(process.version)'
 
 ---
 
-## Triage (when things break)
+
+## Where to go next
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+
+## Related topics in this domain
+
+- …: [[…]]
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -70,6 +61,7 @@ node -e 'console.log(process.version)'
 | Module errors | ESM/CJS mix | See [[node modules]] |
 
 ---
+
 
 ## Gotchas
 
@@ -81,13 +73,19 @@ node -e 'console.log(process.version)'
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Heavy pure CPU services** — Go/Rust/Java may fit better (or isolate workers).
 - **Browser-only APIs** — DOM isn’t in Node.
 
 ---
 
+
 ## Related
 
 [[event emitter]] [[Stream]] [[expressjs]] [[worker]] [[node modules]]
+
+## Sources
+
+- [Wikipedia — NodeJS](https://en.wikipedia.org/wiki/NodeJS)

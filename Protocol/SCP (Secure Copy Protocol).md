@@ -1,103 +1,62 @@
-[[ssh/ssh allow local system with key]] [[Security/TLS (Transport Layer Security)]] [[ftp]]
+[[ssh/ssh allow local system with key]] · [[ftp]] · [[TLS (Transport Layer Security)]] · [[Linux/CLI]]
 
 # SCP (Secure Copy Protocol)
 
-> SCP (Secure Copy Protocol) — SCP wraps SSH transport: authenticate like ssh, then copy files over encrypted channel. Syntax mirrors cp with remote user@host:path. Not a
+> SCP copies files over SSH using the same authentication and encryption as interactive shell sessions — prefer `sftp` or `rsync` for new automation, but SCP remains ubiquitous for one-off secure copies.
 
 ---
 
-## Index
+## Usage
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-SCP wraps **SSH** transport: authenticate like `ssh`, then copy files over encrypted channel. Syntax mirrors `cp` with remote `user@host:path`. Not a separate daemon — **sshd** on port 22 (or custom).
-
-```
-local scp ──SSH session──► sshd ──► read/write remote files
-```
-
-Legacy SCP protocol is old; OpenSSH uses SFTP subsystem for transfers internally in modern versions. Still ubiquitous for one-off copies in runbooks.
-
-## Standard config / commands
-
-### Copy to remote
+Runs over **SSH** (default port 22), not a separate protocol server.
 
 ```bash
-scp file.txt user@remote_host:/path/to/destination/
-scp -r ./local_dir user@remote_host:/remote/path/
+# Local → remote
+scp ./build.tar.gz user@host:/var/tmp/
+
+# Remote → local
+scp user@host:/var/log/syslog ./
+
+# Recursive directory
+scp -r ./dist/ user@host:/var/www/
+
+# Through bastion
+scp -o ProxyJump=bastion.example.com file user@internal:/tmp/
 ```
 
-### Copy from remote
+## How it works
+
+Legacy `scp` invokes `scp` binary on remote side over SSH channel; data stream is encrypted like any SSH session. OpenSSH 9+ recommends **`sftp`** for new scripts ([OpenSSH release notes](https://www.openssh.com/releasenotes.html)).
+
+## vs alternatives
+
+| Tool | Strength |
+|------|----------|
+| **SCP** | Simple one-shot copy |
+| **SFTP** | Interactive, resume, remote listing |
+| **rsync** | Delta sync, `--delete`, bandwidth limits |
+| **[[ftp]]** | Cleartext — avoid |
+
+## Authentication
+
+Uses [[SSH authentication]] — keys via [[ssh agent]] or passwords (disable password auth in production).
 
 ```bash
-scp user@remote_host:/path/to/file.txt ./local/
-scp -r user@remote_host:/remote/dir ./local/
+scp -i ~/.ssh/deploy_key artifact.zip deploy@prod:/releases/
 ```
 
-### Remote to remote (through your machine)
+## Pitfalls
 
-```bash
-scp -3 user1@host1:/file user2@host2:/path
-```
+- **Globbing** happens locally vs remotely depending on quoting
+- **Trailing slash** on directory paths changes meaning
+- Large trees without `rsync` re-copy everything on retry
 
-### Options (production)
+## Recall
 
-```bash
-scp -i ~/.ssh/deploy_key -P 2222 file.txt user@host:/app/
-scp -o StrictHostKeyChecking=accept-new file.txt user@host:/app/  # first connect automation
-scp -C file.txt user@host:/app/   # compression on slow links
-```
+- Why does SCP inherit SSH host key verification?
+- When is `rsync -e ssh` preferable to SCP?
 
-### rsync over SSH (preferred for dirs)
+## Sources
 
-```bash
-rsync -avz -e "ssh -i key.pem" ./dist/ user@host:/var/www/app/
-# resume partial, delta transfer
-```
-
-### SFTP interactive
-
-```bash
-sftp user@host
-sftp> put local.txt /remote/path/
-sftp> get /remote/log.txt .
-```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Permission denied (publickey) | SSH key agent | `ssh-add -l`; correct `-i` key; `authorized_keys` |
-| Host key verification failed | Known_hosts mismatch | Verify fingerprint; update known_hosts carefully |
-| Stalled mid-transfer | Network drop | Use rsync; `ServerAliveInterval` in ssh config |
-| `scp: not found` | Remote no scp binary | Use sftp/rsync; install openssh-clients on remote |
-| Wrong owner on remote | Remote umask | `scp` preserves modes; fix with ssh `chmod` after |
-| Slow many small files | Per-file overhead | tar+scp one archive, or rsync |
-
-## Gotchas
-
-> [!WARNING]
-> **Glob expansion is local** — `scp *.log host:` expands on local shell; quote remote globs: `host:'/logs/*.log'`.
-
-> [!WARNING]
-> **Trailing slash semantics** — `dir/` vs `dir` affects whether contents or directory itself copied (rsync clearer).
-
-> [!WARNING]
-> **Root login disabled** — copy to user home then sudo move.
-
-## When NOT to use
-
-- **Large dataset sync with resume** — `rsync` over SSH.
-- **Public anonymous download** — HTTPS/S3, not SCP.
-- **Windows ↔ Linux path quirks** — verify OpenSSH build; consider SFTP GUI clients.
-
-## Related
-
-[[ssh/ssh allow local system with key]] [[ftp]] [[Security/TLS (Transport Layer Security)]] [[Linux/CLI]]
+- [OpenSSH scp man page](https://man.openbsd.org/scp)
+- [RFC 4251 — SSH Protocol Architecture](https://datatracker.ietf.org/doc/html/rfc4251)

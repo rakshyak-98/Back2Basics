@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 After [[Rendering performance/layout]], **paint** records **draw lists** per layer (what to draw where). GPU **composite** merges layers. Changing paint-only properties skips layout but still repaints.
 
@@ -33,7 +24,8 @@ Paint involves: text glyphs, backgrounds, borders, box-shadows, images — every
 
 Changing a **layout property** forces layout **then** paint. Changing **color** often paint-only.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Property cost (rule of thumb)
 
@@ -78,7 +70,8 @@ function updateVisual(state) {
 }
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -87,6 +80,7 @@ function updateVisual(state) {
 | Text blurry after animate | Subpixel transform | Snap to integer px |
 | Scroll jank with fixed bg | `background-attachment: fixed` | Use pseudo-element layer |
 | Canvas + DOM overlap | Duplicate paint | Single surface or isolate iframe |
+
 
 ## Gotchas
 
@@ -97,10 +91,16 @@ function updateVisual(state) {
 - **`border-radius` + overflow** — expensive clipping paths.
 - **Print styles** — separate paint path; don't profile screen only for print bugs.
 
-## When NOT to use
+
+## When not to use
 
 - Don't micro-optimize paint on static marketing pages with no interaction — [[Rendering performance/INP]] and LCP dominate.
+
 
 ## Related
 
 [[Rendering performance/layout]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Flash of Unstyled Content]]
+
+## Sources
+
+- [Wikipedia — paint](https://en.wikipedia.org/wiki/paint)

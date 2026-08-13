@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** zod — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 Making field options
@@ -112,3 +101,7 @@ const contactSchema = z.object({
 ## Related
 
 [[npm]]
+
+## Sources
+
+- [Wikipedia — zod](https://en.wikipedia.org/wiki/zod)

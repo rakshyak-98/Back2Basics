@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** ICE asks each peer for address options (candidates), both sides share them, then they test pairs until one path works.
+## How it works
 
 ```txt
 Peer A                          Peer B
@@ -70,7 +59,8 @@ const signalingChannel = new SignalingChannel()
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 const pc = new RTCPeerConnection({
@@ -101,7 +91,8 @@ Debug: `chrome://webrtc-internals` → ICE candidate pairs / selected candidate.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -113,6 +104,7 @@ Debug: `chrome://webrtc-internals` → ICE candidate pairs / selected candidate.
 | ICE failed after Wi‑Fi→LTE | Network change | Call `restartIce()` / renegotiate |
 
 ---
+
 
 ## Gotchas
 
@@ -130,7 +122,8 @@ Debug: `chrome://webrtc-internals` → ICE candidate pairs / selected candidate.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **One-to-many OTT** — use [[HLS]] / [[DASH]] + CDN; ICE is for few peers, not millions of viewers.
 - **You only need server push** — WebSockets/SSE; no NAT punch required.
@@ -138,6 +131,11 @@ Debug: `chrome://webrtc-internals` → ICE candidate pairs / selected candidate.
 
 ---
 
+
 ## Related
 
 [[WebRTC]] [[WebRTC Signaling channels]] [[TURN server (Traversal Using Relays around NAT)]] [[WebRTC Get Started Guide]] [[NAT (Network Address Translation)]] [[SCTP (Stream Control Transmission Protocol)]]
+
+## Sources
+
+- [Wikipedia — ICE](https://en.wikipedia.org/wiki/ICE)

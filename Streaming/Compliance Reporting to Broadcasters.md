@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Compliance reporting** is the **contractual data pipeline** that proves how licensed content was **sold, entitled, and consumed** per **Content ID (CID)** and **Broadcaster Network ID**. Studios and rights holders use it for **revenue share, minimum guarantees, and geo/format restrictions**. Errors become legal exposure — design for **immutability, idempotency, and late-arriving data**.
 
@@ -40,7 +31,8 @@ Reports must **join on stable IDs** — internal UUIDs useless to licensor; map 
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimum report schema (negotiate per contract)
 
@@ -93,7 +85,8 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -105,6 +98,7 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 | CID mismatch | CMS typo vs ingest | Golden CID registry; block publish without CID |
 
 ---
+
 
 ## Gotchas
 
@@ -125,7 +119,8 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal product analytics** — use warehouse/BI stack; don't overload compliance schema.
 - **Pre-revenue MVP** — still **log raw events** early; retrofitting CIDs is painful.
@@ -133,6 +128,11 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 
 ---
 
+
 ## Related
 
 [[Streaming]] [[CMS]] [[DRM]] [[ingestion]] [[Microservice]] [[database sharding]]
+
+## Sources
+
+- [Wikipedia — Compliance Reporting to Broadcasters](https://en.wikipedia.org/wiki/Compliance_Reporting_to_Broadcasters)

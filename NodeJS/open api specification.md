@@ -6,17 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Breaking change rules (SE discipline)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YAML/JSON. It is the handshake between teams: frontend, backend, QA, and gateway policies all read the same file.
 
@@ -42,7 +32,8 @@ OpenAPI (Swagger) describes **paths, schemas, authentication, and errors** in YA
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Minimal spec fragment
 
@@ -123,7 +114,8 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -135,20 +127,6 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 
 ---
 
-## Breaking change rules (SE discipline)
-
-| Change | Breaking? | Safe alternative |
-|--------|-----------|------------------|
-| Remove endpoint/field | **Yes** | Deprecate → sunset header → v2 path |
-| Add **required** request field | **Yes** | Optional with default; or new `/v2` |
-| Narrow enum / widen type | **Yes** | Add new enum value; new field `statusV2` |
-| Add optional response field | No | — |
-| Rename field | **Yes** (clients) | Keep old + new during migration |
-| Change error shape | Often yes | Version media type or path |
-
-**Versioning:** prefer URL `/v1` or header `Accept: application/vnd.company.orders.v2+json`. Don't rely on `info.version` alone — consumers ignore it.
-
----
 
 ## Gotchas
 
@@ -169,7 +147,8 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Internal-only service** with one caller and shared monorepo — protobuf/ts types may suffice.
 - **Streaming / WebSocket-primary APIs** — OpenAPI support is awkward; document separately.
@@ -177,6 +156,27 @@ oasdiff breaking openapi.yaml openapi.main.yaml
 
 ---
 
+
+## Breaking change rules (SE discipline)
+
+| Change | Breaking? | Safe alternative |
+|--------|-----------|------------------|
+| Remove endpoint/field | **Yes** | Deprecate → sunset header → v2 path |
+| Add **required** request field | **Yes** | Optional with default; or new `/v2` |
+| Narrow enum / widen type | **Yes** | Add new enum value; new field `statusV2` |
+| Add optional response field | No | — |
+| Rename field | **Yes** (clients) | Keep old + new during migration |
+| Change error shape | Often yes | Version media type or path |
+
+**Versioning:** prefer URL `/v1` or header `Accept: application/vnd.company.orders.v2+json`. Don't rely on `info.version` alone — consumers ignore it.
+
+---
+
+
 ## Related
 
 [[expressjs]] [[gRPC]] [[webhook]] [[JWT authentication]] [[CORS (Cross Origin Request Sharing)]]
+
+## Sources
+
+- [Wikipedia — open api specification](https://en.wikipedia.org/wiki/open_api_specification)

@@ -6,23 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Mental model]]
-- [[#Everyday commands]]
-- [[#Init flags]]
-- [[#Plan / apply flags]]
-- [[#Logging (provider troubleshooting)]]
-- [[#Provider / schema inspection]]
-- [[#State subcommands (careful)]]
-- [[#Useful env vars]]
-- [[#First-time failure checklist]]
-- [[#Book takeaways]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
+
 
 ## Quick reference
 
@@ -30,9 +17,27 @@
 |------|---------|
 | … | `…` |
 
-## Mental model
 
-Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
+## Examples
+
+```bash
+# …
+```
+
+
+## Gotchas
+
+> [!WARNING]
+> **`terraform state` is sharp** — prefer import/moved blocks in code; state surgery is last resort with backups.
+
+> [!WARNING]
+> **TRACE logs leak secrets** — never leave `TF_LOG=TRACE` on in CI artifacts.
+
+
+## When not to use
+
+- **One-off cloud click-operations** — CLI shines when the configuration is code; skip Terraform for a single manual sandbox resource if the team agrees.
+
 
 ## Everyday commands
 
@@ -52,6 +57,7 @@ Brikman tip: run `fmt` + `validate` in CI before plan.
 
 ---
 
+
 ## Init flags
 
 ```shell
@@ -65,6 +71,7 @@ terraform init -backend=false           # skip backend (rare / tooling)
 Backend living in [[Terraform setup]].
 
 ---
+
 
 ## Plan / apply flags
 
@@ -80,6 +87,7 @@ terraform plan -target=aws_instance.web # surgical; avoid habitually (Brikman)
 Variable sources: [[variable file]]
 
 ---
+
 
 ## Logging (provider troubleshooting)
 
@@ -100,6 +108,7 @@ TF_LOG_PATH=./terraform.log terraform apply
 Shows how core talks to [[terraform provider]] plugins.
 
 ---
+
 
 ## Provider / schema inspection
 
@@ -123,6 +132,7 @@ Use schema to learn required arguments without guessing (Winkler: schema is the 
 
 ---
 
+
 ## State subcommands (careful)
 
 ```shell
@@ -139,6 +149,7 @@ Workflow context: [[Terraform workflow]]
 
 ---
 
+
 ## Useful env vars
 
 | Var | Role |
@@ -150,6 +161,7 @@ Workflow context: [[Terraform workflow]]
 
 ---
 
+
 ## First-time failure checklist
 
 1. No `.tf` files? → create `main.tf` ([[Terraform setup]])
@@ -159,29 +171,17 @@ Workflow context: [[Terraform workflow]]
 
 ---
 
+
 ## Book takeaways
 
 - **Brikman**: automate fmt/validate/plan in CI; treat state commands as operations tools
 - **Winkler**: schema + graph explain *why* a plan looks that way — use CLI to inspect both
 
-## Gotchas
-
-> [!WARNING]
-> **`terraform state` is sharp** — prefer import/moved blocks in code; state surgery is last resort with backups.
-
-> [!WARNING]
-> **TRACE logs leak secrets** — never leave `TF_LOG=TRACE` on in CI artifacts.
-
-## When NOT to use
-
-- **One-off cloud click-operations** — CLI shines when the configuration is code; skip Terraform for a single manual sandbox resource if the team agrees.
-
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[terraform]] [[variable file]]
+
+## Sources
+
+- [Wikipedia — Terraform CLI](https://en.wikipedia.org/wiki/Terraform_CLI)

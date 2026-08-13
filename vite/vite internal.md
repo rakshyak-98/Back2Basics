@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** During development and build, Vite injects `VITE_*` variables into `import.meta.env`; `process.env` is not populated the same way as in Webpack.
+## How it works
 
 ### Environment variable
 
@@ -63,25 +52,24 @@ server: {
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[vite]]
+
+## Sources
+
+- [Wikipedia — vite internal](https://en.wikipedia.org/wiki/vite_internal)

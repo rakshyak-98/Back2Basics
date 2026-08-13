@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Feed a template string + data object; library walks `{{…}}` tags and returns HTML/text. ~2KB, no deps — fine for emails/snippets, not SPAs.
+## How it works
 
 ```txt
 template + context ──Mark.up──► string
@@ -31,7 +20,8 @@ template + context ──Mark.up──► string
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```html
 <script src="markup.min.js"></script>
@@ -53,7 +43,8 @@ Mark.up('<ul>{{bros}}<li>{{.}}</li>{{/bros}}</ul>', {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ Mark.up('<ul>{{bros}}<li>{{.}}</li>{{/bros}}</ul>', {
 | `Mark is not defined` | Script not loaded | Fix script order |
 
 ---
+
 
 ## Gotchas
 
@@ -77,7 +69,8 @@ Mark.up('<ul>{{bros}}<li>{{.}}</li>{{/bros}}</ul>', {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **React/Vue/Svelte apps** — use the framework.
 - **Trusted server HTML at scale** — Handlebars/Liquid/etc. with escaping defaults.
@@ -85,6 +78,11 @@ Mark.up('<ul>{{bros}}<li>{{.}}</li>{{/bros}}</ul>', {
 
 ---
 
+
 ## Related
 
 [[Packages]] [[Immer]] [[html]]
+
+## Sources
+
+- [Wikipedia — markup.js](https://en.wikipedia.org/wiki/markup.js)

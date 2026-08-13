@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```
 kubectl run / apply ──► kube-apiserver ──► etcd (Pod desired state)
@@ -36,7 +27,8 @@ A **Pod** is the smallest deployable unit: one or more containers that share net
 
 **Bare Pod versus Deployment:** a standalone Pod is not self-healing. Node loss or eviction does not recreate it. Production workloads almost always go through **Deployment** (or StatefulSet / Job). Bare Pods are for debug, batch one-offs, operators, or learning.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Declarative Pod (production-safe pattern)
 
@@ -188,7 +180,8 @@ kubectl apply --server-side --force-conflicts -f pod.yaml   # break-glass only
 
 Use when multiple actors (operator + human) touch the same object.
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -208,6 +201,7 @@ kubectl get events -n $NS --field-selector involvedObject.name=$POD
 kubectl get pod -n $NS $POD -o jsonpath='{.status.conditions[*].message}{"\n"}'
 ```
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -223,13 +217,19 @@ kubectl get pod -n $NS $POD -o jsonpath='{.status.conditions[*].message}{"\n"}'
 - **Immutable fields** — changing `spec.nodeName` or some volume bindings requires delete/recreate.
 - **`kubectl create` in scripts** — second run fails; scripts should use `apply` or `kubectl apply --prune` in a controlled pipeline.
 
-## When NOT to use
+
+## When not to use
 
 - **Production application tiers** — create a **Deployment** (or StatefulSet) instead; bare Pod creation is for debug, Jobs, or operator-managed objects.
 - **Replacing GitOps** — manual `kubectl run` in production drifts from Argo/Flux source; fix the repository.
 - **Scaling** — bare Pods don’t scale; use Deployment `replicas` or HPA.
 - **Stateful identity** — ordered storage + stable network ID → StatefulSet, not a hand-crafted Pod.
 
+
 ## Related
 
 [[Pods]] [[kubectl]] [[Kubernetes configuration]] [[Kubernetes services]] [[ingress]] [[Cilium]] [[Docker compose]]
+
+## Sources
+
+- [Wikipedia — kubectl pod creation](https://en.wikipedia.org/wiki/kubectl_pod_creation)

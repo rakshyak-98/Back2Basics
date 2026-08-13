@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Start I/O, return to the loop; when ready, a microtask/task runs a fresh stack. `await` pauses the async function, not the whole runtime.
+## How it works
 
 ```txt
 call stack empty → microtasks → next macrotask (timers, I/O)
@@ -34,7 +23,8 @@ call stack empty → microtasks → next macrotask (timers, I/O)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 async function load() {
@@ -52,7 +42,8 @@ load().catch(console.error)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ load().catch(console.error)
 | Zalgo | sync sometimes callback | Always async or always sync |
 
 ---
+
 
 ## Gotchas
 
@@ -73,11 +65,17 @@ load().catch(console.error)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure CPU crunch on main thread** — worker.
 - **Truly parallel shared-memory needs** — careful Atomics / WASM / native.
 
+
 ## Related
 
 [[promise]] [[JavaScript/Call stack]] [[event listener]]
+
+## Sources
+
+- [Wikipedia — Asynchronous](https://en.wikipedia.org/wiki/Asynchronous)

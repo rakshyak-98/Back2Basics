@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** 1. When git runs a command like `git push` it internally calls. — create authentication token from GitHub personal access token
+## How it works
 
 ### reset the credential manager
 ```bash
@@ -39,7 +28,8 @@ git config --global credential.helper cache;
 printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 git config --global credential.helper cache
@@ -49,7 +39,8 @@ git credential reject   # paste host=... protocol=https
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -60,6 +51,7 @@ git credential reject   # paste host=... protocol=https
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -67,13 +59,19 @@ git credential reject   # paste host=... protocol=https
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not embed tokens in remote URLs committed to the repository.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git credential](https://en.wikipedia.org/wiki/git_credential)

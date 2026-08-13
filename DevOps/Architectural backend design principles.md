@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Standardize how services talk (errors, authentication, timeouts), keep modules replaceable, and cut unnecessary hops. Consistency beats clever one-offs.
+## How it works
 
 ```txt
 Client → Edge/API → Service A → (events|RPC) → Service B → DB
@@ -35,7 +24,8 @@ Client → Edge/API → Service A → (events|RPC) → Service B → DB
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```yaml
 # Contract-first sketch
@@ -65,7 +55,8 @@ Checklist per new service
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,6 +67,7 @@ Checklist per new service
 | Deploy deadlock | Shared DB coupling | Split schemas; events |
 
 ---
+
 
 ## Gotchas
 
@@ -90,7 +82,8 @@ Checklist per new service
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Throwaway prototypes** — ship; retrofit principles when retained.
 - **Single small application** — modular monolith may beat microservices.
@@ -98,6 +91,11 @@ Checklist per new service
 
 ---
 
+
 ## Related
 
 [[orchestration]] [[API design]] [[SOLID]] [[backpressure]] [[event-driven]]
+
+## Sources
+
+- [Wikipedia — Architectural backend design principles](https://en.wikipedia.org/wiki/Architectural_backend_design_principles)

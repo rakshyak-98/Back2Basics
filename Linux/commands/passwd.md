@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 `passwd` updates the encrypted password field in `/etc/shadow` (users can't read it; root can). PAM stacks (`/etc/pam.d/`) decide when password checks apply — SSH with `PasswordAuthentication no` never hits `passwd`'s verify path for remote login.
 
@@ -46,7 +37,8 @@ Lock (`-l`) ≠ disable account — SSH keys may still work. Full disable → `u
 | **passwd -l** | Lock account | “Locks hash — SSH keys may still work.” |
 | **PAM** | Auth stack | “passwd respects PAM rules.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # User changes own password
@@ -88,7 +80,8 @@ PasswordAuthentication no
 PermitRootLogin no
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,6 +91,7 @@ PermitRootLogin no
 | `-e` didn't force change | User uses SSH keys only | Keys bypass password expiry for SSH; use `chage -d 0` + key rotation policy |
 | `passwd` works locally, not SSH | `PasswordAuthentication` / PAM | `sshd -T \| grep password`; `/etc/pam.d/sshd` |
 | Weak password rejected | `pam_pwquality` / `libpam-pwquality` | Adjust `/etc/security/pwquality.conf` or use stronger password |
+
 
 ## Gotchas
 
@@ -113,13 +107,19 @@ PermitRootLogin no
 > [!WARNING]
 > **NSS/LDAP/SSSD users** — local `passwd` may not apply; password lives in directory. Check `getent passwd user` source.
 
-## When NOT to use
+
+## When not to use
 
 - **SSH key-only access** → manage `~/.ssh/authorized_keys`, not passwords.
 - **Central identity (AD/Okta/LDAP)** → directory tools, not local `passwd`.
 - **Service accounts** → `usermod -L` + nologin shell; no interactive password.
 - **Secrets in apps** → vault/secrets manager, not Unix passwords.
 
+
 ## Related
 
 [[user management]] [[useradd]] [[userdel]] [[usermod]] [[getent]] [[Authentication command]] [[etc files]]
+
+## Sources
+
+- [Wikipedia — passwd](https://en.wikipedia.org/wiki/passwd)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `func` declares named or literal functions. Multiple results are normal (`(T, error)`). Methods hang off a type via receivers (value or pointer).
+## How it works
 
 ```txt
 func Add(a, b int) int
@@ -34,7 +23,8 @@ f := func(x int) int { return x + 1 }
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```go
 func Load(path string) ([]byte, error) {
@@ -62,7 +52,8 @@ sum := func(xs ...int) int {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,6 +63,7 @@ sum := func(xs ...int) int {
 | Nil receiver panic | Called on nil | Guard or document |
 
 ---
+
 
 ## Gotchas
 
@@ -86,7 +78,8 @@ sum := func(xs ...int) int {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **God functions 200+ lines** — split.
 - **Methods on every DTO** — keep domain focused.
@@ -94,6 +87,11 @@ sum := func(xs ...int) int {
 
 ---
 
+
 ## Related
 
 [[go interface]] [[go error]] [[go package]] [[go-routines]]
+
+## Sources
+
+- [Wikipedia — go functions](https://en.wikipedia.org/wiki/go_functions)

@@ -6,25 +6,22 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Triage (when things break)]]
-- [[#Preconditions]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Config & secrets per environment]]
-- [[#Environment topology]]
-- [[#Promotion gates (dev → test → staging → prod → live)]]
-- [[#CI/CD pipeline]]
-- [[#Deployment strategy per environment]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Rollback strategy]]
-- [[#Escalation]]
-- [[#Related]]
+```txt
+dev ──► test ──► staging ──► production ──► live (traffic slice on prod)
+  │       │          │            │              │
+  └─ fast └─ gate ───┴─ soak ─────┴─ change ─────┴─ canary / blue-green
+```
 
-## Triage (when things break)
+All five exist **in parallel** (separate clusters or namespaces + accounts). Promotion is **artifact-based** — same immutable image digest advances; configuration differs per environment.
+
+**`live` definition (resolved):** not a sixth infrastructure clone — **production cluster** namespaces `prod` + `live-canary` (or Argo Rollouts `canary` strategy) receiving weighted traffic after production deploy gate passes.
+
+---
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -42,13 +39,11 @@ helm rollback payment 42 -n prod
 
 ---
 
-## Preconditions
-
-…
 
 ## Steps
 
 1. …
+
 
 ## Verification
 
@@ -56,19 +51,31 @@ helm rollback payment 42 -n prod
 # …
 ```
 
-## Mental model
 
-```txt
-dev ──► test ──► staging ──► production ──► live (traffic slice on prod)
-  │       │          │            │              │
-  └─ fast └─ gate ───┴─ soak ─────┴─ change ─────┴─ canary / blue-green
-```
+## Gotchas
 
-All five exist **in parallel** (separate clusters or namespaces + accounts). Promotion is **artifact-based** — same immutable image digest advances; configuration differs per environment.
+> [!WARNING]
+> **Promoting `latest` tag** — digest drift across nodes; always pin image digest in manifest.
 
-**`live` definition (resolved):** not a sixth infrastructure clone — **production cluster** namespaces `prod` + `live-canary` (or Argo Rollouts `canary` strategy) receiving weighted traffic after production deploy gate passes.
+> [!WARNING]
+> **staging without prod-sized data** — migration time estimates lie; restore prod snapshot to staging monthly.
+
+> [!WARNING]
+> **Canary only on one service** — partial fleet on new payment + old order causes subtle bugs; coordinate train by **release bundle** or feature flags.
+
+> [!WARNING]
+> **Five full prod clones for `live`** — expensive; `live` is traffic slice, not duplicate RDS.
 
 ---
+
+
+## When not to use
+
+- **Single service MVP** — one workflow, one namespace, skip Argo Rollouts until second production deploy.
+- **No SLOs** — canary is theater; define payment success + p99 first ([[Release cycle]]).
+
+---
+
 
 ## Config & secrets per environment
 
@@ -86,6 +93,7 @@ All five exist **in parallel** (separate clusters or namespaces + accounts). Pro
 - Sealed Secrets or External Secrets Operator sync from Secrets Manager.
 
 ---
+
 
 ## Environment topology
 
@@ -112,6 +120,7 @@ Cluster autoscaler: `min`/`max` node pools per environment in [[ecommerce-eks-la
 
 ---
 
+
 ## Promotion gates (dev → test → staging → prod → live)
 
 | Transition | Automated gates | Human gates |
@@ -127,6 +136,7 @@ Cluster autoscaler: `min`/`max` node pools per environment in [[ecommerce-eks-la
 - [[Release cycle]] rollback criteria would have fired on staging soak
 
 ---
+
 
 ## CI/CD pipeline
 
@@ -191,6 +201,7 @@ jobs:
 
 ---
 
+
 ## Deployment strategy per environment
 
 | Env | Strategy | Notes |
@@ -205,28 +216,6 @@ jobs:
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **Promoting `latest` tag** — digest drift across nodes; always pin image digest in manifest.
-
-> [!WARNING]
-> **staging without prod-sized data** — migration time estimates lie; restore prod snapshot to staging monthly.
-
-> [!WARNING]
-> **Canary only on one service** — partial fleet on new payment + old order causes subtle bugs; coordinate train by **release bundle** or feature flags.
-
-> [!WARNING]
-> **Five full prod clones for `live`** — expensive; `live` is traffic slice, not duplicate RDS.
-
----
-
-## When NOT to use
-
-- **Single service MVP** — one workflow, one namespace, skip Argo Rollouts until second production deploy.
-- **No SLOs** — canary is theater; define payment success + p99 first ([[Release cycle]]).
-
----
 
 ## Rollback strategy
 
@@ -245,10 +234,11 @@ jobs:
 
 ---
 
-## Escalation
-
-…
 
 ## Related
 
 [[ecommerce-platform-architecture]] · [[ecommerce-eks-layout]] · [[Release cycle]] · [[Github action]] · [[spinnaker]] · [[Terraform workflow]] · [[helm]] · [[AWS ECR]]
+
+## Sources
+
+- [Wikipedia — ecommerce-cicd-environments](https://en.wikipedia.org/wiki/ecommerce-cicd-environments)

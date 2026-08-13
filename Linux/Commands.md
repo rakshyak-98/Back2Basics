@@ -1,120 +1,60 @@
-[[commands]] [[common commands]] [[CLI]] [[Find command]]
+[[CLI]] [[common commands]] [[Linux network commands]] [[Linux process commands]] [[Services commands]]
 
 # Commands
 
-> A compact map of high-leverage Linux commands — inventory, control, and debug without living in man pages.
+> Hub for Linux command notes — route from symptom to the right tool instead of memorizing every flag.
 
----
+This note routes to leaf command pages under `Linux/commands/`. Each leaf focuses on one binary or small family with runnable examples and failure signals.
 
-## Index
+## By job
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+| Job | Start here |
+|-----|------------|
+| Find files | [[Find command]] |
+| Search text in files | [[grep]], [[awk]] |
+| Processes and CPU | [[ps]], [[top]], [[renice]], [[Linux process commands]] |
+| Networking | [[ip]], [[ss]], [[dig]], [[Linux network commands]] |
+| Services | [[systemctl]], [[journalctl]], [[Services commands]] |
+| Users and groups | [[useradd]], [[usermod]], [[passwd]], [[Authentication command]] |
+| Packages (Debian/Ubuntu) | [[APT policy]], [[apt package manager]] |
+| Disk sync / backup | [[rsync]], [[diff]] |
+| JSON in shell | [[jq]] |
+| Interactive pickers | [[fzf]] |
 
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-## Standard config / commands
+## Command discovery
 
 ```bash
-# host pulse
-uptime; free -h; df -h; who -b
-# process
+# What provides this name?
+type -a systemctl
+command -v jq
+
+# Search installed packages for a binary (Debian family)
+dpkg -S $(which ss)
+
+# Brief description from man database
+apropos "socket statistics"
+```
+
+## Pipelines worth remembering
+
+```bash
+# Who listens on 443?
+ss -lntp | grep ':443'
+
+# Top memory consumers
 ps aux --sort=-%mem | head
-# network
-ss -luntp
-ip -br a
-# logs
-journalctl -p err -b --no-pager | tail -50
-# packages
-apt-cache policy $pkg
-# files
-find /var -xdev -type f -size +1G 2>/dev/null | head
-```
 
-| Knob | Why it matters |
-|------|----------------|
-| `--no-pager` | Scripts/CI |
-| `-xdev` | Stay on one filesystem |
+# Follow service logs
+journalctl -u nginx -f
 
----
-
-## Options / flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-## Mental model
-
-**Say it in one breath:** classify the question (process, disk, net, logs, packages) then pick one sharp tool — don’t spray flags.
-
-```txt
-process → ps/top/pidstat
-disk    → df/du/lsblk/iostat
-net     → ss/ip/dig/nc
-logs    → journalctl/tail
-pkgs    → apt/dpkg
-files   → find/rg/stat
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ss** | Socket truth | “Replaces netstat.” |
-| **journalctl** | systemd logs | “`-u` + `-b` first.” |
-| **ip** | Links/addrs/routes | “Replaces ifconfig/route.” |
-| **systemctl** | Service control | “status → logs → restart.” |
-| **strace/lsof** | Syscalls / open files | “When ‘permission’ lies.” |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slow box | load vs CPU vs IO vs PSI | Match tool to bottleneck |
-| Can’t bind port | `ss -lntp` | Kill holder / change port |
-| Disk full | `df` + `du -x` | Clear journals/logs |
-| DNS weird | `dig` vs `getent` | Fix resolvers / nsswitch |
-| Service dead | `systemctl status` + journal | Fix unit/env; restart |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Cheat sheets without mental models** — memorize categories, not 500 flags.
-
-> [!WARNING]
-> **Running destructive commands from memory** — dry-run / echo first.
-
----
-
-## When NOT to use
-
-- **This note as a deep dive** — jump to [[ss]], [[journalctl]], [[ip]], etc.
-- **Windows-only workflows** — different toolchain.
-
----
-
-## Examples
-
-```bash
-# …
+# Config audit
+grep -rn 'PermitRootLogin' /etc/ssh/
 ```
 
 ## Related
 
-[[common commands]] [[ss]] [[ip]] [[journalctl]] [[systemctl]] [[Find command]] [[CLI]]
+[[CLI]] · [[common commands]] · [[management/Linux management]]
+
+## Sources
+
+- `man 1 man`, `man 1 apropos`

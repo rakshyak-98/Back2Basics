@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Start with failing test + `-race`. For hangs, dump goroutines. For CPU/mem, pprof. For stepping, Delve (`dlv`).
+## How it works
 
 ```txt
 repro → go test -race → pprof/goroutine → dlv if needed
@@ -32,7 +21,8 @@ repro → go test -race → pprof/goroutine → dlv if needed
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 go test -race ./...
@@ -56,7 +46,8 @@ dlv exec ./bin/app
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,6 +58,7 @@ dlv exec ./bin/app
 | Works in test not prod | Env / GOMAXPROCS | Match configs |
 
 ---
+
 
 ## Gotchas
 
@@ -81,7 +73,8 @@ dlv exec ./bin/app
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Printf forever** — fine for tiny scripts; not for races.
 - **Production `dlv attach` casually** — prefer metrics/pprof first.
@@ -89,6 +82,11 @@ dlv exec ./bin/app
 
 ---
 
+
 ## Related
 
 [[go cli]] [[go-routines]] [[go callstack]] [[go error]]
+
+## Sources
+
+- [Wikipedia — go debugging](https://en.wikipedia.org/wiki/go_debugging)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Worker threads run JavaScript (or wasm) **in parallel** with the main thread's event loop. Message passing is default; shared memory is opt-in.
 
@@ -31,7 +22,8 @@ Browser analogue: Web Workers — but Node workers are heavier and can access so
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic worker
 
@@ -112,7 +104,8 @@ Requires `--experimental-worker` flags only on very old Node; modern Node is sta
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -124,6 +117,7 @@ Requires `--experimental-worker` flags only on very old Node; modern Node is sta
 | Can't access DOM/db conn | By design | Pass serializable data; use connection pool on main |
 
 ---
+
 
 ## Gotchas
 
@@ -144,7 +138,8 @@ Requires `--experimental-worker` flags only on very old Node; modern Node is sta
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **HTTP request scaling** — use [[clustering]] or horizontal pods.
 - **I/O-bound work** — event loop + async I/O is simpler and faster.
@@ -152,6 +147,11 @@ Requires `--experimental-worker` flags only on very old Node; modern Node is sta
 
 ---
 
+
 ## Related
 
 [[Event Loop]] [[clustering]] [[child process]] [[worker]]
+
+## Sources
+
+- [Wikipedia — worker threads](https://en.wikipedia.org/wiki/worker_threads)

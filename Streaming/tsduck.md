@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `tsp` is a plugin pipeline — input a transport stream, run filters, output another stream or analysis.
+## How it works
 
 ```txt
 MPTS multicast (many services)
@@ -57,7 +46,8 @@ SPTS (one channel) + rebuilt PAT/PMT
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # One channel: MPTS → SPTS
@@ -96,7 +86,8 @@ Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare 
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -108,6 +99,7 @@ Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare 
 | Works for one, fails at scale | Too many tsp / CPU | Batch carefully; consider headend demux appliance |
 
 ---
+
 
 ## Gotchas
 
@@ -125,7 +117,8 @@ Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare 
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Already SPTS from the encoder** — no zap needed; just ingest.
 - **OTT CMAF-only plant** — you’re in [[HLS]]/[[DASH]] land; TSDuck is for [[MPEG-TS]] plants.
@@ -134,6 +127,11 @@ Debug: `tsp -P analyze` → match service_id → Wireshark UDP loss → compare 
 
 ---
 
+
 ## Related
 
 [[MPEG-TS]] [[IPTV]] [[Multicast]] [[ingestion]] [[flussonic]] [[CAS (Conditional Access System)]] [[demux]]
+
+## Sources
+
+- [Wikipedia — tsduck](https://en.wikipedia.org/wiki/tsduck)

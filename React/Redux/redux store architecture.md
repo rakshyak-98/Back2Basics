@@ -1,142 +1,49 @@
-[[Redux]] [[Redux toolkit]] [[Redux/RTQ/Middleware]] [[Redux/Redux createApi]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
-# Store Architecture Guide
+# redux store architecture
 
-> Feature slices + split listeners + API endpoints — keep storage, API side effects, and cross-slice sync in separate middleware files.
+> redux store architecture shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
+## When to choose it
 
-## Context
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
-
-**Say it in one breath:** Store folder only wires reducers/middleware. Features own slice+selectors. API owns `createApi` + domain endpoint files. Listeners split by job: storage, API responses, cross-slice sync.
-
-```txt
-store/index → rootReducer + middleware/*
-features/*/slice + selectors
-api/apiSlice + endpoints/*
-utils/storage + keys
-```
-
-### Interview map (words you can say)
-
-| File | Job in one line |
-|------|-----------------|
-| **storageMiddleware** | Slice → session/localStorage |
-| **apiMiddleware** | React to Query fulfilled/rejected |
-| **stateMiddleware** | Keep two slices consistent |
-| **listenerApi ≠ api** | Import RTK Query `api`; rename listener param |
-
-## Standard config / commands
-
-```txt
-src/store/
-  index.js              # configureStore only
-  rootReducer.js
-  middleware/
-    index.js
-    storageMiddleware.js
-    apiMiddleware.js
-    stateMiddleware.js
-src/features/<name>/
-  <name>Slice.js        # export initialState
-  <name>Selectors.js
-src/api/
-  apiSlice.js
-  endpoints/*.js
-src/utils/
-  storage.js
-  browserStorageKeys.js
-```
+## Operating it
 
 ```ts
-// ✅ export initial state for reset/tests/middleware
-export const guestRoomInitialState = { /* … */ }
-
-// ✅ after reset, persist from getState — not closure
-storageMiddleware.startListening({
-  actionCreator: guestRoom.actions.reset,
-  effect: (_a, api) => {
-    storage.session.set(KEYS.roomChooises, api.getState().guestRoom.roomChooises)
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
   },
-})
-
-// ✅ RTK Query from listener
-import { api } from '@/api/apiSlice'
-effect: (_a, listenerApi) => {
-  listenerApi.dispatch(api.endpoints.getData.initiate(payload))
-}
+});
 ```
 
-| Rule | Why |
-|------|-----|
-| Selectors in `*Selectors.js` | Keep slices thin |
-| Endpoint files by domain | Avoid mega `apiSlice` |
-| Storage key constants | No stringly typos |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Storage has pre-reset data | Wrote from closure after `reset` | Persist inside listener via `getState()` |
-| `api.endpoints` undefined in effect | Param named `api` is listenerApi | Import Query `api`; rename param |
-| Date off by timezone | `DateObject.toDate()` + moment | `date.format('YYYY-MM-DD')` directly |
-| Double-formatted dates | `formatDate(alreadyFormatted)` | Pass formatted string once |
-| Unsure which middleware file | Ask: storage / API response / slice sync | That answer picks the file |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Cross-slice sync in components** — races; use `stateMiddleware` listeners.
-
-> [!WARNING]
-> **Mega middleware file** — split early; matchers duplicate otherwise.
-
----
-
-## When NOT to use
-
-- **Tiny apps (1–2 slices)** — one middleware file is enough.
-- **Server cache only** — RTK Query without custom storage sync.
-
----
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
+What breaks first in production if `redux store architecture` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux/Redux concept and data flow]] [[Redux/RTQ/Middleware]] [[Redux/Redux State sync with localstorage]] [[Redux/Redux createApi]] [[Redux toolkit]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Kubernetes services — in Kubernetes, a service is a method for exposing a network application that is running as one or more Pods in your cluster.
+## How it works
 
 in Kubernetes, a service is a method for exposing a network application that is running as one or more [[Pods]] in your cluster.
 A Service is an abstraction that defines a logical set of [[Pods]] and a policy to access them.
@@ -79,3 +68,7 @@ kubectl get endpoints my-service
 ## Related
 
 [[Kubernates]]
+
+## Sources
+
+- [Wikipedia — Kubernetes services](https://en.wikipedia.org/wiki/Kubernetes_services)

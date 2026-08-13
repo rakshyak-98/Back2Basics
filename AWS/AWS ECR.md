@@ -1,130 +1,73 @@
-[[IAM]] [[ARN (Amazon Resource Name)]] [[Docker]] [[AWS EC2]]
+[[IAM]] · [[AWS Lambda]] · [[Docker/docker file]] · [[AWS cli commands]]
 
 # AWS ECR
 
-> ECR (Elastic Container Registry) — private Docker/OCI image registry in AWS.
+> Elastic Container Registry stores Docker/OCI images privately in your AWS account — Lambda, ECS, and EKS pull images using IAM-authenticated `docker push` and `docker pull`.
 
 ---
 
-## Index
+## Repositories and images
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+- **Repository** — logical name (`my-app/backend`)
+- **Image** — identified by tag and immutable **digest** (`sha256:…`)
+- **Lifecycle policies** — expire untagged or old images to control storage cost
+- **Scanning** — basic or enhanced vulnerability scanning on push
 
-## Mental model
+Images are regional. Replicate across regions for disaster recovery with ECR replication rules.
 
-ECR holds **repositories** of **image manifests + layers** (OCI-compatible). Each region has its own registry endpoint: `{account}.dkr.ecr.{region}.amazonaws.com`. Pull/push uses **IAM** (or bot IAM user in legacy setups) + short-lived **authorization token** from `ecr:GetAuthorizationToken`.
+## Authentication
 
-```
-docker push ──► ECR API (auth token) ──► layer upload ──► repository:tag
-                                                              │
-ECS/EKS/Lambda ◄── pull (execution role iam: ecr:* on repo ARN)
-```
-
-**Image scanning** (basic or enhanced) flags CVEs; **lifecycle policies** prune untagged/old images (cost control).
-
-## Standard config / commands
-
-### Login + push (CI or laptop)
+ECR uses a token from [[aws STS (Security Token Service)]]:
 
 ```bash
-AWS_REGION=us-east-1
-ACCOUNT=123456789012
-REPO=my-app
-
-aws ecr get-login-password --region $AWS_REGION | \
-  docker login --username AWS --password-stdin $ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com
-
-docker build -t $REPO:latest .
-docker tag $REPO:latest $ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO:latest
-docker push $ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO:latest
+aws ecr get-login-password --region us-east-1 | \
+  docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com
 ```
 
-### Minimal IAM (CI push role)
+## Push workflow
+
+```bash
+aws ecr create-repository --repository-name my-app
+docker build -t my-app:latest .
+docker tag my-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app:latest
+docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app:latest
+```
+
+Deploy by **digest**, not floating `:latest`, in production pipelines.
+
+## IAM permissions (typical CI role)
 
 ```json
 {
   "Effect": "Allow",
   "Action": [
-    "ecr:GetAuthorizationToken"
-  ],
-  "Resource": "*"
-},
-{
-  "Effect": "Allow",
-  "Action": [
+    "ecr:GetAuthorizationToken",
     "ecr:BatchCheckLayerAvailability",
     "ecr:PutImage",
     "ecr:InitiateLayerUpload",
     "ecr:UploadLayerPart",
     "ecr:CompleteLayerUpload"
   ],
-  "Resource": "arn:aws:ecr:us-east-1:123456789012:repository/my-app"
+  "Resource": "*"
 }
 ```
 
-### ECS/EKS pull (execution role)
+`GetAuthorizationToken` is account-wide; repository actions scope to [[ARN (Amazon Resource Name)]].
 
-- `ecr:BatchGetImage`, `ecr:GetDownloadUrlForLayer` on repo ARN.
-- **Same region** pull avoids cross-region data charge; replicate for multi-region DR.
+## Integration points
 
-### Lifecycle policy (untagged cleanup)
+| Consumer | Notes |
+|----------|-------|
+| **ECS / Fargate** | Task definition `image` URI |
+| **EKS** | `imagePullSecrets` not needed when node/instance role allows ECR |
+| **Lambda** | Container image functions up to 10 GB |
 
-```json
-{
-  "rules": [{
-    "rulePriority": 1,
-    "description": "Expire untagged > 7 days",
-    "selection": {
-      "tagStatus": "untagged",
-      "countType": "sinceImagePushed",
-      "countUnit": "days",
-      "countNumber": 7
-    },
-    "action": { "type": "expire" }
-  }]
-}
-```
+## Recall
 
-### VPC endpoint (no NAT for pull)
+- Why deploy by digest instead of tag?
+- What breaks if `ecr:GetAuthorizationToken` is missing from the CI role?
 
-- Interface endpoint `com.amazonaws.region.ecr.api` + `ecr.dkr` + S3 gateway for layer storage path.
+## Sources
 
-## Triage (when things break)
-
-| Symptom                              | Check                                          | Fix                                                          |
-| ------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
-| `no basic auth credentials` on push  | `aws ecr get-login-password`; IAM              | Login; CI role `GetAuthorizationToken`                       |
-| `denied: repository does not exist`  | Repo name/region/account in URL                | Create repo; fix URI                                         |
-| ECS/EKS `CannotPullContainerError`   | Execution role ECR perms; repo policy          | Add ECR pull actions; private repo policy if cross-account   |
-| Pull works locally, fails in cluster | Cluster in private subnet without NAT/endpoint | ECR VPC endpoints                                            |
-| Image scan shows CVEs                | Base image stale                               | Rebuild from patched base; block deploy on CRITICAL (policy) |
-| Storage cost creep                   | Untagged manifests                             | Lifecycle policy; delete old tags                            |
-
-## Gotchas
-
-> [!WARNING]
-> **Auth token expires in 12 hours** — CI must login each job (or use credential helper).
-
-> [!WARNING]
-> **Cross-account pull** needs **repository policy** on resource side, not only IAM on caller.
-
-> [!WARNING]
-> **Lambda container images** — max size limits; must be in **same region** as function.
-
-> [!WARNING]
-> **Tag mutability** — `MUTABLE` tags can be overwritten; prod often `IMMUTABLE` tags or digest pinning (`image@sha256:...`).
-
-## When NOT to use
-
-- **Public OSS images** — Docker Hub / ghcr.io unless mirroring into ECR for rate-limit/air-gap.
-- **Large binary blobs unrelated to containers** — S3, not ECR.
-- **Single tiny Lambda zip deploy** — container overhead may not pay off.
-
-## Related
-
-[[IAM]] · [[ARN (Amazon Resource Name)]] · [[Docker]] · [[AWS EC2]] · [[AWS Networking]]
+- [Amazon ECR User Guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html)
+- [OCI Image Specification](https://github.com/opencontainers/image-spec)

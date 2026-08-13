@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Indexing — what is functional dependency means ?
+## How it works
 
 ```js
 Object.getPrototypeOf(value).constructor.name; // Get type of any value
@@ -36,25 +25,24 @@ What is functional dependency means ?
 
 ---
 
-## Standard config / commands
 
-…
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | … | … | … |
+
 
 ## Gotchas
 
 > [!WARNING]
 > …
 
-## When NOT to use
-
-…
 
 ## Related
 
 [[interview.md]]
+
+## Sources
+
+- [Wikipedia — interview](https://en.wikipedia.org/wiki/interview)

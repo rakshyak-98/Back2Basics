@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Kafka distributed event streaming — kafka is a distributed event streaming platform used for real-time data processing.
+## How it works
 
 Kafka is a distributed event streaming platform used for real-time data processing.
 - it helps microservices communicate asynchronously by sending and receiving messages efficiently.
@@ -33,7 +22,8 @@ kafka consist of four main components
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version + config path
@@ -42,7 +32,8 @@ kafka consist of four main components
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,6 +43,7 @@ kafka consist of four main components
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -59,12 +51,18 @@ kafka consist of four main components
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
 
+
 ## Related
 
 [[Kafka]]
+
+## Sources
+
+- [Wikipedia — Kafka distributed event streaming](https://en.wikipedia.org/wiki/Kafka_distributed_event_streaming)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **PKI chain**:
 
@@ -34,7 +25,8 @@ Trust stores: Mozilla/Apple/Microsoft/Google bundles on devices. Private roots (
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Inspect chain from server
 
@@ -69,7 +61,8 @@ You serve: cert.pem (leaf) + chain.pem (R3/E1 intermediate)
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,6 +73,7 @@ You serve: cert.pem (leaf) + chain.pem (R3/E1 intermediate)
 | Pinning failure | Pin changed on root rotation | Update pins before CA migration |
 
 ---
+
 
 ## Gotchas
 
@@ -97,12 +91,18 @@ You serve: cert.pem (leaf) + chain.pem (R3/E1 intermediate)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't create a **private root CA** unless you can **distribute trust** to all clients (MDM, mTLS fleet). Public sites use public CAs ([[certbot (letsencrypt)]]).
 
 ---
 
+
 ## Related
 
 [[PKI]] [[TLS (Transport Layer Security)]] [[fingerprint]] [[DER]] [[read pem file]] [[code signing]]
+
+## Sources
+
+- [Wikipedia — Root certificate](https://en.wikipedia.org/wiki/Root_certificate)

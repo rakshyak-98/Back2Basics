@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Profile before tuning. Event-loop delay ⇒ CPU/sync work; high latency with idle CPU ⇒ I/O/DB; multi-core idle ⇒ scale out processes.
+## How it works
 
 ```txt
 measure → locate (loop / DB / GC) → fix (async, cache, cluster, CDN)
@@ -31,7 +20,8 @@ measure → locate (loop / DB / GC) → fix (async, cache, cluster, CDN)
 | **Cluster / LB** | Multi-process | “One loop ≈ one core.” |
 | **Cache** | Skip repeat work | “Redis/HTTP cache before rewriting code.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 node --prof app.js
@@ -53,7 +43,8 @@ app.use(compression())
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ app.use(compression())
 | One box saturated | Single process | Cluster + LB |
 
 ---
+
 
 ## Gotchas
 
@@ -74,13 +66,19 @@ app.use(compression())
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Premature cluster** — fix the hot path first.
 - **application-level gzip only** — often better at the edge/proxy.
 
 ---
 
+
 ## Related
 
 [[clustering]] [[worker]] [[Event Loop]] [[node inspect]]
+
+## Sources
+
+- [Wikipedia — Optimization](https://en.wikipedia.org/wiki/Optimization)

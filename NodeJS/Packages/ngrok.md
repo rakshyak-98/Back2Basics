@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** ngrok agent opens an outbound tunnel to ngrok’s edge; the edge gives you `https://….ngrok…` that forwards to `localhost:PORT`.
+## How it works
 
 ```txt
 Internet → ngrok edge → agent → http://127.0.0.1:3000
@@ -31,7 +20,8 @@ Internet → ngrok edge → agent → http://127.0.0.1:3000
 | **http 3000** | Local target | “Forwards to your Node server.” |
 | **Ephemeral URL** | Changes each free session | “Update webhook config.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ngrok config add-authtoken <TOKEN>
@@ -52,7 +42,8 @@ npm install -g ngrok   # or apt package from ngrok’s repo
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ npm install -g ngrok   # or apt package from ngrok’s repo
 | Browser interstitial | Free tier warning page | Header bypass or paid plan |
 
 ---
+
 
 ## Gotchas
 
@@ -73,13 +65,19 @@ npm install -g ngrok   # or apt package from ngrok’s repo
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Production ingress** — real DNS + LB/CDN.
 - **Private corporate networks only** — VPN / Tailscale may fit better.
 
 ---
 
+
 ## Related
 
 [[HTTP module]] [[expressjs]] [[Packages/npm packages]]
+
+## Sources
+
+- [Wikipedia — ngrok](https://en.wikipedia.org/wiki/ngrok)

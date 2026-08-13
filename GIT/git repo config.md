@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** git repository configuration — know what it does, how to configure it, and how it fails in production.
+## How it works
 
 ```shell
 gpg --full-generate-key; # generate gpg key
@@ -43,7 +32,8 @@ git conifg gpg.format ssh;
 git config user.signingkey <path to ssh .pub file>;
 ```
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 git config --local user.email "you@company.com"
@@ -53,7 +43,8 @@ git config --list --local
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ git config --list --local
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -70,13 +62,19 @@ git config --list --local
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not store secrets in repository config — use environment variables or a secret manager.
 
 
 ---
 
+
 ## Related
 
 [[GIT]]
+
+## Sources
+
+- [Wikipedia — git repo config](https://en.wikipedia.org/wiki/git_repo_config)

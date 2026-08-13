@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **NIC** terminates Ethernet (or IB) and exposes a **kernel netdev** (`eth0`, `ens5`):
 
@@ -36,7 +27,8 @@ Speed tiers (common server):
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Identify NIC and link
 
@@ -71,7 +63,8 @@ ip -s link show ens5
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +74,7 @@ ip -s link show ens5
 | VM shows 10G but slow | Credit-based limit | Right-size instance; check [[Egress traffic]] caps |
 
 ---
+
 
 ## Gotchas
 
@@ -95,12 +89,18 @@ ip -s link show ens5
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 Don't deploy 10G NICs without **switch ports and storage** to match — 10G east-west with 1G uplink shifts bottleneck to [[Egress traffic]] only.
 
 ---
 
+
 ## Related
 
 [[ethtool]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[UDP]] [[Egress and Ingress]]
+
+## Sources
+
+- [Wikipedia — 10 NIC](https://en.wikipedia.org/wiki/10_NIC)

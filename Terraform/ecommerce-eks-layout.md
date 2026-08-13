@@ -6,21 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#AWS / cluster strategy]]
-- [[#Sample Terraform directory structure]]
-- [[#Sample Helm directory structure]]
-- [[#Terraform ↔ Helm handoff]]
-- [[#CI integration touchpoints]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 ```txt
 terraform/
@@ -38,7 +24,8 @@ helm/
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 cd live/dev
@@ -47,7 +34,8 @@ terraform plan
 terraform apply
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,6 +46,32 @@ terraform apply
 | State lock | [[Terraform workflow]] | `terraform force-unlock` after confirming no run |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **One mega Terraform root** — blast radius; split state: `network`, `eks`, `data` per env.
+
+> [!WARNING]
+> **Helm chart copying Deployment yaml eight times** — use library chart `_common` templates.
+
+> [!WARNING]
+> **MSK + RDS in same module as EKS** — coupling; harder to destroy dev without wiping data — use `prevent_destroy` on prod data modules.
+
+> [!WARNING]
+> **live-canary namespace without NetworkPolicy** — canary talks to prod Kafka topics — enforce `prod.` prefix ACLs on MSK.
+
+---
+
+
+## When not to use
+
+- **Local/docker-compose only** — use [[Terraform docker]] + compose for development; skip EKS module until integration environment needed.
+- **ECS instead of EKS** — replace `modules/eks` with ECS/Fargate module; Helm section becomes task definitions.
+
+---
+
 
 ## AWS / cluster strategy
 
@@ -77,6 +91,7 @@ terraform apply
 - `promotions-burst` — optional pool with higher max for flash sales (scale via Karpenter or CA)
 
 ---
+
 
 ## Sample Terraform directory structure
 
@@ -176,6 +191,7 @@ module "irsa_payment" {
 Pin versions per [[Terraform setup]] — separate `terraform.tfvars` per environment; never share production secrets.
 
 ---
+
 
 ## Sample Helm directory structure
 
@@ -293,6 +309,7 @@ externalSecrets:
 
 ---
 
+
 ## Terraform ↔ Helm handoff
 
 | Concern | Terraform output → Helm input |
@@ -308,6 +325,7 @@ Use **External Secrets Operator** — Terraform creates Secrets Manager entries;
 
 ---
 
+
 ## CI integration touchpoints
 
 | Step | Path |
@@ -319,29 +337,11 @@ Use **External Secrets Operator** — Terraform creates Secrets Manager entries;
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **One mega Terraform root** — blast radius; split state: `network`, `eks`, `data` per env.
-
-> [!WARNING]
-> **Helm chart copying Deployment yaml eight times** — use library chart `_common` templates.
-
-> [!WARNING]
-> **MSK + RDS in same module as EKS** — coupling; harder to destroy dev without wiping data — use `prevent_destroy` on prod data modules.
-
-> [!WARNING]
-> **live-canary namespace without NetworkPolicy** — canary talks to prod Kafka topics — enforce `prod.` prefix ACLs on MSK.
-
----
-
-## When NOT to use
-
-- **Local/docker-compose only** — use [[Terraform docker]] + compose for development; skip EKS module until integration environment needed.
-- **ECS instead of EKS** — replace `modules/eks` with ECS/Fargate module; Helm section becomes task definitions.
-
----
 
 ## Related
 
 [[Terraform setup]] · [[terraform]] · [[variable file]] · [[helm]] · [[cli]] · [[ingress]] · [[Kubernetes services]] · [[ecommerce-platform-architecture]] · [[ecommerce-cicd-environments]] · [[AWS ECR]] · [[Route53]]
+
+## Sources
+
+- [Wikipedia — ecommerce-eks-layout](https://en.wikipedia.org/wiki/ecommerce-eks-layout)

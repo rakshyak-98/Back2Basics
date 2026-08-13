@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Nominal multiclass treats "medium" versus "large" as equally wrong as "small" versus "large". Ordinal models encode **rank structure**:
 
@@ -38,7 +29,8 @@ Approaches:
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```python
 import numpy as np
@@ -69,7 +61,8 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,6 +74,7 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -91,7 +85,8 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Unordered categories** (cat/dog/bird) — [[multiclass classification]].
 - **True continuous measurement** — [[regression]] without bucketing.
@@ -99,6 +94,11 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
 ---
 
+
 ## Related
 
 [[multiclass classification]] · [[regression]] · [[ML Classifiers]] · [[Mean Average Precision (MAP)]] · [[Visualization/Residual plot]]
+
+## Sources
+
+- [Wikipedia — ordinal classification](https://en.wikipedia.org/wiki/ordinal_classification)

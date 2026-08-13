@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 In React + TypeScript, **`IntrinsicElements`** maps HTML tag names to their allowed attributes. **`IntrinsicAttributes`** is the small set every JSX element gets (mainly `key` and `ref`). Component authors extend this when wrapping native elements.
 
@@ -36,7 +27,8 @@ TypeScript: React.ButtonHTMLAttributes<HTMLButtonElement>
 
 Custom components do **not** automatically accept every DOM attribute unless you forward them (spread or explicit passthrough).
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Extend native element props on a wrapper
 
@@ -76,7 +68,8 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 // eslint react/jsx-props-no-spreading — often disabled for design-system primitives
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -85,6 +78,7 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 | Ref not attached | Functional component without `forwardRef` | Wrap with `React.forwardRef` |
 | Accessibility attrs rejected | Wrong element type | Match ARIA role to element (`button` vs `div role="button"`) |
 | Spread hides invalid props | `{...props}` too permissive | Narrow with `Pick` or explicit allowlist |
+
 
 ## Gotchas
 
@@ -96,11 +90,17 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 - **SVG versus HTML:** separate intrinsic element maps — `<svg>` attrs differ from `<div>`.
 - **React 19:** reference as prop reduces `forwardRef` boilerplate — check your React version typings.
 
-## When NOT to use
+
+## When not to use
 
 - Plain JavaScript React project without TS — compiler won't enforce intrinsic attrs.
 - Non-React frameworks (Vue `defineProps`, Svelte) — different attribute model.
 
+
 ## Related
 
 [[React/React data management]] [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] [[typescript]] [[javascript]]
+
+## Sources
+
+- [Wikipedia — intrinsic attributes](https://en.wikipedia.org/wiki/intrinsic_attributes)

@@ -1,87 +1,69 @@
-[[Linux/Bash/Bash functions]] [[Linux/Scripting]] [[Linux/commands/common commands]]
+[[DNS]] · [[Unbound]] · [[Linux/CLI]]
 
-# Unbound variable (bash `set -u`)
+# unbound variable
 
-> Referencing an unset shell variable is an error when `set -u` (nounset) is on — catches typos before prod scripts half-run.
+> In Bash, an unbound variable is a name you reference before it is set — `set -u` (nounset) turns silent empty expansion into a hard error so scripts fail fast instead of corrupting data.
 
 ---
 
-## Index
+## The problem
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Default bash expands unset variables to empty string — silent bugs (`rm -rf $DIR/` with empty DIR). **`set -u`** (or `set -o nounset`) aborts on unbound expansion. Often paired with **`set -e`** (errexit) and **`set -o pipefail`** in strict scripts. Not the Unbound DNS resolver — that's [[DNS]] infrastructure software.
+Default Bash expands unset variables to empty string:
 
 ```bash
-# default: echo $myvar  → empty line, exit 0
-# set -u:  echo $myvar  → error, exit non-zero
+DIR=
+rm -rf $DIR/*    # becomes rm -rf /* if DIR unset — catastrophic
 ```
 
-## Standard config / commands
+No error, no warning.
 
-### Strict mode header (common pattern)
+## nounset (`set -u`)
 
 ```bash
 #!/usr/bin/env bash
+set -u
+
+echo "$MISSING"   # bash: MISSING: unbound variable
+```
+
+Often combined in strict scripts:
+
+```bash
 set -euo pipefail
-IFS=$'\n\t'
 ```
 
-### Safe defaults
+| Flag | Effect |
+|------|--------|
+| `-e` | Exit on first command failure |
+| `-u` | Error on unbound variable |
+| `-o pipefail` | Pipeline fails if any stage fails |
+
+## Safe patterns
 
 ```bash
-: "${HOME:?HOME must be set}"
-PORT="${PORT:-8080}"           # default if unset
-echo "${myvar:-fallback}"
-```
+# Default value
+echo "${DIR:-/tmp/safe}"
 
-### Check if set
+# Require variable
+: "${API_KEY:?API_KEY must be set}"
 
-```bash
-if [[ -v myvar ]]; then
-  echo "set to $myvar"
+# Check before use
+if [[ -z "${DIR+x}" ]]; then
+  echo "DIR not set" >&2
+  exit 1
 fi
 ```
 
-### Temporarily disable (rare)
+## Not DNS Unbound
 
-```bash
-set +u
-# legacy snippet that needs unset vars
-set -u
-```
+This note is about **shell variables**, not the [[Unbound]] DNS resolver. Filename kept for vault search history.
 
-## Triage (when things break)
+## Recall
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `unbound variable` on start | Line number in trace | `set -x`; assign var or use `${var:-}` |
-| Works interactively, fails in CI | CI omits env | Export required env in workflow |
-| `$1` empty in script | No args passed | `:${1:?usage: $0 file}` |
-| Array unset | `set -u` + empty array | `"${arr[@]+"${arr[@]}"}"` pattern |
-| Sourced script order | Parent `set -u` | Initialize before source |
+- What does `set -u` change about `$UNDEFINED` in a script?
+- Why pair `set -u` with `set -e` in production shell scripts?
 
-## Gotchas
+## Sources
 
-> [!WARNING]
-> **`$?` immediately after** — test commands carefully with `set -e`.
->
-> **`read var` without default** — can trip nounset on empty input in loops.
->
-> **Don't confuse with Unbound DNS** — resolver config is `/etc/unbound/unbound.conf`.
-
-## When NOT to use
-
-- Don't enable `set -u` in ad-hoc interactive shells unless you enjoy surprise exits.
-- Don't use empty default `:-` to hide missing required configuration — fail loud with `:?` for secrets/paths.
-
-## Related
-
-[[Linux/Bash/Bash functions]] [[Linux/Scripting]] [[Linux/commands/common commands]]
+- [GNU Bash Manual — The Set Builtin](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html)
+- [RFC 1123 — robustness](https://datatracker.ietf.org/doc/html/rfc1122) (general fail-fast spirit)

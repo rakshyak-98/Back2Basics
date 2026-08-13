@@ -6,17 +6,22 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+```txt
+go mod init → edit code → go test ./... → go build
+```
+
+| Command | Job |
+|---------|-----|
+| `go mod tidy` | Sync require/sum |
+| `go run` | Compile+run |
+| `go build` / `install` | Artifact |
+| `go test -race` | Race detector |
+| `go doc` | Quick docs |
+
+---
+
 
 ## Quick reference
 
@@ -24,7 +29,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 go mod init github.com/you/app
@@ -53,31 +59,22 @@ grep Vm /proc/$pid/status
 
 ---
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-**Say it in one breath:** One binary drives modules (`mod`), compile (`build`/`run`), tests, and docs. Prefer `./...` patterns and modules over old `GOPATH` mode.
+## Examples
 
-```txt
-go mod init → edit code → go test ./... → go build
+```bash
+# …
 ```
 
-| Command | Job |
-|---------|-----|
-| `go mod tidy` | Sync require/sum |
-| `go run` | Compile+run |
-| `go build` / `install` | Artifact |
-| `go test -race` | Race detector |
-| `go doc` | Quick docs |
 
----
-
-## Triage (when things break)
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,6 +85,7 @@ go mod init → edit code → go test ./... → go build
 | Binary huge | Debug symbols | `-ldflags="-s -w"` |
 
 ---
+
 
 ## Gotchas
 
@@ -102,7 +100,8 @@ go mod init → edit code → go test ./... → go build
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Non-Go monorepo orchestration** — Bazel/Make wrap `go`, don’t replace understanding.
 - **Editing `go.sum` by hand** — never.
@@ -110,12 +109,11 @@ go mod init → edit code → go test ./... → go build
 
 ---
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[go]] [[Makefile]] [[go debugging]] [[go package]]
+
+## Sources
+
+- [Wikipedia — go cli](https://en.wikipedia.org/wiki/go_cli)

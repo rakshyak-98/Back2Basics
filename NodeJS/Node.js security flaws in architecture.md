@@ -6,34 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
-
-## Context
-
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
+## How it works
 
 Node services typically sit **directly on the internet** with:
 
@@ -51,7 +24,8 @@ Internet → reverse proxy (TLS terminate) → Express (trusts X-Forwarded-*) �
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Layer 0 — process & network
 
@@ -140,7 +114,8 @@ Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -152,6 +127,26 @@ Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 | Memory spike on POST | Missing body limit | `limit` on json/urlencoded |
 
 ---
+
+
+## Decision
+
+We will … because …
+
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
+
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
+
 
 ## Gotchas
 
@@ -172,19 +167,19 @@ Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Rolling custom crypto** — use libsodium/WebCrypto wrappers; never DIY JWT "for simplicity".
 - **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
 
 ---
 
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
 
 ## Related
 
 [[express error handler]] [[Express middleware]] [[Event Loop]] [[Node.js run as a non-privileged user]] [[TLS (Transport Layer Security)]]
+
+## Sources
+
+- [Wikipedia — Node.js security flaws in architecture](https://en.wikipedia.org/wiki/Node.js_security_flaws_in_architecture)

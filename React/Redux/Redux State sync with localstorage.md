@@ -1,95 +1,49 @@
-[[Redux]] [[Redux/redux persist]] [[Redux/redux middleware]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
 
-# Redux State sync with localStorage
+# Redux State sync with localstorage
 
-> Persist a slice across reloads — hydrate on store create, write on change via middleware.
+> Redux State sync with localstorage shapes how React applications compose UI, state, and side effects in production.
 
----
+## What this is
 
-## Index
+Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+## When to choose it
 
-## Mental model
+**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
+**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
+**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
 
-**Say it in one breath:** Read localStorage into `preloadedState` once; on matching actions, write the slice back. Prefer `listenerMiddleware` over saving every action.
-
-```txt
-boot → JSON.parse → preloadedState
-action → reducer → listener → localStorage.setItem
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **preloadedState** | Seed store at create | “Hydrate before first render.” |
-| **listenerMiddleware** | Run side effects on actions | “Save only auth login/logout.” |
-| **Two-way sync** | Storage ↔ slice | “Init read; change write.” |
-
-## Standard config / commands
+## Operating it
 
 ```ts
-const raw = localStorage.getItem('auth')
-const preloadedState = raw ? { auth: JSON.parse(raw) } : undefined
-
-const listener = createListenerMiddleware()
-listener.startListening({
-  matcher: isAnyOf(setCredentials, logout),
-  effect: (_a, api) => {
-    localStorage.setItem('auth', JSON.stringify(api.getState().auth))
+const slice = createSlice({
+  name: 'todos',
+  initialState: { items: [], status: 'idle' },
+  reducers: {
+    added(state, action) { state.items.push(action.payload); },
   },
-})
-
-export const store = configureStore({
-  reducer: { auth: authReducer },
-  preloadedState,
-  middleware: (gDM) => gDM().prepend(listener.middleware),
-})
+});
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| Narrow matcher | Avoid writing on every keystroke |
-| `prepend` listener | Runs before serializable checks when needed |
-| Try/catch parse | Corrupt JSON must not crash boot |
+Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
----
+## What breaks first
 
-## Triage (when things break)
+| Symptom | Likely cause | What to check |
+|---------|--------------|---------------|
+| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
+| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
+| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Always empty after refresh | Forgot `preloadedState` | Pass hydrated object to `configureStore` |
-| Writes on every action | Broad middleware | Match specific actions / `isAnyOf` |
-| Crash on boot | Bad JSON | try/catch; clear key |
-| Stale write after reset | Closed over old state | Read `api.getState()` inside effect |
-| Multi-tab drift | Only one-way | `storage` event or [[Redux/redux persist]] |
+## Recall
 
----
-
-## Gotchas
-
-> [!WARNING]
-> **Don’t store tokens in localStorage if XSS is in scope** — prefer httpOnly cookies / session strategy.
-
-> [!WARNING]
-> **Static `startListening` needs no `stopListening`** — only dynamic listeners return unsubscribe.
-
----
-
-## When NOT to use
-
-- **Full application persistence** — use [[Redux/redux persist]] with whitelist/blacklist.
-- **Server-secret state** — never put secrets in localStorage.
-
----
+What breaks first in production if `Redux State sync with localstorage` is misused — bundle size, stale UI, or hydration errors?
 
 ## Related
 
-[[Redux/redux persist]] [[Redux/redux middleware]] [[Redux/redux store architecture]] [[Redux toolkit]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux]] [[Redux Error]]
+
+## Sources
+
+- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)

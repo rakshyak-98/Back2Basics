@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 **Pkl** (.pkl files) describes configuration with **types, constraints, and composition**. Evaluator outputs formats for apps; **parameters** (e.g. `env=production`) select overlays at eval time — cleaner than duplicating `.env` files.
 
@@ -32,7 +23,8 @@ app.pkl + env prod.pkl/amends
 | Copy-paste per env | `amends` / imports compose configs |
 | Secret leakage risk | Eval at deploy; integrate with secret stores |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install CLI
 
@@ -100,7 +92,8 @@ pkl repl
 - run: ./deploy.sh config.json
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,6 +102,7 @@ pkl repl
 | Secret in git | Password in `.pkl` | Externalize; amends + CI inject at eval |
 | Drift prod vs staging | Duplicate keys | Single base + env amends files |
 | App can't read output | Format mismatch | Match `--format json` to parser |
+
 
 ## Gotchas
 
@@ -119,11 +113,17 @@ pkl repl
 - **Team learning curve** — new DSL; document REPL workflow for onboarding.
 - **Version pin** — pin Pkl CLI in CI for reproducible eval.
 
-## When NOT to use
+
+## When not to use
 
 - Single static `config.json` with no environment variance — overhead unjustified.
 - Org already standardized on [[Terraform/variable file]] + tfvars for infra-only configuration.
 
+
 ## Related
 
 [[Descriptive/doppler]] [[NodeJS/node-convict]] [[Terraform/variable file]] [[DevOps/Jenkins]]
+
+## Sources
+
+- [Wikipedia — Pkl environment variable management](https://en.wikipedia.org/wiki/Pkl_environment_variable_management)

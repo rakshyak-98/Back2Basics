@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Device A and Device B each open an *outbound* connection to the relay; the relay stitches those sockets and copies packets — inbound holes through NAT are not required.
+## How it works
 
 ```txt
 Peer A ──outbound──► Relay ◄──outbound── Peer B
@@ -48,7 +37,8 @@ Strict egress firewalls break STUN/TURN. Escapes (in order of commonality):
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 // WebRTC: relay = TURN in iceServers
@@ -78,7 +68,8 @@ turnutils_uclient -v -u user -w pass turn.example.com
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,6 +81,7 @@ turnutils_uclient -v -u user -w pass turn.example.com
 | Outbound totally blocked | Proxy/VPN required | Allowlist or tunnel; otherwise no P2P |
 
 ---
+
 
 ## Gotchas
 
@@ -104,7 +96,8 @@ turnutils_uclient -v -u user -w pass turn.example.com
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Same-LAN / host candidates already work** — don’t pay relay RTT and cost.
 - **One-to-many broadcast** — CDN + [[HLS]]/[[DASH]], not per-viewer relays.
@@ -112,6 +105,11 @@ turnutils_uclient -v -u user -w pass turn.example.com
 
 ---
 
+
 ## Related
 
 [[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT (Network Address Translation)]] [[NAT Traversal]] [[WebRTC]] [[P2P (Peer-to-Peer)]]
+
+## Sources
+
+- [Wikipedia — Relay server](https://en.wikipedia.org/wiki/Relay_server)

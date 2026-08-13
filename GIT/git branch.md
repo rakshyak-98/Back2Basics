@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** A **branch** is a named pointer to a commit. `HEAD` usually points at a branch (detached HEAD when it points directly to SHA). **Remote-tracking branches** (`origin/main`) mirror last-fetched.
+## How it works
 
 
 ```
@@ -30,7 +19,8 @@ feature ──────► commit D (ahead 2)
 
 Creating a branch is instant (new reference). **Merging/rebasing** moves history; deleting branch removes reference only, not commits until GC.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### List and inspect
 
@@ -87,7 +77,8 @@ git push origin --delete feature      # remote
 git branch -m old-name new-name
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,6 +88,7 @@ git branch -m old-name new-name
 | No upstream on push | `-u` not set | `git push -u origin branch` |
 | Detached HEAD | `git status` | `git switch main` or create branch at SHA |
 | Branch gone after clone | Default branch only | `git fetch --all`; checkout remote branch |
+
 
 ## Gotchas
 
@@ -109,11 +101,17 @@ git branch -m old-name new-name
 > [!WARNING]
 > **Long-lived branch drift** — rebase/merge main regularly to reduce conflict bomb.
 
-## When NOT to use
+
+## When not to use
 
 - **Immutable release tags** — use annotated tags for releases, not moving branch pointers.
 - **Storing unmerged WIP forever** — delete merged branches; rely on reflog short term.
 
+
 ## Related
 
 [[git command]] [[git merge]] [[git rebase]] [[git logs]] [[git worktree]]
+
+## Sources
+
+- [Wikipedia — git branch](https://en.wikipedia.org/wiki/git_branch)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 A **codec** (coder-decoder) transforms raw PCM/YUV into compressed bitstreams and back. Streaming stacks pick codecs at **ingest**, **transcode**, and **playback** — mismatches force expensive [[re-encoding]]. Manifests advertise codecs via **`CODECS`** (HLS) or **MP4 `codec` attributes** (DASH) so players reject unsupported combinations before download.
 
@@ -41,7 +32,8 @@ Raw samples ──► Audio codec (AAC/Opus/AC-3) ──► frames in fMP4/TS
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Capability matrix (2026 pragmatic default)
 
@@ -92,7 +84,8 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,6 +97,7 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 | Transcode queue backlog | AV1 software too slow | AV1 only for VoD farm; live stays H.264/HEVC + [[NVENC]] |
 
 ---
+
 
 ## Gotchas
 
@@ -121,7 +115,8 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Mezzanine archive** — use ProRes/DNxHR (editing), not H.264 delivery codec.
 - **AV1 for all live channels day one** — encode latency and CPU/GPU cost unless fleet sized for it.
@@ -129,6 +124,11 @@ ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 20 -c:a aac out.mp4
 
 ---
 
+
 ## Related
 
 [[AAC (Advanced Audio Coding)]] [[AV1]] [[Encoding]] [[transcoding]] [[re-encoding]] [[NVENC]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[CMAF]]
+
+## Sources
+
+- [Wikipedia — codecs](https://en.wikipedia.org/wiki/codecs)

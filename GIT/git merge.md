@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Merge finds the **merge base** (common ancestor) and integrates two tips into one. Three-way merge compares base → each branch and combines changes.
+## How it works
 
 
 ```
@@ -33,7 +22,8 @@ o---o---o---o  main
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Basic merge
 
@@ -99,7 +89,8 @@ git merge-tree $(git merge-base target-branch source-branch) target-branch sourc
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,6 +108,7 @@ git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -133,13 +125,19 @@ git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Always linear history requirement** — rebase feature onto main, then FF merge (or squash merge via PR).
 - **Integrating long-lived divergent forks** — merge is correct, but expect pain; consider subtree or rebase with coordination.
 
 ---
 
+
 ## Related
 
 [[git command]] [[git rebase]] [[git diff]] [[git branch]]
+
+## Sources
+
+- [Wikipedia — git merge](https://en.wikipedia.org/wiki/git_merge)

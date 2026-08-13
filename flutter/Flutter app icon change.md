@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Flutter application icon change — I can explain the job, the configuration, and the top failure without jargon.
+## How it works
 
 
 Instructions for replacing the default Flutter launcher icon with the green recycling trash icon (`WasteManagement.png`).
@@ -33,7 +22,8 @@ Instructions for replacing the default Flutter launcher icon with the green recy
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # version / help / dry-run when available
@@ -42,7 +32,8 @@ Instructions for replacing the default Flutter launcher icon with the green recy
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,6 +43,7 @@ Instructions for replacing the default Flutter launcher icon with the green recy
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -59,12 +51,18 @@ Instructions for replacing the default Flutter launcher icon with the green recy
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Skip when a simpler existing approach already fits.
 
 ---
 
+
 ## Related
 
 [[flutter]]
+
+## Sources
+
+- [Wikipedia — Flutter app icon change](https://en.wikipedia.org/wiki/Flutter_app_icon_change)

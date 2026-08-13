@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** keep the box bootable, patched, observable, and reversible — prefer distro tools over one-off hacks.
+## How it works
 
 ```txt
 patch (apt) → services (systemctl) → logs (journalctl)
@@ -37,7 +26,8 @@ patch (apt) → services (systemctl) → logs (journalctl)
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 sudo apt-get update && sudo apt-get upgrade
@@ -54,7 +44,8 @@ sudo needrestart   # if installed
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,6 +55,7 @@ sudo needrestart   # if installed
 | Can’t SSH | console/cloud serial | Fix sshd/firewall via out-of-band |
 
 ---
+
 
 ## Gotchas
 
@@ -75,13 +67,19 @@ sudo needrestart   # if installed
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pets that should be cattle** — rebuild from image instead of endless surgery.
 - **application deploys** — separate from OS management pipelines.
 
 ---
 
+
 ## Related
 
 [[Package Manager]] [[systemctl]] [[journalctl]] [[Linux management]]
+
+## Sources
+
+- [Wikipedia — Linux system management](https://en.wikipedia.org/wiki/Linux_system_management)

@@ -6,34 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Context]]
-- [[#Decision]]
-- [[#Consequences]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Alternatives considered]]
-- [[#Related]]
-
-## Context
-
-…
-
-## Decision
-
-We will … because …
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-## Mental model
+## How it works
 
 A decision tree asks a sequence of **yes/no questions** on one feature at a time until a leaf assigns a class (classification) or average target (regression).
 
@@ -54,7 +27,8 @@ A decision tree asks a sequence of **yes/no questions** on one feature at a time
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### scikit-learn (classification)
 
@@ -101,7 +75,8 @@ print(export_text(clf, feature_names=list(X.columns)))
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,6 +87,26 @@ print(export_text(clf, feature_names=list(X.columns)))
 | Slow training on wide data | `max_features`, depth | Limit depth; use `max_features`; switch to [[Random forest]] / [[xg boost]] |
 
 ---
+
+
+## Decision
+
+We will … because …
+
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
+
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
+
 
 ## Gotchas
 
@@ -129,7 +124,8 @@ print(export_text(clf, feature_names=list(X.columns)))
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **High-dimensional sparse text** without feature engineering — linear + hashing or embeddings beat deep single trees.
 - **Need calibrated probabilities** from one tree — use [[Random forest]], [[Gradient boosting]], or Platt/isotonic calibration.
@@ -138,12 +134,11 @@ print(export_text(clf, feature_names=list(X.columns)))
 
 ---
 
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
 
 ## Related
 
 [[Random forest]] · [[Gradient boosting]] · [[xg boost]] · [[binary classification]] · [[multiclass classification]] · [[scikitlearn]] · [[data preprocessing]]
+
+## Sources
+
+- [Wikipedia — Decision tree](https://en.wikipedia.org/wiki/Decision_tree)

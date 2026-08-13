@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 Network configuration is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.
 
@@ -45,7 +36,8 @@ ip neigh ──► ARP/NDP cache
 | **ip link** | Up/down interfaces | “ip link set eth0 up.” |
 | **netns** | Network namespace | “Containers = netns + veth.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 **Links:**
 
@@ -108,7 +100,8 @@ watch -n1 'ip -s link show ens5'
 sar -n DEV 1 5                        # needs sysstat
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -119,6 +112,7 @@ sar -n DEV 1 5                        # needs sysstat
 | ARP failures | `ip neigh` INCOMPLETE | Cable/gw down; stale neigh flush |
 | Config lost on reboot | Only `ip` CLI used | Persist in Netplan/NM/systemd-networkd |
 | Stats show drops/errors | `ip -s link` | Driver/firmware; ring buffer; [[ss]] for app backlog |
+
 
 ## Gotchas
 
@@ -134,13 +128,19 @@ sar -n DEV 1 5                        # needs sysstat
 > [!WARNING]
 > **Changing MTU on live TCP** — can reset connections. Maintenance window for production NICs.
 
-## When NOT to use
+
+## When not to use
 
 - **Socket/process ownership** → [[ss]] `-lntp`.
 - **DNS resolution** → `resolvectl`, `dig` — `ip` is L3.
 - **Firewall** → nftables/iptables — routes don't filter packets.
 - **Persistent production networking** → configuration management, not ad-hoc CLI only.
 
+
 ## Related
 
 [[routing table]] [[route]] [[Linux network commands]] [[ss]] [[netstat]] [[BGP]]
+
+## Sources
+
+- [Wikipedia — ip](https://en.wikipedia.org/wiki/ip)

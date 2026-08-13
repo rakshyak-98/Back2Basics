@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Optional: redirects HTTP -> HTTPS — you can ping api.localhost and it'll look back to your machine.
+## How it works
 
 Add fake domains to `/etc/hosts`
 ```
@@ -61,7 +50,8 @@ sudo systemctl reload nginx;
 ### TLS self-signed certificate
 Generate a self signed certificate [[openssl#Generate self signed certificate]]
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 server {
@@ -74,7 +64,8 @@ server {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,6 +75,7 @@ server {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -91,13 +83,19 @@ server {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not serve many unrelated tenants from one `server` block without strict `server_name` lists.
 
 
 ---
 
+
 ## Related
 
 [[Nginx]]
+
+## Sources
+
+- [Wikipedia — multi-domain](https://en.wikipedia.org/wiki/multi-domain)

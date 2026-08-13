@@ -6,20 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
-
-**Say it in one breath:** Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
-
-## Standard config / commands
+## Configuration and commands
 
 ```bash
 kubectl get pods -A -o wide
@@ -30,7 +20,8 @@ kubectl delete pod my-pod --grace-period=0 --force   # last resort
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -41,6 +32,7 @@ kubectl delete pod my-pod --grace-period=0 --force   # last resort
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -48,13 +40,19 @@ kubectl delete pod my-pod --grace-period=0 --force   # last resort
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Do not run more than one main process per container — use sidecars for helpers.
 
 
 ---
 
+
 ## Related
 
 [[kubectl]] · [[kubectl pod creation]] · [[Kubernetes services]] · [[ingress]]
+
+## Sources
+
+- [Wikipedia — Pods](https://en.wikipedia.org/wiki/Pods)

@@ -6,16 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
+## How it works
 
 The kernel discovers PCI devices at boot and exposes them in `/sys/bus/pci/devices/`. `lspci` reads that tree and resolves vendor/device IDs via the **pci.ids** database. It shows what the OS sees — not whether drivers are loaded or firmware is healthy.
 
@@ -44,7 +35,8 @@ lspci ──► /sys/bus/pci ──► vendor:device ID ──► human name (pc
 | **vendor:device** | Hardware IDs | “Match firmware/driver quirks.” |
 | **rescan** | Hotplug | “echo 1 > …/rescan after add.” |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Inventory
@@ -84,7 +76,8 @@ ls -l /sys/bus/pci/devices/0000:03:00.0/driver
 dmesg | grep -i '03:00.0'
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +87,7 @@ dmesg | grep -i '03:00.0'
 | Device shown, no driver | `lspci -k` shows no driver | `modprobe`; install `linux-modules-extra` |
 | Wrong link speed | `lspci -vv` LnkSta | Reseat cable; BIOS Gen setting; bad slot |
 | VM missing device | Hypervisor PCI attach | virtio/passthrough config; not visible = not passed |
+
 
 ## Gotchas
 
@@ -109,13 +103,19 @@ dmesg | grep -i '03:00.0'
 > [!WARNING]
 > **Slot numbering** — `0000:03:00.0` domain:bus:device.function — use full name with `-s` on multi-socket systems.
 
-## When NOT to use
+
+## When not to use
 
 - **USB peripherals** → `lsusb`.
 - **CPU/RAM inventory** → [[dmidecode]].
 - **Block device health** → `smartctl`, `nvme cli`.
 - **Network configuration** → [[ip]], [[ss]] — lspci only finds the card.
 
+
 ## Related
 
 [[dmidecode]] [[Linux system management]] [[Linux configuration]] [[eBPF]]
+
+## Sources
+
+- [Wikipedia — lspci](https://en.wikipedia.org/wiki/lspci)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Each connection costs FDs, memory, and timer softirq. Throughput ≠ concurrency; long-lived streams burn concurrency without huge RPS.
+## How it works
 
 ```txt
 clients ══╗
@@ -34,7 +23,8 @@ clients ══╝
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 ss -s
@@ -51,7 +41,8 @@ sysctl net.core.somaxconn
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,6 +53,7 @@ sysctl net.core.somaxconn
 | LB 502 under load | Backend conn cap | Raise upstream; warm pools |
 
 ---
+
 
 ## Gotchas
 
@@ -76,7 +68,8 @@ sysctl net.core.somaxconn
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Pure batch jobs** — connections short; optimize CPU/IO instead.
 - **Serverless with tiny concurrency** — different scaling story.
@@ -84,6 +77,11 @@ sysctl net.core.somaxconn
 
 ---
 
+
 ## Related
 
 [[Throughput]] [[backpressure]] [[TCP]] [[Real-time Subscription]] [[Scaling Throughput in High-load system]]
+
+## Sources
+
+- [Wikipedia — concurrent connection](https://en.wikipedia.org/wiki/concurrent_connection)

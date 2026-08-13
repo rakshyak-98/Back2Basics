@@ -1,89 +1,38 @@
-[[systemd]] [[systemctl]] [[D-Bus]]
+[[services/systemd]] [[Linux configuration]]
 
 # systemd-hostnamed
 
-> systemd-hostnamed is the daemon behind `hostnamectl` — static/pretty/transient hostname via D-Bus.
+> `systemd-hostnamed` is a D-Bus service that sets transient hostname, static hostname, and icon/chassis metadata — `hostnamectl` is the CLI front end.
 
----
-
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** `hostnamectl` → D-Bus → hostnamed; `/etc/hostname` is what survives reboot.
-
-```txt
-hostnamectl ──D-Bus──► systemd-hostnamed
-                              │
-                              ├─ /etc/hostname (static)
-                              └─ kernel utsname (runtime)
-```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **static hostname** | `/etc/hostname` | “What comes back after reboot.” |
-| **pretty hostname** | Human display name | “Can have spaces — not for DNS.” |
-| **transient** | Runtime-only | “DHCP/cloud may set it.” |
-| **hostnamectl** | CLI front-end | “Prefer over hand-editing files.” |
-| **chassis** | desktop/server/vm | “Hint for UI/power policy.” |
-
----
-
-## Standard config / commands
+## Commands
 
 ```bash
-hostnamectl
-sudo hostnamectl set-hostname api-prod-01
-sudo hostnamectl set-hostname "API Prod 01" --pretty
-cat /etc/hostname
-hostname -f
-systemctl status systemd-hostnamed
+hostnamectl status
+sudo hostnamectl set-hostname app01.example.com
+sudo hostnamectl set-hostname app01 --static
+sudo hostnamectl set-hostname edge --transient
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| `set-hostname` | Updates static + runtime |
-| `--pretty` | UI label only |
+## Files involved
 
----
+| Source | File |
+|--------|------|
+| Static | `/etc/hostname` |
+| Pretty | `/etc/machine-info` (`PRETTY_HOSTNAME`) |
+| Transient | kernel hostname (until reboot) |
 
-## Triage (when things break)
+## Service
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Name reverts after reboot | cloud-init / DHCP | Pin in cloud-init; stop overwrite |
-| hostnamectl fails | hostnamed down | `systemctl status systemd-hostnamed` |
-| Apps see old name | Cache / hosts | Restart app; fix `/etc/hosts` |
-| FQDN wrong | `/etc/hosts` | Align IP ↔ hostname entries |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> **Pretty ≠ DNS** — never put spaces in the static hostname.
-
-> [!WARNING]
-> **Cloud images** often rewrite hostname every boot via cloud-init.
-
----
-
-## When NOT to use
-
-- **DNS search domains** — that’s resolved/NetworkManager.
-- **Container/pod names** — namespace-local; hostnamed won’t rename a pod.
-
----
+```bash
+systemctl status systemd-hostnamed
+busctl introspect org.freedesktop.hostname1
+```
 
 ## Related
 
-[[systemd]] [[systemctl]] [[D-Bus]] [[NTP sync]]
+[[services/D-Bus]] · [[commands/busctl]] · [[etc files]]
+
+## Sources
+
+- [hostnamectl(1)](https://www.freedesktop.org/software/systemd/man/latest/hostnamectl.html)
+- [org.freedesktop.hostname1](https://www.freedesktop.org/software/systemd/man/latest/org.freedesktop.hostname1.html)

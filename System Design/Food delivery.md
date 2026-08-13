@@ -1,89 +1,57 @@
-[[System Design]] [[Eventual consistency]] [[backpressure]] [[Real-time Subscription]]
+[[Eventual consistency]] [[backpressure]] [[Real-time Subscription]] [[database sharding]] [[API design]]
 
 # Food delivery
 
-> Food-delivery design — geo-local marketplace: menu browse, sub-2s order accept, chef/driver state machine, async status fan-out at huge DAU.
+> Food-delivery platforms combine geo-local discovery, transactional ordering, and real-time logistics — separate read-heavy catalog search from write-heavy order state machines with explicit cancellation rules.
 
 ---
 
-## Index
+## Constraints drive architecture
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Split read-heavy discovery (search/geo) from write-heavy order transactions; assignment and notifications are async workflows with clear cancellation rules.
+| Requirement (example) | Design response |
+|-----------------------|-----------------|
+| Large daily active users, kilo-queries per second | Cache menus; shard orders by region or restaurant |
+| Sort restaurants within radius | Geospatial index (tiles, geohash, search engine) |
+| Cancel until cooking starts | Server-enforced state machine |
+| Sub-two-second order accept | Synchronous persist of order; async dispatch and notify |
+| Status on every transition | Pub/sub or push ([[Real-time Subscription]]) |
 
 ```txt
-User → API → Order service → (events) → Restaurant / Dispatch / Notify
-                │
-                └── durable order log (years of history)
+Customer → API → Order service → events → Restaurant / Dispatch / Notify
+                      │
+                      └── durable order log (years of retention)
 ```
 
-| Constraint (example) | Design implication |
-|----------------------|--------------------|
-| ~100M DAU / multi-kQPS | Cache menus; shard orders |
-| ~20 mi radius sort | Geo index / tiles |
-| Cancel until cook starts | Explicit state machine |
-| <2s accept | Sync persist + async rest |
-| Status every change | Pub/sub / push |
-
----
-
-## Standard config / commands
+## Order state machine
 
 ```txt
-States: created → accepted → cooking → ready → picked_up → delivered
-                         ↘ cancelled (only before cooking)
+created → accepted → cooking → ready → picked_up → delivered
+                  ↘ cancelled (only before cooking, server-side guard)
 ```
 
 | Store | Role |
 |-------|------|
-| Catalog/search | Elastic/OpenSearch + CDN |
-| Orders | Strongly consistent primary |
-| Dispatch | Matching service + ETA models |
-| Notifications | Queue → push/SMS |
+| Catalog / search | Elasticsearch or OpenSearch + content delivery network |
+| Orders | Strongly consistent primary (money path) |
+| Dispatch | Matching service, estimated time of arrival models |
+| Notifications | Queue → push / short message service |
 
----
+## Critical paths
 
-## Triage (when things break)
+**Checkout** must revalidate price and item availability — menu cache can be stale ([[cache system]]). **Payment** requires idempotency keys on create ([[API design]]) to survive retries.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Order accept >2s | DB lock / payment sync | Defer payment auth; optimize write path |
-| Double charge | Retry without idempotency | Idempotency-Key on create |
-| Driver never assigned | Dispatch lag / geo | Scale matcher; fallback pool |
-| Cancel after cook | State guard missing | Enforce transitions server-side |
-| Notification storm | Fan-out bug | Dedupe by order+state |
+**Dispatch** is asynchronous; customers tolerate assignment delay more than wrong "delivered" status. Dedupe notifications by `order_id + state`.
 
----
+## Hot spots and overload
 
-## Gotchas
+Stadium or city-wide demand spikes need **surge capacity** and **demand shedding** ([[backpressure]]) — cap concurrent orders per kitchen, extend estimated time of arrival, or pause new accepts.
 
-> [!WARNING]
-> **Menu cache vs price at checkout** — revalidate price on submit.
+## Interview versus production
 
-> [!WARNING]
-> **Geo hot spots (stadium)** — surge capacity + demand shedding.
+Pin **queries per second**, **latency service level objectives**, and **consistency** for money before drawing boxes. A single-restaurant point-of-sale does not need a marketplace architecture.
 
-> [!WARNING]
-> **Exactly-once delivery status** — users forgive delay more than wrong “delivered.”
+## Sources
 
----
-
-## When NOT to use
-
-- **Single restaurant POS** — don’t build a marketplace.
-- **Interview without numbers** — always pin QPS/SLO first.
-- **Copy Uber Eats wholesale** — scope to your actual constraints.
-
----
-
-## Related
-
-[[Eventual consistency]] [[backpressure]] [[Real-time Subscription]] [[database sharding]] [[Quorum]]
+- Uber Engineering blog — dispatch, geospatial indexing, surge pricing.
+- DoorDash engineering — order pipeline and logistics optimization.
+- Martin Kleppmann, *Designing Data-Intensive Applications* — workflow and event-driven patterns.

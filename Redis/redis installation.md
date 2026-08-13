@@ -6,33 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Prerequisites]]
-- [[#Steps]]
-- [[#Verification]]
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Triage (when things break)]]
-- [[#Related]]
-
-## Prerequisites
-
-…
-
-## Steps
-
-1. …
-
-## Verification
-
-```bash
-# smoke test
-```
-
-## Mental model
+## How it works
 
 ```
 Package / image ──► redis-server ──► reads redis.conf
@@ -44,7 +18,8 @@ Package / image ──► redis-server ──► reads redis.conf
 
 **Default upstream packages** expose `6379` with **protected-mode** if no password and bind not restricted — fine for development trap, dangerous if firewall wrong.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Install (Debian/Ubuntu — official redis.io repo)
 
@@ -167,6 +142,31 @@ sudo chmod 640 /etc/redis/redis.conf
 # secrets outside world-readable paths
 ```
 
+
+## When things break
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Connection refused` | `systemctl status`; bind | Start service; fix `bind`; firewall |
+| `NOAUTH` | ACL/requirepass | Update app URL; `ACL LIST` |
+| Starts then exits | `journalctl -u redis-server` | Bad `dir` permissions; corrupt AOF → `redis-check-aof` |
+| Can't write config | `CONFIG SET` without rewrite | Edit redis.conf; restart; fix ownership |
+| OOM on host | no `maxmemory` | Set cap + eviction policy |
+| Exposed to internet scan | Shodan/censys; `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
+
+
+## Steps
+
+1. …
+
+
+## Verification
+
+```bash
+# smoke test
+```
+
+
 ## Gotchas
 
 > [!WARNING]
@@ -181,23 +181,18 @@ sudo chmod 640 /etc/redis/redis.conf
 - **Package upgrade** — configuration diff in `/etc/redis/redis.conf.dpkg-old`; merge don't blind overwrite.
 - **Docker sidecar** — bind `127.0.0.1` in container ≠ host; use network namespace or shared volume unix socket.
 
-## When NOT to use
+
+## When not to use
 
 - **Multi-master write on open network** — use managed Redis / cluster with proper topology.
 - **requirepass only on 6+** — migrate to ACL for command-level least privilege.
 - **Installing from random PPA** — use official redis.io or distro you trust; pin version.
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Connection refused` | `systemctl status`; bind | Start service; fix `bind`; firewall |
-| `NOAUTH` | ACL/requirepass | Update app URL; `ACL LIST` |
-| Starts then exits | `journalctl -u redis-server` | Bad `dir` permissions; corrupt AOF → `redis-check-aof` |
-| Can't write config | `CONFIG SET` without rewrite | Edit redis.conf; restart; fix ownership |
-| OOM on host | no `maxmemory` | Set cap + eviction policy |
-| Exposed to internet scan | Shodan/censys; `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
 
 ## Related
 
 [[redis-cli]] [[systemd]] [[connection pooling]] [[Docker compose]]
+
+## Sources
+
+- [Wikipedia — redis installation](https://en.wikipedia.org/wiki/redis_installation)

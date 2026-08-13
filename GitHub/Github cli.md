@@ -6,17 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Quick reference]]
-- [[#Standard config / commands]]
-- [[#Options / flags]]
-- [[#Mental model]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Examples]]
-- [[#Related]]
+`gh` wraps GitHub REST/GraphQL with repository-aware defaults (current directory's remote). authentication is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repository, environment, or org.
+
 
 ## Quick reference
 
@@ -24,7 +17,8 @@
 |------|---------|
 | … | `…` |
 
-## Standard config / commands
+
+## Configuration and commands
 
 ### Auth (once per machine)
 
@@ -75,17 +69,22 @@ gh repo delete owner/repo --yes   # destructive; needs admin
 gh pr list --json number,title,author --jq '.[] | "\(.number) \(.title)"'
 ```
 
-## Options / flags
+
+## Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-## Mental model
 
-`gh` wraps GitHub REST/GraphQL with repository-aware defaults (current directory's remote). authentication is per-host (`github.com`, GHES). Most commands accept `--json` for scripting. Secrets and variables are scoped: repository, environment, or org.
+## Examples
 
-## Triage (when things break)
+```bash
+# …
+```
+
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,6 +93,7 @@ gh pr list --json number,title,author --jq '.[] | "\(.number) \(.title)"'
 | Wrong repo context | `gh repo view` | `cd` to repo root or `-R owner/repo` |
 | `gh pr create` no commits | `git status` | Push branch first |
 | API rate limit | `gh api rate_limit` | Wait or use PAT with higher limit |
+
 
 ## Gotchas
 
@@ -104,17 +104,17 @@ gh pr list --json number,title,author --jq '.[] | "\(.number) \(.title)"'
 >
 > **GHES hostname** — must pass `--hostname` on every command or set default during login.
 
-## When NOT to use
+
+## When not to use
 
 - Don't use `gh` in CI instead of `GITHUB_TOKEN` + native actions — use `gh` locally and in ad-hoc scripts.
 - Don't store long-lived PATs in shell profiles — use `gh auth login` credential store.
 
-## Examples
-
-```bash
-# …
-```
 
 ## Related
 
 [[Github runner]] [[Github action]] [[GIT/git command]] [[gpg sign]]
+
+## Sources
+
+- [Wikipedia — Github cli](https://en.wikipedia.org/wiki/Github_cli)

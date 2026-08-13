@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Pass a BCP 47 locale + options; the engine formats with CLDR data. Prefer `Intl` over hand-rolled separators or shipping Moment just for dates.
+## How it works
 
 ```txt
 value + locale + options ──Intl.*Format──► string
@@ -34,7 +23,8 @@ value + locale + options ──Intl.*Format──► string
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```js
 new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(123456)
@@ -52,7 +42,8 @@ new Intl.ListFormat('en', { type: 'conjunction' }).format(['A', 'B', 'C'])
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ new Intl.ListFormat('en', { type: 'conjunction' }).format(['A', 'B', 'C'])
 | Sort “wrong” | Default `>` compare | Use `Collator` |
 
 ---
+
 
 ## Gotchas
 
@@ -77,7 +69,8 @@ new Intl.ListFormat('en', { type: 'conjunction' }).format(['A', 'B', 'C'])
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **Timezone-heavy calendars** — consider Temporal / a date lib.
 - **ICU message syntax apps** — FormatJS / bilingual message frameworks.
@@ -85,6 +78,11 @@ new Intl.ListFormat('en', { type: 'conjunction' }).format(['A', 'B', 'C'])
 
 ---
 
+
 ## Related
 
 [[moment]] [[Packages]] [[LF and CRLF]]
+
+## Sources
+
+- [Wikipedia — Intl Formattor](https://en.wikipedia.org/wiki/Intl_Formattor)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** pnpm logs — pNPM, like npm, stores logs when commands fail or require debug information.
+## How it works
 
 ### **Location of PNPM Logs**
 PNPM, like npm, stores logs when commands fail or require debug information.
@@ -83,3 +72,7 @@ Manually redirect PNPM output to a file for storage:
 ## Related
 
 [[npm]]
+
+## Sources
+
+- [Wikipedia — pnpm logs](https://en.wikipedia.org/wiki/pnpm_logs)

@@ -6,18 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** First HTTPS response can send `Strict-Transport-Security`; for `max-age` seconds the browser upgrades `http://` to `https://` automatically and refuses to ignore invalid certs (when policy applies).
+## How it works
 
 ```txt
 User types http://example.com
@@ -33,7 +22,8 @@ User types http://example.com
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
@@ -52,7 +42,8 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,6 +54,7 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 | Mixed content after HSTS | HTTP asset URLs | Upgrade URLs / CSP upgrade-insecure-requests |
 
 ---
+
 
 ## Gotchas
 
@@ -77,7 +69,8 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **HTTP-only internal tools** — HSTS will fight you.
 - **Hosts with intentional HTTP APIs on same domain** — split hosts or avoid `includeSubDomains`.
@@ -85,6 +78,11 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 ---
 
+
 ## Related
 
 [[https]] [[TLS (Transport Layer Security)]] [[response header]] [[content security policy]] [[certbot (letsencrypt)]]
+
+## Sources
+
+- [Wikipedia — HTTP Strict Transport Security](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)

@@ -6,23 +6,13 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** nginx fastcgi — if you want nginx to handle other languages, you have two main routes.
+## How it works
 
 [fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
 if you want nginx to handle other languages, you have two main routes.
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```nginx
 location ~ \.php$ {
@@ -34,7 +24,8 @@ location ~ \.php$ {
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -44,6 +35,7 @@ location ~ \.php$ {
 
 ---
 
+
 ## Gotchas
 
 > [!WARNING]
@@ -51,13 +43,19 @@ location ~ \.php$ {
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - Prefer php-fpm over legacy `mod_php` in Apache for isolation.
 
 
 ---
 
+
 ## Related
 
 [[Nginx]]
+
+## Sources
+
+- [Wikipedia — nginx fastcgi](https://en.wikipedia.org/wiki/nginx_fastcgi)

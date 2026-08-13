@@ -1,100 +1,66 @@
-[[DNS]] [[DNS zone]] [[DNS server]] [[DSN records]]
+[[DNS]] · [[DNS zone]] · [[dns record]] · [[BIND]] · [[Unbound]]
 
 # name server
 
-> Name server — authoritative DNS server that stores and answers the official records for a zone (what NS records point at).
+> A nameserver answers DNS queries for zones it is authoritative for, or recursively resolves names on behalf of clients — confuse the two roles and you will open an open resolver or break delegation.
 
 ---
 
-## Index
+## Roles
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
+| Role | Behavior |
+|------|----------|
+| **Authoritative** | Answers from zone data (primary or secondary) |
+| **Recursive (resolver)** | Walks the tree starting at root hints; caches answers |
+| **Stub resolver** | Forwards to configured recursive resolver |
 
-## Mental model
+An open recursive server on the public Internet amplifies DDoS — lock down [[Unbound]] and [[BIND]] recursion to trusted networks.
 
-**Say it in one breath:** Resolvers follow NS delegations until they hit a name server that is **authoritative** for `example.com` and returns A/MX/TXT from that zone — not a recursive cache guessing.
+## Authoritative tiers in the global tree
 
-```txt
-Root → TLD (.com) → NS ns1.dns-provider.com (authoritative for example.com)
-                              │
-                         answers A/MX/...
+```
+Root (.)  →  TLD (.com, .org)  →  Registrant zone (example.com)
 ```
 
-```txt
-example.com.    3600   IN   NS   ns1.dns-provider.com.
-example.com.    3600   IN   NS   ns2.dns-provider.com.
-```
+Each level refers to **NS records** pointing downward. Your registrar publishes NS for your domain at the TLD.
 
-### Interview map (words you can say)
+## Primary vs secondary
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Authoritative** | Has the zone’s official data | “AA bit set — this is the source.” |
-| **Delegation** | Parent NS points to child NS | “Registrar NS set must match zone NS.” |
-| **Primary / secondary** | Hidden master vs AXFR slaves | “Secondaries copy; primaries edit.” |
-| **Glue** | A/AAAA for NS inside the child zone | “Without glue, chicken-and-egg.” |
-| **Recursive resolver** | Different role — walks the tree for clients | “Unbound/8.8.8.8 are not your NS.” |
+| | Primary (master) | Secondary (slave) |
+|---|----------------|-------------------|
+| **Edits** | Zone file or API changes here | Read-only copy |
+| **Distribution** | NOTIFY + AXFR/IXFR to secondaries | Polls SOA serial |
+| **Failure** | Promote secondary or restore from backup | Serves if primary down |
 
----
+## Software in this vault
 
-## Standard config / commands
+| Server | Typical role |
+|--------|--------------|
+| [[BIND]] | Authoritative + recursive (enterprise, ISP) |
+| [[Unbound]] | Validating recursive resolver |
+| [[CoreDNS]] | Kubernetes cluster DNS, plugins |
+| [[dnsmasq]] | DHCP + local forwarding on edge/LAN |
+| [[PoserDNS]] | Authoritative server (PowerDNS) |
+
+## Query path
 
 ```bash
-dig +short NS example.com
-dig NS example.com @a.gtld-servers.net   # what the parent delegates
-dig example.com SOA
-dig +nssearch example.com
-
-# Compare parent delegation vs apex NS RRset
-dig NS example.com @ns1.dns-provider.com
+dig @ns1.example.com example.com SOA    # direct authoritative
+dig @8.8.8.8 example.com A               # recursive path
 ```
 
-| Knob | Why it matters |
-|------|----------------|
-| ≥2 NS on different networks | Single NS outage = domain dark |
-| SOA serial | Secondaries and operators use it for change tracking |
-| NOTIFY/AXFR ACLs | Leaks and stale secondaries |
+## Health checks
 
----
+- **SOA serial** increases after edits
+- **DNSSEC** validation if enabled (`dig +dnssec`)
+- **Latency** and **QPS** under attack ([[DNS rebinding]] defenses at application layer are separate)
 
-## Triage (when things break)
+## Recall
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Domain works at registrar dig, not public | Parent NS ≠ zone NS | Align delegation at registrar |
-| SERVFAIL | Auth down / lame delegation | Fix NS targets; heal primaries |
-| Stale answers on one NS | Secondary not transferring | Fix AXFR/TSIG; bump serial; NOTIFY |
-| NS hostname won’t resolve | Missing glue | Add glue A/AAAA at parent |
-| Slow failover | High NS TTLs | Lower before maintenance; diversify anycast |
+- Why should public authoritative servers not offer recursion to the world?
+- What is the difference between NS records at the parent vs in the child zone?
 
----
+## Sources
 
-## Gotchas
-
-> [!WARNING]
-> **Lame delegation** — parent points at a host that doesn’t answer authoritatively for the zone.
-
-> [!WARNING]
-> **Registrar “nameservers” UI** — that edits *delegation*, not necessarily your zone file contents.
-
-> [!WARNING]
-> **Using a recursive IP as NS** — looks fine in a browser cache test; breaks AA and DNSSEC.
-
----
-
-## When NOT to use
-
-- **You only need to resolve other people’s domains** — run a recursive ([[Unbound]]), not authoritative NS.
-- **Kubernetes ClusterIP names** — [[CoreDNS]] in-cluster, not public name servers.
-- **One-off local aliases** — `/etc/hosts` or [[dnsmasq]] for a laptop lab.
-
----
-
-## Related
-
-[[DNS]] [[DNS zone]] [[DNS server]] [[DSN records]] [[BIND]] [[PoserDNS]] [[public resolver]]
+- [RFC 1034 — Domain concepts and facilities](https://datatracker.ietf.org/doc/html/rfc1034)
+- [ICANN — Root servers](https://www.iana.org/domains/root/servers)

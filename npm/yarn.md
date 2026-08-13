@@ -6,20 +6,10 @@
 
 ---
 
-## Index
+## How it works
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
 
-## Mental model
-
-**Say it in one breath:** Yarn resolves dependencies from `package.json`, writes `yarn.lock` (Classic v1) or `.yarn/cache` (Berry v2+). `yarn install` is CI's first step. Commands mirror npm with different flags. Berry adds Plug'n'Play.
-
-## Standard config / commands
+## Configuration and commands
 
 ### Daily commands
 
@@ -63,7 +53,8 @@ yarn set version stable
 yarn install
 ```
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,6 +63,7 @@ yarn install
 | PnP can't find module | `.pnp.cjs` | `yarn dlx @yarnpkg/sdks vscode` or switch to node-modules linker |
 | Classic vs Berry mix | `.yarnrc.yml` exists? | Pick one; don't mix lockfile formats |
 | CI cache stale | Cache key | Key on lockfile hash |
+
 
 ## Gotchas
 
@@ -82,11 +74,17 @@ yarn install
 >
 > **Berry zero-install** — commits cache to git; huge repo size tradeoff.
 
-## When NOT to use
+
+## When not to use
 
 - Don't run `yarn` and `npm install` interchangeably on the same project.
 - Don't use Berry PnP without tooling support unless team commits to SDK setup.
 
+
 ## Related
 
 [[npm/npm script]] [[NodeJS/node package json]] [[npm/husk]]
+
+## Sources
+
+- [Wikipedia — yarn](https://en.wikipedia.org/wiki/yarn)

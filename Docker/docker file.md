@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Docker layered filesystem]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Each instruction usually adds a layer. Build caches layers until a line changes. `ENTRYPOINT` is the main process; `CMD` supplies default arguments (overridable).
+## How it works
 
 ```txt
 FROM → RUN → COPY → … → ENTRYPOINT/CMD
@@ -35,7 +23,8 @@ FROM → RUN → COPY → … → ENTRYPOINT/CMD
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```dockerfile
 # Multi-stage slim prod
@@ -66,7 +55,8 @@ docker info --format '{{.Driver}}'   # usually overlay2
 | `.dockerignore` | Keeps secrets/node_modules out of context |
 | Non-root `USER` | Runtime security baseline |
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,17 +69,6 @@ docker info --format '{{.Driver}}'   # usually overlay2
 
 ---
 
-## Docker layered filesystem
-
-Union mounts (overlay2) stack layers; containers add a thin writable layer. Shared bases save disk.
-
-| Driver | Typical use |
-|--------|-------------|
-| overlay2 | Default modern Linux |
-| fuse-overlayfs | Rootless |
-| btrfs/zfs | When host uses those |
-
----
 
 ## Gotchas
 
@@ -104,7 +83,8 @@ Union mounts (overlay2) stack layers; containers add a thin writable layer. Shar
 
 ---
 
-## When NOT to use
+
+## When not to use
 
 - **configuration that changes per environment** — inject at runtime (environment/files), don’t bake 12 images.
 - **Windows apps on Linux daemons** — wrong base OS.
@@ -112,6 +92,24 @@ Union mounts (overlay2) stack layers; containers add a thin writable layer. Shar
 
 ---
 
+
+## Docker layered filesystem
+
+Union mounts (overlay2) stack layers; containers add a thin writable layer. Shared bases save disk.
+
+| Driver | Typical use |
+|--------|-------------|
+| overlay2 | Default modern Linux |
+| fuse-overlayfs | Rootless |
+| btrfs/zfs | When host uses those |
+
+---
+
+
 ## Related
 
 [[docker cli]] [[docker container]] [[Docker compose]] [[Docker Runtime Security]] [[AWS ECR]]
+
+## Sources
+
+- [Wikipedia — docker file](https://en.wikipedia.org/wiki/docker_file)

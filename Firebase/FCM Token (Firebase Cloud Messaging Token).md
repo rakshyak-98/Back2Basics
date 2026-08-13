@@ -1,43 +1,36 @@
-[[Messaging/webhook]] [[android/sdkmanager]] [[Security/Token rotation]]
+[[Firebase]] [[Firebase messaging]] [[Multicast delivery]] [[Messaging/webhook]] [[android/sdkmanager]] [[Security/Token rotation]]
 
-# FCM token (Firebase Cloud Messaging)
+# FCM Token (Firebase Cloud Messaging Token)
 
-> Device-scoped token identifying one app install for push delivery — rotate on reinstall, clear data, or token refresh.
+> A Firebase Cloud Messaging (FCM) registration token identifies one app install on one device — your backend stores it to target push delivery; tokens rotate on reinstall, clear data, or refresh callbacks.
 
 ---
 
-## Index
+## Lifecycle
 
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-Client SDK asks FCM for a registration token. Your backend stores `(userId, fcmToken, platform)`. FCM uses token + Firebase project credentials to deliver to Google/Apple push infrastructure. Tokens **expire and refresh** — listen for refresh callbacks and update DB.
-
-```
-App → FCM SDK → token → your API → store
-Server → FCM HTTP v1 → device
+```txt
+App → FCM SDK → registration token → your API → database
+Server → FCM HTTP v1 (OAuth) → Google/Apple push infra → device
 ```
 
-## Standard config / commands
+Client SDK requests a token. Your backend stores `(userId, fcmToken, platform, updated_at)`. FCM uses the token plus project credentials to route the message.
 
-### Client (conceptual)
+Tokens **expire and refresh** — register `onTokenRefresh` (or equivalent) and update the database. Delete tokens that return `registration-token-not-registered`.
+
+---
+
+## Client (conceptual)
 
 ```js
-// Web — firebase.messaging()
 const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-// Send token to backend on login + onTokenRefresh
+// Send token to backend on login and on every refresh
 ```
 
-### Server send (HTTP v1)
+---
+
+## Server send (HTTP v1)
 
 ```bash
-# OAuth2 access token from service account
 curl -X POST \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
@@ -50,39 +43,36 @@ curl -X POST \
   }'
 ```
 
-### Backend storage
+Access token comes from a Firebase service account (not the deprecated legacy server key).
+
+### Storage schema
 
 | Field | Purpose |
 |-------|---------|
 | `user_id` | Target user |
 | `token` | FCM device token (unique per app instance) |
-| `platform` | ios / android / web |
+| `platform` | `ios` / `android` / `web` |
 | `updated_at` | Stale token cleanup |
 
-## Triage (when things break)
+---
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `registration-token-not-registered` | Stale token in DB | Delete token; client re-registers |
-| Web push fails | VAPID key, HTTPS | Serve over HTTPS; matching VAPID in Firebase console |
-| iOS no push | APNs key/certs in Firebase | Upload APNs auth key; enable push capability |
-| Duplicate notifications | Multiple tokens per user | Dedupe; send to latest token set |
-| Works on Android, not iOS | Permission / focus mode | Request permission; check provisional auth |
+## What breaks first
 
-## Gotchas
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| `registration-token-not-registered` | Stale token in database | Delete; client re-registers |
+| Web push fails | VAPID or HTTPS | HTTPS only; matching VAPID in console |
+| iOS no push | APNs not linked | Upload APNs auth key; enable capability |
+| Duplicate notifications | Multiple tokens per user | Dedupe; send to current set |
 
-> [!WARNING]
-> **Legacy server key API deprecated** — migrate to HTTP v1 + service account.
->
-> **Don't use token as user id** — one user, many devices; many tokens.
->
-> **Test tokens in logs** — treat as secrets in support tickets.
+One user, many devices — never use the token as the user ID. Migrate off legacy server key API to HTTP v1.
 
-## When NOT to use
-
-- Don't poll FCM for inbound messages — use onMessage handlers + your API for data sync.
-- Don't store tokens without TTL cleanup — unregistered errors will clutter sends.
+---
 
 ## Related
 
-[[Messaging/webhook]] [[Security/Token rotation]] [[Protocol/MQTT]]
+[[Firebase messaging]] · [[Multicast delivery]] · [[Security/Token rotation]] · [[Messaging/webhook]]
+
+## Sources
+
+- [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)

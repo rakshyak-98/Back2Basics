@@ -6,19 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Live / UDP / RTMP patterns]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** ffmpeg is a graph: inputs → demux → decode (optional) → filters/encode → mux → file or network.
+## How it works
 
 ```txt
 file / UDP / RTMP
@@ -45,7 +33,8 @@ file / UDP / RTMP
 
 ---
 
-## Standard config / commands
+
+## Configuration and commands
 
 ```bash
 # Inspect first (pair with [[ffprobe]])
@@ -99,7 +88,8 @@ tmux attach -t ffmpeg
 
 ---
 
-## Triage (when things break)
+
+## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,6 +102,33 @@ tmux attach -t ffmpeg
 | RTMP rejected | Codec/container | H.264 + AAC + `-f flv` |
 
 ---
+
+
+## Gotchas
+
+> [!WARNING]
+> **`-c copy` is not magic** — container rules still apply. MPEG-TS hates some codecs; remux may force encode.
+
+> [!WARNING]
+> **`-re` only on *input*** — putting it wrong or omitting it turns VOD into a dump that floods buffers.
+
+> [!WARNING]
+> **UDP drops packets** — fine for lab ingest; not a reliable archive path. Record with TCP/file or add FEC/NACK at the protocol layer.
+
+> [!WARNING]
+> **Default stream selection** — without `-map`, ffmpeg may drop extra audio/subtitle tracks you cared about.
+
+---
+
+
+## When not to use
+
+- **Browser P2P A/V** — [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not ffmpeg between browsers.
+- **One-command packaging for OTT at scale** — use a packager/CDN pipeline ([[HLS]] / [[DASH]]); ffmpeg is the encoder/worker, not the origin CDN.
+- **Just probe metadata** — use [[ffprobe]].
+
+---
+
 
 ## Live / UDP / RTMP patterns
 
@@ -135,30 +152,11 @@ Receive: `ffplay udp://127.0.0.1:5000` or `vlc udp://@:5000`.
 
 ---
 
-## Gotchas
-
-> [!WARNING]
-> **`-c copy` is not magic** — container rules still apply. MPEG-TS hates some codecs; remux may force encode.
-
-> [!WARNING]
-> **`-re` only on *input*** — putting it wrong or omitting it turns VOD into a dump that floods buffers.
-
-> [!WARNING]
-> **UDP drops packets** — fine for lab ingest; not a reliable archive path. Record with TCP/file or add FEC/NACK at the protocol layer.
-
-> [!WARNING]
-> **Default stream selection** — without `-map`, ffmpeg may drop extra audio/subtitle tracks you cared about.
-
----
-
-## When NOT to use
-
-- **Browser P2P A/V** — [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not ffmpeg between browsers.
-- **One-command packaging for OTT at scale** — use a packager/CDN pipeline ([[HLS]] / [[DASH]]); ffmpeg is the encoder/worker, not the origin CDN.
-- **Just probe metadata** — use [[ffprobe]].
-
----
 
 ## Related
 
 [[ffprobe]] [[transcoding]] [[codecs]] [[MPEG-TS]] [[Streaming]] [[ABR]] [[flussonic]] [[RTMP]] [[SRT]] [[RTSP]]
+
+## Sources
+
+- [Wikipedia — ffmpeg](https://en.wikipedia.org/wiki/ffmpeg)
