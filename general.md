@@ -22,10 +22,10 @@ Symptom / design question
     Fix / configure / decide
 ```
 
-Every note follows [[NOTES_STANDARD]] — mental model first, then commands, then breakage playbook.
+Every note picks a strategy from [[NOTETAKING_STRATEGIES]] and follows the matching template in [[NOTES_STANDARD]] (operational notes: mental model → commands → triage → gotchas).
 
 ---
 
 ## Related
 
-[[INDEX]]] [[[NOTES_STANDARD]]] [[[README]]] [[[staff engineer]]
+[[INDEX]] · [[NOTETAKING_STRATEGIES]] · [[NOTES_STANDARD]] · [[README]] · [[staff engineer]]

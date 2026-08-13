@@ -22,7 +22,15 @@ Non-obvious things worth knowing:
   other with Obsidian `[[wikilinks]]` (and `[[target|alias]]`). The intended
   viewer is the Obsidian desktop app; any Markdown editor also works.
 - **Navigation entry points:** `README.md` (overview), `INDEX.md` (symptom→note
-  routing map), `NOTES_STANDARD.md` (note template/quality bar).
+  routing map), `NOTETAKING_STRATEGIES.md` (pick the note shape),
+  `NOTES_STANDARD.md` (detailed templates per strategy).
+- **Creating or updating notes:** Read `NOTETAKING_STRATEGIES.md` first to
+  choose a strategy (`operational`, `reference`, `concept`, `comparison`,
+  `runbook`, `procedure`, `hub`, `decision`). Set
+  `<!-- note-strategy: <id> -->` on line 1 and fill the matching template block
+  in `NOTES_STANDARD.md`. Run `python3 scripts/apply_note_template.py` on
+  specific files (or `--dry-run` first) to normalize section order — do not
+  mass-rewrite the vault unless explicitly requested.
 - **Validating the vault:** the meaningful integrity check is whether
   `[[wikilinks]]` resolve to existing notes. A quick way to preview rendered
   notes with working wikilink navigation in a browser is to serve the vault with
