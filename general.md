@@ -1,4 +1,4 @@
-[[INDEX]] [[NOTES_STANDARD]] [[README]] [[staff engineer]]
+[[INDEX]] [[AGENT_NOTE_RULES]] [[README]] [[staff engineer]]
 
 # general
 
@@ -6,20 +6,7 @@
 
 ---
 
-## Index
-
-- [[#Mental model]]
-- [[#Routing table]]
-- [[#Domain links]]
-- [[#Standard config / commands]]
-- [[#Triage (when things break)]]
-- [[#Gotchas]]
-- [[#When NOT to use]]
-- [[#Related]]
-
-## Mental model
-
-**Say it in one breath:** Vault meta hub — where to start, how notes are written, and what this collection is for.
+## What this vault is
 
 **Back2Basics** is a staff-engineer field notebook: fast retrieval under incident pressure, not a tutorial site or man-page mirror.
 
@@ -28,44 +15,41 @@ Symptom / design question
         ↓
     [[INDEX]]  (routing table)
         ↓
-    Domain note  (mental model + triage + gotchas)
+    Domain note  (clear summary + linked concepts + actionable detail)
         ↓
     Fix / configure / decide
 ```
 
-Every note picks a strategy from [[NOTETAKING_STRATEGIES]] and follows the matching template in [[NOTES_STANDARD]] (operational notes: mental model → commands → triage → gotchas).
+Notes follow [[AGENT_NOTE_RULES]]: clarity over complexity, structure by **conceptual relationships** (wikilinks and subject hubs), and cues that prompt active engagement — not a single fixed template for every file.
 
 ---
 
 ## Routing table
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
+| Need | Go to |
+|------|-------|
+| Symptom → note under pressure | [[INDEX]] |
+| How to write or rewrite notes | [[AGENT_NOTE_RULES]] |
+| Vault overview | [[README]] |
+| Staff-level skill model | [[staff engineer]] |
+| Agent / cloud editing guide | [[AGENTS.md]] |
 
-## Domain links
+---
 
-- …: [[…]]
+## Domain entry points
 
-## Standard config / commands
+| Domain | Hub |
+|--------|-----|
+| Linux & OS | [[Linux]] · [[Operating System]] |
+| Networking | [[Networking]] · [[DNS]] · [[Protocol]] |
+| Containers | [[Docker]] · [[Kubernates]] |
+| Data | [[Database]] · [[MongoDB]] · [[Redis]] |
+| Cloud & IaC | [[AWS]] · [[Terraform]] |
+| Web & runtimes | [[NodeJS]] · [[React]] · [[nginx]] |
+| Security | [[Security]] · [[ssh]] |
 
-…
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-## When NOT to use
-
-…
+---
 
 ## Related
 
-[[INDEX]] · [[NOTETAKING_STRATEGIES]] · [[NOTES_STANDARD]] · [[README]] · [[staff engineer]]
+[[INDEX]] · [[AGENT_NOTE_RULES]] · [[README]] · [[staff engineer]]

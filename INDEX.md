@@ -1,7 +1,7 @@
 # Vault INDEX — Fast Retrieval
 
 > Symptom → note map — start here under pressure to find the right playbook fast.
-> Note format: [[NOTETAKING_STRATEGIES]] → [[NOTES_STANDARD]]
+> Note format: [[AGENT_NOTE_RULES]] (clarity, conceptual structure, active engagement — no fixed templates)
 
 ---
 
@@ -97,6 +97,6 @@
 
 ## Empty / stub policy
 
-1. Fill if on-call relevant (P0/P1 in [[NOTES_STANDARD]]).
+1. Fill if on-call relevant (symptoms in the on-call table above).
 2. Merge duplicates into one canonical note; leave a stub redirect with `→ [[Canonical]]`.
 3. Delete only if the title has no engineering value (prefer redirect).

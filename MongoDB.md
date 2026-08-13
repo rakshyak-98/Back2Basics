@@ -50,4 +50,4 @@
 
 ## Related
 
-[[INDEX]] · [[NOTES_STANDARD]] · [[NOTETAKING_STRATEGIES]]
+[[INDEX]] · [[AGENT_NOTE_RULES]]

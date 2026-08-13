@@ -12,23 +12,22 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 
 | Need | Open |
 |------|------|
-| Which note shape to use | [[NOTETAKING_STRATEGIES]] |
-| Detailed templates per strategy | [[NOTES_STANDARD]] |
+| How agents (and humans) write notes | [[AGENT_NOTE_RULES]] |
 | Symptom → note map | [[INDEX]] |
 | Staff-level skill model | [[staff engineer]] |
+| Vault meta hub | [[general]] |
 
 ---
 
 ## What good looks like
 
-Every note should answer under ~2 minutes:
+Notes follow **clarity, conceptual structure, and active engagement** — not fixed templates:
 
-1. **What is this?** (mental model)
-2. **How do I configure it correctly?** (standard config / commands)
-3. **How do I debug it when it breaks?** (triage table)
-4. **What bites people in production?** (gotchas)
+1. **Clear language** — accessible prose; the writer owns comprehension.
+2. **Networked organization** — wikilinks and subject grouping over arbitrary section order.
+3. **Engagement cues** — summaries, visual hierarchy, and questions that prompt recall and action.
 
-Templates already in the vault: [[Terraform workflow]], [[gRPC]], [[Configuration]] (Nginx), [[file descriptors]], [[ss]].
+See [[AGENT_NOTE_RULES]] for the full agent reference.
 
 ---
 
@@ -42,10 +41,10 @@ Use [[INDEX]] for on-call routing.
 
 ## Contributing to this vault
 
-1. Pick a strategy in [[NOTETAKING_STRATEGIES]]; fill the matching template in [[NOTES_STANDARD]].
-2. Prefer expanding one empty/stub over adding a fifth synonym.
-3. Merge duplicates with a redirect (`→ [[Canonical]]`).
-4. Strip wiki/ChatGPT citation spam; keep book/source attributions that are real (Kleppmann, Kerrisk, Brikman, Stevens, Burns).
+1. Read [[AGENT_NOTE_RULES]]; structure by conceptual relationships, not predefined templates.
+2. Ground facts in authoritative sources (RFCs, official docs, university materials, Wikipedia + primaries).
+3. Prefer expanding one empty/stub over adding a fifth synonym.
+4. Merge duplicates with a redirect (`→ [[Canonical]]`).
 5. Link siblings with Obsidian `[[wikilinks]]`.
 
 ---
