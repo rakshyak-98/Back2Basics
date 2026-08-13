@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[BGP]] [[CIDR (Classless Inter-Domain Routing)]] [[routing table]]
 
 # Autonomous system
@@ -5,6 +6,15 @@
 > Autonomous system — an Autonomous System (AS) is how the Internet names who owns which IP blocks at the routing layer:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

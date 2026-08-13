@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[runtime]] [[file descriptors]] [[Heap memory]]
 
 # Take snapshot
@@ -5,6 +6,15 @@
 > Take snapshot — a snapshot freezes state so you can inspect offline or resume later:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

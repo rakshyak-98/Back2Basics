@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[SQL normalization]] [[OLTP]] [[ACID]] [[Data access patterns]] [[database migration]] [[Database mistakes]]
 
 # Database design
@@ -5,6 +6,20 @@
 > Tables, keys, and constraints that keep facts correct and queries honest — schema is a contract, not just storage.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Interview map (words you can say)]]
+- [[#Standard patterns]]
+- [[#Transaction correlation (audit)]]
+- [[#Overlapping validity periods]]
+- [[#Multi-tenancy boundaries]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -19,6 +34,23 @@ Change → migrations ([[database migration]])
 ```
 
 Normalize for [[OLTP]] write correctness ([[SQL normalization]]); denormalize only with an owned sync story.
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Math-wrong invoice totals | Free-form total column | CHECK or generated column |
+| Audit cannot reconstruct one checkout | No correlation id | Add `transaction_correlation_id` |
+| Double subscription / double booking | Overlap logic | EXCLUDE / app transaction + overlap predicate |
+| Customer A sees Customer B data | Missing tenant predicate | Composite unique keys; forced tenant filter; tests |
+| Migration locks production | Single huge DDL | Expand-contract; online schema tools ([[database migration]], [[Alter table]]) |
+| ORM model ≠ DB | Drift | Migrations as source of truth |
+
+---
 
 ## Interview map (words you can say)
 
@@ -126,19 +158,6 @@ Every tenant-owned row needs `tenant_id` (or equivalent) **in the row and in the
 | Unique email global in multi-tenant SaaS | `UNIQUE (tenant_id, email)` unless product requires global |
 
 RLS (Postgres row-level security) helps defense-in-depth; still pass tenant in the application.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Math-wrong invoice totals | Free-form total column | CHECK or generated column |
-| Audit cannot reconstruct one checkout | No correlation id | Add `transaction_correlation_id` |
-| Double subscription / double booking | Overlap logic | EXCLUDE / app transaction + overlap predicate |
-| Customer A sees Customer B data | Missing tenant predicate | Composite unique keys; forced tenant filter; tests |
-| Migration locks production | Single huge DDL | Expand-contract; online schema tools ([[database migration]], [[Alter table]]) |
-| ORM model ≠ DB | Drift | Migrations as source of truth |
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]
 
 # Terraform
@@ -6,9 +7,37 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Why Terraform (Brikman)]]
+- [[#Building blocks (Winkler)]]
+- [[#Resource]]
+- [[#Data source (read-only)]]
+- [[#Modules (Brikman — “how to stay DRY”)]]
+- [[#Registry]]
+- [[#State (preview)]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related graph]]
+
 ## Mental model
 
 Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the **desired end state** in HCL; Terraform figures out create / update / delete against cloud APIs through [[terraform provider]] plugins.
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

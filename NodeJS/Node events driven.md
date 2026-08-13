@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[EventEmitter]] [[Event Loop]] [[event emitter]]
 
 # Node events driven
@@ -5,6 +6,15 @@
 > Node’s core style — emit events, run listeners; `http`/`fs`/`stream` already use `EventEmitter` under the hood.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

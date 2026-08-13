@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Decorator]] [[Design pattern/Facade]] [[Design pattern/Dependency Injection]]
 
 # Proxy
@@ -5,6 +6,18 @@
 > Surrogate that controls access to a real object — lazy init, auth, caching — **Dive Into Design Patterns + MetaClientProxy**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -19,6 +32,14 @@ Caller → MetaClientProxy → (lazy) Decorator stack → RawMetaClient
 | **Subject** | Shared interface |
 | **Real subject** | Expensive / sensitive object |
 | **Proxy** | Access control, lazy create, cache |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -66,6 +87,12 @@ Structure is nearly identical — name by intent.
 
 > [!WARNING]
 > Lazy proxy + mutable process config (Graph API version) can pin the wrong version — recreate when runtime config changes ([[Design pattern/Singleton]] runtime wiring).
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

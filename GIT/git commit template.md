@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT]]
 
 # git commit template
@@ -5,6 +6,15 @@
 > git commit template — git config to use custom commit template
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -32,7 +42,6 @@ See also: #456
 - build       → build system, CI, external dependencies
 - chore       → maintenance (gitignore, scripts, rename...)
 - revert      → revert previous commit
-
 
 ## Standard config / commands
 

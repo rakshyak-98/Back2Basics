@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[presentation layer]] [[Service Layer]] [[React Application Architecture for Production]]
 
 # frontend layered architecture
@@ -5,6 +6,33 @@
 > Frontend layers separate UI, state, and API access — so screens don’t each reinvent fetching and rules.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -78,6 +106,12 @@ export function OrderPage({ id }: { id: string }) {
 
 - **Marketing static page** — no need for stores and API modules.
 - **Tiny widget** — one component + fetch is fine until it grows.
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

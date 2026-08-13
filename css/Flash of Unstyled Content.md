@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[css]] [[scss]] [[Animation]] [[Nginx]] [[React]]
 
 # Flash of Unstyled Content (FOUC)
@@ -5,6 +6,15 @@
 > Brief display of unstyled or wrong-theme HTML before CSS loads — users see a layout jump; Lighthouse flags CLS; trust drops on first paint.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]]
 
 # Singleton
@@ -5,6 +6,18 @@
 > Singleton — make the class construction private member of the class.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -45,6 +58,14 @@ var Universe
 
 ---
 
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
+
 ## Standard config / commands
 
 ```bash
@@ -70,6 +91,12 @@ var Universe
 > Draw the failure mode before the happy path.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

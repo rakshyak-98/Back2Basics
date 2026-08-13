@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS/node package json]] [[NodeJS/node command]] [[npm/husk]]
 
 # npm scripts
@@ -5,6 +6,15 @@
 > Named shortcuts in `package.json` → shell commands — the standard entry point for dev, test, and build.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

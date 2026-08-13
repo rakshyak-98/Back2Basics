@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[POSIX Socket]] [[TCP]] [[UDP]] [[Inter Process Communication]]
 
 # BSD Socket
@@ -5,6 +6,15 @@
 > BSD sockets are the original Berkeley API for network (and Unix-domain) I/O — POSIX standardized the same shape.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

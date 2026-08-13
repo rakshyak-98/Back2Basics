@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[10 NIC]] [[ss]] [[Linux]] [[MTU (Maximum Transmission Unit)]]
 
 # ethtool
@@ -5,6 +6,15 @@
 > ethtool — talks to the NIC driver, not just the kernel routing stack:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

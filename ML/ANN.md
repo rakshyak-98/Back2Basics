@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Perceptron]] [[sigmoid]] [[scikitlearn]] [[binary classification]] [[regression]]
 
 # ANN (Artificial Neural Network)
@@ -5,6 +6,15 @@
 > Stacked layers of weighted sums + nonlinear activations — universal function approximator trained by gradient descent — **Goodfellow et al. (Deep Learning)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

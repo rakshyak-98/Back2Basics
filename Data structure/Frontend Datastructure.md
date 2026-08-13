@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[JavaScript]] [[Data access patterns]] [[Epoll]]
 
 # Frontend Datastructure
@@ -5,6 +6,15 @@
 > Maps, sets, rings, and queues FE engineers use daily for UI state, caches, and render performance — not CLRS trivia.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

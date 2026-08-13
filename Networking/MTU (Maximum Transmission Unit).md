@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[Packet Fragment]] [[TCP]] [[UDP]]
 
 # MTU (Maximum Transmission Unit)
@@ -5,6 +6,15 @@
 > MTU is the largest IP packet a link will take without splitting — exceed it and you fragment or drop.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

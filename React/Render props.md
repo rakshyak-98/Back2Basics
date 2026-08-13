@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[React Pattern/Higher order Component (HOCs)]] [[React Pattern/Provider pattern]]
 
 # Render props
@@ -5,6 +6,15 @@
 > Pass a function as a child/prop that receives state — the parent owns logic; the caller owns the UI.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

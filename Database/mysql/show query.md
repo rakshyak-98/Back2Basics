@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[cli]] [[mysql query]]
 
 # show query
@@ -5,6 +6,15 @@
 > `SHOW …` and `INFORMATION_SCHEMA` — inspect databases, tables, grants, processlist, and engine status fast.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

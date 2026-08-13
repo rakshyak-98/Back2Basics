@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ssh/ssh allow local system with key]] [[Security/TLS (Transport Layer Security)]] [[ftp]]
 
 # SCP (Secure Copy Protocol)
@@ -5,6 +6,15 @@
 > SCP (Secure Copy Protocol) — SCP wraps SSH transport: authenticate like ssh, then copy files over encrypted channel. Syntax mirrors cp with remote user@host:path. Not a
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

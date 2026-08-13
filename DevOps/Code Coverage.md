@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DevOps/Jenkins]] [[npm/husk]] [[NodeJS/node command]] [[Design pattern/Dependency Injection]]
 
 # Code Coverage
@@ -5,6 +6,15 @@
 > Code Coverage — coverage tools instrument code (counters at branches/lines), run tests, report what executed.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

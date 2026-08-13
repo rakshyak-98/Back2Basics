@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Hooks]] [[react hooks]] [[Optimizing performance]]
 
 # react useEffect
@@ -5,6 +6,15 @@
 > Run side effects after paint — fetch, subscriptions, DOM — keep render pure.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

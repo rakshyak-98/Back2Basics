@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[prototype]] [[IIFC]]
 
 # hoisting
@@ -5,6 +6,15 @@
 > Declarations are visible in their scope before the line runs — `var`/`function` hoist differently from `let`/`const`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

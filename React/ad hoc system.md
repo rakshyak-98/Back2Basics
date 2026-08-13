@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Architecture]] [[React design patterns]] [[React data management]] [[zustand]]
 
 # Ad hoc system (React context)
@@ -5,6 +6,15 @@
 > A **one-off, purpose-built** solution for a single feature — fast locally, expensive globally if it becomes the default pattern — **Fowler (refactoring)** applied to frontend.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

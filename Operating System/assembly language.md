@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[opcode]] [[linker]] [[system call]] [[interpreter]]
 
 # Assembly language
@@ -5,6 +6,15 @@
 > Human-readable mnemonics for machine instructions — one step above binary, one step below high-level languages; ISA-specific.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

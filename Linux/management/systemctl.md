@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[systemd]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]]
 
 # systemctl
@@ -5,6 +6,15 @@
 > `systemctl` is the CLI for systemd — start/stop/enable units, inspect state, and reload after unit-file edits.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

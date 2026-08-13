@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[loggging]] [[OOM (Linux Out Of Memory)]] [[Linux]] [[eBPF]]
 
 # Kernel ring buffer
@@ -5,6 +6,15 @@
 > Fixed-size circular log in kernel memory for `printk` and early-boot messages — consumed by `dmesg`, `journald`, and serial consoles.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

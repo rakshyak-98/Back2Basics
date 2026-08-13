@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[assembly language]] [[system call]] [[Single Instruction, Multiple Data (SIMD)]]
 
 # Opcode
@@ -5,6 +6,15 @@
 > The operation field of a machine or protocol instruction — tells the executor *what* to do with the operands that follow.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

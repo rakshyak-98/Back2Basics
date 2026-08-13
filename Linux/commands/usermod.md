@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[useradd]] [[userdel]] [[passwd]] [[getent]] [[user management]] [[etc files]]
 
 # usermod
@@ -5,6 +6,15 @@
 > usermod — → /etc/passwd + shadow + group
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

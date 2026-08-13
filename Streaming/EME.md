@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DRM]] [[HLS]] [[DASH]] [[CMAF]] [[codecs]]
 
 # EME (Encrypted Media Extensions)
@@ -5,6 +6,15 @@
 > Browser API bridging JavaScript players to hardware CDMs for [[DRM]] — **W3C spec**, not a DRM system itself.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

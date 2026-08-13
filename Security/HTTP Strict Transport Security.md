@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[TLS (Transport Layer Security)]] [[https]] [[response header]]
 
 # HTTP Strict Transport Security
@@ -5,6 +6,15 @@
 > HSTS — browser remembers “this host is HTTPS-only,” so it never sends cleartext HTTP (and blocks cert bypass for preload).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux createApi]] [[Redux/RTQ/RTQ store]]
 
 # RTQ Toolkit
@@ -5,6 +6,15 @@
 > RTK Query as the data cache — keyed queries, tag invalidation, optional persistence across refresh.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

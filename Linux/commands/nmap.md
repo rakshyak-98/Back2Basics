@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[nc]] [[ss]] [[Linux network commands]] [[Security]]
 
 # nmap
@@ -5,6 +6,15 @@
 > controlled port and service discovery — map what's listening before an incident becomes a breach audit. Scope and authorization first; `-A` on prod without approval is
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

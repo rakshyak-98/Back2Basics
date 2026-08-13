@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[React]] [[RSC (React Server Component boundaries)]] [[React Architecture]]
 
 # React Application Architecture for Production
@@ -5,6 +6,33 @@
 > Structure a production React/Next app — feature folders, providers, and pick render strategy per page.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -92,6 +120,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 - **No SSR needs** — Vite SPA may be enough; don’t force Next.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

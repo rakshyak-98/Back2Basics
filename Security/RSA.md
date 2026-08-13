@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Asymmetrical Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]]
 
 # RSA
@@ -5,6 +6,15 @@
 > RSA — uses math on large composites (factorization hardness):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

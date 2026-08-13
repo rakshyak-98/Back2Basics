@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[Linux system management]] [[Package Manager]] [[systemctl]]
 
 # Linux management
@@ -5,6 +6,15 @@
 > Linux management is the ops umbrella — packages, services, users, storage, network, and observability on a host.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

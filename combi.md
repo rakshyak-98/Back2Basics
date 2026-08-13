@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux/commands/fzf]] [[Linux/CLI]]
 
 # combi (rofi mode)
@@ -5,6 +6,15 @@
 > Rofi **combi** mode merges window switcher, app launcher, and run dialog into one fuzzy search — muscle memory launcher on Linux desktops.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

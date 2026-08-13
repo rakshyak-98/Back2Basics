@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[commands]] [[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]]
 
 # Linux network commands
@@ -5,6 +6,39 @@
 > Pocket kit for “is it listening, reachable, or DNS?” — `ss`/`lsof` for sockets, `nc`/`tcpdump` to probe, `dig`/resolvectl for names.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Common commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Sockets & listeners]]
+- [[#Probe & capture]]
+- [[#DNS]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Common commands
+
+```bash
+# …
+```
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -110,6 +144,12 @@ resolvectl status                  # was systemd-resolve
 - **Long-term metrics** — exporters, not one-shot `ss`.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

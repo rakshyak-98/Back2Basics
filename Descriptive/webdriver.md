@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[DAP (Debug Adapter Protocol)]]
 
 # webdriver
@@ -5,6 +6,15 @@
 > WebDriver is the W3C API for driving browsers — Selenium talks WebDriver to click, type, and assert UI.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

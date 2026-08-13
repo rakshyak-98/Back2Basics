@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql engine]] [[MySQL storage]] [[write-ahead logging]]
 
 # MySQL Engines
@@ -5,6 +6,15 @@
 > Engine files are how MySQL keeps table bytes on disk — `.ibd` is InnoDB’s per-table data when `innodb_file_per_table` is on.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

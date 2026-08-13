@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[NFS (Network File System)]]
 
 # AWS EFS (Elastic File System)
@@ -5,6 +6,15 @@
 > EFS — managed NFS that many Linux EC2/containers mount at once; grows/shrinks with data across AZs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

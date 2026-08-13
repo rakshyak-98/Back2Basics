@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[routing table]] [[route]] [[Linux network commands]] [[ss]] [[netstat]]
 
 # ip
@@ -5,6 +6,15 @@
 > ip — network config is objects: link (interface), address (IP on link), route (forwarding decision), rule (PBR). ip talks netlink to the kernel — same API
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

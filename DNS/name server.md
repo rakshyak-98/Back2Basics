@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[DNS server]] [[DSN records]]
 
 # name server
@@ -5,6 +6,15 @@
 > Name server — authoritative DNS server that stores and answers the official records for a zone (what NS records point at).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

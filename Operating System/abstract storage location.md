@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Persistent Block Storage]] [[Buffer cache]] [[file descriptors]]
 
 # Abstract storage location
@@ -5,6 +6,15 @@
 > API that hides physical placement — callers use logical names (paths, URIs, keys) while the system maps to blocks, objects, or remote stores.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

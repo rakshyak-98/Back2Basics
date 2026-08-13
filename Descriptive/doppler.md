@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security/KMS]] [[NodeJS/node-convict]] [[Deployment/vercel deployment]] [[AWS/IAM]]
 
 # Doppler
@@ -5,6 +6,15 @@
 > Doppler — stores secrets in projects × configs (dev/staging/prod). The CLI or SDK injects values at runtime — nothing sensitive lives in the repo.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

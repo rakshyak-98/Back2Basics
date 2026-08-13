@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[Redux]]
 
 # flux
@@ -5,6 +6,15 @@
 > Unidirectional data flow for UI apps — action in, store updates, view re-renders (no two-way binding loops).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

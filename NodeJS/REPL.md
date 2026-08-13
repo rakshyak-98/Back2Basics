@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[node inspect]] [[node command]]
 
 # REPL
@@ -5,6 +6,15 @@
 > Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

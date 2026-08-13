@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS/node command]] [[Linux/supervisorctl]] [[Linux/commands/Services commands]]
 
 # PM2 ecosystem file
@@ -5,6 +6,15 @@
 > Declarative process config — cluster mode, env injection, logs, and restart policy for Node apps.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

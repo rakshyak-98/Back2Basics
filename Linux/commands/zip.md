@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[rsync]]
 
 # zip
@@ -5,6 +6,15 @@
 > zip packs files into a portable `.zip` archive — common for sharing; not the best long-term backup format.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

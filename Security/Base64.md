@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]]
 
 # Base64
@@ -5,6 +6,15 @@
 > Base64 — turn binary data (like images, files, PDFs) into plain text so it can be safely sent over the internet or stored in places that only allow
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

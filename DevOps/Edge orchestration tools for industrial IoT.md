@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DevOps]] [[orchestration]] [[Docker]] [[Kubernetes]]
 
 # Edge orchestration tools for industrial IoT
@@ -5,6 +6,15 @@
 > Edge orchestration — deploy, update, and watch containerized workloads on factory/remote devices that often have weak WAN and must keep running offline.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

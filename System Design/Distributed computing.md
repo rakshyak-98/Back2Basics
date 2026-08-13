@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[distributed system]] [[marshalling]] [[race condition]]
 
 # Distributed computing
@@ -5,6 +6,15 @@
 > Distributed computing — split a job across networked machines; pay for coordination, partial failure, and serialization.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

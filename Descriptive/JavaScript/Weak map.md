@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Garbage Collection]]
 
 # Weak map
@@ -5,6 +6,15 @@
 > `WeakMap` keys are objects held weakly — if nothing else references the key, the entry can be GC’d.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

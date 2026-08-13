@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[Unbuffered channel]] [[go error]]
 
 # go-routines
@@ -5,6 +6,15 @@
 > Goroutine — lightweight concurrent function the Go runtime schedules onto OS threads (`go f()`).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

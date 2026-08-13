@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[html]] [[Mermaid (DSL)]]
 
 # Markdown
@@ -5,6 +6,15 @@
 > Markdown is lightweight plaintext that compiles to HTML — good for notes, READMEs, and docs-as-code.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Concurrent modification]] [[Networking]]
 
 # ETAG or IF MATCH
@@ -5,6 +6,15 @@
 > ETag + If-Match stop lost updates — write only if the resource is still the version you read.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

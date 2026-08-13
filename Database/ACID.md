@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[WAL (Write-Ahead Log)]] [[MVCC]] [[mysql transaction]] [[postgres essential]] [[OLTP]] [[connection pooling]]
 
 # ACID
@@ -5,6 +6,17 @@
 > Transaction guarantees: all-or-nothing writes, valid states, predictable concurrency, survive crashes — **Designing Data-Intensive Applications** (Kleppmann, Ch. 7).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / patterns]]
+- [[#Triage (when things break)]]
+- [[#Isolation levels & anomalies]]
+- [[#Engine defaults (know before you deploy)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -52,6 +64,17 @@ UPDATE accounts SET balance = balance - 100 WHERE id = 1;
 
 Network timeout ≠ rollback. Client retries `COMMIT` or POST — use **idempotency keys** + unique constraints so duplicate commits don't double-charge.
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Random 40001 / deadlock | `pg_stat_database` deadlocks; MySQL `SHOW ENGINE INNODB STATUS` | Shorten txs; consistent lock order; retry with backoff |
+| "It worked once, then duplicate" | Missing idempotency; autocommit off forgotten | Unique constraint on idempotency key; explicit COMMIT |
+| Long-running open tx bloat | PG: `pg_stat_activity` + `xact_start`; MySQL: `information_schema.innodb_trx` | Kill idle in transaction; fix connection pool leak |
+| Phantom counts in reports | RR not enough on PG without SERIALIZABLE | Raise isolation or `SELECT … FOR UPDATE` on range |
+| Balance wrong after concurrent updates | Lost update — no locking | `FOR UPDATE` or atomic `UPDATE … SET x = x + 1` |
+| Migration "half applied" | DDL autocommit; multi-step without tx wrapper | One migration tx where engine allows; expand-contract pattern |
+
 ## Isolation levels & anomalies
 
 SQL standard levels (weakest → strongest):
@@ -91,17 +114,6 @@ SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 SELECT @@transaction_isolation;
 SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
 ```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Random 40001 / deadlock | `pg_stat_database` deadlocks; MySQL `SHOW ENGINE INNODB STATUS` | Shorten txs; consistent lock order; retry with backoff |
-| "It worked once, then duplicate" | Missing idempotency; autocommit off forgotten | Unique constraint on idempotency key; explicit COMMIT |
-| Long-running open tx bloat | PG: `pg_stat_activity` + `xact_start`; MySQL: `information_schema.innodb_trx` | Kill idle in transaction; fix connection pool leak |
-| Phantom counts in reports | RR not enough on PG without SERIALIZABLE | Raise isolation or `SELECT … FOR UPDATE` on range |
-| Balance wrong after concurrent updates | Lost update — no locking | `FOR UPDATE` or atomic `UPDATE … SET x = x + 1` |
-| Migration "half applied" | DDL autocommit; multi-step without tx wrapper | One migration tx where engine allows; expand-contract pattern |
 
 ## Gotchas
 

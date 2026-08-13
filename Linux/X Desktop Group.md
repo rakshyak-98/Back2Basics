@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[file descriptors]] [[systemctl]] [[journalctl]]
 
 # X Desktop Group
@@ -5,6 +6,15 @@
 > X Desktop Group — ~/.config/ XDG_CONFIG_HOME — user settings (small, portable)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[nvidia-smi]]
 
 # alsa
@@ -5,6 +6,15 @@
 > ALSA (Advanced Linux Sound Architecture) is the kernel sound stack — desktops usually mix through PipeWire/Pulse on top.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

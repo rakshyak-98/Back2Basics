@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Buffer cache]] [[fsync]] [[Persistent Block Storage]] [[Linux]]
 
 # Disk IOPS
@@ -5,6 +6,15 @@
 > Disk IOPS — IOPS = completed I/O operations per second (reads + writes, often reported separately). Distinct from throughput (MB/s):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Thread]] [[context switching]] [[multi-threaded]] [[SMT threads]] [[cgroup (Control Group)]]
 
 # Context switching
@@ -5,6 +6,15 @@
 > Save running thread's CPU state, restore another's, resume execution — **scheduler tax on throughput and tail latency**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

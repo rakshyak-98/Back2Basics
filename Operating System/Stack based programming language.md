@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[interpreter]] [[opcode]] [[Heap memory]]
 
 # Stack-based programming language
@@ -5,6 +6,15 @@
 > Evaluation model where operands and results live on a stack — programs are often postfix (Reverse Polish) with no named registers in source form.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

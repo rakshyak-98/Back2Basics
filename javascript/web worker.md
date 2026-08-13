@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[worker]] [[throttle]]
 
 # web worker
@@ -5,6 +6,15 @@
 > Background JS thread in the browser — keep heavy CPU off the UI thread; talk via `postMessage`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

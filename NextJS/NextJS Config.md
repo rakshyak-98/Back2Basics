@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NextJS]] [[Next JS]] [[typescript]]
 
 # NextJS Config
@@ -5,6 +6,15 @@
 > `next.config.js` — Next.js knobs: redirects, headers, images, transpile packages, experimental flags.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Docker]] [[docker cli]] [[Docker Runtime Security]] [[Docker compose]]
 
 # docker file
@@ -5,6 +6,16 @@
 > Dockerfile — recipe of layers: `FROM` base, `RUN`/`COPY` changes, `ENTRYPOINT`/`CMD` as the process that runs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Docker layered filesystem]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -56,18 +67,6 @@ docker info --format '{{.Driver}}'   # usually overlay2
 | `.dockerignore` | Keeps secrets/node_modules out of context |
 | Non-root `USER` | Runtime security baseline |
 
-## Docker layered filesystem
-
-Union mounts (overlay2) stack layers; containers add a thin writable layer. Shared bases save disk.
-
-| Driver | Typical use |
-|--------|-------------|
-| overlay2 | Default modern Linux |
-| fuse-overlayfs | Rootless |
-| btrfs/zfs | When host uses those |
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -78,6 +77,18 @@ Union mounts (overlay2) stack layers; containers add a thin writable layer. Shar
 | Container ignores my command | ENTRYPOINT+CMD combo | Understand exec-form JSON arrays |
 | Wrong arch on Apple/ARM | Platform | `--platform=linux/amd64` or multi-arch build |
 | Build needs secrets | Secret in layer history | BuildKit secrets; never `ENV PASS=` |
+
+---
+
+## Docker layered filesystem
+
+Union mounts (overlay2) stack layers; containers add a thin writable layer. Shared bases save disk.
+
+| Driver | Typical use |
+|--------|-------------|
+| overlay2 | Default modern Linux |
+| fuse-overlayfs | Rootless |
+| btrfs/zfs | When host uses those |
 
 ---
 

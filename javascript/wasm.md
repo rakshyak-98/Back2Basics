@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript engine]] [[polyfills]] [[React build]] [[Security/Asymmetrical Encryption]] [[NodeJS]]
 
 # WebAssembly (Wasm)
@@ -5,6 +6,15 @@
 > WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System design]] [[CMS]] [[Authentication web application]]
 
 # Churn rate
@@ -5,6 +6,15 @@
 > Churn rate — (attrition) measures how many customers stop paying or actively leave in a time window, expressed as a percentage of the starting cohort. It
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

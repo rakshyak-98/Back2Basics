@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[event listener]]
 
 # JavaScript History API
@@ -5,6 +6,15 @@
 > History API — push/replace URL + state in the session history stack without full reloads (SPA routing).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[rsync]] [[Scripting]] [[Linux file management]]
 
 # diff
@@ -5,6 +6,15 @@
 > line and tree comparison — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

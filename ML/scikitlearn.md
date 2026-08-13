@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[model tranning]] [[data preprocessing]]
 
 # scikitlearn
@@ -5,6 +6,15 @@
 > scikit-learn is the go-to Python library for classical ML — estimators, pipelines, and metrics with a fit/predict API.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

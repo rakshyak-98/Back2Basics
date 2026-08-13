@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[display server]] [[x11]] [[windowing system]] [[Linux display manager]]
 
 # Wayland
@@ -5,6 +6,15 @@
 > Wayland — app (GTK/Qt) ──► Wayland protocol ──► compositor (Mutter/Sway/…)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

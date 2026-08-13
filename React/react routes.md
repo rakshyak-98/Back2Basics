@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Architecture]] [[React build]] [[RSC (React Server Component boundaries)]] [[Optimizing performance]]
 
 # React routes
@@ -5,6 +6,15 @@
 > Map URLs → layouts → screens — prefer **relative routes + route objects** so base path changes don't break — **React Router v6+ docs**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

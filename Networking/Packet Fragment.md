@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[MTU (Maximum Transmission Unit)]] [[ICMP]] [[UDP]] [[TCP]]
 
 # Packet Fragment
@@ -5,6 +6,15 @@
 > Fragmentation splits an IP packet that is too big for the next MTU — destination reassembles, or DF drops it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

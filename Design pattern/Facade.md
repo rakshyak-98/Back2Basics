@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Adapter]] [[Design pattern/Decorator]] [[Design pattern/Factory Method]] [[Architectures/Orchestration layer]]
 
 # Facade
@@ -5,6 +6,18 @@
 > Facade — marketing (or any) subsystem has factories, validators, pipelines, adapters. App layers should not know that graph. Facade exposes a small stable API (launchCampaign, getInsights)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +38,14 @@ Pipeline  Factory  EventBus  Commands
 | **Facade** | Coarse operations; owns orchestration entry |
 | **Subsystem classes** | Real work — never called from controllers |
 | **Client** | UI / REST / other BC — depends only on Facade |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -73,6 +94,12 @@ Facade is the **compatibility layer** for Flutter/REST. Internal pattern refacto
 
 - Facade may *use* other patterns; it should not *reimplement* them.
 - Do not expose subsystem types in Facade return values if that freezes internals.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

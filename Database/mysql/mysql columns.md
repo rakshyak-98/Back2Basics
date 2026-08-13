@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql/mysql table]] [[Alter table]] [[mysql]]
 
 # MySQL columns
@@ -5,6 +6,15 @@
 > column DDL — types, nullability, defaults, order, and comments; full definition required on MODIFY; plan for online schema change.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

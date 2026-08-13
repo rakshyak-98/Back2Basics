@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Stack trace]] [[stack pointer]] [[context switching]] [[system call]]
 
 # Stack frame
@@ -5,6 +6,15 @@
 > One activation record per function call — holds return address, saved registers, locals, and spill slots on the process stack.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

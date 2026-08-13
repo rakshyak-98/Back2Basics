@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Bridge]] [[Design pattern/Facade]] [[Design pattern/Dependency Injection]]
 
 # Adapter
@@ -5,6 +6,18 @@
 > Convert one interface into another the client expects — retrofit vendor shapes into domain — **Dive Into Design Patterns + MetaPayloadAdapter**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -19,6 +32,14 @@ Domain model  ←── Adapter ──→  Vendor DTO / Graph payload
 | **Target** | Interface your app wants |
 | **Adaptee** | Existing vendor client / payload shape |
 | **Adapter** | Implements Target; delegates to Adaptee after mapping |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -73,6 +94,12 @@ class MetaPayloadAdapter {
 
 - Two-way mapping drifts — prefer golden fixtures from real Graph responses.
 - Do not put HTTP retry/logging in Adapter — that is [[Design pattern/Decorator]].
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

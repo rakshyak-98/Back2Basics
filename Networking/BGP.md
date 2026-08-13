@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[routing table]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]]
 
 # BGP
@@ -5,6 +6,15 @@
 > path-vector protocol ASes use to exchange reachability + policy — not a replacement for your IGP — **Halabi, Internet Routing Architectures**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

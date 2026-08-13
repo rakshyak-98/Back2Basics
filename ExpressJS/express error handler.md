@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[ExpressJS]] [[NodeJS]] [[Node.js security flaws in architecture]] [[Express middleware]]
 
 # Express Error Handler
@@ -5,6 +6,47 @@
 > Express Error Handler — express distinguishes error-handling middleware by arity (4 params). Calling next(err) or throwing inside async route (with wrapper) skips normal middleware and jumps to error
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Stack trace in prod JSON | `NODE_ENV` | Gate stack on `development` only |
+| 404 returns HTML not JSON | Error handler after static middleware order | Move API routes + 404 before static; separate routers |
+| Async route hangs, no log | Missing `catch(next)` | Wrap async handlers |
+| `headers already sent` | Double `res.send` in error path | `if (res.headersSent) return next(err)` |
+| Validation errors inconsistent | Ad-hoc status codes | Centralize in error class + handler |
+| Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -126,19 +168,6 @@ process.on('unhandledRejection', (err) => {
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Stack trace in prod JSON | `NODE_ENV` | Gate stack on `development` only |
-| 404 returns HTML not JSON | Error handler after static middleware order | Move API routes + 404 before static; separate routers |
-| Async route hangs, no log | Missing `catch(next)` | Wrap async handlers |
-| `headers already sent` | Double `res.send` in error path | `if (res.headersSent) return next(err)` |
-| Validation errors inconsistent | Ad-hoc status codes | Centralize in error class + handler |
-| Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -161,6 +190,14 @@ process.on('unhandledRejection', (err) => {
 - **Sending `err.stack` to clients in any environment** — security finding every time.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

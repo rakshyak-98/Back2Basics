@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Boot]] [[UEFI]] [[MBR]] [[UEFI (2)]]
 
 # Extensible Firmware interface (efi)
@@ -5,6 +6,15 @@
 > EFI is the firmware interface that replaced BIOS — modern systems run it as UEFI and boot loaders from an ESP.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

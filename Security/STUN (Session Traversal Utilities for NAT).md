@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[NAT Traversal]] [[ICE (Interactive Connectivity Establishment)]] [[TURN server (Traversal Using Relays around NAT)]]
 
 # STUN (Session Traversal Utilities for NAT)
@@ -5,6 +6,15 @@
 > STUN asks a public server “how does the internet see me?” — you get a public IP:port to share for a direct path.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

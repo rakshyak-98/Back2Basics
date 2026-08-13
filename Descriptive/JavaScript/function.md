@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/execution context]] [[Descriptive/JavaScript/constructor function]] [[javascript]] [[NodeJS/Event Loop]]
 
 # Function (JavaScript)
@@ -5,6 +6,15 @@
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

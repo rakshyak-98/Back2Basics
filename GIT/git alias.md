@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git command]] [[git branch]] [[git logs]]
 
 # Git aliases
@@ -5,6 +6,15 @@
 > shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

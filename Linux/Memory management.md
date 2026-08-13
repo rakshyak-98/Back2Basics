@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[OOM (Linux Out Of Memory)]] [[Linux cgroup]] [[process]] [[Linux Process Theory]]
 
 # Linux Memory Management
@@ -5,6 +6,16 @@
 > virtual memory = per-process address spaces + page cache + swap — OOM kills when overcommit meets real RAM pressure.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Single-thread vs multi-thread stacks]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -98,20 +109,6 @@ See [[OOM (Linux Out Of Memory)]] and [[Linux cgroup]] for container limits.
 
 ---
 
-## Single-thread vs multi-thread stacks
-
-| Aspect | Single-thread | Multi-thread |
-|--------|---------------|--------------|
-| Stacks | One | One per thread |
-| Heap | Process-wide | Shared across threads |
-| Isolation | Stack overflow kills process | One thread stack overflow can corrupt process |
-| Memory overhead | Lower | +(~MB × thread count) for stacks |
-| Communication | N/A | Shared heap — needs sync ([[mutexes]]) |
-
-Stack operations are fast (LIFO, compiler-managed). Thread stacks are allocated at thread creation — configure if deep recursion expected.
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -128,6 +125,20 @@ Stack operations are fast (LIFO, compiler-managed). Thread stacks are allocated 
 while sleep 5; do ps -o rss= -p PID; done
 valgrind --tool=massif ./app    # dev only
 ```
+
+---
+
+## Single-thread vs multi-thread stacks
+
+| Aspect | Single-thread | Multi-thread |
+|--------|---------------|--------------|
+| Stacks | One | One per thread |
+| Heap | Process-wide | Shared across threads |
+| Isolation | Stack overflow kills process | One thread stack overflow can corrupt process |
+| Memory overhead | Lower | +(~MB × thread count) for stacks |
+| Communication | N/A | Shared heap — needs sync ([[mutexes]]) |
+
+Stack operations are fast (LIFO, compiler-managed). Thread stacks are allocated at thread creation — configure if deep recursion expected.
 
 ---
 

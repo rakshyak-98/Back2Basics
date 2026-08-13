@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[ingestion]] [[transcoding]] [[ABR]] [[MPEG-TS]] [[When scaling to hundreds of concurrent channels]]
 
 # Microservice (streaming)
@@ -5,6 +6,15 @@
 > Service boundaries for video platforms — packager, origin, license, encoder — **not a generic microservices essay**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

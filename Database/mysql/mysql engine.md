@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[MySQL Engines]] [[ACID]] [[mysql lock]] [[write-ahead logging]]
 
 # mysql engine
@@ -5,6 +6,15 @@
 > A storage engine is how MySQL stores and locks a table — pick InnoDB unless you have a sharp reason not to.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

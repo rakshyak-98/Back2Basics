@@ -1,3 +1,4 @@
+<!-- note-strategy: comparison -->
 [[System Design]] [[Streaming]] [[HLS]] [[DASH]] [[ABR]]
 
 # on-demand vs static file (Streaming)
@@ -5,6 +6,33 @@
 > On-demand vs static — VOD/static files sit on disk/CDN; “on-demand” packaging/transcode happens when requested (or just-in-time), vs pre-packaged assets.
 
 ---
+
+## Index
+
+- [[#Decision context]]
+- [[#Comparison matrix]]
+- [[#Selection guide]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Gotchas]]
+- [[#Related]]
+
+## Decision context
+
+…
+
+## Comparison matrix
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+## Selection guide
+
+- Choose **A** when …
+- Choose **B** when …
 
 ## Mental model
 
@@ -52,6 +80,14 @@ player → CDN → origin packager (miss) → cache segments
 
 ---
 
+## When NOT to use
+
+- **True live events** — live pipeline, not VOD JIT.
+- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
+- **No CPU budget at edge** — pre-package everything.
+
+---
+
 ## Gotchas
 
 > [!WARNING]
@@ -62,14 +98,6 @@ player → CDN → origin packager (miss) → cache segments
 
 > [!WARNING]
 > **Live ≠ VOD on-demand** — live has different latency/GOP rules ([[HLS]] / [[DASH]]).
-
----
-
-## When NOT to use
-
-- **True live events** — live pipeline, not VOD JIT.
-- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
-- **No CPU budget at edge** — pre-package everything.
 
 ---
 

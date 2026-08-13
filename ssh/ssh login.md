@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ssh]]
 
 # Verify with the public key
@@ -5,6 +6,15 @@
 > Verify with the public key — TCP Connection — Your client connects to the server on port 22.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -24,7 +34,6 @@ ssh user@server.example.com
 ssh-keygen -t ed25519 -C "you@example.com"
 ```
 - private keys stays with you, the server needs to know who it should trust so, you copy your public key `~/.ssh/authorized_key` of your account on the server.
-
 
 ## Standard config / commands
 

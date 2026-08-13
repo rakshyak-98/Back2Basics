@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[gsetting]] [[editor configuration]] [[X Desktop Group]]
 
 # Linux configuration
@@ -5,6 +6,15 @@
 > Linux configuration is scattered on purpose — `/etc` for system, `~/.config` for user, unit drop-ins for services; know which layer wins.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

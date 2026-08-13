@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Factory Method]] [[Design pattern/Template Method]] [[System Design/SOLID]]
 
 # Strategy pattern
@@ -5,6 +6,18 @@
 > Strategy pattern — encapsulate what varies. When behavior branches by type (payment gateway, campaign goal, compression codec), put each variant in its own class implementing a
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -23,6 +36,14 @@ Context ──holds──► Strategy (interface)
 | **Concrete strategy** | One algorithm each |
 | **Context** | Business object that *uses* a strategy; may swap at runtime |
 | **Registry** | Map `goalId → Strategy` — OCP extension seam |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -81,6 +102,12 @@ Pull methods that vary out of the context class into strategy classes. Context p
 - Runtime swap needs a setter or new context — don't mutate shared singleton strategies with request state.
 - Strategy ≠ State — State transitions are internal; Strategy is chosen by the caller/configuration.
 - Tiny two-branch `if` is fine; extract Strategy when a third variant or second call site appears.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

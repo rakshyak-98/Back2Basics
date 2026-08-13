@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System design]] [[API design]] [[Authentication web application]] [[Distributed computing]]
 
 # Splitwise
@@ -5,6 +6,15 @@
 > Expense-sharing system design — **groups, balances, debt simplification, notifications**; classic interview + real fintech patterns.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

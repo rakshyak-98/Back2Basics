@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[mDNS]] [[DNS server]]
 
 # LLMNR
@@ -5,6 +6,15 @@
 > LLMNR (Link-Local Multicast Name Resolution) — Windows-style LAN name lookup over multicast when unicast DNS fails — spoofable; usually turn it off.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

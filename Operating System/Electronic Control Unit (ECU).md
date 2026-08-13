@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Data Direction Register (DDR)]] [[bus]] [[analog interface]]
 
 # Electronic Control Unit (ECU)
@@ -5,6 +6,15 @@
 > An ECU is a small computer in a vehicle/machine that runs one job — engine, brakes, transmission — over real-time buses.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -93,4 +103,4 @@ Sensors ──► ECU (MCU + firmware) ──► Actuators
 
 ## Related
 
-[[Data Direction Register (DDR)]] [[bus]] [[analog interface]] [[opcode]] [[system bus]] 
+[[Data Direction Register (DDR)]] [[bus]] [[analog interface]] [[opcode]] [[system bus]]

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[Database design]]
 
 # key Constraint
@@ -5,6 +6,15 @@
 > UNIQUE / FK / PK constraints stop bad rows at write time — the database enforces relationships, not just the app.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

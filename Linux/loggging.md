@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[journalctl]] [[systemd]] [[Services commands]] [[etc files]]
 
 # Logging (journal & syslog)
@@ -5,6 +6,15 @@
 > Logging (journal & syslog) — applications log to stdout/stderr (captured by journald for systemd units), syslog (/dev/log socket), or directly to files (/var/log/app/). journald stores binary
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

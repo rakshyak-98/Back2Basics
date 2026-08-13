@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[HLS]] [[DASH]] [[MPD]] [[ABR]] [[CMAF]] [[Manifest (streaming)]]
 
 # Manifest (streaming)
@@ -5,6 +6,15 @@
 > Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

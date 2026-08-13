@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql Programmable SQL]] [[cli]]
 
 # variables
@@ -5,6 +6,15 @@
 > MySQL variables hold values for the session (`@x`) or inside a routine (`DECLARE`) — different lifetime rules.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

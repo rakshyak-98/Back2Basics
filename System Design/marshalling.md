@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Serialization]] [[Distributed computing]] [[API design]] [[gRPC]]
 
 # Marshalling
@@ -5,6 +6,15 @@
 > Marshalling — (synonymous with serialization in most teams) transforms runtime objects into bytes for network, disk, or IPC, and unmarshals back on the receiver. Boundaries: different
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

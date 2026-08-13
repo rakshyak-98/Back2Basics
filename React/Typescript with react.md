@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[useRef]] [[react hooks]]
 
 # Typescript with react
@@ -5,6 +6,15 @@
 > Type React props, hooks, and refs so the compiler catches wrong shapes before runtime.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

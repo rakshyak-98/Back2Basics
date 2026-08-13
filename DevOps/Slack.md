@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[webhook]] [[Messaging/Web hooks]] [[DevOps]] [[Jenkins]]
 
 # Slack (ops & alerting)
@@ -5,6 +6,15 @@
 > Slack (ops & alerting) — slack receives HTTP POST (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: Alertmanager/PagerDuty/CI → Slack
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

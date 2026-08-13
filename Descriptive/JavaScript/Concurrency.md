@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS/Event Loop]] [[Operating System/Blocking Vs Non-Blocking]] [[javascript/web workers]] [[NodeJS/worker threads]]
 
 # JavaScript concurrency
@@ -5,6 +6,15 @@
 > JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]]
 
 # Abstraction
@@ -5,6 +6,18 @@
 > Abstraction — it allows interaction with an object through a defined interface, ensuring that only the specified behaviors are accessible, even if…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -16,6 +29,14 @@ It allows interaction with an object through a defined interface, ensuring that 
 
 
 ---
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -42,6 +63,12 @@ It allows interaction with an object through a defined interface, ensuring that 
 > Draw the failure mode before the happy path.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

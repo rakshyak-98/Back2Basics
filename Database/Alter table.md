@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[SQL/SQL]] [[database migration]] [[mysql table]]
 
 # ALTER TABLE
@@ -5,6 +6,15 @@
 > evolve schema in place — adds cost (locks, rebuilds); plan online DDL, batch alters, and rollback via migrations.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

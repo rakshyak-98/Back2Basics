@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[DSA algorithms]]
 
 # dsa modular arithmetics
@@ -5,6 +6,15 @@
 > Modular arithmetic is math on remainders — wrap indices, hash, and contest math under a modulus.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

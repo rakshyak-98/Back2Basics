@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[migration]] [[mysql]] [[postgres essential]] [[Database design]] [[OLTP]]
 
 # Database seeding
@@ -5,6 +6,15 @@
 > **Initial or repeatable reference data** loaded into schema after migrations — dev fixtures, prod lookup tables, demo tenants. Not a substitute for migrations or prod data backup.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

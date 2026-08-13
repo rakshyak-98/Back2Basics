@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongoose middleware]] [[mongoose/Mongoose plugin]] [[Database/Data access patterns]]
 
 # MongoDB model (Mongoose schema)
@@ -5,6 +6,15 @@
 > Schema + indexes + hooks that define document shape, constraints, and query paths — **Mongoose docs** + DBA review habits.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

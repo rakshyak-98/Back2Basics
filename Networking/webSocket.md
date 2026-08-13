@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[HTTP module]] [[TCP]] [[SOCKS (Socket Secure)]] [[Configuration]]
 
 # WebSocket
@@ -5,6 +6,15 @@
 > full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

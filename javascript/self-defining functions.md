@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[IIFC]] [[prototype]]
 
 # self-defining functions
@@ -5,6 +6,15 @@
 > Self-defining (lazy) function — first call installs a faster replacement implementation, later calls skip setup.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

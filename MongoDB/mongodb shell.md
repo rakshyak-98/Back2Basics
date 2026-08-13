@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh]] [[MongoDB query validation]]
 
 # mongodb shell
@@ -5,6 +6,15 @@
 > The legacy `mongo` shell runs JS against the server — prefer [[mongosh]] on modern installs; same admin patterns.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

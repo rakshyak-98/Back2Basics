@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[React Pattern/Provider pattern]] [[React Pattern/Compound Components 1]]
 
 # Compound Components
@@ -5,6 +6,15 @@
 > Build a feature UI from named parts that share one context — state in the parent, markup flexible for the caller.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[systemd]] [[systemctl]] [[Services commands]]
 
 # system service unit files
@@ -5,6 +6,15 @@
 > A systemd unit file declares how a service starts, restarts, and is sandboxed — `[Unit]` / `[Service]` / `[Install]`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

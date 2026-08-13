@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[apache]]
 
 # fastCGI servers
@@ -5,6 +6,15 @@
 > fastCGI servers — fast Common Gateway Interface — binary protocol that improves upon the original CGI by providing a high-performance, language-agnostic way…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -15,6 +25,25 @@ Fast Common Gateway Interface -> binary protocol that improves upon the original
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

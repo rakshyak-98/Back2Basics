@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[cookies]]
 
 # cookies lifecycle
@@ -5,6 +6,15 @@
 > cookies lifecycle — session — deleted when tab/session ends
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -34,6 +44,25 @@
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/redux middleware]] [[Redux/Redux State sync with localstorage]]
 
 # Middleware
@@ -5,6 +6,15 @@
 > Run code around every action — logging, thunk extras, or `createListenerMiddleware` side effects without sagas.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

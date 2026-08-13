@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[ABR]] [[DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]]
 
 # HLS (HTTP Live Streaming)
@@ -5,6 +6,16 @@
 > HLS cuts video into short HTTP files and a playlist — the player fetches the next chunk over plain HTTPS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#LL-HLS (low latency)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -91,6 +102,20 @@ Debug: `curl` the master → follow a media playlist → HEAD a segment; Apple `
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen / won’t start | Master 404, bad `CODECS`, CORS | Fix origin path; align ffprobe vs playlist |
+| Live stuck / freeze at edge | CDN caching playlist; old `MEDIA-SEQUENCE` | `max-age=0` on live `.m3u8`; fix packager sequence |
+| Works Safari, fails Chrome | TS-only or FairPlay-only path | Dual package; Widevine for non-Apple ([[DRM]]) |
+| High live latency | Full-segment only | LL-HLS parts or shorter segments |
+| 403 on segments, playlist OK | Token not on child URLs | Relative URLs + signed cookie |
+| ABR never ups | Wrong `BANDWIDTH` | Recalculate; see [[ABR]] |
+| Decrypt fail | `#EXT-X-KEY` URI / DRM license | Fix key host; check [[EME]] |
+
+---
+
 ## LL-HLS (low latency)
 
 Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims for **~2–5 s**:
@@ -103,20 +128,6 @@ Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims 
 | **`EXT-X-RENDITION-REPORT`** | Sync sequence across rungs for faster ABR |
 
 Needs CMAF-style chunks and a player that understands LL tags.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen / won’t start | Master 404, bad `CODECS`, CORS | Fix origin path; align ffprobe vs playlist |
-| Live stuck / freeze at edge | CDN caching playlist; old `MEDIA-SEQUENCE` | `max-age=0` on live `.m3u8`; fix packager sequence |
-| Works Safari, fails Chrome | TS-only or FairPlay-only path | Dual package; Widevine for non-Apple ([[DRM]]) |
-| High live latency | Full-segment only | LL-HLS parts or shorter segments |
-| 403 on segments, playlist OK | Token not on child URLs | Relative URLs + signed cookie |
-| ABR never ups | Wrong `BANDWIDTH` | Recalculate; see [[ABR]] |
-| Decrypt fail | `#EXT-X-KEY` URI / DRM license | Fix key host; check [[EME]] |
 
 ---
 

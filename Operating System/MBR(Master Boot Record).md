@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[MBR]] [[UEFI]] [[Persistent Block Storage]]
 
 # MBR(Master Boot Record)
@@ -5,6 +6,15 @@
 > MBR is the first 512-byte sector of a disk — boot stub plus up to four primary partition entries (alias of [[MBR]]).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

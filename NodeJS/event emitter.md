@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[EventEmitter]] [[Stream]] [[Node events driven]]
 
 # event emitter
@@ -5,6 +6,15 @@
 > Pub/sub inside one process — `emit` named events; listeners run synchronously in registration order.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

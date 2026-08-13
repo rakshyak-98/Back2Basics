@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[IAM]] [[ARN (Amazon Resource Name)]] [[aws STS (Security Token Service)]] [[AWS ECR]] [[AWS Networking]]
 
 # AWS Lambda
@@ -5,6 +6,15 @@
 > AWS Lambda — runs your function on events and bills only while it runs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[query/mongodb lookup query]] [[mongosh query]]
 
 # mongodb view
@@ -5,6 +6,15 @@
 > A MongoDB view is a saved aggregation pipeline — read-only, always reflects the source collection.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

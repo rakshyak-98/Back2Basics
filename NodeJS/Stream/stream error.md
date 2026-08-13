@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[NodeJS]] [[Stream]] [[Stream/pipe]] [[Stream Events]] [[Buffers]]
 
 # stream error
@@ -5,6 +6,45 @@
 > Stream failures — wrong chunk types, missing `pipeline` callback, and unclean destroy; handle `error` or use `stream/promises`.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| chunk must be string/Buffer | Wrote number/object | Buffer/string or `objectMode` |
+| streams[last] must be function | Callback `pipeline` sans cb | Add cb or use promises API |
+| Socket left open | Raw `pipe` + error | `pipeline` |
+| Readable.from(Buffer) odd | API expects iterable | `Readable.from([buf])` or `.end(buf)` |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -49,17 +89,6 @@ await pipeline(
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| chunk must be string/Buffer | Wrote number/object | Buffer/string or `objectMode` |
-| streams[last] must be function | Callback `pipeline` sans cb | Add cb or use promises API |
-| Socket left open | Raw `pipe` + error | `pipeline` |
-| Readable.from(Buffer) odd | API expects iterable | `Readable.from([buf])` or `.end(buf)` |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -75,6 +104,14 @@ await pipeline(
 - **Happy-path only demos** — still add error paths before production.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

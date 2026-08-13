@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[gsetting]] [[X Desktop Group]]
 
 # gnome Colorschem
@@ -5,6 +6,15 @@
 > GNOME color scheme is the light/dark preference — `org.gnome.desktop.interface color-scheme` plus GTK/app theme keys.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

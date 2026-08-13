@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[source list file]] [[gpg]] [[apt package manager]]
 
 # keyrings
@@ -5,6 +6,15 @@
 > APT keyrings hold the OpenPGP keys that verify repository metadata — modern path is files under `/usr/share/keyrings` + `signed-by=`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

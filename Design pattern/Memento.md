@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/State]] [[Design pattern/Command]]
 
 # Memento
@@ -5,6 +6,18 @@
 > Memento — draft (originator) ──createMemento──► Memento ──stored by──► History
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -14,6 +27,14 @@ Originator (draft) creates an opaque memento; caretaker (history stack) stores i
 Draft (originator) ──createMemento──► Memento ──stored by──► History
                  ◄──restore──────────┘
 ```
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -56,6 +77,12 @@ function undo() {
 
 > [!WARNING]
 > …
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

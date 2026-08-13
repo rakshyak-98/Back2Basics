@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ssh]]
 
 # ssh agent
@@ -5,6 +6,15 @@
 > ssh agent — background process that holds decrypted private keys in memory so you type the key passphrase once per login session.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[window manager]] [[x11]] [[wayland]] [[compositors]]
 
 # X window system (X11)
@@ -5,6 +6,15 @@
 > X11 is the classic Unix display protocol — clients speak X to an X server (Xorg) that owns screens and input.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

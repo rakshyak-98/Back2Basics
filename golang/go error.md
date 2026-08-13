@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[golang]] [[go callstack]] [[go-routines]]
 
 # go error
@@ -5,6 +6,46 @@
 > Go errors — values you return (`error` interface), not exceptions; `panic` is for truly unrecoverable surprises.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Nil pointer panic | Unchecked pointer / interface | Guard; init; read stack frame |
+| Lost root cause | `%v` string wrap | Use `%w` |
+| `err == ErrX` false | Wrapped | `errors.Is` |
+| Panic in goroutine | No recover | Handle inside goroutine; log |
+| Silent ignore | `_ = f()` | Never drop err in prod paths |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -47,18 +88,6 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Nil pointer panic | Unchecked pointer / interface | Guard; init; read stack frame |
-| Lost root cause | `%v` string wrap | Use `%w` |
-| `err == ErrX` false | Wrapped | `errors.Is` |
-| Panic in goroutine | No recover | Handle inside goroutine; log |
-| Silent ignore | `_ = f()` | Never drop err in prod paths |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -79,6 +108,14 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 - **Stringly errors only** — use types/sentinels for branches.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

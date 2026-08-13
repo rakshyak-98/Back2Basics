@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Questions]]
 
 # Connection Pool
@@ -5,6 +6,15 @@
 > Connection Pool — you are tasked with designing a connection pool for a database management module of a complex software application. The connection pool is…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

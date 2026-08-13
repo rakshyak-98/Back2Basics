@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[MBR]] [[fsync]] [[disk IOPS]] [[Buffer cache]]
 
 # Persistent Block Storage
@@ -5,6 +6,15 @@
 > Block volumes keep bytes across VM stop/restart — attach like a disk, read/write fixed-size blocks, snapshot for backup.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

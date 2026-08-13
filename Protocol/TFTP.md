@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[UDP]] [[ftp]] [[dnsmasq]]
 
 # TFTP
@@ -5,6 +6,15 @@
 > TFTP (Trivial File Transfer Protocol) — tiny UDP file transfer with block ACKs for boot images and appliance configs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

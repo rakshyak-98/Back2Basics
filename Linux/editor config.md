@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux configuration]] [[vscode]] [[Scripting]]
 
 # EditorConfig (editor config)
@@ -5,6 +6,15 @@
 > `.editorconfig` — one repo-root file so every editor agrees on indent, charset, and EOL — stops the PR wars between "tabs vs spaces" and fixes mixed
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

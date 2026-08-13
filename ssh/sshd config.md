@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[SSH]] [[systemd]] [[Authentication command]] [[/etc files]]
 
 # sshd config
@@ -5,6 +6,15 @@
 > `sshd_config` — server SSH policy: who can log in and how they authenticate.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

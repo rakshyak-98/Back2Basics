@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go project]]
 
 # go package
@@ -5,6 +6,15 @@
 > Package — one directory of `.go` files compiled together; uppercase identifiers are exported across import boundaries.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[prototype]]
 
 # Destructuring
@@ -5,6 +6,15 @@
 > Unpack values from arrays/objects into bindings — shorter than manual indexing; defaults and rest supported.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

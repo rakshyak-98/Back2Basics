@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS zone]] [[AWS Networking]] [[TLS (Transport Layer Security)]] [[How to connect Godaddy domain with AWS EC2 instance]]
 
 # Route53
@@ -5,6 +6,15 @@
 > Route53 — hosts hosted zones (public on the internet, or private associated with VPCs). Records answer queries; routing policies (weighted, latency, failover, geolocation) steer traffic. Health checks remove
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

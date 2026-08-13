@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[compiler]] [[linker]] [[Operating System/file descriptors]]
 
 # library file
@@ -5,6 +6,15 @@
 > library file — source → Object (.o) → Archive (.a) OR Shared (.so)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

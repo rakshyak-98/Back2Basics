@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[NodeJS/Packages/SuperTokens]]
 
 # Strip
@@ -5,6 +6,15 @@
 > *(Filename typo: **Stripe**)* — Payment processor API for cards, subscriptions, Connect marketplaces — **Stripe docs + PCI scope reduction**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[localhost]]
 
 # non-Routable address
@@ -5,6 +6,15 @@
 > Non-routable addresses stay on the private side — the public internet will not deliver packets to them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

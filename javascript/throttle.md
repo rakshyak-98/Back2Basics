@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[event listener]] [[promise]]
 
 # throttle
@@ -5,6 +6,15 @@
 > Run a function at most once per time window — drop or coalesce extra calls (scroll, resize, mousemove).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

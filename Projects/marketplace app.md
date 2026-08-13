@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Projects]] [[TLS (Transport Layer Security)]] [[ACID]] [[IDOR]] [[JWT authentication]] [[gRPC]]
 
 # marketplace app
@@ -5,6 +6,15 @@
 > Two-sided marketplace architecture: **payments, trust, inventory, and dispute** boundaries — design checklist for staff reviews, not a build backlog.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

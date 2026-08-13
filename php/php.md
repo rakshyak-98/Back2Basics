@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[php error]] [[PHP-FPM]] [[Linux/commands/Services commands]]
 
 # PHP
@@ -6,9 +7,30 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 PHP executes per request (FPM worker pool) or CLI (cron, Composer). The **SAPI** (FPM, CLI, Apache module) loads `php.ini` + conf.d snippets. Composer manages dependencies; autoload maps classes. Production = FPM behind Nginx/Apache, opcache on, errors to log not browser.
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

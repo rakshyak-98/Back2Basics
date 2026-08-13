@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]]
 
 # NVENC (NVIDIA Encoder)
@@ -5,6 +6,15 @@
 > NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

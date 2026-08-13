@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[nginx SPA deployment]] [[React]] [[CORS (Cross Origin Request Sharing)]] [[Deployment]]
 
 # Vercel deployment
@@ -5,6 +6,15 @@
 > Vercel deployment — vercel builds from Git (or CLI vercel deploy) → static assets on global CDN + serverless functions (/api/*, Next.js routes). Routing is filesystem-based
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

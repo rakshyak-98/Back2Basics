@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[postgres/psql essential]] [[postgres/psql keywords]] [[mysql/mysql user]] [[IAM]]
 
 # PostgreSQL users & roles
@@ -5,6 +6,15 @@
 > Postgres **roles** unify users and groups — login role = user; grant least privilege; never app-connect as superuser.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

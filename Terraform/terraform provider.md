@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Terraform setup]] [[terraform]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]
 
 # terraform provider
@@ -5,6 +6,23 @@
 > Provider deep-dive — **Terraform in Action** (Winkler) + **Terraform: Up & Running** (Brikman).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Configure the provider]]
+- [[#Triage (when things break)]]
+- [[#Declare source + version]]
+- [[#Aliases (multi-region / multi-account)]]
+- [[#How Terraform talks to providers]]
+- [[#Auth reminders]]
+- [[#Inspect providers]]
+- [[#Resource vs data for a provider]]
+- [[#Non-cloud providers]]
+- [[#Book takeaways]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +43,16 @@ Winkler: arguments here are **provider-level** (region, endpoints, authenticatio
 Values often come from [[variable file]].
 
 ---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
+| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
+| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
+| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
+| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
 
 ## Declare source + version
 
@@ -133,16 +161,6 @@ Same pattern — `required_providers` + `provider` block:
 
 - **Winkler**: provider = plugin; configuration block; aliases; schema drives valid arguments
 - **Brikman**: pin versions; never store credentials in code; registries for providers/modules
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
-| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
-| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
-| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
-| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
 
 ## Gotchas
 

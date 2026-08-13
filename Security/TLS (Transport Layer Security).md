@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[Nginx]] [[Configuration]]
 
 # TLS (Transport Layer Security)
@@ -5,6 +6,15 @@
 > encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

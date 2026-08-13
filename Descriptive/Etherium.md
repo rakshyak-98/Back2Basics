@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[web capabilities]] [[JWT authentication]]
 
 # Ethereum (filename Etherium.md)
@@ -5,6 +6,15 @@
 > Programmable blockchain: accounts hold state; transactions pay **gas** to mutate it — **Ethereum Yellow Paper** + **Mastering Ethereum** for SE integration context.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

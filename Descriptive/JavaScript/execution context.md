@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/new]] [[javascript]] [[Operating System/Stack Frame]]
 
 # Execution context
@@ -5,6 +6,15 @@
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

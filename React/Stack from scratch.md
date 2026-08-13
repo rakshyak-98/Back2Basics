@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[React Architecture]] [[React Application Architecture for Production]]
 
 # Creating a stack from scratch
@@ -5,6 +6,15 @@
 > Pick foundation + data + styling from constraints — risk, speed, or legacy — not fashion.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

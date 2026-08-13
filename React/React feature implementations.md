@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[react routes]] [[hydration]]
 
 # React feature implementations
@@ -5,6 +6,15 @@
 > Detect “user arrived via path A → B” — pass router state, keep a short history, or cookie middleware.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS]] [[AWS EC2]] [[AWS EBS(Elastic Block Store)]] [[AMI (Amazon Machine Image)]]
 
 # EBS (Elastic Block Store)
@@ -5,6 +6,15 @@
 > EBS — network-attached block disk for one EC2 instance in one AZ; survives stop; snapshots for backup/clone.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

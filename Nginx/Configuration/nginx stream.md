@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]] [[nginx using unix socket]]
 
 # Nginx Stream (L4 TCP/UDP Proxy)
@@ -5,6 +6,15 @@
 > Nginx Stream (L4 TCP/UDP Proxy) — the stream context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

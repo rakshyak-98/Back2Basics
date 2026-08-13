@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[expressjs]] [[open api specification]]
 
 # graphql
@@ -5,6 +6,15 @@
 > Query language + runtime — client asks for exact fields; one endpoint serves queries, mutations, and (optionally) subscriptions.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

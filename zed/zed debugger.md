@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[zed]]
 
 # zed debugger
@@ -5,6 +6,15 @@
 > zed debugger — console is in 'commands' mode, prefix expressions with '?'.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -26,6 +36,25 @@ For more information, see: https://www.kernel.org/doc/Documentation/security/Yam
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Blocking Vs Non-Blocking]] [[non-blocking]] [[Epoll]] [[context switching]] [[system call]]
 
 # Blocking
@@ -5,6 +6,15 @@
 > Blocking means a call waits until the kernel finishes the work — your thread sleeps instead of returning early.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

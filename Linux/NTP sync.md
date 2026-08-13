@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux system management]] [[Linux configuration]] [[date]] [[systemd]]
 
 # NTP sync
@@ -5,6 +6,15 @@
 > keep host clocks aligned to UTC via NTP so TLS, JWT, Kerberos, DB expiry, and distributed logs stay trustworthy — **Stevens UNP + Kerrisk LPI**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redis]] [[Distributed computing]] [[System design]] [[database sharding]]
 
 # Cache system
@@ -5,6 +6,15 @@
 > Cache system — a cache stores copies of data closer to readers (memory, edge, CDN) to cut latency and load on origin (DB, API). Caches are
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

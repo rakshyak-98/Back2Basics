@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[ICE (Interactive Connectivity Establishment)]] [[WebRTC Signaling channels]] [[TURN server (Traversal Using Relays around NAT)]] [[SCTP (Stream Control Transmission Protocol)]]
 
 # WebRTC
@@ -5,6 +6,15 @@
 > Browser P2P real-time A/V + data — media is encrypted UDP, not HTTP.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

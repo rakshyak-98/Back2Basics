@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Byte stream]] [[RTMP]] [[NodeJS]]
 
 # How to attach stream to HTTP handlers
@@ -5,6 +6,15 @@
 > Pipe Node readable streams into `res` (and `req` into files/upstreams) — backpressure-aware bytes, not buffering whole files in RAM.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

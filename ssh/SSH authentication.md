@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ssh]]
 
 # SSH authentication
@@ -5,6 +6,15 @@
 > SSH authentication — decrypting the signed challenge with the public key.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -17,7 +27,6 @@
 ### How Key Authentication Works in SSH (Verification of Signature by Server)
 SSH key-based authentication is built on **public-key cryptography**, which allows for secure, passwordless authentication. The core idea is that the client proves its identity to the server by signing a challenge with its private key, and the server verifies the signature using the client's public key.
 Here’s how the **key authentication process** works step-by-step:
-
 
 ## Standard config / commands
 

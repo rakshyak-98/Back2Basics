@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[Hooks/react useEffect]] [[useRef]] [[Optimizing performance]]
 
 # react hooks
@@ -5,6 +6,15 @@
 > Functions that let function components hold state and side effects — call them at the top level, same order every render.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

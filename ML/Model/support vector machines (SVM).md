@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML Classifiers]] [[binary classification]] [[regression]] [[Model/Linear regression]] [[scikitlearn]]
 
 # Support Vector Machines (SVM)
@@ -5,6 +6,15 @@
 > Find the **maximum-margin** separating hyperplane (or ε-tube for regression) — kernel trick maps to high-D implicitly — **Cortes & Vapnik (1995)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

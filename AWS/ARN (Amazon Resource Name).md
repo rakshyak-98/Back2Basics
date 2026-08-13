@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS ECR]] [[AWS Lambda]]
 
 # ARN (Amazon Resource Name)
@@ -5,6 +6,15 @@
 > **Universal resource identifier** for IAM policies, CloudTrail, cross-service references, and CLI `--resource-arn`. Format is strict — one wrong segment = `AccessDenied` or wrong resource.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

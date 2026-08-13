@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React data management]] [[expressjs]] [[JWT authentication]] [[react-query]] [[Redux/RTQ/RTQ tags]]
 
 # API handling (React)
@@ -5,6 +6,15 @@
 > API handling (React) — component → hook (useQuery / useMutation) → api client (axios/fetch) → server
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

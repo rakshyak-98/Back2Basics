@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kafka]]
 
 # Kafka configuration
@@ -5,6 +6,15 @@
 > Kafka configuration — kafka 08:14:27.57 ERROR ==> Kafka haven't been configured to work in either Raft or Zookeper mode. Please make sure at least one of…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

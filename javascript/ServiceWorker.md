@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[web workers]] [[content security policy]] [[Event Loop]] [[React build]]
 
 # Service Worker
@@ -5,6 +6,15 @@
 > Service Worker — unlike web workers (page-spawned, die with tab), a service worker is registered per origin + scope:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

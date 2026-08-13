@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[html]]
 
 # fillReact
@@ -5,6 +6,15 @@
 > `fillRect` paints a filled axis-aligned rectangle on a canvas 2D context (note: often mistyped as fillReact).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

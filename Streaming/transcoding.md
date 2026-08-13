@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Encoding]] [[ffmpeg]] [[ABR]] [[rendition]] [[NVENC]] [[codecs]]
 
 # transcoding
@@ -5,6 +6,15 @@
 > Transcoding decodes media then re-encodes it — new codec, size, or bitrate for devices and ABR ladders.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb schema]] [[MongoDB data populate]]
 
 # mongodb denormalization
@@ -5,6 +6,15 @@
 > Denormalization copies data into documents you’ll read together — fewer joins, more update fan-out.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[vim keybindings]] [[vim buffers]]
 
 # vim commands
@@ -5,6 +6,39 @@
 > vim commands — ctrl-a (increment number under cursor)
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Standard config / commands
+
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -49,15 +83,6 @@ colorscheme habamax
 
 ---
 
-## Standard config / commands
-
-```bash
-# version + config path
-# dry-run when available
-```
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -80,6 +105,12 @@ colorscheme habamax
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

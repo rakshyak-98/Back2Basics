@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[context switching]] [[Buffer cache]] [[Rolling Buffer]] [[NVENC]] [[ffmpeg]]
 
 # Single Instruction, Multiple Data (SIMD)
@@ -5,6 +6,15 @@
 > CPU vector instructions that process many data lanes per cycle — **when it matters for SE work**, not microarchitecture textbooks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

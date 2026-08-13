@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[CLI]] [[node command]] [[Node.js run as a non-privileged user]]
 
 # nvm (Node Version Manager)
@@ -5,6 +6,15 @@
 > nvm (Node Version Manager) — nvm installs Node versions under ~/.nvm/versions/node/ and replaces node/npm on PATH when you nvm use. Shell startup sources nvm.sh to define
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

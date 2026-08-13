@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[DSA algorithms]] [[array]]
 
 # Sorting algorithm
@@ -5,6 +6,15 @@
 > Sorting puts elements in order — pick by stability, memory, and whether data is almost sorted.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[regression]] [[scikitlearn]] [[sigmoid]] [[data preprocessing]] [[supervised learning]]
 
 # Linear regression
@@ -5,6 +6,15 @@
 > Predict continuous target as weighted sum of features (+ intercept) — **Hastie ESL**; baseline every tabular regression problem should beat.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

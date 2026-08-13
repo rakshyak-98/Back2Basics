@@ -1,8 +1,20 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb replicaset]] [[System Design/database sharding]] [[mognodb indexing]]
 
 # MongoDB sharding
 
 > MongoDB sharding — a sharded cluster has three roles: Documents land on shards by shard key ranges (or hashes).
+
+---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

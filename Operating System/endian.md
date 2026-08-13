@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[TCP]] [[ELF (Editabl Linkable File)]] [[SYSV (System V)]]
 
 # endian
@@ -5,6 +6,15 @@
 > Endianness is byte order in memory for multi-byte values — big puts the high byte first; little puts the low byte first.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

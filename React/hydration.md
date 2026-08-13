@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[RSC (React Server Component boundaries)]] [[SSR]]
 
 # hydration
@@ -5,6 +6,15 @@
 > Browser JS “wakes up” server HTML — attach listeners and state so the page becomes interactive.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

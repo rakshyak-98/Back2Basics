@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go error]] [[go-routines]]
 
 # go callstack
@@ -5,6 +6,15 @@
 > Call stack unwind — Go walks frames backward on panic and runs each `defer` before the frame dies.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[file mount]] [[rsync]] [[Find command]]
 
 # Linux file management
@@ -5,6 +6,15 @@
 > File management is create/find/move/permission/backup of data on disk — paths, ownership, and mounts matter more than fancy tools.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

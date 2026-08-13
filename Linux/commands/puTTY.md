@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[SSH]] [[Linux terminal]] [[terminal emulator]]
 
 # PuTTY
@@ -5,6 +6,15 @@
 > PuTTY — a GUI terminal + connection manager (not a shell). It implements SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

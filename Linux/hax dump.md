@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[gdb]] [[webSocket]] [[Networking]]
 
 # hax dump *(filename typo — see hexdump / xxd below)*
@@ -5,6 +6,15 @@
 > Hex dumps for binary inspection — read wire formats, corrupt files, and WebSocket frames byte-by-byte. File is named `hax dump.md`; tools are **`hexdump`** and **`xxd`**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS server]] [[public resolver]] [[BIND]] [[PoserDNS]]
 
 # Unbound
@@ -5,6 +6,15 @@
 > Unbound — validating recursive DNS resolver: walks the hierarchy, caches answers, checks DNSSEC — not an authoritative zone host.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

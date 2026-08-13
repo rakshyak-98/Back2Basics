@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux toolkit]] [[Redux/Redux createAsyncThunk]]
 
 # Redux Thunk
@@ -5,6 +6,15 @@
 > Middleware that lets action creators return functions — put async work (fetch, delay) next to dispatch.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

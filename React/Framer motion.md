@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Optimizing performance]] [[react hooks]] [[React build]] [[css/Animation]]
 
 # Framer Motion
@@ -5,6 +6,15 @@
 > Declarative animation library for React — `motion` components, variants, layout transitions — **Motion (formerly Framer Motion) docs**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

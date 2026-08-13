@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[covering index]] [[mysql query]] [[mysql engine]]
 
 # mysql index
@@ -5,6 +6,15 @@
 > An index is a sorted lookup structure so MySQL finds rows without scanning the whole table — pay write cost for read speed.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongoose/mongoose]] [[query/mongodb lookup query]]
 
 # MongoDB data populate
@@ -5,6 +6,15 @@
 > Populate (Mongoose) replaces ObjectId refs with documents — convenience join at the app layer.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[compiler/compiler]] [[Operating System/runtime]] [[compiler/transpiler]]
 
 # Compile time
@@ -5,6 +6,15 @@
 > Phase before program runs — parsing, type checking, optimization, and codegen; errors here prevent broken binaries from shipping.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

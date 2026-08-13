@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[thread pool]] [[Blocking]] [[multi-threaded]]
 
 # CPU IO Bound Task
@@ -5,6 +6,15 @@
 > CPU-bound burns cores on compute; I/O-bound spends time waiting on disk, network, or users.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

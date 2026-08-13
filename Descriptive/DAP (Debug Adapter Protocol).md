@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[LSP]] [[Debugger configuratoin]]
 
 # DAP (Debug Adapter Protocol)
@@ -5,6 +6,15 @@
 > DAP is how editors talk to debuggers — breakpoints, stacks, and variables over a standard protocol (cousin of LSP).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

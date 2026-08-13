@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mime type]] [[response header]] [[HTTP]]
 
 # Registered Media Types (RMT)
@@ -5,6 +6,15 @@
 > Registered Media Types (RMT) — media types (MIME types) are type/subtype plus optional parameters:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]]
 
 # `new` operator
@@ -5,6 +6,15 @@
 > Creates object, sets prototype, runs constructor with fresh `this`, returns instance — **ECMAScript `[[Construct]]`**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

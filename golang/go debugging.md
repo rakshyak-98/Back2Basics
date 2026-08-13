@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go cli]] [[go error]] [[go callstack]]
 
 # go debugging
@@ -5,6 +6,15 @@
 > Debug Go — race detector, Delve, pprof, and logging beats printf-only when concurrency bites.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

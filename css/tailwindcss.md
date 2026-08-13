@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[css]] [[scss]] [[Nginx]] [[React]] [[Flash of Unstyled Content]]
 
 # Tailwind CSS
@@ -5,6 +6,15 @@
 > Utility-first CSS framework — compose designs from constrained class names; build step tree-shakes unused utilities for production.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

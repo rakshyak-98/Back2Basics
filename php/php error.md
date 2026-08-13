@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[PHP-FPM]] [[apache/apache modules]] [[Nginx/Configuration]]
 
 # PHP errors
@@ -5,6 +6,45 @@
 > PHP errors — PHP in production usually sits behind Apache (mod_php rare now) or Nginx → PHP-FPM (Unix socket or TCP). "No listening sockets" means the
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `no listening sockets available, shutting down` | `ss -tlnp`, Apache already up | Stop duplicate Apache; free port 80 |
+| `Address already in use` | Conflicting nginx/apache | One listener per port; disable unused service |
+| 502 Bad Gateway | FPM running? socket path | Restart FPM; align socket in nginx + pool |
+| Blank page, no log | `display_errors` off | Check FPM/Apache error log; enable log in dev only |
+| `Permission denied` on socket | www-data group | `listen.owner/group/mode` in pool config |
+| Max children reached | FPM slow log | Raise `pm.max_children`; fix slow queries |
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -47,17 +87,6 @@ fastcgi_pass unix:/run/php/php8.2-fpm.sock;
 listen = /run/php/php8.2-fpm.sock
 ```
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `no listening sockets available, shutting down` | `ss -tlnp`, Apache already up | Stop duplicate Apache; free port 80 |
-| `Address already in use` | Conflicting nginx/apache | One listener per port; disable unused service |
-| 502 Bad Gateway | FPM running? socket path | Restart FPM; align socket in nginx + pool |
-| Blank page, no log | `display_errors` off | Check FPM/Apache error log; enable log in dev only |
-| `Permission denied` on socket | www-data group | `listen.owner/group/mode` in pool config |
-| Max children reached | FPM slow log | Raise `pm.max_children`; fix slow queries |
-
 ## Gotchas
 
 > [!WARNING]
@@ -71,6 +100,14 @@ listen = /run/php/php8.2-fpm.sock
 
 - Don't enable `display_errors=On` in production — leaks paths and logic.
 - Don't run Apache and Nginx both binding :80 without intentional reverse-proxy setup.
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT]]
 
 # 1. When git runs a command like `git push` it internally calls.
@@ -5,6 +6,15 @@
 > 1. When git runs a command like `git push` it internally calls. — create auth token from GitHub personal access token
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -29,7 +39,6 @@ git config --global credential.helper cache;
 ```bash
 printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 ```
-
 
 ## Standard config / commands
 

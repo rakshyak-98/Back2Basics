@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go]] [[go embedding]]
 
 # go interface
@@ -5,6 +6,15 @@
 > Interface — a method set; any type with those methods satisfies it **implicitly** (no `implements` keyword).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[TCP]] [[webSocket]] [[TLS (Transport Layer Security)]] [[CORS (Cross Origin Request Sharing)]]
 
 # Network error
@@ -5,6 +6,46 @@
 > Network error — s happen before or instead of an HTTP response:
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `NS_BINDING_ABORTED` | Cancelled navigation? CORS? | Not server bug if user navigated away; fix preflight |
+| Intermittent mobile failures | TLS middleboxes | TLS 1.2+; proper cert chain |
+| Works curl, fails browser | Mixed content, CORS, CSP | HTTPS everywhere; ACAO headers |
+| Spike in timeouts | LB health, SYN queue | Scale backends; `somaxconn`; DDoS |
+| Only one region | DNS geo / routing | GeoDNS; anycast; BGP path |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -64,18 +105,6 @@ ss -tan state time-wait | wc -l   # exhaustion vs app bug
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `NS_BINDING_ABORTED` | Cancelled navigation? CORS? | Not server bug if user navigated away; fix preflight |
-| Intermittent mobile failures | TLS middleboxes | TLS 1.2+; proper cert chain |
-| Works curl, fails browser | Mixed content, CORS, CSP | HTTPS everywhere; ACAO headers |
-| Spike in timeouts | LB health, SYN queue | Scale backends; `somaxconn`; DDoS |
-| Only one region | DNS geo / routing | GeoDNS; anycast; BGP path |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -94,6 +123,14 @@ ss -tan state time-wait | wc -l   # exhaustion vs app bug
 Don't blanket-retry network errors without **idempotency** — POST may have partially succeeded; use idempotency keys and dedupe.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql index]] [[key Constraint]] [[mysql json]]
 
 # mysql table
@@ -5,6 +6,15 @@
 > Create, copy, alter, and constrain tables — `LIKE` vs `AS SELECT`, JSON columns, FKs, and `ON UPDATE` timestamps.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[prototype]] [[Packages/Immer]]
 
 # primitive non-primitive values
@@ -5,6 +6,15 @@
 > Primitives (number, string, bool, null, undefined, symbol, bigint) are copied by value; objects/arrays/functions are references.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

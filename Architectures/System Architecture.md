@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[Architectures]] [[Clean Architecture]] [[Multi-tier and Layered Architecture]]
 
 # System Architecture
@@ -5,6 +6,33 @@
 > System architecture is the map of boxes and arrows — services, data stores, and failure domains you run in prod.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -71,6 +99,12 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 
 - **Prototype / spike** — skip multi-service until the product question is answered.
 - **Single-team CRUD** — modular monolith often beats premature microservices.
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

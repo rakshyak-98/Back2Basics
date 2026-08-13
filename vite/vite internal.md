@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[vite]]
 
 # vite internal
@@ -5,6 +6,15 @@
 > vite internal — you cannot use process.env like in a Webpack setup; Vite exposes environment variables through import.meta.env instead.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -53,6 +63,25 @@ server: {
 - When the browser requests `/api/...` on the local development server, Vite intercepts the request and forwards it to the target URL.
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Python]]
 
 # GIL (Global interpreter lock)
@@ -5,6 +6,15 @@
 > GIL (Global interpreter lock) — global interpreter lock : A global interpreter lock is a mechanism used in computer-language interpreters to synchronise the…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

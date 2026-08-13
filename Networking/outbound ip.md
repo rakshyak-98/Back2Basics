@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[Egress and Ingress]] [[NAT (Network Address Translation)]] [[network gateway]]
 
 # outbound ip
@@ -5,6 +6,15 @@
 > Outbound IP is the address the internet sees when you call out — often a NAT or load-balancer IP, not your private NIC.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

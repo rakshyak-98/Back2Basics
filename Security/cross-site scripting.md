@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[content security policy]] [[SOP (Same-Origin Policy)]] [[IDOR]] [[response header]]
 
 # Cross-site scripting (XSS)
@@ -5,6 +6,15 @@
 > Injection of executable script into a page another user's browser will run — steals sessions, defaces UI, exfiltrates data.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

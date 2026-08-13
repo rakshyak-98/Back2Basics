@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[sshd configuration]] [[TCP]] [[symmetrical encryption]] [[Asymmetrical Encryption]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # SSH
@@ -5,6 +6,15 @@
 > SSH (Secure Shell) opens an encrypted login/command channel to a remote host — authenticate with keys, then run shells, tunnels, or file copy.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

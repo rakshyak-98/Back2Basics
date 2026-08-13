@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]] [[static file]]
 
 # Nginx SPA Deployment
@@ -5,6 +6,15 @@
 > client-side routers own URLs that don't exist on disk — `try_files` must fall back to `index.html` without breaking API routes or static assets.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

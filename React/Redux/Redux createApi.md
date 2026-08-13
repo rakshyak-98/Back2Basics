@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/RTQ Toolkit]] [[Redux/RTQ/RTQ store]]
 
 # Redux createApi
@@ -5,6 +6,15 @@
 > Define endpoints once — RTK Query builds reducer, middleware, cache keys, and React hooks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

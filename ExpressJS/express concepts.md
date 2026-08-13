@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[NodeJS]] [[Express middleware]]
 
 # express concepts
@@ -5,6 +6,15 @@
 > Express concepts — minimal HTTP framework: app, router, middleware chain `(req,res,next)`, and error middleware.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

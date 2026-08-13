@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/Polyfilling]] [[javascript engine]] [[SWC]] [[React build]]
 
 # Polyfills
@@ -5,6 +6,15 @@
 > **Runtime implementation** of missing APIs on old engines — no syntax transform — fills the gap so **calling** `Array.prototype.at` works — **MDN + core-js**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Factory Method]] [[Design pattern/Chain of Responsibility]] [[Architectures/Orchestration layer]]
 
 # Template Method
@@ -5,6 +6,18 @@
 > Fixed algorithm skeleton in a base class (or function); subclasses override steps — **Dive Into Design Patterns + LaunchPipeline**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +38,14 @@ LaunchPipeline.run()
 | **Abstract class / base pipeline** | `run()` calls steps in order |
 | **Hooks / abstract steps** | Overridden by Meta / Google pipelines |
 | **Concrete class** | Platform-specific implementations |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -94,6 +115,12 @@ Favor composition when steps themselves are strategies — hybrid is common (pip
 
 - Do not put side-effects that must not fail the launch into required steps — use Observer after success.
 - God pipeline that also validates, maps, and retries — split: Chain + Adapter + Decorator.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

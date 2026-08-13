@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments/PSP]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Security/TLS (Transport Layer Security)]]
 
 # Payment gateway
@@ -5,6 +6,15 @@
 > Payment gateway — a payment gateway sits between merchant site/POS and acquirer/processor. It tokenizes sensitive data, routes to card networks, returns auth/capture result.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

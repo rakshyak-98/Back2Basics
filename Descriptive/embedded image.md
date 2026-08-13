@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[html]] [[Markdown]]
 
 # embedded image
@@ -5,6 +6,15 @@
 > Embedded images ship inside the document (often base64 data URLs) — no extra HTTP fetch, bigger payload.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[NodeJS]] [[Express middleware]] [[TLS (Transport Layer Security)]] [[Node.js run as a non-privileged user]]
 
 # Node.js Security — Architectural Flaws
@@ -5,6 +6,33 @@
 > single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -151,6 +179,12 @@ Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 - **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

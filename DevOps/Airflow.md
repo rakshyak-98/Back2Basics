@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Python]] [[Docker compose]] [[Jenkins]]
 
 # Airflow
@@ -5,6 +6,15 @@
 > Airflow — defines DAGs (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The scheduler parses DAGs, creates DagRuns, queues TaskInstances. Workers (executor-dependent) execute
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

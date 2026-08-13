@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[CORS (Cross Origin Request Sharing)]] [[cookies configuration]] [[cross-site scripting]] [[XSRF (cross-site request forgery)]]
 
 # Cookie errors (cross-origin dev & prod)
@@ -5,6 +6,46 @@
 > Cookie errors (cross-origin dev & prod) — browser stores cookie for api.example.com
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Login OK, next request 401 | Cookie not stored (Secure on HTTP) | HTTPS or disable Secure locally |
+| Works in Chrome, not Safari | ITP; third-party cookie blocked | First-party cookie on shared parent domain |
+| POST login loses cookie | SameSite=Lax blocks cross-site POST | SameSite=None + Secure or same-origin proxy |
+| Cookie set but not on API calls | Wrong Domain (host-only vs `.parent`) | Set `Domain=.example.com` |
+| CORS error + no cookie | `Allow-Origin: *` with credentials | Explicit origin whitelist |
+| After OAuth redirect, session gone | SameSite strict on redirect chain | Lax or None on OAuth callback path |
+| `document.cookie` can't read | HttpOnly (correct for session) | Use API `/me`, not JS read |
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -72,18 +113,6 @@ Required when frontend on `other.com` calls your API — **and** `Secure: true` 
 4. Fetch used `credentials: 'include'`?
 5. CORS: exact origin + `Access-Control-Allow-Credentials: true`?
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Login OK, next request 401 | Cookie not stored (Secure on HTTP) | HTTPS or disable Secure locally |
-| Works in Chrome, not Safari | ITP; third-party cookie blocked | First-party cookie on shared parent domain |
-| POST login loses cookie | SameSite=Lax blocks cross-site POST | SameSite=None + Secure or same-origin proxy |
-| Cookie set but not on API calls | Wrong Domain (host-only vs `.parent`) | Set `Domain=.example.com` |
-| CORS error + no cookie | `Allow-Origin: *` with credentials | Explicit origin whitelist |
-| After OAuth redirect, session gone | SameSite strict on redirect chain | Lax or None on OAuth callback path |
-| `document.cookie` can't read | HttpOnly (correct for session) | Use API `/me`, not JS read |
-
 ## Gotchas
 
 > [!WARNING]
@@ -102,6 +131,14 @@ Required when frontend on `other.com` calls your API — **and** `Secure: true` 
 
 - **Cookie for API tokens in mobile native apps** — use Authorization header + secure storage.
 - **Large payloads in cookies** — 4KB limit; use session server-side id only.
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

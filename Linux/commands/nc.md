@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[telnet]] [[ss]] [[nmap]] [[half-open connections]] [[Linux network commands]]
 
 # nc (netcat)
@@ -5,6 +6,15 @@
 > nc (netcat) — nc opens a raw socket (client or listener). For ops, the common pattern is connect probe: did SYN get SYN-ACK (port open) or
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

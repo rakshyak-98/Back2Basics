@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[SMTP]] [[E mail server]] [[TLS (Transport Layer Security)]]
 
 # POP3 (Post Office Protocol v3)
@@ -5,6 +6,15 @@
 > Simple mail retrieval — download-and-delete mental model; brief ops note and when **IMAP** wins — **RFC 1939**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

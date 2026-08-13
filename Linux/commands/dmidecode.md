@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[lspci]]
 
 # dmidecode
@@ -5,6 +6,16 @@
 > dmidecode prints SMBIOS/DMI tables from firmware — vendor, model, serial, slots, memory layout as the BIOS recorded them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#PCIe slot vs reality]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -47,6 +58,18 @@ Needs root (or CAP) — tables are under `/sys/firmware/dmi`.
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Empty / “Not Specified” | VM or lazy BIOS | Expect blanks in clouds; use instance metadata |
+| Permission denied | Not root | `sudo` |
+| Serial looks fake | OEM placeholder | Cross-check baseboard serial / cloud ID |
+| GPU slow, slots “x16” | Negotiated link | Compare `LnkCap`/`LnkSta` via `lspci` |
+| Typo commands | `dmideocde` | It’s `dmidecode` |
+
+---
+
 ## PCIe slot vs reality
 
 ```bash
@@ -62,18 +85,6 @@ lspci -d 10de: -vv
 | `LnkSta` ≈ `LnkCap` | Card running at capability |
 | Width lower (x16→x8) | Lane-starved slot/riser |
 | Speed lower (8GT→2.5GT) | Bad link / Gen fallback / power state |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Empty / “Not Specified” | VM or lazy BIOS | Expect blanks in clouds; use instance metadata |
-| Permission denied | Not root | `sudo` |
-| Serial looks fake | OEM placeholder | Cross-check baseboard serial / cloud ID |
-| GPU slow, slots “x16” | Negotiated link | Compare `LnkCap`/`LnkSta` via `lspci` |
-| Typo commands | `dmideocde` | It’s `dmidecode` |
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql table]] [[mysql query]]
 
 # mysql json
@@ -5,6 +6,15 @@
 > Store and query JSON documents in a column — extract with `->` / `->>`, build with `JSON_OBJECT` / `JSON_ARRAYAGG`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

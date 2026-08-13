@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS server]] [[TFTP]] [[Unbound]] [[CoreDNS]] [[BIND]]
 
 # dnsmasq
@@ -5,6 +6,15 @@
 > dnsmasq — small DNS forwarder/cache plus DHCP (and optional TFTP) — the usual brain of home routers and tiny lab networks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

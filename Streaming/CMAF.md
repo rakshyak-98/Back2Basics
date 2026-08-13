@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[HLS]] [[DASH]] [[MPEG-TS]] [[CMAF]] [[codecs]] [[DRM]] [[Manifest (streaming)]]
 
 # CMAF (Common Media Application Format)
@@ -5,6 +6,15 @@
 > CMAF (Common Media Application Format) — encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

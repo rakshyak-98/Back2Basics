@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/redux middleware]] [[Redux toolkit]] [[Redux/Redux createSlice]]
 
 # redux compose
@@ -5,6 +6,15 @@
 > **Right-to-left** function composition — chain store enhancers (`applyMiddleware`, DevTools) into one `createStore` argument — **Redux core API**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

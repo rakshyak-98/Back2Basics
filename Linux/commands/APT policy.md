@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[apt package manager]] [[apt configuration]]
 
 # APT policy
@@ -5,6 +6,15 @@
 > `apt policy` shows which versions exist, where they come from, and which pin priority wins — so you know *what apt will install next*.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

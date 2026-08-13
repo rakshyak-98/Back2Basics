@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[NAT Traversal]] [[UDP]] [[TCP]]
 
 # NAT (Network Address Translation)
@@ -5,6 +6,15 @@
 > NAT rewrites packet IPs (and often ports) at the edge — many private devices share one public address.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux cgroup]] [[OOM (Linux Out Of Memory)]] [[Docker]] [[Kubernates]]
 
 # cgroup (Control Group)
@@ -5,6 +6,15 @@
 > cgroup (Control Group) — cgroups answer: *which processes share a budget, and what happens when they exceed it?*
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

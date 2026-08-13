@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Data fetching Frontend]] [[cache system]] [[ETAG or IF MATCH]]
 
 # remote data
@@ -5,6 +6,15 @@
 > Remote data — state that lives on another machine; every read/write is a network call with failure, lag, and versioning.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

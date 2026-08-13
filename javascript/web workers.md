@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[worker threads]] [[ServiceWorker]] [[Event Loop]] [[content security policy]]
 
 # Web Workers
@@ -5,6 +6,15 @@
 > Web Workers — the browser's main thread owns the DOM, layout, paint, and the Event Loop. A Web Worker is a separate JS execution context with
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

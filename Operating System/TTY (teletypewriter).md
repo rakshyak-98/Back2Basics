@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[file descriptors]] [[OS program]]
 
 # TTY (teletypewriter)
@@ -5,6 +6,15 @@
 > A TTY is a terminal device — keyboard in, text out; modern shells use a pty (pseudo-TTY) pair behind the emulator.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go learning]] [[go]] [[go-routines]]
 
 # go project
@@ -5,6 +6,16 @@
 > Go practice projects — climb CLI → HTTP/SQL → concurrency → distributed; each has a clear scope and test bar.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Project ladder]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -39,6 +50,18 @@ docker compose up -d # when Postgres required
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Scope creep | Feature list grows | Cut to table above |
+| Untestable main | Logic in `main` | Move to `internal` |
+| Flaky concurrent tests | Timing asserts | Channels/`sync` + race |
+| DB tests fragile | Shared DB | Testcontainers / tx rollback |
+| “Done” without README | No decisions recorded | Write why section |
+
+---
+
 ## Project ladder
 
 | # | Project | Must include |
@@ -54,18 +77,6 @@ docker compose up -d # when Postgres required
 | 9 | Log aggregator | Ingest + query + backpressure |
 
 **Production checklist (all):** structured logs, `-race` clean, health endpoint, configuration via environment, README with failure modes.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Scope creep | Feature list grows | Cut to table above |
-| Untestable main | Logic in `main` | Move to `internal` |
-| Flaky concurrent tests | Timing asserts | Channels/`sync` + race |
-| DB tests fragile | Shared DB | Testcontainers / tx rollback |
-| “Done” without README | No decisions recorded | Write why section |
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]]
 
 # Session Storage
@@ -5,6 +6,15 @@
 > Session Storage — sessionStorage is a Storage object tied to a top-level browsing context (tab/window). Data survives page reloads and SPA navigations within the same tab
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

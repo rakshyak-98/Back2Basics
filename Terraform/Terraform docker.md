@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Terraform setup]] [[terraform provider]] [[terraform]] [[Terraform workflow]] [[variable file]] [[Terraform CLI]]
 
 # Terraform docker
@@ -5,6 +6,20 @@
 > Hands-on provider example — same patterns as cloud, without a bill. Framework from **Terraform in Action** (Winkler) + practices from **Terraform: Up & Running** (Brikman).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Why practice with Docker]]
+- [[#Minimal project]]
+- [[#Run it]]
+- [[#Map to cloud thinking]]
+- [[#Book takeaways]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -23,6 +38,16 @@ terraform destroy -auto-approve
 | Docker daemon up | Provider talks to local socket |
 | Image pin (`var.nginx_tag`) | Reproducible pulls |
 | Port map | Host 8080 → container 80 |
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Cannot connect to Docker | Daemon / socket perms | Start Docker; fix group/`DOCKER_HOST` |
+| Port already allocated | `ss -lptn 'sport = :8080'` | Change `external` port or stop conflict |
+| Image pull fail | Network / tag | Fix tag; retry pull |
+| Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
+| Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
 
 ## Why practice with Docker
 
@@ -133,16 +158,6 @@ Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
 - **Winkler**: providers are interchangeable plugins; resources + references define the graph
 - **Brikman**: pin versions, use variables, destroy cleanly, graduate to remote state when collaborating
 - Core language still: [[terraform]]
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Cannot connect to Docker | Daemon / socket perms | Start Docker; fix group/`DOCKER_HOST` |
-| Port already allocated | `ss -lptn 'sport = :8080'` | Change `external` port or stop conflict |
-| Image pull fail | Network / tag | Fix tag; retry pull |
-| Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
-| Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
 
 ## Gotchas
 

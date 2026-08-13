@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[Packages/npm packages]] [[Redux/Immutability in Redux]]
 
 # Packages/Immer
@@ -5,6 +6,15 @@
 > Write “mutating” updates that produce immutable next state — Immer uses a draft proxy (powers RTK reducers).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

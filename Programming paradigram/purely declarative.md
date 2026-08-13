@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Programming paradigram/Functional Programing]] [[Database/OLAP]] [[Descriptive/Mermaid (DSL)]]
 
 # Purely declarative
@@ -5,6 +6,15 @@
 > Purely declarative — imperative: step-by-step mutations. Declarative: state the desired outcome or relation. Engine optimizes execution (query planner, layout engine, regex NFA). You trade control of execution order
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

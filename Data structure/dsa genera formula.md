@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Prefix sum]] [[sliding window]] [[dsa modular arithmetics]] [[Algorithm]]
 
 # DSA combinatorics formulas
@@ -5,6 +6,15 @@
 > High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

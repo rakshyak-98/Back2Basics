@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux configuration]] [[Authentication command]] [[passwd]] [[systemd]] [[SSH]]
 
 # /etc files
@@ -5,6 +6,15 @@
 > /etc files — SSH hardening (break-glass: keep console/session open while testing):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

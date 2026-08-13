@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[cross-site scripting]] [[response header]] [[SOP (Same-Origin Policy)]]
 
 # Content Security Policy
@@ -5,6 +6,15 @@
 > HTTP header that whitelists where scripts, styles, connections, and frames may load from — primary defense-in-depth against XSS and data exfiltration.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

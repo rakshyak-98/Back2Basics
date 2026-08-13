@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git branch]]
 
 # Git Worktree
@@ -5,6 +6,15 @@
 > multiple checked-out directories sharing one `.git` object store — review PR and hotfix in parallel without stash churn.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]] [[Configuration]]
 
 # Nginx Automated Config Deployment
@@ -5,6 +6,15 @@
 > Nginx Automated Config Deployment — automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

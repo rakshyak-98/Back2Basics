@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[keyrings]] [[gpg]] [[keyctl]]
 
 # Linux Key management
@@ -5,6 +6,15 @@
 > Linux key management spans file-based secrets (gpg, PEM) and in-kernel keyrings (`keyctl`) — know which layer holds the credential.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

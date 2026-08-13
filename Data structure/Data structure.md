@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[ADT (Abstract Data Type)]] [[DSA algorithms]]
 
 # Data structure
@@ -5,6 +6,15 @@
 > Data structures store data with different access costs — pick for the operations you run most.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

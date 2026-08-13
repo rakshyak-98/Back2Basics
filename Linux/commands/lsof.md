@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Commands]] [[file descriptors]] [[process]] [[ss]]
 
 # lsof
@@ -5,6 +6,15 @@
 > `lsof` lists open files — and on Linux that includes sockets, pipes, and devices — showing which process holds them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

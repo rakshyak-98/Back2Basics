@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[bash script]] [[CLI]] [[Bash syntax]] [[Bash functions]]
 
 # Scripting
@@ -5,6 +6,15 @@
 > Scripting — a shell script is a sequence of commands run by an interpreter (bash, sh). The shell expands variables, splits words, runs pipelines, and returns an exit
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

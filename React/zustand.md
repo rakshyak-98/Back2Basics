@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React data management]] [[expressjs]] [[Event Loop]] [[webSocket]]
 
 # Zustand
@@ -5,6 +6,15 @@
 > Minimal client-state library for React — store outside the component tree with selective subscriptions — **when Redux is overkill**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

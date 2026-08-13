@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Gradient boosting]] [[Random forest]] [[Decision tree]] [[scikitlearn]] [[binary classification]]
 
 # XGBoost
@@ -5,6 +6,15 @@
 > Optimized distributed GBDT — histogram splits, regularized leaf weights, sparsity-aware — **Chen & Guestrin**; default for production tabular ML at scale.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

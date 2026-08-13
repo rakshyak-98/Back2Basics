@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[nginx fastcgi]] [[nginx using unix socket]] [[Nginx internals]] [[file descriptors]] [[half-open connections]]
 
 # PHP-FPM
@@ -5,6 +6,15 @@
 > PHP-FPM — client ──► Nginx ──► [FPM master] ──► worker pool ──► PHP script ──► DB
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

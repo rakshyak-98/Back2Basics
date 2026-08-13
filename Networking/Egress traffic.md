@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NAT (Network Address Translation)]] [[Egress and Ingress]] [[routing table]] [[AWS]]
 
 # Egress traffic
@@ -5,6 +6,15 @@
 > Outbound packets leaving your network boundary toward the internet or another VPC — billed, filtered, and NAT'd differently from ingress.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

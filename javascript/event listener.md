@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[throttle]] [[Callback]]
 
 # event listener
@@ -5,6 +6,15 @@
 > Register a function for a DOM (or EventTarget) event — `addEventListener` / `removeEventListener` with the same function reference.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Architectures]]
 
 # H3 (Hexagonal Hierarchical Spatial Index)
@@ -5,6 +6,15 @@
 > H3 maps lat/lng to hexagon IDs — bucket nearby points for density, surge, and spatial joins. **Uber**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

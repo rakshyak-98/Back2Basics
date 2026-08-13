@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[promise]] [[Callback]]
 
 # Coroutine
@@ -5,6 +6,15 @@
 > Cooperative multi-step function — pause with `yield`/`await` and resume later (generators + async).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[Data access patterns]] [[OLTP]] [[OLAP]] [[Vector database]]
 
 # Heterogeneous Database Systems
@@ -5,6 +6,15 @@
 > one application orchestrates **multiple DB engines** (SQL + document + cache + search) — polyglot persistence; integration and consistency are the hard parts.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

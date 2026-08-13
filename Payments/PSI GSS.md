@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
 
 # PSI GSS (PCI Guest Service System)
@@ -5,6 +6,15 @@
 > PSI GSS (PCI Guest Service System) — PSI GSS (Payment Card Industry Guest Service System) describes when a merchant uses a third-party hosted checkout such that
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

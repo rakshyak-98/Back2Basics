@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Throughput]] [[backpressure]] [[gRPC]] [[concurrent connection]]
 
 # Scaling Throughput in High-load system
@@ -5,6 +6,16 @@
 > High-load throughput — when REST-per-call and connection churn choke media/control planes, batch, async, and multiplex instead.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#When the API hits a wall]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -32,17 +43,6 @@ GET  /jobs/{id}  → status
 # Workers pull queue with bounded concurrency
 ```
 
-## When the API hits a wall
-
-| Component | Metric | High-load signal |
-|-----------|--------|------------------|
-| NIC | PPS | Softirq CPU high |
-| API | Context switches | Thread contention |
-| GPU/encoder | Session open latency | Cold-start spike |
-| Memory | GC | Per-request alloc churn |
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -52,6 +52,17 @@ GET  /jobs/{id}  → status
 | Encoder pool empty | Cold NVENC | Pre-warm; limit concurrency |
 | Good average, bad p99 | Lock / GC | Profile; object reuse |
 | Softirq storm | PPS | Batch packets; fewer short conns |
+
+---
+
+## When the API hits a wall
+
+| Component | Metric | High-load signal |
+|-----------|--------|------------------|
+| NIC | PPS | Softirq CPU high |
+| API | Context switches | Thread contention |
+| GPU/encoder | Session open latency | Cold-start spike |
+| Memory | GC | Per-request alloc churn |
 
 ---
 

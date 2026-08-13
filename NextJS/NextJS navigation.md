@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ISR (Incremental Static Regeneration)]] [[React/React data management]] [[javascript/user triggered event]]
 
 # Next.js navigation
@@ -5,6 +6,15 @@
 > Next.js navigation — next.js intercepts in-app navigation to avoid full page reloads. App Router uses next/navigation (useRouter, redirect, Link). Pages Router uses next/router. Opening a new
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[backpressure]] [[Throughput]] [[race condition]]
 
 # Token bucket
@@ -5,6 +6,15 @@
 > Token bucket — rate limiter: tokens refill over time; each request spends a token; empty bucket ⇒ throttle.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

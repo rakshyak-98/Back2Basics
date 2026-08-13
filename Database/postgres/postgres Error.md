@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[postgres/psql essential]] [[postgres/psql user]] [[connection pooling]]
 
 # PostgreSQL connection errors
@@ -5,6 +6,46 @@
 > PostgreSQL connection errors — client connects → libpq resolves host/port → TCP or Unix socket → Postgres postmaster spawns backend → authentication (pg_hba) → database session.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Permission problem]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `role X does not exist` | `\du`; OS username | Create role or `-U` correct user |
+| `database X does not exist` | `\l` | `CREATE DATABASE`; fix connection string db name |
+| Peer auth on TCP | pg_hba `local` vs `host` | Use scram/host rule for remote |
+| Works psql, fails app | SSL mode; URL encoding | `sslmode`; escape password in URL |
+| Intermittent timeout | Pool wait; network | [[connection pooling]] sizing; security groups |
+| `FATAL: remaining connection slots` | max_connections | Kill idle; PgBouncer; raise limit |
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -68,17 +109,6 @@ psql "postgresql://host:5432/db?sslmode=require"
 openssl s_client -connect host:5432 -starttls postgres
 ```
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `role X does not exist` | `\du`; OS username | Create role or `-U` correct user |
-| `database X does not exist` | `\l` | `CREATE DATABASE`; fix connection string db name |
-| Peer auth on TCP | pg_hba `local` vs `host` | Use scram/host rule for remote |
-| Works psql, fails app | SSL mode; URL encoding | `sslmode`; escape password in URL |
-| Intermittent timeout | Pool wait; network | [[connection pooling]] sizing; security groups |
-| `FATAL: remaining connection slots` | max_connections | Kill idle; PgBouncer; raise limit |
-
 ## Gotchas
 
 > [!WARNING]
@@ -93,10 +123,6 @@ openssl s_client -connect host:5432 -starttls postgres
 ## When NOT to use
 
 - **Query/runtime SQL errors** — different class (`syntax error`, deadlock, [[postgres/postgres parameter type error]]); check application logs and `pg_stat_activity`.
-
-## Related
-
-[[postgres/postgres parameter type error]] [[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]
 
 ## Permission problem
 
@@ -122,11 +148,11 @@ postgres=# \du
  drm_tester    |
  postgres      | Superuser, Create role, Create DB, Replication, Bypass RLS
  wateradmin    |
- 
+
 ```
 solution: `ALTER ROLE <role> LOGIN PASSWORD '<password>';`
 
-- if not present, on login to the database access will be denied 
+- if not present, on login to the database access will be denied
 ```
 GRANT CONNECT ON DATABASE <db name> TO <role>;
 ```
@@ -146,3 +172,15 @@ SELECT has_table_privilege(
 )
 ```
 - view all the available functions `\df`
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
+
+## Related
+
+[[postgres/postgres parameter type error]] [[postgres/psql user]] [[postgres/psql essential]] [[connection pooling]] [[half-open connections]]

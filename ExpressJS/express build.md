@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[npm]]
 
 # express build
@@ -5,6 +6,15 @@
 > Express build/run — how you package and start an Express app (Node process, not a special “Express compiler”).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

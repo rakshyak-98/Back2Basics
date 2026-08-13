@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS]] [[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS EBS(Elastic Block Store)]]
 
 # AMI (Amazon Machine Image)
@@ -5,6 +6,15 @@
 > AMI — the disk template you pick to boot an EC2 instance (OS + root volume snapshot + launch permissions).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

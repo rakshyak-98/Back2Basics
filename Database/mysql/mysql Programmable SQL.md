@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[variables]] [[mysql function]] [[mysql triggers]]
 
 # mysql Programmable SQL
@@ -5,6 +6,15 @@
 > Dynamic SQL and stored routines inside MySQL — `PREPARE`/`EXECUTE`, procedures, functions, triggers, events.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

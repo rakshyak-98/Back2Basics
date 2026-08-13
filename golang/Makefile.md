@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go cli]] [[go build]]
 
 # Makefile
@@ -5,6 +6,15 @@
 > Makefile for Go — thin wrapper around `go test`/`go build` so CI and humans share one entrypoint (this note is about Makefiles, not a real build file in the vault).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

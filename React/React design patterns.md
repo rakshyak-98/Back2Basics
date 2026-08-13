@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[React]]
 
 # React design patterns
@@ -5,6 +6,18 @@
 > React design patterns — a function that takes a component and returns an enhanced version. Less common now due to hooks, but still useful for legacy code or
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -20,6 +33,14 @@
 | **fail** | How it breaks | “I name the top production failure.” |
 
 ---
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -46,6 +67,12 @@
 > Prefer words you can say aloud in an interview.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

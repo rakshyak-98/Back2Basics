@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql transaction]] [[ACID]] [[mysql engine]]
 
 # mysql lock
@@ -5,6 +6,15 @@
 > Locks stop two sessions from stepping on the same data — prefer row locks in transactions; table locks are a blunt tool.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

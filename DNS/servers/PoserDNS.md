@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[DNS server]] [[Unbound]] [[BIND]]
 
 # PoserDNS
@@ -5,6 +6,15 @@
 > PowerDNS — split DNS stack: Authoritative answers your zones, Recursor walks the internet, optional dnsdist load-balances and shields them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

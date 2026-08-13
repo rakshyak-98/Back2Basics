@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[cross-site scripting]] [[cookies configuration]]
 
 # HTTP Response Headers (Security & Caching)
@@ -5,6 +6,15 @@
 > **Server metadata** that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content, clickjacking, or broken CDNs. **OWASP Secure Headers** +
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

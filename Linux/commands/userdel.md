@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[user management]] [[useradd]] [[passwd]] [[usermod]] [[groupadd]]
 
 # userdel
@@ -5,6 +6,15 @@
 > userdel — removes the account line from /etc/passwd, /etc/shadow, and /etc/group (primary group entry if it was user-private). Files owned by the UID remain on disk
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

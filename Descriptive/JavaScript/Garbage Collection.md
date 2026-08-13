@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Weak map]] [[JavaScript/Call stack]]
 
 # Garbage Collection
@@ -5,6 +6,15 @@
 > GC reclaims heap objects your program can’t reach — you don’t `free()`, but you can still leak via lingering references.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

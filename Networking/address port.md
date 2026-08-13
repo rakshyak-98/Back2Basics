@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[TCP]] [[UDP]] [[BSD Socket]] [[POSIX Socket]]
 
 # address port
@@ -5,6 +6,15 @@
 > An address:port pair is one endpoint — local is your socket; peer is the other side.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

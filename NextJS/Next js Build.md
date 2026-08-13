@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NextJS]] [[Next JS]] [[NextJS configuration]]
 
 # Next js Build
@@ -5,6 +6,15 @@
 > `next build` — compiles the app into `.next` (static + server chunks); `next start` serves the production build.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

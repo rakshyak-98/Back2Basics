@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure/dsa genera formula]] [[Data structure/algo/binary search]]
 
 # Linked list
@@ -5,6 +6,15 @@
 > Linked list — don't use linked list for cache-friendly bulk storage — arrays win CPU cache.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

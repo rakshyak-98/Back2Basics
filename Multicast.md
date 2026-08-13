@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[IGMP]] [[IPTV]] [[PIM]]
 
 # Multicast
@@ -5,6 +6,15 @@
 > Multicast — one sender to many interested receivers on a multicast group.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -32,6 +42,25 @@ Characteristics
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

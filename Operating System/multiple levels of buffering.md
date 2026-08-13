@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[buffer]] [[Buffer cache]] [[fsync]] [[file descriptors]] [[kernel subsystem]]
 
 # Multiple levels of buffering
@@ -5,6 +6,15 @@
 > Multiple levels of buffering — i/O is rarely one hop. A single write() may touch five buffers before bits reach NAND:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

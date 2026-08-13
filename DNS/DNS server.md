@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[name server]] [[DNS zone]] [[DSN records]] [[Unbound]]
 
 # DNS server
@@ -5,6 +6,15 @@
 > DNS server — process that answers DNS queries on port 53 — either authoritative for zones you own, or recursive/caching for clients.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

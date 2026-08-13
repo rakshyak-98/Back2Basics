@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[orchestration]] [[backpressure]] [[Eventual consistency]]
 
 # event-driven
@@ -5,6 +6,15 @@
 > Event-driven architecture — services react to facts (“OrderPlaced”) instead of calling each other for every side effect.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

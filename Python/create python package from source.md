@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Python]]
 
 # Python Package Setup
@@ -5,6 +6,15 @@
 > Python Package Setup — this guide explains how to turn the python/ folder into an installable package for use in other projects.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ssh-keygen key validity.md]]
 
 # ssh-keygen key validity
@@ -5,6 +6,15 @@
 > An SSH key works only if the server trusts the public key — generation alone is not enough.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -15,6 +25,25 @@ Whether a key is valid is determined by the server's configuration (e.g., whethe
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

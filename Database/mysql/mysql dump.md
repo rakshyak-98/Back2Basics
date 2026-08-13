@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[database migration]] [[mysql/mysql user]] [[Alter table]]
 
 # mysqldump
@@ -5,6 +6,15 @@
 > mysqldump — ──► .sql file ──► mysql < file (restore)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[flutter]]
 
 # flutter error
@@ -5,6 +6,35 @@
 > flutter error — try flutter pub outdated for more information.
 
 ---
+
+## Index
+
+- [[#Trigger / symptoms]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Trigger / symptoms
+
+…
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -28,6 +58,14 @@ Why people add this:
 
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

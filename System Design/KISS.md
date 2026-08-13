@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DRY]] [[SOLID]] [[System design]] [[Design pattern]]
 
 # KISS (Keep It Simple, Stupid)
@@ -5,6 +6,15 @@
 > Prefer the simplest design that meets requirements — **complexity is a liability** with compound interest.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

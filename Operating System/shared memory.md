@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Inter Process Communication]] [[mutexes]] [[semaphores]] [[Linux]]
 
 # Shared memory
@@ -5,6 +6,15 @@
 > Mapped RAM visible to multiple processes — fastest IPC when you accept explicit synchronization and lifetime rules.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

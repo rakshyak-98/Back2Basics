@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[model tranning]]
 
 # data visualization
@@ -5,6 +6,15 @@
 > Viz checks whether the data and model make sense — plots before metrics, residual plots after fit.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

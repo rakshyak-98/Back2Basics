@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go package]] [[go project]]
 
 # go
@@ -5,6 +6,15 @@
 > Go — compiled language with packages, modules (`go.mod`), and `package main` + `func main` as the executable entry.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[systemctl]] [[Services commands]] [[systemd]] [[bluetoothctl]]
 
 # Service masking
@@ -5,6 +6,15 @@
 > Masking a systemd unit points it at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

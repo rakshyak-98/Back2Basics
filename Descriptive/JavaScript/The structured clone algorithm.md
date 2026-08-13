@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Garbage Collection]] [[Buffers]]
 
 # The structured clone algorithm
@@ -5,6 +6,15 @@
 > Structured clone deep-copies certain JS values for `postMessage`, IndexedDB, and friends — richer than JSON, still limited.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

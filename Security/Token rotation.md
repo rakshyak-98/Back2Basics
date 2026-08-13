@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[JWT authentication]] [[KMS]] [[Security]] [[single-sign-on (SSO)]]
 
 # Token rotation
@@ -5,6 +6,15 @@
 > Token rotation — expire and replace secrets often so a leak has a short life.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

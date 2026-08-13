@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongosh query]] [[mongosh user management]] [[mongodb shell]]
 
 # mongosh
@@ -5,6 +6,15 @@
 > `mongosh` is the modern MongoDB shell — connect, explore, run scripts against clusters.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

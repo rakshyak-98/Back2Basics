@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[React/React data management]] [[Packages/npm packages]]
 
 # normalizr
@@ -5,6 +6,15 @@
 > flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pairs with Redux but works standalone.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

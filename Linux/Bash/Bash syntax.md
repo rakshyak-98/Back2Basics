@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Bash]] [[bash script]] [[bash flags]] [[Bash history]]
 
 # Bash syntax
@@ -5,6 +6,15 @@
 > Bash syntax is how the shell parses words, expansions, and control operators — so pipelines and scripts do what you meant.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

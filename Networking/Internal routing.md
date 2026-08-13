@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[localhost]] [[address port]] [[non-Routable address]]
 
 # Internal routing
@@ -5,6 +6,15 @@
 > Internal routing is same-LAN reachability — private IP to private IP with no internet hairpin required.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

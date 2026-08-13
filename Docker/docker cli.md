@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Docker compose]] [[docker file]] [[docker container]] [[Docker Runtime Security]] [[INDEX]]
 
 # docker cli
@@ -6,21 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-```txt
-Dockerfile → docker build → image (layers, immutable)
-                ↓
-         docker run → container (writable layer + mounts)
-                ↓
-         processes, networks, volumes (daemon-managed)
-```
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-**Image** = template; **container** = running (or stopped) instance. **Build context** = everything sent to daemon during `docker build` (`.dockerignore` matters).
+## Quick reference
 
-**Networking:** default bridge; user-defined networks for DNS between containers. **Volumes** persist past container delete; bind mounts tie to host path.
-
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -116,6 +119,28 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 
 ---
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+```txt
+Dockerfile → docker build → image (layers, immutable)
+                ↓
+         docker run → container (writable layer + mounts)
+                ↓
+         processes, networks, volumes (daemon-managed)
+```
+
+**Image** = template; **container** = running (or stopped) instance. **Build context** = everything sent to daemon during `docker build` (`.dockerignore` matters).
+
+**Networking:** default bridge; user-defined networks for DNS between containers. **Volumes** persist past container delete; bind mounts tie to host path.
+
+---
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -159,6 +184,12 @@ docker system prune -a --volumes   # includes unused volumes — data loss risk
 - **Long-term log storage** — ship to journal/Loki; `docker logs` rotates with container.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

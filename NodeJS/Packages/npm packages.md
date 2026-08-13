@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[npm command]] [[expressjs]] [[Packages/Ajv (Another JSON validator)]] [[Packages/node-cron]]
 
 # npm packages
@@ -5,6 +6,15 @@
 > Field shortlist of common Node libs — what each is for and the footguns that show up in prod.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

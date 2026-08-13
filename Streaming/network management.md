@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ss]] [[ip]] [[Networking]] [[UDP]] [[TCP]] [[Streaming]] [[ingestion]]
 
 # Network management (streaming)
@@ -5,6 +6,15 @@
 > Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

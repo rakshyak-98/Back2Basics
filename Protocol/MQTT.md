@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[webSocket]] [[Messaging/Web hooks]] [[TCP]] [[half-open connections]]
 
 # MQTT
@@ -5,6 +6,15 @@
 > MQTT — publisher ──PUBLISH topic──► Broker ──forward──► Subscriber(s)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

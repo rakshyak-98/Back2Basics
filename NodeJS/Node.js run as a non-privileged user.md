@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[CLI]] [[nvm]] [[Linux/commands/Services commands]]
 
 # Node.js run as a non-privileged user
@@ -5,6 +6,15 @@
 > Node.js run as a non-privileged user — node apps should run as a dedicated low-privilege user (node, app, www-data). Root-owned processes that parse untrusted input are
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

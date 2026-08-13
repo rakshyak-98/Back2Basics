@@ -1,3 +1,4 @@
+<!-- note-strategy: comparison -->
 [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Security/https]]
 
 # Web server (URL path vs filesystem)
@@ -5,6 +6,33 @@
 > HTTP server maps URL path to handler — today "file" in the path is usually a **resource identifier**, not a literal on-disk filename.
 
 ---
+
+## Index
+
+- [[#Decision context]]
+- [[#Comparison matrix]]
+- [[#Selection guide]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Gotchas]]
+- [[#Related]]
+
+## Decision context
+
+…
+
+## Comparison matrix
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+## Selection guide
+
+- Choose **A** when …
+- Choose **B** when …
 
 ## Mental model
 
@@ -59,6 +87,11 @@ location /api/ {
 | `/api` hits static | Location order | Specific `location /api/` before `/` |
 | Case sensitivity | Linux FS case-sensitive | Match exact filename case |
 
+## When NOT to use
+
+- Don't map user-upload dir under web root executable — serve from object storage or separate domain.
+- Don't rely on `.html` extension hiding — content-type and authentication matter, not suffix.
+
 ## Gotchas
 
 > [!WARNING]
@@ -67,11 +100,6 @@ location /api/ {
 > **Mixed content** — HTTPS page loading HTTP assets blocked by browser.
 >
 > **Directory listing** — `autoindex on` leaks structure; off in prod.
-
-## When NOT to use
-
-- Don't map user-upload dir under web root executable — serve from object storage or separate domain.
-- Don't rely on `.html` extension hiding — content-type and authentication matter, not suffix.
 
 ## Related
 

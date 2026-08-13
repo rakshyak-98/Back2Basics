@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[system bus]] [[PCI (Peripheral Component Interconnect)]] [[OS program]]
 
 # Bus
@@ -5,6 +6,15 @@
 > A bus is the shared highway chips use to move addresses and data — CPU, memory, and devices take turns on the wires/lanes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

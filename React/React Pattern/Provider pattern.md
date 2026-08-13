@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[React code smells]] [[Optimizing performance]]
 
 # Provider pattern
@@ -5,6 +6,15 @@
 > Put shared state in React context — consumers subscribe without prop drilling; split state vs actions to limit re-renders.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

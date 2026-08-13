@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[gpg]] [[git command]] [[git hook]]
 
 # GPG sign (Git commits & tags)
@@ -5,6 +6,15 @@
 > GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

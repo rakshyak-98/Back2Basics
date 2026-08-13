@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]]
 
 # LSP
@@ -5,6 +6,15 @@
 > LSP (Language Server Protocol) gives editors completions, go-to-def, and diagnostics via a language server process.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[useRef]] [[react hooks]]
 
 # Controlled and Uncontrolled component Pattern
@@ -5,6 +6,15 @@
 > Controlled: React state is the source of truth for the input. Uncontrolled: the DOM holds the value; you read it via ref when needed.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

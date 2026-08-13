@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ML]] [[prompt enginerring]] [[GPT]] [[claude ai]]
 
 # prompt
@@ -5,6 +6,15 @@
 > A prompt is the input text/messages you send an LLM — instructions plus the user ask.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

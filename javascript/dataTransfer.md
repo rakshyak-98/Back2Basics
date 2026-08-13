@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[event listener]]
 
 # dataTransfer
@@ -5,6 +6,15 @@
 > `dataTransfer` — drag-and-drop / clipboard payload bag: set data on dragstart, read on drop (types + files).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

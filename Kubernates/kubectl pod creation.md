@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Pods]] [[kubectl]] [[Kubernetes configuration]] [[Kubernetes services]] [[ingress]]
 
 # kubectl pod creation
@@ -5,6 +6,15 @@
 > Ship a Pod object through the API — imperative one-offs, declarative manifests, or generated YAML — **Kubernetes: Up and Running** (Burns et al.) + **The Kubernetes Book** (Sayed).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

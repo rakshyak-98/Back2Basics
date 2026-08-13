@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React/React data management]] [[typescript]] [[javascript]] [[css/Animation]]
 
 # Intrinsic attributes (React / JSX)
@@ -5,6 +6,15 @@
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

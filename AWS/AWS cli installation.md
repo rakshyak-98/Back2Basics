@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[AWS]] [[AWS cli commands]] [[IAM]] [[aws STS (Security Token Service)]]
 
 # AWS cli installation
@@ -6,16 +7,20 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** CLI reads `~/.aws/credentials` + `config` (or environment/instance role), signs API calls, prints JSON/table. v2 is the current installer path on Linux.
+- [[#Prerequisites]]
+- [[#Installation aws cli]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Triage (when things break)]]
+- [[#Related]]
 
-```txt
-awscliv2.zip → ./aws/install → /usr/local/bin/aws
-aws configure / sso login → API calls
-```
+## Prerequisites
 
----
+…
 
 ## Installation aws cli
 
@@ -43,16 +48,20 @@ cat ~/.aws/credentials   # local only — protect this file
 
 ---
 
-## Triage (when things break)
+## Verification
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `aws: command not found` | PATH / install prefix | Reinstall; symlink `/usr/local/bin/aws` |
-| `Unable to locate credentials` | Empty profile; wrong `AWS_PROFILE` | `aws configure`; unset bad env |
-| `ExpiredToken` | SSO/session aged out | `aws sso login`; refresh assume-role |
-| Wrong account actions | `get-caller-identity` | Fix profile/region; see [[AWS cli commands]] |
-| Completer silent | `aws_completer` missing | Reinstall v2; fix `complete -C` |
-| SSL / proxy errors | Corp proxy | `HTTP_PROXY`/`AWS_CA_BUNDLE` |
+```bash
+# smoke test
+```
+
+## Mental model
+
+**Say it in one breath:** CLI reads `~/.aws/credentials` + `config` (or environment/instance role), signs API calls, prints JSON/table. v2 is the current installer path on Linux.
+
+```txt
+awscliv2.zip → ./aws/install → /usr/local/bin/aws
+aws configure / sso login → API calls
+```
 
 ---
 
@@ -74,6 +83,19 @@ cat ~/.aws/credentials   # local only — protect this file
 - **In-instance automation with a role** — skip keys; use instance profile.
 - **Complex multi-step infra** — Terraform/CDK; CLI for operations/debug.
 - **Windows-only shops** — MSI install path differs (same concepts).
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `aws: command not found` | PATH / install prefix | Reinstall; symlink `/usr/local/bin/aws` |
+| `Unable to locate credentials` | Empty profile; wrong `AWS_PROFILE` | `aws configure`; unset bad env |
+| `ExpiredToken` | SSO/session aged out | `aws sso login`; refresh assume-role |
+| Wrong account actions | `get-caller-identity` | Fix profile/region; see [[AWS cli commands]] |
+| Completer silent | `aws_completer` missing | Reinstall v2; fix `complete -C` |
+| SSL / proxy errors | Corp proxy | `HTTP_PROXY`/`AWS_CA_BUNDLE` |
 
 ---
 

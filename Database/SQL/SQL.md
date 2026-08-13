@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[Database]] [[SQL Configurations]] [[ACID]] [[OLTP]] [[Database design]] [[Prisma]] [[psql essential]] [[mysql]]
 
 # SQL
@@ -5,6 +6,18 @@
 > Declarative language for relational data — say *what* rows you want; the engine plans *how* to get them. Injection safety is non-negotiable.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Interview map (words you can say)]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -23,6 +36,16 @@ SELECT * FROM user WHERE id = 3; DROP DATABASE test;
 ```
 
 Most drivers **disable multi-statements by default** on purpose. Never “fix” that for convenience.
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Interview map (words you can say)
 

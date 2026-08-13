@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[npm]]
 
 # pnpm cli
@@ -5,6 +6,39 @@
 > pnpm cli — pnpm approve-builds — is a security feature. Its purpose is to explicitly allow packages to execute install/build scripts.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Standard config / commands
+
+```bash
+# version + config path
+# dry-run when available
+```
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -19,15 +53,6 @@ Some npm packages execute scripts automatically during installation.
 - instead of blindly executing it, `pnpm` may block it and ask for approval.
 `pnpm approve-build` -> it opens interactive prompt to approve packages that are allowed to execute build/ install scripts. After approval, `pnpm` records the decision in your project configuration.
 
-
----
-
-## Standard config / commands
-
-```bash
-# version + config path
-# dry-run when available
-```
 
 ---
 
@@ -53,6 +78,12 @@ Some npm packages execute scripts automatically during installation.
 - Avoid the tool if a simpler built-in covers the job.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

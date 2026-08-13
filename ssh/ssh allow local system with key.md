@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[Commands]]
 
 # ssh allow local system with key
@@ -5,6 +6,15 @@
 > ssh allow local system with key — client (private key) ──► SSH handshake ──► sshd ──► ~/.ssh/authorized_keys match?
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

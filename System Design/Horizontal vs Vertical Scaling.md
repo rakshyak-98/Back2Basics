@@ -1,3 +1,4 @@
+<!-- note-strategy: comparison -->
 [[System design]] [[database sharding]] [[ACID]] [[BASE]] [[mysql]] [[postgres]] [[connection pooling]]
 
 # Horizontal vs Vertical Scaling
@@ -5,6 +6,34 @@
 > Horizontal scaling adds machines; vertical scaling adds power to one machine — relational databases are generally harder to scale horizontally than many NoSQL designs, especially for writes and cross-node transactions.
 
 ---
+
+## Index
+
+- [[#Decision context]]
+- [[#Comparison matrix]]
+- [[#Selection guide]]
+- [[#Mental model]]
+- [[#Interview map (words you can say)]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#When NOT to use]]
+- [[#Gotchas]]
+- [[#Related]]
+
+## Decision context
+
+…
+
+## Comparison matrix
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+## Selection guide
+
+- Choose **A** when …
+- Choose **B** when …
 
 ## Mental model
 
@@ -157,6 +186,14 @@ If yes to transactions across shards → distributed SQL, saga, or redesign — 
 
 ---
 
+## When NOT to use
+
+- **Horizontal shard on day one** — exhaust vertical scale and read replicas unless you have proven multi-TB or write-QPS need.
+- **NoSQL only for "scale"** — if you need cross-row transactions and ad-hoc relational queries, relational or distributed SQL may fit better.
+- **Assume SQL cannot scale horizontally** — CockroachDB, Spanner, and YugabyteDB exist for workloads that need both SQL and distribution.
+
+---
+
 ## Gotchas
 
 > [!WARNING]
@@ -170,14 +207,6 @@ If yes to transactions across shards → distributed SQL, saga, or redesign — 
 
 > [!WARNING]
 > **Distributed SQL is not free** — global transactions add coordination latency and licensing/ops complexity.
-
----
-
-## When NOT to use
-
-- **Horizontal shard on day one** — exhaust vertical scale and read replicas unless you have proven multi-TB or write-QPS need.
-- **NoSQL only for "scale"** — if you need cross-row transactions and ad-hoc relational queries, relational or distributed SQL may fit better.
-- **Assume SQL cannot scale horizontally** — CockroachDB, Spanner, and YugabyteDB exist for workloads that need both SQL and distribution.
 
 ---
 

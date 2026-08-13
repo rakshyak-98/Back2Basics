@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NextJS]] [[React]] [[express build]]
 
 # Next JS
@@ -5,6 +6,15 @@
 > Next.js — React framework with file-based routing, server components/SSR, and a production build toolchain.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

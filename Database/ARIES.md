@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[WAL (Write-Ahead Log)]] [[ACID]] [[write-ahead logging]] [[fsync]]
 
 # ARIES
@@ -5,6 +6,15 @@
 > industry-standard WAL recovery algorithm ( steal + no-force ) — analysis → redo → undo after crash; underpins SQL Server, Db2, and many enterprise engines.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

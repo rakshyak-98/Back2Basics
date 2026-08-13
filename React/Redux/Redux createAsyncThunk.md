@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux]] [[Redux/Redux Thunk]] [[Redux toolkit]]
 
 # Redux createAsyncThunk
@@ -5,6 +6,15 @@
 > RTK helper that turns an async function into pending/fulfilled/rejected actions — wire loading and errors in the slice.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

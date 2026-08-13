@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[HLS]] [[DASH]] [[CMAF]] [[ABR]] [[MPD]]
 
 # HLS vs. DASH
@@ -5,6 +6,15 @@
 > HLS and DASH both do ABR over HTTP — pick by device reach, then share segments with CMAF when you need both.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

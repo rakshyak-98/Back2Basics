@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[ABR]] [[HLS]] [[MPD]] [[CMAF]] [[Manifest (streaming)]]
 
 # DASH (Dynamic Adaptive Streaming over HTTP)
@@ -5,6 +6,15 @@
 > DASH serves the same idea as HLS over HTTP — an [[MPD]] menu plus segments — as an open MPEG standard.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

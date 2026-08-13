@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[webhook]] [[HTTP module]] [[JWT authentication]]
 
 # Web hooks
@@ -5,6 +6,15 @@
 > Web hooks — → See webhook (canonical note).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

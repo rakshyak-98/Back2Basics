@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Optimizing performance]] [[react hooks]] [[React State management]] [[debouncing]]
 
 # Referential equality
@@ -5,6 +6,15 @@
 > Referential equality — primitives compared by value; objects, arrays, functions by reference:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

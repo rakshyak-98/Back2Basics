@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Redux/RTQ Toolkit]] [[Redux/Redux createApi]] [[API handling]] [[react-query]] [[React data management]]
 
 # RTQ tags
@@ -5,6 +6,15 @@
 > RTQ tags — each cached query entry can provide tags { type, id? }. Mutations invalidate tags → RTK refetches all queries that provided matching tags.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

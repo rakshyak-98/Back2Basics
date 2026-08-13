@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating system]] [[Networking]] [[FIB (Forwarding Information Base)]] [[PBR (Policy Based Routing)]] [[CIDR (Classless Inter-Domain Routing)]]
 
 # Routing table
@@ -5,6 +6,16 @@
 > kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Cloud route table mapping]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -70,20 +81,6 @@ sudo tcpdump -ni any 'tcp[tcpflags] & tcp-syn != 0' and host <peer-ip>
 sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ```
 
-## Cloud route table mapping
-
-| Concept | AWS VPC | GCP | Azure |
-|---------|---------|-----|-------|
-| Route table | Per-subnet association | Subnet ↔ route table | Route table ↔ subnet |
-| Internet egress | `0.0.0.0/0` → IGW (public) | default route → default internet gateway | `0.0.0.0/0` → Internet |
-| Private egress | `0.0.0.0/0` → NAT GW | Cloud NAT | NAT Gateway |
-| VPC/VNet internal | Local routes auto | Subnet CIDR local | VNet address space |
-| Peering / hybrid | Peering CIDR, TGW, VPN | VPC peering, Cloud VPN | VNet peering, VPN GW |
-| Endpoint shortcut | Gateway / Interface VPCE | Private Google Access | Service endpoints |
-| CLI inspect | `aws ec2 describe-route-tables` | `gcloud compute routes list` | `az network route-table show` |
-
-**Mental map:** cloud route table = Linux `main` table per subnet; NACLs/security groups are **not** routing — they filter after routing decision.
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -99,6 +96,20 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 
 > [!WARNING]
 > **Persistence daemon overwrites:** Manually inserting routes via `ip route add` while systemd-networkd or NetworkManager controls the link — a DHCP lease renewal or carrier flap triggers the daemon to sync state, wiping manual kernel routes and causing **silent failures**.
+
+## Cloud route table mapping
+
+| Concept | AWS VPC | GCP | Azure |
+|---------|---------|-----|-------|
+| Route table | Per-subnet association | Subnet ↔ route table | Route table ↔ subnet |
+| Internet egress | `0.0.0.0/0` → IGW (public) | default route → default internet gateway | `0.0.0.0/0` → Internet |
+| Private egress | `0.0.0.0/0` → NAT GW | Cloud NAT | NAT Gateway |
+| VPC/VNet internal | Local routes auto | Subnet CIDR local | VNet address space |
+| Peering / hybrid | Peering CIDR, TGW, VPN | VPC peering, Cloud VPN | VNet peering, VPN GW |
+| Endpoint shortcut | Gateway / Interface VPCE | Private Google Access | Service endpoints |
+| CLI inspect | `aws ec2 describe-route-tables` | `gcloud compute routes list` | `az network route-table show` |
+
+**Mental map:** cloud route table = Linux `main` table per subnet; NACLs/security groups are **not** routing — they filter after routing decision.
 
 ## Gotchas
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[P2P (Peer-to-Peer)]]
 
 # IPFS (InterPlanetary File System)
@@ -5,6 +6,15 @@
 > IPFS finds files by content hash (CID), not by server URL — peers share blocks like a P2P CDN.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

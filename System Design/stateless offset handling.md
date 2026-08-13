@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[kafka]] [[kafka producer and consumer]] [[Kafka broker]] [[Idempotent-key]] [[Concurrent modification]]
 
 # Stateless offset handling
@@ -5,6 +6,15 @@
 > Stateless offset handling — a consumer's offset is its cursor in a partition log. Stateless here means: no durable local DB for progress — the broker
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

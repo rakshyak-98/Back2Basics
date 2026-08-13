@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[TypeScript]] [[typescript]] [[tsconfig]]
 
 # typescript error
@@ -5,6 +6,46 @@
 > TypeScript errors — `TSxxxx` codes from the checker; read the *first* error, fix root cause, avoid `as any` band-aids.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| TS2307 module | Path / exports / types | Install `@types`; fix resolution |
+| TS2322 null | Possibly undefined | Narrow / optional chain |
+| Explosion of errors | One bad type | Fix source type |
+| IDE only errors | Different TS version | Align workspace TS |
+| Error in `.d.ts` | Bad lib | `skipLibCheck` or upgrade |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -47,18 +88,6 @@ function len(x: string | null) {
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| TS2307 module | Path / exports / types | Install `@types`; fix resolution |
-| TS2322 null | Possibly undefined | Narrow / optional chain |
-| Explosion of errors | One bad type | Fix source type |
-| IDE only errors | Different TS version | Align workspace TS |
-| Error in `.d.ts` | Bad lib | `skipLibCheck` or upgrade |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -79,6 +108,14 @@ function len(x: string | null) {
 - **Treating type errors as runtime stack traces** — different layer.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

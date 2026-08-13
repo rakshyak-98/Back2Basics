@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Boot]] [[MBR]] [[Extensible Firmware interface (efi)]]
 
 # UEFI
@@ -5,6 +6,15 @@
 > UEFI (Unified Extensible Firmware Interface) boots the machine — POST, drivers, then hand off to an OS loader on the ESP.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

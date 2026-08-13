@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[CLI]] [[grep]] [[Find command]] [[Scripting]]
 
 # Common commands — daily ops cheat sheet
@@ -6,19 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-### Interview map (words you can say)
+## Quick reference
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
-| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
-| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
-| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
-| **ps / top** | Processes | “ps aux | grep then kill.” |
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -87,6 +92,26 @@ date -u +%Y-%m-%dT%H:%M:%SZ           # ISO UTC for logs/tickets
 id; groups; whoami                    # Effective user + supplementary groups
 ```
 
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
+| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
+| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
+| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
+| **ps / top** | Processes | “ps aux | grep then kill.” |
+
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -112,6 +137,12 @@ id; groups; whoami                    # Effective user + supplementary groups
 
 - **Production configuration changes** — use configuration management + review, not ad-hoc one-liners from this sheet.
 - **Security audit** — need dedicated tools ([[nmap]], [[ss]], policy scanners), not find/grep alone.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

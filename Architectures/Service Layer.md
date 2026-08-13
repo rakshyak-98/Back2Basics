@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]]
 
 # Service Layer
@@ -5,6 +6,15 @@
 > Service Layer holds business rules between HTTP handlers and the database — controllers stay thin.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
 
 # ecommerce platform architecture
@@ -5,6 +6,33 @@
 > ecommerce platform architecture — client ──► API Gateway (REST) ──► BFF (optional) ──► domain services
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -70,6 +98,12 @@ Client ──► API Gateway (REST) ──► BFF (optional) ──► domain se
 - Skip when a simpler existing approach already fits.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

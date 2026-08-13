@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[Database]] [[mysql connection]] [[cli]] [[mysql query]] [[mysql dump]]
 
 # mysql
@@ -5,6 +6,17 @@
 > MySQL is the SQL server you talk to for rows — store, query, and change data over a connection.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -39,6 +51,16 @@ mysqld ──► parse → optimize → execute
 4. **Observe** — `SHOW` / `EXPLAIN` / `performance_schema` when slow or wrong.
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

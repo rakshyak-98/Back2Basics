@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Eventual consistency]] [[backpressure]] [[Real-time Subscription]]
 
 # Food delivery
@@ -5,6 +6,15 @@
 > Food-delivery design — geo-local marketplace: menu browse, sub-2s order accept, chef/driver state machine, async status fan-out at huge DAU.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

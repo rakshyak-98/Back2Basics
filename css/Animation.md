@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[css]] [[JavaScript]] [[webSocket]]
 
 # Animation
@@ -5,6 +6,15 @@
 > Animation — JS → Style → Layout → Paint → Composite
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

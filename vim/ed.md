@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[vim]]
 
 # ed
@@ -5,6 +6,15 @@
 > ed — 1 # go to first line
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

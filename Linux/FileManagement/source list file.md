@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[FileManagement]] [[apt package manager]] [[apt configuration]] [[keyrings]]
 
 # source list file
@@ -5,6 +6,15 @@
 > An APT sources line tells apt where packages come from — URI, suite, components, and which key verifies them.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[UMD global]] [[node modules]] [[IIFC]]
 
 # AMD module
@@ -5,6 +6,15 @@
 > Asynchronous Module Definition — browser modules loaded via `define`/`require` (RequireJS era) before native ESM.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

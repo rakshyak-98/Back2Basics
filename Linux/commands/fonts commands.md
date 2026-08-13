@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Linux configuration]] [[Linux terminal]] [[terminal configuration]]
 
 # Font commands (fontconfig)
@@ -5,6 +6,53 @@
 > fontconfig CLI — list, match, and rebuild fonts when apps show missing glyphs.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Standard config / commands
+
+```bash
+# What monospace will Firefox/terminal actually get?
+fc-match monospace
+fc-match "JetBrains Mono:style=Bold"
+
+# List installed faces (grep your family)
+fc-list | grep -i "jetbrains"
+fc-list : family style file | column -t -s,
+
+# After installing fonts to ~/.local/share/fonts
+mkdir -p ~/.local/share/fonts
+cp MyFont.ttf ~/.local/share/fonts/
+fc-cache -fv ~/.local/share/fonts
+
+# System-wide install (Debian/Ubuntu)
+sudo cp MyFont.ttf /usr/local/share/fonts/
+sudo fc-cache -fv
+```
+
+**Terminal-specific:** many terminals bypass fontconfig partially — set font in terminal profile *and* verify with `fc-match`. Nerd Font icons need a patched face (e.g. `MesloLGS NF`), not just "Monospace".
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -32,29 +80,6 @@ Install .ttf → fc-cache -f → app restart (sometimes required)
 | **fc-match** | What will render | “fc-match 'DejaVu Sans'.” |
 | **Pango/Qt** | App stacks | “Apps may bypass fontconfig quirks.” |
 
-## Standard config / commands
-
-```bash
-# What monospace will Firefox/terminal actually get?
-fc-match monospace
-fc-match "JetBrains Mono:style=Bold"
-
-# List installed faces (grep your family)
-fc-list | grep -i "jetbrains"
-fc-list : family style file | column -t -s,
-
-# After installing fonts to ~/.local/share/fonts
-mkdir -p ~/.local/share/fonts
-cp MyFont.ttf ~/.local/share/fonts/
-fc-cache -fv ~/.local/share/fonts
-
-# System-wide install (Debian/Ubuntu)
-sudo cp MyFont.ttf /usr/local/share/fonts/
-sudo fc-cache -fv
-```
-
-**Terminal-specific:** many terminals bypass fontconfig partially — set font in terminal profile *and* verify with `fc-match`. Nerd Font icons need a patched face (e.g. `MesloLGS NF`), not just "Monospace".
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -81,6 +106,12 @@ sudo fc-cache -fv
 - **Choosing a font for design** — use a font book or application UI; `fc-list` is for operations/debug.
 - **PDF/print embedding** — fontconfig doesn't embed; that's application-specific (LibreOffice, LaTeX).
 - **Windows/macOS font sync** — different stack entirely.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

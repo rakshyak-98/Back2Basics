@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Single-threaded]] [[Thread]] [[thread pool]] [[mutexes]] [[critical sections]] [[context switching]]
 
 # multi-threaded
@@ -5,6 +6,15 @@
 > Multi-threaded means one process runs several threads that share memory — use more cores, overlap I/O, and pay for synchronization.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

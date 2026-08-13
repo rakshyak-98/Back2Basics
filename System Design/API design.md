@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System design]] [[Authentication web application]] [[JWT authentication]] [[REST]]
 
 # API design
@@ -5,6 +6,15 @@
 > Contract between clients and backend — **resource-oriented URLs, predictable errors, auth**; hide implementation, not capability.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

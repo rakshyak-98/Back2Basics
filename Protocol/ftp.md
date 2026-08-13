@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[TCP]] [[TLS (Transport Layer Security)]] [[TFTP]] [[SCP (Secure Copy Protocol)]]
 
 # ftp
@@ -5,6 +6,15 @@
 > FTP (File Transfer Protocol) — control channel plus a second data connection; active (server dials you) vs passive (you dial the server).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[kotlin]]
 
 # kotlin data flow
@@ -5,6 +6,15 @@
 > kotlin data flow — by lets one object handle that logic of property on behalf of another object.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -45,6 +55,25 @@ Why was it added?
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

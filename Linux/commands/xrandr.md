@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[x11]] [[wayland]]
 
 # xrandr
@@ -5,6 +6,15 @@
 > xrandr configures X11 outputs — resolution, rotation, and multi-monitor layout via RandR.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

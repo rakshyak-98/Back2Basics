@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TCP]] [[Berkeley sockets]] [[webSocket]] [[ICMP]]
 
 # UDP
@@ -5,6 +6,15 @@
 > Connectionless datagram protocol — send without handshake; no delivery, ordering, or congestion guarantees; app owns reliability if needed.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

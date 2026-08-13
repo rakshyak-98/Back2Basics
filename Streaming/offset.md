@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[MPD]] [[Manifest (streaming)]] [[DASH]] [[HLS]] [[Byte stream]]
 
 # offset
@@ -5,6 +6,15 @@
 > An offset is how far you move from a known start — bytes in a file, or time from a timeline base in live DASH/HLS.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[System Design/SOLID]] [[System Design/KISS]] [[System Design/DRY]] [[Design pattern/Dependency Injection]]
 
 # Design Patterns
@@ -5,6 +6,18 @@
 > Design patterns — reusable object designs; use only where variation is real. **Shvets**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -42,6 +55,14 @@ Client / REST
 
 ---
 
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
+
 ## Standard config / commands
 
 ```bash
@@ -67,6 +88,12 @@ Client / REST
 > Prefer words you can say aloud in an interview.
 
 ---
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/web development]] [[Rendering performance/INP]] [[Nginx/nginx SPA deployment]] [[Security/content security policy]]
 
 # SEO (Search Engine Optimization)
@@ -5,6 +6,15 @@
 > Make content discoverable, crawlable, and eligible for rich results — technical + content signals — **Google Search Essentials**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

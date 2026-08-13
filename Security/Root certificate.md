@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[PKI]] [[TLS (Transport Layer Security)]] [[fingerprint]] [[https]]
 
 # Root certificate
@@ -5,6 +6,15 @@
 > Self-signed trust anchor at the top of a certificate chain — browsers and OS trust stores decide whether your TLS cert is "valid."
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

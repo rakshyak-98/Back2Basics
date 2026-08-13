@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Useful prompt for learning with AI chat.md]]
 
 # Useful prompt for learning with AI chat
@@ -5,6 +6,15 @@
 > Useful prompt for learning with AI chat — _What are the most important facts, dates, or formulas related to (topic)? Help me create a memorization technique…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -18,6 +28,25 @@
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

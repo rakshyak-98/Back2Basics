@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[terraform]] [[variable file]]
 
 # Terraform CLI
@@ -5,6 +6,30 @@
 > Commands & debugging — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler) + HashiCorp CLI reference.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Mental model]]
+- [[#Everyday commands]]
+- [[#Init flags]]
+- [[#Plan / apply flags]]
+- [[#Logging (provider troubleshooting)]]
+- [[#Provider / schema inspection]]
+- [[#State subcommands (careful)]]
+- [[#Useful env vars]]
+- [[#First-time failure checklist]]
+- [[#Book takeaways]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Mental model
 
@@ -151,6 +176,12 @@ Workflow context: [[Terraform workflow]]
 ## When NOT to use
 
 - **One-off cloud click-operations** — CLI shines when the configuration is code; skip Terraform for a single manual sandbox resource if the team agrees.
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

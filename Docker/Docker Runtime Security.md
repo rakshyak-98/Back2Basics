@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[docker container]] [[docker OCI]] [[Docker compose]] [[docker file]]
 
 # Docker Runtime Security
@@ -5,6 +6,16 @@
 > Shrink the container attack surface: non-root, dropped caps, seccomp, read-only rootfs — **Docker Deep Dive** (Poulton) + **Container Security** (Liz Rice).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Hardening checklist]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -122,6 +133,17 @@ networks:
   - internal-only          # no published ports on sensitive tiers
 ```
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Permission denied` writing file | read-only rootfs | Mount volume/tmpfs for that path |
+| `Operation not permitted` | seccomp or cap drop | Add specific cap or syscall to profile |
+| Can't bind port 80 | non-root | Listen 8080 + reverse proxy; or CAP_NET_BIND_SERVICE |
+| App exits as root | Missing USER | Fix Dockerfile; verify `docker inspect User` |
+| DNS works in dev, fails hardened | `NET_RAW` dropped | Usually not needed; check outbound firewall |
+| JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
+
 ## Hardening checklist
 
 ```
@@ -134,17 +156,6 @@ networks:
 □ scan images (Trivy/Grype); pin digests
 □ host: Docker socket NOT mounted into app container
 ```
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Permission denied` writing file | read-only rootfs | Mount volume/tmpfs for that path |
-| `Operation not permitted` | seccomp or cap drop | Add specific cap or syscall to profile |
-| Can't bind port 80 | non-root | Listen 8080 + reverse proxy; or CAP_NET_BIND_SERVICE |
-| App exits as root | Missing USER | Fix Dockerfile; verify `docker inspect User` |
-| DNS works in dev, fails hardened | `NET_RAW` dropped | Usually not needed; check outbound firewall |
-| JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
 
 ## Gotchas
 

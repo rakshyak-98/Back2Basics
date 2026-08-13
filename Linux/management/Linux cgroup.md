@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[Memory management]] [[OOM (Linux Out Of Memory)]] [[process]]
 
 # Linux cgroups
@@ -5,6 +6,18 @@
 > Linux cgroups — cgroups (control groups) group processes and apply limits/priorities. Modern distros mount cgroup v2 unified at /sys/fs/cgroup.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#cgroup v2 — memory (containers)]]
+- [[#cgroup v2 — CPU]]
+- [[#Other controllers (brief)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -51,6 +64,27 @@ systemd-cgls
 systemctl status user.slice
 systemd-run --scope -p MemoryMax=512M stress-ng --vm 1 --vm-bytes 600M
 ```
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Container exits 137 | `dmesg`; cgroup OOM | Raise `memory.max` or fix leak |
+| App slow, CPU low | CPU throttling | `cat cpu.max`; raise quota or optimize |
+| Host fine, container dies | Limit too low vs JVM/Node heap | Set `-Xmx` / `--max-old-space-size` **below** cgroup limit (~75%) |
+| Can't write memory.max | Wrong cgroup level | Enable controller in `cgroup.subtree_control` on parent |
+| systemd unit ignores limit | Wrong property | `MemoryMax=` in unit, not only `LimitAS` (different) |
+
+```bash
+# Current usage for a Docker container
+CID=$(docker inspect -f '{{.Id}}' mycontainer)
+cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.current
+cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.max
+```
+
+Path varies by distro (cgroup driver: systemd versus cgroupfs).
 
 ---
 
@@ -136,27 +170,6 @@ Kubernetes CPU limit: **throttled**, not killed — unlike memory.
 | `rdma` | RDMA device limits | HPC |
 
 v1 names still appear in old docs: `cpuacct`, `blkio`, `net_cls`.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Container exits 137 | `dmesg`; cgroup OOM | Raise `memory.max` or fix leak |
-| App slow, CPU low | CPU throttling | `cat cpu.max`; raise quota or optimize |
-| Host fine, container dies | Limit too low vs JVM/Node heap | Set `-Xmx` / `--max-old-space-size` **below** cgroup limit (~75%) |
-| Can't write memory.max | Wrong cgroup level | Enable controller in `cgroup.subtree_control` on parent |
-| systemd unit ignores limit | Wrong property | `MemoryMax=` in unit, not only `LimitAS` (different) |
-
-```bash
-# Current usage for a Docker container
-CID=$(docker inspect -f '{{.Id}}' mycontainer)
-cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.current
-cat /sys/fs/cgroup/system.slice/docker-${CID}.scope/memory.max
-```
-
-Path varies by distro (cgroup driver: systemd versus cgroupfs).
 
 ---
 

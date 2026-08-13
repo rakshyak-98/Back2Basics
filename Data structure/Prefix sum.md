@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[sliding window]] [[Data structure]] [[Algorithm]]
 
 # Prefix sum
@@ -5,6 +6,15 @@
 > Precomputed cumulative totals — answer any fixed-range sum query in O(1) after O(n) preprocess; foundation for range queries, subarray counts, and difference arrays.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

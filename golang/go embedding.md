@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[Design pattern]] [[java]]
 
 # Go embedding (struct and interface)
@@ -5,6 +6,15 @@
 > Anonymous field embedding — promotes methods and fields for convenient delegation; **not** classical inheritance; conflicts resolve by explicit outer rules.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

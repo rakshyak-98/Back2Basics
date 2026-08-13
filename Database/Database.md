@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[ACID]] [[WAL (Write-Ahead Log)]] [[OLTP]] [[OLAP]] [[Database design]] [[connection pooling]] [[MVCC]]
 
 # Database
@@ -5,6 +6,19 @@
 > Durable shared storage with a query language, transactions, and rules — survive crash, serve many clients, keep declared constraints true.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Interview map (words you can say)]]
+- [[#Standard config / patterns]]
+- [[#Time, expiry, and clocks]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +39,16 @@ Without atomicity + durability, a crash mid-update can leave half-written rows. 
 | [[OLTP]] | Short point lookups + small writes | Postgres / MySQL primary |
 | [[OLAP]] | Scans, aggregates | Warehouse / column store |
 | Cache | Ephemeral, optional loss | Redis (often no WAL by default) |
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Interview map (words you can say)
 

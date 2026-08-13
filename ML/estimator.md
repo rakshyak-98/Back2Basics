@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[scikitlearn]] [[supervised learning]] [[data preprocessing]] [[Model/Linear regression]]
 
 # Estimator (ML / statistics)
@@ -5,6 +6,15 @@
 > Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

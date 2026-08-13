@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[NAT (Network Address Translation)]] [[ICE (Interactive Connectivity Establishment)]]
 
 # NAT Traversal
@@ -5,6 +6,15 @@
 > NAT traversal gets two peers behind NATs talking — discover public addresses, try direct, else relay.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

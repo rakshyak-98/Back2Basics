@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[half-open connections]] [[Epoll]] [[ss]] [[TCP]]
 
 # connection churn (connection chrun)
@@ -5,6 +6,15 @@
 > connection churn (connection chrun) — churn = high rate of short-lived TCP connections (HTTP/1.0-style close per request, health checks, misconfigured pools) or idle timeout mismatch (LB
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

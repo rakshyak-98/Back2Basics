@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git]] [[git command]] [[git rebase]] [[git branch]]
 
 # Git Merge
@@ -5,6 +6,15 @@
 > combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

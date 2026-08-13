@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[java]] [[android]] [[golang]]
 
 # Kotlin syntax (quick reference)
@@ -5,6 +6,15 @@
 > Kotlin syntax (quick reference) — kotlin targets JVM/JS/Native. val immutable reference, var mutable. Nullability enforced at compile time: String vs String?.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

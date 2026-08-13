@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[user management]] [[sudo]] [[linux groups]]
 
 # visudo
@@ -5,6 +6,16 @@
 > visudo edits sudoers safely — locks the file and rejects syntax errors so you don’t lock everyone out of root.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#sudoers.d layout]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -68,6 +79,18 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Locked out / parse error | Broken sudoers | Root console; fix with `visudo` / `pkexec` / live USB |
+| User “in sudo group” but denied | `sudo -lU` | Group membership not refreshed — re-login; check `%sudo` line |
+| Wrong file wins | Lexical order | Rename with `zz-` / `50-` prefixes |
+| NOPASSWD not applied | Alias mismatch | Full path required; no unexpected args |
+| `sudo -u` fails | Runas list | Allow `(www-data)` explicitly |
+
+---
+
 ## sudoers.d layout
 
 ```text
@@ -80,18 +103,6 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 
 > [!WARNING]
 > Never point sudoers at files in a user’s home — they could grant themselves `ALL`.
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Locked out / parse error | Broken sudoers | Root console; fix with `visudo` / `pkexec` / live USB |
-| User “in sudo group” but denied | `sudo -lU` | Group membership not refreshed — re-login; check `%sudo` line |
-| Wrong file wins | Lexical order | Rename with `zz-` / `50-` prefixes |
-| NOPASSWD not applied | Alias mismatch | Full path required; no unexpected args |
-| `sudo -u` fails | Runas list | Allow `(www-data)` explicitly |
 
 ---
 

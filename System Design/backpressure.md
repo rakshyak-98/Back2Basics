@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Throughput]] [[race condition]] [[Token bucket]]
 
 # backpressure
@@ -5,6 +6,15 @@
 > Backpressure — slow consumers force producers to pause, drop, or queue with limits so buffers don’t explode.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

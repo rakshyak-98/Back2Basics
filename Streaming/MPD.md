@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DASH]] [[Manifest (streaming)]] [[HLS vs. DASH]] [[CMAF]] [[ABR]] [[DRM]] [[EME]]
 
 # MPD (Media Presentation Description)
@@ -5,6 +6,15 @@
 > MPD (Media Presentation Description) — the MPD is the root document for DASH playback. It describes Periods (timeline slices), AdaptationSets (video/audio/subtitle tracks), and Representations (bitrate rungs).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

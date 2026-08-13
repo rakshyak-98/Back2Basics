@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[npm]]
 
 # npm
@@ -5,6 +6,17 @@
 > npm — it means the dependency resolution mechanism detected a mismatch between the expected versions of dependencies specified by a package and the actual…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -31,6 +43,16 @@ failed to solve: cannot replace to directory /var/lib/docker/overlay2/x6ptivu3yy
 
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

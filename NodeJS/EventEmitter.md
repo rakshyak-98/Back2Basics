@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Event Loop]] [[Stream]] [[Node events driven]]
 
 # EventEmitter
@@ -5,6 +6,15 @@
 > EventEmitter — └── emit('data', chunk) ──────►│──► on('data') handler 1 │
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

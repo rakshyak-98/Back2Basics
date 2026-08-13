@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[worker]] [[clustering]] [[Node events driven]]
 
 # child process
@@ -5,6 +6,15 @@
 > Spawn another OS process from Node — shell out, run binaries, or isolate crashable work. Mind shell injection.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

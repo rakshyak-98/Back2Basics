@@ -1,3 +1,4 @@
+<!-- note-strategy: decision -->
 [[Architectures]] [[Streaming]] [[CDN]] [[HLS]] [[DASH]]
 
 # Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User
@@ -5,6 +6,33 @@
 > 1M concurrent live viewers — push encode once, fan out via CDN/edge; origin must not serve every player directly.
 
 ---
+
+## Index
+
+- [[#Context]]
+- [[#Decision]]
+- [[#Consequences]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Alternatives considered]]
+- [[#Related]]
+
+## Context
+
+…
+
+## Decision
+
+We will … because …
+
+## Consequences
+
+**Positive:** …
+
+**Negative / trade-offs:** …
 
 ## Mental model
 
@@ -76,6 +104,12 @@ Health: stale manifest / 404 segment alerts
 - **Ultra-low-latency betting UX** — specialized LL-HLS/WebRTC stacks.
 
 ---
+
+## Alternatives considered
+
+| Alternative | Why rejected |
+|-------------|--------------|
+| … | … |
 
 ## Related
 

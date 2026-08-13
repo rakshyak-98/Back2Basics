@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GIT]]
 
 # git guidlines
@@ -5,6 +6,15 @@
 > git guidlines — feat: add new inventory endpoint
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -40,7 +50,6 @@ Ticket: AT-123
 - include relevant ticket/issues numbers
 - separate subject from body with blank line
 - describe what and why, not how
-
 
 ## Standard config / commands
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[race condition]] [[Eventual consistency]] [[IDOR]]
 
 # Concurrent modification
@@ -6,12 +7,21 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Say it in one breath:** Gap between read and write lets another actor sneak in — status machines, counters, and document edits are classic victims.
 
 ```txt
-A reads v1 ──edit──► writes v1' 
+A reads v1 ──edit──► writes v1'
 B reads v1 ──edit──► writes v1''  (A’s change lost)
 ```
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Programming paradigram/purely declarative]] [[Operating System/Stack based programming language]]
 
 # Functional programming
@@ -5,6 +6,15 @@
 > Compose pure functions and immutable data — minimize shared mutable state; side effects at the edges.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

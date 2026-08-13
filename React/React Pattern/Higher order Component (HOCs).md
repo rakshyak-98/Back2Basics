@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[Render props]] [[react hooks]]
 
 # Higher order Component (HOCs)
@@ -5,6 +6,15 @@
 > Function that takes a component and returns a wrapped one — share cross-cutting behavior (auth, logging) without copying it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

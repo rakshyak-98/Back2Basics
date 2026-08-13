@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[ELF (Editabl Linkable File)]] [[linker]] [[stack pointer]] [[LSB (Linux Standard Base)]]
 
 # SYSV (System V)
@@ -5,6 +6,15 @@
 > System V ABI is the binary calling contract Linux uses on a given arch — how args, stack, and registers work so binaries and libs match.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

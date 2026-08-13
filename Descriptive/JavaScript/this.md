@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Javascript]] [[JavaScript/Call stack]] [[JavaScript/execution context]]
 
 # this
@@ -5,6 +6,15 @@
 > `this` is the call-site receiver in JS — how you invoke the function decides what `this` is (unless bound/arrow).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

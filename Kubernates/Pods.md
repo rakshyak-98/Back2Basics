@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[kubectl]] [[kubectl pod creation]] [[Kubernetes services]] [[ingress]]
 
 # Pods
@@ -6,10 +7,18 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Say it in one breath:** Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
-
 
 ## Standard config / commands
 

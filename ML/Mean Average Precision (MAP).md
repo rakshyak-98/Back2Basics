@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Normalized Discounted Cumulative Gain (NDCG)]] [[rank prediction]] [[binary classification]] [[multiclass classification]]
 
 # Mean Average Precision (MAP)
@@ -5,6 +6,15 @@
 > Mean Average Precision (MAP) — for each query, you have a ranked list of items. Relevance is binary (or graded in nDCG). Precision@k = relevant in top k
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

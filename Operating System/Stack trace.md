@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Stack Frame]] [[stack pointer]] [[gdb]] [[NodeJS]]
 
 # Stack trace
@@ -5,6 +6,15 @@
 > A stack trace is the chain of call frames at a moment in time — read top-down to find where you blew up, then who called it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

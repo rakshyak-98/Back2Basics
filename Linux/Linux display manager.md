@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[display server]] [[windowing system]] [[x11]] [[wayland]] [[Linux configuration]]
 
 # Linux display manager
@@ -5,6 +6,15 @@
 > Linux display manager — the display manager (DM) runs as root early in boot, shows login UI, authenticates via PAM, then execs user session (startx, gnome-session
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[java]] [[kotlin]] [[Design pattern]] [[method shadowing]]
 
 # Static members (class-level state and methods)
@@ -5,6 +6,18 @@
 > Belong to the type, not instances — one shared slot in memory; no virtual dispatch; common for factories, constants, and caches; abuse causes test pain and
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -21,6 +34,14 @@ All instances share same static field memory
 Static methods resolve at **compile time** by reference type — cannot override instance methods polymorphically ([[method shadowing]] hiding rules in Java).
 
 Lifecycle: initialized when class first used (classloader `<clinit>`); order depends on dependency graph — fragile if circular.
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -109,6 +130,12 @@ public static User fromJson(String json) { ... }
 
 > [!WARNING]
 > **Initialization order** — static blocks referencing other classes can throw `ExceptionInInitializerError` — hard to debug.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

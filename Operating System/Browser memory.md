@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[Heap memory]] [[buffer]]
 
 # Browser memory
@@ -5,6 +6,15 @@
 > Browser RAM holds FileReader buffers, blobs, and WASM heaps — close the tab and it is gone.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

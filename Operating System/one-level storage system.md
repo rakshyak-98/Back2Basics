@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Buffer cache]] [[file descriptors]] [[fsync]] [[How to manipulate memory directly]] [[context switching]]
 
 # One-level storage system
@@ -5,6 +6,15 @@
 > One-level storage system — the one-level store illusion: programmers see a single large virtual address space. The OS + MMU map virtual pages to RAM frames
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

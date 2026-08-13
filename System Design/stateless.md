@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[stateless offset handling]] [[Real-time Subscription]] [[Streaming]]
 
 # stateless
@@ -5,6 +6,15 @@
 > Stateless service — each request carries the context it needs; the server forgets you between calls (easy to scale and restart).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

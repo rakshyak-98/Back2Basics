@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Airflow]] [[Jenkins]] [[kafka]] [[webhook]] [[Idempotent-key]]
 
 # Orchestration layer
@@ -5,6 +6,15 @@
 > Orchestration layer — orchestration: a central coordinator drives steps, knows global state, retries, timeouts, compensations. Choreography: each service reacts to events with no central brain — flow emerges
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

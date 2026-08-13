@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql connection]] [[mysql transaction]] [[connection pooling]]
 
 # mysql concepts
@@ -5,6 +6,15 @@
 > mysql2 (Node) mental model — connection vs pool, `query` vs `execute`, transactions on a borrowed connection, and cleanup with `await using`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

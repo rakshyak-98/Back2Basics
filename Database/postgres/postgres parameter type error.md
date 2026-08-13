@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[postgres/postgres Error]] [[postgres/psql essential]] [[connection pooling]] [[Prisma query]]
 
 # PostgreSQL Error: `inconsistent types deduced for parameter $n`
@@ -5,6 +6,44 @@
 > PostgreSQL inferred **different data types** for the **same placeholder (`$n`)** in one statement — fix by splitting placeholders or adding explicit casts.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Slow | EXPLAIN / slow log | Index or rewrite |
+| Auth/connect fail | pg_hba / users | Fix grants and bind |
+| Bad migration | backup + version | Roll forward carefully |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -38,16 +77,6 @@ $params ──► $2 used in SET status (text) ──┐
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slow | EXPLAIN / slow log | Index or rewrite |
-| Auth/connect fail | pg_hba / users | Fix grants and bind |
-| Bad migration | backup + version | Roll forward carefully |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -60,6 +89,14 @@ $params ──► $2 used in SET status (text) ──┐
 - Skip when a simpler existing approach already fits.
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[php error]] [[Nginx/Configuration]] [[Linux/commands/Services commands]]
 
 # Apache modules
@@ -5,6 +6,15 @@
 > Static (compiled-in) vs shared (dynamic `LoadModule`) — what you can toggle without recompiling httpd.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/Lexical Grammer]] [[javascript]] [[compiler/library file]] [[NodeJS/node command]]
 
 # Lexical analysis
@@ -5,6 +6,15 @@
 > First compiler phase — scan source left-to-right into tokens; strip whitespace and comments — **ECMAScript lexical grammar**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

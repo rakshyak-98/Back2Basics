@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[OLAP]] [[ACID]] [[connection pooling]] [[Database design]] [[Data access patterns]] [[mysql]] [[postgres essential]]
 
 # OLTP
@@ -5,6 +6,15 @@
 > OLTP — the operational path: checkout, auth, inventory decrement, ticket update. Workload shape:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / architecture]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

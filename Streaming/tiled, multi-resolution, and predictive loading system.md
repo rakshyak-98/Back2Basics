@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Buffer cache]] [[file descriptors]] [[webSocket]]
 
 # tiled, multi-resolution, and predictive loading system
@@ -5,6 +6,15 @@
 > tiled, multi-resolution, and predictive loading system — full image 16k×16k — never ship whole file to client
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

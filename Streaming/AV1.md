@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[codecs]] [[Encoding]] [[NVENC]] [[ABR]] [[rendition]] [[transcoding]]
 
 # AV1
@@ -5,6 +6,15 @@
 > AV1 is an open video codec — same quality at lower bitrate than H.264/HEVC, but encode cost and device support still gate rollout.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

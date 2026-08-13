@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[Markdown]]
 
 # LF and CRLF
@@ -5,6 +6,15 @@
 > LF (`\n`) and CRLF (`\r\n`) are line endings — Unix vs classic Windows; mismatches break scripts and diffs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

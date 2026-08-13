@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Architectures]] [[System Architecture]]
 
 # feature flag
@@ -5,6 +6,15 @@
 > Feature flags turn code paths on/off remotely — ship dark, open to cohorts, kill fast.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

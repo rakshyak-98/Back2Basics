@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Template Method]] [[NodeJS/Express middleware]]
 
 # Chain of Responsibility
@@ -5,6 +6,18 @@
 > Pass a request along a chain of handlers until one handles it (or all approve) — **Dive Into Design Patterns + launch validation chain**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -20,6 +33,14 @@ LaunchValidationChain
 | **Handler** | Can process or forward |
 | **Concrete handler** | One check / concern |
 | **Client** | Builds chain; sends request to first link |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -82,6 +103,12 @@ New launch check → new handler → append to chain registration. Do not grow a
 
 - Chain + Strategy: a handler may *delegate* to a strategy (goal-specific rules) without becoming a strategy itself.
 - Pure functional `compose` avoids class boilerplate; classes help when handlers need injected deps.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

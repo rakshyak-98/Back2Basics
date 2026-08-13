@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[Database]] [[WiredTiger storage engine]]
 
 # GridFS
@@ -5,6 +6,15 @@
 > GridFS — BSON documents cap at 16MB. GridFS splits a file into 255KB chunks (default), storing metadata in fs.files and binary chunks in fs.chunks (default bucket
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

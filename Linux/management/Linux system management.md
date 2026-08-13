@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[systemctl]] [[Package Manager]] [[loggging]]
 
 # Linux system management
@@ -5,6 +6,15 @@
 > Day-2 system management is patch, observe, control services, and recover — package updates, systemd, logs, and backups.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongodb schema]]
 
 # mongodb migration
@@ -5,6 +6,15 @@
 > MongoDB migrations are scripts that reshape documents — run carefully in batches with a rollback story.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

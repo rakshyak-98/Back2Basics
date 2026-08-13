@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[file descriptors]] [[system call]] [[discriptors]]
 
 # handle
@@ -5,6 +6,15 @@
 > A handle is an opaque OS ID for an open resource — you pass it to syscalls; you never poke the kernel object directly.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

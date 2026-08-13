@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[multi-threaded]] [[Thread]] [[non-blocking]] [[Blocking Vs Non-Blocking]] [[NodeJS]]
 
 # Single-threaded
@@ -5,6 +6,15 @@
 > Single-threaded means one execution stack runs your logic — concurrency comes from an event loop or child processes, not shared-memory threads.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

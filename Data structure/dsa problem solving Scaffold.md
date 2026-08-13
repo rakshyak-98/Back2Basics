@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[dsa intuition]] [[DSA algorithms]]
 
 # dsa problem solving Scaffold
@@ -5,6 +6,15 @@
 > A repeatable scaffold for interview DSA — clarify, pattern-match, complexity, then code + tests.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

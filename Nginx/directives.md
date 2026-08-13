@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[How does directive work#try_files]]
 
 # directives
@@ -5,6 +6,15 @@
 > directives — server — defines a virtual server
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -32,7 +42,6 @@ server {
 }
 ```
 auth_basic / auth_basic_user_file -> Enables HTTP basic authentication
-
 
 ## Standard config / commands
 

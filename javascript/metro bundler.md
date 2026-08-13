@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[bundler]] [[NodeJS]] [[SWC]]
 
 # Metro Bundler
@@ -5,6 +6,15 @@
 > React Native's default JavaScript bundler — fast dev iteration via incremental transforms, not webpack-style whole-graph rebuilds.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

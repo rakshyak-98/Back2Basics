@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments]]
 
 # razorpay integration
@@ -5,6 +6,15 @@
 > razorpay integration — user clicks "Pay" on the Frontend.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

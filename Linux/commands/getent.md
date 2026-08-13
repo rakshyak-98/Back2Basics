@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[user management]] [[passwd]] [[Authentication command]] [[linux groups]]
 
 # getent
@@ -5,6 +6,15 @@
 > getent — when a program calls getpwnam("alice"), glibc walks /etc/nsswitch.conf and asks each configured source (files, systemd, sss, ldap, …). getent exposes that same resolution path
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

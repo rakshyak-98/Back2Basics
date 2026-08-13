@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive/JavaScript/new]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]]
 
 # Constructor function
@@ -5,6 +6,15 @@
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

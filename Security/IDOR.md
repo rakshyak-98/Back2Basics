@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[JWT authentication]] [[CORS (Cross Origin Request Sharing)]] [[cross-site scripting]]
 
 # IDOR (Insecure Direct Object Reference)
@@ -5,6 +6,15 @@
 > IDOR (Insecure Direct Object Reference) — IDOR is a broken access control pattern, not a separate protocol attack. AuthN proves *who you are*; missing AuthZ check lets any
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[MongoDB]] [[mongoose middleware]] [[DNS]] [[connection pooling]]
 
 # MongoDB connection
@@ -5,6 +6,15 @@
 > URI + driver options that keep your app talking to the right cluster under load and failover — **MongoDB Manual** + production incident patterns.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

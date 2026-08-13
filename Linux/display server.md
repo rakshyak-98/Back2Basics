@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[x11]] [[wayland]] [[windowing system]] [[Linux display manager]] [[compositors]]
 
 # Display server
@@ -5,6 +6,15 @@
 > Display server — owns the screen and input; GUI apps draw through it.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

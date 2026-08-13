@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[RTQ]]
 
 # matcher
@@ -5,6 +6,15 @@
 > matcher — in Redux Toolkit, multiple matchers for the same event do run sequentially, but splitting them into separate matchers here provides no benefit…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -31,6 +41,25 @@ But in your code both matchers read directly from `action.payload`, not from eac
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

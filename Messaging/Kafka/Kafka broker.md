@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kafka]]
 
 # Kafka broker
@@ -5,6 +6,15 @@
 > Kafka broker — a broker in Apache Kafka is server that acts as an intermediary between producers (who send messages) and consumers (who receive messages).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

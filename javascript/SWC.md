@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React build]] [[polyfills]] [[source map]] [[javascript engine]] [[metro bundler]]
 
 # SWC (Speedy Web Compiler)
@@ -5,6 +6,15 @@
 > SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

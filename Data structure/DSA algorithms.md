@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[dsa intuition]] [[Sorting algorithm]]
 
 # DSA algorithms
@@ -5,6 +6,15 @@
 > DSA algorithms are named techniques on data structures — pick by constraints, not by fashion.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

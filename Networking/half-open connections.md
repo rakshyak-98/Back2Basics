@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TCP]] [[ss]] [[POSIX Socket]] [[Epoll]]
 
 # Half-open connections
@@ -5,6 +6,15 @@
 > Half-open connections — TCP is full-duplex: each direction has its own FIN/ACK lifecycle. Half-open means one peer has shut down its outbound byte stream while the
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

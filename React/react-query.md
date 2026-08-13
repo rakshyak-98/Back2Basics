@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[react cache]] [[Redux/Redux createApi]]
 
 # react-query (TanStack Query)
@@ -5,6 +6,15 @@
 > Client library for server state — cache, dedupe, refetch, and mutate with one `QueryClient`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

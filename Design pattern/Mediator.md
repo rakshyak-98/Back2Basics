@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Observer]] [[Design pattern/State]] [[React/React design patterns]]
 
 # Mediator
@@ -5,6 +6,18 @@
 > Mediator — creativeStep ──► CampaignWizardMediator ──► updates peers
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -15,6 +28,14 @@ GoalStep ──┐
 CreativeStep ──► CampaignWizardMediator ──► updates peers
 BudgetStep ──┘
 ```
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -47,6 +68,12 @@ class CampaignWizardMediator {
 
 > [!WARNING]
 > …
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

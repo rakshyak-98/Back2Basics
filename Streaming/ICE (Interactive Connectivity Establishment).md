@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[WebRTC]] [[WebRTC Signaling channels]] [[TURN server (Traversal Using Relays around NAT)]]
 
 # ICE (Interactive Connectivity Establishment)
@@ -5,6 +6,15 @@
 > ICE finds a working path between two peers behind NATs — try direct, then relay.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

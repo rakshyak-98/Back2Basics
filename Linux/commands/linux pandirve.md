@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[file mount]] [[Linux file management]] [[Linux system management]]
 
 # USB pendrive (removable media)
@@ -5,6 +6,15 @@
 > USB pendrive (removable media) — USB block device appears as /dev/sdX (whole disk) and /dev/sdX1 (first partition). Kernel + udev may auto-mount under /media/$USER/. Manual workflow
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

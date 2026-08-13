@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[ACME server]] [[TLS (Transport Layer Security)]] [[certbot error]] [[https]]
 
 # certbot (letsencrypt)
@@ -5,6 +6,18 @@
 > Certbot — ACME client that proves you own a domain, then installs a Let’s Encrypt cert and renews it before expiry.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Renew certificate]]
+- [[#Webroot]]
+- [[#HTTP-01 Challenge]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -55,6 +68,19 @@ sudo certbot certonly --staging --standalone \
 | `--standalone` | No web server, or stop it briefly |
 | `--dns-<provider>` | Wildcards / blocked port 80 |
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Connection timeout from LE | Port 80/firewall/SG | Open 80 from internet; fix NAT |
+| `404` on challenge | Wrong webroot / nginx location | Align `-w` with served path; allow `/.well-known/` |
+| Rate limited | Too many failed prod attempts | Use `--staging`; wait; see [[certbot error]] |
+| Renew dry-run fails | Auth path changed | Fix plugin config before expiry |
+| nginx still old cert | Wrong `ssl_certificate` path | Point to `live/…/fullchain.pem`; reload |
+| Wildcard fail | HTTP-01 used | Switch to DNS-01 plugin |
+
+---
+
 ## Renew certificate
 
 ```bash
@@ -75,19 +101,6 @@ sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.c
 ## HTTP-01 Challenge
 
 Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Connection timeout from LE | Port 80/firewall/SG | Open 80 from internet; fix NAT |
-| `404` on challenge | Wrong webroot / nginx location | Align `-w` with served path; allow `/.well-known/` |
-| Rate limited | Too many failed prod attempts | Use `--staging`; wait; see [[certbot error]] |
-| Renew dry-run fails | Auth path changed | Fix plugin config before expiry |
-| nginx still old cert | Wrong `ssl_certificate` path | Point to `live/…/fullchain.pem`; reload |
-| Wildcard fail | HTTP-01 used | Switch to DNS-01 plugin |
 
 ---
 

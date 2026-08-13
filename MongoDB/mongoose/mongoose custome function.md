@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mongoose/mongoose]] [[mongoose/mongoose methods]] [[mongoose middleware]]
 
 # mongoose custome function
@@ -5,6 +6,15 @@
 > Custom validators, getters/setters, and schema helpers — teach Mongoose your domain checks.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]]
 
 # nginx fastcgi
@@ -6,13 +7,21 @@
 
 ---
 
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
+
 ## Mental model
 
 **Say it in one breath:** nginx fastcgi — if you want nginx to handle other languages, you have two main routes.
 
 [fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info)
 if you want nginx to handle other languages, you have two main routes.
-
 
 ## Standard config / commands
 

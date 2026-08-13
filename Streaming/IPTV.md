@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[Multicast]] [[MPEG-TS]] [[CAS (Conditional Access System)]] [[DRM]] [[ingestion]]
 
 # IPTV
@@ -5,6 +6,15 @@
 > IPTV delivers live TV and VOD over an IP network — set-top box or app, not satellite or cable RF.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

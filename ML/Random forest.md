@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Decision tree]] [[Gradient boosting]] [[xg boost]] [[scikitlearn]] [[ML Classifiers]]
 
 # Random forest
@@ -5,6 +6,15 @@
 > Bagged ensemble of decorrelated [[Decision tree]]s — vote (classify) or average (regress) — **Breiman (2001)**; strong default before boosting tuning.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

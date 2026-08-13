@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Docker]] [[docker container]] [[docker file]] [[docker cli]]
 
 # docker OCI
@@ -5,6 +6,15 @@
 > OCI (Open Container Initiative) — shared specs for image format and runtime so Docker, containerd, Podman, and CRI-O interoperate; `docker commit` is a practical escape hatch, not the OCI ideal.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

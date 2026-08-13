@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[localhost]] [[DNS]] [[DNS rebinding]] [[TCP]]
 
 # Loopback
@@ -5,6 +6,15 @@
 > Logical network interface (`lo`) whose addresses (`127.0.0.1`, `::1`) route traffic back to the same host — no physical NIC involved.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

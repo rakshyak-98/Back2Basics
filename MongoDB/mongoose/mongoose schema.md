@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mongoose/mongoose]] [[mongodb schema]] [[mongoose/mongoose methods]]
 
 # mongoose schema
@@ -5,6 +6,15 @@
 > A Mongoose schema declares paths, types, indexes, and options — the contract for a model.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

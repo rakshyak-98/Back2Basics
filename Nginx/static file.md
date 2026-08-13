@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]]
 
 # static file
@@ -5,6 +6,15 @@
 > static file — try_files — checks the filesystem for one or more paths in order.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,7 +35,6 @@ location / {
 - If `/blog/` exists as a directory and contains an `index.html` → serve that.
 - If neither exists → return `404 Not Found`.
 - It **avoids unnecessary backend calls** — Nginx won’t forward these requests to PHP/Python/etc. unless they match a different location.
-
 
 ## Standard config / commands
 

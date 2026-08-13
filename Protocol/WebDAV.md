@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[HTTP module]] [[TLS (Transport Layer Security)]]
 
 # WebDAV
@@ -5,6 +6,15 @@
 > WebDAV (Web Distributed Authoring and Versioning) — HTTP extensions so clients can create, edit, move, and lock files on a server like a remote disk.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

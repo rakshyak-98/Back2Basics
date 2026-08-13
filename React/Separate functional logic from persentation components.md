@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[React Pattern/Component Presentational Pattern]] [[React Pattern/Provider pattern]]
 
 # Separate functional logic from presentation components
@@ -5,6 +6,15 @@
 > Keep domain rules out of JSX — you should be able to swap GUI for CLI without rewriting the rules.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

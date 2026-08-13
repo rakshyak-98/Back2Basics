@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[content security policy]] [[ESM]]
 
 # Browser engine
@@ -5,6 +6,15 @@
 > A browser engine turns HTML/CSS/JS into pixels and a live DOM — layout + paint + script, not a database.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

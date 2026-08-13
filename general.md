@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[INDEX]] [[NOTES_STANDARD]] [[README]] [[staff engineer]]
 
 # general
@@ -5,6 +6,15 @@
 > Vault meta hub — where to start, how notes are written, and what this collection is for.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -25,6 +35,25 @@ Symptom / design question
 Every note picks a strategy from [[NOTETAKING_STRATEGIES]] and follows the matching template in [[NOTES_STANDARD]] (operational notes: mental model → commands → triage → gotchas).
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

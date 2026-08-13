@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React Pattern]] [[React Pattern/Compound Components]] [[React Pattern/Provider pattern]]
 
 # Compound Components 1
@@ -5,6 +6,15 @@
 > Parent owns shared state; children read it via context — Tabs/Cart without prop drilling.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

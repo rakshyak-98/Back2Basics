@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[postgres essential]] [[TLS (Transport Layer Security)]] [[connection pooling]] [[ACID]]
 
 # SQL Configurations (MySQL / Postgres)
@@ -5,6 +6,15 @@
 > SQL Configurations (MySQL / Postgres) — client ──► max_connections / pool ──► buffer pool / shared_buffers ──► disk (WAL, redo)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

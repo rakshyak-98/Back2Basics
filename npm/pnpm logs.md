@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[npm]]
 
 # pnpm logs
@@ -5,6 +6,15 @@
 > pnpm logs — pNPM, like npm, stores logs when commands fail or require debug information.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

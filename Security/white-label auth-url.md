@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[single-sign-on (SSO)]] [[JWT authentication]] [[OAuth]]
 
 # white-label auth-url
@@ -5,6 +6,15 @@
 > White-label auth URL — users log in on your branded domain while an external IdP still runs the real authentication behind the scenes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

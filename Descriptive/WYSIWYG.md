@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[React]] [[css]]
 
 # WYSIWYG (What You See Is What You Get)
@@ -5,6 +6,15 @@
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

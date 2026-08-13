@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Descriptive]] [[Markdown]] [[embedded image]]
 
 # html
@@ -5,6 +6,15 @@
 > HTML is the document structure browsers parse — elements, attributes, and accessibility tree roots.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

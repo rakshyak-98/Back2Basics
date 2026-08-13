@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[GridFS]] [[Database]] [[WAL (Write-Ahead Log)]] [[MMAP]] [[memory engine]]
 
 # WiredTiger storage engine
@@ -5,6 +6,15 @@
 > MongoDB's default storage engine since 4.2 — B-tree docs, MVCC, checkpointed durability, cache-bound performance — MongoDB manual + **Designing Data-Intensive Applications** (Kleppmann, log-structured ideas).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[apt package manager]] [[source list file]] [[keyrings]]
 
 # Package Manager
@@ -5,6 +6,15 @@
 > A package manager installs/upgrades/removes software with dependency solving — on Debian/Ubuntu that’s APT/dpkg; elsewhere dnf/zypper/pacman.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

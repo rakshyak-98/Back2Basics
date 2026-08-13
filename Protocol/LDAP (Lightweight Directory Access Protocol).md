@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Protocol]] [[TLS (Transport Layer Security)]] [[TCP]]
 
 # LDAP (Lightweight Directory Access Protocol)
@@ -5,6 +6,15 @@
 > LDAP (Lightweight Directory Access Protocol) — query and update a hierarchical directory (users, groups, devices) over the network — usually the source of truth for “who is this user?”
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

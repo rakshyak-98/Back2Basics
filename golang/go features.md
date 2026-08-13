@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[golang]] [[go embedding]] [[go interface]]
 
 # go features
@@ -5,6 +6,15 @@
 > Go language shape — no class inheritance; embed structs, satisfy interfaces implicitly, maps iterate randomly on purpose.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

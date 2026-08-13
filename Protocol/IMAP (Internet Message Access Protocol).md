@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[SMTP]] [[POP3 (Post Office Protocol v3)]] [[E mail server]] [[TCP]]
 
 # IMAP (Internet Message Access Protocol)
@@ -5,6 +6,15 @@
 > IMAP (Internet Message Access Protocol) — client ──IMAP──► MDA (Dovecot, Cyrus, Exchange)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

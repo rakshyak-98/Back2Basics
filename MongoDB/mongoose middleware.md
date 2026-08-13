@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mongoose]] [[mongoose schema]] [[mongoose methods]] [[MongoDB]] [[Data access patterns]]
 
 # Mongoose middleware
@@ -5,6 +6,15 @@
 > Mongoose middleware — middleware runs between Mongoose API call and MongoDB operation. Hooks attach to save, validate, remove, and **find* query methods** — not all methods
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

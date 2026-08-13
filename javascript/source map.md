@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React build]] [[SWC]] [[javascript engine]] [[React project configuration]] [[Security/content security policy]]
 
 # Source map
@@ -5,6 +6,15 @@
 > Source map — production ships app.js (one line, mangled names). Browser loads optional app.js.map:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

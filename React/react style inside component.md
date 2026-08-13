@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[css/scss]] [[css/tailwindcss]] [[Optimizing performance]] [[React build]]
 
 # React style inside component
@@ -5,6 +6,15 @@
 > React style inside component — CSS Modules (*.module.css) → build-time scoped class names (Vite default)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[runtime]] [[interpreter]] [[linker]] [[assembly language]]
 
 # Runtime Environment
@@ -5,6 +6,15 @@
 > The libraries, VM, and OS services present when your binary runs on a target machine — must exist on every deployment host or be bundled with the app.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

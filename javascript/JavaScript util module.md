@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[promise]] [[Callback]] [[NodeJS/node fs]]
 
 # JavaScript util module (Node.js)
@@ -5,6 +6,15 @@
 > JavaScript util module (Node.js) — legacy Node core APIs are callback-last (err, result) =>. util.promisify wraps them into Promises for async/await composition with promise chains.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

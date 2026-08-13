@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[TCP]] [[UDP]] [[DNS zone]] [[name server]] [[mDNS]] [[dig]]
 
 # DNS
@@ -5,6 +6,17 @@
 > distributed naming that maps names → records (A, AAAA, CNAME, …) via a resolver chain — **Kleppmann, DDIA** + RFC 1035.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -37,6 +49,16 @@ Transport:
 | TXT | SPF, DKIM, DMARC, verification tokens |
 | SRV | Service location |
 | PTR | Reverse (IP → name) |
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

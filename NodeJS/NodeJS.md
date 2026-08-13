@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[NodeJS]] [[event emitter]] [[Stream]] [[npm command]]
 
 # NodeJS
@@ -5,6 +6,17 @@
 > JavaScript runtime built on V8 + libuv — single-threaded event loop for I/O, with threadpool/workers for some blocking work.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -22,6 +34,16 @@ timers → pending → poll (I/O) → check → close
 | **Event loop** | Schedules callbacks | “Non-blocking I/O model.” |
 | **libuv** | C library under Node | “FS/DNS/network primitives.” |
 | **Threadpool** | Default 4 threads | “Some fs/crypto/dns use it.” |
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

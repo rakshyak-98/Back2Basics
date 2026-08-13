@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[Database design]] [[OLTP]] [[OLAP]] [[Data access patterns]] [[mysql normalization]]
 
 # SQL normalization
@@ -5,6 +6,17 @@
 > Split tables so each fact lives once — stop update anomalies; pay with joins when you read.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / patterns]]
+- [[#Triage (when things break)]]
+- [[#Interview map (words you can say)]]
+- [[#Normal forms (1NF → 3NF)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -21,6 +33,43 @@ Update product name once         Update products.name once
 ```
 
 OLTP schemas usually aim for **3NF** (or BCNF). Warehouses often **denormalize** on purpose ([[OLAP]]).
+
+## Standard config / patterns
+
+```sql
+-- Enforce relationships the normal form implies
+CREATE TABLE products (
+  product_id BIGINT PRIMARY KEY,
+  name       TEXT NOT NULL
+);
+
+CREATE TABLE order_items (
+  order_id   BIGINT NOT NULL REFERENCES orders(order_id),
+  product_id BIGINT NOT NULL REFERENCES products(product_id),
+  qty        INT NOT NULL CHECK (qty > 0),
+  PRIMARY KEY (order_id, product_id)
+);
+```
+
+| Pattern | Use |
+|---------|-----|
+| FK + `ON DELETE` policy | Keep 3NF relationships honest |
+| Unique constraints | Natural keys (email, SKU) |
+| Controlled denorm | Cached `product_name` on line item **plus** job/trigger to refresh |
+
+---
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Same customer address differs across rows | Duplicate facts | Normalize; single `customers` / `addresses` source |
+| UPDATE product name leaves old orders wrong | Copied name without sync | Prefer FK + join; or versioned snapshot column with clear semantics |
+| Join explosion / slow reports | Over-normalized OLAP path | Star schema / warehouse ([[OLAP]]); don’t force 3NF on analytics |
+| NULL-heavy wide tables | Repeating group disguised as columns | Child table or JSONB with care ([[GIN]]) |
+| Orphan line items | Missing FK | Add FK; backfill; ban app-only “soft” integrity |
+
+---
 
 ## Interview map (words you can say)
 
@@ -77,43 +126,6 @@ OLTP schemas usually aim for **3NF** (or BCNF). Warehouses often **denormalize**
 **Before:** `EmployeeID → Department → DeptHead` all in one table.
 
 **After:** `employees(EmployeeID, Name, DepartmentID)` + `departments(DepartmentID, DeptHead)`.
-
----
-
-## Standard config / patterns
-
-```sql
--- Enforce relationships the normal form implies
-CREATE TABLE products (
-  product_id BIGINT PRIMARY KEY,
-  name       TEXT NOT NULL
-);
-
-CREATE TABLE order_items (
-  order_id   BIGINT NOT NULL REFERENCES orders(order_id),
-  product_id BIGINT NOT NULL REFERENCES products(product_id),
-  qty        INT NOT NULL CHECK (qty > 0),
-  PRIMARY KEY (order_id, product_id)
-);
-```
-
-| Pattern | Use |
-|---------|-----|
-| FK + `ON DELETE` policy | Keep 3NF relationships honest |
-| Unique constraints | Natural keys (email, SKU) |
-| Controlled denorm | Cached `product_name` on line item **plus** job/trigger to refresh |
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Same customer address differs across rows | Duplicate facts | Normalize; single `customers` / `addresses` source |
-| UPDATE product name leaves old orders wrong | Copied name without sync | Prefer FK + join; or versioned snapshot column with clear semantics |
-| Join explosion / slow reports | Over-normalized OLAP path | Star schema / warehouse ([[OLAP]]); don’t force 3NF on analytics |
-| NULL-heavy wide tables | Repeating group disguised as columns | Child table or JSONB with care ([[GIN]]) |
-| Orphan line items | Missing FK | Add FK; backfill; ban app-only “soft” integrity |
 
 ---
 

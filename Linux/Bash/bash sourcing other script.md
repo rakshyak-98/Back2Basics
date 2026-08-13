@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[bash script]] [[Bash syntax]] [[Bash functions]] [[Scripting]]
 
 # Bash sourcing other scripts
@@ -5,6 +6,15 @@
 > Bash sourcing other scripts — sourcing executes commands in the current shell context. Exported vars, functions, and cd persist. Executing ./script.sh runs a subshell (usually) —
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

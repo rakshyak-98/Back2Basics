@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[AWS Networking]] [[AWS EC2]] [[Route53]] [[NAT (Network Address Translation)]] [[AWS Billing and cost management]]
 
 # AWS Elastic IP (EIP)
@@ -5,6 +6,15 @@
 > Elastic IP — static public IPv4 in a region that survives instance stop/start.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

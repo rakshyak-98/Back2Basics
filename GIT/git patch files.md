@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git command]] [[git diff]] [[git merge]] [[git rebase]]
 
 # Git patch files
@@ -5,6 +6,15 @@
 > Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

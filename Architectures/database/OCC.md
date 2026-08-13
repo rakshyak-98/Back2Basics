@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Architectures]] [[Database]] [[MVCC]] [[ACID]]
 
 # OCC
@@ -5,6 +6,15 @@
 > OCC (Optimistic Concurrency Control) lets transactions run, then checks for conflict at commit — retry if someone else wrote first.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

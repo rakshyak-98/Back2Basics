@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[git command]] [[git merge]] [[git rebase]] [[git diff]]
 
 # Git branches
@@ -5,6 +6,15 @@
 > movable refs pointing at commits — track upstream, know tracking config, and debug "wrong branch" deploys with `-vv` and reflog.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

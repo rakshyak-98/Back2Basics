@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[media mount as read only]] [[fstab]]
 
 # file mount
@@ -5,6 +6,15 @@
 > Mount attaches a filesystem (disk, ISO, NFS, bind) onto a directory — the tree is how userland sees storage.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Data structure]] [[ADT (Abstract Data Type)]]
 
 # array
@@ -5,6 +6,15 @@
 > An array is a contiguous block of same-size slots — index `i` means `base + i * size` (that’s why zero-based is natural).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[DNS]] [[servers]]
 
 # BIND (named) — Operations
@@ -5,6 +6,15 @@
 > BIND (named) — Operations — BIND 9 runs as named. Two roles (don't mix blindly on public internet):
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

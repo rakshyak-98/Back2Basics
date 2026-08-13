@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[connection pooling]] [[cli]] [[half-open connections]]
 
 # mysql connection
@@ -5,6 +6,15 @@
 > A MySQL connection is one TCP (or socket) session to the server — one query stream at a time unless you pool.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

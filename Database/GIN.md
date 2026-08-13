@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[SQL]] [[Database]] [[psql essential]] [[mysql index]] [[covering index]] [[OLTP]]
 
 # GIN
@@ -5,6 +6,16 @@
 > PostgreSQL inverted index for values with many keys inside one row — JSONB containment, arrays, full-text — look up element → matching rows.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Interview map (words you can say)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -30,19 +41,6 @@ SELECT *
 FROM audit_log
 WHERE new_data @> '{"config":{"autoRenew":true}}';
 ```
-
-## Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Inverted index** | Key → list of rows | “Like a book index: word points to pages.” |
-| **GIN** | PG index access method for multi-key values | “Great for JSONB containment, arrays, `tsvector`.” |
-| **GiST** | Different PG AM — ranges, geometry, trigram | “Pick GiST for `&&` ranges / PostGIS; GIN for contains.” |
-| **`jsonb_path_ops`** | Smaller/faster GIN for `@>` only | “If I only need containment, use `jsonb_path_ops`.” |
-| **Pending list** | Fast insert buffer before merge into main GIN | “Bulk load can leave a pending list; `gin_clean_pending_list`.” |
-| **B-tree** | Scalar equality / range | “Equality on `user_id` stays B-tree; don’t GIN everything.” |
-
----
 
 ## Standard config / commands
 
@@ -101,6 +99,19 @@ WHERE relname LIKE '%gin%';
 | Index huge vs table | High-cardinality JSON keys | `jsonb_path_ops`; index expression on hot path only |
 | Query still slow with Bitmap Heap Scan | Low selectivity / lots of heap hits | Narrow JSON; partial index; extract hot fields to columns + B-tree |
 | “Operator does not exist” / no match | Wrong type (`json` vs `jsonb`) | Cast/store `jsonb`; recreate index |
+
+---
+
+## Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Inverted index** | Key → list of rows | “Like a book index: word points to pages.” |
+| **GIN** | PG index access method for multi-key values | “Great for JSONB containment, arrays, `tsvector`.” |
+| **GiST** | Different PG AM — ranges, geometry, trigram | “Pick GiST for `&&` ranges / PostGIS; GIN for contains.” |
+| **`jsonb_path_ops`** | Smaller/faster GIN for `@>` only | “If I only need containment, use `jsonb_path_ops`.” |
+| **Pending list** | Fast insert buffer before merge into main GIN | “Bulk load can leave a pending list; `gin_clean_pending_list`.” |
+| **B-tree** | Scalar equality / range | “Equality on `user_id` stays B-tree; don’t GIN everything.” |
 
 ---
 

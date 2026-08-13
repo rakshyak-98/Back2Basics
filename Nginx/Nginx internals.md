@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Configuration]] [[nginx using unix socket]] [[Epoll]] [[half-open connections]] [[ss]]
 
 # Nginx internals
@@ -5,6 +6,15 @@
 > Nginx internals — worker 1 worker 2 worker N (non-root, event loop each)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

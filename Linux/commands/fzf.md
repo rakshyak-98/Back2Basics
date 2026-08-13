@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux terminal]] [[bash script]] [[Find command]]
 
 # fzf
@@ -5,6 +6,15 @@
 > fzf — reads stdin (or a shell hook), scores lines against your typed fuzzy pattern, shows an interactive TUI. It's a filter, not a search engine — you
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

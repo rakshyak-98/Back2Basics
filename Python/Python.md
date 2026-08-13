@@ -1,3 +1,4 @@
+<!-- note-strategy: hub -->
 [[Python]]
 
 # Python
@@ -5,6 +6,17 @@
 > Python — 3 -m pdb <"python file to debug">;
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Routing table]]
+- [[#Domain links]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -23,6 +35,16 @@ python3 -m pdb <"python file to debug">;
 
 
 ---
+
+## Routing table
+
+| Symptom / need | Go to |
+|----------------|-------|
+| … | [[…]] |
+
+## Domain links
+
+- …: [[…]]
 
 ## Standard config / commands
 

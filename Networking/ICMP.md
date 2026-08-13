@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Networking]] [[auto-pong]] [[MTU (Maximum Transmission Unit)]] [[Packet Fragment]]
 
 # ICMP
@@ -5,6 +6,15 @@
 > ICMP (Internet Control Message Protocol) is the network’s error-and-echo channel — ping and “frag needed” ride here, not your app port.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

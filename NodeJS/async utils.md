@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[NodeJS]] [[Express middleware]] [[expressjs]]
 
 # async utils
@@ -5,6 +6,15 @@
 > Tiny wrappers so async route handlers don’t need try/catch — rejected promises become `next(err)`.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

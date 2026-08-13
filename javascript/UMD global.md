@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[AMD module]] [[IIFC]] [[node modules]]
 
 # UMD global
@@ -5,6 +6,15 @@
 > Universal Module Definition — one file that works as AMD, CommonJS, or a browser global.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

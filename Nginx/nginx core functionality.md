@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Nginx]]
 
 # nginx core functionality
@@ -5,6 +6,15 @@
 > nginx core functionality — all workers processes get simultaneously notified about a new incoming connection.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -17,7 +27,6 @@ When `accept_mutex` disabled
 - Only one of them actually gets the connection.
 - The others get `EAGAIN` (or similar) and go back to sleep.
 This is called **thundering herd** problem (or wake-up storm).
-
 
 ## Standard config / commands
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux/Scripting]] [[NodeJS/node command]] [[NodeJS/CLI]] [[javascript]]
 
 # HashBang comment (`#!`)
@@ -5,6 +6,15 @@
 > First-line interpreter hint for Unix shells — stripped by the JS engine, meaningful only to the OS launcher — **POSIX + Node shebang practice**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

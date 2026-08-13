@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React]] [[react-query]]
 
 # react cache / TanStack Query cache
@@ -5,6 +6,15 @@
 > Client in-memory cache of server responses — update it after mutations so UI stays in sync without a full refetch.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

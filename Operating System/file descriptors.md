@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[system call]] [[handle]] [[Buffer cache]] [[non-blocking]] [[cgroup (Control Group)]]
 
 # File descriptors
@@ -5,6 +6,15 @@
 > File descriptors — every open I/O object in Unix is a file descriptor (fd): a small non-negative integer index into the process's fd table. Each slot
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

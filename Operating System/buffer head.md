@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Buffer cache]] [[buffer]] [[buffer lifecycle]] [[fsync]]
 
 # Buffer head
@@ -5,6 +6,15 @@
 > Buffer head — page (4 KiB may hold multiple blocks)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[commands]] [[common commands]] [[CLI]] [[Find command]]
 
 # Commands
@@ -6,30 +7,23 @@
 
 ---
 
-## Mental model
+## Index
 
-**Say it in one breath:** classify the question (process, disk, net, logs, packages) then pick one sharp tool — don’t spray flags.
+- [[#Quick reference]]
+- [[#Standard config / commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Examples]]
+- [[#Related]]
 
-```txt
-process → ps/top/pidstat
-disk    → df/du/lsblk/iostat
-net     → ss/ip/dig/nc
-logs    → journalctl/tail
-pkgs    → apt/dpkg
-files   → find/rg/stat
-```
+## Quick reference
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ss** | Socket truth | “Replaces netstat.” |
-| **journalctl** | systemd logs | “`-u` + `-b` first.” |
-| **ip** | Links/addrs/routes | “Replaces ifconfig/route.” |
-| **systemctl** | Service control | “status → logs → restart.” |
-| **strace/lsof** | Syscalls / open files | “When ‘permission’ lies.” |
-
----
+| Task | Command |
+|------|---------|
+| … | `…` |
 
 ## Standard config / commands
 
@@ -53,6 +47,37 @@ find /var -xdev -type f -size +1G 2>/dev/null | head
 |------|----------------|
 | `--no-pager` | Scripts/CI |
 | `-xdev` | Stay on one filesystem |
+
+---
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
+
+## Mental model
+
+**Say it in one breath:** classify the question (process, disk, net, logs, packages) then pick one sharp tool — don’t spray flags.
+
+```txt
+process → ps/top/pidstat
+disk    → df/du/lsblk/iostat
+net     → ss/ip/dig/nc
+logs    → journalctl/tail
+pkgs    → apt/dpkg
+files   → find/rg/stat
+```
+
+### Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **ss** | Socket truth | “Replaces netstat.” |
+| **journalctl** | systemd logs | “`-u` + `-b` first.” |
+| **ip** | Links/addrs/routes | “Replaces ifconfig/route.” |
+| **systemctl** | Service control | “status → logs → restart.” |
+| **strace/lsof** | Syscalls / open files | “When ‘permission’ lies.” |
 
 ---
 
@@ -84,6 +109,12 @@ find /var -xdev -type f -size +1G 2>/dev/null | head
 - **Windows-only workflows** — different toolchain.
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

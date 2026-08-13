@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Kafka]]
 
 # Zookeeper
@@ -5,6 +6,15 @@
 > Zookeeper — a distributed coordination service used by kafka to manage metadata, leader election, and synchronization across brokers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

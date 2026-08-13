@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mongoose/mongoose]] [[mongoose/mongoose schema]] [[mongoose/mongoose custome function]]
 
 # mongoose methods
@@ -5,6 +6,15 @@
 > Instance methods and statics attach behavior to documents/models — keep query helpers next to the schema.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

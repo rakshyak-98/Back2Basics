@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[Database design]] [[SQL normalization]]
 
 # relocatable schema
@@ -5,6 +6,15 @@
 > Schema objects you can move or rename without rewriting app SQL — names and search paths stay portable.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

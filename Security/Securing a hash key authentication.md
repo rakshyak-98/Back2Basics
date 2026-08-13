@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[HMAC (Hash based Message Authentication Codes)]] [[Token rotation]] [[KMS]] [[https]]
 
 # Securing a hash key authentication
@@ -5,6 +6,15 @@
 > Securing a hash key authentication — hash-key authentication = server and client share a secret used to compute HMAC (Hash based Message Authentication Codes) or compare
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

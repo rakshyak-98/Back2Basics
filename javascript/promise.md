@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[javascript]] [[Callback]] [[async utils]]
 
 # promise
@@ -5,6 +6,15 @@
 > Object for a future value — pending then fulfilled or rejected; `async/await` is syntax over the same machinery.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

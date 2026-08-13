@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux system management]] [[compiler/library file]] [[process]]
 
 # ELF (Executable and Linkable Format)
@@ -5,6 +6,15 @@
 > ELF (Executable and Linkable Format) — source.c ──compile──► .o (relocatable ELF)
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

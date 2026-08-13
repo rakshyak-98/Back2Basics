@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux network commands]] [[ip]] [[ss]] [[top]]
 
 # nload
@@ -5,6 +6,15 @@
 > nload — polls /proc/net/dev (or pcap on some builds) and draws moving averages for incoming and outgoing throughput per interface. One screen, two graphs — not
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

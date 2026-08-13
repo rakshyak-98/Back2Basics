@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Database]] [[BASE]] [[OLAP]] [[OLTP]] [[WAL (Write-Ahead Log)]] [[Data access patterns]] [[GIN]]
 
 # Vector database
@@ -5,6 +6,16 @@
 > Store embedding vectors and find “nearest” neighbors fast — semantic search, RAG retrieval, recommendations — not row-by-id OLTP.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / patterns]]
+- [[#Triage (when things break)]]
+- [[#Interview map (words you can say)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -24,20 +35,6 @@ query text ──► same model ──► k-NN / range search (+ filters)
 Many systems separate **write path** (append segments / WAL) from **read path** (immutable index segments). Replication often ships raw data and rebuilds ANN indexes locally (index build is expensive and non-deterministic).
 
 Postgres can do this in-process with **pgvector**; dedicated stores (Milvus, Qdrant, Pinecone, Weaviate, …) optimize ANN + filter + scale-out.
-
-## Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Embedding** | Dense float vector for meaning | “Same model at write and query or neighbors are nonsense.” |
-| **ANN** | Approximate nearest neighbor | “We trade a little recall for huge speed vs brute force.” |
-| **HNSW** | Graph-based ANN index | “Great recall/latency; RAM-heavy.” |
-| **IVF** | Cluster/coarse quantize then search lists | “Tune `nprobe`; cheaper memory, more knob care.” |
-| **Metric** | Distance (cosine, L2, IP) | “Metric must match how the model was trained.” |
-| **Recall@k** | Fraction of true top-k you return | “Primary quality metric for the index, not just QPS.” |
-| **Hybrid search** | Vector + keyword/metadata | “Filter then ANN, or fuse BM25 + vector scores.” |
-
----
 
 ## Standard config / patterns
 
@@ -96,6 +93,20 @@ LIMIT 10;
 | Insert OK, search empty/stale | Async index build / uncommitted segment | Wait for index ready; check build lag metrics |
 | Recall drops after reindex | Different build params | Pin `m`/`ef_construction`; regression test Recall@k |
 | Disk/RAM blow-up | HNSW graphs; replicas rebuilding | Cap replicas building at once; consider IVF/DiskANN |
+
+---
+
+## Interview map (words you can say)
+
+| Word | Plain meaning | Say in interview |
+|------|---------------|------------------|
+| **Embedding** | Dense float vector for meaning | “Same model at write and query or neighbors are nonsense.” |
+| **ANN** | Approximate nearest neighbor | “We trade a little recall for huge speed vs brute force.” |
+| **HNSW** | Graph-based ANN index | “Great recall/latency; RAM-heavy.” |
+| **IVF** | Cluster/coarse quantize then search lists | “Tune `nprobe`; cheaper memory, more knob care.” |
+| **Metric** | Distance (cosine, L2, IP) | “Metric must match how the model was trained.” |
+| **Recall@k** | Fraction of true top-k you return | “Primary quality metric for the index, not just QPS.” |
+| **Hybrid search** | Vector + keyword/metadata | “Filter then ANN, or fuse BM25 + vector scores.” |
 
 ---
 

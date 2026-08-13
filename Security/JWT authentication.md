@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[single-sign-on (SSO)]] [[TLS (Transport Layer Security)]] [[IDOR]]
 
 # JWT authentication
@@ -5,6 +6,15 @@
 > signed (or encrypted) JSON claims for stateless auth — verify **algorithm, signature, and claims** server-side every request — **RFC 7519**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

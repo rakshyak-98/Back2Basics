@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[HLS]] [[DASH]] [[rendition]] [[bitrate streaming]] [[Manifest (streaming)]]
 
 # ABR (Adaptive Bit Rate)
@@ -5,6 +6,15 @@
 > ABR picks a lower or higher quality mid-play — match the viewer's bandwidth so playback stays smooth.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: procedure -->
 [[redis-cli]] [[systemd]]
 
 # redis installation
@@ -5,6 +6,32 @@
 > redis installation — package / image ──► redis-server ──► reads redis.conf
 
 ---
+
+## Index
+
+- [[#Prerequisites]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Triage (when things break)]]
+- [[#Related]]
+
+## Prerequisites
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# smoke test
+```
 
 ## Mental model
 
@@ -141,17 +168,6 @@ sudo chmod 640 /etc/redis/redis.conf
 # secrets outside world-readable paths
 ```
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Connection refused` | `systemctl status`; bind | Start service; fix `bind`; firewall |
-| `NOAUTH` | ACL/requirepass | Update app URL; `ACL LIST` |
-| Starts then exits | `journalctl -u redis-server` | Bad `dir` permissions; corrupt AOF → `redis-check-aof` |
-| Can't write config | `CONFIG SET` without rewrite | Edit redis.conf; restart; fix ownership |
-| OOM on host | no `maxmemory` | Set cap + eviction policy |
-| Exposed to internet scan | Shodan/censys; `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
-
 ## Gotchas
 
 > [!WARNING]
@@ -171,6 +187,17 @@ sudo chmod 640 /etc/redis/redis.conf
 - **Multi-master write on open network** — use managed Redis / cluster with proper topology.
 - **requirepass only on 6+** — migrate to ACL for command-level least privilege.
 - **Installing from random PPA** — use official redis.io or distro you trust; pin version.
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Connection refused` | `systemctl status`; bind | Start service; fix `bind`; firewall |
+| `NOAUTH` | ACL/requirepass | Update app URL; `ACL LIST` |
+| Starts then exits | `journalctl -u redis-server` | Bad `dir` permissions; corrupt AOF → `redis-check-aof` |
+| Can't write config | `CONFIG SET` without rewrite | Edit redis.conf; restart; fix ownership |
+| OOM on host | no `maxmemory` | Set cap + eviction policy |
+| Exposed to internet scan | Shodan/censys; `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
 
 ## Related
 

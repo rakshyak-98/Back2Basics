@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[transcoding]] [[Encoding]] [[codecs]] [[CMAF]] [[HLS]] [[DASH]]
 
 # Re-encoding
@@ -5,6 +6,15 @@
 > Decode compressed media → encode again — **generational loss + CPU cost**; avoid when remux suffices.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

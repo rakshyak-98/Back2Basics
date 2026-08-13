@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[file descriptors]] [[fsync]] [[Buffer cache]] [[mmap]] [[multiple levels of buffering]]
 
 # How to manipulate memory directly
@@ -5,6 +6,15 @@
 > How to manipulate memory directly — normal code uses managed abstractions: language runtime, GC, copy-on-write pages. Direct memory means you hold a raw address into process
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

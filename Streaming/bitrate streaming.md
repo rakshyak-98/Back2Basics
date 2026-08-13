@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ABR]] [[CRF (Constant Rate Factor)]] [[transcoding]] [[codecs]] [[rendition]] [[MPEG-TS]]
 
 # Bitrate streaming
@@ -5,6 +6,15 @@
 > ABR ladder design, CRF vs CBR, and encoder ops for multi-bitrate delivery — **streaming engineering, not generic video wiki**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

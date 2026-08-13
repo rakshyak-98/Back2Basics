@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Security]] [[C]] [[gcc]]
 
 # Preprocessor
@@ -5,6 +6,17 @@
 > Preprocessor — text transform before the real compiler: macros, includes, and conditional compilation (`#define`, `#include`, `#ifdef`).
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Lexical preprocessors]]
+- [[#Lexical tokenization]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -46,16 +58,6 @@ cpp -I./include main.c
 | `#pragma once` / include guards | Duplicate symbol / redefinition |
 | `-DFOO=1` | Define from CLI / build system |
 
-## Lexical preprocessors
-
-Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
-
-## Lexical tokenization
-
-Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
-
----
-
 ## Triage (when things break)
 
 | Symptom | Check | Fix |
@@ -65,6 +67,16 @@ Split text into lexemes (identifiers, operators, punctuation, literals). Stages:
 | Redefinition errors | Double include | Include guards / `#pragma once` |
 | `#ifdef` branch wrong | `-D` flags in build | Print `clang -E -dM`; align CMake/Make |
 | Pasting errors `##` | Invalid token paste | Fix macro; avoid complex `##` |
+
+---
+
+## Lexical preprocessors
+
+Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
+
+## Lexical tokenization
+
+Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
 
 ---
 

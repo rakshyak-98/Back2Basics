@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[process]] [[multi-threaded]] [[mutexes]] [[context switching]]
 
 # Thread
@@ -5,6 +6,15 @@
 > A thread is one schedulable flow of execution inside a process — threads share memory, processes usually do not.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

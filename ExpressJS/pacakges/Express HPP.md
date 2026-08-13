@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[express concepts]] [[XSRF (cross-site request forgery)]]
 
 # Express HPP
@@ -5,6 +6,15 @@
 > HPP (HTTP Parameter Pollution) protection — middleware that blocks/duplicates conflicting query/body params attackers use to confuse parsers.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

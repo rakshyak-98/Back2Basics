@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[Socket IO]] [[express concepts]]
 
 # uWebSocket
@@ -5,6 +6,15 @@
 > µWebSockets.js — high-performance Node WebSocket/HTTP library; lower-level and faster than Express+ws for realtime fanout.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

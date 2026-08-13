@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Projects]]
 
 # MEDIAL SDE REMOTE ASSIGNMENT
@@ -5,6 +6,15 @@
 > MEDIAL SDE REMOTE ASSIGNMENT — objective: Create a static post page using React or Vue.js that dynamically generates an Open Graph (og:image) based on the…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -21,6 +31,25 @@
 
 
 ---
+
+## Standard config / commands
+
+…
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| … | … | … |
+
+## Gotchas
+
+> [!WARNING]
+> …
+
+## When NOT to use
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TypeScript]] [[typescript]] [[typescript types]]
 
 # tsconfig
@@ -5,6 +6,15 @@
 > `tsconfig.json` — compiler project file: roots, `strict` flags, module settings, path aliases, incremental build info.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

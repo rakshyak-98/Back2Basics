@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
 
 # Layout (reflow)
@@ -5,6 +6,15 @@
 > Browser calculates geometry — sizes and positions of elements — **render pipeline stage between style and paint**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

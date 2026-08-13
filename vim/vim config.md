@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[vim]]
 
 # - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard`
@@ -5,6 +6,15 @@
 > - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard` — set shiftwidth=4 # indentation commands >>, << shift by 4
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

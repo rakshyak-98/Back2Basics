@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Streaming]] [[MPEG-TS]] [[CMAF]] [[Byte stream]] [[file descriptors]]
 
 # Byte stream
@@ -5,6 +6,15 @@
 > Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

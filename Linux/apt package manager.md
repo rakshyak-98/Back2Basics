@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Linux]] [[apt configuration]] [[APT policy]] [[gpg]]
 
 # apt package manager
@@ -5,6 +6,16 @@
 > apt installs and upgrades `.deb` software from repositories — resolve deps, fetch, unpack, configure.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Holds, marks, and logs]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -67,6 +78,18 @@ sudo apt update
 
 ---
 
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `404 Not Found` on update | Wrong codename / stale list | Fix [[apt config]] sources; `apt update` |
+| `NO_PUBKEY` / signature | Missing keyring | Dearmor key + `signed-by=` ([[gpg]]) |
+| Held back packages | `apt-mark showhold`; phasing | Unhold or wait; check policy |
+| Broken half-install | `dpkg -l \| grep ^..r` | `sudo apt -f install`; `dpkg --configure -a` |
+| “Package available but not installed” | `apt list` vs `dpkg -l` | `apt list` ≠ installed — use `--installed` |
+
+---
+
 ## Holds, marks, and logs
 
 ```bash
@@ -83,18 +106,6 @@ apt-cache rdepends nginx
 less /var/log/dpkg.log
 less /var/log/apt/history.log
 ```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `404 Not Found` on update | Wrong codename / stale list | Fix [[apt config]] sources; `apt update` |
-| `NO_PUBKEY` / signature | Missing keyring | Dearmor key + `signed-by=` ([[gpg]]) |
-| Held back packages | `apt-mark showhold`; phasing | Unhold or wait; check policy |
-| Broken half-install | `dpkg -l \| grep ^..r` | `sudo apt -f install`; `dpkg --configure -a` |
-| “Package available but not installed” | `apt list` vs `dpkg -l` | `apt list` ≠ installed — use `--installed` |
 
 ---
 

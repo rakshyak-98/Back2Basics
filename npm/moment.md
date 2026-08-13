@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[npm]]
 
 # moment
@@ -5,6 +6,15 @@
 > moment — ("2026-03-24") // parse from string
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

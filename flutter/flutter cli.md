@@ -1,3 +1,4 @@
+<!-- note-strategy: reference -->
 [[flutter]]
 
 # flutter cli
@@ -5,6 +6,33 @@
 > flutter cli — a channel is a release stream of the Flutter SDK. Each channel receives updates at different speeds and stability levels.
 
 ---
+
+## Index
+
+- [[#Quick reference]]
+- [[#Common commands]]
+- [[#Options / flags]]
+- [[#Mental model]]
+- [[#Examples]]
+- [[#Related]]
+
+## Quick reference
+
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+## Common commands
+
+```bash
+# …
+```
+
+## Options / flags
+
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
 ## Mental model
 
@@ -24,6 +52,12 @@ flutter attach -d <DEVICE ID>;
 
 
 ---
+
+## Examples
+
+```bash
+# …
+```
 
 ## Related
 

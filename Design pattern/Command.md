@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Bridge]] [[Messaging/Web hooks]] [[Projects/marketplace application]]
 
 # Command pattern
@@ -5,6 +6,18 @@
 > Command pattern — client ──creates──► Command ──passed to──► Invoker ──calls──► Receiver
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -22,6 +35,14 @@ Client ──creates──► Command ──passed to──► Invoker ──cal
 | **Client** | Wires commands to invoker |
 
 Invoker doesn't know concrete receiver — enables macro commands, undo stack, job queues.
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -94,6 +115,12 @@ function undo() { history.pop()?.undo(); }
 - **Not the same as event** — command is imperative intent; event is fact that happened.
 - **Functional style** — `(state) => newState` reducers are command pattern without classes.
 - **Thread safety** — invoker queue must serialize if receiver is shared mutable state.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

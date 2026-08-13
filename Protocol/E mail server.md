@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[SMTP]] [[DNS]] [[TLS (Transport Layer Security)]]
 
 # E mail server
@@ -5,6 +6,15 @@
 > E mail server — email crosses distinct roles. Confusing them causes misconfigured ports and wrong logs.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Prefix sum]] [[Data structure]] [[Algorithm]]
 
 # Sliding window
@@ -5,6 +6,15 @@
 > Sliding window — arr: [ 2, 1, 5, 1, 3, 2 ] target sum ≤ 7
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

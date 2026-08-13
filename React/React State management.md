@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[React data management]] [[zustand]] [[Redux]] [[react hooks]] [[react-query]]
 
 # React State management
@@ -5,6 +6,15 @@
 > **Where** state lives — local UI, lifted, context, zustand, Redux, server cache — pick by lifetime and audience — **Kent C. Dodds (state colocation)**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

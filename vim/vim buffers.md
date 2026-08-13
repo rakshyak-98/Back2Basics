@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[netrw file explorer]] [[vim keybindings]] [[Linux/CLI]]
 
 # Vim buffers
@@ -5,6 +6,15 @@
 > In-memory views of files — switch, list, and close without quitting Vim.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

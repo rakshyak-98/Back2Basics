@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[user management]] [[useradd]] [[groupadd]] [[gpasswd]] [[getent]]
 
 # linux groups
@@ -5,6 +6,15 @@
 > Groups bundle users for shared file access and sudo — one primary GID plus optional supplementary memberships.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

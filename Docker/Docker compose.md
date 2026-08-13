@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[docker container]] [[docker file]] [[Docker Runtime Security]] [[Swarm network]]
 
 # Docker compose
@@ -5,6 +6,15 @@
 > Docker compose — compose orchestrates one host / one stack (dev, CI, small prod). Not a cluster scheduler — that's Kubernetes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

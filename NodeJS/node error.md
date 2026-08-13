@@ -1,3 +1,4 @@
+<!-- note-strategy: runbook -->
 [[NodeJS]] [[Error handeling]] [[Runtime Errors]] [[mysql/mysql connection]]
 
 # node error
@@ -5,6 +6,45 @@
 > Common Node + MySQL disconnect: idle connection killed by server `wait_timeout` — use a pool that replaces dead sockets.
 
 ---
+
+## Index
+
+- [[#Triage (when things break)]]
+- [[#Preconditions]]
+- [[#Steps]]
+- [[#Verification]]
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Rollback]]
+- [[#Escalation]]
+- [[#Related]]
+
+## Triage (when things break)
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Disconnect after idle | Single `createConnection` | Switch to pool |
+| Errors after nodemon | Stale handles | Pool; don’t keep global conn across restarts |
+| Still timing out | Server timeout tiny | Raise `wait_timeout` or ping/keepalive |
+| Too many conns | Limit × replicas | Lower `connectionLimit` |
+
+---
+
+## Preconditions
+
+…
+
+## Steps
+
+1. …
+
+## Verification
+
+```bash
+# …
+```
 
 ## Mental model
 
@@ -53,17 +93,6 @@ SHOW VARIABLES LIKE '%timeout%';
 
 ---
 
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Disconnect after idle | Single `createConnection` | Switch to pool |
-| Errors after nodemon | Stale handles | Pool; don’t keep global conn across restarts |
-| Still timing out | Server timeout tiny | Raise `wait_timeout` or ping/keepalive |
-| Too many conns | Limit × replicas | Lower `connectionLimit` |
-
----
-
 ## Gotchas
 
 > [!WARNING]
@@ -79,6 +108,14 @@ SHOW VARIABLES LIKE '%timeout%';
 - This note is a **failure playbook**, not a library — for application errors see [[Error handeling]].
 
 ---
+
+## Rollback
+
+1. …
+
+## Escalation
+
+…
 
 ## Related
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ExpressJS]] [[graphql]] [[express concepts]]
 
 # graphql-yoga
@@ -5,6 +6,15 @@
 > GraphQL Yoga — batteries-included GraphQL server (Envelop plugins) that mounts on Node/HTTP or alongside Express/Fastify.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

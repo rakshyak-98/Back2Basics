@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[mysql]] [[mysql connection]] [[connection pooling]]
 
 # MySQL storage
@@ -5,6 +6,15 @@
 > Store Express (or similar) sessions in MySQL so logins survive process restarts and shared app instances.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

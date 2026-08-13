@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[TypeScript]] [[typescript types]] [[typescript]]
 
 # typescript extend types
@@ -5,6 +6,15 @@
 > Extending types — `extends`, intersection (`&`), interface merging, and module augmentation to grow existing shapes.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

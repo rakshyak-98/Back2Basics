@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[commands]] [[Linux Process Theory]] [[process]]
 
 # gdb
@@ -5,6 +6,15 @@
 > gdb (GNU Debugger) stops a program mid-flight — inspect stack, memory, and variables when it crashes or misbehaves.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

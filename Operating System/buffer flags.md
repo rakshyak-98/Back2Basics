@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[buffer]] [[buffer head]] [[non-blocking]] [[file descriptors]]
 
 # Buffer flags
@@ -5,6 +6,15 @@
 > Buffer flags — buffers move through a state machine. Flags encode that state without extra syscalls:
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

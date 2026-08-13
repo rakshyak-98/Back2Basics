@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[ethtool]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[Egress traffic]]
 
 # NIC (10 NIC)
@@ -5,6 +6,15 @@
 > Network Interface Card — hardware (or virtio) port that moves L2 frames between host memory and the wire; 10G = ~10 Gbps line rate baseline for server workloads.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

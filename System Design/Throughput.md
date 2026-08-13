@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[System Design]] [[Latency]] [[backpressure]] [[Scaling Throughput in High-load system]]
 
 # Throughput
@@ -5,6 +6,15 @@
 > Throughput — how much successful work per time (RPS, TPS, Mbps) while latency and errors stay acceptable.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -29,7 +39,7 @@ Little’s Law: `concurrency ≈ throughput × latency`.
 
 ```bash
 # Rough load signal
-hey -z 30s -c 50 https://api/… 
+hey -z 30s -c 50 https://api/…
 # or vegeta, k6
 ss -s
 pidstat -u 1

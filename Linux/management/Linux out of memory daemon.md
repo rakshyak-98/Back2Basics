@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[management]] [[OOM (Linux Out Of Memory)]] [[Linux cgroup]] [[systemd]]
 
 # Linux out of memory daemon
@@ -5,6 +6,15 @@
 > `systemd-oomd` kills cgroups under memory pressure early — before the global OOM killer picks a random victim.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

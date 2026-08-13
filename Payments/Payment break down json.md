@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Payments]]
 
 # Payment break down json
@@ -5,6 +6,15 @@
 > Payment break down json — "lengthOfStay": "At check in, the front desk will verify your check-out date. Rates quoted are based on check-in date and length…
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

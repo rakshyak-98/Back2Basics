@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Operating System]] [[buffer lifecycle]] [[Buffer cache]] [[fsync]] [[file descriptors]] [[multiple levels of buffering]]
 
 # buffer
@@ -5,6 +6,15 @@
 > A buffer is temporary memory that holds bytes between a fast producer and a slower consumer — smooths rate mismatches.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 

@@ -1,3 +1,4 @@
+<!-- note-strategy: concept -->
 [[Design pattern]] [[Design pattern/Strategy pattern]] [[Design pattern/Observer]] [[Design pattern/Command]]
 
 # State
@@ -5,6 +6,18 @@
 > Object alters behavior when its internal state changes — appears to change class — **Dive Into Design Patterns + campaign wizard Draft → Ready → Launched**.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Core idea]]
+- [[#Variations / implementations]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#Trade-offs]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
@@ -21,6 +34,14 @@ Draft ──submit──► Ready ──launch──► Launched
 | **Context** | Holds current state; forwards actions |
 | **State** | Interface for actions / transitions |
 | **Concrete states** | Implement legal ops; set next state on context |
+
+## Core idea
+
+…
+
+## Variations / implementations
+
+…
 
 ## Standard config / commands
 
@@ -99,6 +120,12 @@ class WizardContext {
 
 - Optional: pair with [[Design pattern/Memento]] for draft undo snapshots.
 - UI wizards often need Mediator for step widgets — State owns lifecycle, Mediator owns widget chatter.
+
+## Trade-offs
+
+| Gain | Cost |
+|------|------|
+| … | … |
 
 ## When NOT to use
 

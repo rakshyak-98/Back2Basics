@@ -1,3 +1,4 @@
+<!-- note-strategy: operational -->
 [[Multi Stream]] [[ingestion]] [[RTMP]] [[OBS]] [[Encoding]]
 
 # Single Stream
@@ -5,6 +6,15 @@
 > One publisher → one ingest destination → one encoded bitrate path — **simplest live topology** before ABR and multi-CDN.
 
 ---
+
+## Index
+
+- [[#Mental model]]
+- [[#Standard config / commands]]
+- [[#Triage (when things break)]]
+- [[#Gotchas]]
+- [[#When NOT to use]]
+- [[#Related]]
 
 ## Mental model
 
