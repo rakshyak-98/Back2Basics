@@ -1,46 +1,60 @@
-[[compiler]]
+[[compiler]] [[library file]] [[compile time]] [[clang]]
 
-# object code
+# Object code
 
-> object code — a product of a compiler.
+> Compiler output for one translation unit — machine instructions and symbols in a relocatable file (`.o` / `.obj`), not yet a finished program.
 
----
+## Interview Relevance
 
-## How it works
-
-is a product of a [[compiler]].
- - sequence of statements or instructions in a computer language.
- - a portion of machine code that has not yet been linked into a complete program.
- - require a [[linker]] to link with other modules.
-### Overview
-Typically, an object file can contain three kinds of symbols:
-- defined "external" symbols, sometimes called "public" or "entry" symbols, which allow to be called by other modules
-- undefined "external" symbols, which reference other modules where these symbols are defined.
-- local symbols, used internally within the object file to facilitate relocation.
->[!INFO] linker use offset or placeholders in object code to connect everything together.
->[!INFO] where machine code is binary code that can be executed directly by the CPU, object code has the jumps partially parameterized so that a linker can fill them in.
-
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-
-## Related
-
-[[compiler]]
+Interviewers check that you know compile vs link: unresolved symbols are often link-time, and object files still need relocation addresses filled in.
 
 ## Sources
 
-- [Wikipedia — object code](https://en.wikipedia.org/wiki/object_code)
+- [Wikipedia — Object file](https://en.wikipedia.org/wiki/Object_file) — overview
+- [man elf](https://man7.org/linux/man-pages/man5/elf.5.html) — deep-dive
+
+## Key Concepts
+
+- **Relocatable object:** addresses not final → linker patches references.
+- **Symbols:** defined vs undefined → `nm` shows what this `.o` provides/needs.
+- **Sections:** `.text`, `.data`, `.bss`, `.rodata` → code vs data layout.
+- **One `.c` → one `.o`:** common TU mapping (unity builds are the exception).
+
+## Technical Details
+
+```bash
+clang -c main.c -o main.o
+nm main.o
+objdump -d main.o
+readelf -h main.o    # ELF header (Linux)
+```
+
+| Stage | Output |
+|-------|--------|
+| Compile (`-c`) | Object file |
+| Link | Executable or shared lib |
+| Archive | `.a` of objects — [[library file]] |
+
+Object code is a product of a compiler (or assembler); it is not generally runnable alone.
+
+## Real-World Applications
+
+Incremental builds: only recompile changed TUs to new `.o` files, then relink — the core of `make`/`ninja` speed.
+
+**Example:** `undefined reference to foo` after a clean compile — `foo.o` was never linked; fix the link line / build graph.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Separate compilation scales large codebases.
+- **Con:** API changes in headers force many TUs to rebuild; opaque link errors if graphs are wrong.
+
+## Comparison
+
+- vs executable: objects still need linking and relocation.
+- vs bytecode: object code usually means native relocatable machine code; bytecode targets a VM.
+
+## Mistakes to Avoid
+
+- Calling any compiler output “the binary” — distinguish `.o`, `.so`, and the final executable.
+- Checking in object files instead of sources.
+- Debugging link errors by only re-running the compiler without the linker command.

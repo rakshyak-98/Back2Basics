@@ -1,23 +1,24 @@
-[[React]] [[hydration]] [[react hooks]]
+[[React]] [[hydration]] [[react hooks]] [[Hooks/react useEffect]] [[RSC (React Server Component boundaries)]]
 
 # react error (common failures)
 
 > React runtime errors you’ll hit in prod — wrong hook counts, hydration mismatches, and security headers that break assets.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use react error (common failures) to test whether you can apply the idea under production constraints, not recite docs.
 
-### Interview map (words you can say)
+## Sources
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Rules of Hooks** | Same hooks, same order | “No hooks after conditional return.” |
-| **Hydration mismatch** | Server HTML ≠ client | “Stabilize time/random on first paint.” |
-| **nosniff** | Trust declared MIME | “Stops MIME-sniff XSS on uploaded files.” |
+- [Wikipedia — react error](https://en.wikipedia.org/wiki/react_error) — overview
 
+## Key Concepts
 
-## Configuration and commands
+- **Rules of Hooks:** Same hooks, same order — “No hooks after conditional return.”
+- **Hydration mismatch:** Server HTML ≠ client — “Stabilize time/random on first paint.”
+- **nosniff:** Trust declared MIME — “Stops MIME-sniff XSS on uploaded files.”
+
+## Technical Details
 
 ```tsx
 // ❌ early return before hooks
@@ -39,10 +40,31 @@ X-Content-Type-Options: nosniff
 Content-Type: application/javascript; charset=utf-8
 ```
 
----
+### Steps
 
+1. …
 
-## When things break
+### Verification
+
+```bash
+# …
+```
+
+### Rollback
+
+1. …
+
+## Real-World Applications
+
+Apply react error (common failures) in feature code where the Key Concepts match; verify with the Mistakes table.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Swallowing errors in empty catch** — use an error boundary for UI failures.
+- **Con / skip when:** **Treating hydration warnings as noise** — they often mean remounts and lost SSR wins.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,49 +74,5 @@ Content-Type: application/javascript; charset=utf-8
 | Hydration failed | Server vs client text | Defer dynamic bits; match SSR |
 | Invalid hook call | Duplicate React / call outside component | One React copy; only in function components/hooks |
 
----
-
-
-## Steps
-
-1. …
-
-
-## Verification
-
-```bash
-# …
-```
-
-
-## Rollback
-
-1. …
-
-
-## Gotchas
-
-> [!WARNING]
-> **Error codes in prod** — map `#NNN` at https://react.dev/errors/NNN (version-specific).
-
-> [!WARNING]
-> **`nosniff` + wrong MIME** — legitimate JS served as `text/plain` will refuse to run.
-
----
-
-
-## When not to use
-
-- **Swallowing errors in empty catch** — use an error boundary for UI failures.
-- **Treating hydration warnings as noise** — they often mean remounts and lost SSR wins.
-
----
-
-
-## Related
-
-[[hydration]] [[Hooks/react useEffect]] [[RSC (React Server Component boundaries)]]
-
-## Sources
-
-- [Wikipedia — react error](https://en.wikipedia.org/wiki/react_error)
+- **Error codes in prod** — map `#NNN` at https://react.dev/errors/NNN (version-specific).
+- **`nosniff` + wrong MIME** — legitimate JS served as `text/plain` will refuse to run.

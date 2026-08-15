@@ -1,12 +1,19 @@
-[[Data structure]] [[DSA algorithms]] [[array]]
+[[Data structure]] [[DSA algorithms]] [[array]] [[algo/binary search]]
 
 # Sorting algorithm
 
 > Sorting puts elements in order — pick by stability, memory, and whether data is almost sorted.
 
----
+## Interview Relevance
 
-## How it works
+Sorting interviews check stability, average vs worst case, and when n log n is enough vs counting/radix.
+
+## Sources
+
+- [Wikipedia — Sorting algorithm](https://en.wikipedia.org/wiki/Sorting_algorithm) — overview
+- [MIT 6.006 — Sorting](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
+
+## Key Concepts
 
 ```txt
 input → (compare | count keys) → ordered output
@@ -21,10 +28,7 @@ input → (compare | count keys) → ordered output
 | **Adaptive** | Faster on nearly sorted | “Insertion / timsort.” |
 | **n log n barrier** | Comparison lower bound | “Unless you exploit key structure.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 arr.sort((a, b) => a - b) // know if stable in your runtime
@@ -37,10 +41,7 @@ arr.sort((a, b) => a - b) // know if stable in your runtime
 | Key type | Integers → counting/radix possible |
 | Partial sort | heapq / nth_element |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,30 +50,12 @@ arr.sort((a, b) => a - b) // know if stable in your runtime
 | Wrong order | comparator bug | Antisymmetry checks |
 | Too slow | O(n²) on large n | n log n algorithm |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Already sorted stream — maintain a structure instead.
+- **Trade-off:** Need order stats only — quickselect / heap, not full sort.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **JS sort without comparator** — lexicographic on strings; numbers need `(a,b)=>a-b`.
-
-> [!WARNING]
-> **“Quicksort always n log n”** — adversarial pivots → n² unless mitigated.
-
----
-
-
-## When not to use
-
-- **Already sorted stream** — maintain a structure instead.
-- **Need order stats only** — quickselect / heap, not full sort.
-
-
-## Related
-
-[[DSA algorithms]] [[array]] [[algo/binary search]]
-
-## Sources
-
-- [Wikipedia — Sorting algorithm](https://en.wikipedia.org/wiki/Sorting_algorithm)
+- JS sort without comparator — lexicographic on strings; numbers need `(a,b)=>a-b`.
+- “Quicksort always n log n” — adversarial pivots → n² unless mitigated.

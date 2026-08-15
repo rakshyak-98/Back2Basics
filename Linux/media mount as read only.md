@@ -2,49 +2,63 @@
 
 # media mount as read only
 
-> A filesystem remounted read-only usually means the kernel detected errors or I/O failure — writes are blocked to prevent further corruption.
+> When the kernel remounts a filesystem read-only, writes stop to limit corruption — usually after I/O errors or journal failure.
 
-Common triggers: disk errors, full disk during journal write, SAN disconnect, failing SSD. The mount flag `ro` appears in `/proc/mounts`.
+## Interview Relevance
 
-## Confirm read-only
+Ops emergency path: confirm `ro` in mounts, read `dmesg`, fix the underlying disk/SAN issue, then remount `rw` — never force blindly.
+
+## Sources
+
+- `man 8 mount` — deep-dive
+- [ext4 documentation — kernel.org](https://www.kernel.org/doc/html/latest/filesystems/ext4.html) — overview
+
+## Core Definition
+
+Common triggers: disk errors, full disk during journal write, SAN disconnect, failing SSD. The mount flag `ro` appears in `/proc/mounts` / `findmnt`.
+
+## Key Concepts
+
+- **Kernel protection:** remount-ro after errors is intentional.
+- **Confirm before remount:** `findmnt`, `dmesg`, SMART.
+- **fsck from safe context:** unmounted or maintenance mode.
+- **LVM/RAID:** underlying degradation can surface as root `ro`.
+
+## Technical Details
 
 ```bash
 findmnt / -o TARGET,OPTIONS
 mount | grep ' / '
 dmesg -T | tail -50
-```
-
-## Remount read-write (after fixing cause)
-
-```bash
-# ext4 root — often requires remount
 sudo mount -o remount,rw /
-
-# If busy or fails, check why
 sudo journalctl -k -b | grep -iE 'error|ext4|I/O'
+sudo fsck -f /dev/sdXN
 ```
 
-**Do not** force `rw` on a failing disk without backup — risk data loss.
+Recovery workflow:
 
-## Recovery workflow
-
-1. Stop writers (`systemctl stop` heavy services if possible).
+1. Stop heavy writers if possible.
 2. Read `dmesg` / SMART (`smartctl -a /dev/sdX`).
-3. Filesystem check from maintenance mode or umount:
-   ```bash
-   sudo fsck -f /dev/sdXN
-   ```
+3. Filesystem check from maintenance mode or after umount.
 4. Remount `rw`; verify application writes.
 
-## LVM / RAID
+Also check `pvdisplay`, `mdadm --detail` when LVM/RAID sits underneath.
 
-Underlying PV or array degradation can surface as ro — check `pvdisplay`, `mdadm --detail`.
+## Real-World Applications
 
-## Related
+Cloud VM root goes read-only after a flaky volume — stop services, snapshot if possible, fsck from rescue, remount, then replace the disk.
 
-[[file mount]] · [[management/Linux file management]]
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Remount-ro often saves more data than continuing dirty writes.
+- **Con:** Forcing `rw` on a dying disk can finish the corruption.
 
-- `man 8 mount` — remount options
-- [ext4 documentation — kernel.org](https://www.kernel.org/doc/html/latest/filesystems/ext4.html)
+## Comparison
+
+- vs intentional `ro` mounts: policy (ISO, media) vs emergency error path — same flag, different cause ([[file mount]]).
+
+## Mistakes to Avoid
+
+- `mount -o remount,rw` without reading kernel logs first.
+- Running destructive `fsck` on a mounted dirty filesystem.
+- Ignoring RAID/LVM health when only the mount looks “broken.”

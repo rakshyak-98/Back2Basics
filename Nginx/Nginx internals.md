@@ -1,12 +1,31 @@
-[[Configuration]] [[nginx using unix socket]] [[Epoll]] [[half-open connections]] [[ss]]
+[[Configuration]] [[nginx using unix socket]] [[Epoll]] [[half-open connections]] [[ss]] [[TLS (Transport Layer Security)]] [[nginx core functionality]]
 
 # Nginx internals
 
-> Nginx internals — worker 1 worker 2 worker N (non-root, event loop each)
+> Master manages workers; each worker runs a non-blocking event loop — parse HTTP, run phase handlers, then static / upstream / FastCGI.
 
----
+## Interview Relevance
 
-## How it works
+Deep systems interviews probe event-driven architecture, HTTP phases, upstream keepalive, and why reload is graceful — distinguishes “used Nginx” from “read the source map.”
+
+## Sources
+
+- [nginx.org — Development guide](https://nginx.org/en/docs/dev/development_guide.html) — deep-dive
+- [nginx.com — Inside NGINX](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/) — overview
+- [nginx.org — ngx_http_upstream_module](https://nginx.org/en/docs/http/ngx_http_upstream_module.html) — deep-dive
+
+## Core Definition
+
+Nginx internals are a master/worker process model plus an event module ([[Epoll]] on Linux): workers accept connections, run HTTP request phases, and invoke content handlers (proxy, static, FastCGI) without a thread per request.
+
+## Key Concepts
+
+- **One worker per core (typical):** Fixed memory, high concurrency via non-blocking I/O.
+- **Master vs workers:** Master binds ports, reads configuration, manages workers; workers handle connections. `reload` swaps configuration gracefully.
+- **HTTP phases:** post-read → server rewrite → find configuration → rewrite → pre-access → access → content → log — modules hook phases.
+- **Upstream subsystem:** Connect, retry, load balance, keepalive pool to backends.
+
+## Technical Details
 
 ```txt
                          │
@@ -19,12 +38,6 @@ Client TCP → worker accept → HTTP parse → phase handlers → content handl
                                             upstream / static file / FastCGI
 ```
 
-**One worker per core** (typical) — each runs **non-blocking event loop** ([[Epoll]] on Linux). No thread-per-request; high concurrency with fixed memory.
-
-**Master:** bind ports, read configuration, manage workers. **Workers:** handle connections. `reload` = graceful configuration swap without dropping established connections (mostly).
-
-**Key subsystems:**
-
 | Subsystem | Role |
 |-----------|------|
 | `ngx_http_core_module` | Request struct, phases, variables |
@@ -32,13 +45,6 @@ Client TCP → worker accept → HTTP parse → phase handlers → content handl
 | `ngx_http_proxy_module` | Reverse proxy headers, buffering |
 | `ngx_stream_*` | L4 TCP/UDP proxy |
 | `ngx_event` | accept, read/write timers |
-
-**Request phases (HTTP):** post-read → server rewrite → find configuration → rewrite → pre-access → access → content → log. Modules hook phases (authentication, rate limit, `try_files`, `proxy_pass`).
-
----
-
-
-## Configuration and commands
 
 ### Source map (when reading C code)
 
@@ -50,8 +56,6 @@ event/ngx_event.c               — event loop
 os/unix/ngx_process.c           — master/worker lifecycle
 stream/ngx_stream_proxy_module.c — TCP proxy
 ```
-
-### Worker / connection tuning
 
 ```nginx
 worker_processes auto;
@@ -79,8 +83,6 @@ http {
 }
 ```
 
-### Debug config (lab only)
-
 ```nginx
 error_log /var/log/nginx/error.log debug;  # verbose — never prod default
 rewrite_log on;
@@ -90,22 +92,10 @@ rewrite_log on;
 sudo nginx -t
 sudo nginx -s reload
 curl -v http://127.0.0.1/ -o /dev/null
-```
-
-### Observe live state
-
-```bash
-# Stub status (require stub_status module + location)
-curl http://127.0.0.1/nginx_status
-
-# Active connections per worker
+curl http://127.0.0.1/nginx_status    # stub_status module
 ss -tnp | grep nginx
-
-# Which worker owns FD (Linux)
 ls -l /proc/$(pgrep -o nginx)/fd | wc -l
 ```
-
-### Upstream failure behavior
 
 ```nginx
 proxy_connect_timeout 5s;
@@ -113,11 +103,6 @@ proxy_read_timeout 60s;
 proxy_next_upstream error timeout http_502 http_503;
 proxy_next_upstream_tries 2;
 ```
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -132,42 +117,25 @@ proxy_next_upstream_tries 2;
 | Upstream connection churn | No keepalive | Enable upstream keepalive + HTTP/1.1 |
 | SSL handshake CPU hot | All on workers | Session cache; TLS termination at LB |
 
----
+## Real-World Applications
 
+Tune workers and upstream keepalive for a busy API gateway; debug 502s with phase-aware reading of `error.log`; enable `stub_status` in lab to watch active connections.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`if` in nginx** — not a general programming construct; surprising behavior in `location` — prefer `map`/`try_files`.
+- **Pro:** Predictable memory and huge concurrency for proxy/static workloads.
+- **Con:** Not an application runtime — complex auth often needs OpenResty/Lua or an auth service.
+- **Con:** gRPC / HTTP/2 and streaming need careful buffering (`proxy_buffering off` for SSE).
 
-> [!WARNING]
-> **Unix socket backlog** — app must accept fast enough; 502 under burst with silent app queue.
+## Comparison
 
-> [!WARNING]
-> **`proxy_buffering off` for SSE** — needed for streaming; breaks if enabled for event streams.
+- vs [[nginx core functionality]]: product roles vs module/phase/source-level detail.
+- vs thread-per-request servers: event loop avoids per-connection thread stacks.
 
-> [!WARNING]
-> **Same name upstream in multiple files** — last definition wins in include order; name collisions cause ghost routing.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Worker_connections vs system ulimit** — bump `worker_rlimit_nofile` **and** `/etc/security/limits.conf`.
-
----
-
-
-## When not to use
-
-- **Application business logic** — nginx is proxy/static; use application server for code execution.
-- **Complex authentication without modules** — OpenResty/lua or delegate to authentication service.
-- **Long-lived bidirectional gRPC without HTTP/2 tuning** — verify grpc module settings or use dedicated proxy.
-
----
-
-
-## Related
-
-[[Configuration]] · [[nginx using unix socket]] · [[Epoll]] · [[half-open connections]] · [[ss]] · [[TLS (Transport Layer Security)]]
-
-## Sources
-
-- [Wikipedia — Nginx internals](https://en.wikipedia.org/wiki/Nginx_internals)
+- Using `if` as general programming in `location` — prefer `map` / `try_files`.
+- Ignoring unix socket backlog — app must accept fast enough or 502 under burst.
+- Leaving `proxy_buffering` on for SSE/event streams.
+- Duplicate upstream names across includes — last definition wins.
+- Raising `worker_connections` without `worker_rlimit_nofile` and OS ulimits.

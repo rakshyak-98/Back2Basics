@@ -1,28 +1,30 @@
-[[NodeJS]] [[expressjs]] [[Stream]]
+[[NodeJS]] [[expressjs]] [[Stream]] [[Express middleware]]
 
 # HTTP module
 
 > Node’s built-in `http`/`https` servers and clients — Express sits on top; use raw server when you need the `Server` handle (WS, dual HTTP/HTTPS, graceful shutdown).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **HTTP module** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **IncomingMessage**, **ServerResponse**, **createServer(app)**.
+
+## Sources
+
+- [Node.js — HTTP](https://nodejs.org/api/http.html) — deep-dive
+- [Wikipedia — HTTP module](https://en.wikipedia.org/wiki/HTTP_module) — overview
+
+## Key Concepts
+
+- **IncomingMessage:** req stream — Headers + readable body.
+- **ServerResponse:** res writable — `writeHead` / `end`.
+- **createServer(app):** Express as handler — Same app; you own the Server object.
+
+## Technical Details
 
 ```txt
 http.Server → 'request' (req, res)
             → upgrade (WebSocket)
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **IncomingMessage** | req stream | “Headers + readable body.” |
-| **ServerResponse** | res writable | “`writeHead` / `end`.” |
-| **createServer(app)** | Express as handler | “Same app; you own the Server object.” |
-
-
-## Configuration and commands
 
 ```js
 import http from 'node:http'
@@ -44,44 +46,25 @@ process.on('SIGTERM', () => {
 | `keepAliveTimeout` | Interact with LBs correctly |
 | `http.request` / `fetch` | Outbound calls |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **HTTP module** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Must consume or destroy request bodies** — unused bodies can pin sockets; **HTTP vs HTTPS** — TLS needs `https.createServer(options, app)`.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Can’t attach WebSocket | Used only `app.listen` without server | `createServer(app)` then IO(server) |
-| Connections hang on deploy | No `server.close` | Drain on SIGTERM |
-| Header too large | Default limits | Raise `maxHeaderSize` if needed |
-| Body never read | Forgot consume stream | Read/pipe or reject |
+- **Pro:** Solves the job described above when used in the right layer (Node’s built-in `http`/`https` servers and clients — Express sits on top; use ra…).
+- **Con / when not:** **Simple apps happy with `app.listen`** — fine until you need the Server.
+- **Con / when not:** **Prefer frameworks’ abstractions** unless you need low-level control.
 
----
+## Comparison
 
+vs [[expressjs]]: Express adds routing/middleware; `http` is the primitive Server/IncomingMessage/ServerResponse. vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[Express middleware]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Must consume or destroy request bodies** — unused bodies can pin sockets.
-
-> [!WARNING]
-> **HTTP vs HTTPS** — TLS needs `https.createServer(options, app)`.
-
----
-
-
-## When not to use
-
-- **Simple apps happy with `app.listen`** — fine until you need the Server.
-- **Prefer frameworks’ abstractions** unless you need low-level control.
-
----
-
-
-## Related
-
-[[expressjs]] [[Express middleware]] [[Stream]]
-
-## Sources
-
-- [Wikipedia — HTTP module](https://en.wikipedia.org/wiki/HTTP_module)
+- **Must consume or destroy request bodies** — unused bodies can pin sockets.
+- **HTTP vs HTTPS** — TLS needs `https.createServer(options, app)`.
+- **Can’t attach WebSocket:** check Used only `app.listen` without server; fix: `createServer(app)` then IO(server)
+- **Connections hang on deploy:** check No `server.close`; fix: Drain on SIGTERM
+- **Header too large:** check Default limits; fix: Raise `maxHeaderSize` if needed
+- **Body never read:** check Forgot consume stream; fix: Read/pipe or reject

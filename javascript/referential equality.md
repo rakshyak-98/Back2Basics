@@ -1,12 +1,28 @@
-[[Optimizing performance]] [[react hooks]] [[React State management]] [[debouncing]]
+[[Optimizing performance]] [[react hooks]] [[React State management]] [[debouncing]] [[Lexical environment]]
 
 # Referential equality
 
 > Referential equality — primitives compared by value; objects, arrays, functions by reference:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Referential equality** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Wikipedia — referential equality](https://en.wikipedia.org/wiki/referential_equality) — overview
+
+## Core Definition
+
+Primitives compared by **value**; objects, arrays, functions by **reference**:
+
+## Key Concepts
+
+- Primitives compared by **value**; objects, arrays, functions by **reference**:
+- React re-renders when state/props change. **`React.memo`**, **`useMemo`**, **`useCallback`**, **`useEffect` deps`** use `Object.is` (like `===` for refs).
+- Stable references let you **skip** subtree work ([[Optimizing performance]]).
+
+## Technical Details
 
 Primitives compared by **value**; objects, arrays, functions by **reference**:
 
@@ -26,11 +42,6 @@ Parent re-render
 ```
 
 Stable references let you **skip** subtree work ([[Optimizing performance]]).
-
----
-
-
-## Configuration and commands
 
 ### Stable callback with useCallback
 
@@ -64,46 +75,27 @@ return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 
 See [[React State management]] — don't memo everything; profile first.
 
----
+## Real-World Applications
 
+In production APIs and tooling, **referential equality** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Premature useCallback everywhere** — costs memory; only for heavy children or effect deps; **Deep equality in memo** — React doesn't do it; structural sharing libraries (Immer) still change top ref when draft committed.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| memo useless | Unstable prop refs | useCallback/useMemo upstream |
-| useEffect infinite loop | Object/array in deps | Primitive deps or memoize |
-| Stale closure in callback | Empty deps but uses state | Functional update or include deps |
-| Context consumers all update | New `{}` value each render | useMemo context value |
-| Zustand/selectors fine | External store uses snapshot | Select primitives |
+- **Pro:** Solves the job described above when used in the right layer (Referential equality — primitives compared by value; objects, arrays, functions …).
+- **Con / when not:** **Cheap leaf components** — memo + callback overhead > re-render cost.
+- **Con / when not:** **Server Components** — client referential equality rules don't apply on server.
+- **Con / when not:** **Replacing proper state design** — lift or colocate instead of memo band-aids.
 
----
+## Comparison
 
+vs [[Optimizing performance]]: know when each applies — do not treat them as interchangeable. vs [[react hooks]]: know when each applies — do not treat them as interchangeable. vs [[React State management]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Premature useCallback everywhere** — costs memory; only for heavy children or effect deps.
-
-> [!WARNING]
-> **Deep equality in memo** — React doesn't do it; structural sharing libraries (Immer) still change top ref when draft committed.
-
----
-
-
-## When not to use
-
-- **Cheap leaf components** — memo + callback overhead > re-render cost.
-- **Server Components** — client referential equality rules don't apply on server.
-- **Replacing proper state design** — lift or colocate instead of memo band-aids.
-
----
-
-
-## Related
-
-[[Optimizing performance]] · [[react hooks]] · [[React State management]] · [[debouncing]] · [[Lexical environment]]
-
-## Sources
-
-- [Wikipedia — referential equality](https://en.wikipedia.org/wiki/referential_equality)
+- **Premature useCallback everywhere** — costs memory; only for heavy children or effect deps.
+- **Deep equality in memo** — React doesn't do it; structural sharing libraries (Immer) still change top ref when draft committed.
+- **memo useless:** check Unstable prop refs; fix: useCallback/useMemo upstream
+- **useEffect infinite loop:** check Object/array in deps; fix: Primitive deps or memoize
+- **Stale closure in callback:** check Empty deps but uses state; fix: Functional update or include deps
+- **Context consumers all update:** check New `{}` value each render; fix: useMemo context value
+- **Zustand/selectors fine:** check External store uses snapshot; fix: Select primitives

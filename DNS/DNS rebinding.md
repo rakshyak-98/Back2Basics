@@ -1,12 +1,27 @@
-[[DNS]] · [[localhost]] · [[CORS (Cross Origin Request Sharing)]] · [[Security]]
+[[DNS]] [[localhost]] [[CORS (Cross Origin Request Sharing)]] [[Security]] [[dns record]]
 
 # DNS rebinding
 
 > DNS rebinding tricks a browser into treating an attacker-controlled hostname as same-origin with an internal IP — the attack rotates DNS answers from a public IP to `127.0.0.1` or RFC1918 space after the same-origin check passes.
 
----
+## Interview Relevance
 
-## Attack shape
+Security and frontend interviews use this to test same-origin policy depth — host vs IP — and whether you secure localhost/admin UIs beyond “it’s only local.”
+
+## Sources
+
+- [Stanford — DNS Rebinding Protection in Web Browsers](https://crypto.stanford.edu/dns/dns-rebinding.pdf) — deep-dive
+- [W3C Private Network Access](https://wicg.github.io/private-network-access/) — deep-dive
+- [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) — overview
+
+## Key Concepts
+
+- **Same-origin is scheme + host + port** — not the IP behind the name.
+- **Short TTL:** lets the attacker flip A/AAAA after the page loads ([[dns record]]).
+- **Target space:** loopback and RFC1918 routers/admin panels are common victims.
+- **Defense in depth:** browser Private Network Access, Host checks, auth tokens, network firewalls.
+
+## Technical Details
 
 1. Victim visits `evil.example` controlled by attacker.
 2. First DNS answer points to attacker's server — browser loads page, sets cookies for `evil.example`.
@@ -19,14 +34,6 @@ Time T1: evil.example → 127.0.0.1       (victim loopback)
 Browser: same host label, different IP — bypasses naive IP pinning
 ```
 
-Documented in academic and industry literature (e.g. Stanford Web Security research); mitigations evolved with browsers and server design.
-
-## Why it works
-
-Browsers historically keyed same-origin policy on **scheme + host + port**, not IP. Short TTLs ([[dns record]]) enable flip after initial page load.
-
-## Mitigations
-
 | Layer | Defense |
 |-------|---------|
 | **Browser** | DNS pinning removed; rely on other checks; Private Network Access (Chrome) prompts for public→private fetches |
@@ -35,23 +42,33 @@ Browsers historically keyed same-origin policy on **scheme + host + port**, not 
 | **DNS** | Block external resolution of internal names (split horizon) |
 | **Network** | Firewall internal services from client subnets |
 
-## Developer checklist
+**Developer checklist**
 
 - Never assume "only our JS runs on this origin" when DNS is attacker-controlled.
 - Use **HTTPS** with correct certificates — internal IPs will fail cert validation unless attacker also forges certs.
 - Implement **CSRF tokens** and **Origin/Referer** checks on state-changing APIs.
 
-## Testing (authorized lab only)
+Tools like `rbndr.us` demonstrate rebinding in controlled environments (authorized lab only).
 
-Tools like `rbndr.us` demonstrate rebinding in controlled environments.
+## Real-World Applications
 
-## Recall
+Hardening home routers, developer dashboards on `:3000`, and IoT admin UIs against hostile web pages.
 
-- Why does HTTPS often block rebinding even when DNS flips?
-- How does Private Network Access change public sites calling `192.168.x.x`?
+**Example:** A Node debugger bound to `0.0.0.0` without auth is reachable after rebinding even if you thought “only localhost clients exist.”
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- [Stanford — DNS Rebinding Protection in Web Browsers](https://crypto.stanford.edu/dns/dns-rebinding.pdf)
-- [W3C Private Network Access](https://wicg.github.io/private-network-access/)
-- [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+- **Pro (mitigations):** Private Network Access and mandatory auth shrink the attack surface.
+- **Con (pure DNS pinning):** historically brittle and largely abandoned — do not rely on it alone.
+- **Con:** HTTPS helps but fails open if the internal service is cleartext HTTP.
+
+## Comparison
+
+- vs [[CORS (Cross Origin Request Sharing)]]: CORS constrains cross-origin XHR; rebinding stays same-origin by keeping the host label.
+- vs [[mDNS]] spoofing: link-local name lies vs flipping global DNS for a browser origin.
+
+## Mistakes to Avoid
+
+- Binding admin UIs to all interfaces without authentication.
+- Trusting “private IP” alone as a security boundary for browser-reachable services.
+- Skipping Host/Origin validation because “our SPA is the only client.”

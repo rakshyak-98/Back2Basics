@@ -4,7 +4,17 @@
 
 > Object-oriented programming organizes code around objects that combine state and behavior — using encapsulation, abstraction, inheritance, and polymorphism to manage change at scale.
 
-## Four pillars
+## Interview Relevance
+
+OOP interviews want encapsulation, inheritance, polymorphism, and abstraction with trade-offs — not a buzzword checklist.
+
+## Sources
+
+- Gamma et al., *Design Patterns* — deep-dive
+
+## Technical Details
+
+**Four pillars**
 
 | Pillar | Meaning | Practical signal |
 |--------|---------|------------------|
@@ -13,15 +23,21 @@
 | **Inheritance** | Reuse via extension | Base classes (use sparingly) |
 | **Polymorphism** | One interface, many behaviors | Override, interface impl |
 
-## Composition over inheritance
+**Composition over inheritance**
 
 Prefer embedding objects and interface implementation over deep subclass trees — aligns with [[Design pattern/Decorator]], [[Design pattern/Strategy pattern]], and **favor composition over inheritance** from GoF.
 
-## SOLID (common OOP design rules)
+**SOLID (common OOP design rules)**
 
 Linked in vault as [[System Design/SOLID]] — Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion. Patterns often implement these principles mechanically.
 
-## OOP vs other paradigms
+**Patterns map to OOP problems**
+
+See hub [[Design pattern]] routing table — creational (who creates), structural (how parts compose), behavioral (how objects collaborate).
+
+## Comparison
+
+**OOP vs other paradigms**
 
 - **Procedural** — functions + data structures; fine for scripts and pipelines.
 - **Functional** — immutable data + functions; reduces shared mutable state bugs.
@@ -29,17 +45,8 @@ Linked in vault as [[System Design/SOLID]] — Single responsibility, Open/close
 
 Many systems mix paradigms (Go structs + interfaces, Rust traits, TypeScript classes + functions).
 
-## Patterns map to OOP problems
-
-See hub [[Design pattern]] routing table — creational (who creates), structural (how parts compose), behavioral (how objects collaborate).
-
-## Pitfalls
+## Mistakes to Avoid
 
 - Anemic domain model — data classes with all logic in services.
 - God objects — one class knows every rule.
 - Inheritance for code reuse only — fragile base classes.
-
-## Sources
-
-- Gamma et al., *Design Patterns*
-- [Object-oriented programming — Wikipedia](https://en.wikipedia.org/wiki/Object-oriented_programming)

@@ -1,12 +1,19 @@
-[[Data structure/dsa genera formula]] [[Data structure/sliding window]] [[Data structure/Prefix sum]]
+[[Data structure/dsa genera formula]] [[Data structure/sliding window]] [[Data structure/Prefix sum]] [[Data structure/algo/greedy algorithm]] [[Data structure/linked list]]
 
 # Binary search
 
 > Binary search — requires sorted array or monotonic predicate. Maintain window [left, right] where answer lies. Mid compares eliminate half. Two variants: exact match vs lower/upper
 
----
+## Interview Relevance
 
-## How it works
+Binary search interviews fail on boundary conditions — mid overflow, inclusive ranges, and “first true” predicate search.
+
+## Sources
+
+- [Wikipedia — Binary search algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) — overview
+- [CP-Algorithms — Binary search](https://cp-algorithms.com/numerics/binary-search.html) — deep-dive
+
+## Key Concepts
 
 Requires **sorted** array or monotonic predicate. Maintain window `[left, right]` where answer lies. Mid compares eliminate half. Two variants: **exact match** versus **lower/upper bound** (first position where condition holds). Off-by-one on `left <= right` versus `left < right` causes infinite loops or missed answers.
 
@@ -16,8 +23,7 @@ sorted: [1,3,5,7,9]  target 7
   L=3 R=4 mid=3 val=7 → found
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Exact match (classic)
 
@@ -60,8 +66,7 @@ while (lo < hi) {
 }
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,27 +76,11 @@ while (lo < hi) {
 | Off by one | Post-condition | Verify `lo` at exit equals intended bound |
 | TLE on "sorted" | Not monotonic predicate | Prove monotonicity before binary search |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Don't binary search unsorted data without transformation.
+- **Trade-off:** Don't use when n < ~50 — linear scan simpler and cache-friendly.
 
-> [!WARNING]
-> **`(lo + hi) / 2` overflow** — use `lo + ((hi - lo) >> 1)` in other languages.
->
-> **Duplicates** — lower vs upper bound return different indices.
->
-> **Search on rotated array** — modified invariant; don't paste vanilla template.
+## Mistakes to Avoid
 
-
-## When not to use
-
-- Don't binary search unsorted data without transformation.
-- Don't use when n < ~50 — linear scan simpler and cache-friendly.
-
-
-## Related
-
-[[Data structure/dsa genera formula]] [[Data structure/algo/greedy algorithm]] [[Data structure/linked list]]
-
-## Sources
-
-- [Wikipedia — binary search](https://en.wikipedia.org/wiki/binary_search)
+- `(lo + hi) / 2` overflow — use `lo + ((hi - lo) >> 1)` in other languages. Duplicates — lower vs upper bound return different indices. Search on rotated array — modified invariant; don't paste vanilla template.

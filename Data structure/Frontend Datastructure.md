@@ -1,12 +1,19 @@
-[[JavaScript]] [[Data access patterns]] [[Epoll]]
+[[JavaScript]] [[Data access patterns]] [[Epoll]] [[Progressive search functionality]] [[Animation]] [[webSocket]]
 
 # Frontend Datastructure
 
 > Maps, sets, rings, and queues FE engineers use daily for UI state, caches, and render performance — not CLRS trivia.
 
----
+## Interview Relevance
 
-## How it works
+Frontend structure choices (Map/Set/ring buffers) show up in UI performance interviews — caches, dedupe, and render hot paths.
+
+## Sources
+
+- [MDN — Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) — overview
+- [MDN — Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) — overview
+
+## Key Concepts
 
 Browser JS gives you **Map/Set** (O(1) avg keyed operations), **Array** (ordered, indexable), **WeakMap** (GC-friendly metadata). Pick structure by **access pattern**, not interview nostalgia.
 
@@ -25,10 +32,7 @@ Priority updates        → Map + sorted index (or heap lib)
 
 **Big-O in FE matters when:** virtual lists (10k+ rows), graph editors, real-time tick buffers, client search indexes.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Map vs Object
 
@@ -119,10 +123,7 @@ const meta = new WeakMap(); // keys are objects; no memory leak when DOM node go
 meta.set(domNode, { lastMeasure: 42 });
 ```
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -133,39 +134,15 @@ meta.set(domNode, { lastMeasure: 42 });
 | Duplicate keys in virtual list | Index as React key | Stable entity id from Map |
 | Race in async fetch | Last-write-wins | Request id / AbortController + Map stamp |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** < 100 items — plain array + `find` is fine; don't pre-optimize.
+- **Trade-off:** Server-authoritative pagination — client Map of "all rows" fights product; page cache only.
+- **Trade-off:** Replace DB index — client structures mirror UX needs, not SQL semantics.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`Object` keys are strings** — `obj[1]` and `obj["1"]` collide; use Map for numeric ids.
-
-> [!WARNING]
-> **Spread huge Set/Map every render** — O(n) allocation; derive memoized array in selector (Reselect, useMemo).
-
-> [!WARNING]
-> **`JSON.stringify(Map)` → `{}`** — serialize to entries array for persistence.
-
-> [!WARNING]
-> **Sorted array + splice for queue** — O(n); use ring buffer or dedicated deque.
-
----
-
-
-## When not to use
-
-- **< 100 items** — plain array + `find` is fine; don't pre-optimize.
-- **Server-authoritative pagination** — client Map of "all rows" fights product; page cache only.
-- **Replace DB index** — client structures mirror UX needs, not SQL semantics.
-
----
-
-
-## Related
-
-[[JavaScript]] · [[Progressive search functionality]] · [[Animation]] · [[webSocket]] · [[Data access patterns]]
-
-## Sources
-
-- [Wikipedia — Frontend Datastructure](https://en.wikipedia.org/wiki/Frontend_Datastructure)
+- `Object` keys are strings — `obj[1]` and `obj["1"]` collide; use Map for numeric ids.
+- Spread huge Set/Map every render — O(n) allocation; derive memoized array in selector (Reselect, useMemo).
+- `JSON.stringify(Map)` → `{}` — serialize to entries array for persistence.
+- Sorted array + splice for queue — O(n); use ring buffer or dedicated deque.

@@ -1,37 +1,57 @@
-[[apache]]
+[[CGI]] [[PHP-FPM]] [[apache modules]] [[Nginx]] [[Proxy/Reverse Proxy]]
 
-# fastCGI servers
+# FastCGI
 
-> fastCGI servers — fast Common Gateway Interface — binary protocol that improves upon the original CGI by providing a high-performance, language-agnostic way…
+> Binary protocol between a web server and long-lived application workers — reuse processes instead of forking per request like classic CGI.
 
----
+## Interview Relevance
 
-## How it works
-
-Fast Common Gateway Interface -> binary protocol that improves upon the original CGI by providing a high-performance, language-agnostic way for web servers to interface with external applications for generating dynamic content.
-- Process that handles dynamic content generation (like php, python etc.) and communicates with web servers (like Nginx) via the FastCGI protocol.
-
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-
-## Related
-
-[[apache]]
+Interviewers want the contrast with CGI, where PHP-FPM fits, and how Nginx/Apache proxy to a FastCGI socket/port.
 
 ## Sources
 
-- [Wikipedia — fastCGI servers](https://en.wikipedia.org/wiki/fastCGI_servers)
+- [FastCGI specification](https://fastcgi-archives.github.io/) — deep-dive
+- [Wikipedia — FastCGI](https://en.wikipedia.org/wiki/FastCGI) — overview
+
+## Key Concepts
+
+- **Persistent workers:** handle many requests → amortize interpreter startup.
+- **Language agnostic:** PHP, Python, etc. speak FastCGI to the front door.
+- **Socket or TCP:** `unix:/run/php/php-fpm.sock` or `127.0.0.1:9000`.
+- **Process manager:** pool sizing (static/dynamic/ondemand) → latency vs memory.
+
+## Technical Details
+
+```
+Client → Nginx/Apache → FastCGI (socket) → worker → response
+```
+
+Apache often uses `proxy_fcgi`; Nginx uses `fastcgi_pass`. PHP’s common server-side is [[PHP-FPM]].
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| 502/504 | Socket path / pool up? | Start FPM; match path in vhost |
+| Spiky latency | Pool too small | Raise `pm.max_children` carefully |
+| Memory blowup | Too many workers | Lower children; fix leaks |
+
+## Real-World Applications
+
+Almost every PHP site behind Nginx/Apache today: front server serves static files and proxies PHP to FPM via FastCGI.
+
+**Example:** Deploy moves socket path from `/run/php/php8.2-fpm.sock` to `8.3` — update vhost or get 502s.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Far better throughput than classic [[CGI]].
+- **Con:** Another daemon to monitor (pool, socket permissions, versions).
+
+## Comparison
+
+- vs CGI: persistent vs process-per-request.
+- vs HTTP reverse proxy to Node/Java: FastCGI is a specialized app protocol; many modern apps just speak HTTP upstream.
+
+## Mistakes to Avoid
+
+- World-writable FastCGI sockets.
+- Sizing `max_children` above what RAM can hold (`memory_limit × children`).
+- Mixing leftover `mod_php` with FPM on the same vhost accidentally.

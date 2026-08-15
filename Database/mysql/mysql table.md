@@ -1,11 +1,23 @@
-[[mysql]] [[mysql columns]] [[key Constraint]] [[Alter table]] [[mysql index]]
+[[mysql]] [[mysql columns]] [[key Constraint]] [[Alter table]] [[mysql index]] [[mysql query]]
 
 # mysql table
 
-> InnoDB tables store rows in clustered primary-key order—DDL defines columns, constraints, and indexes that shape every [[mysql query]] plan.
+> InnoDB tables store rows in clustered primary-key order — DDL defines columns, constraints, and indexes that shape every [[mysql query]] plan.
 
-## Create example
+## Interview Relevance
+Clustered primary key design (narrow, monotonic) and the cost of large `ALTER`s are staple InnoDB questions.
 
+## Sources
+- [CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html) — overview
+- [Clustered and Secondary Indexes](https://dev.mysql.com/doc/refman/en/innodb-index-types.html) — deep-dive
+
+## Key Concepts
+- **Clustered index = table:** Secondary index leaves store primary key values.
+- **Narrow monotonic PKs:** Prefer `BIGINT AUTO_INCREMENT` (or UUID strategies that avoid random hotspots).
+- **Constraints:** PK, UNIQUE, FK, CHECK (version-dependent enforcement).
+- **Charset:** Default `utf8mb4` for modern Unicode.
+
+## Technical Details
 ```sql
 CREATE TABLE orders (
   id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -18,15 +30,20 @@ CREATE TABLE orders (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-## InnoDB clustered index
+Large `ALTER` may rebuild the table — see [[Alter table]] and online DDL options.
 
-The **primary key** is the table—secondary indexes leaf nodes point to primary key values. Choose narrow, monotonic PKs (`BIGINT AUTO_INCREMENT`) for insert performance.
+## Real-World Applications
+Order/payment tables with surrogate BIGINT PKs, FKs to users, and secondary indexes matching access paths.
 
-## Alter safely
+## Pros/Cons or Trade-offs
+- **Pro:** Clustered storage makes PK lookups and PK-range scans fast.
+- **Con:** Random UUIDs as PK can fragment pages and hurt insert throughput.
+- **Trade-off:** Natural vs surrogate keys — correctness/clarity versus insert locality.
 
-See [[Alter table]] — large `ALTER` may rebuild the whole table. Use online DDL options when available.
+## Comparison
+vs heap-organized tables in other engines: InnoDB always clusters on PK (or hidden row ID if none).
 
-## Sources
-
-- MySQL Reference Manual — [CREATE TABLE](https://dev.mysql.com/doc/refman/en/create-table.html)
-- MySQL Reference Manual — [Clustered and Secondary Indexes](https://dev.mysql.com/doc/refman/en/innodb-index-types.html)
+## Mistakes to Avoid
+- Wide, mutable primary keys that inflate every secondary index.
+- `ALTER` on huge tables without an online strategy.
+- Mixing charsets/collations across related columns.

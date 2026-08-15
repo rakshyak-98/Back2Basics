@@ -1,20 +1,27 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux Error]] [[Redux State sync with localstorage]]
+[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux Error]] [[Redux State sync with localstorage]] [[Redux toolkit]] [[flux]] [[zustand]]
 
 # Redux
 
-> Redux shapes how React applications compose UI, state, and side effects in production.
+> Predictable client state container — actions dispatch to pure reducers that produce the next store snapshot.
 
-## What this is
+## Interview Relevance
 
-Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
+Interviewers want action → reducer → store → subscribe data flow, immutability, and why Redux Toolkit is the default path today.
 
-## When to choose it
+## Sources
 
-**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
-**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
-**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
+- [Redux Essentials](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) — deep-dive
+- [Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview) — overview
 
-## Operating it
+## Key Concepts
+
+- **Single store:** one state tree; slices combine via `configureStore`.
+- **Actions:** plain objects describing intent; dispatch is the only write path.
+- **Reducers:** pure `(state, action) => nextState` — RTK uses Immer drafts.
+- **Selectors:** read/derive; avoid storing duplicate projections.
+- **Server vs client:** API lists belong in RTK Query / TanStack Query — not hand-copied into slices.
+
+## Technical Details
 
 ```ts
 const slice = createSlice({
@@ -26,25 +33,24 @@ const slice = createSlice({
 });
 ```
 
-Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
+Data flow: `UI → dispatch(action) → middleware → reducer → store → useSelector → UI`.
 
-## What breaks first
+## Real-World Applications
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+Cross-feature client state (cart, multi-step draft, entitlements flags) shared by many routes — with DevTools time-travel during debugging.
 
-## Recall
+## Pros/Cons or Trade-offs
 
-What breaks first in production if `Redux` is misused — bundle size, stale UI, or hydration errors?
+- **Pro:** Debuggable unidirectional updates; mature middleware ecosystem.
+- **Con:** Ceremony for local UI; overkill vs [[zustand]] or `useState` for small apps.
 
-## Related
+## Comparison
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Immutability in Redux]] [[Redux Error]] [[Redux State sync with localstorage]]
+- vs [[zustand]]: Redux when you need strict patterns, middleware, and large shared graphs; Zustand when the store is small.
+- vs [[flux]]: Redux is Flux-inspired with a single store and a simpler API.
 
-## Sources
+## Mistakes to Avoid
 
-- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)
-- [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started)
+- Mutating state outside Immer drafts (silent subscribe bugs).
+- Mirroring every API response into slices instead of a query cache.
+- Persisting secrets into `localStorage` via persist middleware.

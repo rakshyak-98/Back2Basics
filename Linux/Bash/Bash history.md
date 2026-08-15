@@ -1,103 +1,69 @@
-[[Bash]] [[Bash syntax]] [[bash script]]
+[[Bash]] [[Bash syntax]] [[bash script]] [[Scripting]]
 
 # Bash history
 
-> Bash history stores commands you ran — search, redo, and (carefully) avoid logging secrets.
+> Bash history stores commands you ran — search, redo, and carefully avoid logging secrets.
 
----
+## Interview Relevance
+Interactive productivity (`!!`, Ctrl+R) plus ops hygiene: `HISTCONTROL`, `HISTIGNORE`, and not putting passwords on the command line.
 
-## How it works
+## Sources
+- [Bash Reference — Bash History Facilities](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Facilities.html) — deep-dive
+- [history(3) / bash(1)](https://man7.org/linux/man-pages/man1/bash.1.html) — overview
 
-```txt
-typed command ──► maybe save (HISTIGNORE / ignorespace)
-                     ↓
-              history list ──► ~/.bash_history (on exit / history -a)
-```
+## Core Definition
+Commands may be saved to the in-memory history list and later to `~/.bash_history`. Interactive expansions (`!!`, `!$`) and Ctrl+R search the list. Options control size, duplicates, and ignored patterns.
 
-### Interview map (words you can say)
+## Key Concepts
+- **HISTSIZE / HISTFILESIZE:** Memory vs on-disk retention.
+- **HISTCONTROL:** `ignorespace`, `ignoredups`, `erasedups`.
+- **HISTIGNORE:** Drop noisy commands (`ls`, `cd`).
+- **history -a / -r:** Append/read without waiting for logout.
+- **Secrets:** Leading space (with ignorespace) or avoid CLI secrets entirely.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`!!` / `!-2`** | Last / Nth prior | “Redo without retyping.” |
-| **`!$` / `!^`** | Last / first arg of prior | “Reuse paths quickly.” |
-| **`HISTCONTROL=ignoreboth`** | Skip dups + leading-space | “Space-prefix keeps secrets out of history.” |
-| **`HISTIGNORE`** | Pattern denylist | “Don’t save `ls`/`cd` noise.” |
-| **`history -a` / `-r`** | Append / read file | “Share history across sessions deliberately.” |
-
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 history
-history -a                          # append live session → file
-history -r                          # read file into session
+history -a
+history -r
 fc -l
-fc -e nano 123                      # edit entry 123
+fc -e nano 123
 
-# Expansions (interactive)
 !!
 !-2
 !?install
-!$                                  # last arg of previous
-!^                                  # first arg
-^old^new^                           # quick substitute
+!$
+!^
+^old^new^
 !!:s/old/new/
 
-# ~/.bashrc knobs
 export HISTSIZE=10000
 export HISTFILESIZE=20000
-export HISTCONTROL=ignoreboth       # ignorespace + ignoredups
+export HISTCONTROL=ignoreboth
 export HISTIGNORE="ls:cd:pwd:history"
 export HISTCONTROL=ignoredups:erasedups
 ```
 
-Leading space before a command → often omitted from history when `ignorespace`/`ignoreboth` is set — useful for ` export API_KEY=…`.
-
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| History empty in new shell | HISTFILE / permissions | `echo "$HISTFILE"`; fix mode |
-| Secrets in history | Pasted passwords | `history -d N`; rotate secret; enable ignoreboth |
-| Missing commands from other tmux panes | No share config | `history -a` / `PROMPT_COMMAND` append patterns |
-| `!!` literal in script | History off in non-interactive | Don’t rely on it in scripts |
-| Duplicates forever | No erasedups | Set `ignoredups:erasedups` |
+| History empty next login | HISTFILE / perms | Fix path; `history -a` |
+| Secrets in file | pasting passwords | Rotate; HISTCONTROL; use prompts/files |
+| Ctrl+R weak | no fzf | Install [[fzf]] bindings |
+| Lost parallel-session cmds | default overwrite | `history -a` + `erasedups` patterns |
 
----
+## Real-World Applications
+Re-running a long deploy command with `!!`, editing a previous entry with `fc`, and configuring larger shared-safe history in `.bashrc`.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Massive interactive speed-up.
+- **Con:** Leak surface for secrets; multi-session merge quirks.
+- **Trade-off:** Convenient expansions vs explicit scripts for anything important.
 
-## Gotchas
+## Comparison
+vs [[fzf]] Ctrl+R: better fuzzy search UI. vs script files: history is personal/ephemeral; scripts are reviewable. Related: [[Bash syntax]] history expansion.
 
-> [!WARNING]
-> **History is plaintext** — never assume `~/.bash_history` is safe; lock down home perms.
-
-> [!WARNING]
-> **`history -c` clears memory, not always the file** — truncate `HISTFILE` if you mean it.
-
-> [!WARNING]
-> **Shared NFS homes** — concurrent writers can clobber history; accept loss or use careful append strategies.
-
----
-
-
-## When not to use
-
-- **Audit of who ran what on a server** — central auditd/SIEM, not per-user bash history.
-- **Structured runbooks** — real scripts in git ([[bash script]]).
-- **Password managers** — don’t paste secrets into the shell if you can avoid it.
-
----
-
-
-## Related
-
-[[Bash syntax]] [[bash script]] [[bash flags]] [[Bash]]
-
-## Sources
-
-- [Wikipedia — Bash history](https://en.wikipedia.org/wiki/Bash_history)
+## Mistakes to Avoid
+- Putting tokens/passwords on the command line “just once.”
+- Relying on `!!` inside scripts (history expansion is interactive-oriented).
+- Assuming all parallel SSH sessions flush history cleanly by default.

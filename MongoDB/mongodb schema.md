@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongodb migration]] [[MongoDB query validation]]
+[[MongoDB]] [[mongodb migration]] [[MongoDB query validation]] [[mongodb denormalization]] [[mognodb indexing]]
 
 # mongodb schema
 
 > MongoDB documents are flexible by default — add fields freely; use JSON Schema validation when you need guardrails.
 
----
+## Interview Relevance
 
-## How it works
+Schema design questions probe embedding vs referencing, unbounded arrays, and access-pattern-first modeling.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 App writes docs → (optional $jsonSchema) → BSON on disk
@@ -22,10 +29,7 @@ Design for: queries you run, not SQL tables
 | **Embedded vs ref** | Nest vs point | “Embed for read-together; ref for many.” |
 | **Polymorphism** | Type field + variants | “One collection, several shapes.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.createCollection('users', {
@@ -49,10 +53,18 @@ db.createCollection('users', {
 | `validationLevel` | `moderate` skips invalid existing docs on update |
 | Indexes | Schema ≠ speed — still index query fields |
 
----
+## Pros/Cons or Trade-offs
 
+- **Strict relational invariants across many entities** — use SQL.
+- **Heavy multi-document joins as the default access** — rethink model.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Schema-less ≠ design-free** — bad embedding still kills performance.
+
+> [!WARNING]
+> **Validators don’t rewrite old docs** — migrate existing data explicitly.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,30 +73,3 @@ db.createCollection('users', {
 | Slow “schema” evolution | huge backfill | [[mongodb migration]] in batches |
 | App assumes field always present | sparse docs | Default in app or `$ifNull` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Schema-less ≠ design-free** — bad embedding still kills performance.
-
-> [!WARNING]
-> **Validators don’t rewrite old docs** — migrate existing data explicitly.
-
----
-
-
-## When not to use
-
-- **Strict relational invariants across many entities** — use SQL.
-- **Heavy multi-document joins as the default access** — rethink model.
-
-
-## Related
-
-[[MongoDB query validation]] [[mongodb migration]] [[mongodb denormalization]] [[mognodb indexing]]
-
-## Sources
-
-- [Wikipedia — mongodb schema](https://en.wikipedia.org/wiki/mongodb_schema)

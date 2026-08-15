@@ -1,12 +1,19 @@
-[[mongoose/mongoose]] [[mongodb schema]] [[mongoose/mongoose methods]]
+[[mongoose/mongoose]] [[mongodb schema]] [[mongoose/mongoose methods]] [[MongoDB query validation]]
 
 # mongoose schema
 
 > A Mongoose schema declares paths, types, indexes, and options — the contract for a model.
 
----
+## Interview Relevance
 
-## How it works
+Mongoose schema interviews cover types, required/index, and mismatch with flexible MongoDB documents.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 Schema({ email: String, … }) → Model → collection
@@ -21,10 +28,7 @@ Schema({ email: String, … }) → Model → collection
 | **ref** | Point at another model | “For populate.” |
 | **timestamps** | createdAt/updatedAt | “`{ timestamps: true }`.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const schema = new mongoose.Schema({
@@ -40,10 +44,18 @@ const schema = new mongoose.Schema({
 | `select: false` | Hide secrets by default |
 | Nested schemas | Subdocuments |
 
----
+## Pros/Cons or Trade-offs
 
+- **Schemaless event blobs** — Mixed carefully or native driver.
+- **One-off import** — skip elaborate schemas.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **`unique: true` is an index** — not a validator; racey without the index built.
+
+> [!WARNING]
+> **Changing schema ≠ migrating data** — old docs stay until you rewrite.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,30 +64,3 @@ const schema = new mongoose.Schema({
 | Mixed type chaos | `Schema.Types.Mixed` | Narrow types |
 | Huge nested docs | unbounded arrays | Cap / bucket |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`unique: true` is an index** — not a validator; racey without the index built.
-
-> [!WARNING]
-> **Changing schema ≠ migrating data** — old docs stay until you rewrite.
-
----
-
-
-## When not to use
-
-- **Schemaless event blobs** — Mixed carefully or native driver.
-- **One-off import** — skip elaborate schemas.
-
-
-## Related
-
-[[mongoose/mongoose]] [[mongoose/mongoose methods]] [[MongoDB query validation]]
-
-## Sources
-
-- [Wikipedia — mongoose schema](https://en.wikipedia.org/wiki/mongoose_schema)

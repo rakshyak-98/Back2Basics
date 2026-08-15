@@ -1,12 +1,30 @@
-[[Linux terminal]] [[bash script]] [[Bash syntax]] [[user management]]
+[[Linux terminal]] [[Bash/bash script]] [[Bash/Bash syntax]] [[user management]] [[terminal config]] [[Setup Non-Login user from Running process]]
 
 # login shell
 
-> The login shell is the first process after authentication — it loads profile scripts, sets environment, and may start SSH commands or a desktop session.
+> First shell after authentication — loads profile scripts, sets environment, and may start SSH commands or a desktop session.
 
-Distinguish **login shell** (`bash -l`, SSH default, tty login) from **interactive non-login** (new terminal tab runs `~/.bashrc` only on many distros).
+## Interview Relevance
 
-## Startup files (Bash)
+Classic Bash trap: login vs interactive non-login startup files — why SSH gets `.profile` but a new terminal tab often only gets `.bashrc`.
+
+## Sources
+
+- [GNU Bash manual — Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html) — deep-dive
+- `man 1 bash` (INVOCATION) — deep-dive
+
+## Core Definition
+
+A login shell (`bash -l`, SSH default, tty login) differs from an interactive non-login shell (many terminal tabs run `~/.bashrc` only). Service accounts often use `/usr/sbin/nologin` or `/bin/false`.
+
+## Key Concepts
+
+- **Login vs interactive:** different startup file chains.
+- **`$0` / `shopt login_shell`:** how to tell what you are.
+- **`/etc/shells`:** valid shells for `chsh`.
+- **Forced SSH command:** `authorized_keys` `command=` overrides the login shell for that key.
+
+## Technical Details
 
 | File | Login | Interactive |
 |------|-------|-------------|
@@ -16,33 +34,32 @@ Distinguish **login shell** (`bash -l`, SSH default, tty login) from **interacti
 | `/etc/bash.bashrc` | — | Debian interactive |
 
 ```bash
-# What am I?
-shopt login_shell   # on or off
-echo $0               # -bash vs bash
-```
-
-## Change default shell
-
-```bash
+shopt login_shell
+echo $0
 chsh -s /bin/bash alice
-grep alice /etc/passwd   # last field is shell
+grep alice /etc/passwd
 ```
-
-Valid shells listed in `/etc/shells`. Use `/usr/sbin/nologin` or `/bin/false` for non-interactive service accounts — see [[Setup Non-Login user from Running process]].
-
-## SSH forced command
 
 ```ssh
 command="/usr/bin/backup-sync" ssh-ed25519 AAAA...
 ```
 
-Overrides login shell for that key — useful for automation without full shell access.
+## Real-World Applications
 
-## Related
+Fixing “PATH works over SSH but not in a new terminal tab” by sourcing `.bashrc` from `.profile`, and locking service accounts to nologin.
 
-[[terminal config]] · [[bash script]] · [[user management]]
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Predictable environment bootstrap for interactive humans.
+- **Con:** Split startup files confuse PATH/alias debugging across SSH vs GUI terminals.
 
-- `man 1 bash` — INVOCATION
-- [invocation section — GNU Bash manual](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html)
+## Comparison
+
+- vs non-login interactive: tabs/GUI terminals often skip profile.
+- vs forced-command keys: automation without a full shell ([[Setup Non-Login user from Running process]]).
+
+## Mistakes to Avoid
+
+- Putting PATH only in `.bashrc` and wondering why cron/non-interactive jobs miss it.
+- Using `/bin/false` without understanding login failure messages vs nologin.
+- Assuming every new terminal is a login shell.

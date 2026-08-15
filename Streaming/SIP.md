@@ -1,14 +1,33 @@
-[[NAT (Network Address Translation)]] [[webSocket]] [[TCP]] [[UDP]] [[Streaming]]
+[[NAT (Network Address Translation)]] [[webSocket]] [[TCP]] [[UDP]] [[Streaming]] [[DNS]]
 
 # SIP (Session Initiation Protocol)
 
 > SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about SIP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — SIP](https://en.wikipedia.org/wiki/SIP) — overview
+- [RFC 3261 — SIP](https://datatracker.ietf.org/doc/html/rfc3261) — deep-dive
+
+## Key Concepts
 
 **SIP** is text-based signaling (like HTTP) for establishing, modifying, and tearing down **media sessions**. Actual audio/video flows over **RTP/RTCP** (usually UDP) on separate ports — SIP only negotiates codecs and endpoints.
+
+| Message | Role |
+|---------|------|
+| **REGISTER** | Bind AOR (`sip:user@domain`) to contact URI (IP:port) |
+| **INVITE** | Start session; body carries **SDP** (codecs, ports) |
+| **ACK** | Confirm 200 OK to INVITE |
+| **BYE** | Hang up |
+| **OPTIONS** | Capability ping |
+
+**SDP offer/answer** lists `m=audio PORT RTP/AVP` — if NAT wrong, signaling succeeds but **one-way audio** (classic production bug).
+
+## Technical Details
 
 ```txt
 Phone/UAC                    SIP Proxy/PBX                    Phone/UAS
@@ -21,21 +40,6 @@ Phone/UAC                    SIP Proxy/PBX                    Phone/UAS
    │════════ RTP audio/video (direct or via media relay) ═══════│
    │── BYE ────────────────────►│                               │
 ```
-
-| Message | Role |
-|---------|------|
-| **REGISTER** | Bind AOR (`sip:user@domain`) to contact URI (IP:port) |
-| **INVITE** | Start session; body carries **SDP** (codecs, ports) |
-| **ACK** | Confirm 200 OK to INVITE |
-| **BYE** | Hang up |
-| **OPTIONS** | Capability ping |
-
-**SDP offer/answer** lists `m=audio PORT RTP/AVP` — if NAT wrong, signaling succeeds but **one-way audio** (classic production bug).
-
----
-
-
-## Configuration and commands
 
 ### Minimal INVITE flow (debug with sipsak)
 
@@ -86,10 +90,22 @@ Contact header must reflect reachable address:
 SDP c= line must match RTP port forwarding / media relay
 ```
 
----
+## Real-World Applications
 
+Used wherever SIP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
+- **Con / skip when:** **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
+- **Con / skip when:** **DIY SIP without SBC at scale** — toll fraud scanning hits port 5060 constantly.
+
+## Comparison
+
+- vs [[webSocket]]: **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,42 +123,8 @@ SDP c= line must match RTP port forwarding / media relay
 ss -ulnp | grep -E '5060|10000'
 ```
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **SIP ALG on consumer routers** — mangled headers; disable ALG industry-wide recommendation.
-
-> [!WARNING]
-> **Private IP in SDP** — remote sends RTP to unroutable 10.x address.
-
-> [!WARNING]
-> **TLS/SRTP vs plain** — WebRTC requires DTLS-SRTP; legacy SIP trunk may be RTP only — transcoding/SBC boundary.
-
-> [!WARNING]
-> **Re-INVITE for hold/music** — missed re-INVITE handling → dropped call on hold.
-
-> [!WARNING]
-> **Registration expiry** — NAT binding dies before re-REGISTER; shorten expiry or keepalive OPTIONS.
-
----
-
-
-## When not to use
-
-- **Low-latency game state** — use custom UDP or [[webSocket]], not SIP.
-- **One-to-many broadcast** — RTMP/HLS/SRT stack; SIP is session-oriented.
-- **DIY SIP without SBC at scale** — toll fraud scanning hits port 5060 constantly.
-
----
-
-
-## Related
-
-[[NAT (Network Address Translation)]] [[TCP]] [[Streaming]] [[webSocket]] [[DNS]]
-
-## Sources
-
-- [Wikipedia — SIP](https://en.wikipedia.org/wiki/SIP)
+- **SIP ALG on consumer routers** — mangled headers; disable ALG industry-wide recommendation.
+- **Private IP in SDP** — remote sends RTP to unroutable 10.x address.
+- **TLS/SRTP vs plain** — WebRTC requires DTLS-SRTP; legacy SIP trunk may be RTP only — transcoding/SBC boundary.
+- **Re-INVITE for hold/music** — missed re-INVITE handling → dropped call on hold.
+- **Registration expiry** — NAT binding dies before re-REGISTER; shorten expiry or keepalive OPTIONS.

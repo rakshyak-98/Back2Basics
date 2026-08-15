@@ -1,12 +1,39 @@
-[[Streaming]] [[codecs]] [[Encoding]] [[NVENC]] [[ABR]] [[rendition]] [[transcoding]]
+[[Streaming]] [[codecs]] [[Encoding]] [[NVENC]] [[ABR]] [[rendition]] [[transcoding]] [[HLS]] [[DASH]] [[bitrate streaming]]
 
 # AV1
 
 > AV1 is an open video codec — same quality at lower bitrate than H.264/HEVC, but encode cost and device support still gate rollout.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk AV1 end-to-end — not just name it. Signal fluency with **AV1**, **SVT-AV1 / libaom**, **NVENC AV1**, **HW decode** and when you would pick a different path.
+
+## Sources
+
+- [Wikipedia — AV1](https://en.wikipedia.org/wiki/AV1) — overview
+
+## Core Definition
+
+“AV1 stream” means the **payload** is AV1 inside MPTS/SPTS or CMAF — transport is still MPEG-TS / fMP4, not a separate network protocol.
+
+## Key Concepts
+
+- **AV1:** Modern open video codec — “Better compression; we still need a fallback ladder.”
+- **SVT-AV1 / libaom:** Software encoders — “CPU-heavy; use for VOD farms, not cheap live.”
+- **NVENC AV1:** NVIDIA HW encode — “Ada+ only — T4/A2 do not encode AV1.”
+- **HW decode:** Chip can play AV1 — “Decode landed earlier than encode on many GPUs.”
+- **Dual ladder:** AV1 + H.264/HEVC — “Manifest offers both; client capability picks.”
+
+**Flow:**
+
+1. **Decide target** — VOD savings versus live latency/cost.
+2. **Pick encoder** — SVT-AV1/libaom software, or Ada+ [[NVENC]] for HW.
+3. **Package** — signal codec in [[HLS]]/[[DASH]]; keep aligned GOPs if ABR.
+4. **Fallback** — always publish a widely decodable rung (usually H.264).
+
+Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, Nvidia, …) backs the codec. Royalty-free licensing is the business pitch; **encode cost and client decode** are the operations pitch.
+
+## Technical Details
 
 ```txt
 Mezzanine / live source
@@ -18,33 +45,6 @@ Mezzanine / live source
       ▼
 Player picks codec it can decode (+ [[ABR]] within that family)
 ```
-
-Alliance for Open Media (AOMedia — Google, Netflix, Amazon, Microsoft, Intel, Nvidia, …) backs the codec. Royalty-free licensing is the business pitch; **encode cost and client decode** are the operations pitch.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **AV1** | Modern open video codec | “Better compression; we still need a fallback ladder.” |
-| **SVT-AV1 / libaom** | Software encoders | “CPU-heavy; use for VOD farms, not cheap live.” |
-| **NVENC AV1** | NVIDIA HW encode | “Ada+ only — T4/A2 do not encode AV1.” |
-| **HW decode** | Chip can play AV1 | “Decode landed earlier than encode on many GPUs.” |
-| **Dual ladder** | AV1 + H.264/HEVC | “Manifest offers both; client capability picks.” |
-
-### How the story goes (4 steps)
-
-1. **Decide target** — VOD savings versus live latency/cost.
-2. **Pick encoder** — SVT-AV1/libaom software, or Ada+ [[NVENC]] for HW.
-3. **Package** — signal codec in [[HLS]]/[[DASH]]; keep aligned GOPs if ABR.
-4. **Fallback** — always publish a widely decodable rung (usually H.264).
-
-> [!INFO]
-> “AV1 stream” means the **payload** is AV1 inside MPTS/SPTS or CMAF — transport is still MPEG-TS / fMP4, not a separate network protocol.
-
----
-
-
-## Configuration and commands
 
 ```bash
 # Software (VOD-oriented sketch)
@@ -72,10 +72,25 @@ ffprobe -hide_banner out_av1.mp4   # confirm codec_name=av1
 
 Debug: `ffprobe` codec → chrome://media-internals or player codec log → compare bitrate at matched VMAF versus H.264 rung.
 
----
+## Real-World Applications
 
+“AV1 stream” means the **payload** is AV1 inside MPTS/SPTS or CMAF — transport is still MPEG-TS / fMP4, not a separate network protocol.
 
-## When things break
+Used wherever AV1 sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Broad STB estate without AV1 decode** — stay on H.264/HEVC until devices catch up.
+- **Con / skip when:** **Cheap live on pre-Ada GPUs** — no AV1 NVENC; software live may miss latency SLOs.
+- **Con / skip when:** **One-off user uploads with tiny audience** — H.264 is enough; AV1 savings won’t pay encode time.
+- **Con / skip when:** **You only needed a container change** — remux; do not [[transcoding\|transcode]] to AV1 “because modern.”
+
+## Comparison
+
+- vs [[transcoding\|transcode]]: **You only needed a container change** — remux; do not [[transcoding\|transcode]] to AV1 “because modern.”
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,40 +101,7 @@ Debug: `ffprobe` codec → chrome://media-internals or player codec log → comp
 | Worse than H.264 at same bits | Bad preset / too-low bitrate | Tune CRF; don’t under-bitrate the ladder |
 | Safari / old STB fails only | No AV1 decode | Expected — serve fallback family |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Encode ≠ decode support** — Turing often decodes AV1; **encode** on NVIDIA needs Ada-generation NVENC (L4, L40, RTX 40-series). T4 and A2 do not encode AV1.
-
-> [!WARNING]
-> **AV1-only ladder** — still breaks a slice of STBs and older mobiles. Dual-codec delivery is normal in 2025–2026 fleets.
-
-> [!WARNING]
-> **Royalty-free ≠ free ops** — encode farm cost can erase CDN savings if you pick the wrong live preset.
-
-> [!WARNING]
-> **Naming mix-ups** — people say “H.256”; they mean HEVC (H.265) or AV1. Say the four-character codec name in reviews.
-
----
-
-
-## When not to use
-
-- **Broad STB estate without AV1 decode** — stay on H.264/HEVC until devices catch up.
-- **Cheap live on pre-Ada GPUs** — no AV1 NVENC; software live may miss latency SLOs.
-- **One-off user uploads with tiny audience** — H.264 is enough; AV1 savings won’t pay encode time.
-- **You only needed a container change** — remux; do not [[transcoding\|transcode]] to AV1 “because modern.”
-
----
-
-
-## Related
-
-[[codecs]] [[Encoding]] [[NVENC]] [[transcoding]] [[ABR]] [[rendition]] [[HLS]] [[DASH]] [[bitrate streaming]]
-
-## Sources
-
-- [Wikipedia — AV1](https://en.wikipedia.org/wiki/AV1)
+- **Encode ≠ decode support** — Turing often decodes AV1; **encode** on NVIDIA needs Ada-generation NVENC (L4, L40, RTX 40-series). T4 and A2 do not encode AV1.
+- **AV1-only ladder** — still breaks a slice of STBs and older mobiles. Dual-codec delivery is normal in 2025–2026 fleets.
+- **Royalty-free ≠ free ops** — encode farm cost can erase CDN savings if you pick the wrong live preset.
+- **Naming mix-ups** — people say “H.256”; they mean HEVC (H.265) or AV1. Say the four-character codec name in reviews.

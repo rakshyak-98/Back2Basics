@@ -1,25 +1,41 @@
 [[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[React pattern categorisation]] [[Separate functional logic from persentation components]]
 
-# Compound Components 1
+# Compound Components
 
-> Compound Components 1 shapes how React applications compose UI, state, and side effects in production.
+> Parent and children components share implicit state (often Context) for a flexible API.
 
-## What this is
+## Interview Relevance
 
-React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
+Interviewers ask which composition pattern fits the API you want — and what breaks when you force the wrong one.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [Compound Components docs](https://react.dev/learn/passing-data-deeply-with-context) — deep-dive
+- [React Learn](https://react.dev/learn) — overview
 
-## Recall
+## Key Concepts
 
-What breaks first in production if `Compound Components 1` is misused — bundle size, stale UI, or hydration errors?
+- **Modern default:** custom hooks for logic reuse.
+- **Keep for APIs:** compound components / providers when the JSX API matters.
 
-## Related
+## Technical Details
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[React pattern categorisation]] [[Separate functional logic from persentation components]]
+See also sibling notes under `React Pattern/` and [[React design patterns]].
+
+## Real-World Applications
+
+Reach for Compound Components when the component API needs that composition style; otherwise prefer hooks.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Shared vocabulary in code reviews.
+- **Con:** Forcing a pattern where a simple hook suffices.
+
+## Comparison
+
+- vs [[react hooks]]: hooks share logic; these patterns shape component APIs.
+
+## Mistakes to Avoid
+
+- Introducing HOCs in greenfield 2026 code without a library constraint.
+- Provider for high-frequency changing values.

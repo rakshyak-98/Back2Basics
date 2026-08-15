@@ -1,30 +1,42 @@
-[[Nginx]] [[Configuration]] [[nginx using unix socket]]
+[[Configuration]] [[nginx using unix socket]] [[Nginx internals]] [[TCP]] [[UDP]]
 
 # Nginx Stream (L4 TCP/UDP Proxy)
 
-> Nginx Stream (L4 TCP/UDP Proxy) — the stream context operates at OSI layer 4. Nginx does not parse HTTP headers — it forwards bytes between client
+> Layer-4 proxy in the `stream {}` context — forward bytes (TCP/UDP), optional TLS passthrough via SNI preread; no HTTP header parsing.
 
----
+## Interview Relevance
 
-## How it works
+Distinguishes L7 `http {}` reverse proxy from L4 stream proxying — when to TCP-proxy Postgres, SNI-route TLS, or refuse HTTP-only features in stream.
 
+## Sources
+
+- [nginx.org — ngx_stream_core_module](https://nginx.org/en/docs/stream/ngx_stream_core_module.html) — deep-dive
+- [nginx.org — ngx_stream_ssl_preread_module](https://nginx.org/en/docs/stream/ngx_stream_ssl_preread_module.html) — deep-dive
+- [nginx.org — TCP and UDP Load Balancing](https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/) — overview
+
+## Core Definition
+
+The Nginx stream module proxies TCP and UDP at OSI layer 4: it does not interpret HTTP; it forwards connections (and optionally peeks at TLS SNI) to upstreams.
+
+## Key Concepts
+
+- **`stream {}` sibling of `http {}`:** Not nested inside `http`.
+- **TCP/UDP proxy:** Database, custom TCP protocols, DNS-like UDP forwarders.
+- **TLS passthrough:** `ssl_preread` + `map $ssl_preread_server_name` without terminating TLS.
+- **Passive health only (OSS):** `max_fails` — no HTTP `/health` active checks in open-source stream.
+
+## Technical Details
 
 ```
 Client ──TCP──► Nginx:5432 ──TCP──► PostgreSQL:5432   (TCP proxy)
 Client ──TLS──► Nginx:443  ──plain──► backend:8080     (TLS passthrough / SNI routing)
 ```
 
-`ngx_stream_js_module` adds JavaScript hooks for stream-layer logic (SNI inspection, routing) — optional, not in default OSS build.
+`ngx_stream_js_module` adds JS hooks for stream logic (optional; not default OSS).
 
----
-
-
-## Configuration and commands
-
-### TCP proxy (PostgreSQL example)
+### TCP proxy (PostgreSQL)
 
 ```nginx
-# /etc/nginx/nginx.conf — top level, sibling to http {}
 stream {
     upstream postgres {
         server 10.0.1.10:5432;
@@ -40,7 +52,7 @@ stream {
 }
 ```
 
-### TLS passthrough (SNI-based routing)
+### TLS passthrough (SNI routing)
 
 ```nginx
 stream {
@@ -62,9 +74,9 @@ stream {
 }
 ```
 
-Requires `stream` module compiled in (`nginx -V 2>&1 | grep stream`).
+Requires stream compiled in (`nginx -V 2>&1 | grep stream`).
 
-### UDP (DNS forwarder sketch)
+### UDP sketch
 
 ```nginx
 stream {
@@ -78,51 +90,34 @@ stream {
 
 ```bash
 sudo nginx -t && sudo systemctl reload nginx
-ss -tlnp | grep nginx    # TCP listeners
-ss -ulnp | grep nginx    # UDP listeners
+ss -tlnp | grep nginx
+ss -ulnp | grep nginx
 ```
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Connection refused on stream port | `ss -tlnp \| grep :PORT`; `nginx -T \| grep -A5 stream` | Enable stream block; fix listen address; SELinux `http_port_t` won't apply — check `stream_connect` |
-| TLS passthrough routes wrong backend | `openssl s_client -connect host:443 -servername api.example.com` | Fix `$ssl_preread_server_name` map; client must send SNI |
-| Idle disconnects | `proxy_timeout` too low | Raise for long-lived connections (DB, WebSocket over stream) |
-| Works in HTTP block, not stream | Wrong context | `stream {}` is **not** inside `http {}` |
+| Connection refused on stream port | `ss`; `nginx -T` stream block | Enable stream; fix listen; SELinux stream connect |
+| TLS routes wrong backend | `openssl s_client … -servername` | Fix SNI map; client must send SNI |
+| Idle disconnects | `proxy_timeout` too low | Raise for long-lived DB/WS-over-stream |
+| Works in HTTP, not stream | Wrong context | `stream {}` is not inside `http {}` |
 
----
+## Real-World Applications
 
+TCP proxy Postgres through a bastion Nginx; SNI-based multiplexing of several TLS services on :443 without decrypting.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **No HTTP directives in stream:** `proxy_set_header`, `limit_req`, `try_files` — all invalid. Layer-4 only.
+- **Pro:** Simple, fast L4 fan-in without HTTP overhead.
+- **Con:** No `proxy_set_header`, `limit_req`, or `try_files` — L7 features stay in `http {}`.
+- **Con:** Rich L7 policies may need HAProxy, Envoy, or a cloud LB instead.
 
-> [!WARNING]
-> **Health checks:** OSS stream has passive upstream only (`max_fails`). No HTTP `/health` probe — use external checker or nginx-plus.
+## Comparison
 
-> [!WARNING]
-> **Logging:** Default access log format is binary-ish; enable `stream` access_log with custom format for debugging.
+- vs `http { proxy_pass }`: use HTTP block for header-based routing; stream for raw TCP/UDP.
+- vs [[nginx using unix socket]]: unix sockets are a local upstream transport; stream is the L4 server context.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **HTTP reverse proxy** — use `http {}` + `proxy_pass`; stream loses header-based routing (except SNI preread).
-- **Application-aware load balancing** — use HAProxy, Envoy, or cloud LB for rich L7 policies.
-
----
-
-
-## Related
-
-[[Configuration]] [[nginx using unix socket]] [[Nginx internals]]
-
-## Sources
-
-- [Wikipedia — nginx stream](https://en.wikipedia.org/wiki/nginx_stream)
+- Putting HTTP directives inside `stream {}`.
+- Expecting active HTTP health checks from OSS stream.
+- Forgetting custom stream access_log formats when debugging opaque byte proxies.

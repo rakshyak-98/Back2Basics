@@ -1,44 +1,63 @@
-[[apache]]
+[[apache command]] [[apache modules]] [[PHP-FPM]] [[Security/TLS (Transport Layer Security)]]
 
-# apache configurations
+# Apache configurations
 
-> apache configurations — if you are using something else like /var/www/myproject/public, make sure it's set correctly.
+> Virtual hosts, document roots, and runtime user/group — where files are served from and which Linux identity httpd uses.
 
----
+## Interview Relevance
 
-## How it works
-
-```bash
-sudo a2enmod rewrite;
-sudo systemctl restart apache2;
-```
-```bash
-cat /etc/apache2/envvars; # see here for apache group and user.
-export APACHE_RUN_USER=www-data
-export APACHE_RUN_GROUP=www-data
-```
-
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-
-## Related
-
-[[apache]]
+Interviewers ask where to set `DocumentRoot`, how `AllowOverride` interacts with `.htaccess`, and why the run user matters for file permissions.
 
 ## Sources
 
-- [Wikipedia — apache configurations](https://en.wikipedia.org/wiki/apache_configurations)
+- [Apache — VirtualHost Examples](https://httpd.apache.org/docs/current/vhosts/examples.html) — deep-dive
+- [Apache — envvars (Debian)](https://manpages.debian.org/apache2) — overview
+
+## Key Concepts
+
+- **DocumentRoot:** filesystem path for the site → must match your app’s `public/` if you use one.
+- **VirtualHost:** name/IP-based site containers → many sites per server.
+- **Run user/group:** Debian `APACHE_RUN_USER`/`GROUP` (often `www-data`) → permission model.
+- **`.htaccess` vs vhost:** per-directory overrides cost stat calls; prefer vhost in production.
+
+## Technical Details
+
+```bash
+cat /etc/apache2/envvars
+# export APACHE_RUN_USER=www-data
+# export APACHE_RUN_GROUP=www-data
+
+sudo a2enmod rewrite
+sudo apache2ctl configtest
+sudo systemctl restart apache2
+```
+
+If the app lives at `/var/www/myproject/public`, `DocumentRoot` (and directory blocks) must point there — not the repo root with secrets.
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| 403 | Perms + `Require` | Fix ownership; `Require all granted` |
+| Wrong site | `apache2ctl -S` | Fix vhost / ServerName |
+| Rewrite ignored | `AllowOverride` / mod | Enable rewrite; allow FileInfo |
+
+## Real-World Applications
+
+Laravel/Symfony-style apps: vhost `DocumentRoot` → `public/`, rewrite to `index.php`, PHP via FPM.
+
+**Example:** DocumentRoot left at `/var/www/html` after deploy to `/var/www/myproject/public` — users still see the default page.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** `.htaccess` lets apps ship rewrite rules without vhost access.
+- **Con:** `.htaccess` adds per-request overhead and scattered policy.
+
+## Comparison
+
+- vs Nginx server blocks: same vhost idea; different directive language.
+- vs container sidecars: configuration still needs correct root and upstream to FPM/app.
+
+## Mistakes to Avoid
+
+- Serving the repo root (exposing `.env`).
+- Running httpd as root for content workers.
+- Copying macOS/home paths into Linux vhosts.

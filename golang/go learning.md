@@ -1,12 +1,19 @@
-[[golang]] [[go]] [[go project]] [[Useful prompt for learning with AI chat]]
+[[golang]] [[go]] [[go project]] [[Useful prompt for learning with AI chat]] [[go-routines]] [[go interface]]
 
 # go learning
 
 > Go learning path — foundations → concurrency/HTTP → interview drills; use AI as a coach with tight feedback loops, not as a code vending machine.
 
----
+## Interview Relevance
 
-## How it works
+Learning-path notes signal how you ramp on Go for interviews — foundations, concurrency, then drills — without treating AI as a code vending machine.
+
+## Sources
+
+- [A Tour of Go](https://go.dev/tour/) — overview
+- [Go by Example](https://gobyexample.com/) — overview
+
+## Key Concepts
 
 ```txt
 weeks 1–2  syntax, slices/maps, structs
@@ -23,10 +30,7 @@ weeks 11–12 tests, race, Docker
 | Challenge | 50–100 lines + table tests |
 | Review | Score 1–10 + idiomatic rewrite |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # daily loop
@@ -45,10 +49,7 @@ go test -bench=. ./...
 | Repo of solutions | Interview evidence |
 | Race on concurrent work | Real Go skill |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,36 +59,14 @@ go test -bench=. ./...
 | AI dependency | Pasting without review | Force line-by-line critique |
 | JS habits in Go | Ignoring errors / classes | Re-read Effective Go |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Only watching videos — type code.
+- **Trade-off:** LeetCode-only for Go jobs — add HTTP + SQL projects.
+- **Trade-off:** Copying production secrets into prompts — never.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **AI greenfield dumps** — demand small diffs and tests you can run.
-
-> [!WARNING]
-> **Skipping `-race`** — false confidence on concurrent code.
-
-> [!WARNING]
-> **Frameworks first** — learn `net/http` before Gin magic.
-
----
-
-
-## When not to use
-
-- **Only watching videos** — type code.
-- **LeetCode-only for Go jobs** — add HTTP + SQL projects.
-- **Copying production secrets into prompts** — never.
-
----
-
-
-## Related
-
-[[go project]] [[go]] [[go-routines]] [[go interface]] [[Useful prompt for learning with AI chat]]
-
-## Sources
-
-- [Wikipedia — go learning](https://en.wikipedia.org/wiki/go_learning)
+- AI greenfield dumps — demand small diffs and tests you can run.
+- Skipping `-race` — false confidence on concurrent code.
+- Frameworks first — learn `net/http` before Gin magic.

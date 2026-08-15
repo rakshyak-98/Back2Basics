@@ -1,13 +1,19 @@
-[[git logs]] [[git command]] [[git alias]]
+[[git logs]] [[git command]] [[git alias]] [[Release cycle]]
 
 # Git log formatting
 
 > `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git log formatting` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 git log --pretty=format:"%h %ad | %an | %s" --date=short
@@ -16,8 +22,7 @@ git log --pretty=format:"%h %ad | %an | %s" --date=short
 
 **Author** (`%an`) wrote the patch; **committer** (`%cn`) applied it — differ after rebase/cherry-pick.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Common one-liners
 
@@ -69,19 +74,12 @@ git log --pretty=format:'{%n  "hash": "%H",%n  "author": "%an",%n  "subject": "%
 git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%ad%Creset %s %Cgreen(%an)%Creset' --date=short -20"
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Structured JSON export at scale** — `git cat-file`, libgit2, or platform API.
+- **File content history** — add `-p` or use [[git diff]].
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Literal `%h` in output | Missing `--pretty=format` | Quote format string |
-| Wrong timezone on `%ad` | `--date` default | `--date=local` or `--date=iso-strict` |
-| Empty `%d` | Detached or no refs | Normal for old commits |
-| Garbled colors in CI | `%Cred` color codes | Drop `%C…` for plain logs |
-| `%s` multiline breaks parser | Subject has newline | Use `%s` with `--no-merges` filter |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Rebase changes committer date** — `%cr` may say "2 minutes ago" for old work.
@@ -92,17 +90,10 @@ git config --global alias.lol "log --graph --pretty=format:'%Cred%h%Creset - %C(
 > [!WARNING]
 > **Shell quoting** — nested quotes in aliases break zsh/bash differently; test both.
 
-
-## When not to use
-
-- **Structured JSON export at scale** — `git cat-file`, libgit2, or platform API.
-- **File content history** — add `-p` or use [[git diff]].
-
-
-## Related
-
-[[git logs]] [[git alias]] [[git command]] [[Release cycle]]
-
-## Sources
-
-- [Wikipedia — git formating](https://en.wikipedia.org/wiki/git_formating)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Literal `%h` in output | Missing `--pretty=format` | Quote format string |
+| Wrong timezone on `%ad` | `--date` default | `--date=local` or `--date=iso-strict` |
+| Empty `%d` | Detached or no refs | Normal for old commits |
+| Garbled colors in CI | `%Cred` color codes | Drop `%C…` for plain logs |
+| `%s` multiline breaks parser | Subject has newline | Use `%s` with `--no-merges` filter |

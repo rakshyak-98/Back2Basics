@@ -1,20 +1,33 @@
-[[process]] [[Linux cgroup]] [[OOM (Linux Out Of Memory)]]
+[[process]] [[Linux cgroup]] [[OOM (Linux Out Of Memory)]] [[Epoll]] [[Memory management]]
 
 # Linux Process Theory
 
-> Process theory explains how the kernel schedules, isolates, and accounts for work — the background you need before tuning PIDs, cgroups, or OOM behavior.
+> Process theory explains how the kernel schedules, isolates, and accounts for work — background you need before tuning PIDs, cgroups, or OOM behavior.
 
-A **process** is an address space + resources (fds, credentials, namespaces). **Threads** are tasks sharing that address space. The scheduler picks runnable tasks on CPUs; **cgroups** cap groups of tasks; **namespaces** isolate views (PID, mount, network).
+## Interview Relevance
+Foundational systems interview material: `fork`/`exec`/`wait`, zombie vs orphan, task states (especially `D`), and how cgroups/namespaces compose into containers.
 
-## Lifecycle
+## Sources
+- Kerrisk, *The Linux Programming Interface* — deep-dive
+- `man 2 clone`, `man 7 namespaces` — deep-dive
+
+## Core Definition
+A **process** is an address space plus resources (file descriptors, credentials, namespaces). **Threads** are tasks sharing that address space. The scheduler picks runnable tasks; **cgroups** cap groups; **namespaces** isolate views (PID, mount, network).
+
+## Key Concepts
+- **fork → exec → exit → wait:** Lifecycle and reaping.
+- **Zombie:** Exited child until the parent `wait`s.
+- **States:** R/S/D/Z/T — especially uninterruptible `D` during I/O.
+- **Copy-on-write:** `fork()` shares pages until write — memory accounting surprise.
+- **Isolation kit:** cgroups, namespaces, capabilities, seccomp.
+
+## Technical Details
 
 ```
 fork() ──► child ──► execve("binary") ──► running ──► exit(status)
    │                                              │
    └─ parent waitpid() ◄── zombie until reaped ───┘
 ```
-
-## States (simplified)
 
 | State | Meaning |
 |-------|---------|
@@ -28,8 +41,6 @@ fork() ──► child ──► execve("binary") ──► running ──► ex
 ps -eo stat,pid,cmd | head
 ```
 
-## Isolation building blocks
-
 | Mechanism | What it isolates |
 |-----------|------------------|
 | **cgroup** | CPU, memory, IO, pids — [[Linux cgroup]] |
@@ -39,15 +50,17 @@ ps -eo stat,pid,cmd | head
 
 Containers combine these; on bare metal you still see slices under systemd.
 
-## Copy-on-write after fork
+## Real-World Applications
+A stuck deploy shows many `D` state processes on a failing NFS mount — SIGKILL will not help until storage recovers; fix the mount, not the kill signal.
 
-`fork()` shares physical pages until written — important for memory accounting: fork bombs and large parent processes affect children.
+## Pros/Cons or Trade-offs
+- **Pro:** Rich isolation primitives enable containers and safe multi-tenant hosts.
+- **Con:** Mental model is deep — misreading zombies as “leaked memory” or `D` as “ignore SIGKILL bug” wastes incident time.
 
-## Related
+## Comparison
+vs [[process]]: operational commands (`ps`, signals) vs this theory note. vs threads: shared address space vs separate processes. vs [[OOM (Linux Out Of Memory)]]: OOM is what happens when memory accounting loses; process theory is the lifecycle underneath.
 
-[[process]] · [[Epoll]] · [[Linux cgroup]] · [[Memory management]]
-
-## Sources
-
-- Kerrisk, *The Linux Programming Interface*
-- `man 2 clone`, `man 7 namespaces`
+## Mistakes to Avoid
+- Calling zombies a memory leak — they hold almost no resources beyond a task slot.
+- Expecting `kill -9` to clear `D` state during broken disk/NFS I/O.
+- Ignoring COW after fork when estimating memory for large parent processes.

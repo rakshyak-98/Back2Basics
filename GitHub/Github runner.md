@@ -1,95 +1,62 @@
-[[Github cli]] [[DevOps/Jenkins]] [[Docker/Docker compose]]
+[[Github action]] [[Github cli]] [[Docker/Docker compose]] [[DevOps/Jenkins]]
 
 # GitHub Actions runner
 
-> Machine that executes workflow jobs — GitHub-hosted VM or your own hardware with the runner agent.
+> Machine that executes workflow jobs — ephemeral GitHub-hosted VMs or your own self-hosted agent.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers contrast hosted vs self-hosted (security, VPC access, ops burden) and want concurrency controls to prevent double deploys.
 
-A **workflow** triggers on events; **jobs** run on a **runner** (isolated VM or your server). The runner pulls job steps, checks out code, runs actions/commands, uploads artifacts/logs. GitHub-hosted runners are ephemeral; self-hosted runners are persistent and inherit your network/VPC access.
+## Sources
 
-```
-Event → Workflow → Job(s) → Runner agent → Steps (checkout, build, deploy)
-```
+- [GitHub Docs — About runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) — overview
+- [GitHub Docs — Self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners) — deep-dive
 
-| Type | Pros | Cons |
-|------|------|------|
-| GitHub-hosted | Zero ops, clean slate | Shared pool, egress limits, no VPC |
-| Self-hosted | Private deps, GPUs, faster cache | You patch, secure, scale |
+## Key Concepts
 
+- **Hosted runner:** clean VM per job → zero ops, no private network.
+- **Self-hosted:** agent on your hardware/VPC → private deps/GPUs; you patch and secure it.
+- **Labels / `runs-on`:** match jobs to capable runners.
+- **Concurrency groups:** serialize deploys → avoid two prod rolls at once.
 
-## Configuration and commands
-
-### Workflow runner selection
+## Technical Details
 
 ```yaml
 jobs:
   build:
-    runs-on: ubuntu-latest          # GitHub-hosted
+    runs-on: ubuntu-latest
   deploy:
     runs-on: [self-hosted, linux, prod]
     needs: build
-```
-
-### Register self-hosted runner (Linux)
-
-```bash
-# From repo Settings → Actions → Runners → New self-hosted runner
-mkdir actions-runner && cd actions-runner
-curl -o actions-runner-linux-x64-2.xxx.tar.gz -L https://github.com/actions/runner/releases/download/v2.xxx/actions-runner-linux-x64-2.xxx.tar.gz
-tar xzf ./actions-runner-linux-x64-2.xxx.tar.gz
-./config.sh --url https://github.com/org/repo --token <TOKEN>
-sudo ./svc.sh install
-sudo ./svc.sh start
-```
-
-### Concurrency (avoid double deploy)
-
-```yaml
 concurrency:
   group: deploy-prod
   cancel-in-progress: false
 ```
 
-### Labels
+| Type | Strength | Cost |
+|------|----------|------|
+| Hosted | Clean slate | No VPC; shared limits |
+| Self-hosted | Private network | Patching + isolation duty |
 
-- `runs-on: [self-hosted, gpu]` — match runner labels at registration time.
+## Real-World Applications
 
+Build on hosted runners; deploy from a self-hosted runner inside the VPC that can reach internal APIs.
 
-## When things break
+**Example:** Jobs queue forever — runner service stopped or `runs-on` labels do not match registration.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Job queued forever | Runners offline in Settings | Start runner service; check `./run.sh` logs |
-| Self-hosted wrong user/env | Service account | Install runner as dedicated user; fix PATH |
-| Out of disk on hosted runner | Large artifacts/cache | Trim cache; use `actions/upload-artifact` retention |
-| Can't reach internal API | Network | Self-hosted in VPC; or OIDC + private endpoint |
-| Duplicate deploys | Missing `concurrency` | Add concurrency group |
-| Runner not picking job | Label mismatch | Align `runs-on` labels with runner registration |
+## Pros/Cons or Trade-offs
 
+- **Pro (hosted):** no capacity planning for CI VMs.
+- **Con (self-hosted):** fork PRs can be dangerous if workflows are too privileged.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **Self-hosted = arbitrary code execution** — fork PRs can run untrusted workflows unless you restrict `pull_request_target` / approvals.
->
-> **Shared self-hosted runner** — one compromised job reads others' secrets; use ephemeral runners or one runner per repo.
->
-> **GitHub-hosted `ubuntu-latest` drift** — image updates break apt packages; pin tool versions in workflow.
+- vs [[Github action]]: runner is the executor; Actions is the workflow definition.
+- vs Jenkins agents: same idea (build agents), different control plane.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- Don't run self-hosted runners on a laptop — sleep, IP changes, security nightmare.
-- Don't use larger hosted runners for lint-only jobs — cost adds up fast.
-
-
-## Related
-
-[[Github action]] [[Github cli]] [[DevOps/Jenkins]] [[Docker/Docker compose]]
-
-## Sources
-
-- [Wikipedia — Github runner](https://en.wikipedia.org/wiki/Github_runner)
+- Shared sticky self-hosted runners across untrusted repos — isolate or use ephemeral VMs.
+- Running self-hosted on a laptop (sleep, IP churn, theft risk).
+- Ignoring disk growth from caches/artifacts on persistent runners.

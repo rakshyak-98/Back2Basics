@@ -1,12 +1,19 @@
-[[Architectures]] [[System Design/Concurrent modification]]
+[[Architectures]] [[System Design/Concurrent modification]] [[System Architecture]] [[feature flag]] [[Service Layer]]
 
 # Idempotent-key
 
 > Idempotency key lets a client safely retry a write — same key returns the first result, not a duplicate.
 
----
+## Interview Relevance
 
-## How it works
+Idempotency keys are a must for payment/retry design interviews — safe retries without duplicate side effects.
+
+## Sources
+
+- [Stripe — Idempotent requests](https://docs.stripe.com/api/idempotent_requests) — deep-dive
+- [Wikipedia — Idempotence](https://en.wikipedia.org/wiki/Idempotence) — overview
+
+## Key Concepts
 
 ```txt
 POST + Idempotency-Key
@@ -25,10 +32,7 @@ POST + Idempotency-Key
 | **TTL** | How long we remember | “24h is common for payments.” |
 | **In-flight** | First request still running | “Don’t start a second charge.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```http
 POST /orders
@@ -52,10 +56,7 @@ CREATE TABLE idempotency_keys (
 | Hash of body | Stops accidental key reuse |
 | TTL + purge | Table doesn’t grow forever |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -64,30 +65,12 @@ CREATE TABLE idempotency_keys (
 | Wrong replay | Key reused for new body | Compare hash; 422 |
 | Key missing on mobile retry | Client regenerated UUID | Persist key until success |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Pure reads — no need.
+- **Trade-off:** operations that must intentionally create many — bulk create without keys is fine if duplicates are wanted.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Server-generated keys don’t help** — the client must resend the *same* key after timeout.
-
-> [!WARNING]
-> **Only POST/PATCH that create side effects** — GET is already idempotent.
-
----
-
-
-## When not to use
-
-- **Pure reads** — no need.
-- **operations that must intentionally create many** — bulk create without keys is fine if duplicates are wanted.
-
-
-## Related
-
-[[System Architecture]] [[feature flag]] [[Service Layer]]
-
-## Sources
-
-- [Wikipedia — Idempotent-key](https://en.wikipedia.org/wiki/Idempotent-key)
+- Server-generated keys don’t help — the client must resend the *same* key after timeout.
+- Only POST/PATCH that create side effects — GET is already idempotent.

@@ -1,60 +1,90 @@
-[[Python]]
+[[Python]] [[wheel]] [[pandas]]
 
-# Python Package Setup
+# create python package from source
 
-> Python Package Setup — this guide explains how to turn the python/ folder into an installable package for use in other projects.
+> Turn a source tree into an installable distribution — `pyproject.toml` + build backend so others can `pip install` your library.
 
----
+## Interview Relevance
 
-## How it works
-
-This guide explains how to turn the `python/` folder into an installable package for use in other projects.
-The sample code under `python/src/` is currently a flat set of scripts. To reuse it as a library, follow the steps below.
-
-
----
-
-
-## Configuration and commands
-
-```bash
-# version + config path
-# dry-run when available
-```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Make retries safe or you will duplicate side effects.
-
----
-
-
-## When not to use
-
-- Avoid the tool if a simpler built-in covers the job.
-
----
-
-
-## Related
-
-[[Python]]
+Packaging questions separate “scripts in a folder” from shippable libraries: entry points, package layout, editable installs, and wheels vs sdists.
 
 ## Sources
 
-- [Wikipedia — create python package from source](https://en.wikipedia.org/wiki/create_python_package_from_source)
+- [Python Packaging User Guide — Packaging Python Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/) — deep-dive
+- [PEP 517 — build system interface](https://peps.python.org/pep-0517/) — deep-dive
+- [PEP 621 — project metadata](https://peps.python.org/pep-0621/) — overview
+
+## Core Definition
+
+A Python package for distribution needs importable modules, metadata (name, version, dependencies), and a build backend that produces an sdist and/or [[wheel]]. Consumers install from those artifacts, not by copying files by hand.
+
+## Key Concepts
+
+- **`pyproject.toml`:** declares build-system and project metadata (PEP 518/621) → reproducible builds without ad-hoc `setup.py` alone.
+- **src layout:** `src/mypkg/...` avoids accidentally importing the working tree instead of the installed package.
+- **Editable install:** `pip install -e .` links the project for local development → changes show up without rebuild.
+- **Artifacts:** sdist (source) vs wheel (built) — prefer publishing wheels; see [[wheel]].
+
+## Technical Details
+
+Minimal layout:
+
+```
+mypackage/
+  pyproject.toml
+  src/
+    mypackage/
+      __init__.py
+      core.py
+  tests/
+```
+
+```toml
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mypackage"
+version = "0.1.0"
+description = "Example library"
+requires-python = ">=3.10"
+dependencies = ["requests"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+```
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"          # editable
+pip install build
+python -m build                  # dist/*.whl and *.tar.gz
+pip install dist/mypackage-0.1.0-*.whl
+```
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `ModuleNotFoundError` after install | Package discovery | `packages.find` / include package data |
+| Editable import wrong tree | Flat layout shadowing | Prefer `src/` layout |
+| Build fails on clean CI | Missing build-system | Declare backend in `pyproject.toml` |
+
+## Real-World Applications
+
+Internal metrics helper used by three services: package once, version on the private index, pin `mypackage==1.4.2` in each service — no more copy-pasted utils.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Versioning, dependencies, and entry points travel with the code.
+- **Con:** Overkill for a one-off notebook script — a module in the app tree may be enough.
+
+## Comparison
+
+- vs [[wheel]]: this note is *how to author*; wheel is the *binary/built install format*.
+- vs copying a folder onto `PYTHONPATH`: fragile across environments; packaging encodes metadata.
+
+## Mistakes to Avoid
+
+- Dashes in import names — distribution name can be `my-package`, import must be a valid identifier (`mypackage`).
+- Forgetting to include package data (templates, py.typed) in the build configuration.
+- Publishing without a virtual environment — pollutes the system interpreter.

@@ -1,12 +1,19 @@
-[[Streaming]] [[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]] [[backpressure]]
+[[Streaming]] [[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]] [[backpressure]] [[ABR]] [[transcoding]]
 
 # When scaling to hundreds of concurrent channels
 
 > Many live channels at once — isolate encode/ingest per channel so one bad feed doesn’t take the fleet.
 
----
+## Interview Relevance
 
-## How it works
+Multi-channel live scale questions probe isolation — one bad ingest must not cascade across the encode fleet.
+
+## Sources
+
+- [AWS — Live streaming](https://aws.amazon.com/media/tech/live-streaming/) — overview
+- [Apple HLS](https://developer.apple.com/documentation/http-live-streaming) — deep-dive
+
+## Key Concepts
 
 ```txt
 Channel N:  ingest ──► transcoder ──► packager ──► origin/CDN
@@ -23,10 +30,7 @@ Channel N:  ingest ──► transcoder ──► packager ──► origin/CDN
 | **Packager** | HLS/DASH segments | “Shared packager pool with quotas.” |
 | **Backpressure** | Slow down ingest | “Drop/degrade before OOM.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```txt
 Per channel budget (example):
@@ -42,10 +46,7 @@ Per channel budget (example):
 | Horizontal packagers | Scale segment writers independently |
 | Channel-labeled metrics | Find the bad feed fast |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,30 +55,12 @@ Per channel budget (example):
 | Origin 5xx storm | Packager backlog | Scale packagers; shed load |
 | Wrong channel content | Routing / keyer | Fix channel_id mapping |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Single 24/7 linear channel — simpler dedicated box is enough.
+- **Trade-off:** VoD only — no live concurrency problem; use normal ABR+CDN.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Shared giant process** — one ffmpeg supervising “all channels” is an outage waiting to happen.
-
-> [!WARNING]
-> **No per-channel SLOs** — fleet averages hide the channel that is on fire.
-
----
-
-
-## When not to use
-
-- **Single 24/7 linear channel** — simpler dedicated box is enough.
-- **VoD only** — no live concurrency problem; use normal ABR+CDN.
-
-
-## Related
-
-[[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]] [[ABR]] [[backpressure]] [[transcoding]]
-
-## Sources
-
-- [Wikipedia — When scaling to hundreds of concurrent channels](https://en.wikipedia.org/wiki/When_scaling_to_hundreds_of_concurrent_channels)
+- Shared giant process — one ffmpeg supervising “all channels” is an outage waiting to happen.
+- No per-channel SLOs — fleet averages hide the channel that is on fire.

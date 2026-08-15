@@ -1,60 +1,47 @@
-[[Broadcast.md]]
+[[Multicast]] [[IGMP]] [[Networking]] [[ARP]]
 
 # Broadcast
 
-> Broadcast — one sender to every device on the same LAN broadcast domain.
+> Broadcast — one sender; every host in the same Layer-2 broadcast domain receives the frame.
 
----
+## Interview Relevance
+Classic networking: contrast unicast / broadcast / multicast, why routers stop broadcasts, and how broadcast storms and DHCP/ARP noise appear in packet captures.
 
-## How it works
+## Sources
+- [Wikipedia — Broadcasting (networking)](https://en.wikipedia.org/wiki/Broadcasting_(networking)) — overview
+- [RFC 919 — Broadcasting Internet Datagrams](https://datatracker.ietf.org/doc/html/rfc919) — deep-dive
 
-Broadcast = One sender -> All devices in the same broadcast domain (LAN).
+## Core Definition
+Broadcast delivers a single transmission to all stations on a broadcast domain (typically a VLAN/subnet at L2). IPv4 limited broadcast is `255.255.255.255`; directed subnet broadcast targets a specific network’s broadcast address.
+
+## Key Concepts
+- **Broadcast domain:** Bounded by routers (and VLAN boundaries); switches flood within the domain.
+- **Everyone pays:** Hosts receive the frame even if the application ignores it — wasteful at scale.
+- **Common uses:** ARP requests, DHCP discover, some legacy discovery protocols.
+- **No default WAN flood:** Routers do not forward broadcasts unless specially configured (and usually should not).
+
+## Technical Details
 ```txt
         Sender
            |
    -----------------
    |   |   |   |   |
-  PC1 PC2 PC3 PC4 PC5
+  PC1 PC2 PC3 PC4 PC5   ← all see the frame on the LAN
 ```
-- Every device receives the packet, even if it doesn't need it.
-Characteristics
-- Sent to every host in the subnet.
-- Routers do not forward broadcast packets by default.
-- Increase unnecessary network traffic.
 
+L2: destination MAC `ff:ff:ff:ff:ff:ff`. Excessive broadcasts (loops, chatty protocols) degrade the segment — spanning tree and storm control matter.
 
----
+## Real-World Applications
+DHCP client boots: broadcast discover on the local segment (or relayed via DHCP helper as unicast to a server). ARP: “who has 10.0.0.5?” is a broadcast question on the LAN.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Simple discovery when membership is “everyone here.”
+- **Con:** Does not scale; interrupts all hosts; dangerous across large L2 fabrics.
 
-## Where to go next
+## Comparison
+vs [[Multicast]]: multicast reaches only joined receivers (IGMP/PIM); broadcast reaches all. vs unicast: one specific destination. Related: [[IGMP]], IPTV designs prefer multicast over broadcast.
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-
-## Related topics in this domain
-
-- …: [[…]]
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-
-## Related
-
-[[Broadcast.md]]
-
-## Sources
-
-- [Wikipedia — Broadcast](https://en.wikipedia.org/wiki/Broadcast)
+## Mistakes to Avoid
+- Expecting broadcasts to cross routers for “whole company” discovery.
+- Building app protocols on broadcast that should be multicast or a registry service.
+- Ignoring broadcast storms from bridging loops.

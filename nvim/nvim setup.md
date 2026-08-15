@@ -1,68 +1,62 @@
-[[vim keybindings]] [[Descriptive/LSP]]
+[[commands]] [[Descriptive/LSP]] [[Descriptive/vscode]]
 
-# nvim setup
+# Neovim setup
 
-> nvim setup — short field notes on what it is and how to use it.
+> Bootstrap config (Lua today) — options, plugin manager, LSP, treesitter, and keymaps so Neovim feels like a modern IDE.
 
----
+## Interview Relevance
 
-## How it works
-
-```bash
-apt update neovim;
-nvim --version;
-```
-install `lazy.nvim` plugin manager
-```bash
-git clone https://github.com/folke/lazy.nvim.git \
-~/.local/share/nvim/lazy/lazy.nvim
-```
-Create configuration directory
-```bash
-mkdir -p ~/.config/nvim/lua/plugins
-```
-```lua ~/.config/nvim/init.lua
-vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
-require("lazy").setup({
-  {
-    "ldelossa/nvim-ide",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      require("ide-config")
-    end,
-  },
-})
-```
-
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Steps
-
-1. …
-
-
-## Verification
-
-```bash
-# smoke test
-```
-
-
-## Related
-
-[[vim keybindings]]] [[[Descriptive/LSP]]
+DX discussions: Lua config vs vimscript, LSP client built-in, and keeping a portable dotfiles repo.
 
 ## Sources
 
-- [Wikipedia — nvim setup](https://en.wikipedia.org/wiki/nvim_setup)
+- [Neovim — Lua guide](https://neovim.io/doc/user/lua-guide.html) — deep-dive
+- [Neovim — LSP](https://neovim.io/doc/user/lsp.html) — overview
+
+## Key Concepts
+
+- **Config path:** `~/.config/nvim/init.lua` (and Lua modules).
+- **Plugin manager:** lazy.nvim / packer-era tools → declare plugins.
+- **LSP:** `vim.lsp` + language servers for completion/diagnostics.
+- **Treesitter:** better syntax/ast motions.
+- **Portable dots:** symlink via git.
+
+## Technical Details
+
+Minimal skeleton ideas:
+
+```lua
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.g.mapleader = " "
+-- plugin manager bootstrap + lspconfig + treesitter
+```
+
+| Layer | Role |
+|-------|------|
+| Options | Editor behavior |
+| Keymaps | Leader shortcuts |
+| Plugins | Fuzzy find, git, UI |
+| LSP | Language intelligence |
+
+## Real-World Applications
+
+Engineers keep one Neovim config across machines; CI bastions get a thin config without heavy GUI plugins.
+
+**Example:** New laptop — clone dotfiles, install language servers with mason.nvim or system packages.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Extremely customizable; works over SSH.
+- **Con:** You own breakage when plugins conflict.
+
+## Comparison
+
+- vs VS Code: more DIY; similar LSP outcomes when configured.
+- vs stock Vim: Neovim adds Lua and first-class LSP client APIs.
+
+## Mistakes to Avoid
+
+- Copying a huge config you do not understand.
+- Blocking UI with sync plugin loads — prefer lazy loading.
+- Mixing vimscript and Lua randomly without structure.

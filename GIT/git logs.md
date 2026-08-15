@@ -1,13 +1,19 @@
-[[git command]] [[git diff]] [[git blame]] [[git branch]]
+[[git command]] [[git diff]] [[git blame]] [[git branch]] [[git formating]]
 
 # Git log
 
 > traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git log` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 git log main..feature     commits on feature not in main
@@ -17,8 +23,7 @@ git show <sha>            one commit detail
 
 For merge commits, default log may hide individual parents — use `-m` or `--first-parent` depending on question.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Basics
 
@@ -80,20 +85,12 @@ git log --since="2025-01-01" --until="2025-06-01"
 git log --after="2 weeks ago"
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Working tree diff** — use [[git diff]] for unstaged/staged changes.
+- **Find introducing bug** — prefer `git bisect` over manual log scroll.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Empty range | Reversed or equal SHAs | Swap order; verify merge-base |
-| Missing commits on branch | Not reachable from ref | Log from correct branch; `--all` |
-| File history stops at rename | No `--follow` | Add `--follow` |
-| Merge commit shows no files | Need `-m` | `git log -m -1 merge_sha` |
-| Huge slow log | Entire repo history | Narrow path/date; `--oneline` |
-| Wrong author in audit | Author vs committer | `%an` vs `%cn` in format |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **`A..B` dot is mandatory** — three-dot `A...B` is symmetric difference (different question).
@@ -104,17 +101,11 @@ git log --after="2 weeks ago"
 > [!WARNING]
 > **Rebase rewrites SHAs** — old SHAs from tickets may not exist locally.
 
-
-## When not to use
-
-- **Working tree diff** — use [[git diff]] for unstaged/staged changes.
-- **Find introducing bug** — prefer `git bisect` over manual log scroll.
-
-
-## Related
-
-[[git command]] [[git formating]] [[git diff]] [[git blame]] [[git branch]]
-
-## Sources
-
-- [Wikipedia — git logs](https://en.wikipedia.org/wiki/git_logs)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Empty range | Reversed or equal SHAs | Swap order; verify merge-base |
+| Missing commits on branch | Not reachable from ref | Log from correct branch; `--all` |
+| File history stops at rename | No `--follow` | Add `--follow` |
+| Merge commit shows no files | Need `-m` | `git log -m -1 merge_sha` |
+| Huge slow log | Entire repo history | Narrow path/date; `--oneline` |
+| Wrong author in audit | Author vs committer | `%an` vs `%cn` in format |

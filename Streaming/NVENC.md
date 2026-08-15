@@ -1,21 +1,20 @@
-[[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]]
+[[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]] [[ingestion]] [[Microservice]]
 
 # NVENC (NVIDIA Encoder)
 
 > NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about NVENC to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — NVENC](https://en.wikipedia.org/wiki/NVENC) — overview
+
+## Key Concepts
 
 **NVENC** is a **dedicated encode ASIC** on NVIDIA GPUs (GeForce, RTX, datacenter L4/A10/A100 lines). It runs **parallel to CUDA cores** — multiple live channels per GPU without starving compute. Quality at equal bitrate historically lagged **libx264**; modern **RTX 40+ / Ada** encoders close the gap for live **CBR** workloads.
-
-```txt
-CPU: demux / mux / audio / orchestration
-GPU: NVENC ──► H.264/HEVC bitstream ──► packager ([[HLS]]/[[DASH]])
-         │
-    Session limit per GPU (driver dependent)
-```
 
 | Use case | NVENC fit | Prefer libx264 when |
 |----------|-----------|---------------------|
@@ -26,10 +25,14 @@ GPU: NVENC ──► H.264/HEVC bitstream ──► packager ([[HLS]]/[[DASH]])
 
 Pair with **`-hwaccel cuda`** for decode when transcoding on GPU.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+CPU: demux / mux / audio / orchestration
+GPU: NVENC ──► H.264/HEVC bitstream ──► packager ([[HLS]]/[[DASH]])
+         │
+    Session limit per GPU (driver dependent)
+```
 
 ### Live CBR (RTMP ingest)
 
@@ -86,10 +89,18 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 # Or SSIM: ffmpeg -i a -i b -lavfi ssim -f null -
 ```
 
----
+## Real-World Applications
 
+Used wherever NVENC sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
+- **Con / skip when:** **Film grain VoD mastering** — software encode preserves detail better at same size.
+- **Con / skip when:** **One short clip monthly** — GPU fleet overhead not worth operations.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -100,42 +111,8 @@ ffmpeg -i ref_x264.mp4 -i test_nvenc.mp4 -lavfi libvmaf -f null -
 | CUDA errors in pipeline | OOM on GPU | Reduce concurrent `-hwaccel`; fall back SW decode |
 | HEVC won't play on device | Profile/ tag | `-tag:v hvc1` for Apple |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Cloud VM without GPU** — AWS `g4dn` etc. required; default instances have no NVENC.
-
-> [!WARNING]
-> **Driver version ↔ ffmpeg build** — stale static ffmpeg may miss newest NVENC API.
-
-> [!WARNING]
-> **B-frames + ultra-low latency** — reduce B-frame count for LL-HLS paths.
-
-> [!WARNING]
-> **GeForce vs Quadro licensing** — consumer drivers on servers may violate EULA; use datacenter cards in prod.
-
-> [!WARNING]
-> **Audio still on CPU** — GPU encode doesn't offload AAC; plan CPU for audio + mux.
-
----
-
-
-## When not to use
-
-- **No NVIDIA hardware** — Intel QSV / AMD AMF / libx264 instead.
-- **Film grain VoD mastering** — software encode preserves detail better at same size.
-- **One short clip monthly** — GPU fleet overhead not worth operations.
-
----
-
-
-## Related
-
-[[Encoding]] [[transcoding]] [[CRF (Constant Rate Factor)]] [[bitrate streaming]] [[OBS]] [[ingestion]] [[Microservice]]
-
-## Sources
-
-- [Wikipedia — NVENC](https://en.wikipedia.org/wiki/NVENC)
+- **Cloud VM without GPU** — AWS `g4dn` etc. required; default instances have no NVENC.
+- **Driver version ↔ ffmpeg build** — stale static ffmpeg may miss newest NVENC API.
+- **B-frames + ultra-low latency** — reduce B-frame count for LL-HLS paths.
+- **GeForce vs Quadro licensing** — consumer drivers on servers may violate EULA; use datacenter cards in prod.
+- **Audio still on CPU** — GPU encode doesn't offload AAC; plan CPU for audio + mux.

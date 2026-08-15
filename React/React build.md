@@ -2,28 +2,48 @@
 
 # React build
 
-> React build shapes how React applications compose UI, state, and side effects in production.
+> Compile and bundle React into static assets — minify, split chunks, hash filenames for CDN caching.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React build` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React code smells]]
+Interviewers ask what a production build does differently from dev (minify, tree-shake, no HMR) and how you debug a bad chunk.
 
 ## Sources
 
-- [React official documentation](https://react.dev)
+- [Vite production build](https://vitejs.dev/guide/build.html) — deep-dive
+- [React projects](https://react.dev/learn/start-a-new-react-project) — overview
+
+## Core Definition
+
+A React production build transforms source into optimized JS/CSS assets with content hashes for cache busting.
+
+## Key Concepts
+
+- **Dev vs prod:** HMR and verbose errors vs minified hashed assets.
+- **Code splitting:** route-level `lazy` chunks.
+- **Source maps:** upload to error tracker, restrict public access.
+
+## Technical Details
+
+```bash
+vite build                 # emit dist/
+vite preview               # smoke-test production assets locally
+```
+
+## Real-World Applications
+
+CI runs `vite build` + bundle size budget; fail the pipeline if the main chunk grows >10%.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast loads via caching and splitting.
+- **Con:** Misconfigured base path breaks asset URLs behind proxies.
+
+## Comparison
+
+- vs [[React project config]]: config is knobs; build is the artifact step.
+
+## Mistakes to Avoid
+
+- Serving the dev server in production.
+- Forgetting `base` when app is hosted under a subpath.

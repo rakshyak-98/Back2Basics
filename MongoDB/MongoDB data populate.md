@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongoose/mongoose]] [[query/mongodb lookup query]]
+[[MongoDB]] [[mongoose/mongoose]] [[query/mongodb lookup query]] [[mongodb denormalization]]
 
 # MongoDB data populate
 
 > Populate (Mongoose) replaces ObjectId refs with documents — convenience join at the app layer.
 
----
+## Interview Relevance
 
-## How it works
+Populate questions cover reference hydration costs versus embedding — N+1 risk in application joins.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 Post { author: ObjectId } ──populate──► Post { author: UserDoc }
@@ -21,10 +28,7 @@ Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 | **select** | Limit fields | “Don’t pull whole user.” |
 | **vs `$lookup`** | Aggregation join | “Prefer `$lookup` for heavy reports.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const post = await Post.findById(id).populate('author', 'name email')
@@ -37,10 +41,18 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | Lean | Faster plain objects |
 | Match/options | Filter populated set |
 
----
+## Pros/Cons or Trade-offs
 
+- **Analytics joins** — aggregation `$lookup`.
+- **Data always read together** — embed instead of reference.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Populate is not free** — lists with nested populate can explode query count.
+
+> [!WARNING]
+> **Missing refs become null** — orphan ids fail quietly.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,30 +61,3 @@ await Post.find().populate({ path: 'comments', populate: { path: 'user' } })
 | Huge payloads | No select | Project fields |
 | Circular populate | A↔B depth | Cap depth; redesign |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Populate is not free** — lists with nested populate can explode query count.
-
-> [!WARNING]
-> **Missing refs become null** — orphan ids fail quietly.
-
----
-
-
-## When not to use
-
-- **Analytics joins** — aggregation `$lookup`.
-- **Data always read together** — embed instead of reference.
-
-
-## Related
-
-[[mongoose/mongoose]] [[query/mongodb lookup query]] [[mongodb denormalization]]
-
-## Sources
-
-- [Wikipedia — MongoDB data populate](https://en.wikipedia.org/wiki/MongoDB_data_populate)

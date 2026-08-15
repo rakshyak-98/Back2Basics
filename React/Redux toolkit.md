@@ -1,50 +1,52 @@
-[[react hooks]] [[React State management]] [[React Architecture]] [[redux toolkit features]] [[Immutability in Redux]] [[Redux]]
+[[Redux]] [[Redux/Redux createSlice]] [[Redux/Redux createAsyncThunk]] [[Redux/Redux createApi]] [[React State management]]
 
-# Redux toolkit
+# Redux Toolkit
 
-> Redux toolkit shapes how React applications compose UI, state, and side effects in production.
+> Official Redux batteries — `configureStore`, `createSlice`, Immer, and thunks without hand-written boilerplate.
 
-## What this is
+## Interview Relevance
 
-Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
+Interviewers treat RTK as the default Redux answer — expect `createSlice`, Immer drafts, and when to add RTK Query.
 
-## When to choose it
+## Sources
 
-**Server state** (API payloads, pagination, cache) → TanStack Query or RTK Query.
-**Client UI state** (modal open, form drafts) → `useState` or [[zustand]].
-**Cross-feature client state** → Redux only when many views need the same synchronous snapshot.
+- [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started) — deep-dive
+- [Redux — RTK overview](https://redux.js.org/redux-toolkit/overview) — overview
 
-## Operating it
+## Key Concepts
+
+- **configureStore:** store + DevTools + thunk middleware wired by default.
+- **createSlice:** name + initial state + reducers → action creators generated.
+- **Immer:** “mutate” drafts safely inside slice reducers.
+- **createAsyncThunk / RTK Query:** async without hand-rolled action type strings.
+
+## Technical Details
 
 ```ts
-const slice = createSlice({
-  name: 'todos',
-  initialState: { items: [], status: 'idle' },
-  reducers: {
-    added(state, action) { state.items.push(action.payload); },
-  },
+const store = configureStore({
+  reducer: { todos: todosSlice.reducer, [api.reducerPath]: api.reducer },
+  middleware: (gDM) => gDM().concat(api.middleware),
 });
 ```
 
 Prefer selectors (`createSelector`) for derived data instead of storing duplicate projections in the slice.
 
-## What breaks first
+## Real-World Applications
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+Greenfield React app adopting Redux: start with RTK slices for client intent and RTK Query endpoints for server lists.
 
-## Recall
+## Pros/Cons or Trade-offs
 
-What breaks first in production if `Redux toolkit` is misused — bundle size, stale UI, or hydration errors?
+- **Pro:** Deletes classic boilerplate and footguns.
+- **Con:** Still more moving parts than [[zustand]] for a single small store.
 
-## Related
+## Comparison
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[redux toolkit features]] [[Immutability in Redux]] [[Redux]]
+- vs hand-written Redux: RTK is the supported path; avoid new switch-based reducers.
+- vs [[Redux/Redux createApi]]: RTK Query is the server-cache half of Toolkit.
 
-## Sources
+## Mistakes to Avoid
 
-- [Redux — Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)
-- [Redux Toolkit — Getting started](https://redux-toolkit.js.org/introduction/getting-started)
+- Disabling serializable checks to hide non-serializable secrets in state.
+- Mixing raw `createStore` patterns with RTK without reason.
+- Putting form keystroke state into the global store.

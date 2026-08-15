@@ -1,12 +1,28 @@
-[[React]] [[bundler]] [[NodeJS]] [[SWC]]
+[[React]] [[bundler]] [[NodeJS]] [[SWC]] [[source map]]
 
 # Metro Bundler
 
 > React Native's default JavaScript bundler — fast dev iteration via incremental transforms, not webpack-style whole-graph rebuilds.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Metro Bundler** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Metro — Concepts](https://metrobundler.dev/docs/concepts/) — deep-dive
+- [Wikipedia — metro bundler](https://en.wikipedia.org/wiki/metro_bundler) — overview
+
+## Core Definition
+
+Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development loops**: watch files, transform on demand, serve over the development server to the application.
+
+## Key Concepts
+
+- Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development lo…
+- Key concepts: - **Transformer** — Babel (default) or experimental SWC; applies RN preset, Flow/TS, inline requires. - **Resolver** — `node_modules` + platform extensions (`.ios.…
+
+## Technical Details
 
 Metro sits between your RN source tree and the native runtime (Hermes/JSC). Unlike general web bundlers optimized for browser chunks, Metro optimizes for **mobile development loops**: watch files, transform on demand, serve over the development server to the application.
 
@@ -25,9 +41,6 @@ Key concepts:
 - **Resolver** — `node_modules` + platform extensions (`.ios.js`, `.android.js`, `.native.js`).
 - **Serializer** — outputs the bundle string the native side loads.
 - **Cache** — file-system cache keyed by transform inputs; stale cache = weird runtime errors.
-
-
-## Configuration and commands
 
 ### CLI (via React Native)
 
@@ -95,47 +108,30 @@ const config = {
 NODE_ENV=production npx react-native bundle ...
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **metro bundler** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Cache lies** — after upgrading RN, Babel plugins, or `metro.config.js`, always `--reset-cache`. Symptom: old code runs, new code never appears; **Symlinks in monorepos** — Metro does not follow symlinks like webpack unless `watchFolders` is configured; "module not found" in CI but works locally often means path config drift.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Red screen "Unable to resolve module" | Path, typo, missing `npm install`, wrong `main` in package | Fix import; add to `resolver.extraNodeModules`; reinstall pods on iOS |
-| Works after `--reset-cache` only | Stale metro-cache or Babel plugin change | `npx react-native start --reset-cache`; delete `/tmp/metro-*` |
-| "TransformError" / syntax error | Babel preset missing for TS/JSX | Ensure `@react-native/babel-preset`; check `babel.config.js` |
-| Monorepo package not found | Metro not watching workspace | Add `watchFolders` + `nodeModulesPaths` |
-| Huge bundle / slow startup | No inline requires; importing entire libraries | Enable `inlineRequires`; use direct imports (`lodash/map` not `lodash`) |
-| Hermes bytecode issues | Wrong Hermes compiler version vs RN version | Align RN + Hermes versions; rebuild release bundle |
-| Asset not in APK/IPA | Missing `--assets-dest` on bundle command | Re-run `react-native bundle` with assets path |
-| Different behavior iOS vs Android | Platform-specific file not picked up | Use `.ios.js` / `.android.js` suffixes |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (React Native's default JavaScript bundler — fast dev iteration via incremental t…).
+- **Con / when not:** **Web-only React (Vite/webpack)** — Metro is RN-specific; don't force it for SPA builds.
+- **Con / when not:** **Replacing Babel blindly with SWC** — RN toolchain assumptions (inline requires, Flow) may break; test on both platforms.
+- **Con / when not:** **Custom bundler for simple RN application** — default Metro + reset-cache solves 95% of cases; only eject configuration for monorepos, aliases, or asset pipelines.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **Cache lies** — after upgrading RN, Babel plugins, or `metro.config.js`, always `--reset-cache`. Symptom: old code runs, new code never appears.
+vs [[React]]: know when each applies — do not treat them as interchangeable. vs [[bundler]]: know when each applies — do not treat them as interchangeable. vs [[SWC]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **Symlinks in monorepos** — Metro does not follow symlinks like webpack unless `watchFolders` is configured; "module not found" in CI but works locally often means path config drift.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Native modules ≠ JS bundle** — fixing Metro doesn't fix missing `pod install` / Gradle linking for native RN modules.
-
-> [!WARNING]
-> **Expo vs bare** — Expo wraps Metro with its own config; merging custom `metro.config.js` requires `expo/metro-config` merge pattern.
-
-
-## When not to use
-
-- **Web-only React (Vite/webpack)** — Metro is RN-specific; don't force it for SPA builds.
-- **Replacing Babel blindly with SWC** — RN toolchain assumptions (inline requires, Flow) may break; test on both platforms.
-- **Custom bundler for simple RN application** — default Metro + reset-cache solves 95% of cases; only eject configuration for monorepos, aliases, or asset pipelines.
-
-
-## Related
-
-[[bundler]] [[React]] [[SWC]] [[NodeJS]] [[source map]]
-
-## Sources
-
-- [Wikipedia — metro bundler](https://en.wikipedia.org/wiki/metro_bundler)
+- **Cache lies** — after upgrading RN, Babel plugins, or `metro.config.js`, always `--reset-cache`. Symptom: old code runs, new code never appears.
+- **Symlinks in monorepos** — Metro does not follow symlinks like webpack unless `watchFolders` is configured; "module not found" in CI but works locally often means path config drift.
+- **Native modules ≠ JS bundle** — fixing Metro doesn't fix missing `pod install` / Gradle linking for native RN modules.
+- **Expo vs bare** — Expo wraps Metro with its own config; merging custom `metro.config.js` requires `expo/metro-config` merge pattern.
+- **Red screen "Unable to resolve module":** check Path, typo, missing `npm install`, wrong `main` in package; fix: Fix import; add to `resolver.extraNodeModules`; reinstall pods on iOS
+- **Works after `--reset-cache` only:** check Stale metro-cache or Babel plugin change; fix: `npx react-native start --reset-cache`; delete `/tmp/metro-*`
+- **"TransformError" / syntax error:** check Babel preset missing for TS/JSX; fix: Ensure `@react-native/babel-preset`; check `babel.config.js`
+- **Monorepo package not found:** check Metro not watching workspace; fix: Add `watchFolders` + `nodeModulesPaths`
+- **Huge bundle / slow startup:** check No inline requires; importing entire libraries; fix: Enable `inlineRequires`; use direct imports (`lodash/map` not `lodash`)
+- **Hermes bytecode issues:** check Wrong Hermes compiler version vs RN version; fix: Align RN + Hermes versions; rebuild release bundle

@@ -1,14 +1,30 @@
-[[Rendering performance/layout]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
+[[Rendering performance/layout]] [[Rendering performance/composite]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
 
-# Paint (repaint)
+# paint
 
-> Fill pixels after layout — text, colors, borders, shadows — **often split into layers for compositing**.
+> Pixel-filling stage after layout — text, colors, borders, shadows, images recorded into layers for compositing.
 
----
+## Interview Relevance
 
-## How it works
+Checks whether you can rank CSS property cost (layout vs paint vs composite) and debug repaints with paint flashing / Layers in DevTools.
 
-After [[Rendering performance/layout]], **paint** records **draw lists** per layer (what to draw where). GPU **composite** merges layers. Changing paint-only properties skips layout but still repaints.
+## Sources
+
+- [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — deep-dive
+- [web.dev — Reduce the scope and complexity of style calculations](https://web.dev/articles/reduce-the-scope-and-complexity-of-style-calculations) — overview
+
+## Core Definition
+
+Once geometry is known, paint builds draw lists (and rasters) for visible content. Changing a paint-only property skips layout but still costs GPU/CPU work proportional to the invalidated area.
+
+## Key Concepts
+
+- **Paint vs layout:** `color` / many backgrounds often paint-only; `width` forces layout then paint.
+- **Layers:** paint output is layered so [[Rendering performance/composite|compositing]] can reuse unchanged regions.
+- **Invalidation area:** large shadows, blurs, and full-page effects expand dirty regions → green flashes everywhere in DevTools.
+- **`will-change`:** can promote a layer to isolate paint — useful for hot nodes, harmful as a global habit.
+
+## Technical Details
 
 ```
 Layout complete
@@ -20,47 +36,13 @@ Paint records (fill, stroke, text, images)
 Layers → Composite (GPU)
 ```
 
-Paint involves: text glyphs, backgrounds, borders, box-shadows, images — everything visible after geometry is known.
-
-Changing a **layout property** forces layout **then** paint. Changing **color** often paint-only.
-
-
-## Configuration and commands
-
-### Property cost (rule of thumb)
-
-| Cheap (composite) | Medium (paint) | Expensive (layout+paint) |
-|-------------------|----------------|---------------------------|
+| Cheap (composite) | Medium (paint) | Expensive (layout + paint) |
+|-------------------|----------------|----------------------------|
 | `transform`, `opacity` | `background-color`, `box-shadow` | `width`, `top`, `font-size` |
 
-### Reduce paint area
-
 ```css
-.animated {
-  will-change: transform; /* promote layer — use sparingly */
-}
-
-.fixed-header {
-  transform: translateZ(0); /* legacy layer hint — prefer will-change */
-}
+.animated { will-change: transform; } /* sparingly */
 ```
-
-### DevTools paint debugging
-
-1. **Rendering** → **Paint flashing** (green flashes = repaints)
-2. **Layers** panel — see promoted layers, memory cost
-3. **Performance** trace — **Paint** and **Raster** slices
-
-### Optimize large shadows and blurs
-
-```css
-/* Heavy — repaints large region */
-.card { box-shadow: 0 0 60px rgba(0,0,0,.5); filter: blur(20px); }
-
-/* Lighter — pseudo-element with opacity animation on transform */
-```
-
-### `requestAnimationFrame` for visual updates
 
 ```javascript
 function updateVisual(state) {
@@ -70,37 +52,35 @@ function updateVisual(state) {
 }
 ```
 
+DevTools:
 
-## When things break
+1. Rendering → Paint flashing
+2. Layers panel — promotion and memory
+3. Performance — Paint / Raster slices
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Full-screen green flash | Whole page repaints | Reduce layer count; fix hover rules on `*` |
-| Memory climb | Too many layers | Remove excessive `will-change` |
-| Text blurry after animate | Subpixel transform | Snap to integer px |
-| Scroll jank with fixed bg | `background-attachment: fixed` | Use pseudo-element layer |
-| Canvas + DOM overlap | Duplicate paint | Single surface or isolate iframe |
+| Full-screen green flash | Broad selectors / stacking | Narrow invalidation; avoid hover on `*` |
+| Memory climb | Too many layers | Remove excess `will-change` |
+| Blurry text after move | Subpixel transform | Snap to integer pixels when possible |
+| Scroll jank + fixed background | `background-attachment: fixed` | Pseudo-element layer instead |
 
+## Real-World Applications
 
-## Gotchas
+Hover states on a dense data grid: `box-shadow` on every cell repainted huge regions. Switching to a border/outline on a single highlight layer cut paint time.
 
-> [!WARNING]
-> **`will-change` on everything** — each layer consumes GPU memory; mobile OOM and worse perf.
+## Pros/Cons or Trade-offs
 
-- **Invalidation propagates** — parent opacity change may repaint children.
-- **`border-radius` + overflow** — expensive clipping paths.
-- **Print styles** — separate paint path; don't profile screen only for print bugs.
+- **Pro:** Paint-only updates are cheaper than layout when geometry is stable.
+- **Con:** Pretty effects (huge blurs/shadows) are still expensive — especially on mobile GPUs.
 
+## Comparison
 
-## When not to use
+- vs [[Rendering performance/composite]]: paint draws into layers; composite merges layers.
+- vs [[Rendering performance/INP]]: paint time is part of presentation delay after an interaction.
 
-- Don't micro-optimize paint on static marketing pages with no interaction — [[Rendering performance/INP]] and LCP dominate.
+## Mistakes to Avoid
 
-
-## Related
-
-[[Rendering performance/layout]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Flash of Unstyled Content]]
-
-## Sources
-
-- [Wikipedia — paint](https://en.wikipedia.org/wiki/paint)
+- `will-change` on everything — layer memory blowups and sometimes slower scrolling.
+- Profiling only desktop — mobile GPUs amplify paint cost.
+- Ignoring print stylesheets — separate paint path when print bugs appear.

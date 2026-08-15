@@ -1,12 +1,27 @@
-[[Commands]] [[process]] [[ps]] [[renice]] [[OOM (Linux Out Of Memory)]]
+[[Commands]] [[process]] [[ps]] [[renice]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[Linux resource management]] [[lsof]]
 
 # top
 
-> `top` is a live process monitor — CPU, RAM, and load, refreshing until you quit.
+> Live process monitor — CPU, RAM, and load, refreshing until you quit.
 
----
+## Interview Relevance
 
-## How it works
+Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort with `P`/`M` instead of guessing.
+
+## Sources
+
+- [man top](https://man7.org/linux/man-pages/man1/top.1.html) — deep-dive
+- [Wikipedia — top (software)](https://en.wikipedia.org/wiki/Top_(software)) — overview
+
+## Key Concepts
+
+- **Load average:** runnable + uninterruptible tasks (1/5/15 min) — compare to `nproc`, not to “100%.”
+- **`id` / `wa` / `st`:** idle, I/O wait, steal (hypervisor) — diagnose CPU-bound vs disk vs noisy neighbor.
+- **RES vs VIRT:** chase RES for pressure; scary VIRT is often mappings.
+- **`%CPU` > 100:** multi-threaded process summing cores.
+- **Irix mode:** `%CPU` as % of one core vs whole machine — know the mode before comparing hosts.
+
+## Technical Details
 
 ```txt
 ┌─ load avg │ Tasks │ %Cpu(s) │ MiB Mem / Swap ─┐
@@ -15,127 +30,58 @@
  PID USER %CPU %MEM … COMMAND   ← sort with P / M
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Load average** | Runnable + uninterruptible tasks (1/5/15 min) | “Compare load to `nproc`, not to 100%.” |
-| **`id` idle** | CPU doing nothing | “Busy ≈ `100 - id` (all cores averaged).” |
-| **`wa` iowait** | Idle but waiting on disk I/O | “High `wa` → storage, not CPU-bound code.” |
-| **`%CPU` > 100** | Multi-core process | “One thread per core can sum past 100%.” |
-| **RES vs VIRT** | Real RAM vs virtual mapping | “Chase RES for pressure; ignore scary VIRT.” |
-| **Irix mode** | `%CPU` as % of one core vs whole machine | “Know which mode before comparing hosts.” |
-
-### Header fields that matter
-
 | Field | Meaning |
 |-------|---------|
 | `us` | User-space |
 | `sy` | Kernel/system |
 | `id` | Idle |
 | `wa` | I/O wait |
-| `st` | Steal (VM — hypervisor took time) |
-| `buff/cache` | Reclaimable page cache — not “used up forever” |
+| `st` | Steal (VM) |
+| `buff/cache` | Reclaimable page cache |
 
-### How engineers drive it
-
-1. **CPU hog** → press `P`
-2. **RAM hog / leak** → press `M`
-3. **Per-core** → press `1`
-4. **Threads** → `H`; tree → `V`
-5. **Kill** → `k` → PID → signal (`15` then `9`)
-6. **Full command** → `c`
-
----
-
-
-## Configuration and commands
+Drive it: `P` CPU hog → `M` RAM hog → `1` per-core → `H` threads → `k` kill → `c` full command.
 
 ```bash
-# Interactive
 top
-
-# Batch one shot (scripts / SSH one-liners)
 top -bn1 | head -n 20
-top -bn1 | grep '%Cpu'
-
-# Focus one process / user
 top -p <pid>
 top -u <user>
-
-# Related one-liners
 mpstat 1
 vmstat 1
 nproc
-ps aux --sort=-%mem | head
-ps aux --sort=-%cpu | head
 ```
-
-### Interactive keys (cheat sheet)
 
 | Key | Action |
 |-----|--------|
 | `P` / `M` / `N` / `T` | Sort CPU / mem / PID / time |
 | `1` | Per-CPU lines |
 | `H` / `V` | Threads / process tree |
-| `u` / `o` | Filter user / field |
 | `k` / `r` | Kill / [[renice]] |
 | `d` / Space / `q` | Interval / refresh / quit |
-| `c` / `t` / `m` / `l` | Toggle command / CPU / mem / load |
-
-| Knob | Why it matters |
-|------|----------------|
-| Refresh `d` | Catch short spikes vs calm steady state |
-| `H` threads | Java/Node “one PID” hiding a hot TID |
-| Batch `-bn1` | Safe in ansible/CI without a TTY UI |
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Load high, `%Cpu` idle-ish | `wa`, disk `iostat`, NFS | Fix I/O; load counts `D` state tasks |
-| One core 100%, others idle | Press `1`; find PID | Fix single-thread bottleneck / pin |
-| `%MEM` high, little `free` | `buff/cache` vs RES of apps | Don’t panic on cache; kill real RSS hogs / check [[OOM (Linux Out Of Memory)]] |
-| Process `%CPU` > 100 | Multi-threaded | Expected on multi-core; use `H` for TID |
-| VM feels slow, `st` high | Steal time in header | Resize hypervisor / noisy neighbor |
-| Need history, not now | `top` alone | Use `sar`, metrics, or `pidstat 1` |
+| Load high, CPU idle-ish | `wa`, `iostat`, NFS | Fix I/O; load counts `D` state |
+| One core 100%, others idle | Press `1` | Single-thread bottleneck |
+| `%MEM` high, little `free` | `buff/cache` vs RES | Don’t panic on cache; check [[OOM (Linux Out Of Memory)]] |
+| VM slow, `st` high | Steal in header | Resize hypervisor / noisy neighbor |
 
----
+## Real-World Applications
 
+Live incident triage on a SSH session, batch `-bn1` in Ansible one-liners, and spotting steal time on noisy cloud neighbors.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Load ≠ CPU %** — load includes tasks waiting on disk (`D`). A spinning disk can raise load while CPUs look idle.
+- **Pro:** Always available in rescue shells; interactive sorting.
+- **Con:** Not a multi-day trend tool — use `sar`/metrics for history.
 
-> [!WARNING]
-> **Linux “used” RAM includes cache** — reclaimable `buff/cache` is normal; OOM cares about anon RSS + reclaim failure.
+## Comparison
 
-> [!WARNING]
-> **Zombies show in task counts** — they are dead waiting for `wait`; don’t “optimize CPU” on `Z`.
+- vs [[ps]]: snapshot vs live refresh.
+- vs `htop`: nicer UX; still learn stock `top` for busybox/rescue.
 
-> [!WARNING]
-> **`htop` is nicer UX** — same ideas; still learn stock `top` for rescue shells and busybox.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-- **Don’t rely on `top` for multi-day trends** — use Prometheus/Node exporter, `sar`, or cloud metrics.
-- **Don’t debug socket/file leaks in `top`** — use [[lsof]] / [[file descriptors]].
-- **Don’t renice randomly in production** — document policy; cgroups are the real limiter ([[cgroup (Control Group)]]).
-
----
-
-
-## Related
-
-[[ps]] [[process]] [[Linux process commands]] [[renice]] [[OOM (Linux Out Of Memory)]] [[Memory management]] [[Linux resource management]] [[cgroup (Control Group)]] [[lsof]]
-
-## Sources
-
-- [Wikipedia — top](https://en.wikipedia.org/wiki/top)
+- Equating load with CPU % — disk wait raises load while CPUs look idle.
+- Panicking because “used” RAM includes reclaimable cache.
+- Renicing randomly in production — cgroups are the real limiter.

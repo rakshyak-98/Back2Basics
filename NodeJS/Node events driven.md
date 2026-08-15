@@ -1,27 +1,28 @@
-[[NodeJS]] [[EventEmitter]] [[Event Loop]] [[event emitter]]
+[[NodeJS]] [[EventEmitter]] [[Event Loop]] [[event emitter]] [[Stream Events]]
 
 # Node events driven
 
 > Node’s core style — emit events, run listeners; `http`/`fs`/`stream` already use `EventEmitter` under the hood.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **Node events driven** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **on / emit**, **once**, **Built-ins**.
+
+## Sources
+
+- [Wikipedia — Node events driven](https://en.wikipedia.org/wiki/Node_events_driven) — overview
+
+## Key Concepts
+
+- **on / emit:** Subscribe / publish — Observer pattern in core.
+- **once:** Single-shot listener — First connect, handshake done.
+- **Built-ins:** http, fs, stream — You already write event-driven code.
+
+## Technical Details
 
 ```txt
 ee.on('login', cb)  …  ee.emit('login', user) → cb(user)
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **on / emit** | Subscribe / publish | “Observer pattern in core.” |
-| **once** | Single-shot listener | “First connect, handshake done.” |
-| **Built-ins** | http, fs, stream | “You already write event-driven code.” |
-
-
-## Configuration and commands
 
 ```js
 import { EventEmitter } from 'node:events'
@@ -39,44 +40,25 @@ ee.emit('ready')
 | Error event | Unhandled `error` can crash |
 | `off` / `removeListener` | Prevent leaks |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **Node events driven** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`error` is special** — no listener ⇒ thrown / process abort paths; **Sync emit** — listeners run immediately on the stack; heavy work blocks the loop.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Memory climb | Listeners never removed | `off` on cleanup |
-| MaxListeners warning | Accidental re-subscribe | Subscribe once; remove on destroy |
-| Crash on emit | `error` with no listener | Always `.on('error', …)` |
-| Missed first event | Subscribed too late | Emit after listeners; or buffer |
+- **Pro:** Solves the job described above when used in the right layer (Node’s core style — emit events, run listeners; `http`/`fs`/`stream` already use…).
+- **Con / when not:** **Request/response RPC** — promises/async APIs clearer than ad-hoc events.
+- **Con / when not:** **Cross-process** — need IPC/queue, not in-process emitters.
 
----
+## Comparison
 
+vs [[EventEmitter]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[event emitter]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`error` is special** — no listener ⇒ thrown / process abort paths.
-
-> [!WARNING]
-> **Sync emit** — listeners run immediately on the stack; heavy work blocks the loop.
-
----
-
-
-## When not to use
-
-- **Request/response RPC** — promises/async APIs clearer than ad-hoc events.
-- **Cross-process** — need IPC/queue, not in-process emitters.
-
----
-
-
-## Related
-
-[[EventEmitter]] [[event emitter]] [[Event Loop]] [[Stream Events]]
-
-## Sources
-
-- [Wikipedia — Node events driven](https://en.wikipedia.org/wiki/Node_events_driven)
+- **`error` is special** — no listener ⇒ thrown / process abort paths.
+- **Sync emit** — listeners run immediately on the stack; heavy work blocks the loop.
+- **Memory climb:** check Listeners never removed; fix: `off` on cleanup
+- **MaxListeners warning:** check Accidental re-subscribe; fix: Subscribe once; remove on destroy
+- **Crash on emit:** check `error` with no listener; fix: Always `.on('error', …)`
+- **Missed first event:** check Subscribed too late; fix: Emit after listeners; or buffer

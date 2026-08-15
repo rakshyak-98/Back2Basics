@@ -1,121 +1,63 @@
-[[Linux system management]] [[dmidecode]] [[Linux configuration]]
+[[dmidecode]] [[Linux configuration]] [[nvidia-smi]] [[ip]] [[ss]]
 
 # lspci
 
-> lspci — the kernel discovers PCI devices at boot and exposes them in /sys/bus/pci/devices/. lspci reads that tree and resolves vendor/device IDs via the pci.ids database.
+> lspci lists PCI devices the kernel sees — vendor/device IDs, topology, and which kernel driver is bound.
 
----
+## Interview Relevance
+Hardware triage: `lspci -nnk` for IDs + driver, distinguishing “device present” from “driver working,” and when to use lsusb/dmidecode instead.
 
-## How it works
+## Sources
+- [lspci(8)](https://man7.org/linux/man-pages/man8/lspci.8.html) — deep-dive
+- [pci.ids](https://pci-ids.ucw.cz/) — overview
 
-The kernel discovers PCI devices at boot and exposes them in `/sys/bus/pci/devices/`. `lspci` reads that tree and resolves vendor/device IDs via the **pci.ids** database. It shows what the OS sees — not whether drivers are loaded or firmware is healthy.
+## Core Definition
+The kernel discovers PCI devices at boot under `/sys/bus/pci/devices/`. `lspci` reads that tree and resolves names via **pci.ids**. It shows presence and binding hints — not firmware health or application readiness.
 
-```
-lspci ──► /sys/bus/pci ──► vendor:device ID ──► human name (pci.ids)
-                │
-                └── kernel driver bound? (see /sys/.../driver)
-```
+## Key Concepts
+- **`-k`:** Kernel driver in use / modules.
+- **`-v`/`-vv`:** IRQs, BARs, link speed, capabilities.
+- **`-t`:** Bus/bridge tree.
+- **vendor:device IDs:** Match quirks, firmware, DKMS packages.
+- **Not USB:** Peripherals on USB need `lsusb`.
 
-| Flag | Purpose |
-|------|---------|
-| `-v` | Verbose — driver, module, capabilities |
-| `-vv` | Very verbose — config space details |
-| `-k` | Show kernel driver handling each device |
-| `-t` | Tree view — buses/bridges hierarchy |
-| `-s <slot>` | Single device (`0000:03:00.0`) |
-| `-n` | Numeric IDs only (no pci.ids lookup) |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **lspci** | List PCI devices | “lspci -nnk shows IDs + driver.” |
-| **-k** | Kernel driver | “Who bound this GPU/NIC?” |
-| **-v** | Verbose | “IRQ, memory BARs.” |
-| **vendor:device** | Hardware IDs | “Match firmware/driver quirks.” |
-| **rescan** | Hotplug | “echo 1 > …/rescan after add.” |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
-# Inventory
 lspci
-
-# Tree — understand topology (GPU behind bridge?)
 lspci -tv
-
-# Driver binding — "is my NIC using the right module?"
 lspci -k
-
-# Deep debug (firmware, link speed, MSI)
 lspci -vv -s 0000:03:00.0
-
-# Find GPU
 lspci | grep -iE 'vga|3d|nvidia|amd'
-
-# Find NVMe / storage
 lspci | grep -iE 'nvme|sata|raid'
-
-# Numeric IDs when pci.ids stale
 lspci -n
-
-# Update pci.ids (Debian)
 sudo update-pciids
-```
 
-**Pair with driver status:**
-
-```bash
-# Device at slot
 lspci -s 03:00.0 -k
-# Kernel driver in use: nvidia
-# Kernel modules: nvidia
-
 ls -l /sys/bus/pci/devices/0000:03:00.0/driver
 dmesg | grep -i '03:00.0'
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| GPU not in `nvidia-smi` | `lspci \| grep -i nvidia` | Reseat; IOMMU/ACS; driver install; `dmesg` |
-| NIC missing | `lspci -k` | Enable in BIOS; passthrough conflict; driver module |
-| "Unknown device" | `lspci -n` | Update pci.ids; new hardware needs newer kernel |
-| Device shown, no driver | `lspci -k` shows no driver | `modprobe`; install `linux-modules-extra` |
-| Wrong link speed | `lspci -vv` LnkSta | Reseat cable; BIOS Gen setting; bad slot |
-| VM missing device | Hypervisor PCI attach | virtio/passthrough config; not visible = not passed |
+| GPU missing from nvidia-smi | `lspci \| grep -i nvidia` | Reseat; driver; IOMMU; `dmesg` |
+| NIC missing | `lspci -k` | BIOS; passthrough; `modprobe` |
+| Unknown device | `lspci -n` | Update pci.ids; newer kernel |
+| Device, no driver | `lspci -k` empty driver | Install modules; modprobe |
+| Wrong link speed | `lspci -vv` LnkSta | Slot/cable/BIOS Gen |
 
+## Real-World Applications
+Confirming a GPU is visible before installing drivers, finding which module owns a NIC, and verifying PCI passthrough into a VM.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Fast inventory of PCI topology and drivers.
+- **Con:** Lists dead/broken devices that still enumerate.
+- **Trade-off:** Numeric `-n` when pci.ids is stale vs human names when updated.
 
-> [!WARNING]
-> **lspci shows hardware presence, not function** — device can list while driver fails. Always check `dmesg` and `/sys/.../driver`.
+## Comparison
+vs [[dmidecode]]: DMI/SMB BIOS inventory (CPU/RAM/serial). vs `lsusb`: USB tree. vs [[ip]]/[[ss]]: network config/sockets after the NIC is found. vs [[nvidia-smi]]: driver/runtime status after GPU is bound.
 
-> [!WARNING]
-> **Containers** — lspci in Docker usually shows host PCI unless `--device` / privileged. Result may confuse.
-
-> [!WARNING]
-> **USB devices are not PCI** — USB sticks/webcams → `lsusb`, not lspci (unless USB controller itself).
-
-> [!WARNING]
-> **Slot numbering** — `0000:03:00.0` domain:bus:device.function — use full name with `-s` on multi-socket systems.
-
-
-## When not to use
-
-- **USB peripherals** → `lsusb`.
-- **CPU/RAM inventory** → [[dmidecode]].
-- **Block device health** → `smartctl`, `nvme cli`.
-- **Network configuration** → [[ip]], [[ss]] — lspci only finds the card.
-
-
-## Related
-
-[[dmidecode]] [[Linux system management]] [[Linux configuration]] [[eBPF]]
-
-## Sources
-
-- [Wikipedia — lspci](https://en.wikipedia.org/wiki/lspci)
+## Mistakes to Avoid
+- Assuming “in lspci” means “working.”
+- Using lspci inside unprivileged containers and trusting the view.
+- Confusing USB gadgets with PCI devices.

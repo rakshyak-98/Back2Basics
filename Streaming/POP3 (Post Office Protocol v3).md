@@ -1,21 +1,20 @@
-[[SMTP]] [[E mail server]] [[TLS (Transport Layer Security)]]
+[[SMTP]] [[E mail server]] [[TLS (Transport Layer Security)]] [[DNS]]
 
 # POP3 (Post Office Protocol v3)
 
 > Simple mail retrieval — download-and-delete mental model; brief ops note and when **IMAP** wins — **RFC 1939**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about POP3 to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — POP3](https://en.wikipedia.org/wiki/POP3) — overview
+
+## Key Concepts
 
 **POP3** lets an MUA fetch mail from an MDA mailbox over TCP (110 plain, 995 TLS). Default mental model: **download to one device**, server mailbox often **emptied** after retrieval — though `leave mail on server` exists as client setting.
-
-```txt
-MUA ── TCP 995 ──► MDA (Dovecot/Courier)
-       USER/PASS or AUTH
-       LIST / RETR / DELE
-       QUIT
-```
 
 | Command phase | Commands |
 |---------------|----------|
@@ -25,10 +24,14 @@ MUA ── TCP 995 ──► MDA (Dovecot/Courier)
 
 **versus IMAP:** POP3 is **offline-first, single-client**; IMAP is **server-side folder sync, multi-device**. Modern default: **IMAP** ([[E mail server]]).
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+MUA ── TCP 995 ──► MDA (Dovecot/Courier)
+       USER/PASS or AUTH
+       LIST / RETR / DELE
+       QUIT
+```
 
 ### Test POP3 (swaks alternative — openssl)
 
@@ -64,10 +67,18 @@ sudo systemctl status dovecot
 ✗ Folder hierarchy / Sent sync across devices
 ```
 
----
+## Real-World Applications
 
+Used wherever POP3 sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **New product email client** — ship IMAP + OAuth2.
+- **Con / skip when:** **Team shared inbox** — IMAP namespaces or web UI.
+- **Con / skip when:** **Mobile-first** — IMAP IDLE push approximations win.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -83,39 +94,7 @@ journalctl -u dovecot -f
 sudo tail -f /var/log/mail.log
 ```
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Delete on QUIT** — user blames server; client setting caused data loss on other devices.
-
-> [!WARNING]
-> **Plain POP3 port 110** — credentials cleartext; disable or force STLS.
-
-> [!WARNING]
-> **Google/Outlook consumer** — POP3 disabled by default; app passwords required.
-
-> [!WARNING]
-> **No server-side search** — must download headers/bodies locally — slow on big mailboxes.
-
----
-
-
-## When not to use
-
-- **New product email client** — ship IMAP + OAuth2.
-- **Team shared inbox** — IMAP namespaces or web UI.
-- **Mobile-first** — IMAP IDLE push approximations win.
-
----
-
-
-## Related
-
-[[E mail server]] [[SMTP]] [[TLS (Transport Layer Security)]] [[DNS]]
-
-## Sources
-
-- [Wikipedia — POP3](https://en.wikipedia.org/wiki/POP3)
+- **Delete on QUIT** — user blames server; client setting caused data loss on other devices.
+- **Plain POP3 port 110** — credentials cleartext; disable or force STLS.
+- **Google/Outlook consumer** — POP3 disabled by default; app passwords required.
+- **No server-side search** — must download headers/bodies locally — slow on big mailboxes.

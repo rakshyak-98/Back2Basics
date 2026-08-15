@@ -1,12 +1,26 @@
-[[DNS server]] · [[DNS zone]] · [[name server]] · [[Unbound]] · [[dnsmasq]]
+[[DNS server]] [[DNS zone]] [[name server]] [[Unbound]] [[dnsmasq]] [[CoreDNS]]
 
 # BIND
 
 > BIND (Berkeley Internet Name Domain) is the reference implementation for authoritative DNS on the Internet — it serves zones, supports DNSSEC, and can recurse (though many deployments split authoritative and recursive roles).
 
----
+## Interview Relevance
 
-## Roles
+Interviewers expect zone-file literacy, SOA serial discipline, `named-checkzone`/`rndc`, and why public authoritative hosts should not offer open recursion.
+
+## Sources
+
+- [BIND 9 Administrator Reference Manual](https://bind9.readthedocs.io/) — deep-dive
+- [ISC — BIND](https://www.isc.org/bind/) — overview
+
+## Key Concepts
+
+- **Authoritative master/slave:** zone files + AXFR/IXFR distribution.
+- **Optional recursion:** powerful and dangerous if `allow-recursion` is wide open.
+- **DNSSEC tooling:** keygen/signzone plus DS at the registrar.
+- **Views / RPZ / RRL:** split-horizon answers, malware blocking, reflection mitigation.
+
+## Technical Details
 
 | Mode | Use |
 |------|-----|
@@ -15,8 +29,6 @@
 | **Secondary** | AXFR/IXFR slave from primary |
 
 ISC BIND 9 is current; BIND 8 is obsolete.
-
-## Minimal authoritative zone
 
 ```bind
 ; /etc/bind/db.example.com
@@ -39,39 +51,37 @@ zone "example.com" {
 };
 ```
 
-## Validate and reload
-
 ```bash
 named-checkzone example.com /etc/bind/db.example.com
 named-checkconf
 rndc reload
-```
-
-## DNSSEC
-
-```bash
 dnssec-keygen -a ECDSAP256SHA256 example.com
 dnssec-signzone -o example.com db.example.com
 ```
 
 Publish DS record at registrar after signing.
 
-## Security
+**Security:** RPZ for bad domains; response rate limiting against reflection; views for internal/external split ([[DNS zone]] split horizon).
 
-- **RPZ** — block known bad domains
-- **Response rate limiting** — mitigate reflection attacks
-- **Views** — split internal/external answers ([[DNS zone]] split horizon)
+## Real-World Applications
 
-## vs [[Unbound]] / [[CoreDNS]]
+ISP and enterprise authoritative hosting; secondary for registrar or multi-provider NS sets.
 
-BIND excels at **authoritative** Internet zones. Run **Unbound** for validating recursion on clients. **CoreDNS** fits Kubernetes service discovery.
+**Example:** Edit zone file → bump SOA serial → `named-checkzone` → `rndc reload` → secondaries pull IXFR after NOTIFY.
 
-## Recall
+## Pros/Cons or Trade-offs
 
-- What SOA field must increment on every zone edit?
-- Why separate authoritative BIND from public recursive resolvers?
+- **Pro:** Battle-tested authoritative feature set (DNSSEC, views, catalog zones, RPZ).
+- **Con:** Operational complexity vs managed DNS or DB-backed [[PoserDNS]].
+- **Con:** Misconfigured recursion turns you into an open amplifier.
 
-## Sources
+## Comparison
 
-- [BIND 9 Administrator Reference Manual](https://bind9.readthedocs.io/)
-- [ISC — BIND](https://www.isc.org/bind/)
+- vs [[Unbound]]: BIND for authoritative Internet zones; Unbound for validating recursion.
+- vs [[CoreDNS]]: CoreDNS fits Kubernetes service discovery plugins, not classic public zone masters.
+
+## Mistakes to Avoid
+
+- Forgetting SOA serial increments — secondaries stall on old data.
+- Combining public authoritative service with world-open recursion.
+- Skipping `named-checkzone` / `named-checkconf` before reload.

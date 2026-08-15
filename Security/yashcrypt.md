@@ -1,12 +1,23 @@
-[[symmetrical encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[openssl]]
+[[symmetrical encryption]] [[HMAC (Hash based Message Authentication Codes)]] [[openssl]] [[Authentication terms]] [[Securing a hash key authentication]] [[JWT authentication]]
 
 # yescrypt (yashcrypt)
 
-> Memory-hard password hashing KDF — successor to scrypt; increases attacker cost by requiring large RAM per guess. Filename `yashcrypt.md` is a vault typo for **yescrypt**.
+> Memory-hard password hashing (yescrypt; filename typo for yescrypt) — raises attacker RAM cost per guess versus fast hashes.
 
----
+## Interview Relevance
 
-## How it works
+Password storage: memory-hard KDFs (yescrypt/scrypt/Argon2) raise attacker cost versus fast hashes like SHA-256.
+
+## Sources
+
+- [yescrypt — password hashing scheme](https://www.openwall.com/yescrypt/) — deep-dive
+- [OWASP — Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) — overview
+
+## Core Definition
+
+yescrypt is a memory-hard password hashing KDF (scrypt successor); the vault filename `yashcrypt.md` is a typo for yescrypt.
+
+## Key Concepts
 
 **yescrypt** is a **password hashing** function (not general encryption), designed for **stored credentials**:
 
@@ -25,10 +36,7 @@ Used where:
 
 **If you encounter unknown `yashcrypt` in legacy docs:** treat as **yescrypt** or verify against system `crypt(3)` man page — do not invent a custom algorithm.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Linux password hash (yescrypt)
 
@@ -59,10 +67,7 @@ await bcrypt.compare(password, hash);
 
 **Why application-layer KDF:** you control cost parameters per hardware generation; not tied to `/etc/shadow` format.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,37 +76,23 @@ await bcrypt.compare(password, hash);
 | Incompatible hash format | `$y$` vs `$6$` vs `$2b$` | Detect prefix; migrate gradually |
 | Unknown `yashcrypt` reference | Typo / internal name | Map to yescrypt or audit codebase |
 
----
+## Real-World Applications
 
+Store password hashes with yescrypt (or Argon2id) parameters tuned for your login latency budget.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Never SHA256(password) for storage** — use yescrypt/argon2/bcrypt/scrypt.
+- **Pro:** Memory-hard hashing raises offline cracking cost dramatically.
+- **Con:** Don't use password KDFs for **API signing** or **session tokens** — use [[HMAC (Hash based Message Authentication Codes)]] or random opaque tokens. KDFs are slow by design.
 
-> [!WARNING]
-> **Per-user random salt** — mandatory; prevents rainbow tables.
+## Comparison
 
-> [!WARNING]
-> **Constant-time compare** — timing leaks hash prefix.
+- vs fast hashes (SHA-256): password KDFs must be slow/memory-hard.
+- vs [[HMAC (Hash based Message Authentication Codes)]]: HMAC authenticates messages; yescrypt hashes passwords for storage.
 
-> [!WARNING]
-> **Filename typo `yashcrypt`** — grep codebase for actual library import before assuming algorithm.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-Don't use password KDFs for **API signing** or **session tokens** — use [[HMAC (Hash based Message Authentication Codes)]] or random opaque tokens. KDFs are slow by design.
-
----
-
-
-## Related
-
-[[HMAC (Hash based Message Authentication Codes)]] [[Authentication terms]] [[Securing a hash key authentication]] [[JWT authentication]]
-
-## Sources
-
-- [Wikipedia — yashcrypt](https://en.wikipedia.org/wiki/yashcrypt)
+- Never SHA256(password) for storage — use yescrypt/argon2/bcrypt/scrypt.
+- Per-user random salt — mandatory; prevents rainbow tables.
+- Constant-time compare — timing leaks hash prefix.
+- Filename typo `yashcrypt` — grep codebase for actual library import before assuming algorithm.

@@ -2,12 +2,22 @@
 
 # Base64
 
-> Base64 — turn binary data (like images, files, PDFs) into plain text so it can be safely sent over the internet or stored in places that only allow
+> Turn binary into ASCII text for protocols and configs that dislike raw bytes — encoding, not encryption.
 
----
+## Interview Relevance
 
-## How it works
+Quick filter: Base64 is encoding, not encryption — interviewers watch for that misconception and padding/URL-safe variants.
 
+## Sources
+
+- [RFC 4648 — The Base16, Base32, and Base64 Data Encodings](https://www.rfc-editor.org/rfc/rfc4648) — deep-dive
+- [Wikipedia — Base64](https://en.wikipedia.org/wiki/Base64) — overview
+
+## Core Definition
+
+Base64 encodes binary as ASCII text using a 64-character alphabet so binary can travel in text protocols and configs.
+
+## Key Concepts
 
 turn binary data (like images, files, PDFs) into plain text so it can be safely sent over the internet or stored in places that only allow text.
 > [!INFO]
@@ -31,20 +41,14 @@ It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (
 | **check** | How I verify | “I name the command or signal I look at.” |
 | **fail** | How it breaks | “I name the top production failure.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # version / help / dry-run when available
 # keep env-specific values out of git
 ```
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,28 +56,15 @@ It takes **3 bytes** of binary data (24 bits) → splits into **4 characters** (
 | TLS/DNS wrong | dig / openssl | Fix records and certs |
 | Secret leak risk | repo scan | Rotate; use secret store |
 
----
+## Real-World Applications
 
+PEM certificates, JWT parts, and `data:` URLs all carry binary as Base64 text — never treat that as confidentiality.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
+- **Pro:** Safe binary-in-text transport for PEMs, JWTs, and protocols.
+- **Con:** Skip when a simpler existing approach already fits.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[Security]]
-
-## Sources
-
-- [Wikipedia — Base64](https://en.wikipedia.org/wiki/Base64)
+- Prefer words you can say aloud in an interview.

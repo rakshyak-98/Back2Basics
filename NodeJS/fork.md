@@ -1,12 +1,28 @@
-[[NodeJS]] [[child process]] [[spawn]] [[clustering]]
+[[NodeJS]] [[child process]] [[spawn]] [[clustering]] [[worker threads]] [[worker]]
 
 # fork
 
 > `child_process.fork()` spawns a **Node.js** child with built-in IPC — use for cluster workers and isolated JS processes; not for arbitrary shell commands.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **fork** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Node.js — child_process.fork](https://nodejs.org/api/child_process.html#child_processforkmodulepath-args-options) — deep-dive
+- [Wikipedia — fork](https://en.wikipedia.org/wiki/fork) — overview
+
+## Core Definition
+
+`fork(modulePath, args, options)` is `spawn('node', [modulePath, ...args])` plus an **`process.send` / `message` IPC channel**. Parent and child both run V8; child gets its own event loop and memory.
+
+## Key Concepts
+
+- `fork(modulePath, args, options)` is `spawn('node', [modulePath, ...args])` plus an **`process.send` / `message` IPC channel**. Parent and child both run V8; child gets its own …
+- [[clustering]] uses `fork` under the hood to share server ports via SO_REUSEPORT/scheduling. For non-Node binaries, use [[spawn]].
+
+## Technical Details
 
 `fork(modulePath, args, options)` is `spawn('node', [modulePath, ...args])` plus an **`process.send` / `message` IPC channel**. Parent and child both run V8; child gets its own event loop and memory.
 
@@ -19,9 +35,6 @@ Master process                    Worker (fork)
 ```
 
 [[clustering]] uses `fork` under the hood to share server ports via SO_REUSEPORT/scheduling. For non-Node binaries, use [[spawn]].
-
-
-## Configuration and commands
 
 ### Basic IPC
 
@@ -88,42 +101,29 @@ process.on('SIGTERM', () => {
 });
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **fork** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **IPC messages are not for high throughput** — large payloads copy; use shared storage or [[worker threads]] SharedArrayBuffer; **fork ≠ sandbox** — child can access same user permissions and env secrets.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `channel closed` | Child exited early | Log child stderr; catch bootstrap errors |
-| Messages lost | Send before `message` listener | Wait for `'online'` or first ping |
-| Memory × N workers | Each fork full V8 heap | Prefer [[worker threads]] for shared process CPU tasks |
-| Port EADDRINUSE in cluster | Workers double-bind wrong | Only primary listens or use cluster API |
-| Zombie on crash | No refork | Primary `cluster.on('exit')` refork with backoff |
-| Serialization error | Non-cloneable object in send | JSON-safe payloads only (structured clone limits) |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (`child_process.fork()` spawns a **Node.js** child with built-in IPC — use for cl…).
+- **Con / when not:** **External CLI (git, ffmpeg)** — [[spawn]].
+- **Con / when not:** **CPU parallelism inside one request** — [[worker threads]] lighter than process.
+- **Con / when not:** **Horizontal scale across machines** — K8s replicas, not fork on one box only.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **IPC messages are not for high throughput** — large payloads copy; use shared storage or [[worker threads]] SharedArrayBuffer.
+vs [[child process]]: know when each applies — do not treat them as interchangeable. vs [[spawn]]: `spawn` runs any executable; `fork` is Node-only with built-in IPC. vs [[clustering]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **fork ≠ sandbox** — child can access same user permissions and env secrets.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Orphaned children on parent SIGKILL** — use process groups or init system to reap.
-
-
-## When not to use
-
-- **External CLI (git, ffmpeg)** — [[spawn]].
-- **CPU parallelism inside one request** — [[worker threads]] lighter than process.
-- **Horizontal scale across machines** — K8s replicas, not fork on one box only.
-
-
-## Related
-
-[[child process]] [[spawn]] [[clustering]] [[worker threads]] [[worker]]
-
-## Sources
-
-- [Wikipedia — fork](https://en.wikipedia.org/wiki/fork)
+- **IPC messages are not for high throughput** — large payloads copy; use shared storage or [[worker threads]] SharedArrayBuffer.
+- **fork ≠ sandbox** — child can access same user permissions and env secrets.
+- **Orphaned children on parent SIGKILL** — use process groups or init system to reap.
+- **`channel closed`:** check Child exited early; fix: Log child stderr; catch bootstrap errors
+- **Messages lost:** check Send before `message` listener; fix: Wait for `'online'` or first ping
+- **Memory × N workers:** check Each fork full V8 heap; fix: Prefer [[worker threads]] for shared process CPU tasks
+- **Port EADDRINUSE in cluster:** check Workers double-bind wrong; fix: Only primary listens or use cluster API
+- **Zombie on crash:** check No refork; fix: Primary `cluster.on('exit')` refork with backoff
+- **Serialization error:** check Non-cloneable object in send; fix: JSON-safe payloads only (structured clone limits)

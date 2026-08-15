@@ -1,26 +1,38 @@
-[[ExpressJS]] [[NodeJS]] [[Node.js security flaws in architecture]] [[Express middleware]] [[express concepts]]
+[[express concepts]] [[Express middleware]] [[expressjs]] [[Node.js security flaws in architecture]] [[node error]] [[Error handeling]]
 
 # Express Error Handler
 
-> Express routes errors to middleware with four parameters `(err, req, res, next)` — `next(err)` or a wrapped async throw skips normal middleware and lands there; order and async handling determine whether clients see consistent JSON or leaked stacks.
+> Express routes failures to four-argument middleware `(err, req, res, next)` — `next(err)` or a wrapped async throw skips normal handlers and lands there.
 
----
+## Interview Relevance
 
-## How errors propagate
+Interviewers probe whether you know arity-based error middleware, Express 4 vs 5 async behavior, and how to avoid leaking stacks or double-sending responses in production.
 
-Express distinguishes error-handling middleware by **arity**: four parameters, not three.
+## Sources
+
+- [Express — Error handling](https://expressjs.com/en/guide/error-handling.html) — deep-dive
+- [Express — Migrating to Express 5 (rejected promises)](https://expressjs.com/en/guide/migrating-5.html) — overview
+- [Node.js — Errors](https://nodejs.org/api/errors.html) — overview
+
+## Core Definition
+
+Error-handling middleware is identified by four parameters. Anything that calls `next(err)` (or, in Express 5, rejects a promise from a handler) jumps past remaining normal middleware to that stack. Register it after routes; put a 404 factory immediately before it.
+
+## Key Concepts
+
+- **Arity:** `(err, req, res, next)` — Express treats four args as error middleware, not three.
+- **Operational vs programmer errors:** expected 4xx (`isOperational`) vs unexpected 500 — clients should not see stacks for either in production.
+- **Async gap (Express 4):** rejected promises bypass the error handler unless you `catch(next)` or wrap handlers.
+- **Express 5:** rejected promises from middleware/handlers forward to the error handler automatically.
+- **Headers already sent:** if a handler already wrote the body, defer to the default handler via `next(err)`.
+
+## Technical Details
 
 ```txt
 Request → parsers → routes → 404 factory → GLOBAL ERROR HANDLER (4 args)
                                     ↑
                               next(err) lands here
 ```
-
-Without an async wrapper, rejected promises in `async (req, res)` **bypass** the error handler in Express 4 unless you use `try/catch` or a `catchAsync` wrapper. Express 5 propagates async errors natively — verify your version.
-
----
-
-## Production-safe stack
 
 ```javascript
 import express from 'express';
@@ -40,8 +52,10 @@ app.all('*', (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+
   err.statusCode = err.statusCode || 500;
-  err.status = err.status || err.statusCode >= 500 ? 'error' : 'fail';
+  err.status = err.status || (err.statusCode >= 500 ? 'error' : 'fail');
 
   if (process.env.NODE_ENV === 'development') {
     return res.status(err.statusCode).json({
@@ -69,9 +83,7 @@ app.use((err, req, res, next) => {
 app.listen(3000);
 ```
 
----
-
-## Async errors (Express 4)
+**Async wrapper (Express 4):**
 
 ```javascript
 const catchAsync = (fn) => (req, res, next) => {
@@ -90,8 +102,6 @@ app.get('/user/:id', catchAsync(async (req, res) => {
 }));
 ```
 
-### Custom AppError class
-
 ```javascript
 class AppError extends Error {
   constructor(message, statusCode) {
@@ -104,8 +114,6 @@ class AppError extends Error {
 }
 ```
 
-### Unhandled rejections (last resort)
-
 ```javascript
 process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED REJECTION', err);
@@ -113,28 +121,36 @@ process.on('unhandledRejection', (err) => {
 });
 ```
 
----
-
-## What breaks first
-
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
-| Stack trace in production JSON | `NODE_ENV` not set | Gate `stack` on `development` only |
+| Stack in production JSON | `NODE_ENV` not set | Gate `stack` on development only |
 | 404 returns HTML | Static middleware before API 404 | Separate routers; 404 before static |
-| Async route hangs, no log | Missing `catch(next)` | Wrap async handlers |
+| Async route hangs, no log | Missing `catch(next)` on Express 4 | Wrap async handlers |
 | `headers already sent` | Double `res.send` in error path | `if (res.headersSent) return next(err)` |
 | Error handler never runs | Only 3-arg middleware registered | Must be `(err, req, res, next)` |
 
----
+## Real-World Applications
 
-## Security notes
+JSON APIs that need stable error envelopes, hotel/booking backends with operational 404/validation errors, and any service that must not leak stacks to browsers.
 
-- Never send `err.stack` to clients in any environment.
-- Scrub bodies and passwords before `console.error` in error middleware.
-- Error handler must be registered **after** all `app.use` routes; 404 handler immediately before it.
+**Example:** A mobile client shows “Something went wrong” for a missing room — mark not-found as operational with `statusCode: 404` so the handler returns a clear message without a stack.
 
----
+## Pros/Cons or Trade-offs
 
-## Related
+- **Pro:** One place to shape status codes, logging, and client payloads.
+- **Con:** Express 4 async gaps are easy to miss until production hangs.
+- **Con:** Over-sharing error objects in development habits often ship to production if `NODE_ENV` is wrong.
 
-[[Express middleware]] · [[Node.js security flaws in architecture]] · [[Error handeling]] · [[node error]]
+## Comparison
+
+- vs default Express handler: default may send HTML; custom keeps API clients on JSON.
+- vs [[node error]] / process-level handlers: those catch escapes outside the request pipeline; request errors should still use `next(err)`.
+- vs GraphQL ([[graphql-yoga]]): GraphQL often returns HTTP 200 with errors in the body — different contract than REST status codes.
+
+## Mistakes to Avoid
+
+- Sending `err.stack` to clients in any non-development environment.
+- Logging request bodies that may contain passwords or tokens.
+- Registering the error handler before routes.
+- Relying on Express 4 async handlers without `catch(next)`.
+- Calling `res.json` again after headers were already sent.

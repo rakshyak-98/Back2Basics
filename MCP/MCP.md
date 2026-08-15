@@ -1,25 +1,36 @@
-[[MCP/MCP Client]] [[Descriptive/vscode]] [[Protocol/MQTT]]
+[[MCP Client]] [[Descriptive/vscode]] [[Protocol/MQTT]]
 
 # MCP (Model Context Protocol)
 
-> Open protocol for AI clients to discover and call tools, read resources, and exchange prompts with servers — USB-C for LLM integrations.
+> Open protocol for AI hosts to discover and call tools, read resources, and fetch prompts from servers — “USB-C for LLM integrations.”
 
----
+## Interview Relevance
 
-## How it works
+Interviewers (AI platform) want host/client/server roles, transports (stdio vs HTTP), and the security model (tools = code execution).
 
-An **MCP host** (Cursor, Claude Desktop) runs **MCP clients** that connect to **MCP servers** over stdio, SSE, or streamable HTTP. Servers expose **tools** (functions), **resources** (readable URIs), and **prompts**. The model requests a tool call; the client executes it on the server and returns structured results.
+## Sources
+
+- [MCP specification](https://modelcontextprotocol.io/) — deep-dive
+- [MCP — Architecture](https://modelcontextprotocol.io/docs/concepts/architecture) — overview
+
+## Key Concepts
+
+- **Host:** IDE/app (Cursor, Claude Desktop) embedding clients.
+- **Client:** session talking to one server.
+- **Server:** exposes tools, resources, prompts.
+- **Transport:** stdio (local), streamable HTTP/SSE (remote).
+
+## Technical Details
 
 ```
-Host (IDE) → MCP Client ↔ transport ↔ MCP Server (git, DB, browser, …)
+Host → MCP Client ↔ transport ↔ MCP Server (git, DB, browser, …)
 ```
 
-specification evolves — streamable HTTP supersedes early SSE-only patterns for remote servers.
-
-
-## Configuration and commands
-
-### Cursor-style server config (conceptual)
+| Surface | Example |
+|---------|---------|
+| Tools | `query_database`, `create_issue` |
+| Resources | `file:///README.md` |
+| Prompts | Reusable templates |
 
 ```json
 {
@@ -32,68 +43,24 @@ specification evolves — streamable HTTP supersedes early SSE-only patterns for
 }
 ```
 
-### Server responsibilities
+## Real-World Applications
 
-| Surface | Example |
-|---------|---------|
-| Tools | `query_database`, `create_issue` |
-| Resources | `file:///README.md`, logs URI |
-| Prompts | Reusable prompt templates |
+IDE agent lists repo files via a filesystem server and opens PRs via a GitHub server — model only sees mediated results.
 
-### Transport options
+**Example:** Remote HTTP server behind auth — prefer streamable HTTP patterns over legacy-only SSE setups when migrating.
 
-| Transport | Use case |
-|-----------|----------|
-| stdio | Local subprocess (default for CLI servers) |
-| Streamable HTTP | Remote/shared server, auth at edge |
-| SSE (legacy) | Older deployments; migrate when possible |
+## Pros/Cons or Trade-offs
 
-Reference: [MCP specification](https://modelcontextprotocol.io/) · [Streamable HTTP PR](https://github.com/modelcontextprotocol/specification/pull/206)
+- **Pro:** Standardize tool plugins across hosts.
+- **Con:** A malicious/buggy server is arbitrary code with your credentials.
 
+## Comparison
 
-## Where to go next
+- vs raw function-calling APIs: MCP standardizes discovery and transports across apps.
+- vs [[MCP Client]]: this note is the protocol; client note is host-side ops.
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
+## Mistakes to Avoid
 
-
-## Related topics in this domain
-
-- …: [[…]]
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Server not listed | Config JSON syntax | Validate; restart host |
-| Tool call timeout | Server logs | Increase timeout; fix blocking I/O |
-| Auth errors (remote) | OAuth/API key | `mcp_auth` flow in host; rotate creds |
-| Schema mismatch | Tool input schema | Align server tool definition with client expectations |
-| stdio garbled output | println debug on stdout | Log to stderr only in MCP servers |
-
-
-## Gotchas
-
-> [!WARNING]
-> **MCP server = arbitrary code execution** — only install trusted servers; review tool permissions.
->
-> **Secrets in server env** — same discipline as CI secrets; don't log tool args with tokens.
->
-> **Spec drift** — pin server version; hosts update faster than servers.
-
-
-## When not to use
-
-- Don't build MCP for a one-off script you'd run once in terminal — shell script is simpler.
-- Don't expose production DB write tools without authz layer and audit logging.
-
-
-## Related
-
-[[MCP/MCP Client]] [[NodeJS/CLI]] [[Descriptive/vscode]]
-
-## Sources
-
-- [Wikipedia — MCP](https://en.wikipedia.org/wiki/MCP)
+- Installing untrusted servers with broad filesystem/network access.
+- Logging secrets from tool args to stdout (stdio servers must keep stdout clean).
+- Assuming the model “has root” — the client enforces what runs.

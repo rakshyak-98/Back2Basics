@@ -1,12 +1,23 @@
-[[single-sign-on (SSO)]] [[TLS (Transport Layer Security)]] [[IDOR]]
+[[single-sign-on (SSO)]] [[TLS (Transport Layer Security)]] [[IDOR]] [[KMS]]
 
 # JWT authentication
 
 > signed (or encrypted) JSON claims for stateless auth — verify **algorithm, signature, and claims** server-side every request — **RFC 7519**.
 
----
+## Interview Relevance
 
-## How it works
+API interviews: verify algorithm, signature, and claims every request; know refresh flows and why alg=none is fatal.
+
+## Sources
+
+- [RFC 7519 — JWT](https://www.rfc-editor.org/rfc/rfc7519) — deep-dive
+- [OWASP — JSON Web Token Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html) — overview
+
+## Core Definition
+
+JWT authentication uses signed (or encrypted) JSON claims as bearer credentials; the server must verify algorithm, signature, and claims on every request.
+
+## Key Concepts
 
 JWT = `header.payload.signature` (JWS) or nested JWE. Server trusts token only after **cryptographic verification** + **claim checks**. Stateless by default — revocation requires blocklist or short TTL + refresh rotation.
 
@@ -23,8 +34,7 @@ Client ── Authorization: Bearer eyJ... ──► API
 | Payload | `sub`, `exp`, `iss`, `aud`, custom claims |
 | Signature | HMAC or asymmetric over `header.payload` |
 
-
-## Configuration and commands
+## Technical Details
 
 ### Verify safely (Node — jsonwebtoken + jwks-rsa)
 
@@ -84,8 +94,7 @@ if (ttl > 0) await redis.setEx(`bl:${jti}`, ttl, '1');
 Use **`jti`** (unique token ID) for blacklist keys — not the full token string (memory heavy).
 - when user logs in and receives an access token or refresh token, multiple tokens may exist for the same user. `jti` uniquely identifies each token instance.
 
-
-## When things break
+### Failure signals
 
 | Symptom                               | Check                                                      | Fix                                                                    |
 | ------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -98,40 +107,26 @@ Use **`jti`** (unique token ID) for blacklist keys — not the full token string
 | Refresh token reuse detected          | Rotation not enforced                                      | Issue new refresh on use; invalidate family on reuse                   |
 | `aud` mismatch                        | Token for wrong client                                     | Validate `aud` matches your API identifier                             |
 
+## Real-World Applications
 
-## Gotchas
+Stateless API access tokens verified at each service; pair with short TTL and refresh rotation for revocation pressure.
 
-> [!WARNING]
-> **`alg: none` attack:** Libraries that honor the header algorithm can accept unsigned tokens if `algorithms` isn't restricted. Always pass explicit `algorithms: ['RS256']`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`kid` injection:** If server does `fs.readFile('/keys/' + header.kid)` an attacker sets `kid` to `../../etc/passwd`. Use JWKS lookup table only.
+- **Pro:** Scales horizontally without a central session store (until revocation needs appear).
+- **Con:** Session-heavy monolith with server-side session store already → JWT adds complexity without benefit.
+- **Con:** Long-lived credentials in mobile apps without secure storage → use platform keystore + refresh rotation.
+- **Con:** Passing JWT in URL query strings → leaks via logs and Referer.
 
-- **Don't store secrets in JWT payload** — base64 is not encryption; anyone can read claims.
-- **HS256 with shared secret** leaks if any service discloses secret — prefer RS256 + JWKS for microservices.
-- **`jwt.decode()` without verify** is for debugging only — never authorize on it.
-- **Long-lived JWTs** can't be revoked without infrastructure — pair 15m access + refresh with rotation.
-- **Clock skew:** validate `exp` and `nbf` with small tolerance; IdP and all API nodes on UTC/NTP.
+## Comparison
 
-### Key rotation playbook
+- vs server sessions: JWT is typically stateless until denylist/rotation; sessions need a store.
+- vs [[single-sign-on (SSO)]]: SSO issues identity; JWT is a common token format afterward.
 
-1. IdP adds new key to JWKS (`kid-new`), still signs with old.
-2. Deploy verifiers that accept both keys (JWKS poll).
-3. IdP switches signing to `kid-new`.
-4. After max token TTL elapsed, remove old key from JWKS.
+## Mistakes to Avoid
 
-
-## When not to use
-
-- Session-heavy monolith with server-side session store already → JWT adds complexity without benefit.
-- Long-lived credentials in mobile apps without secure storage → use platform keystore + refresh rotation.
-- Passing JWT in URL query strings → leaks via logs and Referer.
-
-
-## Related
-
-[[single-sign-on (SSO)]] · [[TLS (Transport Layer Security)]] · [[IDOR]] · [[KMS]]
-
-## Sources
-
-- [Wikipedia — JWT authentication](https://en.wikipedia.org/wiki/JWT_authentication)
+- `alg: none` attack: — Libraries that honor the header algorithm can accept unsigned tokens if `algorithms` isn't restricted. Always pass explicit `algorithms: ['RS256']`.
+- `kid` injection: — If server does `fs.readFile('/keys/' + header.kid)` an attacker sets `kid` to `../../etc/passwd`. Use JWKS lookup table only.
+- **Don't store secrets in JWT payload** — base64 is not encryption; anyone can read claims. - **HS256 with shared secret** leaks if any service discloses secret — prefer RS256 + JWKS for microservices. - **`jwt.decode()` without verify** is for debugging only — never authorize on it. - **Long-lived JWTs** can't be revoked without infrastructure — pair 15m access + refresh with rotation. - **Clock skew:** validate `exp` and `nbf` with small tolerance; IdP and all API nodes on UTC/NTP.
+- ### Key rotation playbook
+- 1. IdP adds new key to JWKS (`kid-new`), still signs with old. 2. Deploy verifiers that accept both keys (JWKS poll). 3. IdP switches signing to `kid-new`. 4. After max token TTL elapsed, remove old key from JWKS.

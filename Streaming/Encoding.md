@@ -1,23 +1,20 @@
-[[transcoding]] [[re-encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[ingestion]]
+[[transcoding]] [[re-encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[ingestion]] [[bitrate streaming]] [[OBS]]
 
 # Encoding
 
 > Encoding — camera / file ──► Encode (codec params) ──► Elementary streams
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Encoding to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — Encoding](https://en.wikipedia.org/wiki/Encoding) — overview
+
+## Key Concepts
 
 **Encoding** converts **uncompressed or mezzanine** video/audio into a **codec bitstream** (H.264, AAC, etc.) suitable for containers ([[CMAF]], TS) and protocols ([[HLS]], [[DASH]], [[RTMP]]). It is **lossy** for delivery codecs — you cannot recover discarded detail. Downstream **packaging** muxes encoded streams; **[[transcoding]]** is encode-after-decode when format changes.
-
-```txt
-Camera / file ──► Encode (codec params) ──► Elementary streams
-                           │
-              ┌────────────┼────────────┐
-         Live CBR      VoD CRF      HW NVENC
-              │            │            │
-         RTMP/SRT     ABR ladder    GPU fleet
-```
 
 | Stage | Question | Wrong answer cost |
 |-------|----------|-------------------|
@@ -28,10 +25,16 @@ Camera / file ──► Encode (codec params) ──► Elementary streams
 
 **Encode once well** at mezzanine; ladder encodes can downscale from mezzanine rather than re-decoding consumer files.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Camera / file ──► Encode (codec params) ──► Elementary streams
+                           │
+              ┌────────────┼────────────┐
+         Live CBR      VoD CRF      HW NVENC
+              │            │            │
+         RTMP/SRT     ABR ladder    GPU fleet
+```
 
 ### VoD mezzanine (quality master)
 
@@ -82,10 +85,22 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 # Verify regular IDR at expected GOP
 ```
 
----
+## Real-World Applications
 
+Used wherever Encoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
+- **Con / skip when:** **Encode on every playback** — edge transcode is emergency; pre-encode ladders at origin.
+- **Con / skip when:** **Maximum compression on mezzanine** — mezzanine should be high quality; crunch at delivery rungs.
+
+## Comparison
+
+- vs [[re-encoding]]: **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,39 +111,7 @@ ffprobe -show_frames -select_streams v:0 -show_entries frame=pict_type -of csv |
 | 60fps stutter on 30fps ladder | Frame rate mismatch | Separate ladders or force `-r 30` |
 | GPU encode banding | NVENC rate control | Tune CQ/VBR; increase `-b:v` floor |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Encoding ≠ packaging** — H.264 elementary stream still needs HLS/DASH mux ([[CMAF]]).
-
-> [!WARNING]
-> **Double encode quality loss** — OBS → RTMP → transcode → ladder = generational loss; minimize hops.
-
-> [!WARNING]
-> **Interlaced source** — deinterlace (`-vf yadif`) before H.264 progressive delivery.
-
-> [!WARNING]
-> **Color range** — TV vs PC levels wrong → crushed blacks; tag `-color_range tv`.
-
----
-
-
-## When not to use
-
-- **Remux only** — if codec already target-compatible, `-c copy` ([[re-encoding]] not needed).
-- **Encode on every playback** — edge transcode is emergency; pre-encode ladders at origin.
-- **Maximum compression on mezzanine** — mezzanine should be high quality; crunch at delivery rungs.
-
----
-
-
-## Related
-
-[[transcoding]] [[re-encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[ingestion]] [[bitrate streaming]] [[OBS]]
-
-## Sources
-
-- [Wikipedia — Encoding](https://en.wikipedia.org/wiki/Encoding)
+- **Encoding ≠ packaging** — H.264 elementary stream still needs HLS/DASH mux ([[CMAF]]).
+- **Double encode quality loss** — OBS → RTMP → transcode → ladder = generational loss; minimize hops.
+- **Interlaced source** — deinterlace (`-vf yadif`) before H.264 progressive delivery.
+- **Color range** — TV vs PC levels wrong → crushed blacks; tag `-color_range tv`.

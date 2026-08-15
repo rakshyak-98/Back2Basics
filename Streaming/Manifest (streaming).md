@@ -1,14 +1,30 @@
-[[HLS]] [[DASH]] [[MPD]] [[ABR]] [[CMAF]] [[Manifest (streaming)]]
+[[HLS]] [[DASH]] [[MPD]] [[ABR]] [[CMAF]] [[Manifest (streaming)]] [[bitrate streaming]] [[DRM]] [[streaming manifest file]]
 
 # Manifest (streaming)
 
 > Manifest (streaming) — a streaming manifest is metadata listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls media segments over HTTP. ABR
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Manifest to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — Manifest](https://en.wikipedia.org/wiki/Manifest) — overview
+
+## Key Concepts
 
 A **streaming manifest** is **metadata** listing segment URLs, bitrates, codecs, encryption, and timing. The player downloads it first, then pulls **media segments** over HTTP. **[[ABR]]** decisions use manifest-declared `BANDWIDTH` / `Representation` attributes — wrong manifest = wrong quality or failed playback.
+
+| Format | Files | Spec |
+|--------|-------|------|
+| **HLS** | `.m3u8` master + media | Apple HLS RFC 8216 |
+| **DASH** | `.mpd` | ISO 23009-1 — see [[MPD]] |
+| **Smooth / MSS** | Legacy | Avoid greenfield |
+
+**Master** manifest lists renditions; **media** manifest lists segment sequence for one rendition.
+
+## Technical Details
 
 ```txt
 Player boot
@@ -19,19 +35,6 @@ Player boot
 
 Manifest refresh (live): poll interval ≈ segment duration / 2
 ```
-
-| Format | Files | Spec |
-|--------|-------|------|
-| **HLS** | `.m3u8` master + media | Apple HLS RFC 8216 |
-| **DASH** | `.mpd` | ISO 23009-1 — see [[MPD]] |
-| **Smooth / MSS** | Legacy | Avoid greenfield |
-
-**Master** manifest lists renditions; **media** manifest lists segment sequence for one rendition.
-
----
-
-
-## Configuration and commands
 
 ### HLS master (multi-bitrate)
 
@@ -91,10 +94,18 @@ ffmpeg -i in.mp4 -c copy -f hls -hls_time 4 -hls_list_size 0 -master_pl_name mas
 
 For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 
----
+## Real-World Applications
 
+Used wherever Manifest sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Progressive MP4 only** — single URL, no manifest; no ABR.
+- **Con / skip when:** **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
+- **Con / skip when:** **Embedding segment list in application** — manifests exist to update without application release.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,39 +117,7 @@ For dual [[HLS]]/[[DASH]], generate **one segment set** — [[CMAF]].
 | DRM fail | `#EXT-X-KEY` / ContentProtection | Align with [[DRM]] / [[EME]] |
 | Infinite manifest poll storm | `#EXT-X-TARGETDURATION` too low | Match max segment duration |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Stale `MEDIA-SEQUENCE` after packager restart** — players hang; bump sequence or `#EXT-X-DISCONTINUITY`.
-
-> [!WARNING]
-> **Absolute vs relative URLs** — CDN path drift breaks segments; prefer relative in same directory.
-
-> [!WARNING]
-> **Master without `INDEPENDENT-SEGMENTS`** — some players slow-switch on fMP4.
-
-> [!WARNING]
-> **LL-HLS partial tags on non-LL players** — gate features by player capability.
-
----
-
-
-## When not to use
-
-- **Progressive MP4 only** — single URL, no manifest; no ABR.
-- **WebRTC playback** — SDP + ICE, not HLS/DASH manifests.
-- **Embedding segment list in application** — manifests exist to update without application release.
-
----
-
-
-## Related
-
-[[HLS]] [[DASH]] [[MPD]] [[CMAF]] [[ABR]] [[bitrate streaming]] [[DRM]] [[streaming manifest file]]
-
-## Sources
-
-- [Wikipedia — Manifest](https://en.wikipedia.org/wiki/Manifest)
+- **Stale `MEDIA-SEQUENCE` after packager restart** — players hang; bump sequence or `#EXT-X-DISCONTINUITY`.
+- **Absolute vs relative URLs** — CDN path drift breaks segments; prefer relative in same directory.
+- **Master without `INDEPENDENT-SEGMENTS`** — some players slow-switch on fMP4.
+- **LL-HLS partial tags on non-LL players** — gate features by player capability.

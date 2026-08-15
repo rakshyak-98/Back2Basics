@@ -2,11 +2,18 @@
 
 # prompt enginerring
 
-> Prompt engineering shapes LLM behavior with instructions, examples, and structure — not weight updates.
+> Prompt engineering shapes LLM inputs so outputs are reliable, constrained, and useful for a task.
 
----
+## Interview Relevance
 
-## How it works
+Prompt engineering interviews cover constraints, few-shot examples, and evaluation — not magic phrasing.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 system/role → task → constraints → format → (examples) → user input
@@ -21,10 +28,7 @@ system/role → task → constraints → format → (examples) → user input
 | **Structured out** | JSON / schema | “Parse reliably.” |
 | **Tool use** | Call functions | “Model picks tools; you execute.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 You are a senior SRE. Answer with: (1) cause (2) check (3) fix.
@@ -37,10 +41,18 @@ Return JSON: {"cause":"","check":"","fix":""}
 | Max tokens | Cost / cutoff |
 | Schema validation | Catch bad JSON |
 
----
+## Pros/Cons or Trade-offs
 
+- **Stable classify/extract at scale** — fine-tune or classical ML may be cheaper.
+- **Hard guarantees** — code + tests, not prose prompts alone.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Long prompts ≠ better** — bury the ask; put constraints near the end too.
+
+> [!WARNING]
+> **Eval by vibes** — keep a golden set of prompts/tests.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,30 +61,3 @@ Return JSON: {"cause":"","check":"","fix":""}
 | Inconsistent | high temperature | Lower temp; tighten system |
 | Prompt injection | user controls instruction | Delimit untrusted input |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Long prompts ≠ better** — bury the ask; put constraints near the end too.
-
-> [!WARNING]
-> **Eval by vibes** — keep a golden set of prompts/tests.
-
----
-
-
-## When not to use
-
-- **Stable classify/extract at scale** — fine-tune or classical ML may be cheaper.
-- **Hard guarantees** — code + tests, not prose prompts alone.
-
-
-## Related
-
-[[prompt]] [[GPT]] [[claude ai]]
-
-## Sources
-
-- [Wikipedia — prompt enginerring](https://en.wikipedia.org/wiki/prompt_enginerring)

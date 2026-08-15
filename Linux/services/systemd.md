@@ -1,12 +1,27 @@
-[[Linux]] [[systemctl]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]]
+[[Linux]] [[systemctl]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]] [[SYSV (System V)]] [[Services commands]] [[commands/systemctl]]
 
 # systemd
 
-> systemd is PID 1 on modern Linux — it starts units in parallel, tracks deps, and restarts services you declare in unit files.
+> PID 1 on modern Linux — starts units in parallel, tracks dependencies, and restarts services declared in unit files.
 
----
+## Interview Relevance
 
-## How it works
+Core Linux ops: units vs targets, enable ≠ start, Wants vs Requires, daemon-reload, and journal-centric logs.
+
+## Sources
+
+- [systemd documentation index](https://www.freedesktop.org/software/systemd/man/latest/) — deep-dive
+- [Wikipedia — systemd](https://en.wikipedia.org/wiki/Systemd) — overview
+
+## Key Concepts
+
+- **Unit:** one managed object (service, socket, timer, mount, …).
+- **Target:** boot milestone / grouping (`multi-user.target` ≈ classic runlevel 3).
+- **Wants vs Requires:** soft vs hard dependency.
+- **Enable:** boot symlinks under `*.wants` — not the same as start.
+- **Journal:** `journalctl -u` instead of hunting `/var/log` first.
+
+## Technical Details
 
 ```txt
 kernel
@@ -18,25 +33,12 @@ kernel
         └─ .target    milestones (multi-user.target ≈ “runlevel 3”)
 ```
 
-### Interview map (words you can say)
+Story:
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Unit** | One managed object + config | “A service is a unit file systemd supervises.” |
-| **Target** | Group / milestone | “`multi-user.target` is our default non-graphical goal.” |
-| **Wants vs Requires** | Soft vs hard dependency | “Requires fails the parent if the child fails.” |
-| **Enable** | Start on boot | “Enable creates symlinks under `*.wants`.” |
-| **daemon-reload** | Rescan unit files | “After editing units, reload then restart.” |
-| **Journal** | Central logs | “`journalctl -u foo` beats hunting `/var/log`.” |
-
-### How the story goes (4 steps)
-
-1. **Boot** — systemd reaches default target; starts wanted units (often in parallel).
-2. **Supervise** — tracks main PID; optional restart on crash.
-3. **Operate** — admins use [[systemctl]] for start/stop/status.
-4. **Change** — drop unit in `/etc/systemd/system`, `daemon-reload`, enable/start.
-
-### Unit file locations (precedence)
+1. **Boot** — reach default target; start wanted units (often parallel).
+2. **Supervise** — track main PID; optional restart on crash.
+3. **Operate** — [[systemctl]] for start/stop/status.
+4. **Change** — unit under `/etc/systemd/system`, `daemon-reload`, enable/start.
 
 | Path | Role |
 |------|------|
@@ -44,22 +46,15 @@ kernel
 | `/run/systemd/system/` | Runtime |
 | `/usr/lib/systemd/system/` | Packages (distro) |
 
----
-
-
-## Configuration and commands
-
 ```bash
-# Which init?
 ps -p 1 -o comm=
-strings /sbin/init | grep -i systemd
-
 systemctl get-default
 systemctl list-units --type=service --state=running
 systemctl status ssh.service
 systemctl cat ssh.service
-
-# New service sketch → /etc/systemd/system/myapp.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now myapp.service
+journalctl -u myapp -e
 ```
 
 ```ini
@@ -78,67 +73,38 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 ```
 
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now myapp.service
-journalctl -u myapp -e
-```
-
 | Knob | Why it matters |
 |------|----------------|
-| `Type=` | `simple`/`forking`/`notify` — wrong type → “started” but not ready |
+| `Type=` | Wrong type → “started” but not ready |
 | `Restart=` | Crash recovery policy |
 | `After=` / `Wants=` | Ordering vs dependency |
-| drop-ins `foo.service.d/*.conf` | Override without editing package files |
+| drop-ins | Override without editing package files |
 
-Legacy map: runlevels ≈ targets (`rescue.target`, `multi-user.target`, `graphical.target`, `reboot.target`). Prefer targets; don’t edit `/etc/inittab` on systemd hosts.
-
----
-
-
-## When things break
+Legacy map: runlevels ≈ targets (`rescue`, `multi-user`, `graphical`, `reboot`). Prefer targets; don’t edit `/etc/inittab` on systemd hosts.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Service “active” but dead | `Type=forking` without PIDFile | Fix type; use `simple`/`notify` |
+| Active but dead | `Type=forking` without PIDFile | Fix type; use `simple`/`notify` |
 | Edit ignored | Forgot `daemon-reload` | Reload then restart |
 | Won’t start on boot | `is-enabled`; WantedBy | `enable` unit |
 | Exit 203/EXEC | Bad `ExecStart` path | `systemctl cat`; permissions |
-| Black hole logs | Logging to tty only | Journal + `StandardOutput=journal` |
 
----
+## Real-World Applications
 
+Ship a vendor app as a unit with `Restart=on-failure`, override environment via drop-in, and triage with `journalctl -u` after failed deploys.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`enable` ≠ `start`.** Enable only links for boot; use `enable --now` or start separately.
+- **Pro:** Parallel boot, dependency graph, consistent control/logging.
+- **Con:** Complexity and surprises (`Type=`, activation, mask) for SysV veterans.
 
-> [!WARNING]
-> **Package files get overwritten.** Put custom units/overrides under `/etc`, not `/usr/lib`.
+## Comparison
 
-> [!WARNING]
-> **Mask is stronger than disable** — symlink to `/dev/null`; see [[Service masking]].
+- vs [[SYSV (System V)]]: sequential scripts vs declarative units/targets.
+- vs Kubernetes: systemd is node-local; orchestrators own multi-host scheduling.
 
-> [!WARNING]
-> **Upstart/`/etc/init` jobs** on ancient Ubuntu are not systemd units — detect PID 1 before copying recipes.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-- **One-shot user scripts in a desktop session** — user timers/services or cron may be simpler.
-- **Orchestrating containers across hosts** — Kubernetes/Nomad own that plane; systemd stays node-local.
-- **Non-Linux** — launchd/SMF/etc.; don’t assume unit files.
-
----
-
-
-## Related
-
-[[systemctl]] [[journalctl]] [[system service unit files]] [[Service masking]] [[Error status code]] [[SYSV (System V)]] [[Services commands]]
-
-## Sources
-
-- [Wikipedia — systemd](https://en.wikipedia.org/wiki/systemd)
+- Confusing enable with start.
+- Editing package units under `/usr/lib` instead of `/etc` drop-ins.
+- Copying Upstart recipes without checking PID 1 is systemd.

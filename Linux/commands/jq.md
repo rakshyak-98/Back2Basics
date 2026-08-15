@@ -1,62 +1,48 @@
-[[commands]] [[awk]] [[curl]]
+[[Commands]] [[awk]] [[curl]] [[Authentication command]] [[Scripting]]
 
 # jq
 
 > jq is a JSON filter for the shell — select, reshape, and print without writing a script.
 
----
+## Interview Relevance
+API/ops staple: path walks, `select`, `-r` for shell, and why whole-document load matters on big logs.
 
-## How it works
+## Sources
+- [jq Manual](https://jqlang.github.io/jq/manual/) — deep-dive
+- [jq(1)](https://manpages.debian.org/jq) — overview
 
-```txt
-stdin / file.json  ──►  jq 'filter'  ──►  stdout
-         .          path
-         .[]        each array element
-         select()   keep matching objects
-         -r         raw strings (no quotes)
-```
+## Core Definition
+`jq` parses JSON from stdin or a file, applies a filter expression, and prints results. Default pretty-prints; `-r` emits raw strings; `-c` compact/NDJSON-friendly lines; `-e` fails on false/null for scripts.
 
-### Interview map (words you can say)
+## Key Concepts
+- **`.` / `.a.b`:** Identity / nested field walk.
+- **`.[]` / `.[0]`:** Iterate array / index.
+- **`select(...)` / `map(...)`:** Filter and transform.
+- **`-r` / `-c` / `-e`:** Raw strings, compact, exit status for automation.
+- **Streaming:** Default loads whole doc; `--stream` or line-oriented JSON for huge inputs.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`.`** | Identity / pretty-print | “`jq .` formats the blob.” |
-| **`.a.b`** | Nested field | “Dot path is the object walk.” |
-| **`.[]` / `.[0]`** | All / first array items | “Iterate with `.[]`, index with `.[0]`.” |
-| **`select(...)`** | Keep if true | “Filter objects before mapping.” |
-| **`map(...)`** | Transform each | “Map over arrays; `map_values` for objects.” |
-| **`-r` / `-c`** | Raw / compact | “`-r` for shell; `-c` for one line per object.” |
-
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
-# Read / pretty
 jq '.' file.json
 curl -s https://api.example.com/v1/item | jq .
 
-# Paths
 jq '.name' file.json
 jq '.user.email' file.json
 jq '.[0]' file.json
 jq '.[] | .id' file.json
 
-# Filter / reshape
 jq 'map(select(.status == "ok"))' file.json
 jq '{id: .id, name: .name}' file.json
 jq 'map({(.id): .name}) | add' file.json
 
-# Keys / size / delete
 jq 'keys' file.json
 jq 'length' file.json
 jq 'del(.secret)' file.json
 
-# Script-friendly
-jq -r '.token' auth.json          # no quotes
-jq -c '.[]' big.json              # NDJSON-ish compact lines
-jq -e '.ok == true' resp.json     # exit 1 if false/null
+jq -r '.token' auth.json
+jq -c '.[]' big.json
+jq -e '.ok == true' resp.json
 ```
 
 | Pattern | Job |
@@ -67,50 +53,26 @@ jq -e '.ok == true' resp.json     # exit 1 if false/null
 | `to_entries` / `from_entries` | Object ↔ key/value array |
 | `has("k")` | Key exists? |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `parse error` | Not JSON (HTML/error page) | `head`; fix `curl` URL/headers |
+| `parse error` | Not JSON (HTML/error) | `head`; fix URL/headers |
 | `null` everywhere | Wrong path / case | `jq 'keys'`; walk with `.` |
 | Quotes break shell | Output used in bash | `jq -r` |
-| Huge memory | Whole-file load | Stream with `--stream` or split NDJSON |
-| Exit 0 on miss | Default null is success | `jq -e` for scripts |
-| Multiple top-level values | NDJSON | `jq -c .` per line or `jq -s` to slurp |
+| Huge memory | Whole-file load | `--stream` or NDJSON lines |
+| Exit 0 on miss | Default null success | `jq -e` |
 
----
+## Real-World Applications
+Extracting tokens from auth responses, filtering Kubernetes JSON, and shaping CI API payloads before the next pipeline step.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Precise JSON surgery in pipes; great with `curl`.
+- **Con:** Memory-hungry on giant documents; learning curve for complex filters.
+- **Trade-off:** `map(select)` vs `.[] | select` stream shapes differ.
 
-## Gotchas
+## Comparison
+vs [[awk]]/[[grep]]: text/columns vs structured JSON. vs `yq`: YAML/TOML cousins. vs Python: use Python when transforms become programs.
 
-> [!WARNING]
-> **`jq` loads the whole document** (unless `--stream`) — multi‑GB logs need line-oriented JSON.
-
-> [!WARNING]
-> **`select` vs `map(select)`** — on an array, `map(select(...))` keeps structure; bare `select` after `.[]` emits a stream.
-
-> [!WARNING]
-> **Numbers vs strings** — `"10" != 10`. Use `tonumber` / `tostring` explicitly.
-
----
-
-
-## When not to use
-
-- **Line/column text logs** — [[awk]] / [[grep]].
-- **YAML/TOML configs** — `yq` / dedicated parsers.
-- **Mutating a DB** — jq is a transform tool, not storage.
-
----
-
-
-## Related
-
-[[awk]] [[curl]] [[commands]] [[Authentication command]]
-
-## Sources
-
-- [Wikipedia — jq](https://en.wikipedia.org/wiki/jq)
+## Mistakes to Avoid
+- Comparing `"10"` and `10` without `tonumber`.
+- Using jq on multi-GB logs without streaming/line mode.
+- Forgetting `-e` in scripts that must fail on missing fields.

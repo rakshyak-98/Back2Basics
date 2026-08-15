@@ -2,21 +2,32 @@
 
 # disk IOPS
 
-> IOPS (I/O operations per second) counts how many read/write commands a storage device completes per second — throughput in bytes and latency in milliseconds both matter for real workloads.
+> IOPS counts how many read/write commands a storage device completes per second — bytes/sec and latency still matter for real workloads.
 
-**IOPS** rises with smaller random IO on SSDs/NVMe; large sequential transfers measure **MB/s** instead. Controllers, queue depth, and block size all change the number.
+## Interview Relevance
 
-## Rough reference (order of magnitude, not guarantees)
+Storage sizing: random 4K vs sequential MB/s, queue depth, and how [[fsync]] / page cache change observed IOPS.
+
+## Sources
+
+- Brendan Gregg — storage performance methodology — deep-dive
+- [Wikipedia — IOPS](https://en.wikipedia.org/wiki/IOPS) — overview
+- SNIA storage performance specifications — overview
+
+## Key Concepts
+
+- **IOPS vs throughput:** small random IO → IOPS; large sequential → MB/s.
+- **Knobs:** block size, queue depth, media type, sync policy.
+- **Cache effect:** [[Buffer cache]] merges/delays writes vs app `write()` count.
+- **Sync tax:** [[fsync]] can collapse effective IOPS for databases.
+
+## Technical Details
 
 | Media | Random 4K IOPS (typical class) |
 |-------|--------------------------------|
 | HDD | tens to low hundreds |
 | SATA SSD | tens of thousands |
 | NVMe | hundreds of thousands+ |
-
-## OS stack effects
-
-The [[Buffer cache]] merges and delays writes — measured IOPS at the disk may be lower than application `write()` calls. [[fsync]] forces flush and can collapse IOPS under sync-heavy databases.
 
 ```bash
 iostat -xz 1
@@ -25,8 +36,23 @@ fio --name=test --rw=randread --bs=4k --iodepth=32 --numjobs=1
 
 [[CPU IO Bound Task]] services waiting on disk show low CPU and high `await` in `iostat`.
 
-## Sources
+## Real-World Applications
 
-- Brendan Gregg — storage performance methodology
-- Wikipedia: [IOPS](https://en.wikipedia.org/wiki/IOPS)
-- SNIA storage performance specifications
+Database volume selection, fio capacity tests, and explaining why “plenty of GB free” still feels slow.
+
+## Pros/Cons or Trade-offs
+
+- **Higher queue depth:** more IOPS until latency explodes.
+- **Larger blocks:** better MB/s; fewer IOPS for same bytes.
+- **Trade-off:** sync durability vs peak IOPS.
+
+## Comparison
+
+- vs bandwidth: different bottleneck axes for the same [[Persistent Block Storage]] device.
+- vs app ops/sec: not 1:1 because of caching and batching.
+
+## Mistakes to Avoid
+
+- Sizing from sequential MB/s for a random OLTP workload.
+- Ignoring `await`/`svctm` while celebrating raw IOPS.
+- Benchmarking with cache hits and calling it device IOPS.

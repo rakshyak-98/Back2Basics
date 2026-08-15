@@ -2,24 +2,51 @@
 
 # ad hoc system
 
-> ad hoc system shapes how React applications compose UI, state, and side effects in production.
+> One-off state and fetch wiring scattered across components — works in a spike, fights you in production.
 
-## What this is
+## Interview Relevance
 
-React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
+Interviewers contrast disciplined data/state boundaries with ad-hoc effects and prop drilling to see if you have tasted scale.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [React — Thinking in React](https://react.dev/learn/thinking-in-react) — overview
+- [React — Managing State](https://react.dev/learn/managing-state) — deep-dive
 
-## Recall
+## Core Definition
 
-What breaks first in production if `ad hoc system` is misused — bundle size, stale UI, or hydration errors?
+An ad hoc React system means each feature invents its own fetch, cache, and event wiring instead of shared patterns (hooks, query clients, stores).
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Data Fetching HOC component]]
+- **Local invention:** Every screen has its own `useEffect` fetch + loading flag.
+- **No shared client:** Headers, base URL, and error mapping copied per file.
+- **Prop drilling / random Context:** Cross-cutting state appears without a clear owner.
+
+## Technical Details
+
+Smell checklist:
+
+| Smell | Prefer instead |
+|-------|----------------|
+| `useEffect` + `fetch` in 10 screens | [[react-query]] |
+| Modal + user + cart all in one Context | Split stores / [[zustand]] slices |
+| Copy-pasted loading spinners | Shared Suspense / query status UI |
+
+## Real-World Applications
+
+MVP ships with fetch-in-effect everywhere; the first multi-page feature forces a migration to TanStack Query and a thin API module.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast for prototypes and throwaway demos.
+- **Con:** Race conditions, duplicate requests, and inconsistent error UX at team scale.
+
+## Comparison
+
+- vs [[React Architecture]]: architecture names owners and boundaries; ad hoc leaves each file to invent them.
+
+## Mistakes to Avoid
+
+- Calling a working spike “done” without extracting the API/query layer.
+- Adding Redux “for structure” while still fetching ad hoc in components.

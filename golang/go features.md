@@ -1,12 +1,19 @@
-[[golang]] [[go embedding]] [[go interface]]
+[[golang]] [[go embedding]] [[go interface]] [[go data structure]] [[go]]
 
 # go features
 
 > Go language shape — no class inheritance; embed structs, satisfy interfaces implicitly, maps iterate randomly on purpose.
 
----
+## Interview Relevance
 
-## How it works
+Language-shape questions (no inheritance, implicit interfaces, random map range) test whether you know Go’s deliberate constraints, not just syntax.
+
+## Sources
+
+- [Effective Go](https://go.dev/doc/effective_go) — deep-dive
+- [Go FAQ](https://go.dev/doc/faq) — overview
+
+## Key Concepts
 
 ```txt
 Cat { Animal }  →  Cat.Eat() may shadow Animal.Eat()
@@ -20,10 +27,7 @@ any type with Read(…) satisfies Reader
 | Implicit interface | Duck typing with compile checks |
 | Random map range | Don’t rely on order |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 type Animal struct{}
@@ -46,10 +50,7 @@ func main() {
 | Embedded name collision | Inner field needs `c.Animal.X` |
 | `sort` for maps | Collect keys, sort, then iterate |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,32 +59,12 @@ func main() {
 | “Doesn’t implement” | Pointer receiver only | Pass `*T` or add value method |
 | Unexpected Eat() | Shadow vs promote | Call `c.Animal.Eat()` explicitly |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Deep “is-a” trees — redesign with interfaces + small structs.
+- **Trade-off:** Ordered maps as API — use slices or sorted keys.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Embedding ≠ inheritance** — no polymorphic “base” type; use interfaces.
-
-> [!WARNING]
-> **Map iteration order** — never ship logic that depends on it.
-
----
-
-
-## When not to use
-
-- **Deep “is-a” trees** — redesign with interfaces + small structs.
-- **Ordered maps as API** — use slices or sorted keys.
-
----
-
-
-## Related
-
-[[go embedding]] [[go interface]] [[go data structure]] [[go]]
-
-## Sources
-
-- [Wikipedia — go features](https://en.wikipedia.org/wiki/go_features)
+- Embedding ≠ inheritance — no polymorphic “base” type; use interfaces.
+- Map iteration order — never ship logic that depends on it.

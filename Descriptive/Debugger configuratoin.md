@@ -1,12 +1,18 @@
-[[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[LSP]]
+[[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[LSP]] [[How does debugger work]] [[unbound breakpoint]]
 
 # Debugger configuratoin
 
-> Debugger config wires your editor to a debug adapter — breakpoints, env, and program args in one launch profile.
+> Debugger configuration wires your editor to a debug adapter — breakpoints, launch vs attach, and environment.
 
----
+## Interview Relevance
 
-## How it works
+Launch/attach config interviews check env vars, source maps, and unbound breakpoints.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
@@ -21,10 +27,7 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 | **sourcemap** | Compiled → source | “TS/JS need maps.” |
 | **cwd / env** | Process context | “Wrong cwd = missing files.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```json
 {
@@ -43,10 +46,18 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 | `skipFiles` | Skip node internals |
 | `console` | Integrated vs external |
 
----
+## Pros/Cons or Trade-offs
 
+- **One-line print in a script** — logging may be faster.
+- **production live traffic** — prefer tracing; debugger pauses freeze work.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Debugging minified prod without maps** — useless; use source maps or attach to non-minified.
+
+> [!WARNING]
+> **Multiple launch configs** — wrong one selected silently.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,30 +66,3 @@ IDE ↔ DAP adapter ↔ runtime (node/python/gdb)
 | Env missing | launch env | Copy required vars |
 | Breaks in wrong file | path mapping | Fix `sourceMapPathOverrides` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Debugging minified prod without maps** — useless; use source maps or attach to non-minified.
-
-> [!WARNING]
-> **Multiple launch configs** — wrong one selected silently.
-
----
-
-
-## When not to use
-
-- **One-line print in a script** — logging may be faster.
-- **production live traffic** — prefer tracing; debugger pauses freeze work.
-
-
-## Related
-
-[[DAP (Debug Adapter Protocol)]] [[How does debugger work]] [[unbound breakpoint]]
-
-## Sources
-
-- [Wikipedia — Debugger configuratoin](https://en.wikipedia.org/wiki/Debugger_configuratoin)

@@ -1,12 +1,28 @@
-[[NodeJS]] [[Security/JWT authentication]] [[Security/single-sign-on (SSO)]] [[Express middleware]]
+[[NodeJS]] [[Security/JWT authentication]] [[Security/single-sign-on (SSO)]] [[Express middleware]] [[Security/CORS (Cross Origin Request Sharing)]] [[Security/Token rotation]]
 
 # SuperTokens (Node SDK)
 
 > SuperTokens (Node SDK) — superTokens splits auth into a Core service (session store, refresh rotation) and your API (SDK middleware). Sessions live in httpOnly cookies +
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **SuperTokens (Node SDK)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [SuperTokens — Docs](https://supertokens.com/docs/guides) — deep-dive
+- [Wikipedia — SuperTokens](https://en.wikipedia.org/wiki/SuperTokens) — overview
+
+## Core Definition
+
+[SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
+
+## Key Concepts
+
+- [SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions li…
+- Recipe modules: **EmailPassword**, **ThirdParty** (OAuth), **Passwordless**, **Session**, **UserRoles**. SDK exposes `middleware()`, `errorHandler()`, and recipe APIs for sign-u…
+
+## Technical Details
 
 [SuperTokens](https://supertokens.com/docs/nodejs) splits authentication into a **Core** service (session store, refresh rotation) and your **API** (SDK middleware). Sessions live in httpOnly cookies + anti-CSRF headers — not long-lived JWTs in localStorage.
 
@@ -17,9 +33,6 @@ Browser ──login──► API (supertokens-node SDK) ──► SuperTokens Co
 ```
 
 Recipe modules: **EmailPassword**, **ThirdParty** (OAuth), **Passwordless**, **Session**, **UserRoles**. SDK exposes `middleware()`, `errorHandler()`, and recipe APIs for sign-up/sign-in.
-
-
-## Configuration and commands
 
 ### Express setup
 
@@ -79,45 +92,30 @@ app.get('/feed', verifySession({ sessionRequired: false }), handler);
 # supertokens-core on 3567; point connectionURI to it
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **SuperTokens** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`appInfo` domains must match real URLs** — subtle mismatch breaks cookie scope and OAuth redirects; **Middleware order** — SuperTokens middleware before body parsers on auth routes per docs.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 401 on all routes | Core down; wrong `connectionURI` | Health check Core; verify network from API pod |
-| CORS errors on `/auth` | `websiteDomain` mismatch | Align appInfo domains; CORS before middleware |
-| Refresh loop | Clock skew; cookie domain | Sync NTP; `cookieDomain` for subdomains |
-| Session exists but 403 CSRF | Missing anti-CSRF header | Frontend SDK must send header from recipe |
-| Works locally, fails prod | `cookieSecure` on HTTP | HTTPS only in prod or correct proxy `trust proxy` |
-| User deleted but session valid | Session revocation | Call revoke session APIs; shorten access token life |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (SuperTokens (Node SDK) — superTokens splits auth into a Core service (session st…).
+- **Con / when not:** **Pure SPA + opaque API tokens only** — simpler OAuth2 provider (Auth0, Cognito) may fit.
+- **Con / when not:** **Machine-to-machine only** — client credentials flow, not session cookies.
+- **Con / when not:** **Already deep into custom JWT** — migration cost versus incremental hardening.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **`appInfo` domains must match real URLs** — subtle mismatch breaks cookie scope and OAuth redirects.
+vs [[Security/JWT authentication]]: know when each applies — do not treat them as interchangeable. vs [[Security/single-sign-on (SSO)]]: know when each applies — do not treat them as interchangeable. vs [[Express middleware]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **Middleware order** — SuperTokens middleware before body parsers on auth routes per docs.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Don't roll custom JWT refresh** — use recipe session handling; rotation is easy to get wrong.
-
-> [!WARNING]
-> **Multi-region** — Core latency; consider managed SuperTokens or regional Core.
-
-
-## When not to use
-
-- **Pure SPA + opaque API tokens only** — simpler OAuth2 provider (Auth0, Cognito) may fit.
-- **Machine-to-machine only** — client credentials flow, not session cookies.
-- **Already deep into custom JWT** — migration cost versus incremental hardening.
-
-
-## Related
-
-[[Security/JWT authentication]] [[Security/single-sign-on (SSO)]] [[Security/CORS (Cross Origin Request Sharing)]] [[Express middleware]] [[Security/Token rotation]]
-
-## Sources
-
-- [Wikipedia — SuperTokens](https://en.wikipedia.org/wiki/SuperTokens)
+- **`appInfo` domains must match real URLs** — subtle mismatch breaks cookie scope and OAuth redirects.
+- **Middleware order** — SuperTokens middleware before body parsers on auth routes per docs.
+- **Don't roll custom JWT refresh** — use recipe session handling; rotation is easy to get wrong.
+- **Multi-region** — Core latency; consider managed SuperTokens or regional Core.
+- **401 on all routes:** check Core down; wrong `connectionURI`; fix: Health check Core; verify network from API pod
+- **CORS errors on `/auth`:** check `websiteDomain` mismatch; fix: Align appInfo domains; CORS before middleware
+- **Refresh loop:** check Clock skew; cookie domain; fix: Sync NTP; `cookieDomain` for subdomains
+- **Session exists but 403 CSRF:** check Missing anti-CSRF header; fix: Frontend SDK must send header from recipe
+- **Works locally, fails prod:** check `cookieSecure` on HTTP; fix: HTTPS only in prod or correct proxy `trust proxy`
+- **User deleted but session valid:** check Session revocation; fix: Call revoke session APIs; shorten access token life

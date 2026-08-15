@@ -1,12 +1,19 @@
-[[Perceptron]] [[sigmoid]] [[scikitlearn]] [[binary classification]] [[regression]]
+[[Perceptron]] [[sigmoid]] [[scikitlearn]] [[binary classification]] [[regression]] [[supervised learning]] [[Gradient boosting]]
 
 # ANN (Artificial Neural Network)
 
 > Stacked layers of weighted sums + nonlinear activations — universal function approximator trained by gradient descent — **Goodfellow et al. (Deep Learning)**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about ANN (Artificial Neural Network) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 A feedforward ANN maps input **x** through layers:
 
@@ -27,10 +34,7 @@ Each **neuron** = affine transform + activation (**ReLU**, **sigmoid**, **softma
 
 For **retrieval at scale** (recommendation, search), ANN also means **Approximate Nearest Neighbor** index (FAISS, HNSW) — different topic; see embedding + vector DB patterns below.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### scikit-learn MLP (tabular baseline)
 
@@ -69,10 +73,19 @@ model = nn.Sequential(
 
 **Why StandardScaler:** unscaled features dominate gradients; tree models don't need this — see [[Decision tree]].
 
----
+## Pros/Cons or Trade-offs
 
+- **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
+- **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
+- **Hard latency SLA on CPU** — deep nets versus single [[Decision tree]] inference cost.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Tabular Kaggle data:** [[Gradient boosting]] / [[Random forest]] often beat shallow MLPs with less tuning. Reach for ANNs when you have images, text, sequences, or massive unstructured data.
+
+> [!WARNING]
+> **Leakage via normalization:** fit scaler on **train only** inside a Pipeline or CV fold.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,33 +95,3 @@ model = nn.Sequential(
 | Random results | Seeds, data shuffle | Fix `random_state`; set torch/cuda seeds |
 | "ANN" search returns garbage | Embedding quality, index params | Retrain embeddings; tune HNSW `ef`, recall@k |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Tabular Kaggle data:** [[Gradient boosting]] / [[Random forest]] often beat shallow MLPs with less tuning. Reach for ANNs when you have images, text, sequences, or massive unstructured data.
-
-> [!WARNING]
-> **Leakage via normalization:** fit scaler on **train only** inside a Pipeline or CV fold.
-
----
-
-
-## When not to use
-
-- **Small tabular datasets (<10k rows)** — [[Decision tree]], [[Model/support vector machines (SVM)]], or linear models first.
-- **Need exact interpretable coefficients** — use [[Model/Linear regression]] or GAM.
-- **Hard latency SLA on CPU** — deep nets versus single [[Decision tree]] inference cost.
-
----
-
-
-## Related
-
-[[Perceptron]] · [[sigmoid]] · [[supervised learning]] · [[binary classification]] · [[Gradient boosting]] · [[scikitlearn]]
-
-## Sources
-
-- [Wikipedia — ANN](https://en.wikipedia.org/wiki/ANN)

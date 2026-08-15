@@ -4,9 +4,26 @@
 
 > GRASP (General Responsibility Assignment Software Patterns) guides which object should own a behavior — answering "who should know this?" and "who should create that?" before [[SOLID]] shapes the type relationships.
 
----
+## Interview Relevance
 
-## Core patterns
+Name several GRASP patterns (Information Expert, Controller, Low Coupling) and apply them to a class-responsibility sketch.
+
+## Sources
+
+- Craig Larman, *Applying UML and Patterns* (Prentice Hall, 3rd ed.) — GRASP patterns — overview
+- Robert C. Martin, *Clean Architecture* — controllers and use-case boundaries — overview
+
+## Key Concepts
+
+- **Information Expert:** put behavior with the data that knows.
+- **Creator / Controller:** who creates objects; who handles system events.
+- **Low Coupling / High Cohesion:** change isolation and focused modules.
+- **Polymorphism / Pure Fabrication:** vary by type; invent service objects when needed.
+
+
+## Technical Details
+
+### Core patterns
 
 Craig Larman documented GRASP in *Applying UML and Patterns*. The patterns are questions, not ceremony:
 
@@ -47,7 +64,27 @@ GRASP assigns **responsibilities** at design time. SOLID refines **type structur
 
 Avoid **ManagerFactoryBuilder** over-fabrication — not every line needs a new class.
 
-## Sources
+## Real-World Applications
 
-- Craig Larman, *Applying UML and Patterns* (Prentice Hall, 3rd ed.) — GRASP patterns.
-- Robert C. Martin, *Clean Architecture* — controllers and use-case boundaries.
+OO responsibility assignment in domain models and service layers.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Shared vocabulary for design critiques.
+- **Con:** Cargo-cult pattern names without force.
+- **Trade-off:** more indirection vs direct scripts.
+
+
+## Comparison
+
+- vs [[SOLID]]: SOLID is dependency/form; GRASP is responsibility placement.
+- vs [[KISS]]: pick the lightest GRASP move that clarifies ownership.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

@@ -1,74 +1,56 @@
-[[Feature implementation]] [[ExpressJS]] [[cookies]] [[cookies lifecycle]]
+[[cookies/cookies lifecycle]] [[marketplace app]] [[Security/IDOR]]
 
 # Manage cart with session id
 
-> Guest shopping carts bind to a server-side session identifier — persist cart items in session storage or a database keyed by session until the user logs in and merges into an account cart.
+> Guest carts bind to a server-side session identifier — persist line items until login merges into a user cart or the session expires.
 
----
+## Interview Relevance
 
-## Session-backed cart flow
+Interviewers want cookie/session fixation awareness, merge-on-login rules, and concurrency when two tabs mutate the same cart.
+
+## Sources
+
+- [OWASP — Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) — deep-dive
+- [MDN — HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) — overview
+
+## Key Concepts
+
+- **Anonymous session id:** opaque token in a cookie → server stores cart rows keyed by it.
+- **Merge on login:** combine guest + user carts with deterministic conflict rules.
+- **TTL:** expire idle carts; do not keep forever.
+- **Authorization:** never accept client-supplied “session id” in raw body without cookie binding checks.
+
+## Technical Details
 
 ```txt
-Browser session cookie → session ID → cart storage (memory / Redis / DB)
-Login → merge guest cart into user cart → invalidate or reuse session
+Browser cookie sid → API → cart_items(session_id)
+Login → merge(session cart, user cart) → new authenticated cart
 ```
 
-Unauthenticated users need a stable session without requiring registration. Authenticated users should use `userId` as the primary cart key.
+| Issue | Approach |
+|-------|----------|
+| Session fixation | Rotate id on login |
+| Tab races | Row version / transactional updates |
+| IDOR | Server derives sid from cookie, not user input |
 
----
+## Real-World Applications
 
-## Backend structure
+Ecommerce guest checkout: shop before account creation; merge when the user signs in.
 
-```plaintext
-/backend
-├── controllers
-│   ├── cartController.js       # add, remove, view
-│   └── authController.js       # login, registration
-├── models
-│   ├── Cart.js                 # session or user keyed
-│   └── User.js
-├── routes
-│   ├── cartRoutes.js
-│   └── authRoutes.js
-├── sessions
-│   └── sessionManager.js       # storage and expiration
-├── utils
-│   └── sessionUtils.js
-├── app.js
-└── .env                        # session secret
-```
+**Example:** User adds items as guest on phone, logs in — duplicate SKUs merge quantities rather than duplicating lines.
 
-| Decision | Trade-off |
-|----------|-----------|
-| In-memory session | Fast; lost on restart |
-| Redis session | Survives restarts; shared across nodes |
-| DB-backed cart | Persistent; more queries |
+## Pros/Cons or Trade-offs
 
-Use `express-session` with a secure cookie (`httpOnly`, `sameSite`) and a strong secret in `.env`. Set session TTL aligned with cart abandonment policy.
+- **Pro:** Low-friction shopping without forced signup.
+- **Con:** Cookie/privacy constraints and multi-device continuity limits.
 
----
+## Comparison
 
-## Merge on login
+- vs purely client localStorage carts: server carts survive browser clears less often but need session infra.
+- vs user-only carts: simpler security, worse conversion.
 
-1. Read guest cart from session ID.
-2. Load user cart from `userId`.
-3. Merge line items (dedupe SKUs, sum quantities).
-4. Save merged cart under `userId`.
-5. Clear guest session cart.
+## Mistakes to Avoid
 
----
-
-## What breaks first
-
-| Symptom | Likely cause | Fix |
-|---------|--------------|-----|
-| Cart empty after deploy | In-memory sessions | Redis or DB backing |
-| Cart lost on login | No merge step | Implement merge in auth handler |
-| Duplicate items | Merge logic missing | Dedupe by product ID |
-| Session fixation | Reuse session after login | Regenerate session ID on auth |
-
----
-
-## Related
-
-[[Feature implementation]] · [[cookies lifecycle]] · [[cookies configuration]]
+- Trusting `sessionId` from JSON body over the signed cookie.
+- Losing the guest cart on login (no merge).
+- Letting carts become an unbounded growth table without TTL jobs.

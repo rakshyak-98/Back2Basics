@@ -1,12 +1,19 @@
-[[Data structure]] [[sliding window]] [[dsa problem solving Scaffold]]
+[[Data structure]] [[sliding window]] [[dsa problem solving Scaffold]] [[Prefix sum]]
 
 # Two pointer
 
 > Two pointers walk a sequence from ends or in tandem — linear passes instead of nested loops when order helps.
 
----
+## Interview Relevance
 
-## How it works
+Two pointers compress O(n²) scans when order or a monotonic invariant allows — interviewers want the invariant stated aloud.
+
+## Sources
+
+- [Wikipedia — Two-pointer technique (algorithmic pattern)](https://en.wikipedia.org/wiki/Two_pointers_technique) — overview
+- [NeetCode — Two Pointers](https://neetcode.io/practice) — overview
+
+## Key Concepts
 
 ```txt
 L →→→    ←←← R     or    L,R both →→ (fast/slow, window)
@@ -21,10 +28,7 @@ L →→→    ←←← R     or    L,R both →→ (fast/slow, window)
 | **Fast/slow** | cycle detection | “Floyd.” |
 | **Invariant** | what stays true | “Say it every move.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 // two-sum on sorted
@@ -43,10 +47,7 @@ while (l < r) {
 | `l < r` vs `<=` | Duplicates / mid |
 | Monotonic window | Sliding window cousin |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,30 +56,12 @@ while (l < r) {
 | Wrong on unsorted | used opposite ends | Sort copy or other pattern |
 | Off-by-one | bounds | Draw array + indices |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Unordered hashable pair without sort need — hash set may be simpler.
+- **Trade-off:** Graph problems — BFS/DFS, not array pointers.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Two pointers ≠ always O(n)** — if you binary search inside, say the real cost.
-
-> [!WARNING]
-> **Mutating while iterating** — read/write pointers need clear roles.
-
----
-
-
-## When not to use
-
-- **Unordered hashable pair without sort need** — hash set may be simpler.
-- **Graph problems** — BFS/DFS, not array pointers.
-
-
-## Related
-
-[[sliding window]] [[Prefix sum]] [[dsa problem solving Scaffold]]
-
-## Sources
-
-- [Wikipedia — Two pointer](https://en.wikipedia.org/wiki/Two_pointer)
+- Two pointers ≠ always O(n) — if you binary search inside, say the real cost.
+- Mutating while iterating — read/write pointers need clear roles.

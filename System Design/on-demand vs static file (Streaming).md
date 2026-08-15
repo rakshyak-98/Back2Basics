@@ -4,9 +4,25 @@
 
 > On-demand vs static — VOD/static files sit on disk/CDN; “on-demand” packaging/transcode happens when requested (or just-in-time), vs pre-packaged assets.
 
----
+## Interview Relevance
 
-## How it works
+VOD/static CDN vs on-demand generation; cacheability and origin cost.
+
+## Sources
+
+- [Wikipedia — on-demand vs static file](https://en.wikipedia.org/wiki/on-demand_vs_static_file) — overview
+
+## Key Concepts
+
+- **Static/VOD:** prepositioned files on disk/CDN — cache-friendly.
+- **On-demand:** generate/transcode at request time — flexible, costly.
+- **Hybrid:** mezzanine + derivative ladder on CDN.
+- **Origin protection:** cache HIT ratio dominates cost.
+
+
+## Technical Details
+
+### How it works
 
 ```txt
 Static:   mezz → (batch) → HLS on S3/CDN → players
@@ -38,35 +54,41 @@ player → CDN → origin packager (miss) → cache segments
 | Fallback | Pre-bake poster / audio-only |
 
 ---
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Long startup | Cold JIT transcode | Pre-warm; bake top bitrates |
-| 404 segment | Packager race | Atomic publish; retry |
-| CDN stampede | Many misses one asset | Request coalesce; longer TTL |
-| Huge bill | JIT every unique | Cache; limit ladder |
-| DRM mismatch | Late binding fail | Align CPIX/keys pre-play |
-
----
-
-
 ## Comparison
 
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
+- vs [[CMS]]: CMS holds metadata; streaming path delivers bytes.
+- vs live streaming: live is continuous; VOD is file-oriented.
 
 
 ## How to choose
 
 - Choose **A** when …
 - Choose **B** when …
+## When not to use
+
+- **True live events** — live pipeline, not VOD JIT.
+- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
+- **No CPU budget at edge** — pre-package everything.
+
+---
+
+## Real-World Applications
+
+Video platforms choosing CDN packaging vs just-in-time packaging.
 
 
-## Gotchas
+## Pros/Cons or Trade-offs
+
+- **Pro (static):** cheap scale via CDN.
+- **Pro (on-demand):** fewer precomputed assets.
+- **Trade-off:** storage/precompute vs CPU/latency at edge.
+
+
+## Comparison
+
+- vs related vault notes linked above — pick boundaries from those siblings.
+
+## Mistakes to Avoid
 
 > [!WARNING]
 > **“Static file” still needs manifests** — players want HLS/DASH, not one giant MP4 (unless progressive).
@@ -79,20 +101,12 @@ player → CDN → origin packager (miss) → cache segments
 
 ---
 
-
-## When not to use
-
-- **True live events** — live pipeline, not VOD JIT.
-- **Tiny catalog rarely played** — maybe progressive MP4 is enough.
-- **No CPU budget at edge** — pre-package everything.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Long startup | Cold JIT transcode | Pre-warm; bake top bitrates |
+| 404 segment | Packager race | Atomic publish; retry |
+| CDN stampede | Many misses one asset | Request coalesce; longer TTL |
+| Huge bill | JIT every unique | Cache; limit ladder |
+| DRM mismatch | Late binding fail | Align CPIX/keys pre-play |
 
 ---
-
-
-## Related
-
-[[Streaming]] [[HLS]] [[DASH]] [[ABR]] [[transcoding]] [[rendition]]
-
-## Sources
-
-- [Wikipedia — on-demand vs static file](https://en.wikipedia.org/wiki/on-demand_vs_static_file)

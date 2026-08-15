@@ -1,14 +1,26 @@
-[[TCP]] [[UDP]] [[SSH]]
+[[TCP]] [[UDP]] [[SSH]] [[Egress traffic]] [[webSocket]]
 
 # SOCKS (Socket Secure)
 
-> client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — debug egress and bypass paths — **RFC 1928**.
+> SOCKS is a client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — useful for debug egress and jump-host paths (RFC 1928).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers distinguish SOCKS from HTTP proxies, `socks5` versus `socks5h` DNS behavior, and SSH `-D` as a dynamic SOCKS listener.
 
-Unlike HTTP proxies (URL-level), SOCKS hands the client a **tunnel** after authentication. The client then speaks the target protocol raw — SSH, HTTPS, DB, anything TCP.
+## Sources
+
+- [RFC 1928 — SOCKS Protocol Version 5](https://datatracker.ietf.org/doc/html/rfc1928) — deep-dive
+- [Wikipedia — SOCKS](https://en.wikipedia.org/wiki/SOCKS) — overview
+
+## Key Concepts
+
+- **Tunnel after handshake:** unlike HTTP proxies (URL-level), SOCKS bridges a raw byte stream to the target.
+- **SOCKS4 vs SOCKS5:** v4 is TCP/IPv4 only; v5 adds UDP, auth, IPv6, and domain names.
+- **Remote DNS (`socks5h`):** resolve on the proxy — avoids local leak and reaches internal-only names.
+- **Not encryption:** payload is visible unless the inner protocol is TLS/SSH.
+
+## Technical Details
 
 ```
 App ──SOCKS handshake──► Proxy (:1080) ──TCP connect──► target:443
@@ -20,10 +32,7 @@ App ──SOCKS handshake──► Proxy (:1080) ──TCP connect──► targ
 | **SOCKS4** | TCP only, no auth, no hostname (IPv4 only) |
 | **SOCKS5** | TCP + UDP, username/password or GSSAPI, IPv4/IPv6/domain |
 
-Common uses: corporate egress (`ALL_PROXY`), [[SSH]] dynamic forward (`-D 1080`), browser `--proxy-server`, tooling (`curl --socks5-hostname`).
-
-
-## Configuration and commands
+Common uses: corporate egress (`ALL_PROXY`), [[SSH]] dynamic forward (`-D 1080`), browser `--proxy-server`, `curl --socks5-hostname`.
 
 ```shell
 # SSH local SOCKS proxy (dynamic port forward)
@@ -36,18 +45,14 @@ curl -v --proxy socks5h://127.0.0.1:1080 https://internal.service.local
 # Test TCP reachability via tunnel
 nc -X 5 -x 127.0.0.1:1080 target.host 443
 
-# Environment (many CLI tools honor these)
 export ALL_PROXY=socks5://127.0.0.1:1080
 export NO_PROXY=localhost,127.0.0.1,10.0.0.0/8
 
-# Browser debug (WebSocket through SOCKS)
 chrome --proxy-server="socks5://127.0.0.1:1080"
-
-# Listen check
 ss -tlnp | grep 1080
 ```
 
-### Minimal Dante server snippet (`/etc/sockd.conf`)
+Minimal Dante snippet (`/etc/sockd.conf`):
 
 ```
 internal: eth0 port = 1080
@@ -60,9 +65,6 @@ client pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `Connection refused` to SOCKS port | `ss -tlnp`; SSH `-D` running? | Start tunnel; open firewall to jump host |
@@ -73,28 +75,26 @@ socks pass { from: 10.0.0.0/8 to: 0.0.0.0/0 }
 | Intermittent drops | Idle NAT timeout on jump path | Enable SSH `ServerAliveInterval 60` |
 | UDP apps fail | SOCKS4 or no UDP associate | SOCKS5 with UDP relay; many tools TCP-only |
 
+## Real-World Applications
 
-## Gotchas
+Developer access through a bastion, browser debugging of internal hostnames, and tooling that honors `ALL_PROXY`.
 
-> [!WARNING]
-> **`socks5` vs `socks5h`:** Without `h`, DNS resolves **locally** — leaks intent and breaks internal-only names. Prefer `-hostname` / `socks5h://` for tunnel debugging.
+**Example:** `ssh -N -D 1080 user@jump` plus `curl --socks5-hostname 127.0.0.1:1080` reaches a private service whose DNS only exists inside the VPC.
 
-- **SOCKS is not encryption** — payload visible unless inner protocol is TLS (HTTPS, SSH).
-- **Browser SOCKS** doesn't cover all traffic (system DNS, QUIC/HTTP3 may bypass).
-- **Chaining** (SOCKS → SOCKS) multiplies failure points — document one canonical jump host.
-- **Dante / microsocks** misconfig → open relay; restrict `from:` ACLs.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Protocol-agnostic TCP tunnel — SSH, HTTPS, databases all work.
+- **Con:** Manual `-D` tunnels are not a service mesh; chaining multiplies failure points.
+- **Con:** Browser SOCKS may not cover system DNS or QUIC/HTTP3 bypass paths.
 
-## When not to use
+## Comparison
 
-- Terminate TLS and inspect HTTP → HTTP CONNECT or explicit forward proxy, not raw SOCKS.
-- Permanent service mesh routing → use sidecar/iptables, not manual `-D` tunnels.
+- vs HTTP CONNECT / forward proxy: use those when you must terminate or inspect HTTP; SOCKS stays a raw tunnel.
+- vs permanent mesh routing: sidecar/iptables beats ad-hoc SOCKS for production service paths.
 
+## Mistakes to Avoid
 
-## Related
-
-[[SSH]] · [[TCP]] · [[webSocket]] · [[Egress traffic]]
-
-## Sources
-
-- [Wikipedia — SOCKS](https://en.wikipedia.org/wiki/SOCKS)
+- Using `socks5://` when you need remote DNS — prefer `socks5h://` / `--socks5-hostname`.
+- Assuming SOCKS encrypts traffic.
+- Open-relay Dante/microsocks configs without `from:` ACLs.
+- Forcing UDP apps through SOCKS4.

@@ -1,12 +1,20 @@
-[[multiclass classification]] [[sigmoid]] [[ML Classifiers]] [[scikitlearn]] [[Mean Average Precision (MAP)]]
+[[multiclass classification]] [[sigmoid]] [[ML Classifiers]] [[scikitlearn]] [[Mean Average Precision (MAP)]] [[Decision tree]] [[Gradient boosting]] [[Visualization/Residual plot]] [[data preprocessing]]
 
 # Binary classification
 
 > Binary classification — score(x) → probability p → if p ≥ τ then positive else negative
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Binary classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [binary classification — Wikipedia](https://en.wikipedia.org/wiki/Binary_classification) — overview
+
+## Key Concepts
 
 Output is usually **P(y=1 | x)** ∈ [0,1] from [[sigmoid]] (logistic) or margin score from [[Model/support vector machines (SVM)]]. You pick a **decision threshold** (default 0.5) to emit class 1 versus 0.
 
@@ -23,10 +31,7 @@ Imbalanced data (1% fraud): 99% accuracy by predicting all negatives — useless
 | **F1** | Balance precision/recall for single threshold |
 | **Brier / calibration** | Probabilities used for pricing or routing |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.linear_model import LogisticRegression
@@ -60,10 +65,19 @@ model = xgb.XGBClassifier(
 )
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **More than two unordered classes** — [[multiclass classification]].
+- **Ordered labels** (low/medium/high) — [[ordinal classification]].
+- **Ranking/search quality** — [[Mean Average Precision (MAP)]] / [[Normalized Discounted Cumulative Gain (NDCG)]].
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Default 0.5 threshold** is rarely optimal when false negatives cost 100× false positives (medical, fraud).
+
+> [!WARNING]
+> **Accuracy on imbalanced data** is a vanity metric in design reviews.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,33 +87,3 @@ model = xgb.XGBClassifier(
 | Train AUC 1.0, prod collapse | Target leakage, temporal split | Time-based split; remove post-outcome features |
 | Different results per run | Random seed, data order | Set seeds; stratified CV |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Default 0.5 threshold** is rarely optimal when false negatives cost 100× false positives (medical, fraud).
-
-> [!WARNING]
-> **Accuracy on imbalanced data** is a vanity metric in design reviews.
-
----
-
-
-## When not to use
-
-- **More than two unordered classes** — [[multiclass classification]].
-- **Ordered labels** (low/medium/high) — [[ordinal classification]].
-- **Ranking/search quality** — [[Mean Average Precision (MAP)]] / [[Normalized Discounted Cumulative Gain (NDCG)]].
-
----
-
-
-## Related
-
-[[multiclass classification]] · [[sigmoid]] · [[Decision tree]] · [[Gradient boosting]] · [[Visualization/Residual plot]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — binary classification](https://en.wikipedia.org/wiki/binary_classification)

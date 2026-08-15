@@ -1,12 +1,19 @@
-[[MongoDB]] [[query/mongodb lookup query]] [[mongosh query]]
+[[MongoDB]] [[query/mongodb lookup query]] [[mongosh query]] [[query/mongoDB Group query]]
 
 # mongodb view
 
 > A MongoDB view is a saved aggregation pipeline — read-only, always reflects the source collection.
 
----
+## Interview Relevance
 
-## How it works
+Views questions check read-only aggregation shortcuts versus materialized collections.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 orders ──$group/$sort──► orderSummaryView (read-only)
@@ -21,10 +28,7 @@ orders ──$group/$sort──► orderSummaryView (read-only)
 | **No indexes on view** | Uses source indexes | “Index the underlying collection.” |
 | **Materialized view** | Stored result (Atlas/ondemand) | “Trade freshness for speed.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.createView('orderSummaryView', 'orders', [
@@ -40,10 +44,18 @@ db.orderSummaryView.find().limit(20)
 | Source indexes | Only lever for speed |
 | Permissions | Grant read on view, not raw |
 
----
+## Pros/Cons or Trade-offs
 
+- **Write path** — views are read-only.
+- **Hot, simple filters** — a normal collection + index is clearer.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Views are not caches** — heavy `$lookup` views will hurt under load.
+
+> [!WARNING]
+> **Typo in field names** — aggregation silently yields empty groups.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,30 +64,3 @@ db.orderSummaryView.find().limit(20)
 | Wrong totals | Pipeline bug / nulls | Fix `$group`; handle missing fields |
 | View missing | Wrong DB | `db.getCollectionNames()` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Views are not caches** — heavy `$lookup` views will hurt under load.
-
-> [!WARNING]
-> **Typo in field names** — aggregation silently yields empty groups.
-
----
-
-
-## When not to use
-
-- **Write path** — views are read-only.
-- **Hot, simple filters** — a normal collection + index is clearer.
-
-
-## Related
-
-[[mongosh query]] [[query/mongoDB Group query]] [[query/mongodb lookup query]]
-
-## Sources
-
-- [Wikipedia — mongodb view](https://en.wikipedia.org/wiki/mongodb_view)

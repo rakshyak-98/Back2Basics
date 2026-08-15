@@ -1,37 +1,42 @@
-[[Rendering performance/INP]] [[Rendering performance/layout]] [[Rendering performance/paint]] [[Operating System/context switching]]
+[[Rendering performance/INP]] [[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/composite]] [[Operating System/context switching]]
 
-# Refresh rate
+# refresh rate
 
-> Display hardware cadence — frames must be ready before vsync or user sees jank — **60 Hz ≈ 16.67 ms budget**.
+> Display cadence in hertz — frames must be ready before vsync or the user sees stutter; 60 Hz ≈ 16.7 ms budget.
 
----
+## Interview Relevance
 
-## How it works
+Separates “we animate in JS” from real-time budgets: can you do the math for 60/120 Hz, use `requestAnimationFrame`, and explain why mobile CPU throttle breaks desktop-smooth animations?
 
-Screen refreshes at fixed Hz (60, 90, 120, 144). Browser must produce a frame **before each vsync** or frame drops (stutter).
+## Sources
 
-```
-60 Hz → 1000/60 ≈ 16.67 ms per frame (hard ceiling)
-120 Hz → 8.33 ms per frame
+- [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — overview
+- [MDN — Window.requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame) — deep-dive
+- [Wikipedia — Refresh rate](https://en.wikipedia.org/wiki/Refresh_rate) — overview
 
-Browser target: complete JS + layout + paint within ~10 ms (60 Hz)
-                 leaves headroom for compositor + system
-```
+## Core Definition
 
-Device refresh is constant; **application frame rate varies** — animation smooth only if work fits budget.
+The panel refreshes at a fixed (or variable) rate. The browser aims to produce a new frame for each refresh. If JavaScript + style + layout + paint miss the deadline, frames drop and motion looks like jank.
 
+## Key Concepts
 
-## Configuration and commands
+- **Frame period:** `1000 / Hz` ms — hard ceiling before vsync.
+- **Practical JS budget:** leave headroom for rendering and the browser — ~10 ms of script at 60 Hz is a common rule of thumb, less at 120 Hz.
+- **`requestAnimationFrame`:** schedules work for the next frame; pauses in background tabs → correct hook for visual updates.
+- **Variable refresh:** ProMotion / VRR can change cadence for power — don’t assume a fixed 16.7 ms forever.
 
-### Frame budget math
+## Technical Details
 
-| Refresh rate | Frame period | Practical JS budget |
-|--------------|--------------|---------------------|
+| Refresh rate | Frame period | Practical main-thread budget |
+|--------------|--------------|------------------------------|
 | 60 Hz | 16.67 ms | ~10 ms |
 | 90 Hz | 11.1 ms | ~6–7 ms |
 | 120 Hz | 8.33 ms | ~5 ms |
 
-### `requestAnimationFrame` aligns to refresh
+```
+60 Hz  → finish work before ~16.7 ms or drop a frame
+120 Hz → ~8.3 ms — same app code may fail without profiling
+```
 
 ```javascript
 function loop(ts) {
@@ -40,59 +45,39 @@ function loop(ts) {
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
-// rAF fires ~once per frame, paused in background tabs
 ```
-
-### Detect display refresh (experimental)
 
 ```javascript
 if (window.screen?.refreshRate) {
   console.log('Hz', window.screen.refreshRate);
 }
-// matchMedia('(refresh-rate: 120hz)') — limited support
 ```
 
-### High refresh rate testing
-
-- Enable 120 Hz on device/emulator
-- Chrome DevTools → **Rendering** → FPS meter
-- Throttle CPU 4× to simulate mobile
-
-### ProMotion / variable refresh
-
-- iOS/macOS can vary refresh — don't assume fixed cadence for power saving.
-
-
-## When things break
+Testing: enable high refresh on device; Chrome Rendering → FPS meter; CPU 4× throttle for mobile simulation.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Visible stutter in animation | Long tasks > frame period | Split work; compositor-only props |
-| 30 FPS on 120 Hz panel | Every other frame missed | Profile; reduce paint cost |
-| rAF runs but nothing moves | Logic bug vs display | Verify transform updates |
-| Background tab slow | Browser throttles rAF | Expected — pause work on `visibilitychange` |
-| VSync tear (games/native) | Full-screen exclusive | Web uses compositor — different stack |
+| Stuttering animation | Long tasks > frame period | Split work; compositor-only props |
+| 30 FPS on 120 Hz panel | Every other frame missed | Reduce paint/layout per frame |
+| Background tab “slow” | rAF throttled | Pause on `visibilitychange` — expected |
+| `setInterval(16)` drift | Not vsync-aligned | Use `requestAnimationFrame` |
 
+## Real-World Applications
 
-## Gotchas
+Canvas game loop or drag-and-drop preview: drive positions in `requestAnimationFrame`, keep per-frame work under budget, and move decorative motion to `transform` on the compositor.
 
-> [!WARNING]
-> **Meeting 10 ms on desktop ≠ mobile** — same site at 4× CPU throttle may miss 16 ms budget.
+## Pros/Cons or Trade-offs
 
-- **`setInterval(16)` ≠ vsync** — use rAF for visual updates.
-- **Layout + paint in rAF** every frame — OK for small DOM; batch static content.
-- **DevTools open** slows JS — profile with closed dock when possible.
+- **Pro:** Clear numeric target for animation and scroll work.
+- **Con:** Desktop headroom lies — same site fails on mid-tier Android at 4× throttle.
 
+## Comparison
 
-## When not to use
+- vs [[Rendering performance/INP]]: refresh rate is continuous frame cadence; INP is interaction → next paint latency.
+- vs vsync in native games: web apps go through the browser compositor — different tear/latency controls.
 
-- Non-visual batch jobs — don't tie to rAF; use `setTimeout` or Worker.
+## Mistakes to Avoid
 
-
-## Related
-
-[[Rendering performance/INP]] [[Rendering performance/layout]] [[Rendering performance/paint]] [[Descriptive/web development]]
-
-## Sources
-
-- [Wikipedia — refresh rate](https://en.wikipedia.org/wiki/refresh_rate)
+- Equating `setInterval(16)` with vsync — it drifts and ignores display timing.
+- Judging smoothness only with DevTools docked open — the dock itself slows JS.
+- Doing heavy layout every rAF tick for large DOM — batch or virtualize.

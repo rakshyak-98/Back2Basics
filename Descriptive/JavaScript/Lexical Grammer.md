@@ -1,12 +1,18 @@
-[[Descriptive/JavaScript/lexical analysis]] [[javascript]] [[Descriptive/Mermaid (DSL)]]
+[[Descriptive/JavaScript/lexical analysis]] [[javascript]] [[Descriptive/Mermaid (DSL)]] [[Descriptive/JavaScript/function]] [[compiler/library file]]
 
 # Lexical Grammer
 
 > *(Filename typo: **Grammar**)* — ECMAScript rules for how tokens combine into valid programs; pairs with [[lexical analysis]] scanning — **ECMA-262**.
 
----
+## Interview Relevance
 
-## How it works
+Lexical grammar questions check how JS source is tokenized — ASI and grammar edge cases.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 **Lexical grammar** defines valid **tokens**. **Syntactic grammar** defines how tokens form statements and expressions. Two phases, one pipeline:
 
@@ -29,8 +35,7 @@ Key lexical rules engineers hit daily:
 
 Grammar is **not** context-free for regex versus divide — parser uses lookahead.
 
-
-## Configuration and commands
+## Technical Details
 
 ### ASI (automatic semicolon insertion) — grammar + line terminators
 
@@ -63,19 +68,11 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 # Syntax errors fail at parse — same grammar family as TS/JS
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Parse error on valid-looking code | Stage-3 syntax, old target | Update `ecmaVersion` / TS `target` |
-| Regex literal fails | Flags or unescaped `/` | `new RegExp('pattern', 'u')` |
-| Illegal return outside function | Script vs module top-level | Wrap in function or use module |
-| `\u` in identifier wrong | Invalid escape in identifier | Use valid Unicode or ASCII |
-| JSON.parse vs JS literal | JSON stricter grammar | Don't paste JS into JSON.parse |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Annex B (legacy web grammar)** allows some browser-only sloppy patterns (`<!--` as comment) — don't rely on them in modules or Node.
@@ -84,16 +81,10 @@ npx esbuild app.ts --bundle --outfile=/dev/null
 - **Shebang** is not in ECMA grammar text but universally stripped — see [[Descriptive/JavaScript/HashBang Comment]].
 - **TypeScript** adds types erased before runtime — TS parser is superset grammar.
 
-
-## When not to use
-
-- Memorizing full ECMA BNF — use linter/parser errors and specification sections when debugging edge cases only.
-
-
-## Related
-
-[[Descriptive/JavaScript/lexical analysis]] [[javascript]] [[Descriptive/JavaScript/function]] [[compiler/library file]]
-
-## Sources
-
-- [Wikipedia — Lexical Grammer](https://en.wikipedia.org/wiki/Lexical_Grammer)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Parse error on valid-looking code | Stage-3 syntax, old target | Update `ecmaVersion` / TS `target` |
+| Regex literal fails | Flags or unescaped `/` | `new RegExp('pattern', 'u')` |
+| Illegal return outside function | Script vs module top-level | Wrap in function or use module |
+| `\u` in identifier wrong | Invalid escape in identifier | Use valid Unicode or ASCII |
+| JSON.parse vs JS literal | JSON stricter grammar | Don't paste JS into JSON.parse |

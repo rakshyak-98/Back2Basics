@@ -1,12 +1,19 @@
-[[golang]] [[go-routines]]
+[[golang]] [[go-routines]] [[go error]] [[go debugging]]
 
 # Unbuffered channel
 
 > Unbuffered channel — send and receive happen together; no queue — the handoff *is* the sync point.
 
----
+## Interview Relevance
 
-## How it works
+Channels are a Go concurrency staple in interviews — they want rendezvous vs buffer, close ownership, and deadlock/leak reasoning, not just `go` keyword trivia.
+
+## Sources
+
+- [Go blog — Share Memory By Communicating](https://go.dev/blog/codelab-share) — overview
+- [Go spec — Channel types](https://go.dev/ref/spec#Channel_types) — deep-dive
+
+## Key Concepts
 
 ```txt
 goroutine A: ch <- v   ──rendezvous──►  goroutine B: <-ch
@@ -17,10 +24,7 @@ goroutine A: ch <- v   ──rendezvous──►  goroutine B: <-ch
 | Unbuffered | Sync handoff |
 | Buffered `make(chan T, n)` | Queue up to `n`, then block |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 ch := make(chan int) // unbuffered
@@ -39,10 +43,7 @@ for v := range ch { /* … */ }
 | Close | Receivers see zero value + `ok=false` |
 | Select | Multi-channel / timeout |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,36 +52,14 @@ for v := range ch { /* … */ }
 | Panic send on closed | Closed too early | Close once from sender |
 | Race on close | Multiple closers | `sync.Once` or one owner |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Need burst decoupling — use buffered or a queue.
+- **Trade-off:** Fan-out CPU work — worker pool with bounded buffer.
+- **Trade-off:** Simple mutex-protected state — sometimes a mutex is clearer.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Nil channel blocks forever** — `var ch chan int`; send/recv hang.
-
-> [!WARNING]
-> **Don’t close from receiver** — ownership rule: sender closes.
-
-> [!WARNING]
-> **Range exits only on close** — forgetting close = forever loop.
-
----
-
-
-## When not to use
-
-- **Need burst decoupling** — use buffered or a queue.
-- **Fan-out CPU work** — worker pool with bounded buffer.
-- **Simple mutex-protected state** — sometimes a mutex is clearer.
-
----
-
-
-## Related
-
-[[go-routines]] [[go error]] [[go debugging]]
-
-## Sources
-
-- [Wikipedia — Unbuffered channel](https://en.wikipedia.org/wiki/Unbuffered_channel)
+- Nil channel blocks forever — `var ch chan int`; send/recv hang.
+- Don’t close from receiver — ownership rule: sender closes.
+- Range exits only on close — forgetting close = forever loop.

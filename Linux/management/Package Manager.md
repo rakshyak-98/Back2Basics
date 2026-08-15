@@ -1,12 +1,26 @@
-[[management]] [[apt package manager]] [[source list file]] [[keyrings]]
+[[apt package manager]] [[FileManagement/source list file]] [[keyrings]] [[Package deferred]] [[commands/APT policy]]
 
 # Package Manager
 
-> A package manager installs/upgrades/removes software with dependency solving — on Debian/Ubuntu that’s APT/dpkg; elsewhere dnf/zypper/pacman.
+> Installs, upgrades, and removes software with dependency solving — APT/dpkg on Debian/Ubuntu; dnf/zypper/pacman elsewhere.
 
----
+## Interview Relevance
 
-## How it works
+APT vs dpkg, policy/pins, holds, and never killing mid-dpkg unpack.
+
+## Sources
+
+- [Debian APT guide](https://www.debian.org/doc/manuals/apt-guide/) — deep-dive
+- [Wikipedia — Package manager](https://en.wikipedia.org/wiki/Package_manager) — overview
+
+## Key Concepts
+
+- **APT vs dpkg:** solver/front-end vs unpacker.
+- **Policy / pin:** why a candidate version wins (`apt-cache policy`).
+- **Hold:** block upgrades for a package.
+- **Transaction safety:** don’t interrupt unpack/configure.
+
+## Technical Details
 
 ```txt
 apt update → indexes
@@ -14,21 +28,6 @@ apt install → resolve → dpkg -i unpack
                  │
             /var/lib/dpkg  /var/cache/apt
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **APT vs dpkg** | Solver vs unpacker | “apt calls dpkg.” |
-| **pin / policy** | Version preference | “`apt-cache policy` shows why.” |
-| **held packages** | Block upgrades | “`apt-mark hold`.” |
-| **transaction** | Atomic-ish change set | “Avoid killing mid-dpkg.” |
-| **third-party repo** | Extra sources | “Trust + pin carefully.” |
-
----
-
-
-## Configuration and commands
 
 ```bash
 sudo apt-get update
@@ -45,44 +44,29 @@ sudo apt-get autoremove
 | `--no-install-recommends` | Leaner servers |
 | `DEBIAN_FRONTEND=noninteractive` | CI/automation |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Held broken packages | `dpkg --audit` | `apt -f install`; fix deps |
 | Hash sum mismatch | Mirror/cache | `apt clean`; retry mirror |
 | Wrong version | Policy | Pin; disable bad repo |
-| dpkg lock | Parallel apt | Wait or clear stale lock carefully |
+| dpkg lock | Parallel apt | Wait; clear stale lock carefully |
 
----
+## Real-World Applications
 
+Lean server bootstrap with `--no-install-recommends`, verify candidates with `apt-cache policy` before enabling a third-party repo.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Killing dpkg mid-unpack** leaves the system half-configured — repair with `dpkg --configure -a`.
+- **Pro:** Dependency solving and rollback-friendly package state.
+- **Con:** Mixing releases/third-party repos creates dependency hell.
 
-> [!WARNING]
-> **Mixing distro releases** in sources = dependency hell.
+## Comparison
 
----
+- vs language lockfiles (npm/pip): app deps belong in the image; OS packages for the platform.
+- vs [[Package deferred]]: holds/pins are the deferral mechanism.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Language application deps** — prefer language lockfiles in the application image.
-- **Kernel live patches** — use vendor livepatch tooling, not random .debs.
-
----
-
-
-## Related
-
-[[apt package manager]] [[apt configuration]] [[Package deferred]] [[source list file]]
-
-## Sources
-
-- [Wikipedia — Package Manager](https://en.wikipedia.org/wiki/Package_Manager)
+- Killing dpkg mid-unpack — repair with `dpkg --configure -a`.
+- Mixing distro releases in sources.list.
+- Trusting third-party repos without pins/keyrings.

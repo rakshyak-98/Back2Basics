@@ -1,12 +1,20 @@
-[[Architectures]] [[Streaming]] [[CDN]] [[HLS]] [[DASH]]
+[[Architectures]] [[Streaming]] [[CDN]] [[HLS]] [[DASH]] [[ABR]] [[When scaling to hundreds of concurrent channels]]
 
 # Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User
 
 > 1M concurrent live viewers — push encode once, fan out via CDN/edge; origin must not serve every player directly.
 
----
+## Interview Relevance
 
-## How it works
+1M-viewer live design interviews test encode-once/fan-out via CDN, origin protection, and multi-channel isolation.
+
+## Sources
+
+- [Apple — HLS documentation](https://developer.apple.com/documentation/http-live-streaming) — deep-dive
+- [DASH Industry Forum](https://dashif.org/) — overview
+- [AWS — Live streaming on AWS](https://aws.amazon.com/media/tech/live-streaming/) — overview
+
+## Key Concepts
 
 ```txt
 camera/encoder → origin ingest → transcoder → packager
@@ -22,10 +30,7 @@ camera/encoder → origin ingest → transcoder → packager
 | CDN | # viewers |
 | DRM/license | concurrent license QPS |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```txt
 ABR: 1080p/720p/480p ladders, 2–6s segments
@@ -41,10 +46,7 @@ Health: stale manifest / 404 segment alerts
 | Origin shield | Hot-key protection |
 | Regional PoPs | Last-mile |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,55 +56,14 @@ Health: stale manifest / 404 segment alerts
 | DRM errors | License service | Scale license; clock skew |
 | Hot manifest | Tiny TTL + thundering herd | Soft TTL; collapse requests |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** <1k viewers interactive — WebRTC/SFU maybe.
+- **Trade-off:** VOD only — simpler caching.
+- **Trade-off:** Ultra-low-latency betting UX — specialized LL-HLS/WebRTC stacks.
 
-## Decision
+## Mistakes to Avoid
 
-We will … because …
-
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> **WebRTC fanout ≠ OTT scale** — use CDN HLS/DASH for 1M.
-
-> [!WARNING]
-> **Short TTL everywhere** — origin death.
-
-> [!WARNING]
-> **One giant origin** — multi-CDN / shield.
-
----
-
-
-## When not to use
-
-- **<1k viewers interactive** — WebRTC/SFU maybe.
-- **VOD only** — simpler caching.
-- **Ultra-low-latency betting UX** — specialized LL-HLS/WebRTC stacks.
-
----
-
-
-## Related
-
-[[Streaming]] [[HLS]] [[DASH]] [[ABR]] [[CDN]] [[When scaling to hundreds of concurrent channels]]
-
-## Sources
-
-- [Wikipedia — Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User](https://en.wikipedia.org/wiki/Live_Streaming_Architecture_Multi-Channel_Distribution_at_1M_Concurrent_User)
+- WebRTC fanout ≠ OTT scale — use CDN HLS/DASH for 1M.
+- Short TTL everywhere — origin death.
+- One giant origin — multi-CDN / shield.

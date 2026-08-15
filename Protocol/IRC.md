@@ -1,12 +1,27 @@
-[[Protocol]] [[TCP]]
+[[TCP]] [[webSocket]] [[WebRTC]] [[SOCKS (Socket Secure)]]
 
 # IRC
 
-> IRC (Internet Relay Chat) — clients join a server (or network of servers) for channels and DMs; text chat over a simple TCP protocol.
+> IRC (Internet Relay Chat) — clients join a server or network of servers for channels and DMs; text chat over a simple TCP protocol.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use IRC to probe simple line protocols, TLS versus cleartext ports, and why product chat moved to Slack/Discord with SSO and push history.
+
+## Sources
+
+- [RFC 1459 — Internet Relay Chat Protocol](https://datatracker.ietf.org/doc/html/rfc1459) — deep-dive
+- [IRCv3 working group](https://ircv3.net/) — overview
+- [Wikipedia — IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat) — overview
+
+## Key Concepts
+
+- **Network:** linked IRC servers that share state (Libera, OFTC) — not one box.
+- **Channel / nick:** named rooms (`#ops`) and display identity; NickServ handles collisions.
+- **PRIVMSG:** all chat is PRIVMSG under the hood (nick or channel).
+- **IRCv3:** modern extensions (CAP, SASL, batches) — real clients negotiate capabilities.
+
+## Technical Details
 
 ```txt
 Client ──TCP 6667/6697──► IRC server ◄──► other servers (same network)
@@ -14,27 +29,10 @@ Client ──TCP 6667/6697──► IRC server ◄──► other servers (same 
                          #channel / PRIVMSG
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Network** | Linked IRC servers that share state | “Libera / OFTC are networks, not one box.” |
-| **Channel** | Named room (`#ops`) | “Channels are the group forums.” |
-| **Nick** | Your display identity on the network | “Nick collisions and services (NickServ) matter.” |
-| **PRIVMSG** | Message to a nick or channel | “All chat is PRIVMSG under the hood.” |
-| **IRCv3** | Modern extensions (CAP, SASL, batches) | “Real clients negotiate capabilities, not raw RFC only.” |
-
-### How the story goes
-
 1. Client opens TCP (often TLS on 6697).
-2. Registers nick, optional SASL/NickServ authentication.
+2. Registers nick; optional SASL/NickServ authentication.
 3. `JOIN #channel` → receives traffic for that room.
-4. operations moderate with modes (`+o`, bans); services handle accounts.
-
----
-
-
-## Configuration and commands
+4. Ops moderate with modes (`+o`, bans); services handle accounts.
 
 ```bash
 # Quick smoke test (plain; prefer TLS in real use)
@@ -61,11 +59,6 @@ SASL   = true
 | SASL | Auth before join — required on many networks |
 | Flood limits | Bots without rate limits get KLINE’d |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Connect timeout | DNS / firewall / wrong port | Try 6697 TLS; whitelist IRC ports |
@@ -75,36 +68,26 @@ SASL   = true
 | Bot banned for flood | Burst PRIVMSG | Pace messages; use server-side limits |
 | Split / missing users | Net split between servers | Wait for sync; check network status |
 
----
+## Real-World Applications
 
+Open-source project chat, ops channels on Libera/OFTC, and bots that bridge CI status into `#deploy`.
 
-## Gotchas
+**Example:** A deploy bot SASL-authenticates, joins `#ops`, and PRIVMSG’s release notes without flooding past network limits.
 
-> [!WARNING]
-> **Plaintext IRC still exists** — treat 6667 as debug only; credentials and chat leak on the wire.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Services ≠ the IRC daemon** — NickServ/ChanServ are separate; misconfigured linking looks like “auth broken.”
+- **Pro:** Simple, scriptable, federated networks — low protocol overhead.
+- **Con:** History and mobile push usually need a bouncer (ZNC); not product-grade moderation/SSO.
+- **Con:** DCC file transfer bypasses the server — NAT and malware risk.
 
-> [!WARNING]
-> **DCC file transfer bypasses the server** — peer-to-peer; NATs and malware risk apply.
+## Comparison
 
----
+- vs Slack/Teams/Discord: those win for customer chat, SSO, and guaranteed history.
+- vs [[webSocket]] product chat: WebSocket apps own the product UX; IRC is a shared public protocol.
+- vs [[WebRTC]]: IRC is text; realtime A/V needs WebRTC.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Product chat for customers** — use Slack/Teams/Discord APIs with moderation and SSO.
-- **Guaranteed mobile push + history** — IRC history is client-dependent unless you add a bouncer (ZNC).
-- **Binary realtime media** — use [[WebRTC]], not IRC.
-
----
-
-
-## Related
-
-[[Protocol]] [[TCP]] [[webSocket]] [[WebRTC]] [[SOCKS (Socket Secure)]]
-
-## Sources
-
-- [Wikipedia — IRC](https://en.wikipedia.org/wiki/IRC)
+- Treating port 6667 as production — credentials and chat leak on the wire.
+- Confusing services (NickServ/ChanServ) with the IRC daemon — linking failures look like “auth broken.”
+- Bursting PRIVMSG from bots without rate limits.

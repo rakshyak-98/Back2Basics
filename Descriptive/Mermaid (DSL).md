@@ -1,12 +1,18 @@
-[[Descriptive]] [[README]] [[staff engineer]]
+[[Descriptive]] [[README]] [[staff engineer]] [[INDEX]] [[AGENT_NOTE_RULES]] [[Configuration]] [[Terraform workflow]] [[gRPC]] [[marketplace application]]
 
 # Mermaid (DSL)
 
 > Text-to-diagram DSL for design docs and runbooks — great for **version-controlled architecture**; know rendering and maintenance limits.
 
----
+## Interview Relevance
 
-## How it works
+Mermaid questions check whether you can diagram flows in docs — sequence/flowchart for design reviews.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
@@ -27,10 +33,7 @@ Markdown note → ```mermaid block → renderer (Obsidian/GitHub/GitLab) → SVG
 | `stateDiagram-v2` | Order/job state machines |
 | `C4Context` (plugin) | System context (if supported) |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Flowchart (service triage)
 
@@ -88,24 +91,13 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 - Use subgraph for bounded contexts
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Precise network topology with IP/rack** — draw.io, Lucid, or IaC diagram generators.
+- **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
+- **UML for codegen** — use OpenAPI/Protobuf/PlantUML with tooling if binding to code.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Diagram doesn't render | Renderer support | Obsidian/GitHub vs Confluence; export PNG fallback |
-| Syntax error opaque | Mermaid live editor | https://mermaid.live — iterate paste back |
-| Layout overlaps | Too many nodes | Split diagrams; use `direction TB/LR` |
-| Different look in PR vs Obsidian | Version skew | Pin mermaid version in docs; avoid exotic syntax |
-| Security concern in public repo | Diagram content | No secrets/hostnames with creds in labels |
-| PDF export broken | SVG font issues | Simplify labels; export PNG from live editor |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Not a single source of truth for infra** — [[terraform]] state and live [[kubectl]] beat diagrams; link diagram to code path.
@@ -119,22 +111,12 @@ npx @mermaid-js/mermaid-cli -i docs/arch.mmd -o /dev/null
 > [!WARNING]
 > **Stakeholders print slides** — test contrast; dark-mode Obsidian exports may wash out.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Diagram doesn't render | Renderer support | Obsidian/GitHub vs Confluence; export PNG fallback |
+| Syntax error opaque | Mermaid live editor | https://mermaid.live — iterate paste back |
+| Layout overlaps | Too many nodes | Split diagrams; use `direction TB/LR` |
+| Different look in PR vs Obsidian | Version skew | Pin mermaid version in docs; avoid exotic syntax |
+| Security concern in public repo | Diagram content | No secrets/hostnames with creds in labels |
+| PDF export broken | SVG font issues | Simplify labels; export PNG from live editor |
 
-
-## When not to use
-
-- **Precise network topology with IP/rack** — draw.io, Lucid, or IaC diagram generators.
-- **Real-time monitoring** — dashboards (Grafana), not static Mermaid.
-- **UML for codegen** — use OpenAPI/Protobuf/PlantUML with tooling if binding to code.
-
----
-
-
-## Related
-
-[[INDEX]] · [[AGENT_NOTE_RULES]] · [[Configuration]] · [[Terraform workflow]] · [[gRPC]] · [[marketplace application]]
-
-## Sources
-
-- [Wikipedia — Mermaid](https://en.wikipedia.org/wiki/Mermaid)

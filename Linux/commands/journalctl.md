@@ -1,142 +1,70 @@
-[[loggging]] [[systemd]] [[Services commands]] [[grep]]
+[[loggging]] [[services/systemd]] [[Services commands]] [[grep]] [[systemctl]]
 
 # journalctl
 
-> journalctl — journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured journal API calls. Entries are keyed by unit, boot ID, priority, executable
+> journalctl queries journald’s binary logs — filter by unit, boot, time, and priority instead of grepping flat files blindly.
 
----
+## Interview Relevance
+Must-know ops: `-u` + `-b`, `--since`, `-p err`, vacuum retention, and persistent vs volatile storage.
 
-## How it works
+## Sources
+- [journalctl(1)](https://www.freedesktop.org/software/systemd/man/latest/journalctl.html) — deep-dive
+- [systemd-journald.service(8)](https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.service.html) — overview
 
-journald collects logs from systemd units (stdout/stderr), syslog forwarding, kernel, and structured `journal` API calls. Entries are keyed by **unit**, **boot ID**, **priority**, **executable**, and custom fields (`_PID`, `_UID`, `_SYSTEMD_CGROUP`). Binary store — use `journalctl` to read, not raw `cat`.
+## Core Definition
+journald collects unit stdout/stderr, syslog forwarding, kernel messages, and structured journal fields (`_PID`, `_UID`, `_SYSTEMD_CGROUP`). Store is binary under `/var/log/journal/` or volatile `/run/log/journal/` — read with `journalctl`, not `cat`.
 
-```
-systemd unit ──► journald ──► /var/log/journal/ (or /run/log/journal/)
-                                    │
-                               journalctl filters
-```
+## Key Concepts
+- **`-u` / `-b` / `--since`:** Unit, boot, time windows.
+- **`-p`:** Priority (err and above, ranges).
+- **`-f`:** Follow like `tail -f`.
+- **Fields:** `_EXE=`, `_COMM=`, `_UID=` for precise filters.
+- **Vacuum:** Size/time caps so journals don’t fill the disk.
 
-| Filter   | Flag / syntax                 |
-| -------- | ----------------------------- |
-| Unit     | `-u nginx.service`            |
-| Boot     | `-b`, `-b -1`, `--list-boots` |
-| Time     | `--since`, `--until`          |
-| Priority | `-p err`, `-p warning..alert` |
-| Kernel   | `-k`                          |
-| Follow   | `-f`                          |
-| Field    | `_EXE=`, `_UID=`, `_COMM=`    |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **journald** | systemd binary logs | “journalctl -u svc -b is boot-scoped.” |
-| **-u** | Filter by unit | “Always scope to the service.” |
-| **-f** | Follow | “tail -f for systemd.” |
-| **-p err** | Priority filter | “Noise down to errors.” |
-| **vacuum** | Size/time retention | “journalctl --vacuum-size=500M.” |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
-# Service since this boot — baseline incident command
 journalctl -u nginx.service -b --no-pager
-
-# Live tail
 journalctl -u myapp.service -f
-
-# Last N lines
 journalctl -u myapp -n 100 --no-pager
 
-# Time bounds
 journalctl -u sshd --since "1 hour ago"
 journalctl --since "2024-03-01" --until "2024-03-18"
-journalctl -u cron --since today
-
-# Priority (err = error and above: err, crit, alert, emerg)
 journalctl -p err -b
-journalctl -u myapp -p err..crit
-
-# Boot navigation
-journalctl -b                      # current boot
-journalctl -b -1                   # previous boot (crash analysis)
-journalctl --list-boots
-
-# Kernel only
 journalctl -k
-journalctl -k -p err
 
-# Process / executable filters
+journalctl -b -1
+journalctl --list-boots
 journalctl _EXE=/usr/bin/nginx
 journalctl _UID=1000 --since today
-journalctl _COMM=sshd
 
-# cgroup (slice/service hierarchy)
-journalctl _SYSTEMD_CGROUP=/system.slice/ssh.service
-
-# Output formats
-journalctl -u myapp -o short-precise    # timestamps with μs
-journalctl -u myapp -o verbose          # all fields
 journalctl -u myapp -o json | jq .
-journalctl --no-pager                   # scripts / CI
-```
+journalctl --utc --no-pager
 
-**Retention & disk:**
-
-```bash
 journalctl --disk-usage
 sudo journalctl --vacuum-size=500M
 sudo journalctl --vacuum-time=1week
-# Persistent config: /etc/systemd/journald.conf → SystemMaxUse=, MaxRetentionSec=
 ```
-
-**Dangerous vacuum (almost everything gone):**
-
-```bash
-sudo journalctl --vacuum-time=1s -u myapp.service   # narrow if possible; prefer --vacuum-size
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `-- No entries --` | Wrong unit name; wrong boot | `systemctl status`; `journalctl --list-boots`; `-b -1` |
-| Logs vanished after reboot | Volatile storage | [[loggging]] — `Storage=persistent` in journald.conf |
-| Permission denied | Non-privileged user | `sudo` or `usermod -aG systemd-journal user` |
-| Flood hides signal | Too broad query | `-p err`, `--since`, `-u` single unit |
-| Timestamps don't match UTC tools | Local TZ display | `journalctl --utc` |
-| Unit logs empty but app logs files | Not connected to stdout | Fix unit `StandardOutput=journal`; or read app log path |
-| Disk full from journal | Unbounded debug | `--vacuum-size`; lower app log level; tune journald |
+| No entries | Wrong unit/boot | `systemctl status`; `--list-boots`; `-b -1` |
+| Logs gone after reboot | Volatile storage | `Storage=persistent` in journald.conf |
+| Permission denied | Not in group | `sudo` or `systemd-journal` group |
+| Disk full from journal | Unbounded debug | vacuum; tune `SystemMaxUse=` |
 
+## Real-World Applications
+First look after a failed unit (`-u … -b -p err`), crash analysis on previous boot (`-b -1`), and reclaiming disk with vacuum after a log flood.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Structured, filterable, boot-aware.
+- **Con:** Local ring buffer — not long-term SIEM; pager breaks scripts.
+- **Trade-off:** Persistent journal vs disk budget.
 
-> [!WARNING]
-> **Unit names need `.service` suffix** sometimes — `nginx` vs `nginx.service`; tab-complete helps.
+## Comparison
+vs flat `/var/log` files: journal is unit-keyed binary. vs [[grep]]: still useful after journalctl narrows the window. vs container log drivers: may bypass host journal.
 
-> [!WARNING]
-> **`--vacuum-time=1s` on whole journal** — deletes nearly all history. Prefer size caps or unit-scoped export first.
-
-> [!WARNING]
-> **Pager eats automation** — always `--no-pager` in scripts; or `export SYSTEMD_COLORS=0`.
-
-> [!WARNING]
-> **Docker/k8s** — container logs may be in docker/k8s driver, not host journal for that process name.
-
-
-## When not to use
-
-- **Application log files only** (legacy nginx file) → tail/grep path from configuration.
-- **Years of retention** → ship to SIEM; journal is local ring buffer.
-- **Cross-host correlation** → centralized logging; journal is per-host.
-
-
-## Related
-
-[[loggging]] [[systemd]] [[Services commands]] [[grep]] [[systemctl]]
-
-## Sources
-
-- [Wikipedia — journalctl](https://en.wikipedia.org/wiki/journalctl)
+## Mistakes to Avoid
+- `--vacuum-time=1s` on the whole journal without export.
+- Forgetting `--no-pager` in automation.
+- Expecting Docker/k8s app logs under the host process name always.

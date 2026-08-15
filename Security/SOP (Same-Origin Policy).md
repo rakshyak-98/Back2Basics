@@ -1,12 +1,23 @@
-[[Security]] [[CORS (Cross Origin Request Sharing)]] [[XSRF (cross-site request forgery)]] [[cross-site scripting]]
+[[Security]] [[CORS (Cross Origin Request Sharing)]] [[XSRF (cross-site request forgery)]] [[cross-site scripting]] [[content security policy]] [[response header]]
 
 # SOP (Same-Origin Policy)
 
-> SOP (Same-Origin Policy) — the browser wall: page JS on one origin cannot read another origin’s responses or DOM.
+> Origin Policy) — the browser wall: page JS on one origin cannot read another origin’s responses or DOM.
 
----
+## Interview Relevance
 
-## How it works
+Browser security foundation: what counts as an origin, what SOP blocks, and how CORS/CSP/CSRF relate.
+
+## Sources
+
+- [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) — overview
+- [HTML Living Standard — Origin](https://html.spec.whatwg.org/multipage/origin.html) — deep-dive
+
+## Core Definition
+
+The Same-Origin Policy is the browser rule that script on one origin cannot read another origin's responses or DOM by default.
+
+## Key Concepts
 
 ```txt
 https://app.example.com:443
@@ -24,10 +35,7 @@ https://app.example.com:8443  (port differs)
 
 SOP is **browser-enforced**. curl, Postman, and server-to-server ignore it.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 // Same origin — no CORS needed (prefer BFF / reverse-proxy same host)
@@ -52,10 +60,7 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 | `document.domain` (legacy) | Deprecated — do not use |
 | `postMessage` | Safe cross-origin messaging with origin checks |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,36 +71,24 @@ fetch('https://api.example.com/me', { credentials: 'include' })
 | Cookie missing cross-site | `SameSite` + credentials | Cookie flags + CORS credentials (not SOP alone) |
 | Subdomain can't share storage | Different origins | Explicit shared auth via tokens / SSO |
 
----
+## Real-World Applications
 
+Browser isolation that makes XSS and CSRF design constraints — CORS is the deliberate SOP escape hatch.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **SOP ≠ CSRF protection** — browsers still *send* cookies on cross-site form POSTs; use CSRF tokens / SameSite ([[XSRF (cross-site request forgery)]]).
+- **Pro:** Foundational browser isolation that makes the web's multi-tenant model viable.
+- **Con:** Server-side HTTP clients — no SOP; secure with authz and network policy.
+- **Con:** Native mobile apps — different trust model; not browser SOP.
+- **Con:** Relaxing SOP in the browser — you can’t; only the *target* server can grant CORS.
 
-> [!WARNING]
-> **`<script>` and `<img>` still load cross-origin** — SOP blocks *reading* them; XSS via injected script is a different bug ([[cross-site scripting]]).
+## Comparison
 
-> [!WARNING]
-> **Port and scheme count** — `http://localhost:3000` ≠ `https://localhost:3000`.
+- vs [[CORS (Cross Origin Request Sharing)]]: CORS relaxes SOP for chosen origins.
+- vs [[XSRF (cross-site request forgery)]]: SOP does not stop cookie-bearing cross-site *writes*; CSRF defenses do.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Server-side HTTP clients** — no SOP; secure with authz and network policy.
-- **Native mobile apps** — different trust model; not browser SOP.
-- **Relaxing SOP in the browser** — you can’t; only the *target* server can grant CORS.
-
----
-
-
-## Related
-
-[[CORS (Cross Origin Request Sharing)]] [[XSRF (cross-site request forgery)]] [[cross-site scripting]] [[content security policy]] [[response header]]
-
-## Sources
-
-- [Wikipedia — SOP](https://en.wikipedia.org/wiki/SOP)
+- SOP ≠ CSRF protection — browsers still *send* cookies on cross-site form POSTs; use CSRF tokens / SameSite ([[XSRF (cross-site request forgery)]]).
+- `<script>` and `<img>` still load cross-origin — SOP blocks *reading* them; XSS via injected script is a different bug ([[cross-site scripting]]).
+- Port and scheme count — `http://localhost:3000` ≠ `https://localhost:3000`.

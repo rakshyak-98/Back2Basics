@@ -2,24 +2,53 @@
 
 # Data Fetching HOC component
 
-> Data Fetching HOC component shapes how React applications compose UI, state, and side effects in production.
+> Higher-order component that loads data and injects props — legacy pattern largely replaced by hooks and query libraries.
 
-## What this is
+## Interview Relevance
 
-React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
+Interviewers may show `withUser(Component)` and ask how you’d redo it with hooks or React Query.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
+- [Legacy HOCs](https://legacy.reactjs.org/docs/higher-order-components.html) — overview
 
-## Recall
+## Core Definition
 
-What breaks first in production if `Data Fetching HOC component` is misused — bundle size, stale UI, or hydration errors?
+A data-fetching HOC wraps a view, loads remote data, and passes results as props — composition via wrapping.
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[data fetching component]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
+- **withX(Component):** returns enhanced component.
+- **Prop collision:** injected names can clash.
+- **Hooks era:** `useUser()` + [[react-query]] preferred.
+
+## Technical Details
+
+```tsx
+function withUser(Wrapped: React.ComponentType<{ user: User }>) {
+  return function WithUser(props: object) {
+    const { data } = useQuery({ queryKey: ['me'], queryFn: api.me })
+    if (!data) return null
+    return <Wrapped {...props} user={data} />
+  }
+}
+```
+
+## Real-World Applications
+
+Older codebases still wrap route pages in `withAuth` / `withData` HOCs; migrate edge-in with hooks.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Reuse fetch+gate logic across class components.
+- **Con:** Wrapper pyramids, opaque props, weak TypeScript.
+
+## Comparison
+
+- vs [[React Pattern/Higher order Component (HOCs)]]: this is the data-loading specialty of HOCs.
+
+## Mistakes to Avoid
+
+- Stacking HOCs until display names and props are untraceable.
+- Fetching in HOC and again inside the wrapped component.

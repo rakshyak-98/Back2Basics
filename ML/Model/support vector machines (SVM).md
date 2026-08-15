@@ -1,12 +1,19 @@
-[[ML Classifiers]] [[binary classification]] [[regression]] [[Model/Linear regression]] [[scikitlearn]]
+[[ML Classifiers]] [[binary classification]] [[regression]] [[Model/Linear regression]] [[scikitlearn]] [[data preprocessing]]
 
 # Support Vector Machines (SVM)
 
 > Find the **maximum-margin** separating hyperplane (or ε-tube for regression) — kernel trick maps to high-D implicitly — **Cortes & Vapnik (1995)**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Support Vector Machines (SVM) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 **Hard margin:** separate classes with widest gap. **Soft margin (C):** allow slack ξᵢ — trade misclassification versus margin width.
 
@@ -25,10 +32,7 @@ s.t. yᵢ(w·φ(xᵢ) + b) ≥ 1 − ξᵢ
 
 SVMs shine on **medium-sized, dense** data; struggle on **large sparse text** unless linear kernel + careful scaling.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.svm import SVC
@@ -65,10 +69,19 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 
 `probability=True` on `SVC` wraps Platt scaling — slow; use `decision_function` + calibrate separately if needed.
 
----
+## Pros/Cons or Trade-offs
 
+- **Huge datasets (millions+ rows)** — [[Gradient boosting]] / linear models scale better.
+- **Need feature importances for compliance** — prefer [[Decision tree]] or linear models.
+- **Image/audio deep learning** — CNNs / transformers dominate.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **RBF γ too large** — overfits every point (memorization). Too small — underfits (linear-ish).
+
+> [!WARNING]
+> **No native missing values** — impute in [[data preprocessing]] pipeline.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,33 +91,3 @@ svr = SVR(kernel="rbf", C=10, epsilon=0.1)
 | Memory blowup | RBF on 500k rows | Subsample; linear kernel |
 | Platt probs miscalibrated | `probability=True` | CalibratedClassifierCV |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **RBF γ too large** — overfits every point (memorization). Too small — underfits (linear-ish).
-
-> [!WARNING]
-> **No native missing values** — impute in [[data preprocessing]] pipeline.
-
----
-
-
-## When not to use
-
-- **Huge datasets (millions+ rows)** — [[Gradient boosting]] / linear models scale better.
-- **Need feature importances for compliance** — prefer [[Decision tree]] or linear models.
-- **Image/audio deep learning** — CNNs / transformers dominate.
-
----
-
-
-## Related
-
-[[ML Classifiers]] · [[binary classification]] · [[regression]] · [[Model/Linear regression]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — support vector machines](https://en.wikipedia.org/wiki/support_vector_machines)

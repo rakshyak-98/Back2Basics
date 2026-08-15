@@ -1,72 +1,60 @@
-[[vite]]
+[[vite internal]] [[vite error]] [[transpiler]]
 
-# vite config
+# Vite config
 
-> vite config — a module runner is instantiated in the target runtime.
+> `vite.config.*` controls dev server and build — plugins, aliases, env prefix, and mode-specific options via `defineConfig`.
 
----
+## Interview Relevance
 
-## How it works
-
-
-```bash
-vite --config my-config.js;
-```
-> [!NOTE]
-> Environment Variables _are_ automatically loaded later and exposed to application code via `import.meta.env` (with the default `VITE_` prefix filter)
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **vite config** | This note’s core idea | “I explain vite config in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-
-## Configuration and commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[vite]]
+Interviewers want `import.meta.env` + `VITE_` prefix, `command === 'serve'|'build'` branching, and why Vite is esbuild/Rollup-shaped rather than Webpack-shaped.
 
 ## Sources
 
-- [Wikipedia — vite config](https://en.wikipedia.org/wiki/vite_config)
+- [Vite — Configuring Vite](https://vitejs.dev/config/) — deep-dive
+- [Vite — Env variables](https://vitejs.dev/guide/env-and-mode.html) — overview
+
+## Key Concepts
+
+- **Dev vs build:** native ESM + esbuild transform in dev; Rollup build for production.
+- **Env exposure:** only `VITE_`-prefixed vars reach the client via `import.meta.env`.
+- **Config as function:** `defineConfig(({ command, mode }) => …)` for conditional setups.
+- **Custom file:** `vite --config my-config.js`.
+
+## Technical Details
+
+```bash
+vite --config my-config.js
+```
+
+```js
+export default defineConfig(({ command, mode }) => {
+  if (command === "serve") {
+    return { server: { port: 5173 } };
+  }
+  return { build: { sourcemap: true } };
+});
+```
+
+Environment files load automatically; application code reads `import.meta.env.VITE_*`, not raw `process.env`, in the browser bundle.
+
+## Real-World Applications
+
+Monorepo packages share a base config; apps override aliases and proxy rules for local APIs.
+
+**Example:** API URL differs per mode — `VITE_API_URL` in `.env.development` / `.env.production`.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast cold start; simple config surface for modern ESM apps.
+- **Con:** Webpack-centric mental models (`process.env` everywhere) break until migrated.
+
+## Comparison
+
+- vs Webpack: different env and loader models; Vite optimizes ESM DX.
+- vs [[vite internal]]: config is the knobs; internals explain env/runtime wiring.
+
+## Mistakes to Avoid
+
+- Putting secrets in `VITE_` vars (they ship to the browser).
+- Expecting server-only `process.env` in client code.
+- One giant config without `mode`/`command` splits when needs diverge.

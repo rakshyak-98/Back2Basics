@@ -1,14 +1,32 @@
-[[Streaming]] [[RTMP]] [[SRT]] [[RTSP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]]
+[[Streaming]] [[RTMP]] [[SRT]] [[RTSP]] [[Encoding]] [[transcoding]] [[OBS]] [[Microservice]] [[Single Stream]] [[Multi Stream]] [[HES Architecture]]
 
 # Ingestion
 
 > Accept live or file video into the processing pipeline — **front door** where protocols, validation, and backpressure matter first.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Ingestion to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — ingestion](https://en.wikipedia.org/wiki/ingestion) — overview
+
+## Key Concepts
 
 **Ingestion** is the **entry point** that accepts publisher streams (live) or uploads (VoD), validates them, buffers briefly, and hands off to **encode/package** workers. Failures here are **total outages** for a channel — design for **protocol diversity, authentication, and isolation per tenant**.
+
+| Input type | Typical protocol | Latency | Ops note |
+|------------|------------------|---------|----------|
+| **Live encoder** | [[RTMP]], [[SRT]] | seconds | Persistent connection |
+| **IP camera / NVR** | [[RTSP]] | seconds–minutes | Pull PLAY; often transcode to [[HLS]] |
+| **Browser** | WebRTC WHIP | sub-second | Signaling + TURN |
+| **VoD file** | HTTPS multipart | minutes | Async job queue |
+| **Broadcast feed** | UDP MPEG-TS | seconds | Multicast / Zixi |
+
+Ingest is **not** CDN delivery — keep hot path lean; don't sync-call catalog DB on every keyframe.
+
+## Technical Details
 
 ```txt
 Publisher (OBS, encoder, partner)
@@ -22,21 +40,6 @@ Publisher (OBS, encoder, partner)
                     │
          Buffer / queue ──► [[transcoding]] / packager
 ```
-
-| Input type | Typical protocol | Latency | Ops note |
-|------------|------------------|---------|----------|
-| **Live encoder** | [[RTMP]], [[SRT]] | seconds | Persistent connection |
-| **IP camera / NVR** | [[RTSP]] | seconds–minutes | Pull PLAY; often transcode to [[HLS]] |
-| **Browser** | WebRTC WHIP | sub-second | Signaling + TURN |
-| **VoD file** | HTTPS multipart | minutes | Async job queue |
-| **Broadcast feed** | UDP MPEG-TS | seconds | Multicast / Zixi |
-
-Ingest is **not** CDN delivery — keep hot path lean; don't sync-call catalog DB on every keyframe.
-
----
-
-
-## Configuration and commands
 
 ### RTMP ingest auth pattern (nginx-rtmp style)
 
@@ -94,10 +97,22 @@ CPU/memory quotas — one bad publisher can't starve fleet
 Max bitrate enforcement at ingest (drop or disconnect)
 ```
 
----
+## Real-World Applications
 
+Used wherever Ingestion sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Client-direct to CDN** — browsers don't publish RTMP; use WebRTC/WHIP or dedicated encoder.
+- **Con / skip when:** **Heavy ML on ingest thread** — offload analysis async; keep ingest I/O bound.
+- **Con / skip when:** **Synchronous full transcode before ACK** — accept stream, process async ([[Microservice]] boundary).
+
+## Comparison
+
+- vs [[Microservice]]: **Synchronous full transcode before ACK** — accept stream, process async ([[Microservice]] boundary).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,42 +124,8 @@ Max bitrate enforcement at ingest (drop or disconnect)
 | A/V sync at ingest | Wrong `-itsoffset` upstream | Fix publisher; don't patch in packager only |
 | High latency from day one | Too many sync transcode hops | `-c copy` to packager when possible |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Ingest auth in player** — auth belongs on **publish**, not only playback URL.
-
-> [!WARNING]
-> **RTMP buffer bloat** — publisher on bad Wi-Fi fills server buffers; set idle disconnect.
-
-> [!WARNING]
-> **Same stream key reuse** — collision kicks prior publisher; use unique keys per event.
-
-> [!WARNING]
-> **Probe untrusted uploads** — ffprobe shell on malicious files; sandbox workers.
-
-> [!WARNING]
-> **Geo-locked partners** — whitelist IPs; don't expose global open RTMP.
-
----
-
-
-## When not to use
-
-- **Client-direct to CDN** — browsers don't publish RTMP; use WebRTC/WHIP or dedicated encoder.
-- **Heavy ML on ingest thread** — offload analysis async; keep ingest I/O bound.
-- **Synchronous full transcode before ACK** — accept stream, process async ([[Microservice]] boundary).
-
----
-
-
-## Related
-
-[[RTMP]] [[SRT]] [[RTSP]] [[OBS]] [[Encoding]] [[transcoding]] [[Single Stream]] [[Multi Stream]] [[Microservice]] [[HES Architecture]]
-
-## Sources
-
-- [Wikipedia — ingestion](https://en.wikipedia.org/wiki/ingestion)
+- **Ingest auth in player** — auth belongs on **publish**, not only playback URL.
+- **RTMP buffer bloat** — publisher on bad Wi-Fi fills server buffers; set idle disconnect.
+- **Same stream key reuse** — collision kicks prior publisher; use unique keys per event.
+- **Probe untrusted uploads** — ffprobe shell on malicious files; sandbox workers.
+- **Geo-locked partners** — whitelist IPs; don't expose global open RTMP.

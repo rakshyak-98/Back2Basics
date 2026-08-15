@@ -1,12 +1,26 @@
-[[Linux]] [[SSH]] [[systemd]] [[Authentication command]] [[/etc files]]
+[[ssh allow local system with key]] [[SSH authentication]] [[ssh agent]] [[git ssh configuration]]
 
 # sshd config
 
-> `sshd_config` — server SSH policy: who can log in and how they authenticate.
+> `sshd_config` is the server SSH policy file — who can log in, how they authenticate, and which session features are allowed.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers expect `sshd -T` / `sshd -t`, drop-in files, `Match` block ordering, and how to avoid locking yourself out.
+
+## Sources
+
+- [OpenSSH — sshd_config](https://man.openbsd.org/sshd_config) — deep-dive
+- [CIS — OpenSSH Benchmark](https://www.cisecurity.org/benchmark/openssh) — overview
+
+## Key Concepts
+
+- **Server vs client config:** `sshd_config` ≠ `~/.ssh/config`.
+- **Layers:** network (`Port`/`ListenAddress`), auth, session features, then `Match` overrides.
+- **Effective config:** `sshd -T` shows what actually applies after drop-ins.
+- **Reload carefully:** validate with `sshd -t`; keep a second session open.
+
+## Technical Details
 
 ```txt
 Client :22 → sshd → config + Match blocks → keys/PAM → session
@@ -18,13 +32,6 @@ Client :22 → sshd → config + Match blocks → keys/PAM → session
 | Auth | `PubkeyAuthentication`, `PasswordAuthentication`, `PermitRootLogin` |
 | Session | Forwarding, `ClientAlive*`, `Subsystem sftp` |
 | Overrides | `Match User/Group/Address` at end |
-
-Client `~/.ssh/config` ≠ server `sshd_config`.
-
----
-
-
-## Configuration and commands
 
 ```bash
 sudo sshd -T | less                 # effective config
@@ -52,11 +59,6 @@ AllowUsers deploy admin
 
 Port/Listen changes on socket-activated installs need `daemon-reload` + restart `ssh.socket`.
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Locked out after edit | Second session still open? | Fix from console; revert drop-in |
@@ -65,36 +67,26 @@ Port/Listen changes on socket-activated installs need `daemon-reload` + restart 
 | Slow login | DNS / GSSAPI | `UseDNS no`; disable unused GSSAPI |
 | Wrong port | `ss -tlnp \| grep ssh` | Match socket unit + config |
 
----
+## Real-World Applications
 
+Hardening internet-facing bastions, restricting deploy users, and fixing slow logins caused by reverse DNS.
 
-## Gotchas
+**Example:** Drop `PasswordAuthentication no` into `sshd_config.d`, run `sshd -t`, reload, and confirm with a second key-based session still open.
 
-> [!WARNING]
-> **Keep a second session open** when changing auth — one typo locks you out.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **PAM + keyboard-interactive** can bypass naive “password off” assumptions — verify with `sshd -T`.
+- **Pro:** Central policy with drop-ins and `Match` for per-network rules.
+- **Con:** One typo locks out remote admins — console access required.
+- **Con:** PAM + keyboard-interactive can bypass naive “password off” assumptions — verify with `sshd -T`.
 
-> [!WARNING]
-> **`Match` blocks must be last** — directives after `Match` are scoped.
+## Comparison
 
----
+- vs client `~/.ssh/config`: client chooses identity/jump; server enforces policy.
+- vs cloud security groups: SGs filter packets; `sshd_config` filters authentication and session features.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Password authentication on internet hosts** — keys (+ optional bastion).
-- **Root login with password** — never.
-- **GatewayPorts yes** unless you know the exposure.
-
----
-
-
-## Related
-
-[[ssh allow local system with key]] [[SSH authentication]] [[ssh agent]] [[git ssh configuration]]
-
-## Sources
-
-- [Wikipedia — sshd config](https://en.wikipedia.org/wiki/sshd_config)
+- Changing auth on the only live session.
+- Putting directives after a `Match` block without realizing they are scoped.
+- Root login with password; `GatewayPorts yes` without understanding exposure.
+- Password authentication on internet hosts when keys work.

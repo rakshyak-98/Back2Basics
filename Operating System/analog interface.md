@@ -1,30 +1,54 @@
-[[Operating System]] [[bus]] [[system bus]] [[PCI (Peripheral Component Interconnect)]] [[Electronic Control Unit (ECU)]]
+[[Operating System]] [[bus]] [[system bus]] [[PCI (Peripheral Component Interconnect)]] [[Electronic Control Unit (ECU)]] [[Data Direction Register (DDR)]]
 
 # Analog interface
 
-> An analog interface moves continuously varying physical quantities — voltage, current, pressure — across the boundary between the real world and digital logic the operating system can schedule.
+> An analog interface moves continuously varying physical quantities — voltage, current, pressure — across the boundary between the real world and digital logic the OS can schedule.
 
-Digital computers store discrete bits. Sensors and actuators in the physical world are analog. An **analog interface** (often an ADC or DAC plus conditioning circuitry) samples or drives those signals so firmware and drivers can treat them as numbers.
+## Interview Relevance
 
-## Signal path
+Embedded interviews: ADC/DAC path, why sample rate and resolution matter, and how Linux IIO differs from bit-banged GPIO.
+
+## Sources
+
+- [Wikipedia — Analog-to-digital converter](https://en.wikipedia.org/wiki/Analog-to-digital_converter) — overview
+- [Linux kernel docs — Industrial I/O](https://docs.kernel.org/driver-api/iio/index.html) — deep-dive
+- Horowitz & Hill, *The Art of Electronics* — ADC/DAC fundamentals — deep-dive
+
+## Key Concepts
+
+- **Continuous → discrete:** ADC samples; DAC drives actuators.
+- **Conditioning:** amplifiers/filters before conversion.
+- **OS exposure:** character devices, IIO channels, or platform ioctls — not raw pin volts in user space.
+- **Limits:** [[bus]] bandwidth and interrupt latency bound usable sample rates.
+
+## Technical Details
 
 ```txt
 Physical quantity → sensor → amplifier/filter → ADC → digital bus → driver → user space
 User command      → DAC  → actuator → physical effect
 ```
 
-On a general-purpose PC, analog work often lives on dedicated chips (audio codec, temperature sensor on the SMBus). On embedded targets such as an [[Electronic Control Unit (ECU)]], analog I/O may be the primary reason the microcontroller exists.
+On PCs, analog work often lives on codecs/SMBus sensors. On an [[Electronic Control Unit (ECU)]], analog I/O may be the primary reason the MCU exists.
 
-## Operating system view
+[[Data Direction Register (DDR)]] GPIO is on/off. Analog deals with resolution (ADC bits), sampling rate, noise, and calibration.
 
-The kernel exposes analog-backed devices as **character devices**, **Industrial I/O (IIO)** channels, or platform-specific ioctls. User space reads structured samples (`read()`, `read()` on `/dev/iio:device0`) rather than raw pin voltages. Timing and sample rate are constrained by the [[bus]] bandwidth and interrupt latency — not by how fast a loop can spin in Python.
+## Real-World Applications
 
-## Contrast with digital I/O
+Audio codecs, temperature/pressure sensing, motor control current loops, and industrial DAQ via Linux IIO.
 
-[[Data Direction Register (DDR)]] style GPIO is on/off. Analog interfaces deal with resolution (bits of ADC), sampling rate, noise, and calibration. Choosing the wrong interface type — treating a slow analog sensor as a digital edge — loses information or adds aliasing.
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Captures real-world continuous signals the digital core needs.
+- **Con:** Noise, aliasing, calibration drift, and timing jitter.
+- **Trade-off:** higher sample rate/resolution vs CPU, bus, and storage cost.
 
-- Wikipedia: [Analog-to-digital converter](https://en.wikipedia.org/wiki/Analog-to-digital_converter)
-- Linux kernel documentation: [Industrial I/O](https://docs.kernel.org/driver-api/iio/index.html)
-- Horowitz & Hill, *The Art of Electronics* — ADC/DAC fundamentals
+## Comparison
+
+- vs digital GPIO ([[Data Direction Register (DDR)]]): edges vs continuous levels.
+- vs [[PCI (Peripheral Component Interconnect)]] devices: many analog front-ends still attach via a digital bus afterward.
+
+## Mistakes to Avoid
+
+- Treating a slow analog sensor as a digital edge and losing information to aliasing.
+- Sampling in a tight user-space loop and ignoring interrupt/DMA-driven capture.
+- Ignoring grounding and reference voltage when “the ADC reading looks random.”

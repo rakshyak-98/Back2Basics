@@ -2,63 +2,38 @@
 
 # diff
 
-> line and tree comparison — verify deploy artifacts, config drift, and "are these dirs actually the same?" before rsync or rollback decisions.
+> diff compares files or trees line-by-line — verify deploy artifacts and config drift before rsync or rollback.
 
----
+## Interview Relevance
+Know `diff -u` for patches, `diff -rq` for trees, and that content-identical ≠ same metadata (use rsync checksum dry-run).
 
-## How it works
+## Sources
+- [diff(1)](https://man7.org/linux/man-pages/man1/diff.1.html) — deep-dive
+- [GNU Diffutils](https://www.gnu.org/software/diffutils/manual/) — overview
 
-`diff` compares **file contents line-by-line** (default unified output). For directories, combine `-r` with `-q` for a fast "any difference?" answer. Exit code matters in scripts: `0` = identical, `1` = different, `2` = error.
+## Core Definition
+`diff` reports line-level deltas between two files. Recursive quiet mode (`-rq`) lists paths that differ in content or presence. Exit 0 means identical (for the comparison mode used).
 
-```
-diff fileA fileB     → line-level delta
-diff -rq dir1 dir2   → only names that differ (content or presence)
-rsync -avnc          → checksum-level dry-run (heavier, authoritative for sync)
-```
+## Key Concepts
+- **`-u`:** Unified diff — patch-friendly.
+- **`-rq`:** Recursive quiet summary for directories.
+- **Whitespace:** `-w`/`-B` reduce noise on configs.
+- **Metadata blind spot:** Owner/mode ignored; rsync can check.
+- **Symlinks:** Flags decide follow vs compare as links.
 
-| Mode | Command | When |
-|------|---------|------|
-| Quick dir sameness | `diff -rq dir1 dir2` | Pre/post deploy sanity |
-| Readable patch | `diff -u old new` | Review before apply |
-| Side-by-side | `diff -y file1 file2` | Human scan |
-| Binary | `diff -q a.bin b.bin` | Don't dump hex to terminal |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **diff** | Compare files | “diff -u old new for patches.” |
-| **-u** | Unified format | “What git shows.” |
-| **diff -r** | Recursive dirs | “Compare trees before sync.” |
-| **patch** | Apply diff | “patch -p1 < fix.diff.” |
-| **exit 1** | Differences found | “Not always an error in CI.” |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
-# Two directories — only report if different (silent = identical)
 diff -rq /etc/nginx/sites-available /backup/nginx-sites
-# -q quiet summary  -r recursive
 
-# Unified diff (patch-friendly)
 diff -u config.yaml config.yaml.bak > config.patch
 patch config.yaml < config.patch
 
-# Ignore whitespace (noisy configs)
 diff -uBw old new
-
-# Compare single files with context
 diff -u /var/lib/app/state.json{,.bak}
 
-# When diff says "differ" but sizes look same — checksum via rsync dry-run
 rsync -avnc --delete dir1/ dir2/
-# -n dry-run  -c checksum compare (slower, catches same-size diffs)
-```
 
-**In CI/deploy scripts:**
-
-```bash
 if diff -rq "$EXPECTED" "$DEPLOYED" >/dev/null; then
   echo "OK: trees match"
 else
@@ -67,40 +42,25 @@ else
 fi
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `diff -rq` silent but apps behave differently | Symlinks, permissions, xattrs | `diff -rqN` or `rsync -avnc`; compare `stat` |
-| Huge diff noise | CRLF vs LF | `dos2unix`; `diff -u --strip-trailing-cr` |
-| "Only in dir1" spam | Extra files in deploy | `--exclude` patterns; clean staging dir |
-| Binary files mess terminal | Used diff without `-q` | `diff -q` or `cmp -s` |
-| diff says same, rsync transfers | Timestamp-only change | Expected; use `rsync -c` if content matters |
+| “Identical” but perms differ | Metadata | `rsync -avnc` / `stat` |
+| Noisy whitespace diffs | Formatting | `-w`/`-B` or normalize |
+| Symlink false match | Follow behavior | Check `-N` / symlink flags |
+| Huge binary files | Not line-oriented | checksum/`cmp` |
 
+## Real-World Applications
+Confirming a config rollback matches backup, generating a reviewable patch, and CI checks that deployed trees match golden artifacts.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Universal, scriptable, patch workflow.
+- **Con:** Weak on binaries/metadata; recursive on huge trees is slow.
+- **Trade-off:** Quick `diff -rq` vs authoritative `rsync -c` dry-run.
 
-> [!WARNING]
-> **`diff -rq` compares content, not metadata** — same bytes, different owner/mode still "identical" to diff. Use `rsync -a` preview for permission drift.
+## Comparison
+vs [[rsync]]: sync engine with checksum/metadata awareness. vs `cmp`: byte identity without nice diffs. vs git diff: VCS-aware history.
 
-> [!WARNING]
-> **Symlinks** — default follows symlinks; `-N` treats symlinks as symlinks. Wrong flag → false "identical".
-
-- **Order in `diff -u A B`** — patch applies as "change A into B"; reversing order inverts patch.
-- **Large trees** — `diff -rq` still reads every file; for TB-scale use `rsync -avnc` or dedicated tools.
-
-
-## When not to use
-
-- **Live DB row comparison** — export and use SQL/`md5sum` on dumps, not diff on running files.
-- **Semantic JSON/YAML equivalence** — key order differs; use `jq -S` normalize or structural diff tools.
-
-
-## Related
-
-[[rsync]] [[Scripting]] [[Linux file management]]
-
-## Sources
-
-- [Wikipedia — diff](https://en.wikipedia.org/wiki/diff)
+## Mistakes to Avoid
+- Treating content-identical as fully equivalent for security-sensitive perms.
+- Patching without reviewing unified context.
+- Diffing minified/generated blobs instead of sources.

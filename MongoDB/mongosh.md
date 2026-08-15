@@ -4,9 +4,16 @@
 
 > `mongosh` is the modern MongoDB shell — connect, explore, run scripts against clusters.
 
----
+## Interview Relevance
 
-## How it works
+mongosh interviews check interactive ops — useful queries, rs/status helpers, and not running dangerous commands blindly.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 mongosh "mongodb://…" → use db → helpers / scripts
@@ -21,10 +28,7 @@ mongosh "mongodb://…" → use db → helpers / scripts
 | **`.mjs` scripts** | Automate admin | “Non-interactive CI.” |
 | **config** | Snippets / history | “Editor integration.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 mongosh "mongodb://user:pass@localhost:27017/app?authSource=admin"
@@ -44,10 +48,18 @@ db.users.find().limit(5)
 | `--quiet` | Clean script output |
 | Read preference | Secondary reads for heavy ad-hoc |
 
----
+## Pros/Cons or Trade-offs
 
+- **Application runtime** — use the official driver.
+- **Complex application logic** — keep business code out of shell scripts.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Paste passwords in shell history** — use config/env / prompting.
+
+> [!WARNING]
+> **Running on primary by habit** — heavy analytics can hurt writes.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,30 +68,3 @@ db.users.find().limit(5)
 | Command unknown | old mongosh | Upgrade |
 | Slow shell queries | no index / huge result | Limit + index |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Paste passwords in shell history** — use config/env / prompting.
-
-> [!WARNING]
-> **Running on primary by habit** — heavy analytics can hurt writes.
-
----
-
-
-## When not to use
-
-- **Application runtime** — use the official driver.
-- **Complex application logic** — keep business code out of shell scripts.
-
-
-## Related
-
-[[mongosh query]] [[mongosh user management]] [[mongodb shell]]
-
-## Sources
-
-- [Wikipedia — mongosh](https://en.wikipedia.org/wiki/mongosh)

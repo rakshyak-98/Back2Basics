@@ -1,29 +1,31 @@
-[[System Design]] [[race condition]] [[Eventual consistency]] [[IDOR]]
+[[System Design]] [[race condition]] [[Eventual consistency]] [[IDOR]] [[ETAG or IF MATCH]] [[critical sections]]
 
 # Concurrent modification
 
 > Concurrent modification — two writers read-modify-write the same record; last write wins unless you version or lock.
 
----
+## Interview Relevance
 
-## How it works
+Optimistic concurrency (`version`/`If-Match`), lost updates, and when to serialize vs CRDT/append-only.
+
+## Sources
+
+- [Wikipedia — Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) — overview
+- Kleppmann, *Designing Data-Intensive Applications* — concurrency — deep-dive
+
+## Key Concepts
+
+- **Lost update:** both read v1; second write clobbers first.
+- **Optimistic:** conditional update on version/ETag.
+- **Pessimistic:** `SELECT … FOR UPDATE`.
+- **Alternatives:** PATCH/CRDT, single-writer queue, immutable versions.
+
+## Technical Details
 
 ```txt
 A reads v1 ──edit──► writes v1'
 B reads v1 ──edit──► writes v1''  (A’s change lost)
 ```
-
-| Defense | How |
-|---------|-----|
-| Optimistic (`version`) | Update `WHERE version=?` |
-| Pessimistic lock | `SELECT … FOR UPDATE` |
-| Patch / CRDT | Merge fields |
-| Queue single-thread | Serialize mutations |
-
----
-
-
-## Configuration and commands
 
 ```sql
 UPDATE tickets
@@ -36,49 +38,30 @@ WHERE id = $1 AND version = $2;
 If-Match: "etag-88"
 ```
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Silent lost updates | No version column | Add optimistic concurrency |
-| Frequent `409` | Hot row | Smaller critical section; queue |
-| Workflow skipped state | Check-then-act | Transition in one conditional update |
-| API overwrites whole JSON | PUT blind | PATCH + ETag |
-| Two admins clash | UX | Show conflict; merge UI |
+| Silent lost updates | No version | Optimistic concurrency |
+| Frequent 409 | Hot row | Smaller critical section; queue |
+| Skipped workflow state | Check-then-act | One conditional transition |
+| Blind PUT JSON | Whole replace | PATCH + ETag |
 
----
+## Real-World Applications
 
+Ticket systems, document editors, and inventory reservations.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`read → logic in app → write` without version** — distributed race by default.
+- **Optimistic:** high throughput; retries under contention.
+- **Pessimistic:** simpler conflicts; lock hold kills throughput.
+- **Trade-off:** edit-in-place vs append-only event log.
 
-> [!WARNING]
-> **ETag on wrong representation** — weak validators surprise you.
+## Comparison
 
-> [!WARNING]
-> **Locking too long** — holds kill throughput; prefer optimistic.
+- vs [[race condition]]: race is the general hazard; this is the RMW data pattern.
+- vs [[Eventual consistency]]: eventual replicas need merge policies for concurrent writes.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Append-only logs** — conflicts become new events.
-- **Immutable objects** — create new versions instead of edit-in-place.
-- **Single-writer partitions** — already serialized.
-
----
-
-
-## Related
-
-[[race condition]] [[ETAG or IF MATCH]] [[Eventual consistency]] [[critical sections]]
-
-## Sources
-
-- [Wikipedia — Concurrent modification](https://en.wikipedia.org/wiki/Concurrent_modification)
+- `read → app logic → write` with no version.
+- Long-held DB locks.
+- Weak ETags on the wrong representation.

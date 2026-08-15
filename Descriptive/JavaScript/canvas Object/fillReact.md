@@ -4,9 +4,15 @@
 
 > `fillRect` paints a filled axis-aligned rectangle on a canvas 2D context (note: often mistyped as fillReact).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers may probe fillReact as tooling or web platform literacy — expect a crisp definition, how it works, and when it is the wrong tool.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 getContext('2d') → fillStyle → fillRect
@@ -21,10 +27,7 @@ getContext('2d') → fillStyle → fillRect
 | **Origin** | Top-left of canvas | “y grows downward.” |
 | **DPR** | Device pixel ratio | “Scale for sharp retina.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const ctx = canvas.getContext('2d')
@@ -38,10 +41,18 @@ ctx.fillRect(10, 20, 100, 50)
 | Canvas width attrs | CSS size ≠ bitmap size |
 | clearRect | Erase before redraw |
 
----
+## Pros/Cons or Trade-offs
 
+- **Simple UI boxes** — HTML/CSS.
+- **Huge scene graphs** — WebGL / retained mode libs.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **CSS scales the bitmap** — setting only CSS width blurs; set attributes too.
+
+> [!WARNING]
+> **Name mix-up with React** — canvas API is unrelated to React.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +61,3 @@ ctx.fillRect(10, 20, 100, 50)
 | Wrong color | style after draw | Set style first |
 | fillReact undefined | typo | Use `fillRect` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **CSS scales the bitmap** — setting only CSS width blurs; set attributes too.
-
-> [!WARNING]
-> **Name mix-up with React** — canvas API is unrelated to React.
-
----
-
-
-## When not to use
-
-- **Simple UI boxes** — HTML/CSS.
-- **Huge scene graphs** — WebGL / retained mode libs.
-
-
-## Related
-
-[[html]] [[Javascript]]
-
-## Sources
-
-- [Wikipedia — fillReact](https://en.wikipedia.org/wiki/fillReact)

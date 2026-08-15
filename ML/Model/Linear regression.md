@@ -1,12 +1,20 @@
-[[regression]] [[scikitlearn]] [[sigmoid]] [[data preprocessing]] [[supervised learning]]
+[[regression]] [[scikitlearn]] [[sigmoid]] [[data preprocessing]] [[supervised learning]] [[Model/Polynomial regression]] [[Gradient boosting]] [[Decision tree]] [[Visualization/Residual plot]]
 
 # Linear regression
 
 > Predict continuous target as weighted sum of features (+ intercept) — **Hastie ESL**; baseline every tabular regression problem should beat.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Linear regression to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [Linear regression — Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) — overview
+
+## Key Concepts
 
 ```txt
 ŷ = β₀ + β₁x₁ + β₂x₂ + … + βₚxₚ
@@ -30,10 +38,7 @@
 
 For classification boundaries, see [[sigmoid]] + logistic regression (not this note).
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### sklearn baseline
 
@@ -76,24 +81,14 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 - **OLS:** scaling doesn't change predictions (only coefficient scale).
 - **Ridge/Lasso:** **always scale** — penalty is not rotation-invariant.
 
----
+## Pros/Cons or Trade-offs
 
+- **Strong nonlinear interactions** without explicit feature crosses — [[Gradient boosting]] or GAM usually wins.
+- **Target is count / rate with bounds** — Poisson, Gamma GLM, or beta regression.
+- **Heavy outliers drive loss** — Huber / quantile regression, or robust tree models.
+- **Need calibrated uncertainty in production** — Bayesian linear or conformal prediction on residuals.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| High train R², awful val | Overfitting transforms / leakage | Audit features; hold out time; reduce polynomial degree |
-| Negative R² on val | Wrong baseline, broken pipeline | Verify target not in X; check train/val split |
-| Coefficients flip sign vs domain | Multicollinearity | Drop correlated cols; Ridge; PCA |
-| Residual fan shape | Heteroscedasticity | Log-transform target; weighted least squares |
-| Predictions clip at extremes | Linear extrapolation | Polynomial features; [[Gradient boosting]]; log target |
-| `LinAlgError: singular matrix` | Perfect collinearity, p > n | Drop duplicate cols; Ridge; reduce features |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **R² on skewed targets:** optimizing R² on heavy-tailed revenue can chase outliers — also track MAE / MAPE on business slices.
@@ -107,23 +102,12 @@ print(ols.summary())  # coef, std err, t, p-value, R²
 > [!WARNING]
 > **Interpretability of raw coefficients** only holds when features are on comparable scales (or standardized).
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| High train R², awful val | Overfitting transforms / leakage | Audit features; hold out time; reduce polynomial degree |
+| Negative R² on val | Wrong baseline, broken pipeline | Verify target not in X; check train/val split |
+| Coefficients flip sign vs domain | Multicollinearity | Drop correlated cols; Ridge; PCA |
+| Residual fan shape | Heteroscedasticity | Log-transform target; weighted least squares |
+| Predictions clip at extremes | Linear extrapolation | Polynomial features; [[Gradient boosting]]; log target |
+| `LinAlgError: singular matrix` | Perfect collinearity, p > n | Drop duplicate cols; Ridge; reduce features |
 
-
-## When not to use
-
-- **Strong nonlinear interactions** without explicit feature crosses — [[Gradient boosting]] or GAM usually wins.
-- **Target is count / rate with bounds** — Poisson, Gamma GLM, or beta regression.
-- **Heavy outliers drive loss** — Huber / quantile regression, or robust tree models.
-- **Need calibrated uncertainty in production** — Bayesian linear or conformal prediction on residuals.
-
----
-
-
-## Related
-
-[[regression]] · [[Model/Polynomial regression]] · [[Gradient boosting]] · [[Decision tree]] · [[Visualization/Residual plot]] · [[scikitlearn]]
-
-## Sources
-
-- [Wikipedia — Linear regression](https://en.wikipedia.org/wiki/Linear_regression)

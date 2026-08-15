@@ -4,9 +4,16 @@
 
 > git guidlines — feat: add new inventory endpoint
 
----
+## Interview Relevance
 
-## How it works
+Guideline questions check team conventions — trunk-based vs long-lived branches and review norms.
+
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```vbnet
 feat: add new inventory endpoint
@@ -39,8 +46,7 @@ Ticket: AT-123
 - separate subject from body with blank line
 - describe what and why, not how
 
-
-## Configuration and commands
+## Technical Details
 
 Use conventional prefixes in subject line:
 - `feat:` new behavior
@@ -48,10 +54,14 @@ Use conventional prefixes in subject line:
 - `docs:` documentation only
 - `chore:` tooling or maintenance
 
----
+## Pros/Cons or Trade-offs
 
+- Do not rewrite published history on shared branches to fix message typos.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> One commit should be **one logical change** — easier to revert and bisect.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,29 +69,3 @@ Use conventional prefixes in subject line:
 | Revert hard to find | No scope in subject | Add scope: `fix(auth): ...` |
 | Broken bisect | WIP commits on main | Squash or rebase before merge to main |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> One commit should be **one logical change** — easier to revert and bisect.
-
----
-
-
-## When not to use
-
-- Do not rewrite published history on shared branches to fix message typos.
-
-
----
-
-
-## Related
-
-[[GIT]]
-
-## Sources
-
-- [Wikipedia — git guidlines](https://en.wikipedia.org/wiki/git_guidlines)

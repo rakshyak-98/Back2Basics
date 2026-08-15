@@ -2,28 +2,55 @@
 
 # Render props
 
-> Render props shapes how React applications compose UI, state, and side effects in production.
+> Component takes a function as children/prop and calls it with state — share behavior before hooks were common.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `Render props` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[React Architecture]]
+Interviewers expect you to recognize render props in legacy code and explain how custom hooks replace most of them.
 
 ## Sources
 
-- [React — legacy patterns](https://react.dev/reference/react/legacy)
+- [React Children (related)](https://react.dev/reference/react/Children) — overview
+- [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
+
+## Core Definition
+
+A render prop is a function prop (often `children`) that receives values and returns React nodes — inversion of control for reusable state.
+
+## Key Concepts
+
+- **Pattern:** `<Mouse>{pos => <Cursor x={pos.x} />}</Mouse>`.
+- **Era:** popular pre-hooks; still appears in libs.
+- **Today:** prefer `useMouse()` custom hook unless composing with component trees.
+
+## Technical Details
+
+```tsx
+function Mouse({ children }: { children: (p: { x: number; y: number }) => React.ReactNode }) {
+  const [p, setP] = useState({ x: 0, y: 0 })
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => setP({ x: e.clientX, y: e.clientY })
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+  return children(p)
+}
+```
+
+## Real-World Applications
+
+Legacy React Router and early Formik APIs used render props; modern code paths expose hooks instead.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Flexible composition without HOCs wrapping display names.
+- **Con:** Wrapper hell and harder static typing than hooks.
+
+## Comparison
+
+- vs [[React Pattern/Higher order Component (HOCs)]]: both share behavior; hooks usually win for new code.
+
+## Mistakes to Avoid
+
+- Nesting five render-prop providers until JSX is unreadable.
+- Rewriting stable render-prop libraries “just because.”

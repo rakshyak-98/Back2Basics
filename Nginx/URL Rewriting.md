@@ -1,21 +1,30 @@
-[[Nginx]]
+[[nginx URL rewrite]] [[nginx SPA deployment]] [[How does directive work]] [[web server]]
 
 # URL Rewriting
 
-> URL Rewriting — a technique used by web servers (like Apache, Nginx, IIS, etc.) or web frameworks to transform a "pretty" or user-friendly URL into a…
+> Map a pretty public URL to a different internal path or entry point — so deep links and refreshes work when there is no real file per route.
 
----
+## Interview Relevance
 
-## How it works
+Product/platform interviews ask why SPAs and frameworks need rewrite/fallback, and how that differs from an external HTTP redirect.
 
-URL rewriting is a technique used by web servers (like Apache, Nginx, IIS, etc.) or web frameworks to **transform a "pretty" or user-friendly URL into a different internal URL** that the server actually uses to locate and serve the correct file, script, or content.
-### Why is it used?
-Most modern web applications (especially single-page applications or framework-based sites like React, Angular, Vue, Laravel, Next.js, etc.)
-- do **not** have real physical files or folders for every URL path. Instead, they use **client-side routing** or **server-side routing** that points many (or all) URLs to a single entry point (e.g., index.html or application.php).
-To make this work without breaking when users refresh the page or visit a deep link directly, the server uses **URL rewriting** to redirect all requests (or specific patterns) to that single entry point.
+## Sources
 
+- [Wikipedia — Rewrite engine](https://en.wikipedia.org/wiki/Rewrite_engine) — overview
+- [nginx.org — ngx_http_rewrite_module](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html) — deep-dive
+- [Apache — mod_rewrite](https://httpd.apache.org/docs/current/mod/mod_rewrite.html) — overview
 
-## Configuration and commands
+## Core Definition
+
+URL rewriting transforms a user-facing URL into another internal URL (or entry file) the server uses to locate content — without requiring a physical file for every path.
+
+## Key Concepts
+
+- **Pretty URL → entry point:** Many frameworks route `/users/1` to `index.html` or `index.php`, not `/users/1.html` on disk.
+- **Client vs server routing:** SPAs need server fallback for history-mode deep links; SSR frameworks need server-aware routing.
+- **Rewrite vs redirect:** Internal rewrite keeps the browser URL (often); redirect (`301`/`302`) tells the client to request a new URL.
+
+## Technical Details
 
 ```nginx
 location /legacy/ {
@@ -23,39 +32,29 @@ location /legacy/ {
 }
 ```
 
----
-
-
-## When things break
+Nginx-specific rewrite patterns: [[nginx URL rewrite]]. SPA filesystem fallback: [[nginx SPA deployment]].
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Old URLs still hit application | rewrite order; location precedence | More specific `location` wins; check `^~` prefix |
-| Case-sensitive mismatch | `rewrite` is case-sensitive | Normalize with `lower` map or explicit rules |
+| Case-sensitive mismatch | `rewrite` is case-sensitive | Normalize with `map`/`lower` or explicit rules |
 
----
+## Real-World Applications
 
+Legacy path redirects after a site migration; front-controller patterns for Laravel/PHP; SPA deep-link support via `try_files`.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> Long rewrite chains are hard to debug — document each rule and test with `curl -I`.
+- **Pro:** Stable public URLs while internal structure changes.
+- **Con:** Long rewrite chains are hard to debug — keep rules few and documented.
 
----
+## Comparison
 
+- vs [[nginx URL rewrite]]: concept across servers vs Nginx directives/flags.
+- vs application routers: complex rules often belong in the app; edge rewrite for simple redirects and front controllers.
 
-## When not to use
+## Mistakes to Avoid
 
-- Do not chain more than a few rewrites — use application routing for complex rules.
-
-
----
-
-
-## Related
-
-[[Nginx]]
-
-## Sources
-
-- [Wikipedia — URL Rewriting](https://en.wikipedia.org/wiki/URL_Rewriting)
+- Chaining more than a few rewrites — move complex logic into application routing.
+- Confusing cached 301s with internal rewrites.
+- Skipping `curl -I` tests when adding rules.

@@ -1,13 +1,32 @@
-[[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
+[[PSI GSS]] [[payment gateway]] [[PSP]] [[Strip]] [[TLS (Transport Layer Security)]]
 
 # SAQ GSS (Self-Assessment Questionnaire — Guest Service System)
 
-> PCI DSS self-assessment path when checkout is fully outsourced — merchant attests reduced cardholder-data environment — **PCI SSC SAQ programs**.
+> PCI DSS self-assessment when checkout is fully outsourced — the merchant attests a reduced cardholder-data environment using the correct SAQ (often SAQ A / A-EP class).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask which SAQ fits hosted redirect versus embedded fields versus storing PAN, and what evidence (AOC, diagrams) an acquirer expects annually.
 
+## Sources
+
+- [PCI SSC — SAQ instructions and guidelines](https://www.pcisecuritystandards.org/document_library/) — deep-dive
+- [PCI SSC — Official SAQ forms](https://www.pcisecuritystandards.org/) — deep-dive
+- [Wikipedia — PCI DSS](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard) — overview
+
+## Core Definition
+
+An SAQ is a merchant-completed questionnaire matching a defined eligibility profile. “GSS” here labels the hospitality/guest checkout path aligned with [[PSI GSS]]: no electronic storage, processing, or transmission of account data on merchant systems when a validated provider hosts card entry. Confirm the exact form version with your acquirer — PCI SSC updates SAQs over time.
+
+## Key Concepts
+
+- **Eligibility first:** wrong SAQ is a compliance failure even if controls feel “good enough.”
+- **SAQ A:** fully outsourced redirect or compliant provider iframe; no account data on merchant systems.
+- **SAQ A-EP:** merchant page influences card data flow more directly (for example some JS/direct-post designs) — heavier requirements.
+- **SAQ D:** merchant stores/processes/transmits PAN — full questionnaire.
+- **Evidence pack:** AOC, network diagram, policies, and officer attestation.
+
+## Technical Details
 
 ```
 Merchant environment          Provider hosted checkout
@@ -17,79 +36,56 @@ Merchant environment          Provider hosted checkout
 │ Tokens/webhooks only│      │ AOC on file              │
 └─────────────────────┘      └──────────────────────────┘
          │
-         └── annual SAQ GSS/A + ASV scans if required
+         └── annual SAQ (A / GSS-aligned) + scans if required
 ```
-
-Pair with [[Payments/PSI GSS]] for technical architecture that qualifies.
-
-
-## Configuration and commands
-
-### SAQ selection (simplified — confirm with QSA/acquirer)
 
 | Scenario | Typical SAQ |
 |----------|-------------|
 | Fully outsourced redirect checkout | SAQ A |
-| Embedded fields, JS from PSP, no CHD on merchant | Often SAQ A-EP — verify with acquirer |
+| Embedded provider fields, no CHD on merchant | Often SAQ A or A-EP — verify with acquirer |
 | Merchant stores/processes PAN | SAQ D |
-
-### Annual compliance workflow
 
 ```text
 1. Confirm architecture still matches GSS (no scope creep)
 2. Collect PSP AOC + responsibility matrix
-3. Complete correct SAQ (GSS/A variant per PCI SSC current docs)
-4. ASV external scan if SAQ requires (usually N/A for pure SAQ A)
+3. Complete correct current SAQ from PCI SSC
+4. ASV external scan if the SAQ requires it
 5. Submit to acquirer; retain evidence 3+ years
-6. Security awareness training for staff (PCI req 12.6)
+6. Security awareness training for staff (PCI req 12.x)
 ```
 
-### Evidence pack
-
-- Network diagram (CHD flows)
-- Policies: incident response, access control, logging
-- Pen test / vuln scan results if applicable
-- Change tickets proving no PAN fields added to DB
-
-### Merchant attestation fields
-
-Officer signs attestation that:
-
-- Listed controls implemented
-- No prohibited storage of sensitive authentication data (CVV post-authentication)
-- Service providers PCI compliant
-
-
-## When things break
+Officer attestation typically covers: listed controls implemented; no prohibited storage of sensitive authentication data (for example CVV after authorization); service providers PCI compliant.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Acquirer demands SAQ D | Scope creep | Architecture review; remove PAN touchpoints |
-| Failed ASV scan | Merchant IP in scope | Fix vulns or clarify scan scope with ASV |
-| Expired SAQ | Calendar | Recomplete before deadline — fines possible |
-| Wrong SAQ version | PCI SSC updates | Download current PDF from pcisecuritystandards.org |
-| M&A due diligence fail | Missing AOC chain | Collect subprocessors list |
+| Failed ASV scan | Merchant IP in scope | Fix vulns or clarify scan scope |
+| Expired SAQ | Calendar | Recomplete before deadline |
+| Wrong SAQ version | PCI SSC updates | Download current PDF |
+| M&A diligence fail | Missing AOC chain | Collect subprocessors list |
 
+## Real-World Applications
 
-## Gotchas
+Hotel brands and franchises attesting guest web booking, franchisees using corporate PSP Checkout, and SaaS merchants on Stripe/Razorpay hosted pages.
 
-> [!WARNING]
-> **SAQ GSS is not "no security"** — still patch servers, secure admin access, validate webhooks.
+**Example:** Acquirer rejects “SAQ A” because the booking API accepted `cardNumber` in JSON — restore [[PSI GSS]] hosted-only flow and re-attest.
 
-- **E-commerce + call center** mixed models — phone capture may blow GSS eligibility.
-- **Multi-PSP** — each must be in scope documentation.
-- **Logs/traces** accidentally capturing query parameters with tokens — rotate and redact.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Shortest path when architecture truly outsources CHD.
+- **Con:** Not “no security” — patch servers, lock admin access, validate webhooks.
+- **Con:** Mixed e-commerce + call-center capture often breaks eligibility.
 
-## When not to use
+## Comparison
 
-- Any system component receives, stores, or transmits full PAN — SAQ GSS path invalid; use appropriate full SAQ.
+- vs [[PSI GSS]]: questionnaire versus technical pattern — both required.
+- vs SAQ D: full program when any system component handles PAN.
+- vs QSA on-site assessment: large merchants / service providers may need more than SAQ.
 
+## Mistakes to Avoid
 
-## Related
-
-[[Payments/PSI GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[Security/TLS (Transport Layer Security)]]
-
-## Sources
-
-- [Wikipedia — SAQ GSS](https://en.wikipedia.org/wiki/SAQ_GSS)
+- Treating SAQ GSS/A as a paperwork-only exercise while PAN sits in logs.
+- Using an outdated SAQ PDF after a PCI SSC revision.
+- Mixing phone (MOTO) card capture with “hosted-only” claims.
+- Forgetting multi-PSP documentation when several providers are in use.
+- Skipping re-attestation after a provider or architecture change.

@@ -1,12 +1,18 @@
-[[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[LSP]]
+[[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[LSP]] [[Debugger configuratoin]] [[go debugging]] [[node debugger]]
 
 # How does debugger work
 
 > Debugger — runs (or attaches to) a process, stops at breakpoints, lets you inspect memory/stack and step.
 
----
+## Interview Relevance
 
-## How it works
+Debugger questions check breakpoints, stepping, and how debug adapters talk to runtimes.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 run → hit BP → inspect → step/continue
@@ -18,10 +24,7 @@ run → hit BP → inspect → step/continue
 | Attach | Join existing PID/port |
 | Remote | gdbserver / debug port |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 node --inspect=9229 app.js
@@ -35,10 +38,18 @@ gdb ./app
 | Sourcemaps | TS/JS mapping |
 | Optimized code | Vars may vanish |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trivial print bugs** — log first.
+- **Race without repro** — `-race`/stress first.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Prod attach** — security + perf; prefer careful sampling.
+
+> [!WARNING]
+> **Async stacks** — may need async call stacks enabled.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -47,32 +58,3 @@ gdb ./app
 | Heisenbug | Timing | Log + reproduce less invasive |
 | Attach refused | Permissions/port | Correct pid/port |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Prod attach** — security + perf; prefer careful sampling.
-
-> [!WARNING]
-> **Async stacks** — may need async call stacks enabled.
-
----
-
-
-## When not to use
-
-- **Trivial print bugs** — log first.
-- **Race without repro** — `-race`/stress first.
-
----
-
-
-## Related
-
-[[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]] [[go debugging]] [[node debugger]]
-
-## Sources
-
-- [Wikipedia — How does debugger work](https://en.wikipedia.org/wiki/How_does_debugger_work)

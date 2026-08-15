@@ -1,14 +1,32 @@
-[[webhook]] [[Messaging/Web hooks]] [[DevOps]] [[Jenkins]]
+[[webhook]] [[Messaging/webhook]] [[Jenkins]] [[Airflow]] [[orchestration]]
 
 # Slack (ops & alerting)
 
-> Slack (ops & alerting) — slack receives HTTP POST (webhook URL or Web API with bot token) → message in channel/DM. Ops stack: Alertmanager/PagerDuty/CI → Slack
+> Team chat that receives HTTP posts from Alertmanager, PagerDuty, or CI so humans can triage — the webhook URL is a secret with channel write access.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Slack in ops contexts to see if you separate noisy channels from paging channels, treat webhooks as credentials, and know Slack is coordination — not the system of record.
 
-Slack receives **HTTP POST** (webhook URL or Web API with bot token) → message in channel/DM. operations stack: **Alertmanager/PagerDuty/CI → Slack** for human triage. Webhook URL **is a secret** (anyone with URL can post).
+## Sources
+
+- [Slack API — Incoming webhooks](https://api.slack.com/messaging/webhooks) — overview
+- [Slack API — chat.postMessage](https://api.slack.com/methods/chat.postMessage) — deep-dive
+- [Prometheus Alertmanager — Slack](https://prometheus.io/docs/alerting/latest/configuration/#slack_config) — overview
+
+## Core Definition
+
+For operations, Slack is a notification and coordination surface: monitoring and CI systems POST JSON via an incoming webhook or Bot User OAuth token (`xoxb-`) into a channel or DM, often with Block Kit for structured alerts.
+
+## Key Concepts
+
+- **Incoming webhook:** simplest POST-to-channel path — URL is a secret.
+- **Bot token / Web API:** needed for threads, reactions, message updates (`chat.postMessage`).
+- **Severity routing:** warning → Slack; critical → PagerDuty plus Slack.
+- **Channel hygiene:** separate development noise from production paging.
+- **Not an audit log:** retention limits; keep Prometheus/CloudTrail as source of truth.
+
+## Technical Details
 
 ```
 Prometheus/CI ──► webhook POST JSON ──► #alerts channel
@@ -16,45 +34,33 @@ Prometheus/CI ──► webhook POST JSON ──► #alerts channel
                          └── optional: threads, @channel, Block Kit for context
 ```
 
-Separate **noisy development channel** from **production paging channel**; use **severity routing** (warning → Slack, critical → PagerDuty + Slack).
-
-
-## Configuration and commands
-
-### Incoming Webhook (fastest path)
-
-1. Slack application → Incoming Webhooks → Add to workspace → pick channel.
-2. Store URL in secret manager (not git).
+Incoming webhook:
 
 ```bash
 curl -X POST "$SLACK_WEBHOOK_URL" \
   -H 'Content-Type: application/json' \
-  -d '{"text":"deploy prod api v1.2.3 — success","username":"deploy-bot"}'
+  -d '{"text":"deploy production api v1.2.3 — success","username":"deploy-bot"}'
 ```
 
-### Block Kit (structured alert)
+Block Kit sketch:
 
 ```json
 {
   "blocks": [
-    { "type": "header", "text": { "type": "plain_text", "text": "🔥 HighErrorRate prod-api" } },
+    { "type": "header", "text": { "type": "plain_text", "text": "HighErrorRate production-api" } },
     { "type": "section", "fields": [
       { "type": "mrkdwn", "text": "*Service:*\napi" },
       { "type": "mrkdwn", "text": "*Runbook:*\n<https://wiki/runbooks/api|open>" }
-    ]},
-    { "type": "actions", "elements": [
-      { "type": "button", "text": { "type": "plain_text", "text": "Dashboard" },
-        "url": "https://grafana/d/abc" }
     ]}
   ]
 }
 ```
 
-### Alertmanager → Slack
+Alertmanager receiver:
 
 ```yaml
 receivers:
-  - name: slack-prod
+  - name: slack-production
     slack_configs:
       - api_url: '<webhook>'
         channel: '#alerts-prod'
@@ -63,22 +69,7 @@ receivers:
         text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
 ```
 
-### GitHub Actions / CI
-
-```yaml
-- name: Notify Slack
-  if: failure()
-  env:
-    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  run: |
-    curl -X POST "$SLACK_WEBHOOK_URL" -H 'Content-Type: application/json' \
-      -d "{\"text\":\"❌ ${GITHUB_REPOSITORY} ${GITHUB_REF_NAME} — ${GITHUB_RUN_ID}\"}"
-```
-
-### Bot token (interactive / threads)
-
-- `chat.postMessage` with `xoxb-` token — needed for threads, reactions, updating messages.
-- OAuth scopes: `chat:write`, `channels:read` minimum for posting.
+Bot API (threads):
 
 ```bash
 curl https://slack.com/api/chat.postMessage \
@@ -87,55 +78,36 @@ curl https://slack.com/api/chat.postMessage \
   -d '{"channel":"C123","text":"rollback started","thread_ts":"1234567890.123456"}'
 ```
 
-### Slack CLI (app lifecycle)
-
-```bash
-# Install/manage Slack apps locally — see official docs
-slack login
-slack run   # dev mode for workflow apps
-# Uninstall: slack cli guides/uninstalling-the-slack-cli
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `404 invalid_payload` | Malformed JSON; missing `text` or `blocks` | Validate JSON; min required fields |
-| `403 / channel_not_found` | Webhook tied to channel; app not invited | Re-add app to private channel |
-| Alerts stopped entirely | Rotated webhook; secret expired | Regenerate webhook; update vault/CI secret |
-| Spam flood | Alert threshold too low; no grouping | Alertmanager `group_wait`/`group_interval`; inhibit rules |
-| Secrets in channel | CI pasted env dump | Redact in template; use links to logs |
-| Rate limited (`429`) | Burst during incident | Batch messages; thread updates vs new posts |
-| Button links don't work | URL not https; Block Kit malformed | Fix block JSON |
+| `invalid_payload` | Malformed JSON | Validate; require `text` or `blocks` |
+| `channel_not_found` | App not in channel | Invite app; recreate webhook |
+| Alerts stopped | Rotated webhook | Update vault/CI secret |
+| Spam flood | Thresholds / no grouping | `group_wait` / inhibit rules |
+| Rate limited (`429`) | Burst during incident | Batch; thread updates |
 
+## Real-World Applications
 
-## Gotchas
+CI failure notifies `#ci`; Alertmanager posts high-error-rate alerts with dashboard links; on-call threads updates during rollback.
 
-> [!WARNING]
-> **Webhook URL in repo = full channel write access** — rotate immediately if leaked.
+**Example:** Staging load tests page on-call because staging and production share one webhook — use separate apps and channels.
 
-> [!WARNING]
-> **`@channel` in every deploy** — alert fatigue; reserve for human-action-required prod incidents.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Same webhook prod + staging** — staging load tests page on-call; separate apps/channels.
+- **Pro:** Fast human triage with context links and threaded incident chat.
+- **Con:** Alert fatigue if every deploy `@channel`s.
+- **Con:** Message history is not a durable audit or paging system for SEV1.
 
-> [!WARNING]
-> **Slack message ≠ audit log** — retain Prometheus/CloudTrail; Slack history retention limits.
+## Comparison
 
+- vs PagerDuty/SMS: Slack coordinates; paging wakes humans for life-critical SEV1.
+- vs ticket/status page: those remain the incident record; Slack is the hallway.
+- vs raw email alerts: Slack is faster for teams already living in chat — still needs grouping.
 
-## When not to use
+## Mistakes to Avoid
 
-- **Primary incident record** — use ticket + status page; Slack is coordination.
-- **High-cardinality metrics dump** — link to dashboard, don't paste 200 lines.
-- **Sole paging for life-critical** — add PagerDuty/SMS for SEV1.
-
-
-## Related
-
-[[webhook]] · [[Messaging/Web hooks]] · [[Jenkins]] · [[Airflow]] · [[DevOps]]
-
-## Sources
-
-- [Wikipedia — Slack](https://en.wikipedia.org/wiki/Slack)
+- Committing the webhook URL to git — rotate immediately if leaked.
+- Using `@channel` on every deploy — reserve for human-action-required production incidents.
+- Pasting high-cardinality metric dumps — link dashboards instead.
+- Treating Slack as the sole SEV1 page path without SMS/phone escalation.
+- Dumping environment variables or secrets into channel templates.

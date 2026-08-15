@@ -1,12 +1,19 @@
-[[aws STS (Security Token Service)]] · [[ARN (Amazon Resource Name)]] · [[Security group]] · [[AWS EC2]] · [[AWS Lambda]]
+[[aws STS (Security Token Service)]] [[ARN (Amazon Resource Name)]] [[Security group]] [[AWS EC2]] [[AWS Lambda]]
 
 # IAM
 
 > Identity and Access Management decides which AWS principals can perform which API actions on which resources — an explicit `Deny` always wins over `Allow`.
 
----
+## Interview Relevance
 
-## Core objects
+IAM interviews probe least privilege, identity vs resource policies, role assumption, and why an explicit Deny wins — expect AccessDenied debugging.
+
+## Sources
+
+- [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) — deep-dive
+- [Policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) — deep-dive
+
+## Key Concepts
 
 | Object | Role |
 |--------|------|
@@ -19,7 +26,9 @@
 
 Authorization is evaluated at request time. AWS combines all applicable policies; if any matching statement is `Deny`, the call fails even when another policy allows it.
 
-## Evaluation flow
+## Technical Details
+
+### Evaluation flow
 
 ```
 API request
@@ -42,7 +51,26 @@ Allow / implicit deny
 
 **Service control policies (SCPs)** apply to member accounts in an organization. **Permission boundaries** cap what an administrator can grant to a user or role, even with `AdministratorAccess`.
 
-## Production patterns
+### Common failures
+
+| Symptom | Likely cause |
+|---------|----------------|
+| `AccessDenied` on S3 | Missing identity policy, bucket policy, or KMS key policy |
+| Lambda cannot reach VPC resource | Execution role lacks `ec2:CreateNetworkInterface` or security group blocks traffic |
+| Cross-account access fails | Trust policy on target role does not list source principal |
+| Admin cannot grant permission | Permission boundary or SCP blocks the action |
+
+### CLI checks
+
+```bash
+aws sts get-caller-identity
+aws iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::123456789012:role/MyRole \
+  --action-names s3:GetObject \
+  --resource-arns arn:aws:s3:::my-bucket/object-key
+```
+
+## Real-World Applications
 
 **Prefer roles over users.** EC2 instance profiles, Lambda execution roles, and CI/CD OIDC federation all assume roles and receive short-lived credentials. Long-lived access keys on IAM users are a common breach path.
 
@@ -75,32 +103,3 @@ Allow / implicit deny
   }]
 }
 ```
-
-## Common failures
-
-| Symptom | Likely cause |
-|---------|----------------|
-| `AccessDenied` on S3 | Missing identity policy, bucket policy, or KMS key policy |
-| Lambda cannot reach VPC resource | Execution role lacks `ec2:CreateNetworkInterface` or security group blocks traffic |
-| Cross-account access fails | Trust policy on target role does not list source principal |
-| Admin cannot grant permission | Permission boundary or SCP blocks the action |
-
-## CLI checks
-
-```bash
-aws sts get-caller-identity
-aws iam simulate-principal-policy \
-  --policy-source-arn arn:aws:iam::123456789012:role/MyRole \
-  --action-names s3:GetObject \
-  --resource-arns arn:aws:s3:::my-bucket/object-key
-```
-
-## Recall
-
-- When would you attach a policy to a resource instead of to a role?
-- What breaks if you delete the only role an EC2 instance profile references?
-
-## Sources
-
-- [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html)
-- [Policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)

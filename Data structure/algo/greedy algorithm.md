@@ -1,12 +1,19 @@
-[[Data structure/algo/binary search]] [[Data structure/dsa genera formula]]
+[[Data structure/algo/binary search]] [[Data structure/dsa genera formula]] [[Data structure/sliding window]]
 
 # Greedy algorithm
 
 > Locally optimal choice at each step — works when problem has **greedy choice property** and **optimal substructure**; otherwise wrong answer with confidence.
 
----
+## Interview Relevance
 
-## How it works
+Greedy questions test whether you can prove a local choice is safe — exchange argument or counterexample, not vibes.
+
+## Sources
+
+- [Wikipedia — Greedy algorithm](https://en.wikipedia.org/wiki/Greedy_algorithm) — overview
+- [CLRS — Greedy algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) — deep-dive
+
+## Key Concepts
 
 At each step, pick the best-looking option now without backtracking. Fast (often O(n log n) from sorting). Proof burden is on you: exchange argument or matroid. Classic wins: interval scheduling, Huffman, Dijkstra (non-negative weights), activity selection.
 
@@ -14,8 +21,7 @@ At each step, pick the best-looking option now without backtracking. Fast (often
 Sort/preprocess → for each step pick max profit / min finish time / closest fit
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Activity selection (max non-overlapping intervals)
 
@@ -50,8 +56,7 @@ function minCoins(amount) {
 // coins [1, 3, 4], amount 6 → greedy gives 4+1+1=3 coins; optimal 3+3=2
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,27 +66,11 @@ function minCoins(amount) {
 | Interval bug | Sort by wrong endpoint | Activity: sort by **finish** time |
 | Knapsack wrong | Fractional vs 0/1 | Fractional greedy by value/weight; 0/1 needs DP |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Don't greedy 0/1 knapsack or general coin change without proof.
+- **Trade-off:** Don't skip proof in interview — state why greedy safe or pivot to DP.
 
-> [!WARNING]
-> **Coin change** — greedy only for canonical systems; general case is NP-hard (DP).
->
-> **Looks right on samples** — greedy failures need crafted cases in review.
->
-> **Stable sort matters** — tie-breaking can change interval results.
+## Mistakes to Avoid
 
-
-## When not to use
-
-- Don't greedy 0/1 knapsack or general coin change without proof.
-- Don't skip proof in interview — state why greedy safe or pivot to DP.
-
-
-## Related
-
-[[Data structure/algo/binary search]] [[Data structure/dsa genera formula]] [[Data structure/sliding window]]
-
-## Sources
-
-- [Wikipedia — greedy algorithm](https://en.wikipedia.org/wiki/greedy_algorithm)
+- Coin change — greedy only for canonical systems; general case is NP-hard (DP). Looks right on samples — greedy failures need crafted cases in review. Stable sort matters — tie-breaking can change interval results.

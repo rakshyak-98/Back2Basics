@@ -1,12 +1,19 @@
-[[presentation layer]] [[Service Layer]] [[React Application Architecture for Production]]
+[[presentation layer]] [[Service Layer]] [[React Application Architecture for Production]] [[feature flag]]
 
 # frontend layered architecture
 
 > Frontend layers separate UI, state, and API access — so screens don’t each reinvent fetching and rules.
 
----
+## Interview Relevance
 
-## How it works
+Frontend layering interviews check whether UI, state, and API access stay separated so screens do not each reinvent policy.
+
+## Sources
+
+- [React — Thinking in React](https://react.dev/learn/thinking-in-react) — overview
+- [Martin Fowler — Presentation Domain Separation](https://martinfowler.com/eaaCatalog/presentationDomainSeparation.html) — deep-dive
+
+## Key Concepts
 
 ```txt
 Pages/Views → State (hooks/store) → API client → Backend
@@ -22,10 +29,7 @@ Pages/Views → State (hooks/store) → API client → Backend
 | **API module** | HTTP + DTO map | “One place for endpoints.” |
 | **Server state** | Remote cache | “react-query / RTK Query.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```ts
 // data layer
@@ -50,10 +54,7 @@ export function OrderPage({ id }: { id: string }) {
 | Error boundaries | One crash ≠ white screen |
 | Feature folders | Colocate UI + hook + api |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,49 +63,12 @@ export function OrderPage({ id }: { id: string }) {
 | God context | Whole app rerenders | Split stores / query |
 | Business rules only in UI | Pricing in React | Enforce on API too |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Marketing static page — no need for stores and API modules.
+- **Trade-off:** Tiny widget — one component + fetch is fine until it grows.
 
-## Decision
+## Mistakes to Avoid
 
-We will … because …
-
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Prop drilling “layers”** — deep trees without a data layer still couple everything.
-
-> [!WARNING]
-> **Duplicated clients** — three axios instances with three auth headers.
-
----
-
-
-## When not to use
-
-- **Marketing static page** — no need for stores and API modules.
-- **Tiny widget** — one component + fetch is fine until it grows.
-
-
-## Related
-
-[[presentation layer]] [[React Application Architecture for Production]] [[feature flag]]
-
-## Sources
-
-- [Wikipedia — frontend layered architecture](https://en.wikipedia.org/wiki/frontend_layered_architecture)
+- Prop drilling “layers” — deep trees without a data layer still couple everything.
+- Duplicated clients — three axios instances with three auth headers.

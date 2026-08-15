@@ -1,12 +1,19 @@
-[[golang]] [[go]] [[go embedding]]
+[[golang]] [[go]] [[go embedding]] [[go SOLID]] [[go functions]]
 
 # go interface
 
 > Interface — a method set; any type with those methods satisfies it **implicitly** (no `implements` keyword).
 
----
+## Interview Relevance
 
-## How it works
+Interfaces are Go’s polymorphism story — implicit satisfaction, small interfaces, and the empty interface/`any` trap.
+
+## Sources
+
+- [Go blog — The Laws of Reflection](https://go.dev/blog/laws-of-reflection) — deep-dive
+- [Effective Go — Interfaces](https://go.dev/doc/effective_go#interfaces) — overview
+
+## Key Concepts
 
 ```txt
 package userapi
@@ -22,10 +29,7 @@ func (s *Store) Get(id string) (User, error) { … }
 | Return concrete | Usually structs |
 | Small interfaces | `io.Reader` style |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 type Reader interface {
@@ -44,10 +48,7 @@ rc, ok := r.(io.ReadCloser)
 | Empty `interface{}` / `any` | Escape hatch |
 | `errors.As` | Interface-ish probing |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,36 +57,14 @@ rc, ok := r.(io.ReadCloser)
 | Fat interface hard to mock | Too many methods | Split interfaces |
 | Import cycle | Interface next to concrete | Move interface to consumer |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Single concrete forever — use the struct.
+- **Trade-off:** “IUserService” with 30 methods — split or drop.
+- **Trade-off:** Before writing tests — extract when mocking hurts.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Interface holds (type, value)** — nil concrete in non-nil interface ≠ nil.
-
-> [!WARNING]
-> **Don’t preemptively interface everything** — wait for a second implementation / test need.
-
-> [!WARNING]
-> **Exported interface + unexported method** — awkward; keep methods consistent.
-
----
-
-
-## When not to use
-
-- **Single concrete forever** — use the struct.
-- **“IUserService” with 30 methods** — split or drop.
-- **Before writing tests** — extract when mocking hurts.
-
----
-
-
-## Related
-
-[[go]] [[go embedding]] [[go SOLID]] [[go functions]]
-
-## Sources
-
-- [Wikipedia — go interface](https://en.wikipedia.org/wiki/go_interface)
+- Interface holds (type, value) — nil concrete in non-nil interface ≠ nil.
+- Don’t preemptively interface everything — wait for a second implementation / test need.
+- Exported interface + unexported method — awkward; keep methods consistent.

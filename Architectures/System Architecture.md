@@ -1,12 +1,19 @@
-[[Architectures]] [[Clean Architecture]] [[Multi-tier and Layered Architecture]]
+[[Architectures]] [[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[feature flag]] [[Idempotent-key]]
 
 # System Architecture
 
 > System architecture is the map of boxes and arrows — services, data stores, and failure domains you run in prod.
 
----
+## Interview Relevance
 
-## How it works
+System architecture interviews map boxes, arrows, and failure domains — consistency, scale, and operability trade-offs.
+
+## Sources
+
+- [Google — SRE book](https://sre.google/sre-book/table-of-contents/) — deep-dive
+- [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/) — overview
+
+## Key Concepts
 
 ```txt
 Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
@@ -23,10 +30,7 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 | **Failure domain** | What dies together | “One AZ vs one pod.” |
 | **Sync vs async** | Call now vs queue | “Checkout sync; email async.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```txt
 # Architecture checklist (write it down)
@@ -43,10 +47,7 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 | Idempotency on writes | Safe client retries |
 | Health / readiness | LB doesn’t send to dead pods |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,49 +56,12 @@ Clients → Edge (CDN/LB) → App services → Data (DB/queue/cache)
 | Hot dependency | One DB for everything | Split read models / shards |
 | “Works in diagram” | No SLO / capacity | Load test critical path |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Prototype / spike — skip multi-service until the product question is answered.
+- **Trade-off:** Single-team CRUD — modular monolith often beats premature microservices.
 
-## Decision
+## Mistakes to Avoid
 
-We will … because …
-
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Pretty boxes ≠ operable system** — without SLOs, runbooks, and ownership, architecture is a slide.
-
-> [!WARNING]
-> **Shared database as “integration”** — couples deploy cycles and schemas forever.
-
----
-
-
-## When not to use
-
-- **Prototype / spike** — skip multi-service until the product question is answered.
-- **Single-team CRUD** — modular monolith often beats premature microservices.
-
-
-## Related
-
-[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[feature flag]] [[Idempotent-key]]
-
-## Sources
-
-- [Wikipedia — System Architecture](https://en.wikipedia.org/wiki/System_Architecture)
+- Pretty boxes ≠ operable system — without SLOs, runbooks, and ownership, architecture is a slide.
+- Shared database as “integration” — couples deploy cycles and schemas forever.

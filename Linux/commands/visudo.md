@@ -1,12 +1,27 @@
-[[commands]] [[user management]] [[sudo]] [[linux groups]]
+[[commands]] [[user management]] [[sudo]] [[linux groups]] [[useradd]]
 
 # visudo
 
-> visudo edits sudoers safely — locks the file and rejects syntax errors so you don’t lock everyone out of root.
+> Edits sudoers safely — file lock plus syntax check so a typo does not lock everyone out of root.
 
----
+## Interview Relevance
 
-## How it works
+Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scoping, and `sudo -l` to verify effective rights.
+
+## Sources
+
+- [man visudo](https://man7.org/linux/man-pages/man8/visudo.8.html) — deep-dive
+- [man sudoers](https://man7.org/linux/man-pages/man5/sudoers.5.html) — deep-dive
+
+## Key Concepts
+
+- **Syntax check before commit:** prevents parse-error lockout.
+- **`%group`:** percent means group rule.
+- **NOPASSWD:** OK for narrow commands; dangerous with `ALL`.
+- **Cmnd_Alias:** grant logs/restarts without a full shell.
+- **`sudoers.d` lexical order:** later files can override earlier ones.
+
+## Technical Details
 
 ```txt
 who   where  =  (as_whom:as_group)  what
@@ -16,33 +31,15 @@ alice ALL=(ALL:ALL) NOPASSWD: /bin/systemctl restart myapp
 /etc/sudoers.d/*  read in lexical order (later can override)
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`visudo`** | Safe sudoers editor | “Syntax check before commit — prevents lockout.” |
-| **`%sudo`** | Group rule | “Percent means group.” |
-| **`NOPASSWD:`** | No password prompt | “OK for narrow commands; dangerous with `ALL`.” |
-| **`Cmnd_Alias`** | Named command sets | “Grant logs without granting shell.” |
-| **`sudo -l`** | Effective privileges | “What *this* user can actually run.” |
-
----
-
-
-## Configuration and commands
-
 ```bash
 sudo visudo
 sudo EDITOR=vi visudo
 sudo visudo -f /etc/sudoers.d/50-dev-team
-
 sudo -l
 sudo -lU alice
-sudo -k                    # forget cached credentials
+sudo -k
 sudo -u www-data id
 ```
-
-Example drop-in:
 
 ```text
 # /etc/sudoers.d/50-dev-team
@@ -61,69 +58,36 @@ DEV_TEAM ALL=(ALL)         PASSWD: SERVICE_CONTROL
 | Position | Example | Meaning |
 |----------|---------|---------|
 | Who | `alice` / `%devs` / `ALL` | User or group |
-| Where | `ALL` | Hosts (mostly ALL on single machines) |
+| Where | `ALL` | Hosts |
 | Runas | `(ALL:ALL)` | Target user/group |
 | What | `/usr/bin/apt` / `ALL` | Allowed commands |
 
----
-
-
-## When things break
+Suggested drop-in layout: `00-defaults`, `10-aliases`, `20-automation`, `50-teams`, `90-`/`zz-` overrides.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Locked out / parse error | Broken sudoers | Root console; fix with `visudo` / `pkexec` / live USB |
-| User “in sudo group” but denied | `sudo -lU` | Group membership not refreshed — re-login; check `%sudo` line |
-| Wrong file wins | Lexical order | Rename with `zz-` / `50-` prefixes |
-| NOPASSWD not applied | Alias mismatch | Full path required; no unexpected args |
-| `sudo -u` fails | Runas list | Allow `(www-data)` explicitly |
+| Locked out / parse error | Broken sudoers | Root console; fix via visudo / pkexec / live USB |
+| In sudo group but denied | `sudo -lU` | Re-login; check `%sudo` line |
+| Wrong file wins | Lexical order | Rename with numeric/`zz-` prefixes |
+| NOPASSWD not applied | Alias mismatch | Full paths; unexpected args |
 
----
+## Real-World Applications
 
+Least-privilege ops: allow `journalctl` and a single `systemctl restart` without giving interactive root.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Bad sudoers can lock out all sudo** — only edit via visudo; keep a root session open while testing.
+- **Pro:** Prevents the classic “edited sudoers, lost sudo” outage.
+- **Con:** Wildcards and `NOPASSWD: ALL` recreate root with extra steps.
 
-> [!WARNING]
-> **`NOPASSWD: ALL` is root with extra steps** — scope commands tightly.
+## Comparison
 
-> [!WARNING]
-> **Wildcards in command paths are tricky** — `/usr/bin/*` may be broader than you think; prefer aliases.
+- vs editing `/etc/sudoers` directly: never — always visudo.
+- vs application RBAC: sudo is host privilege, not app authorization.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **application RBAC** — application authz, not sudoers.
-- **Containers as non-root by design** — drop capabilities; don’t sprinkle NOPASSWD.
-- **Windows** — different privilege model.
-
----
-
-
-## sudoers.d layout
-
-```text
-00-defaults     early Defaults
-10-aliases      User_Alias / Cmnd_Alias
-20-automation   CI / deploy NOPASSWD (narrow!)
-50-teams        human roles
-90- / zz-       emergency overrides (last wins)
-```
-
-> [!WARNING]
-> Never point sudoers at files in a user’s home — they could grant themselves `ALL`.
-
----
-
-
-## Related
-
-[[user management]] [[linux groups]] [[useradd]] [[commands]]
-
-## Sources
-
-- [Wikipedia — visudo](https://en.wikipedia.org/wiki/visudo)
+- Editing sudoers without visudo.
+- `NOPASSWD: ALL` for convenience.
+- Pointing sudoers includes at files in a user’s home (self-grant risk).
+- Keeping a root session open while testing — good; closing it before verify — bad.

@@ -1,12 +1,20 @@
-[[ML]] [[ANN]] [[sigmoid]]
+[[ML]] [[ANN]] [[sigmoid]] [[supervised learning]]
 
 # Perceptron
 
 > A perceptron is a tiny linear classifier — weighted sum + threshold; the building block of neural nets.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Perceptron to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [Perceptron — Wikipedia](https://en.wikipedia.org/wiki/Perceptron) — overview
+
+## Key Concepts
 
 ```txt
 x · w + b  →  activation  →  ŷ
@@ -22,10 +30,7 @@ x · w + b  →  activation  →  ŷ
 | **Activation** | Step / sigmoid / ReLU | “Non-linearity enables depth.” |
 | **Epoch** | One pass over data | “Shuffle each epoch.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import numpy as np
@@ -43,10 +48,18 @@ b += lr * (y - ŷ)
 | Feature scale | Dominating dimensions |
 | Bias | Boundary not forced through origin |
 
----
+## Pros/Cons or Trade-offs
 
+- **XOR-like problems** — need MLP.
+- **Raw images/text** — use modern architectures.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Single perceptron ≠ deep learning** — no hidden layer → only linear boundaries.
+
+> [!WARNING]
+> **Unscaled inputs** — large features steal the decision.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,30 +68,3 @@ b += lr * (y - ŷ)
 | Always one class | class imbalance / bad init | Check labels; class weights |
 | Good train, bad test | tiny data | More data / simpler model |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Single perceptron ≠ deep learning** — no hidden layer → only linear boundaries.
-
-> [!WARNING]
-> **Unscaled inputs** — large features steal the decision.
-
----
-
-
-## When not to use
-
-- **XOR-like problems** — need MLP.
-- **Raw images/text** — use modern architectures.
-
-
-## Related
-
-[[ANN]] [[sigmoid]] [[supervised learning]]
-
-## Sources
-
-- [Wikipedia — Perceptron](https://en.wikipedia.org/wiki/Perceptron)

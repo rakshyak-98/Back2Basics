@@ -1,14 +1,28 @@
-[[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]]
+[[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]] [[network management]] [[transcoding]]
 
 # OBS (Open Broadcaster Software)
 
 > Desktop capture + encode + publish for live — **default RTMP publisher** for creators and ops smoke tests.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about OBS to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — OBS](https://en.wikipedia.org/wiki/OBS) — overview
+
+## Key Concepts
 
 **OBS** composes **scenes** (camera, display, browser, images), **encodes** in real time, and **publishes** via **[[RTMP]]** (or RTMPS) to an **ingest** endpoint, or **records** locally. It is a **single-publisher client** — not a CDN, packager, or DRM layer. Production stacks receive OBS at **[[ingestion]]**, then transcode/package to **[[HLS]]/[[DASH]]**.
+
+| Output          | Typical setting       | Pitfall                            |
+| --------------- | --------------------- | ---------------------------------- |
+| **Stream**      | RTMP CBR 4500 Kbps    | Wi-Fi uplink underrun              |
+| **Record**      | MKV + separate tracks | Not a delivery format — re-package |
+| **Virtual cam** | Zoom/Meet             | Different path than RTMP ingest    |
+
+## Technical Details
 
 ```txt
 Sources (mic, cam, display)
@@ -22,17 +36,6 @@ Sources (mic, cam, display)
    │
  ingest server → ABR ladder → viewers
 ```
-
-| Output          | Typical setting       | Pitfall                            |
-| --------------- | --------------------- | ---------------------------------- |
-| **Stream**      | RTMP CBR 4500 Kbps    | Wi-Fi uplink underrun              |
-| **Record**      | MKV + separate tracks | Not a delivery format — re-package |
-| **Virtual cam** | Zoom/Meet             | Different path than RTMP ingest    |
-
----
-
-
-## Configuration and commands
 
 ### Standard live publish setup
 
@@ -92,10 +95,22 @@ Search: "rtmp", "error", "disconnect"
 Linux: ~/.config/obs-studio/logs/
 ```
 
----
+## Real-World Applications
 
+Used wherever OBS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **24/7 unattended headless channel** — use ffmpeg/GStreamer on server with watchdog.
+- **Con / skip when:** **Multi-bitrate direct to players** — OBS sends one RTMP; packager creates ladder.
+- **Con / skip when:** **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
+
+## Comparison
+
+- vs [[DRM]]: **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -107,42 +122,8 @@ Linux: ~/.config/obs-studio/logs/
 | Pixelated fast motion | Bitrate too low | +1000 Kbps or drop to 720p |
 | Stream OK, record corrupt | Disk full | MKV recoverable vs MP4 |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Stream key in screenshot** — rotate key if leaked; use OBS secret field only.
-
-> [!WARNING]
-> **CBR off (VBR in OBS)** — uplink spikes → ingest buffer → added latency.
-
-> [!WARNING]
-> **Keyframe 0 (= auto)** — may not align with 2s HLS segments; set **2 s explicitly**.
-
-> [!WARNING]
-> **Browser source @ 60fps on 30fps output** — wasted CPU; match canvas FPS.
-
-> [!WARNING]
-> **OBS ≠ production transcoder** — one bitrate to ingest; ABR happens downstream ([[Multi Stream]] ladder).
-
----
-
-
-## When not to use
-
-- **24/7 unattended headless channel** — use ffmpeg/GStreamer on server with watchdog.
-- **Multi-bitrate direct to players** — OBS sends one RTMP; packager creates ladder.
-- **Studio DRM** — encrypt at origin/packager ([[DRM]]), not in OBS.
-
----
-
-
-## Related
-
-[[ingestion]] [[RTMP]] [[Encoding]] [[NVENC]] [[Single Stream]] [[network management]] [[transcoding]]
-
-## Sources
-
-- [Wikipedia — OBS](https://en.wikipedia.org/wiki/OBS)
+- **Stream key in screenshot** — rotate key if leaked; use OBS secret field only.
+- **CBR off (VBR in OBS)** — uplink spikes → ingest buffer → added latency.
+- **Keyframe 0 (= auto)** — may not align with 2s HLS segments; set **2 s explicitly**.
+- **Browser source @ 60fps on 30fps output** — wasted CPU; match canvas FPS.
+- **OBS ≠ production transcoder** — one bitrate to ingest; ABR happens downstream ([[Multi Stream]] ladder).

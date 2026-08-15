@@ -4,7 +4,24 @@
 
 > MTU is the largest IP payload one link accepts without fragmentation — black-hole MTU issues show up as HTTPS that hangs on large responses but works for small pages.
 
-## Layering
+## Interview Relevance
+
+MTU questions separate people who have debugged tunnels and VPNs from those who only know "Ethernet is 1500." Interviewers look for Path MTU Discovery, DF bit behavior, MSS clamping, and why blocking [[ICMP]] breaks large transfers.
+
+## Sources
+
+- [RFC 8200 — IPv6 (minimum MTU 1280)](https://www.rfc-editor.org/rfc/rfc8200) — deep-dive
+- [RFC 1191 — Path MTU Discovery](https://www.rfc-editor.org/rfc/rfc1191) — deep-dive
+- [Wikipedia — Maximum transmission unit](https://en.wikipedia.org/wiki/Maximum_transmission_unit) — overview
+
+## Key Concepts
+
+- **Per-link maximum:** each hop has an MTU → the path MTU is the minimum along the route.
+- **Headers eat payload:** IP + transport headers reduce usable application bytes → TCP MSS is negotiated from MTU.
+- **Fragmentation vs PMTUD:** oversized packets may fragment (IPv4) or fail with "packet too big" → modern practice prefers discovery over fragmentation.
+- **Black holes:** ICMP blocked + DF set → large packets die silently while small ones work.
+
+## Technical Details
 
 | Layer | Typical MTU |
 |-------|-------------|
@@ -15,13 +32,9 @@
 
 IP header + transport header reduce usable application payload. TCP MSS is negotiated in SYN options as roughly MTU − 40 (IPv4) or − 60 (IPv6).
 
-## Fragmentation
-
 Routers may fragment IPv4 if DF bit clear; IPv6 routers do **not** fragment — sender must use path MTU discovery. Lost [[Packet Fragment]] drops the entire datagram.
 
 Path MTU Discovery (RFC 1191 / RFC 8201): sender sets DF, receives ICMP "packet too big," lowers size.
-
-## Symptoms and checks
 
 ```bash
 ping -M do -s 1472 8.8.8.8        # 1472 + 28 = 1500
@@ -35,16 +48,28 @@ tracepath example.com
 | VPN flaky | Lower interface MTU on tunnel |
 | TCP weird after tunnel | MSS clamping on firewall |
 
-## MSS clamping
-
 Firewalls often rewrite TCP MSS in SYN packets to avoid fragmentation through tunnels:
 
 ```bash
 iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 ```
 
-## Sources
+## Real-World Applications
 
-- [RFC 8200 — IPv6 (minimum MTU 1280)](https://www.rfc-editor.org/rfc/rfc8200)
-- [RFC 1191 — Path MTU Discovery](https://www.rfc-editor.org/rfc/rfc1191)
-- [Wikipedia — Maximum transmission unit](https://en.wikipedia.org/wiki/Maximum_transmission_unit)
+VPN/overlay networks, PPPoE last-mile links, and container/bridge paths with unexpected encapsulation. Example: after enabling a GRE tunnel, API health checks pass but file uploads hang — lowering tunnel MTU or enabling MSS clamping fixes it.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Larger MTU means fewer packets and less header overhead on a given path.
+- **Con:** Overlays shrink effective MTU; mismatched MTU without working PMTUD causes hard-to-debug hangs.
+
+## Comparison
+
+vs [[Packet Fragment]]: MTU is the size limit; fragmentation is what happens (or fails) when a datagram exceeds it. Prefer sizing and PMTUD over relying on fragments.
+
+## Mistakes to Avoid
+
+- Assuming every path is 1500 — tunnels and PPPoE almost always subtract overhead.
+- Blocking ICMP and then blaming "TCP" for large-transfer stalls.
+- Tuning only server MTU while client or middlebox MTU still mismatches.
+- Forgetting IPv6 minimum MTU (1280) and router non-fragmentation rules.

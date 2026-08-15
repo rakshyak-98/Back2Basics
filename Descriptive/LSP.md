@@ -4,9 +4,17 @@
 
 > LSP (Language Server Protocol) gives editors completions, go-to-def, and diagnostics via a language server process.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers contrast LSP with DAP — language intelligence (completions, diagnostics) versus debugging. Expect capability negotiation and why the editor stays thin.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+- [Language Server Protocol specification](https://microsoft.github.io/language-server-protocol/) — deep-dive
+- [LSP overview — Microsoft](https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/) — overview
+
+## Key Concepts
 
 ```txt
 Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
@@ -21,10 +29,7 @@ Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
 | **capabilities** | What server supports | “Negotiate on init.” |
 | **vs DAP** | Debug ≠ language smarts | “DAP for breakpoints.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # examples
@@ -39,10 +44,18 @@ pylsp --help
 | `settings.json` | Server config |
 | Memory | Big monorepos need tuning |
 
----
+## Pros/Cons or Trade-offs
 
+- **Tiny throwaway script in notepad** — overkill.
+- **Formatting only** — formatter CLI may suffice.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Multiple language servers** — fight over the same file type.
+
+> [!WARNING]
+> **LSP isn’t runtime** — green squiggles ≠ tests passed.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +64,3 @@ pylsp --help
 | Stale types | server crash/cache | Restart LSP |
 | Slow IDE | huge project | Exclude build dirs |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Multiple language servers** — fight over the same file type.
-
-> [!WARNING]
-> **LSP isn’t runtime** — green squiggles ≠ tests passed.
-
----
-
-
-## When not to use
-
-- **Tiny throwaway script in notepad** — overkill.
-- **Formatting only** — formatter CLI may suffice.
-
-
-## Related
-
-[[DAP (Debug Adapter Protocol)]] [[Debugger configuratoin]]
-
-## Sources
-
-- [Wikipedia — LSP](https://en.wikipedia.org/wiki/LSP)

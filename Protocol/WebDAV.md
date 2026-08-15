@@ -1,14 +1,27 @@
-[[HTTP module]] · [[TLS (Transport Layer Security)]] · [[TCP]]
+[[HTTP module]] [[TLS (Transport Layer Security)]] [[TCP]]
 
 # WebDAV
 
-> Web Distributed Authoring and Versioning extends HTTP with methods for authoring files on remote servers — calendars (CalDAV) and contacts (CardDAV) build on the same MOVE/COPY/PROPFIND primitives.
+> WebDAV extends HTTP with authoring methods so clients can manage files on a remote server — CalDAV and CardDAV reuse the same MOVE/COPY/PROPFIND primitives.
 
----
+## Interview Relevance
 
-## HTTP methods beyond GET/PUT
+Interviewers use WebDAV to check HTTP method literacy beyond GET/POST and to contrast desktop drive mapping with object-storage APIs.
 
-[RFC 4918](https://datatracker.ietf.org/doc/html/rfc4918) adds:
+## Sources
+
+- [RFC 4918 — HTTP Extensions for WebDAV](https://datatracker.ietf.org/doc/html/rfc4918) — deep-dive
+- [RFC 4791 — CalDAV](https://datatracker.ietf.org/doc/html/rfc4791) — overview
+- [RFC 6352 — CardDAV](https://datatracker.ietf.org/doc/html/rfc6352) — overview
+
+## Key Concepts
+
+- **Authoring over HTTP:** collections (folders), properties, and advisory locks — not just blob upload.
+- **PROPFIND:** list properties / directory listing without downloading every body.
+- **CalDAV / CardDAV:** iCalendar and vCard layered on WebDAV collections.
+- **Same TLS/auth concerns** as other [[HTTP module]] APIs.
+
+## Technical Details
 
 | Method | Purpose |
 |--------|---------|
@@ -18,7 +31,7 @@
 | **COPY / MOVE** | Server-side copy/move |
 | **LOCK / UNLOCK** | Advisory locks |
 
-## Typical URL
+Typical URL:
 
 ```
 https://webdav.example.com/remote.php/dav/files/user/
@@ -26,37 +39,34 @@ https://webdav.example.com/remote.php/dav/files/user/
 
 Clients: macOS Finder, Windows Explorer, `rclone`, Nextcloud desktop.
 
-## Example with curl
-
 ```bash
 curl -u user:pass -X PROPFIND \
   -H "Depth: 1" \
   https://webdav.example.com/dav/
 ```
 
-## CalDAV / CardDAV
+- **CalDAV** — iCalendar over WebDAV
+- **CardDAV** — vCard contacts
 
-- **CalDAV** ([RFC 4791](https://datatracker.ietf.org/doc/html/rfc4791)) — iCalendar over WebDAV
-- **CardDAV** ([RFC 6352](https://datatracker.ietf.org/doc/html/rfc6352)) — vCard contacts
+## Real-World Applications
 
-Same TLS and authentication concerns as [[HTTP module]] APIs.
+Nextcloud/ownCloud file sync, shared corporate drives mapped as network folders, and calendar/contact sync on phones.
 
-## Security
+**Example:** A calendar app uses CalDAV so multiple devices share events with server-side properties — not ad-hoc PUT of `.ics` files.
 
-- Require **HTTPS** ([[TLS (Transport Layer Security)]])
-- Strong authentication; avoid basic auth on public Internet without MFA gateway
-- **Path traversal** bugs in server implementations — keep software patched
+## Pros/Cons or Trade-offs
 
-## vs object storage
+- **Pro:** Familiar desktop drive mapping and collaborative authoring semantics (locks, properties).
+- **Con:** S3-style APIs scale better for static assets and CDN distribution.
+- **Con:** Path-traversal bugs in servers — keep software patched; require HTTPS.
 
-S3-style APIs scale better for static assets; WebDAV wins for **desktop drive mapping** and **collaborative authoring** semantics (locks, properties).
+## Comparison
 
-## Recall
+- vs object storage (S3): WebDAV wins for authoring UX; object storage wins for scale and CDN.
+- vs plain HTTP PUT: PROPFIND/LOCK give directory and concurrency semantics PUT alone lacks.
 
-- How does PROPFIND differ from HTTP GET on a directory?
-- Why do calendar apps use CalDAV instead of plain PUT of `.ics` files?
+## Mistakes to Avoid
 
-## Sources
-
-- [RFC 4918 — HTTP Extensions for WebDAV](https://datatracker.ietf.org/doc/html/rfc4918)
-- [RFC 4791 — CalDAV](https://datatracker.ietf.org/doc/html/rfc4791)
+- Exposing WebDAV with basic authentication on the public Internet without MFA gateway.
+- Assuming PROPFIND equals GET on a directory — properties and Depth headers matter.
+- Using WebDAV as a general CDN origin for large static catalogs.

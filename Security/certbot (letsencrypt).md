@@ -1,12 +1,23 @@
-[[Security]] [[ACME server]] [[TLS (Transport Layer Security)]] [[certbot error]] [[https]]
+[[Security]] [[ACME server]] [[TLS (Transport Layer Security)]] [[certbot error]] [[https]] [[openssl]] [[PKI]]
 
 # certbot (letsencrypt)
 
 > Certbot — ACME client that proves you own a domain, then installs a Let’s Encrypt cert and renews it before expiry.
 
----
+## Interview Relevance
 
-## How it works
+Platform interviews ask how you obtain and renew free TLS certs safely — plugins, webroot/DNS-01, and renewal timers.
+
+## Sources
+
+- [Certbot documentation](https://eff-certbot.readthedocs.io/) — deep-dive
+- [Let's Encrypt — Getting Started](https://letsencrypt.org/getting-started/) — overview
+
+## Core Definition
+
+Certbot is an ACME client that proves domain control, installs Let's Encrypt certificates, and renews them before expiry.
+
+## Key Concepts
 
 ```txt
 certbot ──ACME──► Let's Encrypt
@@ -26,10 +37,7 @@ certbot ──ACME──► Let's Encrypt
 
 Use **`--staging`** while debugging — avoids production rate limits; staging certs are untrusted.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 certbot plugins
@@ -54,8 +62,28 @@ sudo certbot certonly --staging --standalone \
 | `--standalone` | No web server, or stop it briefly |
 | `--dns-<provider>` | Wildcards / blocked port 80 |
 
+### Renew certificate
 
-## When things break
+```bash
+sudo certbot renew
+sudo certbot renew --dry-run
+sudo certbot renew --deploy-hook "systemctl reload nginx"
+sudo certbot renew --quiet   # cron/systemd timer
+```
+
+### Webroot
+
+Writes challenge files into your docroot so the running server serves them:
+
+```bash
+sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
+```
+
+### HTTP-01 Challenge
+
+Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
+
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,62 +94,24 @@ sudo certbot certonly --staging --standalone \
 | nginx still old cert | Wrong `ssl_certificate` path | Point to `live/…/fullchain.pem`; reload |
 | Wildcard fail | HTTP-01 used | Switch to DNS-01 plugin |
 
----
+## Real-World Applications
 
+Automate public HTTPS on Nginx/Apache with Certbot install + systemd renew timer before the 90-day cert expires.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Staging certs look “broken” in browsers** — expected; switch off `--staging` for real trust.
+- **Pro:** Free, automated public TLS with short-lived certs and renew timers.
+- **Con:** Internal-only hostnames — public LE can’t validate private DNS; use private CA / step-ca.
+- **Con:** Devices without inbound 80/DNS API — pre-provision or use DNS-01 with automation.
+- **Con:** One-hour lab on localhost — `mkcert` / self-signed OpenSSL is faster.
 
-> [!WARNING]
-> **Standalone steals :80** — fails if nginx already listens; use webroot or stop nginx briefly.
+## Comparison
 
-> [!WARNING]
-> **IPv6 AAAA wrong** — LE may prefer v6; align A/AAAA or remove bad AAAA.
+- vs [[ACME server]]: client vs CA API.
+- vs commercial CA portals: Certbot+LE is API-first and short-lived (≈90 days).
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Internal-only hostnames** — public LE can’t validate private DNS; use private CA / step-ca.
-- **Devices without inbound 80/DNS API** — pre-provision or use DNS-01 with automation.
-- **One-hour lab on localhost** — `mkcert` / self-signed OpenSSL is faster.
-
----
-
-
-## Renew certificate
-
-```bash
-sudo certbot renew
-sudo certbot renew --dry-run
-sudo certbot renew --deploy-hook "systemctl reload nginx"
-sudo certbot renew --quiet   # cron/systemd timer
-```
-
-
-## Webroot
-
-Writes challenge files into your docroot so the running server serves them:
-
-```bash
-sudo certbot certonly --webroot -w /var/www/html -d example.com -d www.example.com
-```
-
-
-## HTTP-01 Challenge
-
-Prove control by serving `http://<domain>/.well-known/acme-challenge/<token>` on **port 80**. DNS-01 instead sets a TXT record (wildcards).
-
----
-
-
-## Related
-
-[[ACME server]] [[certbot error]] [[TLS (Transport Layer Security)]] [[https]] [[openssl]] [[PKI]]
-
-## Sources
-
-- [Wikipedia — certbot](https://en.wikipedia.org/wiki/certbot)
+- Staging certs look “broken” in browsers — expected; switch off `--staging` for real trust.
+- Standalone steals :80 — fails if nginx already listens; use webroot or stop nginx briefly.
+- IPv6 AAAA wrong — LE may prefer v6; align A/AAAA or remove bad AAAA.

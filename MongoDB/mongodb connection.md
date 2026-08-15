@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongoose middleware]] [[DNS]] [[connection pooling]]
+[[MongoDB]] [[mongoose middleware]] [[DNS]] [[connection pooling]] [[mongodb replicaset]] [[mongodb errors]]
 
 # MongoDB connection
 
 > URI + driver options that keep your app talking to the right cluster under load and failover — **MongoDB Manual** + production incident patterns.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use MongoDB connection to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 The driver maintains a **connection pool** to mongod/mongos processes. Each URI encodes authentication, replica set name, TLS, and read/write preference. On startup the driver discovers topology (standalone → replica set → sharded). Writes go to the primary (unless you explicitly use secondary reads with caveats); reads follow `readPreference`.
 
@@ -16,8 +23,7 @@ App → Driver pool → Primary (writes)
                   → mongos (sharded cluster)
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Connection string (replica set, prod-safe defaults)
 
@@ -50,8 +56,19 @@ await mongoose.connect(process.env.MONGODB_URI, {
 mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCommand({ ping: 1 })'
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authentication + network ACL.
+- Don't create one connection per request — always pool via driver/mongoose.
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Atlas IP allowlist** — app on dynamic IP or new k8s node → connection works locally, fails in prod until IP added.
+>
+> **Docker `localhost`** — container `localhost` is itself, not host MongoDB. Use service name or `host.docker.internal`.
+>
+> **Secondary reads** — stale reads + no writes; use `readPreference=secondaryPreferred` only when you accept lag.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,28 +78,3 @@ mongosh "mongodb://user:pass@host:27017/mydb?authSource=admin" --eval 'db.runCom
 | `not primary` on write | `rs.status()` | Wait for election; fix primary; don't write to secondary |
 | Pool exhausted / slow | `db.serverStatus().connections` | Lower per-app `maxPoolSize`; scale app or DB |
 | TLS handshake fail | cert SAN, CA bundle | Add CA to trust store; use `tlsCAFile` |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Atlas IP allowlist** — app on dynamic IP or new k8s node → connection works locally, fails in prod until IP added.
->
-> **Docker `localhost`** — container `localhost` is itself, not host MongoDB. Use service name or `host.docker.internal`.
->
-> **Secondary reads** — stale reads + no writes; use `readPreference=secondaryPreferred` only when you accept lag.
-
-
-## When not to use
-
-- Don't open MongoDB to `0.0.0.0` on the public internet without TLS + authentication + network ACL.
-- Don't create one connection per request — always pool via driver/mongoose.
-
-
-## Related
-
-[[mongodb replicaset]] [[mongodb errors]] [[connection pooling]] [[DNS]]
-
-## Sources
-
-- [Wikipedia — mongodb connection](https://en.wikipedia.org/wiki/mongodb_connection)

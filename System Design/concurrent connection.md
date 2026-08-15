@@ -4,9 +4,25 @@
 
 > Concurrent connections — how many live sockets/sessions you hold at once; often the real limit before CPU is.
 
----
+## Interview Relevance
 
-## How it works
+FD/socket limits, keepalives, and why connection count ≠ request concurrency.
+
+## Sources
+
+- [Wikipedia — concurrent connection](https://en.wikipedia.org/wiki/concurrent_connection) — overview
+
+## Key Concepts
+
+- **Live sockets/sessions:** distinct from requests per second.
+- **Resource caps:** FDs, memory per conn, LB limits.
+- **Keepalive vs churn:** reuse cuts handshakes; idle still costs RAM.
+- **App vs protocol limits:** configure both.
+
+
+## Technical Details
+
+### How it works
 
 ```txt
 clients ══╗
@@ -40,22 +56,33 @@ sysctl net.core.somaxconn
 | Idle timeout | Reap dead mobiles |
 
 ---
+## When not to use
 
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Too many open files` | `ulimit`; FD leak | Raise limit; fix leak |
-| Accept drops | `ListenOverflows` | Raise somaxconn; faster accept |
-| High conns, low RPS | Idle WS/SSE | Timeouts; scale horizontally |
-| Ephemeral port exhaustion | Outbound APIs | Pools; more IPs; HTTP/2 |
-| LB 502 under load | Backend conn cap | Raise upstream; warm pools |
+- **Pure batch jobs** — connections short; optimize CPU/IO instead.
+- **Serverless with tiny concurrency** — different scaling story.
+- **One administrator user** — ignore micro-tuning.
 
 ---
 
+## Real-World Applications
 
-## Gotchas
+WebSocket fleets, reverse proxies, and API gateways under C10k-style load.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Models real resource pressure for long-lived clients.
+- **Con:** Easy to confuse with throughput.
+- **Trade-off:** many idle conns vs short-lived request/response.
+
+
+## Comparison
+
+- vs [[Throughput]]: connections are concurrency capacity; throughput is completion rate.
+- vs [[server]]: servers must accept and account for connection lifecycle.
+
+
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Thread-per-conn** — dies at tens of thousands; use async/evented.
@@ -68,20 +95,12 @@ sysctl net.core.somaxconn
 
 ---
 
-
-## When not to use
-
-- **Pure batch jobs** — connections short; optimize CPU/IO instead.
-- **Serverless with tiny concurrency** — different scaling story.
-- **One administrator user** — ignore micro-tuning.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Too many open files` | `ulimit`; FD leak | Raise limit; fix leak |
+| Accept drops | `ListenOverflows` | Raise somaxconn; faster accept |
+| High conns, low RPS | Idle WS/SSE | Timeouts; scale horizontally |
+| Ephemeral port exhaustion | Outbound APIs | Pools; more IPs; HTTP/2 |
+| LB 502 under load | Backend conn cap | Raise upstream; warm pools |
 
 ---
-
-
-## Related
-
-[[Throughput]] [[backpressure]] [[TCP]] [[Real-time Subscription]] [[Scaling Throughput in High-load system]]
-
-## Sources
-
-- [Wikipedia — concurrent connection](https://en.wikipedia.org/wiki/concurrent_connection)

@@ -1,12 +1,27 @@
-[[commands]] [[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]]
+[[Commands]] [[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]]
 
 # Linux network commands
 
-> Pocket kit for “is it listening, reachable, or DNS?” — `ss`/`lsof` for sockets, `nc`/`tcpdump` to probe, `dig`/resolvectl for names.
+> Pocket kit for “is it listening, reachable, or DNS?” — ss/lsof for sockets, nc/tcpdump to probe, dig/resolvectl for names.
 
----
+## Interview Relevance
+Incident first five minutes: listening ports, route, DNS, and reachability — with the right tool per layer (not everything is `ping`).
 
-## How it works
+## Sources
+- [ss(8)](https://man7.org/linux/man-pages/man8/ss.8.html) — deep-dive
+- [tcpdump(1)](https://www.tcpdump.org/manpages/tcpdump.1.html) — overview
+
+## Core Definition
+Map the question to a tool: local listen → `ss`/`lsof`; path → `ip route get`; name → `dig`/`resolvectl`; TCP reach → `nc -zv`; packets → `tcpdump`. Host firewall ([[ufw]]) and cloud SGs are separate layers.
+
+## Key Concepts
+- **Listen vs reach:** Something bound locally ≠ remote can connect.
+- **ss over netstat:** Modern socket stats; netstat may be absent.
+- **DNS vs NSS:** `dig` is DNS; `getent hosts` follows nsswitch.
+- **Cloud + host firewall:** Both must allow the path.
+- **Capture sparingly:** tcpdump is powerful and noisy.
+
+## Technical Details
 
 ```txt
 Listen?  ss -lntup / lsof -i
@@ -16,138 +31,39 @@ Name?    dig +short / resolvectl
 Packets? tcpdump -ni eth0 port 443
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`ss -lntup`** | Listeners + process | “First command on ‘port already in use’.” |
-| **`Recv-Q` / `Send-Q`** | Bytes waiting | “High Send-Q → peer not reading; Recv-Q → local app slow.” |
-| **`nc -zv`** | TCP connect probe | “Firewall vs process down — one packet tells you.” |
-| **`tcpdump`** | Packet trace | “Prove SYN leaves and SYN-ACK returns.” |
-| **`resolvectl`** | systemd-resolved status | “Stub vs real resolvers on modern Ubuntu.” |
-
----
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Common commands
-
 ```bash
-# …
+ss -lntup
+ss -tnp | head
+sudo lsof -iTCP:443 -sTCP:LISTEN
+
+ip route get 1.1.1.1
+nc -zv -w 3 host 443
+dig +short example.com
+resolvectl query example.com
+
+sudo tcpdump -ni eth0 port 443
+sudo ufw status verbose
 ```
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Connection refused | `ss -lnt` on target | Start service / fix bind address |
-| Timeout | `nc -zv`; tcpdump SYN | Security group / [[ufw]] / route |
-| Works by IP, not name | `dig`; resolvectl | Fix resolvers / search domain |
-| Port in use | `ss -lntp 'sport = :8080'` | Stop PID or change port |
-| High TIME-WAIT / churn | `ss -s` | See [[ss]] / connection churn notes |
+| Connection refused | `ss -lntup` | Start service; fix bind |
+| Timeout | `nc -zv`; route; SG/ufw | Open path both sides |
+| Wrong IP used | `dig` vs `getent hosts` | Fix DNS/nsswitch/search |
+| netstat missing | package | Use `ss` |
 
----
+## Real-World Applications
+“Port open in cloud console but app times out” triage, confirming nginx listens on 443, and catching DNS split-horizon mismatches.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Fast layered diagnosis without an APM.
+- **Con:** Easy to over-scan (`nc`/`nmap`) and trip IDS.
+- **Trade-off:** Quick `nc` vs scoped [[nmap]] audits.
 
-## Gotchas
+## Comparison
+vs [[ip]]: L3 objects. vs [[ss]]/[[lsof]]: sockets/FDs. vs [[dig]]: DNS truth. vs [[ufw]]: host filter policy.
 
-> [!WARNING]
-> **`nc -e` bind shells are malware patterns** — many distros disable `-e`; don’t “test” that on shared hosts.
-
-> [!WARNING]
-> **`netstat` may be missing** — install net-tools or use [[ss]].
-
-> [!WARNING]
-> **Cloud firewall ≠ host firewall** — open both paths.
-
----
-
-
-## When not to use
-
-- **Deep TCP internals** — prefer [[ss]] `-ti` and dedicated notes.
-- **Service mesh / K8s NetworkPolicy debug** — `kubectl` + CNI tools.
-- **Long-term metrics** — exporters, not one-shot `ss`.
-
----
-
-
-## Sockets & listeners
-
-```bash
-ss -lntup                          # prefer over netstat
-ss -tan
-sudo lsof -i -P -n | grep LISTEN
-sudo netstat -tuln                 # legacy; see [[netstat]]
-
-# Column cheat (ss/netstat style)
-# Proto  Recv-Q  Send-Q  Local  Foreign  State
-```
-
-| Flag family | Meaning |
-|-------------|---------|
-| `-l` | Listening |
-| `-t`/`-u` | TCP/UDP |
-| `-n` | Numeric |
-| `-p` | Process |
-
----
-
-
-## Probe & capture
-
-```bash
-nc -zv example.com 443
-nc -z -v host 20-100
-nc -l -p 1234                      # listener lab
-# file copy lab: nc -l -p PORT > in.txt   /   nc host PORT < out.txt
-
-sudo tcpdump -ni any port 80 or port 443
-
-# iptables glance (host firewall)
-sudo iptables -L -n
-# Prefer [[ufw]] status on Ubuntu desktops/servers that use it
-```
-
----
-
-
-## DNS
-
-```bash
-dig +short example.com
-nslookup example.com
-resolvectl status                  # was systemd-resolve
-```
-
----
-
-
-## Related
-
-[[ss]] [[netstat]] [[lsof]] [[ip]] [[dig]] [[nc]] [[ufw]] [[commands]]
-
-## Sources
-
-- [Wikipedia — Linux network commands](https://en.wikipedia.org/wiki/Linux_network_commands)
+## Mistakes to Avoid
+- Testing with `ping` when the app is TCP/TLS-only.
+- Ignoring cloud firewall when host ufw looks open.
+- Leaving debug listeners or aggressive scans on shared hosts.

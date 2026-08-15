@@ -1,34 +1,47 @@
-[[Operating System]] [[buffer]] [[buffer head]] [[fsync]] [[file descriptors]] [[Persistent Block Storage]]
+[[Operating System]] [[buffer]] [[buffer head]] [[fsync]] [[file descriptors]] [[Persistent Block Storage]] [[kernel subsystem]]
 
 # Buffer cache
 
-> On Linux, the buffer cache is not a separate cache anymore — file and block data live in the unified page cache, with buffer heads describing how pages map to disk blocks.
+> On Linux the old “buffer cache” is not separate anymore — file and block data live in the unified page cache; buffer heads only describe how pages map to disk blocks.
 
-Historically the kernel kept two caches: **page cache** for file contents and **buffer cache** for block-device I/O. Since Linux 2.4 they merged: all file-backed and block-backed paths share the **page cache** ([[kernel subsystem]] memory management). People still say “buffer cache” when discussing dirty blocks, writeback, and `sync` behavior.
+## Interview Relevance
 
-## Read path
+Expect questions on dirty pages, writeback vs `fsync`, and why a successful `write()` does not mean data is on disk — classic durability interview material.
+
+## Sources
+
+- [Linux kernel docs — Page Cache](https://docs.kernel.org/mm/page_cache.html) — deep-dive
+- Robert Love, *Linux Kernel Development* — page cache and writeback — deep-dive
+- Thomas-Krenn Wiki — Linux Page Cache Basics — overview
+
+## Key Concepts
+
+- **Unified page cache:** since Linux 2.4, file-backed and block-backed paths share one cache ([[kernel subsystem]] MM).
+- **Dirty pages:** `write()` updates RAM and returns; durability waits for writeback or [[fsync]].
+- **Buffer head:** [[buffer head]] ties a logical block to a page for some block/filesystem paths.
+- **Readahead:** sequential reads prefetch pages into cache.
+
+## Technical Details
+
+Historically: separate **page cache** (files) and **buffer cache** (block I/O). Today people still say “buffer cache” when discussing dirty blocks, writeback, and `sync`.
+
+### Read path
 
 ```txt
 read() → lookup inode page in page cache → hit: copy to user
                                         → miss: read disk, populate cache, then copy
 ```
 
-Readahead prefetches sequential pages. Memory is dynamic — unused cache pages are reclaimed under pressure before OOM.
+Unused clean pages are reclaimed under memory pressure before OOM.
 
-## Write path and durability
+### Write path and durability
 
 Writes mark pages **dirty** in RAM and return quickly. Flushing to [[Persistent Block Storage]] happens via:
 
-- Background **writeback** (`pdflush` / `bdi` threads)
+- Background **writeback** (`bdi` / writeback threads)
 - Explicit `sync()`, `fsync()` ([[fsync]]), `msync()`
 
 Power loss before flush means data existed only in cache — databases depend on fsync semantics.
-
-## Buffer heads
-
-A [[buffer head]] (`struct buffer_head`) ties a logical disk block to a page cache page for block-layer I/O. Higher-level file I/O usually goes through `address_space` and folios; buffer heads remain relevant for some block and filesystem paths.
-
-## Inspection
 
 ```bash
 free -h              # "buff/cache" line
@@ -36,8 +49,23 @@ grep -E 'Dirty|Writeback' /proc/meminfo
 echo 3 | sudo tee /proc/sys/vm/drop_caches   # lab only — drops clean cache
 ```
 
-## Sources
+## Real-World Applications
 
-- Linux kernel documentation: [Page Cache](https://docs.kernel.org/mm/page_cache.html)
-- Robert Love, *Linux Kernel Development* — Chapter on page cache and writeback
-- Thomas-Krenn Wiki — Linux Page Cache Basics
+PostgreSQL / MySQL rely on `fsync` (or equivalent) so checkpoints survive power loss. `free -h` “buff/cache” looking large is often healthy — reclaimable page cache, not a leak.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Huge read/write amplification reduction; sequential workloads shine.
+- **Con:** Crash without fsync loses recent writes.
+- **Trade-off:** drop_caches in production hides real working-set behavior and hurts latency.
+
+## Comparison
+
+- vs [[buffer]]: generic byte region vs kernel page cache for block/file data.
+- vs [[fsync]]: cache accelerates; fsync forces durability to media.
+
+## Mistakes to Avoid
+
+- Equating `write()` success with durable on-disk state.
+- Panic when `buff/cache` is large — often reclaimable.
+- Using `drop_caches` on production hosts as routine ops.

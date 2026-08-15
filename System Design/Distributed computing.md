@@ -1,58 +1,67 @@
-[[distributed system]] [[marshalling]] [[Throughput]] [[race condition]] [[Raft]]
+[[distributed system]] [[marshalling]] [[Throughput]] [[race condition]] [[Raft]] [[Serialization]]
 
 # Distributed computing
 
-> Distributed computing splits one workload across networked machines that exchange messages — gaining aggregate capacity while paying for coordination, partial failure, and serialization.
+> Distributed computing splits one workload across networked machines that exchange messages — aggregate capacity paid for with coordination, partial failure, and serialization.
 
----
+## Interview Relevance
 
-## Map of the problem space
+Partition + idempotent tasks + checkpoints; stragglers; Amdahl’s law; distinguish workload pattern from [[distributed system]] ops reality.
+
+## Sources
+
+- Dean & Ghemawat, MapReduce (OSDI 2004) — deep-dive
+- Gene Amdahl (1967) — parallel speedup limits — overview
+- Kleppmann, *Designing Data-Intensive Applications* — deep-dive
+
+## Key Concepts
+
+- **Partition → workers → aggregate**; retry failed tasks.
+- **Idempotent tasks** under at-least-once retry.
+- **Data locality:** move compute to data when possible.
+- **Shared mutable state:** [[Raft]], queues, or CRDTs — not hope.
+
+## Technical Details
 
 ```txt
-Coordinator → partition input → workers execute tasks → aggregate results
+Coordinator → partition input → workers → aggregate
                      ↘ retry failed tasks ↙
 ```
 
 | Challenge | Mitigation |
 |-----------|------------|
-| Node death mid-task | Restart task; checkpoint progress |
-| Straggler worker | Speculative duplicate execution |
-| Data gravity | Move compute to data (locality) |
+| Node death mid-task | Restart; checkpoint |
+| Straggler | Speculative duplicate |
 | Schema drift | Versioned [[marshalling]] / [[Serialization]] |
-| Shared mutable state | Consensus ([[Raft]]), queues, or conflict-free structures |
+| Shared mutable state | Consensus / queues / CRDT |
 
-**Distributed computing** is the workload pattern (map-reduce, render farm, microservice pipeline). **[[distributed system]]** is the operational reality those workloads run on — partial failure, replication, consistency.
-
-## Job design checklist
-
-```txt
-1. Partition input into independent chunks where possible
-2. Tasks should be idempotent (retries happen)
-3. Combine step should be deterministic when feasible
-4. Persist checkpoints for long jobs
-5. Measure speedup — Amdahl's law limits parallel gain
-```
-
-## Failure signatures
+Checklist: independent chunks; idempotent tasks; deterministic combine; checkpoints; measure speedup (Amdahl).
 
 | Symptom | Direction |
 |---------|-----------|
-| Job stuck at 99% | Straggler — kill slow worker, rerun partition |
-| Duplicate outputs | At-least-once retry without deduplication key |
-| Worker out of memory | Skewed partition — rebalance keys |
-| Rare wrong results | Non-determinism or [[race condition]] in combine |
-| Coordinator single point of failure | Highly available queue or elected leader |
+| Stuck at 99% | Kill straggler; rerun partition |
+| Duplicate outputs | Dedupe key |
+| Worker OOM | Rebalance skewed keys |
+| Wrong rare results | Non-determinism / [[race condition]] in combine |
+| Coordinator SPOF | HA queue or elected leader |
 
-## When distribution hurts
+## Real-World Applications
 
-- Central processing unit-bound jobs smaller than network round-trip overhead — one machine wins.
-- Strong interactive latency — every hop adds milliseconds.
-- Workload cannot be partitioned — fix the data model before adding nodes.
+MapReduce/Spark jobs, render farms, and microservice pipelines that fan out work.
 
-*What breaks first?* Chatty fine-grained remote procedure calls — overhead eats [[Throughput]] gains.
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Aggregate CPU/IO beyond one box.
+- **Con:** Network overhead; failure modes; harder debugging.
+- **Trade-off:** fine-grained RPCs (chatty) vs coarse partitions.
 
-- Dean & Ghemawat, "MapReduce: Simplified Data Processing on Large Clusters" (OSDI 2004).
-- Gene Amdahl, "Validity of the Single Processor Approach" (1967) — parallel speedup limits.
-- Martin Kleppmann, *Designing Data-Intensive Applications*.
+## Comparison
+
+- vs [[distributed system]]: computing = workload split; system = failure/consistency reality.
+- vs single-node: wins only when parallel fraction beats network cost.
+
+## Mistakes to Avoid
+
+- Distributing jobs smaller than RTT overhead.
+- Non-idempotent tasks under retry.
+- Ignoring skew until one worker OOMs.

@@ -1,36 +1,34 @@
-[[Firebase]] [[FCM Token (Firebase Cloud Messaging Token)]] [[Firebase messaging]]
+[[FCM Token (Firebase Cloud Messaging Token)]] [[Firebase messaging]]
 
 # Multicast delivery
 
-> FCM multicast sends one message payload to up to 500 registration tokens in a single API call — use `sendEachForMulticast` when you have a specific device list without creating a topic or device group.
+> FCM multicast sends one payload to up to 500 registration tokens in one Admin SDK call — best for an explicit device list without a topic.
 
----
+## Interview Relevance
 
-## When multicast fits
+Interviewers want the 500 limit, `sendEachForMulticast` per-token results, and chunking/pruning strategy.
 
-```txt
-Known token list (≤500 per call) → MulticastMessage → per-token success/failure
-```
+## Sources
 
-Multicast targets a explicit set of devices. For broadcast to all subscribers, use **topics**. For very large lists, chunk tokens and call multicast repeatedly.
+- [Firebase — Send a message to multiple devices](https://firebase.google.com/docs/cloud-messaging/send-message#send-messages-to-multiple-devices) — deep-dive
 
-[`sendEachForMulticast`](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage)) returns per-token results — unlike legacy multicast that hid individual failures.
+## Key Concepts
 
----
+- **Explicit set:** you pass tokens; not “everyone subscribed to X.”
+- **500 cap per call:** larger audiences need a loop.
+- **Per-token results:** success/failure array aligns with input order.
+- **Topics alternative:** better for true broadcast subscribe models.
 
-## Example
+## Technical Details
 
 ```js
-const message = {
-  notification: { title: 'Update', body: 'New content available' },
+const batchResponse = await admin.messaging().sendEachForMulticast({
+  notification: { title: "Update", body: "New content available" },
   tokens: tokenArray, // max 500
-};
-const batchResponse = await admin.messaging().sendEachForMulticast(message);
-
+});
 batchResponse.responses.forEach((resp, idx) => {
   if (!resp.success) {
-    const failedToken = tokenArray[idx];
-    // Delete stale tokens; log others
+    // delete stale tokenArray[idx] when not-registered
   }
 });
 ```
@@ -38,24 +36,26 @@ batchResponse.responses.forEach((resp, idx) => {
 | Limit | Value |
 |-------|-------|
 | Tokens per multicast | 500 |
-| Payload size | FCM message limits apply |
+| Payload | Normal FCM message limits |
 
----
+## Real-World Applications
 
-## What breaks first
+Notify all devices for one account (often <<500) in a single multicast; for all-user blasts, prefer topics or chunked jobs.
 
-| Symptom | Likely cause | Fix |
-|---------|--------------|-----|
-| Only first N devices get message | No chunking loop | Split `tokens` into 500-size batches |
-| High failure rate | Stale tokens | Prune on `registration-token-not-registered` |
-| Duplicate notifications | Retries without idempotency | Track send IDs; safe retry policy |
+**Example:** High failure rate after app reinstall wave — prune `registration-token-not-registered` aggressively.
 
----
+## Pros/Cons or Trade-offs
 
-## Related
+- **Pro:** Simple API for known token lists; detailed failures.
+- **Con:** Not a substitute for topic fan-out at huge scale.
 
-[[FCM Token (Firebase Cloud Messaging Token)]] · [[Firebase messaging]]
+## Comparison
 
-## Sources
+- vs topic send: topics scale broadcast; multicast targets a concrete list.
+- vs single send: multicast reduces HTTP chatter for batches ≤500.
 
-- [sendEachForMulticast](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/FirebaseMessaging#sendEachForMulticast(com.google.firebase.messaging.MulticastMessage))
+## Mistakes to Avoid
+
+- Passing >500 tokens and assuming the SDK silently handles it.
+- Ignoring `failureCount` / per-token errors.
+- Deduping poorly so retries double-notify users.

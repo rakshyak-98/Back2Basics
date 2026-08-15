@@ -1,12 +1,27 @@
-[[Commands]] [[process]] [[top]] [[lsof]]
+[[Commands]] [[process]] [[Linux Process Theory]] [[top]] [[lsof]] [[Linux process commands]] [[OOM (Linux Out Of Memory)]] [[ss]]
 
 # ps
 
-> `ps` snapshots processes right now — PID, state, TTY, CPU, memory, and command line.
+> One-shot process snapshot — PID, state, TTY, CPU, memory, and command line from `/proc`.
 
----
+## Interview Relevance
 
-## How it works
+Signals that you know `ps` is a point-in-time view (vs [[top]]), can read STAT/TTY/RSS, and pick BSD (`aux`) vs UNIX (`-ef`) styles deliberately.
+
+## Sources
+
+- [man ps](https://man7.org/linux/man-pages/man1/ps.1.html) — deep-dive
+- [Wikipedia — ps (Unix)](https://en.wikipedia.org/wiki/Ps_(Unix)) — overview
+
+## Key Concepts
+
+- **Snapshot:** does not refresh — live contention needs [[top]] / `pidstat` / `perf`.
+- **TTY `?`:** no controlling terminal — daemons, `systemd`, `nohup`, `setsid`.
+- **STAT letters:** `R` runnable, `S` sleep, `D` uninterruptible disk, `Z` zombie.
+- **RSS vs VSZ:** resident RAM vs virtual mappings — high VSZ alone is not a leak.
+- **Forest / tree:** parent–child view to find which supervisor owns workers.
+
+## Technical Details
 
 ```txt
 ps ──► /proc/<pid>/… ──► one snapshot
@@ -14,106 +29,55 @@ ps ──► /proc/<pid>/… ──► one snapshot
      pid, stat, tty, rss, cmd, …
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Snapshot** | One moment in time | “`ps` doesn’t refresh; `top` does.” |
-| **TTY `?`** | No controlling terminal | “Daemons and `nohup`/`setsid` jobs show `?`.” |
-| **STAT** | Process state letter | “`R` runnable, `S` sleep, `D` disk, `Z` zombie.” |
-| **RSS vs VSZ** | Resident RAM vs virtual size | “High VSZ alone is not a leak — watch RSS.” |
-| **BSD vs UNIX flags** | `ps aux` vs `ps -ef` | “Both work; pick one style and stick to it.” |
-| **`forest` / tree** | Parent–child view | “Find which supervisor owns the workers.” |
-
-### No controlling TTY
-
-- Detached from a terminal: no interactive I/O; no terminal-generated `SIGINT` / logout `SIGHUP` (unless something else signals).
-- Common for: `systemd` services, `cron`, `nohup … &`, `disown`, `setsid`.
-- Check: `ps -o pid,tty,cmd` → `?`, or `ls -l /proc/<pid>/fd/0` not linked to `/dev/tty*` / `pts`.
-
----
-
-
-## Configuration and commands
-
 ```bash
-# Everyday views
-ps aux                          # BSD style: USER PID %CPU %MEM … COMMAND
-ps -ef                          # UNIX style: UID PID PPID C STIME TTY TIME CMD
+ps aux
+ps -ef
 ps -eo pid,ppid,user,stat,tty,rss,pcpu,cmd --sort=-rss | head
-
-# One process / user / tree
 ps -p <pid> -o user,pid,ppid,stat,tty,wchan:20,cmd
 ps -u "$USER" -o pid,stat,cmd
-ps -efH                         # hierarchy
+ps -efH
 pstree -p <pid>
-
-# Threads of a process
 ps -L -p <pid> -o pid,tid,psr,stat,pcpu,cmd
-
-# Memory map helpers (often next after ps)
-cat /proc/<pid>/maps | head
 pmap -x <pid>
-
-# Signals when you must stop something
 kill -s TERM <pid>
-kill -s QUIT <pid>              # SIGQUIT = 3
 ```
 
 | Knob | Why it matters |
 |------|----------------|
 | `-o` custom columns | Add `wchan`, `rss`, `etime` for triage |
 | `--sort=-%cpu` / `-rss` | Find hogs without interactive `top` |
-| `-L` / `-T` | Thread-level CPU (Java/Go thread storms) |
+| `-L` / `-T` | Thread-level CPU (Java/Go storms) |
 | `TTY` | Session-bound vs daemon |
 
----
-
-
-## When things break
+No controlling TTY means no interactive I/O and no terminal-generated `SIGINT` / logout `SIGHUP` unless something else signals. Check: `ps -o pid,tty,cmd` → `?`, or `ls -l /proc/<pid>/fd/0` not linked to a tty/pts.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| “Process gone” but port busy | `ps` + `lsof -i :<port>` | Child or restarted PID; kill listener |
-| High CPU, unclear who | `ps -eo pid,pcpu,cmd --sort=-pcpu \| head` | Then `top -H -p <pid>` / `perf` |
-| Memory climb | `ps -o pid,rss,vsz,cmd -p <pid>` over time | Leak vs cache; confirm with `/proc/<pid>/smaps` |
-| Zombies | `ps -eo pid,ppid,stat,cmd \| awk '$3~/Z/'` | Fix parent reaping |
-| TTY signals don’t stop job | `TTY` is `?` | Send signal by PID; not Ctrl-C on another terminal |
-| `grep` shows itself | Pattern matches `grep` | Use `pgrep -af` or `[g]rep` trick |
+| Process gone, port busy | `ps` + `lsof -i :<port>` | Child or restarted PID; kill listener |
+| High CPU, unclear who | `ps -eo pid,pcpu,cmd --sort=-pcpu` | Then `top -H -p <pid>` / `perf` |
+| Memory climb | `ps -o pid,rss,vsz,cmd -p <pid>` over time | Leak vs cache; `/proc/<pid>/smaps` |
+| Zombies | `ps -eo pid,ppid,stat,cmd` for `Z` | Fix parent reaping |
+| Ctrl-C does nothing | `TTY` is `?` | Signal by PID from another session |
 
----
+## Real-World Applications
 
+First step in “who owns this CPU/RAM?”, finding zombies, and mapping supervisor → worker trees before kill decisions.
 
-## Gotchas
+**Example:** After SIGQUIT on a supervisor, use `ps --ppid` / `pstree` and [[lsof]] to catch leftover workers still holding a port.
 
-> [!WARNING]
-> **`ps` is stale the moment it prints** — for live contention use [[top]] / `pidstat` / `perf`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`VSZ` scares juniors** — virtual size includes mapped libs and reservations; **RSS** (and proportional `PSS`) matter for RAM pressure.
+- **Pro:** Scriptable, customizable columns, works over plain SSH without a TUI.
+- **Con:** Stale immediately; fragile to parse across locales — prefer `pgrep` / `/proc` in automation.
 
-> [!WARNING]
-> **SIGQUIT may leave children** — after quitting a supervisor, find leftover workers with `ps --ppid` / `pstree` and free the port with [[lsof]].
+## Comparison
 
-> [!WARNING]
-> **Permissions** — other users’ full cmdlines may be hidden; use root/`CAP_SYS_PTRACE` carefully.
+- vs [[top]]: live refresh and sorting UI; `ps` is one shot.
+- vs [[lsof]] / [[ss]]: open files and sockets — not process tables.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Don’t use `ps` as a continuous dashboard** — use [[top]], `htop`, or metrics scrapers.
-- **Don’t use `ps` to find open files or sockets** — use [[lsof]] or `ss` ([[ss]]).
-- **Don’t parse `ps` in scripts if `/proc` APIs suffice** — unstable columns across locales; prefer `pgrep`/`pidof` or read `/proc`.
-
----
-
-
-## Related
-
-[[process]] [[Linux Process Theory]] [[top]] [[lsof]] [[Linux process commands]] [[file descriptors]] [[OOM (Linux Out Of Memory)]] [[ss]] [[gdb]]
-
-## Sources
-
-- [Wikipedia — ps](https://en.wikipedia.org/wiki/ps)
+- Treating VSZ as “RAM used” — watch RSS (and PSS) under memory pressure.
+- Using `ps` as a continuous dashboard.
+- Parsing `ps` output in scripts when `pgrep`/`pidof` or `/proc` suffice.
+- Expecting Ctrl-C to stop a process whose TTY is `?`.

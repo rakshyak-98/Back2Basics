@@ -1,12 +1,18 @@
-[[Descriptive]] [[Markdown]] [[embedded image]]
+[[Descriptive]] [[Markdown]] [[embedded image]] [[WCAG (Web Content Accessibility Guidelines)]]
 
 # html
 
 > HTML is the document structure browsers parse — elements, attributes, and accessibility tree roots.
 
----
+## Interview Relevance
 
-## How it works
+HTML interviews check semantics, accessibility, and what belongs in markup versus CSS/JS.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 HTML → DOM → CSSOM → render
@@ -21,10 +27,7 @@ HTML → DOM → CSSOM → render
 | **void elements** | No close tag | `img`, `br`, `input` |
 | **forms** | Submit model | “name → payload.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```html
 <!doctype html>
@@ -45,10 +48,18 @@ HTML → DOM → CSSOM → render
 | `alt` on images | Screen readers |
 | `type` on button | Avoid accidental submit |
 
----
+## Pros/Cons or Trade-offs
 
+- **Non-document UIs** — canvas/WebGL still need a host page.
+- **Data interchange** — JSON, not HTML scraping.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Clickable divs without keyboard** — not accessible.
+
+> [!WARNING]
+> **Inline scripts before DOM** — null querySelector; defer/DOMContentLoaded.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,30 +68,3 @@ HTML → DOM → CSSOM → render
 | Form weird POST | button type | `type="button"` |
 | A11y fails | div soup | Semantic elements + labels |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Clickable divs without keyboard** — not accessible.
-
-> [!WARNING]
-> **Inline scripts before DOM** — null querySelector; defer/DOMContentLoaded.
-
----
-
-
-## When not to use
-
-- **Non-document UIs** — canvas/WebGL still need a host page.
-- **Data interchange** — JSON, not HTML scraping.
-
-
-## Related
-
-[[Markdown]] [[embedded image]] [[WCAG (Web Content Accessibility Guidelines)]]
-
-## Sources
-
-- [Wikipedia — html](https://en.wikipedia.org/wiki/html)

@@ -1,146 +1,119 @@
-[[css]] [[scss]] [[Animation]] [[Nginx]] [[React]]
+[[scss]] [[Animation]] [[tailwindcss]] [[React]] [[Nginx]]
 
 # Flash of Unstyled Content (FOUC)
 
-> Brief display of unstyled or wrong-theme HTML before CSS loads — users see a layout jump; Lighthouse flags CLS; trust drops on first paint.
+> Flash of Unstyled Content is the brief moment unstyled or wrong-theme HTML appears before CSS loads — users see a jump; layout shift metrics suffer.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about FOUC to see if you understand the critical CSS path, theme flash (dark/light), and how CSS-in-JS or late stylesheets cause first-paint reflows.
 
-The browser parses HTML incrementally. If CSS arrives **after** first paint, content renders with **user-agent defaults** (or wrong theme), then **reflows** when rules apply.
+## Sources
 
+- [Wikipedia — Flash of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) — overview
+- [web.dev — Optimize CSS delivery](https://web.dev/articles/defer-non-critical-css) — deep-dive
+- [MDN — `font-display`](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display) — overview
+
+## Core Definition
+
+The browser paints as HTML arrives; if the CSSOM is incomplete or theme classes are applied late by JavaScript, the first paint uses defaults (or the wrong theme), then restyles — that flash is FOUC (related: FOUT for fonts).
+
+## Key Concepts
+
+- **Render-blocking CSS:** `<link rel="stylesheet">` in `<head>` delays first paint until styles apply → usually better than painting naked HTML.
+- **Late CSS:** `@import`, bottom-of-body links, async stylesheets → classic FOUC triggers.
+- **Theme flash:** reading `localStorage` after first paint → light then dark (or reverse).
+- **CSS-in-JS SSR:** server HTML without matching injected styles → flash or hydration mismatch with [[React]].
+- **FOUT:** font swap after fallback metrics → text reflow; related but not identical to FOUC.
+
+## Technical Details
+
+```txt
+Bad:  HTML parsed → first paint (ugly) → CSS arrives → restyle + reflow
+Good: CSS discovered early → block until CSSOM → first paint styled
 ```
-Timeline (bad):
-HTML parsed ──► first paint (ugly) ──► CSS arrives ──► restyle + reflow (FOUC)
 
-Timeline (good):
-CSS discovered early ──► block render until CSSOM ──► first paint (styled)
-```
-
-Common triggers:
-- Render-blocking CSS loaded late (`@import`, bottom `<link>`, async CSS).
-- **CSS-in-JS** hydration mismatch (SSR sends HTML, client injects styles late).
-- **Dark/light theme** applied via JS after reading `localStorage`.
-- Web fonts swapping (`font-display: swap`) causing text reflow (FOUT — related).
-
-
-## Configuration and commands
-
-### HTML — load critical CSS first
+### Load critical CSS first
 
 ```html
 <head>
-  <!-- Preconnect to CSS CDN -->
   <link rel="preconnect" href="https://cdn.example.com" crossorigin>
-
-  <!-- Render-blocking but correct: styles before body content -->
   <link rel="stylesheet" href="/assets/main.css">
-
-  <!-- Avoid @import in CSS for critical path — serializes downloads -->
+  <!-- Avoid @import in critical CSS — serializes downloads -->
 </head>
 ```
 
-### Inline critical CSS (above-the-fold)
+### Inline critical CSS + deferred full sheet
 
 ```html
 <head>
   <style>
-    /* Minimal layout shell: header height, font-size, background */
     body { margin: 0; font-family: system-ui, sans-serif; }
     .hero { min-height: 40vh; }
   </style>
-  <link rel="preload" href="/assets/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/assets/main.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/assets/main.css"></noscript>
 </head>
 ```
 
-### Theme without flash (SSR or blocking script)
+### Theme before paint
 
 ```html
-<!-- Inline in <head> BEFORE body — reads preference before paint -->
 <script>
   (function () {
-    const theme = localStorage.getItem('theme')
-      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
+    const theme =
+      localStorage.getItem('theme') ||
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    document.documentElement.setAttribute('data-theme', theme)
+  })()
 </script>
 ```
 
 ```css
-:root[data-theme="light"] { --bg: #fff; --fg: #111; }
-:root[data-theme="dark"]  { --bg: #111; --fg: #eee; }
+:root[data-theme='light'] { --bg: #fff; --fg: #111; }
+:root[data-theme='dark']  { --bg: #111; --fg: #eee; }
 body { background: var(--bg); color: var(--fg); }
 ```
 
-### React / CSS-in-JS (styled-components, Emotion)
-
-```js
-// SSR: collect styles on server, inject in <head> before body
-// Client: use consistent class names (no hydration mismatch)
-```
-
-### Font loading
+### Fonts
 
 ```css
 @font-face {
   font-family: 'Brand';
   src: url('/fonts/brand.woff2') format('woff2');
-  font-display: optional; /* or swap with size-adjust fallback */
+  font-display: optional; /* or swap with size-adjusted fallback */
 }
 ```
-
-### Nginx — cache + HTTP/2 push (legacy) / early hints
-
-```nginx
-location /assets/ {
-  expires 1y;
-  add_header Cache-Control "public, immutable";
-}
-# Ensure CSS gets correct Content-Type: text/css
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| White page → styled jump | CSS `<link>` at bottom of body | Move stylesheets to `<head>`; inline critical CSS |
-| Dark mode flash (light then dark) | Theme JS at end of body | Inline theme script in `<head>`; use `color-scheme` CSS |
-| FOUC only on slow 3G | Waterfall: CSS after JS | Preload CSS; reduce JS blocking; split bundles |
-| FOUC after deploy only | CDN cache miss / hashed filename mismatch | Verify cache headers; atomic deploys |
-| React hydration warning + flash | SSR/client class mismatch | Fix SSR style collection; consistent builds |
-| Text jumps when font loads | `font-display: swap` without metrics | Use `size-adjust`, fallback stack, or `optional` |
-| FOUC with Tailwind CDN | Full utility CSS loads async | Build CSS at compile time; don't rely on CDN in prod |
+| White page → styled jump | CSS link at end of body | Move stylesheets to `<head>`; inline critical CSS |
+| Dark mode flash | Theme script late | Inline theme script in `<head>` |
+| FOUC on slow networks | Waterfall: CSS after JS | Preload CSS; reduce blocking JS |
+| Flash after deploy | CDN miss / wrong hash | Atomic deploys; correct cache headers |
+| React flash + warnings | SSR style collection | Match server/client classes; see [[hydration]] |
+| Tailwind CDN flash | Full utility CSS async | Build CSS at compile time — see [[tailwindcss]] |
 
+## Real-World Applications
 
-## Gotchas
+Marketing sites inline critical layout CSS; design systems set `data-theme` before paint; SPAs avoid empty `#root` flash with SSR/SSG or an HTML skeleton.
 
-> [!WARNING]
-> **`@import` inside CSS** — forces serial fetch; each import blocks the next. Prefer `<link>` tags or bundler imports.
+**Example:** A Next.js app with theme toggle runs a blocking `<head>` script so `data-theme` matches CSS variables on first paint.
 
-> [!WARNING]
-> **`media="print" onload` trick** — non-blocking CSS still causes FOUC for screen; only use for non-critical styles with inline critical CSS covering layout.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **JS that mutates layout on DOMContentLoaded** — adding classes, showing hidden nav, injecting stylesheets — all cause CLS. Match initial HTML to final state where possible.
+- **Pro:** Early CSS and theme scripts make first paint match the final design.
+- **Con:** Fully blocking large CSS delays LCP on slow networks — split critical vs deferred.
+- **Con:** Hiding `body` until `load` hurts LCP and accessibility; fix delivery instead.
 
-> [!WARNING]
-> **SPA client-only render** — empty `#root` until JS runs is FOUC-by-design; use SSR/SSG or skeleton in HTML.
+## Comparison
 
+- vs [[Animation]] jank: FOUC is a first-paint styling gap; animation jank is ongoing frame cost.
+- vs FOUT: fonts swapping after paint; FOUC is missing stylesheets or theme rules.
 
-## When not to use
+## Mistakes to Avoid
 
-- **Hiding body with `visibility:hidden` until load** — hurts LCP and accessibility; fix CSS delivery instead.
-- **Blocking all JS for style** — overkill; inline tiny theme/critical CSS, async the rest.
-- **Aggressive `font-display: block`** — eliminates FOUT but can hide text for seconds on slow networks.
-
-
-## Related
-
-[[css]] [[scss]] [[Animation]] [[tailwindcss]] [[Nginx]] [[React]]
-
-## Sources
-
-- [Wikipedia — Flash of Unstyled Content](https://en.wikipedia.org/wiki/Flash_of_Unstyled_Content)
+- Using `@import` inside critical CSS — forces serial fetches.
+- Relying on Tailwind (or other) CDN builds in production — large async CSS invites FOUC.
+- Animating or class-toggling layout on `DOMContentLoaded` that should have matched initial HTML.

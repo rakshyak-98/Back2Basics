@@ -1,12 +1,26 @@
-[[Docker]] [[docker cli]] [[Docker Runtime Security]] [[Docker compose]]
+[[docker cli]] [[docker container]] [[Docker compose]] [[Docker Runtime Security]] [[AWS ECR]]
 
 # docker file
 
-> Dockerfile — recipe of layers: `FROM` base, `RUN`/`COPY` changes, `ENTRYPOINT`/`CMD` as the process that runs.
+> A Dockerfile is a layer recipe: `FROM` a base, `RUN`/`COPY` changes, then `ENTRYPOINT`/`CMD` as the process that runs.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe layer caching, multi-stage builds, exec versus shell form, and why you never bake secrets into image layers.
+
+## Sources
+
+- [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) — deep-dive
+- [Best practices for writing Dockerfiles](https://docs.docker.com/build/building/best-practices/) — overview
+
+## Key Concepts
+
+- **Layers:** each instruction (roughly) adds a filesystem layer; order controls cache hits.
+- **Multi-stage:** build in one stage, copy artifacts into a slim runtime stage — smaller, safer images.
+- **ENTRYPOINT vs CMD:** ENTRYPOINT is the fixed main binary; CMD supplies default args (or the command if no entrypoint).
+- **Union filesystem:** overlay2 stacks layers; the container adds a thin writable layer on top.
+
+## Technical Details
 
 ```txt
 FROM → RUN → COPY → … → ENTRYPOINT/CMD
@@ -20,11 +34,6 @@ FROM → RUN → COPY → … → ENTRYPOINT/CMD
 | `COPY`/`ADD` | Bring files into image (`COPY` preferred) |
 | `ENTRYPOINT` | Fixed main binary (override with `--entrypoint`) |
 | `CMD` | Default args / command if no entrypoint |
-
----
-
-
-## Configuration and commands
 
 ```dockerfile
 # Multi-stage slim prod
@@ -55,8 +64,11 @@ docker info --format '{{.Driver}}'   # usually overlay2
 | `.dockerignore` | Keeps secrets/node_modules out of context |
 | Non-root `USER` | Runtime security baseline |
 
-
-## When things break
+| Driver | Typical use |
+|--------|-------------|
+| overlay2 | Default modern Linux |
+| fuse-overlayfs | Rootless |
+| btrfs/zfs | When host uses those |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,49 +79,28 @@ docker info --format '{{.Driver}}'   # usually overlay2
 | Wrong arch on Apple/ARM | Platform | `--platform=linux/amd64` or multi-arch build |
 | Build needs secrets | Secret in layer history | BuildKit secrets; never `ENV PASS=` |
 
----
+## Real-World Applications
 
+CI builds reproducible application images; multi-stage Node/Go/Java builds ship only runtime bits to registries like [[AWS ECR]].
 
-## Gotchas
+**Example:** Copy `package*.json`, run `npm ci`, then copy app source — dependency layers stay cached across code-only commits.
 
-> [!WARNING]
-> **`ADD` remote URLs / auto-tar** — surprising; prefer `COPY` + explicit `RUN curl`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Shell vs exec form** — `CMD npm start` vs `CMD ["npm","start"]` signal handling differs.
+- **Pro:** Declarative, cacheable, reviewable image builds — the production path.
+- **Con:** Mis-ordered layers waste CI time; fat images increase pull latency and attack surface.
+- **Con:** Configuration that changes per environment should inject at runtime — do not bake twelve environment-specific images.
 
-> [!WARNING]
-> **Every `RUN` is a layer** — chain `apt-get update && install && clean` in one `RUN`.
+## Comparison
 
----
+- vs `docker commit`: Dockerfile is reproducible; commit is a debug escape hatch ([[docker OCI]]).
+- vs [[Docker compose]]: Dockerfile builds one image; Compose wires many containers.
+- vs VM golden images: containers share the host kernel and layer filesystem — lighter, different isolation story ([[Docker Runtime Security]]).
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **configuration that changes per environment** — inject at runtime (environment/files), don’t bake 12 images.
-- **Windows apps on Linux daemons** — wrong base OS.
-- **Huge mutable data** — volumes, not image layers.
-
----
-
-
-## Docker layered filesystem
-
-Union mounts (overlay2) stack layers; containers add a thin writable layer. Shared bases save disk.
-
-| Driver | Typical use |
-|--------|-------------|
-| overlay2 | Default modern Linux |
-| fuse-overlayfs | Rootless |
-| btrfs/zfs | When host uses those |
-
----
-
-
-## Related
-
-[[docker cli]] [[docker container]] [[Docker compose]] [[Docker Runtime Security]] [[AWS ECR]]
-
-## Sources
-
-- [Wikipedia — docker file](https://en.wikipedia.org/wiki/docker_file)
+- Preferring `ADD` for remote URLs / auto-tar — surprising; use `COPY` + explicit `RUN curl`.
+- Shell form `CMD npm start` versus exec form `CMD ["npm","start"]` — signal handling differs (PID 1).
+- Splitting `apt-get update` and install across `RUN`s — chain update, install, and clean in one layer.
+- Putting huge mutable data in layers — use volumes instead.
+- Windows apps on a Linux daemon — wrong base OS.

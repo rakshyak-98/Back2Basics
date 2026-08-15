@@ -1,26 +1,46 @@
-[[Nginx]]
+[[Configuration]] [[nginx files]] [[openssl]] [[certbot (letsencrypt)]] [[https]]
 
-# Optional: redirects HTTP -> HTTPS
+# multi-domain
 
-> Optional: redirects HTTP -> HTTPS — you can ping api.localhost and it'll look back to your machine.
+> Several hostnames on one Nginx — separate `server` blocks (or SAN/wildcard certs) so `server_name` and TLS pick the right site.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask how virtual hosts and SNI work: wrong `default_server`, certificate name mismatch, and ACME challenges across many names.
 
-Add fake domains to `/etc/hosts`
+## Sources
+
+- [nginx.org — Server names](https://nginx.org/en/docs/http/server_names.html) — deep-dive
+- [nginx.org — Configuring HTTPS servers](https://nginx.org/en/docs/http/configuring_https_servers.html) — deep-dive
+- [Let’s Encrypt — Challenge Types](https://letsencrypt.org/docs/challenge-types/) — overview
+
+## Core Definition
+
+Multi-domain hosting means multiple `server {}` blocks on the same `listen` port, distinguished by `server_name` (and SNI for TLS), each with its own `root`, proxy, or certificate.
+
+## Key Concepts
+
+- **`server_name` selection:** Exact, wildcard, then regex names; unmatched Host hits `default_server`.
+- **Local `/etc/hosts`:** Map fake names (`api.localhost`) to `127.0.0.1` for local multi-vhost testing.
+- **TLS per name:** Each name needs a matching certificate unless you use a SAN or wildcard cert.
+- **HTTP→HTTPS:** Optional separate `listen 80` servers that `return 301 https://$host$request_uri`.
+
+## Technical Details
+
+Add fake domains to `/etc/hosts`:
+
 ```
 127.0.0.1   api.localhost
 127.0.0.1   shop.localhost
 127.0.0.1   blog.localhost
 ```
-- You can `ping api.localhost` and it'll look back to your machine.
-Create local folders
+
+Create roots and separate server blocks (e.g. under `sites-available`):
+
 ```bash
-sudo mkdir -p /var/www/api /var/www/shop /var/www/blog;
+sudo mkdir -p /var/www/api /var/www/shop /var/www/blog
 ```
-Configure Nginx
-- create separate server blocks `/etc/nginx-sites-available/multidoman`;
+
 ```nginx
 server {
     listen 80;
@@ -41,17 +61,14 @@ server {
     index index.html;
 }
 ```
-- enable it
+
 ```bash
-sudo ln -s /etc/nginx/site-available/multidomain /etc/nginx/sites-enable;
-sudo nginx -t; # test config.
-sudo systemctl reload nginx;
+sudo ln -s /etc/nginx/sites-available/multidomain /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
 ```
-### TLS self-signed certificate
-Generate a self signed certificate [[openssl#Generate self signed certificate]]
 
-
-## Configuration and commands
+Shared cert for multiple names (SAN):
 
 ```nginx
 server {
@@ -62,10 +79,7 @@ server {
 }
 ```
 
----
-
-
-## When things break
+Self-signed for local TLS: see [[openssl]].
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,29 +87,23 @@ server {
 | Wrong site content | `default_server` catches unknown Host | Set explicit `server_name` on each vhost |
 | ACME challenge fails | `.well-known` not reachable | Dedicated location for `/.well-known/acme-challenge/` |
 
----
+## Real-World Applications
 
+Local multi-tenant demos with `*.localhost` in `/etc/hosts`; production marketing + API + blog on one box with three `server` blocks and Let’s Encrypt.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> Each `server_name` needs a matching certificate unless you use a SAN or wildcard cert.
+- **Pro:** One Nginx instance, many hostnames — cheap and standard.
+- **Con:** Certificate and `default_server` mistakes leak content or break TLS for unknown hosts.
+- **Con:** Crowding unrelated tenants into one `server` without strict `server_name` lists is fragile.
 
----
+## Comparison
 
+- vs one `server` with many `location`s: host-based split is clearer when roots, TLS, or apps differ.
+- vs [[Nginx ingress]]: Kubernetes Ingress uses Host/path rules in CRDs instead of host filesystem vhosts.
 
-## When not to use
+## Mistakes to Avoid
 
-- Do not serve many unrelated tenants from one `server` block without strict `server_name` lists.
-
-
----
-
-
-## Related
-
-[[Nginx]]
-
-## Sources
-
-- [Wikipedia — multi-domain](https://en.wikipedia.org/wiki/multi-domain)
+- Assuming one certificate covers all `server_name`s without SAN/wildcard.
+- Leaving the package `default` site as `default_server` so unknown Hosts get the wrong content.
+- Typoing `sites-available` / `sites-enabled` paths so the symlink never loads.

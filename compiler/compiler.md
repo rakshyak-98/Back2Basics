@@ -1,90 +1,58 @@
-[[compiler/transpiler]] [[compiler/compile time]] [[Operating System/Runtime Environment]]
+[[compile time]] [[object code]] [[library file]] [[clang]] [[transpiler]]
 
 # Compiler
 
-> Translates source in a high-level language to machine code or bytecode for a target platform — portability via abstraction over CPU ISAs.
+> Program that translates source in one language into machine code, bytecode, or another lower form a machine or VM can run.
 
----
+## Interview Relevance
 
-## How it works
-
-Source → **frontend** (parse, AST) → **optimizer** → **backend** (codegen for x86/ARM/WASM). Different hardware (x86, ARM, RISC-V) needs different instruction streams; compilers hide that. Interpreted languages still often compile to bytecode (JVM, CPython `.pyc`) — JIT bridges compile time and runtime.
-
-```
-source.c → compiler (clang) → object file → linker → executable
-source.ts → tsc → JavaScript → (optional) V8 JIT
-```
-
-
-## Configuration and commands
-
-### C/C++ (typical)
-
-```bash
-gcc -O2 -Wall -Wextra -c file.c -o file.o
-gcc file.o -o app
-clang -std=c17 -g -fsanitize=address file.c -o app_asan   # debug memory
-```
-
-### Go / Rust (single toolchain)
-
-```bash
-go build -o app ./cmd/app
-rustc main.rs -O
-```
-
-### Inspect output
-
-```bash
-file app                    # ELF binary type
-objdump -d app | head       # disassembly peek
-ldd app                     # shared libs (dynamic link)
-```
-
-
-## Where to go next
-
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-
-## Related topics in this domain
-
-- …: [[…]]
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Undefined reference | Link stage | Add `-l` library; include `.o` |
-| Works on dev, SIGILL on prod | CPU features | `-march` too new; build on oldest target |
-| Optimizer bug | `-O0` vs `-O2` | Bisect flags; UB in C (sanitizers) |
-| Wrong arch binary | `file bin` | Cross-compile `GOOS`/`GOARCH` or toolchain prefix |
-| Huge binary | Debug symbols | `strip` or `-s`; split debug info |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Undefined behavior in C** — optimizer assumes rules; "works in debug" classic.
->
-> **Cross-compile needs sysroot/libs** — not just compiler binary.
->
-> **Reproducible builds** — timestamps and paths embed in binary unless `-trimpath`/SOURCE_DATE_EPOCH.
-
-
-## When not to use
-
-- Don't hand-write assembly for whole application unless extreme hot path — maintainability cost.
-- Don't `-O3` blindly on latency-sensitive code without profiling — can regress.
-
-
-## Related
-
-[[compiler/compile time]] [[compiler/transpiler]] [[compiler/library file]] [[golang/go build]]
+Interviewers want the pipeline (lex → parse → IR → optimize → codegen), front end vs back end, and how errors surface at each stage.
 
 ## Sources
 
-- [Wikipedia — compiler](https://en.wikipedia.org/wiki/compiler)
+- [Aho et al. — Compilers: Principles, Techniques, and Tools](https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools) — deep-dive
+- [Wikipedia — Compiler](https://en.wikipedia.org/wiki/Compiler) — overview
+
+## Key Concepts
+
+- **Front end:** lex, parse, semantic analysis → syntax/type errors here.
+- **IR (intermediate representation):** portable program shape for optimizations.
+- **Back end / codegen:** IR → machine code or bytecode for a target.
+- **Optimizer:** rewrite IR for speed/size without changing observable behavior (within the language model).
+- **Driver:** orchestrates compile + assemble + link steps (`clang`, `gcc`).
+
+## Technical Details
+
+```
+Source → tokens → AST → IR → optimize → asm/object → linker → executable
+```
+
+| Artifact | Meaning |
+|----------|---------|
+| `.o` / `.obj` | [[object code]] — not yet a full program |
+| `.a` / `.so` / `.dll` | [[library file]] — reusable object collections |
+| bytecode | VM-targeted form (JVM, .NET, etc.) |
+
+Single-pass vs multi-pass: modern compilers are multi-pass over IR for better optimization.
+
+## Real-World Applications
+
+Every shipped native binary and most mobile/desktop apps pass through a compiler (or JIT that contains one).
+
+**Example:** Turning on `-O2` fixes a tight loop in production CPU — confirm correctness tests still pass after optimization.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Static checking and optimization before users run the code.
+- **Con:** Build complexity and long compile times; optimizer bugs are rare but severe.
+
+## Comparison
+
+- vs [[transpiler]]: compiler usually targets machine/VM; transpiler targets another high-level language.
+- vs interpreter: interpreter executes without producing a standalone native binary (may still bytecode-compile).
+
+## Mistakes to Avoid
+
+- Treating “the compiler” as one box — know which stage failed (parse vs link).
+- Shipping `-O0` debug builds as performance truth.
+- Ignoring warnings that later become runtime UB in C/C++.

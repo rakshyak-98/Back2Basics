@@ -1,12 +1,23 @@
-[[JWT authentication]] [[KMS]] [[Security]] [[single-sign-on (SSO)]]
+[[JWT authentication]] [[KMS]] [[Security]] [[single-sign-on (SSO)]] [[response header]]
 
 # Token rotation
 
-> Token rotation — expire and replace secrets often so a leak has a short life.
+> Expire and replace secrets often so a leak has a short life — especially OAuth refresh tokens with reuse detection.
 
----
+## Interview Relevance
 
-## How it works
+Session security: short-lived access tokens, refresh rotation, reuse detection, and signing-key rotation with overlap.
+
+## Sources
+
+- [RFC 6819 — OAuth 2.0 Threat Model](https://www.rfc-editor.org/rfc/rfc6819) — deep-dive
+- [OAuth 2.0 Security BCP](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics) — overview
+
+## Core Definition
+
+Token rotation expires and replaces credentials (access, refresh, or API keys) so a leak has a short useful life and reuse can signal theft.
+
+## Key Concepts
 
 Long-lived secrets **will** leak (logs, git, browser, support tickets). Rotation means: **short TTL** + **refresh path** + **revocation/list** + **key versioning** so old material stops working without hard-downtime if done right.
 
@@ -19,8 +30,7 @@ Signing keys (JWKS kid) ──► verify old + new during overlap window
 
 OAuth **refresh token rotation** (RFC 6819 §5.2.2.3): each refresh issues new refresh token; reuse of old refresh = breach signal → revoke family.
 
-
-## Configuration and commands
+## Technical Details
 
 ### JWT signing keys (asymmetric preferred)
 
@@ -61,8 +71,7 @@ vault write -force auth/approle/role/myrole/secret-id
 
 - Rolling session: extend expiry on activity; rotate session id on privilege change (login, password reset) to prevent fixation.
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -73,32 +82,24 @@ vault write -force auth/approle/role/myrole/secret-id
 | KMS decrypt fail after key delete | Data encrypted with deleted CMK | Restore key from deletion pending; re-encrypt data |
 | Mobile apps break on rotation | Hard-coded old public key | Pin to JWKS URL with update mechanism |
 
+## Real-World Applications
 
-## Gotchas
+OAuth refresh-token rotation with reuse detection limits the window after a stolen refresh token.
 
-> [!WARNING]
-> **Rotating signing key without overlap** — all in-flight access tokens die instantly → global 401.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Refresh token in localStorage** — XSS steals long-lived credential; httpOnly cookie + rotation + short access token.
+- **Pro:** Shrinks leak windows and can detect stolen refresh-token reuse.
+- **Con:** Rotate on every API request — unnecessary overhead; match risk (15m access / 7d refresh typical for web).
+- **Con:** Rotation without revocation store — stolen refresh works until natural expiry if you can't invalidate server-side.
 
-> [!WARNING]
-> **Logging tokens** — rotation useless if every refresh logs bearer token at INFO.
+## Comparison
 
-> [!WARNING]
-> **Symmetric JWT secret in 12 microservices** — rotation requires coordinated deploy; use asymmetric + JWKS.
+- vs long-lived API keys: rotation shrinks leak windows and enables reuse detection.
+- vs [[JWT authentication]]: rotation applies to refresh/signing keys that mint JWTs.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Rotate on every API request** — unnecessary overhead; match risk (15m access / 7d refresh typical for web).
-- **Rotation without revocation store** — stolen refresh works until natural expiry if you can't invalidate server-side.
-
-
-## Related
-
-[[JWT authentication]] · [[KMS]] · [[single-sign-on (SSO)]] · [[Security]] · [[response header]]
-
-## Sources
-
-- [Wikipedia — Token rotation](https://en.wikipedia.org/wiki/Token_rotation)
+- Rotating signing key without overlap — all in-flight access tokens die instantly → global 401.
+- Refresh token in localStorage — XSS steals long-lived credential; httpOnly cookie + rotation + short access token.
+- Logging tokens — rotation useless if every refresh logs bearer token at INFO.
+- Symmetric JWT secret in 12 microservices — rotation requires coordinated deploy; use asymmetric + JWKS.

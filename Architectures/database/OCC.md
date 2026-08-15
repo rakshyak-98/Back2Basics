@@ -1,12 +1,19 @@
-[[Architectures]] [[Database]] [[MVCC]] [[ACID]]
+[[Architectures]] [[Database]] [[MVCC]] [[ACID]] [[Idempotent-key]] [[race condition]]
 
 # OCC
 
 > OCC (Optimistic Concurrency Control) lets transactions run, then checks for conflict at commit — retry if someone else wrote first.
 
----
+## Interview Relevance
 
-## How it works
+OCC interviews contrast validate-at-commit vs locking — retry storms under contention and when MVCC/locking fits better.
+
+## Sources
+
+- [Wikipedia — Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) — overview
+- [Kung & Robinson — On Optimistic Methods for Concurrency Control](https://dl.acm.org/doi/10.1145/319566.319567) — deep-dive
+
+## Key Concepts
 
 ```txt
 read version/etag → compute → commit if version unchanged else retry
@@ -23,10 +30,7 @@ read version/etag → compute → commit if version unchanged else retry
 
 Used in: HTTP `If-Match`, DynamoDB conditional writes, many ORMs’ `@Version`.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```sql
 -- version column pattern
@@ -40,10 +44,7 @@ PUT /doc/1
 If-Match: "etag-abc"
 ```
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,32 +53,12 @@ If-Match: "etag-abc"
 | Double charge | retry without idempotency | Idempotent keys |
 | High latency | retry storms | Cap retries; backoff |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Very hot rows — use locks, single-threaded owner, or atomic increment.
+- **Trade-off:** Multi-row invariants without a txn story — need real transactions, not only etags.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **OCC needs rare conflicts** — hot counters are a bad fit.
-
-> [!WARNING]
-> **Retry must be safe** — pair with idempotency for side effects.
-
----
-
-
-## When not to use
-
-- **Very hot rows** — use locks, single-threaded owner, or atomic increment.
-- **Multi-row invariants without a txn story** — need real transactions, not only etags.
-
----
-
-
-## Related
-
-[[MVCC]] [[ACID]] [[Idempotent-key]] [[race condition]]
-
-## Sources
-
-- [Wikipedia — OCC](https://en.wikipedia.org/wiki/OCC)
+- OCC needs rare conflicts — hot counters are a bad fit.
+- Retry must be safe — pair with idempotency for side effects.

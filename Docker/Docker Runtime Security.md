@@ -1,14 +1,33 @@
-[[docker container]] [[docker OCI]] [[Docker compose]] [[docker file]]
+[[docker container]] [[docker OCI]] [[Docker compose]] [[docker file]] [[Pods]]
 
 # Docker Runtime Security
 
-> Shrink the container attack surface: non-root, dropped caps, seccomp, read-only rootfs — **Docker Deep Dive** (Poulton) + **Container Security** (Liz Rice).
+> Shrink the container attack surface: non-root, dropped capabilities, seccomp, read-only rootfs — defense in depth on a shared kernel.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers test whether you know containers are namespaced processes (not VMs), and can name concrete controls: USER, capabilities, seccomp, no-new-privileges, and why mounting the Docker socket is host root.
 
-A container is **namespaced processes** on shared kernel — not a VM. Security = **defense in depth**:
+## Sources
+
+- [Docker — Seccomp security profiles](https://docs.docker.com/engine/security/seccomp/) — deep-dive
+- [CIS Docker Benchmark](https://www.cisecurity.org/benchmark/docker) — overview
+- Liz Rice, *Container Security* (O'Reilly) — deep-dive
+- Nigel Poulton, *Docker Deep Dive* — overview
+
+## Core Definition
+
+A container shares the host kernel; security is layered isolation (namespaces, cgroups, capabilities, seccomp, optional LSM) so application compromise stays least-privilege and cannot easily become host root.
+
+## Key Concepts
+
+- **Shared kernel:** namespaces (pid, net, mnt, …) + cgroups — isolation is strong but not a hypervisor boundary.
+- **Capabilities:** subset of traditional root; drop ALL and add back minimally.
+- **seccomp:** syscall filter; Docker’s default blocks dangerous calls (`reboot`, `mount`, …).
+- **Read-only rootfs + no-new-privileges:** stop persistence and setuid escalation paths.
+- **Defense in depth:** image hygiene + runtime flags + host LSM (AppArmor/SELinux).
+
+## Technical Details
 
 ```
 Host kernel
@@ -20,11 +39,6 @@ Host kernel
         ├── AppArmor/SELinux (optional LSM)
         └── read-only rootfs + tmpfs/volumes for writes
 ```
-
-**Goal:** compromise of application → contained to least privilege; no host root, no new privs, no sensitive syscalls.
-
-
-## Configuration and commands
 
 ### Non-root user (Dockerfile — primary lever)
 
@@ -49,7 +63,7 @@ services:
       - no-new-privileges:true
 ```
 
-### Drop capabilities (default Docker already drops many)
+### Drop capabilities
 
 ```bash
 # Bad — never in prod unless you understand blast radius
@@ -57,31 +71,29 @@ docker run --privileged ...
 
 # Good — explicit minimal add
 docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE myapp:443
+```
 
-# Compose
+```yaml
 security_opt:
   - no-new-privileges:true
 cap_drop:
   - ALL
 cap_add:
-  - NET_BIND_SERVICE   # only if binding <1024 as non-root alternative use >1024
+  - NET_BIND_SERVICE   # only if binding <1024; prefer listen >1024
 ```
 
 Default retained caps include `CHOWN`, `NET_RAW`, etc. — **drop ALL, add back minimally**.
 
 ### seccomp
 
-Docker default seccomp profile blocks ~40 dangerous syscalls (`reboot`, `mount`, …).
-
 ```yaml
-# Stricter (verify app still runs — glibc, JVM may need syscalls)
 security_opt:
   - seccomp=/path/to/custom-seccomp.json
 # or Docker's built-in:
   - seccomp=default.json
 ```
 
-**Custom profile workflow:** run with `seccomp=unconfined` in staging, audit `auditd`/falco for syscalls, generate allowlist.
+Custom profile workflow: run with `seccomp=unconfined` in staging, audit `auditd`/falco for syscalls, generate an allowlist.
 
 ### Read-only root filesystem
 
@@ -98,17 +110,6 @@ volumes:
   - app-cache:/var/cache/myapp   # explicit writable paths only
 ```
 
-Writable rootfs = attacker can drop binaries, modify `/etc`, install persistence.
-
-### no-new-privileges
-
-Prevents `setuid` binaries from gaining privs (e.g. exploited `ping` setuid).
-
-```yaml
-security_opt:
-  - no-new-privileges:true
-```
-
 Kubernetes equivalent: `securityContext.allowPrivilegeEscalation: false` + `runAsNonRoot: true`.
 
 ### Resource + network isolation
@@ -123,42 +124,7 @@ networks:
   - internal-only          # no published ports on sensitive tiers
 ```
 
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Permission denied` writing file | read-only rootfs | Mount volume/tmpfs for that path |
-| `Operation not permitted` | seccomp or cap drop | Add specific cap or syscall to profile |
-| Can't bind port 80 | non-root | Listen 8080 + reverse proxy; or CAP_NET_BIND_SERVICE |
-| App exits as root | Missing USER | Fix Dockerfile; verify `docker inspect User` |
-| DNS works in dev, fails hardened | `NET_RAW` dropped | Usually not needed; check outbound firewall |
-| JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Mounting `/var/run/docker.sock`** — container owns the host. CI pattern only with isolated runners.
-
-> [!WARNING]
-> **`--privileged` disables seccomp + caps** — equivalent to near-root on host. Ban in prod policy.
-
-- **Root in container + breakout CVE** — kernel bug + root = host compromise; non-root raises bar.
-- **Writable `/tmp` execute** — mount `tmpfs` with `noexec` where possible.
-- **Image secrets in layers** — `ENV API_KEY=` baked forever; use runtime inject + `.dockerignore`.
-- **LSM disabled hosts** — seccomp ≠ MAC; AppArmor/SELinux adds profile on top.
-- **K8s `securityContext` wins** — don't harden compose but leave K8s pods wide open.
-
-
-## When not to use
-
-- **Hardware/device containers** (GPU, BPF loaders) — may legitimately need extra caps; document exception.
-- **seccomp-unconfined as default** — only narrow debug window.
-- **Security theater** — read-only rootfs while running root with `--privileged` undoes everything.
-
-
-## Hardening checklist
+### Hardening checklist
 
 ```
 □ USER non-zero in Dockerfile (distroless/nonroot ideal)
@@ -171,11 +137,37 @@ networks:
 □ host: Docker socket NOT mounted into app container
 ```
 
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `Permission denied` writing file | read-only rootfs | Mount volume/tmpfs for that path |
+| `Operation not permitted` | seccomp or cap drop | Add specific cap or syscall to profile |
+| Can't bind port 80 | non-root | Listen 8080 + reverse proxy; or CAP_NET_BIND_SERVICE |
+| App exits as root | Missing USER | Fix Dockerfile; verify `docker inspect User` |
+| DNS works in development, fails hardened | `NET_RAW` dropped | Usually not needed; check outbound firewall |
+| JVM/Node crash on seccomp | blocked syscall in logs | Custom seccomp allowlist for runtime |
 
-## Related
+## Real-World Applications
 
-[[docker container]] [[docker OCI]] [[Docker compose]] [[docker file]] [[Pods]]
+Production API containers, CI runners that must not own the host, and Kubernetes pods with matching `securityContext`.
 
-## Sources
+**Example:** An API runs as UID 10001, read-only rootfs, `cap_drop: ALL`, and writes only to `/tmp` tmpfs — a remote code exploit cannot drop a binary on `/` or remount devices.
 
-- [Wikipedia — Docker Runtime Security](https://en.wikipedia.org/wiki/Docker_Runtime_Security)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Cheap, layered controls that raise the bar after application compromise.
+- **Con:** Hardware/device workloads (GPU, BPF loaders) may need documented capability exceptions.
+- **Con:** seccomp-unconfined or `--privileged` undoes the rest — security theater if mixed with root.
+
+## Comparison
+
+- vs VM / gVisor / Firecracker: stronger isolation when multi-tenant risk is high.
+- vs image scanning alone: scanning finds known CVEs; runtime flags limit blast radius of unknown bugs.
+- vs K8s-only hardening: compose hardening is useless if [[Pods]] ship with open `securityContext`.
+
+## Mistakes to Avoid
+
+- Mounting `/var/run/docker.sock` into app containers — the container owns the host (CI only with isolated runners).
+- `--privileged` in production — disables seccomp and capability restrictions.
+- Root in container plus a kernel breakout CVE — non-root raises the bar.
+- Writable `/tmp` without `noexec`; baking `ENV API_KEY=` into layers.
+- Assuming seccomp replaces MAC — AppArmor/SELinux still matter on the host.

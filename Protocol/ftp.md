@@ -1,21 +1,30 @@
-[[TCP]] · [[TLS (Transport Layer Security)]] · [[HTTP module]] · [[SCP (Secure Copy Protocol)]] · [[TFTP]]
+[[TCP]] [[TLS (Transport Layer Security)]] [[HTTP module]] [[SCP (Secure Copy Protocol)]] [[TFTP]]
 
 # ftp
 
-> FTP transfers files over TCP with separate control (21) and data channels — NAT and firewall traversal make passive mode and SFTP/HTTPS replacements preferable on modern networks.
+> FTP transfers files over TCP with separate control (21) and data channels — NAT and firewalls make passive mode common, and SFTP/HTTPS replace FTP for most new designs.
 
----
+## Interview Relevance
 
-## Modes
+Interviewers test active versus passive mode, FTPS versus SFTP (not the same), and why cleartext FTP is rarely acceptable now.
+
+## Sources
+
+- [RFC 959 — FTP](https://datatracker.ietf.org/doc/html/rfc959) — deep-dive
+- [RFC 4217 — Securing FTP with TLS](https://datatracker.ietf.org/doc/html/rfc4217) — overview
+
+## Key Concepts
+
+- **Two channels:** control on 21; data on a second connection (active or passive).
+- **Active vs passive:** active needs inbound to the client; passive has the client dial a high server port — works through client NAT.
+- **FTPS ≠ SFTP:** FTPS is FTP+TLS; SFTP is an SSH subsystem ([[SCP (Secure Copy Protocol)]] family).
+
+## Technical Details
 
 | Mode | Control | Data | Firewall note |
 |------|---------|------|---------------|
 | **Active** | Client:ephemeral → Server:21 | Server:20 → Client:ephemeral | Client must accept inbound — rarely works |
 | **Passive (PASV)** | Client → Server:21 | Client → Server:high port | Server advertises IP/port in PASV response |
-
-[RFC 959](https://datatracker.ietf.org/doc/html/rfc959) defines classic FTP; extensions add TLS ([RFC 4217](https://datatracker.ietf.org/doc/html/rfc4217) FTPS).
-
-## Session sketch
 
 ```
 Client → Server:21  (control)
@@ -26,18 +35,12 @@ PASV
 Client → Server:50000  (data connection for LIST/RETR/STOR)
 ```
 
-## Security
-
 | Protocol | Encryption |
 |----------|------------|
 | **FTP** | Cleartext credentials and data |
 | **FTPS** | FTP + TLS (explicit or implicit) |
-| **SFTP** | SSH subsystem — not FTP; see [[SCP (Secure Copy Protocol)]] |
+| **SFTP** | SSH subsystem — not FTP |
 | **HTTPS** | Object storage APIs replace many file-drop use cases |
-
-Never expose anonymous FTP with write access to sensitive networks.
-
-## CLI
 
 ```bash
 ftp ftp.example.com
@@ -45,20 +48,27 @@ lftp ftp.example.com    # scripting friendly
 curl -u user:pass ftp://ftp.example.com/file.txt -O
 ```
 
-## When still used
+## Real-World Applications
 
-- Legacy mainframe/batch partners
-- Anonymous software mirrors (declining)
-- Embedded devices with tiny stacks
+Legacy mainframe/batch partner drops, declining anonymous mirrors, and embedded devices with tiny stacks.
 
-Prefer **SFTP**, **S3**, or **rsync over SSH** for new designs.
+**Example:** A partner still requires FTP; you force FTPS + passive mode with a fixed PASV port range opened on the firewall.
 
-## Recall
+## Pros/Cons or Trade-offs
 
-- Why does passive mode work better through client-side NAT?
-- How is SFTP different from FTPS?
+- **Pro:** Ubiquitous legacy support and simple anonymous read mirrors.
+- **Con:** Cleartext by default; firewall/NAT complexity.
+- **Con:** Prefer SFTP, S3, or rsync-over-SSH for new designs.
 
-## Sources
+## Comparison
 
-- [RFC 959 — FTP](https://datatracker.ietf.org/doc/html/rfc959)
-- [RFC 4217 — FTP over TLS](https://datatracker.ietf.org/doc/html/rfc4217)
+- vs [[SCP (Secure Copy Protocol)]] / SFTP: encrypted, single-channel over SSH — usually better.
+- vs [[TFTP]]: TFTP is UDP/no-auth for PXE; FTP is TCP with optional auth.
+- vs HTTPS object storage: better for scale and CDN.
+
+## Mistakes to Avoid
+
+- Exposing anonymous write FTP on sensitive networks.
+- Confusing SFTP with FTPS in security reviews.
+- Using active mode through client-side NAT without understanding inbound requirements.
+- Advertising a private IP in PASV responses behind NAT — clients cannot connect.

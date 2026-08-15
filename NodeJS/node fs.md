@@ -1,12 +1,28 @@
-[[NodeJS]] [[file]] [[fsync]] [[Stream]] [[Operating System/file descriptors]]
+[[NodeJS]] [[file]] [[fsync]] [[Stream]] [[Operating System/file descriptors]] [[Node.js run as a non-privileged user]]
 
 # node fs
 
 > Node's filesystem API (`node:fs`) — promises for app code, streams for size, sync only at boot; understand flags, modes, and EMFILE limits.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **node fs** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Node.js — File system](https://nodejs.org/api/fs.html) — deep-dive
+- [Wikipedia — node fs](https://en.wikipedia.org/wiki/node_fs) — overview
+
+## Core Definition
+
+`node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
+
+## Key Concepts
+
+- `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
+- File descriptors are limited per process (`ulimit -n`); leaking watchers or handles causes `EMFILE`.
+
+## Technical Details
 
 `node:fs` wraps POSIX calls. Three surfaces: **`fs/promises`**, callback **`fs`**, and **`*Sync`**. Streams integrate with [[EventEmitter]] for incremental I/O.
 
@@ -18,9 +34,6 @@ Durability            → write + fsync (see [[fsync]])
 ```
 
 File descriptors are limited per process (`ulimit -n`); leaking watchers or handles causes `EMFILE`.
-
-
-## Configuration and commands
 
 ### Promises API (default)
 
@@ -91,41 +104,28 @@ const watcher = watch('.', { recursive: true }, (event, filename) => {
 });
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **node fs** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Sync methods block the event loop** — `readFileSync` in HTTP handlers freezes all clients; **`fs.watch` is unreliable on some OS** — debounce; use chokidar for production file triggers.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `EMFILE: too many open files` | `lsof -p PID \| wc -l` | Close streams; raise `ulimit -n`; pool handles |
-| `EACCES` / `EPERM` | User, SELinux, mount ro | Fix ownership; run as correct user |
-| `EBUSY` on unlink (Windows) | File still open | Close handles before delete |
-| `ENOSPC` | Disk full | Clean logs; rotate before write |
-| Silent data loss on crash | No fsync | Atomic rename pattern; see [[fsync]] |
-| Wrong line endings | CRLF vs LF | Normalize on read or use `'utf8'` consistently |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (Node's filesystem API (`node:fs`) — promises for app code, streams for size, syn…).
+- **Con / when not:** **Object storage at scale** — S3/GCS SDK, not local fs on ephemeral disks.
+- **Con / when not:** **Database as file store** — use [[GridFS]] or blob storage for large binaries in DB context.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **Sync methods block the event loop** — `readFileSync` in HTTP handlers freezes all clients.
+vs [[file]]: know when each applies — do not treat them as interchangeable. vs [[fsync]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **`fs.watch` is unreliable on some OS** — debounce; use chokidar for production file triggers.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Cross-device rename fails** — copy + unlink instead.
-
-
-## When not to use
-
-- **Object storage at scale** — S3/GCS SDK, not local fs on ephemeral disks.
-- **Database as file store** — use [[GridFS]] or blob storage for large binaries in DB context.
-
-
-## Related
-
-[[file]] [[Stream]] [[fsync]] [[Operating System/file descriptors]] [[Node.js run as a non-privileged user]]
-
-## Sources
-
-- [Wikipedia — node fs](https://en.wikipedia.org/wiki/node_fs)
+- **Sync methods block the event loop** — `readFileSync` in HTTP handlers freezes all clients.
+- **`fs.watch` is unreliable on some OS** — debounce; use chokidar for production file triggers.
+- **Cross-device rename fails** — copy + unlink instead.
+- **`EMFILE: too many open files`:** check `lsof -p PID \; fix: wc -l`
+- **`EACCES` / `EPERM`:** check User, SELinux, mount ro; fix: Fix ownership; run as correct user
+- **`EBUSY` on unlink (Windows):** check File still open; fix: Close handles before delete
+- **`ENOSPC`:** check Disk full; fix: Clean logs; rotate before write
+- **Silent data loss on crash:** check No fsync; fix: Atomic rename pattern; see [[fsync]]
+- **Wrong line endings:** check CRLF vs LF; fix: Normalize on read or use `'utf8'` consistently

@@ -4,9 +4,15 @@
 
 > JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
----
+## Interview Relevance
 
-## How it works
+JS concurrency interviews check event loop vs threads — async I/O without parallel CPU by default.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 JavaScript runtimes (browser, Node) run **user code on one thread**. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel threads unless you explicitly spawn workers.
 
@@ -25,8 +31,7 @@ Main thread:  [JS][JS][  wait I/O  ][JS][microtasks][JS]
 
 Any code that must stay "concurrent" must **yield** — return from the callback quickly so the loop can poll I/O and render.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Non-blocking I/O pattern (Node)
 
@@ -69,19 +74,12 @@ h.enable();
 setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); }, 5000);
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- CPU-bound parallel pipelines — use workers, Rust sidecar, or batch job queue, not async/await alone.
+- Replacing proper backpressure — `async` does not throttle producers.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| API timeouts under load | Event loop blocked | Profile sync fs/crypto/json.parse on huge payloads |
-| UI jank / frozen tab | Long task on main thread | Move work to Web Worker; chunk with `requestIdleCallback` |
-| `UnhandledPromiseRejection` | Missing `await` / `.catch()` | Always handle async errors |
-| High CPU, low throughput | Busy-wait loop | Backoff, queue, or worker pool |
-| Works locally, stalls in prod | Larger prod payloads | Stream instead of buffering entire body |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > `Promise.all` with 10 000 concurrent HTTP calls is "concurrent" but will exhaust sockets and memory — concurrency ≠ unbounded parallelism.
@@ -91,17 +89,10 @@ setInterval(() => { console.log('p99 ms', h.percentile(99) / 1e6); h.reset(); },
 - **Node `cluster`:** multi-process for CPU; each process has its own event loop.
 - **Atomics / SharedArrayBuffer:** real shared memory; needs COOP/COEP headers in browser.
 
-
-## When not to use
-
-- CPU-bound parallel pipelines — use workers, Rust sidecar, or batch job queue, not async/await alone.
-- Replacing proper backpressure — `async` does not throttle producers.
-
-
-## Related
-
-[[NodeJS/Event Loop]] [[javascript/web workers]] [[NodeJS/worker threads]] [[Operating System/Blocking Vs Non-Blocking]]
-
-## Sources
-
-- [Wikipedia — Concurrency](https://en.wikipedia.org/wiki/Concurrency)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| API timeouts under load | Event loop blocked | Profile sync fs/crypto/json.parse on huge payloads |
+| UI jank / frozen tab | Long task on main thread | Move work to Web Worker; chunk with `requestIdleCallback` |
+| `UnhandledPromiseRejection` | Missing `await` / `.catch()` | Always handle async errors |
+| High CPU, low throughput | Busy-wait loop | Backoff, queue, or worker pool |
+| Works locally, stalls in prod | Larger prod payloads | Stream instead of buffering entire body |

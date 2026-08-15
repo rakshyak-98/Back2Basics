@@ -1,12 +1,19 @@
-[[ML]] [[model tranning]] [[data preprocessing]]
+[[ML]] [[model tranning]] [[data preprocessing]] [[Random forest]] [[Gradient boosting]]
 
 # scikitlearn
 
 > scikit-learn is the go-to Python library for classical ML — estimators, pipelines, and metrics with a fit/predict API.
 
----
+## Interview Relevance
 
-## How it works
+sklearn literacy covers estimators, pipelines, cross-validation, and avoiding leakage in preprocessing.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
@@ -21,10 +28,7 @@ Pipeline([preprocess, model]).fit(X_train, y_train).predict(X_test)
 | **Pipeline** | Chain steps | “One fit for all.” |
 | **CV** | Cross-validate | “`cross_val_score` / GridSearch.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -44,10 +48,18 @@ pipe.score(X_test, y_test)
 | `n_jobs` | Parallel CV |
 | `class_weight` | Imbalance |
 
----
+## Pros/Cons or Trade-offs
 
+- **Deep learning on GPU** — PyTorch/TF.
+- **Huge distributed training** — Spark/XGBoost distributed stacks.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **fit on full dataset then split** — leaks; always split first.
+
+> [!WARNING]
+> **sparse vs dense** — some models need one or the other after encoding.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,30 +68,3 @@ pipe.score(X_test, y_test)
 | Leakage | preprocess outside pipeline | Put all steps inside |
 | Slow GridSearch | huge grid | RandomSearch; fewer params |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **fit on full dataset then split** — leaks; always split first.
-
-> [!WARNING]
-> **sparse vs dense** — some models need one or the other after encoding.
-
----
-
-
-## When not to use
-
-- **Deep learning on GPU** — PyTorch/TF.
-- **Huge distributed training** — Spark/XGBoost distributed stacks.
-
-
-## Related
-
-[[model tranning]] [[data preprocessing]] [[Random forest]] [[Gradient boosting]]
-
-## Sources
-
-- [Wikipedia — scikitlearn](https://en.wikipedia.org/wiki/scikitlearn)

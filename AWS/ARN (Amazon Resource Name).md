@@ -1,12 +1,19 @@
-[[IAM]] · [[aws STS (Security Token Service)]] · [[AWS EC2]] · [[AWS Lambda]] · [[AWS ECR]]
+[[IAM]] [[aws STS (Security Token Service)]] [[AWS EC2]] [[AWS Lambda]] [[AWS ECR]]
 
 # ARN (Amazon Resource Name)
 
 > An ARN is the stable, globally unique identifier AWS uses in IAM policies, CloudTrail logs, and cross-service references — get the partition, service, region, account, and resource path wrong and authorization silently fails.
 
----
+## Interview Relevance
 
-## Structure
+ARN literacy shows you can scope IAM policies precisely — wrong ARN patterns are a common AccessDenied root cause.
+
+## Sources
+
+- [Identify AWS resources using ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) — deep-dive
+- [AWS service authorization reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html) — deep-dive
+
+## Key Concepts
 
 ```
 arn:partition:service:region:account-id:resource
@@ -31,14 +38,16 @@ arn:aws:lambda:us-east-1:123456789012:function:processor
 
 S3 ARNs omit region and account in the bucket form; object ARNs append the key after the bucket name.
 
-## Where ARNs matter
+## Technical Details
+
+### Where ARNs matter
 
 - **IAM policies** — `Resource` elements almost always use ARN patterns with `*` wildcards.
 - **Resource-based policies** — S3 bucket policies, KMS key policies, Lambda function URLs reference principal and resource ARNs.
 - **CloudTrail** — `eventSource`, `resources`, and `recipientAccountId` tie events to ARNs.
 - **Cross-account access** — trust policies list principal ARNs; resource policies grant them access.
 
-## Wildcards in policies
+### Wildcards in policies
 
 ```json
 "Resource": "arn:aws:s3:::logs-*/*"
@@ -46,20 +55,10 @@ S3 ARNs omit region and account in the bucket form; object ARNs append the key a
 
 `*` matches within a segment; `?` matches a single character. Overly broad `Resource: "*"` is convenient in sandboxes and dangerous in production.
 
-## ARN vs name vs ID
+### ARN vs name vs ID
 
 | Identifier | Example | Use |
 |------------|---------|-----|
 | ARN | `arn:aws:ec2:...:instance/i-abc` | Policies, auditing |
 | Resource ID | `i-0abc123` | Console, many CLI calls |
 | Friendly name | `web-server-1` | Human operations; not always unique globally |
-
-## Recall
-
-- Why do S3 bucket ARNs look different from EC2 instance ARNs?
-- What happens when a policy `Resource` ARN does not match the actual object ARN?
-
-## Sources
-
-- [Identify AWS resources using ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html)
-- [AWS service authorization reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html)

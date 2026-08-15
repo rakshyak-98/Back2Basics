@@ -1,23 +1,38 @@
-[[css/tailwindcss]] [[css/scss]] [[css/Animation]]
+[[tailwindcss]] [[scss]] [[Flash of Unstyled Content]] [[Animation]]
 
 # CSS image sizing (clipped container)
 
-> CSS image sizing (clipped container) — └─ img (100% × 100%) ← ambiguous containing block
+> Percent-sized images inside a clipped parent need explicit width, height, and `object-fit` — otherwise browsers disagree on the containing block and the image stretches or leaks.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use clipped-image sizing to check whether you understand replaced elements, percentage height chains, and `object-fit` versus `background-size` for crop-and-fill UI.
 
-A progress bar or clipped `div` sets **used width** via `%` or flex. Child `img` with `w-full h-full` (Tailwind) or `width:100%; height:100%` resolves percentages against different containing blocks in Chrome versus Firefox if overflow/containment differs. **`object-fit`** + fixed aspect on the img decouples layout from intrinsic image dimensions.
+## Sources
 
-```
+- [MDN — `object-fit`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) — deep-dive
+- [MDN — Styling replaced elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Images/Replaced_element_properties) — overview
+- [MDN — `object-position`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) — overview
+
+## Core Definition
+
+A replaced element (`img`, `video`) has intrinsic dimensions; CSS `width`/`height` size its box, while `object-fit` / `object-position` control how the media paints inside that box without changing layout the way `background-*` does on a non-replaced box.
+
+## Key Concepts
+
+- **Containing block:** `%` width/height resolve against the parent — parents need a defined size for `%` height to work.
+- **`object-fit: cover | contain | fill`:** scale media inside the box → `cover` crops; `contain` letterboxes; `fill` stretches.
+- **Clip wrapper:** `overflow: hidden` on the parent crops; sizing belongs on the `img`, not only the wrapper.
+- **Inline gap:** `img` is inline by default → baseline gap (~4px); `display: block` removes it.
+- **CLS:** missing width/height attributes → layout shift when the image loads.
+
+## Technical Details
+
+```txt
 Parent (overflow:hidden, width: 40%)
-  └─ img (100% × 100%)  ← ambiguous containing block
+  └─ img (100% × 100%)  ← needs object-fit + defined box
 Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 ```
-
-
-## Configuration and commands
 
 ### Robust pattern
 
@@ -25,26 +40,33 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 .clip-wrap {
   overflow: hidden;
   width: var(--progress, 50%);
+  aspect-ratio: 16 / 9; /* or an explicit height */
 }
 
 .clip-wrap img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;        /* or contain */
-  object-position: left;    /* for progress reveal */
+  object-fit: cover;
+  object-position: left; /* progress-style reveal */
 }
 ```
 
 ### Tailwind equivalent
 
 ```html
-<div class="overflow-hidden" style="width: 45%">
-  <img class="block h-full w-full object-cover object-left" src="…" alt="" />
+<div class="overflow-hidden aspect-video" style="width: 45%">
+  <img
+    class="block h-full w-full object-cover object-left"
+    src="…"
+    alt=""
+    width="640"
+    height="360"
+  />
 </div>
 ```
 
-### Background-image alternative (no img sizing bugs)
+### Background alternative
 
 ```css
 .hero {
@@ -54,38 +76,33 @@ Fix: img { width:100%; height:100%; object-fit: cover; display:block; }
 }
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Chrome stretched, Firefox correct | DevTools computed sizes | `object-fit: cover`; `display:block` removes inline gap |
-| Image overflows clip | Parent `overflow` | `overflow:hidden` on clip container not img |
-| Aspect ratio collapse | No explicit height | Parent `aspect-ratio` or fixed height |
-| Blurry upscale | Intrinsic vs display size | Serve correct resolution; `srcset` |
-| CLS on load | No width/height attrs | `width`/`height` HTML attrs or aspect-ratio |
+| Chrome stretched, Firefox OK | Computed sizes | `object-fit: cover`; `display: block` |
+| Image overflows clip | Parent `overflow` | `overflow: hidden` on wrapper |
+| Aspect ratio collapse | No height chain | Parent `aspect-ratio` or fixed height |
+| Blurry upscale | Intrinsic vs display size | Correct resolution; `srcset` |
+| CLS on load | Missing dimensions | HTML `width`/`height` or `aspect-ratio` |
 
+## Real-World Applications
 
-## Gotchas
+Progress bars that reveal a photo, avatar crops in fixed squares, and hero media inside aspect-ratio cards all need `object-fit` plus a stable box.
 
-> [!WARNING]
-> **Inline img baseline gap** — `display:block` or `vertical-align:bottom` fixes 4px leak.
->
-> **`object-fit` ignored** — needs explicit width **and** height on replaced element.
->
-> **Percentage height chain** — parent needs defined height all the way up.
+**Example:** A funding progress widget sets wrapper width to 45% and uses `object-fit: cover; object-position: left` so the image fills the clipped region without squashing.
 
+## Pros/Cons or Trade-offs
 
-## When not to use
+- **Pro:** `img` + `object-fit` keeps semantics and `alt` text while cropping cleanly.
+- **Con:** Percentage height fails if any ancestor lacks a definite height.
+- **Con:** Decorative fills are often simpler as `background-image`.
 
-- Don't fight img in clip for decorative fills — `background-image` is simpler.
-- Don't use `object-fit: none` unless you mean pixel-exact cropping.
+## Comparison
 
+- vs `background-size: cover`: backgrounds are not replaced elements — no intrinsic `alt`, easier fill, weaker semantics.
+- vs [[Flash of Unstyled Content]]: missing dimensions cause CLS; late CSS causes FOUC — related polish issues.
 
-## Related
+## Mistakes to Avoid
 
-[[css/tailwindcss]] [[css/Flash of Unstyled Content]] [[css/Animation]]
-
-## Sources
-
-- [Wikipedia — css image](https://en.wikipedia.org/wiki/css_image)
+- Expecting `object-fit` without both width and height on the replaced element.
+- Fighting `img` for pure decoration — prefer background when there is no meaningful `alt`.
+- Using `object-fit: none` unless you truly want pixel-exact, unscaled cropping.

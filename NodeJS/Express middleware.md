@@ -1,27 +1,29 @@
-[[NodeJS]] [[expressjs]] [[node error]]
+[[NodeJS]] [[expressjs]] [[node error]] [[Runtime Errors]]
 
 # Express middleware
 
 > Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call `next()` or end the response.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **Express middleware** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **next()**, **Error middleware**, **Router-level**.
+
+## Sources
+
+- [Express — Using middleware](https://expressjs.com/en/guide/using-middleware.html) — deep-dive
+- [Wikipedia — Express middleware](https://en.wikipedia.org/wiki/Express_middleware) — overview
+
+## Key Concepts
+
+- **next():** Continue chain — Forgot it = hung request.
+- **Error middleware:** `(err,req,res,next)` — Four args — must be last.
+- **Router-level:** `router.use` — Scope middleware to a mount.
+
+## Technical Details
 
 ```txt
 app.use(A) → app.use(B) → app.get('/') → error mw
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **next()** | Continue chain | “Forgot it = hung request.” |
-| **Error middleware** | `(err,req,res,next)` | “Four args — must be last.” |
-| **Router-level** | `router.use` | “Scope middleware to a mount.” |
-
-
-## Configuration and commands
 
 ```js
 app.use(express.json())
@@ -42,44 +44,25 @@ app.use((err, _req, res, _next) => {
 | Path-scoped `app.use('/api', …)` | Don’t run globally when unneeded |
 | Async errors | Pass to `next(err)` (or wrappers) |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **Express middleware** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5; **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Request hangs | No `next` / no `res` | Always continue or end |
-| Error HTML dump | No error middleware | Add 4-arg handler |
-| `body` empty | Parser after route | Reorder `express.json()` |
-| Auth skipped | Middleware after route | `app.use(auth)` before protected routes |
+- **Pro:** Solves the job described above when used in the right layer (Functions `(req, res, next)` in a pipeline — log, auth, parse, then route; call …).
+- **Con / when not:** **Business logic only used by one route** — put it in the route/handler module.
+- **Con / when not:** **Heavy CPU** — don’t block the middleware chain; queue/worker.
 
----
+## Comparison
 
+vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[node error]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5.
-
-> [!WARNING]
-> **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”
-
----
-
-
-## When not to use
-
-- **Business logic only used by one route** — put it in the route/handler module.
-- **Heavy CPU** — don’t block the middleware chain; queue/worker.
-
----
-
-
-## Related
-
-[[expressjs]] [[node error]] [[Runtime Errors]]
-
-## Sources
-
-- [Wikipedia — Express middleware](https://en.wikipedia.org/wiki/Express_middleware)
+- **Async middleware** — rejected promises don’t auto-`next(err)` on older Express; wrap or use Express 5.
+- **Sending twice** — `res.send` then `next()` → “Cannot set headers after they are sent.”
+- **Request hangs:** check No `next` / no `res`; fix: Always continue or end
+- **Error HTML dump:** check No error middleware; fix: Add 4-arg handler
+- **`body` empty:** check Parser after route; fix: Reorder `express.json()`
+- **Auth skipped:** check Middleware after route; fix: `app.use(auth)` before protected routes

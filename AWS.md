@@ -1,33 +1,28 @@
-[[IAM]] · [[AWS EC2]] · [[AWS Networking]] · [[Route53]] · [[AWS Lambda]] · [[AWS ECR]]
+[[IAM]] [[AWS EC2]] [[AWS Networking]] [[Route53]] [[AWS Lambda]] [[AWS ECR]] [[Security group]] [[INDEX]]
 
 # AWS
 
-> Amazon Web Services is a cloud platform where compute, storage, networking, and identity are separate services you compose with APIs — misconfigured IAM or security groups are usually what breaks first.
+> Amazon Web Services — cloud building blocks (compute, storage, network, identity) you compose with APIs; misconfigured IAM or security groups usually break first.
 
----
+## Interview Relevance
+Interviewers expect you to separate identity ([[IAM]]), network reachability ([[Security group]], VPC), and data plane (EC2/Lambda/storage). Signal Well-Architected thinking: least privilege, blast radius, cost.
 
-## What lives here
+## Sources
+- [AWS Documentation](https://docs.aws.amazon.com/) — deep-dive
+- [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) — overview
 
-This folder collects operational notes for core AWS building blocks: virtual machines ([[AWS EC2]]), block and file storage ([[EBS (Elastic Block Store)]], [[AWS EFS (Elastic File System)]]), containers ([[AWS ECR]]), serverless ([[AWS Lambda]]), networking ([[AWS Networking]], [[Security group]], [[Elastic IP]], [[Route53]]), identity ([[IAM]], [[aws STS (Security Token Service)]], [[ARN (Amazon Resource Name)]]), and day-two tasks ([[AWS cli commands]], [[AWS Billing and cost management]]).
+## Core Definition
+AWS is a global cloud platform of managed services. You authenticate every API call, place resources in regions/VPCs, and pay for what you provision or consume.
 
-## Routing by job
+## Key Concepts
+- **Identity:** Users/roles/policies; prefer roles over long-lived access keys ([[IAM]], [[aws STS (Security Token Service)]], [[ARN (Amazon Resource Name)]]).
+- **Compute:** VMs ([[AWS EC2]]), containers (ECS/EKS + [[AWS ECR]]), functions ([[AWS Lambda]]).
+- **Storage:** Block ([[EBS (Elastic Block Store)]]), file ([[AWS EFS (Elastic File System)]]), object (S3).
+- **Network:** VPC, subnets, routes, [[Security group]], [[Elastic IP]], DNS ([[Route53]]).
+- **Ops:** [[AWS cli commands]], billing alarms ([[AWS Billing and cost management]]).
 
-| You need to… | Start here |
-|--------------|------------|
-| Launch a virtual machine | [[AWS EC2]] → [[AMI (Amazon Machine Image)]] → [[Security group]] |
-| Attach durable disk to an instance | [[EBS (Elastic Block Store)]] |
-| Share POSIX files across instances | [[AWS EFS (Elastic File System)]] |
-| Run code without managing servers | [[AWS Lambda]] |
-| Store and pull container images | [[AWS ECR]] |
-| Point a domain at infrastructure | [[Route53]] · [[How to connect Godaddy domain with AWS EC2 instance]] |
-| Control who can call which API | [[IAM]] · [[aws STS (Security Token Service)]] |
-| Operate from a terminal | [[AWS cli installation]] · [[AWS CLI commands]] |
-| Host a static site cheaply | [[aws host website]] |
-| Understand spend | [[AWS Billing and cost management]] |
-
-## How AWS pieces connect
-
-```
+## Technical Details
+```txt
 Internet / users
       │
       ▼
@@ -37,20 +32,34 @@ Internet / users
 └─────────────┘     └──────────────┘     └──────┬──────┘
                                                 │
          IAM policies ◄─────────────────────────┤
-         Security groups (L4 firewall)          │
-         EBS / EFS (data)                       ▼
+         Security groups (stateful L4)          │
+         EBS / EFS / S3                         ▼
                                          VPC subnets
 ```
 
-Every API call is authenticated and authorized through [[IAM]]. Network reachability is a separate layer: [[Security group]] rules, route tables, and whether the resource has a public [[Elastic IP]] or sits behind a load balancer.
+| You need to… | Start here |
+|--------------|------------|
+| Launch a VM | [[AWS EC2]] → [[AMI (Amazon Machine Image)]] → [[Security group]] |
+| Durable disk | [[EBS (Elastic Block Store)]] |
+| Shared POSIX files | [[AWS EFS (Elastic File System)]] |
+| Serverless code | [[AWS Lambda]] |
+| Container images | [[AWS ECR]] |
+| DNS / domain | [[Route53]] · [[How to connect Godaddy domain with AWS EC2 instance]] |
+| Who can call APIs | [[IAM]] · [[aws STS (Security Token Service)]] |
+| CLI ops | [[AWS cli installation]] · [[AWS cli commands]] |
 
-## Recall
+## Real-World Applications
+Static site or small API: S3/CloudFront or EC2 + security group + Route 53. Production service: private subnets, ALB, IAM roles for tasks, no access keys in git.
 
-- What is the difference between an identity policy, a resource policy, and a service control policy?
-- Why do production workloads prefer IAM roles over long-lived access keys?
-- Which layer blocks traffic first: security group or network ACL?
+## Pros/Cons or Trade-offs
+- **Pro:** Breadth, global regions, mature IAM and networking primitives.
+- **Con:** Complexity and cost surprises; easy to over-permission; regional constraints.
 
-## Sources
+## Comparison
+vs bare metal/colocation: faster provisioning, shared responsibility model. vs other clouds: same ideas (identity, VPC, managed DB) with different names. Sibling vault hubs: [[Docker]], [[Terraform]], [[Linux]].
 
-- [AWS Documentation](https://docs.aws.amazon.com/)
-- [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
+## Mistakes to Avoid
+- Long-lived access keys on laptops or in repositories.
+- `0.0.0.0/0` on sensitive ports “temporarily.”
+- Confusing security groups (stateful allow) with network ACLs.
+- Ignoring data transfer and idle resource cost.

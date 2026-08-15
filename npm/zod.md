@@ -1,107 +1,103 @@
-[[npm]]
+[[npm]] [[node package json]] [[expressjs]] [[open api specification]]
 
 # zod
 
-> zod — message: 'Confirm password is required when setting a password',
+> TypeScript-first schema library — parse and validate untrusted data at runtime, then infer static types from the same schema.
 
----
+## Interview Relevance
 
-## How it works
-
-
-Making field options
-```js
-cosnt schema = z.object({
-	descriptino: z.string().max(500).optionl(),
-	images: z.array(z.string()).url().optionl();
-	starRating: z.number().int().min(1).max(5).optionl(),
-})
-```
-Default values
-```js
-const schema = z.object({
-	role: z.enum(["admin", "user", "guest"]).default("guest"),
-	theme: z.enum(["light", "dark"]).default("guest").optional().default("light"),
-})
-```
-`superRefine` and `refine`
-```js
-const authSchema = z.object({
-	email: z.string().email(),
-	password: z.string().min(8).optional(),
-	confirmPassword: z.string().optional(),
-}).superRefine((data, ctx) => {
-	if (data.password !== undefined){
-		if(data.confirmPassword === undefined){
-			ctx.addIssue({
-				code: z.ZodIssueCode.invalid_type,
-				expected: 'string',
-				received: 'undefined',
-				path: ['confirmPassword'],
-				message: 'Confirm password is required when setting a password',
-			});
-		} else if (data.password !== data.confirmPassword){
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				path: ['confirmPassword'],
-				message: 'Password do not match',
-			})
-		}
-	}
-})
-```
-```js
-const contactSchema = z.object({
-  email: z.string().email().optional(),
-  phone: z.string().regex(/^\+
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **zod** | This note’s core idea | “I explain zod in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-## Standard config / commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-## Triage (when things break)
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-## When NOT to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-## Related
-
-[[npm]]
+Interviewers use Zod to check whether you validate at system boundaries (HTTP bodies, environment variables, queue payloads), handle refinements, and avoid trusting TypeScript types alone at runtime.
 
 ## Sources
 
-- [Wikipedia — zod](https://en.wikipedia.org/wiki/zod)
+- [Zod documentation](https://zod.dev/) — deep-dive
+- [Zod GitHub repository](https://github.com/colinhacks/zod) — overview
+
+## Core Definition
+
+Zod defines schemas in TypeScript that both *validate* values at runtime (`parse` / `safeParse`) and *infer* types (`z.infer<typeof schema>`), so the type checker and the running process agree on shape.
+
+## Key Concepts
+
+- **Schema as source of truth:** one object describes validation and types → fewer drift bugs than separate interfaces and validators.
+- **`parse` vs `safeParse`:** `parse` throws; `safeParse` returns `{ success, data | error }` → prefer safeParse at HTTP edges.
+- **Optional / default / nullable:** control missing vs null vs defaulted fields explicitly.
+- **`refine` / `superRefine`:** cross-field rules (e.g. password confirmation) with custom issue paths.
+- **Transforms:** coerce strings to numbers/dates carefully → document failure modes for bad input.
+
+## Technical Details
+
+```js
+import { z } from "zod";
+
+const schema = z.object({
+  description: z.string().max(500).optional(),
+  images: z.array(z.string().url()).optional(),
+  starRating: z.number().int().min(1).max(5).optional(),
+  role: z.enum(["admin", "user", "guest"]).default("guest"),
+});
+
+type Form = z.infer<typeof schema>;
+
+const authSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8).optional(),
+    confirmPassword: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== undefined) {
+      if (data.confirmPassword === undefined) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["confirmPassword"],
+          message: "Confirm password is required when setting a password",
+        });
+      } else if (data.password !== data.confirmPassword) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["confirmPassword"],
+          message: "Passwords do not match",
+        });
+      }
+    }
+  });
+```
+
+```js
+const result = schema.safeParse(req.body);
+if (!result.success) {
+  return res.status(400).json(result.error.flatten());
+}
+// result.data is typed and validated
+```
+
+| Symptom | Likely cause |
+|---------|--------------|
+| Runtime type error after “valid” request | Validated a different object than you used |
+| Always fail on dates | String vs `z.coerce.date()` mismatch |
+| Empty object passes | Too many `.optional()` / missing `.strict()` |
+| Huge error objects in logs | Logging full ZodError — prefer `flatten()` |
+
+## Real-World Applications
+
+Validate API request bodies, CLI flags, and environment configuration before the rest of the app runs.
+
+**Example:** An Express route `safeParse`s the body, returns 400 with field errors, and only then writes to the database.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Single schema for types and runtime checks; excellent TypeScript ergonomics.
+- **Con:** Bundle size and parse cost matter on hot paths — keep schemas at boundaries, not deep inside tight loops.
+- **Con:** Complex `superRefine` logic can become hard to test if mixed with business rules.
+
+## Comparison
+
+- vs class-validator / Joi: Zod is TypeScript-native with inference; Joi is JS-first; class-validator ties to decorators/classes.
+- vs OpenAPI-only generation: generated clients help clients; Zod still validates *your* server’s inbound data.
+
+## Mistakes to Avoid
+
+- Believing compile-time types protect you from malformed JSON — they do not.
+- Using `parse` in request handlers without a try/catch (prefer `safeParse`).
+- Encoding business workflow in schemas until they become unreadable mini-programs.

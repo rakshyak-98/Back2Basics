@@ -1,22 +1,21 @@
-[[WebRTC]] [[UDP]] [[TCP]] [[DTLS]] [[ICE (Interactive Connectivity Establishment)]]
+[[WebRTC]] [[UDP]] [[TCP]] [[DTLS]] [[ICE (Interactive Connectivity Establishment)]] [[WebRTC Signaling channels]] [[webSocket]]
 
 # SCTP (Stream Control Transmission Protocol)
 
 > SCTP (Stream Control Transmission Protocol) — SCTP sits above IP, offering multiple streams with optional reliable ordered delivery — unlike TCP's single byte stream. In WebRTC, SCTP runs
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about SCTP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — SCTP](https://en.wikipedia.org/wiki/SCTP) — overview
+- [RFC 9260 — SCTP](https://datatracker.ietf.org/doc/html/rfc9260) — deep-dive
+
+## Key Concepts
 
 **SCTP** sits **above IP**, offering **multiple streams** with optional **reliable ordered** delivery — unlike TCP's single byte stream. In **[[WebRTC]]**, SCTP runs **inside DTLS** (UDP) as **SCTP-over-DTLS**, carrying **DataChannel** messages (chat, game state, file transfer) **separate from** SRTP audio/video.
-
-```txt
-WebRTC stack (simplified)
-  Media: SRTP (UDP) — A/V
-  Data:  SCTP ─ inside ─ DTLS ─ UDP — DataChannel
-
-NOT used for: [[HLS]] segments, [[RTMP]], [[MPEG-TS]] broadcast
-```
 
 | Feature | SCTP | TCP | UDP |
 |---------|------|-----|-----|
@@ -27,10 +26,15 @@ NOT used for: [[HLS]] segments, [[RTMP]], [[MPEG-TS]] broadcast
 
 Telecom origin (SS7 transport) — streaming engineers meet SCTP via **browser RTC**, not CDN packaging.
 
----
+## Technical Details
 
+```txt
+WebRTC stack (simplified)
+  Media: SRTP (UDP) — A/V
+  Data:  SCTP ─ inside ─ DTLS ─ UDP — DataChannel
 
-## Configuration and commands
+NOT used for: [[HLS]] segments, [[RTMP]], [[MPEG-TS]] broadcast
+```
 
 ### Browser DataChannel (application code)
 
@@ -82,10 +86,22 @@ No ffmpeg flag for SCTP — it's browser/stack internal.
 mtr -u turn.example.com
 ```
 
----
+## Real-World Applications
 
+Used wherever SCTP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
+- **Con / skip when:** **Replacing TCP API** — use HTTP/gRPC for server-client CRUD.
+- **Con / skip when:** **Broadcast MPEG-TS** — UDP multicast / SRT, not WebRTC DataChannel.
+
+## Comparison
+
+- vs [[HLS]]: **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,39 +112,7 @@ mtr -u turn.example.com
 | Duplicate messages | App layer no dedupe | Idempotent handlers |
 | SCTP abort on reconnect | New PeerConnection | Re-establish DataChannel on ICE restart |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Confusing SCTP with [[RTMP]]/[[SRT]]** — entirely different layer; ingest encoders don't "enable SCTP".
-
-> [!WARNING]
-> **Large messages** — SCTP has message size limits; chunk at app layer (~16 KB safe practice).
-
-> [!WARNING]
-> **Reliable ordered on lossy Wi-Fi** — head-of-line blocking delays all messages; use unordered for input events.
-
-> [!WARNING]
-> **No SCTP to CDN** — HTTP remains segment delivery; WebRTC is peer or selective forwarding unit (SFU).
-
----
-
-
-## When not to use
-
-- **VoD / live OTT at scale** — [[HLS]]/[[DASH]] + CDN, not peer SCTP.
-- **Replacing TCP API** — use HTTP/gRPC for server-client CRUD.
-- **Broadcast MPEG-TS** — UDP multicast / SRT, not WebRTC DataChannel.
-
----
-
-
-## Related
-
-[[WebRTC]] [[WebRTC Signaling channels]] [[ICE (Interactive Connectivity Establishment)]] [[UDP]] [[DTLS]] [[webSocket]]
-
-## Sources
-
-- [Wikipedia — SCTP](https://en.wikipedia.org/wiki/SCTP)
+- **Confusing SCTP with [[RTMP]]/[[SRT]]** — entirely different layer; ingest encoders don't "enable SCTP".
+- **Large messages** — SCTP has message size limits; chunk at app layer (~16 KB safe practice).
+- **Reliable ordered on lossy Wi-Fi** — head-of-line blocking delays all messages; use unordered for input events.
+- **No SCTP to CDN** — HTTP remains segment delivery; WebRTC is peer or selective forwarding unit (SFU).

@@ -1,12 +1,18 @@
-[[NodeJS/open api specification]] [[ExpressJS/express error handler]] [[Security/JWT authentication]] [[Messaging/Web hooks]]
+[[NodeJS/open api specification]] [[ExpressJS/express error handler]] [[Security/JWT authentication]] [[Messaging/Web hooks]] [[DevOps/Jenkins]]
 
 # Postman
 
 > API client + collection runner + Newman CLI for CI — design, debug, and regression-test HTTP APIs — **Postman docs + contract testing in pipelines**.
 
----
+## Interview Relevance
 
-## How it works
+Postman interviews are light tooling checks — collections, environments, and automating API regression.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 Postman wraps HTTP: environments hold variables (`{{baseUrl}}`), collections group requests, tests run **JavaScript assertions** on responses. **Newman** runs the same collections headless in CI.
 
@@ -27,8 +33,7 @@ Local GUI ──export──► Newman in CI ──► JUnit/HTML report
 | **Environment** | Secrets + base URLs per stage |
 | **Monitor** | Scheduled cloud runs (paid tiers) |
 
-
-## Configuration and commands
+## Technical Details
 
 ### Install CLI (Linux)
 
@@ -74,19 +79,12 @@ pm.test('has id', () => pm.expect(json.id).to.be.a('string'));
 pm.environment.set('lastUserId', json.id);
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Load testing at scale — use k6, Locust, or Gatling.
+- Long-lived gRPC streaming — use grpcurl or dedicated clients (Postman supports gRPC but lighter tooling exists).
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `401` in CI, works in GUI | Missing env vars | Pass `-e` file; secrets in CI vault |
-| Flaky tests on timestamps | Hard-coded dates | Use `pm.variables.replaceIn('{{$timestamp}}')` |
-| SSL errors Newman | Corporate MITM cert | `NODE_EXTRA_CA_CERTS` or `--insecure` (dev only) |
-| Collection run order wrong | Data dependencies | Use collection folders + explicit sequence |
-| `postman login` fails | Typo in command | Correct: `postman login` (not `postman loging`) |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Commit **environment templates** with empty secrets — never commit filled env JSON with prod API keys.
@@ -95,17 +93,10 @@ pm.environment.set('lastUserId', json.id);
 - **Collection v2.1 versus OpenAPI import** — re-import may overwrite manual test edits.
 - **Rate limits** — parallel Newman runs can DDoS your staging API; use `--delay-request`.
 
-
-## When not to use
-
-- Load testing at scale — use k6, Locust, or Gatling.
-- Long-lived gRPC streaming — use grpcurl or dedicated clients (Postman supports gRPC but lighter tooling exists).
-
-
-## Related
-
-[[NodeJS/open api specification]] [[Security/JWT authentication]] [[ExpressJS/express error handler]] [[DevOps/Jenkins]]
-
-## Sources
-
-- [Wikipedia — Postman](https://en.wikipedia.org/wiki/Postman)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `401` in CI, works in GUI | Missing env vars | Pass `-e` file; secrets in CI vault |
+| Flaky tests on timestamps | Hard-coded dates | Use `pm.variables.replaceIn('{{$timestamp}}')` |
+| SSL errors Newman | Corporate MITM cert | `NODE_EXTRA_CA_CERTS` or `--insecure` (dev only) |
+| Collection run order wrong | Data dependencies | Use collection folders + explicit sequence |
+| `postman login` fails | Typo in command | Correct: `postman login` (not `postman loging`) |

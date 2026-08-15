@@ -1,12 +1,41 @@
-[[Streaming]] [[ABR]] [[DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]]
+[[Streaming]] [[ABR]] [[DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]] [[HLS vs. DASH]] [[DRM]] [[RTMP]] [[rendition]]
 
 # HLS (HTTP Live Streaming)
 
 > HLS cuts video into short HTTP files and a playlist — the player fetches the next chunk over plain HTTPS.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk HLS end-to-end — not just name it. Signal fluency with **Master / multivariant**, **Media playlist**, **Segment**, **TARGETDURATION** and when you would pick a different path.
+
+## Sources
+
+- [Wikipedia — HLS](https://en.wikipedia.org/wiki/HLS) — overview
+- [Apple HLS documentation](https://developer.apple.com/documentation/http-live-streaming) — deep-dive
+- [RFC 8216 — HTTP Live Streaming](https://datatracker.ietf.org/doc/html/rfc8216) — deep-dive
+
+## Core Definition
+
+HLS is **stateless file delivery**. That is why it survives firewalls and scales on any CDN — and why classic live latency is tens of seconds unless you use LL-HLS.
+
+## Key Concepts
+
+- **Master / multivariant:** Menu of quality playlists — “First download is the master; it lists renditions.”
+- **Media playlist:** Ordered list of segments for one rung — “The media playlist is the segment sequence.”
+- **Segment:** 2–10 s media file — “Playback is just sequential HTTP GETs.”
+- **TARGETDURATION:** Max segment length advertised — “Players size buffer from TARGETDURATION.”
+- **MEDIA-SEQUENCE:** Live sliding window index — “Live playlists drop old segments and bump the sequence.”
+- **fMP4 / CMAF:** Modern segment shape (not only TS) — “We prefer fMP4 so HLS and DASH share bytes.”
+- **LL-HLS:** Parts + blocking playlist — “Partials cut live delay from tens of seconds to a few.”
+
+**Flow:**
+
+1. **Ingest** — publisher pushes [[RTMP]] / [[SRT]] / [[RTSP]] pull / file into the packager.
+2. **Ladder** — encode [[ABR]] [[rendition]]s; segment on aligned GOPs.
+3. **Manifest** — write master + media `.m3u8` ([[Manifest (streaming)]]).
+4. **Deliver** — CDN serves HTTP; player adapts quality from buffer + bandwidth.
+
+## Technical Details
 
 ```txt
 Ingest ([[RTMP]] / [[SRT]] / [[RTSP]] / file)
@@ -17,33 +46,6 @@ Ingest ([[RTMP]] / [[SRT]] / [[RTSP]] / file)
         │
    CDN / origin ──► player GETs over HTTP(S)
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Master / multivariant** | Menu of quality playlists | “First download is the master; it lists renditions.” |
-| **Media playlist** | Ordered list of segments for one rung | “The media playlist is the segment sequence.” |
-| **Segment** | 2–10 s media file | “Playback is just sequential HTTP GETs.” |
-| **TARGETDURATION** | Max segment length advertised | “Players size buffer from TARGETDURATION.” |
-| **MEDIA-SEQUENCE** | Live sliding window index | “Live playlists drop old segments and bump the sequence.” |
-| **fMP4 / CMAF** | Modern segment shape (not only TS) | “We prefer fMP4 so HLS and DASH share bytes.” |
-| **LL-HLS** | Parts + blocking playlist | “Partials cut live delay from tens of seconds to a few.” |
-
-### How the story goes (4 steps)
-
-1. **Ingest** — publisher pushes [[RTMP]] / [[SRT]] / [[RTSP]] pull / file into the packager.
-2. **Ladder** — encode [[ABR]] [[rendition]]s; segment on aligned GOPs.
-3. **Manifest** — write master + media `.m3u8` ([[Manifest (streaming)]]).
-4. **Deliver** — CDN serves HTTP; player adapts quality from buffer + bandwidth.
-
-> [!INFO]
-> HLS is **stateless file delivery**. That is why it survives firewalls and scales on any CDN — and why classic live latency is tens of seconds unless you use LL-HLS.
-
----
-
-
-## Configuration and commands
 
 ### Master playlist
 
@@ -88,51 +90,7 @@ ffmpeg -i in.mp4 -c:v libx264 -c:a aac -g 60 -sc_threshold 0 \
 
 Debug: `curl` the master → follow a media playlist → HEAD a segment; Apple `mediastreamvalidator` on macOS.
 
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen / won’t start | Master 404, bad `CODECS`, CORS | Fix origin path; align ffprobe vs playlist |
-| Live stuck / freeze at edge | CDN caching playlist; old `MEDIA-SEQUENCE` | `max-age=0` on live `.m3u8`; fix packager sequence |
-| Works Safari, fails Chrome | TS-only or FairPlay-only path | Dual package; Widevine for non-Apple ([[DRM]]) |
-| High live latency | Full-segment only | LL-HLS parts or shorter segments |
-| 403 on segments, playlist OK | Token not on child URLs | Relative URLs + signed cookie |
-| ABR never ups | Wrong `BANDWIDTH` | Recalculate; see [[ABR]] |
-| Decrypt fail | `#EXT-X-KEY` URI / DRM license | Fix key host; check [[EME]] |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **HLS is not a push protocol to the viewer** — the player pulls. Origin must keep playlists fresh for live.
-
-> [!WARNING]
-> **Packager restart resets `MEDIA-SEQUENCE`** — players hang; use discontinuity or coordinated restart.
-
-> [!WARNING]
-> **Absolute segment URLs behind a proxy** — player bypasses your app origin; rewrite manifests ([[streaming manifest file]]).
-
-> [!WARNING]
-> **LL tags on non-LL players** — gate features; don’t break legacy clients with unknown tags they mishandle.
-
----
-
-
-## When not to use
-
-- **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
-- **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
-- **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
-
----
-
-
-## LL-HLS (low latency)
+### LL-HLS (low latency)
 
 Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims for **~2–5 s**:
 
@@ -145,13 +103,38 @@ Classic HLS buffers several full segments → **~15–30 s** delay. LL-HLS aims 
 
 Needs CMAF-style chunks and a player that understands LL tags.
 
----
+## Real-World Applications
 
+HLS is **stateless file delivery**. That is why it survives firewalls and scales on any CDN — and why classic live latency is tens of seconds unless you use LL-HLS.
 
-## Related
+Used wherever HLS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-[[Streaming]] [[ABR]] [[DASH]] [[HLS vs. DASH]] [[CMAF]] [[Manifest (streaming)]] [[MPEG-TS]] [[DRM]] [[RTMP]] [[rendition]]
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
+- **Con / skip when:** **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
+- **Con / skip when:** **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
 
-- [Wikipedia — HLS](https://en.wikipedia.org/wiki/HLS)
+## Comparison
+
+- vs [[WebRTC]]: **Browser mesh / sub-second call** — [[WebRTC]] + [[ICE (Interactive Connectivity Establishment)]].
+- vs [[RTMP]]: **Publisher → ingest only** — [[RTMP]] / [[SRT]] / [[RTSP]] into origin; HLS is usually the **egress** format.
+- vs [[DASH]]: **Apple-free Android-only shop that already standardized on DASH** — ship [[DASH]] (or dual via [[CMAF]]).
+
+## Mistakes to Avoid
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen / won’t start | Master 404, bad `CODECS`, CORS | Fix origin path; align ffprobe vs playlist |
+| Live stuck / freeze at edge | CDN caching playlist; old `MEDIA-SEQUENCE` | `max-age=0` on live `.m3u8`; fix packager sequence |
+| Works Safari, fails Chrome | TS-only or FairPlay-only path | Dual package; Widevine for non-Apple ([[DRM]]) |
+| High live latency | Full-segment only | LL-HLS parts or shorter segments |
+| 403 on segments, playlist OK | Token not on child URLs | Relative URLs + signed cookie |
+| ABR never ups | Wrong `BANDWIDTH` | Recalculate; see [[ABR]] |
+| Decrypt fail | `#EXT-X-KEY` URI / DRM license | Fix key host; check [[EME]] |
+
+- **HLS is not a push protocol to the viewer** — the player pulls. Origin must keep playlists fresh for live.
+- **Packager restart resets `MEDIA-SEQUENCE`** — players hang; use discontinuity or coordinated restart.
+- **Absolute segment URLs behind a proxy** — player bypasses your app origin; rewrite manifests ([[streaming manifest file]]).
+- **LL tags on non-LL players** — gate features; don’t break legacy clients with unknown tags they mishandle.

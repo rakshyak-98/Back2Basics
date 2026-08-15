@@ -1,35 +1,32 @@
-[[Streaming]] [[Byte stream]] [[RTMP]] [[NodeJS]]
+[[Streaming]] [[Byte stream]] [[RTMP]] [[NodeJS]] [[HLS]] [[DASH]] [[flussonic]] [[WebRTC]] [[pdf-stream-viewing]]
 
 # How to attach stream to HTTP handlers
 
 > Pipe Node readable streams into `res` (and `req` into files/upstreams) — backpressure-aware bytes, not buffering whole files in RAM.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk How to attach stream to HTTP handlers end-to-end — not just name it. Signal fluency with **Readable / Writable**, **pipe / pipeline**, **Backpressure**, **Content-Disposition** and when you would pick a different path.
+
+## Sources
+
+- [Wikipedia — How to attach stream to HTTP handlers](https://en.wikipedia.org/wiki/How_to_attach_stream_to_HTTP_handlers) — overview
+
+## Key Concepts
+
+- **Readable / Writable:** Source vs sink — “File is readable; `res` is writable.”
+- **pipe / pipeline:** Connect with backpressure — “pipeline auto-destroys and forwards errors.”
+- **Backpressure:** Slow consumer pauses producer — “pipe respects drain so we don’t OOM.”
+- **Content-Disposition:** Download vs inline — “attachment forces Save As.”
+- **error / finish:** Lifecycle — “Always handle stream error or the socket hangs.”
+
+## Technical Details
 
 ```txt
 Download:  fs.ReadStream ──pipe──► ServerResponse (res)
 Upload:    IncomingMessage (req) ──pipe──► fs.WriteStream
 Proxy:     req ──pipe──► upstreamReq ──pipe──► res
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Readable / Writable** | Source vs sink | “File is readable; `res` is writable.” |
-| **pipe / pipeline** | Connect with backpressure | “pipeline auto-destroys and forwards errors.” |
-| **Backpressure** | Slow consumer pauses producer | “pipe respects drain so we don’t OOM.” |
-| **Content-Disposition** | Download vs inline | “attachment forces Save As.” |
-| **error / finish** | Lifecycle | “Always handle stream error or the socket hangs.” |
-
-This is **HTTP byte streaming**, not WebRTC media. For P2P A/V see [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]].
-
----
-
-
-## Configuration and commands
 
 ### Streaming file download
 
@@ -82,8 +79,8 @@ app.post('/upload', (req, res) => {
 })
 ```
 
-> [!NOTE]
-> Respond **after** `pipeline` callback (or `finish`) — otherwise the client may get 200 before the file is fully on disk.
+[!NOTE]
+Respond **after** `pipeline` callback (or `finish`) — otherwise the client may get 200 before the file is fully on disk.
 
 ### Proxy request and response
 
@@ -111,10 +108,23 @@ app.use('/proxy', (req, res) => {
 
 For live video packaging/CDN delivery prefer [[HLS]] / [[DASH]] origins ([[flussonic]]), not ad-hoc Express pipes of elementary streams.
 
----
+## Real-World Applications
 
+Used wherever How to attach stream to HTTP handlers sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Interactive A/V between browsers** — [[WebRTC]] + [[WebRTC Signaling channels]], not `res.pipe`.
+- **Con / skip when:** **Multi-bitrate live OTT** — packager + CDN ([[HLS]], [[DASH]], [[flussonic]]).
+- **Con / skip when:** **Tiny JSON APIs** — `res.json()` is fine; streams add complexity for kilobyte payloads.
+
+## Comparison
+
+- vs [[WebRTC]]: **Interactive A/V between browsers** — [[WebRTC]] + [[WebRTC Signaling channels]], not `res.pipe`.
+- vs [[HLS]]: **Multi-bitrate live OTT** — packager + CDN ([[HLS]], [[DASH]], [[flussonic]]).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -125,42 +135,8 @@ For live video packaging/CDN delivery prefer [[HLS]] / [[DASH]] origins ([[fluss
 | Proxy stalls | Missing pipe of `req` or response | Bidirectional pipeline; forward method/headers carefully |
 | Wrong Content-Type | Browser sniffs / refuses | Set type explicitly before first write |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`.pipe(res)` without error handling** — uncaught `EPIPE` / read errors can crash or leak sockets. Prefer `stream.pipeline`.
-
-> [!WARNING]
-> **Headers after write** — first chunk commits headers; set `Content-Disposition` / length estimates first.
-
-> [!WARNING]
-> **Express JSON body parser** — `express.json()` consumes `req`; disable for raw upload routes or you can’t pipe the body.
-
-> [!WARNING]
-> **Range requests** — video players need `Accept-Ranges` / 206 for seeking; naive full-file pipe breaks scrubbing.
-
-> [!WARNING]
-> **Not WebRTC** — piping HTTP is unrelated to SDP/ICE; don’t debug with `chrome://webrtc-internals`.
-
----
-
-
-## When not to use
-
-- **Interactive A/V between browsers** — [[WebRTC]] + [[WebRTC Signaling channels]], not `res.pipe`.
-- **Multi-bitrate live OTT** — packager + CDN ([[HLS]], [[DASH]], [[flussonic]]).
-- **Tiny JSON APIs** — `res.json()` is fine; streams add complexity for kilobyte payloads.
-
----
-
-
-## Related
-
-[[Byte stream]] [[RTMP]] [[HLS]] [[DASH]] [[flussonic]] [[WebRTC]] [[pdf-stream-viewing]]
-
-## Sources
-
-- [Wikipedia — How to attach stream to HTTP handlers](https://en.wikipedia.org/wiki/How_to_attach_stream_to_HTTP_handlers)
+- **`.pipe(res)` without error handling** — uncaught `EPIPE` / read errors can crash or leak sockets. Prefer `stream.pipeline`.
+- **Headers after write** — first chunk commits headers; set `Content-Disposition` / length estimates first.
+- **Express JSON body parser** — `express.json()` consumes `req`; disable for raw upload routes or you can’t pipe the body.
+- **Range requests** — video players need `Accept-Ranges` / 206 for seeking; naive full-file pipe breaks scrubbing.
+- **Not WebRTC** — piping HTTP is unrelated to SDP/ICE; don’t debug with `chrome://webrtc-internals`.

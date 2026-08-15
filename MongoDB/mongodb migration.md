@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongodb schema]]
+[[MongoDB]] [[mongodb schema]] [[MongoDB query validation]] [[mongosh]]
 
 # mongodb migration
 
 > MongoDB migrations are scripts that reshape documents — run carefully in batches with a rollback story.
 
----
+## Interview Relevance
 
-## How it works
+Migration interviews cover schema evolution without downtime — expand/contract and dual-write pitfalls.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 1 deploy dual-read/write → 2 migrate docs → 3 remove old path
@@ -21,10 +28,7 @@
 | **migrate-mongo** | Versioned migration files | “Like Flyway for Mongo.” |
 | **Idempotent migrate** | Safe re-run | “Skip already-migrated docs.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 // batch rename field
@@ -46,10 +50,18 @@ npx migrate-mongo status
 | Idempotent filter | `$exists` / version field |
 | Index before filter | Migration scan speed |
 
----
+## Pros/Cons or Trade-offs
 
+- **One-off analytics reshape** — aggregation `$out` may be enough.
+- **Schema still unstable weekly** — stabilize product first.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **`save` in a loop** — prefer `updateOne`/`bulkWrite`; `save` is easy to get wrong.
+
+> [!WARNING]
+> **No downtime plan** — changing required validators before backfill rejects writes.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,30 +70,3 @@ npx migrate-mongo status
 | App breaks mid-cutover | Only new field | Dual-read until done |
 | Secondary lag | Huge writes | Throttle batches |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`save` in a loop** — prefer `updateOne`/`bulkWrite`; `save` is easy to get wrong.
-
-> [!WARNING]
-> **No downtime plan** — changing required validators before backfill rejects writes.
-
----
-
-
-## When not to use
-
-- **One-off analytics reshape** — aggregation `$out` may be enough.
-- **Schema still unstable weekly** — stabilize product first.
-
-
-## Related
-
-[[mongodb schema]] [[MongoDB query validation]] [[mongosh]]
-
-## Sources
-
-- [Wikipedia — mongodb migration](https://en.wikipedia.org/wiki/mongodb_migration)

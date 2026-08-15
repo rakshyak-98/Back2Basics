@@ -4,7 +4,17 @@
 
 > Method shadowing (and field hiding) occurs when a subclass defines a static method or field with the same name as the parent — the subclass does **not** override the parent's static member; each type resolves its own version.
 
-## Static vs virtual override
+## Interview Relevance
+
+Method shadowing checks name-hiding across inheritance — override versus hide, and surprising dispatch.
+
+## Sources
+
+- Java Language Specification — hiding vs overriding — deep-dive
+
+## Technical Details
+
+**Static vs virtual override**
 
 ```java
 class Parent {
@@ -24,23 +34,18 @@ class Child extends Parent {
 | `Parent p = new Child(); p.greet()` | `parent` (static resolved by reference type) |
 | `p.hello()` | `child` (virtual dispatch) |
 
-## Field hiding
+**Field hiding**
 
 Subclass field with same name as parent hides the parent's field — two storage slots exist; access depends on reference type, not object runtime type.
 
-## Why it matters
+**Why it matters**
 
 - Developers expect "override" behavior and get silent wrong static dispatch.
 - Linters flag missing `@Override` on instance methods; static hides are easy to miss.
 - Design: avoid static methods in inheritance hierarchies — use instance methods or composition ([[Design pattern/Strategy pattern]]).
 
-## Language variance
+**Language variance**
 
 - **Java** — explicit hiding terminology in JLS.
 - **C#** — `new` keyword marks intentional hiding.
 - **JavaScript** — class fields and methods use prototype chain; different mechanics.
-
-## Sources
-
-- Java Language Specification — hiding vs overriding
-- [Method overriding — Wikipedia](https://en.wikipedia.org/wiki/Method_overriding) (contrasts hiding)

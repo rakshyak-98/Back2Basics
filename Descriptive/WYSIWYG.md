@@ -1,12 +1,19 @@
-[[Descriptive]] [[React]] [[css]]
+[[Descriptive]] [[React]] [[css]] [[Security]]
 
 # WYSIWYG (What You See Is What You Get)
 
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
----
+## Interview Relevance
 
-## How it works
+WYSIWYG questions cover editing UX versus storing semantic HTML/Markdown safely.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+- [WYSIWYG — Wikipedia](https://en.wikipedia.org/wiki/WYSIWYG) — overview
+
+## Key Concepts
 
 WYSIWYG editors maintain an internal **document model** (HTML DOM, ProseMirror JSON, Slate tree) synced to a visible **editable surface**. Toolbar commands mutate that model; export/publish serializes to HTML/Markdown/PDF.
 
@@ -28,8 +35,7 @@ Categories:
 - **Framework editors** — TipTap (ProseMirror), Slate, Quill, CKEditor 5, TinyMCE.
 - **Block builders** — Notion-like; still WYSIWYG at block level.
 
-
-## Configuration and commands
+## Technical Details
 
 ### TipTap (React) minimal
 
@@ -98,21 +104,13 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 .article-body { /* same rules */ }
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Developer-only content (Markdown in git)** — plain MD + preview is simpler.
+- **Highly structured content (products, legal clauses)** — use structured CMS fields, not free-form HTML.
+- **Email composition** — email HTML is its own nightmare; use email-specific builders.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Published page ≠ editor | Different CSS | Share typography stylesheet; preview route |
-| XSS alert / script execution | Raw `{@html}` / `dangerouslySetInnerHTML` | DOMPurify; CSP `script-src` |
-| Paste from Word breaks layout | Inline styles in paste | Strip styles on paste; `pasteRules` |
-| Empty paragraphs / br spam | contenteditable quirks | Use mature editor; normalize on export |
-| Undo broken across transactions | Custom commands bypass history | Use editor's chain API |
-| Mobile keyboard covers toolbar | Fixed toolbar z-index | `visualViewport` adjust; bottom sheet UI |
-| Huge HTML in DB | Nested spans from toggles | Normalize schema; store JSON |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Never trust stored HTML** — sanitize on write **and** read; CSP as backstop ([[Security]] / content security policy).
@@ -126,18 +124,12 @@ const clean = DOMPurify.sanitize(dirtyHtml, {
 > [!WARNING]
 > **Collaboration** — CRDT/OT (Yjs) is separate concern from WYSIWYG shell.
 
-
-## When not to use
-
-- **Developer-only content (Markdown in git)** — plain MD + preview is simpler.
-- **Highly structured content (products, legal clauses)** — use structured CMS fields, not free-form HTML.
-- **Email composition** — email HTML is its own nightmare; use email-specific builders.
-
-
-## Related
-
-[[React]] [[css]] [[Security]] [[Descriptive]]
-
-## Sources
-
-- [Wikipedia — WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Published page ≠ editor | Different CSS | Share typography stylesheet; preview route |
+| XSS alert / script execution | Raw `{@html}` / `dangerouslySetInnerHTML` | DOMPurify; CSP `script-src` |
+| Paste from Word breaks layout | Inline styles in paste | Strip styles on paste; `pasteRules` |
+| Empty paragraphs / br spam | contenteditable quirks | Use mature editor; normalize on export |
+| Undo broken across transactions | Custom commands bypass history | Use editor's chain API |
+| Mobile keyboard covers toolbar | Fixed toolbar z-index | `visualViewport` adjust; bottom sheet UI |
+| Huge HTML in DB | Nested spans from toggles | Normalize schema; store JSON |

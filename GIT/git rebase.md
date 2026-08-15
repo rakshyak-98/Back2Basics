@@ -1,12 +1,19 @@
-[[git error]] [[git worktree]] [[git ssh configuration]] [[INDEX]]
+[[git error]] [[git worktree]] [[git ssh configuration]] [[INDEX]] [[git blame]] [[Terraform workflow]]
 
 # git rebase
 
 > Replay your commits on top of a moving base — linear history without merge commits — **Pro Git (Chacon)**; dangerous on shared branches without agreement.
 
----
+## Interview Relevance
 
-## How it works
+Rebase interviews check the golden rule (do not rewrite shared history), ours/theirs inversion during conflicts, and force-with-lease versus force.
+
+## Sources
+
+- [Pro Git — Rewriting History](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History) — deep-dive
+- [git-rebase documentation](https://git-scm.com/docs/git-rebase) — overview
+
+## Key Concepts
 
 ```txt
               └──x──y  (your branch)
@@ -21,10 +28,7 @@ After rebase onto main:
 
 **Golden rule:** never rebase commits **already pushed** that others may have pulled — unless team explicitly uses `git pull --rebase` culture and coordinates force-push.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Daily update (feature branch)
 
@@ -80,25 +84,13 @@ git commit --fixup abc1234
 git rebase -i --autosquash origin/main
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Shared long-lived branch** multiple people commit to — merge or trunk-based with short branches.
+- **Integrating released tags** — don't rewrite history consumers depend on.
+- **You need true merge context** — complex binary conflicts sometimes easier with one merge commit.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Same conflict every commit | Repeated touch of file | `git rebase -i` → squash; or merge once instead |
-| "Cannot rebase: unstaged changes" | `git status` | Stash (`git stash -u`) or commit WIP |
-| Lost commits after abort | `git reflog` | `git reset --hard HEAD@{n}` to pre-rebase entry |
-| Force push rejected | Teammate pushed | Fetch; coordinate; never `--force` main |
-| Empty commit skipped | Already applied patch | `git rebase --skip` or `--keep-empty` |
-| Wrong file kept in conflict | ours/theirs confusion | Re-read labels; re-run conflict resolution |
-| CI fails only after rebase | Hidden dependency on old base | Run tests locally on rebased branch before push |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Rebase rewrites SHAs** — open PRs with review comments on old commits become confusing; notify reviewers after force-push.
@@ -112,22 +104,13 @@ git rebase -i --autosquash origin/main
 > [!WARNING]
 > **Signed commits** — replay may need re-signing depending on GPG hook config.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Same conflict every commit | Repeated touch of file | `git rebase -i` → squash; or merge once instead |
+| "Cannot rebase: unstaged changes" | `git status` | Stash (`git stash -u`) or commit WIP |
+| Lost commits after abort | `git reflog` | `git reset --hard HEAD@{n}` to pre-rebase entry |
+| Force push rejected | Teammate pushed | Fetch; coordinate; never `--force` main |
+| Empty commit skipped | Already applied patch | `git rebase --skip` or `--keep-empty` |
+| Wrong file kept in conflict | ours/theirs confusion | Re-read labels; re-run conflict resolution |
+| CI fails only after rebase | Hidden dependency on old base | Run tests locally on rebased branch before push |
 
-
-## When not to use
-
-- **Shared long-lived branch** multiple people commit to — merge or trunk-based with short branches.
-- **Integrating released tags** — don't rewrite history consumers depend on.
-- **You need true merge context** — complex binary conflicts sometimes easier with one merge commit.
-
----
-
-
-## Related
-
-[[git error]] · [[git blame]] · [[git worktree]] · [[git ssh configuration]] · [[Terraform workflow]]
-
-## Sources
-
-- [Wikipedia — git rebase](https://en.wikipedia.org/wiki/git_rebase)

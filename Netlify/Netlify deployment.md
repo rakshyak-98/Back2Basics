@@ -1,89 +1,69 @@
-[[Deployment/vercel cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Nginx/nginx SPA deployment]]
+[[vercel deployment]] [[Deployment/render cli]] [[Proxy/Reverse Proxy]]
 
 # Netlify deployment
 
-> Netlify deployment — netlify runs your build command, publishes publish directory to CDN, and optionally runs serverless functions at the edge. Next.js needs @netlify/plugin-nextjs for App
+> Git-connected Jamstack host — Netlify runs your build command, publishes the output directory to a CDN, and attaches functions/redirects as configured.
 
----
+## Interview Relevance
 
-## How it works
-
-Netlify runs your **build command**, publishes **publish directory** to CDN, and optionally runs **serverless functions** at the edge. Next.js needs `@netlify/plugin-nextjs` for application Router features (not plain static export). environment variables live in Netlify UI per context (production/deploy-preview).
-
-```
-git push → Netlify build → plugin adapts Next → CDN + functions
-```
-
-
-## Configuration and commands
-
-### netlify.toml (Next.js)
-
-```toml
-[build]
-  command = "npm run build"
-  publish = ".next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[build.environment]
-  NODE_VERSION = "20"
-```
-
-### CLI flow
-
-```bash
-npm i -g netlify-cli
-netlify login
-netlify init          # link site
-netlify env:list
-netlify deploy        # draft URL
-netlify deploy --prod
-```
-
-### Redirects / headers (static)
-
-```toml
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 404 on dynamic routes | Plugin missing | Add `@netlify/plugin-nextjs` |
-| Build works locally, fails CI | Node version | Pin `NODE_VERSION` in toml |
-| Env var undefined | Context scope | Set for Production + Preview |
-| Wrong publish dir | Empty site | Next: don't set publish to `out` unless static export |
-| ISR not updating | Netlify cache | On-demand revalidation; check Next cache config |
-| Function timeout | 10s default (tier) | Optimize API route or upgrade |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Confusing `publish = ".next"`** — plugin handles output; follow Netlify Next docs for your version.
->
-> **Large function bundles** — tree-shake; externalize heavy deps.
->
-> **Monorepo** — set **Base directory** in UI to app package.
-
-
-## When not to use
-
-- Don't use Netlify static hosting alone for heavy WebSocket/long-polling backends — dedicated server or specialized host.
-- Don't commit `.env` — use Netlify environment UI or secrets.
-
-
-## Related
-
-[[Deployment/vercel cli]] [[Deployment/vercel deployment]] [[NextJS/ISR (Incremental Static Regeneration)]]
+Interviewers compare Netlify vs Vercel: build/publish dirs, `_redirects`/`netlify.toml`, and SPA fallback behavior.
 
 ## Sources
 
-- [Wikipedia — Netlify deployment](https://en.wikipedia.org/wiki/Netlify_deployment)
+- [Netlify docs — Deploy](https://docs.netlify.com/site-deploys/overview/) — deep-dive
+- [Netlify — netlify.toml](https://docs.netlify.com/configure-builds/file-based-configuration/) — overview
+
+## Key Concepts
+
+- **Build command + publish directory:** e.g. `npm run build` → `dist`.
+- **CDN publish:** immutable assets at the edge.
+- **Redirects/rewrites:** SPA fallback and domain rules.
+- **Functions:** serverless endpoints alongside static files.
+- **Deploy contexts:** production vs branch previews.
+
+## Technical Details
+
+```toml
+# netlify.toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+```bash
+netlify deploy --build
+netlify deploy --prod
+```
+
+| Concern | Knob |
+|---------|------|
+| SPA refresh 404 | rewrite to `index.html` |
+| Env vars | Site settings / context-specific |
+| Headers | `[[headers]]` in toml |
+
+## Real-World Applications
+
+Marketing sites and Vite/React SPAs with form handling or light functions.
+
+**Example:** Vue Router history mode 404 on refresh — add the SPA rewrite above.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Simple static+functions workflow and previews.
+- **Con:** Long-lived servers/websockets need another platform.
+
+## Comparison
+
+- vs [[vercel deployment]]: similar Jamstack shape; different config files and function models.
+- vs classic VM+Nginx: less OS ops; more platform limits.
+
+## Mistakes to Avoid
+
+- Wrong `publish` directory (deploying repo root).
+- Secrets in client-side environment variables.
+- Forgetting branch deploy vs production context variables.

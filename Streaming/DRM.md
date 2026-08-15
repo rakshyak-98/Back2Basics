@@ -1,48 +1,36 @@
-[[Streaming]] [[EME]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CPIX]]
+[[Streaming]] [[EME]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CPIX]] [[streaming license]] [[Pallycon(DoveRunner)]] [[CDM (Content Decryption Module)]] [[CMAF]] [[flussonic]]
 
 # DRM
 
 > DRM (Digital Rights Management) encrypts the stream and only hands keys to entitled players — stops casual copying.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk DRM end-to-end — not just name it. Signal fluency with **DRM**, **License server**, **CDM**, **CENC** and when you would pick a different path.
 
-```txt
-Clear mezzanine / live ingest
-        │
-        ▼
-   Packager + KMS (keys / PSSH via [[CPIX]] or vendor API)
-        │  CENC encrypt ──► [[HLS]] / [[DASH]]
-        ▼
-   CDN serves encrypted segments + ContentProtection in manifest
-        │
-        ▼
-   Player + [[EME]] / CDM ──► license request ──► License server
-        │                         ▲
-        └──── decrypt if entitled ┘
-```
+## Sources
 
-Browser OTT uses [[EME]] + a CDM (Widevine / PlayReady / FairPlay). Broadcast STBs often use [[CAS (Conditional Access System)]] (ECM/EMM) instead — different stack, same goal (only entitled devices decode).
+- [Wikipedia — DRM](https://en.wikipedia.org/wiki/DRM) — overview
+- [W3C EME](https://www.w3.org/TR/encrypted-media/) — overview
 
-### Interview map (words you can say)
+## Key Concepts
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **DRM** | Encrypt + license gate for playback | “We protect the asset; the player must prove entitlement.” |
-| **License server** | Issues keys after auth / policy checks | “Keys never ship in the clear to random clients.” |
-| **CDM** | Secure decrypt module in the device/browser | “EME talks to the CDM; JS never sees the raw key on L1.” |
-| **CENC** | One encryption format many DRMs share | “Encrypt once; serve Widevine + PlayReady from the same files.” |
-| **PSSH** | Blob telling the CDM which system + key id | “Manifest carries PSSH so the player knows who to ask.” |
-| **KID** | Key ID — name of the key, not the key | “License maps KID → CEK for this content.” |
-| **Multi-DRM** | Same asset, several CDMs | “Android Widevine, Safari FairPlay, Edge PlayReady.” |
+- **DRM:** Encrypt + license gate for playback — “We protect the asset; the player must prove entitlement.”
+- **License server:** Issues keys after auth / policy checks — “Keys never ship in the clear to random clients.”
+- **CDM:** Secure decrypt module in the device/browser — “EME talks to the CDM; JS never sees the raw key on L1.”
+- **CENC:** One encryption format many DRMs share — “Encrypt once; serve Widevine + PlayReady from the same files.”
+- **PSSH:** Blob telling the CDM which system + key id — “Manifest carries PSSH so the player knows who to ask.”
+- **KID:** Key ID — name of the key, not the key — “License maps KID → CEK for this content.”
+- **Multi-DRM:** Same asset, several CDMs — “Android Widevine, Safari FairPlay, Edge PlayReady.”
 
-### How the story goes (4 steps)
+**Flow:**
 
 1. **Get keys** — KMS / DRM vendor returns CEK + KID + PSSH (often via [[CPIX]]).
 2. **Encrypt + package** — packager applies CENC; writes protection into [[HLS]]/[[DASH]] manifests.
 3. **Entitle** — your backend decides the user may play; mint a short-lived license token ([[streaming license]] / [[Pallycon(DoveRunner)]]).
 4. **Play** — player uses [[EME]]; CDM fetches license; decrypts segments.
+
+Browser OTT uses [[EME]] + a CDM (Widevine / PlayReady / FairPlay). Broadcast STBs often use [[CAS (Conditional Access System)]] (ECM/EMM) instead — different stack, same goal (only entitled devices decode).
 
 ### License server options (pick one path)
 
@@ -58,10 +46,22 @@ Caution! The stream has been secured with DRM…
 
 That banner means encryption is on — not a player bug. Only CDM-compatible players can decrypt.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Clear mezzanine / live ingest
+        │
+        ▼
+   Packager + KMS (keys / PSSH via [[CPIX]] or vendor API)
+        │  CENC encrypt ──► [[HLS]] / [[DASH]]
+        ▼
+   CDN serves encrypted segments + ContentProtection in manifest
+        │
+        ▼
+   Player + [[EME]] / CDM ──► license request ──► License server
+        │                         ▲
+        └──── decrypt if entitled ┘
+```
 
 Typical live path (Flussonic-style packager + DoveRunner):
 
@@ -87,52 +87,7 @@ CDM decrypt → playback
 
 Debug: browser `chrome://media-internals` + player DRM logs; confirm `ContentProtection` / `#EXT-X-KEY` present.
 
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen, no error | Manifest missing `ContentProtection` / `#EXT-X-KEY` | Re-package with PSSH/KID; verify packager KMS reachability |
-| `MEDIA_ERR_ENCRYPTED` / license 401 | Token / site key / user auth | Mint fresh [[streaming license]] token server-side; clock skew |
-| Works on Chrome, fails Safari | FairPlay not configured | Add FPS cert + HLS SAMPLE-AES / fMP4 path |
-| Works on phone browser, fails STB | Wrong protection stack | STB may need [[CAS (Conditional Access System)]], not Widevine EME |
-| “DRM secured” but local VLC fails | Expected — no CDM path | Test with Shaka / Bitmovin / vendor sample player |
-| HD blocked, SD plays | Widevine L3 only | Require L1 devices or lower policy max resolution |
-| Live encrypt OK, VOD fails | Different key endpoint / content id | Align content id + CPIX request with asset id |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **DRM ≠ CAS** — browser/mobile OTT uses DRM + [[EME]]; classic IPTV STBs often use [[CAS (Conditional Access System)]]. Mixing license paths breaks half the fleet.
-
-> [!WARNING]
-> **Encrypt without manifest signaling** — ciphertext with no PSSH/KEY tags looks like a corrupt stream to the player.
-
-> [!WARNING]
-> **Long-lived license tokens in the app** — mint short-lived tokens on your backend; never ship site keys to the client.
-
-> [!WARNING]
-> **Player compatibility** — Widevine-only streams fail on FairPlay-only Safari unless you multi-DRM or offer a clear fallback (usually not allowed for premium).
-
----
-
-
-## When not to use
-
-- **Internal / low-value clips** — signed URLs or application authentication may be enough; DRM cost and support load are high.
-- **You only need link expiry** — CDN token authentication, not full CDM.
-- **Broadcast STB already on CAS** — don’t bolt Widevine onto a CAS-only headend without a real dual-stack design.
-- **WebRTC P2P demos** — ICE/media path first; DRM is an OTT packaging concern.
-
----
-
-
-## Multi-DRM
+### Multi-DRM
 
 **Multi-DRM** means one CENC-encrypted asset (ISO/IEC 23001-7) with several DRM signaling blobs so Widevine, PlayReady, and FairPlay clients can each get a license for the **same** ciphertext.
 
@@ -145,13 +100,31 @@ One encrypted ladder
 
 Pack once; license paths differ per platform. Do not re-encode per DRM.
 
----
+## Real-World Applications
 
+Used wherever DRM sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## Related
+## Pros/Cons or Trade-offs
 
-[[EME]] [[CAS (Conditional Access System)]] [[CPIX]] [[streaming license]] [[Pallycon(DoveRunner)]] [[CDM (Content Decryption Module)]] [[HLS]] [[DASH]] [[CMAF]] [[flussonic]]
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Internal / low-value clips** — signed URLs or application authentication may be enough; DRM cost and support load are high.
+- **Con / skip when:** **You only need link expiry** — CDN token authentication, not full CDM.
+- **Con / skip when:** **Broadcast STB already on CAS** — don’t bolt Widevine onto a CAS-only headend without a real dual-stack design.
+- **Con / skip when:** **WebRTC P2P demos** — ICE/media path first; DRM is an OTT packaging concern.
 
-## Sources
+## Mistakes to Avoid
 
-- [Wikipedia — DRM](https://en.wikipedia.org/wiki/DRM)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen, no error | Manifest missing `ContentProtection` / `#EXT-X-KEY` | Re-package with PSSH/KID; verify packager KMS reachability |
+| `MEDIA_ERR_ENCRYPTED` / license 401 | Token / site key / user auth | Mint fresh [[streaming license]] token server-side; clock skew |
+| Works on Chrome, fails Safari | FairPlay not configured | Add FPS cert + HLS SAMPLE-AES / fMP4 path |
+| Works on phone browser, fails STB | Wrong protection stack | STB may need [[CAS (Conditional Access System)]], not Widevine EME |
+| “DRM secured” but local VLC fails | Expected — no CDM path | Test with Shaka / Bitmovin / vendor sample player |
+| HD blocked, SD plays | Widevine L3 only | Require L1 devices or lower policy max resolution |
+| Live encrypt OK, VOD fails | Different key endpoint / content id | Align content id + CPIX request with asset id |
+
+- **DRM ≠ CAS** — browser/mobile OTT uses DRM + [[EME]]; classic IPTV STBs often use [[CAS (Conditional Access System)]]. Mixing license paths breaks half the fleet.
+- **Encrypt without manifest signaling** — ciphertext with no PSSH/KEY tags looks like a corrupt stream to the player.
+- **Long-lived license tokens in the app** — mint short-lived tokens on your backend; never ship site keys to the client.
+- **Player compatibility** — Widevine-only streams fail on FairPlay-only Safari unless you multi-DRM or offer a clear fallback (usually not allowed for premium).

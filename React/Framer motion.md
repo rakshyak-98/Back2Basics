@@ -1,29 +1,49 @@
 [[react hooks]] [[React State management]] [[React Architecture]]
 
-# Framer motion
+# Framer Motion
 
-> Framer motion shapes how React applications compose UI, state, and side effects in production.
+> React animation library — declarative motion components and gestures on top of the DOM.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `Framer motion` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[React Architecture]]
+Interviewers ask how you animate without layout thrash, and when CSS transitions beat a JS animation library.
 
 ## Sources
 
-- [Motion — Documentation](https://motion.dev/docs/react)
+- [Framer Motion docs](https://www.framer.com/motion/) — deep-dive
+- [React — useEffect](https://react.dev/reference/react/useEffect) — overview
+
+## Core Definition
+
+Framer Motion wraps elements in `motion.*` components with animate/transition props and optional layout animations.
+
+## Key Concepts
+
+- **motion components:** `motion.div` instead of `div`.
+- **Animate presence:** exit animations for conditional trees.
+- **Layout:** `layout` prop for shared-element style transitions.
+
+## Technical Details
+
+```tsx
+import { motion } from 'framer-motion'
+<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} />
+```
+
+## Real-World Applications
+
+Modal enter/exit and tab indicator slide using layout animations instead of brittle CSS keyframe sets.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Rich gestures and orchestration in React trees.
+- **Con:** Bundle weight — prefer CSS for simple fades.
+
+## Comparison
+
+- vs CSS transitions: use CSS for simple opacity/transform; Framer for orchestration/gestures.
+
+## Mistakes to Avoid
+
+- Animating huge lists without virtualization.
+- Fighting reduced-motion accessibility preferences.

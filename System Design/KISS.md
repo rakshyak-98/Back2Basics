@@ -4,9 +4,27 @@
 
 > KISS (Keep It Simple, Stupid) urges designs that solve the present problem with the fewest moving parts that still meet requirements — complexity is a loan with interest.
 
----
+## Interview Relevance
 
-## What simplicity means here
+Defend the simplest design that meets requirements; know when abstraction violates KISS.
+
+## Sources
+
+- Kelly Johnson / Lockheed Skunk Works — KISS origin in engineering culture — overview
+- Google SRE Book — "Simplicity" as operability virtue; prefer boring technology — deep-dive
+- Rich Hickey, "Simple Made Easy" (Strange Loop 2011) — simplicity versus ease distinction — overview
+
+## Key Concepts
+
+- **Simplest design that works:** meet requirements without speculative generality.
+- **Complexity budget:** every abstraction must earn its keep.
+- **Revisit later:** extract when a second real change driver appears.
+- **Operability counts:** simple to run beats clever on-call nights.
+
+
+## Technical Details
+
+### What simplicity means here
 
 Simplicity is not ignorance of scale. It is **refusing complexity that does not buy measurable reliability, performance, or velocity**.
 
@@ -49,8 +67,27 @@ Extract abstractions when duplication proves the same rule changes together — 
 
 *What breaks first when you over-engineer?* Team velocity — nobody dares change the framework you did not need.
 
-## Sources
+## Real-World Applications
 
-- Kelly Johnson / Lockheed Skunk Works — KISS origin in engineering culture.
-- Google SRE Book — "Simplicity" as operability virtue; prefer boring technology.
-- Rich Hickey, "Simple Made Easy" (Strange Loop 2011) — simplicity versus ease distinction.
+Early product MVPs, incident remediations, and design reviews that prune gold-plating.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Faster delivery; fewer failure modes.
+- **Con:** Under-design that paints into a corner.
+- **Trade-off:** KISS now vs intentional extensibility for known futures.
+
+
+## Comparison
+
+- vs [[DRY]]: do not abstract solely to dedupe lookalike code.
+- vs [[SOLID]]: principles serve clarity — not maximal type graphs.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

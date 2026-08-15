@@ -4,9 +4,15 @@
 
 > `WeakMap` keys are objects held weakly — if nothing else references the key, the entry can be GC’d.
 
----
+## Interview Relevance
 
-## How it works
+WeakMap questions check ephemeral metadata without preventing GC — versus Map leaks.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 WeakMap: object key → value   (key not kept alive by the map)
@@ -21,10 +27,7 @@ WeakMap: object key → value   (key not kept alive by the map)
 | **vs Map** | Strong keys | “Map keeps keys alive.” |
 | **Private data** | Per-object store | “Before `#private` fields.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const meta = new WeakMap()
@@ -38,10 +41,18 @@ meta.get(el).clicks++
 | WeakSet | Presence without values |
 | FinalizationRegistry | Optional cleanup hooks |
 
----
+## Pros/Cons or Trade-offs
 
+- **Need key listing / size** — Map.
+- **Primitive keys** — Map or object.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Values can keep keys alive** — if `value` points at `key`, GC won’t help.
+
+> [!WARNING]
+> **Not for caches of strings/URLs** — use Map + LRU eviction.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +61,3 @@ meta.get(el).clicks++
 | Entry “missing” | key GC’d | Expected if no other refs |
 | Leak still | value references key | Break cycle |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Values can keep keys alive** — if `value` points at `key`, GC won’t help.
-
-> [!WARNING]
-> **Not for caches of strings/URLs** — use Map + LRU eviction.
-
----
-
-
-## When not to use
-
-- **Need key listing / size** — Map.
-- **Primitive keys** — Map or object.
-
-
-## Related
-
-[[JavaScript/Garbage Collection]] [[Javascript]]
-
-## Sources
-
-- [Wikipedia — Weak map](https://en.wikipedia.org/wiki/Weak_map)

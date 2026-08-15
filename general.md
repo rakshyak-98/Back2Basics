@@ -1,42 +1,45 @@
-[[INDEX]] [[AGENT_NOTE_RULES]] [[README]] [[staff engineer]]
+[[INDEX]] [[AGENT_NOTE_RULES]] [[README]] [[staff engineer]] [[we]] [[AGENTS.md]]
 
 # general
 
-> Vault meta hub — where to start, how notes are written, and what this collection is for.
+> Vault entry hub — where to start in Back2Basics, how notes are written, and what this collection is for.
 
----
+## Interview Relevance
+Not a classic interview topic — it is the map for using this vault under pressure: symptom → [[INDEX]] → domain note → fix. Staff practice includes building retrieval systems like this.
 
-## What this vault is
+## Sources
+- Vault: [[AGENT_NOTE_RULES]] — deep-dive (note shape)
+- Vault: [[README]] — overview
+- Vault: [[AGENTS.md]] — overview (agent editing guide)
 
-**Back2Basics** is a staff-engineer field notebook: fast retrieval under incident pressure, not a tutorial site or man-page mirror.
+## Core Definition
+**Back2Basics** is a staff-engineer field notebook: fast retrieval for debug and configure work, not a tutorial site or man-page mirror.
 
+## Key Concepts
+- **Symptom routing:** Start at [[INDEX]], not random folder browsing.
+- **Leaf shape:** Interview-prep sections when the note is a focused topic ([[AGENT_NOTE_RULES]]).
+- **Hubs:** Domain roots route to leaves; avoid duplicating deep content here.
+- **Mission:** Force-multiply under incident pressure ([[we]], [[staff engineer]]).
+
+## Technical Details
 ```txt
 Symptom / design question
         ↓
     [[INDEX]]  (routing table)
         ↓
-    Domain note  (clear summary + linked concepts + actionable detail)
+    Domain note  (summary + links + actionable detail)
         ↓
     Fix / configure / decide
 ```
 
-Notes follow [[AGENT_NOTE_RULES]]: clarity over complexity, structure by **conceptual relationships** (wikilinks and subject hubs), and cues that prompt active engagement — not a single fixed template for every file.
-
----
-
-## Routing table
-
 | Need | Go to |
 |------|-------|
-| Symptom → note under pressure | [[INDEX]] |
-| How to write or rewrite notes | [[AGENT_NOTE_RULES]] |
+| Symptom → note | [[INDEX]] |
+| How to write notes | [[AGENT_NOTE_RULES]] |
 | Vault overview | [[README]] |
-| Staff-level skill model | [[staff engineer]] |
-| Agent / cloud editing guide | [[AGENTS.md]] |
-
----
-
-## Domain entry points
+| Staff skill model | [[staff engineer]] |
+| Agent / cloud editing | [[AGENTS.md]] |
+| Mission statement | [[we]] |
 
 | Domain | Hub |
 |--------|-----|
@@ -48,8 +51,17 @@ Notes follow [[AGENT_NOTE_RULES]]: clarity over complexity, structure by **conce
 | Web & runtimes | [[NodeJS]] · [[React]] · [[nginx]] |
 | Security | [[Security]] · [[ssh]] |
 
----
+## Real-World Applications
+On-call: paste the error into your memory of [[INDEX]] categories → open the leaf → run the listed checks. Writing: follow [[AGENT_NOTE_RULES]] so the next incident finds Interview Relevance and Mistakes fast.
 
-## Related
+## Pros/Cons or Trade-offs
+- **Pro:** Predictable navigation; shared language across the team.
+- **Con:** Hubs rot if leaves are not linked; resist turning this file into a second INDEX dump.
 
-[[INDEX]] · [[AGENT_NOTE_RULES]] · [[README]] · [[staff engineer]]
+## Comparison
+vs [[INDEX]]: INDEX is symptom→note; `general` is meta orientation. vs [[we]]: mission/why; `general` is how to navigate.
+
+## Mistakes to Avoid
+- Duplicating full leaf content into this hub.
+- Leaving placeholder wikilinks that never resolve to real notes.
+- Treating the vault as a blog — optimize for retrieval, not narrative.

@@ -1,14 +1,30 @@
-[[user management]] [[useradd]] [[userdel]] [[Authentication command]] [[chage]]
+[[user management]] [[useradd]] [[userdel]] [[usermod]] [[getent]] [[Authentication command]] [[etc files]]
 
 # passwd
 
-> passwd — login attempt ──► PAM ──► /etc/shadow hash compare
+> Changes or locks the password hash in `/etc/shadow` — PAM decides when that hash is actually checked.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want lock vs disable, shadow vs keys, and that `passwd -l` does not stop SSH public-key login.
 
-`passwd` updates the encrypted password field in `/etc/shadow` (users can't read it; root can). PAM stacks (`/etc/pam.d/`) decide when password checks apply — SSH with `PasswordAuthentication no` never hits `passwd`'s verify path for remote login.
+## Sources
+
+- [man passwd](https://man7.org/linux/man-pages/man1/passwd.1.html) — deep-dive
+- [Wikipedia — passwd](https://en.wikipedia.org/wiki/passwd) — overview
+
+## Core Definition
+
+`passwd` updates the encrypted password field in `/etc/shadow`. PAM stacks under `/etc/pam.d/` decide when password checks apply — SSH with `PasswordAuthentication no` never uses this path for remote login.
+
+## Key Concepts
+
+- **User vs root:** user needs the current password; root can set without knowing the old one.
+- **Lock (`-l`):** prepends `!` to the hash — password auth fails; keys may still work.
+- **Expire (`-e` / `chage`):** force change at next password login — keys can bypass.
+- **NSS/LDAP:** local `passwd` may not apply when identity lives in a directory.
+
+## Technical Details
 
 ```
 login attempt ──► PAM ──► /etc/shadow hash compare
@@ -20,106 +36,54 @@ login attempt ──► PAM ──► /etc/shadow hash compare
 |-------|---------|--------|
 | User | `passwd` | Change own password (needs current) |
 | root | `passwd <user>` | Set password without knowing old |
-| root | `passwd -l` | Lock (prepend `!` to hash — no password login) |
+| root | `passwd -l` | Lock hash — no password login |
 | root | `passwd -u` | Unlock |
 | root | `passwd -e` | Force change at next login |
-| root | `passwd -d` | Delete password (empty — often dangerous) |
-
-Lock (`-l`) ≠ disable account — SSH keys may still work. Full disable → `usermod -L` + `usermod -s /sbin/nologin` or `chage -E 1`.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **passwd** | Change password | “passwd user as root; passwd alone for self.” |
-| **/etc/shadow** | Hash storage | “Never email /etc/shadow.” |
-| **chage** | Age/expiry | “chage -l user for policy.” |
-| **passwd -l** | Lock account | “Locks hash — SSH keys may still work.” |
-| **PAM** | Auth stack | “passwd respects PAM rules.” |
-
-
-## Configuration and commands
+| root | `passwd -d` | Delete password (often dangerous) |
 
 ```bash
-# User changes own password
 passwd
-
-# Root sets/resets password (break-glass, new hire)
 sudo passwd deploy
-
-# Lock account — password auth fails; keys may still work
 sudo passwd -l compromised_user
-
-# Unlock after investigation
 sudo passwd -u compromised_user
-
-# Force password change on next login
 sudo passwd -e contractor
-
-# Bulk / scripting (no prompts)
 echo 'user:NewSecurePass' | sudo chpasswd
-sudo chpasswd <<< 'user:NewSecurePass'
-
-# Password aging (better than -e for policy)
-sudo chage -l username              # view policy
-sudo chage -M 90 username           # max 90 days
-sudo chage -W 14 username           # warn 14 days before
-sudo chage -E 2026-12-31 username   # account expiry date
-
-# Verify account state
+sudo chage -l username
+sudo chage -M 90 username
+sudo chage -W 14 username
+sudo chage -E 2026-12-31 username
 sudo passwd -S username
-# P = usable password  L = locked  NP = no password  PS = password set
 getent shadow username | cut -d: -f1-2
 ```
 
-**Hardening context** (see [[etc files]]):
-
-```bash
-# /etc/ssh/sshd_config — prefer keys, disable password SSH
-PasswordAuthentication no
-PermitRootLogin no
-```
-
-
-## When things break
+`passwd -S`: `P` usable, `L` locked, `NP` no password.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "Authentication failure" but password correct | Account locked; wrong PAM; LDAP vs local | `passwd -S user`; `getent passwd user`; check `/etc/nsswitch.conf` |
-| User can't change password ("token manipulation") | `/etc/shadow` or disk full; read-only FS | `ls -l /etc/shadow`; `df -h /`; remount rw |
-| Locked out after `-l` | Expected for passwords | `passwd -u` or restore from console/recovery |
-| `-e` didn't force change | User uses SSH keys only | Keys bypass password expiry for SSH; use `chage -d 0` + key rotation policy |
-| `passwd` works locally, not SSH | `PasswordAuthentication` / PAM | `sshd -T \| grep password`; `/etc/pam.d/sshd` |
-| Weak password rejected | `pam_pwquality` / `libpam-pwquality` | Adjust `/etc/security/pwquality.conf` or use stronger password |
+| Auth failure, password correct | Locked; wrong PAM; LDAP vs local | `passwd -S`; `getent passwd`; `nsswitch.conf` |
+| Token manipulation error | `/etc/shadow` or disk full; read-only FS | `ls -l /etc/shadow`; `df -h /`; remount rw |
+| `-e` did not force change | User uses SSH keys only | Key rotation policy; `chage` alone is not enough |
+| Works locally, not SSH | `PasswordAuthentication` / PAM | `sshd -T`; `/etc/pam.d/sshd` |
 
+## Real-World Applications
 
-## Gotchas
+Break-glass password reset, locking a compromised interactive account, and password aging with `chage` for contractors.
 
-> [!WARNING]
-> **`passwd -l` locks password only** — SSH public keys, cron, and file ownership unchanged. Offboard with [[userdel]] or full account disable playbook.
+**Example:** Offboard with more than `passwd -l` — combine lock, nologin shell, and key removal ([[userdel]] / disable playbook).
 
-> [!WARNING]
-> **`chpasswd` in scripts logs to shell history** — use `chpasswd` with stdin from restricted file, not echo in shared history.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Empty password (`passwd -d`)** — some PAM configs treat as "no password required". Never on production systems.
+- **Pro:** Simple local credential control for break-glass and small fleets.
+- **Con:** Wrong tool for central identity (AD/Okta/LDAP) and for SSH key-only hosts.
 
-> [!WARNING]
-> **NSS/LDAP/SSSD users** — local `passwd` may not apply; password lives in directory. Check `getent passwd user` source.
+## Comparison
 
+- vs [[usermod]] `-L` / nologin: fuller account disable than password lock alone.
+- vs [[getent]]: query resolved account data across NSS sources before changing local shadow.
 
-## When not to use
+## Mistakes to Avoid
 
-- **SSH key-only access** → manage `~/.ssh/authorized_keys`, not passwords.
-- **Central identity (AD/Okta/LDAP)** → directory tools, not local `passwd`.
-- **Service accounts** → `usermod -L` + nologin shell; no interactive password.
-- **Secrets in apps** → vault/secrets manager, not Unix passwords.
-
-
-## Related
-
-[[user management]] [[useradd]] [[userdel]] [[usermod]] [[getent]] [[Authentication command]] [[etc files]]
-
-## Sources
-
-- [Wikipedia — passwd](https://en.wikipedia.org/wiki/passwd)
+- Treating `passwd -l` as full disable — SSH keys, cron, and ownership remain.
+- Putting passwords on the shell history line with `echo | chpasswd` on shared hosts.
+- Using `passwd -d` (empty password) on production systems.
+- Running local `passwd` against directory-backed users without checking `getent`.

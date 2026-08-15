@@ -1,73 +1,58 @@
-[[Security/CORS (Cross Origin Request Sharing)]] [[php]] [[Database/mysql/MySQL Events]]
+[[php]] [[Security/CORS (Cross Origin Request Sharing)]] [[Security/IDOR]] [[cookies/cookies lifecycle]]
 
 # PMA token (phpMyAdmin)
 
-> CSRF token in phpMyAdmin sessions — validates that form POSTs came from your logged-in UI, not a malicious site.
+> CSRF token inside phpMyAdmin’s session — proves state-changing POSTs came from the logged-in UI, not a foreign site.
 
----
+## Interview Relevance
 
-## How it works
-
-On login, phpMyAdmin stores `$_SESSION['PMA_token']` (name may vary by version). Every mutating form includes this token. Server compares submitted token to session; mismatch → rejected. Token rotates on login/session regenerate. It's **session CSRF protection**, not API authentication.
-
-
-## Configuration and commands
-
-### Where it lives
-
-- PHP session file or Redis/memcached session handler
-- Browser cookie: `phpMyAdmin` session id
-
-### Typical failure in logs
-
-```
-Token mismatch
-```
-
-### Fix session issues
-
-```ini
-; php.ini — consistent session path across FPM workers
-session.save_path = "/var/lib/php/sessions"
-session.cookie_httponly = 1
-session.cookie_secure = 1    ; HTTPS only
-```
-
-```nginx
-# Sticky not required if sessions on shared storage (Redis)
-fastcgi_param HTTPS on;       ; if behind TLS terminator
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| "Token mismatch" after idle | Session expired | Re-login; increase `session.gc_maxlifetime` |
-| Works on HTTP, fails on HTTPS | `cookie_secure` | Enable HTTPS end-to-end or fix proxy headers |
-| Random logouts | Multiple FPM nodes, file sessions | Centralize sessions (Redis) |
-| CSRF after reverse proxy | `PmaAbsoluteUri` in config | Set correct URL in `config.inc.php` |
-| iframe/embed breaks token | `AllowThirdPartyFraming` | Don't embed PMA; open in top window |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Exposing phpMyAdmin to public internet** — token doesn't stop brute force; use VPN/IP allowlist + 2FA.
->
-> **Session fixation** — ensure PMA regenerates session id on login (default in modern versions).
-
-
-## When not to use
-
-- Don't disable CSRF checks to "fix" integration — fix session/URL configuration instead.
-- Don't use phpMyAdmin as your application's database API — it's an administrator UI only.
-
-
-## Related
-
-[[Security/CORS (Cross Origin Request Sharing)]] [[Security/IDOR]] [[php]] [[Database/mysql/mysql ssl connection]]
+Interviewers use this to check CSRF fundamentals: session-bound token, why “token mismatch” appears behind proxies, and that it is not API auth.
 
 ## Sources
 
-- [Wikipedia — pma token](https://en.wikipedia.org/wiki/pma_token)
+- [phpMyAdmin docs — Configuration](https://docs.phpmyadmin.net/en/latest/config.html) — deep-dive
+- [OWASP — Cross-Site Request Forgery](https://owasp.org/www-community/attacks/csrf) — overview
+
+## Key Concepts
+
+- **Session CSRF token:** stored server-side; must accompany mutating forms.
+- **Mismatch causes:** expired session, multi-node file sessions, wrong public URL behind TLS terminator.
+- **Not authentication:** still need strong login, network limits, and preferably VPN allowlists.
+- **Admin UI only:** do not treat phpMyAdmin as your application’s data API.
+
+## Technical Details
+
+```ini
+session.save_path = "/var/lib/php/sessions"
+session.cookie_httponly = 1
+session.cookie_secure = 1
+```
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Token mismatch after idle | Session TTL | Re-login; tune `gc_maxlifetime` |
+| Random logouts on scale-out | Local file sessions | Shared session store (Redis) |
+| Breaks behind reverse proxy | Public URL | Set `PmaAbsoluteUri` correctly |
+| HTTP OK, HTTPS fails | `cookie_secure` / HTTPS headers | Fix TLS termination flags |
+
+## Real-World Applications
+
+Internal DBA access via VPN with MFA; sessions on Redis when multiple FPM nodes serve PMA.
+
+**Example:** Token mismatch after putting PMA behind a path prefix — fix absolute URI and cookie path settings.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Stops basic CSRF on a powerful admin tool.
+- **Con:** Does nothing against stolen sessions or exposed public PMA.
+
+## Comparison
+
+- vs API bearer tokens: PMA token is browser CSRF protection, not machine auth.
+- vs SameSite cookies: complementary layers; do not disable CSRF checks “because SameSite.”
+
+## Mistakes to Avoid
+
+- Disabling CSRF checks to unblock automation.
+- Exposing phpMyAdmin to the open internet with only a password.
+- Embedding PMA in iframes and breaking token/cookie rules.

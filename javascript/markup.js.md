@@ -1,12 +1,20 @@
-[[javascript]] [[Packages]]
+[[javascript]] [[Packages]] [[Immer]] [[html]]
 
 # markup.js
 
 > Markup.js — tiny `Mark.up(template, context)` string templates (`{{path}}`, loops, filters); not React/HTML parsing.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **markup.js** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Wikipedia — markup.js](https://en.wikipedia.org/wiki/markup.js) — overview
+
+## Key Concepts
+
+## Technical Details
 
 ```txt
 template + context ──Mark.up──► string
@@ -17,11 +25,6 @@ template + context ──Mark.up──► string
 | Paths | `{{name.first}}` |
 | Arrays | `{{list}}…{{.}}…{{/list}}` |
 | Filters | `{{num\|call>toPrecision>5}}` |
-
----
-
-
-## Configuration and commands
 
 ```html
 <script src="markup.min.js"></script>
@@ -41,48 +44,27 @@ Mark.up('<ul>{{bros}}<li>{{.}}</li>{{/bros}}</ul>', {
 | Filters | Pipe transforms |
 | Escape | Know if output is trusted |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **markup.js** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Not a framework** — no reactivity; re-render manually; **XSS** — treat like any HTML template; sanitize user data.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Empty output | Typo in path | Log context; fix `{{a.b}}` |
-| `[object Object]` | Printed object | Pick field / custom filter |
-| XSS in HTML | Untrusted context | Escape; don’t pipe raw HTML |
-| `Mark is not defined` | Script not loaded | Fix script order |
+- **Pro:** Solves the job described above when used in the right layer (Markup.js — tiny `Mark.up(template, context)` string templates (`{{path}}`, loop…).
+- **Con / when not:** **React/Vue/Svelte apps** — use the framework.
+- **Con / when not:** **Trusted server HTML at scale** — Handlebars/Liquid/etc. with escaping defaults.
+- **Con / when not:** **Complex logic in templates** — keep logic in JS.
 
----
+## Comparison
 
+vs [[Packages]]: know when each applies — do not treat them as interchangeable. vs [[Immer]]: know when each applies — do not treat them as interchangeable. vs [[html]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Not a framework** — no reactivity; re-render manually.
-
-> [!WARNING]
-> **XSS** — treat like any HTML template; sanitize user data.
-
-> [!WARNING]
-> **Name collision** — `Mark` global; bundlers prefer ESM alternatives today.
-
----
-
-
-## When not to use
-
-- **React/Vue/Svelte apps** — use the framework.
-- **Trusted server HTML at scale** — Handlebars/Liquid/etc. with escaping defaults.
-- **Complex logic in templates** — keep logic in JS.
-
----
-
-
-## Related
-
-[[Packages]] [[Immer]] [[html]]
-
-## Sources
-
-- [Wikipedia — markup.js](https://en.wikipedia.org/wiki/markup.js)
+- **Not a framework** — no reactivity; re-render manually.
+- **XSS** — treat like any HTML template; sanitize user data.
+- **Name collision** — `Mark` global; bundlers prefer ESM alternatives today.
+- **Empty output:** check Typo in path; fix: Log context; fix `{{a.b}}`
+- **`[object Object]`:** check Printed object; fix: Pick field / custom filter
+- **XSS in HTML:** check Untrusted context; fix: Escape; don’t pipe raw HTML
+- **`Mark is not defined`:** check Script not loaded; fix: Fix script order

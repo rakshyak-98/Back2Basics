@@ -1,34 +1,45 @@
 [[react hooks]] [[React State management]] [[React Architecture]]
 
-# flux
+# Flux
 
-> Flux describes any effect that appears to pass or travel through a surface or substance.
+> Early Facebook unidirectional data pattern — actions → dispatcher → stores → views — ancestor of Redux.
 
-## What this is
+## Interview Relevance
 
-Flux describes any effect that appears to pass or travel through a surface or substance. Flux is a concept in applied mathematics and vector calculus which has many applications in physics. For transport phenomena, flux is a vector quantity, describing the magnitude and direction of the flow of a substance or property. In vector calculus, flux is a scalar quantity, defined as the surface integral of the perpendicular component of a vector field over a surface.
-
-
-
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `flux` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[React Architecture]]
+Interviewers may ask Flux vs Redux: single store, pure reducers, and immutability habits.
 
 ## Sources
 
-- [Facebook Flux — GitHub](https://github.com/facebookarchive/flux)
-- [Wikipedia — Flux](https://en.wikipedia.org/wiki/Flux)
+- [Flux overview](https://facebook.github.io/flux/) — overview
+- [Redux prior art](https://redux.js.org/understanding/history-and-design/prior-art) — deep-dive
+
+## Core Definition
+
+Flux enforces one-way data flow so views don’t mutate shared stores ad hoc; Redux refined it into a single store and pure reducers.
+
+## Key Concepts
+
+- **Action:** plain object describing intent.
+- **Dispatcher:** central hub (Flux) / store.dispatch (Redux).
+- **Store:** holds state; views subscribe.
+
+## Technical Details
+
+Conceptual flow: `View → Action → Dispatcher → Store → View`.
+
+## Real-World Applications
+
+Historical React apps used Flux libraries; modern code usually uses Redux Toolkit or simpler stores.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Predictable updates vs two-way binding chaos.
+- **Con:** Classic Flux boilerplate is heavy vs RTK.
+
+## Comparison
+
+- vs [[Redux]]: Redux is a Flux-inspired library with a single store and middleware ecosystem.
+
+## Mistakes to Avoid
+
+- Calling Flux and Redux interchangeable without noting single-store and Immer/RTK differences.

@@ -1,65 +1,62 @@
-[[vim keybindings]] [[nvim setup]]
+[[nvim setup]] [[Linux/CLI]] [[Descriptive/LSP]]
 
-# commands
+# Neovim commands
 
-> commands — prepend method is used to add a new directory to the beginning of the runtime path.
+> Everyday operator vocabulary — modes, motions, and ex commands that make Neovim faster than arrow-key editing.
 
----
+## Interview Relevance
 
-## How it works
-
-```bash
-:Lazy update
-:echo stdpath('config');
-:echo stdpath('data'); #/usr/share directory
-:message; # view the log file ~/.local/state/nvim.log
-:lua =package.path; # print the current loaded path string
-:options; # per instance options setup
-```
-```lua
-print(vim.inspect(package.loaded['sg.nvim']));
-```
-```nvim
-vim.opt.rtp:prepend(lazypath)
-```
-- `prepend` method is used to add a new directory to the beginning of the runtime path.
-
-
----
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Common commands
-
-```bash
-# …
-```
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## Related
-
-[[vim keybindings]]] [[[nvim setup]]
+Rarely a deep interview topic, but pairing/onsite screens reward fluent navigation (`hjkl`, jumps, search, quickfix).
 
 ## Sources
 
-- [Wikipedia — commands](https://en.wikipedia.org/wiki/commands)
+- [Neovim help — quickref](https://neovim.io/doc/user/quickref.html) — deep-dive
+- [Vim — Modes](https://vimhelp.org/) — overview
+
+## Key Concepts
+
+- **Modes:** normal, insert, visual, command-line.
+- **Motions + operators:** `d`, `c`, `y` combined with motions.
+- **Leader maps:** custom shortcuts from config.
+- **`:commands`:** ex mode for write/quit/search/replace.
+
+## Technical Details
+
+```text
+i/a     insert
+Esc     normal
+:w :q   write/quit
+/pattern  search
+:%s/old/new/g  replace
+Ctrl-o / Ctrl-i  jump list
+```
+
+| Task | Keys |
+|------|------|
+| Delete line | `dd` |
+| Yank word | `yiw` |
+| Go to definition | LSP mapping (config-dependent) |
+
+`prepend` in path settings adds directories to the front of `runtimepath`/`packpath` when configuring plugins — order matters for overrides.
+
+## Real-World Applications
+
+Edit remote configs over SSH with muscle memory that works on any host with nvim/vim.
+
+**Example:** Fix a typo across a file with `:%s/foo/bar/g` instead of manual hunt.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast once internalized; available almost everywhere.
+- **Con:** Learning curve; modal editing surprises newcomers.
+
+## Comparison
+
+- vs VS Code/Zed: modal editing vs modeless; LSP exists in both worlds.
+- vs [[nvim setup]]: commands are usage; setup is configuration.
+
+## Mistakes to Avoid
+
+- Staying in insert mode for navigation.
+- Blindly pasting from web without checking registers.
+- Heavy mouse reliance that fights the modal model.

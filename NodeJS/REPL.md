@@ -1,27 +1,29 @@
-[[NodeJS]] [[node inspect]] [[node command]]
+[[NodeJS]] [[node inspect]] [[node command]] [[Runtime Errors]]
 
 # REPL
 
 > Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **REPL** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **REPL**, **`.load` / `.save`**, **`require.main`**.
+
+## Sources
+
+- [Node.js — REPL](https://nodejs.org/api/repl.html) — deep-dive
+- [Wikipedia — REPL](https://en.wikipedia.org/wiki/REPL) — overview
+
+## Key Concepts
+
+- **REPL:** Interactive eval — Explore APIs quickly.
+- **`.load` / `.save`:** File ↔ session — Persist a scratchpad.
+- **`require.main`:** Entry script — Often unset / odd in REPL.
+
+## Technical Details
 
 ```txt
 $ node → > 1+1 → 2
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **REPL** | Interactive eval | “Explore APIs quickly.” |
-| **`.load` / `.save`** | File ↔ session | “Persist a scratchpad.” |
-| **`require.main`** | Entry script | “Often unset / odd in REPL.” |
-
-
-## Configuration and commands
 
 ```bash
 node                 # start REPL
@@ -44,40 +46,23 @@ const __dirname = path.dirname(__filename)
 | `NODE_REPL_HISTORY` | Persist command history |
 | `_` | Last result |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **REPL** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Side effects stick** — vars and listeners remain until exit; **`__dirname` missing:** check ESM context; fix: Build from `import.meta.url`.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `__dirname` missing | ESM context | Build from `import.meta.url` |
-| `require.main` weird | REPL isn’t a file | Don’t rely on it for path logic |
-| Top-level await | Old Node / mode | Newer Node REPL supports TLA |
+- **Pro:** Solves the job described above when used in the right layer (Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.).
+- **Con / when not:** **Automated tests** — real files + test runner.
+- **Con / when not:** **Long scripts** — write a `.js` and `node` it.
 
----
+## Comparison
 
+vs [[node inspect]]: know when each applies — do not treat them as interchangeable. vs [[node command]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Side effects stick** — vars and listeners remain until exit.
-
----
-
-
-## When not to use
-
-- **Automated tests** — real files + test runner.
-- **Long scripts** — write a `.js` and `node` it.
-
----
-
-
-## Related
-
-[[node command]] [[node inspect]] [[Runtime Errors]]
-
-## Sources
-
-- [Wikipedia — REPL](https://en.wikipedia.org/wiki/REPL)
+- **Side effects stick** — vars and listeners remain until exit.
+- **`__dirname` missing:** check ESM context; fix: Build from `import.meta.url`
+- **`require.main` weird:** check REPL isn’t a file; fix: Don’t rely on it for path logic
+- **Top-level await:** check Old Node / mode; fix: Newer Node REPL supports TLA

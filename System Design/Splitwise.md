@@ -4,9 +4,26 @@
 
 > Splitwise-style systems track shared expenses in groups, derive who owes whom, and optionally simplify debts — a ledger and settlement tracker, not a payment processor unless integrated with one.
 
----
+## Interview Relevance
 
-## Core entities
+Model balances as a graph of debts; idempotent expense writes; settle-up consistency.
+
+## Sources
+
+- Splitwise public product documentation — expense types and settlement semantics — overview
+- Martin Kleppmann, *Designing Data-Intensive Applications* — ledger and event sourcing patterns for audit trails — deep-dive
+
+## Key Concepts
+
+- **Shared expenses:** group ledger of who paid / who owes.
+- **Balance graph:** net debts; minimize settle-up transfers.
+- **Idempotent writes:** retries must not double-charge an expense.
+- **Consistency:** money-like invariants beat casual eventual merges.
+
+
+## Technical Details
+
+### Core entities
 
 ```txt
 User creates expense $120 — Alice paid, split equally among Alice, Bob, Carol
@@ -83,7 +100,27 @@ Users read only groups they belong to. Only payer or group administrator edits a
 
 This pattern fits **informal expense sharing**. Enterprise accounts payable, tax invoicing, and high-frequency trading ledgers need different consistency and compliance models.
 
-## Sources
+## Real-World Applications
 
-- Splitwise public product documentation — expense types and settlement semantics.
-- Martin Kleppmann, *Designing Data-Intensive Applications* — ledger and event sourcing patterns for audit trails.
+Expense-sharing apps and lightweight social ledgers.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Clear UX for multi-party balances.
+- **Con:** Currency FX, partial settles, and dispute workflows complicate the model.
+- **Trade-off:** simplify to pairwise nets vs full audit history.
+
+
+## Comparison
+
+- vs [[Food delivery]]: marketplace logistics vs shared-expense accounting.
+- vs banking ledgers: Splitwise-style is social netting, not regulated core banking.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

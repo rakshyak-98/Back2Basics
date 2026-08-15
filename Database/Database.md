@@ -1,17 +1,31 @@
-[[ACID]] [[WAL (Write-Ahead Log)]] [[OLTP]] [[OLAP]] [[Database design]] [[connection pooling]] [[SQL]] [[mysql]] [[SQL/postgres]]
+[[ACID]] [[WAL (Write-Ahead Log)]] [[OLTP]] [[OLAP]] [[Database design]] [[connection pooling]] [[SQL]] [[mysql]] [[SQL/postgres]] [[BASE]] [[ARIES]] [[MMAP]] [[MVCC]] [[write-ahead logging]] [[GIN]] [[GridFS]] [[Vector database]] [[Database mistakes]]
 
 # Database
 
 > Shared durable storage with a query language and transaction rules — the engine's job is to turn concurrent clients and bytes on disk into atomic commits that survive crashes.
 
-## What a database is responsible for
+## Interview Relevance
 
-Applications need **persistent structured state** that many clients can read and write safely. A relational database engine provides:
+This is the domain hub: interviewers expect you to map symptoms (crash loss, pool exhaustion, slow queries, schema change) to the right leaf topics and to contrast [[OLTP]] vs [[OLAP]] workload shapes.
 
-- **Storage layout** — tables, indexes, logs on disk or memory-mapped files ([[MMAP]])
-- **Query execution** — parse [[SQL]], plan access paths, return rows
-- **Concurrency control** — [[ACID]] isolation so transactions do not corrupt each other ([[MVCC]] in PostgreSQL, InnoDB row locks + MVCC in MySQL)
-- **Crash recovery** — [[WAL (Write-Ahead Log)]] replay after power loss
+## Sources
+
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), Ch. 3, 7 — deep-dive
+- [PostgreSQL Documentation — Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html) — deep-dive
+- [MySQL Reference Manual — InnoDB Storage Engine](https://dev.mysql.com/doc/refman/en/innodb-storage-engine.html) — overview
+
+## Core Definition
+
+A relational database engine provides persistent structured state that many clients can read and write safely: storage layout, SQL execution, concurrency control, and crash recovery.
+
+## Key Concepts
+
+- **Storage layout:** tables, indexes, logs on disk or memory-mapped files ([[MMAP]]).
+- **Query execution:** parse [[SQL]], plan access paths, return rows.
+- **Concurrency control:** [[ACID]] isolation ([[MVCC]] in PostgreSQL; InnoDB row locks + MVCC in MySQL).
+- **Crash recovery:** [[WAL (Write-Ahead Log)]] replay after power loss ([[ARIES]] mental model).
+
+## Technical Details
 
 ```txt
 Clients ──► [[connection pooling]] ──► SQL planner ──► buffer pool
@@ -21,8 +35,6 @@ Clients ──► [[connection pooling]] ──► SQL planner ──► buffer 
                                            └── commit / rollback ([[ACID]])
 ```
 
-## Workload shapes
-
 | Pattern | Access style | Typical engine role |
 |---------|--------------|---------------------|
 | [[OLTP]] | Short reads/writes, many concurrent sessions | PostgreSQL or MySQL primary |
@@ -31,7 +43,7 @@ Clients ──► [[connection pooling]] ──► SQL planner ──► buffer 
 
 *When would you route analytics to the primary versus a replica?* When stale reads are acceptable and you need to protect [[OLTP]] latency.
 
-## Routing by symptom
+Symptom routing:
 
 | Symptom or need | Start here |
 |-----------------|------------|
@@ -43,21 +55,34 @@ Clients ──► [[connection pooling]] ──► SQL planner ──► buffer 
 | PostgreSQL type errors | [[postgres parameter type error]] · [[psql essential]] |
 | Scaling beyond one node | [[mysql partitioning]] · [[Horizontal vs Vertical Scaling]] |
 
-## Engines and ecosystems
+Engines and ecosystems:
 
 - **MySQL** — [[mysql]] hub; default [[mysql engine]] is InnoDB ([[MySQL storage]])
 - **PostgreSQL** — [[SQL/postgres]]; extensible types, [[GIN]] indexes, strong [[ACID]] defaults
 - **Document / blob** — [[GridFS]] (MongoDB), not a substitute for relational invariants
 - **Vectors** — [[Vector database]] for similarity search alongside an OLTP store
 
-## Design and operations
+Design and operations:
 
 - **Modeling:** [[Database design]] · [[SQL normalization]] · [[relocatable schema]]
 - **Migrations:** [[database migration]] · [[database seeding]] · [[mysql data migrations]]
 - **Foot-guns:** [[Database mistakes]] · [[SQL error]] · [[MySQL Error]]
 
-## Sources
+## Real-World Applications
 
-- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), Ch. 3 (storage), Ch. 7 (transactions)
-- PostgreSQL Documentation — [Chapter 13: Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html)
-- MySQL Reference Manual — [InnoDB Storage Engine](https://dev.mysql.com/doc/refman/en/innodb-storage-engine.html)
+Primary store for SaaS [[OLTP]], reporting replicas for [[OLAP]], and specialized engines for search/vectors beside the system of record. Example: payments commit on PostgreSQL; analytics run on a replica so checkout p99 stays flat.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Strong invariants, rich query languages, mature operational tooling.
+- **Con:** Scaling writes beyond one primary is hard; wrong workload on the primary (heavy analytics) destroys latency.
+
+## Comparison
+
+vs [[BASE]] caches: databases prioritize durable correct commits; caches prioritize availability and speed with weaker guarantees. vs file/object storage: databases add transactions, indexes, and a query planner—not just bytes.
+
+## Mistakes to Avoid
+
+- Treating the database as a dumb key-value file without transactions or constraints.
+- Running heavy analytics on the [[OLTP]] primary until checkout times out.
+- Skipping leaf notes—hand-waving “just use a database” without isolation, WAL, or pooling details.

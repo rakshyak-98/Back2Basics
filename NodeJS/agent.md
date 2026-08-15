@@ -1,27 +1,29 @@
-[[NodeJS]] [[HTTP module]] [[expressjs]]
+[[NodeJS]] [[HTTP module]] [[expressjs]] [[Optimization]]
 
 # agent (http.Agent)
 
 > Connection pool for outbound HTTP — keep-alive sockets, max sockets per host, and fewer TCP/TLS handshakes.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **agent (http.Agent)** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **keepAlive**, **maxSockets**, **free sockets**.
+
+## Sources
+
+- [Node.js — http.Agent](https://nodejs.org/api/http.html#class-httpagent) — deep-dive
+- [Wikipedia — agent](https://en.wikipedia.org/wiki/agent) — overview
+
+## Key Concepts
+
+- **keepAlive:** Reuse TCP/TLS — Critical for chatty microservices.
+- **maxSockets:** Cap per host — Protect yourself and the peer.
+- **free sockets:** Idle pool — `maxFreeSockets` bounds memory.
+
+## Technical Details
 
 ```txt
 request → Agent → idle socket? reuse : connect
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **keepAlive** | Reuse TCP/TLS | “Critical for chatty microservices.” |
-| **maxSockets** | Cap per host | “Protect yourself and the peer.” |
-| **free sockets** | Idle pool | “`maxFreeSockets` bounds memory.” |
-
-
-## Configuration and commands
 
 ```js
 import http from 'node:http'
@@ -38,44 +40,27 @@ http.get('http://example.com', { agent }, (res) => res.resume())
 | `timeout` | Kill stuck sockets |
 | Global agent | Default shared — tune carefully |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **agent** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`agent: false`** disables pooling for that request — sometimes needed, usually slower.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Latency high to same host | New conn each time | `keepAlive: true` |
-| ECONNRESET storms | Peer closed idle | Tune timeouts; refresh |
-| FD exhaustion | maxSockets too high | Lower caps |
-| Hang forever | No timeout | Set agent/request timeouts |
+- **Pro:** Solves the job described above when used in the right layer (Connection pool for outbound HTTP — keep-alive sockets, max sockets per host, an…).
+- **Con / when not:** **One-off scripts** — defaults fine.
+- **Con / when not:** **Mis-tuning maxSockets to “unlimited”** — you can DoS the dependency.
 
----
+## Comparison
 
+vs [[HTTP module]]: know when each applies — do not treat them as interchangeable. vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[Optimization]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`agent: false`** disables pooling for that request — sometimes needed, usually slower.
+- **`agent: false`** disables pooling for that request — sometimes needed, usually slower.
 
 > [!WARNING]
 > **fetch/undici** — separate pooling story from classic `http.Agent`.
-
----
-
-
-## When not to use
-
-- **One-off scripts** — defaults fine.
-- **Mis-tuning maxSockets to “unlimited”** — you can DoS the dependency.
-
----
-
-
-## Related
-
-[[HTTP module]] [[Optimization]] [[expressjs]]
-
-## Sources
-
-- [Wikipedia — agent](https://en.wikipedia.org/wiki/agent)
+- **Latency high to same host:** check New conn each time; fix: `keepAlive: true`
+- **ECONNRESET storms:** check Peer closed idle; fix: Tune timeouts; refresh
+- **FD exhaustion:** check maxSockets too high; fix: Lower caps
+- **Hang forever:** check No timeout; fix: Set agent/request timeouts

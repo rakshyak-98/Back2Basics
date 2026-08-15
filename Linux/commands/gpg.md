@@ -1,34 +1,27 @@
-[[commands]] [[keyrings]] [[apt package manager]] [[Authentication command]]
+[[Commands]] [[keyrings]] [[apt package manager]] [[Authentication command]] [[apt config]] [[source list file]]
 
 # gpg
 
 > gpg (GNU Privacy Guard) encrypts, decrypts, signs, and verifies with OpenPGP keys — also how apt trusts third-party repos.
 
----
+## Interview Relevance
+Know encrypt vs sign, armor, fingerprint verification for apt keyrings, and never emailing private keys.
 
-## How it works
+## Sources
+- [GnuPG Handbook](https://www.gnupg.org/gph/en/manual.html) — deep-dive
+- [gpg(1)](https://man.archlinux.org/man/gpg.1) — overview
 
-```txt
-plaintext ──encrypt(+recipient pubkey)──► ciphertext
-ciphertext ──decrypt(your privkey)──► plaintext
-file ──sign(priv)──► signature; verify(pub)
-armor ◄──► binary   (ASCII-safe email/git/apt)
-```
+## Core Definition
+OpenPGP operations on a keyring: encrypt to a recipient’s public key, decrypt with your private key, detach-sign/verify. For apt, vendor keys live under `/etc/apt/keyrings` with `signed-by=` — not the old global `trusted.gpg` kitchen sink.
 
-### Interview map (words you can say)
+## Key Concepts
+- **Public vs private:** Publish/export public; guard private.
+- **Armor:** ASCII-safe encoding — not encryption by itself.
+- **Fingerprint:** Out-of-band identity check before trust.
+- **Detach sign:** Signature file beside the artifact.
+- **Revocation:** Publish revoke if private key is lost/compromised.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Armor (`-a`)** | Base64-ish text form | “Safe to paste; ends with `.asc`.” |
-| **Dearmor** | Text → binary keyring | “apt `signed-by=` wants a binary keyring file.” |
-| **Recipient (`-r`)** | Whose pubkey encrypts | “Only their private key opens it.” |
-| **Detach sign** | Signature beside file | “Verify integrity without rewriting the file.” |
-| **Keyring path** | Isolated trust store | “`--no-default-keyring --keyring …` for apt keys.” |
-
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 gpg --full-generate-key
@@ -36,91 +29,42 @@ gpg --list-keys
 gpg --list-secret-keys --keyid-format=long
 gpg --fingerprint <keyid>
 
-# Export / import
 gpg --armor --export <keyid> > public.asc
 gpg --armor --export-secret-keys <keyid> > private.asc   # guard this
 gpg --import public.asc
 
-# Encrypt / decrypt
 gpg --armor --encrypt --recipient 'you@example.com' -o out.asc plain.txt
 gpg --decrypt out.asc
 
-# Sign / verify
 gpg --detach-sign file.txt
 gpg --verify file.txt.sig file.txt
-gpg --clear-sign file.txt
 
-# Revocation
 gpg --gen-revoke <keyid>
-gpg --edit-key <keyid>          # adduid, expire, trust, …
-gpg --delete-secret-keys <id>
-gpg --delete-keys <id>
-```
+gpg --edit-key <keyid>
 
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `no valid OpenPGP data` | HTML error page / wrong URL | `file` the download; fix mirror |
-| Can’t decrypt | Wrong recipient / missing secret | `list-secret-keys`; import private |
-| apt `NO_PUBKEY` | Key not in keyring | Dearmor into `/etc/apt/keyrings` + `signed-by=` |
-| Signature bad after edit | Detached sig for old bytes | Re-sign after change |
-| Agent passphrase loops | pinentry / TTY | `export GPG_TTY=$(tty)`; check pinentry |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Never email private keys** — armor doesn’t mean safe; it means text-shaped.
-
-> [!WARNING]
-> **Deleting `~/.gnupg` is irreversible** without backups — revoke first if the key was published.
-
-> [!WARNING]
-> **apt key in the old global trusted.gpg** — prefer `/etc/apt/keyrings` + per-source `signed-by=`.
-
----
-
-
-## When not to use
-
-- **TLS for HTTPS APIs** — certificates / ACME.
-- **SSH user authentication** — [[SSH]] / [[Authentication command]].
-- **Password hashing for accounts** — `/etc/shadow` via `passwd`.
-
----
-
-
-## APT keyrings (dearmor)
-
-```bash
-# Verify a vendor keyring fingerprint
 gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --fingerprint
-
-# Compare to official download
-gpg --no-default-keyring --keyring /usr/share/keyrings/nginx.gpg --export > localkey.gpg
-curl -fsSL https://nginx.org/keys/nginx_signing.key -o officialkey.gpg
-gpg --dearmor -o officialkey.gpg.gpg officialkey.gpg
-diff -s localkey.gpg officialkey.gpg.gpg
-
-# Modern apt install pattern
 curl -fsSL https://example.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/example.gpg
 ```
 
-Armor = human-readable OpenPGP text. Dearmor = back to binary for `signed-by=` in sources.list.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| NO_PUBKEY / apt signed-by fail | Keyring path/fingerprint | Install correct dearmored key |
+| Can’t decrypt | Wrong private key | Import secret; check recipient |
+| Git signing fails | `user.signingkey` | List secret keys; fix git config |
+| Trust warning | Ultimate/unknown trust | `gpg --edit-key` trust; or explicit verify |
 
----
+## Real-World Applications
+Signing Git commits, verifying vendor release signatures, and installing a third-party apt keyring with fingerprint check.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Standard OpenPGP tool; works offline; apt integration pattern is clear.
+- **Con:** UX complexity; key loss is catastrophic without revoke+backup plan.
+- **Trade-off:** Long-lived personal keys vs short-lived signing certs where available.
 
-## Related
+## Comparison
+vs [[Authentication command]] SSH keys: different protocols. vs apt [[keyrings]]: GPG is the tool that produces those keyring files. vs TLS/ACME: transport PKI, not OpenPGP.
 
-[[Authentication command]] [[keyrings]] [[apt package manager]] [[apt configuration]] [[commands]]
-
-## Sources
-
-- [Wikipedia — gpg](https://en.wikipedia.org/wiki/gpg)
+## Mistakes to Avoid
+- Emailing or committing private key armor.
+- Skipping fingerprint checks when adding apt keys.
+- Deleting `~/.gnupg` without revocation if the key was published.

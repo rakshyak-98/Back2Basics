@@ -1,22 +1,20 @@
-[[transcoding]] [[Encoding]] [[codecs]] [[CMAF]] [[HLS]] [[DASH]]
+[[transcoding]] [[Encoding]] [[codecs]] [[CMAF]] [[HLS]] [[DASH]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[bitrate streaming]]
 
 # Re-encoding
 
 > Decode compressed media → encode again — **generational loss + CPU cost**; avoid when remux suffices.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Re-encoding to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — re-encoding](https://en.wikipedia.org/wiki/re-encoding) — overview
+
+## Key Concepts
 
 **Re-encoding** (transcode) **decodes** a compressed stream to raw samples/frames, then **encodes** with a (usually) new codec, bitrate, or resolution. Each generation **loses information** — avoid unnecessary hops in the pipeline. **Remux** (`-c copy`) only changes container when codecs already match targets.
-
-```txt
-Source H.265 ──► decode ──► raw YUV ──► encode H.264 ──► [[HLS]] ladder
-     │
-  LOSSY (cannot undo)
-
-Source H.264 in MKV ──► copy ──► H.264 in fMP4   (NOT re-encode — remux)
-```
 
 | Trigger | Action | Example |
 |---------|--------|---------|
@@ -27,10 +25,15 @@ Source H.264 in MKV ──► copy ──► H.264 in fMP4   (NOT re-encode — 
 
 See [[transcoding]] for ladder workflow; this note focuses on **when and how** to re-encode safely.
 
----
+## Technical Details
 
+```txt
+Source H.265 ──► decode ──► raw YUV ──► encode H.264 ──► [[HLS]] ladder
+     │
+  LOSSY (cannot undo)
 
-## Configuration and commands
+Source H.264 in MKV ──► copy ──► H.264 in fMP4   (NOT re-encode — remux)
+```
 
 ### Remux first (try before re-encode)
 
@@ -81,10 +84,22 @@ ffmpeg -i output.mp4 -vf signalstats -f null -
 ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 ```
 
----
+## Real-World Applications
 
+Used wherever Re-encoding sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
+- **Con / skip when:** **Quality-critical archive** — store mezzanine; re-encode only derivatives.
+- **Con / skip when:** **Real-time when copy works** — ingest `-c copy` to packager saves GPU.
+
+## Comparison
+
+- vs [[CMAF]]: **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,39 +110,7 @@ ffprobe -show_entries format=duration -of csv=p=0 input.mp4 output.mp4
 | ABR switch broken | GOP not fixed | `-g` + `-sc_threshold 0` |
 | GPU slower than CPU | PCIe / decode on CPU | `-hwaccel cuda` full pipeline |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **OBS stream → re-encode → ladder** — two lossy passes; record mezzanine separately for VoD.
-
-> [!WARNING]
-> **`-c:v copy` into wrong container** — H.265 in TS may fail on old STBs; probe target devices.
-
-> [!WARNING]
-> **Upscaling low source** — re-encoding 480p to 1080p doesn't add detail; wastes bits.
-
-> [!WARNING]
-> **Subtitle burn-in vs soft subs** — re-encode required for burn-in; soft subs can remux.
-
----
-
-
-## When not to use
-
-- **Codec already matches** — remux to [[CMAF]]/[[HLS]]/[[DASH]] with `-c copy`.
-- **Quality-critical archive** — store mezzanine; re-encode only derivatives.
-- **Real-time when copy works** — ingest `-c copy` to packager saves GPU.
-
----
-
-
-## Related
-
-[[transcoding]] [[Encoding]] [[codecs]] [[CRF (Constant Rate Factor)]] [[NVENC]] [[CMAF]] [[bitrate streaming]]
-
-## Sources
-
-- [Wikipedia — re-encoding](https://en.wikipedia.org/wiki/re-encoding)
+- **OBS stream → re-encode → ladder** — two lossy passes; record mezzanine separately for VoD.
+- **`-c:v copy` into wrong container** — H.265 in TS may fail on old STBs; probe target devices.
+- **Upscaling low source** — re-encoding 480p to 1080p doesn't add detail; wastes bits.
+- **Subtitle burn-in vs soft subs** — re-encode required for burn-in; soft subs can remux.

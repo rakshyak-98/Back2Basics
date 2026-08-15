@@ -1,32 +1,27 @@
-[[Bash]] [[Bash syntax]] [[bash flags]]
+[[Bash]] [[Bash syntax]] [[bash flags]] [[Bash functions]] [[Scripting]] [[bash sourcing other script]]
 
 # bash script
 
 > A bash script is a reproducible command file — shebang, arguments, tests, and loops so humans aren’t the runbook.
 
----
+## Interview Relevance
+Expect a clean template: shebang, `set -euo pipefail`, `"$1"` quoting, exit codes, and knowing when to stop writing Bash.
 
-## How it works
+## Sources
+- [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html) — deep-dive
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html) — overview
 
-```txt
-shebang → set flags → parse args → do work → exit status
-chmod +x  &&  ./script.sh args…
-```
+## Core Definition
+A script is a file executed by bash via shebang (`#!/usr/bin/env bash`) or `bash script.sh`. It parses args, branches, loops, and exits non-zero on failure so cron/CI can detect problems.
 
-### Interview map (words you can say)
+## Key Concepts
+- **Shebang + chmod +x:** Make it directly runnable.
+- **Strict mode:** See [[bash flags]].
+- **Args:** `$1`, `$#`, `"$@"`.
+- **`[[ ]]` tests / loops:** Control flow.
+- **Functions:** Structure; see [[Bash functions]].
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Shebang** | Interpreter line | “Kernel uses it when you `./script`.” |
-| **`set -euo pipefail`** | Strict mode | “Exit on error, unset var, and failed pipe stage.” |
-| **`$1` / `$@` / `$#`** | Args | “Positional params are the CLI.” |
-| **`[[ -f ]]`** | File tests | “Existence checks before you `rm`.” |
-| **Functions** | Named blocks | “Reuse; still quote `"$1"` inside.” |
-
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 #!/usr/bin/env bash
@@ -35,15 +30,12 @@ set -euo pipefail
 name="${1:-World}"
 echo "Hello, ${name}"
 
-# Args
 echo "First: $1"
 echo "All: $*"
 echo "Count: $#"
 
-# Input
 read -r -p "Enter age: " age
 
-# Tests
 if [[ "${age}" -gt 18 ]]; then
   echo "Adult"
 elif [[ "${age}" -lt 18 ]]; then
@@ -52,7 +44,6 @@ else
   echo "Exactly 18"
 fi
 
-# Loops
 for i in {1..5}; do
   echo "${i}"
 done
@@ -63,70 +54,42 @@ while [[ "${count}" -le 5 ]]; do
   ((count++)) || true
 done
 
-# Functions
 greet() {
   echo "Hello, ${1}!"
 }
 greet "World"
 
-# Arithmetic / strings
 ((sum = 5 + 3))
 folder="beachside-hotel"
-base="${folder%-hotel}"          # strip suffix
+base="${folder%-hotel}"
 ```
-
-Make runnable:
 
 ```bash
 chmod +x myscript.sh
 ./myscript.sh
+bash -n myscript.sh
+bash -x myscript.sh
 ```
-
-File tests: `-f` file, `-d` dir, `-e` exists. Number operations: `-eq -ne -lt -gt -le -ge`.
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `./script: Permission denied` | Mode | `chmod +x` |
-| Runs under `sh` differently | Shebang / `sh script` | Invoke `./script` or `bash script` |
-| Dies on `((count++))` with `-e` | Exit status 1 when was 0 | `((count++)) \|\| true` or `count=$((count+1))` |
-| “unbound variable” | `set -u` | Default: `${1:-}` |
-| Broken if/fi | Typo `if`/`fi` | Match `then`/`fi`; use `[[` |
+| Permission denied | mode | `chmod +x` |
+| Bad interpreter | CRLF / wrong shebang | `dos2unix`; fix path |
+| Silent failure | no `set -e` | Add strict mode; check statuses |
+| Word split bugs | unquoted `$1` | Quote always |
 
----
+## Real-World Applications
+Deploy wrappers, backup hooks, and incident runbook automation with explicit logging and exit codes.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Zero deps on Linux; perfect for glue.
+- **Con:** Weak data structures; painful JSON/HTTP.
+- **Trade-off:** Short Bash + [[jq]]/Python vs large Bash “apps.”
 
-## Gotchas
+## Comparison
+vs interactive shell: scripts need strictness and absolute paths. vs [[Scripting]] hub: this note is the file shape. vs systemd units: long-running services aren’t while-true scripts.
 
-> [!WARNING]
-> **Unquoted expansions** are the #1 script CVE class — `"$var"` always.
-
-> [!WARNING]
-> **`set -e` is subtle with pipes and `if`** — prefer `set -euo pipefail` *and* understand exceptions; test failure paths.
-
-> [!WARNING]
-> **Windows CRLF shebangs** — `bad interpreter: /bin/bash^M` → `dos2unix`.
-
----
-
-
-## When not to use
-
-- **Complex data / HTTP / JSON APIs as core logic** — Python/Go; bash as wrapper.
-- **Performance-critical loops over huge files** — awk/compiled tools.
-- **Secrets in the script body** — inject via environment/files with mode 600.
-
----
-
-
-## Related
-
-[[Bash syntax]] [[bash flags]] [[Bash history]] [[jq]] [[awk]] [[Bash]]
-
-## Sources
-
-- [Wikipedia — bash script](https://en.wikipedia.org/wiki/bash_script)
+## Mistakes to Avoid
+- `#!/bin/sh` with bash-only syntax.
+- Relying on interactive aliases/history.
+- Ignoring exit codes in cron jobs.

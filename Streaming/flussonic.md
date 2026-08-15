@@ -1,38 +1,25 @@
-[[Streaming]] [[DRM]] [[DASH]] [[HLS]] [[MPEG-TS]] [[Pallycon(DoveRunner)]] [[ingestion]]
+[[Streaming]] [[DRM]] [[DASH]] [[HLS]] [[MPEG-TS]] [[Pallycon(DoveRunner)]] [[ingestion]] [[CPIX]] [[EME]] [[streaming manifest file]] [[IPTV]] [[CAS (Conditional Access System)]]
 
 # flussonic
 
 > Media server that ingests live UDP/SRT/RTMP, packages HLS/DASH, and can encrypt with DRM keys — the packaging edge in front of players.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk flussonic end-to-end — not just name it. Signal fluency with **Ingest**, **Package**, **DRM encrypt**, **PSSH** and when you would pick a different path.
 
-```txt
-Encoder / headend
-   │  udp://host:port  (or [[SRT]] / [[RTMP]] / [[RTSP]])
-   ▼
-Flussonic
-   ├─ (optional) fetch keys from DoveRunner KMS  → aes_key, iv, key_id
-   ├─ encrypt (e.g. Widevine / CENC)
-   └─ package HLS / DASH (+ PSSH in manifest)
-   ▼
-http://origin/<content_id>/index.m3u8
-http://origin/<content_id>/dash.mpd
-   ▼
-Player ── license request ──► DoveRunner ──► decrypt + play
-```
+## Sources
 
-### Interview map (words you can say)
+- [Wikipedia — flussonic](https://en.wikipedia.org/wiki/flussonic) — overview
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Ingest** | How live bytes enter Flussonic | “UDP [[MPEG-TS]] multicast, [[SRT]], or [[RTMP]] from the encoder.” |
-| **Package** | Remux/segment for OTT | “We output DASH/HLS the CDN and players understand.” |
-| **DRM encrypt** | Scramble samples with KMS keys | “Flussonic encrypts; it does not authorize viewers.” |
-| **PSSH** | DRM init data in the manifest/init | “Player needs PSSH to start a license request.” |
-| **License token** | Your backend’s signed “this user may play” | “DoveRunner checks the token, then returns content keys.” |
-| **Manifest rewrite** | Proxy fixes absolute URLs | “Browser must hit your gateway, not 127.0.0.1 inside the box.” |
+## Key Concepts
+
+- **Ingest:** How live bytes enter Flussonic — “UDP [[MPEG-TS]] multicast, [[SRT]], or [[RTMP]] from the encoder.”
+- **Package:** Remux/segment for OTT — “We output DASH/HLS the CDN and players understand.”
+- **DRM encrypt:** Scramble samples with KMS keys — “Flussonic encrypts; it does not authorize viewers.”
+- **PSSH:** DRM init data in the manifest/init — “Player needs PSSH to start a license request.”
+- **License token:** Your backend’s signed “this user may play” — “DoveRunner checks the token, then returns content keys.”
+- **Manifest rewrite:** Proxy fixes absolute URLs — “Browser must hit your gateway, not 127.0.0.1 inside the box.”
 
 ### Roles (keep them straight)
 
@@ -59,10 +46,22 @@ Player → DoveRunner: license request + token + PSSH
 DoveRunner → allow/deny → key material to CDM
 ```
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Encoder / headend
+   │  udp://host:port  (or [[SRT]] / [[RTMP]] / [[RTSP]])
+   ▼
+Flussonic
+   ├─ (optional) fetch keys from DoveRunner KMS  → aes_key, iv, key_id
+   ├─ encrypt (e.g. Widevine / CENC)
+   └─ package HLS / DASH (+ PSSH in manifest)
+   ▼
+http://origin/<content_id>/index.m3u8
+http://origin/<content_id>/dash.mpd
+   ▼
+Player ── license request ──► DoveRunner ──► decrypt + play
+```
 
 ### Conceptual stream URL shapes
 
@@ -113,10 +112,24 @@ token signature + expiry OK?
 
 Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, not the identity provider.
 
----
+## Real-World Applications
 
+Used wherever flussonic sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
+- **Con / skip when:** **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
+- **Con / skip when:** **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
+
+## Comparison
+
+- vs [[WebRTC]]: **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
+- vs [[How to attach stream to HTTP handlers]]: **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
+- vs [[Microservice]]: **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -128,42 +141,8 @@ Wire DRM details with [[CPIX]] / [[DRM]] / [[EME]]; Flussonic is the packager, n
 | License denied intermittently | Clock skew / expired token | NTP; shorten path from mint → player request |
 | High origin CPU | Transcode + encrypt on one box | Separate ABR ladder; scale Flussonic / push CDN |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Flussonic encrypts; DoveRunner authorizes** — configuring packaging without a license token path leaves you with ciphertext nobody legitimate can play — or a broken entitlement story.
-
-> [!WARNING]
-> **Site key on the client** — never ship the HMAC site key in the app; only your backend signs tokens.
-
-> [!WARNING]
-> **Manifest hostnames** — Flussonic may emit URLs valid only on the host/container network; browsers need the public/gateway path.
-
-> [!WARNING]
-> **Clear vs encrypted testing** — prove ingest→HLS/DASH clear first; then enable DRM so you don’t debug two failures at once.
-
-> [!WARNING]
-> **Not a WebRTC SFU** — Flussonic here is OTT packaging. Browser P2P uses [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not UDP TS ingest.
-
----
-
-
-## When not to use
-
-- **Browser mesh calls / data channels** — [[WebRTC]] + [[WebRTC Signaling channels]] / SFU products.
-- **Simple file download APIs** — [[How to attach stream to HTTP handlers]].
-- **No DRM, tiny audience, already have nginx-rtmp** — may be enough for an MVP ([[Microservice]]); Flussonic shines when you need serious live package + DRM.
-
----
-
-
-## Related
-
-[[DRM]] [[Pallycon(DoveRunner)]] [[DASH]] [[HLS]] [[MPEG-TS]] [[CPIX]] [[EME]] [[ingestion]] [[streaming manifest file]] [[IPTV]] [[CAS (Conditional Access System)]]
-
-## Sources
-
-- [Wikipedia — flussonic](https://en.wikipedia.org/wiki/flussonic)
+- **Flussonic encrypts; DoveRunner authorizes** — configuring packaging without a license token path leaves you with ciphertext nobody legitimate can play — or a broken entitlement story.
+- **Site key on the client** — never ship the HMAC site key in the app; only your backend signs tokens.
+- **Manifest hostnames** — Flussonic may emit URLs valid only on the host/container network; browsers need the public/gateway path.
+- **Clear vs encrypted testing** — prove ingest→HLS/DASH clear first; then enable DRM so you don’t debug two failures at once.
+- **Not a WebRTC SFU** — Flussonic here is OTT packaging. Browser P2P uses [[WebRTC]] / [[ICE (Interactive Connectivity Establishment)]], not UDP TS ingest.

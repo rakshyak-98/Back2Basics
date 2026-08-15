@@ -1,12 +1,20 @@
-[[golang]] [[go cli]] [[go error]] [[go callstack]]
+[[golang]] [[go cli]] [[go error]] [[go callstack]] [[go-routines]]
 
 # go debugging
 
 > Debug Go — race detector, Delve, pprof, and logging beats printf-only when concurrency bites.
 
----
+## Interview Relevance
 
-## How it works
+Debugging questions check race detector, Delve, and pprof — can you find data races and CPU/memory hotspots under concurrency?
+
+## Sources
+
+- [Go blog — Introducing the Go Race Detector](https://go.dev/blog/race-detector) — overview
+- [Diagnostics — Profiling](https://go.dev/doc/diagnostics) — deep-dive
+- [Delve docs](https://github.com/go-delve/delve/tree/master/Documentation) — deep-dive
+
+## Key Concepts
 
 ```txt
 repro → go test -race → pprof/goroutine → dlv if needed
@@ -19,10 +27,7 @@ repro → go test -race → pprof/goroutine → dlv if needed
 | `dlv` | Breakpoints |
 | `GODEBUG` | Runtime traces |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 go test -race ./...
@@ -44,10 +49,7 @@ dlv exec ./bin/app
 | `GOTRACEBACK=all` | Fuller panic stacks |
 | `http/pprof` | Prod-safe only behind auth |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,36 +59,14 @@ dlv exec ./bin/app
 | Can’t hit breakpoint | Optimized build | `gcflags` all=-N -l |
 | Works in test not prod | Env / GOMAXPROCS | Match configs |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Printf forever — fine for tiny scripts; not for races.
+- **Trade-off:** Production `dlv attach` casually — prefer metrics/pprof first.
+- **Trade-off:** Ignoring failures that “retry works” — usually a race.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Race detector slows runs** — CI sample + local on concurrent pkgs.
-
-> [!WARNING]
-> **pprof without auth on public IP** — don’t.
-
-> [!WARNING]
-> **Optimizations hide vars in dlv** — disable for debug builds.
-
----
-
-
-## When not to use
-
-- **Printf forever** — fine for tiny scripts; not for races.
-- **Production `dlv attach` casually** — prefer metrics/pprof first.
-- **Ignoring failures that “retry works”** — usually a race.
-
----
-
-
-## Related
-
-[[go cli]] [[go-routines]] [[go callstack]] [[go error]]
-
-## Sources
-
-- [Wikipedia — go debugging](https://en.wikipedia.org/wiki/go_debugging)
+- Race detector slows runs — CI sample + local on concurrent pkgs.
+- pprof without auth on public IP — don’t.
+- Optimizations hide vars in dlv — disable for debug builds.

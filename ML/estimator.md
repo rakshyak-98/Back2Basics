@@ -1,12 +1,19 @@
-[[scikitlearn]] [[supervised learning]] [[data preprocessing]] [[Model/Linear regression]]
+[[scikitlearn]] [[supervised learning]] [[data preprocessing]] [[Model/Linear regression]] [[regression]] [[binary classification]]
 
 # Estimator (ML / statistics)
 
 > Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Estimator (ML / statistics) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 In sklearn, **Estimator** is the base contract:
 
@@ -31,10 +38,7 @@ Pipeline: [Transformer₁ → Transformer₂ → Predictor]
           fit/transform only on train inside CV
 ```
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -73,10 +77,18 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
         return np.full(len(X), self.majority_)
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **One-off SQL aggregate** — not every computation needs a reusable Estimator class.
+- **Online learning at high QPS** — sklearn estimators batch-fit; use streaming libraries (River, Vowpal) or serve frozen weights.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Fitting on test data** — even "just once" for scaling — invalidates all reported metrics.
+
+> [!WARNING]
+> **Pickle across sklearn versions** — model artifacts may not load; pin versions in prod.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,32 +98,3 @@ class MajorityClassifier(BaseEstimator, ClassifierMixin):
 | `fit` hangs | Huge one-hot, dense matrix | Sparse matrices; feature selection |
 | Coefficients "wrong sign" | Collinearity, scaling | Regularization; VIF review |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Fitting on test data** — even "just once" for scaling — invalidates all reported metrics.
-
-> [!WARNING]
-> **Pickle across sklearn versions** — model artifacts may not load; pin versions in prod.
-
----
-
-
-## When not to use
-
-- **One-off SQL aggregate** — not every computation needs a reusable Estimator class.
-- **Online learning at high QPS** — sklearn estimators batch-fit; use streaming libraries (River, Vowpal) or serve frozen weights.
-
----
-
-
-## Related
-
-[[scikitlearn]] · [[data preprocessing]] · [[supervised learning]] · [[regression]] · [[binary classification]]
-
-## Sources
-
-- [Wikipedia — estimator](https://en.wikipedia.org/wiki/estimator)

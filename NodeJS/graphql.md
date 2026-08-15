@@ -1,28 +1,30 @@
-[[NodeJS]] [[expressjs]] [[open api specification]]
+[[NodeJS]] [[expressjs]] [[open api specification]] [[HTTP module]]
 
 # graphql
 
 > Query language + runtime — client asks for exact fields; one endpoint serves queries, mutations, and (optionally) subscriptions.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **graphql** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Schema**, **Resolver**, **Mutation**, **Subscription**.
+
+## Sources
+
+- [GraphQL — Learn](https://graphql.org/learn/) — deep-dive
+- [Wikipedia — graphql](https://en.wikipedia.org/wiki/graphql) — overview
+
+## Key Concepts
+
+- **Schema:** Types + operations — Contract between client and server.
+- **Resolver:** Per-field fetch — N+1 lives here — DataLoader.
+- **Mutation:** Writes — Side effects; not idempotent by default.
+- **Subscription:** Push updates — Usually WebSocket transport.
+
+## Technical Details
 
 ```txt
 Query → parse/validate → resolve fields → JSON
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Schema** | Types + operations | “Contract between client and server.” |
-| **Resolver** | Per-field fetch | “N+1 lives here — DataLoader.” |
-| **Mutation** | Writes | “Side effects; not idempotent by default.” |
-| **Subscription** | Push updates | “Usually WebSocket transport.” |
-
-
-## Configuration and commands
 
 ```js
 import { ApolloServer } from '@apollo/server'
@@ -42,44 +44,25 @@ await startStandaloneServer(server, { listen: { port: 4000 } })
 | Persisted queries | Smaller payloads + allowlists |
 | DataLoader | Batch/cache per request |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **graphql** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **GraphQL ≠ free REST replacement** — caching, file upload, and CDN patterns differ; **Introspection in prod** — disable or protect unless you want a public schema map.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slow list fields | N+1 resolvers | DataLoader / join |
-| Huge payloads | Over-fetching | Stricter schema; query cost |
-| Auth leaks | Resolver forgot check | Auth at field or directive |
-| Schema drift | Client vs server | CI schema checks |
+- **Pro:** Solves the job described above when used in the right layer (Query language + runtime — client asks for exact fields; one endpoint serves que…).
+- **Con / when not:** **Simple CRUD + CDN caching** — REST/OpenAPI often simpler.
+- **Con / when not:** **File-heavy APIs** — prefer signed upload URLs + separate storage.
 
----
+## Comparison
 
+vs [[expressjs]]: know when each applies — do not treat them as interchangeable. vs [[open api specification]]: know when each applies — do not treat them as interchangeable. vs [[HTTP module]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **GraphQL ≠ free REST replacement** — caching, file upload, and CDN patterns differ.
-
-> [!WARNING]
-> **Introspection in prod** — disable or protect unless you want a public schema map.
-
----
-
-
-## When not to use
-
-- **Simple CRUD + CDN caching** — REST/OpenAPI often simpler.
-- **File-heavy APIs** — prefer signed upload URLs + separate storage.
-
----
-
-
-## Related
-
-[[expressjs]] [[open api specification]] [[HTTP module]]
-
-## Sources
-
-- [Wikipedia — graphql](https://en.wikipedia.org/wiki/graphql)
+- **GraphQL ≠ free REST replacement** — caching, file upload, and CDN patterns differ.
+- **Introspection in prod** — disable or protect unless you want a public schema map.
+- **Slow list fields:** check N+1 resolvers; fix: DataLoader / join
+- **Huge payloads:** check Over-fetching; fix: Stricter schema; query cost
+- **Auth leaks:** check Resolver forgot check; fix: Auth at field or directive
+- **Schema drift:** check Client vs server; fix: CI schema checks

@@ -4,7 +4,15 @@
 
 > Factory Method defines an interface for creating an object, but lets subclasses or registrars decide which concrete type to instantiate — deferring `new` to a dedicated creator.
 
-## Core idea
+## Interview Relevance
+
+Factory Method checks deferred instantiation — subclasses or registrars pick the concrete type; contrast Abstract Factory families.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Factory Method) — deep-dive
+
+## Key Concepts
 
 Instead of:
 
@@ -22,17 +30,7 @@ Client → Creator.createProduct()
     ConcreteCreatorB → ProductB
 ```
 
-## Relationship to other creational patterns
-
-| Pattern | What varies | Who picks the type |
-|---------|-------------|-------------------|
-| **Factory Method** | Product subclass per creator | Subclass of creator |
-| [[Design pattern/Creation pattern/Abstract Factory]] | Families of related products | Factory interface + concrete factories |
-| [[Design pattern/Builder]] | Step-by-step assembly of one complex product | Builder with fluent steps |
-
-Factory Method is the simplest "defer instantiation" pattern — one product type per creator.
-
-## Implementation sketch (TypeScript)
+## Technical Details
 
 ```typescript
 interface Product { render(): string }
@@ -49,17 +47,24 @@ class ConcreteCreator extends Creator {
 
 Registration tables (`Map<string, () => Product>`) are a functional variant without inheritance.
 
-## When it helps
+## Real-World Applications
 
 - Framework code must stay stable while product types grow (UI widgets per platform, parsers per format).
 - You want Open/Closed: add a new creator + product without editing the client.
 
-## Pitfalls
+## Comparison
+
+**Relationship to other creational patterns**
+
+| Pattern | What varies | Who picks the type |
+|---------|-------------|-------------------|
+| **Factory Method** | Product subclass per creator | Subclass of creator |
+| [[Design pattern/Creation pattern/Abstract Factory]] | Families of related products | Factory interface + concrete factories |
+| [[Design pattern/Builder]] | Step-by-step assembly of one complex product | Builder with fluent steps |
+
+Factory Method is the simplest "defer instantiation" pattern — one product type per creator.
+
+## Mistakes to Avoid
 
 - Overkill when only one product type exists.
 - Deep creator hierarchies mirror product hierarchies — consider [[Design pattern/Creation pattern/Abstract Factory]] if you create **families** (button + checkbox + dialog together).
-
-## Sources
-
-- Gamma et al., *Design Patterns* (Factory Method)
-- [Factory method pattern — Wikipedia](https://en.wikipedia.org/wiki/Factory_method_pattern)

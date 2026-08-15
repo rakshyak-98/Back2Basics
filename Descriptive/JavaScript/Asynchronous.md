@@ -1,12 +1,18 @@
-[[Javascript]] [[JavaScript/Call stack]] [[promise]]
+[[Javascript]] [[JavaScript/Call stack]] [[promise]] [[event listener]]
 
 # Asynchronous
 
 > Async JS schedules work for later — callbacks, promises, async/await on the event loop, not OS threads by default.
 
----
+## Interview Relevance
 
-## How it works
+Async interviews cover promises/async-await, microtasks, and error propagation.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 call stack empty → microtasks → next macrotask (timers, I/O)
@@ -21,10 +27,7 @@ call stack empty → microtasks → next macrotask (timers, I/O)
 | **async/await** | Promise syntax | “Awaitable thenables.” |
 | **Concurrency vs parallelism** | Interleave vs multi-core | “Workers for CPU parallel.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 async function load() {
@@ -40,10 +43,18 @@ load().catch(console.error)
 | Cancellation | AbortController |
 | Queue choice | micro vs macro ordering |
 
----
+## Pros/Cons or Trade-offs
 
+- **Pure CPU crunch on main thread** — worker.
+- **Truly parallel shared-memory needs** — careful Atomics / WASM / native.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **await in a loop** — serializes; use `Promise.all` when safe.
+
+> [!WARNING]
+> **Floating promises** — fire-and-forget without catch hides failures.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,30 +63,3 @@ load().catch(console.error)
 | Starvation | long sync | chunk work |
 | Zalgo | sync sometimes callback | Always async or always sync |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **await in a loop** — serializes; use `Promise.all` when safe.
-
-> [!WARNING]
-> **Floating promises** — fire-and-forget without catch hides failures.
-
----
-
-
-## When not to use
-
-- **Pure CPU crunch on main thread** — worker.
-- **Truly parallel shared-memory needs** — careful Atomics / WASM / native.
-
-
-## Related
-
-[[promise]] [[JavaScript/Call stack]] [[event listener]]
-
-## Sources
-
-- [Wikipedia — Asynchronous](https://en.wikipedia.org/wiki/Asynchronous)

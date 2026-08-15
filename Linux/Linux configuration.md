@@ -1,12 +1,26 @@
-[[etc files]] [[apt config]] [[terminal config]] [[editor config]] [[Linux Templates Directory]]
+[[etc files]] [[apt config]] [[terminal config]] [[editor config]] [[Linux Templates Directory]] [[system service unit files]] [[management/grub]] [[management/Linux system management]]
 
 # Linux configuration
 
-> Linux configuration is the sum of files in `/etc`, per-user dotfiles, kernel boot parameters, and systemd units that define how this host behaves.
+> Linux configuration is the sum of `/etc`, per-user dotfiles, kernel boot parameters, and systemd units that define how this host behaves.
 
-Layers stack: **image/CM baseline** → **distribution defaults** in `/usr` → **local overrides** in `/etc` and `/home` → **runtime** (`/run`). Know which layer wins before debugging "my change did nothing."
+## Interview Relevance
+Senior ops signal: know which layer wins (image → distro defaults → `/etc` → `$HOME` → `/run`), prefer drop-ins over editing vendor files, and verify with read-back (`systemctl cat`, `sysctl`, `nginx -T`).
 
-## Configuration surfaces
+## Sources
+- [FHS 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html) — overview
+- [systemd.unit(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive
+
+## Core Definition
+Layers stack: **image/CM baseline** → **distribution defaults** in `/usr` → **local overrides** in `/etc` and `/home` → **runtime** (`/run`). Debug “my change did nothing” by finding which layer actually won.
+
+## Key Concepts
+- **Surface map:** `/etc`, systemd units, cmdline, sysctl, user session, packages.
+- **Drop-ins over forks:** `systemctl edit` beats editing `/usr/lib` units.
+- **Effective config:** Merged view matters more than the file you edited.
+- **Change discipline:** One change, rollback path, validate, reload only what you need.
+
+## Technical Details
 
 | Surface | Examples |
 |---------|----------|
@@ -17,31 +31,29 @@ Layers stack: **image/CM baseline** → **distribution defaults** in `/usr` → 
 | User session | `~/.bashrc`, `~/.config/` |
 | Packages | [[apt config]], [[apt package manager]] |
 
-## Inspect effective config
-
 ```bash
-# systemd unit after merges
 systemctl cat nginx.service
-
-# sysctl
 sysctl net.ipv4.ip_forward
-
-# Boot cmdline
 cat /proc/cmdline
 ```
 
-## Change discipline
-
+Change discipline:
 1. One change at a time; note rollback path.
 2. Prefer drop-in overrides over editing vendor files.
 3. Reload or restart only the affected daemon.
 4. Verify with read-back (`nginx -T`, `sshd -t`).
 
-## Related
+## Real-World Applications
+Raise `net.core.somaxconn` via `/etc/sysctl.d/99-local.conf`, apply with `sysctl --system`, confirm with `sysctl net.core.somaxconn`, and leave the package’s defaults untouched.
 
-[[etc files]] · [[management/Linux system management]] · [[editor config]]
+## Pros/Cons or Trade-offs
+- **Pro:** Text and layered — local policy without forking the distro.
+- **Con:** Many surfaces mean easy shadowing; undocumented edits become tribal knowledge.
 
-## Sources
+## Comparison
+vs [[etc files]]: `/etc` is one major surface; this note is the whole stack. vs containers: image layers + runtime mounts play a similar “who wins” game. vs [[Linux Templates Directory]]: templates are vendor starting points; configuration is what you actually apply.
 
-- [FHS 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html)
-- [systemd.unit(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html)
+## Mistakes to Avoid
+- Editing `/usr/lib/systemd/system/*.service` and losing changes on package upgrade.
+- Changing a file that is overridden by a higher-priority drop-in.
+- Restarting unrelated services “just in case” after a one-line config tweak.

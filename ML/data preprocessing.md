@@ -1,12 +1,19 @@
-[[scikitlearn]] [[estimator]] [[supervised learning]] [[Model/Linear regression]] [[Decision tree]]
+[[scikitlearn]] [[estimator]] [[supervised learning]] [[Model/Linear regression]] [[Decision tree]] [[Visualization/Residual plot]]
 
 # Data preprocessing
 
 > Turn raw tables into **leak-safe, scaled, encoded** matrices estimators can fit — garbage in → un-debuggable models — **scikit-learn Pipeline docs**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Data preprocessing to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 Preprocessing runs **before** the learner sees data. Order matters:
 
@@ -23,10 +30,7 @@ Fit transformers on **training data only**; apply same parameters to value/test.
 | Scaling | Skip | StandardScaler / RobustScaler |
 | Outliers | Robust to some | Clip or RobustScaler |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import pandas as pd
@@ -78,10 +82,18 @@ for c in num_cols:
     df[f"{c}_was_missing"] = df[c].isna().astype(int)
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Raw deep learning on images/text** — use domain-specific augmentations, not tabular imputers.
+- **Streaming features with strict SLA** — precompute offline features in a feature store; don't refit heavy pipelines per request.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Target encoding on full dataset** leaks label statistics — encode inside CV folds only (`CategoryEncoders` + pipeline).
+
+> [!WARNING]
+> **Mean imputation on skewed data** — use median; consider missingness flags.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,32 +103,3 @@ for c in num_cols:
 | All NaN after join | Merge keys, dtypes | Assert row counts; `df.info()` |
 | Model worse after "cleaning" | Removed signal (outliers = fraud) | Domain review; RobustScaler vs drop |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Target encoding on full dataset** leaks label statistics — encode inside CV folds only (`CategoryEncoders` + pipeline).
-
-> [!WARNING]
-> **Mean imputation on skewed data** — use median; consider missingness flags.
-
----
-
-
-## When not to use
-
-- **Raw deep learning on images/text** — use domain-specific augmentations, not tabular imputers.
-- **Streaming features with strict SLA** — precompute offline features in a feature store; don't refit heavy pipelines per request.
-
----
-
-
-## Related
-
-[[scikitlearn]] · [[estimator]] · [[supervised learning]] · [[Visualization/Residual plot]] · [[Model/Linear regression]]
-
-## Sources
-
-- [Wikipedia — data preprocessing](https://en.wikipedia.org/wiki/data_preprocessing)

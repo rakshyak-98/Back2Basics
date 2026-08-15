@@ -1,12 +1,18 @@
-[[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/new]] [[javascript]] [[Operating System/Stack Frame]]
+[[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/new]] [[javascript]] [[Operating System/Stack Frame]] [[Descriptive/JavaScript/constructor function]]
 
 # Execution context
 
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
----
+## Interview Relevance
 
-## How it works
+Execution context interviews cover lexical environments, this binding, and hoisting misconceptions.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 Every time JS runs code, the engine creates an **execution context** on the **call stack**. Contexts nest: global first, then each function call, then blocks (let/const) in modern engines.
 
@@ -30,8 +36,7 @@ Call stack (top = running now):
 
 **Global context:** one per script/module — top-level `let`/`const` live in script scope, not `window` (in modules).
 
-
-## Configuration and commands
+## Technical Details
 
 ### Observe scope chain in debugger
 
@@ -75,19 +80,11 @@ console.log(a); // ReferenceError (let hoisted but uninitialized)
 let a = 1;
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Don't manually simulate contexts — use modules, closures, and classes instead of `with` or dynamic scoping hacks.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `ReferenceError: x is not defined` | Variable not in scope chain | Declare in outer scope or pass as arg |
-| Wrong `this` in callback | Lost binding | Arrow fn, `.bind`, or wrapper |
-| Stale closure in loop | `var` + async callback | Use `let` or IIFE |
-| `Maximum call stack exceeded` | Infinite recursion | Base case; tail-call not guaranteed in JS |
-| TDZ errors at module top | Access before `let` init | Reorder declarations |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Closures keep the **entire lexical environment** alive — capturing large objects in nested callbacks causes memory leaks in long-lived servers.
@@ -97,16 +94,10 @@ let a = 1;
 - **Async functions** suspend, pop stack, resume later — context restored via continuation, not same stack frame.
 - **Multiple globals:** iframes, workers, Node vm — separate contexts, separate globals.
 
-
-## When not to use
-
-- Don't manually simulate contexts — use modules, closures, and classes instead of `with` or dynamic scoping hacks.
-
-
-## Related
-
-[[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/constructor function]] [[Operating System/Stack Frame]] [[javascript]]
-
-## Sources
-
-- [Wikipedia — execution context](https://en.wikipedia.org/wiki/execution_context)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `ReferenceError: x is not defined` | Variable not in scope chain | Declare in outer scope or pass as arg |
+| Wrong `this` in callback | Lost binding | Arrow fn, `.bind`, or wrapper |
+| Stale closure in loop | `var` + async callback | Use `let` or IIFE |
+| `Maximum call stack exceeded` | Infinite recursion | Base case; tail-call not guaranteed in JS |
+| TDZ errors at module top | Access before `let` init | Reorder declarations |

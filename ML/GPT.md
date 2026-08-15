@@ -4,9 +4,17 @@
 
 > GPT-style models predict the next token — chat APIs wrap that into messages, tools, and completions.
 
----
+## Interview Relevance
 
-## How it works
+GPT questions check transformer next-token prediction, context limits, and hallucination failure modes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [GPT — Wikipedia](https://en.wikipedia.org/wiki/Generative_pre-trained_transformer) — overview
+
+## Key Concepts
 
 ```txt
 messages[] → API → assistant tokens (+ optional tool_calls)
@@ -21,10 +29,7 @@ messages[] → API → assistant tokens (+ optional tool_calls)
 | **Temperature** | Randomness | “0 for extractive tasks.” |
 | **Tool/function call** | Structured side effect | “Model proposes; app executes.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 # sketch
@@ -44,10 +49,18 @@ client.chat.completions.create(
 | `response_format` | JSON mode |
 | Seed (when available) | Repro experiments |
 
----
+## Pros/Cons or Trade-offs
 
+- **Strict deterministic logic** — write code.
+- **Tiny classify with tons of labels** — classical model may win.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Training cutoff** — doesn’t know your private docs unless you pass them.
+
+> [!WARNING]
+> **Confident wrong** — verify critical facts outside the model.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,30 +69,3 @@ client.chat.completions.create(
 | Unstable JSON | free-form | schema / JSON mode |
 | Stale answers | no tools/RAG | Ground with retrieval |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Training cutoff** — doesn’t know your private docs unless you pass them.
-
-> [!WARNING]
-> **Confident wrong** — verify critical facts outside the model.
-
----
-
-
-## When not to use
-
-- **Strict deterministic logic** — write code.
-- **Tiny classify with tons of labels** — classical model may win.
-
-
-## Related
-
-[[prompt enginerring]] [[claude ai]] [[prompt]]
-
-## Sources
-
-- [Wikipedia — GPT](https://en.wikipedia.org/wiki/GPT)

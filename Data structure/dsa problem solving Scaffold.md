@@ -1,12 +1,19 @@
-[[Data structure]] [[dsa intuition]] [[DSA algorithms]]
+[[Data structure]] [[dsa intuition]] [[DSA algorithms]] [[algo/Two pointer]] [[sliding window]]
 
 # dsa problem solving Scaffold
 
 > A repeatable scaffold for interview DSA — clarify, pattern-match, complexity, then code + tests.
 
----
+## Interview Relevance
 
-## How it works
+A scaffold shows process maturity — clarify, pattern-match, complexity, then code — not jumping straight to syntax.
+
+## Sources
+
+- [Cracking the Coding Interview — process](https://www.crackingthecodinginterview.com/) — overview
+- [MIT 6.006](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
+
+## Key Concepts
 
 ```txt
 1 clarify I/O  2 examples  3 brute  4 pattern  5 code  6 test
@@ -21,10 +28,7 @@
 | **Pattern** | two pointers / sliding… | “Name the tool.” |
 | **Invariants** | What loop keeps true | “Explain why it works.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 Ask: sorted? duplicates? in-place? mutable?
@@ -38,10 +42,7 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 | Edge checklist | Empty/dupes/overflow |
 | Speak invariants | Interviewer follows |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +51,12 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 | WA | edges | empty/dupes/off-by-one |
 | Can’t explain | no invariant | State loop promise |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** production bugfix with known root cause — scaffold is for unknown problems.
+- **Trade-off:** Pure systems design — different checklist.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Jumping to optimal** — if you can’t prove it, start brute and optimize.
-
-> [!WARNING]
-> **Silent assumptions** — sorted input, unique keys, fit in int.
-
----
-
-
-## When not to use
-
-- **production bugfix with known root cause** — scaffold is for unknown problems.
-- **Pure systems design** — different checklist.
-
-
-## Related
-
-[[dsa intuition]] [[algo/Two pointer]] [[sliding window]] [[DSA algorithms]]
-
-## Sources
-
-- [Wikipedia — dsa problem solving Scaffold](https://en.wikipedia.org/wiki/dsa_problem_solving_Scaffold)
+- Jumping to optimal — if you can’t prove it, start brute and optimize.
+- Silent assumptions — sorted input, unique keys, fit in int.

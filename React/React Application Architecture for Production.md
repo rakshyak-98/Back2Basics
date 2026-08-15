@@ -2,28 +2,46 @@
 
 # React Application Architecture for Production
 
-> React Application Architecture for Production shapes how React applications compose UI, state, and side effects in production.
+> Production React needs error boundaries, env config, observability, auth session handling, and deployable build artifacts — not just components.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React Application Architecture for Production` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React Architecture]] [[RSC (React Server Component boundaries)]] [[React State management]] [[React build]] [[React code smells]]
+Interviewers move past todo apps into failure handling, config, and how you keep SSR/CSR deploys safe.
 
 ## Sources
 
-- [React official documentation](https://react.dev)
+- [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) — deep-dive
+- [Start a React project](https://react.dev/learn/start-a-new-react-project) — overview
+
+## Core Definition
+
+Production architecture adds operational seams: errors, feature flags, secrets, monitoring, and release strategy around the UI tree.
+
+## Key Concepts
+
+- **Error boundaries:** isolate feature crashes.
+- **Config:** public env vs server secrets.
+- **Observability:** client error reporting + web vitals.
+- **Auth session:** refresh/expiry without full page death.
+
+## Technical Details
+
+Checklist: error boundary per route → query cache defaults → CSP/headers with host → sourcemaps in error tool → health of API base URL per environment.
+
+## Real-World Applications
+
+Checkout route wraps payment widget in an error boundary so a third-party script failure does not blank the whole SPA.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Failures degrade gracefully.
+- **Con:** Too many boundaries hide bugs if you never alert.
+
+## Comparison
+
+- vs [[React Architecture]]: production adds ops; architecture is module/state shape.
+
+## Mistakes to Avoid
+
+- No error boundary anywhere.
+- Baking prod API keys into the client bundle.

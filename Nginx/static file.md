@@ -1,31 +1,39 @@
-[[Nginx]]
+[[Configuration]] [[nginx SPA deployment]] [[How does directive work]] [[mime type]]
 
 # static file
 
-> static file — try_files — checks the filesystem for one or more paths in order.
+> Serve files from disk with `root`/`alias` and `try_files` — check `$uri`, then `$uri/`, then 404 (or SPA/app fallback) without hitting the app.
 
----
+## Interview Relevance
 
-## How it works
+Checks whether you can configure efficient static serving, explain `try_files`, and avoid proxying assets to the application unnecessarily.
 
-### Nginx static file serving rule for a location
+## Sources
+
+- [nginx.org — Serving static content](https://nginx.org/en/docs/beginners_guide.html) — overview
+- [nginx.org — try_files](https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files) — deep-dive
+- [nginx.org — ngx_http_headers_module (expires)](https://nginx.org/en/docs/http/ngx_http_headers_module.html) — overview
+
+## Key Concepts
+
+- **`try_files $uri $uri/ =404`:** Exact file → directory (with `index`) → hard 404.
+- **`$uri`:** Request path mapped under `root` (e.g. `/style.css` → `/var/www/html/style.css`).
+- **Avoid backend calls:** Static locations keep CSS/JS/images off PHP/Node unless another location matches.
+- **Caching headers:** `expires` + `Cache-Control` for fingerprinted assets.
+
+## Technical Details
+
 ```nginx
 location / {
     try_files $uri $uri/ =404;
 }
 ```
-`try_files` -> checks the filesystem for one or more paths in order.
-`$uri` -> the exact file path from the request e.g. `/index.html` -> `/var/www/global/index.html`
-`$uri/` -> the same but as a directory path e.g. `/docs/` if this exists, nginx can serve `index.html` from inside it (depending on your `index` directive).
-`=404` -> if neither a matching file nor a matching directory exists, return HTTP 404 immediately (instead of falling back to a PHP handler).
-**What it means in practice**
-- If `/style.css` exists in your `root` → serve it.
-- If `/blog/` exists as a directory and contains an `index.html` → serve that.
-- If neither exists → return `404 Not Found`.
-- It **avoids unnecessary backend calls** — Nginx won’t forward these requests to PHP/Python/etc. unless they match a different location.
 
+What it means:
 
-## Configuration and commands
+- If `/style.css` exists under `root` → serve it.
+- If `/blog/` is a directory with `index.html` → serve that (per `index`).
+- If neither exists → `404 Not Found` (no PHP fallback in this example).
 
 ```nginx
 location /assets/ {
@@ -35,40 +43,28 @@ location /assets/ {
 }
 ```
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | 403 Forbidden | directory listing off; perms | `chmod` for nginx user; `index` directive |
 | Stale asset after deploy | browser cache | Cache-bust filenames; shorten `expires` on HTML |
 | Wrong MIME type | missing types block | `include mime.types;` |
 
----
+## Real-World Applications
 
+CDN-origin or edge Nginx serving built frontend assets; long-lived cache on `/assets/` with content-hashed names.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> Use `alias` for prefix locations — trailing slash on both `location` and `alias` matters.
+- **Pro:** Extremely efficient with `sendfile`; keeps app servers free.
+- **Con:** User uploads next to executable scripts under the same root is a security footgun.
 
----
+## Comparison
 
+- vs [[nginx SPA deployment]]: static `=404` vs fallback to `index.html` for client routes.
+- vs `proxy_pass` everything: proxying static assets wastes app capacity.
 
-## When not to use
+## Mistakes to Avoid
 
-- Do not serve user-uploaded files from the same path as executable scripts.
-
-
----
-
-
-## Related
-
-[[Nginx]]
-
-## Sources
-
-- [Wikipedia — static file](https://en.wikipedia.org/wiki/static_file)
+- `alias` trailing-slash mismatches with the `location` prefix.
+- Serving user uploads from a path that can execute scripts.
+- Omitting `mime.types` so browsers mis-handle assets.

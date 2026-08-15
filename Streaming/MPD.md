@@ -1,24 +1,20 @@
-[[DASH]] [[Manifest (streaming)]] [[HLS vs. DASH]] [[CMAF]] [[ABR]] [[DRM]] [[EME]]
+[[DASH]] [[Manifest (streaming)]] [[HLS vs. DASH]] [[CMAF]] [[ABR]] [[DRM]] [[EME]] [[HLS]]
 
 # MPD (Media Presentation Description)
 
 > MPD (Media Presentation Description) — the MPD is the root document for DASH playback. It describes Periods (timeline slices), AdaptationSets (video/audio/subtitle tracks), and Representations (bitrate rungs).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about MPD to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — MPD](https://en.wikipedia.org/wiki/MPD) — overview
+
+## Key Concepts
 
 The **MPD** is the **root document** for **[[DASH]]** playback. It describes **Periods** (timeline slices), **AdaptationSets** (video/audio/subtitle tracks), and **Representations** (bitrate rungs). Players fetch the MPD, pick a Representation, then request **segments** via `SegmentTemplate`, `SegmentList`, or `SegmentBase`.
-
-```txt
-GET manifest.mpd
-    │
-Parse Period / AdaptationSet / Representation
-    │
-Estimate bandwidth + buffer ──► pick Representation (720p @ 3 Mbps)
-    │
-GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
-```
 
 | Element | Purpose |
 |---------|---------|
@@ -30,10 +26,17 @@ GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
 
 **Static MPD** (VoD): full timeline known. **Dynamic MPD** (live): `type="dynamic"`, `availabilityStartTime`, `minimumUpdatePeriod`, `timeShiftBufferDepth`.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+GET manifest.mpd
+    │
+Parse Period / AdaptationSet / Representation
+    │
+Estimate bandwidth + buffer ──► pick Representation (720p @ 3 Mbps)
+    │
+GET init.mp4 + seg_1.m4s + seg_2.m4s … ([[CMAF]] fMP4 typical)
+```
 
 ### Minimal static VoD MPD (single representation)
 
@@ -99,10 +102,22 @@ mpd-parser-cli manifest.mpd   # @streaming/mpd-parser npm, if available
 
 Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD `initialization`.
 
----
+## Real-World Applications
 
+Used wherever MPD sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
+- **Con / skip when:** **Sub-second live** — DASH segment model adds latency; LL-HLS or WebRTC.
+- **Con / skip when:** **Raw TS progressive** — use HLS TS manifests instead.
+
+## Comparison
+
+- vs [[HLS]]: **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -114,39 +129,7 @@ Same `init.mp4` + `.m4s` files — [[CMAF]] — map HLS `#EXT-X-MAP` URI to MPD 
 | Period gap at splice | Multi-period VoD | `#EXT-X-DISCONTINUITY` equivalent — `Period@start` |
 | MPD parse error | XML namespace | Valid `xmlns`; escape special chars |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Hand-edited MPD vs packager output** — drift causes segment index mismatch; treat MPD as generated artifact.
-
-> [!WARNING]
-> **`bandwidth` excludes audio** — combine video+audio bandwidth or separate AdaptationSets correctly.
-
-> [!WARNING]
-> **Dynamic MPD cached at CDN** — must not cache like VoD; `Cache-Control: no-cache`.
-
-> [!WARNING]
-> **Segment timeline `@timescale`** — off-by-one timescale bugs → micro-stutter every N segments.
-
----
-
-
-## When not to use
-
-- **Safari-primary without HLS** — ship [[HLS]] or dual manifest ([[HLS vs. DASH]]).
-- **Sub-second live** — DASH segment model adds latency; LL-HLS or WebRTC.
-- **Raw TS progressive** — use HLS TS manifests instead.
-
----
-
-
-## Related
-
-[[DASH]] [[Manifest (streaming)]] [[HLS]] [[CMAF]] [[ABR]] [[DRM]] [[EME]] [[HLS vs. DASH]]
-
-## Sources
-
-- [Wikipedia — MPD](https://en.wikipedia.org/wiki/MPD)
+- **Hand-edited MPD vs packager output** — drift causes segment index mismatch; treat MPD as generated artifact.
+- **`bandwidth` excludes audio** — combine video+audio bandwidth or separate AdaptationSets correctly.
+- **Dynamic MPD cached at CDN** — must not cache like VoD; `Cache-Control: no-cache`.
+- **Segment timeline `@timescale`** — off-by-one timescale bugs → micro-stutter every N segments.

@@ -1,13 +1,30 @@
-[[Nginx]] [[Configuration]] [[static file]]
+[[Configuration]] [[static file]] [[nginx URL rewrite]] [[URL Rewriting]] [[How does directive work]]
 
 # Nginx SPA Deployment
 
-> client-side routers own URLs that don't exist on disk — `try_files` must fall back to `index.html` without breaking API routes or static assets.
+> Client-side routers own URLs that are not on disk — `try_files` falls back to `index.html` without breaking API routes or hashed assets.
 
----
+## Interview Relevance
 
-## How it works
+Frontend/platform interviews ask why refresh on `/dashboard` 404s, how to split `/api` from SPA fallback, and why `index.html` must not be cached like hashed assets.
 
+## Sources
+
+- [nginx.org — try_files](https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files) — deep-dive
+- [MDN — SPA / client-side routing](https://developer.mozilla.org/en-US/docs/Glossary/SPA) — overview
+
+## Core Definition
+
+An SPA deploy serves one HTML shell plus JS/CSS bundles; deep links must return that shell so the client router can render, while real files and API paths must not fall through to HTML.
+
+## Key Concepts
+
+- **History mode needs fallback:** HTML5 routes have no files on disk; hash mode (`/#/…`) does not need server fallback.
+- **`try_files` order:** Prefer `$uri $uri/ /index.html` so real directories still work.
+- **API before catch-all:** `/api/` (or `^~ /api/`) must win before the SPA `location /`.
+- **Cache policy:** Long-cache hashed `/assets/`; never long-cache `index.html`.
+
+## Technical Details
 
 ```
 Browser GET /dashboard
@@ -15,13 +32,6 @@ Browser GET /dashboard
     → Without fallback: 404
     → With try_files: serve index.html → JS router renders /dashboard
 ```
-
-The server delivers **one shell** (`index.html` + JS bundle); the framework router takes over after load.
-
----
-
-
-## Configuration and commands
 
 ### Minimal SPA server
 
@@ -47,14 +57,12 @@ server {
     root /var/www/app/dist;
     index index.html;
 
-    # Hashed assets — long cache (Vite/Webpack emit content hashes)
     location /assets/ {
         try_files $uri =404;
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
 
-    # API — never fall through to index.html
     location /api/ {
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
@@ -62,83 +70,47 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
     }
 
-    # SPA fallback — last resort
     location / {
         try_files $uri $uri/ /index.html;
     }
 }
 ```
 
-### Build output layout (Vite/React typical)
-
-```
-dist/
-  index.html
-  assets/
-    index-a1b2c3.js
-    index-d4e5f6.css
-```
-
-Ensure `root` points at `dist/`, not repository root.
-
----
-
-
-## When things break
+Typical Vite/React `dist/`: `index.html` + `assets/index-*.js|css`. Point `root` at `dist/`, not the repository root.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| 404 on refresh at `/dashboard` | Missing or wrong `try_files` | Add `try_files $uri $uri/ /index.html` in `/` location |
-| 404 on refresh but direct URL works from home | Nested `location` blocks overriding fallback | Single catch-all for SPA; don't duplicate conflicting locations |
-| API returns HTML (index.html) instead of JSON | API `location` missing or ordered after catch-all | Put `/api/` **before** `/` fallback; use `^~ /api/` if regex locations interfere |
-| Blank page, 200 on `/` | Wrong `root`; JS 404 | Verify `root` path; check Network tab for failed `/assets/*.js` |
-| Infinite redirect loop | `try_files` + `error_page 404 /index.html` double fallback | Pick one strategy — prefer `try_files`, not both |
-| `/index.html` cached forever | `Cache-Control` on HTML | Never long-cache `index.html`; cache hashed assets only |
+| 404 on refresh at `/dashboard` | Missing or wrong `try_files` | Add `try_files $uri $uri/ /index.html` in `/` |
+| API returns HTML | API location missing or after catch-all | Put `/api/` **before** `/`; use `^~ /api/` if needed |
+| Blank page, 200 on `/` | Wrong `root`; JS 404 | Verify `root`; Network tab for `/assets/*.js` |
+| Infinite redirect loop | `try_files` + `error_page 404 /index.html` | Prefer `try_files` alone |
+| `/index.html` cached forever | Cache-Control on HTML | Cache hashed assets only |
 
 ```bash
-# Verify file exists on disk
 curl -sS -o /dev/null -w "%{http_code}\n" https://mysite.com/dashboard
 curl -sS https://mysite.com/ | head -5
-
-# Confirm Nginx serves index.html for unknown path
 curl -sS -H "Accept: text/html" https://mysite.com/dashboard | grep -o '<title>.*</title>'
 ```
 
----
+## Real-World Applications
 
+React/Vue/Angular static hosting behind Nginx with a separate Node API on `/api/`.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`try_files $uri /index.html` vs `$uri $uri/ /index.html`:** Two-arg form skips directory check. If you have real directories (e.g. `/docs/` static site inside SPA), use three-arg form or they'll 404 instead of serving `index.html`.
+- **Pro:** Cheap, cacheable static hosting with simple Nginx config.
+- **Con:** Pure SPA fallback is wrong for SSR/SSG (Next.js/Nuxt SSR) — need server routing or hybrid proxy.
+- **Con:** Multiple SPAs on one host need careful prefixes, not one global catch-all.
 
-> [!WARNING]
-> **`try_files` + `alias`:** Don't mix casually. Prefer `root` for SPA deploys. `alias` + fallback is a common footgun.
+## Comparison
 
-> [!WARNING]
-> **Base path / subpath deploy:** App built with `base: '/app/'` needs `location /app/ { try_files $uri $uri/ /app/index.html; }` and matching router `basename`. Mismatch → assets load from wrong path.
+- vs [[static file]]: static serving without HTML fallback returns 404 for deep links.
+- vs [[URL Rewriting]]: SPA fallback is usually `try_files`, not a long `rewrite` chain.
+- vs SSR: server must understand routes; Nginx alone is not enough.
 
-> [!WARNING]
-> **History mode vs hash mode:** Hash routing (`/#/dashboard`) doesn't need server fallback — but ugly URLs. HTML5 history mode **requires** Nginx fallback.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`error_page 404 /index.html`:** Returns 200 with index.html body — breaks monitoring that expects 404 on missing static files. Prefer explicit `try_files`.
-
----
-
-
-## When not to use
-
-- **SSR/SSG frameworks (Next.js, Nuxt SSR)** — need server-side routing or hybrid configuration, not pure SPA fallback. See [[Configuration]] for Next.js proxy pattern.
-- **Multiple SPAs on one host** — use separate `root` + `server_name` or careful prefix locations, not one catch-all.
-
----
-
-
-## Related
-
-[[Configuration]] [[static file]] [[nginx URL rewrite]] [[URL Rewriting]]
-
-## Sources
-
-- [Wikipedia — nginx SPA deployment](https://en.wikipedia.org/wiki/nginx_SPA_deployment)
+- Two-arg `try_files $uri /index.html` when real directories exist — use three-arg form.
+- Mixing `try_files` with `alias` casually — prefer `root` for SPA deploys.
+- Subpath deploy (`base: '/app/'`) without matching `location` / router `basename`.
+- Using `error_page 404 /index.html` — returns 200 HTML and breaks missing-asset monitoring.

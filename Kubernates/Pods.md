@@ -2,14 +2,25 @@
 
 # Pods
 
-> Smallest schedulable unit — one or more containers sharing network and volumes — **Kubernetes: Up and Running** (Burns et al.).
+> A Pod is the smallest schedulable unit in Kubernetes — one or more containers that share network namespace and volumes on one node.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers check that you know Pods are ephemeral (new IP on restart), why production uses Deployments, and how probes gate Service endpoints.
 
+## Sources
 
-## Configuration and commands
+- [Kubernetes — Pods](https://kubernetes.io/docs/concepts/workloads/pods/) — deep-dive
+- Brendan Burns et al., *Kubernetes: Up and Running* — overview
+
+## Key Concepts
+
+- **Shared fate:** containers in a Pod share IP, localhost, and optional volumes.
+- **Ephemeral identity:** restart/reschedule creates a new Pod object/IP unless a controller recreates it.
+- **Controllers own resilience:** Deployment/StatefulSet/Job recreate Pods; bare Pods do not survive node loss.
+- **Probes:** readiness controls Service membership; liveness restarts stuck containers.
+
+## Technical Details
 
 ```bash
 kubectl get pods -A -o wide
@@ -18,11 +29,6 @@ kubectl logs my-pod -c app
 kubectl delete pod my-pod --grace-period=0 --force   # last resort
 ```
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | CrashLoopBackOff | `kubectl logs --previous`; probe failures | Fix exit code; adjust command or probes |
@@ -30,29 +36,29 @@ kubectl delete pod my-pod --grace-period=0 --force   # last resort
 | Pending | CPU/memory; PVC bind | `kubectl describe node`; check requests and storage class |
 | Running but not Ready | readiness probe failing | Hit probe path from inside cluster |
 
----
+One main process per container; use sidecars for helpers (log shippers, proxies). Creation paths → [[kubectl pod creation]].
 
+## Real-World Applications
 
-## Gotchas
+Application replicas behind a Service, debug shells (`netshoot`), and init containers waiting on dependencies.
 
-> [!WARNING]
-> Restarting a Pod **creates a new identity** — IP and in-memory state are lost unless volumes back them.
+**Example:** An API Pod fails readiness → removed from Endpoints → [[ingress]] returns 503 until `/ready` passes.
 
----
+## Pros/Cons or Trade-offs
 
+- **Pro:** Dense packing and co-located sidecars with shared localhost.
+- **Con:** No self-healing without a controller.
+- **Con:** In-memory state dies with the Pod — persist to volumes or external stores.
 
-## When not to use
+## Comparison
 
-- Do not run more than one main process per container — use sidecars for helpers.
+- vs container: Pod is the Kubernetes API object; one or more containers inside.
+- vs Deployment: Deployment owns replica count and rolling updates of Pod templates.
+- Networking exposure → [[Kubernetes services]] · [[ingress]].
 
+## Mistakes to Avoid
 
----
-
-
-## Related
-
-[[kubectl]] · [[kubectl pod creation]] · [[Kubernetes services]] · [[ingress]]
-
-## Sources
-
-- [Wikipedia — Pods](https://en.wikipedia.org/wiki/Pods)
+- Running production apps as bare Pods.
+- Putting multiple unrelated main processes in one container.
+- Assuming Pod IP stays stable across restarts.
+- Force-deleting without understanding controller recreation.

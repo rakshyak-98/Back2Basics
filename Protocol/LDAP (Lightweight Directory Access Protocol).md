@@ -1,12 +1,28 @@
-[[Protocol]] [[TLS (Transport Layer Security)]] [[TCP]]
+[[TLS (Transport Layer Security)]] [[TCP]] [[SSH]] [[DNS]]
 
 # LDAP (Lightweight Directory Access Protocol)
 
-> LDAP (Lightweight Directory Access Protocol) — query and update a hierarchical directory (users, groups, devices) over the network — usually the source of truth for “who is this user?”
+> LDAP queries and updates a hierarchical directory (users, groups, devices) over the network — usually the source of truth for “who is this user?”
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want DN/bind/filter fluency, LDAPS versus StartTLS, and why greenfield SaaS hides LDAP behind OIDC rather than exposing it to apps.
+
+## Sources
+
+- [RFC 4511 — LDAP](https://datatracker.ietf.org/doc/html/rfc4511) — deep-dive
+- [OpenLDAP Administrator's Guide](https://www.openldap.org/doc/admin26/) — overview
+- [Wikipedia — LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) — overview
+
+## Key Concepts
+
+- **DN:** full path to an entry (`uid=alice,ou=people,dc=example,dc=com`).
+- **Bind:** authenticate the session — simple bind is user+password; prefer SASL/GSSAPI.
+- **Base DN + filter:** where to search and who matches (`(uid=alice)`).
+- **Attributes:** fields on an entry (`mail`, `memberOf`, `sshPublicKey`).
+- **LDAPS / StartTLS:** never bind with passwords on cleartext 389.
+
+## Technical Details
 
 ```txt
 App / IdP / login shell
@@ -18,30 +34,12 @@ Directory (OpenLDAP, Active Directory, 389-ds)
           └─ uid=alice  (attributes: mail, memberOf, …)
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **DN** | Full path to an entry | “uid=alice,ou=people,dc=example,dc=com.” |
-| **Bind** | Authenticate the LDAP session | “Simple bind is user+password; prefer SASL/GSSAPI.” |
-| **Base DN + filter** | Where to search + who matches | “Subtree search with `(uid=alice)`.” |
-| **Attribute** | Field on an entry | “memberOf / mail / sshPublicKey live as attrs.” |
-| **LDAPS / StartTLS** | Encrypt LDAP | “Never bind with passwords on cleartext 389.” |
-
-### How the story goes
-
 1. Client connects (389 + StartTLS, or 636 LDAPS).
 2. Bind as service account or end user.
 3. Search with base, scope, filter; read attributes.
 4. Apps map groups → roles; IdPs sync or proxy LDAP.
 
----
-
-
-## Configuration and commands
-
 ```bash
-# Anonymous or simple bind search (lab only)
 ldapsearch -H ldap://ldap.example.com -x -D 'cn=admin,dc=example,dc=com' -W \
   -b 'dc=example,dc=com' '(uid=alice)' mail memberOf
 
@@ -65,50 +63,35 @@ tls_reqcert demand
 | Size/time limits | Huge subtree searches melt the DSA |
 | Referral chasing | Multi-master / AD trees need correct chase policy |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `Can't contact LDAP server` | DNS, 389/636, TLS | Fix SRV/A; open ports; trust CA |
 | Invalid credentials | Wrong DN / password / expired | Confirm DN form; unlock AD account |
 | Search returns nothing | Bad base DN / filter / ACLs | Widen filter; check ACI/ACL deny |
-| TLS handshake fails | Hostname vs cert SAN | Fix cert; `TLS_REQCERT` not `never` in prod |
+| TLS handshake fails | Hostname vs cert SAN | Fix cert; `TLS_REQCERT` not `never` in production |
 | Slow logins | Unindexed filter | Add indexes for uid/mail/member |
 | Intermittent AD auth | DC failover / site awareness | Point to VIP or correct site DCs |
 
----
+## Real-World Applications
 
+Active Directory / OpenLDAP for enterprise login, SSH key distribution via attributes, and IdP backends that sync directory groups into roles.
 
-## Gotchas
+**Example:** A Linux fleet uses SSSD against LDAP so `uid=alice` resolves to the same POSIX attributes on every host.
 
-> [!WARNING]
-> **Cleartext simple bind** — password on the wire if you skip StartTLS/LDAPS.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **DN string equality is picky** — escaping, case, and attribute order confuse apps.
+- **Pro:** Hierarchical identity and group data with mature tooling (AD, OpenLDAP).
+- **Con:** Wrong model for session stores, catalogs, or high-churn documents — use Redis/SQL.
+- **Con:** Direct app-to-LDAP couples every service to directory quirks; prefer OIDC/SAML in front.
 
-> [!WARNING]
-> **LDAP is not your app DB** — wide writes and complex joins belong in a real database; directory is for identity and org data.
+## Comparison
 
----
+- vs OIDC/SAML IdP: hide LDAP behind the IdP for consumer SaaS and modern apps.
+- vs SQL user tables: directory wins for org hierarchy and centralized OS login; SQL wins for product data.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Session store or product catalog** — use Redis/SQL.
-- **Greenfield consumer SaaS authentication** — OIDC/SAML to an IdP; hide LDAP behind it.
-- **High-churn document storage** — wrong consistency and query model.
-
----
-
-
-## Related
-
-[[TLS (Transport Layer Security)]] [[TCP]] [[SSH]] [[DNS]] [[Protocol]]
-
-## Sources
-
-- [Wikipedia — LDAP](https://en.wikipedia.org/wiki/LDAP)
+- Cleartext simple bind — password on the wire without StartTLS/LDAPS.
+- Treating DN string equality casually — escaping, case, and attribute order confuse apps.
+- Using LDAP as a general application database.
+- `TLS_REQCERT never` in production.

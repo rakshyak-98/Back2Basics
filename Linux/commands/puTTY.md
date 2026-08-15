@@ -1,19 +1,36 @@
-[[SSH]] [[Linux terminal]] [[terminal emulator]]
+[[SSH]] [[Linux terminal]] [[terminal emulator]] [[telnet]] [[nc]] [[rsync]]
 
 # PuTTY
 
-> PuTTY — a GUI terminal + connection manager (not a shell). It implements SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and
+> Windows GUI SSH (and serial/telnet) client with saved sessions — not a shell; keys use `.ppk`, not OpenSSH by default.
 
----
+## Interview Relevance
 
-## How it works
+Checks Windows remote-access literacy: host-key verification, Pageant, `.ppk` vs OpenSSH, and when to prefer WSL/`ssh` instead.
 
-PuTTY is a **GUI terminal + connection manager** (not a shell). It implements SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and optionally credentials — treat saved sessions as secrets on shared PCs.
+## Sources
+
+- [PuTTY documentation](https://www.chiark.greenend.org.uk/~sgtatham/putty/docs.html) — deep-dive
+- [Wikipedia — PuTTY](https://en.wikipedia.org/wiki/PuTTY) — overview
+
+## Core Definition
+
+PuTTY is a GUI terminal and connection manager. It speaks SSH, telnet, serial, and raw TCP. Sessions store host, port, terminal type, and optionally credentials — treat saved sessions as secrets on shared PCs.
+
+## Key Concepts
+
+- **Not a shell:** it opens a terminal to a remote shell or serial device.
+- **`.ppk` keys:** PuTTY-specific; convert with PuTTYgen for OpenSSH/WSL.
+- **Pageant:** agent so you unlock the key once per session.
+- **Plink / PSCP:** CLI cousins for scripts; prefer OpenSSH on modern Windows/WSL when possible.
+- **Host key (TOFU):** verify fingerprint out-of-band before Accept.
+
+## Technical Details
 
 ```
 PuTTY.exe → TCP 22 → sshd → shell
 Pageant → SSH key agent → PuTTY auth without passphrase each time
-Plink → CLI equivalent for scripts/cron on Windows
+Plink → CLI equivalent for scripts on Windows
 ```
 
 | Component | Use |
@@ -21,88 +38,48 @@ Plink → CLI equivalent for scripts/cron on Windows
 | PuTTY | Interactive SSH |
 | PuTTYgen | Generate/convert keys (`.ppk` ↔ OpenSSH) |
 | Pageant | Key agent |
-| Plink | Non-interactive SSH (`plink user@host command`) |
-| PSCP / PSFTP | File copy (legacy; prefer `scp`/`sftp` via OpenSSH on WSL) |
+| Plink | Non-interactive SSH |
+| PSCP / PSFTP | File copy (legacy; prefer `scp`/`sftp` via OpenSSH) |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **PuTTY** | Windows SSH client | “ppk keys ≠ OpenSSH format.” |
-| **plink / pscp** | CLI cousins | “Scriptable from Windows.” |
-| **Pageant** | SSH agent | “Load keys once.” |
-| **puttygen** | Key tool | “Convert ppk ↔ pem.” |
-| **host key** | TOFU prompt | “Verify fingerprint out-of-band.” |
-
-
-## Configuration and commands
-
-**First-time connect:** verify host key fingerprint out-of-band (don't blindly "Accept"). Save session only after confirming fingerprint matches operations runbook.
-
-**SSH key authentication (production path):**
-
-1. PuTTYgen → Generate → save private `.ppk` (password-protect).
-2. Copy public key text → append to server `~/.ssh/authorized_keys`.
-3. PuTTY → Connection → SSH → authentication → Credentials → Private key file.
-4. Connection → Data → Auto-login username.
-5. Save session.
-
-**Convert `.ppk` to OpenSSH (WSL/Linux):**
+Key setup: PuTTYgen → Generate → save private `.ppk` → append public key to `~/.ssh/authorized_keys` → point session at the private key → set auto-login username → Save session.
 
 ```bash
 puttygen key.ppk -O private-openssh -o id_ed25519
 puttygen key.ppk -O public-openssh -o id_ed25519.pub
 ```
 
-**Local port forward (reach DB behind bastion):**
-
-- PuTTY → Connection → SSH → Tunnels → Source `15432`, Destination `db.internal:5432` → Local.
-- Connect to bastion; `psql -h 127.0.0.1 -p 15432` on Windows.
-
-**Plink one-liner:**
+Local forward: Connection → SSH → Tunnels → Source `15432`, Destination `db.internal:5432` → Local.
 
 ```cmd
 plink -batch -i key.ppk user@host "systemctl is-active nginx"
 ```
 
-`-batch` — fail instead of interactive host-key prompt (required for automation).
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "Server refused our key" | Server `sshd` logs; key in `authorized_keys` | Permissions 600 on key; correct user; `.ppk` linked in session |
-| Host key changed warning | Compare new vs known good fingerprint | Possible MITM or rebuild — verify with ops before Accept |
-| Garbled terminal | Window → Translation / UTF-8 | Set UTF-8; fix `LANG` on server |
-| Disconnect idle | Connection → Seconds between keepalives | Set 30–60s keepalive; match `ClientAliveInterval` on server |
-| Can't paste long command | PuTTY line limit | Use heredoc on server or Plink with script file |
+| Server refused our key | `sshd` logs; `authorized_keys` | Permissions; correct user; `.ppk` linked |
+| Host key changed | Fingerprint vs known good | Verify with ops before Accept |
+| Garbled terminal | Translation / UTF-8 | Set UTF-8; fix `LANG` on server |
+| Idle disconnect | Keepalives | 30–60s; match `ClientAliveInterval` |
 
+## Real-World Applications
 
-## Gotchas
+Bastion access from locked-down Windows desktops, serial console to appliances, and local port forwards to internal databases.
 
-> [!WARNING]
-> **Saved sessions with password** — PuTTY can store passwords in registry; avoid on shared machines. Prefer keys + Pageant.
+**Example:** Convert `.ppk` once, then use the same key from WSL OpenSSH so runbooks stay Linux-shaped ([[SSH]]).
 
-> [!WARNING]
-> **Default SSH protocol settings** — old PuTTY versions may negotiate weak ciphers. Update PuTTY; disable legacy if policy requires.
+## Pros/Cons or Trade-offs
 
-- **`.ppk` is PuTTY-specific** — Linux `ssh` needs OpenSSH format unless using `puttygen -O private-openssh`.
-- **Copy/paste** — right-click paste (not Ctrl+V) in classic PuTTY window.
-- **WSL versus PuTTY** — on Windows 10+, `ssh` in WSL is often simpler and matches Linux operations docs ([[SSH]]).
+- **Pro:** Familiar GUI session store for Windows fleets without WSL.
+- **Con:** Format/crypto drift vs OpenSSH; saved passwords in registry are a shared-PC risk.
 
+## Comparison
 
-## When not to use
+- vs OpenSSH `ssh`: same protocol; OpenSSH matches Linux operations docs and automation.
+- vs [[rsync]]/PSCP: use rsync for real sync; PSCP is one-off copy.
 
-- **Production automation from Linux** — use OpenSSH `ssh`/`scp`, not Plink.
-- **Modern crypto policy enforcement** — verify PuTTY version against org baseline; may need `ssh` from MS OpenSSH.
-- **File sync at scale** — use [[rsync]], not PSCP loops.
+## Mistakes to Avoid
 
-
-## Related
-
-[[SSH]] [[Linux terminal]] [[terminal emulator]] [[telnet]] [[nc]]
-
-## Sources
-
-- [Wikipedia — puTTY](https://en.wikipedia.org/wiki/puTTY)
+- Blindly accepting changed host keys.
+- Storing passwords in saved sessions on shared machines — prefer keys + Pageant.
+- Assuming `.ppk` works with Linux `ssh` without conversion.
+- Using ancient PuTTY builds that still negotiate weak ciphers.

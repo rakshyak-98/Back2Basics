@@ -1,12 +1,18 @@
-[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[JavaScript]] [[webSocket]]
+[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[JavaScript]] [[webSocket]] [[Etherium]] [[Animation]]
 
 # web capabilities
 
 > Browser **capability APIs** gated by **Permissions Policy** (formerly Feature Policy) + user consent — know what works in iframe, third-party, and locked-down enterprise.
 
----
+## Interview Relevance
 
-## How it works
+Capability questions check feature detection and progressive enhancement strategies.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 Page requests capability (camera, geolocation, clipboard, …)
@@ -24,10 +30,7 @@ Browser grants/denies → PermissionStatus / DOMException
 
 **Secure context required:** HTTPS (or localhost) for most sensitive APIs — won't work on mixed HTTP intranet without exception.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Common capability APIs
 
@@ -89,25 +92,13 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 # All subresources need CORP/CORS — breaks lazy third-party widgets
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **File download/upload** — `<input type="file">` simpler than drag-drop File System Access API unless needed.
+- **First-party authentication session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
+- **Background location tracking** — regulatory minefield; native application with OS permission model.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `NotAllowedError` in iframe | Parent `Permissions-Policy` | Add `allow=` on iframe; relax header for origin |
-| Works localhost, fails prod | Secure context | HTTPS everywhere; fix mixed content |
-| `getUserMedia` NotReadableError | OS-level deny / other app | User settings; kill conflicting app |
-| Clipboard read silent fail | No user gesture | Trigger on click handler |
-| SharedArrayBuffer undefined | Not cross-origin isolated | COOP/COEP or drop threading |
-| Enterprise "blocked" with no prompt | Group policy | Document fallback; native app bridge |
-| Third-party embed broken | Sandbox + policy | Minimal sandbox flags; Storage Access API |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Safari / Firefox lag** — check caniuse before shipping capability-critical path.
@@ -121,22 +112,13 @@ add_header Cross-Origin-Embedder-Policy "require-corp" always;
 > [!WARNING]
 > **Revoked permissions** — listen to `permissionstatus.onchange`; don't cache "granted" forever.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `NotAllowedError` in iframe | Parent `Permissions-Policy` | Add `allow=` on iframe; relax header for origin |
+| Works localhost, fails prod | Secure context | HTTPS everywhere; fix mixed content |
+| `getUserMedia` NotReadableError | OS-level deny / other app | User settings; kill conflicting app |
+| Clipboard read silent fail | No user gesture | Trigger on click handler |
+| SharedArrayBuffer undefined | Not cross-origin isolated | COOP/COEP or drop threading |
+| Enterprise "blocked" with no prompt | Group policy | Document fallback; native app bridge |
+| Third-party embed broken | Sandbox + policy | Minimal sandbox flags; Storage Access API |
 
-
-## When not to use
-
-- **File download/upload** — `<input type="file">` simpler than drag-drop File System Access API unless needed.
-- **First-party authentication session** — HttpOnly cookies + [[JWT authentication]] server-side; not Web Crypto keystore for sessions.
-- **Background location tracking** — regulatory minefield; native application with OS permission model.
-
----
-
-
-## Related
-
-[[CORS (Cross Origin Request Sharing)]] · [[TLS (Transport Layer Security)]] · [[JavaScript]] · [[Etherium]] · [[Animation]]
-
-## Sources
-
-- [Wikipedia — web capabilities](https://en.wikipedia.org/wiki/web_capabilities)

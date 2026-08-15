@@ -1,14 +1,30 @@
-[[routing table]] [[ip]] [[Linux network commands]] [[netstat]]
+[[routing table]] [[ip]] [[Linux network commands]] [[netstat]] [[ss]] [[BGP]]
 
 # route
 
-> legacy **net-tools** view of the kernel [[routing table]] — use `ip route` on modern systems; keep `route -n` for quick mental mapping and old scripts. **Kerrisk
+> Legacy net-tools view of the kernel [[routing table]] — prefer `ip route` on modern systems.
 
----
+## Interview Relevance
 
-## How it works
+Shows you know longest-prefix match, default routes, and that `route` is deprecated in favor of [[ip]] / netlink.
 
-The kernel holds one or more **routing tables** (main table by default). Each route maps a destination prefix to a **next hop** (gateway), **outgoing interface**, or local delivery. `route` reads/writes via the old ioctl API; `ip route` uses **netlink** (same API NetworkManager, systemd-networkd, and Cilium use).
+## Sources
+
+- [man ip-route](https://man7.org/linux/man-pages/man8/ip-route.8.html) — deep-dive
+- [Wikipedia — route (command)](https://en.wikipedia.org/wiki/Route_(command)) — overview
+
+## Core Definition
+
+The kernel holds routing tables (main by default). Each route maps a destination prefix to a next hop, outgoing interface, or local delivery. `route` uses the old ioctl API; `ip route` uses netlink — the same path NetworkManager, systemd-networkd, and many CNIs use.
+
+## Key Concepts
+
+- **Default route:** `0.0.0.0/0` — no default usually means no internet.
+- **Metric:** lower metric wins among equal prefixes.
+- **Ephemeral CLI changes:** lost on reboot unless Netplan/NM/systemd-networkd persists them.
+- **Policy routing:** `ip rule` + extra tables — invisible to plain `route -n`.
+
+## Technical Details
 
 ```
                     ┌─────────────────┐
@@ -19,13 +35,6 @@ The kernel holds one or more **routing tables** (main table by default). Each ro
               route (net-tools)  │  ip route (iproute2)
 ```
 
-| Tool | Package | Status on modern distros |
-|------|---------|--------------------------|
-| `route`, `netstat`, `ifconfig` | net-tools | Deprecated; may be absent |
-| `ip`, `ss` | iproute2 | Default; full feature set |
-
-**Translation cheat sheet:**
-
 | net-tools | iproute2 |
 |-----------|----------|
 | `route -n` | `ip route show` |
@@ -33,98 +42,45 @@ The kernel holds one or more **routing tables** (main table by default). Each ro
 | `route add -net 10.0.0.0/8 gw 10.0.0.1` | `ip route add 10.0.0.0/8 via 10.0.0.1` |
 | `route del default` | `ip route del default` |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **route / ip route** | Where packets go | “Prefer ip route on modern Linux.” |
-| **default** | 0.0.0.0/0 gateway | “No default = no internet.” |
-| **metric** | Route preference | “Lower metric wins.” |
-| **on-link** | No gateway needed | “Direct L2 on that iface.” |
-| **policy routing** | Rules by mark/src | “ip rule + multiple tables.” |
-
-
-## Configuration and commands
-
 ```bash
-# Quick numeric view (no DNS — always -n under pressure)
 route -n
-
-# Same truth, modern tool (preferred)
 ip route show
-ip -d route show                    # details: mtu, proto, metric
-
-# Which path would a packet take?
+ip -d route show
 ip route get 8.8.8.8
-# via 192.168.1.1 dev eth0 src 192.168.1.50 uid 1000
-
-# Default gateway
 ip route add default via 192.168.1.1 dev eth0
-ip route replace default via 192.168.1.1    # idempotent update
-
-# Static route to a subnet
+ip route replace default via 192.168.1.1
 ip route add 10.20.0.0/16 via 10.0.0.1 dev eth0
-
-# Delete a route
 ip route del 10.20.0.0/16
-ip route del default
-
-# All tables (PBR)
 ip route show table all
 ip rule list
 ```
 
-**Legacy `route` (when net-tools is installed):**
-
-```bash
-route -n                              # kernel routing table
-route add default gw 192.168.1.1      # ephemeral — lost on reboot
-route add -net 172.16.0.0/12 gw 10.0.0.254
-```
-
-Persistent routes belong in **NetworkManager**, Netplan, `/etc/systemd/network/`, or cloud-initialize — not bare CLI on production hosts unless you know they won't reboot.
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "Network is unreachable" | `ip route show`; `ip route get <dst>` | Add default route or more-specific route |
-| Wrong interface used | `ip route get <dst>` | Fix metric; remove conflicting route; check PBR (`ip rule`) |
-| Route vanishes after reboot | Was CLI-only | Add to Netplan/NM/systemd-networkd config |
-| `route: command not found` | net-tools not installed | Use `ip route`; or `apt install net-tools` if legacy scripts need it |
-| Two default routes | `ip route \| grep default` | Remove duplicate; lower metric wins on tie |
-| Can ping gateway, not internet | Default route missing/wrong | `ip route replace default via <gw> dev <iface>` |
-| Asymmetric routing | `ip route get` from both hosts | Align forward + reverse paths; check [[routing table]] PBR |
+| Network is unreachable | `ip route show`; `ip route get <dst>` | Add default or more-specific route |
+| Wrong interface used | `ip route get <dst>` | Fix metric; remove conflict; check `ip rule` |
+| Route vanishes after reboot | Was CLI-only | Persist in Netplan/NM/systemd-networkd |
+| `route: command not found` | net-tools missing | Use `ip route` |
+| Two default routes | `ip route \| grep default` | Remove duplicate; lower metric wins |
 
+## Real-World Applications
 
-## Gotchas
+Debugging “can ping gateway but not internet,” VPN leftover defaults, and translating old runbooks to `ip route`.
 
-> [!WARNING]
-> **`route` and `ip route` changes are ephemeral** — survive until reboot or network manager rewrite. Always trace persistence layer on the host.
+**Example:** After Docker or VPN churn, `ip route get 1.1.1.1` shows traffic leaving the wrong interface — fix metric or delete the stale default.
 
-> [!WARNING]
-> **`-n` on `route` disables DNS for gateway names** — without it, a broken resolver makes `route` hang or mislead during outages.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Default route on wrong interface** — common after VPN connect/disconnect or docker0 appearing. Compare `ip route get 1.1.1.1` before and after.
+- **Pro:** Short mental model (`route -n`) on ancient hosts.
+- **Con:** Incomplete for policy routing; often not installed; wrong tool for new automation.
 
-> [!WARNING]
-> **`route -n` shows main table only** — policy routing (`ip rule`, custom tables) invisible here. Use [[ip]] `route show table all`.
+## Comparison
 
+- vs [[ip]]: full feature set and persistence story — use for all new work.
+- vs [[routing table]]: the kernel data structure; `route`/`ip route` are the CLI.
 
-## When not to use
+## Mistakes to Avoid
 
-- **New automation or playbooks** → [[ip]] exclusively.
-- **Socket/port debugging** → [[ss]], not route.
-- **DNS resolution issues** → `resolvectl`, `/etc/resolv.conf` — routing is L3, not name lookup.
-- **Cloud VPC routing** → AWS route tables / GCP routes — host table is only one layer.
-
-
-## Related
-
-[[routing table]] [[ip]] [[Linux network commands]] [[netstat]] [[ss]] [[BGP]]
-
-## Sources
-
-- [Wikipedia — route](https://en.wikipedia.org/wiki/route)
+- Changing routes only on the CLI and expecting them to survive reboot.
+- Omitting `-n` so a broken resolver hangs `route`.
+- Believing `route -n` shows all tables when policy routing is in play.

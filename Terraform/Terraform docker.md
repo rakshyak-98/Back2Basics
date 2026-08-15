@@ -2,70 +2,26 @@
 
 # Terraform docker
 
-> Hands-on provider example — same patterns as cloud, without a bill. Framework from **Terraform in Action** (Winkler) + practices from **Terraform: Up & Running** (Brikman).
+> Practice Terraform against the local Docker provider — same init/plan/apply patterns as cloud, without a cloud bill.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers like Docker-provider demos to prove you understand providers, implicit dependency graphs, and version pins before AWS/GCP.
 
-Docker is a **non-cloud** [[terraform provider]]. Setup still follows: pin → configure → resource → plan/apply ([[Terraform setup]] · [[Terraform workflow]]).
+## Sources
 
+- [kreuzwerkel/docker provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs) — deep-dive
+- Scott Winkler, *Terraform in Action* — overview
+- Yevgeniy Brikman, *Terraform: Up & Running* — overview
 
-## Configuration and commands
+## Key Concepts
 
-```shell
-terraform init && terraform apply -auto-approve
-curl -I http://localhost:8080
-terraform destroy -auto-approve
-```
+- **Non-cloud provider:** still pin → configure → resource → plan/apply.
+- **Implicit graph:** container references image ID → correct create order.
+- **Local state OK for learning;** teams need remote state later.
+- **Patterns transfer; blast radius does not** — Docker ≠ production cloud quotas/IAM.
 
-| Knob | Why it matters |
-|------|----------------|
-| Docker daemon up | Provider talks to local socket |
-| Image pin (`var.nginx_tag`) | Reproducible pulls |
-| Port map | Host 8080 → container 80 |
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Cannot connect to Docker | Daemon / socket perms | Start Docker; fix group/`DOCKER_HOST` |
-| Port already allocated | `ss -lptn 'sport = :8080'` | Change `external` port or stop conflict |
-| Image pull fail | Network / tag | Fix tag; retry pull |
-| Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
-| Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Local state only** — fine for learning; teams need remote state ([[Terraform setup]]).
-
-> [!WARNING]
-> **docker ≠ production cloud** — patterns transfer; quotas, IAM, and blast radius do not.
-
-
-## When not to use
-
-- **Real production containers** — use k8s/ECS + CI, not Terraform Docker day-to-day.
-- **Learning Linux networking** — compose may teach faster than HCL.
-
-
-## Why practice with Docker
-
-| Goal | Benefit |
-|------|---------|
-| Learn HCL + workflow | No AWS/GCP account needed |
-| See provider plugins live | Same `init` / lock file behavior |
-| Safe destroy loops | Tear down containers freely |
-
-Brikman: learn the tool first; swap provider for a real cloud later.
-
----
-
-
-## Minimal project
+## Technical Details
 
 ```txt
 terraform-docker/
@@ -75,11 +31,9 @@ terraform-docker/
 └── variables.tf
 ```
 
-### versions.tf
 ```hcl
 terraform {
   required_version = ">= 1.5.0"
-
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
@@ -87,31 +41,17 @@ terraform {
     }
   }
 }
-```
 
-### providers.tf
-```hcl
 provider "docker" {
-  # host defaults to local Docker socket
   # host = "unix:///var/run/docker.sock"
 }
-```
 
-Same idea as `provider "aws"` — only the plugin changes → [[terraform provider]]
-
-### variables.tf
-```hcl
 variable "nginx_tag" {
   type        = string
   default     = "1.25-alpine"
   description = "nginx image tag"
 }
-```
 
-→ [[variable file]]
-
-### main.tf
-```hcl
 resource "docker_image" "nginx" {
   name = "nginx:${var.nginx_tag}"
 }
@@ -119,7 +59,6 @@ resource "docker_image" "nginx" {
 resource "docker_container" "web" {
   name  = "tf-nginx"
   image = docker_image.nginx.image_id
-
   ports {
     internal = 80
     external = 8080
@@ -127,50 +66,53 @@ resource "docker_container" "web" {
 }
 ```
 
-Implicit dependency: container references image → correct order (Winkler graph).
-
----
-
-
-## Run it
-
 ```shell
-# Docker daemon must be running
-terraform init
-terraform plan
-terraform apply
+terraform init && terraform apply -auto-approve
 curl -I http://localhost:8080
-terraform destroy
+terraform destroy -auto-approve
+TF_LOG=DEBUG terraform apply
 ```
 
-Debug provider issues: `TF_LOG=DEBUG terraform apply` → [[Terraform CLI]]
-
----
-
-
-## Map to cloud thinking
+| Knob | Why it matters |
+|------|----------------|
+| Docker daemon up | Provider talks to local socket |
+| Image pin (`var.nginx_tag`) | Reproducible pulls |
+| Port map | Host 8080 → container 80 |
 
 | Docker here | Analog on AWS/GCP |
 |-------------|-------------------|
 | `docker_image` | AMI / container image lookup |
 | `docker_container` | EC2 / Cloud Run / GCE VM |
 | Local socket auth | IAM / ADC / az identity |
-| Local state fine | Move to remote backend for teams ([[Terraform setup]]) |
+| Local state fine | Move to remote backend for teams |
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Cannot connect to Docker | Daemon / socket perms | Start Docker; fix group/`DOCKER_HOST` |
+| Port already allocated | `ss -lptn 'sport = :8080'` | Change `external` port or stop conflict |
+| Image pull fail | Network / tag | Fix tag; retry pull |
+| Destroy leaves container | State lost | `docker rm` manually; re-import or ignore |
+| Provider version mismatch | lock vs constraint | `init -upgrade` intentionally |
 
+## Real-World Applications
 
-## Book takeaways
+Onboarding engineers to HCL without cloud accounts; workshop destroy loops; validating provider lock-file behavior.
 
-- **Winkler**: providers are interchangeable plugins; resources + references define the graph
-- **Brikman**: pin versions, use variables, destroy cleanly, graduate to remote state when collaborating
-- Core language still: [[terraform]]
+**Example:** Apply nginx on `:8080`, curl it, destroy — then swap provider to AWS with the same workflow habits.
 
+## Pros/Cons or Trade-offs
 
-## Related
+- **Pro:** Fast, free feedback on Terraform mechanics.
+- **Con:** Not how you run production containers day-to-day (prefer k8s/ECS + CI).
+- **Con:** Compose may teach Linux networking faster than HCL for that narrow goal.
 
-[[Terraform setup]] [[terraform provider]] [[terraform]] [[Terraform workflow]] [[variable file]] [[Terraform CLI]]
+## Comparison
 
-## Sources
+- Same plugin pattern as [[terraform provider]]; graduate to [[Terraform setup]] remote state when collaborating.
+- Core language still [[terraform]].
 
-- [Wikipedia — Terraform docker](https://en.wikipedia.org/wiki/Terraform_docker)
+## Mistakes to Avoid
+
+- Treating local Docker Terraform as a production orchestrator.
+- Losing state and assuming `destroy` cleaned host containers.
+- Unpinned image tags in learning projects that later become “prod-like.”

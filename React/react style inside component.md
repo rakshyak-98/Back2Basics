@@ -4,19 +4,17 @@
 
 > React style inside component — CSS Modules (*.module.css) → build-time scoped class names (Vite default)
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use React style inside component to test whether you can apply the idea under production constraints, not recite docs.
+
+## Sources
+
+- [Wikipedia — react style inside component](https://en.wikipedia.org/wiki/react_style_inside_component) — overview
+
+## Key Concepts
 
 Options for component-local styling:
-
-```txt
-CSS Modules (*.module.css)   → build-time scoped class names (Vite default)
-Tailwind utility classes      → [[css/tailwindcss]] in className
-styled-jsx                    → <style jsx> injected per component (Next)
-CSS-in-JS runtime             → styled-components (runtime cost)
-Inline style={{}}             → dynamic one-offs only
-```
 
 `styled-jsx` scopes selectors to the component subtree — good for **small overrides** in Next pages without global CSS file sprawl.
 
@@ -26,10 +24,15 @@ Component CSS  → module or styled-jsx
 Design system  → shared Button variants
 ```
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+CSS Modules (*.module.css)   → build-time scoped class names (Vite default)
+Tailwind utility classes      → [[css/tailwindcss]] in className
+styled-jsx                    → <style jsx> injected per component (Next)
+CSS-in-JS runtime             → styled-components (runtime cost)
+Inline style={{}}             → dynamic one-offs only
+```
 
 ### CSS Modules (recommended default in Vite)
 
@@ -75,10 +78,23 @@ export function Badge({ color }: { color: string }) {
 
 Avoid huge inline objects recreated every render ([[referential equality]] matters for memoized children).
 
----
+## Real-World Applications
 
+Apply React style inside component in feature code where the Key Concepts match; verify with the Mistakes table.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
+- **Con / skip when:** **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
+- **Con / skip when:** **Plain static site** — external CSS file sufficient.
+
+## Comparison
+
+- vs [[css/tailwindcss]]: **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
+- vs [[Framer motion]]: **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,33 +104,5 @@ Avoid huge inline objects recreated every render ([[referential equality]] matte
 | Specificity wars | Global !important | Scope with Modules |
 | Hydration class mismatch | Random class gen | Stable build config |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Runtime CSS-in-JS** — extra bundle + insert cost; RSC apps often prefer static CSS ([[RSC (React Server Component boundaries)]]).
-
-> [!WARNING]
-> **styled-jsx global** — `<style jsx global>` affects entire app — use sparingly.
-
----
-
-
-## When not to use
-
-- **Design system at scale** — Tailwind + component variants ([[css/tailwindcss]]), not per-component `<style jsx>`.
-- **Animation-heavy** — [[Framer motion]] + CSS transforms, not inline everything.
-- **Plain static site** — external CSS file sufficient.
-
----
-
-
-## Related
-
-[[css/tailwindcss]] · [[css/scss]] · [[Optimizing performance]] · [[React build]]
-
-## Sources
-
-- [Wikipedia — react style inside component](https://en.wikipedia.org/wiki/react_style_inside_component)
+- **Runtime CSS-in-JS** — extra bundle + insert cost; RSC apps often prefer static CSS ([[RSC (React Server Component boundaries)]]).
+- **styled-jsx global** — `<style jsx global>` affects entire app — use sparingly.

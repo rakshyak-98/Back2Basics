@@ -1,139 +1,77 @@
-[[D-Bus]] [[systemd]] [[Services commands]] [[systemctl]]
+[[D-Bus]] [[services/systemd]] [[Services commands]] [[systemctl]] [[systemd-hostnamed]] [[journalctl]]
 
 # busctl
 
-> busctl — d-Bus is the IPC bus desktop and server daemons use to expose APIs (hostname changes, login events, NetworkManager, logind). busctl wraps libsystemd's bus API — same
+> busctl introspects and calls D-Bus APIs — the same IPC bus systemd, NetworkManager, logind, and desktop services use.
 
----
+## Interview Relevance
+Platform debugging: system vs session bus, introspect-before-call, and when to use busctl vs systemctl vs journalctl.
 
-## How it works
+## Sources
+- [busctl(1)](https://www.freedesktop.org/software/systemd/man/latest/busctl.html) — deep-dive
+- [D-Bus specification](https://dbus.freedesktop.org/doc/dbus-specification.html) — overview
 
-D-Bus is the IPC bus desktop and server daemons use to expose APIs (hostname changes, login events, NetworkManager, logind). **busctl** wraps libsystemd's bus API — same world as `systemctl`, `hostnamectl`, `loginctl`.
+## Core Definition
+D-Bus is the machine IPC bus. **busctl** wraps libsystemd’s bus API — list names, walk object trees, get properties, call methods, monitor traffic. Same world as `systemctl`, `hostnamectl`, `loginctl`.
 
-```
-Client ──► D-Bus daemon (/run/dbus/system_bus_socket)
-              ▲
-         busctl list / call / monitor
-              │
-         systemd, NetworkManager, polkit, …
-```
+## Key Concepts
+- **System vs session bus:** Machine-wide vs per-user desktop (`--user`).
+- **Introspect:** Discover methods/signatures before calling.
+- **polkit:** Many system-bus methods need authorization.
+- **monitor/capture:** Watch or pcap traffic for race hunts.
+- **Not every daemon:** Some services only expose sockets/units.
+
+## Technical Details
 
 | Bus | Socket | Scope |
 |-----|--------|-------|
-| System | `/run/dbus/system_bus_socket` | Machine-wide (`--system`, default for root) |
-| Session | `$DBUS_SESSION_BUS_ADDRESS` | Per-user desktop (`--user`) |
-
-**versus related tools:**
-
-| Tool | Role |
-|------|------|
-| `busctl` | Structured introspect + call (systemd) |
-| `dbus-send` | Low-level message send (legacy) |
-| `dbus-monitor` | Raw traffic tap |
-| `gdbus` | GLib helper (GNOME stack) |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **D-Bus** | IPC message bus | “systemd and desktop talk over D-Bus.” |
-| **busctl** | Introspect/call | “busctl tree / call for debugging.” |
-| **system vs session** | Bus scopes | “system bus needs root often.” |
-| **introspect** | List methods | “Discover API before calling.” |
-| **monitor** | Watch messages | “busctl monitor for race hunts.” |
-
-
-## Configuration and commands
+| System | `/run/dbus/system_bus_socket` | Machine-wide |
+| Session | `$DBUS_SESSION_BUS_ADDRESS` | Per-user desktop |
 
 ```bash
-# List active bus names
 busctl list
 busctl --user list
-
-# Tree of objects on a service
 busctl tree org.freedesktop.systemd1
-
-# Introspect methods/properties on an object
 busctl introspect org.freedesktop.systemd1 /org/freedesktop/systemd1
 
-# Read a property
 busctl get-property org.freedesktop.systemd1 \
   /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager Version
 
-# Call a method (unit list slice)
 busctl call org.freedesktop.systemd1 \
   /org/freedesktop/systemd1 \
   org.freedesktop.systemd1.Manager ListUnits
 
-# Monitor traffic (noisy — narrow in prod)
-busctl monitor
 busctl monitor org.freedesktop.login1
-
-# Capture to pcap for wireshark
 busctl capture > dbus.pcap
-```
-
-**Common incident patterns:**
-
-```bash
-# Who owns the system bus?
 busctl status
-
-# Is systemd responding on D-Bus?
-busctl introspect org.freedesktop.systemd1 /org/freedesktop/systemd1 | head
-
-# Hostname API (same backend as hostnamectl)
-busctl get-property org.freedesktop.hostname1 \
-  /org/freedesktop/hostname1 org.freedesktop.hostname1 Hostname
 ```
 
-Pair with [[Services commands]]:
-
-```bash
-systemctl --failed
-journalctl -u dbus -u NetworkManager --since "10 min ago"
-```
-
-
-## When things break
+| Tool | Role |
+|------|------|
+| `busctl` | Structured introspect + call |
+| `dbus-send` | Low-level legacy send |
+| `dbus-monitor` | Raw traffic tap |
+| `gdbus` | GLib/GNOME helper |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `Failed to connect to bus` | dbus daemon down | `systemctl status dbus`; `systemctl start dbus` |
-| Session bus errors in desktop app | `echo $DBUS_SESSION_BUS_ADDRESS` | Re-login; `dbus-launch` for bare X |
-| `busctl list` empty/minimal | Wrong bus (`--user` vs system) | Add `--system` or run as session user |
-| Method call AccessDenied | polkit policy | Run as root; check polkit rules; use intended user session |
-| systemd D-Bus hangs | systemd overload/deadlock | [[journalctl]] `-u systemd`; safe reboot |
-| Monitor floods terminal | Broad `busctl monitor` | Filter by service: `busctl monitor org.freedesktop.systemd1` |
+| Failed to connect to bus | dbus down | `systemctl status dbus` |
+| Session bus errors | `$DBUS_SESSION_BUS_ADDRESS` | Re-login; session for desktop |
+| AccessDenied | polkit | Root or correct user session |
+| Monitor floods | Broad monitor | Filter by service name |
 
+## Real-World Applications
+Confirming hostname1 properties match `hostnamectl`, debugging logind seat issues, and verifying systemd still answers on D-Bus during weird hangs.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Precise API access beyond what CLI wrappers expose.
+- **Con:** Verbose; wrong signatures fail opaquely; monitor is noisy.
+- **Trade-off:** busctl for API debug vs [[systemctl]] for unit lifecycle.
 
-> [!WARNING]
-> **`busctl monitor` on production** — high volume; can impact debugging session. Narrow service; use time bounds.
+## Comparison
+vs [[systemctl]]: unit start/stop/status. vs [[journalctl]]: logs. vs raw dbus-monitor: busctl is higher-level. Cron has no session bus by default.
 
-> [!WARNING]
-> **Session vs system bus** — `hostnamectl` as user uses polkit → system bus; your script in cron has **no session bus**.
-
-> [!WARNING]
-> **Method signatures matter** — wrong `busctl call` types cause opaque errors. Always `introspect` first.
-
-> [!WARNING]
-> **Not every daemon is on D-Bus** — legacy services may only expose sockets or [[systemctl]] units.
-
-
-## When not to use
-
-- **Simple service restart** → [[systemctl]].
-- **GNOME-specific APIs** → sometimes easier with `gdbus`.
-- **Remote machines** → SSH + busctl locally; D-Bus doesn't tunnel by default.
-- **Performance tracing** → eBPF, application metrics — not bus introspection.
-
-
-## Related
-
-[[D-Bus]] [[systemd]] [[Services commands]] [[systemctl]] [[systemd-hostnamed]]
-
-## Sources
-
-- [Wikipedia — busctl](https://en.wikipedia.org/wiki/busctl)
+## Mistakes to Avoid
+- Broad `busctl monitor` on busy production hosts.
+- Calling methods without `introspect` for types.
+- Expecting a session bus inside cron/SSH without a desktop login.

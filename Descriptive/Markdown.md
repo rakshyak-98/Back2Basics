@@ -1,12 +1,19 @@
-[[Descriptive]] [[html]] [[Mermaid (DSL)]]
+[[Descriptive]] [[html]] [[Mermaid (DSL)]] [[LF and CRLF]]
 
 # Markdown
 
 > Markdown is lightweight plaintext that compiles to HTML — good for notes, READMEs, and docs-as-code.
 
----
+## Interview Relevance
 
-## How it works
+Markdown literacy is assumed — interviewers care about clarity in docs/PRs more than flavor quirks.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+- [Markdown — Wikipedia](https://en.wikipedia.org/wiki/Markdown) — overview
+
+## Key Concepts
 
 ```txt
 .md → parser (flavor) → HTML
@@ -21,10 +28,7 @@
 | **Wikilink** | `[[Note]]` | “Obsidian vault links.” |
 | **Safe HTML** | Sanitization | “Don’t XSS user Markdown.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```markdown
 # Title
@@ -39,10 +43,18 @@
 | Sanitize | User-generated MD |
 | Line endings | [[LF and CRLF]] |
 
----
+## Pros/Cons or Trade-offs
 
+- **Complex page layout** — real HTML/CSS.
+- **Strict legal pagination** — PDF.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Indentation in lists/code** — 4 spaces vs fences confuse beginners.
+
+> [!WARNING]
+> **Mixing HTML casually** — portability and XSS risks.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +63,3 @@
 | XSS in HTML | raw HTML allowed | Sanitize |
 | Preview ≠ GitHub | dialect drift | Stick to GFM subset |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Indentation in lists/code** — 4 spaces vs fences confuse beginners.
-
-> [!WARNING]
-> **Mixing HTML casually** — portability and XSS risks.
-
----
-
-
-## When not to use
-
-- **Complex page layout** — real HTML/CSS.
-- **Strict legal pagination** — PDF.
-
-
-## Related
-
-[[html]] [[LF and CRLF]] [[Mermaid (DSL)]]
-
-## Sources
-
-- [Wikipedia — Markdown](https://en.wikipedia.org/wiki/Markdown)

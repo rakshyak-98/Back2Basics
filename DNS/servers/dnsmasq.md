@@ -1,20 +1,32 @@
-[[DNS server]] · [[Unbound]] · [[mDNS]] · [[TFTP]]
+[[DNS server]] [[Unbound]] [[mDNS]] [[TFTP]] [[public resolver]] [[DNS rebinding]]
 
 # dnsmasq
 
 > dnsmasq provides DNS caching, conditional forwarding, and DHCP on small networks — one lightweight process for home routers, libvirt bridges, and Docker's embedded DNS forwarder patterns.
 
----
+## Interview Relevance
 
-## Features
+Interviewers use dnsmasq for edge/LAN DNS+DHCP combined roles, port-53 conflicts with systemd-resolved, and `local=` authoritative suffixes.
+
+## Sources
+
+- [dnsmasq man page](http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html) — deep-dive
+- [Arch Wiki — dnsmasq](https://wiki.archlinux.org/title/Dnsmasq) — overview
+
+## Key Concepts
+
+- **Forwarder + cache:** upstream ISP or [[public resolver]] answers cached locally.
+- **Local authority:** `local=/home.arpa/` serves a suffix without forwarding.
+- **DHCP integration:** leased hosts publish as local names.
+- **Tiny footprint:** ideal for routers and lab bridges — not a full validating Internet recursive stack.
+
+## Technical Details
 
 - **DNS forwarder** — caches upstream answers from ISP or [[public resolver]]
 - **Local names** — `/etc/hosts` and `address=/domain/ip` overrides
 - **DHCP** — hands out IPs and publishes local names
 - **TFTP** — optional ([[TFTP]] PXE boot scenarios)
 - **DNSSEC** — validation when configured with trust anchors
-
-## Example `/etc/dnsmasq.conf`
 
 ```ini
 port=53
@@ -28,11 +40,7 @@ dhcp-range=192.168.1.100,192.168.1.200,12h
 
 `local=/home.arpa/` makes dnsmasq authoritative for that domain without forwarding.
 
-## Docker / libvirt
-
 Docker Desktop and Linux bridge networks often run dnsmasq to resolve container names and forward external queries.
-
-## Debugging
 
 ```bash
 sudo systemctl status dnsmasq
@@ -42,24 +50,32 @@ sudo tail -f /var/log/syslog | grep dnsmasq
 
 Port **53 conflicts** with systemd-resolved or [[Unbound]] — only one listener per interface.
 
-## Security
-
-- Do not expose unauthenticated DNS/DHCP to untrusted networks without ACLs (`interface=`, `listen-address=`)
-- `stop-dns-rebind` option mitigates some [[DNS rebinding]] patterns for clients using this resolver
-
-## vs [[Unbound]]
+**Security:** do not expose unauthenticated DNS/DHCP to untrusted networks without ACLs (`interface=`, `listen-address=`); `stop-dns-rebind` mitigates some [[DNS rebinding]] patterns for clients using this resolver.
 
 | dnsmasq | Unbound |
 |---------|---------|
 | DHCP + small LAN DNS | Full validating resolver |
 | Tiny footprint | More DNSSEC rigor |
 
-## Recall
+## Real-World Applications
 
-- Why does dnsmasq read `/etc/hosts` automatically?
-- What happens if both systemd-resolved and dnsmasq bind port 53?
+Home gateways, libvirt default networks, Pi-hole-adjacent setups, and container bridge name resolution.
 
-## Sources
+**Example:** DHCP hands `printer` a lease; dnsmasq answers `printer.home.arpa` from the lease table while forwarding `google.com` to 1.1.1.1.
 
-- [dnsmasq man page](http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html)
-- [Arch Wiki — dnsmasq](https://wiki.archlinux.org/title/Dnsmasq)
+## Pros/Cons or Trade-offs
+
+- **Pro:** One process covers DHCP + local DNS + cache — low ops for small LANs.
+- **Con:** Weaker default posture than a dedicated validating [[Unbound]].
+- **Con:** Easy to conflict with systemd-resolved on the same host.
+
+## Comparison
+
+- vs [[Unbound]]: pick Unbound for validating recursion; dnsmasq when you also need DHCP/LAN glue.
+- vs [[mDNS]]: dnsmasq is unicast server-based LAN DNS; mDNS is multicast `.local` without a server.
+
+## Mistakes to Avoid
+
+- Binding DNS/DHCP on untrusted interfaces without `interface=` / `listen-address=` ACLs.
+- Running alongside systemd-resolved both claiming `:53`.
+- Treating dnsmasq as a full Internet authoritative + DNSSEC zone master.

@@ -1,112 +1,73 @@
-[[commands]] [[apt package manager]] [[apt configuration]]
+[[Commands]] [[apt package manager]] [[apt config]] [[source list file]] [[gpg]]
 
 # APT policy
 
-> `apt policy` shows which versions exist, where they come from, and which pin priority wins — so you know *what apt will install next*.
+> apt policy shows which versions exist, where they come from, and which pin priority wins — so you know what apt will install next.
 
----
+## Interview Relevance
+Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how preferences.d pins steer upgrades.
 
-## How it works
+## Sources
+- [apt_preferences(5)](https://manpages.debian.org/apt_preferences.5) — deep-dive
+- [apt(8)](https://manpages.debian.org/apt.8) — overview
+
+## Core Definition
+`apt policy pkg` prints Installed, **Candidate** (what the next install/upgrade would pick), and a version table with **pin priorities** and origins. Trust **Candidate** for install decisions — not a random `apt-cache show` line.
+
+## Key Concepts
+- **Candidate:** Resolver’s chosen version.
+- **Priority 100:** Installed / dpkg status — loses to normal repo 500 on upgrade.
+- **500:** Default archive/PPA priority.
+- **≥1000:** Can force downgrades — dangerous.
+- **Pinning:** `/etc/apt/preferences.d/` rules to prefer an origin.
+
+## Technical Details
 
 ```txt
 apt policy pkg
   Installed: …
-  Candidate: …     ← what the next upgrade/install would pick
+  Candidate: …     ← next upgrade/install
   Version table:
-     1.2.3 500     ← priority + origin
- *** 1.1.0 100     ← *** marks currently installed
+     1.2.3 500
+ *** 1.1.0 100     ← *** = currently installed
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Candidate** | Version apt would choose | “Policy’s Candidate is the resolver’s answer.” |
-| **Priority 100** | Installed / dpkg status | “Installed isn’t automatically preferred over a 500 repo.” |
-| **500** | Normal repo pin | “Default archive priority.” |
-| **≥1000** | Force even downgrades | “Dangerous pin — can yank you backward.” |
-| **Pinning** | preferences.d rules | “How we stay on nginx from the PPA.” |
-
-### Priority cheat sheet
 
 | Priority | Typical meaning |
 |----------|-----------------|
-| **100** | Installed (status file) |
-| **500** | Default from repositories / PPAs |
-| **990** | `APT::Default-Release` target |
-| **1–99** | Soft-pin / never auto-upgrade onto |
-| **>1000** | Force install even if downgrade |
-
----
-
-
-## Configuration and commands
+| 100 | Installed (status file) |
+| 500 | Default from repositories |
+| 990 | `APT::Default-Release` target |
+| 1–99 | Soft-pin / never auto-upgrade onto |
+| >1000 | Force even downgrade |
 
 ```bash
 apt policy
 apt policy nginx
-
-# Example reading
-# nginx:
-#   Installed: 1.18.0-0ubuntu1
-#   Candidate: 1.21.0-1+ubuntu20.04
-#   Version table:
-#      1.21.0-1+ubuntu20.04 500
-#         500 http://ppa.../nginx/stable/...
-#  *** 1.18.0-0ubuntu1 100
-#         100 /var/lib/dpkg/status
+apt-cache policy nginx
+apt list -a nginx
 ```
 
-Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/` — see [[apt configuration]].
-
-```bash
-apt-cache policy nginx    # older synonym-ish via apt-cache
-apt list -a nginx         # all known versions
-```
-
----
-
-
-## When things break
+Pin files: `/etc/apt/preferences`, `/etc/apt/preferences.d/` — see [[apt config]].
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Wrong version keeps winning | `apt policy pkg` | Adjust pin / disable conflicting repo |
-| Upgrade never picks installed security fix | Candidate origin | Enable `-security` pocket; refresh `apt update` |
+| Security fix not candidate | Candidate origin | Enable `-security`; `apt update` |
 | Hold ignored? | `apt-mark showhold` | Hold ≠ pin; use both deliberately |
-| Mystery 990 | Default-Release set | Check apt.conf.d |
-| “But apt-cache show says…” | Different code paths | Trust **policy Candidate** for install decisions |
+| Mystery 990 | Default-Release | Check apt.conf.d |
 
----
+## Real-World Applications
+Explaining why a PPA nginx upgrades over Ubuntu’s, pinning a vendor package, and debugging “apt wants to downgrade.”
 
+## Pros/Cons or Trade-offs
+- **Pro:** Transparent resolver view across multiple origins.
+- **Con:** Pins >1000 and conflicting origins are easy to misuse.
+- **Trade-off:** Stay on distro packages vs third-party freshness.
 
-## Gotchas
+## Comparison
+vs [[source list file]]: sources define *where*; policy decides *which version*. vs `apt-mark hold`: hold blocks upgrades; pins steer choice. vs dnf/yum: different stack.
 
-> [!WARNING]
-> **Installed at 100 loses to repo at 500** — that is why upgrades replace the local version.
-
-> [!WARNING]
-> **Pins >1000 can downgrade** — use only with a written rollback plan.
-
-> [!WARNING]
-> **Multiple origins same version** — priority *and* order matter; policy shows the truth.
-
----
-
-
-## When not to use
-
-- **Searching package names** — `apt search` / `apt-cache search`.
-- **Reading changelogs** — `apt changelog`.
-- **dnf/yum systems** — different stack.
-
----
-
-
-## Related
-
-[[apt package manager]] [[apt configuration]] [[gpg]] [[commands]]
-
-## Sources
-
-- [Wikipedia — APT policy](https://en.wikipedia.org/wiki/APT_policy)
+## Mistakes to Avoid
+- Assuming Installed (100) always beats repo (500).
+- Using priority >1000 without a downgrade plan.
+- Trusting `apt-cache show` over policy Candidate for “what will install.”

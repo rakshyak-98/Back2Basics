@@ -1,12 +1,19 @@
-[[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[SOLID]] [[Design pattern/Dependency Injection]] [[Design pattern/Adapter]] [[KISS]]
+[[Multi-tier and Layered Architecture]] [[presentation layer]] [[Service Layer]] [[frontend layered architecture]] [[SOLID]] [[Design pattern/Dependency Injection]] [[Design pattern/Adapter]] [[KISS]] [[Orchestration layer]] [[DRY]] [[Microservice]] [[gRPC]] [[API design]] [[React Architecture]]
 
 # Clean Architecture
 
-> Clean Architecture — a dependency-management pattern, not a deployment diagram. Martin unified Hexagonal (Cockburn), Onion (Palermo), Screaming Architecture, DCI (Coplien/Reenskaug), and BCE (Jacobson) into one actionable
+> Clean Architecture — keep business rules independent of frameworks by pointing all source dependencies inward.
 
----
+## Interview Relevance
 
-## How it works
+Clean Architecture interviews test the Dependency Rule — domain independence, adapter boundaries, and when the ceremony is worth it.
+
+## Sources
+
+- [Robert C. Martin — Clean Architecture (blog)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — deep-dive
+- [Alistair Cockburn — Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/) — overview
+
+## Key Concepts
 
 Clean Architecture is a **dependency-management** pattern, not a deployment diagram. Martin unified Hexagonal (Cockburn), Onion (Palermo), Screaming Architecture, DCI (Coplien/Reenskaug), and BCE (Jacobson) into one actionable rule: **source code dependencies point inward only** — toward higher-level **policies** (business rules), never toward mechanisms (web, DB, frameworks).
 
@@ -43,62 +50,9 @@ Clean Architecture is a **dependency-management** pattern, not a deployment diag
 4. Independent of database
 5. Independent of external agencies
 
----
+## Technical Details
 
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Clean Architecture ≠ microservices.** Each service is usually a small hexagonal/clean app internally. Distribution is orthogonal to the Dependency Rule. See [[Multi-tier and Layered Architecture]].
-
-> [!WARNING]
-> **The database is not the center.** Martin ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html)): letting the DB schema drive design early "warps" use cases. Model use cases first; derive schema from identified queries and relationships.
-
-> [!WARNING]
-> **Pass-through layers are worse than no layers.** Adapters that only forward calls add navigation cost with zero boundary value. Every layer must earn its complexity ([Rentea](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/), [DEV: Clean Architecture Trap](https://dev.to/marcolenzo/the-clean-architecture-trap-241k)).
-
-> [!WARNING]
-> **DTO mapping fatigue.** Not every transition needs a new type. Reuse shapes when identical; map only at real boundary mismatches.
-
-> [!WARNING]
-> **MVC `Model` ≠ Entity.** In Clean Architecture, MVC models are often dumb data passed across the adapter ring; critical rules live in entities.
-
-> [!WARNING]
-> **Discipline erodes under deadline pressure.** One `import` of an ORM type into a use case starts the leak. Enforce with arch-unit, ESLint `import/no-restricted-paths`, or module boundaries in code review.
-
----
-
-
-## When not to use
-
-| Situation | Why skip full Clean Architecture |
-|-----------|----------------------------------|
-| CRUD API with no business rules | Ports/adapters add ceremony without boundary value |
-| Prototype / MVP validation | Time-to-market > long-term isolation |
-| Solo dev, short-lived project | Wiring cost exceeds benefit |
-| Challenge is ops/scale, not domain rules | Vertical slicing, CQRS, or event-driven may fit better ([Rentea](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)) |
-| Every operation is `repository.save(entity)` | Anemic use cases — structure without logic |
-
-**Pragmatic path:** Start with simple layered monolith (handler → service → repository). Extract ports and use-case packages when tests fight Docker, rules outlive framework churn, or a second delivery channel appears. Easier to add boundaries later than delete empty ones.
-
----
-
-
-## Decision table: when Clean Architecture earns its cost
+### Decision table: when Clean Architecture earns its cost
 
 | Signal | Lean toward Clean | Lean toward simpler layering / [[KISS]] |
 |--------|-------------------|----------------------------------------|
@@ -111,10 +65,7 @@ Clean Architecture is a **dependency-management** pattern, not a deployment diag
 
 **Martin's bar:** Earn structure when **testability and longevity** justify ~2–3× more types/files. Victor Rentea's pragmatic simplifications ([blog](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/)): relaxed layers, remove interfaces with only one implementation, merge one-liner pass-through controllers.
 
----
-
-
-## Lineage (what Clean Architecture synthesizes)
+### Lineage (what Clean Architecture synthesizes)
 
 Martin explicitly credits prior work. These patterns share the same goal — **separation of concerns via inward dependencies** — with different emphasis:
 
@@ -129,10 +80,7 @@ Martin explicitly credits prior work. These patterns share the same goal — **s
 
 In practice, teams often use "Clean Architecture" as an umbrella term. The **invariant** across all of them: protect the core from volatile outer details via interfaces and inward-pointing dependencies.
 
----
-
-
-## The four rings (typical layers)
+### The four rings (typical layers)
 
 Circles are **schematic** — you may need more than four. The Dependency Rule always applies regardless of ring count.
 
@@ -180,10 +128,7 @@ Glue to volatile details: Express, Spring, Postgres driver, React, Kafka client.
 
 Martin's repeated mantra ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html)): *"The database is a detail."* Defer DB and framework decisions until use cases and entities are understood and tested.
 
----
-
-
-## The Dependency Rule (the invariant)
+### The Dependency Rule (the invariant)
 
 > Source code dependencies can only point **inward**. Nothing in an inner circle can know anything about an outer circle — including names of functions, classes, variables, or any named entity. — Martin
 
@@ -205,10 +150,7 @@ Martin's repeated mantra ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/
        └── depends on ──► PostgresOrderRepository (adapter, outer)
 ```
 
----
-
-
-## Crossing boundaries: Dependency Inversion in practice
+### Crossing boundaries: Dependency Inversion in practice
 
 When a use case must call outward (save to DB, send HTTP response), the inner layer defines the contract:
 
@@ -234,10 +176,7 @@ const controller = new CreateOrderController(useCase);
 
 See [[Design pattern/Dependency Injection]] for wiring patterns and test doubles.
 
----
-
-
-## Screaming Architecture
+### Screaming Architecture
 
 > *"The architecture of a software application should scream about the use cases of the application."* — [Martin, 2011](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html)
 
@@ -249,10 +188,7 @@ See [[Design pattern/Dependency Injection]] for wiring patterns and test doubles
 
 Good architecture **defers** framework and DB decisions. You should be able to deliver as console application, web application, or thick client without rewriting core policy.
 
----
-
-
-## Comparison: Clean vs Hexagonal vs Onion
+### Comparison: Clean vs Hexagonal vs Onion
 
 | Aspect | Hexagonal (Cockburn) | Onion (Palermo) | Clean (Martin) |
 |--------|---------------------|-----------------|----------------|
@@ -264,10 +200,7 @@ Good architecture **defers** framework and DB decisions. You should be able to d
 
 All three produce similar folder structures in production code. Pick one vocabulary per team and enforce the Dependency Rule — not three competing diagrams.
 
----
-
-
-## Standard structure / code
+### Standard structure / code
 
 ### Package layout (screaming architecture)
 
@@ -372,10 +305,7 @@ expect(result.total).toBe(42);
 
 If business-rule tests require Docker, the Dependency Rule is already violated.
 
----
-
-
-## Triage (design review / when architecture breaks)
+### Triage (design review / when architecture breaks)
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -411,63 +341,15 @@ FAIL:
   □ Microservices split before entities/use cases stable in monolith
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** **Pragmatic path:** Start with simple layered monolith (handler → service → repository). Extract ports and use-case packages when tests fight Docker, rules outlive framework churn, or a second delivery channel appears. Easier to add boundaries later than delete empty ones.
 
-## Related
+## Mistakes to Avoid
 
-**Vault siblings:** [[Multi-tier and Layered Architecture]] · [[presentation layer]] · [[Service Layer]] · [[frontend layered architecture]] · [[Orchestration layer]]
-
-**Principles & patterns:** [[SOLID]] · [[Design pattern/Dependency Injection]] · [[Design pattern/Adapter]] · [[KISS]] · [[DRY]]
-
-**Distribution:** [[Microservice]] · [[gRPC]] · [[API design]]
-
-**Frontend:** [[frontend layered architecture]] · [[React Architecture]]
-
----
-
-
-### References
-
-
-### Primary sources (Robert C. Martin)
-
-| Resource | URL |
-|----------|-----|
-| **The Clean Architecture** (blog, Aug 2012) | https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html |
-| **No DB** (database as detail) | https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html |
-| **Screaming Architecture** (Sep 2011) | https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html |
-| *Clean Architecture: A Craftsman's Guide to Software Structure and Design* (Prentice Hall, 2017) | ISBN 978-0134494164 |
-| InformIT excerpt — Dependency Rule & layers | https://www.informit.com/articles/article.aspx?p=2832399 |
-
-### Lineage & related patterns
-
-| Resource | URL |
-|----------|-----|
-| Alistair Cockburn — Hexagonal (Ports & Adapters) | https://alistair.cockburn.us/hexagonal-architecture |
-| Jeffrey Palermo — Onion Architecture part 1 | https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/ |
-| Wikipedia — Hexagonal architecture | https://en.wikipedia.org/wiki/Hexagonal_architecture_(software) |
-| Thoughtworks — Demystifying architecture patterns | https://www.thoughtworks.com/insights/blog/architecture/demystify-software-architecture-patterns |
-| Growing Object Oriented Software, Guided by Tests (Freeman & Pryce) | Hexagonal in practice |
-
-### Critical / pragmatic perspectives
-
-| Resource | URL |
-|----------|-----|
-| Victor Rentea — Overengineering in Onion/Hexagonal | https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/ |
-| Marco Lenzo — The Clean Architecture Trap | https://dev.to/marcolenzo/the-clean-architecture-trap-241k |
-| Application Architect — Dependency Rule deep dive | https://www.application-architect.com/posts/clean-architecture-dependency-rule-and-layers/ |
-| softengbook.org — Clean Architecture chapter | https://softengbook.org/articles/clean-architecture |
-
-### Implementations & examples
-
-| Ecosystem | Resource |
-|-----------|----------|
-| .NET | Jason Taylor — [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture) |
-| Java | Tom Hombergs — *Get Your Hands Dirty on Clean Architecture* (Packt, 2020) |
-| Go | Standard library + explicit ports; see `cmd/` as composition root |
-| Node/TS | Manual DI at `main.ts`; NestJS modules as composition root (don't let decorators leak inward) |
-
-## Sources
-
-- [Wikipedia — Clean Architecture](https://en.wikipedia.org/wiki/Clean_Architecture)
+- **Clean Architecture ≠ microservices.** Each service is usually a small hexagonal/clean app internally. Distribution is orthogonal to the Dependency Rule. See [[Multi-tier and Layered Architecture]].
+- **The database is not the center.** Martin ([No DB](https://blog.cleancoder.com/uncle-bob/2012/05/15/NODB.html)): letting the DB schema drive design early "warps" use cases. Model use cases first; derive schema from identified queries and relationships.
+- **Pass-through layers are worse than no layers.** Adapters that only forward calls add navigation cost with zero boundary value. Every layer must earn its complexity ([Rentea](https://victorrentea.ro/blog/overengineering-in-onion-hexagonal-architectures/), [DEV: Clean Architecture Trap](https://dev.to/marcolenzo/the-clean-architecture-trap-241k)).
+- **DTO mapping fatigue.** Not every transition needs a new type. Reuse shapes when identical; map only at real boundary mismatches.
+- **MVC `Model` ≠ Entity.** In Clean Architecture, MVC models are often dumb data passed across the adapter ring; critical rules live in entities.
+- **Discipline erodes under deadline pressure.** One `import` of an ORM type into a use case starts the leak. Enforce with arch-unit, ESLint `import/no-restricted-paths`, or module boundaries in code review.

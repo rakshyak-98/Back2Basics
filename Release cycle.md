@@ -1,158 +1,66 @@
-[[Jenkins]] [[spinnaker]] [[Docker compose]] [[Terraform workflow]] [[git merge]]
+[[Jenkins]] [[spinnaker]] [[Docker compose]] [[Terraform workflow]] [[git merge]] [[Architectures/feature flag]] [[ecommerce-cicd-environments]]
 
 # Release cycle
 
-> How staff teams ship safely — release trains, feature flags, rollback criteria — **operational maturity, not semver trivia**.
+> Release cycle — the contract for when change ships, how much risk rides together, and what happens when production goes red.
 
----
+## Interview Relevance
+Staff interviews love deploy ≠ release, feature flags, rollback criteria, and expand/contract migrations. This is operational maturity, not semver trivia.
 
-## How it works
+## Sources
+- [Google SRE — Release Engineering](https://sre.google/sre-book/release-engineering/) — deep-dive
+- [Wikipedia — Release management](https://en.wikipedia.org/wiki/Release_management) — overview
 
-A **release cycle** is the contract between engineering and customers for **when** change arrives, **how much** risk is bundled, and **what happens** when it fails.
+## Core Definition
+A release cycle defines cadence (train vs continuous), exposure controls (flags/canaries), and failure playbooks (rollback vs forward fix) between engineering and customers.
 
+## Key Concepts
+- **Deploy ≠ release:** Code can sit in production at 0% flag until product turns it on.
+- **Release train:** Fixed cadence — predictable ops load.
+- **Feature flag:** Decouple deploy from exposure; kill switch without full rollback ([[Architectures/feature flag]]).
+- **Rollback criteria:** Pre-agreed metrics that auto/manual revert.
+- **Hotfix lane:** Bypass train for Sev-1 with mandatory backmerge.
+
+## Technical Details
 ```txt
-Feature branches ──► trunk/main (continuous integration)
+Feature branches ──► trunk/main (CI)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
    Feature flags    Release train    Hotfix lane
-   (dark launch)    (weekly cut)     (bypass train)
          │               │               │
          └───────────────┴───────────────► Production
 ```
 
 | Mechanism | Purpose |
 |-----------|---------|
-| **Release train** | Fixed cadence (e.g. Tue deploy) — predictable ops load |
-| **Feature flag** | Decouple deploy from exposure — kill switch without rollback |
-| **Rollback** | Revert artifact or flip flag — time-bound decision |
-| **Change advisory** | High-risk windows blocked (Black Friday, fiscal close) |
-
-**Deploy ≠ release:** code can sit in production behind a flag at 0% until product turns it on.
-
----
-
-
-## Configuration and commands
-
-### Release train checklist (weekly)
+| Release train | Batch risk on a calendar |
+| Feature flag | Instant exposure control |
+| Canary | Small % before full rollout |
+| Change freeze | Protect peak business windows |
 
 ```txt
-Mon:  code freeze for next train (P0 fixes only)
-Tue:  cut release branch OR tag main SHA
-      run full regression + migration dry-run on staging
-Wed:  canary / 5% prod → metrics 24h
-Thu:  100% prod if SLO green
-Fri:  no prod deploys (on-call preservation) — team policy
+AUTO rollback if: error rate > 2× baseline; p99 SLO breach; payment success drop
+DO NOT rollback if: forward-only migration already applied — forward fix + flag off
 ```
-
-### Feature flag hygiene
-
-```txt
-Naming:   team_feature_action (billing_invoice_pdf_export)
-Owner:    team + expiry date in flag description
-Defaults: off in prod until explicit enable
-Cleanup:  flag removed within 2 sprints after 100% rollout
-Tools:    LaunchDarkly, Unleash, Flipt, or homegrown + DB
-```
-
-```javascript
-if (flags.isEnabled('checkout_apple_pay', { userId })) {
-  showApplePay();
-}
-```
-
-### Rollback criteria (define before deploy)
-
-```txt
-AUTO rollback if (any):
-  - Error rate > 2× baseline for 5 min
-  - p99 latency > SLO breach 10 min
-  - Payment success rate drops > 0.5%
-  - Health check failing > 50% instances
-
-MANUAL rollback discussion if:
-  - Minor UI regression non-revenue
-  - Single-tenant report wrong (isolate tenant)
-
-DO NOT rollback if:
-  - Data migration already forward-only — forward fix + flag off instead
-```
-
-### Hotfix lane
-
-```txt
-1. Branch from prod tag (not main if main diverged)
-2. Minimal fix + test
-3. Deploy hotfix artifact
-4. Cherry-pick to main same day
-5. Postmortem if train was bypassed
-```
-
-### Version tagging
 
 ```shell
 git tag -a v2026.07.22 -m "Release train 2026-W29"
-git push origin v2026.07.22
-# CI builds immutable artifact from tag SHA
-```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Bad deploy, metrics red | Rollback criteria met? | Revert deployment / previous artifact ([[spinnaker]], Argo, k8s rollout undo) |
-| Bad deploy, metrics OK | Feature flag? | Disable flag first — faster than rollback |
-| Rollback fails | DB migration irreversible | Forward fix; restore from backup only if data corrupt |
-| Train delayed | Missing QA sign-off | Split train — ship low-risk packages only |
-| Flag stuck on | Flag service outage | Default-off in code; cache TTL short |
-| Divergent prod/main | Hotfixes not cherry-picked | Mandatory backmerge PR before next train |
-
-```shell
 kubectl rollout undo deployment/api -n prod
-# or
-git revert <commit> && redeploy
 ```
 
----
+## Real-World Applications
+Weekly train: Mon freeze → Tue tag → Wed canary → Thu full → Fri quiet. Bad checkout deploy: disable flag in minutes; only roll back artifact if flag cannot save you.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Predictable risk; faster recovery; clearer ownership.
+- **Con:** Process overhead; flag debt; trains that become cargo cult without metrics.
 
-## Gotchas
+## Comparison
+vs continuous deploy every commit: higher velocity, needs stronger automation and flags. vs huge quarterly releases: simpler calendar, larger blast radius. Tooling siblings: [[Jenkins]], [[spinnaker]], [[Terraform workflow]].
 
-> [!WARNING]
-> **"Rollback" after schema migration** — down migrations often untested; design expand/contract migrations.
-
-> [!WARNING]
-> **Flag debt** — 200 flags, nobody knows defaults; accidental exposure.
-
-> [!WARNING]
-> **Friday deploy culture** — wins until it doesn't; align with on-call coverage.
-
-> [!WARNING]
-> ** semver as communication only** — v2.3.1 doesn't tell ops what's inside; use changelog + artifact digest.
-
-> [!WARNING]
-> **Skipping staging** — train exists to batch risk, not eliminate staging.
-
----
-
-
-## When not to use
-
-- **Early startup (<10 engineers)** — continuous deploy + flags may beat heavy train process.
-- **Regulated freeze windows** — train still runs internally; production promote waits.
-- **Feature flags for every bugfix** — overhead; simple fixes go straight out with monitoring.
-
----
-
-
-## Related
-
-[[ecommerce-cicd-environments]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[git merge]] [[Docker compose]]
-
-## Sources
-
-- [Wikipedia — Release cycle](https://en.wikipedia.org/wiki/Release_cycle)
+## Mistakes to Avoid
+- Rolling back after irreversible schema migrations.
+- Leaving hundreds of permanent feature flags.
+- Friday deploys without on-call coverage.
+- Treating semver as the release communication plan (use changelog + artifact digest).

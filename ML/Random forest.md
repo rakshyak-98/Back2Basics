@@ -1,12 +1,20 @@
-[[Decision tree]] [[Gradient boosting]] [[xg boost]] [[scikitlearn]] [[ML Classifiers]]
+[[Decision tree]] [[Gradient boosting]] [[xg boost]] [[scikitlearn]] [[ML Classifiers]] [[multiclass classification]] [[binary classification]] [[Visualization/feature importance]]
 
 # Random forest
 
 > Bagged ensemble of decorrelated [[Decision tree]]s — vote (classify) or average (regress) — **Breiman (2001)**; strong default before boosting tuning.
 
----
+## Interview Relevance
 
-## How it works
+Random forest interviews check bagging, feature randomness, and bias-variance versus a single deep tree.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [Random forest — Wikipedia](https://en.wikipedia.org/wiki/Random_forest) — overview
+
+## Key Concepts
 
 ```txt
 For b = 1..B:
@@ -26,10 +34,7 @@ Bias ~      (deep trees)
 Speed ↑     (embarrassingly parallel fit + predict)
 ```
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Classification
 
@@ -75,24 +80,14 @@ from sklearn.inspection import permutation_importance
 pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Need peak tabular accuracy** after tuning budget — [[Gradient boosting]] / [[xg boost]] usually wins Kaggle-style tabular.
+- **Linear separable with sparse high-dim text** — linear models + hashing faster and simpler.
+- **Strict latency (< few ms) on edge** — model size of hundreds of trees may exceed budget; linear or tiny NN.
+- **Online learning** — full retrain required; not incremental.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| OOB good, val bad | Data shift / leakage in features | Audit temporal split; remove leaky cols |
-| Barely beats single tree | Too few trees or correlated features | ↑ `n_estimators`; tune `max_features` |
-| Memory blowup on fit | `n_estimators` × deep trees × wide data | Limit depth; `max_samples`; subsample rows |
-| Slow inference | Hundreds of deep trees | Reduce trees; [[Gradient boosting]] with fewer deeper stages; treelite |
-| Importance ranks nonsense | Correlated features | Permutation importance; SHAP |
-| Class imbalance ignored | Default majority vote | `class_weight`; stratified bootstrap |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Extrapolation (regression):** same as trees — predictions plateau outside training range.
@@ -106,23 +101,12 @@ pi = permutation_importance(clf, X_val, y_val, n_repeats=10, random_state=42)
 > [!WARNING]
 > **Time series:** i.i.d. bootstrap breaks temporal structure — use blocked bootstrap or dedicated time-series models.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| OOB good, val bad | Data shift / leakage in features | Audit temporal split; remove leaky cols |
+| Barely beats single tree | Too few trees or correlated features | ↑ `n_estimators`; tune `max_features` |
+| Memory blowup on fit | `n_estimators` × deep trees × wide data | Limit depth; `max_samples`; subsample rows |
+| Slow inference | Hundreds of deep trees | Reduce trees; [[Gradient boosting]] with fewer deeper stages; treelite |
+| Importance ranks nonsense | Correlated features | Permutation importance; SHAP |
+| Class imbalance ignored | Default majority vote | `class_weight`; stratified bootstrap |
 
-
-## When not to use
-
-- **Need peak tabular accuracy** after tuning budget — [[Gradient boosting]] / [[xg boost]] usually wins Kaggle-style tabular.
-- **Linear separable with sparse high-dim text** — linear models + hashing faster and simpler.
-- **Strict latency (< few ms) on edge** — model size of hundreds of trees may exceed budget; linear or tiny NN.
-- **Online learning** — full retrain required; not incremental.
-
----
-
-
-## Related
-
-[[Decision tree]] · [[Gradient boosting]] · [[xg boost]] · [[multiclass classification]] · [[binary classification]] · [[Visualization/feature importance]] · [[scikitlearn]]
-
-## Sources
-
-- [Wikipedia — Random forest](https://en.wikipedia.org/wiki/Random_forest)

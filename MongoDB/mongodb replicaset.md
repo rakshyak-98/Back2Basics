@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongodb connection]] [[Database/ACID]]
+[[MongoDB]] [[mongodb connection]] [[Database/ACID]] [[Database/WAL (Write-Ahead Log)]] [[connection pooling]]
 
 # MongoDB replica set
 
 > Primary + secondaries + oplog for durability and automatic failover — **MongoDB Manual** (Kleppmann-style distributed ops).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use MongoDB replica set to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 A replica set is a group of mongod processes that replicate the same data. One **primary** accepts writes; **secondaries** pull from the primary's **oplog** (capped collection of operations). **Arbiters** vote in elections but hold no data. Members heartbeat each other; primary loss triggers election (~seconds).
 
@@ -23,8 +30,7 @@ Client writes → Primary → oplog
 | Secondary | No | Yes (if allowed) | Full |
 | Arbiter | No | No | None |
 
-
-## Configuration and commands
+## Technical Details
 
 ### Initiate (lab / first deploy)
 
@@ -55,8 +61,19 @@ db.printReplicationInfo()      // oplog window
 mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Don't run production on standalone mongod — no failover, no oplog backup story.
+- Don't use arbiters as a substitute for a third data node when you care about durability.
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Read from secondary without `secondaryOk`** — driver defaults to primary for consistency.
+>
+> **Write concern `{ w: 1 }` only** — ack from primary ≠ replicated; data loss if primary dies before replicate.
+>
+> **Hidden/delayed secondaries** — good for DR/analytics; don't point prod reads at delayed node.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -66,28 +83,3 @@ mongodb://user:pass@mongo1,mongo2,mongo3/mydb?replicaSet=rs0&w=majority
 | Split-brain (two primaries) | `rs.conf()` priorities, votes | Odd number of voting members; fix network partition |
 | Writes fail during election | Brief window | Retry with backoff; tune `serverSelectionTimeoutMS` |
 | Arbiter-only RS (even count) | Design review | Prefer 3 data-bearing nodes; arbiter is cost hack with risk |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Read from secondary without `secondaryOk`** — driver defaults to primary for consistency.
->
-> **Write concern `{ w: 1 }` only** — ack from primary ≠ replicated; data loss if primary dies before replicate.
->
-> **Hidden/delayed secondaries** — good for DR/analytics; don't point prod reads at delayed node.
-
-
-## When not to use
-
-- Don't run production on standalone mongod — no failover, no oplog backup story.
-- Don't use arbiters as a substitute for a third data node when you care about durability.
-
-
-## Related
-
-[[mongodb connection]] [[Database/WAL (Write-Ahead Log)]] [[connection pooling]]
-
-## Sources
-
-- [Wikipedia — mongodb replicaset](https://en.wikipedia.org/wiki/mongodb_replicaset)

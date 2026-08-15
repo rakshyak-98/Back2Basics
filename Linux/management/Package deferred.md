@@ -1,53 +1,50 @@
-[[management]] [[Package Manager]] [[apt package manager]]
+[[Package Manager]] [[apt package manager]] [[commands/APT policy]] [[apt config]]
 
 # Package deferred
 
-> Deferred/held packages skip upgrades until you say so — protect prod pins, kernel, or a carefully tested version.
+> Held or pinned packages skip unwanted upgrades — protect production pins, kernels, or a carefully tested version.
 
----
+## Interview Relevance
 
-## How it works
+`apt-mark hold` vs preferences pins, reading `apt-cache policy`, and auditing forgotten holds that skip security updates.
+
+## Sources
+
+- [apt_preferences(5)](https://manpages.debian.org/bookworm/apt/apt_preferences.5.en.html) — deep-dive
+- [man apt-mark](https://manpages.debian.org/bookworm/apt/apt-mark.8.en.html) — overview
+
+## Key Concepts
+
+- **hold:** blunt do-not-upgrade mark.
+- **pin:** precise candidate selection via `Pin-Priority`.
+- **candidate:** version apt would install now.
+- **Invisible debt:** forgotten holds skip security fixes.
+
+## Technical Details
 
 ```txt
 apt upgrade ──skips──► held packages
 apt preferences ──► candidate version selection
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **hold** | Mark do-not-upgrade | “`apt-mark hold docker-ce`.” |
-| **pin** | Priority in preferences | “Numeric priority picks candidate.” |
-| **candidate** | Version apt would install | “`apt-cache policy`.” |
-| **unhold** | Allow upgrades again | “After change window.” |
-| **dist-upgrade** | May still fight holds | “Read the plan before yes.” |
-
----
-
-
-## Configuration and commands
-
 ```bash
 apt-mark hold kubelet kubectl
 apt-mark showhold
 apt-mark unhold kubelet
-# /etc/apt/preferences.d/kube
-# Package: kubelet
-# Pin: version 1.29.*
-# Pin-Priority: 1001
 apt-cache policy kubelet
+```
+
+```
+# /etc/apt/preferences.d/kube
+Package: kubelet
+Pin: version 1.29.*
+Pin-Priority: 1001
 ```
 
 | Knob | Why it matters |
 |------|----------------|
 | Pin-Priority ≥1000 | Force pin even if newer exists |
 | hold vs pin | hold is blunt; pin is precise |
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,32 +53,22 @@ apt-cache policy kubelet
 | Manual dpkg overwrote | Direct install | Re-apply pin; document |
 | Unattended-upgrades ignores intent | Config | Align origins/holds |
 
----
+## Real-World Applications
 
+Hold `kubelet`/`kubectl` across a control-plane upgrade window, then unhold after the change succeeds.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Holds are invisible debt** — audit `showhold` in reviews.
+- **Pro:** Stable production versions under active change control.
+- **Con:** Holds fight security baselines if left forever.
 
-> [!WARNING]
-> **Pin-Priority mistakes** can make apt prefer an empty candidate set.
+## Comparison
 
----
+- vs tracking distro closely: prefer fewer holds and faster patching.
+- vs container rebuilds: rebuild images instead of holding host packages when possible.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Tracking distro closely** — holds fight security baselines.
-- **Containers** — rebuild images instead of holding host packages.
-
----
-
-
-## Related
-
-[[Package Manager]] [[apt package manager]] [[apt configuration]] [[APT policy]]
-
-## Sources
-
-- [Wikipedia — Package deferred](https://en.wikipedia.org/wiki/Package_deferred)
+- Never auditing `apt-mark showhold`.
+- Pin-Priority mistakes that leave no valid candidate.
+- Assuming `dist-upgrade` always honors intent without reading the plan.

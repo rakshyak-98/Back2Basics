@@ -1,12 +1,24 @@
-[[Route53]] · [[AWS EC2]] · [[Elastic IP]] · [[AWS Networking]] · [[DNS]]
+[[Route53]] [[AWS EC2]] [[Elastic IP]] [[AWS Networking]] [[DNS]]
 
 # How to connect Godaddy domain with AWS EC2 instance
 
 > Pointing a GoDaddy-registered domain at an EC2 instance means delegating DNS to Route 53 (or updating A records at GoDaddy) so your hostname resolves to the instance's public IP or load balancer.
 
----
+## Interview Relevance
 
-## Recommended path: Route 53 as DNS
+Interviewers ask about How to connect Godaddy domain with AWS EC2 instance to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
+
+- What is the difference between registrar and DNS hosting?
+- Why is an ALB often better than pointing A records at a single EC2 Elastic IP?
+
+## Sources
+
+- [Making Amazon Route 53 the DNS service for a domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-in-use.html) — overview
+- [GoDaddy — Change nameservers for domains](https://www.godaddy.com/help/change-nameservers-for-my-domains-664) — overview
+
+## Technical Details
+
+### Recommended path: Route 53 as DNS
 
 GoDaddy remains **registrar**; AWS becomes **DNS host**. This unlocks alias records to ALB and health-checked failover.
 
@@ -27,11 +39,11 @@ dig +short www.example.com A
 curl -I http://www.example.com
 ```
 
-## Alternative: keep DNS at GoDaddy
+### Alternative: keep DNS at GoDaddy
 
 Create **A record** at GoDaddy pointing `@` and `www` to your Elastic IP. Works for simple setups but lacks Route 53 alias features and advanced routing.
 
-## Production hardening
+### Production hardening
 
 | Instead of… | Use… |
 |-------------|------|
@@ -41,11 +53,11 @@ Create **A record** at GoDaddy pointing `@` and `www` to your Elastic IP. Works 
 
 See [[aws host website]] if the site is static — S3 + CloudFront is simpler than EC2.
 
-## TLS
+### TLS
 
 Use **AWS Certificate Manager** with ALB or CloudFront. GoDaddy sells certificates but ACM integration is smoother inside AWS.
 
-## Troubleshooting
+### Troubleshooting
 
 | Symptom | Check |
 |---------|-------|
@@ -53,13 +65,3 @@ Use **AWS Certificate Manager** with ALB or CloudFront. GoDaddy sells certificat
 | Wrong IP | Stale A record at GoDaddy after moving to Route 53 |
 | Connection timeout | Security group, instance stopped, wrong Elastic IP association |
 | SSL errors | Certificate SAN must cover hostname |
-
-## Recall
-
-- What is the difference between registrar and DNS hosting?
-- Why is an ALB often better than pointing A records at a single EC2 Elastic IP?
-
-## Sources
-
-- [Making Amazon Route 53 the DNS service for a domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-in-use.html)
-- [GoDaddy — Change nameservers for domains](https://www.godaddy.com/help/change-nameservers-for-my-domains-664)

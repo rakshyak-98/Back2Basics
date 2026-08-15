@@ -1,76 +1,59 @@
-[[helm]]
+[[cli]] [[Kubernates/kubectl]] [[Kubernates/Pods]]
 
-# helm
+# Helm
 
-> helm — the kind field is not part of the basic required fields, but it can be added to specify the type of chart. The kind field should
+> Kubernetes package manager — charts template manifests; releases track what you installed and how to upgrade or roll back.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers distinguish chart/release/repo, templating (`values` → manifests), and hooks/CRDs as common footguns.
+
+## Sources
+
+- [Helm — Docs](https://helm.sh/docs/) — deep-dive
+- [CNCF — Helm](https://www.cncf.io/projects/helm/) — overview
+
+## Key Concepts
+
+- **Templates:** Go templates render Kubernetes YAML.
+- **Values:** configuration knobs; override per environment.
+- **Release history:** revisions enable rollback.
+- **CRDs / hooks:** charts may install custom resources or lifecycle jobs — read notes.
+
+## Technical Details
 
 ```bash
 helm list
-helm get values
-```
-- The `kind` field is not part of the basic required fields, but it can be added to specify the type of chart. The `kind` field should be used for custom resources, as it helps Helm understand how to process the resource during installation and upgrade
-
-
-## Configuration and commands
-
-```bash
-helm repo add bitnami https://charts.bitnami.com/bitnami
+helm get values my-release
 helm install my-release bitnami/nginx
 helm upgrade my-release bitnami/nginx -f values.yaml
 helm rollback my-release 1
 ```
 
----
+Charts can include many resource kinds (Deployments, Services, CRDs). The resource `kind` field is standard Kubernetes; Helm applies whatever the templates render.
 
+```
+Chart + values → rendered manifests → cluster objects (release)
+```
 
-## Where to go next
+## Real-World Applications
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
+Standardize third-party stack installs (monitoring, ingress, databases operators) with pinned chart versions.
 
+**Example:** Prod and staging share a chart with different `values-prod.yaml` / `values-staging.yaml`.
 
-## Related topics in this domain
+## Pros/Cons or Trade-offs
 
-- …: [[…]]
+- **Pro:** Ecosystem + revisioned releases.
+- **Con:** Abstraction hides YAML — always `helm template` before big upgrades.
 
+## Comparison
 
-## When things break
+- vs [[cli]]: conceptual model vs command cheat sheet.
+- vs plain GitOps manifests: Helm adds packaging; GitOps still applies the output.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Pending install forever | CRD missing; webhook timeout | `kubectl get events`; install CRDs first |
-| Wrong chart version | repo not updated | `helm repo update`; pin version in install |
-| Values ignored | wrong file; subchart key | `helm get values`; nest under chart name for subcharts |
-| Release exists cannot install | name collision | `helm uninstall` or choose new release name |
+## Mistakes to Avoid
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Helm stores release state in cluster **Secrets** — protect etcd backups.
-
----
-
-
-## When not to use
-
-- Do not hand-edit rendered manifests in the cluster — change values and upgrade.
-
-
----
-
-
-## Related
-
-[[helm]]
-
-## Sources
-
-- [Wikipedia — helm](https://en.wikipedia.org/wiki/helm)
+- Blind upgrades without rendering/diffing.
+- Letting chart defaults open LoadBalancers in the wrong environment.
+- Ignoring CRD upgrade instructions in chart docs.

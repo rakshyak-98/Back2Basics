@@ -1,12 +1,18 @@
-[[Descriptive]] [[javascript]] [[Asynchronous]]
+[[Descriptive]] [[javascript]] [[Asynchronous]] [[Call stack]] [[promise]] [[typescript]]
 
 # Javascript
 
 > JavaScript — language of the browser (and Node): single-threaded event loop, prototypes, and first-class functions.
 
----
+## Interview Relevance
 
-## How it works
+JavaScript interviews span runtime model — event loop, types coercion, and module systems.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 call stack ←→ heap
@@ -20,10 +26,7 @@ event loop ← tasks / microtasks
 | Node | FS/network modules |
 | Workers | Parallel JS |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 node -e 'console.log(1)'
@@ -36,10 +39,18 @@ node --watch app.js
 | Engine (V8) | Perf quirks |
 | Bundler | Ship size |
 
----
+## Pros/Cons or Trade-offs
 
+- **CPU-bound HPC** — native/Go/Rust.
+- **Shared-memory threads model** — careful with workers.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **`==` coercion** — prefer `===`.
+
+> [!WARNING]
+> **Floating point** — money needs decimals/integers.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -48,32 +59,3 @@ node --watch app.js
 | `undefined is not a function` | Wrong type/import | Log; fix export |
 | Module not found | Path/CJS/ESM | Align module type |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`==` coercion** — prefer `===`.
-
-> [!WARNING]
-> **Floating point** — money needs decimals/integers.
-
----
-
-
-## When not to use
-
-- **CPU-bound HPC** — native/Go/Rust.
-- **Shared-memory threads model** — careful with workers.
-
----
-
-
-## Related
-
-[[Asynchronous]] [[Call stack]] [[promise]] [[typescript]]
-
-## Sources
-
-- [Wikipedia — Javascript](https://en.wikipedia.org/wiki/Javascript)

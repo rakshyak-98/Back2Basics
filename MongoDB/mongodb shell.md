@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongosh]] [[MongoDB query validation]]
+[[MongoDB]] [[mongosh]] [[MongoDB query validation]] [[mongosh query]]
 
 # mongodb shell
 
 > The legacy `mongo` shell runs JS against the server — prefer [[mongosh]] on modern installs; same admin patterns.
 
----
+## Interview Relevance
 
-## How it works
+Shell literacy covers legacy mongo vs mongosh and administrative recipes.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
@@ -21,10 +28,7 @@ mongo/mongosh → db.<coll>.<method> | db.runCommand({…})
 | **Session / txn** | Multi-doc ACID | “Needs replica set.” |
 | **Validator** | Schema on collection | “Set at create or collMod.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.createCollection('users', {
@@ -51,10 +55,18 @@ session.endSession()
 | `listSessions` | Debug stuck txns |
 | Prefer mongosh | Better UX; mongo shell deprecated |
 
----
+## Pros/Cons or Trade-offs
 
+- **application data path** — use a driver, not the shell.
+- **CI automation** — prefer mongosh non-interactive + scripts.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **`mongo` vs `mongosh`** — scripts can differ; target mongosh.
+
+> [!WARNING]
+> **Long interactive txns** — hold locks/resources; keep them short.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,30 +75,3 @@ session.endSession()
 | Command not found | Wrong shell/version | Upgrade mongosh |
 | Validation errors | Schema vs doc | Fix doc or collMod |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`mongo` vs `mongosh`** — scripts can differ; target mongosh.
-
-> [!WARNING]
-> **Long interactive txns** — hold locks/resources; keep them short.
-
----
-
-
-## When not to use
-
-- **application data path** — use a driver, not the shell.
-- **CI automation** — prefer mongosh non-interactive + scripts.
-
-
-## Related
-
-[[mongosh]] [[mongosh query]] [[MongoDB query validation]]
-
-## Sources
-
-- [Wikipedia — mongodb shell](https://en.wikipedia.org/wiki/mongodb_shell)

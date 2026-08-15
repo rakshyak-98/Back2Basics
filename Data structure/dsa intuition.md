@@ -1,12 +1,19 @@
-[[Data structure]] [[dsa problem solving Scaffold]] [[DSA algorithms]]
+[[Data structure]] [[dsa problem solving Scaffold]] [[DSA algorithms]] [[algo/Two pointer]] [[sliding window]] [[algo/greedy algorithm]]
 
 # dsa intuition
 
 > DSA intuition is recognizing which pattern fits — before you write a line of code.
 
----
+## Interview Relevance
 
-## How it works
+Pattern intuition is the soft skill behind DSA interviews — classify before coding, then justify complexity.
+
+## Sources
+
+- [NeetCode — Pattern roadmap](https://neetcode.io/roadmap) — overview
+- [MIT 6.006](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
+
+## Key Concepts
 
 ```txt
 clue → pattern → structure → prove → code
@@ -22,10 +29,7 @@ clue → pattern → structure → prove → code
 | **Optimal substructure** | DP | “State + transition.” |
 | **Greedy choice** | Local → global | Prove exchange argument |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 sorted + pairs           → two pointers / binary search
@@ -41,10 +45,7 @@ count ways / max score   → DP
 | Weights? | BFS vs Dijkstra |
 | Overlapping subproblems | DP vs plain recursion |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -53,30 +54,12 @@ count ways / max score   → DP
 | BFS TLE | branching | Visited set; better model |
 | Greedy WA | no proof | Fall back to DP |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Systems design interviews — different intuition.
+- **Trade-off:** When the API already sorts/searches — use the library.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Forcing DP everywhere** — many problems are two pointers + sort.
-
-> [!WARNING]
-> **Ignoring “contiguous”** — the whole game for windows.
-
----
-
-
-## When not to use
-
-- **Systems design interviews** — different intuition.
-- **When the API already sorts/searches** — use the library.
-
-
-## Related
-
-[[dsa problem solving Scaffold]] [[algo/Two pointer]] [[sliding window]] [[algo/greedy algorithm]]
-
-## Sources
-
-- [Wikipedia — dsa intuition](https://en.wikipedia.org/wiki/dsa_intuition)
+- Forcing DP everywhere — many problems are two pointers + sort.
+- Ignoring “contiguous” — the whole game for windows.

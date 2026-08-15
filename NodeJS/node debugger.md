@@ -1,28 +1,30 @@
-[[NodeJS]] [[node inspect]] [[REPL]] [[Runtime Errors]]
+[[NodeJS]] [[node inspect]] [[REPL]] [[Runtime Errors]] [[Optimization]]
 
 # node debugger
 
 > Breakpoints and step-through for Node — Inspector protocol via `--inspect` / built-in debugger.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **node debugger** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Inspector**, **inspect-brk**, **debugger;**.
+
+## Sources
+
+- [Node.js — Debugging](https://nodejs.org/en/learn/getting-started/debugging) — deep-dive
+- [Wikipedia — node debugger](https://en.wikipedia.org/wiki/node_debugger) — overview
+
+## Key Concepts
+
+- **Inspector:** Debug protocol — Same as Chrome for V8.
+- **inspect-brk:** Pause on start — Catch boot issues.
+- **debugger;:** Hardcoded breakpoint — Trips only when attached.
+
+## Technical Details
 
 ```txt
 node --inspect=9229 app.js → DevTools → chrome://inspect
 node --inspect-brk app.js  → break before user code
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Inspector** | Debug protocol | “Same as Chrome for V8.” |
-| **inspect-brk** | Pause on start | “Catch boot issues.” |
-| **debugger;** | Hardcoded breakpoint | “Trips only when attached.” |
-
-
-## Configuration and commands
 
 ```bash
 node --inspect app.js
@@ -39,44 +41,25 @@ debugger // breakpoint when inspector connected
 | VS Code launch.json | `runtimeArgs: ["--inspect"]` |
 | `NODE_OPTIONS=--inspect` | Attach without code change |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **node debugger** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`--inspect` on public interfaces** — unauthenticated RCE surface. Tunnel instead; **Async stack traces** — enable async stacks in DevTools for promises.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Can’t attach | Port/firewall | Check listen address; localhost first |
-| Breakpoint never hits | Sourcemaps / wrong file | Map dist→src; break on resolved path |
-| Hangs only under debug | Timing/race | Look for race; don’t “fix” by sleeping |
-| Prod compromised | Inspect on 0.0.0.0 | Bind localhost; auth tunnel |
+- **Pro:** Solves the job described above when used in the right layer (Breakpoints and step-through for Node — Inspector protocol via `--inspect` / bui…).
+- **Con / when not:** **Production traffic debugging** — prefer logs/metrics/traces.
+- **Con / when not:** **Flaky tests** — fix determinism; don’t rely on stepping forever.
 
----
+## Comparison
 
+vs [[node inspect]]: know when each applies — do not treat them as interchangeable. vs [[REPL]]: know when each applies — do not treat them as interchangeable. vs [[Runtime Errors]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`--inspect` on public interfaces** — unauthenticated RCE surface. Tunnel instead.
-
-> [!WARNING]
-> **Async stack traces** — enable async stacks in DevTools for promises.
-
----
-
-
-## When not to use
-
-- **Production traffic debugging** — prefer logs/metrics/traces.
-- **Flaky tests** — fix determinism; don’t rely on stepping forever.
-
----
-
-
-## Related
-
-[[node inspect]] [[REPL]] [[Optimization]]
-
-## Sources
-
-- [Wikipedia — node debugger](https://en.wikipedia.org/wiki/node_debugger)
+- **`--inspect` on public interfaces** — unauthenticated RCE surface. Tunnel instead.
+- **Async stack traces** — enable async stacks in DevTools for promises.
+- **Can’t attach:** check Port/firewall; fix: Check listen address; localhost first
+- **Breakpoint never hits:** check Sourcemaps / wrong file; fix: Map dist→src; break on resolved path
+- **Hangs only under debug:** check Timing/race; fix: Look for race; don’t “fix” by sleeping
+- **Prod compromised:** check Inspect on 0.0.0.0; fix: Bind localhost; auth tunnel

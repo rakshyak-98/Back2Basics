@@ -1,23 +1,20 @@
-[[ABR]] [[CRF (Constant Rate Factor)]] [[transcoding]] [[codecs]] [[rendition]] [[MPEG-TS]]
+[[ABR]] [[CRF (Constant Rate Factor)]] [[transcoding]] [[codecs]] [[rendition]] [[MPEG-TS]] [[NVENC]]
 
 # Bitrate streaming
 
 > ABR ladder design, CRF vs CBR, and encoder ops for multi-bitrate delivery — **streaming engineering, not generic video wiki**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Bitrate streaming to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — bitrate streaming](https://en.wikipedia.org/wiki/bitrate_streaming) — overview
+
+## Key Concepts
 
 **Bitrate streaming** means encoding the same content at **multiple bitrates/resolutions** so the player ([[ABR]]) switches renditions without rebuffering. The **ladder** is the set of rungs; the **manifest** (HLS/DASH) advertises `BANDWIDTH` + `RESOLUTION` per rung.
-
-```txt
-Source mezzanine
-    ├── 1080p @ 6 Mbps  ──► segment 2s ──► CDN
-    ├── 720p  @ 3 Mbps
-    ├── 480p  @ 1.2 Mbps
-    └── audio @ 128k AAC (shared or per rung)
-Player buffer ──► picks rung from throughput + buffer health
-```
 
 | Term | Meaning |
 |------|---------|
@@ -27,10 +24,16 @@ Player buffer ──► picks rung from throughput + buffer health
 | **GOP** | Keyframe interval — must align across ladder for clean ABR switch |
 | **Segment duration** | HLS typically 2–6s — trades startup vs switch latency |
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Source mezzanine
+    ├── 1080p @ 6 Mbps  ──► segment 2s ──► CDN
+    ├── 720p  @ 3 Mbps
+    ├── 480p  @ 1.2 Mbps
+    └── audio @ 128k AAC (shared or per rung)
+Player buffer ──► picks rung from throughput + buffer health
+```
 
 ### Ladder design (1080p live starting point)
 
@@ -79,10 +82,18 @@ ffmpeg -re -i input -c:v libx264 -b:v 3000k -minrate 3000k -maxrate 3000k -bufsi
 
 `BANDWIDTH` must include **video + audio + mux overhead** — player overestimates need if wrong → unnecessary downswitch.
 
----
+## Real-World Applications
 
+Used wherever Bitrate streaming sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Internal mezzanine archive** — single high-bitrate master; ladder only at origin edge.
+- **Con / skip when:** **CRF for live broadcast contractual bitrate** — use CBR/ capped VBR.
+- **Con / skip when:** **20-rung ladder** — storage/CDN cost; diminishing returns beyond ~5–6 rungs.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -99,45 +110,9 @@ ffprobe -show_streams -select_streams v manifest.m3u8
 mediainfo segment000.ts
 ```
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **CRF ladder without maxrate** — VOD rungs blow past CDN budget; cap with `-maxrate`/`-bufsize`.
-
-> [!WARNING]
-> **Different GOP across rungs** — player switches mid-GOP → flash/block until next keyframe.
-
-> [!WARNING]
-> **Upscale low rung** — 240p stretched to 4K TV looks awful; cap max display resolution in player logic.
-
-> [!WARNING]
-> **BANDWIDTH typo** — 5932800 vs 593280 — player math breaks.
-
-> [!WARNING]
-> **Per-title encoding ignored** — one ladder for cartoons and sports wastes bits; per-content analysis if scale warrants.
-
-> [!WARNING]
-> **Audio-only HLS variant forgotten** — accessibility + ultra-low bandwidth path missing.
-
----
-
-
-## When not to use
-
-- **Internal mezzanine archive** — single high-bitrate master; ladder only at origin edge.
-- **CRF for live broadcast contractual bitrate** — use CBR/ capped VBR.
-- **20-rung ladder** — storage/CDN cost; diminishing returns beyond ~5–6 rungs.
-
----
-
-
-## Related
-
-[[ABR]] [[CRF (Constant Rate Factor)]] [[transcoding]] [[codecs]] [[rendition]] [[MPEG-TS]] [[NVENC]]
-
-## Sources
-
-- [Wikipedia — bitrate streaming](https://en.wikipedia.org/wiki/bitrate_streaming)
+- **CRF ladder without maxrate** — VOD rungs blow past CDN budget; cap with `-maxrate`/`-bufsize`.
+- **Different GOP across rungs** — player switches mid-GOP → flash/block until next keyframe.
+- **Upscale low rung** — 240p stretched to 4K TV looks awful; cap max display resolution in player logic.
+- **BANDWIDTH typo** — 5932800 vs 593280 — player math breaks.
+- **Per-title encoding ignored** — one ladder for cartoons and sports wastes bits; per-content analysis if scale warrants.
+- **Audio-only HLS variant forgotten** — accessibility + ultra-low bandwidth path missing.

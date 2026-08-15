@@ -1,12 +1,27 @@
-[[redis installation]] [[connection pooling]] [[BASE]]
+[[redis installation]] [[connection pooling]] [[BASE]] [[Data access patterns]]
 
 # redis-cli
 
-> Interactive + scripted Redis admin — inspect memory, latency, persistence, and live traffic under incident load.
+> `redis-cli` is the interactive and scripted admin client — inspect memory, latency, persistence, and live traffic when Redis misbehaves under load.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers watch whether you reach for `INFO`/`SLOWLOG`/`SCAN` instead of `KEYS *`, and whether you understand single-threaded command execution.
+
+## Sources
+
+- [Redis — redis-cli](https://redis.io/docs/latest/operate/oss_and_stack/management/cli/) — deep-dive
+- [Redis — Memory optimization](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/memory-optimization/) — overview
+- [Redis — Latency monitoring](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency-monitor/) — overview
+
+## Key Concepts
+
+- **One thread executes commands:** slow `KEYS *`, huge `SMEMBERS`, or Lua loops spike latency for everyone.
+- **INFO first:** memory, persistence, replication, stats — on-call starting point.
+- **Eviction vs OOM:** `maxmemory-policy` decides whether writes fail or keys disappear.
+- **RDB vs AOF:** snapshots versus append log — durability windows differ.
+
+## Technical Details
 
 ```
 redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
@@ -17,44 +32,27 @@ redis-cli ──► TCP/UNIX ──► Redis single-threaded event loop
                               └── slow clients block the world
 ```
 
-**One thread executes commands** — slow `KEYS *`, huge `SMEMBERS`, or Lua loops = latency spike for everyone. Prefer `SCAN`, `MEMORY DOCTOR`, `SLOWLOG`.
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
-
 ### Connect & auth
 
 ```bash
 redis-cli -h 127.0.0.1 -p 6379
-redis-cli -u redis://default:PASSWORD@127.0.0.1:6379/0   # ACL user default
+redis-cli -u redis://default:PASSWORD@127.0.0.1:6379/0
 redis-cli --tls --cert ./client.crt --key ./client.key --cacert ./ca.crt
-
-AUTH default yourpassword        # legacy; prefer ACL + -u URL
-PING                             # PONG
-SELECT 2                         # switch DB (avoid in cluster)
+PING
+SELECT 2                         # avoid in cluster
 DBSIZE
 ```
 
 ### INFO — first stop on-call
 
 ```bash
-redis-cli INFO server          # version, uptime, tcp_port
-redis-cli INFO memory          # used_memory_human, maxmemory, mem_fragmentation_ratio
-redis-cli INFO stats           # instantaneous_ops_per_sec, rejected_connections
-redis-cli INFO persistence     # rdb_last_save_time, aof_enabled, aof_last_rewrite_time_sec
-redis-cli INFO replication     # role, connected_slaves, master_link_status
-redis-cli INFO keyspace          # keys per DB
-redis-cli INFO all | less
+redis-cli INFO server
+redis-cli INFO memory
+redis-cli INFO stats
+redis-cli INFO persistence
+redis-cli INFO replication
+redis-cli INFO keyspace
 ```
-
-**Memory fields to watch:**
 
 | Field | Meaning |
 |-------|---------|
@@ -63,26 +61,17 @@ redis-cli INFO all | less
 | `maxmemory` | 0 = no limit until OOM killer |
 | `evicted_keys` | rising = cache too small or TTL missing |
 
-### MEMORY subcommands (4.0+)
+### MEMORY / SLOWLOG / latency
 
 ```bash
 redis-cli MEMORY STATS
-redis-cli MEMORY DOCTOR          # human-readable triage hints
+redis-cli MEMORY DOCTOR
 redis-cli MEMORY USAGE mykey
-redis-cli --bigkeys              # sample heavy keys — run off-peak
-redis-cli --memkeys              # 7.0+ memory per key sampling
-```
-
-### SLOWLOG
-
-```bash
+redis-cli --bigkeys
 redis-cli SLOWLOG GET 20
-redis-cli SLOWLOG LEN
-redis-cli CONFIG GET slowlog-log-slower-than   # microseconds; 10000 = 10ms
-redis-cli CONFIG GET slowlog-max-len
+redis-cli --latency
+redis-cli LATENCY DOCTOR
 ```
-
-Configure in `redis.conf`:
 
 ```ini
 slowlog-log-slower-than 10000    # 10ms
@@ -91,127 +80,70 @@ slowlog-max-len 128
 
 ### Eviction policy
 
-```bash
-redis-cli CONFIG GET maxmemory
-redis-cli CONFIG GET maxmemory-policy
-```
-
 | Policy | Behavior |
 |--------|----------|
-| `noeviction` | Writes fail when full — **queue/cache apps break** |
+| `noeviction` | Writes fail when full — queue/cache apps break |
 | `allkeys-lru` | Evict any key LRU — pure cache |
 | `volatile-lru` | Evict keys with TTL only |
 | `allkeys-lfu` | Frequency — hot key retention (4.0+) |
 
-```ini
-maxmemory 2gb
-maxmemory-policy allkeys-lfu
-```
-
-### Persistence — RDB vs AOF
+### Persistence
 
 ```bash
-redis-cli INFO persistence
-redis-cli LASTSAVE                 # unix time of last RDB
-redis-cli BGSAVE                   # fork snapshot — watch latency spike
-redis-cli CONFIG GET save            # RDB rules: 900 1 300 10 …
+redis-cli LASTSAVE
+redis-cli BGSAVE
 redis-cli CONFIG GET appendonly
-redis-cli CONFIG GET appendfsync     # always | everysec | no
+redis-cli CONFIG GET appendfsync
 ```
 
 | Mode | Durability | Recovery |
 |------|------------|----------|
 | RDB snapshots | Point-in-time; lose since last save | Fast restart |
 | AOF | Append every write; `everysec` ≈ 1s window | Slower rewrite |
-| Both | Common prod | RDB baseline + AOF incremental |
+| Both | Common production | RDB baseline + AOF incremental |
 
-```ini
-appendonly yes
-appendfsync everysec               # balance; always = slow, no = risky
-auto-aof-rewrite-percentage 100
-auto-aof-rewrite-min-size 64mb
-```
-
-### Latency diagnosis
-
-```bash
-redis-cli --latency                 # live sampling
-redis-cli --latency-history
-redis-cli LATENCY DOCTOR            # 6.2+ structured report
-redis-cli LATENCY LATEST
-```
-
-Causes: slow commands, AOF rewrite fork, huge key expiry batch, disk IO on persistence, **KEYS *** from monitoring tool.
-
-### Safe iteration (not KEYS *)
+### Safe iteration
 
 ```bash
 redis-cli SCAN 0 MATCH user:* COUNT 100
 redis-cli HGETALL user:1001
 redis-cli TTL session:abc
+# redis-cli MONITOR   # incident only — adds load
 ```
-
-### Live monitor (incident only — adds load)
-
-```bash
-redis-cli MONITOR    # every command — disable in prod unless brief
-```
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | OOM / killed | `INFO memory`; host `dmesg` | Set `maxmemory` + policy; add RAM; delete big keys |
 | Timeouts app-side | `LATENCY DOCTOR`; `SLOWLOG` | Remove KEYS; pipeline; split hot key |
 | `OOM command not allowed` | `maxmemory-policy noeviction` | Change policy or raise limit |
-| Spike every N minutes | `INFO persistence` rewrite/bgsave | Disable save during peak; disk tuning; diskless replica |
-| Replica lag | `INFO replication` offset | Slow commands on master; network; `repl-diskless-sync` |
-| Connections refused | `INFO stats` rejected | `maxclients`; file descriptors; connection storm |
+| Spike every N minutes | `INFO persistence` rewrite/bgsave | Disable save during peak; disk tuning |
+| Replica lag | `INFO replication` offset | Slow commands on master; network |
+| Connections refused | `INFO stats` rejected | `maxclients`; file descriptors |
 | Data "vanished" | Eviction + no TTL | TTL on cache keys; monitor `evicted_keys` |
 | AOF corrupt on boot | Logs | `redis-check-aof --fix`; restore RDB backup |
 
+## Real-World Applications
 
-## Gotchas
+Incident triage when API latency climbs, capacity checks before a sale, and validating persistence after a crash.
 
-> [!WARNING]
-> **`KEYS *` in prod** — blocks event loop. Use `SCAN` or `--bigkeys` sampling.
+**Example:** `SLOWLOG GET` shows monitoring still runs `KEYS *`; replace with `SCAN` and latency returns to baseline.
 
-> [!WARNING]
-> **`FLUSHALL` / `FLUSHDB`** — no undo. Alias commands in prod ACL deny list.
+## Pros/Cons or Trade-offs
 
-- **Single-thread** — more CPU cores ≠ faster one instance; shard or use cluster.
-- **Fork latency** — BGSAVE/AOF rewrite on huge RAM → copy-on-write spike; prefer replica for backups.
-- **Hot key** — one `INCR` key = single-thread bottleneck; local aggregate or sharded counter.
-- **`SELECT` + cluster** — cluster only DB 0; client library may hide this.
-- **MONITOR in incident** — can make incident worse; use briefly.
+- **Pro:** Full visibility into a single Redis process without extra agents.
+- **Con:** `MONITOR` and `KEYS` can worsen the incident.
+- **Con:** More CPU cores do not speed one instance — shard or use cluster.
 
+## Comparison
 
-## When not to use
+- vs application metrics alone: `redis-cli` shows server-side eviction, forks, and slow commands metrics miss.
+- vs dedicated brokers: Redis lists/`BLPOP` are not a full message queue at scale.
+- vs object storage: values >512MB hurt — wrong store.
 
-- **Primary source of truth without persistence** — enable AOF/RDB or accept loss.
-- **Redis as message queue at scale** — use dedicated broker; `BLPOP` patterns hit limits.
-- **Large object store** — >512MB values hurt; use object storage.
+## Mistakes to Avoid
 
-
-## Related
-
-[[redis installation]] [[connection pooling]] [[BASE]] [[Data access patterns]]
-
-## Sources
-
-- [Wikipedia — redis-cli](https://en.wikipedia.org/wiki/redis-cli)
+- `KEYS *` in production — blocks the event loop.
+- `FLUSHALL` / `FLUSHDB` without ACL denial — no undo.
+- Taking BGSAVE on a huge primary during peak — prefer replica backups.
+- Using `SELECT` with cluster (DB 0 only).
+- Treating Redis as durable source of truth without AOF/RDB consciously enabled.

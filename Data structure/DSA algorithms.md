@@ -1,12 +1,19 @@
-[[Data structure]] [[dsa intuition]] [[Sorting algorithm]]
+[[Data structure]] [[dsa intuition]] [[Sorting algorithm]] [[algo/binary search]] [[algo/Two pointer]]
 
 # DSA algorithms
 
 > DSA algorithms are named techniques on data structures — pick by constraints, not by fashion.
 
----
+## Interview Relevance
 
-## How it works
+Named algorithm families (two pointers, sliding window, DFS/BFS, DP) are how interviewers score pattern recognition under constraints.
+
+## Sources
+
+- [LeetCode Explore — Interview patterns](https://leetcode.com/explore/) — overview
+- [MIT 6.006](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
+
+## Key Concepts
 
 ```txt
 constraints → pattern → structure → code → edges
@@ -21,10 +28,7 @@ constraints → pattern → structure → code → edges
 | **Graph vs array** | Modeling choice | “Edges become adjacency.” |
 | **Stable sort** | Equal keys keep order | “When ties matter.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 n ≤ 20        → exponential / bit DP OK
@@ -39,10 +43,7 @@ shortest path → BFS (unweighted) / Dijkstra
 | Online vs offline | Streaming constraints |
 | Mutability | In-place asks |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +52,12 @@ shortest path → BFS (unweighted) / Dijkstra
 | WA | edges | empty, overflow, dups |
 | Can’t start | no model | Draw examples |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** CRUD application without hot path — clarity over clever DSA.
+- **Trade-off:** When library sort/search suffices — don’t reimplement.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Memorizing code without the invariant** — one tweak and you’re stuck.
-
-> [!WARNING]
-> **Ignoring constraints** — O(n²) on 1e5 is dead on arrival.
-
----
-
-
-## When not to use
-
-- **CRUD application without hot path** — clarity over clever DSA.
-- **When library sort/search suffices** — don’t reimplement.
-
-
-## Related
-
-[[Sorting algorithm]] [[algo/binary search]] [[algo/Two pointer]] [[dsa intuition]]
-
-## Sources
-
-- [Wikipedia — DSA algorithms](https://en.wikipedia.org/wiki/DSA_algorithms)
+- Memorizing code without the invariant — one tweak and you’re stuck.
+- Ignoring constraints — O(n²) on 1e5 is dead on arrival.

@@ -2,11 +2,26 @@
 
 # backpressure
 
-> Backpressure is the policy when a consumer cannot keep pace with a producer — block, queue with bounds, shed load, or reject — so unbounded buffers do not exhaust memory and cascade failure.
+> Backpressure is the policy when a consumer cannot keep pace with a producer — block, bound the queue, shed load, or reject — so buffers do not exhaust memory and cascade failure.
 
----
+## Interview Relevance
 
-## Every link needs a policy
+Name an explicit overflow policy for every stage; distinguish TCP flow control from application-level unbounded Promise/queue growth.
+
+## Sources
+
+- Reactive Streams specification — backpressure contract — deep-dive
+- Google SRE Book — overload and graceful degradation — deep-dive
+- Martin Kleppmann, *Designing Data-Intensive Applications* — unbounded queues — deep-dive
+
+## Key Concepts
+
+- **Every link needs a policy:** wait, drop, 429/503, or credit/window.
+- **Bounded queues:** absorb bursts; define overflow.
+- **Load shedding:** intentional loss — metric and alert.
+- **Rate limiting:** [[Token bucket]] at the edge.
+
+## Technical Details
 
 ```txt
 Producer → [bounded queue] → Consumer
@@ -14,49 +29,50 @@ Producer → [bounded queue] → Consumer
          wait | drop | HTTP 429 / 503
 ```
 
-Without an explicit policy, frameworks often buffer silently until the process runs out of memory or latency becomes unbounded.
-
 | Strategy | Behavior | Risk |
 |----------|----------|------|
-| Blocking | Producer waits until space | Deadlock chains if circular |
-| Bounded queue | Absorbs short bursts | Must define overflow action |
-| Load shedding | Drop or sample | Data loss — metric and alert |
-| Credit / window | Consumer grants send rights | Reactive streams, Transmission Control Protocol flow control |
-| Rate limiting | [[Token bucket]] at gateway | Protects origin; clients need backoff |
-
-## Application examples
-
-Node.js streams respect backpressure:
+| Blocking | Producer waits | Deadlock if circular |
+| Bounded queue | Absorbs short bursts | Need overflow action |
+| Load shedding | Drop or sample | Data loss |
+| Credit / window | Consumer grants send rights | Reactive streams, TCP |
+| Rate limiting | [[Token bucket]] | Clients need backoff |
 
 ```javascript
 const ok = writable.write(chunk)
 if (!ok) await once(writable, 'drain')
 ```
 
-nginx rate limiting:
-
 ```nginx
 limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
 limit_req zone=api burst=20 nodelay;
 ```
 
-Message buses (Kafka, and others) use **consumer lag** as implicit backpressure — disk is still finite; alert and scale consumers or pause producers.
-
-## Failure signatures
+Kafka consumer lag is implicit backpressure — disk is still finite. **TCP backpressure ≠ app backpressure** — `Promise.all` on a million tasks still OOMs.
 
 | Symptom | Likely cause |
 |---------|--------------|
-| Out of memory / huge lag | Unbounded in-memory queue |
-| Upstream timeouts | Blocked producers waiting on full pipes |
-| `429` storms | Clients retry without jitter |
-| Silent message loss | Drop policy without dead-letter queue |
+| OOM / huge lag | Unbounded in-memory queue |
+| Upstream timeouts | Blocked producers on full pipes |
+| 429 storms | Retries without jitter |
+| Silent loss | Drop without dead-letter |
 
-**Transmission Control Protocol backpressure is not application backpressure** — user-space code can still accumulate unbounded `Promise` chains (`Promise.all` on a million tasks is self-inflicted overload).
+## Real-World Applications
 
-*What breaks first under spike?* The slowest stage in the pipeline — isolate thread pools and circuit-break sick dependencies.
+Stream processors, API gateways, Node streams, and any pipeline in [[Scaling Throughput in High-load system]].
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- Reactive Streams specification — `Publisher` / `Subscriber` backpressure contract.
-- Google SRE Book — handling overload, graceful degradation.
-- Martin Kleppmann, *Designing Data-Intensive Applications* — unbounded queues and system stability.
+- **Block:** preserves data; can deadlock/timeout upstream.
+- **Shed:** protects the system; loses work.
+- **Trade-off:** latency SLOs vs completeness SLOs.
+
+## Comparison
+
+- vs [[Token bucket]]: admission shaping vs full-pipeline consumer pressure.
+- vs infinite buffer: “never block” until memory death.
+
+## Mistakes to Avoid
+
+- Unbounded queues “for reliability.”
+- Dropping without metrics/DLQ.
+- Assuming the kernel socket buffer saves the application.

@@ -1,12 +1,19 @@
-[[Data structure]] [[dsa problem solving Scaffold]] [[dsa intuition]]
+[[Data structure]] [[dsa problem solving Scaffold]] [[dsa intuition]] [[DSA algorithms]]
 
 # Questions
 
 > DSA question bank mindset — classify the prompt, pick a pattern, then solve with the scaffold.
 
----
+## Interview Relevance
 
-## How it works
+Question-bank discipline — tagging, constraints, follow-ups — is how strong candidates stay structured under pressure.
+
+## Sources
+
+- [NeetCode roadmap](https://neetcode.io/roadmap) — overview
+- [LeetCode Explore](https://leetcode.com/explore/) — overview
+
+## Key Concepts
 
 ```txt
 read → tag → constraints → pattern → code → edges
@@ -21,10 +28,7 @@ read → tag → constraints → pattern → code → edges
 | **Follow-ups** | Harder constraints | “What if sorted? streamed?” |
 | **Complexity ask** | Time/space | “State both.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 Checklist per question:
@@ -42,10 +46,7 @@ Checklist per question:
 | Verbalize | Interview signal |
 | Postmortem | Note the pattern gap |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,30 +55,12 @@ Checklist per question:
 | Pattern mismatch | wrong family | Re-tag problem |
 | Repeat misses | no journal | Log pattern → question |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** On-call incident — use runbooks, not puzzle mode.
+- **Trade-off:** production feature with clear CRUD — don’t force interview patterns.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Collecting solutions without tags** — unsearchable later.
-
-> [!WARNING]
-> **Only LeetCode Easy** — medium graph/DP is where interviews live.
-
----
-
-
-## When not to use
-
-- **On-call incident** — use runbooks, not puzzle mode.
-- **production feature with clear CRUD** — don’t force interview patterns.
-
-
-## Related
-
-[[dsa problem solving Scaffold]] [[dsa intuition]] [[DSA algorithms]]
-
-## Sources
-
-- [Wikipedia — Questions](https://en.wikipedia.org/wiki/Questions)
+- Collecting solutions without tags — unsearchable later.
+- Only LeetCode Easy — medium graph/DP is where interviews live.

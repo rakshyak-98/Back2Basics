@@ -1,119 +1,83 @@
-[[useradd]] [[userdel]] [[passwd]] [[getent]] [[user management]] [[etc files]]
+[[useradd]] [[userdel]] [[passwd]] [[getent]] [[user management]] [[etc files]] [[linux groups]]
 
 # usermod
 
-> usermod — → /etc/passwd + shadow + group
+> Mutates an existing local account — shell, home, groups, lock — in passwd/shadow/group.
 
----
+## Interview Relevance
 
-## How it works
+The classic trap: `usermod -G` **replaces** supplementary groups; production always uses `-aG` to append.
 
-`usermod` edits `/etc/passwd`, `/etc/shadow`, `/etc/group` (and gshadow) **for local accounts**. Changes to groups need `-aG` (append); bare `-G` **replaces** the supplementary group list. Active sessions keep old UID/GID until re-login.
+## Sources
+
+- [man usermod](https://man7.org/linux/man-pages/man8/usermod.8.html) — deep-dive
+- [Wikipedia — usermod](https://en.wikipedia.org/wiki/Usermod) — overview
+
+## Core Definition
+
+`usermod` edits `/etc/passwd`, `/etc/shadow`, `/etc/group` (and gshadow) for local accounts. Active sessions keep old UID/GID until re-login. NSS/LDAP accounts need directory tools.
+
+## Key Concepts
+
+- **`-aG` append vs `-G` replace:** forgetting `-a` drops sudo/docker membership.
+- **`-L` / `-U`:** lock/unlock password — keys may still work.
+- **`-d DIR -m`:** set home and move files; `-m` required to relocate contents.
+- **`-s` shell:** nologin to disable interactive login.
+
+## Technical Details
 
 ```
 usermod → /etc/passwd + shadow + group
 Running process → still old UID until restart
-NSS (sssd/LDAP) → usermod may not apply — use directory tools
+NSS (sssd/LDAP) → usermod may not apply
 ```
 
 | Flag | Effect | Risk |
 |------|--------|------|
 | `-s SHELL` | Login shell | Lock user if shell invalid |
-| `-l NEW` | Rename login | Update home references, cron, mail |
-| `-d DIR -m` | Home + move files | `-m` required to move existing home |
-| `-g GROUP` | Primary group | Must exist (`groupadd`) |
-| `-aG GROUP` | Append supplementary | **Safe** add to sudo/docker/etc |
-| `-G g1,g2` | **Replace** all supp groups | Drops sudo if forgotten |
+| `-l NEW` | Rename login | Update home, cron, mail refs |
+| `-d DIR -m` | Home + move | Need `-m` to move existing home |
+| `-g GROUP` | Primary group | Must exist |
+| `-aG GROUP` | Append supplementary | Safe add |
+| `-G g1,g2` | Replace all supp groups | Drops sudo if forgotten |
 | `-L` / `-U` | Lock/unlock password | PAM still applies |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **usermod** | Change existing user | “usermod -aG docker user — note -a.” |
-| **-aG** | Append groups | “Without -a you wipe groups.” |
-| **-L / -U** | Lock/unlock | “Locks password; keys may remain.” |
-| **-d -m** | Move home | “-m moves files with home.” |
-| **-s** | Shell | “usermod -s /usr/sbin/nologin.” |
-
-
-## Configuration and commands
-
 ```bash
-# Interactive shell for service account
 sudo usermod -s /bin/bash deploy
-
-# Add to groups (append — production default)
 sudo usermod -aG docker,sudo alice
 id alice
-groups alice
-
-# Change primary group (new files inherit this GID)
 sudo usermod -g developers alice
-
-# Relocate home
 sudo usermod -d /home/alice-new -m alice
-# -m moves contents; fix systemd user units referencing old path
-
-# Rename account
 sudo usermod -l alice_new alice_old
-sudo usermod -d /home/alice_new -m alice_new
-# Update crontab, ssh AuthorizedKeys path comments, file ownership if needed
-
-# Lock compromised account
 sudo usermod -L compromised
-sudo passwd -l compromised   # redundant with -L for password auth
-
-# Verify truth (NSS)
 getent passwd alice
-getent group docker
 ```
 
-**After group change:** user must **log out fully** (or `newgrp docker` for one shell) for supplementary groups to apply.
-
-**Bulk ownership after UID change** (rare, dangerous):
-
-```bash
-# Only when UID intentionally changed — verify before running
-sudo find / -uid OLD_UID -exec chown NEW_UID {} \; 2>/dev/null
-```
-
-
-## When things break
+After group change: full logout (or `newgrp`) for supplementary groups to apply.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "not in docker group" after usermod | `id` vs `id deploy` | Re-login; `-aG` not `-G`; verify `getent group docker` |
-| Lost sudo | `groups user` | `usermod -aG sudo user`; was wiped by `-G` only |
-| Can't login | `getent passwd`; shell path | `usermod -s /bin/bash`; nologin mistake |
-| Home still old path | `grep alice /etc/passwd` | `-d` without `-m`; manual rsync + edit passwd |
-| usermod: user in use | `who`; process list | Log out user; `-f` force (disruptive) |
-| Change ignored | sssd/LDAP | Modify directory; local usermod wrong tool |
+| Not in docker group | `id` after change | Re-login; use `-aG` |
+| Lost sudo | `groups user` | Was wiped by `-G`; restore `-aG sudo` |
+| Can’t login | Shell path | `usermod -s /bin/bash` |
+| Change ignored | sssd/LDAP | Directory tools |
 
+## Real-World Applications
 
-## Gotchas
+Adding engineers to `docker`/`sudo`, locking compromised accounts, and relocating homes during username renames.
 
-> [!WARNING]
-> **`usermod -G docker` without `-a`** — removes user from all other supplementary groups. Always `-aG`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Rename without `-m`** — home dir name mismatch; apps hardcode `/home/oldname`.
+- **Pro:** Precise local account surgery without recreate.
+- **Con:** Easy group wipe; useless for directory-backed identities.
 
-- **Running daemons** — User systemd services, cron, and long-lived workers keep old credentials until restarted.
-- **NFS/SMB ownership** — UID mapping on NAS may not match local usermod.
+## Comparison
 
+- vs [[useradd]]: create vs mutate.
+- vs [[passwd]] `-l`: similar password lock path; usermod also covers shell/home/groups.
 
-## When not to use
+## Mistakes to Avoid
 
-- **LDAP/AD/FreeIPA accounts** — use `ipa user-mod`, `admod`, or vendor console.
-- **Creating users** — [[useradd]] first; usermod is for mutation.
-- **Temporary access** — prefer expiry on [[useradd]] or IAM-style keys with rotation.
-
-
-## Related
-
-[[useradd]] [[userdel]] [[passwd]] [[getent]] [[user management]] [[etc files]] [[linux groups]]
-
-## Sources
-
-- [Wikipedia — usermod](https://en.wikipedia.org/wiki/usermod)
+- `usermod -G docker` without `-a`.
+- Rename without `-m` leaving a mismatched home path.
+- Expecting running daemons to pick up new groups without restart/re-login.

@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongodb replicaset]] [[System Design/database sharding]] [[mognodb indexing]]
+[[MongoDB]] [[mongodb replicaset]] [[System Design/database sharding]] [[mognodb indexing]] [[mongodb schema]] [[mongodb connection]] [[mongodb migration]]
 
 # MongoDB sharding
 
-> MongoDB sharding — a sharded cluster has three roles: Documents land on shards by shard key ranges (or hashes).
+> MongoDB sharding splits a collection across shards by shard key — mongos routes queries using the config servers' chunk map.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask sharding to test shard-key choice, scatter-gather risk, and the roles of mongos, shards, and config servers — bad keys are hard to undo.
+
+## Sources
+
+- [Sharding — MongoDB Manual](https://www.mongodb.com/docs/manual/sharding/) — deep-dive
+- [Shard Keys — MongoDB Manual](https://www.mongodb.com/docs/manual/core/sharding-shard-key/) — overview
+
+## Key Concepts
 
 A sharded cluster has three roles:
 
@@ -32,8 +39,7 @@ Documents land on shards by **shard key** ranges (or hashes). The **balancer** m
 
 **Shard key choice is hard to undo** — changing it means `reshardCollection` (or rebuild). Design for: high cardinality, even write spread, and queries that include the key (avoid scatter-gather).
 
-
-## Configuration and commands
+## Technical Details
 
 All administrator below runs against **mongos** (`mongosh` → cluster router), not a single shard primary.
 
@@ -151,21 +157,13 @@ db.collection.getShardDistribution()   // from mongos, per collection
 sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Dataset and write QPS still fit one primary + [[mongodb replicaset]] secondaries — sharding adds mongos/CSRS/balancer complexity.
+- Access pattern is mostly global scans / heavy cross-entity analytics — use a warehouse, not more shards.
+- You cannot pick a stable shard key aligned to queries — fix the model first ([[mongodb schema]], [[mongodb denormalization]]).
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| One shard hot (CPU/disk/QPS) | `getShardDistribution()`, key cardinality | Better key / hashed; zone or reshard; add shards |
-| Queries slow / scatter-gather | Explain plan; missing shard key in filter | Rewrite query to include shard key; compound key |
-| Balancer not moving | `sh.getBalancerState()`, locks, jumbo chunks | Start balancer; split jumbo; free disk on donors/recipients |
-| `removeShard` stuck draining | Chunks left; primaryShard; jumbo | `movePrimary`; fix jumbo; wait / increase migrate concurrency carefully |
-| mongos flapping / stale routing | mongos logs; CSRS health | Fix config RS; bounce mongos; ensure majority CSRS |
-| Writes fail `ShardKeyNotFound` / immutable key | Update tries to change shard key fields | Don't mutate shard key; delete+insert or redesign |
-| Orphaned docs after failed migrate | Range deleter lag; disk | Let range deleter finish; check recipient health |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Low-cardinality or monotonically increasing keys** (`createdAt` alone, `country`) → hot shard / hotspot. Prefer high-cardinality + hash or compound with a random/high-card prefix.
@@ -182,18 +180,12 @@ sh.reshardCollection('app.orders', { tenantId: 1, orderId: 1 })
 > [!WARNING]
 > **Transactions / joins across shards** — multi-doc transactions work but cost more; design for single-shard affinity when you can.
 
-
-## When not to use
-
-- Dataset and write QPS still fit one primary + [[mongodb replicaset]] secondaries — sharding adds mongos/CSRS/balancer complexity.
-- Access pattern is mostly global scans / heavy cross-entity analytics — use a warehouse, not more shards.
-- You cannot pick a stable shard key aligned to queries — fix the model first ([[mongodb schema]], [[mongodb denormalization]]).
-
-
-## Related
-
-[[mongodb replicaset]] [[System Design/database sharding]] [[mognodb indexing]] [[mongodb schema]] [[mongodb connection]] [[mongodb migration]]
-
-## Sources
-
-- [Wikipedia — mongodb sharding](https://en.wikipedia.org/wiki/mongodb_sharding)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| One shard hot (CPU/disk/QPS) | `getShardDistribution()`, key cardinality | Better key / hashed; zone or reshard; add shards |
+| Queries slow / scatter-gather | Explain plan; missing shard key in filter | Rewrite query to include shard key; compound key |
+| Balancer not moving | `sh.getBalancerState()`, locks, jumbo chunks | Start balancer; split jumbo; free disk on donors/recipients |
+| `removeShard` stuck draining | Chunks left; primaryShard; jumbo | `movePrimary`; fix jumbo; wait / increase migrate concurrency carefully |
+| mongos flapping / stale routing | mongos logs; CSRS health | Fix config RS; bounce mongos; ensure majority CSRS |
+| Writes fail `ShardKeyNotFound` / immutable key | Update tries to change shard key fields | Don't mutate shard key; delete+insert or redesign |
+| Orphaned docs after failed migrate | Range deleter lag; disk | Let range deleter finish; check recipient health |

@@ -1,12 +1,19 @@
-[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]]
+[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Idempotent-key]]
 
 # Service Layer
 
 > Service Layer holds business rules between HTTP handlers and the database — controllers stay thin.
 
----
+## Interview Relevance
 
-## How it works
+Service Layer interviews check where business rules live — thin controllers, transactional use-cases, and avoiding anemic “pass-through” services.
+
+## Sources
+
+- [Martin Fowler — Service Layer](https://martinfowler.com/eaaCatalog/serviceLayer.html) — deep-dive
+- [Microsoft — N-tier](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier) — overview
+
+## Key Concepts
 
 ```txt
 HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
@@ -28,10 +35,7 @@ HTTP / UI  →  Controller  →  Service (rules + txn)  →  Repository  →  DB
 3. **Persist** — repos write inside one transaction when needed.
 4. **Return** — map domain result to HTTP/status.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```ts
 // sketch — Nest / Express style
@@ -51,10 +55,7 @@ class OrderService {
 | No DB in controller | Swap transport without rewriting rules |
 | One service per use-case cluster | Avoid god-services |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,30 +64,12 @@ class OrderService {
 | Circular deps | Service A↔B | Extract domain or events |
 | Hard to test | Needs full HTTP | Unit-test service with fakes |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Tiny CRUD — one handler + one query is fine until rules grow.
+- **Trade-off:** Pure BFF glue — mapping APIs with no rules doesn’t need a service layer.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Anemic services** — if the service only forwards to the repo, you added a layer for nothing.
-
-> [!WARNING]
-> **Txn leakage** — opening transactions in controllers usually races and nests badly.
-
----
-
-
-## When not to use
-
-- **Tiny CRUD** — one handler + one query is fine until rules grow.
-- **Pure BFF glue** — mapping APIs with no rules doesn’t need a service layer.
-
-
-## Related
-
-[[Clean Architecture]] [[Multi-tier and Layered Architecture]] [[presentation layer]] [[Idempotent-key]]
-
-## Sources
-
-- [Wikipedia — Service Layer](https://en.wikipedia.org/wiki/Service_Layer)
+- Anemic services — if the service only forwards to the repo, you added a layer for nothing.
+- Txn leakage — opening transactions in controllers usually races and nests badly.

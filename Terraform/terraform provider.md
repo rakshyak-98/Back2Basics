@@ -2,59 +2,26 @@
 
 # terraform provider
 
-> Provider deep-dive — **Terraform in Action** (Winkler) + **Terraform: Up & Running** (Brikman).
+> A provider is a plugin that implements create/read/update/delete against an API — Terraform core loads it and reconciles resources; it does not hard-code EC2 or GCE itself.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want version pins, aliases for multi-region/account, schema as the argument contract, and credentials never in HCL.
 
-A **provider** is a plugin that implements Create / Read / Update / Delete against an API (AWS, GCP, Azure, GitHub, Kubernetes, Docker, …).
-Terraform core does not know EC2 or GCE — it loads the provider, then asks it to reconcile resources. Setup context: [[Terraform setup]].
+## Sources
 
+- [HashiCorp — Providers](https://developer.hashicorp.com/terraform/language/providers) — deep-dive
+- Scott Winkler, *Terraform in Action* — deep-dive
+- Yevgeniy Brikman, *Terraform: Up & Running* — overview
 
-## When things break
+## Key Concepts
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
-| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
-| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
-| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
-| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
+- **Plugin boundary:** core builds the graph; provider RPC performs each resource op.
+- **`required_providers`:** source + version constraint; lock file pins checksums.
+- **Aliases:** extra provider instances for other regions/accounts — set `provider = aws.west` on resources.
+- **Resource vs data:** same plugin ships both manage and lookup types.
 
-
-## Gotchas
-
-> [!WARNING]
-> **Unpinned provider** — “latest” drifts between CI and laptop.
-
-> [!WARNING]
-> **Alias forgotten** — resource lands in the default region/account silently.
-
-
-## When not to use
-
-- **Read-only inventory scripts** — cloud SDK / CLI may be simpler than a full provider graph.
-- **Provider with no API you own** — don’t wrap every SaaS click in Terraform.
-
-
-## Configure the provider
-
-```hcl
-provider "aws" {
-  region = var.region
-  # optional: profile, shared_credentials_files, assume_role, …
-}
-```
-
-Winkler: arguments here are **provider-level** (region, endpoints, authentication), not resource arguments.
-
-Values often come from [[variable file]].
-
----
-
-
-## Declare source + version
+## Technical Details
 
 ```hcl
 terraform {
@@ -65,20 +32,9 @@ terraform {
     }
   }
 }
-```
 
-- `source` → `registry.terraform.io/<namespace>/<name>`
-- `version` → always constrain (Brikman: avoid “latest” in prod)
-- Written once during [[Terraform setup]]; plugins fetched by `terraform init`
-
----
-
-
-## Aliases (multi-region / multi-account)
-
-```hcl
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
 }
 
 provider "aws" {
@@ -90,90 +46,56 @@ resource "aws_s3_bucket" "logs" {
   provider = aws.west
   bucket   = "my-logs-west"
 }
+
+resource "aws_vpc" "app" { … }   # manage
+data "aws_vpc" "existing" { … }  # lookup only
 ```
 
-Without `provider = …`, resources use the **default** (unaliased) instance.
+Without `provider = …`, resources use the default (unaliased) instance.
 
----
+Flow: `init` downloads plugins → plan/apply calls provider RPC → attributes land in state ([[Terraform workflow]]).
 
-
-## How Terraform talks to providers
-
-1. `terraform init` downloads plugin binaries into `.terraform/providers`
-2. Plan/apply: core builds a graph (Winkler), then calls the provider RPC for each resource op
-3. Provider returns attributes → written into state ([[Terraform workflow]])
-
-Debug conversation: `TF_LOG=DEBUG terraform init` → [[Terraform CLI]]
-
----
-
-
-## Auth reminders
+```shell
+terraform providers
+terraform providers mirror ./mirror
+terraform providers schema -json | jq '.provider_schemas | keys'
+TF_LOG=DEBUG terraform init
+```
 
 | Do | Don’t |
 |----|--------|
 | Env vars, roles, ADC, SSO | Hardcode access keys in HCL |
 | Short-lived credentials in CI | Commit `.tfvars` with secrets |
 
-Full cloud table: [[Terraform setup]]
+Non-cloud: Docker → [[Terraform docker]]; Kubernetes example under [[Terraform setup]].
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Auth failed | Env / profile / role | Fix cloud creds; never hardcode in HCL |
+| Wrong region | Default vs `alias` | Set `provider = aws.west` on resource |
+| Schema unknown arg | Provider version | Upgrade pin; check `providers schema` |
+| Init can’t download | Registry / mirror / proxy | Mirror or open registry access |
+| Lock file conflict | `.terraform.lock.hcl` | Commit lock; `init -upgrade` on purpose |
 
+## Real-World Applications
 
-## Inspect providers
+Multi-region DR buckets, GitHub/Kubernetes providers beside cloud, and provider mirrors in air-gapped CI.
 
-```shell
-terraform providers
-terraform providers mirror ./mirror
-```
+**Example:** Default `aws` in `us-east-1` plus `aws.west` for a replica bucket — each resource selects its provider explicitly.
 
-```shell
-# schemas (attributes, required vs optional)
-terraform providers schema -json | jq '.provider_schemas | keys'
+## Pros/Cons or Trade-offs
 
-terraform providers schema -json \
-  | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas["aws_instance"]'
-```
+- **Pro:** One workflow across clouds and SaaS APIs.
+- **Con:** Unpinned providers drift between CI and laptop.
+- **Con:** Not every SaaS click deserves a Terraform resource.
 
-More flags: [[Terraform CLI]]
+## Comparison
 
----
+- Setup context → [[Terraform setup]]; language → [[terraform]]; flags → [[Terraform CLI]].
+- Read-only inventory may be simpler with cloud SDKs than a full provider graph.
 
+## Mistakes to Avoid
 
-## Resource vs data for a provider
-
-Same provider ships both:
-
-```hcl
-resource "aws_vpc" "app" { … }   # manage
-data "aws_vpc" "existing" { … }  # lookup only
-```
-
-Language detail: [[terraform]]
-
----
-
-
-## Non-cloud providers
-
-Same pattern — `required_providers` + `provider` block:
-
-- Docker → [[Terraform docker]]
-- Kubernetes → example under [[Terraform setup]]
-
----
-
-
-## Book takeaways
-
-- **Winkler**: provider = plugin; configuration block; aliases; schema drives valid arguments
-- **Brikman**: pin versions; never store credentials in code; registries for providers/modules
-
-
-## Related
-
-[[Terraform setup]] [[terraform]] [[Terraform workflow]] [[Terraform CLI]] [[variable file]] [[Terraform docker]]
-
-## Sources
-
-- [Wikipedia — terraform provider](https://en.wikipedia.org/wiki/terraform_provider)
+- Forgetting `provider =` on aliased resources — silent wrong region/account.
+- “Latest” provider in production.
+- Storing credentials in provider blocks.

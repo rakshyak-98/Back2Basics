@@ -4,9 +4,16 @@
 
 > A prompt is the input text/messages you send an LLM — instructions plus the user ask.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about prompt to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 [system rules] + [context] + [user task] → model → output
@@ -21,10 +28,7 @@
 | **Delimiter** | Fence untrusted text | “XML/JSON wrappers.” |
 | **Template** | Reusable prompt | “Fill slots; don’t freestyle.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 ### Context
@@ -40,10 +44,18 @@ Answer using only Context. If missing, say "unknown".
 | Eval set | Catch regressions |
 | Length | Cost + attention |
 
----
+## Pros/Cons or Trade-offs
 
+- **Deterministic transforms** — regex/code.
+- **Private data you can’t send off-box** — local models or classical pipelines.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Prompts in code without tests** — silent quality regressions.
+
+> [!WARNING]
+> **Pasting secrets into prompts** — they may be logged by the provider.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,30 +64,3 @@ Answer using only Context. If missing, say "unknown".
 | Unstable | vague ask | Examples + schema |
 | Injection | user overrides system | Delimit; strip instructions |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Prompts in code without tests** — silent quality regressions.
-
-> [!WARNING]
-> **Pasting secrets into prompts** — they may be logged by the provider.
-
----
-
-
-## When not to use
-
-- **Deterministic transforms** — regex/code.
-- **Private data you can’t send off-box** — local models or classical pipelines.
-
-
-## Related
-
-[[prompt enginerring]] [[GPT]] [[claude ai]]
-
-## Sources
-
-- [Wikipedia — prompt](https://en.wikipedia.org/wiki/prompt)

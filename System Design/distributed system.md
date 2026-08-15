@@ -1,72 +1,68 @@
-[[Distributed computing]] [[Raft]] [[Quorum]] [[Eventual consistency]] [[backpressure]]
+[[Distributed computing]] [[Raft]] [[Quorum]] [[Eventual consistency]] [[backpressure]] [[System design]] [[scaling data migration]]
 
 # distributed system
 
-> A distributed system is software whose parts run on multiple networked machines and must coordinate despite delayed messages, partial failures, and clocks that disagree.
+> A distributed system is software whose parts run on multiple networked machines and must coordinate despite delayed messages, partial failures, and disagreeing clocks.
 
----
+## Interview Relevance
 
-## Why distribution exists
+Name partial failure, replication, consistency, coordination, and time — and say when *not* to distribute. Exactly-once = at-least-once + idempotency.
 
-Single machines eventually hit limits on central processing unit, memory, disk input/output, and fault tolerance. Distribution trades **complexity** for **scale** and **availability** — but only when the problem genuinely needs it ([[System design]]).
+## Sources
+
+- Martin Kleppmann, *Designing Data-Intensive Applications* — deep-dive
+- [Raft paper](https://raft.github.io/raft.pdf) — deep-dive
+- Google SRE Book — overload and cascading failure — deep-dive
+
+## Key Concepts
+
+- **Distribution trades complexity for scale/availability** — only when needed.
+- **Partial failure is normal** — design for it.
+- **CAP under partition:** choose consistency vs availability per operation.
+- **Exactly-once is composed:** at-least-once + idempotent handlers + dedupe keys.
+
+## Technical Details
 
 ```txt
 Client → load balancer → service replicas → replicated data store
                               ↘ message queue / events ↙
 ```
 
-Every arrow is a network hop: latency, packet loss, and partition are normal, not exceptional.
-
-## The hard problems
-
 | Problem | What goes wrong | Typical tools |
 |---------|-----------------|---------------|
-| Partial failure | One node dies; others keep running | Health checks, redundancy, graceful degradation |
-| Replication | Copies diverge after a crash | Write-ahead log, [[Raft]], primary-replica |
-| Consistency | Readers see stale or conflicting data | [[Quorum]] reads/writes, linearizable stores |
-| Coordination | Who is the leader? | Consensus, leases, fencing tokens |
-| Time | Ordering events across hosts | Logical clocks, version vectors, monotonic identifiers |
+| Partial failure | One node dies; others run | Health checks, redundancy |
+| Replication | Copies diverge | WAL, [[Raft]], primary-replica |
+| Consistency | Stale/conflicting reads | [[Quorum]], linearizable stores |
+| Coordination | Who is leader? | Consensus, leases, fencing |
+| Time | Ordering across hosts | Logical clocks, version vectors |
 
-The [CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) (Brewer) is often misquoted as "pick two." In practice: under network partition, you choose between strong consistency and availability for a given operation — design that choice explicitly ([[Eventual consistency]]).
-
-## Failure-first design checklist
-
-- **Failure domains** — availability zone, region, dependency; avoid single points without a failover story.
-- **Replication factor** — how many copies, and what acknowledgment policy (`acks=all` versus `acks=1`).
-- **Timeouts everywhere** — waiting forever is not reliability; pair with bounded retries and jitter.
-- **Idempotent consumers** — at-least-once delivery plus duplicate handling beats pretending exactly-once exists everywhere.
-- **Backups and restore drills** — replication is not backup; test recovery ([[scaling data migration]] practices apply).
-
-## Symptom → direction (for this topic)
+Failure-first: failure domains, replication factor + ack policy, timeouts+jitter, idempotent consumers, backup restore drills.
 
 | What you see | Likely cause | Direction |
 |--------------|--------------|-----------|
-| Different answers from different replicas | Stale read or lost [[Quorum]] | Tune read consistency; verify leader |
-| Cascading outage | Retry storm on a sick dependency | Circuit breakers, bulkheads, [[backpressure]] |
-| Data loss after crash | Acknowledged before durable | Synchronous commit, fsync policy |
-| Both sides accepting writes during partition | Split brain | Consensus, fencing, or conflict resolution strategy |
-| Authentication failures at random | Clock skew | Network Time Protocol sync; prefer monotonic identifiers |
+| Different answers from replicas | Stale read / lost quorum | Tune consistency; verify leader |
+| Cascading outage | Retry storm | Circuit breakers, [[backpressure]] |
+| Data loss after crash | Ack before durable | Sync commit / fsync |
+| Split brain writes | Both sides accept | Consensus/fencing/conflict policy |
+| Random auth failures | Clock skew | NTP; monotonic ids |
 
-## Exactly-once is a composition
+## Real-World Applications
 
-True exactly-once end-to-end is rare. Production systems usually implement:
+Multi-AZ microservices, replicated datastores, and event pipelines that must survive zone loss.
 
-```txt
-at-least-once delivery + idempotent handlers + deduplication keys
-```
+## Pros/Cons or Trade-offs
 
-Design for observable duplicates rather than denying they happen.
+- **Pro:** Capacity and fault domains beyond one box.
+- **Con:** Ops load, subtle consistency bugs, slower debugging.
+- **Trade-off:** distribute early vs stay on one well-operated node.
 
-## When not to distribute
+## Comparison
 
-- A single node meets service level objectives with headroom — distribution adds operational load.
-- You need multi-row atomic transactions across unrelated services — rethink service boundaries.
-- The team cannot operate consensus, queues, and multi-region failover yet — complexity kills reliability.
+- vs [[Distributed computing]]: computing emphasizes split workloads; this note emphasizes failure/coordination.
+- vs single-node: simpler ACID; harder HA/scale.
 
-*What breaks first when the network partitions?* Whatever assumed "the other side always responds."
+## Mistakes to Avoid
 
-## Sources
-
-- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), chapters on replication and consistency.
-- [Raft paper](https://raft.github.io/raft.pdf) — Ongaro & Ousterhout, USENIX ATC 2014.
-- Google SRE Book — handling overload, cascading failures, distributed tracing.
+- Distributing before SLOs require it.
+- Assuming exactly-once messaging exists end-to-end.
+- Infinite retries without jitter/backoff ([[backpressure]]).

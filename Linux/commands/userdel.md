@@ -1,14 +1,30 @@
-[[user management]] [[useradd]] [[passwd]] [[usermod]] [[groupadd]]
+[[user management]] [[useradd]] [[passwd]] [[usermod]] [[groupadd]] [[getent]]
 
 # userdel
 
-> userdel — removes the account line from /etc/passwd, /etc/shadow, and /etc/group (primary group entry if it was user-private). Files owned by the UID remain on disk
+> Removes the account from passwd/shadow/group — home/mail only if `-r`; other files stay as numeric UID orphans.
 
----
+## Interview Relevance
 
-## How it works
+Offboarding depth: `-r` destructiveness, UID reuse, and that cron/systemd/user processes need manual cleanup.
 
-`userdel` removes the account line from `/etc/passwd`, `/etc/shadow`, and `/etc/group` (primary group entry if it was user-private). Files owned by the UID **remain on disk** unless `-r` removes the home directory and mail spool — everything else (cron, systemd user units, `/var/spool/cron`, processes) needs manual cleanup.
+## Sources
+
+- [man userdel](https://man7.org/linux/man-pages/man8/userdel.8.html) — deep-dive
+- [Wikipedia — userdel](https://en.wikipedia.org/wiki/Userdel) — overview
+
+## Core Definition
+
+`userdel` removes the account lines from `/etc/passwd`, `/etc/shadow`, and `/etc/group` (primary group if user-private). Files owned by the UID remain unless `-r` removes home and mail spool.
+
+## Key Concepts
+
+- **`-r`:** remove home + mail spool — irreversible without backup.
+- **UID reuse hazard:** new user can inherit orphaned file ownership.
+- **Running processes:** stop/kill the user first or deletion fails / stays messy.
+- **Not full offboard:** cron, systemd user units, Docker volumes, cloud IAM keys need separate cleanup.
+
+## Technical Details
 
 ```
 userdel ──► /etc/passwd, shadow, group
@@ -19,96 +35,47 @@ userdel ──► /etc/passwd, shadow, group
 | Flag | Effect |
 |------|--------|
 | `-r` | Remove home dir + mail spool |
-| `-f` | Force removal even if user logged in (dangerous) |
-| (none) | Account gone; files owned by old UID become numeric orphan |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **userdel** | Remove account | “userdel -r removes home too.” |
-| **-r** | Remove home/mail | “Irreversible — backup first.” |
-| **running processes** | Must stop first | “Kill/jobs of user before delete.” |
-| **UID reuse** | Danger | “Old files may get new owner.” |
-| **group leftover** | Primary group | “groupdel if unused.” |
-
-
-## Configuration and commands
+| `-f` | Force even if logged in (dangerous) |
+| (none) | Account gone; files become numeric orphans |
 
 ```bash
-# Safe offboarding checklist (run as root)
-id username                         # confirm UID/GID, groups
-ps -u username                      # any running processes?
-crontab -u username -l 2>/dev/null  # cron jobs?
-find / -uid $(id -u username) 2>/dev/null | head   # orphaned files preview
+id username
+ps -u username
+crontab -u username -l 2>/dev/null
+find / -uid $(id -u username) 2>/dev/null | head
 
-# Standard removal with home
-sudo userdel -r username
-
-# Account only — keep home for forensic / handover
-sudo userdel username
-
-# Force (user still logged in — kicks on next action, risky)
-sudo userdel -rf username
-
-# Reassign orphaned files before delete (preferred on shared servers)
-sudo find /var/www /opt -user username -exec chown serviceaccount:serviceaccount {} +
-sudo userdel -r username
-
-# Verify gone
-getent passwd username              # should return nothing
-grep username /etc/group            # secondary group memberships cleaned
-```
-
-**Pre-delete lock (recommended sequence):**
-
-```bash
-sudo passwd -l username             # block password login
+sudo passwd -l username
 sudo usermod -s /sbin/nologin username
-sudo pkill -u username              # stop processes
+sudo pkill -u username
 sudo userdel -r username
+
+sudo find /var/www /opt -user username -exec chown serviceaccount:serviceaccount {} +
+getent passwd username
 ```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "user is currently used by process" | `ps -u user` | Stop services; `pkill -u user`; then retry |
-| "cannot remove entry in /etc/passwd" | User logged in on TTY | `who`; `pkill -KILL -u user` last resort |
-| Home not removed | Forgot `-r` | `rm -rf /home/user` after backup confirm |
-| Files show numeric UID owner | Deleted without reassign | `find -uid <old_uid>` + `chown` |
-| User still in groups | Secondary memberships | `gpasswd -d user group` or edit `/etc/group` |
-| LDAP/SSSD user | Not a local account | Remove from directory; `userdel` wrong tool |
+| User currently used by process | `ps -u user` | Stop services; `pkill -u user` |
+| Home not removed | Forgot `-r` | `rm -rf` after backup confirm |
+| Numeric UID owners | Deleted without reassign | `find -uid` + `chown` |
+| LDAP/SSSD user | Not local | Directory tools — wrong tool |
 
+## Real-World Applications
 
-## Gotchas
+Contractor offboarding on bastion hosts: lock → nologin → kill processes → reassign web files → `userdel -r`.
 
-> [!WARNING]
-> **`-r` is destructive** — no trash can. Snapshot or archive `/home/user` before delete on any non-throwaway host.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **UID reuse** — deleted UID reassigned to new user inherits orphaned file ownership. Reassign or delete files first.
+- **Pro:** Clean local account removal when you own the UID space.
+- **Con:** Easy to leave orphans or reuse UIDs dangerously.
 
-> [!WARNING]
-> **`userdel -f` on active DB/app user** — open files keep running; new user with same name gets wrong UID mapping in long-lived processes.
+## Comparison
 
-> [!WARNING]
-> **Mail spool only** — `-r` does not purge `/var/spool/cron`, `~/.config/systemd/user`, docker volumes, or cloud IAM keys tied to that human.
+- vs temporary disable: `passwd -l` / `chage -E` without deleting.
+- vs rename: [[usermod]] `-l` / `-d -m`, not delete-recreate.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Temporary disable** → `passwd -l`, `usermod -L`, `chage -E 1`.
-- **Directory (LDAP/AD) accounts** → idm/directory administrator tools.
-- **Rename user** → `usermod -l newname -d /home/newname -m`.
-- **Merge two accounts** → `chown` file migration, not delete-recreate.
-
-
-## Related
-
-[[user management]] [[useradd]] [[passwd]] [[usermod]] [[groupadd]] [[getent]]
-
-## Sources
-
-- [Wikipedia — userdel](https://en.wikipedia.org/wiki/userdel)
+- `-r` without archive on non-throwaway hosts.
+- Deleting then letting the next hire reuse the UID over leftover files.
+- `userdel -f` on an active database/app user with open files.

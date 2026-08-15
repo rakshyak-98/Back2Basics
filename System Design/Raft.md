@@ -2,11 +2,26 @@
 
 # Raft
 
-> Raft is a consensus algorithm that elects a leader, replicates an append-only log to a majority of nodes, and commits entries only after durable replication — giving strongly consistent coordination without the opacity of Paxos.
+> Raft is a consensus algorithm that elects a leader, replicates an append-only log to a majority of nodes, and commits only after durable replication — strong coordination without Paxos opacity.
 
----
+## Interview Relevance
 
-## Roles and terms
+Walk leader election, log replication, commit = majority, odd voter counts, and when Raft is the wrong tool (cross-region user data).
+
+## Sources
+
+- Diego Ongaro & John Ousterhout, [In Search of an Understandable Consensus Algorithm](https://raft.github.io/raft.pdf) (USENIX ATC 2014) — deep-dive
+- [Raft website](https://raft.github.io/) — overview
+- etcd documentation — production Raft tuning — deep-dive
+
+## Key Concepts
+
+- **Roles:** Leader, Follower, Candidate; **Term** fences stale leaders.
+- **Commit rule:** majority durable ack before apply/respond.
+- **Safety:** two terms cannot both commit the same index with majority.
+- **Learners:** non-voting; do not count toward quorum.
+
+## Technical Details
 
 ```txt
 Client → Leader → append entries → Followers
@@ -16,62 +31,54 @@ Client → Leader → append entries → Followers
 | Role | Responsibility |
 |------|----------------|
 | **Leader** | Accepts client writes; replicates log entries |
-| **Follower** | Receives entries; votes in elections; does not serve writes (in classic Raft) |
+| **Follower** | Receives entries; votes; classic Raft does not serve writes |
 | **Candidate** | Contests leadership during elections |
-| **Term** | Monotonic epoch number; fences stale leaders |
+| **Term** | Monotonic epoch; fences stale leaders |
 
-If a partitioned former leader receives writes, followers reject them because its term is outdated — this prevents split-brain commits when combined with majority rules.
-
-## How an entry becomes committed
-
-1. Client sends command to leader (or is forwarded to leader).
-2. Leader appends entry to its local log and replicates to followers in parallel.
-3. Once a **majority** of nodes store the entry, the leader marks it **committed**.
-4. Leader applies committed entries to the **state machine** (key-value store, configuration, and so on) and responds to the client.
-5. Followers apply committed entries in log order when they learn the commit index.
-
-Safety property: if two leaders in different terms both claim commitment for the same log index, they cannot both have majority acknowledgment — the term and index pairing detects conflicts.
-
-## Operational parameters
+1. Client → leader (or forward).
+2. Leader appends + replicates in parallel.
+3. Majority store → **committed**.
+4. Apply to state machine; respond.
+5. Followers apply in log order when they learn commit index.
 
 | Knob | Trade-off |
 |------|-----------|
-| Cluster size (3, 5, 7) | Odd count avoids tied elections; more nodes = higher write latency |
-| Election timeout | Too low → flapping elections; too high → slow failover |
-| Heartbeat interval | Must be « election timeout |
-| Snapshotting | Bounds disk growth; required for long-lived logs |
+| Cluster size (3, 5, 7) | Odd count; more nodes → higher write latency |
+| Election timeout | Too low → flap; too high → slow failover |
+| Heartbeat interval | Must be ≪ election timeout |
+| Snapshotting | Bounds disk growth |
 
 ```bash
-# etcd (Raft-based) health checks
 etcdctl endpoint health
 etcdctl endpoint status -w table
 ```
 
-Raft powers **etcd**, **Consul**, **TiKV**, and many control-plane stores.
-
-## Failure modes
-
 | Symptom | Likely cause | Direction |
 |---------|--------------|-----------|
-| No leader | Lost majority (network partition or too many down nodes) | Restore connectivity; maintain odd voter count |
-| Flapping leadership | Aggressive timeouts or central processing unit starvation | Increase election timeout; isolate noisy neighbors |
-| Disk full | Unbounded log without compaction | Snapshot and compact; expand volume |
-| Slow commits | Follower lag (slow disk or network) | Replace sick node; faster storage |
+| No leader | Lost majority | Restore connectivity; odd voters |
+| Flapping | Aggressive timeouts / CPU starvation | Raise timeout; isolate noise |
+| Disk full | Unbounded log | Snapshot/compact |
+| Slow commits | Follower lag | Replace sick node; faster disk |
 
-**Two-node clusters are a trap:** one failure removes majority — use three voters minimum for production.
+**Two-node clusters are a trap.** Wrong tool: planet-scale [[Eventual consistency]] data; single-process apps; sync cross-region Raft on every user write.
 
-Non-voting **learners** do not count toward quorum; do not assume they provide failover votes.
+## Real-World Applications
 
-## When Raft is the wrong tool
+etcd, Consul, TiKV, and many Kubernetes control-plane stores.
 
-- Planet-scale eventually consistent data — partition tolerance and availability beat global consensus latency.
-- Single-process applications — a local database transaction suffices.
-- Cross-region synchronous Raft on every write — round-trip time dominates; prefer regional leaders and asynchronous replication for user data.
+## Pros/Cons or Trade-offs
 
-*What breaks first under load?* Disk append latency on the leader or the slowest follower in the replication path.
+- **Pro:** Understandable strong consistency; clear leader.
+- **Con:** Write latency tied to majority RTT; availability needs majority.
+- **Trade-off:** more voters (resilience) vs slower commits.
 
-## Sources
+## Comparison
 
-- Diego Ongaro & John Ousterhout, [In Search of an Understandable Consensus Algorithm](https://raft.github.io/raft.pdf) (USENIX ATC 2014).
-- [Raft website](https://raft.github.io/) — visualizations and student guide.
-- etcd documentation — production tuning for Raft clusters.
+- vs [[Quorum]] counting: Raft is full consensus (ordered log); Dynamo quorum is a response-count rule.
+- vs Paxos: same problem class; Raft prioritizes teachability/ops clarity.
+
+## Mistakes to Avoid
+
+- Running two voters and calling it HA.
+- Counting learners toward failover.
+- Using global Raft for every product write across continents.

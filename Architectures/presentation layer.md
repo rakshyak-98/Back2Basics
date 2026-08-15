@@ -4,9 +4,16 @@
 
 > Presentation layer is the UI/API edge — it shows data and takes input; it should not own business rules.
 
----
+## Interview Relevance
 
-## How it works
+Presentation-layer questions check thin UI/API edges — validation and mapping yes, business rules no.
+
+## Sources
+
+- [Martin Fowler — Presentation Domain Separation](https://martinfowler.com/eaaCatalog/presentationDomainSeparation.html) — deep-dive
+- [Wikipedia — Presentation layer](https://en.wikipedia.org/wiki/Presentation_layer) — overview
+
+## Key Concepts
 
 ```txt
 User → View / Controller / BFF → Service → Data
@@ -22,10 +29,7 @@ User → View / Controller / BFF → Service → Data
 | **Validation (syntax)** | Required fields, types | “Shape checks here; business rules deeper.” |
 | **BFF** | Backend for frontend | “Aggregate APIs for one UI.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```ts
 // controller stays dumb
@@ -42,10 +46,7 @@ app.post('/orders', async (req, res) => {
 | Map errors → status | 400 vs 409 vs 500 |
 | No SQL here | Keeps UI/API swappable |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,30 +55,12 @@ app.post('/orders', async (req, res) => {
 | Fat pages | Data fetch + rules mixed | Split presentational vs container |
 | CORS / auth at wrong layer | Token checks only in UI | Enforce on API too |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Batch jobs / workers — no presentation layer; call services directly.
+- **Trade-off:** Internal scripts — CLI that is the product may fold layers until it hurts.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **UI-only authorization** — attackers skip the browser; server must enforce.
-
-> [!WARNING]
-> **View knows the schema** — renaming columns breaks every screen; use DTOs.
-
----
-
-
-## When not to use
-
-- **Batch jobs / workers** — no presentation layer; call services directly.
-- **Internal scripts** — CLI that is the product may fold layers until it hurts.
-
-
-## Related
-
-[[Service Layer]] [[frontend layered architecture]] [[Multi-tier and Layered Architecture]]
-
-## Sources
-
-- [Wikipedia — presentation layer](https://en.wikipedia.org/wiki/presentation_layer)
+- UI-only authorization — attackers skip the browser; server must enforce.
+- View knows the schema — renaming columns breaks every screen; use DTOs.

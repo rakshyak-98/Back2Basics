@@ -1,22 +1,30 @@
-[[TCP]] [[webSocket]] [[TLS (Transport Layer Security)]] [[CORS (Cross Origin Request Sharing)]]
+[[TCP]] [[UDP]] [[webSocket]] [[TLS (Transport Layer Security)]] [[DNS]] [[half-open connections]]
 
 # Network error
 
-> Network error — s happen before or instead of an HTTP response:
+> Network errors happen before or instead of an HTTP response — DNS, TCP, or TLS failed; you never got a status line.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want a layered mental model: DNS → TCP → TLS → HTTP. Distinguishing `ERR_*` / `ECONN*` from HTTP 502/503 shows you won’t chase the wrong hop.
 
-**Network errors** happen **before or instead of** an HTTP response:
+## Sources
+
+- [Chromium — Network Error Logging / net errors](https://chromium.googlesource.com/chromium/src/+/HEAD/net/base/net_error_list.h) — deep-dive
+- [curl — Exit codes](https://curl.se/libcurl/c/libcurl-errors.html) — overview
+- [MDN — TypeError (fetch)](https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch) — overview
+
+## Core Definition
+
+A network error means the client never received an HTTP response because name resolution, connection setup, TLS handshake, or mid-flight peer reset failed first.
+
+## Key Concepts
 
 ```txt
 Client ──DNS──► TCP SYN ──TLS──► HTTP request ──► response
          │         │        │
          └── NXDOMAIN   timeout  cert fail  (network error zone)
 ```
-
-Common codes/messages:
 
 | Signal | Meaning |
 |--------|---------|
@@ -27,12 +35,9 @@ Common codes/messages:
 | `ERR_CERT_*` | TLS handshake failed |
 | `ECONNRESET` / `EPIPE` | Peer closed mid-flight |
 
-**Not network errors:** HTTP 502/503 from a proxy — TCP+TLS succeeded; server returned status.
+**Not network errors:** HTTP 502/503 from a proxy — TCP+TLS succeeded; the server returned a status.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Browser-side
 
@@ -63,11 +68,6 @@ ss -tan state time-wait | wc -l   # exhaustion vs app bug
 
 **Why split phases:** DNS fix ≠ firewall fix ≠ cert fix — measure each hop.
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `NS_BINDING_ABORTED` | Cancelled navigation? CORS? | Not server bug if user navigated away; fix preflight |
@@ -76,51 +76,27 @@ ss -tan state time-wait | wc -l   # exhaustion vs app bug
 | Spike in timeouts | LB health, SYN queue | Scale backends; `somaxconn`; DDoS |
 | Only one region | DNS geo / routing | GeoDNS; anycast; BGP path |
 
----
+## Real-World Applications
 
+Frontend “Network Error” banners, mobile flaky TLS, and on-call triage when users report outages that never hit application logs.
 
-## Steps
+**Example:** Browser shows `ERR_NAME_NOT_RESOLVED` while `curl` from the server works — client DNS or ad-blocker path, not the API process.
 
-1. …
+## Pros/Cons or Trade-offs
 
+- **Pro:** Phase-splitting (DNS/connect/TLS/HTTP) localizes fixes fast.
+- **Con:** Browser messages are vague; same UI “network error” covers cancel, DNS, and RST.
+- **Con:** Blind retries without idempotency can double-submit POSTs that partially succeeded.
 
-## Verification
+## Comparison
 
-```bash
-# …
-```
+- vs HTTP 4xx/5xx: application or proxy returned a response — not a transport failure.
+- vs [[half-open connections]]: peer state desync can surface as reset/timeout network errors.
+- vs CORS failures: often look like network errors in the UI but are browser policy after (or during) the request path.
 
+## Mistakes to Avoid
 
-## Rollback
-
-1. …
-
-
-## Gotchas
-
-> [!WARNING]
-> **`NS_BINDING_ABORTED` is often client-side cancel** — don't chase server logs that never received the request.
-
-> [!WARNING]
-> **Ad blockers / corporate proxies** mimic network errors for blocked domains.
-
-> [!WARNING]
-> **HTTP/2 GOAWAY** can surface as vague network reset — check proxy idle timeouts.
-
----
-
-
-## When not to use
-
-Don't blanket-retry network errors without **idempotency** — POST may have partially succeeded; use idempotency keys and dedupe.
-
----
-
-
-## Related
-
-[[TCP]] [[UDP]] [[TLS (Transport Layer Security)]] [[DNS]] [[half-open connections]]
-
-## Sources
-
-- [Wikipedia — Network error](https://en.wikipedia.org/wiki/Network_error)
+- Chasing server logs for `NS_BINDING_ABORTED` when the client cancelled and the request never arrived.
+- Treating ad blockers / corporate proxies as mysterious server bugs — they mimic network errors for blocked domains.
+- Ignoring HTTP/2 GOAWAY / proxy idle timeouts that surface as vague resets.
+- Blanket-retrying every network error without idempotency keys and dedupe.

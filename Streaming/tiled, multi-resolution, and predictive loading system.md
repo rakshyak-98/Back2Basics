@@ -1,12 +1,26 @@
-[[Streaming]] [[Buffer cache]] [[file descriptors]] [[webSocket]]
+[[Streaming]] [[Buffer cache]] [[file descriptors]] [[webSocket]] [[Animation]] [[Frontend Datastructure]] [[Nginx internals]] [[Configuration]]
 
 # tiled, multi-resolution, and predictive loading system
 
 > tiled, multi-resolution, and predictive loading system — full image 16k×16k — never ship whole file to client
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about tiled, multi-resolution, and predictive loading system to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — tiled, multi-resolution, and predictive loading system](https://en.wikipedia.org/wiki/tiled%2C_multi-resolution%2C_and_predictive_loading_system) — overview
+
+## Key Concepts
+
+**Multi-resolution pyramid:** each zoom level is downsampled by 2×; tiles are fixed size (256 common in Deep Zoom, TMS, Slippy map conventions).
+
+**Predictive loading:** prefetch ring around viewport in pan direction; cancel in-flight fetches on rapid zoom change.
+
+**Formats:** DZI (Deep Zoom), IIIF (`/info.json` + `{region}/{size}/{rotation}/{quality}.jpg`), map `{z}/{x}/{y}.png`, MBTiles offline bundle.
+
+## Technical Details
 
 ```txt
 Full image 16k×16k — never ship whole file to client
@@ -19,17 +33,6 @@ Full image 16k×16k — never ship whole file to client
 
 Client viewport → compute visible tile (z, x, y) → fetch only those + neighbors
 ```
-
-**Multi-resolution pyramid:** each zoom level is downsampled by 2×; tiles are fixed size (256 common in Deep Zoom, TMS, Slippy map conventions).
-
-**Predictive loading:** prefetch ring around viewport in pan direction; cancel in-flight fetches on rapid zoom change.
-
-**Formats:** DZI (Deep Zoom), IIIF (`/info.json` + `{region}/{size}/{rotation}/{quality}.jpg`), map `{z}/{x}/{y}.png`, MBTiles offline bundle.
-
----
-
-
-## Configuration and commands
 
 ### Tile coordinate math (Web Mercator / slippy)
 
@@ -102,10 +105,18 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 # Output: output.dzi + output_files/
 ```
 
----
+## Real-World Applications
 
+Used wherever tiled, multi-resolution, and predictive loading system sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Images < 2000px** — single responsive `srcset` sufficient.
+- **Con / skip when:** **Video** — HLS/DASH segment streaming, not static tile pyramid.
+- **Con / skip when:** **Vector maps at scale** — MVT (Mapbox Vector Tiles) not raster pyramid.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -117,39 +128,7 @@ vips dzsave huge.tif output --tile-size 256 --overlap 0 --suffix .webp
 | Stale tiles after update | CDN immutable | Version path `/dataset-v4/tiles/...` |
 | CORS on tile CDN | Image canvas tainted | `crossOrigin="anonymous"` + ACAO header |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **HTTP/1.1 connection limit** — hundreds of tile requests parallelize poorly; HTTP/2, domain sharding (legacy), or sprite sheets for small sets.
-
-> [!WARNING]
-> **Retina displays** — may need `@2x` tile size or higher z; clarify in API contract.
-
-> [!WARNING]
-> **Predictive fetch on metered data** — respect `navigator.connection.saveData`.
-
-> [!WARNING]
-> **Security on dynamic tiles** — signed URLs or auth cookie; tiles leak data if guessable x/y/z.
-
----
-
-
-## When not to use
-
-- **Images < 2000px** — single responsive `srcset` sufficient.
-- **Video** — HLS/DASH segment streaming, not static tile pyramid.
-- **Vector maps at scale** — MVT (Mapbox Vector Tiles) not raster pyramid.
-
----
-
-
-## Related
-
-[[Buffer cache]] · [[Animation]] · [[Frontend Datastructure]] · [[Nginx internals]] · [[Configuration]]
-
-## Sources
-
-- [Wikipedia — tiled, multi-resolution, and predictive loading system](https://en.wikipedia.org/wiki/tiled%2C_multi-resolution%2C_and_predictive_loading_system)
+- **HTTP/1.1 connection limit** — hundreds of tile requests parallelize poorly; HTTP/2, domain sharding (legacy), or sprite sheets for small sets.
+- **Retina displays** — may need `@2x` tile size or higher z; clarify in API contract.
+- **Predictive fetch on metered data** — respect `navigator.connection.saveData`.
+- **Security on dynamic tiles** — signed URLs or auth cookie; tiles leak data if guessable x/y/z.

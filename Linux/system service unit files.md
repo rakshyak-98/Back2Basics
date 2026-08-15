@@ -1,12 +1,30 @@
-[[services/systemd]] [[system service unit files]] [[management/systemctl]]
+[[services/systemd]] [[management/systemctl]] [[Service masking]] [[journalctl]] [[commands/systemctl]]
 
 # system service unit files
 
-> A systemd unit file is plain INI text that tells PID 1 how to start, supervise, and order a service, socket, timer, or mount.
+> Plain INI text that tells PID 1 how to start, supervise, and order a service, socket, timer, or mount.
 
-Unit files live under search paths; **admin overrides in `/etc/systemd/system/` win** over vendor files in `/usr/lib/systemd/system/`. Syntax follows [systemd.syntax(7)](https://www.freedesktop.org/software/systemd/man/latest/systemd.syntax.html).
+## Interview Relevance
 
-## Layout
+Expect `Type=` pitfalls, drop-in overrides under `/etc`, `daemon-reload`, and admin paths winning over `/usr/lib`.
+
+## Sources
+
+- [systemd.unit(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive
+- [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) — deep-dive
+
+## Core Definition
+
+Unit files live under search paths; administrator overrides in `/etc/systemd/system/` win over vendor files in `/usr/lib/systemd/system/`. Syntax follows systemd.syntax(7).
+
+## Key Concepts
+
+- **`[Unit]` / `[Service]` / `[Install]`:** dependencies, how to run, boot enablement.
+- **`Type=`:** simple vs forking vs notify vs oneshot — wrong type means “ready” lies.
+- **Drop-ins:** `systemctl edit` → `.d/override.conf` without editing vendor files.
+- **Precedence:** `/etc` > `/run` > `/usr/lib`.
+
+## Technical Details
 
 ```ini
 [Unit]
@@ -25,8 +43,6 @@ EnvironmentFile=-/etc/default/api
 WantedBy=multi-user.target
 ```
 
-## Unit types (common)
-
 | Suffix | Purpose |
 |--------|---------|
 | `.service` | Daemon or oneshot |
@@ -35,40 +51,41 @@ WantedBy=multi-user.target
 | `.target` | Boot milestone grouping |
 | `.mount` / `.automount` | Filesystem mounts |
 
-## Drop-in overrides
-
 ```bash
 sudo systemctl edit myapp.service
-# creates /etc/systemd/system/myapp.service.d/override.conf
 sudo systemctl daemon-reload
 sudo systemctl restart myapp.service
 ```
 
-## `Type=` matters
-
 | Type | Use when |
 |------|----------|
-| `simple` | Main process stays foreground (default guess) |
-| `forking` | Classic daemon double-forks — needs `PIDFile=` |
+| `simple` | Main process stays foreground |
+| `forking` | Classic double-fork — needs `PIDFile=` |
 | `notify` | Daemon calls `sd_notify(READY=1)` |
-| `oneshot` | Runs once; `RemainAfterExit=yes` for setup scripts |
-
-Wrong `Type=` → systemd thinks service is ready when it is not.
-
-## File precedence
+| `oneshot` | Runs once; `RemainAfterExit=yes` for setup |
 
 | Directory | Role |
 |-----------|------|
 | `/etc/systemd/system/` | Administrator units and overrides |
-| `/run/systemd/system/` | Runtime (generators, transient units) |
+| `/run/systemd/system/` | Runtime (generators, transient) |
 | `/usr/lib/systemd/system/` | Package-shipped units |
 
-## Related
+## Real-World Applications
 
-[[services/systemd]] · [[management/systemctl]] · [[Service masking]] · [[journalctl]]
+Ship an app unit with `Restart=on-failure`, override `EnvironmentFile` via drop-in in production, never edit the packaged unit under `/usr`.
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- [systemd.unit(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html)
-- [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
-- Red Hat RHEL 9 unit file guide
+- **Pro:** Declarative dependencies, restart policy, and journal integration.
+- **Con:** Wrong `Type=` and missing `daemon-reload` cause mysterious “inactive” races.
+
+## Comparison
+
+- vs SysV init scripts: units declare dependencies explicitly ([[SYSV (System V)]]).
+- vs [[Service masking]]: mask blocks start; unit files define how start would work.
+
+## Mistakes to Avoid
+
+- Editing vendor units in `/usr/lib` instead of drop-ins.
+- Forgetting `daemon-reload` after unit changes.
+- Using `Type=simple` for a double-forking daemon (or the reverse).

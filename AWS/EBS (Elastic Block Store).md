@@ -1,12 +1,21 @@
-[[AWS EC2]] · [[AMI (Amazon Machine Image)]] · [[AWS EFS (Elastic File System)]] · [[AWS Billing and cost management]]
+[[AWS EC2]] [[AMI (Amazon Machine Image)]] [[AWS EFS (Elastic File System)]] [[AWS Billing and cost management]]
 
 # EBS (Elastic Block Store)
 
 > EBS provides network-attached block volumes for EC2 — durable, snapshot-backed disks you attach to one instance at a time (except Multi-Attach on io2).
 
----
+## Interview Relevance
 
-## Volume types (gp3 is the default choice)
+EBS interviews probe volume types, IOPS, snapshots, and AZ attachment constraints.
+
+## Sources
+
+- [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) — overview
+- [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html) — overview
+
+## Technical Details
+
+### Volume types (gp3 is the default choice)
 
 | Type | Use case | Notes |
 |------|----------|-------|
@@ -19,7 +28,7 @@
 
 Volumes live in an **Availability Zone**. Attach only to instances in the same AZ (unless using cross-AZ patterns with replication software).
 
-## Attach and mount
+### Attach and mount
 
 ```bash
 # After attaching volume in console/CLI, on Linux:
@@ -31,13 +40,13 @@ sudo mount /dev/nvme1n1 /data
 
 Add `/etc/fstab` entry using UUID, not device name, for reboot safety.
 
-## Snapshots and AMIs
+### Snapshots and AMIs
 
 - **Snapshots** are incremental backups to S3 (managed by AWS); create [[AMI (Amazon Machine Image)]] from snapshots.
 - **Copy snapshots** across regions for disaster recovery.
 - **Fast Snapshot Restore** costs extra; use for large parallel launches.
 
-## Resize
+### Resize
 
 ```bash
 aws ec2 modify-volume --volume-id vol-0abc --size 100
@@ -46,24 +55,16 @@ sudo growpart /dev/nvme0n1 1
 sudo xfs_growfs /data
 ```
 
-## Encryption
+### Encryption
 
 Enable encryption at creation; uses AWS-managed or customer-managed KMS keys. Encrypted snapshots stay encrypted when copied.
 
-## vs [[AWS EFS (Elastic File System)]]
+## Comparison
+
+**vs [[AWS EFS (Elastic File System)]]**
 
 | EBS | EFS |
 |-----|-----|
 | Block, one instance (usually) | POSIX file system, many instances |
 | AZ-local | Regional, scales automatically |
 | Lower latency for single host | Shared files, web roots, content |
-
-## Recall
-
-- Why must an EBS volume and EC2 instance be in the same AZ?
-- What happens to data on an instance store volume when you stop the instance?
-
-## Sources
-
-- [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)
-- [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html)

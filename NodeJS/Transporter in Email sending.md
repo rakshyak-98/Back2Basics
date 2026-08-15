@@ -1,12 +1,27 @@
-[[NodeJS]] [[SMTP]] [[E mail server]]
+[[NodeJS]] [[SMTP]] [[E mail server]] [[webhook]]
 
 # Nodemailer Transporter
 
 > Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call transporter.sendMail(mailOptions) per message.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Nodemailer Transporter** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Wikipedia — Transporter in Email sending](https://en.wikipedia.org/wiki/Transporter_in_Email_sending) — overview
+
+## Core Definition
+
+In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.
+
+## Key Concepts
+
+- In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per m…
+- Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
+
+## Technical Details
 
 In **Nodemailer**, a **Transporter** is the long-lived object that knows *how* to deliver mail (host, port, credentials, TLS). You call `transporter.sendMail(mailOptions)` per message.
 
@@ -19,9 +34,6 @@ Each email ─────┴──► sendMail({ from, to, subject, html })
 ```
 
 Separate **envelope** (SMTP `MAIL FROM`/`RCPT TO`) from **headers** (`From:` display versus bounce address). Production apps pool one transporter; don't create per request.
-
-
-## Configuration and commands
 
 ### SMTP transporter (submission port 587)
 
@@ -83,44 +95,29 @@ nodemailer.createTransport({
 createTransport({ ..., logger: true, debug: true });
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **Transporter in Email sending** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`rejectUnauthorized: false`** — disables TLS verification; use only in dev with known MITM; **New transporter per request** — TCP+TLS handshake every email; rate limits and latency spike.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `ECONNECTION` / timeout | Firewall, wrong port | 587 vs 465; `secure` flag; security group |
-| Auth failed | Credentials, IP allowlist | Rotate app password; enable SMTP auth on provider |
-| Mail in spam | SPF/DKIM/DMARC | DNS records; align `From` domain with SMTP auth domain |
-| `self signed certificate` | Corporate MITM TLS | Provide `tls.ca` or fix proxy; never `rejectUnauthorized: false` in prod |
-| Intermittent slow sends | No pooling | `pool: true`; reuse transporter singleton |
-| Message accepted but not delivered | Provider dashboard | Check bounce/webhook; verify `MAIL FROM` domain |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (Nodemailer Transporter — in Nodemailer, a Transporter is the long-lived object t…).
+- **Con / when not:** **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from application servers.
+- **Con / when not:** **Receiving mail** — transporter is outbound only; use [[IMAP (Internet Message Access Protocol)]] / [[POP3 (Post Office Protocol v3)]] for inbound.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **`rejectUnauthorized: false`** — disables TLS verification; use only in dev with known MITM.
+vs [[SMTP]]: know when each applies — do not treat them as interchangeable. vs [[E mail server]]: know when each applies — do not treat them as interchangeable. vs [[webhook]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **New transporter per request** — TCP+TLS handshake every email; rate limits and latency spike.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Display From ≠ authenticated domain** — Gmail/Outlook reject or spam-folder misaligned From.
-
-> [!WARNING]
-> **Sync send in request path** — queue outbound mail (Bull, SQS) for user-facing latency.
-
-
-## When not to use
-
-- **High volume marketing mail** — dedicated ESP API (SendGrid/Mailgun) with webhooks, not raw SMTP from application servers.
-- **Receiving mail** — transporter is outbound only; use [[IMAP (Internet Message Access Protocol)]] / [[POP3 (Post Office Protocol v3)]] for inbound.
-
-
-## Related
-
-[[SMTP]] [[E mail server]] [[NodeJS]] [[webhook]]
-
-## Sources
-
-- [Wikipedia — Transporter in Email sending](https://en.wikipedia.org/wiki/Transporter_in_Email_sending)
+- **`rejectUnauthorized: false`** — disables TLS verification; use only in dev with known MITM.
+- **New transporter per request** — TCP+TLS handshake every email; rate limits and latency spike.
+- **Display From ≠ authenticated domain** — Gmail/Outlook reject or spam-folder misaligned From.
+- **Sync send in request path** — queue outbound mail (Bull, SQS) for user-facing latency.
+- **`ECONNECTION` / timeout:** check Firewall, wrong port; fix: 587 vs 465; `secure` flag; security group
+- **Auth failed:** check Credentials, IP allowlist; fix: Rotate app password; enable SMTP auth on provider
+- **Mail in spam:** check SPF/DKIM/DMARC; fix: DNS records; align `From` domain with SMTP auth domain
+- **`self signed certificate`:** check Corporate MITM TLS; fix: Provide `tls.ca` or fix proxy; never `rejectUnauthorized: false` in prod
+- **Intermittent slow sends:** check No pooling; fix: `pool: true`; reuse transporter singleton
+- **Message accepted but not delivered:** check Provider dashboard; fix: Check bounce/webhook; verify `MAIL FROM` domain

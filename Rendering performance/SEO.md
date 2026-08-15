@@ -1,41 +1,43 @@
-[[Descriptive/web development]] [[Rendering performance/INP]] [[Nginx/nginx SPA deployment]] [[Security/content security policy]]
+[[Descriptive/web development]] [[Rendering performance/INP]] [[Rendering performance/critical rendering path]] [[Nginx/nginx SPA deployment]] [[Security/content security policy]]
 
-# SEO (Search Engine Optimization)
+# SEO
 
-> Make content discoverable, crawlable, and eligible for rich results — technical + content signals — **Google Search Essentials**.
+> Search Engine Optimization — make pages crawlable, understandable, and eligible to rank (and for rich results) without harming users.
 
----
+## Interview Relevance
 
-## How it works
+Full-stack interviews mix technical SEO with performance: crawl/index basics, canonicalization, SPA rendering, and Core Web Vitals ([[Rendering performance/INP]], LCP, CLS) as quality signals.
 
-Search engines **crawl** URLs, **index** content, **rank** for queries. SEO spans:
+## Sources
 
-```
-Technical (crawl, speed, mobile) + Content (intent, E-E-A-T) + Links (authority)
-```
+- [Google — SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) — overview
+- [Google — Search Essentials](https://developers.google.com/search/docs/essentials) — deep-dive
+- [Wikipedia — Search engine optimization](https://en.wikipedia.org/wiki/Search_engine_optimization) — overview
 
-Modern baseline includes **Core Web Vitals** ([[Rendering performance/INP]], LCP, CLS) as quality signals — not the only ranking factor.
+## Core Definition
+
+Search engines discover URLs, render or parse content, index it, then rank for queries. SEO is the set of technical and content practices that help the right pages get found without violating quality guidelines.
+
+## Key Concepts
+
+- **Crawl → index → rank:** bots fetch URLs (respecting `robots.txt`), interpret content, store documents, then score relevance/quality.
+- **Technical baseline:** unique titles, meta descriptions, canonical URLs, mobile-usable layout, HTTPS, sane status codes.
+- **Rendering:** Google can run JavaScript, but critical content in initial HTML (SSR/SSG/prerender) is more reliable — see [[Nginx/nginx SPA deployment]].
+- **Core Web Vitals:** field performance is a ranking *signal among many* — fix [[Rendering performance/INP]] / LCP / CLS on money pages.
+- **Structured data:** JSON-LD (`schema.org`) can enable rich results when markup matches visible content.
+
+## Technical Details
 
 ```
 Googlebot → robots.txt → fetch HTML → render (JS) → index → rank
 ```
 
-
-## Configuration and commands
-
-### Non-negotiable technical checklist
-
 ```html
 <title>Unique page title — brand</title>
-<meta name="description" content="155 char summary">
+<meta name="description" content="Clear 1–2 sentence summary">
 <link rel="canonical" href="https://example.com/page">
 <meta name="robots" content="index,follow">
-
-<meta property="og:title" content="…">
-<meta property="og:image" content="https://…/og.png">
 ```
-
-### robots.txt
 
 ```text
 User-agent: *
@@ -43,70 +45,46 @@ Disallow: /admin/
 Sitemap: https://example.com/sitemap.xml
 ```
 
-### Structured data (JSON-LD)
-
 ```html
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "…",
+  "headline": "Example",
   "datePublished": "2026-01-15"
 }
 </script>
 ```
 
-### SSR/SSG for SPAs
-
-- Critical content in **initial HTML** — Google renders JS but slower and not guaranteed for all bots
-- See [[Nginx/nginx SPA deployment]] for prerender/static fallbacks
-
-### Measure
-
 ```bash
-# PageSpeed Insights API / UI — field + lab
-# Google Search Console — coverage, CWV, queries
 npx lighthouse https://example.com --only-categories=seo,performance
 ```
 
-References:
-
-- [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
-- [PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/about)
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Pages not indexed | Search Console coverage | robots/noindex; canonical to wrong URL |
+| Not indexed | Search Console coverage | Remove `noindex`; fix robots/canonical |
 | Duplicate titles | CMS defaults | Unique `<title>` per URL |
-| Soft 404 | Thin content + 200 | Real content or 404 status |
-| CWV poor | CrUX report | Fix LCP/INP/CLS per rendering notes |
-| JS content missing in index | View rendered HTML | SSR/prerender critical content |
-| hreflang wrong | International targeting | Valid language/region pairs |
+| Soft 404 | Thin body + HTTP 200 | Real content or proper 404 |
+| JS content missing | View rendered HTML | SSR/prerender critical path |
+| Staging `noindex` in production | Meta/robots on live | Guard by environment configuration carefully |
 
+## Real-World Applications
 
-## Gotchas
+Marketing SPA was a blank shell for bots: added prerender for key routes, self-referencing canonicals, and fixed LCP/INP — organic landing pages started appearing in Search Console coverage.
 
-> [!WARNING]
-> **`noindex` in staging** leaking to prod via env mistake — instant de-indexing.
+## Pros/Cons or Trade-offs
 
-- **Canonical to homepage** on all pages — common SPA bug; each URL needs self-canonical unless duplicate.
-- **Infinite faceted URLs** — crawl budget waste; `noindex` or consolidate parameters.
-- **AI-generated thin pages** — quality beats volume; manual review for E-E-A-T.
+- **Pro:** Technical hygiene compounds — crawl budget and CWV help users and bots.
+- **Con:** Chasing vanity keywords with thin pages burns trust and crawl budget.
 
+## Comparison
 
-## When not to use
+- vs paid ads: SEO is organic discovery; slower feedback, different measurement.
+- vs [[Rendering performance/critical rendering path]]: CRP optimizes first paint for humans; SEO also needs crawlable content and metadata.
 
-- Don't SEO spam internal tools behind authentication — `noindex` and save effort.
-- Keyword stuffing — hurts readability and can trigger quality demotion.
+## Mistakes to Avoid
 
-
-## Related
-
-[[Descriptive/web development]] [[Rendering performance/INP]] [[Nginx/nginx SPA deployment]] [[Security/https]]
-
-## Sources
-
-- [Wikipedia — SEO](https://en.wikipedia.org/wiki/SEO)
+- Canonicalizing every route to the homepage in an SPA.
+- Shipping `noindex` from staging into production via shared templates.
+- Keyword stuffing / doorway pages — quality systems demote them.
+- SEO-tuning authenticated internal tools — `noindex` and save the effort.

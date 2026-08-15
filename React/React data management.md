@@ -2,28 +2,53 @@
 
 # React data management
 
-> React data management shapes how React applications compose UI, state, and side effects in production.
+> Decide where data lives — server cache, URL, local UI state, or a global client store — and keep those roles separate.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React data management` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[Data Fetching HOC component]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]]
+Interviewers draw the line between server state and client state; mixing them is a common senior-filter fail.
 
 ## Sources
 
-- [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/)
+- [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) — deep-dive
+- [Managing State](https://react.dev/learn/managing-state) — overview
+
+## Core Definition
+
+Data management assigns each piece of state an owner: remote cache, router, component, or global store — not one bucket for everything.
+
+## Key Concepts
+
+- **Server state:** [[react-query]] / RTK Query.
+- **URL state:** filters, page, selected id.
+- **Client UI state:** modals, drafts — `useState` / [[zustand]].
+- **Cross-feature client:** [[Redux]] when justified.
+
+## Technical Details
+
+Decision cheat sheet:
+
+| Data | Home |
+|------|------|
+| `/api/users` list | Query library |
+| `?tab=billing` | Router search params |
+| Modal open | Local state |
+| Multi-step wizard draft shared across routes | Store |
+
+## Real-World Applications
+
+Admin table: filters in the URL, rows in TanStack Query, row-selection in component state.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Clear ownership reduces sync bugs.
+- **Con:** Too many tools without conventions confuse newcomers.
+
+## Comparison
+
+- vs [[React State management]]: state management is the client mechanisms; data management includes server/URL.
+
+## Mistakes to Avoid
+
+- Mirroring every query result into Redux.
+- Storing auth tokens in a persistence middleware without XSS threat modeling.

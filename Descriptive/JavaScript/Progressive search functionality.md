@@ -1,12 +1,18 @@
-[[JavaScript]] [[Animation]] [[Frontend Datastructure]] [[webSocket]]
+[[JavaScript]] [[Animation]] [[Frontend Datastructure]] [[webSocket]] [[redis-cli]] [[covering index]]
 
 # Progressive search functionality
 
 > Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
----
+## Interview Relevance
 
-## How it works
+Progressive search interviews cover debounce, ranking, and accessibility of live results.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 Keystroke → debounce window → abort prior fetch → new query → render results
@@ -21,10 +27,7 @@ Keystroke → debounce window → abort prior fetch → new query → render res
 2. **Server** — `%term%` LIKE without index → DB CPU spike
 3. **Client** — re-render 5k DOM nodes each key → main thread jank ([[Animation]])
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Debounced fetch with abort
 
@@ -109,24 +112,13 @@ API: GET /search?q=foo&limit=20
 - Preserve query in URL ?q= for share/back
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Small fixed dropdown (< 20 items)** — native `<select>` or static filter client-side.
+- **Heavy analytics query** — batch/report UI, not per-keystroke.
+- **Offline-first with tiny dataset** — filter in memory; skip network entirely.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| DB CPU spike on typing | Query plan / missing index | Trigram/FTS index; debounce; min length |
-| Stale results flash | Race (slow response wins) | AbortController; request sequence id |
-| Feels laggy | Time to first paint | Optimistic skeleton; local prefix index |
-| Mobile keyboard jank | Input handler work | Debounce; virtualize list |
-| Empty for valid terms | Encoding / case | `encodeURIComponent`; normalize Unicode NFC |
-| Rate limit 429 | Aggressive polling | ↑ debounce; server-side coalesce |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Debounce ≠ throttle** — throttle fires on interval (scroll); search wants debounce (quiet period).
@@ -140,22 +132,12 @@ API: GET /search?q=foo&limit=20
 > [!WARNING]
 > **SSR search** — don't hydrate mismatch; defer client fetch or match server results.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| DB CPU spike on typing | Query plan / missing index | Trigram/FTS index; debounce; min length |
+| Stale results flash | Race (slow response wins) | AbortController; request sequence id |
+| Feels laggy | Time to first paint | Optimistic skeleton; local prefix index |
+| Mobile keyboard jank | Input handler work | Debounce; virtualize list |
+| Empty for valid terms | Encoding / case | `encodeURIComponent`; normalize Unicode NFC |
+| Rate limit 429 | Aggressive polling | ↑ debounce; server-side coalesce |
 
-
-## When not to use
-
-- **Small fixed dropdown (< 20 items)** — native `<select>` or static filter client-side.
-- **Heavy analytics query** — batch/report UI, not per-keystroke.
-- **Offline-first with tiny dataset** — filter in memory; skip network entirely.
-
----
-
-
-## Related
-
-[[Frontend Datastructure]] · [[Animation]] · [[JavaScript]] · [[redis-cli]] · [[covering index]]
-
-## Sources
-
-- [Wikipedia — Progressive search functionality](https://en.wikipedia.org/wiki/Progressive_search_functionality)

@@ -1,12 +1,26 @@
-[[TCP]] · [[UDP]] · [[webSocket]] · [[Firebase/FCM Token (Firebase Cloud Messaging Token)]]
+[[TCP]] [[UDP]] [[webSocket]] [[Firebase/FCM Token (Firebase Cloud Messaging Token)]]
 
 # MQTT
 
-> MQTT is a lightweight publish/subscribe messaging protocol for constrained devices and unreliable networks — brokers fan out messages to subscribers by topic, with QoS levels trading delivery guarantees for overhead.
+> MQTT is a lightweight publish/subscribe protocol for constrained devices and unreliable networks — brokers fan out messages by topic, with QoS levels trading delivery guarantees for overhead.
 
----
+## Interview Relevance
 
-## Roles
+Interviewers ask topic wildcards, QoS 0/1/2 semantics, and when MQTT beats HTTP polling for IoT telemetry.
+
+## Sources
+
+- [MQTT Version 5.0 Specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html) — deep-dive
+- [Eclipse Mosquitto documentation](https://mosquitto.org/documentation/) — overview
+
+## Key Concepts
+
+- **Publisher / broker / subscriber:** devices publish to topics; the broker routes; subscribers use filters.
+- **Topic hierarchy:** slash-separated paths with `+` (one level) and `#` (multi-level suffix) wildcards.
+- **QoS:** 0 at most once; 1 at least once (may duplicate); 2 exactly once (four-step).
+- **Transport:** TCP 1883 cleartext (lab); 8883 TLS; WebSocket for browsers.
+
+## Technical Details
 
 | Component | Function |
 |-----------|----------|
@@ -14,20 +28,11 @@
 | **Broker** | Routes messages (Mosquitto, HiveMQ, AWS IoT Core) |
 | **Subscriber** | Receives messages for subscribed topic filters |
 
-OASIS standard [MQTT Version 5.0](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html); v3.1.1 widely deployed.
-
-## Topic hierarchy
+OASIS MQTT 5.0; v3.1.1 still widely deployed.
 
 ```
 sensors/building-a/floor-2/temperature
 ```
-
-Wildcards:
-
-- `+` — single level
-- `#` — multi-level suffix
-
-## QoS levels
 
 | QoS | Guarantee | Handshake |
 |-----|-----------|-----------|
@@ -37,20 +42,26 @@ Wildcards:
 
 Choose QoS 0 for telemetry where loss is acceptable; QoS 1 for commands.
 
-## Transport
-
-- **TCP 1883** — cleartext (lab only)
-- **TCP 8883** — TLS
-- **WebSocket** — browser clients
-
-## Session example (mosquitto)
-
 ```bash
 mosquitto_sub -h broker.example.com -t 'sensors/+/temp' -u device -P secret
 mosquitto_pub -h broker.example.com -t 'sensors/room1/temp' -m '22.5'
 ```
 
-## vs [[HTTP module]] / [[webSocket]]
+Security baseline: unique credentials per device; TLS + cert pinning; ACLs per topic prefix.
+
+## Real-World Applications
+
+IoT sensors, industrial SCADA bridges, and mobile push bridges that need tiny headers on flaky links.
+
+**Example:** Thousands of thermostats publish `sensors/+/temp` at QoS 0; a building dashboard subscribes once at the broker instead of polling each device over HTTP.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Persistent subscriptions, tiny headers, works on constrained devices.
+- **Con:** Broker is a required middle box — operational and ACL complexity.
+- **Con:** QoS 1 duplicates — consumers must be idempotent.
+
+## Comparison
 
 | MQTT | HTTP |
 |------|------|
@@ -58,20 +69,11 @@ mosquitto_pub -h broker.example.com -t 'sensors/room1/temp' -m '22.5'
 | Tiny headers | Heavier per message |
 | Broker required | Direct client-server |
 
-Common in IoT, mobile push bridges, and industrial SCADA.
+- vs [[webSocket]]: WebSocket is a full-duplex pipe; MQTT adds topic routing and QoS on top of a broker model.
 
-## Security
+## Mistakes to Avoid
 
-- Unique credentials per device
-- TLS + cert pinning on brokers
-- ACLs per topic prefix
-
-## Recall
-
-- When does QoS 1 duplicate messages?
-- Why is a broker required unlike point-to-point TCP?
-
-## Sources
-
-- [MQTT Version 5.0 Specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html)
-- [Eclipse Mosquitto](https://mosquitto.org/documentation/)
+- Cleartext 1883 in production.
+- Shared credentials across all devices.
+- Using QoS 2 everywhere “for safety” — latency and broker load without need.
+- Assuming MQTT replaces point-to-point TCP without planning broker HA and ACLs.

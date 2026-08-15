@@ -1,22 +1,20 @@
-[[Streaming]] [[MPEG-TS]] [[CMAF]] [[Byte stream]] [[file descriptors]]
+[[Streaming]] [[MPEG-TS]] [[CMAF]] [[Byte stream]] [[file descriptors]] [[Manifest (streaming)]] [[ingestion]] [[HLS]] [[DASH]]
 
 # Byte stream
 
 > Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Byte stream to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — Byte stream](https://en.wikipedia.org/wiki/Byte_stream) — overview
+
+## Key Concepts
 
 A **byte stream** is an **ordered, undelimited flow of bytes** with no built-in message boundaries. TCP, pipes, and file reads all expose byte streams; **containers** (MP4, MPEG-TS, CMAF) impose structure on top. Streaming engineers care because players, packagers, and CDNs must agree on **where segment boundaries fall** in that stream.
-
-```txt
-Encoder ──► byte stream (TCP/file) ──► demuxer reads framing
-              │                              │
-         no record boundaries          finds boxes / TS packets / fMP4 moof
-              │                              │
-         CDN caches by URL            player seeks by manifest index
-```
 
 | Layer | Example | Boundary model |
 |-------|---------|----------------|
@@ -27,10 +25,15 @@ Encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
 **Progressive download** (single MP4 over HTTP) is a byte stream with a `moov` atom at the front or end — player needs index before seek works. **ABR streaming** splits the byte stream into **addressable HTTP objects** listed in [[Manifest (streaming)]].
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Encoder ──► byte stream (TCP/file) ──► demuxer reads framing
+              │                              │
+         no record boundaries          finds boxes / TS packets / fMP4 moof
+              │                              │
+         CDN caches by URL            player seeks by manifest index
+```
 
 ### Read / inspect byte stream boundaries
 
@@ -65,10 +68,18 @@ cat input.ts | ffmpeg -i pipe:0 -c copy -f mpegts pipe:1
 proxy_cache_key "$scheme$request_method$host$request_uri";
 ```
 
----
+## Real-World Applications
 
+Used wherever Byte stream sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
+- **Con / skip when:** **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
+- **Con / skip when:** **Small configuration blobs** — object storage + HTTP GET beats custom streaming parsers.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -79,39 +90,7 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 | Pipe stall | Blocking read on empty stdin | Buffer in ingest; timeout watchdog ([[ingestion]]) |
 | moof sequence gap | Packager crash mid-segment | Drop bad segment; roll `#EXT-X-MEDIA-SEQUENCE` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Treating TCP stream as messages** — RTMP/SRT/WebRTC add framing; raw TCP needs application protocol.
-
-> [!WARNING]
-> **Byte-range without Content-Range** — DASH players fail range requests; origin must honor RFC 7233.
-
-> [!WARNING]
-> **Appending to open file** — live HLS writes growing playlist + closed segment files; don't serve incomplete `.m4s` without LL-HLS partials.
-
-> [!WARNING]
-> **Endianness in container boxes** — binary parse errors look like "random corruption"; use `ffprobe`, not hex guessing.
-
----
-
-
-## When not to use
-
-- **Message-oriented control** — use JSON/gRPC for API; byte streams for media payload only.
-- **Exactly-once business events** — use queues/DB; byte streams have no ack semantics at media layer.
-- **Small configuration blobs** — object storage + HTTP GET beats custom streaming parsers.
-
----
-
-
-## Related
-
-[[Streaming]] [[MPEG-TS]] [[CMAF]] [[Manifest (streaming)]] [[ingestion]] [[HLS]] [[DASH]]
-
-## Sources
-
-- [Wikipedia — Byte stream](https://en.wikipedia.org/wiki/Byte_stream)
+- **Treating TCP stream as messages** — RTMP/SRT/WebRTC add framing; raw TCP needs application protocol.
+- **Byte-range without Content-Range** — DASH players fail range requests; origin must honor RFC 7233.
+- **Appending to open file** — live HLS writes growing playlist + closed segment files; don't serve incomplete `.m4s` without LL-HLS partials.
+- **Endianness in container boxes** — binary parse errors look like "random corruption"; use `ffprobe`, not hex guessing.

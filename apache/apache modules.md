@@ -1,89 +1,64 @@
-[[php error]] [[Nginx/Configuration]] [[Linux/commands/Services commands]]
+[[apache command]] [[PHP-FPM]] [[Proxy/Reverse Proxy]] [[Security/TLS (Transport Layer Security)]]
 
 # Apache modules
 
-> Static (compiled-in) vs shared (dynamic `LoadModule`) — what you can toggle without recompiling httpd.
+> Features loaded into httpd — static (compiled in) or shared (`LoadModule`) so you toggle capability without rebuilding Apache.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want MPM choice (event vs prefork), why fewer modules are safer, and how `rewrite`/`ssl`/`proxy` show up in production vhosts.
 
-Apache **httpd** loads modules at startup. **Static modules** are baked into the binary — always present. **Shared modules** (`.so`) load via `LoadModule` in configuration. Only load what you need: fewer modules = smaller attack surface and memory.
+## Sources
 
-```
-httpd binary
-  ├─ static modules (always on)
-  └─ LoadModule mpm_event_module modules/mod_mpm_event.so
-```
+- [Apache — Dynamic Shared Object (DSO) Support](https://httpd.apache.org/docs/current/dso.html) — deep-dive
+- [Apache — MPM](https://httpd.apache.org/docs/current/mpm.html) — overview
 
+## Key Concepts
 
-## Configuration and commands
+- **Static vs shared:** baked-in vs `.so` via `LoadModule`.
+- **MPM:** prefork/worker/event → concurrency model; PHP-FPM pairs with event/worker, not classic `mod_php`+prefork.
+- **Least modules:** smaller memory and attack surface.
+- **Distro packaging:** `a2enmod` / `libapache2-mod-*` on Debian.
 
-### List compiled modules
-
-```bash
-apache2ctl -M          # Debian/Ubuntu
-httpd -M               # RHEL
-apachectl -t -D DUMP_MODULES
-```
-
-### Enable shared module (Debian)
+## Technical Details
 
 ```bash
+apache2ctl -M
 sudo a2enmod rewrite ssl headers proxy proxy_http
-sudo a2dismod mpm_prefork    # switch MPM carefully
-sudo apachectl configtest
-sudo systemctl reload apache2
+sudo a2dismod mpm_prefork   # switch carefully
+sudo apachectl configtest && sudo systemctl reload apache2
 ```
-
-### Typical production set
-
-| Module | Purpose |
-|--------|---------|
-| `mpm_event` | Concurrent requests (with PHP-FPM, not prefork+mod_php) |
-| `ssl` | TLS termination |
-| `rewrite` | Pretty URLs |
-| `headers` | Security headers |
-| `proxy` + `proxy_http` | Reverse proxy to app |
-
-### LoadModule line
 
 ```apache
 LoadModule rewrite_module modules/mod_rewrite.so
 ```
 
+| Module | Purpose |
+|--------|---------|
+| `mpm_event` | Concurrent connections |
+| `ssl` | TLS |
+| `rewrite` | URL rewriting |
+| `headers` | Security headers |
+| `proxy` + `proxy_http` / `proxy_fcgi` | Reverse proxy / FastCGI |
 
-## When things break
+## Real-World Applications
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Invalid command 'RewriteRule'` | mod_rewrite loaded? | `a2enmod rewrite` |
-| Apache won't start after enable | `apachectl configtest` | Fix LoadModule order; missing .so |
-| PHP works, static 403 | Directory permissions | `Require all granted` + filesystem perms |
-| SSL handshake fail | mod_ssl + cert paths | `SSLEngine on`; cert file readable |
-| Proxy 502 | mod_proxy enabled | `a2enmod proxy proxy_http`; backend up |
+TLS terminator + reverse proxy to an app, or `proxy_fcgi` to PHP-FPM, with `rewrite` for front-controller frameworks.
 
+**Example:** `Invalid command 'RewriteRule'` after deploy — `mod_rewrite` not loaded.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **MPM switch** — can't mix prefork/worker/event blindly; restart required; PHP-FPM pairs with event/worker.
->
-> **Module loaded twice** — duplicate `LoadModule` lines break startup.
->
-> **Distro splits packages** — `libapache2-mod-*` separate from core.
+- **Pro:** Enable only what you need; swap MPM for workload.
+- **Con:** Wrong MPM + `mod_php` combinations cause mysterious instability.
 
+## Comparison
 
-## When not to use
+- vs Nginx modules: Nginx often needs rebuild for third-party modules; Apache DSO is more dynamic on distros.
+- vs [[PHP-FPM]]: modules are httpd features; FPM is the PHP worker pool.
 
-- Don't enable `mod_php` on new stacks — use [[PHP-FPM]] + proxy_fcgi or Nginx.
-- Don't load debug modules (`mod_info`, `mod_status`) on public-facing servers without IP restrict.
+## Mistakes to Avoid
 
-
-## Related
-
-[[php error]] [[PHP-FPM]] [[Nginx/Configuration]] [[Security/TLS (Transport Layer Security)]]
-
-## Sources
-
-- [Wikipedia — apache modules](https://en.wikipedia.org/wiki/apache_modules)
+- Loading `mod_info`/`mod_status` publicly without IP allowlists.
+- Dual `LoadModule` lines for the same module.
+- New stacks still enabling `mod_php` instead of FPM.

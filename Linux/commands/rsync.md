@@ -2,13 +2,30 @@
 
 # rsync
 
-> delta file sync over SSH or local — production backups and deploys with `-a`, dry-run, and explicit trailing slashes. The trailing slash rule causes more outages
+> Delta file sync over SSH or local — backups and deploys with `-a`, dry-run, and careful trailing slashes.
 
----
+## Interview Relevance
 
-## How it works
+Classic operations question: trailing-slash semantics, `--delete` danger, and always dry-run (`-n`) before production mirrors.
 
-rsync compares file lists and transfers **changed blocks** (rolling checksum). Archive mode `-a` preserves permissions, times, symlinks, recursion — your default for backups. **Source/dest slash semantics** determine whether you copy *contents* or the *directory itself*.
+## Sources
+
+- [rsync man page](https://download.samba.org/pub/rsync/rsync.1) — deep-dive
+- [Wikipedia — rsync](https://en.wikipedia.org/wiki/Rsync) — overview
+
+## Core Definition
+
+rsync compares file lists and transfers changed blocks (rolling checksum). Archive mode `-a` preserves permissions, times, symlinks, and recursion — the usual default for backups.
+
+## Key Concepts
+
+- **Trailing slash:** `src/` copies contents into dest; `src` creates `dest/src/`.
+- **`--delete`:** removes extras on the receiver — wrong direction wipes production.
+- **`-n` dry run:** always first on production paths.
+- **`-a` archive:** `rlptgoD` metadata preservation.
+- **Receiver is last:** tattoo this before any `--delete` command.
+
+## Technical Details
 
 ```
 src/  dest/   → contents of src INTO dest (merge)
@@ -16,112 +33,59 @@ src   dest/   → creates dest/src/ (whole dir)
 --delete      → dest files not in src are REMOVED (mirror)
 ```
 
-| Flag       | Meaning                               |
-| ---------- | ------------------------------------- |
-| `-a`       | Archive (rlptgoD) — preserve metadata |
-| `-v`       | Verbose                               |
-| `-z`       | Compress over network                 |
-| `-n`       | Dry run — **always first on prod**    |
-| `-c`       | Checksum compare (ignore mtime)       |
-| `-H`       | Hard links (backup fidelity)          |
-| `--delete` | Delete extraneous dest files          |
-| `-e ssh`   | Remote shell (custom key/port)        |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **-a** | Archive mode — preserve meta | “Always -a for backups unless you know why not.” |
-| **trailing /** | Contents vs directory | “Slash on src means contents into dest.” |
-| **--delete** | Mirror — remove extras | “--delete with wrong paths wipes prod.” |
-| **-n** | Dry run | “Always dry-run on production first.” |
-| **-e ssh** | Remote over SSH | “rsync over SSH is the boring deploy path.” |
-
-
-## Configuration and commands
-
-**Safe backup pattern:**
+| Flag | Meaning |
+|------|---------|
+| `-a` | Archive (rlptgoD) — preserve metadata |
+| `-v` | Verbose |
+| `-z` | Compress over network |
+| `-n` | Dry run |
+| `-c` | Checksum compare (ignore mtime) |
+| `-H` | Hard links |
+| `--delete` | Delete extraneous dest files |
+| `-e ssh` | Remote shell |
 
 ```bash
-# Dry run first — read output
 rsync -avhn --delete /data/app/ /backup/app-$(date +%F)/
-# Happy? remove n
 rsync -avh --delete /data/app/ /backup/app-$(date +%F)/
-```
 
-**Remote over SSH:**
-
-```bash
 rsync -avz -e "ssh -i ~/.ssh/deploy -p 2222" \
   ./dist/ user@host:/var/www/app/
 
-# Restricted key in authorized_keys:
-# command="rsync --server -logDtpre.iLsfxC . /path",no-port-forwarding ...
-```
-
-**Exclude noise:**
-
-```bash
 rsync -av --exclude='node_modules' --exclude='.git' \
   project/ user@host:/opt/project/
+
+rsync -avnc --delete staging/ prod/
+rsync -av --bwlimit=5000 src/ dest/
+rsync -avP src/ dest/
 ```
-
-**Verify before cutover ([[diff]] complement):**
-
-```bash
-rsync -avnc --delete staging/ prod/   # checksum dry-run — lists would-change
-```
-
-**Bandwidth limit (shared link):**
-
-```bash
-rsync -av --bwlimit=5000 src/ dest/   # KB/s
-```
-
-**Partial transfers resume:**
-
-```bash
-rsync -avP src/ dest/   # -P = --partial --progress
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Empty dest after sync | Trailing slash mistake | `src/` vs `src`; re-run with correct path |
-| Deleted prod files | `--delete` wrong direction | Restore from backup; **dest is receiver** — read command twice |
-| Permission denied | UID mismatch; `-a` as non-root | `--rsync-path="sudo rsync"` or align ownership |
-| All files re-copied | Clock skew; different ownership | `-c` for content; fix NTP; `--no-owner` if intentional |
-| SSH hangs | Firewall; wrong key | `ssh -v`; `-e "ssh -o BatchMode=yes"` |
-| Disk full mid-sync | `--delete` + partial | `-P`; monitor dest; btrfs snapshot first |
-| Special files skipped | xattrs/ACLs | `-X` xattrs, `-A` ACLs (needs support both sides) |
+| Empty dest after sync | Trailing slash mistake | Fix `src/` vs `src`; re-run |
+| Deleted production files | `--delete` wrong direction | Restore; receiver is last argument |
+| Permission denied | UID mismatch; non-root `-a` | `--rsync-path="sudo rsync"` or align ownership |
+| All files re-copied | Clock skew; ownership | `-c`; fix NTP; `--no-owner` if intentional |
+| SSH hangs | Firewall; wrong key | `ssh -v`; BatchMode |
 
+## Real-World Applications
 
-## Gotchas
+Nightly mirrors, artifact deploys over SSH, and checksum dry-runs before cutover ([[diff]] complement).
 
-> [!WARNING]
-> **`rsync -av --delete src/ dest/` with reversed paths** — mirrors wrong way and wipes production. Tattoo: *receiver is last argument*.
+**Example:** Quiesce or snapshot databases before rsyncing data directories — live DB files without a consistent snapshot risk corruption.
 
-> [!WARNING]
-> **NFS + `-a`** — permission mapping lies across UID domains. Use `--numeric-ids` or consistent UID/GID maps.
+## Pros/Cons or Trade-offs
 
-- **Running rsync while application writes** — inconsistent backup; quiesce DB ([[WAL (Write-Ahead Log)]] snapshot) or use filesystem snapshot + rsync snapshot mount.
-- **Cron without `-n` review** — typo in path deletes at 3am.
-- **`-z` on LAN** — CPU cost; often slower on 10G local.
+- **Pro:** Efficient deltas, rich metadata flags, works over SSH with one boring path.
+- **Con:** Not bidirectional; many small files over high latency can lose to tar+ssh streams.
 
+## Comparison
 
-## When not to use
+- vs `scp`: whole-file copy each time; rsync deltas and mirrors.
+- vs Syncthing/git: those handle conflict-aware sync; rsync is last-writer-wins push/pull.
 
-- **Live database files** — raw copy of PostgreSQL/MySQL datadir without snapshot = corruption risk.
-- **Bidirectional sync with conflicts** — use Syncthing, git, or dedicated tools; rsync last-writer-wins.
-- **Many small files over high latency** — tar+ssh stream sometimes wins (`tar czf - . | ssh host tar xzf - -C dest`).
+## Mistakes to Avoid
 
-
-## Related
-
-[[diff]] [[SSH]] [[Linux file management]] [[file mount]]
-
-## Sources
-
-- [Wikipedia — rsync](https://en.wikipedia.org/wiki/rsync)
+- `--delete` with reversed paths — wipes the wrong side.
+- Cron mirrors without a prior `-n` review.
+- NFS + `-a` across UID domains without `--numeric-ids`.
+- `-z` on a saturated 10G LAN where CPU costs more than bandwidth.

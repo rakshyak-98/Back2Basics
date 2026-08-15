@@ -1,12 +1,23 @@
-[[HTTP module]] [[JWT authentication]] [[SOP (Same-Origin Policy)]]
+[[HTTP module]] [[JWT authentication]] [[SOP (Same-Origin Policy)]] [[single-sign-on (SSO)]] [[webSocket]] [[DNS rebinding]]
 
 # CORS (Cross Origin Request Sharing)
 
-> CORS (Cross Origin Request Sharing) — CORS is not server access control — it stops browser JavaScript on https://evil.com from reading responses from https://api.example.com unless the
+> Browser rule: JS on evil.com cannot read api.example.com responses unless that API opts in with CORS headers — curl ignores it.
 
----
+## Interview Relevance
 
-## How it works
+Classic frontend/backend interview: CORS is browser-enforced, not server ACL — credentials, preflight, and ACAO vs * are the traps.
+
+## Sources
+
+- [MDN — CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) — overview
+- [Fetch Living Standard — CORS protocol](https://fetch.spec.whatwg.org/#http-cors-protocol) — deep-dive
+
+## Core Definition
+
+CORS is a browser mechanism that allows (or blocks) reading cross-origin responses in JavaScript when the server opts in via response headers.
+
+## Key Concepts
 
 CORS is **not server access control** — it stops **browser JavaScript** on `https://evil.com` from reading responses from `https://api.example.com` unless the API explicitly allows it. curl/Postman ignore CORS.
 
@@ -33,8 +44,7 @@ Browser on https://myapp.com
 
 Same-origin (`myapp.com` → `myapp.com/api`) → **no CORS** — preferred for monoliths and BFF patterns.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Express (`cors` package)
 
@@ -96,8 +106,7 @@ curl -i 'https://api.example.com/users' \
 3. Console: `blocked by CORS policy: No 'Access-Control-Allow-Origin'` → server didn't echo origin.
 4. `Credentials flag is true, but Access-Control-Allow-Origin is *` → must echo exact origin.
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -111,32 +120,27 @@ curl -i 'https://api.example.com/users' \
 | Duplicate ACAO headers | nginx + app both set | Single layer owns CORS — remove duplicate |
 | Redirect on preflight | 301 http→https loses CORS | Fix URL to final HTTPS; avoid redirect on OPTIONS |
 
+## Real-World Applications
 
-## Gotchas
+SPA on `app.example.com` calling `api.example.com` needs explicit ACAO (and credentials rules) — same-origin BFF avoids CORS entirely.
 
-> [!WARNING]
-> **CORS is not authentication.** Any client without a browser can call your API. Still require [[JWT authentication]] / sessions.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Error responses must include CORS headers** or the browser hides the real 401/403 body from JS — looks like generic CORS failure.
+- **Pro:** Lets a deliberate cross-origin SPA/API split work in browsers.
+- **Con:** Server-to-server calls → no CORS needed.
+- **Con:** Same-origin SPA + API → serve both from one host or use reverse proxy path (`/api` → backend).
+- **Con:** "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
 
+## Comparison
+
+- vs [[SOP (Same-Origin Policy)]]: SOP is the default deny; CORS is the server opt-in exception for browsers.
+- vs server ACLs: curl ignores CORS — still authenticate and authorize.
+
+## Mistakes to Avoid
+
+- CORS is not authentication. — Any client without a browser can call your API. Still require [[JWT authentication]] / sessions.
+- Error responses must include CORS headers — or the browser hides the real 401/403 body from JS — looks like generic CORS failure.
 - **`withCredentials: true`** forbids `Access-Control-Allow-Origin: *` — must echo requesting origin.
 - **Preflight cache** (`Max-Age`) masks configuration fixes — hard refresh or wait cache expiry when testing.
 - **Multiple origins** — dynamic `origin` callback; never reflect arbitrary `Origin` without allowlist (security hole).
 - **WebSocket** has separate origin check at handshake — see [[webSocket]].
-
-
-## When not to use
-
-- Server-to-server calls → no CORS needed.
-- Same-origin SPA + API → serve both from one host or use reverse proxy path (`/api` → backend).
-- "Fix" CORS by disabling browser security — development-only Chrome flags don't help users.
-
-
-## Related
-
-[[HTTP module]] · [[JWT authentication]] · [[single-sign-on (SSO)]] · [[webSocket]] · [[DNS rebinding]]
-
-## Sources
-
-- [Wikipedia — CORS](https://en.wikipedia.org/wiki/CORS)

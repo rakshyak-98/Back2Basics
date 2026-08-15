@@ -2,28 +2,49 @@
 
 # React code smells
 
-> React code smells shapes how React applications compose UI, state, and side effects in production.
+> Recurring anti-patterns — prop drilling chaos, effect-as-lifecycle cargo cult, derived state duplication — that signal design debt.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React code smells` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+Interviewers drop a smell and ask you to refactor: derived state, effects for transforms, or giant contexts.
 
 ## Sources
 
-- [React official documentation](https://react.dev)
+- [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect) — deep-dive
+- [Managing State](https://react.dev/learn/managing-state) — overview
+
+## Core Definition
+
+Code smells are maintainability warnings: the app works but the structure will fight the next change.
+
+## Key Concepts
+
+- **Derived state:** storing what you can compute from props.
+- **Effect for calculate:** syncing state that should be render-time math.
+- **Mega context:** one provider for unrelated values causing wide re-renders.
+
+## Technical Details
+
+| Smell | Refactor |
+|-------|----------|
+| `useEffect` to set state from props | Compute during render |
+| 12 boolean `useState`s | `useReducer` or state machine |
+| Fetch in five children | Lift to query with shared key |
+
+## Real-World Applications
+
+Profile form stored `fullName` in state and updated it in an effect from `first`+`last` — remove state, concatenate in render.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Naming smells creates a shared review vocabulary.
+- **Con:** Obsessing over purity slows delivery on throwaway UI.
+
+## Comparison
+
+- vs [[Optimizing performance]]: smells are design; perf is measured cost.
+
+## Mistakes to Avoid
+
+- Adding Redux to “fix” prop drilling of two levels.
+- Silencing exhaustive-deps to keep a smell compiling.

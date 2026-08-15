@@ -4,9 +4,28 @@
 
 > Web authentication proves who the user is on each request; authorization decides what they may do — sessions, tokens, and identity providers are transport mechanisms, not substitutes for object-level checks.
 
----
+## Interview Relevance
 
-## Authentication versus authorization
+Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 401 vs 403 at the API boundary.
+
+## Sources
+
+- [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview
+- [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749) — OAuth 2.0 — deep-dive
+- [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) — overview
+- NIST SP 800-63B — digital identity guidelines — overview
+
+## Key Concepts
+
+- **Authentication vs authorization:** who you are vs what you may do ([[IDOR]] still possible after login).
+- **Session cookies:** HttpOnly, Secure, SameSite; regenerate id after login.
+- **Bearer JWT:** short-lived access + refresh rotation; prefer httpOnly over localStorage.
+- **401 vs 403:** not authenticated vs authenticated but forbidden.
+
+
+## Technical Details
+
+### Authentication versus authorization
 
 | Term | Question |
 |------|----------|
@@ -79,9 +98,27 @@ See [[JWT authentication]] for claim design and validation.
 
 Service-to-service calls use mutual Transport Layer Security or signed tokens — not human login forms.
 
-## Sources
+## Real-World Applications
 
-- [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html).
-- [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749) — OAuth 2.0.
-- [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
-- NIST SP 800-63B — digital identity guidelines.
+Browser apps with cookie sessions, SPA/BFF patterns, OIDC workforce login, and MFA with [[TOTP (Time based One Time Password)]].
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Clear identity boundary enables multi-client APIs.
+- **Con:** Token theft, CSRF, and session fixation if attributes/flows are wrong.
+- **Trade-off:** server sessions (revocable) vs JWT scale (harder instant revoke).
+
+
+## Comparison
+
+- vs [[API design]]: API contracts assume authn/authz status codes and scopes.
+- vs [[JWT authentication]]: claim/validation detail lives there; this note is web app patterns.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

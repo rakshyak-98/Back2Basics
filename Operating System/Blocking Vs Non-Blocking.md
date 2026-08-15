@@ -1,12 +1,26 @@
-[[Operating System]] [[Blocking]] [[non-blocking]] [[Epoll]] [[system call]] [[CPU IO Bound Task]]
+[[Operating System]] [[Blocking]] [[non-blocking]] [[Epoll]] [[system call]] [[CPU IO Bound Task]] [[Thread]] [[thread pool]]
 
 # Blocking Vs Non-Blocking
 
-> Blocking waits inside the kernel until I/O is ready; non-blocking returns immediately and pushes the wait into your event loop — choose based on concurrency shape, not ideology.
+> Blocking waits inside the kernel until I/O is ready; non-blocking returns immediately and pushes the wait into your event loop — choose by concurrency shape, not ideology.
 
-Both modes are properties of **how a file descriptor (or socket) is configured**, combined with how the [[Thread]] model uses them. They are not separate “kinds” of network stack.
+## Interview Relevance
 
-## Comparison
+A classic systems interview fork: walk both models, name `EAGAIN` / `epoll`, and pick a hybrid (non-blocking accept + blocking worker pool) for a concrete service.
+
+## Sources
+
+- Kerrisk, *The Linux Programming Interface* — non-blocking I/O, `select`, `poll`, `epoll` — deep-dive
+- Linux `fcntl(2)`, `epoll(7)` manual pages — deep-dive
+- [Wikipedia — C10k problem](https://en.wikipedia.org/wiki/C10k_problem) — overview
+
+## Key Concepts
+
+- **Mode is an fd property:** blocking vs non-blocking is how the descriptor is configured, plus how threads use it — not a different network stack.
+- **Scalability lever:** blocking ≈ one thread per wait; non-blocking ≈ few threads + readiness ([[Epoll]] / kqueue).
+- **Hybrid is normal:** event loop for sockets; [[thread pool]] for blocking disk/DB.
+
+## Technical Details
 
 | Aspect | Blocking | Non-blocking |
 |--------|----------|--------------|
@@ -15,8 +29,6 @@ Both modes are properties of **how a file descriptor (or socket) is configured**
 | Scalability | Thread count ≈ concurrent waits | Few threads + [[Epoll]] / kqueue |
 | Latency under load | Scheduler and stack overhead | Lower thread overhead; complex app logic |
 | Error handling | Simple return codes | Must retry on `EINTR` and `EAGAIN` |
-
-## Typical architectures
 
 ```txt
 Blocking model:
@@ -29,19 +41,30 @@ Non-blocking model:
   (few threads, many connections)
 ```
 
-## Hybrid patterns
-
-Thread pools handle **blocking** disk or database calls while the accept loop stays non-blocking. Runtimes (Node.js, Go) multiplex many logical tasks onto fewer OS threads — know which layer is blocking ([[CPU IO Bound Task]]).
-
-Setting non-blocking mode:
-
 ```c
 int flags = fcntl(fd, F_GETFL, 0);
 fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 ```
 
-## Sources
+## Real-World Applications
 
-- Kerrisk, *The Linux Programming Interface* — non-blocking I/O, `select`, `poll`, `epoll`
-- Linux `fcntl(2)`, `epoll(7)` manual pages
-- Wikipedia: [C10k problem](https://en.wikipedia.org/wiki/C10k_problem)
+Node.js and Go multiplex many logical tasks onto fewer OS threads — know which layer still blocks ([[CPU IO Bound Task]]). Nginx / Envoy style reactors keep the hot path non-blocking.
+
+## Pros/Cons or Trade-offs
+
+- **Blocking pro:** easiest correctness for sequential protocols.
+- **Blocking con:** poor fit for tens of thousands of idle connections.
+- **Non-blocking pro:** high connection density on few cores.
+- **Non-blocking con:** state machines, partial reads, and careful `EAGAIN` handling.
+
+## Comparison
+
+- Detail on sleep-until-ready: [[Blocking]].
+- Detail on immediate return + reactor: [[non-blocking]].
+- Bound-type sizing: [[CPU IO Bound Task]].
+
+## Mistakes to Avoid
+
+- Treating “non-blocking” as “faster for one request” — it mainly helps concurrency, not single-op latency.
+- Setting `O_NONBLOCK` then spinning without `epoll_wait` / `poll`.
+- Mixing blocking disk calls on the same thread that must serve many sockets.

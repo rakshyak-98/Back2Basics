@@ -1,42 +1,35 @@
-[[commands]] [[ffmpeg]] [[codecs]] [[MPEG-TS]] [[Streaming]]
+[[Commands]] [[ffmpeg]] [[codecs]] [[Streaming]]
 
 # ffprobe
 
 > ffprobe reads media metadata — codecs, duration, timestamps, programs — without rewriting the file.
 
----
+## Interview Relevance
+Media ops: streams vs format, `pts_time`/`start_time` for A/V sync, and JSON output for scripts (`-of json`).
 
-## How it works
+## Sources
+- [ffprobe Documentation](https://ffmpeg.org/ffprobe.html) — deep-dive
+- [FFmpeg Protocols](https://ffmpeg.org/ffmpeg-protocols.html) — overview
 
-```txt
-file / UDP URL ──► ffprobe ──► streams, format, frames, programs
-                      pts_time = when this sample should play
-```
+## Core Definition
+ffprobe demuxes enough of a file or URL to report stream codecs, format container info, programs (MPEG-TS), and optionally frames. It does not transcode — that is [[ffmpeg]].
 
-### Interview map (words you can say)
+## Key Concepts
+- **`pts_time`:** Presentation time in seconds — when to show the sample.
+- **`start_time`:** Stream origin offset — common A/V sync clue.
+- **`-show_streams` / `-show_format`:** Per-stream vs container summary.
+- **`-of json`:** Machine-readable for automation.
+- **`-select_streams`:** Limit to video/audio; avoid dumping every frame.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`pts_time`** | Presentation time (seconds) | “When the player should show this frame/sample.” |
-| **`start_time`** | Stream origin offset | “A/V sync bugs often start here.” |
-| **`-show_streams`** | Per-stream codec props | “My first look at any mystery file.” |
-| **`-of json`** | Machine output | “Scripts parse JSON, not the pretty banner.” |
-| **`-select_streams v/a`** | Only video/audio | “Don’t dump every subtitle frame.” |
-
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 ffprobe -hide_banner input.mp4
 ffprobe -show_streams input.mp4
 ffprobe -show_format -show_streams -of json input.mp4
 
-# Frames (heavy)
 ffprobe -show_frames -select_streams v -of json input.mp4
 
-# Live / multicast programs
 ffprobe -i udp://224.20.20.1:5003 -show_programs
 ffprobe -v quiet -show_programs -of json udp://@224.20.20.1:5003
 ```
@@ -44,57 +37,28 @@ ffprobe -v quiet -show_programs -of json udp://@224.20.20.1:5003
 | Format | Flag | Best for |
 |--------|------|----------|
 | Human | (default) | Eyes |
-| JSON | `-of json` | Scripts / APIs |
+| JSON | `-of json` | Scripts |
 | CSV / flat / compact | `-of csv` / `flat` / `compact` | Quick shell |
-
-```txt
-Stream #0:0 Video: h264   start_time=0.000000
-Stream #0:1 Audio: aac    start_time=0.000000
-```
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| “Invalid data” on good player file | Truncated / wrong extension | Try `-f` format; check with another tool |
-| Empty UDP probe | No packets / wrong group | tcpdump; iface; `@` vs host syntax |
-| Huge JSON | `-show_frames` on long VOD | Sample with `-read_intervals` or limit |
-| Script breaks on banner | stderr noise | `-v quiet` / `-v error` + `-of json` |
-| Duration N/A | Live / incomplete mux | Use bitrate × size estimate or container trailers |
+| Invalid data on playable file | Truncation / wrong ext | Force `-f`; try another tool |
+| Empty UDP probe | No packets / wrong group | tcpdump; iface; `@` syntax |
+| Huge JSON | `-show_frames` on long VOD | `-read_intervals`; limit streams |
+| Script breaks on banner | stderr noise | `-v quiet` + `-of json` |
 
----
+## Real-World Applications
+Pre-flight checks before ffmpeg remux, diagnosing A/V start_time skew, and listing MPEG-TS programs on a multicast URL.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Fast metadata without rewriting media.
+- **Con:** Frame dumps are enormous; live/UDP failures are often network not codec.
+- **Trade-off:** Human banner vs JSON for CI.
 
-## Gotchas
+## Comparison
+vs [[ffmpeg]]: transform/stream out. vs `stat`: file size/name only. vs DRM tools: licenses are out of scope.
 
-> [!WARNING]
-> **`-show_frames` can be enormous** — prefer streams/format unless debugging PTS gaps.
-
-> [!WARNING]
-> **Multicast needs network path** — ffprobe failing is often IGMP/routing, not “bad ffmpeg”.
-
-> [!WARNING]
-> **PTS vs DTS** — decode order ≠ display order on B-frames; use the field you mean.
-
----
-
-
-## When not to use
-
-- **Transcoding / streaming out** — [[ffmpeg]].
-- **Only file size/name** — `stat` / [[Find command]].
-- **DRM license introspection** — packager/DRM tools, not ffprobe.
-
----
-
-
-## Related
-
-[[ffmpeg]] [[MPEG-TS]] [[codecs]] [[Streaming]] [[commands]]
-
-## Sources
-
-- [Wikipedia — ffprobe](https://en.wikipedia.org/wiki/ffprobe)
+## Mistakes to Avoid
+- Dumping all frames on long VOD by default.
+- Confusing PTS (display) with DTS (decode) on B-frames.
+- Blaming ffprobe when multicast IGMP/routing is broken.

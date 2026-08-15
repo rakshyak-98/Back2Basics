@@ -4,9 +4,16 @@
 
 > Claude is Anthropic’s chat/tool model — same message loop as other LLMs, strict about `tool_use` ↔ `tool_result` pairing.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about claude ai to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 user → assistant (tool_use) → user (tool_result) → assistant (answer)
@@ -21,10 +28,7 @@ user → assistant (tool_use) → user (tool_result) → assistant (answer)
 | **Rate limit** | Tokens per minute | “Backoff; shrink context.” |
 | **Messages API** | Official shape | “Roles + content blocks.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 # Fix tool pairing
@@ -38,10 +42,18 @@ messages[n+1] user:      tool_result tool_use_id=toolu_123  ← required next
 | Cache / prompt size | Cost and rate limits |
 | Idempotent tools | Safe retries on 429 |
 
----
+## Pros/Cons or Trade-offs
 
+- **No-tool plain completion** — still fine; just don’t half-implement tools.
+- **Hard realtime <100ms** — LLMs aren’t that path.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Dropping tool_results when “simplifying” history** — Claude 400s on orphan tool_use ids.
+
+> [!WARNING]
+> **Retrying the whole transcript after a partial tool** — can double side effects; make tools idempotent.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +62,3 @@ messages[n+1] user:      tool_result tool_use_id=toolu_123  ← required next
 | 400 invalid_request | schema/content blocks | Match API content types |
 | Empty assistant | max_tokens too low | Raise limit |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Dropping tool_results when “simplifying” history** — Claude 400s on orphan tool_use ids.
-
-> [!WARNING]
-> **Retrying the whole transcript after a partial tool** — can double side effects; make tools idempotent.
-
----
-
-
-## When not to use
-
-- **No-tool plain completion** — still fine; just don’t half-implement tools.
-- **Hard realtime <100ms** — LLMs aren’t that path.
-
-
-## Related
-
-[[prompt enginerring]] [[GPT]] [[prompt]]
-
-## Sources
-
-- [Wikipedia — claude ai](https://en.wikipedia.org/wiki/claude_ai)

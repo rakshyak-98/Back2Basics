@@ -2,28 +2,46 @@
 
 # React design patterns
 
-> React design patterns shapes how React applications compose UI, state, and side effects in production.
+> Reusable composition strategies — compound components, providers, hooks, controlled inputs — chosen for the API you want.
 
-## What this is
+## Interview Relevance
 
-React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React design patterns` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[React State management]] [[React pattern categorisation]] [[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]]
+Interviewers ask which pattern fits a use case and what you’d avoid in modern React.
 
 ## Sources
 
-- [React official documentation](https://react.dev)
+- [Context](https://react.dev/learn/passing-data-deeply-with-context) — overview
+- [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
+
+## Core Definition
+
+Design patterns in React are composition recipes for sharing behavior and structuring component APIs.
+
+## Key Concepts
+
+- **Hooks:** default for shared logic.
+- **Compound components:** flexible parent/child APIs ([[React Pattern/Compound Components]]).
+- **Provider:** dependency injection via Context ([[React Pattern/Provider pattern]]).
+- **Controlled/uncontrolled:** form input ownership.
+
+## Technical Details
+
+See leaf notes under `React Pattern/` for worked examples; prefer hooks over new HOCs/render props.
+
+## Real-World Applications
+
+Design-system Tabs implemented as compound components with shared context for active index.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Predictable APIs across the codebase.
+- **Con:** Pattern zoo without guidance wastes time.
+
+## Comparison
+
+- vs [[React Pattern/React pattern categorisation]]: categorisation is the map; this is the rationale.
+
+## Mistakes to Avoid
+
+- Using HOCs for new code when a hook suffices.
+- Context for high-frequency values without splitting.

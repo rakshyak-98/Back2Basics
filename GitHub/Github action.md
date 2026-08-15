@@ -2,36 +2,38 @@
 
 # GitHub Actions
 
-> GitHub Actions — trigger (push, PR, cron, dispatch)
+> CI/CD workflows as YAML in the repository — events trigger jobs that run steps on runners.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want triggers (`push`/`pull_request`/`schedule`), jobs vs steps, secrets scoping, and fork-PR security (`pull_request` vs `pull_request_target`).
+
+## Sources
+
+- [GitHub Docs — Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions) — overview
+- [GitHub Docs — Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions) — deep-dive
+
+## Key Concepts
+
+- **Workflow:** YAML under `.github/workflows/` → automation unit.
+- **Job:** runs on one runner; jobs parallel by default → use `needs:` for order.
+- **Step:** `run:` shell or `uses:` action → compose the job.
+- **Contexts / expressions:** `${{ secrets.* }}`, `github`, `matrix` → inject configuration safely.
+- **Permissions:** least-privilege `GITHUB_TOKEN` → limit write scope.
+
+## Technical Details
 
 ```
-Trigger (push, PR, cron, dispatch)
-  → Workflow (.yml)
-    → Job(s) [parallel by default]
-      → Steps (run shell or uses: action)
-        → Runner environment
+Trigger → Workflow → Job(s) → Steps on a Runner
 ```
-
-Secrets live in GitHub (`secrets.*`, `vars.*`); never commit them. Expressions `${{ }}` access context (`github`, `env`, `matrix`).
-
-
-## Configuration and commands
-
-### Minimal CI workflow
 
 ```yaml
-# .github/workflows/ci.yml
 name: CI
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -39,72 +41,36 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: npm
       - run: npm ci
       - run: npm test
 ```
 
-### Secrets in steps
-
-```yaml
-steps:
-  - name: Deploy
-    env:
-      API_KEY: ${{ secrets.API_KEY }}
-    run: ./deploy.sh
-```
-
-### Scheduled cron (UTC)
-
-```yaml
-on:
-  schedule:
-    - cron: '30 5 * * 1,3'   # Mon/Wed 05:30 UTC
-jobs:
-  nightly:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "${{ github.event.schedule }}"
-```
-
-### Disable CodeQL (repo setting path)
-
-Settings → Code security → Code scanning → disable tool (prefer fixing findings over disabling in production repos).
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Workflow not triggering | `on:` branch/path filters | Match branch name; use `workflow_dispatch` to test |
-| Secret empty in log | `secrets` scope (env vs repo) | Set secret at correct level; fork PRs don't get secrets |
-| `ubuntu-latest` tool missing | Runner image changelog | Pin `actions/setup-*` or explicit apt install |
-| YAML invalid | Actions tab error | Validate indentation; tabs break YAML |
-| Cron didn't run | GitHub schedule delay | Cron is best-effort; can slip minutes on busy repos |
-| Action pin drift | `@v4` vs SHA | Pin major tag or full SHA for supply-chain safety |
+| Not triggering | `on:` filters | Match branch/paths; try `workflow_dispatch` |
+| Empty secret | Scope / fork PR | Set at right level; forks lack secrets on `pull_request` |
+| YAML invalid | Actions UI error | Fix indentation (spaces, not tabs) |
 
+## Real-World Applications
 
-## Gotchas
+PR checks, scheduled nightlies, and deploy pipelines that call cloud CLIs with OIDC or secrets.
 
-> [!WARNING]
-> **`pull_request` from forks** — secrets unavailable; use `pull_request_target` only with extreme care (RCE risk).
->
-> **Cache poisoning across branches** — scope cache keys with `${{ github.ref }}`.
->
-> **Reusable workflow inputs** — untrusted input in `run:` = injection; pass as env, not string concat in script.
+**Example:** Cron at `30 5 * * 1,3` — remember schedules are UTC and best-effort (can slip).
 
+## Pros/Cons or Trade-offs
 
-## When not to use
+- **Pro:** Co-located with code; huge action ecosystem.
+- **Con:** Minutes/cost; supply-chain risk if actions are unpinned.
 
-- Don't run long-lived servers in Actions — use deploy targets (k8s, Lambda, VM).
-- Don't replace proper secret manager (Vault, AWS SM) with hundreds of repository secrets for shared infra credentials.
+## Comparison
 
+- vs [[DevOps/Jenkins]]: Actions is GitHub-native SaaS; Jenkins is self-hosted and more DIY.
+- vs [[Github runner]]: Actions is the orchestration; runners are where jobs execute.
 
-## Related
+## Mistakes to Avoid
 
-[[Github runner]] [[Github cli]] [[GIT/git hook]] [[DevOps/Jenkins]]
-
-## Sources
-
-- [Wikipedia — Github action](https://en.wikipedia.org/wiki/Github_action)
+- Using `pull_request_target` casually — easy RCE on the base repo.
+- String-concatenating untrusted input into `run:` scripts.
+- Pinning actions only to floating tags without knowing the trust model.

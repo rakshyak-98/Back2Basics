@@ -1,75 +1,60 @@
-[[vite]]
+[[vite config]] [[vite error]] [[transpiler]]
 
-# vite internal
+# Vite internals
 
-> vite internal — you cannot use process.env like in a Webpack setup; Vite exposes environment variables through import.meta.env instead.
+> How Vite wires env and config into the client — `import.meta.env` replaces Webpack-style `process.env` in browser code.
 
----
+## Interview Relevance
 
-## How it works
-
-### Environment variable
-
-```js
-const apiUrl = import.meta.env.VITE_API_URL;
-console.log(apiUrl);
-```
-
-- You cannot read `process.env` the same way as in Webpack. Use `import.meta.env` for values defined in `.env` files with the `VITE_` prefix.
-
-### Conditional configuration
-
-```js
-export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
-  if (command === 'serve') {
-    return {
-      // development-specific configuration
-    }
-  } else {
-    // command === 'build'
-    return {
-      // production build configuration
-    }
-  }
-})
-```
-
-### Development server proxy
-
-```js
-server: {
-	proxy: {
-		"/api": {
-			target: "http://jsonplaceholder.typeicode.com"
-		}
-	}
-}
-```
-
-- Redirects browser requests that start with `/api` to the target server.
-- Used during development to avoid Cross-Origin Resource Sharing errors or to stand in for a backend that is not running locally.
-- When the browser requests `/api/...` on the local development server, Vite intercepts the request and forwards it to the target URL.
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-
-## Related
-
-[[vite]]
+Interviewers ask why `process.env.API_URL` is undefined in Vite apps and how `define` / env prefixes prevent leaking the whole environment.
 
 ## Sources
 
-- [Wikipedia — vite internal](https://en.wikipedia.org/wiki/vite_internal)
+- [Vite — Env Variables and Modes](https://vitejs.dev/guide/env-and-mode.html) — deep-dive
+- [Vite — Why Vite](https://vitejs.dev/guide/why.html) — overview
+
+## Key Concepts
+
+- **`import.meta.env`:** typed bag of exposed env + `MODE`, `DEV`, `PROD`, `BASE_URL`.
+- **Prefix filter:** default `VITE_` only — intentional safety rail.
+- **Dev server:** pre-bundles deps with esbuild; serves source as native ESM.
+- **Build:** Rollup bundles for production.
+
+## Technical Details
+
+```js
+const apiUrl = import.meta.env.VITE_API_URL;
+```
+
+```js
+export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
+  if (command === "serve") {
+    return { /* dev */ };
+  }
+  return { /* production build */ };
+});
+```
+
+Do not expect Node’s `process.env` to exist in browser bundles unless you explicitly define replacements (and still avoid shipping secrets).
+
+## Real-World Applications
+
+Feature-flag client builds with `VITE_FEATURE_X=true` per environment; keep private API keys on the server only.
+
+**Example:** Migrating from Webpack `DefinePlugin` — replace `process.env.X` reads with `import.meta.env.VITE_X`.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast refresh and clear client/server env boundary.
+- **Con:** SSR/Node code paths still need careful split from browser code.
+
+## Comparison
+
+- vs Webpack: different env injection and dev serving model.
+- vs [[vite config]]: internals explain the mechanism behind the knobs.
+
+## Mistakes to Avoid
+
+- Prefixing secrets with `VITE_`.
+- Mixing SSR `process.env` assumptions into client components.
+- Assuming `.env` changes apply without restarting the dev server.

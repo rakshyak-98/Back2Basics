@@ -1,12 +1,23 @@
-[[Security]] [[Asymmetrical Encryption]] [[TLS (Transport Layer Security)]] [[SSH]]
+[[Security]] [[Asymmetrical Encryption]] [[TLS (Transport Layer Security)]] [[SSH]] [[KMS]] [[HMAC (Hash based Message Authentication Codes)]]
 
 # symmetrical encryption
 
 > Symmetric encryption — same secret key encrypts and decrypts; fast bulk crypto once both sides share the key.
 
----
+## Interview Relevance
 
-## How it works
+Crypto basics: same key both ways, AES-GCM preferred, key distribution problem that asymmetric crypto solves.
+
+## Sources
+
+- [NIST SP 800-38D — GCM](https://csrc.nist.gov/publications/detail/sp/800-38d/final) — deep-dive
+- [Wikipedia — Symmetric-key algorithm](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) — overview
+
+## Core Definition
+
+Symmetric encryption uses the same secret key to encrypt and decrypt; it is fast for bulk data once both sides share the key.
+
+## Key Concepts
 
 ```txt
 Key exchange (ECDHE / RSA wrap)
@@ -21,10 +32,7 @@ Shared session key ──AES-GCM──► encrypted bytes on the wire
 | Disk / DB fields | Data key from [[KMS]] |
 | SSH session | Symmetric after kex |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # Illustrative OpenSSL enc (prefer libsodium/age for new tools)
@@ -46,10 +54,7 @@ const tag = cipher.getAuthTag()
 | Random IV/nonce | Never reuse nonce with same key (GCM) |
 | Key length | AES-256 common; manage keys in KMS/HSM |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,36 +64,24 @@ const tag = cipher.getAuthTag()
 | Key leaked in logs | Debug printed key | Rotate; redact; use KMS |
 | Slow bulk encrypt | Soft AES / tiny buffer loops | Hardware AES-NI; larger chunks |
 
----
+## Real-World Applications
 
+TLS record protection and disk/volume encryption use AES-GCM (or similar) with keys from KMS or handshake.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **ECB mode** — identical blocks leak patterns; never for real data.
+- **Pro:** High throughput for bulk data once keys are established.
+- **Con:** First contact with no shared secret — need asymmetric ([[Asymmetrical Encryption]]) or pre-provisioned keys.
+- **Con:** Password storage — use password hashes (Argon2/yescrypt), not reversible AES.
+- **Con:** Long-term identity — certificates/signatures, not a static AES key.
 
-> [!WARNING]
-> **Homegrown CBC without MAC** — padding oracles; use AEAD.
+## Comparison
 
-> [!WARNING]
-> **Symmetric alone doesn’t authenticate the peer** — combine with proper handshake / signatures.
+- vs [[Asymmetrical Encryption]]: shared secret vs key pair — TLS uses both (handshake then bulk).
+- vs [[HMAC (Hash based Message Authentication Codes)]]: encryption hides plaintext; HMAC authenticates (AEAD does both).
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **First contact with no shared secret** — need asymmetric ([[Asymmetrical Encryption]]) or pre-provisioned keys.
-- **Password storage** — use password hashes (Argon2/yescrypt), not reversible AES.
-- **Long-term identity** — certificates/signatures, not a static AES key.
-
----
-
-
-## Related
-
-[[Asymmetrical Encryption]] [[TLS (Transport Layer Security)]] [[KMS]] [[HMAC (Hash based Message Authentication Codes)]] [[SSH]]
-
-## Sources
-
-- [Wikipedia — symmetrical encryption](https://en.wikipedia.org/wiki/symmetrical_encryption)
+- ECB mode — identical blocks leak patterns; never for real data.
+- Homegrown CBC without MAC — padding oracles; use AEAD.
+- Symmetric alone doesn’t authenticate the peer — combine with proper handshake / signatures.

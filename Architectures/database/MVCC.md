@@ -1,12 +1,19 @@
-[[Architectures]] [[Database]] [[ACID]] [[WAL (Write-Ahead Log)]]
+[[Architectures]] [[Database]] [[ACID]] [[WAL (Write-Ahead Log)]] [[OCC]] [[connection pooling]]
 
 # MVCC
 
 > MVCC (Multi-Version Concurrency Control) keeps old row versions so readers see a snapshot — reads don’t block writers.
 
----
+## Interview Relevance
 
-## How it works
+MVCC is the Postgres/InnoDB concurrency story — snapshot reads without blocking writers, and the vacuum/version-chain cost.
+
+## Sources
+
+- [PostgreSQL — Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html) — deep-dive
+- [Wikipedia — Multiversion concurrency control](https://en.wikipedia.org/wiki/Multiversion_concurrency_control) — overview
+
+## Key Concepts
 
 ```txt
 Writer updates row  →  new version (xmin=TxW)
@@ -26,10 +33,7 @@ VACUUM / purge  →  removes versions no one can see
 
 versus locking: fewer read/write stalls; cost is version storage + cleanup (VACUUM / undo purge).
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```sql
 -- Postgres: bloat / dead tuples
@@ -41,10 +45,7 @@ VACUUM (VERBOSE) my_table;
 
 MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,32 +55,12 @@ MySQL/InnoDB: undo logs + purge thread play the cleanup role.
 | Serialization failure | isolation level | Retry txn; or lower isolation if safe |
 | Wraparound risk (PG) | txid age alerts | Aggressive vacuum freeze |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Engine without versions — some embedded DBs use locks only.
+- **Trade-off:** You need strict serial locking semantics — understand isolation first; don’t “turn off” MVCC casually.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Idle in transaction** — holds a snapshot; blocks vacuum; causes bloat.
-
-> [!WARNING]
-> **MVCC ≠ no locks** — writers still conflict on the same row; DDL and some ops take locks.
-
----
-
-
-## When not to use
-
-- **Engine without versions** — some embedded DBs use locks only.
-- **You need strict serial locking semantics** — understand isolation first; don’t “turn off” MVCC casually.
-
----
-
-
-## Related
-
-[[ACID]] [[WAL (Write-Ahead Log)]] [[OCC]] [[Database]] [[connection pooling]]
-
-## Sources
-
-- [Wikipedia — MVCC](https://en.wikipedia.org/wiki/MVCC)
+- Idle in transaction — holds a snapshot; blocks vacuum; causes bloat.
+- MVCC ≠ no locks — writers still conflict on the same row; DDL and some ops take locks.

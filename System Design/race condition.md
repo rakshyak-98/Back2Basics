@@ -4,9 +4,27 @@
 
 > A race condition occurs when the outcome depends on the interleaving of concurrent operations on shared mutable state — without synchronization, order is undefined and bugs are intermittent.
 
----
+## Interview Relevance
 
-## Where races appear
+Interleaving hazard; TOCTOU; fixes via atomics/locks/queues — and tests that catch it.
+
+## Sources
+
+- Herlihy & Shavit, *The Art of Multiprocessor Programming* — overview
+- Go documentation — `-race` detector — overview
+- Martin Kleppmann, *Designing Data-Intensive Applications* — concurrency and transactions — deep-dive
+
+## Key Concepts
+
+- **Outcome depends on interleaving** of concurrent operations.
+- **TOCTOU:** check then act without atomicity.
+- **Fixes:** locks, atomics, queues, DB constraints, CAS.
+- **Tests:** stress/concurrency tests; not only happy path.
+
+
+## Technical Details
+
+### Where races appear
 
 ```txt
 Handler A still running ──┐
@@ -61,8 +79,27 @@ WHERE id = $1 AND version = $2;
 
 **Check-then-act** outside a transaction is almost always a race: `if balance >= 10 then deduct` — two threads both pass the check.
 
-## Sources
+## Real-World Applications
 
-- Herlihy & Shavit, *The Art of Multiprocessor Programming*.
-- Go documentation — `-race` detector.
-- Martin Kleppmann, *Designing Data-Intensive Applications* — concurrency and transactions.
+Shared counters, checkout inventory, and multi-threaded caches.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro of awareness:** prevents Heisenbugs in prod.
+- **Con:** Over-locking kills throughput.
+- **Trade-off:** coarse locks vs careful lock-free designs.
+
+
+## Comparison
+
+- vs [[Concurrent modification]]: RMW lost updates are a common race class.
+- vs [[critical sections]]: critical sections are how you eliminate races on shared data.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

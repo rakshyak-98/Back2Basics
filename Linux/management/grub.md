@@ -2,13 +2,29 @@
 
 # GRUB
 
-> GRUB — firmware (BIOS or UEFI) loads GRUB from the ESP (EFI System Partition) or MBR. GRUB reads /boot/grub/grub.cfg (generated — do not hand-edit) from templates
+> Bootloader that loads the kernel and initramfs — edit `/etc/default/grub`, then regenerate; never hand-edit `grub.cfg`.
 
----
+## Interview Relevance
 
-## How it works
+Boot recovery literacy: UEFI vs BIOS, `GRUB_CMDLINE_LINUX`, `update-grub`, and temporary `e` edits at the menu.
 
-Firmware (BIOS or UEFI) loads GRUB from the ESP (EFI System Partition) or MBR. GRUB reads `/boot/grub/grub.cfg` (generated — **do not hand-edit**) from templates in `/etc/default/grub` and `/etc/grub.d/*`. Kernel parameters on the linux line affect every boot until regenerated.
+## Sources
+
+- [GNU GRUB manual](https://www.gnu.org/software/grub/manual/grub/) — deep-dive
+- [Wikipedia — GNU GRUB](https://en.wikipedia.org/wiki/GNU_GRUB) — overview
+
+## Core Definition
+
+Firmware (BIOS or UEFI) loads GRUB from the ESP or MBR. GRUB reads generated `/boot/grub/grub.cfg` built from `/etc/default/grub` and `/etc/grub.d/*`.
+
+## Key Concepts
+
+- **Generated config:** package updates overwrite `grub.cfg`.
+- **Kernel cmdline:** live in `GRUB_CMDLINE_LINUX*` until regenerated.
+- **Rescue / `e`:** one-boot edits for recovery.
+- **UEFI vs BIOS:** different install paths and menu key habits.
+
+## Technical Details
 
 ```
 UEFI/BIOS ──► GRUB ──► vmlinuz + initrd ──► systemd (PID 1)
@@ -18,111 +34,47 @@ UEFI/BIOS ──► GRUB ──► vmlinuz + initrd ──► systemd (PID 1)
 
 | Path | Role |
 |------|------|
-| `/etc/default/grub` | User knobs: timeout, default entry, `GRUB_CMDLINE_LINUX` |
-| `/etc/grub.d/` | Script fragments that build menu entries |
+| `/etc/default/grub` | Timeout, default, cmdline knobs |
+| `/etc/grub.d/` | Script fragments for menu entries |
 | `/boot/grub/grub.cfg` | Generated output |
 | `/boot/efi/EFI/*/grubx64.efi` | UEFI binary on ESP |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **GRUB** | Bootloader | “GRUB loads kernel + initramfs.” |
-| **grub.cfg** | Generated menu | “Edit /etc/default/grub, then update-grub.” |
-| **GRUB_CMDLINE_LINUX** | Kernel cmdline | “root=, quiet, nomodeset live here.” |
-| **update-grub** | Regen config | “After edit defaults → update-grub.” |
-| **rescue** | Boot recovery | “e at menu to edit once.” |
-
-
-## Configuration and commands
-
 ```bash
-# Confirm GRUB2
 grub-install --version
-# grub-install (GRUB) 2.06
-
-# UEFI vs BIOS
 [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
-ls -l /sys/firmware/efi                    # typo fix: firmware not fireware
-
-# Regenerate config after editing /etc/default/grub
-sudo update-grub                           # Debian/Ubuntu
-sudo grub2-mkconfig -o /boot/grub/grub.cfg # RHEL/Fedora
-
-# Common /etc/default/grub tweaks
-# GRUB_TIMEOUT=5
-# GRUB_DEFAULT=0
-# GRUB_CMDLINE_LINUX="console=tty0 crashkernel=auto"
-# GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
-```
-
-**Kernel cmdline examples (append via `GRUB_CMDLINE_LINUX`):**
-
-```bash
-# Recovery / debug
-systemd.unit=rescue.target
-single
-init=/bin/bash
-
-# GPU / passthrough
-nomodeset
-intel_iommu=on iommu=pt
-
-# After edit — always regenerate
 sudo update-grub
-```
-
-**Reinstall GRUB to disk/ESP (broken boot):**
-
-```bash
-# UEFI (adjust disk/partition)
+sudo grub2-mkconfig -o /boot/grub/grub.cfg
 sudo grub-install /dev/sda
-sudo update-grub
-
-# Mount root + ESP from live USB first if system won't boot
 ```
 
-**Interactive at boot:** hold **Shift** (BIOS) or **Esc** (UEFI) for menu; `e` to edit entry temporarily (not persistent).
+Kernel cmdline examples: `systemd.unit=rescue.target`, `nomodeset`, `intel_iommu=on iommu=pt`, `console=ttyS0`.
 
-
-## When things break
+Interactive: Shift (BIOS) or Esc (UEFI) for menu; `e` edits once.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Drops to `grub rescue>` | Missing `/boot`, wrong UUID | Live USB → `ls` → `set root` → `linux`/`initrd` → `boot`; reinstall |
-| Kernel panic after upgrade | Bad initramfs / wrong kernel | Previous menu entry; `update-initramfs -u`; reinstall kernel package |
-| Edit `/etc/default/grub` no effect | Forgot regenerate | `update-grub` / `grub2-mkconfig` |
-| Windows gone after Linux install | os-prober off | `GRUB_DISABLE_OS_PROBER=false`; `update-grub` |
-| NVMe vs SATA root wrong | `GRUB_DISABLE_LINUX_UUID=false` | Regenerate; check `/etc/fstab` UUIDs match |
-| Secure Boot blocks custom kernel | Unsigned module | Use signed shim or disable SB in firmware |
+| `grub rescue>` | Missing `/boot`, wrong UUID | Live USB repair; reinstall |
+| Panic after upgrade | Bad initramfs / kernel | Previous entry; `update-initramfs -u` |
+| Defaults edit ignored | Forgot regenerate | `update-grub` |
+| Windows missing | os-prober off | `GRUB_DISABLE_OS_PROBER=false` |
+| Secure Boot blocks | Unsigned module | Signed shim or disable SB |
 
+## Real-World Applications
 
-## Gotchas
+Add `console=ttyS0` for cloud serial consoles, or boot `rescue.target` once via menu edit after a bad unit bricks multi-user.
 
-> [!WARNING]
-> **Never edit `/boot/grub/grub.cfg` directly** — package updates overwrite it. Only `/etc/default/grub` and `/etc/grub.d/`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`grub-install` to wrong disk** — can erase another OS boot chain. Triple-check `lsblk` and firmware boot order.
+- **Pro:** Flexible multi-OS menus and persistent cmdline policy.
+- **Con:** Easy to brick with wrong `grub-install` disk or hand-edited cfg.
 
-> [!WARNING]
-> **Btrfs/ZFS layouts** — GRUB module support and `/boot` on separate ext4 partition is common pattern; snapshot distros differ.
+## Comparison
 
-> [!WARNING]
-> **Cloud VMs** — serial console kernel args (`console=ttyS0`) often required to see boot logs in provider console.
+- vs systemd-boot: simpler UEFI-only path on some distros.
+- vs hypervisor cmdline: containers/VMs often get cmdline from the platform, not GRUB.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **systemd-boot on Arch/minimal UEFI** — no GRUB; different path.
-- **Container/VM image** — provider/kernel cmdline set in hypervisor.
-- **Runtime kernel tuning** → `sysctl`, not GRUB (except parameters that must be boot-time).
-
-
-## Related
-
-[[inittramfs]] [[Linux system management]] [[Linux configuration]] [[MBR]] [[Operating System]]
-
-## Sources
-
-- [Wikipedia — grub](https://en.wikipedia.org/wiki/grub)
+- Editing `/boot/grub/grub.cfg` directly.
+- `grub-install` to the wrong disk without checking `lsblk` and firmware order.
+- Forgetting serial console args on cloud VMs.

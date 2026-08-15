@@ -22,13 +22,13 @@ Non-obvious things worth knowing:
   other with Obsidian `[[wikilinks]]` (and `[[target|alias]]`). The intended
   viewer is the Obsidian desktop app; any Markdown editor also works.
 - **Navigation entry points:** `README.md` (overview), `INDEX.md` (symptom→note
-  routing map), `AGENT_NOTE_RULES.md` (how agents write notes — clarity,
-  conceptual structure, active engagement; no fixed templates).
-- **Creating or updating notes:** Read `AGENT_NOTE_RULES.md` first. Structure
-  each note by **conceptual relationships**, not predefined section templates.
-  Research authoritative sources (RFCs, official docs, university materials,
-  Wikipedia cross-checked with primaries). Do not add strategy labels or HTML
-  tags inside notes.
+  routing map), `AGENT_NOTE_RULES.md` (how agents write notes — interview-prep
+  leaf skeleton; omit empty sections; hubs/meta excluded).
+- **Creating or updating notes:** Read `AGENT_NOTE_RULES.md` first. Use the
+  interview-prep section order for leaf notes; omit empty sections. Research
+  authoritative sources (RFCs, official docs, university materials, Wikipedia
+  cross-checked with primaries). Do not add strategy labels or HTML tags inside
+  notes.
 - **Validating the vault:** the meaningful integrity check is whether
   `[[wikilinks]]` resolve to existing notes. A quick way to preview rendered
   notes with working wikilink navigation in a browser is to serve the vault with

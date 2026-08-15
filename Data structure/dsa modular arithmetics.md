@@ -1,12 +1,19 @@
-[[Data structure]] [[DSA algorithms]]
+[[Data structure]] [[DSA algorithms]] [[dsa problem solving Scaffold]]
 
 # dsa modular arithmetics
 
 > Modular arithmetic is math on remainders — wrap indices, hash, and contest math under a modulus.
 
----
+## Interview Relevance
 
-## How it works
+Modular arithmetic appears in hashing, wraparound indices, and contest math — wrong modulus handling fails edge cases.
+
+## Sources
+
+- [Wikipedia — Modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic) — overview
+- [CP-Algorithms — Modular arithmetic](https://cp-algorithms.com/algebra/module-inverse.html) — deep-dive
+
+## Key Concepts
 
 ```txt
 (a + b) mod m = ((a mod m) + (b mod m)) mod m
@@ -21,10 +28,7 @@
 | **Inverse** | Multiply to 1 | “Exists if gcd(a,m)=1.” |
 | **Wrap index** | Circular buffers | `(i+1) % n` |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const mod = (x, m) => ((x % m) + m) % m // positive remainder
@@ -37,10 +41,7 @@ const add = (a, b, m) => mod(a + b, m)
 | BigInt | Avoid overflow in JS/Java |
 | Order of ops | Overflow before mod lies |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,30 +50,12 @@ const add = (a, b, m) => mod(a + b, m)
 | No inverse | gcd≠1 | Different modulus / method |
 | Off-by-wrap | index -1 | `mod(i-1, n)` |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Plain floats — rounding ≠ modular rings.
+- **Trade-off:** Crypto without a library — don’t roll your own.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Language `%` on negatives** — JS/C differ in sign of remainder.
-
-> [!WARNING]
-> **`(a*b)%m` with 32-bit ints** — multiply can overflow; cast wide first.
-
----
-
-
-## When not to use
-
-- **Plain floats** — rounding ≠ modular rings.
-- **Crypto without a library** — don’t roll your own.
-
-
-## Related
-
-[[DSA algorithms]] [[dsa problem solving Scaffold]]
-
-## Sources
-
-- [Wikipedia — dsa modular arithmetics](https://en.wikipedia.org/wiki/dsa_modular_arithmetics)
+- Language `%` on negatives — JS/C differ in sign of remainder.
+- **`(a*b)%m` with 32-bit ints** — multiply can overflow; cast wide first.

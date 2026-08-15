@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongosh query]] [[MongoDB data populate]] [[mongoDB Group query]]
+[[MongoDB]] [[mongosh query]] [[MongoDB data populate]] [[mongoDB Group query]] [[mongodb denormalization]]
 
 # mongodb lookup query
 
 > `$lookup` joins collections in an aggregation — Mongo’s left outer join.
 
----
+## Interview Relevance
 
-## How it works
+$lookup interviews cover application-side joins vs embedding — and why lookup can be expensive.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 orders $lookup users on userId = _id  →  orders + users[]
@@ -21,10 +28,7 @@ orders $lookup users on userId = _id  →  orders + users[]
 | **as** | Output array name | “Always an array (maybe empty).” |
 | **`$unwind`** | Flatten array | “Careful with nulls.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.orders.aggregate([
@@ -55,10 +59,18 @@ db.orders.aggregate([
 | preserveNull | Left join vs drop |
 | Project in pipeline | Smaller payloads |
 
----
+## Pros/Cons or Trade-offs
 
+- **Always-together data** — embed ([[mongodb denormalization]]).
+- **Graph depth searches** — `$graphLookup` or external graph DB.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **ObjectId vs string** — equality fails silently → empty `as`.
+
+> [!WARNING]
+> **Lookup on huge collections without match** — full collection work per shard story; filter early.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,30 +79,3 @@ db.orders.aggregate([
 | Dup rows after unwind | many matches | Expect multiplicative rows |
 | Huge as arrays | unbounded relations | `$limit` in pipeline |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **ObjectId vs string** — equality fails silently → empty `as`.
-
-> [!WARNING]
-> **Lookup on huge collections without match** — full collection work per shard story; filter early.
-
----
-
-
-## When not to use
-
-- **Always-together data** — embed ([[mongodb denormalization]]).
-- **Graph depth searches** — `$graphLookup` or external graph DB.
-
-
-## Related
-
-[[MongoDB data populate]] [[mongoDB Group query]] [[mongodb denormalization]]
-
-## Sources
-
-- [Wikipedia — mongodb lookup query](https://en.wikipedia.org/wiki/mongodb_lookup_query)

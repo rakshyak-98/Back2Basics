@@ -1,113 +1,67 @@
-[[commands]] [[Linux Process Theory]] [[process]]
+[[Commands]] [[Linux Process Theory]] [[process]] [[Linux process commands]]
 
 # gdb
 
 > gdb (GNU Debugger) stops a program mid-flight — inspect stack, memory, and variables when it crashes or misbehaves.
 
----
+## Interview Relevance
+Shows you can get a backtrace from a core or live attach, know symbols/build-id matter, and that attaching pauses production.
 
-## How it works
+## Sources
+- [GDB User Manual](https://sourceware.org/gdb/current/onlinedocs/gdb/) — deep-dive
+- [gdb(1)](https://man7.org/linux/man-pages/man1/gdb.1.html) — overview
 
-```txt
-binary (+ symbols) ──► gdb ──► run / attach PID
-                         │
-                         ├─ breakpoints / catchpoints
-                         ├─ backtrace (bt)
-                         └─ print / examine memory
-```
+## Core Definition
+gdb loads a binary (ideally with debug symbols), runs or attaches to a PID, or opens a core dump. You set breakpoints, continue, and inspect threads/stack/memory. Matching build-id/symbols turns addresses into function names.
 
-### Interview map (words you can say)
+## Key Concepts
+- **bt / bt full:** Backtrace; with locals.
+- **Attach vs core:** Live pause vs post-mortem.
+- **Symbols:** Stripped bins limit usefulness; debuginfo packages help.
+- **ptrace_scope:** Yama often blocks attach unless parent/sudo.
+- **Threads:** `info threads` / `thread apply all bt`.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`bt` / `bt full`** | Backtrace | “First thing after a crash — where were we?” |
-| **`attach` / `-p`** | Live process | “Don’t restart; attach to the hung PID.” |
-| **Symbols / `-g`** | Debug info | “Without symbols you get addresses, not names.” |
-| **core dump** | Memory snapshot at crash | “`gdb binary core` post-mortem.” |
-| **`thread apply all bt`** | All threads’ stacks | “Deadlocks show who waits on whom.” |
-
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
-# Start
 gdb ./myapp
 (gdb) run arg1 arg2
 
-# Attach live
 gdb -p <pid>
-# or: gdb ./myapp <pid>
 
-# Core
-gdb ./myapp /var/lib/systemd/coredump/...   # or core.1234
+gdb ./myapp /var/lib/systemd/coredump/...
 
-# Inside gdb
 (gdb) bt
 (gdb) bt full
 (gdb) info threads
 (gdb) thread apply all bt
 (gdb) info proc mappings
-(gdb) x/32xg $rsp          # examine stack (x86_64)
+(gdb) x/32xg $rsp
 (gdb) print varname
 (gdb) break main
 (gdb) continue
 (gdb) quit
 ```
 
-| Need | Command |
-|------|---------|
-| Where did we crash? | `bt` |
-| Local vars in frame | `bt full` / `info locals` |
-| Memory map | `info proc mappings` |
-| Follow fork | `set follow-fork-mode child` |
-
-Build with symbols: `gcc -g -O0` for debug; production often needs `debuginfod` or separate debug packages.
-
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `No symbol table` | Stripped binary | Install `-dbgsym` / rebuild with `-g` |
-| Attach denied | ptrace scope | `sudo`; check `/proc/sys/kernel/yama/ptrace_scope` |
-| Hang on attach | Threads blocked | `thread apply all bt`; look for locks |
-| Core not produced | ulimit / systemd | `ulimit -c unlimited`; `coredumpctl` |
-| Optimized code lies | `-O2` inlining | Expect odd line numbers; use `-O0` for repro |
+| Attach denied | Yama ptrace_scope | sudo; parent process; careful sysctl |
+| Useless addresses | Stripped binary | Install debuginfo; matching build |
+| Production stall | Live attach | Prefer core/`coredumpctl` / profilers |
+| Wrong core | Mismatched binary | Same build that produced the dump |
 
----
+## Real-World Applications
+Explaining a segfault from `coredumpctl gdb`, catching a deadlock with all-thread backtraces, and verifying a null deref hypothesis on a staging binary with symbols.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Ground truth for crashes and weird state.
+- **Con:** Stops the process; steep on optimized/stripped builds.
+- **Trade-off:** gdb deep dive vs sampling (`perf`) for CPU without full stop.
 
-## Gotchas
+## Comparison
+vs [[process]]/`ps`: listing vs inspecting insides. vs strace: syscalls vs source-level stack. vs production APM: continuous telemetry vs interactive debug.
 
-> [!WARNING]
-> **Attaching pauses the process** — on production, prefer core/`coredumpctl` or sampling profilers unless you accept downtime.
-
-> [!WARNING]
-> **ASLR / stripped bins** — addresses alone rarely help without symbols and matching build-id.
-
-> [!WARNING]
-> **Yama ptrace_scope=1** (common) — only parent can ptrace; use sudo or adjust carefully.
-
----
-
-
-## When not to use
-
-- **Language-native debuggers** — Delve (Go), `pdb`/`debugpy` (Python), Chrome DevTools — when they fit better.
-- **Perf / latency profiling** — `perf`, eBPF, continuous profilers.
-- **“Just restart it” incidents** — gather core + logs first if the bug is rare.
-
----
-
-
-## Related
-
-[[process]] [[Linux Process Theory]] [[Linux process commands]] [[commands]]
-
-## Sources
-
-- [Wikipedia — gdb](https://en.wikipedia.org/wiki/gdb)
+## Mistakes to Avoid
+- Attaching to a latency-sensitive prod process casually.
+- Analyzing cores with the wrong binary/build-id.
+- Ignoring thread stacks on multi-threaded hangs.

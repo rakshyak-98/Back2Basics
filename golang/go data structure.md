@@ -1,12 +1,19 @@
-[[golang]] [[go features]] [[array]]
+[[golang]] [[go features]] [[array]] [[Unbuffered channel]] [[Sorting algorithm]]
 
 # go data structure
 
 > Go builtins — arrays (fixed), slices (view+len+cap), maps (hash), structs (records); pick by growth and ownership.
 
----
+## Interview Relevance
 
-## How it works
+Slices vs arrays vs maps are classic Go interview landmines — backing arrays, `len`/`cap`, map iteration randomness, and accidental aliasing.
+
+## Sources
+
+- [Go blog — Go Slices: usage and internals](https://go.dev/blog/slices-intro) — deep-dive
+- [Go spec — Map types](https://go.dev/ref/spec#Map_types) — deep-dive
+
+## Key Concepts
 
 ```txt
 slice:  ptr ──► [........] array
@@ -21,10 +28,7 @@ slice:  ptr ──► [........] array
 | Map `map[K]V` | Key lookup |
 | Struct | Typed records |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 s := make([]int, 0, 64)
@@ -46,10 +50,7 @@ type User struct {
 | `copy` / clone | Avoid alias bugs |
 | Map key constraints | Comparable types only |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,36 +60,14 @@ type User struct {
 | Slow append in loop | Cap 0 growth | Preallocate |
 | JSON empty vs null | Pointer fields | Use pointers / omitempty care |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Map as ordered list — keep a slice of keys.
+- **Trade-off:** Giant arrays on stack — heap/`make`.
+- **Trade-off:** Linked lists by default — slices usually win in Go.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Subslice shares backing array** — mutating one can change another.
-
-> [!WARNING]
-> **Nil vs empty slice** — both `len 0`; JSON encodes differently sometimes.
-
-> [!WARNING]
-> **Map not concurrency-safe** — mutex or `sync.Map` with eyes open.
-
----
-
-
-## When not to use
-
-- **Map as ordered list** — keep a slice of keys.
-- **Giant arrays on stack** — heap/`make`.
-- **Linked lists by default** — slices usually win in Go.
-
----
-
-
-## Related
-
-[[go features]] [[Unbuffered channel]] [[array]] [[Sorting algorithm]]
-
-## Sources
-
-- [Wikipedia — go data structure](https://en.wikipedia.org/wiki/go_data_structure)
+- Subslice shares backing array — mutating one can change another.
+- Nil vs empty slice — both `len 0`; JSON encodes differently sometimes.
+- Map not concurrency-safe — mutex or `sync.Map` with eyes open.

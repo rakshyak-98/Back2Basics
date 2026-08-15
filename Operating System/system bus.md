@@ -1,10 +1,27 @@
-[[Operating System]] [[bus]] [[PCI (Peripheral Component Interconnect)]] [[base clock speed]] [[Persistent Block Storage]]
+[[Operating System]] [[bus]] [[PCI (Peripheral Component Interconnect)]] [[base clock speed]] [[Persistent Block Storage]] [[mutexes]] [[Buffer cache]]
 
 # System bus
 
-> The system bus is the backbone that connects the CPU, main memory, and I/O controllers — every syscall that touches disk or network eventually moves bytes across these links.
+> The system bus is the backbone connecting CPU, main memory, and I/O controllers — every syscall that touches disk or network eventually moves bytes across these links.
 
-Classic model (**Von Neumann**):
+## Interview Relevance
+
+Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence costs behind false sharing on [[mutexes]].
+
+## Sources
+
+- Hennessy & Patterson, *Computer Architecture* — deep-dive
+- [Wikipedia — System bus](https://en.wikipedia.org/wiki/System_bus) — overview
+- [Wikipedia — Front-side bus](https://en.wikipedia.org/wiki/Front-side_bus) — overview
+
+## Key Concepts
+
+- **CPU–RAM–I/O triangle:** address/data/control paths.
+- **NUMA:** local vs remote DRAM latency.
+- **Coherence:** snooping/directories keep caches consistent.
+- **DMA:** devices R/W RAM without CPU byte loops.
+
+## Technical Details
 
 ```txt
      ┌─────────┐   address/data/control   ┌──────────┐
@@ -15,15 +32,25 @@ Classic model (**Von Neumann**):
      I/O bridge → [[PCI (Peripheral Component Interconnect)]] / USB / NVMe
 ```
 
-## Modern wrinkles
+Driver buffers often live in [[Buffer cache]] pages. Frequency ([[base clock speed]]) and storage ([[Persistent Block Storage]]) still ride this path. Generic concept note: [[bus]].
 
-- **NUMA:** multiple memory controllers — local versus remote DRAM latency differs.
-- **Cache coherence:** CPUs snoop bus traffic (or directory protocols) to keep caches consistent — relevant to [[mutexes]] false sharing.
-- **DMA:** devices read/write RAM without CPU byte loops — driver buffers in [[Buffer cache]].
+## Real-World Applications
 
-The [[bus]] note covers generic concepts; **system bus** emphasizes the CPU-centric path from instruction fetch to [[Persistent Block Storage]] I/O.
+NUMA-aware placement, GPU/NIC DMA tuning, and explaining memory-bandwidth ceilings.
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- Hennessy & Patterson, *Computer Architecture*
-- Wikipedia: [System bus](https://en.wikipedia.org/wiki/System_bus), [Front-side bus](https://en.wikipedia.org/wiki/Front-side_bus)
+- **Pro:** Unified model for thinking about data movement.
+- **Con:** Classic “one bus” mental model undersells modern fabrics.
+- **Trade-off:** more interconnect bandwidth vs power/cost.
+
+## Comparison
+
+- vs [[bus]]: general term vs CPU-centric system path emphasis.
+- vs network links: in-chassis vs across machines.
+
+## Mistakes to Avoid
+
+- Ignoring NUMA when pinning threads and allocating memory.
+- Blaming only software for bandwidth limits that are interconnect-bound.
+- False sharing from contended cache lines on “the bus” coherence traffic.

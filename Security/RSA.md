@@ -1,12 +1,23 @@
-[[Asymmetrical Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]]
+[[Asymmetrical Encryption]] [[PKI]] [[TLS (Transport Layer Security)]] [[openssl]] [[DER]] [[read pem file]] [[Root certificate]] [[JWT authentication]]
 
 # RSA
 
-> RSA — uses math on large composites (factorization hardness):
+> Public-key algorithm from factoring hardness — historically TLS and signatures; prefer modern curves for new signing when you can.
 
----
+## Interview Relevance
 
-## How it works
+Crypto: RSA keygen/sign/encrypt roles, padding (OAEP/PSS), and why new systems prefer ECDSA/Ed25519 for signing.
+
+## Sources
+
+- [RFC 8017 — PKCS #1 RSA Cryptography](https://www.rfc-editor.org/rfc/rfc8017) — deep-dive
+- [Wikipedia — RSA (cryptosystem)](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) — overview
+
+## Core Definition
+
+RSA is a public-key algorithm based on the hardness of factoring large composites; used historically for TLS key exchange and still for signatures and legacy interop.
+
+## Key Concepts
 
 **RSA** uses math on large composites (factorization hardness):
 
@@ -26,10 +37,7 @@ Limits:
 - **Size** — 2048-bit keys, ciphertext max ~190 bytes for OAEP-SHA256
 - **Padding critical** — raw RSA malleable
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Generate key pair
 
@@ -63,10 +71,7 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 
 **Why OAEP/PSS:** PKCS#1 v1.5 padding classes of attacks in old implementations — OAEP for encrypt, PSS for sign.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -75,34 +80,22 @@ import { SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 | Verification fail cross-lang | Padding mode mismatch | Standardize PSS/OAEP params |
 | Weak key detected | <2048 bits | Regenerate; HSM stored keys |
 
----
+## Real-World Applications
 
+Legacy TLS and JWT RS256 still use RSA; greenfield signing prefers Ed25519 or ECDSA where interop allows.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Don't use RSA without padding** — textbook RSA broken.
+- **Pro:** Ubiquitous interop for legacy TLS and JWT RS256 ecosystems.
+- **Con:** Greenfield **signing** → **Ed25519**. Greenfield **TLS** → **ECDSA P-256** or Ed25519 certs. RSA for legacy interop only.
 
-> [!WARNING]
-> **Private key in PEM on disk** — chmod 600; prefer [[KMS]].
+## Comparison
 
-> [!WARNING]
-> **Quantum threat** — plan migration timelines (PQ hybrids emerging); RSA not long-term for new 10y secrets.
+- vs ECDSA/Ed25519: smaller keys/signatures and often preferred for new signing.
+- vs [[symmetrical encryption]]: RSA is not for bulk payload encryption — hybrid crypto uses both.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-Greenfield **signing** → **Ed25519**. Greenfield **TLS** → **ECDSA P-256** or Ed25519 certs. RSA for legacy interop only.
-
----
-
-
-## Related
-
-[[Asymmetrical Encryption]] [[PKI]] [[DER]] [[read pem file]] [[Root certificate]] [[JWT authentication]]
-
-## Sources
-
-- [Wikipedia — RSA](https://en.wikipedia.org/wiki/RSA)
+- Don't use RSA without padding — textbook RSA broken.
+- Private key in PEM on disk — chmod 600; prefer [[KMS]].
+- Quantum threat — plan migration timelines (PQ hybrids emerging); RSA not long-term for new 10y secrets.

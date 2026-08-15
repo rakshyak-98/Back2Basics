@@ -1,29 +1,56 @@
 [[react hooks]] [[React State management]] [[React Architecture]]
 
-# formik
+# Formik
 
-> formik shapes how React applications compose UI, state, and side effects in production.
+> Form state library for React — values, validation, and touched/error tracking without hand-rolling every field.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `formik` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[React Architecture]]
+Interviewers compare controlled forms, Formik, and React Hook Form — performance on large forms and validation strategy.
 
 ## Sources
 
-- [Formik — Documentation](https://formik.org/docs/overview)
+- [Formik docs](https://formik.org/docs/overview) — deep-dive
+- [React — <input>](https://react.dev/reference/react-dom/components/input) — overview
+
+## Core Definition
+
+Formik owns form values and meta (touched, errors, submit count) and wires inputs through `Field` or `useFormik`.
+
+## Key Concepts
+
+- **Initial values + schema:** often Yup/Zod validation.
+- **Touched vs error:** show errors after blur/submit, not on first keystroke unless intended.
+- **Submit:** async handlers with `setSubmitting` / error mapping.
+
+## Technical Details
+
+```tsx
+<Formik initialValues={{ email: '' }} onSubmit={async (v) => api.subscribe(v.email)}>
+  {({ errors, touched }) => (
+    <Form>
+      <Field name="email" type="email" />
+      {touched.email && errors.email}
+      <button type="submit">Join</button>
+    </Form>
+  )}
+</Formik>
+```
+
+## Real-World Applications
+
+Multi-step signup wizard with shared Formik state across steps and server-side field errors mapped back into `setErrors`.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast to ship medium forms with validation UX.
+- **Con:** Large forms may prefer React Hook Form for fewer re-renders.
+
+## Comparison
+
+- vs controlled inputs alone: Formik adds validation/meta plumbing.
+
+## Mistakes to Avoid
+
+- Validating only on the client and trusting it on the server.
+- Remounting Formik on every parent render and wiping values.

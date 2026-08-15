@@ -1,12 +1,19 @@
-[[mongoose middleware]] [[mongodb model]] [[MongoDB]]
+[[mongoose middleware]] [[mongodb model]] [[MongoDB]] [[Design pattern/Static Members]]
 
 # Mongoose plugin
 
 > Mongoose plugin — a plugin is a function (schema, options) => void registered on a schema before mongoose.model(). Global plugins apply to every schema. Plugins compose
 
----
+## Interview Relevance
 
-## How it works
+Plugin questions cover reusable schema plugins and avoiding global side effects.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 A plugin is a function `(schema, options) => void` registered on a schema before `mongoose.model()`. Global plugins apply to every schema. Plugins compose: one adds soft-delete, another adds pagination, another adds audit fields.
 
@@ -16,8 +23,7 @@ schema.plugin(plugin, opts) → per-schema
 mongoose.plugin(plugin)       → global (all schemas)
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Write a plugin
 
@@ -58,18 +64,12 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 | Unique validator | async uniqueness check |
 | Audit | `createdBy`, `updatedBy` hooks |
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Don't plugin one-off business logic — plain schema methods or service layer is clearer.
+- Don't global-plugin heavy side effects (external API calls) without opt-in per schema.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Plugin hook never runs | Order of `plugin()` vs `model()` | Register plugin before `mongoose.model()` |
-| Global plugin breaks one schema | `schema.plugin` override | Disable per-schema or guard with option flag |
-| Duplicate index from plugin | `schema.indexes()` | Merge indexes; one plugin owns index |
-| Method not on document | Applied to wrong schema | Confirm `schema.plugin` on correct schema |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Plugin order matters** — pre-hooks run in registration order; conflicting plugins need explicit ordering.
@@ -78,17 +78,9 @@ mongoose.plugin(require('mongoose-sequence')); // example: auto-increment
 >
 > **Over-plugining** — magic behavior hides in hooks; hard to debug "who filtered this query?".
 
-
-## When not to use
-
-- Don't plugin one-off business logic — plain schema methods or service layer is clearer.
-- Don't global-plugin heavy side effects (external API calls) without opt-in per schema.
-
-
-## Related
-
-[[mongoose middleware]] [[mongodb model]] [[Design pattern/Static Members]]
-
-## Sources
-
-- [Wikipedia — Mongoose plugin](https://en.wikipedia.org/wiki/Mongoose_plugin)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Plugin hook never runs | Order of `plugin()` vs `model()` | Register plugin before `mongoose.model()` |
+| Global plugin breaks one schema | `schema.plugin` override | Disable per-schema or guard with option flag |
+| Duplicate index from plugin | `schema.indexes()` | Merge indexes; one plugin owns index |
+| Method not on document | Applied to wrong schema | Confirm `schema.plugin` on correct schema |

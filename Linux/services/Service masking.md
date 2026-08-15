@@ -1,33 +1,32 @@
-[[systemctl]] [[Services commands]] [[systemd]] [[bluetoothctl]]
+[[systemctl]] [[Services commands]] [[systemd]] [[bluetoothctl]] [[commands/systemctl]]
 
 # Service masking
 
-> Masking a systemd unit points it at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
+> Points a systemd unit at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
 
----
+## Interview Relevance
 
-## How it works
+Classic systemd trap: disable vs mask, mask sockets too, and never mask sshd/networkd without console access.
+
+## Sources
+
+- [systemd.unit(5) — mask](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive
+- [systemctl(1)](https://www.freedesktop.org/software/systemd/man/latest/systemctl.html) — overview
+
+## Key Concepts
+
+- **disable:** no auto-start; manual start still works.
+- **mask:** symlink to `/dev/null` — start always fails until unmask.
+- **`--now`:** stop immediately while masking.
+- **Sockets:** mask `foo.socket` too if activation respawns the service.
+
+## Technical Details
 
 ```txt
 enabled  → starts at boot
 disabled → no auto-start; manual start ok
 masked   → /etc/systemd/system/foo.service → /dev/null
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **mask** | Symlink to `/dev/null` | “Start always fails until unmask.” |
-| **disable** | Drop WantedBy links | “Manual start still works.” |
-| **mask --now** | Stop + mask | “Immediate.” |
-| **socket unit** | Activation path | “Mask socket too if it respawns.” |
-| **list-unit-files** | See masked | “`--state=masked`.” |
-
----
-
-
-## Configuration and commands
 
 ```bash
 sudo systemctl mask --now bluetooth.service
@@ -36,7 +35,6 @@ ls -l /etc/systemd/system/bluetooth.service
 sudo systemctl unmask bluetooth.service
 sudo systemctl enable --now bluetooth.service
 systemctl list-unit-files --state=masked
-# sockets
 sudo systemctl mask --now cups.socket cups.service
 ```
 
@@ -45,11 +43,6 @@ sudo systemctl mask --now cups.socket cups.service
 | Mask in `/etc` | Beats vendor unit in `/lib` |
 | Socket + service | Stops activation loops |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `Loaded: masked` | status | `unmask` if needed |
@@ -57,32 +50,22 @@ sudo systemctl mask --now cups.socket cups.service
 | Package re-enables | maintainer scripts | Mask again; divert |
 | Can’t mask | Read-only `/usr` | Mask via `/etc/systemd/system` |
 
----
+## Real-World Applications
 
+Hard-disable Bluetooth or CUPS on a locked-down server image so package scripts cannot quietly re-enable them.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Masking sshd/networkd** can lock you out — keep console/serial.
+- **Pro:** Reliable “stay dead” against reactivation paths.
+- **Con:** Easy lockout if you mask critical remote-access units.
 
-> [!WARNING]
-> **Mask ≠ uninstall** — binaries remain; remove package if attack surface matters.
+## Comparison
 
----
+- vs `disable`: softer; allows manual start.
+- vs uninstall: mask leaves binaries; remove the package if attack surface matters.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Temporary stop** — `stop`/`disable` is enough.
-- **Containers** — often no such units; don’t fight the image.
-
----
-
-
-## Related
-
-[[systemctl]] [[Services commands]] [[systemd]] [[bluetoothctl]]
-
-## Sources
-
-- [Wikipedia — Service masking](https://en.wikipedia.org/wiki/Service_masking)
+- Masking sshd/networkd without console/serial.
+- Masking only the `.service` when a `.socket` still activates it.
+- Treating mask as uninstall.

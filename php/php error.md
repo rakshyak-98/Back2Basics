@@ -1,103 +1,69 @@
-[[PHP-FPM]] [[apache/apache modules]] [[Nginx/Configuration]]
+[[PHP-FPM]] [[php]] [[apache modules]] [[Nginx]]
 
 # PHP errors
 
-> PHP errors — PHP in production usually sits behind Apache (mod_php rare now) or Nginx → PHP-FPM (Unix socket or TCP). "No listening sockets" means the
+> Triage blank pages, 502s, and bind failures — separate “web server cannot listen,” “FPM socket mismatch,” and “PHP threw inside the worker.”
 
----
+## Interview Relevance
 
-## How it works
+Interviewers watch your first commands: `ss`, service status, socket path alignment, then logs — not random restarts.
 
-PHP in production usually sits behind **Apache** (`mod_php` rare now) or **Nginx → PHP-FPM** (Unix socket or TCP). "No listening sockets" means the web server couldn't bind its port — often Apache still running or port 80/443 taken. PHP errors also surface in `error_log`, FPM pool logs, and HTTP 502 from Nginx when FPM is down.
+## Sources
 
+- [PHP — Error Handling](https://www.php.net/manual/en/book.errorfunc.php) — overview
+- [Nginx docs](https://nginx.org/en/docs/) — overview
 
-## Configuration and commands
+## Key Concepts
 
-### Find what's on port 80/443
+- **Port bind errors:** “no listening sockets” / address in use → Apache/Nginx conflict on 80/443.
+- **502 Bad Gateway:** front door up, upstream FPM down or wrong socket.
+- **500 from PHP:** worker ran; app/log has the exception (often with `display_errors=Off`).
+- **CLI vs FPM:** different ini files → “works in CLI” is not proof.
+
+## Technical Details
 
 ```bash
 sudo ss -tlnp | grep -E ':80|:443'
 sudo systemctl status apache2 nginx php*-fpm
+sudo php-fpm8.2 -t
+sudo tail -f /var/log/php8.2-fpm.log /var/log/nginx/error.log
 ```
 
-### Apache graceful restart
-
-```bash
-sudo apachectl configtest
-sudo systemctl restart apache2
-sudo tail -f /var/log/apache2/error.log
-```
-
-### PHP-FPM (with Nginx)
-
-```bash
-sudo php-fpm8.2 -t                    # or php-fpm -t
-sudo systemctl restart php8.2-fpm
-sudo tail -f /var/log/php8.2-fpm.log
-```
-
-### Nginx ↔ FPM socket must match
+Nginx and pool must agree:
 
 ```nginx
-# nginx site
 fastcgi_pass unix:/run/php/php8.2-fpm.sock;
 ```
 
 ```ini
-; /etc/php/8.2/fpm/pool.d/www.conf
 listen = /run/php/php8.2-fpm.sock
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `no listening sockets available, shutting down` | `ss -tlnp`, Apache already up | Stop duplicate Apache; free port 80 |
-| `Address already in use` | Conflicting nginx/apache | One listener per port; disable unused service |
-| 502 Bad Gateway | FPM running? socket path | Restart FPM; align socket in nginx + pool |
-| Blank page, no log | `display_errors` off | Check FPM/Apache error log; enable log in dev only |
-| `Permission denied` on socket | www-data group | `listen.owner/group/mode` in pool config |
-| Max children reached | FPM slow log | Raise `pm.max_children`; fix slow queries |
+| No listening sockets | `ss`, competing service | Free 80/443; one front server |
+| 502 | FPM status + socket | Restart FPM; align paths |
+| Blank page | App/FPM log | Log errors; fix exception |
+| Socket permission denied | owner/group/mode | Match `www-data` and Nginx user |
 
+## Real-World Applications
 
-## Steps
+After PHP upgrades, sockets rename (`php8.2` → `php8.3`) — update Nginx and reload both sides.
 
-1. …
+**Example:** Apache left enabled beside Nginx — bind failure on reboot; disable the unused service.
 
+## Pros/Cons or Trade-offs
 
-## Verification
+- **Pro:** Logs + socket model make failures localizable.
+- **Con:** Multiple logs (Nginx, FPM, app) — look at the right one first.
 
-```bash
-# …
-```
+## Comparison
 
+- vs [[PHP-FPM]] tuning: errors note is triage; FPM note is pool design.
+- vs Apache `mod_php`: fewer socket issues, worse isolation for modern apps.
 
-## Rollback
+## Mistakes to Avoid
 
-1. …
-
-
-## Gotchas
-
-> [!WARNING]
-> **`apachectl` vs `apache2ctl`** — wrong binary on Debian/Ubuntu = confusing paths.
->
-> **Editing php.ini but FPM uses pool ini** — `php_admin_value` in pool overrides.
->
-> **Opcache stale after deploy** — restart FPM on deploy or tune `validate_timestamps`.
-
-
-## When not to use
-
-- Don't enable `display_errors=On` in production — leaks paths and logic.
-- Don't run Apache and Nginx both binding :80 without intentional reverse-proxy setup.
-
-
-## Related
-
-[[PHP-FPM]] [[apache/apache modules]] [[Nginx/Configuration]] [[Linux/commands/journalctl]]
-
-## Sources
-
-- [Wikipedia — php error](https://en.wikipedia.org/wiki/php_error)
+- Restarting Nginx only when FPM is dead.
+- Enabling `display_errors` on production to “debug.”
+- Editing CLI `php.ini` and expecting the site to change.

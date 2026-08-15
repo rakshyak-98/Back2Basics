@@ -1,12 +1,30 @@
-[[javascript engine]] [[polyfills]] [[React build]] [[Security/Asymmetrical Encryption]] [[NodeJS]]
+[[javascript engine]] [[polyfills]] [[React build]] [[Security/Asymmetrical Encryption]] [[NodeJS]] [[web workers]] [[ServiceWorker]]
 
 # WebAssembly (Wasm)
 
 > WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **WebAssembly (Wasm)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [WebAssembly — Concepts](https://webassembly.org/docs/wasm-or-asmjs/) — overview
+- [MDN — WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly) — deep-dive
+- [Wikipedia — wasm](https://en.wikipedia.org/wiki/wasm) — overview
+
+## Core Definition
+
+Wasm runs in the same **agent** as JS with:
+
+## Key Concepts
+
+- Wasm runs in the same **agent** as JS with:
+- **Linear memory** (ArrayBuffer view) - **Table** of function refs - **No GC objects** (until Wasm GC proposal wider adoption)
+- Typical uses: crypto, codecs, image/audio processing, game physics, porting legacy libs — **not** a full DOM/UI replacement.
+
+## Technical Details
 
 ```txt
 Rust/C/...  →  wasm-pack / emscripten  →  .wasm module
@@ -25,11 +43,6 @@ Typical uses: crypto, codecs, image/audio processing, game physics, porting lega
 ```txt
 JS (UI, network)  ←→  Wasm (hot loop, crypto kernel)
 ```
-
----
-
-
-## Configuration and commands
 
 ### Load module (browser)
 
@@ -66,47 +79,28 @@ const wasm = await WebAssembly.compile(await readFile("add.wasm"));
 const { instance } = await WebAssembly.instantiate(wasm, {});
 ```
 
----
+## Real-World Applications
 
+In production APIs and tooling, **wasm** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetrical Encryption]]); **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `CompileError` | Wrong MIME / corrupt file | Server `application/wasm`; rebuild |
-| Memory grow fail | Linear memory max | `memory.grow` pages; tune allocator |
-| DOM access from Wasm | Not allowed | Bridge through JS exports |
-| Huge download | Debug build | `wasm-opt -Oz`; release profile |
-| CORS on wasm fetch | Cross-origin module | Same-origin or CORS headers |
-| iOS older Safari | SIMD/threads unsupported | Feature detect; scalar fallback |
+- **Pro:** Solves the job described above when used in the right layer (WebAssembly (Wasm) — rust/C/... → wasm-pack / emscripten → .wasm module).
+- **Con / when not:** **Simple CRUD UI** — JS is faster to ship and debug.
+- **Con / when not:** **Full application rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
+- **Con / when not:** **When Web Crypto API suffices** — native `crypto.subtle` before bundling Rust crypto.
 
----
+## Comparison
 
+vs [[javascript engine]]: know when each applies — do not treat them as interchangeable. vs [[polyfills]]: know when each applies — do not treat them as interchangeable. vs [[React build]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetrical Encryption]]).
-
-> [!WARNING]
-> **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.
-
----
-
-
-## When not to use
-
-- **Simple CRUD UI** — JS is faster to ship and debug.
-- **Full application rewrite in C++** — poor DOM/styling story; use Wasm for hot paths only.
-- **When Web Crypto API suffices** — native `crypto.subtle` before bundling Rust crypto.
-
----
-
-
-## Related
-
-[[javascript engine]] · [[web workers]] · [[ServiceWorker]] · [[polyfills]] · [[React build]]
-
-## Sources
-
-- [Wikipedia — wasm](https://en.wikipedia.org/wiki/wasm)
+- **"Wasm hides secrets"** — client-side crypto keys are still extractable; use Wasm for performance, not trust boundary alone ([[Security/Asymmetrical Encryption]]).
+- **Copy overhead JS ↔ Wasm** — batch work on large TypedArrays; minimize boundary calls.
+- **`CompileError`:** check Wrong MIME / corrupt file; fix: Server `application/wasm`; rebuild
+- **Memory grow fail:** check Linear memory max; fix: `memory.grow` pages; tune allocator
+- **DOM access from Wasm:** check Not allowed; fix: Bridge through JS exports
+- **Huge download:** check Debug build; fix: `wasm-opt -Oz`; release profile
+- **CORS on wasm fetch:** check Cross-origin module; fix: Same-origin or CORS headers
+- **iOS older Safari:** check SIMD/threads unsupported; fix: Feature detect; scalar fallback

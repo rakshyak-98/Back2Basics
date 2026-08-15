@@ -1,37 +1,38 @@
-[[System Design]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]]
+[[System Design]] [[cache system]] [[ETAG or IF MATCH]] [[Real-time Subscription]] [[Authentication web application]]
 
 # Data fetching Frontend
 
 > Frontend data fetching — load remote state into the UI with caching, dedupe, and clear loading/error paths (not ad-hoc `useEffect` soup).
 
----
+## Interview Relevance
 
-## How it works
+Query-cache keys, invalidation after mutations, waterfall avoidance, and auth refresh races.
+
+## Sources
+
+- TanStack Query / SWR documentation — overview
+- [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111) — HTTP caching related patterns — overview
+
+## Key Concepts
+
+- **Layers:** API module → cache (React Query/SWR) → UI states.
+- **Stale-while-revalidate:** serve cache; refresh in background.
+- **Invalidate on mutate:** keep UI coherent after POST/PATCH.
+- **Complete query keys:** filters belong in the key.
+
+## Technical Details
 
 ```txt
 UI → query hook → cache → network → API
          ↑ invalidate / setQueryData
 ```
 
-| Layer | Job |
-|-------|-----|
-| API service module | URLs, auth headers, typed errors |
-| Cache (React Query/SWR) | Stale-while-revalidate |
-| UI | Loading / empty / error states |
-
----
-
-
-## Configuration and commands
-
 ```ts
-// Conceptual React Query
 const { data, error, isLoading } = useQuery({
   queryKey: ['user', id],
   queryFn: () => api.getUser(id),
   staleTime: 30_000,
 })
-
 useMutation({
   mutationFn: api.updateUser,
   onSuccess: () => qc.invalidateQueries({ queryKey: ['user', id] }),
@@ -40,53 +41,34 @@ useMutation({
 
 | Knob | Why |
 |------|-----|
-| `staleTime` | Avoid refetch storms |
-| `retry` | Flaky mobile nets |
+| staleTime | Avoid refetch storms |
+| retry | Flaky mobile nets |
 | Suspense/boundaries | Consistent UX |
 
----
+| Symptom | Fix |
+|---------|-----|
+| Double fetch StrictMode | Use Query/SWR; abort |
+| Stale UI after POST | Invalidate/setQueryData |
+| Waterfalls | Parallel + consolidate endpoints |
+| Auth flicker | Single refresh mutex |
 
+## Real-World Applications
 
-## When things break
+SPA dashboards, mobile web apps, and BFFs feeding typed hooks.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Double fetch StrictMode | Effect without cache | Use Query/SWR; or abort |
-| Stale UI after POST | No invalidate | Invalidate/setQueryData |
-| Waterfalls | Serial awaits | Parallel + consolidate endpoints |
-| Auth flicker | Race token refresh | Single refresh mutex |
-| CORS only in browser | See CORS note | Fix API headers |
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** Deduped fetches; fewer loading bugs.
+- **Con:** Cache-key mistakes show wrong data.
+- **Trade-off:** server-state libraries vs global client stores for remote data.
 
+## Comparison
 
-## Gotchas
+- vs [[Real-time Subscription]]: push updates vs pull/query cache.
+- vs [[cache system]]: browser/query cache is one cache layer.
 
-> [!WARNING]
-> **`useEffect` fetch without cleanup** — setState on unmounted; race on id change.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Cache key incompleteness** — missing filter ⇒ wrong data reuse.
-
-> [!WARNING]
-> **Global state for server data** — duplicates cache responsibility.
-
----
-
-
-## When not to use
-
-- **Fully static site** — bake data at build.
-- **Local-only UI state** — form drafts stay in component state.
-- **Binary streaming media** — players/MSE, not JSON hooks.
-
----
-
-
-## Related
-
-[[cache system]] [[Real-time Subscription]] [[Authentication web application]] [[ETAG or IF MATCH]]
-
-## Sources
-
-- [Wikipedia — Data fetching Frontend](https://en.wikipedia.org/wiki/Data_fetching_Frontend)
+- `useEffect` fetch without cleanup / race on id change.
+- Incomplete cache keys.
+- Putting server data only in Redux without a fetch cache.

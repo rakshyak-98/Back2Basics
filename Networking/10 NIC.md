@@ -1,34 +1,43 @@
-[[ethtool]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[Egress traffic]]
+[[ethtool]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[UDP]] [[Egress traffic]] [[Egress and Ingress]]
 
 # NIC (10 NIC)
 
-> Network Interface Card — hardware (or virtio) port that moves L2 frames between host memory and the wire; 10G = ~10 Gbps line rate baseline for server workloads.
+> Network Interface Card — hardware (or virtio) port that moves L2 frames between host memory and the wire; 10G is the common server step-up from 1G.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about NICs to see if you separate line rate from application throughput, and whether you debug speed, PCIe, softirq, and packet-per-second limits — not only “buy a faster card.”
 
-A **NIC** terminates Ethernet (or IB) and exposes a **kernel netdev** (`eth0`, `ens5`):
+## Sources
 
-```txt
-App ──socket──► kernel TCP/IP ──► driver ring ──► NIC ──► switch
-                                      ▲
-                                      └── [[ethtool]] stats, offloads
-```
+- [Wikipedia — Network interface controller](https://en.wikipedia.org/wiki/Network_interface_controller) — overview
+- [ethtool(8) — Linux manual page](https://man7.org/linux/man-pages/man8/ethtool.8.html) — deep-dive
+- [Linux — Scaling in the Linux Networking Stack](https://docs.kernel.org/networking/scaling.html) — deep-dive
+
+## Key Concepts
+
+- **NIC / netdev:** terminates Ethernet (or IB) and exposes a kernel interface (`eth0`, `ens5`).
+- **Line rate vs goodput:** headline Gbps is theoretical; TCP window, RTT, and loss dominate WAN.
+- **PPS bottleneck:** small packets can exhaust CPU/IRQ before you hit Gbps.
+- **Multi-queue / RSS:** spreads RX interrupts across cores — single-queue NICs pin one CPU.
 
 Speed tiers (common server):
+
 | Speed | Approx throughput (theoretical) |
 |-------|----------------------------------|
 | 1 GbE | ~125 MB/s |
 | 10 GbE | ~1.25 GB/s |
 | 25/100 GbE | datacenter / AI fabric |
 
-**10G** is the usual step up when 1G saturates (storage, video ingest, K8s node east-west). Bottleneck moves to **PCIe lanes**, **CPU softirq**, and **packet rate** (PPS), not headline Gbps alone.
+**10G** is the usual step up when 1G saturates (storage, video ingest, Kubernetes node east-west). Bottleneck moves to **PCIe lanes**, **CPU softirq**, and **packet rate** (PPS), not headline Gbps alone.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+App ──socket──► kernel TCP/IP ──► driver ring ──► NIC ──► switch
+                                      ▲
+                                      └── [[ethtool]] stats, offloads
+```
 
 ### Identify NIC and link
 
@@ -61,11 +70,6 @@ ip -s link show ens5
 
 **Why multiple queues:** single-queue NIC + many cores → one CPU handles all RX interrupts.
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Throughput plateaus below 10G | `ethtool` speed; PCIe width | Fix autoneg; x8 vs x16 slot; upgrade instance |
@@ -73,34 +77,28 @@ ip -s link show ens5
 | Latency spikes | coalesce settings | Tune `ethtool -c`; disable LRO on forwarders |
 | VM shows 10G but slow | Credit-based limit | Right-size instance; check [[Egress traffic]] caps |
 
----
+## Real-World Applications
 
+Database replicas, video ingest nodes, and Kubernetes workers that saturate 1G east-west or storage traffic.
 
-## Gotchas
+**Example:** Backup job tops out at ~110 MB/s on a “10G” VM — `ethtool` shows 1000 Mb/s because autoneg fell back; fixing the SFP/cable restores 10G.
 
-> [!WARNING]
-> **Line rate ≠ application throughput** — TCP window, RTT, and loss dominate WAN.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Jumbo frames (9000 MTU)** — end-to-end path must support; mismatch → black hole or fragmentation.
+- **Pro:** Higher line rate removes the NIC as the first bottleneck for local/datacenter transfers.
+- **Con:** Needs matching switch ports, cabling, and often more CPU for PPS.
+- **Con:** Cloud “10G” may still be credit-limited by instance type.
+- **Trade-off:** Jumbo frames (9000 MTU) help bulk transfers only if the entire path agrees.
 
-> [!WARNING]
-> **Bonding/VLAN** — stats on slave vs master; troubleshoot correct iface.
+## Comparison
 
----
+- vs [[ethtool]]: NIC is the hardware/netdev; ethtool is how you query and tune it.
+- vs [[MTU (Maximum Transmission Unit)]]: frame size policy on the path; NIC must support and negotiate it.
+- vs [[Egress traffic]] caps: a fast NIC does not bypass cloud NAT or internet egress limits.
 
+## Mistakes to Avoid
 
-## When not to use
-
-Don't deploy 10G NICs without **switch ports and storage** to match — 10G east-west with 1G uplink shifts bottleneck to [[Egress traffic]] only.
-
----
-
-
-## Related
-
-[[ethtool]] [[MTU (Maximum Transmission Unit)]] [[TCP]] [[UDP]] [[Egress and Ingress]]
-
-## Sources
-
-- [Wikipedia — 10 NIC](https://en.wikipedia.org/wiki/10_NIC)
+- Equating line rate with application throughput — TCP window, RTT, and loss dominate WAN.
+- Enabling jumbo frames without end-to-end path support — black hole or fragmentation.
+- Reading bonding/VLAN stats on the wrong iface (slave vs master).
+- Deploying 10G NICs without matching switch ports and storage — bottleneck just moves to the uplink.

@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongosh query]] [[mongodb schema]]
+[[MongoDB]] [[mongosh query]] [[mongodb schema]] [[mongodb sharding]]
 
 # mognodb indexing
 
 > Indexes make MongoDB finds fast — without them, every query is a collection scan.
 
----
+## Interview Relevance
 
-## How it works
+Index interviews check compound key order, ESR rule, covered queries, and when indexes hurt writes.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
@@ -21,10 +28,7 @@ Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
 | **IXSCAN vs COLLSCAN** | Index vs full scan | “explain() tells you.” |
 | **TTL / text / 2dsphere** | Special indexes | “Expiry, search, geo.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.users.createIndex({ email: 1 }, { unique: true })
@@ -42,10 +46,18 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Partial filter | Smaller index |
 | Background (legacy) | Prefer rolling builds on replica set |
 
----
+## Pros/Cons or Trade-offs
 
+- **Tiny collections** — scan is fine.
+- **Fields never queried** — don’t index “just in case.”
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Left-prefix rule** — `{a:1,b:1}` helps `{a}` and `{a,b}`, not `{b}` alone.
+
+> [!WARNING]
+> **Indexes aren’t free** — each slows inserts/updates and uses RAM/disk.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,30 +66,3 @@ db.users.find({ email: 'a@b.c' }).explain('executionStats')
 | Unique violation | Dup keys | Clean data; fix app |
 | Sort in memory | No index for sort | Extend compound index |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Left-prefix rule** — `{a:1,b:1}` helps `{a}` and `{a,b}`, not `{b}` alone.
-
-> [!WARNING]
-> **Indexes aren’t free** — each slows inserts/updates and uses RAM/disk.
-
----
-
-
-## When not to use
-
-- **Tiny collections** — scan is fine.
-- **Fields never queried** — don’t index “just in case.”
-
-
-## Related
-
-[[mongosh query]] [[mongodb schema]] [[mongodb sharding]]
-
-## Sources
-
-- [Wikipedia — mognodb indexing](https://en.wikipedia.org/wiki/mognodb_indexing)

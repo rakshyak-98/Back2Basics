@@ -1,12 +1,41 @@
-[[DRM]] [[IPTV]] [[MPEG-TS]] [[Streaming]] [[ingestion]]
+[[DRM]] [[IPTV]] [[MPEG-TS]] [[Streaming]] [[ingestion]] [[Multicast]] [[EME]] [[Compliance Reporting to Broadcasters]] [[tsduck]]
 
 # CAS (Conditional Access System)
 
 > CAS controls who can watch scrambled pay-TV — headend encrypts; only entitled STBs get the control word.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk CAS end-to-end — not just name it. Signal fluency with **CAS**, **CW**, **ECM**, **EMM** and when you would pick a different path.
+
+## Sources
+
+- [Wikipedia — CAS](https://en.wikipedia.org/wiki/CAS) — overview
+
+## Key Concepts
+
+- **CAS:** Pay-TV access control — “Only entitled STBs decrypt the scrambled channel.”
+- **CW:** Short-lived stream key — “Control word rotates every few seconds.”
+- **ECM:** Message carrying encrypted CW — “Comes with the channel; needed to decrypt *now*.”
+- **EMM:** Subscriber rights update — “Turns packages on/off for a card or client.”
+- **Scrambler:** Headend encryptor — “Clear encode → scrambled TS out.”
+- **[[DRM]]:** OTT/CDM cousin — “Browsers use DRM; classic STBs use CAS.”
+
+**Flow:**
+
+1. **Scramble** — headend encrypts the service.
+2. **Signal** — ECMs carry the current CW; EMMs carry entitlements.
+3. **Authorize** — STB/card checks package rights.
+4. **Decrypt** — entitled client gets CW and plays; otherwise black screen.
+
+| Purpose | What CAS does |
+|---------|---------------|
+| Encrypt TV channels | Scrambler encrypts [[MPEG-TS]] (or similar) at headend |
+| Authenticate subscribers | Smart card / secure client proves entitlement |
+| Prevent unauthorized viewing | No valid CW → black screen |
+| Support packages / PPV | EMM grants or revokes channel rights |
+
+## Technical Details
 
 ```txt
 Video source → Encoder → Scrambler
@@ -21,36 +50,6 @@ Video source → Encoder → Scrambler
                               │
               Entitled? → CW → decrypt → watch
 ```
-
-| Purpose | What CAS does |
-|---------|---------------|
-| Encrypt TV channels | Scrambler encrypts [[MPEG-TS]] (or similar) at headend |
-| Authenticate subscribers | Smart card / secure client proves entitlement |
-| Prevent unauthorized viewing | No valid CW → black screen |
-| Support packages / PPV | EMM grants or revokes channel rights |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **CAS** | Pay-TV access control | “Only entitled STBs decrypt the scrambled channel.” |
-| **CW** | Short-lived stream key | “Control word rotates every few seconds.” |
-| **ECM** | Message carrying encrypted CW | “Comes with the channel; needed to decrypt *now*.” |
-| **EMM** | Subscriber rights update | “Turns packages on/off for a card or client.” |
-| **Scrambler** | Headend encryptor | “Clear encode → scrambled TS out.” |
-| **[[DRM]]** | OTT/CDM cousin | “Browsers use DRM; classic STBs use CAS.” |
-
-### How the story goes (4 steps)
-
-1. **Scramble** — headend encrypts the service.
-2. **Signal** — ECMs carry the current CW; EMMs carry entitlements.
-3. **Authorize** — STB/card checks package rights.
-4. **Decrypt** — entitled client gets CW and plays; otherwise black screen.
-
----
-
-
-## Configuration and commands
 
 operations knobs live in the CAS vendor console + scrambler — there is no universal open CLI. Typical checks from the transport side:
 
@@ -72,50 +71,7 @@ ffprobe -hide_banner udp://@<addr>:<port>   # programs present?
 
 Debug path: SI tables (CAT/PMT) → ECM present → subscription in CAS OSS → force EMM → STB pairing logs.
 
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Black screen / "Not Authorized" | Subscription active? EMM refreshed? | Re-provision entitlements; force EMM push |
-| One channel only fails | ECM present in TS? Scrambler PID | Verify ECM PID in SI tables; headend scrambler config |
-| All channels fail after card swap | Smart card paired to STB? | Re-pair card; verify CAS ID / box ID in CAS server |
-| Intermittent freeze / macroblocking | CW rotation sync | Check ECM timing vs scrambler; clock skew on headend |
-| IPTV multicast works clear, fails scrambled | IGMP + CAS path | Confirm STB reaches CAS over return path (IP or phone line) |
-| OTT app works, STB does not | Wrong protection stack | STB needs CAS; app needs [[DRM]] — don't mix license paths |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Leaked CW is short-lived** — but ECM replay within the rotation window can still enable piracy; monitor headend ECM injection.
-
-> [!WARNING]
-> **EMM lag** — new subscription may take minutes until EMM reaches STB; don't promise instant activation without CAS ops confirmation.
-
-> [!WARNING]
-> **CAS ≠ DRM** — putting Widevine on an operator STB line does not replace broadcast CAS; hybrid ops need two KMS stacks.
-
-> [!WARNING]
-> **Card-sharing / cloned smart cards** — operator fraud vector; CAS vendor anti-piracy modules (renewable security) required in contracts.
-
----
-
-
-## When not to use
-
-- **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
-- **Clear internal feeds** — corporate LAN multicast without subscriber billing rarely needs scrambling overhead.
-- **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
-
----
-
-
-## Components
+### Components
 
 | Component | Purpose |
 |-----------|---------|
@@ -149,10 +105,7 @@ Decrypted Video
 
 The CW changes frequently to limit the usefulness of leaked keys.
 
----
-
-
-## Standard flow / example
+### Standard flow / example
 
 A user subscribes to the **Sports Package**:
 
@@ -170,10 +123,7 @@ If the subscription expires:
 - No usable Control Word.
 - Black screen or **"Channel Not Authorized."**
 
----
-
-
-## CAS vs DRM
+### CAS vs DRM
 
 | Feature | CAS | [[DRM]] |
 |---------|-----|---------|
@@ -185,10 +135,7 @@ If the subscription expires:
 | Offline playback | Typically no | Often supported |
 | Examples | Nagra, Irdeto, Conax, Viaccess-Orca | Widevine, PlayReady, FairPlay |
 
----
-
-
-## CAS in IPTV
+### CAS in IPTV
 
 For [[IPTV]], the flow is:
 
@@ -206,10 +153,7 @@ Set-Top Box
 
 The STB communicates with the CAS server to obtain decryption information before playing the channel. See also [[Multicast]] for multicast delivery patterns.
 
----
-
-
-## CAS in OTT
+### CAS in OTT
 
 Traditional CAS is generally **not** used for browser-based or mobile OTT services. Instead, OTT platforms use **[[DRM]]** systems such as:
 
@@ -224,10 +168,7 @@ Some operators deploy **CAS + DRM together**:
 
 In modern video platforms, it is common to see **CAS protecting managed IPTV or broadcast services**, while **DRM protects OTT services**, allowing the same content to be securely delivered across different device types.
 
----
-
-
-## Popular CAS vendors
+### Popular CAS vendors
 
 - Nagravision
 - Irdeto
@@ -235,13 +176,34 @@ In modern video platforms, it is common to see **CAS protecting managed IPTV or 
 - Conax
 - Verimatrix
 
----
+## Real-World Applications
 
+Used wherever CAS sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## Related
+## Pros/Cons or Trade-offs
 
-[[DRM]] [[IPTV]] [[MPEG-TS]] [[Multicast]] [[EME]] [[Streaming]] [[ingestion]] [[Compliance Reporting to Broadcasters]] [[tsduck]]
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
+- **Con / skip when:** **Clear internal feeds** — corporate LAN multicast without subscriber billing rarely needs scrambling overhead.
+- **Con / skip when:** **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
 
-## Sources
+## Comparison
 
-- [Wikipedia — CAS](https://en.wikipedia.org/wiki/CAS)
+- vs [[DRM]]: **Browser or mobile OTT** — use [[DRM]] + [[EME]]; CAS has no CDM in Chrome/Safari.
+- vs [[DRM]]: **VOD-only SaaS** — tokenized HTTPS URLs + [[DRM]] suffice; CAS headend cost unjustified.
+
+## Mistakes to Avoid
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Black screen / "Not Authorized" | Subscription active? EMM refreshed? | Re-provision entitlements; force EMM push |
+| One channel only fails | ECM present in TS? Scrambler PID | Verify ECM PID in SI tables; headend scrambler config |
+| All channels fail after card swap | Smart card paired to STB? | Re-pair card; verify CAS ID / box ID in CAS server |
+| Intermittent freeze / macroblocking | CW rotation sync | Check ECM timing vs scrambler; clock skew on headend |
+| IPTV multicast works clear, fails scrambled | IGMP + CAS path | Confirm STB reaches CAS over return path (IP or phone line) |
+| OTT app works, STB does not | Wrong protection stack | STB needs CAS; app needs [[DRM]] — don't mix license paths |
+
+- **Leaked CW is short-lived** — but ECM replay within the rotation window can still enable piracy; monitor headend ECM injection.
+- **EMM lag** — new subscription may take minutes until EMM reaches STB; don't promise instant activation without CAS ops confirmation.
+- **CAS ≠ DRM** — putting Widevine on an operator STB line does not replace broadcast CAS; hybrid ops need two KMS stacks.
+- **Card-sharing / cloned smart cards** — operator fraud vector; CAS vendor anti-piracy modules (renewable security) required in contracts.

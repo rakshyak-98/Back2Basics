@@ -1,12 +1,28 @@
-[[NodeJS]] [[CLI]] [[Stream]]
+[[NodeJS]] [[CLI]] [[Stream]] [[REPL]] [[node command]]
 
 # Node.js stdin / readline inputs
 
 > Node.js stdin / readline inputs — CLI tools get input from process.stdin (readable stream) and write to process.stdout. The readline module provides an Interface that emits
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Node.js stdin / readline inputs** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Node.js — Readline](https://nodejs.org/api/readline.html) — deep-dive
+- [Wikipedia — inputs](https://en.wikipedia.org/wiki/inputs) — overview
+
+## Core Definition
+
+CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for each newline-terminated chunk — no manual buffering.
+
+## Key Concepts
+
+- CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for …
+- For password input, use `readline` with muted output or a dedicated package. For one-shot arguments, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactiv…
+
+## Technical Details
 
 CLI tools get input from **`process.stdin`** (readable stream) and write to **`process.stdout`**. The `readline` module provides an **Interface** that emits `'line'` events for each newline-terminated chunk — no manual buffering.
 
@@ -17,9 +33,6 @@ prompt ───────────────────────┴�
 ```
 
 For password input, use `readline` with muted output or a dedicated package. For one-shot arguments, prefer `process.argv` or a CLI parser (`commander`, `yargs`) over interactive prompts in scripts.
-
-
-## Configuration and commands
 
 ### Basic prompt loop
 
@@ -82,42 +95,30 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', (chunk) => { /* chunk may be partial line */ });
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **inputs** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Partial lines on raw `data` events** — lines can split across chunks; use readline or buffer until `
+`; **Logging while prompting** — concurrent `console.log` corrupts prompt; pause interface or serialize output.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Prompt never appears | stdin not TTY | Check `process.stdin.isTTY`; support argv fallback |
-| Double echo | Raw mode + readline | Don't mix; pick one API |
-| Script hangs at end | Interface not closed | `rl.close()` in finally |
-| Broken pipes | Piped to `head` | Ignore `EPIPE` on stdout |
-| Unicode garbled | Encoding | `setEncoding('utf8')` on stdin |
-| `ReferenceError: stdir` | Typo | Use `stdin`, not `stdir` |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (Node.js stdin / readline inputs — CLI tools get input from process.stdin (readab…).
+- **Con / when not:** **HTTP/API input** — use request body parsers, not readline.
+- **Con / when not:** **Binary stdin** — use stream `read()` without UTF-8 encoding.
+- **Con / when not:** **Complex CLI** — use `commander`/`yargs` for flags/subcommands.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **Partial lines on raw `data` events** — lines can split across chunks; use readline or buffer until `\n`.
+vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable. vs [[REPL]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **Logging while prompting** — concurrent `console.log` corrupts prompt; pause interface or serialize output.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **CI/non-interactive** — always provide env/flag bypass for automation.
-
-
-## When not to use
-
-- **HTTP/API input** — use request body parsers, not readline.
-- **Binary stdin** — use stream `read()` without UTF-8 encoding.
-- **Complex CLI** — use `commander`/`yargs` for flags/subcommands.
-
-
-## Related
-
-[[CLI]] [[REPL]] [[Stream]] [[node command]]
-
-## Sources
-
-- [Wikipedia — inputs](https://en.wikipedia.org/wiki/inputs)
+- **Partial lines on raw `data` events** — lines can split across chunks; use readline or buffer until `\n`.
+- **Logging while prompting** — concurrent `console.log` corrupts prompt; pause interface or serialize output.
+- **CI/non-interactive** — always provide env/flag bypass for automation.
+- **Prompt never appears:** check stdin not TTY; fix: Check `process.stdin.isTTY`; support argv fallback
+- **Double echo:** check Raw mode + readline; fix: Don't mix; pick one API
+- **Script hangs at end:** check Interface not closed; fix: `rl.close()` in finally
+- **Broken pipes:** check Piped to `head`; fix: Ignore `EPIPE` on stdout
+- **Unicode garbled:** check Encoding; fix: `setEncoding('utf8')` on stdin
+- **`ReferenceError: stdir`:** check Typo; fix: Use `stdin`, not `stdir`

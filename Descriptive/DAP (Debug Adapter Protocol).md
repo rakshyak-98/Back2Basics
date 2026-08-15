@@ -1,12 +1,18 @@
-[[Descriptive]] [[LSP]] [[Debugger configuratoin]]
+[[Descriptive]] [[LSP]] [[Debugger configuratoin]] [[How does debugger work]]
 
 # DAP (Debug Adapter Protocol)
 
 > DAP is how editors talk to debuggers — breakpoints, stacks, and variables over a standard protocol (cousin of LSP).
 
----
+## Interview Relevance
 
-## How it works
+DAP contrasts with LSP — debugging protocol for breakpoints/stacks; interviewers want the split clear.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
@@ -21,10 +27,7 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | **Stopped event** | Hit breakpoint | “UI shows stack.” |
 | **vs LSP** | Debug ≠ IntelliSense | “Different servers.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```json
 // launch.json request shapes map to DAP launch/attach
@@ -37,10 +40,18 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | Port / pipe | How IDE connects |
 | Path mappings | Remote/container debug |
 
----
+## Pros/Cons or Trade-offs
 
+- **Log-only investigation** — sometimes enough.
+- **production pausing** — prefer tracing/metrics.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **LSP green ≠ DAP ready** — language server doesn’t set breakpoints.
+
+> [!WARNING]
+> **Container path mismatch** — breakpoints need `localRoot`/`remoteRoot`.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,30 +60,3 @@ VS Code/Cursor ↔ DAP adapter ↔ node/gdb/lldb/…
 | Unbound BP | path map | Align remote paths |
 | No variables | optimize-out | Debug build / less optimize |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **LSP green ≠ DAP ready** — language server doesn’t set breakpoints.
-
-> [!WARNING]
-> **Container path mismatch** — breakpoints need `localRoot`/`remoteRoot`.
-
----
-
-
-## When not to use
-
-- **Log-only investigation** — sometimes enough.
-- **production pausing** — prefer tracing/metrics.
-
-
-## Related
-
-[[LSP]] [[Debugger configuratoin]] [[How does debugger work]]
-
-## Sources
-
-- [Wikipedia — DAP](https://en.wikipedia.org/wiki/DAP)

@@ -1,154 +1,71 @@
-[[MCP]] [[webSocket]] [[JWT authentication]] [[gRPC]]
+[[MCP]] [[JWT authentication]] [[webSocket]]
 
 # MCP Client
 
-> Model Context Protocol client ops — how Cursor and tooling hosts discover, auth, invoke, and debug MCP servers — **MCP spec (Anthropic ecosystem)**.
+> Host-side MCP operations — discover servers, authenticate, list tools/resources/prompts, invoke calls with timeouts, and debug failures.
 
----
+## Interview Relevance
 
-## How it works
+Platform interviews: client mediates the LLM (model never speaks raw to your DB), schema caching, and auth token storage.
 
-An **MCP client** (Cursor, Claude Desktop, custom SDK host) connects to one or more **MCP servers** that expose **tools**, **resources**, and **prompts** over a transport. The LLM never talks to your server directly — the client mediates capability discovery and tool calls.
+## Sources
+
+- [MCP — Clients](https://modelcontextprotocol.io/docs/concepts/architecture) — deep-dive
+- [Cursor — MCP docs](https://docs.cursor.com/) — overview
+
+## Key Concepts
+
+- **Mediation:** LLM selects a tool → client validates/calls server → result returns to context.
+- **tools/list & tools/call:** schema discovery + invocation.
+- **resources/read & prompts/get:** context and templates.
+- **Auth:** OAuth/API keys stored by the client, not the model.
+
+## Technical Details
 
 ```txt
-┌──────────────┐   JSON-RPC    ┌──────────────┐   SQL/API   ┌──────────┐
-│  MCP Client  │ ◄───────────► │  MCP Server  │ ──────────► │ Backend  │
-│  (Cursor)    │  stdio/HTTP   │  (postgres,  │             │          │
-└──────┬───────┘               │   github…)   │             └──────────┘
-       │                       └──────────────┘
-       ▼
-   LLM selects tool → client calls server → result injected into context
+MCP Client ←JSON-RPC→ MCP Server → Backend API/DB
+LLM picks tool → client executes → result to model
 ```
 
-| Surface | Client responsibility |
-|---------|----------------------|
-| **tools/list** | Cache schema; show model what exists |
-| **tools/call** | Validate args; enforce timeouts; redact secrets in logs |
-| **resources/read** | Fetch file/DB rows into context window |
-| **prompts/get** | Template expansion for repeatable workflows |
-| **auth** | OAuth/API keys — client stores tokens, not the model |
-
-**Transport:** `stdio` (local subprocess — most Cursor servers), `SSE/HTTP` (remote), streamable HTTP (specification evolution — see [[MCP]]).
-
----
-
-
-## Configuration and commands
-
-### Cursor MCP config (`~/.cursor/mcp.json` or project `.cursor/mcp.json`)
+Cursor-style config (`~/.cursor/mcp.json` or project `.cursor/mcp.json`):
 
 ```json
 {
   "mcpServers": {
-    "postgres": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"],
-      "env": {}
-    },
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}"
-      }
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}" }
     }
   }
 }
 ```
 
-### Client-side invocation flow (SDK mental model)
-
-```txt
-1. initialize → negotiate protocol version + capabilities
-2. tools/list → [{ name, description, inputSchema }]
-3. (model turn) → tools/call { name, arguments }
-4. server executes → { content: [{ type: "text", text: "..." }], isError?: bool }
-5. client attaches result to conversation; may truncate large payloads
-```
-
-### Debugging local server
-
-```shell
-# Run server manually — same command as mcp.json
-npx -y @modelcontextprotocol/server-filesystem /tmp
-
-# Inspect stderr (stdio transport uses stdout for protocol; logs go stderr)
-MCP_DEBUG=1 npx -y @modelcontextprotocol/server-postgres "$DATABASE_URL"
-
-# Verify tool schema
-# Cursor: GetMcpTools / MCP panel — or use @modelcontextprotocol/inspector
-npx @modelcontextprotocol/inspector npx -y @modelcontextprotocol/server-filesystem /tmp
-```
-
-### Timeouts and limits (host settings)
-
-```txt
-Tool call timeout:     30–120s default — override for long migrations
-Max result size:     truncate + offer pagination resource
-Concurrent calls:    serialize if server isn't thread-safe
-Retry:               idempotent reads yes; writes no blind retry
-```
-
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Server not listed in Cursor | MCP settings → logs; JSON syntax | Fix `mcp.json`; restart Cursor |
-| `needsAuth` / 401 | Server status; OAuth flow | Run `mcp_auth`; refresh token |
-| Tool call hangs | Server stderr; backend connectivity | Timeout; fix DB URL / VPN |
-| `command not found` | `which npx`; PATH in GUI app | Absolute path to node/npx in config |
-| Empty tool list | Server startup crash on import | Run command manually; fix env vars |
-| Works in CLI, not Cursor | Cursor inherits different env | Put secrets in `env` block, not shell profile |
-| Protocol version error | Client vs server version skew | Update server package or pin version |
+| Server missing | JSON config | Validate; restart host |
+| Timeouts | Server logs | Fix blocking I/O; raise timeout |
+| Auth errors | Token/OAuth | Re-auth; rotate secrets |
+| Garbled stdio | Debug prints on stdout | Log to stderr only |
 
-```shell
-# macOS/Linux: GUI apps often lack your shell PATH
-# Use full paths:
-"command": "/usr/local/bin/npx"
-```
+## Real-World Applications
 
----
+Cursor connects to postgres/github servers so agents can query schema and open issues under your token policies.
 
+**Example:** Tool schema mismatch after server upgrade — restart client and refresh tools/list cache.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Secrets in args** — connection strings in `mcp.json` sit on disk. Prefer env vars; never commit tokens.
+- **Pro:** One host can juggle many specialized servers.
+- **Con:** Debugging spans host logs + server logs + transport.
 
-> [!WARNING]
-> **stdio stdout pollution** — any `console.log` to stdout corrupts JSON-RPC. Log to stderr only in servers.
+## Comparison
 
-> [!WARNING]
-> **Non-idempotent tools** — model may retry. Design `deploy_prod` with confirmation or idempotency keys.
+- vs [[MCP]]: protocol vs operator checklist on the client.
+- vs IDE extensions: MCP is model-facing capabilities, not only UI plugins.
 
-> [!WARNING]
-> **Context bloat** — `resources/read` on large files fills the window. Client should summarize or slice.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Tool schema too vague** — model passes wrong types. Tight `inputSchema` with enums and required fields.
-
-> [!WARNING]
-> **Parallel tool calls** — two writes racing. Document side effects; use server-side locking.
-
----
-
-
-## When not to use
-
-- **Simple static docs** — link the document; don't wrap in MCP.
-- **High-QPS automation** — use direct API/SDK; MCP adds LLM mediation overhead.
-- **Untrusted servers** — MCP server runs with host privileges; audit before adding.
-
----
-
-
-## Related
-
-[[MCP]] [[webSocket]] [[gRPC]] [[expressjs]] [[JWT authentication]]
-
-## Sources
-
-- [Wikipedia — MCP Client](https://en.wikipedia.org/wiki/MCP_Client)
+- Passing unsanitized tool output straight into shell commands.
+- Putting long-lived tokens in world-readable config without env indirection.
+- Using stdio servers that spam stdout with logs.

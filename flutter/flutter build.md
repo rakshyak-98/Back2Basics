@@ -1,154 +1,75 @@
-[[flutter]] [[android]] [[dart/dart functions]]
+[[flutter cli]] [[android]] [[dart/dart functions]] [[Nginx]]
 
 # Flutter build and release
 
-> Flutter build and release — dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/wasm (web)
+> Compile Dart to shippable artifacts — debug uses JIT; profile/release use AOT (`libapp.so`, IPA, or web JS/Wasm).
 
----
+## Interview Relevance
 
-## How it works
-
-```
-Dart source ──► kernel / AOT compiler ──► libapp.so (mobile) or js/wasm (web)
-                      │
-                      ├── debug: JIT + VM service (hot reload)
-                      ├── profile: AOT + tracing
-                      └── release: AOT optimized, tree-shaken, no asserts
-```
-
-Platform shells:
-- **Android** — Gradle wraps `flutter build apk/appbundle`; signing via keystore.
-- **iOS** — Xcode archive; provisioning profiles + application Store Connect.
-- **Web** — `flutter build web` → CanvasKit or skwasm renderer.
-
-
-## Configuration and commands
-
-### Day-to-day
-
-```bash
-flutter pub get
-flutter analyze
-flutter test
-
-flutter run                    # debug on device/emulator
-flutter run --profile          # performance profiling
-flutter run --release          # local release smoke test
-```
-
-### Android release
-
-```bash
-# App Bundle (Play Store preferred)
-flutter build appbundle --release \
-  --obfuscate --split-debug-info=build/debug-info
-
-# APK (side-load / legacy)
-flutter build apk --release --split-per-abi
-```
-
-**android/key.properties** (gitignored)
-
-```properties
-storePassword=***
-keyPassword=***
-keyAlias=upload
-storeFile=/home/user/upload-keystore.jks
-```
-
-**Generate keystore (once)**
-
-```bash
-keytool -genkey -v \
-  -keystore ~/upload-keystore.jks \
-  -keyalg RSA -keysize 2048 -validity 10000 \
-  -alias upload
-```
-
-**android/application/build.gradle** — reference signing configuration; `minSdk`, `targetSdk`, `versionCode`/`versionName` from `pubspec.yaml`:
-
-```yaml
-# pubspec.yaml
-version: 1.2.0+42   # name+build number
-```
-
-### iOS release
-
-```bash
-flutter build ios --release
-# Open ios/Runner.xcworkspace → Product → Archive → Distribute
-```
-
-### Web
-
-```bash
-flutter build web --release --web-renderer canvaskit
-# Serve build/web/ via CDN or [[Nginx]]
-```
-
-### Obfuscation and symbols
-
-```bash
-flutter build appbundle --obfuscate --split-debug-info=build/symbols
-# Upload symbols to Play Console / Sentry for readable crash stacks
-```
-
-### Clean when builds lie
-
-```bash
-flutter clean && flutter pub get
-cd android && ./gradlew clean && cd ..
-```
-
-### CI sketch
-
-```yaml
-- run: flutter test
-- run: flutter build appbundle --release --obfuscate --split-debug-info=symbols
-- uses: upload-artifact # .aab + symbols/
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Hot reload doesn't apply | Native code / const / enum changed | Hot restart; full restart |
-| Release crash, debug OK | Obfuscation renamed symbol | `--split-debug-info`; retain mapping |
-| Gradle / SDK errors | JDK, AGP, compileSdk mismatch | Align `android/build.gradle` with Flutter docs for version |
-| Signing failed | Wrong alias/password | Verify `key.properties`; path to keystore |
-| iOS provisioning | Cert expired | Regenerate in Apple Developer portal |
-| Huge APK | Single ABI fat apk | `--split-per-abi` or use AAB |
-| Web blank screen | Base href / renderer | `--base-href /app/`; check console for wasm errors |
-| `versionCode` rejected | Monotonic build number | Bump `+N` in pubspec |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Never commit keystore or key.properties** — use CI secrets; losing keystore = can't update app id on Play.
-
-> [!WARNING]
-> **Debug performance ≠ release** — profile with `--profile` or `--release`; debug JIT masks jank.
-
-> [!WARNING]
-> **Tree shaking removes unused icons/fonts** — declare assets in `pubspec.yaml` explicitly.
-
-> [!WARNING]
-> **Plugin native bumps** — after `flutter upgrade`, run pod install / gradle sync; stale pods cause link errors.
-
-
-## When not to use
-
-- **Shipping debug builds** — larger, slower, asserts enabled.
-- **Obfuscation without symbol backup** — crash reports become useless.
-- **Manual APK for Play Store** — prefer **AAB** for dynamic delivery.
-
-
-## Related
-
-[[flutter]] [[android]] [[dart/dart functions]] [[Release cycle]] [[Nginx]]
+Interviewers want the debug/profile/release matrix, Android App Bundle vs APK, signing, and why obfuscation needs retained symbols.
 
 ## Sources
 
-- [Wikipedia — flutter build](https://en.wikipedia.org/wiki/flutter_build)
+- [Flutter — Build and release an Android app](https://docs.flutter.dev/deployment/android) — deep-dive
+- [Flutter — Build and release modes](https://docs.flutter.dev/testing/build-modes) — overview
+
+## Key Concepts
+
+- **Debug:** JIT + VM service → hot reload; slowest, asserts on.
+- **Profile:** AOT + tracing → performance work without full debug overhead.
+- **Release:** AOT, tree-shaken, asserts off → what you ship.
+- **Signing:** Android keystore / iOS provisioning → store identity; losing the keystore blocks updates for that app id.
+- **Obfuscation + symbols:** rename Dart symbols; keep `--split-debug-info` for readable crashes.
+
+## Technical Details
+
+```
+Dart source ──► kernel / AOT ──► libapp.so (mobile) or js/wasm (web)
+                 ├── debug: JIT + VM service
+                 ├── profile: AOT + tracing
+                 └── release: optimized AOT
+```
+
+```bash
+flutter pub get && flutter analyze && flutter test
+flutter run                      # debug
+flutter run --profile
+flutter build appbundle --release \
+  --obfuscate --split-debug-info=build/debug-info
+flutter build apk --release --split-per-abi
+flutter build ios --release
+flutter build web --release
+flutter clean && flutter pub get
+```
+
+**android/key.properties** (gitignored) + `keytool` once for the upload keystore. Version in `pubspec.yaml`: `1.2.0+42` (name + monotonic build number).
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Release crash, debug OK | Obfuscation | Retain/upload symbol files |
+| Signing failed | Alias/password/path | Fix `key.properties` |
+| Huge APK | Fat ABI | `--split-per-abi` or AAB |
+| `versionCode` rejected | Non-monotonic `+N` | Bump build number |
+| Hot reload after native change | Plugins / enums | Full restart |
+
+## Real-World Applications
+
+CI: test → build AAB with obfuscation → upload artifact + symbols to Play / crash reporter.
+
+**Example:** Play rejects a rebuild because `+41` was reused — bump to `+42` in `pubspec.yaml`.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** AAB lets Play deliver ABI splits; smaller downloads.
+- **Con:** Obfuscation without symbols makes production crashes unreadable.
+
+## Comparison
+
+- vs [[flutter cli]] `run`: local iteration; `build` produces store artifacts.
+- vs native Android release: Flutter still rides Gradle/Xcode; you own both Dart and platform configs.
+
+## Mistakes to Avoid
+
+- Committing keystores or `key.properties`.
+- Judging jank from debug builds.
+- Shipping without uploading obfuscation symbols.

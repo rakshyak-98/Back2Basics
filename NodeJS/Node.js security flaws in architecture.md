@@ -1,12 +1,30 @@
-[[NodeJS]] [[Express middleware]] [[TLS (Transport Layer Security)]] [[Node.js run as a non-privileged user]]
+[[NodeJS]] [[Express middleware]] [[TLS (Transport Layer Security)]] [[Node.js run as a non-privileged user]] [[express error handler]] [[Event Loop]]
 
 # Node.js Security — Architectural Flaws
 
 > single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Node.js Security — Architectural Flaws** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive
+- [OWASP — Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html) — overview
+- [Wikipedia — Node.js security flaws in architecture](https://en.wikipedia.org/wiki/Node.js_security_flaws_in_architecture) — overview
+
+## Core Definition
+
+Node services typically sit **directly on the internet** with:
+
+## Key Concepts
+
+- Node services typically sit **directly on the internet** with:
+- One language/runtime handling authentication, business logic, and serialization - **npm dependency graph** — transitive packages run with full process privileges - **Dynamic `…
+- Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/session**, **file uploads**, **SSRF outbound calls**, **deserialization**, **ReDoS in regex**.
+
+## Technical Details
 
 Node services typically sit **directly on the internet** with:
 
@@ -21,11 +39,6 @@ Attack surface clusters at: **HTTP parsers**, **JSON/body parsers**, **JWT/sessi
 Internet → reverse proxy (TLS terminate) → Express (trusts X-Forwarded-*) → DB/Redis/internal APIs
                     ↑ miss one layer = auth bypass or SSRF
 ```
-
----
-
-
-## Configuration and commands
 
 ### Layer 0 — process & network
 
@@ -112,74 +125,46 @@ Object.freeze(Object.prototype);    // last-resort mitigation — can break libs
 
 Audit `lodash.merge`, `JSON.parse` → dynamic key assignment patterns.
 
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Auth bypass via header spoof | `trust proxy` too permissive | Set exact hop count; validate at proxy |
-| CPU peg, slow regex | ReDoS in user input regex | Timeout; use `safe-regex`; RE2 via `re2` |
-| RCE after deploy | `npm audit`, new dependency | Remove package; pin; incident response |
-| JWT accepted after "logout" | Stateless JWT until expiry | Short TTL + refresh rotation; denylist jti in Redis |
-| Path traversal on upload | `path.join` with user segment | Sanitize filename; store outside web root |
-| Memory spike on POST | Missing body limit | `limit` on json/urlencoded |
-
----
-
-
-## Decision
+### Decision
 
 We will … because …
 
-
-## Consequences
+### Consequences
 
 **Positive:** …
 
 **Negative / trade-offs:** …
 
-
-## Alternatives considered
+### Alternatives considered
 
 | Alternative | Why rejected |
 |-------------|--------------|
 | … | … |
 
+## Real-World Applications
 
-## Gotchas
+In production APIs and tooling, **Node.js security flaws in architecture** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains; **Dynamic `require(userInput)`** — arbitrary code load.
 
-> [!WARNING]
-> **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Dynamic `require(userInput)`** — arbitrary code load.
+- **Pro:** Solves the job described above when used in the right layer (single-process trust boundary, huge dependency trees, and prototype pollution ma…).
+- **Con / when not:** **Rolling custom crypto** — use libsodium/WebCrypto wrappers; never DIY JWT "for simplicity".
+- **Con / when not:** **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
 
-> [!WARNING]
-> **Error handler leaking stack** — see [[express error handler]]; hide stack in prod.
+## Comparison
 
-> [!WARNING]
-> **Cluster doesn't isolate security** — compromised worker = same UID, same env secrets.
+vs [[Express middleware]]: know when each applies — do not treat them as interchangeable. vs [[TLS (Transport Layer Security)]]: know when each applies — do not treat them as interchangeable. vs [[Node.js run as a non-privileged user]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **CORS `*` with credentials** — invalid and often misconfigured; explicit origins only.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-- **Rolling custom crypto** — use libsodium/WebCrypto wrappers; never DIY JWT "for simplicity".
-- **Disabling helmet/CORS "temporarily" in production** — becomes permanent.
-
----
-
-
-## Related
-
-[[express error handler]] [[Express middleware]] [[Event Loop]] [[Node.js run as a non-privileged user]] [[TLS (Transport Layer Security)]]
-
-## Sources
-
-- [Wikipedia — Node.js security flaws in architecture](https://en.wikipedia.org/wiki/Node.js_security_flaws_in_architecture)
+- **`eval`, `new Function`, `vm.runInNewContext`** — not a sandbox; RCE via prototype chains.
+- **Dynamic `require(userInput)`** — arbitrary code load.
+- **Error handler leaking stack** — see [[express error handler]]; hide stack in prod.
+- **Cluster doesn't isolate security** — compromised worker = same UID, same env secrets.
+- **CORS `*` with credentials** — invalid and often misconfigured; explicit origins only.
+- **Auth bypass via header spoof:** check `trust proxy` too permissive; fix: Set exact hop count; validate at proxy
+- **CPU peg, slow regex:** check ReDoS in user input regex; fix: Timeout; use `safe-regex`; RE2 via `re2`
+- **RCE after deploy:** check `npm audit`, new dependency; fix: Remove package; pin; incident response
+- **JWT accepted after "logout":** check Stateless JWT until expiry; fix: Short TTL + refresh rotation; denylist jti in Redis
+- **Path traversal on upload:** check `path.join` with user segment; fix: Sanitize filename; store outside web root
+- **Memory spike on POST:** check Missing body limit; fix: `limit` on json/urlencoded

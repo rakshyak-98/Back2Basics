@@ -1,12 +1,19 @@
-[[regression]] [[Visualization/Residual plot]] [[rank prediction]] [[Mean Average Precision (MAP)]]
+[[regression]] [[Visualization/Residual plot]] [[rank prediction]] [[Mean Average Precision (MAP)]] [[Visualization/Rank distribution]]
 
 # Predicted vs actual plot
 
 > Predicted vs actual plot — perfect predictions lie on the diagonal y = x:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Predicted vs actual plot to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 Perfect predictions lie on the diagonal **y = x**:
 
@@ -30,10 +37,7 @@ Patterns tell stories:
 
 For **ranking** models, same plot compares predicted scores to graded relevance — use alongside [[Mean Average Precision (MAP)]].
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import matplotlib.pyplot as plt
@@ -65,10 +69,28 @@ plt.plot(lims, lims, "r--")
 
 Always pair with [[Visualization/Residual plot]] — actual versus predicted hides structure in errors when scale is large.
 
----
+## Pros/Cons or Trade-offs
 
+- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
+- **High-dimensional output** — per-target subplots or aggregate metrics.
+- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
 
-## When things break
+## Comparison
+
+| Criterion | Option A | Option B |
+|-----------|----------|----------|
+| … | … | … |
+
+- Choose **A** when …
+- Choose **B** when …
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Outliers compress the cloud** — use log axes or hexbin; don't overfit 3 points.
+
+> [!WARNING]
+> **Filename typo:** this note is `predicated vs actual plot.md` in the vault — link as `[[Visualization/predicated vs actual plot]]`.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,46 +100,3 @@ Always pair with [[Visualization/Residual plot]] — actual versus predicted hid
 | Predictions constant | Dead model / leakage removed | Baseline check |
 | Rank plot flat | Scores uncalibrated | Calibrate; check [[Visualization/Rank distribution]] |
 
----
-
-
-## Comparison
-
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| … | … | … |
-
-
-## How to choose
-
-- Choose **A** when …
-- Choose **B** when …
-
-
-## Gotchas
-
-> [!WARNING]
-> **Outliers compress the cloud** — use log axes or hexbin; don't overfit 3 points.
-
-> [!WARNING]
-> **Filename typo:** this note is `predicated vs actual plot.md` in the vault — link as `[[Visualization/predicated vs actual plot]]`.
-
----
-
-
-## When not to use
-
-- **Classification** — confusion matrix / ROC, not y versus ŷ scatter.
-- **High-dimensional output** — per-target subplots or aggregate metrics.
-- **Only ranking matters** — [[Normalized Discounted Cumulative Gain (NDCG)]] curves beat scatter.
-
----
-
-
-## Related
-
-[[Visualization/Residual plot]] · [[regression]] · [[rank prediction]] · [[Mean Average Precision (MAP)]] · [[Visualization/Rank distribution]]
-
-## Sources
-
-- [Wikipedia — predicated vs actual plot](https://en.wikipedia.org/wiki/predicated_vs_actual_plot)

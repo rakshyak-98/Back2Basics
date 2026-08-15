@@ -1,14 +1,32 @@
-[[Operating system]] [[Networking]] [[FIB (Forwarding Information Base)]] [[PBR (Policy Based Routing)]] [[CIDR (Classless Inter-Domain Routing)]]
+[[Operating system]] [[Networking]] [[FIB (Forwarding Information Base)]] [[PBR (Policy Based Routing)]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[ip]] [[route]]
 
 # Routing table
 
-> kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
+> Kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use routing tables to check longest-prefix match, default routes, and whether you can debug with `ip route get` — plus how cloud subnet route tables relate to the Linux `main` table.
 
-Each entry stores a **destination prefix** and a **target** (gateway, interface, or local delivery). The kernel picks the **most specific** matching route; on tie, lowest **metric** wins.
+## Sources
+
+- [man 8 ip-route](https://man7.org/linux/man-pages/man8/ip-route.8.html) — deep-dive
+- [Kerrisk — The Linux Programming Interface (networking chapters)](https://man7.org/tlpi/) — deep-dive
+- [Wikipedia — Routing table](https://en.wikipedia.org/wiki/Routing_table) — overview
+
+## Core Definition
+
+Each entry stores a destination prefix and a target (gateway, interface, or local delivery). The kernel picks the most specific matching route; on a tie, the lowest metric wins.
+
+## Key Concepts
+
+- **Longest-prefix match:** `/32` beats `/24` beats `0.0.0.0/0` → not “first match.”
+- **Default route:** `0.0.0.0/0` (or `::/0`) → where unknown destinations go.
+- **Metric:** tie-breaker among equal prefixes → which path is preferred.
+- **Main vs custom tables:** default traffic uses `main`; [[PBR (Policy Based Routing)]] via `ip rule` can steer by source, TOS, or `fwmark`.
+- **Ephemeral vs persistent:** `ip route` changes apply now but may vanish on reboot/DHCP; daemons (systemd-networkd, NetworkManager, Netplan) own persistence.
+
+## Technical Details
 
 ```
 Destination        Gateway         Iface   Metric
@@ -19,15 +37,9 @@ Destination        Gateway         Iface   Metric
 
 Default traffic uses the `main` table. [[PBR (Policy Based Routing)]] via `ip rule` can redirect packets by source IP, TOS, or `fwmark` (from iptables/nftables) into custom tables.
 
-Configuration is two-tier: ephemeral kernel state (`ip route`) and persistent state (systemd-networkd, NetworkManager, Netplan). CLI changes apply instantly but may vanish on reboot or link flap.
+In AWS, every subnet associates with a route table (explicit or VPC main). Public subnets route `0.0.0.0/0` → IGW; private subnets route to NAT Gateway or VPC endpoints.
 
-> [!INFO]
-> In AWS, every subnet associates with a route table (explicit or VPC main). Public subnets route `0.0.0.0/0` → IGW; private subnets route to NAT Gateway or VPC endpoints.
-
-
-## Configuration and commands
-
-View routes and DNS resolver (often confused during triage):
+### View and change routes
 
 ```shell
 ip route show
@@ -37,8 +49,6 @@ route -n
 resolvectl status
 cat /etc/resolv.conf
 ```
-
-Add ephemeral routes:
 
 ```shell
 # Host route via gateway
@@ -52,7 +62,7 @@ sudo ip route add default via 10.0.2.1 dev eth1 table 100
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ```
 
-Capture routing decisions with tcpdump:
+### Capture routing decisions
 
 ```shell
 # Confirm which interface carries traffic to a destination
@@ -71,9 +81,6 @@ sudo tcpdump -ni any 'tcp[tcpflags] & tcp-syn != 0' and host <peer-ip>
 sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Host unreachable to one subnet | `ip route get <dst>` | Missing or wrong route; add via correct gateway |
@@ -85,25 +92,7 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 | Intermittent 5–30s delays | `ip route show cache` / conntrack | Stale nexthop cache; check gateway ARP |
 | `RTNETLINK answers: File exists` | Duplicate route entry | `ip route replace` or delete first |
 
-> [!WARNING]
-> **Persistence daemon overwrites:** Manually inserting routes via `ip route add` while systemd-networkd or NetworkManager controls the link — a DHCP lease renewal or carrier flap triggers the daemon to sync state, wiping manual kernel routes and causing **silent failures**.
-
-
-## Gotchas
-
-- **Longest prefix wins**, not "first match" — `/32` beats `/24` beats `0.0.0.0/0`.
-- **`ip route get`** is the fastest sanity check; don't guess from `ip route show` alone.
-- **Source-based routing** bites during SNAT: reply may leave a different interface than request arrived on.
-- **Docker/K8s** inject routes into `main` or custom tables; CNI plugins can clobber manual entries on restart.
-
-
-## When not to use
-
-- Don't hand-edit routes on managed instances (EKS nodes, GKE nodes) — fix the CNI/cloud route table instead.
-- Don't add static routes for every microservice; use service mesh or DNS-based discovery for application-level routing.
-
-
-## Cloud route table mapping
+### Cloud route table mapping
 
 | Concept | AWS VPC | GCP | Azure |
 |---------|---------|-----|-------|
@@ -115,13 +104,29 @@ sudo tcpdump -ni any 'icmp[icmptype] == 3 and icmp[3] == 4' -v
 | Endpoint shortcut | Gateway / Interface VPCE | Private Google Access | Service endpoints |
 | CLI inspect | `aws ec2 describe-route-tables` | `gcloud compute routes list` | `az network route-table show` |
 
-**Mental map:** cloud route table = Linux `main` table per subnet; NACLs/security groups are **not** routing — they filter after routing decision.
+**Mental map:** cloud route table ≈ Linux `main` table per subnet; NACLs/security groups are **not** routing — they filter after the routing decision. Related: [[FIB (Forwarding Information Base)]].
 
+## Real-World Applications
 
-## Related
+Hosts, containers, and cloud VPCs all forward by consulting a route table before a packet leaves an interface.
 
-[[FIB (Forwarding Information Base)]] · [[PBR (Policy Based Routing)]] · [[NAT (Network Address Translation)]] · [[CIDR (Classless Inter-Domain Routing)]] · [[ip]] · [[route]]
+**Example:** A private subnet cannot reach the internet — missing `0.0.0.0/0` → NAT Gateway in the cloud route table (or wrong subnet association).
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- [Wikipedia — routing table](https://en.wikipedia.org/wiki/routing_table)
+- **Pro:** Longest-prefix match is predictable and scales with [[CIDR (Classless Inter-Domain Routing)]].
+- **Con:** Manual `ip route add` fights persistence daemons — DHCP renew or carrier flap can wipe routes silently.
+- **Con:** Source-based / PBR paths complicate SNAT and asymmetric return traffic.
+
+## Comparison
+
+- vs [[FIB (Forwarding Information Base)]]: FIB is the forwarding plane’s compiled view; the routing table is the control-plane entries that feed it.
+- vs [[PBR (Policy Based Routing)]]: main-table LPM is destination-based; PBR selects an alternate table by policy.
+- vs security groups / NACLs: those filter; they do not choose next hops.
+
+## Mistakes to Avoid
+
+- Guessing from `ip route show` alone — use `ip route get <dst>` as the sanity check.
+- Hand-editing routes on managed nodes (EKS/GKE) — fix the CNI or cloud route table instead.
+- Adding static routes for every microservice — use service discovery/DNS for application-level routing.
+- Forgetting Docker/Kubernetes inject routes — CNI restarts can clobber manual entries.

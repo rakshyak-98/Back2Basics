@@ -1,29 +1,33 @@
-[[postgres essential]] [[SQL/postgres]] [[postgres Error]] [[postgres parameter type error]] [[psql database dump]] [[ACID]] [[connection pooling]]
+[[SQL/postgres]] [[postgres Error]] [[postgres parameter type error]] [[psql database dump]] [[ACID]] [[connection pooling]] [[WAL (Write-Ahead Log)]]
 
 # postgres essential
 
 > PostgreSQL essentials — roles, databases, connections, and the few `psql` commands you need before tuning queries or replication.
 
----
+## Interview Relevance
+Interviewers start Postgres with cluster vs database vs schema, auth (`pg_hba`), and why pools beat raising `max_connections`. Clear answers here unlock indexing and WAL follow-ups.
 
-## Core objects
+## Sources
+- [PostgreSQL Documentation — Getting Started](https://www.postgresql.org/docs/current/tutorial-start.html) — overview
+- [PostgreSQL Documentation — Client Authentication](https://www.postgresql.org/docs/current/client-authentication.html) — deep-dive
 
-| Object | Purpose |
-|--------|---------|
-| **Cluster** | One `postgres` server instance on disk (`PGDATA`) |
-| **Database** | Isolated namespace of schemas; connection selects one DB |
-| **Role / user** | Authentication identity; can own objects and hold `LOGIN` |
-| **Schema** | Namespace inside a database (`public` default) |
-| **Table / index** | Heap + B-tree/GiST/GIN per [[SQL/postgres]] |
+## Core Definition
+A Postgres **cluster** is one server instance on disk (`PGDATA`). Inside it: databases, roles, schemas, and objects. You always connect to one database as one role.
 
-## First commands (`psql`)
+## Key Concepts
+- **Cluster / database / schema:** Instance → named DB → namespace (`public` default).
+- **Role:** Login identity; can own objects and hold privileges.
+- **Connection:** Authenticated by `pg_hba.conf` + role password/cert; limited by `max_connections`.
+- **Pooling:** Prefer [[connection pooling]] (PgBouncer) before inflating server connections.
+- **Durability:** Commits hit [[WAL (Write-Ahead Log)]] before data files — foundation of [[ACID]].
 
+## Technical Details
 ```bash
 psql -h localhost -U postgres -d mydb
-\conninfo          # current connection
-\dt                # tables in search_path
-\d+ my_table        # columns, indexes
-\x on              # expanded output for wide rows
+\conninfo
+\dt
+\d+ my_table
+\x on
 ```
 
 ```sql
@@ -32,27 +36,20 @@ SHOW transaction_isolation;
 SELECT pid, usename, state, query FROM pg_stat_activity;
 ```
 
-## Configuration touchpoints
+Config touchpoints: `postgresql.conf` (`shared_buffers`, `work_mem`, `max_connections`); `pg_hba.conf` (trust, scram-sha-256, host rules).
 
-- `postgresql.conf` — memory (`shared_buffers`, `work_mem`), connections (`max_connections`)
-- `pg_hba.conf` — who can connect from which host (trust, scram-sha-256)
-- Connection pooling — prefer [[connection pooling]] (PgBouncer) before raising `max_connections`
+## Real-World Applications
+New service checklist: create role + DB, restrict `pg_hba`, put PgBouncer in front, enable `pg_stat_statements`, and practice `EXPLAIN (ANALYZE, BUFFERS)` before guessing indexes. See [[SQL/postgres]] for deeper SQL.
 
-## When things break
+## Pros/Cons or Trade-offs
+- **Pro:** Strong SQL, MVCC, extensions, predictable ops model.
+- **Con:** Connection-heavy apps without a pooler melt under load; wrong `work_mem` / vacuum settings cause silent pain.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `password authentication failed` | `pg_hba.conf`; role password | `ALTER ROLE … PASSWORD`; match auth method |
-| `too many connections` | `pg_stat_activity`; pooler | Pool via PgBouncer; lower idle clients |
-| `inconsistent types deduced for parameter $n` | Query + column types | See [[postgres parameter type error]] |
-| Disk growth | Largest tables; WAL | `VACUUM`; archive or tune `max_wal_size` |
-| Slow queries | `pg_stat_statements` | Indexes; `EXPLAIN (ANALYZE, BUFFERS)` |
+## Comparison
+vs MySQL: different privilege model, stricter types, richer indexing (GIN/GiST). vs [[MongoDB]]: relational schemas and transactions-first vs flexible documents. Sibling errors: [[postgres Error]], [[postgres parameter type error]].
 
-## Related
-
-[[SQL/postgres]] · [[postgres Error]] · [[ACID]] · [[WAL (Write-Ahead Log)]] · [[psql database dump]]
-
-## Sources
-
-- [PostgreSQL Documentation — Getting Started](https://www.postgresql.org/docs/current/tutorial-start.html)
-- [Wikipedia — PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL)
+## Mistakes to Avoid
+- Raising `max_connections` instead of pooling.
+- Connecting as superuser from apps.
+- Ignoring `pg_hba` when “password authentication failed.”
+- Tuning queries without `EXPLAIN` or without checking for parameter type mismatches.

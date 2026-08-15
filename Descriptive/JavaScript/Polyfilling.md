@@ -1,12 +1,18 @@
-[[javascript/polyfills]] [[javascript]] [[Descriptive/JavaScript/javascript web API]] [[npm]]
+[[javascript/polyfills]] [[javascript]] [[Descriptive/JavaScript/javascript web API]] [[npm]] [[polyfills]]
 
 # Polyfilling
 
 > Polyfilling — transpiling rewrites syntax (class → function). Polyfilling adds missing functions or prototypes at runtime. No syntax change — only implementation.
 
----
+## Interview Relevance
 
-## How it works
+Polyfill interviews cover shipping modern APIs on old runtimes — and feature detection vs UA sniffing.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 **Transpiling** rewrites syntax (`class` → function). **Polyfilling** adds **missing functions or prototypes** at runtime. No syntax change — only implementation.
 
@@ -28,8 +34,7 @@ Bundle: your app + polyfills (Promise, Array.prototype.flat, fetch)
 
 See also: [[polyfills]] (companion note on mechanics).
 
-
-## Configuration and commands
+## Technical Details
 
 ### Browsers — core-js + Babel preset-env
 
@@ -77,19 +82,13 @@ Prefer specification-accurate implementations from core-js over hand-rolled shim
 
 Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Node 16 LTS.
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Internal apps on locked Chrome version — set baseline, skip polyfills.
+- Syntax-only gaps — use Babel/TypeScript transpile, not polyfill.
+- Server Node with pinned LTS — upgrade runtime instead of patching `fetch`.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `X is not a function` in old browser | Missing polyfill | Add feature to Babel `useBuiltIns` or import |
-| Polyfill conflicts with native | Double-patching | Feature detect `if (!Array.prototype.flat)` |
-| Bundle size exploded | Full `core-js/stable` | Switch to `usage` + narrow `targets` |
-| Subtle spec mismatch | Hand-rolled shim | Replace with core-js |
-| CSP blocks CDN polyfill | Inline script policy | Self-host bundle |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Mutating prototypes** affects all code in the page including third-party libs — order polyfills before app code.
@@ -98,18 +97,10 @@ Node 18+ includes `fetch`, `structuredClone` — polyfill only if supporting Nod
 - **Frozen environments** (SES, some embeds) forbid polyfills — target native only.
 - **polyfill.io supply-chain history** — self-host or npm, don't trust blind CDN in production.
 
-
-## When not to use
-
-- Internal apps on locked Chrome version — set baseline, skip polyfills.
-- Syntax-only gaps — use Babel/TypeScript transpile, not polyfill.
-- Server Node with pinned LTS — upgrade runtime instead of patching `fetch`.
-
-
-## Related
-
-[[polyfills]] [[javascript]] [[Descriptive/JavaScript/javascript web API]] [[npm]]
-
-## Sources
-
-- [Wikipedia — Polyfilling](https://en.wikipedia.org/wiki/Polyfilling)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `X is not a function` in old browser | Missing polyfill | Add feature to Babel `useBuiltIns` or import |
+| Polyfill conflicts with native | Double-patching | Feature detect `if (!Array.prototype.flat)` |
+| Bundle size exploded | Full `core-js/stable` | Switch to `usage` + narrow `targets` |
+| Subtle spec mismatch | Hand-rolled shim | Replace with core-js |
+| CSP blocks CDN polyfill | Inline script policy | Self-host bundle |

@@ -1,22 +1,21 @@
-[[React data management]] [[expressjs]] [[Event Loop]] [[webSocket]]
+[[React data management]] [[expressjs]] [[Event Loop]] [[webSocket]] [[Session Storage]]
 
 # Zustand
 
 > Minimal client-state library for React — store outside the component tree with selective subscriptions — **when Redux is overkill**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers separate server state vs client UI state and ask when Context, Redux, or a small store is the right tool.
+
+## Sources
+
+- [Zustand documentation](https://docs.pmnd.rs/zustand/getting-started/introduction) — deep-dive
+- [Zustand GitHub](https://github.com/pmndrs/zustand) — overview
+
+## Key Concepts
 
 Zustand holds state in a **vanilla store** (works without React). Components **subscribe** to slices; only subscribers to changed keys re-render. No Provider required (unlike Context performance traps).
-
-```txt
-┌─────────────┐     subscribe(selector)     ┌─────────────┐
-│  Component  │ ◄──────────────────────── │ Zustand     │
-└─────────────┘                             │ store       │
-       │ dispatch set()/actions              └──────┬──────┘
-       └──────────────────────────────────────────►│
-```
 
 | Pattern | API |
 |---------|-----|
@@ -27,10 +26,15 @@ Zustand holds state in a **vanilla store** (works without React). Components **s
 
 **Server state** (API data, cache, stale-while-revalidate) belongs in **TanStack Query / RTK Query** — not Zustand. See [[React data management]].
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+┌─────────────┐     subscribe(selector)     ┌─────────────┐
+│  Component  │ ◄──────────────────────── │ Zustand     │
+└─────────────┘                             │ store       │
+       │ dispatch set()/actions              └──────┬──────┘
+       └──────────────────────────────────────────►│
+```
 
 ### Basic store
 
@@ -99,10 +103,18 @@ export const createCartStore = () =>
 
 On server: **new store per request**. On client: hydrate once from serialized snapshot or accept flash.
 
----
+## Real-World Applications
 
+Apply Zustand in feature code where the Key Concepts match; verify with the Mistakes table.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Server-fetched lists with cache invalidation** — TanStack Query / RTK Query.
+- **Con / skip when:** **Complex event-sourced domain** — Redux Toolkit + RTK Query or explicit event store.
+- **Con / skip when:** **Cross-tab sync requirements** — add `BroadcastChannel` or use URL/server state.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -118,42 +130,8 @@ import { useShallow } from 'zustand/react/shallow';
 const { a, b } = useStore(useShallow((s) => ({ a: s.a, b: s.b })));
 ```
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Zustand for API cache** — reinventing React Query: no stale time, dedup, background refetch, error retry.
-
-> [!WARNING]
-> **SSR singleton leak** — user A's cart visible to user B — catastrophic; always isolate server stores.
-
-> [!WARNING]
-> **Selector object** — `useStore(s => ({ x: s.x, y: s.y }))` new ref every time → infinite renders without `useShallow`.
-
-> [!WARNING]
-> **persist + sensitive data** — localStorage is XSS-readable; don't persist tokens.
-
-> [!WARNING]
-> **Testing** — reset store between tests: `useCart.setState({ items: [] }, true)`.
-
----
-
-
-## When not to use
-
-- **Server-fetched lists with cache invalidation** — TanStack Query / RTK Query.
-- **Complex event-sourced domain** — Redux Toolkit + RTK Query or explicit event store.
-- **Cross-tab sync requirements** — add `BroadcastChannel` or use URL/server state.
-
----
-
-
-## Related
-
-[[React data management]] [[Event Loop]] [[Session Storage]] [[expressjs]]
-
-## Sources
-
-- [Wikipedia — zustand](https://en.wikipedia.org/wiki/zustand)
+- **Zustand for API cache** — reinventing React Query: no stale time, dedup, background refetch, error retry.
+- **SSR singleton leak** — user A's cart visible to user B — catastrophic; always isolate server stores.
+- **Selector object** — `useStore(s => ({ x: s.x, y: s.y }))` new ref every time → infinite renders without `useShallow`.
+- **persist + sensitive data** — localStorage is XSS-readable; don't persist tokens.
+- **Testing** — reset store between tests: `useCart.setState({ items: [] }, true)`.

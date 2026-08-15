@@ -1,44 +1,59 @@
-[[NextJS/NextJS navigation]] [[Deployment/vercel cli]] [[css/tailwindcss]]
+[[Next JS]] [[NextJS Deployment]] [[NextJS navigation]] [[vercel deployment]] [[vercel cli]]
 
 # ISR (Incremental Static Regeneration)
 
-> Regenerate static pages on a timer or on-demand without full site rebuild — Next.js stale-while-revalidate for CDN-backed pages.
+> Incremental Static Regeneration regenerates static pages on a timer or on demand after deploy — users get a stale page immediately while a fresh one builds in the background.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use ISR to test whether you can explain stale-while-revalidate versus SSR and pure SSG, and when static export or personalized pages make ISR the wrong tool.
 
-At build time, page is static HTML. After deploy, first request (or revalidate interval) can trigger **background regeneration**. Users get **stale** page immediately while fresh version builds — then CDN serves new static file. Distinct from SSR (every request) and pure SSG (rebuild all).
+## Sources
 
+- [Next.js Docs — Incremental Static Regeneration](https://nextjs.org/docs/app/guides/incremental-static-regeneration) — deep-dive
+- [Next.js Docs — `revalidatePath`](https://nextjs.org/docs/app/api-reference/functions/revalidatePath) — overview
+- [Next.js Blog — ISR](https://nextjs.org/blog/next-9-5#stable-incremental-static-regeneration) — overview
+
+## Core Definition
+
+ISR keeps CDN/filesystem-cached HTML for a route, then regenerates that page after a `revalidate` window or an on-demand invalidation, without rebuilding the entire site.
+
+## Key Concepts
+
+- **Time-based revalidate:** `revalidate: N` (Pages) or `export const revalidate = N` / `fetch(..., { next: { revalidate: N } })` (App) → at most one regen per window after the page goes stale.
+- **On-demand:** `revalidatePath` / `revalidateTag` (or Pages `res.revalidate`) → CMS webhooks purge specific routes.
+- **Stale-while-revalidate:** first request after expiry still gets the old page → document editorial freshness SLA.
+- **Runtime requirement:** Node.js server (default) — not supported with static export.
+- **Self-host multi-instance:** default filesystem cache is per process → use a shared `cacheHandler`.
+
+## Technical Details
+
+```txt
+Request → CDN/static (stale OK) → optional background regen → update cache
 ```
-Request → CDN static (stale OK) → optional background regen → update CDN cache
-```
-
-
-## Configuration and commands
 
 ### Pages Router
 
 ```js
 export async function getStaticProps() {
-  const data = await fetchCMS();
+  const data = await fetchCMS()
   return {
     props: { data },
-    revalidate: 60,   // regen at most every 60s on next request after stale
-  };
+    revalidate: 60, // at most every 60s after stale
+  }
 }
 ```
 
 ### App Router
 
 ```ts
-export const revalidate = 60;
+export const revalidate = 60
 
 export default async function Page() {
   const data = await fetch('https://api.example.com/posts', {
     next: { revalidate: 60 },
-  }).then(r => r.json());
-  return <div>{data.title}</div>;
+  }).then((r) => r.json())
+  return <div>{data.title}</div>
 }
 ```
 
@@ -46,48 +61,46 @@ export default async function Page() {
 
 ```ts
 // app/api/revalidate/route.ts
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from 'next/cache'
 
 export async function POST(req: Request) {
-  const secret = req.headers.get('x-revalidate-secret');
-  if (secret !== process.env.REVALIDATE_SECRET) return new Response('Unauthorized', { status: 401 });
-  revalidatePath('/blog/[slug]');
-  return Response.json({ revalidated: true });
+  const secret = req.headers.get('x-revalidate-secret')
+  if (secret !== process.env.REVALIDATE_SECRET) {
+    return new Response('Unauthorized', { status: 401 })
+  }
+  revalidatePath('/blog/[slug]')
+  return Response.json({ revalidated: true })
 }
 ```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Content never updates | `revalidate` set? | Add interval or on-demand hook |
-| Users see old data long | CDN TTL > revalidate | Align edge cache; purge CDN |
-| Build OK, prod stale | Hosting ISR support | Vercel/Netlify plugin; not plain static export |
-| 401 on revalidate | Secret mismatch | Match header + env |
-| Thundering herd regen | Traffic spike on stale | Increase `revalidate`; use on-demand only |
+| Users see old data long | CDN TTL vs revalidate | Align edge cache; purge CDN |
+| Build OK, production stale | Hosting ISR support | Need Node; not `output: 'export'` |
+| 401 on revalidate | Secret mismatch | Match header and environment variable |
+| Split views across pods | Local cache only | Shared `cacheHandler` |
 
+## Real-World Applications
 
-## Gotchas
+Marketing blogs and product catalogs regenerate from a CMS on a webhook while staying mostly static and cheap to serve.
 
-> [!WARNING]
-> **`output: 'export'` disables ISR** — pure static export has no server to revalidate.
->
-> **Stale content is a feature** — document SLA ("up to 60s old") for editors.
->
-> **Personalized pages** — don't ISR user-specific data; use SSR or client fetch.
+**Example:** Editors publish in Contentful → webhook hits `/api/revalidate` → next visitor triggers regeneration of `/blog/[slug]`.
 
+## Pros/Cons or Trade-offs
 
-## When not to use
+- **Pro:** Near-static performance with post-deploy updates — no full rebuild for every edit.
+- **Con:** Readers can see stale content until regeneration finishes.
+- **Con:** Incorrect for per-user or real-time data; needs shared cache when scaled out.
 
-- Don't ISR real-time dashboards (stock tickers, live scores) — use SSR/WebSocket.
-- Don't ISR pages that must be legally exact at every view (some pricing) without short revalidate + purge.
+## Comparison
 
+- vs pure SSG: SSG needs a full rebuild (or redeploy) for content changes; ISR updates individual pages.
+- vs SSR: SSR is fresh every request but costs latency and origin load.
+- vs [[NextJS Deployment]] static export: export has no server to revalidate.
 
-## Related
+## Mistakes to Avoid
 
-[[NextJS/NextJS navigation]] [[Deployment/vercel cli]] [[Netlify/Netlify deployment]] [[Deployment/vercel deployment]]
-
-## Sources
-
-- [Wikipedia — ISR](https://en.wikipedia.org/wiki/ISR)
+- Expecting ISR with `output: 'export'` — there is no regeneration process.
+- ISR-caching personalized pages (cart, account) — use SSR or client fetch.
+- Promising “always fresh” without stating the stale window to editors and legal.

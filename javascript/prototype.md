@@ -1,27 +1,29 @@
-[[javascript]] [[hoisting]] [[mixin]]
+[[javascript]] [[hoisting]] [[mixin]] [[Classes]]
 
 # prototype
 
 > Objects inherit via a prototype chain — property lookup walks `__proto__` until found or `null`.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **prototype** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **own vs inherited**, **prototype**, **[[Prototype]]**.
+
+## Sources
+
+- [MDN — Inheritance and the prototype chain](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain) — deep-dive
+- [Wikipedia — prototype](https://en.wikipedia.org/wiki/prototype) — overview
+
+## Key Concepts
+
+- **own vs inherited:** On object vs chain — `hasOwnProperty` / `Object.hasOwn`.
+- **prototype:** Shared methods object — One function, many instances.
+- **[[Prototype]]:** Internal link — Not the same as `.prototype` on functions.
+
+## Technical Details
 
 ```txt
 instance → C.prototype → Object.prototype → null
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **own vs inherited** | On object vs chain | “`hasOwnProperty` / `Object.hasOwn`.” |
-| **prototype** | Shared methods object | “One function, many instances.” |
-| **[[Prototype]]** | Internal link | “Not the same as `.prototype` on functions.” |
-
-
-## Configuration and commands
 
 ```js
 function Dog(name) { this.name = name }
@@ -40,44 +42,25 @@ Object.getPrototypeOf(d) === Dog.prototype
 | `Object.setPrototypeOf` | Slow/mutable — avoid hot paths |
 | `static` | On constructor, not instances |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **prototype** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`obj.__proto__`** — legacy accessor; prefer `Object.getPrototypeOf`; **Arrays/objects as prototype props** — shared across instances.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| method undefined | Forgot `prototype` / `new` | Use `new` or class |
-| Unexpected shared state | Mutable value on prototype | Put state on `this` |
-| Broken instanceof | Wrong prototype | Fix inheritance link |
-| Perf weirdness | Mutating [[Prototype]] | Create with right proto once |
+- **Pro:** Solves the job described above when used in the right layer (Objects inherit via a prototype chain — property lookup walks `__proto__` until …).
+- **Con / when not:** **Deep classic OOP trees** — prefer composition.
+- **Con / when not:** **Changing proto at runtime** — engines deoptimize.
 
----
+## Comparison
 
+vs [[hoisting]]: know when each applies — do not treat them as interchangeable. vs [[mixin]]: know when each applies — do not treat them as interchangeable. vs [[Classes]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`obj.__proto__`** — legacy accessor; prefer `Object.getPrototypeOf`.
-
-> [!WARNING]
-> **Arrays/objects as prototype props** — shared across instances.
-
----
-
-
-## When not to use
-
-- **Deep classic OOP trees** — prefer composition.
-- **Changing proto at runtime** — engines deoptimize.
-
----
-
-
-## Related
-
-[[hoisting]] [[mixin]] [[Classes]]
-
-## Sources
-
-- [Wikipedia — prototype](https://en.wikipedia.org/wiki/prototype)
+- **`obj.__proto__`** — legacy accessor; prefer `Object.getPrototypeOf`.
+- **Arrays/objects as prototype props** — shared across instances.
+- **method undefined:** check Forgot `prototype` / `new`; fix: Use `new` or class
+- **Unexpected shared state:** check Mutable value on prototype; fix: Put state on `this`
+- **Broken instanceof:** check Wrong prototype; fix: Fix inheritance link
+- **Perf weirdness:** check Mutating [[Prototype]]; fix: Create with right proto once

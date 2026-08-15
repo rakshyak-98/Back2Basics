@@ -1,202 +1,56 @@
-[[Descriptive/vscode]] [[editor configuration]] [[Linux/CLI]] [[zed keybindings]]
+[[Descriptive/vscode]] [[zed keybindings]] [[zed debugger]] [[LSP]]
 
 # Zed config
 
-> Zed config — zed reads JSON settings (user + optional project .zed/settings.json). Language servers attach per language block. Remote files use zed ssh://user@host/path with remote LSP
+> JSON settings for the Zed editor — user defaults plus optional project `.zed/settings.json`; language servers and edit predictions are separate systems.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers (tooling/DX) care that you do not confuse LSP popup completions with inline “ghost” predictions, and that project settings override user settings.
 
-Zed reads JSON settings (user + optional project `.zed/settings.json`). Language servers attach per language block. Remote files use `zed ssh://user@host/path` with remote LSP when configured. Precedence: project overrides user for same keys.
+## Sources
 
-**Completions are two different systems** — do not conflate them:
+- [Zed — Configuring Zed](https://zed.dev/docs/configuring-zed) — deep-dive
+- [Zed — Language servers](https://zed.dev/docs/language-model-tool) — overview
 
-| Source | Zed name | UI | VS Code analogue |
-|--------|----------|-----|------------------|
-| Language server (gopls, TS, etc.) | **Code completions** | **Popup menu** | IntelliSense dropdown |
-| Zeta / Copilot / Codestral | **Edit predictions** | **Inline ghost text** | Copilot inline suggest |
+## Key Concepts
 
-Zed has **no setting** to render LSP completions (e.g. `int`, `int16` in Go) as inline ghost text. That requires `textDocument/inlineCompletion` LSP support — [not implemented generically yet](https://github.com/zed-industries/zed/issues/27392). For VS Code–style ghost hints, use **edit predictions** and suppress the LSP popup from auto-opening.
+- **Precedence:** project `.zed/settings.json` overrides user settings for the same keys.
+- **Code completions (LSP):** popup menu from gopls/tsserver/etc.
+- **Edit predictions:** inline ghost text (Zeta/Copilot-style) — different protocol/UX.
+- **Remote edit:** `zed ssh://user@host/path` with remote LSP when configured.
 
-```txt
-Typing []in in Go
-  LSP (default)     → popup menu (int, int16, int32, …)     ← your screenshot
-  Edit predictions  → grey ghost text inline, Tab to accept ← VS Code Copilot feel
-```
+## Technical Details
 
-When both would show, Zed prioritizes the LSP menu in `eager` mode. **Hold `alt`** to preview the inline edit prediction and hide the menu ([Zed edit prediction UX](https://zed.development/edit-prediction)).
-
-
-## Configuration and commands
-
-### Open remote file
+| Source | UI | VS Code analogue |
+|--------|----|------------------|
+| Language server | Popup menu | IntelliSense |
+| Edit predictions | Inline ghost text | Copilot inline |
 
 ```bash
 zed ssh://user@192.168.1.10/etc/nginx/nginx.conf
 ```
 
-### Minimal settings.json
+Zed does not generically render normal LSP completions as ghost text; that needs inline-completion support. When both would show, hold `alt` to preview the inline prediction and hide the menu.
 
-```json
-{
-  "theme": "One Dark",
-  "buffer_font_size": 14,
-  "tab_size": 2,
-  "format_on_save": "on",
-  "lsp": {
-    "typescript-language-server": {
-      "initialization_options": {
-        "preferences": { "importModuleSpecifierPreference": "non-relative" }
-      }
-    }
-  }
-}
-```
+## Real-World Applications
 
-### Disable ESLint LSP (keep TS server)
+Team-shared `.zed/settings.json` pins formatters and enable/disable predictions per repository.
 
-```json
-{
-  "languages": {
-    "JavaScript": {
-      "language_servers": ["typescript-language-server", "!eslint"]
-    },
-    "TypeScript": {
-      "language_servers": ["typescript-language-server", "!eslint"]
-    }
-  }
-}
-```
+**Example:** Go `int` completions appear only in the popup — expected for LSP; enable edit predictions if you want Copilot-like ghosts.
 
-### Project-local
+## Pros/Cons or Trade-offs
 
-```json
-// .zed/settings.json in repo root
-{
-  "formatter": "prettier",
-  "format_on_save": "on"
-}
-```
+- **Pro:** Fast native editor with first-class LSP + optional AI predictions.
+- **Con:** Mental model differs from VS Code if you expect all hints as ghost text.
 
-### Inline ghost completions (VS Code Copilot-style)
+## Comparison
 
-**Goal:** grey inline hint at the cursor — **not** the LSP popup menu.
+- vs [[Descriptive/vscode]]: similar settings layers; different prediction/completion UX details.
+- vs [[zed keybindings]]: config defines behavior; keybindings bind chords to actions.
 
-**Recommended `~/.config/zed/settings.json`:**
+## Mistakes to Avoid
 
-```json
-{
-  // Stop LSP popup on every keystroke (manual trigger: ctrl-space)
-  "show_completions_on_input": false,
-
-  // Inline ghost text from Zeta / Copilot / Codestral
-  "show_edit_predictions": true,
-  "edit_predictions": {
-    "provider": "zed",
-    "mode": "eager"
-  }
-}
-```
-
-| Setting | Effect |
-|---------|--------|
-| `show_completions_on_input: false` | No popup while typing; `ctrl-space` opens LSP menu on demand |
-| `show_edit_predictions: true` | AI predictions appear as ghost text |
-| `edit_predictions.mode: "eager"` | Show ghost text automatically (default) |
-| `edit_predictions.mode: "subtle"` | Ghost text only while holding `alt` — less visual noise |
-| `edit_predictions.provider: "copilot"` | Use GitHub Copilot instead of Zeta |
-
-**Accept bindings (defaults):**
-
-| Action | Linux / Windows | macOS |
-|--------|-----------------|-------|
-| Accept full prediction | `tab` (if menu closed) or `alt-l` | `tab` or `alt-tab` |
-| Accept next word | `alt-k` | `ctrl-cmd-right` |
-| Accept next line | `alt-j` | `ctrl-cmd-down` |
-| Toggle predictions off (buffer) | `ctrl-shift-e` | `ctrl-cmd-e` |
-| Manual show prediction | `alt-\` | `alt-tab` |
-| LSP menu on demand | `ctrl-space` | `ctrl-space` |
-
-**When LSP menu is already open:** hold `alt` — Zed previews the inline prediction and hides the popup so you can review ghost text unobstructed.
-
-**Per-language: popup off, predictions on (Go example):**
-
-```json
-{
-  "show_completions_on_input": false,
-  "languages": {
-    "Go": {
-      "show_completions_on_input": false,
-      "completions": {
-        "lsp": true,
-        "lsp_insert_mode": "replace_suffix"
-      }
-    }
-  }
-}
-```
-
-**Keymap: always `tab` for ghost text, `tab tab` for LSP menu item** — add to `~/.config/zed/keymap.json`:
-
-```json
-[
-  {
-    "context": "Editor && edit_prediction",
-    "bindings": {
-      "tab": "editor::AcceptEditPrediction"
-    }
-  }
-]
-```
-
-After this, `tab tab` still accepts the highlighted LSP completion when the menu is open.
-
-**Limitation (important):** This gives inline ghost text for **edit predictions** (AI), not for gopls type lists (`int` versus `int16`). For LSP symbol completion you still use `ctrl-space` → popup, or pick from the menu. There is no Zed equivalent of VS Code rendering the top LSP match as inline ghost today.
-
-→ Full keybinding reference: [[zed keybindings]]
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Popup on every key, no ghost text | `show_completions_on_input` | Set `false`; enable `show_edit_predictions` + `edit_predictions.mode: "eager"` |
-| Ghost text never appears | Signed in to Zed AI / Copilot? | `edit_predictions.provider`; status bar Z/Copilot icon |
-| Ghost text blocked by popup | Both LSP + predictions active | `show_completions_on_input: false` or hold `alt` to preview inline |
-| `tab` inserts tab, not hint | Completion menu open | `esc` dismiss menu, or use `alt-l` / keymap above |
-| Only want LSP, no AI ghost | `show_edit_predictions` | Set `false`; use `ctrl-space` for menu |
-| `int`/`int16` still in popup only | LSP limitation in Zed | Expected — no inline LSP setting exists yet; use menu or edit predictions |
-| Remote open fails | SSH key, host | `ssh user@host` first; fix `~/.ssh/config` |
-| ESLint still runs | Language server list | Use `"!eslint"` suffix; restart Zed |
-| Format on save no-op | Formatter set? | Add `"formatter": "prettier"` + project config |
-| LSP not found | `which typescript-language-server` | Install globally or via mise/nvm |
-| Settings ignored | Project vs user path | Check `.zed/settings.json` overrides |
-
-
-## Gotchas
-
-> [!WARNING]
-> **LSP completions are always a popup in Zed** — you cannot make gopls/TS type lists render as inline ghost text (unlike VS Code inline suggest for some providers).
-
-> [!WARNING]
-> **Remote SSH needs agent forwarding or keys on remote** — LSP runs where file lives.
->
-> **Duplicate formatters** — Prettier + ESLint fix both on save = slow/flappy.
->
-> **Invalid JSON** — trailing commas break entire settings load silently partial.
-
-
-## When not to use
-
-- Don't disable all linters globally to silence one noisy rule — fix rule or use local override.
-- Don't commit machine-specific absolute paths in shared `.zed/settings.json`.
-
-
-## Related
-
-[[Descriptive/vscode]] [[editor configuration]] [[zed keybindings]] [[npm/husk]]
-
-## Sources
-
-- [Wikipedia — zed config](https://en.wikipedia.org/wiki/zed_config)
+- Hunting for a setting to turn LSP items into ghost text — use edit predictions instead.
+- Committing machine-local paths in project settings.
+- Assuming remote SSH opens without considering remote LSP install.

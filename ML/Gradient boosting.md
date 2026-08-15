@@ -1,12 +1,20 @@
-[[Decision tree]] [[Random forest]] [[xg boost]] [[scikitlearn]] [[regression]] [[binary classification]]
+[[Decision tree]] [[Random forest]] [[xg boost]] [[scikitlearn]] [[regression]] [[binary classification]] [[Model/Linear regression]] [[multiclass classification]]
 
 # Gradient boosting
 
 > Sequential ensemble: each new tree fits the **residual errors** of the ensemble so far — **Friedman (1999)** + modern GBDT libraries.
 
----
+## Interview Relevance
 
-## How it works
+Boosting interviews cover sequential residual fitting, learning rate, and overfit versus random forests.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [Gradient boosting — Wikipedia](https://en.wikipedia.org/wiki/Gradient_boosting) — overview
+
+## Key Concepts
 
 Boosting builds an additive model:
 
@@ -28,10 +36,7 @@ Final: weighted sum of M small trees
 
 **Loss linkage:** regression → MSE residuals; binary classification → log-loss → residuals on log-odds; ranking → LambdaRank-style gradients.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### scikit-learn `HistGradientBoosting*` (preferred in sklearn ≥1.0)
 
@@ -79,24 +84,14 @@ model = xgb.train(
 )
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Tiny tabular data (< few hundred rows)** — linear/logistic + strong regularization often generalizes better with less tuning.
+- **Need online learning** — GBDT retrains are batch-heavy; consider linear models or incremental learners.
+- **Strict interpretability for regulators** — single [[Decision tree]] or GAM may be required; explain boosted models with documented SHAP limits.
+- **Already at latency budget with RF** — boosting gains may not justify 2–5× inference cost.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Train great, val collapses | `learning_rate` too high, too many rounds | Lower η; enable early stopping; ↑ `min_child_weight` / `min_samples_leaf` |
-| Underfitting (both weak) | Too few rounds, depth too shallow | More estimators + early stop; slightly deeper trees |
-| Training very slow | Dense wide matrix | `HistGradientBoosting`; LightGBM histogram; reduce features |
-| Predictions all one class | Base rate skew, wrong objective | Check `scale_pos_weight`; class weights; PR curve |
-| Wild variance across CV folds | Small data + high capacity | Stronger regularization; fewer features; nested CV |
-| Serving latency high | Tree count × depth | Limit rounds; model distillation; ONNX + treelite |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Leakage through early stopping:** validation set must be truly held out; don't peek at test for round selection.
@@ -110,23 +105,12 @@ model = xgb.train(
 > [!WARNING]
 > **Interaction ≠ causation:** high feature importance on correlated features splits credit arbitrarily — use SHAP with care.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Train great, val collapses | `learning_rate` too high, too many rounds | Lower η; enable early stopping; ↑ `min_child_weight` / `min_samples_leaf` |
+| Underfitting (both weak) | Too few rounds, depth too shallow | More estimators + early stop; slightly deeper trees |
+| Training very slow | Dense wide matrix | `HistGradientBoosting`; LightGBM histogram; reduce features |
+| Predictions all one class | Base rate skew, wrong objective | Check `scale_pos_weight`; class weights; PR curve |
+| Wild variance across CV folds | Small data + high capacity | Stronger regularization; fewer features; nested CV |
+| Serving latency high | Tree count × depth | Limit rounds; model distillation; ONNX + treelite |
 
-
-## When not to use
-
-- **Tiny tabular data (< few hundred rows)** — linear/logistic + strong regularization often generalizes better with less tuning.
-- **Need online learning** — GBDT retrains are batch-heavy; consider linear models or incremental learners.
-- **Strict interpretability for regulators** — single [[Decision tree]] or GAM may be required; explain boosted models with documented SHAP limits.
-- **Already at latency budget with RF** — boosting gains may not justify 2–5× inference cost.
-
----
-
-
-## Related
-
-[[xg boost]] · [[Random forest]] · [[Decision tree]] · [[Model/Linear regression]] · [[multiclass classification]] · [[scikitlearn]]
-
-## Sources
-
-- [Wikipedia — Gradient boosting](https://en.wikipedia.org/wiki/Gradient_boosting)

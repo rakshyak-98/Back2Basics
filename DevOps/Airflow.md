@@ -1,14 +1,33 @@
-[[Python]] [[Docker compose]] [[Jenkins]]
+[[orchestration]] [[Jenkins]] [[Python]] [[Docker compose]] [[postgres]] [[Slack]]
 
 # Airflow
 
-> Airflow — defines DAGs (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The scheduler parses DAGs, creates DagRuns, queues TaskInstances. Workers (executor-dependent) execute
+> Apache Airflow schedules batch workflows as DAGs (Directed Acyclic Graphs) — tasks with dependencies, retries, and a metadata database as the source of truth.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask Airflow to check whether you know scheduler vs workers vs metadata DB, logical date vs wall clock, `catchup` storms, and when batch DAGs beat streaming or a simple cron.
 
-Airflow defines **DAGs** (Directed Acyclic Graphs): tasks with dependencies, scheduled by interval or trigger. The **scheduler** parses DAGs, creates **DagRuns**, queues **TaskInstances**. **Workers** (executor-dependent) execute operators.
+## Sources
+
+- [Apache Airflow — DAGs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html) — deep-dive
+- [Apache Airflow — Executors](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/index.html) — deep-dive
+- [Wikipedia — Apache Airflow](https://en.wikipedia.org/wiki/Apache_Airflow) — overview
+
+## Core Definition
+
+Airflow is a workflow platform: you define DAGs in Python; the scheduler creates DagRuns and TaskInstances; an executor (Local, Celery, Kubernetes, …) runs operators on workers; state lives in a metadata database (usually PostgreSQL).
+
+## Key Concepts
+
+- **DAG:** directed acyclic graph of tasks and dependencies → the workflow shape.
+- **Scheduler:** parses DAGs, enqueues ready tasks when upstream succeeds.
+- **Metadata DB:** source of truth for DagRun/TaskInstance state — back it up.
+- **Executor:** how work runs (Sequential, Local, Celery, Kubernetes) → ops trade-offs.
+- **Operator / Sensor:** unit of work vs wait-for-external-condition.
+- **Logical date / data interval:** identifies the data period being processed — not “when the task started.”
+
+## Technical Details
 
 ```
 Scheduler ──► DagRun (logical date) ──► TaskInstance queue ──► Worker
@@ -21,34 +40,19 @@ Webserver UI ── reads same DB
 |-----------|------|
 | Scheduler | Enqueues tasks when dependencies met |
 | Webserver | UI + API |
-| Metadata DB | Source of truth for state — backup this |
-| Executor | How tasks run: Sequential, Local, Celery, Kubernetes |
-| Operator | Unit of work (`BashOperator`, `PythonOperator`, provider hooks) |
-| Sensor | Waits for external condition (file, partition, flag) |
-
-**Logical date (`execution_date`)** ≠ wall clock — it's the start of the data interval being processed. Backfill creates historical DagRuns.
-
-
-## Configuration and commands
+| Metadata DB | Source of truth for state |
+| Executor | Sequential / Local / Celery / Kubernetes |
+| Operator | Unit of work (`BashOperator`, `PythonOperator`, …) |
+| Sensor | Waits for file, partition, flag, etc. |
 
 ```shell
-# CLI (inside scheduler/worker container or venv)
 airflow dags list
 airflow dags state my_dag 2025-07-22T00:00:00+00:00
-airflow tasks list my_dag
-airflow tasks test my_dag extract_task 2025-07-22   # dry run single task — no deps
+airflow tasks test my_dag extract_task 2025-07-22
 airflow dags trigger my_dag --execution-date 2025-07-22T00:00:00+00:00
 airflow tasks clear my_dag -s 2025-07-22 -e 2025-07-23 -y
-
-# Logs
-airflow tasks logs my_dag extract_task 2025-07-22T00:00:00+00:00 1
-# or volume: /opt/airflow/logs/my_dag/extract_task/...
-
-# DB health
 airflow db check
 ```
-
-### DAG skeleton (production patterns)
 
 ```python
 from airflow import DAG
@@ -60,16 +64,16 @@ default_args = {
     'retries': 2,
     'retry_delay': timedelta(minutes=5),
     'execution_timeout': timedelta(hours=1),
-    'depends_on_past': False,          # True only when strict ordering required
+    'depends_on_past': False,
 }
 
 with DAG(
     dag_id='daily_etl',
     default_args=default_args,
-    schedule='0 2 * * *',              # cron — 02:00 UTC daily
+    schedule='0 2 * * *',
     start_date=datetime(2025, 1, 1),
-    catchup=False,                     # don't backfill on deploy unless intended
-    max_active_runs=1,                 # prevent overlapping runs
+    catchup=False,
+    max_active_runs=1,
     tags=['etl'],
 ) as dag:
     extract = PythonOperator(task_id='extract', python_callable=extract_fn)
@@ -78,68 +82,46 @@ with DAG(
     extract >> transform >> load
 ```
 
-### Executor choice
-
 | Executor | When | Tradeoff |
 |----------|------|----------|
-| **Sequential** | Dev laptop only | One task at a time |
-| **Local** | Small single-node | Parallel tasks, same machine |
-| **Celery** | Mature multi-worker | Redis/Rabbit broker ops |
-| **Kubernetes** | Isolated heavy tasks | Pod spin-up latency; best for spiky CPU |
+| **Sequential** | Laptop only | One task at a time |
+| **Local** | Small single-node | Parallel on one machine |
+| **Celery** | Multi-worker fleet | Redis/RabbitMQ broker ops |
+| **Kubernetes** | Isolated heavy tasks | Pod start latency; good for spiky CPU |
 
-
-## When things break
+Prefer `mode='reschedule'` on sensors so they release worker slots between pokes.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| DAG missing from UI | Import errors in scheduler log | `airflow dags list-import-errors`; fix Python exception |
-| Tasks stuck `scheduled` | Executor workers alive? Pool slots? | Scale workers; raise `pool` slots; clear zombie TIs |
-| Tasks stuck `queued` | Celery/K8s queue depth | Worker connectivity; broker URL; K8s RBAC for pod launch |
-| SLA miss emails | `sla=timedelta(hours=1)` on task | Optimize task; widen SLA if unrealistic; upstream data late |
-| Sensor never completes | `poke` vs `reschedule`; timeout | Prefer `mode='reschedule'` to free worker; set `timeout` |
-| Duplicate data loaded | Rerun without idempotency | Upsert keys; partition overwrite; `depends_on_past` review |
-| Backfill storm | `catchup=True` on deploy | Set `catchup=False`; manual trigger with date range |
-| DB connection errors | Metadata Postgres connections | PgBouncer; raise `sql_alchemy_pool_size`; recycle stale conns |
-| Zombie tasks `running` after worker kill | Scheduler can't reach worker | `airflow tasks clear` failed TI; mark success/failed in UI carefully |
-| Wrong data date processed | Confused logical vs run date | Use `{{ ds }}` / `data_interval_start` in Airflow 2.x templates |
+| DAG missing from UI | Import errors in scheduler log | `airflow dags list-import-errors` |
+| Tasks stuck `scheduled` | Workers / pool slots | Scale workers; raise pool slots |
+| Tasks stuck `queued` | Broker / K8s RBAC | Fix connectivity; pod launch rights |
+| Duplicate data loaded | Rerun without idempotency | Upsert; partition overwrite |
+| Backfill storm | `catchup=True` + old `start_date` | Default `catchup=False` |
+| Zombie `running` tasks | Worker died | Clear TaskInstance carefully |
 
-### Sensor ops
+## Real-World Applications
 
-```python
-# Bad: occupies worker entire poke interval
-FileSensor(filepath='/data/ready', poke_interval=60, timeout=3600)
+Nightly ETL: extract from warehouse APIs, transform, load partitions; sensors wait for upstream files then kick off loads.
 
-# Better: release slot between pokes
-FileSensor(filepath='/data/ready', mode='reschedule', poke_interval=300, timeout=3600)
-```
+**Example:** First deploy with years of `start_date` and `catchup=True` queues thousands of DagRuns — set `catchup=False` and backfill deliberately.
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Pro:** Rich UI, dependency graph, retries, and Python-native DAGs for batch pipelines.
+- **Con:** Metadata DB loss means orchestration amnesia — treat Postgres restore as critical.
+- **Con:** Not a streaming engine — Kafka/Flink for real-time; not a long-running service host.
 
-> [!WARNING]
-> **Metadata DB loss = total orchestration amnesia.** Backup Postgres; treat restore drills seriously.
+## Comparison
 
-> [!WARNING]
-> **`catchup=True` on first deploy** with years of `start_date` → thousands of DagRuns. Default `catchup=False`.
+- vs cron / Kubernetes CronJob: Airflow wins when you need UI, dependencies, and retries across many tasks.
+- vs [[Jenkins]]: Jenkins is CI/CD; Airflow is data/batch workflow scheduling.
+- vs [[orchestration]] generally: Airflow is one concrete orchestrator optimized for scheduled DAGs.
 
-- **Top-level DAG code runs on every scheduler parse** — no heavy work at import; use factories sparingly.
-- **`execution_date` templating changed in 2.x** — use `data_interval_start` / `logical_date` explicitly in new DAGs.
-- **XCom default stores in metadata DB** — large payloads bloat DB; write to S3 and pass URI.
-- **Pools** limit concurrency globally — `-1` slot starves unrelated DAGs if one pool misconfigured.
-- **Local timezone in cron** — Airflow schedules UTC unless `default_timezone` set; destination surprises.
+## Mistakes to Avoid
 
-
-## When not to use
-
-- Real-time streaming ETL → Kafka/Flink; Airflow is batch/interval orchestration.
-- Simple cron on one server → systemd timer or K8s CronJob unless you need UI/dependencies.
-- Long-running always-on services → deploy as service, not `BashOperator` loop.
-
-
-## Related
-
-[[Python]] · [[Docker compose]] · [[Jenkins]] · [[postgres]]
-
-## Sources
-
-- [Wikipedia — Airflow](https://en.wikipedia.org/wiki/Airflow)
+- Heavy work at DAG import time — top-level code runs on every scheduler parse.
+- Stuffing large XCom payloads in the metadata DB — write to object storage and pass URIs.
+- Occupying workers with long `poke` sensors — use `reschedule` mode and timeouts.
+- Confusing logical date with wall-clock run time in templates.
+- Using Airflow to run always-on services inside a `BashOperator` loop.

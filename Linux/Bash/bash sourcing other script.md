@@ -1,42 +1,32 @@
-[[bash script]] [[Bash syntax]] [[Bash functions]] [[Scripting]]
+[[bash script]] [[Bash syntax]] [[Bash functions]] [[Scripting]] [[bash flags]]
 
 # Bash sourcing other scripts
 
-> Bash sourcing other scripts — sourcing executes commands in the current shell context. Exported vars, functions, and cd persist. Executing ./script.sh runs a subshell (usually) —
+> Sourcing runs another file in the current shell — functions, variables, and cd persist; executing `./script.sh` usually does not.
 
----
+## Interview Relevance
+Classic trap: `source` vs execute, `BASH_SOURCE` for library paths, and never `exit` from a sourced helper unless you mean to kill the caller.
 
-## How it works
+## Sources
+- [Bash Reference — Bourne Shell Builtins (`.` / `source`)](https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html) — deep-dive
+- [BashFAQ — sourcing](https://mywiki.wooledge.org/BashFAQ/028) — overview
 
-**Sourcing** executes commands in the **current shell context**. Exported variables, functions, and `cd` persist. **Executing** `./script.sh` runs a subshell (usually) — isolation unless script mutates parent via exports you re-import.
+## Core Definition
+`. file` or `source file` reads and executes commands in the **current** shell environment. That is how Bash libraries export functions. A separate `./file` runs in a subshell (typically); definitions disappear when it ends.
 
-```
+## Key Concepts
+- **Same shell:** Exports, functions, `cd`, options affect the caller.
+- **Library pattern:** `source "$(dirname …)/lib/utils.sh"`.
+- **`BASH_SOURCE`:** Reliable path to the current script file.
+- **`return` in sourced file:** Leaves the sourced file, not always the whole script.
+- **`exit` in sourced file:** Exits the caller shell/script.
+
+## Technical Details
+
+```txt
 . lib/utils.sh   →  functions available immediately
 ./lib/utils.sh   →  subshell; functions gone when script ends
 ```
-
-| Pattern | Use |
-|---------|-----|
-| `source file` | bash builtin — readable |
-| `. file` | POSIX equivalent |
-| `${BASH_SOURCE[0]}` | Path of file being sourced — anchor relative imports |
-
-**Critical:** always resolve paths relative to **the sourced file**, not `$PWD`.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **source / .** | Run in current shell | “source loads vars into this shell.” |
-| **subshell** | ( ) or script exec | “Running ./x.sh won’t keep exports.” |
-| **BASH_SOURCE** | Caller path | “Locate sibling files relative to script.” |
-| **return vs exit** | In sourced files | “exit kills the parent shell — use return.” |
-| **set -a** | Auto-export | “Useful when sourcing env files.” |
-
-
-## Configuration and commands
-
-**Safe library load (production pattern):**
 
 ```bash
 #!/usr/bin/env bash
@@ -52,89 +42,36 @@ else
     exit 1
 fi
 
-# Now call functions from utils.sh
 deploy_app staging
 ```
 
-**utils.sh (sourced library):**
-
 ```bash
-# lib/utils.sh — no shebang required; no exit unless fatal
+# lib/utils.sh — no shebang required; prefer return over exit
 deploy_app() {
     local env="${1:?env required}"
     echo "Deploying to $env"
 }
 ```
 
-**Optional configuration overlay:**
-
-```bash
-CONFIG="${CONFIG:-/etc/myapp/config.sh}"
-[[ -f "$CONFIG" ]] && source "$CONFIG"
-```
-
-**systemd ExecStartPre sourcing environment:**
-
-```ini
-[Service]
-EnvironmentFile=-/etc/default/myapp
-ExecStart=/opt/myapp/bin/run.sh
-```
-
-Prefer `EnvironmentFile=` over sourcing in wrapper when possible — clearer permissions.
-
-**Avoid:**
-
-```bash
-source ./lib/utils.sh      # breaks when cwd != script dir
-source ~/lib/utils.sh      # breaks for other users/CI
-. /etc/profile             # pulls login side effects; non-reproducible
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `No such file` on source | Relative to cwd | Use `BASH_SOURCE[0]` dirname pattern |
-| Works interactive, fails cron | Minimal PATH/cwd | Absolute paths; set PATH in script |
-| `set -u` unbound variable | Order of source | Define defaults before source or in library |
-| Double-sourced side effects | Guard with variable | `[[ -n "${_LIB_LOADED:-}" ]] && return; _LIB_LOADED=1` |
-| Function not found | Sourced subshell by mistake | Use `source` not `./` |
-| Permission denied | File not readable | chmod 644; check AppArmor |
+| function: not found | Used `./lib` | `source` instead |
+| Caller died unexpectedly | `exit` in library | Use `return` |
+| Wrong lib path | cwd-relative source | Resolve via `BASH_SOURCE` |
+| set -e quirks | options inherited | Document; isolate with subshell if needed |
 
-**Idempotent library guard:**
+## Real-World Applications
+Shared deploy helpers (`log`, `die`, `require_env`) across multiple scripts, and loading environment-specific overrides without forking.
 
-```bash
-# lib/utils.sh top
-[[ -n "${_UTILS_SH_LOADED:-}" ]] && return 0
-_UTILS_SH_LOADED=1
-```
+## Pros/Cons or Trade-offs
+- **Pro:** Zero-fork reuse; true shared state when wanted.
+- **Con:** Pollution and accidental `exit`; harder to reason about than pure functions in a language.
+- **Trade-off:** Source libraries vs `bash -c` / external scripts for isolation.
 
+## Comparison
+vs executing a script: isolation vs shared env. vs [[Bash functions]]: functions are what you usually define inside sourced libs. vs Python imports: similar idea, different semantics.
 
-## Gotchas
-
-> [!WARNING]
-> **Sourcing untrusted scripts** — equivalent to running arbitrary code in your shell. Same trust as `curl | bash`.
-
-> [!WARNING]
-> **`exit` in sourced file** — kills parent script/shell. Libraries should `return` (only valid inside sourced context or functions).
-
-- **shellcheck `SC1090/1091`** — dynamic source path; annotate or structure known paths.
-- **Symlinks** — `BASH_SOURCE` versus `readlink -f` for real path when symlinks involved.
-
-
-## When not to use
-
-- **Large standalone job** — executable script with shebang + `main "$@"`.
-- **Cross-language reuse** — Python/Go module, not bash source.
-- **Secrets in sourced file** — world-readable `/etc/default` leaks; use restricted permissions + systemd credentials.
-
-
-## Related
-
-[[bash script]] [[Bash syntax]] [[Bash functions]] [[Scripting]]
-
-## Sources
-
-- [Wikipedia — bash sourcing other script](https://en.wikipedia.org/wiki/bash_sourcing_other_script)
+## Mistakes to Avoid
+- Sourcing with relative paths that break when cwd changes.
+- Putting `exit 1` in helpers meant to be sourced.
+- Assuming `./utils.sh` loads functions into the parent shell.

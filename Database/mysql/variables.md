@@ -1,24 +1,30 @@
-[[mysql]] [[Configuration]] [[SQL Configurations]]
+[[mysql]] [[Configuration]] [[SQL Configurations]] [[MySQL storage]] [[connection pooling]]
 
 # variables
 
-> MySQL system variables—global, session, or read-only—control buffer sizes, SQL modes, replication, and InnoDB behavior.
+> MySQL system variables — global, session, or read-only — control buffers, SQL mode, replication, and InnoDB durability behavior.
 
-## Inspect
+## Interview Relevance
+Name high-impact knobs (`innodb_buffer_pool_size`, `max_connections`, `innodb_flush_log_at_trx_commit`, `sql_mode`) and whether a change survives restart (`SET PERSIST` vs `SET GLOBAL`).
 
+## Sources
+- [Server System Variables](https://dev.mysql.com/doc/refman/en/server-system-variables.html) — deep-dive
+- [SET PERSIST](https://dev.mysql.com/doc/refman/en/set-variable.html) — overview
+
+## Key Concepts
+- **Scope:** GLOBAL vs SESSION (`@@global.` / `@@session.`).
+- **Persistence (8.0+):** `SET PERSIST` writes `mysqld-auto.cnf`.
+- **Read-only vars:** Some require restart / config file.
+- **SQL mode:** Strictness changes accepted data shapes.
+
+## Technical Details
 ```sql
 SHOW VARIABLES LIKE 'innodb%';
 SELECT @@global.max_connections, @@session.sql_mode;
-```
 
-## Set persistence (8.0+)
-
-```sql
-SET PERSIST innodb_buffer_pool_size = 8589934592;  -- survives restart via mysqld-auto.cnf
+SET PERSIST innodb_buffer_pool_size = 8589934592;
 SET GLOBAL max_connections = 500;  -- runtime only unless PERSIST
 ```
-
-## High-impact variables
 
 | Variable | Purpose |
 |----------|---------|
@@ -27,7 +33,18 @@ SET GLOBAL max_connections = 500;  -- runtime only unless PERSIST
 | `innodb_flush_log_at_trx_commit` | Durability vs speed |
 | `sql_mode` | Strictness (`STRICT_TRANS_TABLES`) |
 
-## Sources
+## Real-World Applications
+Size buffer pool to ~50–70% of dedicated DB RAM (rule of thumb); raise `max_connections` only with pool math and memory headroom.
 
-- MySQL Reference Manual — [Server System Variables](https://dev.mysql.com/doc/refman/en/server-system-variables.html)
-- MySQL Reference Manual — [SET PERSIST](https://dev.mysql.com/doc/refman/en/set-variable.html)
+## Pros/Cons or Trade-offs
+- **Pro:** Runtime tuning without always rebuilding images.
+- **Con:** Undocumented drifts between hosts; persist files surprise you on restart.
+- **Trade-off:** Durability settings that buy QPS lose crash safety.
+
+## Comparison
+vs [[SQL Configurations]]: cross-engine config discipline; this note is MySQL variable mechanics. vs `my.cnf`: files are source of truth for many fleets — keep PERSIST and files from fighting.
+
+## Mistakes to Avoid
+- Setting `innodb_flush_log_at_trx_commit=0` on money paths for “speed.”
+- Raising `max_connections` instead of fixing [[connection pooling]].
+- Changing `sql_mode` in production without checking application assumptions.

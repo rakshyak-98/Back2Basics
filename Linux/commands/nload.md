@@ -1,14 +1,30 @@
-[[Linux network commands]] [[ip]] [[ss]] [[top]]
+[[Linux network commands]] [[ip]] [[ss]] [[top]] [[netstat]]
 
 # nload
 
-> nload — polls /proc/net/dev (or pcap on some builds) and draws moving averages for incoming and outgoing throughput per interface. One screen, two graphs — not
+> Live per-interface bandwidth graphs from `/proc/net/dev` — “is this NIC saturated?” not “which process?”.
 
----
+## Interview Relevance
 
-## How it works
+Shows you can pick the right granularity for network triage: interface rates first, then flow or process tools when the graph alone is not enough.
 
-`nload` polls `/proc/net/dev` (or pcap on some builds) and draws moving averages for **incoming** and **outgoing** throughput per interface. One screen, two graphs — not per-process, not per-connection.
+## Sources
+
+- [nload on GitHub](https://github.com/rolandviehbeck/nload) — overview
+- [Wikipedia — nload](https://en.wikipedia.org/wiki/nload) — overview
+
+## Core Definition
+
+`nload` polls `/proc/net/dev` (or pcap on some builds) and draws moving averages for incoming and outgoing throughput per interface — one screen, two graphs.
+
+## Key Concepts
+
+- **Per-interface only:** answers saturation of `eth0`/`ens5`, not which PID or remote IP.
+- **Moving average window:** F2 shortens/lengthens the average — too long hides spikes.
+- **Predictable naming:** cloud VMs often use `ens*` / `enp*`, not `eth0`.
+- **Bond/VLAN:** traffic may appear on `bond0`, not the physical slave.
+
+## Technical Details
 
 ```
 /proc/net/dev ──► nload ──► TUI graph (in/out Mbps per iface)
@@ -22,93 +38,47 @@
 | `ip -s link` | Counter snapshot | Scripting, no TUI |
 | `sar -n DEV` | Historical (sysstat) | Post-incident |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **nload** | Live bandwidth graphs | “nload eth0 for instant traffic.” |
-| **in/out** | RX/TX rates | “Spot saturation quickly.” |
-| **iftop / bmon** | Alternatives | “iftop shows per-flow.” |
-| **iface down** | No data | “Wrong device name → empty.” |
-| **remote SSH** | Over own link | “Measuring the link you use skews it.” |
-
-
-## Configuration and commands
-
 ```bash
-# All interfaces, interactive switch with arrow keys
 nload
-
-# Single interface
 nload eth0
-nload ens5                    # common on cloud VMs
-
-# Specify refresh interval (milliseconds)
+nload ens5
 nload -t 200 eth0
-
-# Multiple interfaces at once
 nload eth0 wlan0
-
-# Units: human readable (default kbit/s); toggle in UI with 'm'
-# Keys while running:
-#   ←/→  switch device
-#   F2   show options (avg window, unit)
-#   F5   save settings
-#   q    quit
 ```
 
-**Quick alternatives when nload isn't installed:**
+Keys while running: ←/→ switch device, F2 options (avg window, unit), F5 save settings, `q` quit.
 
 ```bash
-# One-shot counters
 ip -s link show eth0
-
-# Watch mode
 watch -n1 'ip -s link show eth0'
-
-# Per-second from sar (needs sysstat)
 sar -n DEV 1 5
 ```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Shows 0 on busy host | Wrong interface name | `ip link`; cloud uses `ens*`, not `eth0` |
-| Graph flat but users report slowness | Problem not bandwidth (latency, CPU) | [[ss]], `ping`, app metrics |
+| Graph flat but users slow | Not bandwidth (latency, CPU) | [[ss]], `ping`, app metrics |
 | Can't identify culprit | Interface-level only | `iftop`, `nethogs`, `tcpdump` |
-| Spikes not visible | Avg window too long | F2 → shorten avg time in nload |
-| Permission errors | Rare; needs cap for some modes | Run as root or use `ip -s link` |
+| Spikes not visible | Avg window too long | F2 → shorten avg time |
 
+## Real-World Applications
 
-## Gotchas
+Incident “is the uplink maxed?” — open `nload ens5` while correlating with load balancer metrics.
 
-> [!WARNING]
-> **Interface names changed** — `eth0` → `enp0s3` / `ens5` with predictable naming. Always `ip link` first.
+**Example:** SSH into a VM over the same interface you are measuring skews the graph; prefer a side-channel or short sample windows.
 
-> [!WARNING]
-> **VLAN/bond slaves** — traffic may show on bond0, not physical NIC. Watch the interface actually carrying traffic.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Loopback (`lo`) spikes** — local proxy/db on same host looks like "network" on lo; filter to external iface.
+- **Pro:** Instant visual RX/TX without a monitoring stack.
+- **Con:** No per-process attribution and not suitable as a production dashboard.
 
-> [!WARNING]
-> **Not installed by default** on minimal images — `apt install nload`; don't assume presence in runbooks.
+## Comparison
 
+- vs `iftop` / `nethogs`: those answer who; nload answers how much on the NIC.
+- vs `sar -n DEV`: historical; nload is live TUI only.
 
-## When not to use
+## Mistakes to Avoid
 
-- **Per-process attribution** → `nethogs`, eBPF tools.
-- **Historical analysis** → `sar`, Grafana, flow logs.
-- **Production dashboards** → proper monitoring stack.
-- **Headless automation** → parse `/proc/net/dev` or `ip -s link`.
-
-
-## Related
-
-[[Linux network commands]] [[ip]] [[ss]] [[top]] [[netstat]]
-
-## Sources
-
-- [Wikipedia — nload](https://en.wikipedia.org/wiki/nload)
+- Assuming `eth0` — always `ip link` first after predictable naming.
+- Watching loopback (`lo`) and calling it “network” when local proxy/db chat dominates.
+- Expecting nload on minimal images — install it or fall back to `ip -s link`.

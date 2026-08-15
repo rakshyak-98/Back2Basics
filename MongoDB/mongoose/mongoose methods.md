@@ -4,9 +4,16 @@
 
 > Instance methods and statics attach behavior to documents/models — keep query helpers next to the schema.
 
----
+## Interview Relevance
 
-## How it works
+Instance/static methods questions check where business logic belongs versus services.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 doc.method() | Model.static() | Model.find().byEmail()
@@ -21,10 +28,7 @@ doc.method() | Model.static() | Model.find().byEmail()
 | **query helper** | Chainable filter | “`.byTenant(id)`.” |
 | **lean** | Skip hydrate | “Faster reads, no methods.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 schema.methods.displayName = function () {
@@ -44,10 +48,18 @@ schema.query.byTenant = function (tenantId) {
 | lean() | Methods unavailable on plain objects |
 | async methods | Always await |
 
----
+## Pros/Cons or Trade-offs
 
+- **Pure utilities** — plain functions may be clearer.
+- **Cross-model workflows** — service layer, not one model’s statics.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Business logic only in methods** — still enforce critical rules in services for non-Mongoose paths.
+
+> [!WARNING]
+> **Methods don’t exist after `lean()` or `toObject()` without virtuals config.**
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,30 +68,3 @@ schema.query.byTenant = function (tenantId) {
 | static not found | wrong model export | Export compiled model |
 | Side effects in getters | hidden I/O | Move to explicit methods |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Business logic only in methods** — still enforce critical rules in services for non-Mongoose paths.
-
-> [!WARNING]
-> **Methods don’t exist after `lean()` or `toObject()` without virtuals config.**
-
----
-
-
-## When not to use
-
-- **Pure utilities** — plain functions may be clearer.
-- **Cross-model workflows** — service layer, not one model’s statics.
-
-
-## Related
-
-[[mongoose/mongoose schema]] [[mongoose/mongoose custome function]] [[mongoose/mongoose]]
-
-## Sources
-
-- [Wikipedia — mongoose methods](https://en.wikipedia.org/wiki/mongoose_methods)

@@ -1,12 +1,18 @@
-[[Descriptive/JavaScript/new]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]]
+[[Descriptive/JavaScript/new]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]] [[Descriptive/JavaScript/execution context]]
 
 # Constructor function
 
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
----
+## Interview Relevance
 
-## How it works
+Constructor interviews check new, prototypes, and class syntax equivalence.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 A **constructor function** is a normal function intended to be called with `new`. It creates an object, links prototypes, runs the body with `this` bound to that object, and returns it (unless overridden).
 
@@ -27,8 +33,7 @@ new Person('Ada')
 
 Constructors are **not** special to the engine — only `new` gives them constructor semantics.
 
-
-## Configuration and commands
+## Technical Details
 
 ### ES5 constructor + prototype methods
 
@@ -80,19 +85,13 @@ class Admin extends User {
 }
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Simple data holders — plain objects or `Object.create(null)` suffice.
+- Heavy inheritance hierarchies — favor composition or factory functions.
+- TypeScript codebase — `class` + interfaces gives better tooling.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `TypeError: Cannot set property 'x' of undefined` | Called without `new` | Use `new` or class syntax |
-| Methods missing on instance | Method on constructor, not prototype | Move to `Constructor.prototype.method` |
-| `instanceof` false across iframes | Different realm prototypes | Duck-type or Symbol branding |
-| Subclass `this` before `super` | ES6 class rules | Call `super()` first in derived constructor |
-| Constructor returns plain object | Explicit `return { … }` | Only return object if intentional; else omit return |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Arrow functions cannot be constructors — no `prototype`, `new` throws.
@@ -101,18 +100,10 @@ class Admin extends User {
 - **Shared state bug:** `function User() { this.tags = []; }` is per-instance; `User.prototype.tags = []` is shared.
 - **Minification + `instanceof`:** breaking constructor names can confuse debuggers, not semantics.
 
-
-## When not to use
-
-- Simple data holders — plain objects or `Object.create(null)` suffice.
-- Heavy inheritance hierarchies — favor composition or factory functions.
-- TypeScript codebase — `class` + interfaces gives better tooling.
-
-
-## Related
-
-[[Descriptive/JavaScript/new]] [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/execution context]] [[javascript]]
-
-## Sources
-
-- [Wikipedia — constructor function](https://en.wikipedia.org/wiki/constructor_function)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `TypeError: Cannot set property 'x' of undefined` | Called without `new` | Use `new` or class syntax |
+| Methods missing on instance | Method on constructor, not prototype | Move to `Constructor.prototype.method` |
+| `instanceof` false across iframes | Different realm prototypes | Duck-type or Symbol branding |
+| Subclass `this` before `super` | ES6 class rules | Call `super()` first in derived constructor |
+| Constructor returns plain object | Explicit `return { … }` | Only return object if intentional; else omit return |

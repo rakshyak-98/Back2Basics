@@ -1,12 +1,18 @@
-[[Descriptive]] [[Java applets]]
+[[Descriptive]] [[Java applets]] [[Operating System/JVM]]
 
 # Java Basic
 
 > Java basics — classes, `javac`/`java`, JVM bytecode, and the usual entrypoint `main`.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers may probe Java Basic as tooling or web platform literacy — expect a crisp definition, how it works, and when it is the wrong tool.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 .java → javac → .class → java Main
@@ -21,10 +27,7 @@
 | **classpath** | Where classes live | “Missing jar = ClassNotFound.” |
 | **static main** | Entry | `public static void main(String[] args)` |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 javac Hello.java
@@ -46,10 +49,18 @@ public class Hello {
 | Module path | JPMS apps |
 | Heap `-Xmx` | Memory cap |
 
----
+## Pros/Cons or Trade-offs
 
+- **Tiny CLI glue** — scripting language may be faster to ship.
+- **Browser applets** — dead; use modern web stacks.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **File name = public class name** — `Hello.java` must hold `public class Hello`.
+
+> [!WARNING]
+> **Classpath hell** — duplicate classes; prefer a build tool (Maven/Gradle).
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,30 +69,3 @@ public class Hello {
 | No main | wrong class | Point to class with main |
 | Package mismatch | folder vs package | Match directory layout |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **File name = public class name** — `Hello.java` must hold `public class Hello`.
-
-> [!WARNING]
-> **Classpath hell** — duplicate classes; prefer a build tool (Maven/Gradle).
-
----
-
-
-## When not to use
-
-- **Tiny CLI glue** — scripting language may be faster to ship.
-- **Browser applets** — dead; use modern web stacks.
-
-
-## Related
-
-[[Java applets]] [[Operating System/JVM]]
-
-## Sources
-
-- [Wikipedia — Basic](https://en.wikipedia.org/wiki/Basic)

@@ -1,37 +1,51 @@
-[[apache]]
+[[apache]] [[fastCGI servers]] [[PHP-FPM]] [[Proxy/Reverse Proxy]]
 
 # CGI
 
-> CGI — common Gateway Interface — is a standard protocol that allows a web server to interact with external programs (called CGI scripts or programs) to…
+> Common Gateway Interface — the web server forks a process per request and talks via environment variables and stdio to generate dynamic responses.
 
----
+## Interview Relevance
 
-## How it works
-
-Common Gateway Interface -> is a standard protocol that allows a web server to interact with external programs (called CGI scripts or programs) to generate dynamic content, rather than just serving static files.
-Process per request -> Each CGI invocation spawns a new process, which is resource-intensive (slow for high traffic). This is why modern alternatives like FastCGI, mod_php, or application servers (Node.js) are preferred.
-
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| … | … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> …
-
-
-## Related
-
-[[apache]]
+Interviewers use CGI to test whether you understand process-per-request cost and why FastCGI/app servers replaced classic CGI for busy sites.
 
 ## Sources
 
-- [Wikipedia — CGI](https://en.wikipedia.org/wiki/CGI)
+- [RFC 3875 — CGI](https://datatracker.ietf.org/doc/html/rfc3875) — deep-dive
+- [Wikipedia — Common Gateway Interface](https://en.wikipedia.org/wiki/Common_Gateway_Interface) — overview
+
+## Key Concepts
+
+- **External program:** script/binary invoked by the server → not just static files.
+- **Process per request:** spawn → run → exit → high overhead under load.
+- **Env + stdio protocol:** request metadata in environment; body on stdin; response on stdout.
+- **Language agnostic:** any executable can be a CGI program.
+
+## Technical Details
+
+```
+Client → httpd → fork CGI script → stdout response → client
+```
+
+Classic path: `ScriptAlias` / `cgi-bin`. Failure modes: slow forks, permission errors, and scripts that do not emit correct headers.
+
+## Real-World Applications
+
+Legacy admin tools and embedded devices still expose CGI; modern stacks prefer FastCGI, WSGI/ASGI, or reverse-proxied app servers.
+
+**Example:** A traffic spike melts a CGI guestbook — each hit is a new process; move to a persistent worker model.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Simple mental model; easy to drop in a script.
+- **Con:** Poor performance and harder connection reuse than FastCGI.
+
+## Comparison
+
+- vs [[fastCGI servers]]: FastCGI keeps workers warm and uses a binary multiplexed protocol.
+- vs [[PHP-FPM]]: FPM is a FastCGI process manager specialized for PHP.
+
+## Mistakes to Avoid
+
+- Designing new high-traffic apps on classic CGI.
+- Trusting user input in CGI scripts without the same hardening as any web app.
+- Leaving `cgi-bin` writable by the deploy user.

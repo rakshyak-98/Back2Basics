@@ -1,12 +1,19 @@
-[[Data structure]] [[ADT (Abstract Data Type)]]
+[[Data structure]] [[ADT (Abstract Data Type)]] [[linked list]]
 
 # array
 
 > An array is a contiguous block of same-size slots — index `i` means `base + i * size` (that’s why zero-based is natural).
 
----
+## Interview Relevance
 
-## How it works
+Arrays are the baseline structure — contiguous indexing, cache locality, and O(1) random access vs costly insert/delete in the middle.
+
+## Sources
+
+- [Wikipedia — Array data structure](https://en.wikipedia.org/wiki/Array_(data_structure)) — overview
+- [CS 61B — Arrays](https://sp18.datastructur.es/) — overview
+
+## Key Concepts
 
 ```txt
 base → [0][1][2]…[n-1]   address(i) = base + i*elem_size
@@ -21,10 +28,7 @@ base → [0][1][2]…[n-1]   address(i) = base + i*elem_size
 | **Dynamic array** | Resizable buffer | “Amortized append O(1).” |
 | **vs linked list** | Trade access vs insert | “Arrays win reads; lists win middle insert.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const a = [10, 20, 30]
@@ -38,10 +42,7 @@ a.splice(1, 0, 15) // middle insert — shifts
 | Typed arrays | Dense numeric data |
 | Bounds checks | Safety vs speed |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +51,12 @@ a.splice(1, 0, 15) // middle insert — shifts
 | Memory blow | huge sparse use | Map/dict instead |
 | Off-by-one | loop `<= n` | Prefer half-open `[lo, hi)` |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Frequent middle insert/delete — list / gap buffer / rope.
+- **Trade-off:** Sparse keys — hash map.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **JS “arrays” are objects** — holes and mixed types change performance.
-
-> [!WARNING]
-> **Assuming O(1) insert** — only at the end for dynamic arrays.
-
----
-
-
-## When not to use
-
-- **Frequent middle insert/delete** — list / gap buffer / rope.
-- **Sparse keys** — hash map.
-
-
-## Related
-
-[[ADT (Abstract Data Type)]] [[linked list]] [[Data structure]]
-
-## Sources
-
-- [Wikipedia — array](https://en.wikipedia.org/wiki/array)
+- JS “arrays” are objects — holes and mixed types change performance.
+- Assuming O(1) insert — only at the end for dynamic arrays.

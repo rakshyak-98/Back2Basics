@@ -1,12 +1,18 @@
-[[Descriptive]] [[Markdown]]
+[[Descriptive]] [[Markdown]] [[Linux/commands/SSH]]
 
 # LF and CRLF
 
 > LF (`\n`) and CRLF (`\r\n`) are line endings — Unix vs classic Windows; mismatches break scripts and diffs.
 
----
+## Interview Relevance
 
-## How it works
+Line-ending interviews cover cross-OS diffs and core.autocrlf — noisy PRs from CRLF churn.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 LF = \n          CRLF = \r\n
@@ -21,10 +27,7 @@ LF = \n          CRLF = \r\n
 | **`.gitattributes`** | Force eol per path | `* text=auto eol=lf` |
 | **shebang break** | `#!/bin/bash\r` | “bad interpreter” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 file file.sh           # shows CRLF if present
@@ -44,10 +47,18 @@ printf '\r\n' | od -c
 | Editor “EOL” | Save with correct ending |
 | Docker build scripts | Must be LF |
 
----
+## Pros/Cons or Trade-offs
 
+- **Binary formats** — don’t “normalize” images.
+- **Protocols that define their own framing** — HTTP already specifies CRLF in headers.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Mixing eol in one file** — some tools only look at first line.
+
+> [!WARNING]
+> **Binary marked as text** — autocrlf can corrupt; set binary in attributes.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,30 +67,3 @@ printf '\r\n' | od -c
 | Make fails weirdly | `\r` in Makefile | Convert to LF |
 | CI only | checkout eol | Align attributes |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Mixing eol in one file** — some tools only look at first line.
-
-> [!WARNING]
-> **Binary marked as text** — autocrlf can corrupt; set binary in attributes.
-
----
-
-
-## When not to use
-
-- **Binary formats** — don’t “normalize” images.
-- **Protocols that define their own framing** — HTTP already specifies CRLF in headers.
-
-
-## Related
-
-[[Markdown]] [[Linux/commands/SSH]]
-
-## Sources
-
-- [Wikipedia — LF and CRLF](https://en.wikipedia.org/wiki/LF_and_CRLF)

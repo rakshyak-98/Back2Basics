@@ -1,89 +1,75 @@
-[[vim]]
+[[vim commands]] [[vim buffers]] [[nvim/nvim setup]] [[Linux/editor config]]
 
-# - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard`
+# vim config
 
-> - if you see -clipboard (a minux sign), your Vim is physically incapable of use `set clipboard` — set shiftwidth=4 # indentation commands >>, << shift by 4
+> Startup settings in `.vimrc` / `init.vim` — indentation, search, syntax, and clipboard so Vim matches your project and OS.
 
----
+## Interview Relevance
 
-## How it works
+Ops and platform interviews care whether you can make stock Vim usable on a fresh box: tabs vs spaces, clipboard feature flags, and why `set clipboard=` silently fails.
+
+## Sources
+
+- [Vim help — options](https://vimhelp.org/options.txt.html) — deep-dive
+- [Vim help — starting](https://vimhelp.org/starting.txt.html) — overview
+
+## Core Definition
+
+Vim reads user configuration on start (`~/.vimrc` or `$VIMINIT`). Options control editing behavior; feature flags at compile time (`+clipboard` vs `-clipboard`) decide what those options can do.
+
+## Key Concepts
+
+- **Compile features:** `vim --version | grep clipboard` — `-clipboard` means `set clipboard=unnamedplus` cannot work until you install a build with `+clipboard` (often `vim-gtk3` on Debian/Ubuntu).
+- **Indentation triad:** `tabstop`, `shiftwidth`, `expandtab` → how Tab and `>>` behave; mismatch causes review noise.
+- **Search UX:** `incsearch`, `ignorecase` + `smartcase` → type-as-you-find without losing case-sensitive searches for mixed-case patterns.
+- **Filetype hooks:** `filetype indent on` → language-specific indent plugins; pair with project [[Linux/editor config|.editorconfig]] when teams share rules.
+
+## Technical Details
 
 ```bash
+vim --version | grep clipboard
+# Need +clipboard (not -clipboard) for OS clipboard registers
+sudo apt install vim-gtk3   # common fix on Debian/Ubuntu
 ```
-```bash
+
+```vim
+" ~/.vimrc
 set clipboard=unnamedplus
 set expandtab
-set shiftwidth=4 # indentation commands >>, << shift by 4 spaces.
-set tabstop=4 # pressing <Tab> inserts 2 spaces because of expandtab.
-set expandtab # tabs are converted to spaces.
-```
-- Even with `xclip` installed, there is one major thing you have to check
-`+clipboard` check
-```bash
-vim --version | grep clipboard;
-```
-- fix you need to install the enhanced version of vim
-```bash
-sudo apt install vim-gtk3; # this provide the liberary hooks for xclip
-```
-```bash
-set autoindent
-set smartindent
-set clipboard=unnamedplus
 set shiftwidth=4
 set tabstop=4
-set expandtab
+set autoindent
+set smartindent
 set incsearch
 set ignorecase
 set smartcase
 syntax on
-filetype indent on
+filetype plugin indent on
 ```
-
-
----
-
-
-## Configuration and commands
-
-```bash
-# version + config path
-# dry-run when available
-```
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
+| Clipboard never syncs | `vim --version` shows `-clipboard` | Install GUI/featureful Vim; or use `xclip` + custom maps |
+| Tabs still appear | `expandtab?` / `.editorconfig` | Align Vim options with editorconfig |
+| Indent jumps oddly | `filetype indent` | Toggle or set per-filetype overrides |
+| Configuration ignored | Wrong file (`init.vim` vs `.vimrc`) | Neovim uses `~/.config/nvim/init.vim` or `init.lua` — see [[nvim/nvim setup]] |
 
----
+## Real-World Applications
 
+Jump host with minimal Vim: drop a tiny `.vimrc` with `expandtab` / `shiftwidth` matching the repository, confirm `+clipboard` if you paste from the workstation.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> Make retries safe or you will duplicate side effects.
+- **Pro:** One file makes every new machine feel the same.
+- **Con:** Heavy plugin stacks diverge from teammates’ stock Vim — keep server configs lean.
 
----
+## Comparison
 
+- vs Neovim `init.lua`: same ideas, Lua API and built-in LSP (see [[nvim/nvim setup]]).
+- vs IDE settings sync: Vim configuration is plain text and SSH-friendly; no account required.
 
-## When not to use
+## Mistakes to Avoid
 
-- Avoid the tool if a simpler built-in covers the job.
-
----
-
-
-## Related
-
-[[vim]]
-
-## Sources
-
-- [Wikipedia — vim config](https://en.wikipedia.org/wiki/vim_config)
+- Blaming `xclip` when the binary is `-clipboard` — the feature must be compiled in.
+- Setting `tabstop=2` but `shiftwidth=4` — `>>` and Tab will disagree.
+- Copying a huge plugin-manager configuration onto production bastions — prefer a minimal rc.

@@ -1,12 +1,23 @@
-[[JWT authentication]] [[TOTP (Time based One Time Password)]] [[single-sign-on (SSO)]] [[HMAC (Hash based Message Authentication Codes)]]
+[[JWT authentication]] [[TOTP (Time based One Time Password)]] [[single-sign-on (SSO)]] [[HMAC (Hash based Message Authentication Codes)]] [[Token rotation]] [[digest access authentication]]
 
 # Authentication terms
 
 > Glossary of identity primitives — use consistent vocabulary in design reviews, incident docs, and API specs.
 
----
+## Interview Relevance
 
-## How it works
+Staff interviews expect precise AuthN vs AuthZ vocabulary — sessions, tokens, MFA, SSO — without conflating identity proof with permissions.
+
+## Sources
+
+- [NIST SP 800-63B — Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html) — deep-dive
+- [OWASP — Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview
+
+## Core Definition
+
+A shared glossary of identity primitives so design reviews, incidents, and API specs use the same words for AuthN, AuthZ, sessions, and tokens.
+
+## Key Concepts
 
 Authentication stack layers:
 
@@ -37,10 +48,7 @@ Identity proof  →  Session/token  →  Authorization (what you may do)
 | **mTLS** | Client cert as authentication factor |
 | **RBAC / ABAC** | Role vs attribute based authorization |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### TOTP setup (concept)
 
@@ -71,10 +79,7 @@ authz_denied  user_id=... resource=... action=delete
 
 **Why separate AuthN/AuthZ:** passing login doesn't imply administrator — check permissions every request.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,37 +89,22 @@ authz_denied  user_id=... resource=... action=delete
 | OAuth confusion | Using access token as ID token | Use OIDC ID token for identity |
 | Session fixation | Cookie not rotated on login | Regenerate session ID |
 
----
+## Real-World Applications
 
+Use this vocabulary in design docs and incident write-ups so AuthN, AuthZ, MFA, and session vs token are not conflated.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **OAuth ≠ authentication** unless using OIDC ID token validated properly.
+- **Pro:** Shared vocabulary reduces design and incident ambiguity.
+- **Con:** Don't roll custom crypto authentication protocols — use OIDC/SAML libraries and proven password KDFs ([[yashcrypt]] / argon2 / bcrypt).
 
-> [!WARNING]
-> **`top_secret` in TOTP** — compromise = forge all future codes; treat like password hash seed.
+## Comparison
 
-> [!WARNING]
-> **Bearer token in URL** — logs, Referer leaks — use Authorization header.
+- vs [[JWT authentication]] / [[single-sign-on (SSO)]]: glossary vs concrete mechanisms — use terms consistently when designing those systems.
 
-> [!WARNING]
-> **API key in frontend** — not secret; use backend proxy.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-Don't roll custom crypto authentication protocols — use OIDC/SAML libraries and proven password KDFs ([[yashcrypt]] / argon2 / bcrypt).
-
----
-
-
-## Related
-
-[[JWT authentication]] [[TOTP (Time based One Time Password)]] [[single-sign-on (SSO)]] [[Token rotation]] [[digest access authentication]]
-
-## Sources
-
-- [Wikipedia — Authentication terms](https://en.wikipedia.org/wiki/Authentication_terms)
+- OAuth ≠ authentication — unless using OIDC ID token validated properly.
+- `top_secret` in TOTP — compromise = forge all future codes; treat like password hash seed.
+- Bearer token in URL — logs, Referer leaks — use Authorization header.
+- API key in frontend — not secret; use backend proxy.

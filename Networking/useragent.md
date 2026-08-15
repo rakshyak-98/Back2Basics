@@ -1,28 +1,39 @@
-[[response header]] [[HTTP]] [[cross-site scripting]]
+[[response header]] [[HTTP]] [[cross-site scripting]] [[Network error]]
 
 # User-Agent
 
 > Client-declared software identity string on HTTP requests — used for compatibility, analytics, and bot detection; easily spoofed.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about User-Agent to see if you treat it as **untrusted metadata** — useful for logs and rough telemetry, never as authorization — and whether you know UA reduction / Client Hints.
 
-Every HTTP request may include:
+## Sources
+
+- [RFC 9110 — User-Agent](https://www.rfc-editor.org/rfc/rfc9110#name-user-agent) — deep-dive
+- [MDN — User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) — overview
+- [MDN — User-Agent Client Hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Client_hints) — overview
+- [Chromium — User-Agent Reduction](https://www.chromium.org/updates/ua-reduction/) — overview
+
+## Core Definition
+
+`User-Agent` is an optional HTTP request header where the client names its software stack; servers may adapt, log, or rate-limit from it, but any client can send any string.
+
+## Key Concepts
+
+- **Identity claim:** browser/app/library string → not cryptographic proof of who is calling.
+- **Adaptation / analytics:** mobile vs desktop templates, market share → declining for layout; still common in logs.
+- **Bot / scraper signals:** empty or script UAs → rate limits, CAPTCHA (verify bots via DNS/IP ranges too).
+- **Client Hints (`Sec-CH-UA-*`):** structured alternative → less brittle than parsing frozen UA strings.
+- **API client fingerprints:** `okhttp`, `curl`, custom app tokens → useful forensics, not auth.
+
+## Technical Details
 
 ```http
 User-Agent: Mozilla/5.0 (...) Chrome/120.0.0.0 Safari/537.36
 ```
 
-Purposes:
-- **Server adaptation** — mobile versus desktop templates (declining; prefer responsive CSS)
-- **Analytics** — browser/OS market share
-- **Bot/scraper detection** — rate limits, CAPTCHA
-- **API client identification** — mobile apps often use library defaults
-
-**Not authentication** — any client can send any string.
-
-Common mobile/API fingerprint:
+Common mobile/API fingerprints:
 
 ```txt
 okhttp/4.12.0          → Kotlin/Java Android (OkHttp stack)
@@ -31,45 +42,25 @@ MyApp/1.2.3 (iOS)      → custom app token
 curl/8.5.0             → scripts, health checks
 ```
 
----
-
-
-## Configuration and commands
-
-### Inspect
-
 ```bash
 curl -v https://httpbin.org/user-agent
 curl -A 'MyBot/1.0 (+https://example.com/bot)' https://example.com/
 ```
 
-### Nginx log and map
-
 ```nginx
 log_format combined '$remote_addr - $http_user_agent';
 # Block empty UA (noisy bots)
 if ($http_user_agent = "") { return 403; }
-```
 
-### Server-side (Node)
+proxy_set_header User-Agent $http_user_agent;
+```
 
 ```javascript
 const ua = req.headers['user-agent'] ?? '';
 if (ua.includes('okhttp')) { /* likely Android app */ }
 ```
 
-### Reverse proxy pass-through
-
-```nginx
-proxy_set_header User-Agent $http_user_agent;
-```
-
-**Why log UA:** incident forensics ("was this curl or Chrome?") — correlate with [[Network error]] patterns.
-
----
-
-
-## When things break
+**Why log UA:** incident forensics (“was this curl or Chrome?”) — correlate with [[Network error]] patterns.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -78,34 +69,27 @@ proxy_set_header User-Agent $http_user_agent;
 | Rate limit hits scripts | Shared datacenter UA | Per-API-key limits, not UA alone |
 | SEO/bot traffic | Search bot UA spoof | Verify bot via reverse DNS + IP ranges |
 
----
+## Real-World Applications
 
+CDNs, WAFs, analytics pipelines, and API gateways read User-Agent for triage and rough client classification.
 
-## Gotchas
+**Example:** An Android app using OkHttp is blocked by a WAF that only allows “browser-like” UAs — allowlist the pattern and authenticate with tokens, not the header alone.
 
-> [!WARNING]
-> **UA sniffing is fragile** — Chrome frozen UA reduction; use **Client Hints** (`Sec-CH-UA-*`) where needed.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Security must not depend on UA** — trivial header forgery.
+- **Pro:** Cheap signal for logs, debugging, and coarse bot filtering.
+- **Con:** Trivially spoofed — security decisions must not depend on it.
+- **Con:** UA reduction freezes detail — sniffing breaks; prefer Client Hints or capability detection.
 
-> [!WARNING]
-> **Privacy regulations** — UA can be personal data in logs; retention policy applies.
+## Comparison
 
----
+- vs tokens / mTLS / attestation: those authenticate; User-Agent only names software.
+- vs Client Hints: structured, privacy-aware fields instead of one opaque legacy string.
+- Related: [[response header]], [[mime type]], [[cross-site scripting]].
 
+## Mistakes to Avoid
 
-## When not to use
-
-Don't branch **authorization** on User-Agent. Use tokens, mTLS, or attestation for API clients.
-
----
-
-
-## Related
-
-[[response header]] [[mime type]] [[Network error]] [[cross-site scripting]]
-
-## Sources
-
-- [Wikipedia — useragent](https://en.wikipedia.org/wiki/useragent)
+- Branching **authorization** on User-Agent — use tokens, mTLS, or attestation for API clients.
+- Fragile UA sniffing for features — Chrome frozen UA reduction; use Client Hints where needed.
+- Treating search-bot UA strings as proof — verify via reverse DNS and published IP ranges.
+- Ignoring privacy retention — UA in logs can be personal data under some policies.

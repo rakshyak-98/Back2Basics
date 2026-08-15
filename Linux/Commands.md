@@ -1,12 +1,26 @@
-[[CLI]] [[common commands]] [[Linux network commands]] [[Linux process commands]] [[Services commands]]
+[[CLI]] [[common commands]] [[Linux network commands]] [[Linux process commands]] [[Services commands]] [[management/Linux management]]
 
 # Commands
 
 > Hub for Linux command notes — route from symptom to the right tool instead of memorizing every flag.
 
-This note routes to leaf command pages under `Linux/commands/`. Each leaf focuses on one binary or small family with runnable examples and failure signals.
+## Interview Relevance
+Interviewers care less about memorizing flags and more about choosing the right tool (`ss` vs `netstat`, `systemctl` vs init scripts). This map is how you show structured recall under pressure.
 
-## By job
+## Sources
+- `man 1 man`, `man 1 apropos` — overview
+- Leaf notes under `Linux/commands/` — deep-dive
+
+## Core Definition
+Each leaf under `Linux/commands/` focuses on one binary or small family with runnable examples and failure signals. Start here by job, then drill into the leaf.
+
+## Key Concepts
+- **Job → tool:** Map the problem (listen ports, CPU, users) before opening `man`.
+- **Discovery:** `type`, `command -v`, `dpkg -S`, `apropos` find what provides a name.
+- **Pipelines:** Compose small tools instead of one mega-flag binary.
+- **Families:** Process, network, service, package, and auth command clusters.
+
+## Technical Details
 
 | Job | Start here |
 |-----|------------|
@@ -21,40 +35,29 @@ This note routes to leaf command pages under `Linux/commands/`. Each leaf focuse
 | JSON in shell | [[jq]] |
 | Interactive pickers | [[fzf]] |
 
-## Command discovery
-
 ```bash
-# What provides this name?
 type -a systemctl
 command -v jq
-
-# Search installed packages for a binary (Debian family)
 dpkg -S $(which ss)
-
-# Brief description from man database
 apropos "socket statistics"
-```
 
-## Pipelines worth remembering
-
-```bash
-# Who listens on 443?
 ss -lntp | grep ':443'
-
-# Top memory consumers
 ps aux --sort=-%mem | head
-
-# Follow service logs
 journalctl -u nginx -f
-
-# Config audit
 grep -rn 'PermitRootLogin' /etc/ssh/
 ```
 
-## Related
+## Real-World Applications
+During an incident: confirm the listener with `ss`, the process with `ps`, the service with `systemctl`/`journalctl`, then the package that owns the binary with `dpkg -S`.
 
-[[CLI]] · [[common commands]] · [[management/Linux management]]
+## Pros/Cons or Trade-offs
+- **Pro:** A curated map beats scrolling the entire `man` tree during an outage.
+- **Con:** Hubs go stale if leaf notes are not linked when new tools become standard (`nft` vs `iptables`).
 
-## Sources
+## Comparison
+vs [[CLI]]: CLI is how you talk to the machine; this note is a directory of which programs to run. vs distro “cheat sheets”: here each command has a vault leaf with failure modes.
 
-- `man 1 man`, `man 1 apropos`
+## Mistakes to Avoid
+- Memorizing obscure flags before knowing which binary answers the question.
+- Using deprecated tools (`ifconfig`, `netstat`) when `ip`/`ss` are available — unless the environment is ancient.
+- Ignoring `apropos` / `man -k` when you know the concept but not the name.

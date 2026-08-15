@@ -1,108 +1,85 @@
-[[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
+[[Rendering performance/paint]] [[Rendering performance/composite]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
 
-# Layout (reflow)
+# layout
 
-> Browser calculates geometry — sizes and positions of elements — **render pipeline stage between style and paint**.
+> Browser geometry pass (reflow) — compute sizes and positions after style, before paint.
 
----
+## Interview Relevance
 
-## How it works
+Staff frontend interviews probe layout thrashing (`offsetWidth` read/write loops), why `transform` beats `top`, and CSS containment / `content-visibility` for large pages.
 
-**Layout** (reflow) computes where boxes go. One element's size can ripple up and down the tree — **layout is often global** within a subtree.
+## Sources
+
+- [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — deep-dive
+- [web.dev — Avoid large, complex layouts](https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing) — deep-dive
+- [MDN — CSS containment](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment) — overview
+
+## Core Definition
+
+Layout turns the render tree into a box model: where each element sits and how large it is. Changing geometry can force reflow of a whole subtree — often the most expensive step before paint.
+
+## Key Concepts
+
+- **Global-ish cost:** one width change can ripple through descendants (and sometimes ancestors) → treat layout as potentially O(tree).
+- **Forced synchronous layout:** reading geometry (`offsetWidth`, `getBoundingClientRect`) after DOM writes flushes pending layout immediately → thrashing when done in a loop.
+- **Skip layout when possible:** animate `transform` / `opacity` so the compositor handles motion (see [[Rendering performance/composite]]).
+- **Containment:** `contain: layout` / `content-visibility: auto` limits how far reflow spreads or defers off-screen work.
+
+## Technical Details
 
 ```
 Style recalc → Layout → Paint → Composite
                   ↑
-        triggered by geometry-changing properties
-        (width, height, font-size, offsetTop read+write, …)
+        geometry-changing properties and DOM size changes
 ```
 
 | Triggers layout | Usually skips layout |
 |-----------------|----------------------|
 | `width`, `height`, `padding`, `border` | `transform`, `opacity` |
-| DOM insert/remove | `filter` (may paint only) |
-| Font load | `will-change: transform` |
-| Reading `offsetWidth` after write | compositor-only animations |
-
-Example: `<body>` width change reflows descendants.
-
-
-## Configuration and commands
-
-### Avoid layout thrashing (read/write interleave)
+| DOM insert/remove | many `filter` cases (still may paint) |
+| Font load / size | compositor-only animations |
+| Read `offsetWidth` after write | batched reads then writes |
 
 ```javascript
 // Bad — forces sync layout each iteration
-els.forEach(el => {
+els.forEach((el) => {
   el.style.width = el.offsetWidth + 10 + 'px';
 });
 
 // Good — batch reads, then writes
-const widths = els.map(el => el.offsetWidth);
-els.forEach((el, i) => { el.style.width = widths[i] + 10 + 'px'; });
+const widths = els.map((el) => el.offsetWidth);
+els.forEach((el, i) => {
+  el.style.width = widths[i] + 10 + 'px';
+});
 ```
 
-### Prefer transform for movement
-
 ```css
-.moved {
-  transform: translateX(100px); /* compositor thread, no layout */
-}
-```
-
-### CSS containment (limit reflow scope)
-
-```css
-.card {
-  contain: layout style paint;
-}
-```
-
-### `content-visibility` (defer off-screen layout)
-
-```css
+.card { contain: layout style paint; }
 .section {
   content-visibility: auto;
   contain-intrinsic-size: 0 500px;
 }
+.moved { transform: translateX(100px); }
 ```
 
-### DevTools
+DevTools: Performance → Layout events; Rendering → Layout Shift Regions (CLS-related).
 
-- **Performance** → **Layout** events in flame chart
-- **Rendering** tab → **Layout Shift Regions** (CLS related)
+## Real-World Applications
 
+Dashboard with expandable rows: measuring each row height while writing styles caused jank. Batching measurements and using `content-visibility` on off-screen panels fixed scroll FPS.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Jank on scroll | Sticky + height reads | `passive: true` listeners; avoid layout in scroll |
-| ResizeObserver loop error | Feedback resize | Debounce; don't set size from observer blindly |
-| Slow list filter | Re-layout 10k nodes | Virtual list; `key` stability |
-| CLS on font swap | Layout shift metric | `size-adjust`, reserve space |
-| Animation stutters | Animating `top/left` | Switch to `transform` |
+- **Pro:** Correct responsive geometry — essential for documents and complex UI.
+- **Con:** Easy to accidentally schedule every frame under interaction load → hurts [[Rendering performance/INP]].
 
+## Comparison
 
-## Gotchas
+- vs [[Rendering performance/paint]]: layout decides boxes; paint fills them.
+- vs CLS: layout shifts that are visible to users become CLS; same engine stage, different metric.
 
-> [!WARNING]
-> **`getBoundingClientRect()` in hot path** forces layout if DOM dirty — cache per frame.
+## Mistakes to Avoid
 
-- **Tables** — auto layout is expensive; fixed table-layout or flex/grid for perf-critical UI.
-- **Subpixel rounding** — repeated layout can cause 1px jitter in responsive designs.
-- **iframe** — layout in child doesn't always isolate parent cost.
-
-
-## When not to use
-
-- Don't `contain: strict` on everything — breaks positioning (`position: fixed` descendants).
-
-
-## Related
-
-[[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Rendering performance/INP]] [[css/Animation]]
-
-## Sources
-
-- [Wikipedia — layout](https://en.wikipedia.org/wiki/layout)
+- `getBoundingClientRect()` in hot scroll/input paths without caching per frame.
+- `contain: strict` everywhere — breaks `position: fixed` descendants and sticky patterns.
+- Animating `top`/`left` for motion that `transform` could handle.

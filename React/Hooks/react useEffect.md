@@ -2,43 +2,50 @@
 
 # react useEffect
 
-> react useEffect shapes how React applications compose UI, state, and side effects in production.
+> Synchronize a component with an external system after render — subscriptions, network, non-React widgets.
 
-## What this is
+## Interview Relevance
 
-Hooks are functions whose names start with `use` and attach stateful logic to function components. React matches hook calls to fiber state by call order, which is why hooks must run at the top level of every render and never inside conditions or loops ([React Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks)).
-
-## Operating it
-
-```tsx
-useEffect(() => {
-  const id = setInterval(tick, 1000);
-  return () => clearInterval(id); // cleanup on dep change or unmount
-}, [tick]);
-```
-
-| Check | Action |
-|-------|--------|
-| Stale closure in effect | List every reactive value in the dependency array or refactor to a ref |
-| Effect runs every render | Remove state updates that rewrite dependencies each pass |
-| Missing cleanup | Return a dispose function for subscriptions, timers, and listeners |
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `react useEffect` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+Interviewers hammer dependency arrays, cleanup, and “you might not need an effect” for derived state.
 
 ## Sources
 
-- [React — useEffect](https://react.dev/reference/react/useEffect)
+- [useEffect](https://react.dev/reference/react/useEffect) — deep-dive
+- [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect) — deep-dive
+
+## Core Definition
+
+`useEffect` runs after paint to connect React to something outside React; cleanup undoes that connection.
+
+## Key Concepts
+
+- **Deps:** re-run when listed values change.
+- **Cleanup:** unsubscribe / abort.
+- **Not for:** transforming props into state that can be computed.
+
+## Technical Details
+
+```tsx
+useEffect(() => {
+  const id = setInterval(() => tick(), 1000)
+  return () => clearInterval(id)
+}, [tick])
+```
+
+## Real-World Applications
+
+Chat socket subscribed in an effect; abort/unsubscribe on room id change.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Explicit external sync points.
+- **Con:** Effect sprawl recreates lifecycle soup.
+
+## Comparison
+
+- vs `useLayoutEffect`: layout runs before paint for DOM measure.
+
+## Mistakes to Avoid
+
+- Missing deps / disabling eslint blindly.
+- Fetching without a query library in every component.

@@ -1,12 +1,19 @@
-[[sliding window]] [[Data structure]] [[Algorithm]]
+[[sliding window]] [[Data structure]] [[Algorithm]] [[dsa genera formula]] [[dsa modular arithmetics]]
 
 # Prefix sum
 
 > Precomputed cumulative totals — answer any fixed-range sum query in O(1) after O(n) preprocess; foundation for range queries, subarray counts, and difference arrays.
 
----
+## Interview Relevance
 
-## How it works
+Prefix sums are a classic range-query trick — interviewers want O(1) range sums after O(n) prep and off-by-one discipline.
+
+## Sources
+
+- [Wikipedia — Prefix sum](https://en.wikipedia.org/wiki/Prefix_sum) — overview
+- [CP-Algorithms — Prefix sums](https://cp-algorithms.com/data_structures/sparse-table.html) — deep-dive
+
+## Key Concepts
 
 Build array `P` where `P[i]` = sum of `arr[0..i]` (0-indexed). Range sum `[l, r]` = `P[r] - P[l-1]` (define `P[-1] = 0`).
 
@@ -22,8 +29,7 @@ Extensions:
 - **Prefix sum + hash map** — count subarrays with sum `k` (handles negatives).
 - **Difference array** — inverse of prefix sum for range updates.
 
-
-## Configuration and commands
+## Technical Details
 
 ### 1D build and query
 
@@ -76,8 +82,7 @@ function subarraySum(nums, k) {
 // Apply prefix sum to diff → final array after all range updates
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,33 +93,15 @@ function subarraySum(nums, k) {
 | TLE with many queries | Rebuilding prefix per query | Preprocess once; each query O(1) |
 | Sliding window used on negatives | Monotonic assumption | Switch to prefix + hash map |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Non-contiguous subsequence sums — prefix sum assumes contiguous ranges.
+- **Trade-off:** Dynamic point/range updates with interleaved queries — use Fenwick tree or segment tree.
+- **Trade-off:** Only single full-array sum — plain loop is simpler; don't over-engineer.
 
-> [!WARNING]
-> **Empty subarray** — count problems often need `prefix 0` seeded once in the map.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Modulo arithmetic** — `(P[r] - P[l-1]) % MOD` can go negative; add MOD before final `%`. See [[dsa modular arithmetics]].
-
-> [!WARNING]
-> **Immutable vs mutable array** — if source array updates, prefix must rebuild or use Fenwick/segment tree for dynamic queries.
-
-> [!WARNING]
-> **"Elements ≤ value" queries** — often sort + prefix on sorted array, not raw prefix on unsorted.
-
-
-## When not to use
-
-- **Non-contiguous subsequence sums** — prefix sum assumes contiguous ranges.
-- **Dynamic point/range updates with interleaved queries** — use Fenwick tree or segment tree.
-- **Only single full-array sum** — plain loop is simpler; don't over-engineer.
-
-
-## Related
-
-[[sliding window]] [[dsa genera formula]] [[dsa modular arithmetics]] [[Data structure]]
-
-## Sources
-
-- [Wikipedia — Prefix sum](https://en.wikipedia.org/wiki/Prefix_sum)
+- Empty subarray — count problems often need `prefix 0` seeded once in the map.
+- Modulo arithmetic — `(P[r] - P[l-1]) % MOD` can go negative; add MOD before final `%`. See [[dsa modular arithmetics]].
+- Immutable vs mutable array — if source array updates, prefix must rebuild or use Fenwick/segment tree for dynamic queries.
+- "Elements ≤ value" queries — often sort + prefix on sorted array, not raw prefix on unsorted.

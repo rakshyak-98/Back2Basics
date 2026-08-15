@@ -4,9 +4,16 @@
 
 > W3C recommendations for perceivable, operable, understandable, robust web content — legal and UX baseline — **WCAG 2.2 + WAI**.
 
----
+## Interview Relevance
 
-## How it works
+WCAG interviews probe accessibility levels (A/AA), semantic HTML, and keyboard/screen-reader paths.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+- [WCAG — Wikipedia](https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines) — overview
+
+## Key Concepts
 
 WCAG defines **success criteria** grouped under four principles (**POUR**):
 
@@ -21,8 +28,7 @@ Conformance **levels**: **A** (minimum), **AA** (industry standard / many laws),
 
 Developed by W3C **WAI** (Web Accessibility Initiative) — referenced by ADA, EN 301 549, Section 508.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Level summary (what teams actually ship)
 
@@ -71,19 +77,12 @@ npx axe https://localhost:3000 --exit
 - Foreground `#595959` on white → verify with WebAIM contrast checker
 - Don't rely on color alone for errors — add icon + text
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- WCAG is not a substitute for **user testing** with assistive technology users.
+- Don't block ship on AAA contrast for decorative hero imagery — mark decorative `alt=""`.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Audit fails contrast | Brand colors | Adjust palette or use AA exceptions (large text 3:1) |
-| Keyboard can't reach control | `tabindex`, CSS `display:none` on focusable | Native `<button>`; visible `:focus-visible` |
-| Screen reader silent on update | No live region | `aria-live="polite"` on status toast |
-| Form errors not announced | Error only red border | Link `aria-describedby` to error text |
-| Custom widget wrong role | Div soup | Use semantic HTML first; ARIA only when needed |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Accessibility overlays** (widget that "fixes" your site) do not transfer liability and often break AT — fix source HTML/CSS/JS.
@@ -93,17 +92,10 @@ npx axe https://localhost:3000 --exit
 - **PDF-only** content fails unless tagged accessible PDF — HTML preferred.
 - **AA is the contract** — claiming AAA on one page ≠ whole product AAA.
 
-
-## When not to use
-
-- WCAG is not a substitute for **user testing** with assistive technology users.
-- Don't block ship on AAA contrast for decorative hero imagery — mark decorative `alt=""`.
-
-
-## Related
-
-[[Descriptive/web development]] [[css/Animation]] [[React/React data management]] [[Security/content security policy]]
-
-## Sources
-
-- [Wikipedia — WCAG](https://en.wikipedia.org/wiki/WCAG)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Audit fails contrast | Brand colors | Adjust palette or use AA exceptions (large text 3:1) |
+| Keyboard can't reach control | `tabindex`, CSS `display:none` on focusable | Native `<button>`; visible `:focus-visible` |
+| Screen reader silent on update | No live region | `aria-live="polite"` on status toast |
+| Form errors not announced | Error only red border | Link `aria-describedby` to error text |
+| Custom widget wrong role | Div soup | Use semantic HTML first; ARIA only when needed |

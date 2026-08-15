@@ -1,11 +1,23 @@
-[[psql essential]] [[SQL/postgres]] [[GIN]]
+[[psql essential]] [[SQL/postgres]] [[GIN]] [[SQL]]
 
 # psql functions
 
-> PostgreSQL built-in and user-defined functions—scalar, aggregate, window, and procedural languages (PL/pgSQL)—callable from [[SQL]].
+> PostgreSQL built-in and user-defined functions — scalar, aggregate, window, and procedural languages (PL/pgSQL) callable from [[SQL]].
 
-## Examples
+## Interview Relevance
+Volatility (`IMMUTABLE`/`STABLE`/`VOLATILE`) and when a function can be used in an index expression are classic Postgres deep cuts.
 
+## Sources
+- [Functions](https://www.postgresql.org/docs/current/functions.html) — overview
+- [CREATE FUNCTION](https://www.postgresql.org/docs/current/sql-createfunction.html) — deep-dive
+
+## Key Concepts
+- **Built-ins:** Rich JSON, text, date, and aggregate toolkit.
+- **Window functions:** Analytics without collapsing groups.
+- **UDF languages:** `sql`, `plpgsql`, and others.
+- **Volatility:** Drives optimization and index eligibility.
+
+## Technical Details
 ```sql
 SELECT now(), lower('Hello'), jsonb_build_object('a', 1);
 
@@ -15,17 +27,24 @@ CREATE OR REPLACE FUNCTION add_tax(numeric) RETURNS numeric
   LANGUAGE sql IMMUTABLE AS $$ SELECT $1 * 1.08 $$;
 ```
 
-## Volatility categories
-
 | Mark | Meaning |
 |------|---------|
 | IMMUTABLE | Same result for same args always |
 | STABLE | Same within one statement |
 | VOLATILE | Can change (default) |
 
-Affects index expression eligibility and optimization.
+## Real-World Applications
+Immutable helpers for generated/stored expressions; PL/pgSQL for constrained procedural ops; window functions for “top-N per group.”
 
-## Sources
+## Pros/Cons or Trade-offs
+- **Pro:** Push compute to the server next to the data; expressive SQL.
+- **Con:** Mislabeled volatility causes wrong plans or rejected indexes.
+- **Trade-off:** DB functions vs application libraries for shared business rules.
 
-- PostgreSQL Documentation — [Functions](https://www.postgresql.org/docs/current/functions.html)
-- PostgreSQL Documentation — [CREATE FUNCTION](https://www.postgresql.org/docs/current/sql-createfunction.html)
+## Comparison
+vs [[mysql function]]: Postgres volatility categories and extension languages are richer; MySQL window functions arrived later (8.0).
+
+## Mistakes to Avoid
+- Marking volatile logic `IMMUTABLE`.
+- Heavy PL/pgSQL in hot OLTP paths without measurement.
+- Forgetting `SECURITY DEFINER` risks on privileged functions.

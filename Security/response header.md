@@ -1,12 +1,23 @@
-[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[cross-site scripting]] [[cookies configuration]]
+[[CORS (Cross Origin Request Sharing)]] [[TLS (Transport Layer Security)]] [[cross-site scripting]] [[cookies configuration]] [[cloudflare]]
 
 # HTTP Response Headers (Security & Caching)
 
-> **Server metadata** that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content, clickjacking, or broken CDNs. **OWASP Secure Headers** +
+> Server metadata that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content or clickjacking.
 
----
+## Interview Relevance
 
-## How it works
+Web hardening: security and caching headers — CSP, HSTS, X-Frame-Options/frame-ancestors, Cache-Control mistakes.
+
+## Sources
+
+- [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/) — overview
+- [MDN — HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) — deep-dive
+
+## Core Definition
+
+HTTP response headers carry caching, framing, MIME-sniffing, and browser security policy that shape client behavior.
+
+## Key Concepts
 
 Response headers are **out-of-band instructions** to browsers, proxies, and CDNs. Some are **security defaults** (CSP, HSTS); others define **cache keys** (`Vary`, `Cache-Control`). Order of middleware matters: headers set after response sent are ignored.
 
@@ -16,8 +27,7 @@ Origin ──► App middleware ──► reverse proxy/CDN ──► browser in
                                     └── may strip/add unless explicitly forwarded
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Security baseline (production)
 
@@ -76,8 +86,7 @@ app.use((req, res, next) => {
 });
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -95,32 +104,24 @@ curl -I -H 'Accept: image/webp' https://example.com/img
 curl -I -H 'Origin: https://app.example.com' https://api.example.com/v1/x
 ```
 
+## Real-World Applications
 
-## Gotchas
+Set security and cache headers at the reverse proxy or app framework for clickjacking, MIME sniffing, and CDN behavior.
 
-> [!WARNING]
-> **Multiple `Set-Cookie` + missing `Vary: Cookie`** — CDN may serve user A's page to user B from cache.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`Access-Control-Allow-Origin: *` + credentials** — browser rejects; looks like "CORS randomly broken."
+- **Pro:** One place to enforce browser security and caching policy.
+- **Con:** Spray all helmet defaults on API-only JSON — tune CSP/CORP; some headers irrelevant for non-browser consumers.
+- **Con:** `Vary: *` — effectively uncacheable; fix root cause instead.
 
-> [!WARNING]
-> **HSTS on dev `.local`** — browsers remember; use distinct hostnames for dev.
+## Comparison
 
-> [!WARNING]
-> **CSP report-only forgotten in prod** — still enforces if switched accidentally; test in Report-Only first.
+- vs [[content security policy]] / [[HTTP Strict Transport Security]]: those are specific headers covered in depth elsewhere; this note is the set.
+- vs request headers: clients send; security policy is mostly on responses.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Spray all helmet defaults on API-only JSON** — tune CSP/CORP; some headers irrelevant for non-browser consumers.
-- **`Vary: *`** — effectively uncacheable; fix root cause instead.
-
-
-## Related
-
-[[CORS (Cross Origin Request Sharing)]] · [[TLS (Transport Layer Security)]] · [[cross-site scripting]] · [[cookies configuration]] · [[cloudflare]]
-
-## Sources
-
-- [Wikipedia — response header](https://en.wikipedia.org/wiki/response_header)
+- Multiple `Set-Cookie` + missing `Vary: Cookie` — CDN may serve user A's page to user B from cache.
+- `Access-Control-Allow-Origin: *` + credentials — browser rejects; looks like "CORS randomly broken."
+- HSTS on dev `.local` — browsers remember; use distinct hostnames for dev.
+- CSP report-only forgotten in prod — still enforces if switched accidentally; test in Report-Only first.

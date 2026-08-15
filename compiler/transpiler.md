@@ -1,89 +1,57 @@
-[[compiler/compiler]] [[compiler/compile time]] [[javascript/metro bundler]]
+[[compiler]] [[compile time]] [[Descriptive/JavaScript/Polyfilling]]
 
 # Transpiler
 
-> Source-to-source translator — modern syntax down-levelled for older runtimes; runs at **build time**, not in user's browser (usually).
+> Source-to-source translator — rewrite modern (or alternate) syntax into another high-level dialect older runtimes or different platforms accept.
 
----
+## Interview Relevance
 
-## How it works
-
-A **compiler** often targets machine code/bytecode; a **transpiler** targets another high-level language (TS→JS, ES2022→ES5). Developer runs it locally or in CI; deploy artifact is the output. Bundlers (Webpack, esbuild, Vite) chain transpile + bundle + minify.
-
-```
-author TS/JSX → Babel/SWC/tsc → deploy JS → browser/V8
-```
-
-
-## Configuration and commands
-
-### Babel (classic)
-
-```bash
-npm i -D @babel/core @babel/preset-env @babel/preset-typescript
-```
-
-```json
-{
-  "presets": [
-    ["@babel/preset-env", { "targets": ">0.5%, not dead" }],
-    "@babel/preset-typescript"
-  ]
-}
-```
-
-### TypeScript compiler
-
-```bash
-npx tsc --target ES2020 --module ESNext --outDir dist
-```
-
-### SWC / esbuild (faster, less plugin ecosystem)
-
-```bash
-npx esbuild src/index.ts --bundle --outfile=dist/index.js --target=es2018
-```
-
-### Webpack integration
-
-```js
-module: {
-  rules: [{ test: /\.tsx?$/, use: 'ts-loader' }]  // or babel-loader
-}
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Syntax error in old browser | Build target | Lower `@babel/preset-env` targets |
-| Missing polyfill | `core-js` | `useBuiltIns: 'usage'` or manual import |
-| TS types ignored | Using Babel only | Add `tsc --noEmit` or `fork-ts-checker` |
-| Huge bundle | Full polyfill | Target modern browsers; analyze bundle |
-| Source maps wrong | `devtool` setting | `source-map` in prod selectively |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Ship transpiled code, not raw TS** — Node still often runs TS via ts-node in dev only.
->
-> **Double transpile** — Babel + tsc both transforming = slow/conflicts.
->
-> **Decorators/experimental** — stage mismatches break silently across versions.
-
-
-## When not to use
-
-- Don't transpile if targets are evergreen-only (internal tools) — ship native ES2022.
-- Don't transpile on the server per request — always prebuild in CI.
-
-
-## Related
-
-[[compiler/compiler]] [[compiler/compile time]] [[NodeJS/node package json]] [[css/tailwindcss]]
+Interviewers contrast transpile vs compile, why Babel/TypeScript exist, and the cost of source maps and downleveling for browser support matrices.
 
 ## Sources
 
-- [Wikipedia — transpiler](https://en.wikipedia.org/wiki/transpiler)
+- [Wikipedia — Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) — overview
+- [Babel — What is Babel](https://babeljs.io/docs/) — deep-dive
+
+## Key Concepts
+
+- **Source → source:** output remains a programming language humans/tools can read.
+- **Downleveling:** ES202x → ES5, TypeScript → JavaScript, JSX → `React.createElement`.
+- **Source maps:** map emitted lines back to original → debug the code you wrote.
+- **Target matrix:** browsers/Node versions dictate which transforms and polyfills you need.
+
+## Technical Details
+
+```
+Modern TS/JSX/ESNext ──transpile──► Plain JS ( + polyfills separately )
+```
+
+Examples: TypeScript compiler (`tsc`), Babel, Dart→JS (historical), CoffeeScript→JS, Java→Java (Android desugar-style tools).
+
+| Concern | Handled by |
+|---------|------------|
+| Syntax transform | Transpiler |
+| Missing runtime APIs | Polyfills / shims |
+| Native machine code | Real [[compiler]] / JIT |
+
+## Real-World Applications
+
+Web apps ship transpiled bundles so one codebase runs on a support policy (e.g. “last two Chrome versions + defined Safari”).
+
+**Example:** Optional chaining breaks an old WebView — lower `target` in Babel/`tsconfig` or drop that WebView from support.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use new language features without abandoning old runtimes on day one.
+- **Con:** Build complexity, slower builds, and mismatches when source maps are missing.
+
+## Comparison
+
+- vs [[compiler]]: compilers typically emit machine code or VM bytecode; transpilers emit another high-level language.
+- vs polyfill: transpile rewrites syntax; polyfill implements missing APIs at runtime.
+
+## Mistakes to Avoid
+
+- Transpiling syntax but forgetting polyfills for `Promise`, `fetch`, etc.
+- Debugging minified output without source maps.
+- Targeting “ESNext” in production with no defined browser policy.

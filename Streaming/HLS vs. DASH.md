@@ -1,31 +1,33 @@
-[[Streaming]] [[HLS]] [[DASH]] [[CMAF]] [[ABR]] [[MPD]]
+[[Streaming]] [[HLS]] [[DASH]] [[CMAF]] [[ABR]] [[MPD]] [[Manifest (streaming)]] [[DRM]] [[MPEG-TS]]
 
 # HLS vs. DASH
 
 > HLS and DASH both do ABR over HTTP — pick by device reach, then share segments with CMAF when you need both.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk HLS vs. DASH end-to-end — not just name it. Signal fluency with **HLS**, **DASH**, **Manifest**, **CMAF** and when you would pick a different path.
 
-```txt
-                    ┌── HLS  → .m3u8  → Safari / iOS / many TVs
- Encoder / packager ┤
-                    └── DASH → .mpd   → Android / Chrome / Smart TVs
-                              ▲
-                         [[CMAF]] .m4s shared
-```
+## Sources
 
-### Interview map (words you can say)
+- [Wikipedia — HLS vs. DASH](https://en.wikipedia.org/wiki/HLS_vs._DASH) — overview
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **HLS** | Apple’s HTTP Live Streaming | “HLS is the safe default wherever Safari matters.” |
-| **DASH** | MPEG Dynamic Adaptive Streaming over HTTP | “DASH is the open MPD-based ABR protocol.” |
-| **Manifest** | Playlist metadata | “HLS uses m3u8; DASH uses MPD XML.” |
-| **CMAF** | Shared fMP4 segments | “One segment store, two manifests — that’s CMAF.” |
-| **Native vs MSE** | OS player vs JS/MSE | “Safari plays HLS natively; DASH usually needs MSE.” |
-| **LL-HLS / low-latency DASH** | Live delay cutters | “Latency is a packaging choice, not ‘DASH is always faster’.” |
+## Key Concepts
+
+- **HLS:** Apple’s HTTP Live Streaming — “HLS is the safe default wherever Safari matters.”
+- **DASH:** MPEG Dynamic Adaptive Streaming over HTTP — “DASH is the open MPD-based ABR protocol.”
+- **Manifest:** Playlist metadata — “HLS uses m3u8; DASH uses MPD XML.”
+- **CMAF:** Shared fMP4 segments — “One segment store, two manifests — that’s CMAF.”
+- **Native vs MSE:** OS player vs JS/MSE — “Safari plays HLS natively; DASH usually needs MSE.”
+- **LL-HLS / low-latency DASH:** Live delay cutters — “Latency is a packaging choice, not ‘DASH is always faster’.”
+- **Topic:** [[HLS]] — [[DASH]]
+- **Spec owner:** Apple (RFC 8216 + extensions) — MPEG / ISO open standard
+- **Manifest:** `.m3u8` text — `.mpd` XML ([[MPD]])
+- **Classic segments:** MPEG-TS or fMP4 — fMP4 / ISO BMFF
+- **Apple devices:** Native, required path — No native Safari DASH
+- **Codec flexibility:** Strong, Apple-guided — Broad profiles
+- **Typical live latency:** Higher unless LL-HLS — Can be low with short segments / CMAF
+- **Industry default:** “Works on iPhone” — “Works on Android + open tooling”
 
 ### Side-by-side (say this table out loud)
 
@@ -45,10 +47,15 @@
 - Need **max open / Android-centric** → [[DASH]], still offer HLS for Apple.
 - Need **both without double storage** → [[CMAF]] shared `.m4s` + dual manifests.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+                    ┌── HLS  → .m3u8  → Safari / iOS / many TVs
+ Encoder / packager ┤
+                    └── DASH → .mpd   → Android / Chrome / Smart TVs
+                              ▲
+                         [[CMAF]] .m4s shared
+```
 
 ### Dual-package layout (what good looks like)
 
@@ -82,10 +89,22 @@ load(useHls ? '/master.m3u8' : '/manifest.mpd')
 curl -sI "https://cdn/.../video_720p_00001.m4s"
 ```
 
----
+## Real-World Applications
 
+Used wherever HLS vs. DASH sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **This comparison as a runtime switch every request** — pick packaging once; feature-detect at the player.
+- **Con / skip when:** **Ultra-low-latency calls** — neither replaces [[WebRTC]].
+- **Con / skip when:** **Single internal mezzanine** — protocol choice belongs at **egress**, not archive.
+
+## Comparison
+
+- vs [[WebRTC]]: **Ultra-low-latency calls** — neither replaces [[WebRTC]].
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,39 +116,7 @@ curl -sI "https://cdn/.../video_720p_00001.m4s"
 | “DASH is lower latency” but measured same | Same segment size both sides | Shorten segments or enable LL features |
 | ABR differs wildly between players | Different `BANDWIDTH` / Representation | Align advertised bitrates |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **“DASH is open so we skip HLS”** — you just lost Safari unless you dual-package.
-
-> [!WARNING]
-> **Old blog: HLS = TS only, DASH = always lower latency** — modern HLS is fMP4/CMAF; latency is packaging, not brand name.
-
-> [!WARNING]
-> **Two ladders, two GOPs** — “HLS vs DASH” bugs are often encode drift, not protocol dogma.
-
-> [!WARNING]
-> **Citation bingo in design docs** — interviewers want device matrix + CMAF plan, not Mux-vs-Wowza link dumps.
-
----
-
-
-## When not to use
-
-- **This comparison as a runtime switch every request** — pick packaging once; feature-detect at the player.
-- **Ultra-low-latency calls** — neither replaces [[WebRTC]].
-- **Single internal mezzanine** — protocol choice belongs at **egress**, not archive.
-
----
-
-
-## Related
-
-[[HLS]] [[DASH]] [[CMAF]] [[ABR]] [[MPD]] [[Manifest (streaming)]] [[DRM]] [[MPEG-TS]] [[Streaming]]
-
-## Sources
-
-- [Wikipedia — HLS vs. DASH](https://en.wikipedia.org/wiki/HLS_vs._DASH)
+- **“DASH is open so we skip HLS”** — you just lost Safari unless you dual-package.
+- **Old blog: HLS = TS only, DASH = always lower latency** — modern HLS is fMP4/CMAF; latency is packaging, not brand name.
+- **Two ladders, two GOPs** — “HLS vs DASH” bugs are often encode drift, not protocol dogma.
+- **Citation bingo in design docs** — interviewers want device matrix + CMAF plan, not Mux-vs-Wowza link dumps.

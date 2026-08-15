@@ -1,12 +1,19 @@
-[[Model/Linear regression]] [[regression]] [[data preprocessing]] [[Visualization/Residual plot]] [[scikitlearn]]
+[[Model/Linear regression]] [[regression]] [[data preprocessing]] [[Visualization/Residual plot]] [[scikitlearn]] [[Visualization/predicated versus actual plot]]
 
 # Polynomial regression
 
 > Extend linear models with **x, x², x³, interactions** to capture curvature — still linear in coefficients, nonlinear in features — **ESL**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Polynomial regression to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 Start with [[Model/Linear regression]]: ŷ = β₀ + β₁x. Add powers and cross-terms:
 
@@ -24,10 +31,7 @@ Degree 5 → wiggly (overfit risk)
 
 High degree + unregularized OLS **overfits** wildly between points (Runge phenomenon). Prefer **Ridge** or low degree + cross-validation.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.preprocessing import PolynomialFeatures
@@ -61,10 +65,19 @@ for d in [1, 2, 3]:
 
 Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint missing quadratic term.
 
----
+## Pros/Cons or Trade-offs
 
+- **Many categorical / high-dimensional tabular** — [[Decision tree]] / [[Gradient boosting]] find interactions automatically.
+- **Sharp discontinuities** — trees handle better than smooth polynomials.
+- **Need interpretable single slope** — stick to degree-1 [[Model/Linear regression]].
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **PolynomialFeatures on all columns** — 20 features at degree=3 → thousands of terms.
+
+> [!WARNING]
+> **Extrapolation** — polynomials diverge fast outside training min/max x.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -74,33 +87,3 @@ Always pair with [[Visualization/Residual plot]] — U-shaped residuals hint mis
 | Better than trees on train only | Overfit | Ridge alpha CV; holdout |
 | Negative R² on test | Wrong basis | Try splines/GAM or tree models |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **PolynomialFeatures on all columns** — 20 features at degree=3 → thousands of terms.
-
-> [!WARNING]
-> **Extrapolation** — polynomials diverge fast outside training min/max x.
-
----
-
-
-## When not to use
-
-- **Many categorical / high-dimensional tabular** — [[Decision tree]] / [[Gradient boosting]] find interactions automatically.
-- **Sharp discontinuities** — trees handle better than smooth polynomials.
-- **Need interpretable single slope** — stick to degree-1 [[Model/Linear regression]].
-
----
-
-
-## Related
-
-[[Model/Linear regression]] · [[regression]] · [[Visualization/Residual plot]] · [[Visualization/predicated versus actual plot]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — Polynomial regression](https://en.wikipedia.org/wiki/Polynomial_regression)

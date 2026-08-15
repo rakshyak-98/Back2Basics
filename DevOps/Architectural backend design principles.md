@@ -1,34 +1,48 @@
-[[DevOps]] [[orchestration]] [[API design]] [[SOLID]]
+[[orchestration]] [[API design]] [[SOLID]] [[backpressure]] [[event-driven]] [[ecommerce-cicd-environments]]
 
 # Architectural backend design principles
 
-> Backend architecture principles — stable interfaces, clear module boundaries, and short data paths so services stay changeable under load.
+> Stable interfaces, clear module boundaries, and short data paths so backend services stay changeable under load and failure.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use backend design principles to see if you can defend modularity, contracts, timeouts/idempotency, and observability — and when a modular monolith beats a distributed tangle.
+
+## Sources
+
+- [Google SRE — Addressing Cascading Failures](https://sre.google/sre-book/addressing-cascading-failures/) — deep-dive
+- [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) — overview
+- [[SOLID]] · [[API design]] — overview
+
+## Core Definition
+
+Backend architecture principles are the recurring rules for how services expose contracts, move data, fail safely, and stay observable — so teams can change one part without breaking the rest.
+
+## Key Concepts
+
+- **Modularity / bounded contexts:** deploy independently when it pays off → avoid a distributed monolith sharing one database.
+- **Interface contracts:** OpenAPI/proto + versioning → clients depend on stable shapes.
+- **Data flow:** fewer hops; choose sync vs async on purpose ([[event-driven]], [[backpressure]]).
+- **Failure policy:** timeouts, retries with jitter, idempotency keys on writes.
+- **Observability:** trace id on every hop; shared SLIs (latency, errors, saturation).
+
+## Technical Details
 
 ```txt
 Client → Edge/API → Service A → (events|RPC) → Service B → DB
               │
-         one error shape, one auth story, one observability bag
+         one error shape, one authentication story, one observability bag
 ```
 
 | Principle | Practice |
 |-----------|----------|
-| **Modularity** | Bounded contexts; deploy independently when it pays off |
+| **Modularity** | Bounded contexts; independent deploy when it pays |
 | **Interface contracts** | OpenAPI/proto + versioning |
 | **Data flow** | Prefer fewer hops; sync vs async on purpose |
 | **Failure policy** | Timeouts, retries with jitter, idempotency |
 | **Observability** | Trace id on every hop |
 
----
-
-
-## Configuration and commands
-
 ```yaml
-# Contract-first sketch
 openapi: 3.0.3
 paths:
   /orders:
@@ -40,7 +54,7 @@ paths:
 
 ```txt
 Checklist per new service
-[ ] Authn/z pattern matches platform
+[ ] Authentication/authorization matches platform
 [ ] Timeouts < caller timeout
 [ ] Idempotency keys on writes
 [ ] Structured errors (code, message, trace)
@@ -53,49 +67,36 @@ Checklist per new service
 | Shared error envelope | Clients handle one shape |
 | Async boundaries | Absorb spikes ([[backpressure]]) |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Cascading timeouts | Caller timeout ≤ callee | Budget timeouts; circuit break |
 | Duplicate side effects | Retries without idempotency | Keys / dedupe store |
-| “Works in service A only” | Divergent error/auth | Align platform libraries |
+| Works in service A only | Divergent error/authentication libraries | Align platform libraries |
 | Latency cliff | Extra hop / chatty RPC | Batch; cache; merge calls |
 | Deploy deadlock | Shared DB coupling | Split schemas; events |
 
----
+## Real-World Applications
 
+An orders API publishes events for fulfillment instead of chaining five synchronous RPCs; writes carry idempotency keys so payment retries do not double-charge.
 
-## Gotchas
+**Example:** Cascading timeouts during a partial outage — callers used timeouts longer than callees; budget timeouts so the outermost request fails first.
 
-> [!WARNING]
-> **Distributed monolith** — many repos, one shared DB = worst of both worlds.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Retry storms** — without jitter/limits you DDoS yourself.
+- **Pro:** Clear contracts and failure policy let teams ship independently with safer retries.
+- **Con:** Over-standardization (one RPC stack everywhere) can slow teams — enforce thin cross-cutting concerns only.
+- **Con:** Microservices without schema/ownership boundaries become a distributed monolith.
 
-> [!WARNING]
-> **Over-standardization** — one RPC stack everywhere can slow teams; enforce thin cross-cutting concerns only.
+## Comparison
 
----
+- vs [[SOLID]] at class level: these principles apply at service and platform boundaries.
+- vs [[orchestration]]: orchestration sequences workflows; these principles shape how each service behaves inside them.
+- vs throwaway prototype: ship first; retrofit when the code is retained.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Throwaway prototypes** — ship; retrofit principles when retained.
-- **Single small application** — modular monolith may beat microservices.
-- **Vendor lock-in “platforms” that fight your contracts** — adapt principles, don’t cargo-cult tools.
-
----
-
-
-## Related
-
-[[orchestration]] [[API design]] [[SOLID]] [[backpressure]] [[event-driven]]
-
-## Sources
-
-- [Wikipedia — Architectural backend design principles](https://en.wikipedia.org/wiki/Architectural_backend_design_principles)
+- Many repositories sharing one database — worst of monolith and microservices.
+- Retry storms without jitter and limits — you DDoS yourself.
+- Ignoring timeout budgets across the call chain.
+- Cargo-culting tools that fight your contracts instead of adapting the principles.
+- Splitting into microservices when a modular monolith would be simpler for a small app.

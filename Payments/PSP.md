@@ -1,13 +1,32 @@
-[[Payments/payment gateway]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Security/TLS (Transport Layer Security)]]
+[[payment gateway]] [[Strip]] [[PSI GSS]] [[SAQ GSS]] [[TLS (Transport Layer Security)]] [[webhook]]
 
 # PSP (Payment Service Provider)
 
-> PSP (Payment Service Provider) — a PSP connects payers and merchants: onboarding, compliance (KYC), payment method acceptance, settlement to bank account.
+> A Payment Service Provider (PSP) connects payers and merchants — onboarding, KYC, payment-method acceptance, APIs, and settlement to a bank account.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask how you pick a PSP (geography, PCI path, payouts, disputes) and how you reconcile webhooks and settlement reports without double-fulfilling orders.
 
+## Sources
+
+- [Wikipedia — Payment service provider](https://en.wikipedia.org/wiki/Payment_service_provider) — overview
+- [PCI SSC — Third-party service providers](https://www.pcisecuritystandards.org/) — overview
+- [Stripe — Connect (platform / marketplace model)](https://docs.stripe.com/connect) — deep-dive
+
+## Core Definition
+
+A PSP bundles software and acquiring relationships so a merchant can accept cards and local methods without becoming a bank. Many PSPs include a [[payment gateway]]; the merchant still owns chargeback liability unless a platform product shifts responsibility by design.
+
+## Key Concepts
+
+- **Onboarding / KYC:** identity and business verification before live charges.
+- **Merchant account:** agreement under which chargebacks and reserves apply.
+- **Gateway + processing:** APIs, hosted checkout, tokens, disputes, reports.
+- **Settlement:** T+N payouts to the merchant bank; rolling reserves for new accounts.
+- **Idempotent webhooks:** event IDs stored once — retries must not double-ship.
+
+## Technical Details
 
 ```
 Customer payment ──► PSP ──► Acquiring bank ──► Card schemes ──► Issuing bank
@@ -15,25 +34,13 @@ Customer payment ──► PSP ──► Acquiring bank ──► Card schemes �
                          └── software: APIs, dashboards, disputes, reports
 ```
 
-| vs [[Payments/payment gateway]] | PSP often includes gateway + processing + merchant ID |
-| vs [[Payments/payment gateway]] | Standalone gateway may plug into third-party acquirer |
-
-PSPs provide **integration SDKs** for e-commerce and [[POS]] — checkout plugins, hosted pages, terminal APIs.
-
-
-## Configuration and commands
-
-### Choose PSP criteria
-
 | Factor | Question |
 |--------|----------|
-| **Geography** | Currencies, local methods (UPI, iDEAL, SEPA) |
-| **Model** | SaaS subscription vs marketplace ([[Payments/Strip]] Connect) |
-| **PCI path** | Hosted vs embedded fields → SAQ type |
-| **Payout speed** | T+2 vs instant |
-| **Disputes** | Dashboard + webhook chargeback events |
-
-### Integration checklist
+| Geography | Currencies, local methods (UPI, iDEAL, SEPA) |
+| Model | SaaS subscription vs marketplace ([[Strip]] Connect) |
+| PCI path | Hosted vs embedded fields → SAQ type |
+| Payout speed | T+2 vs instant |
+| Disputes | Dashboard + webhook chargeback events |
 
 ```text
 1. Create sandbox + live merchant accounts (separate keys)
@@ -43,8 +50,6 @@ PSPs provide **integration SDKs** for e-commerce and [[POS]] — checkout plugin
 5. Refund + partial refund API paths tested
 ```
 
-### Example webhook idempotency store
-
 ```sql
 CREATE TABLE payment_events (
   event_id TEXT PRIMARY KEY,
@@ -52,45 +57,36 @@ CREATE TABLE payment_events (
 );
 ```
 
-### Reconciliation
-
-```bash
-# Nightly: download PSP balance report, match transaction IDs
-# Alert on amount mismatch > threshold
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Merchant account restricted | KYC doc expiry | PSP dashboard compliance tasks |
-| Settlement delay | Rolling reserve / new account | PSP risk policy; normal for startups |
-| Method not available | Country/currency matrix | Enable payment method in dashboard |
-| FX surprise | Presentment vs settlement currency | Display correct currency to user |
-| Webhook secret rotated | 401 on verify | Update env; dual-secret window |
+| Settlement delay | Rolling reserve / new account | Normal early; confirm risk policy |
+| Method unavailable | Country/currency matrix | Enable method in dashboard |
+| FX surprise | Presentment vs settlement currency | Show correct currency to user |
+| Webhook secret rotated | Verify fails | Update secret; dual-secret window |
 
+## Real-World Applications
 
-## Gotchas
+Online stores, subscription SaaS, and marketplaces that need split payouts to sellers.
 
-> [!WARNING]
-> **PSP holds merchant agreement** — chargebacks debit merchant; platform/marketplace liability differs with Connect.
+**Example:** Nightly job downloads the PSP balance report and alerts when `transaction_id` amounts diverge from internal `orders.total` by more than a threshold.
 
-- **Pass-through fees** — interchange + PSP markup; model unit economics early.
-- **Multi-PSP** — failover routing complex; prefer one PSP until scale demands.
-- **Stored credentials** — network tokens for subscriptions; PCI still applies to how you store tokens.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Fast path to accept payments without acquiring licenses.
+- **Con:** Fees (interchange + markup) shape unit economics — model early.
+- **Con:** Multi-PSP failover is complex; prefer one until scale demands.
 
-## When not to use
+## Comparison
 
-- Cash-only micro business — PSP fees exceed benefit.
-- You are the bank — need licensing, not just API integration.
+- vs [[payment gateway]]: gateway may be only the API; PSP usually includes merchant account and settlement.
+- vs becoming an acquirer/bank: licensing and capital — not an API integration.
+- vs cash-only micro business: PSP fees can exceed benefit.
 
+## Mistakes to Avoid
 
-## Related
-
-[[Payments/payment gateway]] [[Payments/Strip]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[Messaging/webhook]]
-
-## Sources
-
-- [Wikipedia — PSP](https://en.wikipedia.org/wiki/PSP)
+- Sharing live and sandbox keys across environments.
+- Fulfilling orders from unsigned webhooks.
+- Ignoring chargeback and reserve policies when pricing.
+- Storing PAN “just for retries” instead of network tokens / PSP tokens.
+- Assuming marketplace liability matches a simple merchant account ([[Strip]] Connect differs).

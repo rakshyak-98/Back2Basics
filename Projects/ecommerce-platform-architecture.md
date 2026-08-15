@@ -1,102 +1,61 @@
-[[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
+[[Projects]] [[marketplace app]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[gRPC]]
 
-# ecommerce platform architecture
+# Ecommerce platform architecture
 
-> ecommerce platform architecture — client ──► API Gateway (REST) ──► BFF (optional) ──► domain services
+> Client hits an API gateway, then domain services — sync reads over gRPC where needed, async facts over a bus after local commits.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want clear failure domains (catalog vs money), outbox/idempotency, and why you do not lock inventory while waiting on a payment provider.
 
+## Sources
+
+- [Kleppmann — Designing Data-Intensive Applications](https://dataintensive.net/) — deep-dive
+- [Microservices.io — Pattern: Transactional outbox](https://microservices.io/patterns/data/transactional-outbox.html) — overview
+
+## Key Concepts
+
+- **API gateway / optional BFF:** edge REST for clients → internal service calls.
+- **Sync vs async:** gRPC for low-latency reads; Kafka (or similar) for facts and side effects.
+- **Separate money and catalog:** different failure domains → never hold catalog locks waiting on a PSP.
+- **Outbox:** emit events after local commit → consumers are idempotent.
+
+## Technical Details
 
 ```txt
 Client ──► API Gateway (REST) ──► BFF (optional) ──► domain services
                               │
-                    gRPC (sync, low-latency reads)
-                    Kafka (async, facts + side effects)
+                    gRPC (sync reads) / Kafka (async facts)
                               │
-         ┌────────────────────┼────────────────────┐
-         ▼                    ▼                    ▼
-   Order orchestrator   Payment / Refund    Catalog / Pricing
-         │                    │                    │
-         └────────────────────┴────────────────────┘
+         Order orchestrator · Payment/Refund · Catalog/Pricing
                               ▼
                     Notification (always async)
 ```
 
-**Money and catalog are separate failure domains.** Never hold catalog locks while waiting on PSP. Emit facts after local commit (outbox), consume with idempotent handlers.
+| Concern | Approach |
+|---------|----------|
+| Dual writes | Outbox + idempotent consumers |
+| PSP latency | Do not hold DB locks across HTTP to Stripe/etc. |
+| Cascades | Timeouts, bulkheads, backoff |
 
-### Interview map (words you can say)
+## Real-World Applications
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ecommerce platform architecture** | This note’s core idea | “I explain ecommerce platform architecture in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
+Order placed → local persist + outbox row → payment intent → webhook completes money path → async notify.
 
----
+**Example:** Payment succeeds but order write fails — recover via webhook replay and idempotency keys, not a distributed 2PC across PSP + DB.
 
+## Pros/Cons or Trade-offs
 
-## Configuration and commands
+- **Pro:** Clear domains scale teams and blast radius.
+- **Con:** Eventual consistency needs explicit user-visible states.
 
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
+## Comparison
 
----
+- vs [[marketplace app]]: this note is the platform wiring; marketplace adds two-sided trust/payout specifics.
+- vs modular monolith: start monolith if the team is small; keep the same domain boundaries.
 
+## Mistakes to Avoid
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Hotspot | metrics by key | Shard or cache |
-| Cascade fail | timeouts | Bulkheads and backoff |
-| Unclear ownership | diagram actors | Name the single writer |
-
----
-
-
-## Decision
-
-We will … because …
-
-
-## Consequences
-
-**Positive:** …
-
-**Negative / trade-offs:** …
-
-
-## Alternatives considered
-
-| Alternative | Why rejected |
-|-------------|--------------|
-| … | … |
-
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[Projects]] [[marketplace application]] [[gRPC]] [[Messaging/Kafka/Kafka distributed event streaming]] [[Payment gateway]] [[Terraform setup]] [[ecommerce-cicd-environments]] [[ecommerce-eks-layout]]
-
-## Sources
-
-- [Wikipedia — ecommerce-platform-architecture](https://en.wikipedia.org/wiki/ecommerce-platform-architecture)
+- One giant ACID transaction across search index + PSP + primary DB.
+- Fire-and-forget dual writes without an outbox.
+- Letting notification failures roll back paid orders.

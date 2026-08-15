@@ -4,22 +4,17 @@
 
 > Service boundaries for video platforms — packager, origin, license, encoder — **not a generic microservices essay**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Microservice to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — Microservice](https://en.wikipedia.org/wiki/Microservice) — overview
+
+## Key Concepts
 
 Streaming stacks fail when teams draw microservices around **org charts** instead of **failure domains and bitrate paths**. Split where **scale, deploy cadence, and blast radius** differ — keep hot paths colocated when IPC cost matters.
-
-```txt
-Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Player
-              │              │              │
-         GPU fleet      stateless      cache-heavy
-         batch+live      CPU bound      egress $$$
-
-         License server ◄── player DRM challenge (isolated trust zone)
-         Manifest API   ◄── auth + URL signing (edge-adjacent)
-         Ad decision    ◄── low-latency separate from encode
-```
 
 | Service | Owns | Scale driver | Split when |
 |---------|------|--------------|------------|
@@ -32,10 +27,18 @@ Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Pla
 | **Catalog/metadata** | VOD titles, images | CRUD | Classic REST microservice |
 | **Analytics/beacon** | QoE events | Write throughput | Never block playback path |
 
----
+## Technical Details
 
+```txt
+Ingest ──► Transcode ──► Packager ──► Origin/CDN ──► Player
+              │              │              │
+         GPU fleet      stateless      cache-heavy
+         batch+live      CPU bound      egress $$$
 
-## Configuration and commands
+         License server ◄── player DRM challenge (isolated trust zone)
+         Manifest API   ◄── auth + URL signing (edge-adjacent)
+         Ad decision    ◄── low-latency separate from encode
+```
 
 ### Boundary rules (staff checklist)
 
@@ -79,10 +82,22 @@ manifest_sign_failures
 
 Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 
----
+## Real-World Applications
 
+Used wherever Microservice sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
+- **Con / skip when:** **Split analytics before playback SLO met** — observability yes, service boundary no.
+- **Con / skip when:** **Separate team microservice for configuration flags** — use platform feature flags.
+
+## Comparison
+
+- vs [[flussonic]]: **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -94,42 +109,8 @@ Correlate with player [[ABR]] rebuffer events — not just CPU graphs.
 | Cost spike | Egress from origin not CDN | Cache miss — fix CDN key; origin should not serve 80% traffic |
 | One bad channel kills fleet | No bulkhead | Per-tenant quotas; isolate ingest process/containers |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Distributed transcode saga** — job state in three services without idempotency → orphan segments on partial failure.
-
-> [!WARNING]
-> **License server calls catalog** — outage blocks playback; embed minimal entitlement in signed JWT.
-
-> [!WARNING]
-> **Packager + origin shared disk** — NFS on hot path — use object storage.
-
-> [!WARNING]
-> **Microservice chat for frame data** — never RPC per frame; shared memory or pipeline in one process.
-
-> [!WARNING]
-> **Over-split before [[When scaling to hundreds of concurrent channels]]** — operational tax without revenue-scale need.
-
----
-
-
-## When not to use
-
-- **MVP single channel** — monolith ingest+package on one box ([[flussonic]], nginx-rtmp module).
-- **Split analytics before playback SLO met** — observability yes, service boundary no.
-- **Separate team microservice for configuration flags** — use platform feature flags.
-
----
-
-
-## Related
-
-[[Streaming]] [[ingestion]] [[transcoding]] [[ABR]] [[bitrate streaming]] [[MPEG-TS]] [[When scaling to hundreds of concurrent channels]]
-
-## Sources
-
-- [Wikipedia — Microservice](https://en.wikipedia.org/wiki/Microservice)
+- **Distributed transcode saga** — job state in three services without idempotency → orphan segments on partial failure.
+- **License server calls catalog** — outage blocks playback; embed minimal entitlement in signed JWT.
+- **Packager + origin shared disk** — NFS on hot path — use object storage.
+- **Microservice chat for frame data** — never RPC per frame; shared memory or pipeline in one process.
+- **Over-split before [[When scaling to hundreds of concurrent channels]]** — operational tax without revenue-scale need.

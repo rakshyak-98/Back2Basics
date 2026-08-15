@@ -1,53 +1,62 @@
-[[mongosh]] [[mongoose/mongoose]] [[mongodb connection]] [[mognodb indexing]] [[mongodb replicaset]] [[mongodb sharding]] [[INDEX]]
+[[mongosh]] [[mongoose/mongoose]] [[mongodb connection]] [[mognodb indexing]] [[mongodb replicaset]] [[mongodb sharding]] [[INDEX]] [[WiredTiger storage engine]]
 
 # MongoDB
 
-> MongoDB is a document database — flexible JSON-like documents, horizontal scale via sharding, and replica sets for failover; the first production pain is usually schema drift, index misses, or connection pool exhaustion.
+> MongoDB — a document database: JSON-like BSON docs, replica sets for failover, sharding for scale; production pain is often indexes, pools, or schema drift.
 
----
+## Interview Relevance
+Expect document model vs relational, replica set elections, read preference, and index design (ESR rule, compound keys). Signal: you know when flexibility becomes unqueryable chaos.
 
-## What MongoDB provides
+## Sources
+- [MongoDB Manual — Introduction](https://www.mongodb.com/docs/manual/introduction/) — overview
+- [MongoDB Manual — Replication](https://www.mongodb.com/docs/manual/replication/) — deep-dive
+- [Wikipedia — MongoDB](https://en.wikipedia.org/wiki/MongoDB) — overview
 
-MongoDB stores **BSON documents** in collections. Unlike rigid relational rows, documents can vary in shape within a collection (schema flexibility), with **indexes** for query paths and **replication** for availability.
+## Core Definition
+MongoDB stores BSON documents in collections. Schemas can vary by document; indexes make query paths fast; replica sets provide HA; sharding partitions data across nodes.
 
-| Capability | Vault notes |
-|------------|-------------|
-| Shell & admin | [[mongosh]] · [[mongodb shell]] |
-| Application ODM | [[mongoose/mongoose]] · [[mongoose schema]] |
-| Connections | [[mongodb connection]] · pool sizing in app layer |
-| Indexes | [[mognodb indexing]] |
-| High availability | [[mongodb replicaset]] |
-| Scale-out | [[mongodb sharding]] |
-| Query patterns | [[mongosh query]] · [[MongoDB data populate]] |
+## Key Concepts
+- **Document model:** Nested docs and arrays; design for access patterns, not 3NF purity.
+- **Indexes:** Without them, collection scans ([[mognodb indexing]]).
+- **Replica set:** Primary + secondaries; automatic failover ([[mongodb replicaset]]).
+- **Sharding:** Horizontal scale via shard key ([[mongodb sharding]]).
+- **Drivers / ODM:** Connection pools ([[mongodb connection]]); [[mongoose/mongoose]] in Node.
 
+## Technical Details
 ```txt
 App ──► driver pool ──► mongod (primary)
                            │
-                           ├── secondary replicas ([[mongodb replicaset]])
-                           └── shard routers if sharded ([[mongodb sharding]])
+                           ├── secondaries ([[mongodb replicaset]])
+                           └── mongos + shards ([[mongodb sharding]])
 ```
-
-## Where to go next
 
 | Symptom / need | Go to |
 |----------------|-------|
-| Slow queries | [[mognodb indexing]] · explain plans in [[mongosh query]] |
-| Failover / elections | [[mongodb replicaset]] |
+| Slow queries | [[mognodb indexing]] · [[mongosh]] |
+| Failover | [[mongodb replicaset]] |
 | Connection storms | [[mongodb connection]] |
-| Schema migrations | [[mongodb migration]] |
-| Aggregation / `$lookup` | [[mongodb lookup query]] · [[mongoDB Group query]] |
+| Migrations | [[mongodb migration]] |
+| Aggregation / `$lookup` | [[mongodb lookup query]] |
 
-## When things break
+| Breakage | Check | Fix |
+|----------|-------|-----|
+| Server selection error | RS health; URI | Fix primary; `replicaSet` name |
+| Timeouts / collscans | Explain plan | Compound index |
+| Stale reads | Read preference | `primary` for read-your-writes |
+| OOM | WiredTiger cache | RAM / cache sizing / shard |
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `MongoServerSelectionError` | Replica set health; DNS | Fix primary; verify `replicaSet` URI |
-| Query timeout | Missing index; collscan | Add compound index; review [[mognodb indexing]] |
-| Duplicate key | Unique index vs app idempotency | Align `_id` generation; upsert pattern |
-| OOM on mongod | WiredTiger cache | Lower cache GB; add RAM or shard |
-| Stale reads after write | Read preference `secondary` | Use `primary` for read-your-writes |
+## Real-World Applications
+Product catalog with varied attributes per SKU; session or event data with high write rates; multi-region apps using replica sets and careful read concern/write concern.
 
-## Sources
+## Pros/Cons or Trade-offs
+- **Pro:** Flexible documents; horizontal scale path; rich aggregation.
+- **Con:** Easy to skip schema discipline; wrong shard key is painful; multi-doc transactions cost more than people expect.
 
-- [MongoDB Manual — Introduction](https://www.mongodb.com/docs/manual/introduction/)
-- [Wikipedia — MongoDB](https://en.wikipedia.org/wiki/MongoDB)
+## Comparison
+vs Postgres ([[postgres essential]]): stronger relational constraints and joins by default; Mongo favors document locality. vs [[Redis]]: Redis is in-memory structures/cache; Mongo is durable document storage. Engine note: [[WiredTiger storage engine]].
+
+## Mistakes to Avoid
+- Unbounded arrays / documents that grow forever.
+- Secondary reads for read-your-writes correctness.
+- Unique business keys without unique indexes.
+- Connection-per-request without pooling.

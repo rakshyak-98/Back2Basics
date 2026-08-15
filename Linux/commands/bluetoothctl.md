@@ -1,127 +1,69 @@
-[[D-Bus]] [[Services commands]] [[Service masking]]
+[[D-Bus]] [[Services commands]] [[Service masking]] [[busctl]] [[systemctl]]
 
 # bluetoothctl
 
-> BlueZ interactive CLI — pair headsets, debug `org.bluez.Error.Busy`, and script BT when GUI applets lie about power state.
+> bluetoothctl is the BlueZ interactive CLI — pair devices, debug Busy errors, and script Bluetooth when GUI applets lie about power state.
 
----
+## Interview Relevance
+Desktop/IoT niche: BlueZ over D-Bus, agent/pairing flow, and masking bluetooth on servers that must not radio-on.
 
-## How it works
+## Sources
+- [bluetoothctl(1)](https://man.archlinux.org/man/bluetoothctl.1) — deep-dive
+- [BlueZ documentation](http://www.bluez.org/) — overview
 
-BlueZ exposes devices over **D-Bus** (`org.bluez`). `bluetoothctl` is the REPL front-end: power adapter, scan, pair, trust, connect. Desktop environments (GNOME/KDE) also talk to BlueZ — **two controllers fighting** causes Busy errors.
+## Core Definition
+`bluetoothctl` talks to `bluetoothd` over D-Bus, which drives the kernel HCI stack. Same daemon backs GNOME Settings — conflicting “owners” of adapter power cause `org.bluez.Error.Busy`.
 
-```
+## Key Concepts
+- **power / agent / scan / pair / trust / connect:** Usual pairing sequence.
+- **Busy errors:** Another agent (GUI) holds the adapter.
+- **Non-interactive:** `bluetoothctl` subcommands for scripts.
+- **Servers:** Prefer [[Service masking]] so BT stays off.
+- **SSH pairing:** Needs agent; physical confirm often required.
+
+## Technical Details
+
+```txt
 bluetoothctl → D-Bus → bluetoothd → kernel HCI → hardware
-GNOME Settings ──┘ (same daemon — conflict if both "own" power)
+GNOME Settings ──┘
 ```
-
-| Command | Purpose |
-|---------|---------|
-| `power on/off` | Adapter radio |
-| `scan on` / `devices` | Discovery |
-| `pair` / `trust` / `connect` | Bond + auto-reconnect |
-| `remove MAC` | Forget device |
-| `info MAC` | RSSI, UUIDs, connected state |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **bluetoothctl** | BlueZ interactive CLI | “power on → scan → pair → trust → connect.” |
-| **agent** | Pairing PIN handler | “agent on before pair.” |
-| **trust** | Auto-reconnect | “Trust after pair for headphones.” |
-| **rfkill** | Block radios | “rfkill list if soft-blocked.” |
-| **systemctl bluetooth** | Daemon | “bluetooth.service must be up.” |
-
-
-## Configuration and commands
 
 ```bash
-# Interactive session
 bluetoothctl
 # Inside:
 power on
 agent on
 default-agent
 scan on
-# wait for device
 pair AA:BB:CC:DD:EE:FF
 trust AA:BB:CC:DD:EE:FF
 connect AA:BB:CC:DD:EE:FF
 quit
-```
 
-**One-shot scripting:**
-
-```bash
 bluetoothctl power on
 bluetoothctl connect AA:BB:CC:DD:EE:FF
 bluetoothctl --timeout 5 scan on
 ```
 
-**Check daemon and adapter:**
-
-```bash
-systemctl status bluetooth
-rfkill list bluetooth              # soft/hard block
-hciconfig -a || bluetoothctl show  # adapter name, powered
-busctl tree org.bluez              # D-Bus object tree
-```
-
-**Headless/server (usually disable):**
-
-```bash
-sudo systemctl stop bluetooth
-sudo systemctl mask bluetooth      # see [[Service masking]]
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `Failed to set power on: org.bluez.Error.Busy` | `rfkill`; GNOME BT applet | Kill conflicting UI; `rfkill unblock bluetooth`; restart `bluetooth` |
-| Device pairs, won't connect | `info MAC`; profiles | `trust MAC`; remove + re-pair; check A2DP vs HID |
-| No adapter found | `lsusb`; `dmesg` | Driver/firmware; VM USB passthrough |
-| Scan finds nothing | `power on`; distance | Interference; device in pairing mode |
-| Works until reboot | `trust` missing | `trust MAC`; check `/var/lib/bluetooth` |
-| Audio choppy | PipeWire/Pulse | Not bluetoothctl — check `pactl` / wireplumber |
+| org.bluez.Error.Busy | GUI agent | Close Settings; stop gnome-bluetooth; retry |
+| Can’t pair over SSH | No agent/PIN UI | `agent on`; local confirm; don’t rely on SSH alone |
+| Adapter missing | `bluetoothctl list`; rfkill | Unblock; load modules; hardware |
+| Keeps re-enabling on server | user session | `systemctl mask bluetooth` |
 
-**Busy error playbook:**
+## Real-World Applications
+Pairing a headset when the GUI spinner lies, scripting a scan/connect for a kiosk, and masking Bluetooth on hardened servers.
 
-```bash
-rfkill unblock bluetooth
-bluetoothctl power off
-sleep 1
-bluetoothctl power on
-sudo systemctl restart bluetooth
-# If still Busy: log out of GNOME session or stop gnome-bluetooth stack temporarily
-```
+## Pros/Cons or Trade-offs
+- **Pro:** Direct control of BlueZ without the GUI.
+- **Con:** Interactive UX; races with desktop agents; weak over SSH.
+- **Trade-off:** Convenience radios on laptops vs mask-off on servers.
 
+## Comparison
+vs GUI Bluetooth panels: same daemon, different agent. vs [[busctl]]: lower-level D-Bus calls to `org.bluez`. vs Wi-Fi/`nmcli`: different radio stack.
 
-## Gotchas
-
-> [!WARNING]
-> **Mask vs disable** — `systemctl stop` isn't enough if user session re-enables BT. Use [[Service masking]] on servers that must never expose BT.
-
-> [!WARNING]
-> **Pairing in SSH session** — need `agent on` and often physical confirm on device; no PIN UI over SSH.
-
-- **Multiple adapters** — `select ADAPTER_MAC` in bluetoothctl before pair.
-- **BLE versus classic** — IoT uses `bluetoothctl menu gatt`; different workflow from headphones.
-
-
-## When not to use
-
-- **Wi-Fi debugging** — unrelated stack; use `nmcli`, `iw`.
-- **Production server hardening** — disable/mask BT entirely; no pairing on production.
-- **Bulk fleet provisioning** — use MDM/vendor tools, not manual bluetoothctl.
-
-
-## Related
-
-[[D-Bus]] [[Services commands]] [[Service masking]] [[busctl]] [[systemctl]]
-
-## Sources
-
-- [Wikipedia — bluetoothctl](https://en.wikipedia.org/wiki/bluetoothctl)
+## Mistakes to Avoid
+- Fighting Busy without checking which agent owns the adapter.
+- Leaving Bluetooth enabled on servers that don’t need it.
+- Expecting headless SSH pairing without a confirm path.

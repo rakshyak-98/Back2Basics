@@ -4,9 +4,16 @@
 
 > 1. When git runs a command like `git push` it internally calls. — create auth token from GitHub personal access token
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `1. When git runs a command like `git push` it internally calls.` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ### reset the credential manager
 ```bash
@@ -28,8 +35,7 @@ git config --global credential.helper cache;
 printf "protocol=https\nhost=github.com\n\n" | git credential fill;
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 git config --global credential.helper cache
@@ -37,10 +43,14 @@ git config --global --unset credential.helper
 git credential reject   # paste host=... protocol=https
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- Do not embed tokens in remote URLs committed to the repository.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> Git credential helpers store secrets on disk or in the OS keychain — lock your workstation.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,29 +59,3 @@ git credential reject   # paste host=... protocol=https
 | Token works in browser not git | Using account password not PAT | Create personal access token; use as password |
 | HTTPS 401 after password change | Stale cache | Unset helper cache; re-authenticate |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Git credential helpers store secrets on disk or in the OS keychain — lock your workstation.
-
----
-
-
-## When not to use
-
-- Do not embed tokens in remote URLs committed to the repository.
-
-
----
-
-
-## Related
-
-[[GIT]]
-
-## Sources
-
-- [Wikipedia — git credential](https://en.wikipedia.org/wiki/git_credential)

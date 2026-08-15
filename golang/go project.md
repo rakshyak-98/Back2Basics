@@ -1,12 +1,19 @@
-[[golang]] [[go learning]] [[go]] [[go-routines]]
+[[golang]] [[go learning]] [[go]] [[go-routines]] [[go cli]] [[gRPC]]
 
 # go project
 
 > Go practice projects — climb CLI → HTTP/SQL → concurrency → distributed; each has a clear scope and test bar.
 
----
+## Interview Relevance
 
-## How it works
+Project ladders show deliberate practice — interviewers care that you can scope CLI→HTTP→concurrency work with a clear test bar.
+
+## Sources
+
+- [Go project layout conventions (community)](https://github.com/golang-standards/project-layout) — overview
+- [Go — Modules](https://go.dev/blog/using-go-modules) — overview
+
+## Key Concepts
 
 ```txt
 CLI → REST+DB → WS/gateway → KV/gRPC
@@ -18,10 +25,7 @@ CLI → REST+DB → WS/gateway → KV/gRPC
 | Intermediate | HTTP, SQL, auth, concurrency |
 | Advanced | gRPC, multi-service, durability |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 go mod init github.com/you/proj
@@ -36,10 +40,7 @@ docker compose up -d # when Postgres required
 | Context on servers | Cancel on SIGINT |
 | Idempotent writes | Booking/payment style tasks |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -49,33 +50,7 @@ docker compose up -d # when Postgres required
 | DB tests fragile | Shared DB | Testcontainers / tx rollback |
 | “Done” without README | No decisions recorded | Write why section |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Framework shopping** — finish one stdlib HTTP service first.
-
-> [!WARNING]
-> **Skipping graceful shutdown** — leaks in WS/chat projects.
-
-> [!WARNING]
-> **No idempotency on book/pay** — instant production bug.
-
----
-
-
-## When not to use
-
-- **Resume spam of 9 half-apps** — ship 3 polished ones.
-- **Rewriting Kubernetes for learning** — too wide.
-- **Copying entire starter kits** — you won’t learn.
-
----
-
-
-## Project ladder
+### Project ladder
 
 | # | Project | Must include |
 |---|---------|--------------|
@@ -91,13 +66,14 @@ docker compose up -d # when Postgres required
 
 **Production checklist (all):** structured logs, `-race` clean, health endpoint, configuration via environment, README with failure modes.
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Resume spam of 9 half-apps — ship 3 polished ones.
+- **Trade-off:** Rewriting Kubernetes for learning — too wide.
+- **Trade-off:** Copying entire starter kits — you won’t learn.
 
-## Related
+## Mistakes to Avoid
 
-[[go learning]] [[go cli]] [[go-routines]] [[gRPC]]
-
-## Sources
-
-- [Wikipedia — go project](https://en.wikipedia.org/wiki/go_project)
+- Framework shopping — finish one stdlib HTTP service first.
+- Skipping graceful shutdown — leaks in WS/chat projects.
+- No idempotency on book/pay — instant production bug.

@@ -1,12 +1,26 @@
-[[DNS]] · [[public resolver]] · [[name server]] · [[dnsmasq]]
+[[DNS]] [[public resolver]] [[name server]] [[dnsmasq]] [[BIND]] [[unbound variable]]
 
 # Unbound
 
 > Unbound is a validating recursive DNS resolver designed for security and performance — run it on servers or laptops to cache queries locally, enforce DNSSEC, and forward or recurse without trusting ISP DNS.
 
----
+## Interview Relevance
 
-## Typical deployment roles
+Interviewers expect Unbound as the validating recursive choice — access-control hardening, forward vs recurse, and DNSSEC `SERVFAIL` debugging.
+
+## Sources
+
+- [Unbound documentation](https://unbound.docs.nlnetlabs.nl/) — deep-dive
+- [NLnet Labs — Unbound](https://nlnetlabs.nl/projects/unbound/about/) — overview
+
+## Key Concepts
+
+- **Recursive focus:** walks or forwards; not a full zone-master replacement for [[BIND]].
+- **DNSSEC validator:** broken DS/chain → `SERVFAIL` instead of insecure answers.
+- **Access control:** never open recursion to the world without rate limits.
+- **Not bash nounset:** shell “unbound variable” is [[unbound variable]], not this daemon.
+
+## Technical Details
 
 | Role | Configuration |
 |------|---------------|
@@ -14,10 +28,6 @@
 | **Forwarding resolver** | Forwards to [[public resolver]] or ISP |
 | **DNSSEC validator** | `module-config: "validator iterator"` |
 | **Corporate internal** | Split DNS with local zones + forward public |
-
-Not to be confused with bash `set -u` (**nounset**) discussed in [[unbound variable]].
-
-## Minimal `unbound.conf`
 
 ```yaml
 server:
@@ -39,25 +49,14 @@ forward-zone:
 
 Restrict `access-control` — never open recursion to `0.0.0.0/0` without rate limits.
 
-## systemd
-
 ```bash
 sudo systemctl enable --now unbound
 resolvectl status   # ensure not fighting systemd-resolved on :53
-```
-
-## DNSSEC validation
-
-When validation fails, Unbound returns `SERVFAIL`. Debug:
-
-```bash
 dig @127.0.0.1 example.com A +dnssec
 unbound-control status
 ```
 
-Broken parental DS records or clock skew cause false negatives.
-
-## vs [[BIND]]
+When validation fails, Unbound returns `SERVFAIL`. Broken parental DS records or clock skew cause false negatives.
 
 | Unbound | BIND |
 |---------|------|
@@ -67,12 +66,26 @@ Broken parental DS records or clock skew cause false negatives.
 
 Pair **BIND authoritative** internally with **Unbound** on clients or DMZ resolvers.
 
-## Recall
+## Real-World Applications
 
-- Why bind Unbound to localhost on a laptop?
-- What symptom indicates DNSSEC validation failure?
+Laptop local resolver, office recursive tier, and DMZ validating resolvers in front of [[public resolver]] upstreams.
 
-## Sources
+**Example:** Bind Unbound to `127.0.0.1` on a laptop — apps use local cache/DNSSEC; outbound queries go to 1.1.1.1 only from Unbound.
 
-- [Unbound documentation](https://unbound.docs.nlnetlabs.nl/)
-- [NLnet Labs — Unbound](https://nlnetlabs.nl/projects/unbound/about/)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Strong default security posture and DNSSEC validation.
+- **Con:** Not ideal as your only Internet authoritative zone server.
+- **Con:** Port 53 fights with systemd-resolved / [[dnsmasq]] if both listen.
+
+## Comparison
+
+- vs [[BIND]]: Unbound for recursion; BIND for authoritative Internet zones.
+- vs [[dnsmasq]]: Unbound is the validating resolver; dnsmasq adds DHCP/LAN convenience.
+- vs [[unbound variable]]: completely different topic (Bash `set -u`).
+
+## Mistakes to Avoid
+
+- Opening `access-control` to `0.0.0.0/0` on a public IP.
+- Misreading DNSSEC `SERVFAIL` as “network down” without `dig +dnssec` / `unbound-control`.
+- Running Unbound and systemd-resolved both on `:53` without coordination.

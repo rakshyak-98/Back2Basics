@@ -1,25 +1,57 @@
 [[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[Compound Components 1]] [[Stack from scratch]]
 
-# Separate functional logic from persentation components
+# Separate functional logic from presentation components
 
-> Separate functional logic from persentation components shapes how React applications compose UI, state, and side effects in production.
+> Split hooks/data logic from JSX-only views — test and reuse behavior without caring about markup.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
+Interviewers ask how you separate container/logic from presentational UI and whether hooks replaced classic container components.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [React — Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive
+- [Thinking in React](https://react.dev/learn/thinking-in-react) — overview
 
-## Recall
+## Core Definition
 
-What breaks first in production if `Separate functional logic from persentation components` is misused — bundle size, stale UI, or hydration errors?
+Keep data fetching, subscriptions, and business rules in hooks or thin containers; leave presentational components mostly props → JSX.
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Compound Components]] [[Compound Components 1]] [[Stack from scratch]]
+- **Logic layer:** custom hooks / containers own state and effects.
+- **Presentation:** receive props, emit events, avoid fetching.
+- **Boundary:** presentational components stay reusable across screens.
+
+## Technical Details
+
+```tsx
+function useUser(id: string) {
+  return useQuery({ queryKey: ['user', id], queryFn: () => api.user(id) })
+}
+function UserCardView({ name, onEdit }: { name: string; onEdit: () => void }) {
+  return <article><h2>{name}</h2><button onClick={onEdit}>Edit</button></article>
+}
+function UserCard({ id }: { id: string }) {
+  const { data } = useUser(id)
+  return <UserCardView name={data.name} onEdit={() => navigate('edit')} />
+}
+```
+
+## Real-World Applications
+
+Design system Button stays dumb; feature `CheckoutButton` hook owns cart mutation and disabled state.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Easier unit tests for logic without rendering full trees.
+- **Con:** Over-splitting tiny components adds file noise.
+
+## Comparison
+
+- vs [[React Pattern/Component Presentational Pattern]]: same idea; hooks are the modern container.
+
+## Mistakes to Avoid
+
+- Fetching inside every presentational leaf.
+- Passing the entire store/query client as props “to keep it pure.”

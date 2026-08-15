@@ -4,9 +4,28 @@
 
 > Moving data between database servers or nodes while scaling — much harder for relational databases introducing sharding than for partition-native NoSQL; replication and sharding solve different problems.
 
----
+## Interview Relevance
 
-## How it works
+Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
+
+## Sources
+
+- Martin Kleppmann, *Designing Data-Intensive Applications* — partitioning and rebalancing — deep-dive
+- Expand-Contract pattern (parallel change) — overview
+- Vitess / Citus resharding guides — deep-dive
+
+
+## Key Concepts
+
+- **Dual-write + backfill + cutover:** keep old and new paths consistent during move.
+- **Checksums / row counts:** prove convergence before switching reads.
+- **Expand-contract:** additive schema first; remove old path last.
+- **Rollback criteria:** define abort signals before starting traffic shift.
+
+
+## Technical Details
+
+### How it works
 
 ### 1. Relational database — [[mysql]] / [[postgres]]
 
@@ -311,43 +330,6 @@ Scaling data migration (this note): move rows across nodes while scaling
 ```
 
 ---
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Duplicate rows after cutover | Dual-write window overlap | Idempotent keys; dedupe job |
-| Missing rows on new shard | Backfill lag vs cutover too early | Pause cutover; resume backfill |
-| FK violations during copy | Child rows copied before parent | Order by dependency; disable FKs only with care |
-| Unique constraint clash | Same email on two shards | Global index service or pre-migration dedupe |
-| App still hits old node | Routing config / connection pool | Feature flag shard map; drain old pool |
-| Rebalance never finishes | Node down; token imbalance | Cluster health; manual move ranges |
-| Writes spike during rebalance | Hot partition | Salt keys; add capacity before rebalance |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Replication ≠ sharding** — adding read replicas does not remove the need for a scaling data migration when writes or disk outgrow one primary.
-
-> [!WARNING]
-> **"CREATE NODE" fantasy** — SQL has no magic redistribute; plan dual-write and verification ([[database sharding]]).
-
-> [!WARNING]
-> **NoSQL rebalance is not instant** — large partitions still move over the network; plan capacity and client timeouts.
-
-> [!WARNING]
-> **Do not confuse with [[database migration]]** — schema version scripts do not replace shard cutover planning.
-
-> [!WARNING]
-> **IPTV-scale example** — billions of viewing rows make backfill time dominate; batch by time range or tenant.
-
----
-
-
 ## When not to use
 
 - **Sharding migration before exhausting replicas + vertical scale** — see [[Horizontal vs Vertical Scaling]].
@@ -369,11 +351,51 @@ Scaling data migration (this note): move rows across nodes while scaling
 
 ---
 
+## Real-World Applications
 
-## Related
+Sharding an existing OLTP database, region migrations, and major engine upgrades under live write traffic.
 
-[[Horizontal vs Vertical Scaling]] [[database sharding]] [[database migration]] [[mysql]] [[postgres]] [[mysql data migrations]] [[ACID]] [[BASE]] [[Eventual consistency]] [[Distributed computing]]
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- [Wikipedia — scaling data migration](https://en.wikipedia.org/wiki/scaling_data_migration)
+- **Pro:** Live migration avoids long read-only windows.
+- **Con:** Dual-write bugs and lag create hard-to-debug divergence.
+- **Trade-off:** brief downtime cutover vs longer dual-running complexity.
+
+
+## Comparison
+
+- vs [[database sharding]]: sharding is why many migrations exist; this note is the move itself.
+- vs [[Horizontal vs Vertical Scaling]]: scale decision precedes the migration plan.
+
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Replication ≠ sharding** — adding read replicas does not remove the need for a scaling data migration when writes or disk outgrow one primary.
+
+> [!WARNING]
+> **"CREATE NODE" fantasy** — SQL has no magic redistribute; plan dual-write and verification ([[database sharding]]).
+
+> [!WARNING]
+> **NoSQL rebalance is not instant** — large partitions still move over the network; plan capacity and client timeouts.
+
+> [!WARNING]
+> **Do not confuse with [[database migration]]** — schema version scripts do not replace shard cutover planning.
+
+> [!WARNING]
+> **IPTV-scale example** — billions of viewing rows make backfill time dominate; batch by time range or tenant.
+
+---
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Duplicate rows after cutover | Dual-write window overlap | Idempotent keys; dedupe job |
+| Missing rows on new shard | Backfill lag vs cutover too early | Pause cutover; resume backfill |
+| FK violations during copy | Child rows copied before parent | Order by dependency; disable FKs only with care |
+| Unique constraint clash | Same email on two shards | Global index service or pre-migration dedupe |
+| App still hits old node | Routing config / connection pool | Feature flag shard map; drain old pool |
+| Rebalance never finishes | Node down; token imbalance | Cluster health; manual move ranges |
+| Writes spike during rebalance | Hot partition | Salt keys; add capacity before rebalance |
+
+---

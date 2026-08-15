@@ -1,12 +1,28 @@
-[[NodeJS]] [[node fs]] [[Buffers]] [[Stream]]
+[[NodeJS]] [[node fs]] [[Buffers]] [[Stream]] [[fsync]] [[Node.js run as a non-privileged user]]
 
 # Node.js `file` module patterns
 
 > Node.js `file` module patterns — node has no separate file package — file I/O lives in node:fs. Three API surfaces:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Node.js `file` module patterns** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Wikipedia — file](https://en.wikipedia.org/wiki/file) — overview
+
+## Core Definition
+
+Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
+
+## Key Concepts
+
+- Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
+- Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type inform…
+- Without encoding, `readFile` returns a **Buffer** (binary-safe). With `'utf8'`, returns string.
+
+## Technical Details
 
 Node has no separate `file` package — file I/O lives in **`node:fs`**. Three API surfaces:
 
@@ -19,9 +35,6 @@ fs sync (*Sync)            ← boot/config only; blocks event loop
 Small files: `readFile` / `writeFile`. Large files or unknown size: **streams** (`createReadStream`). Directory listing: `readdir` with `{ withFileTypes: true }` for type information without extra `stat` calls.
 
 Without encoding, `readFile` returns a **Buffer** (binary-safe). With `'utf8'`, returns string.
-
-
-## Configuration and commands
 
 ### Read text file (production default)
 
@@ -89,41 +102,28 @@ reader.on('data', (chunk) => processChunk(chunk));
 reader.on('error', (err) => console.error(err));
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **file** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`existsSync` + `readFile` race** — file can disappear between calls; handle `ENOENT` on open; **Sync fs in request handlers** — one slow disk read blocks all HTTP clients on that process.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `ENOENT` on read | Path cwd-relative vs absolute | `path.resolve`; log `process.cwd()` |
-| Garbled text | Missing encoding | Pass `'utf8'`; detect BOM |
-| Event loop stalls | Sync `readFileSync` on MB files | Switch to promises/streams |
-| `EACCES` / `EPERM` | File owner, container user | Run as correct UID; fix `chmod`/`chown` |
-| Partial write after crash | Direct overwrite | Atomic write via temp + rename |
-| Buffer vs string confusion | No encoding arg | Explicit `'utf8'` or keep Buffer |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (Node.js `file` module patterns — node has no separate file package — file I/O li…).
+- **Con / when not:** **User uploads at scale** — stream to object storage (S3), don't buffer whole file in RAM.
+- **Con / when not:** **Watching many files** — use `fs.watch`/`chokidar` note separately; polling is expensive.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **`existsSync` + `readFile` race** — file can disappear between calls; handle `ENOENT` on open.
+vs [[node fs]]: know when each applies — do not treat them as interchangeable. vs [[Buffers]]: know when each applies — do not treat them as interchangeable. vs [[Stream]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **Sync fs in request handlers** — one slow disk read blocks all HTTP clients on that process.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Default encoding is UTF-8 in promises API** — binary files need no encoding (Buffer).
-
-
-## When not to use
-
-- **User uploads at scale** — stream to object storage (S3), don't buffer whole file in RAM.
-- **Watching many files** — use `fs.watch`/`chokidar` note separately; polling is expensive.
-
-
-## Related
-
-[[node fs]] [[Buffers]] [[Stream]] [[fsync]] [[Node.js run as a non-privileged user]]
-
-## Sources
-
-- [Wikipedia — file](https://en.wikipedia.org/wiki/file)
+- **`existsSync` + `readFile` race** — file can disappear between calls; handle `ENOENT` on open.
+- **Sync fs in request handlers** — one slow disk read blocks all HTTP clients on that process.
+- **Default encoding is UTF-8 in promises API** — binary files need no encoding (Buffer).
+- **`ENOENT` on read:** check Path cwd-relative vs absolute; fix: `path.resolve`; log `process.cwd()`
+- **Garbled text:** check Missing encoding; fix: Pass `'utf8'`; detect BOM
+- **Event loop stalls:** check Sync `readFileSync` on MB files; fix: Switch to promises/streams
+- **`EACCES` / `EPERM`:** check File owner, container user; fix: Run as correct UID; fix `chmod`/`chown`
+- **Partial write after crash:** check Direct overwrite; fix: Atomic write via temp + rename
+- **Buffer vs string confusion:** check No encoding arg; fix: Explicit `'utf8'` or keep Buffer

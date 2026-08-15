@@ -1,30 +1,39 @@
-[[Networking]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[localhost]]
+[[Networking]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[localhost]] [[loopback]] [[network gateway]]
 
 # non-Routable address
 
 > Non-routable addresses stay on the private side — the public internet will not deliver packets to them.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask RFC 1918 / non-routable space to confirm you know why private IPs need [[NAT (Network Address Translation)]], VPN, or a public listener — and that “private” is not the same as “secure.”
+
+## Sources
+
+- [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918) — deep-dive
+- [RFC 6598 — IANA-Reserved IPv4 Prefix for Shared Address Space (CGNAT)](https://www.rfc-editor.org/rfc/rfc6598) — deep-dive
+- [RFC 3927 — Dynamic Configuration of IPv4 Link-Local Addresses](https://www.rfc-editor.org/rfc/rfc3927) — overview
+- [Wikipedia — Private network](https://en.wikipedia.org/wiki/Private_network) — overview
+
+## Core Definition
+
+Non-routable (special-use) addresses are prefixes that must not be forwarded on the public Internet — typically RFC 1918 private space, loopback, link-local, and CGNAT shared space — so global reachability requires translation, tunneling, or a different address.
+
+## Key Concepts
+
+- **RFC 1918:** classic private IPv4 — `10/8`, `172.16/12`, `192.168/16`.
+- **Loopback:** only this host (`127.0.0.0/8`) — `127.0.0.1` never leaves the machine.
+- **Link-local:** same L2 segment (`169.254/16`) — APIPA; not a real LAN plan.
+- **CGNAT:** ISP-shared private space (`100.64/10`) — your “public” IP may still be behind carrier NAT.
+- **Unreachable from outside:** no global route → need NAT, VPN, or a public listener.
+
+## Technical Details
 
 ```txt
 Internet ──✗── 10.x / 172.16–31 / 192.168.x
                 │
               Your LAN (NAT at the edge)
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **RFC1918** | Classic private IPv4 ranges | “`10/8`, `172.16/12`, `192.168/16` are non-routable on the public net.” |
-| **Loopback** | Only this host (`127.0.0.0/8`) | “`127.0.0.1` never leaves the machine.” |
-| **Link-local** | Same L2 segment (`169.254/16`) | “APIPA — no DHCP; not a real LAN plan.” |
-| **CGNAT** | ISP-shared private space (`100.64/10`) | “Your ‘public’ IP may still be behind carrier NAT.” |
-| **Unreachable “from outside”** | No global route to that address | “Need NAT, VPN, or a public listener — not the private IP alone.” |
-
-### Common non-routable / special IPv4
 
 | Range | Role |
 |-------|------|
@@ -35,11 +44,6 @@ Internet ──✗── 10.x / 172.16–31 / 192.168.x
 | `169.254.0.0/16` | Link-local (APIPA) |
 | `0.0.0.0/8` | “This network” / unspecified |
 | `100.64.0.0/10` | Shared CGNAT space |
-
----
-
-
-## Configuration and commands
 
 ```bash
 ip -4 addr show
@@ -58,11 +62,6 @@ ss -tlnp | grep ':8080'
 | Security group / UFW | Allow the *private* source CIDR, not a public guess |
 | VPN / Tailscale | Gives a path into private space without exposing it |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Internet client can’t hit `192.168.x` | Expected — non-routable | Port-forward, reverse tunnel, VPN, or public LB |
@@ -71,36 +70,28 @@ ss -tlnp | grep ':8080'
 | Weird `169.254.x` address | No DHCP | Fix DHCP/router; don’t treat APIPA as production |
 | Overlap after VPC peer | Same RFC1918 on both sides | Renumber or use NAT |
 
----
+## Real-World Applications
 
+Home LANs, cloud VPCs, and CGNAT mobile networks all use non-routable space behind an edge translator.
 
-## Gotchas
+**Example:** A teammate shares `http://192.168.1.20:3000` with a remote colleague — it fails until they use a tunnel/VPN or publish via a public load balancer.
 
-> [!WARNING]
-> **Private ≠ secure** — anyone on the LAN (or who joins the VPC) can still reach it.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`0.0.0.0` listen ≠ public** — you still need a route/NAT/firewall hole for the internet.
+- **Pro:** Conserves public IPv4; simple private addressing inside orgs.
+- **Con:** Breaks end-to-end reachability — inbound needs NAT, VPN, or public frontends.
+- **Con:** Overlapping RFC 1918 blocks break peering and mergers.
 
-> [!WARNING]
-> **CGNAT `100.64/10`** — looks “private”; inbound from the internet still fails without ISP help.
+## Comparison
 
----
+- vs public unicast: globally routable; private space is not.
+- vs [[NAT (Network Address Translation)]]: NAT is how private hosts share a public face.
+- vs [[CIDR (Classless Inter-Domain Routing)]]: CIDR is notation/sizing; non-routable is policy about which prefixes the public net rejects.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Publishing a service to the world** — need a public IP, LB, or tunnel — not RFC1918 alone.
-- **Cross-org peering without a plan** — colliding `10/8` blocks; design non-overlapping CIDRs first.
-- **As a substitute for authentication** — “it’s internal” is not an access-control model.
-
----
-
-
-## Related
-
-[[Networking]] [[CIDR (Classless Inter-Domain Routing)]] [[NAT (Network Address Translation)]] [[localhost]] [[loopback]] [[network gateway]]
-
-## Sources
-
-- [Wikipedia — non-Routable address](https://en.wikipedia.org/wiki/non-Routable_address)
+- Treating private as secure — anyone on the LAN/VPC can still reach it.
+- Assuming `0.0.0.0` listen makes a service public — you still need a route/NAT/firewall hole.
+- Ignoring CGNAT `100.64/10` — inbound from the internet still fails without ISP help.
+- Using overlapping `10/8` blocks across orgs without a renumbering plan.
+- Substituting “it’s internal” for authentication.

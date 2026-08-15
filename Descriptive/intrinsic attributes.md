@@ -1,12 +1,18 @@
-[[React/React data management]] [[typescript]] [[javascript]] [[css/Animation]]
+[[React/React data management]] [[typescript]] [[javascript]] [[css/Animation]] [[Descriptive/WCAG (Web Content Accessibility Guidelines)]]
 
 # Intrinsic attributes (React / JSX)
 
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
----
+## Interview Relevance
 
-## How it works
+Intrinsic sizing interviews cover width/height hints to reduce CLS in responsive layouts.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 In React + TypeScript, **`IntrinsicElements`** maps HTML tag names to their allowed attributes. **`IntrinsicAttributes`** is the small set every JSX element gets (mainly `key` and `ref`). Component authors extend this when wrapping native elements.
 
@@ -27,8 +33,7 @@ TypeScript: React.ButtonHTMLAttributes<HTMLButtonElement>
 
 Custom components do **not** automatically accept every DOM attribute unless you forward them (spread or explicit passthrough).
 
-
-## Configuration and commands
+## Technical Details
 
 ### Extend native element props on a wrapper
 
@@ -68,19 +73,12 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 // eslint react/jsx-props-no-spreading — often disabled for design-system primitives
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Plain JavaScript React project without TS — compiler won't enforce intrinsic attrs.
+- Non-React frameworks (Vue `defineProps`, Svelte) — different attribute model.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| TS error: Property `foo` does not exist on type `IntrinsicAttributes` | Prop passed to custom component not declared | Add to component `Props` or spread to DOM child |
-| `className` vs `class` error | Using HTML attr name in JSX | Use `className` (React convention) |
-| Ref not attached | Functional component without `forwardRef` | Wrap with `React.forwardRef` |
-| Accessibility attrs rejected | Wrong element type | Match ARIA role to element (`button` vs `div role="button"`) |
-| Spread hides invalid props | `{...props}` too permissive | Narrow with `Pick` or explicit allowlist |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Spreading unknown props onto DOM nodes can inject invalid attributes silently in JS — TypeScript catches this only if your props interface is tight.
@@ -90,17 +88,10 @@ function Box<T extends React.ElementType = 'div'>({ as, ...props }: BoxProps<T>)
 - **SVG versus HTML:** separate intrinsic element maps — `<svg>` attrs differ from `<div>`.
 - **React 19:** reference as prop reduces `forwardRef` boilerplate — check your React version typings.
 
-
-## When not to use
-
-- Plain JavaScript React project without TS — compiler won't enforce intrinsic attrs.
-- Non-React frameworks (Vue `defineProps`, Svelte) — different attribute model.
-
-
-## Related
-
-[[React/React data management]] [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] [[typescript]] [[javascript]]
-
-## Sources
-
-- [Wikipedia — intrinsic attributes](https://en.wikipedia.org/wiki/intrinsic_attributes)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| TS error: Property `foo` does not exist on type `IntrinsicAttributes` | Prop passed to custom component not declared | Add to component `Props` or spread to DOM child |
+| `className` vs `class` error | Using HTML attr name in JSX | Use `className` (React convention) |
+| Ref not attached | Functional component without `forwardRef` | Wrap with `React.forwardRef` |
+| Accessibility attrs rejected | Wrong element type | Match ARIA role to element (`button` vs `div role="button"`) |
+| Spread hides invalid props | `{...props}` too permissive | Narrow with `Pick` or explicit allowlist |

@@ -1,22 +1,21 @@
-[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[HLS]] [[network management]]
+[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[HLS]] [[network management]] [[Multi Stream]] [[SRT]] [[RTSP]] [[How to attach stream to HTTP handlers]]
 
 # RTMP (Real-Time Messaging Protocol)
 
 > RTMP (Real-Time Messaging Protocol) — OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about RTMP to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — RTMP](https://en.wikipedia.org/wiki/RTMP) — overview
+- [Adobe RTMP specification](https://rtmp.veriskope.com/docs/spec/) — deep-dive
+
+## Key Concepts
 
 **RTMP** maintains a **persistent TCP connection** from **encoder (publisher)** to **ingest server**, sending **FLV-muxed** H.264/AAC (typical). Low protocol overhead → **~2–5 s glass-to-glass** to origin before packaging. **Players no longer use RTMP** in browsers (Flash removed); CDNs terminate RTMP at ingest and deliver **HTTP segments** to viewers.
-
-```txt
-OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
-                                │
-                         transcode / package
-                                │
-                         [[HLS]] / [[DASH]] ──► CDN ──► players
-```
 
 | Variant | Port | Notes |
 |---------|------|-------|
@@ -26,10 +25,15 @@ OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
 
 **Publish** (one-to-one to origin) differs from **playback** (many-to-one HTTP) — don't expose RTMP URLs to end users.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+OBS / ffmpeg ──RTMP/TCP──► Ingest (nginx-rtmp, MediaLive, etc.)
+                                │
+                         transcode / package
+                                │
+                         [[HLS]] / [[DASH]] ──► CDN ──► players
+```
 
 ### ffmpeg publish (smoke test)
 
@@ -87,10 +91,23 @@ ffprobe -v error -show_streams rtmp://ingest/live/key
 timeout 10 ffplay rtmp://ingest/live/key
 ```
 
----
+## Real-World Applications
 
+Used wherever RTMP sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
+- **Con / skip when:** **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
+- **Con / skip when:** **Multi-tenant open ingest without authentication** — bot publish / abuse.
+
+## Comparison
+
+- vs [[HLS]]: **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
+- vs [[WebRTC]]: **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -102,42 +119,8 @@ timeout 10 ffplay rtmp://ingest/live/key
 | Buffer growth ingest | Publisher faster than real-time | Missing `-re`; CBR exceed |
 | SSL handshake fail | RTMPS cert chain | Full chain; SNI match |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **RTMP URL to viewers** — security risk + no browser support; always HTTP manifests outbound.
-
-> [!WARNING]
-> **Single TCP head-of-line blocking** — bad Wi-Fi stalls entire stream; [[SRT]] may be better for lossy uplinks.
-
-> [!WARNING]
-> **Stream key = password** — anyone with key can hijack channel.
-
-> [!WARNING]
-> **HEVC over RTMP** — limited ingest support; confirm before enabling OBS HEVC.
-
-> [!WARNING]
-> **Reconnect without discontinuity tag** — packager must emit `#EXT-X-DISCONTINUITY` on publisher reconnect.
-
----
-
-
-## When not to use
-
-- **Viewer delivery** — use [[HLS]]/[[DASH]]/[[CMAF]] via CDN.
-- **Sub-second interactive** — WebRTC/WHIP ([[WebRTC]]).
-- **Multi-tenant open ingest without authentication** — bot publish / abuse.
-
----
-
-
-## Related
-
-[[ingestion]] [[OBS]] [[Encoding]] [[Single Stream]] [[Multi Stream]] [[HLS]] [[SRT]] [[RTSP]] [[network management]] [[How to attach stream to HTTP handlers]]
-
-## Sources
-
-- [Wikipedia — RTMP](https://en.wikipedia.org/wiki/RTMP)
+- **RTMP URL to viewers** — security risk + no browser support; always HTTP manifests outbound.
+- **Single TCP head-of-line blocking** — bad Wi-Fi stalls entire stream; [[SRT]] may be better for lossy uplinks.
+- **Stream key = password** — anyone with key can hijack channel.
+- **HEVC over RTMP** — limited ingest support; confirm before enabling OBS HEVC.
+- **Reconnect without discontinuity tag** — packager must emit `#EXT-X-DISCONTINUITY` on publisher reconnect.

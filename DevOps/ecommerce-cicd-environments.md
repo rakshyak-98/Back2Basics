@@ -1,146 +1,71 @@
-[[Release cycle]] [[Github action]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[ecommerce-platform-architecture]] [[ecommerce-eks-layout]] [[AWS ECR]]
+[[Release cycle]] [[Github action]] [[Jenkins]] [[spinnaker]] [[Terraform workflow]] [[ecommerce-platform-architecture]] [[ecommerce-eks-layout]] [[AWS ECR]] [[helm]]
 
 # ecommerce cicd environments
 
-> Five concurrent environments, promotion gates, and per-stage deployment strategy for the e-commerce microservice platform on EKS — **ops contract**, not tool marketing.
+> Five parallel environments, promotion gates, and per-stage deploy strategy for an e-commerce microservice platform on EKS — the operations contract, not tool marketing.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe environment topology to see if you separate accounts and secrets, promote immutable digests (not `latest`), and treat `live` as a traffic slice rather than a fifth full production clone.
+
+## Sources
+
+- [Argo Rollouts — Canary](https://argo-rollouts.readthedocs.io/en/stable/features/canary/) — deep-dive
+- [Kubernetes — Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) — overview
+- [Google SRE — Release Engineering](https://sre.google/sre-book/release-engineering/) — overview
+
+## Core Definition
+
+An e-commerce CI/CD environment model keeps development, test, staging, production, and live-canary paths running in parallel; the same image digest advances through gates while configuration and secrets differ per stage.
+
+## Key Concepts
+
+- **Parallel environments:** separate clusters/namespaces/accounts → isolation, not shared “one cluster many modes.”
+- **Artifact promotion:** same immutable digest advances → configuration differs; never rebuild for “the next environment.”
+- **`live` as traffic slice:** production cluster namespaces (`prod` + `live-canary`) or Argo Rollouts weights — not a duplicate RDS.
+- **Promotion gates:** automated tests/scans plus human change advisory before production traffic.
+- **Rollback layers:** canary abort, rollout undo, Helm revision, feature flag — forward-only migrations cannot be rolled back blindly.
+
+## Technical Details
 
 ```txt
-dev ──► test ──► staging ──► production ──► live (traffic slice on prod)
+dev ──► test ──► staging ──► production ──► live (traffic slice on production)
   │       │          │            │              │
   └─ fast └─ gate ───┴─ soak ─────┴─ change ─────┴─ canary / blue-green
 ```
 
-All five exist **in parallel** (separate clusters or namespaces + accounts). Promotion is **artifact-based** — same immutable image digest advances; configuration differs per environment.
+### Environment topology
 
-**`live` definition (resolved):** not a sixth infrastructure clone — **production cluster** namespaces `prod` + `live-canary` (or Argo Rollouts `canary` strategy) receiving weighted traffic after production deploy gate passes.
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Staging OK, prod fails | Values diff, secrets, scale | Compare Helm values; IRSA role ARNs |
-| Canary red, stable green | New code only on canary | Rollouts abort; inspect payment metrics |
-| Pipeline won't promote | Gate job logs | Fix scan/CVE or flaky contract test |
-| Wrong env webhook | PSP dashboard URL | Separate ingress per env subdomain |
-| Deploy stuck | PDB, insufficient nodes | CA max; temporary raise max surge |
-
-```shell
-kubectl argo rollouts get rollout payment -n prod
-kubectl rollout undo deployment/catalog -n prod
-helm rollback payment 42 -n prod
-```
-
----
-
-
-## Steps
-
-1. …
-
-
-## Verification
-
-```bash
-# …
-```
-
-
-## Gotchas
-
-> [!WARNING]
-> **Promoting `latest` tag** — digest drift across nodes; always pin image digest in manifest.
-
-> [!WARNING]
-> **staging without prod-sized data** — migration time estimates lie; restore prod snapshot to staging monthly.
-
-> [!WARNING]
-> **Canary only on one service** — partial fleet on new payment + old order causes subtle bugs; coordinate train by **release bundle** or feature flags.
-
-> [!WARNING]
-> **Five full prod clones for `live`** — expensive; `live` is traffic slice, not duplicate RDS.
-
----
-
-
-## When not to use
-
-- **Single service MVP** — one workflow, one namespace, skip Argo Rollouts until second production deploy.
-- **No SLOs** — canary is theater; define payment success + p99 first ([[Release cycle]]).
-
----
-
-
-## Config & secrets per environment
-
-| Layer | dev | test | staging | prod / live |
-|-------|-----|------|---------|-------------|
-| **App config** | Helm values `values-dev.yaml` | `values-test.yaml` | `values-staging.yaml` | `values-prod.yaml` |
-| **Secrets** | Doppler / AWS Secrets Manager `dev/*` | `test/*` | `staging/*` | `prod/*` — no shared keys |
-| **PSP** | PSP sandbox keys | sandbox | sandbox or limited live | live keys — separate webhook URLs per env |
-| **Kafka topics** | prefix `dev.` | `test.` | `staging.` | `prod.` — no cross-env consumption |
-| **Feature flags** | defaults on | CI overrides | QA matrix | default off until [[Release cycle]] train |
-
-**Rules:**
-- Never copy production secrets into development ([[Terraform setup]] — no keys in `.tfvars` git).
-- GitHub OIDC → IAM role per environment for deploy ([[Github runner]]).
-- Sealed Secrets or External Secrets Operator sync from Secrets Manager.
-
----
-
-
-## Environment topology
-
-| Env | AWS account | K8s target | Purpose | Typical sizing |
+| Environment | AWS account | K8s target | Purpose | Typical sizing |
 |-----|-------------|------------|---------|----------------|
 | **dev** | `commerce-dev` | EKS `dev` / ns `dev` | Engineer integration; shared unstable | 2–3 nodes `t3.large`; 1 broker; RDS micro |
-| **test** | `commerce-dev` or isolated `commerce-test` | EKS `test` / ns `test` | CI automation, contract tests, load smoke | Same as dev; ephemeral namespaces per PR optional |
-| **staging** | `commerce-staging` | EKS `staging` | Pre-prod parity, migration dry-run, QA sign-off | Prod-like topology at 25–40% scale |
-| **production** | `commerce-prod` | EKS `prod` / ns `prod` | Stable serving (100% stable ReplicaSet) | Multi-AZ, 3+ nodes per pool, HA Kafka, RDS Multi-AZ |
-| **live** | `commerce-prod` (same) | ns `live-canary` or Rollout | Canary 5→25→100% or blue-green validation | Same nodes as prod; extra canary pods only |
+| **test** | `commerce-dev` or `commerce-test` | EKS `test` / ns `test` | CI automation, contract tests, load smoke | Same as dev; ephemeral namespaces per PR optional |
+| **staging** | `commerce-staging` | EKS `staging` | Pre-production parity, migration dry-run, QA | Production-like topology at 25–40% scale |
+| **production** | `commerce-prod` | EKS `prod` / ns `prod` | Stable serving (100% stable ReplicaSet) | Multi-AZ, HA Kafka, RDS Multi-AZ |
+| **live** | `commerce-prod` (same) | ns `live-canary` or Rollout | Canary 5→25→100% or blue-green | Same nodes; extra canary pods only |
 
-**Isolation:** separate AWS accounts for production versus non-production ([[AWS STS (Security Token Service)]] boundaries). Network: VPC peering only where needed (e.g. shared observability).
+**Isolation:** separate AWS accounts for production versus non-production ([[AWS STS (Security Token Service)]] boundaries).
 
-**Scaling rules (HPA examples):**
+### Configuration and secrets per environment
 
-| Service | dev/test | staging | prod / live |
-|---------|----------|---------|-------------|
-| Payment, Order | 1–2 pods, CPU 70% | 2–4 pods | 4–20 pods, QPS + queue depth |
-| Catalog | 2 pods + Redis | 4 pods | 10–50 pods, cache hit ratio |
-| Notification | 1 worker | 2 workers | Workers scale on Kafka consumer lag |
-| Flash sale (Promotions) | manual | load test profile | Pre-warm Redis; HPA max raised via runbook |
+| Layer | dev | test | staging | production / live |
+|-------|-----|------|---------|-------------------|
+| **App configuration** | `values-dev.yaml` | `values-test.yaml` | `values-staging.yaml` | `values-prod.yaml` |
+| **Secrets** | Doppler / Secrets Manager `dev/*` | `test/*` | `staging/*` | `prod/*` — no shared keys |
+| **PSP** | sandbox keys | sandbox | sandbox or limited live | live keys — separate webhook URLs |
+| **Kafka topics** | `dev.` | `test.` | `staging.` | `prod.` — no cross-environment consumption |
+| **Feature flags** | defaults on | CI overrides | QA matrix | default off until [[Release cycle]] train |
 
-Cluster autoscaler: `min`/`max` node pools per environment in [[ecommerce-eks-layout]] Terraform.
-
----
-
-
-## Promotion gates (dev → test → staging → prod → live)
+### Promotion gates
 
 | Transition | Automated gates | Human gates |
 |------------|-----------------|-------------|
-| **dev → test** | Unit tests, lint, `go test` / `npm test`, build image | — |
-| **test → staging** | Integration tests (Testcontainers), contract tests (gRPC + event schemas), SAST (CodeQL/Semgrep), container scan (Trivy/ECR scan) | — |
-| **staging → prod** | Full regression suite, migration `up` on staging clone, perf smoke (k6 threshold), no critical CVE in image | Change advisory / release train ([[Release cycle]]) |
-| **prod → live traffic** | Health checks green 15m, error rate ≤ baseline, payment success SLO | Optional manual judgment ([[spinnaker]] pattern) |
+| **dev → test** | Unit tests, lint, build image | — |
+| **test → staging** | Integration/contract tests, SAST, container scan | — |
+| **staging → production** | Regression, migration dry-run, perf smoke, no critical CVE | Change advisory / release train |
+| **production → live traffic** | Health green, error rate ≤ baseline, payment SLO | Optional judgment ([[spinnaker]] pattern) |
 
-**Blocked promote if:**
-- Schema registry compatibility check fails
-- Terraform plan drift on environment workspace without approval
-- [[Release cycle]] rollback criteria would have fired on staging soak
-
----
-
-
-## CI/CD pipeline
-
-### Stage diagram
+### CI/CD pipeline
 
 ```mermaid
 flowchart LR
@@ -158,7 +83,7 @@ flowchart LR
     H --> I[Contract + smoke]
     I --> J[Deploy staging]
     J --> K[Regression + soak]
-    K --> L[Deploy prod stable]
+    K --> L[Deploy production stable]
     L --> M[Canary live slice]
     M --> N{SLO OK?}
     N -->|yes| O[Promote 100%]
@@ -166,21 +91,13 @@ flowchart LR
   end
 ```
 
-### Per-service vs monorepo pipelines
+**Artifact:** `commerce/<service>:<git-sha>` in [[AWS ECR]]; deploy by digest, not floating tag.
 
 | Approach | Pros | Cons | Recommendation |
 |----------|------|------|----------------|
-| **Monorepo + matrix** | One workflow; shared libs versioned together | Slow if everything builds every push | **Default:** `paths-filter` per service + matrix `service: [payment, catalog, …]` |
-| **Per-service workflow** | Fast feedback, clear ownership | Duplicated YAML; drift | Large teams with CODEOWNERS per folder |
-| **Monorepo + N pipelines** | Balance | More files to maintain | `/.github/workflows/payment.yml` etc. with shared composite action |
-
-**Artifact:** `commerce/<service>:<git-sha>` in [[AWS ECR]]; deploy by digest, not floating tag.
-
-**Tooling options:**
-- CI: [[Github action]] or [[Jenkins]]
-- CD: Argo CD (GitOps) + Argo Rollouts (canary) — preferred for K8s-only; [[spinnaker]] if multi-cloud pipelines already exist
-
-### Sample GitHub Actions skeleton (monorepo matrix)
+| **Monorepo + matrix** | One workflow; shared libs versioned together | Slow if everything builds every push | Default with `paths-filter` per service |
+| **Per-service workflow** | Fast feedback, clear ownership | Duplicated YAML drift | Large teams with CODEOWNERS |
+| **Monorepo + N pipelines** | Balance | More files | Shared composite actions |
 
 ```yaml
 # .github/workflows/service-ci.yml
@@ -199,46 +116,62 @@ jobs:
       - run: ./scripts/ci/build-push.sh ${{ matrix.service }}
 ```
 
----
+### Deployment and rollback
 
-
-## Deployment strategy per environment
-
-| Env | Strategy | Notes |
+| Environment | Strategy | Notes |
 |-----|----------|-------|
 | dev | Rolling update | `maxUnavailable: 1`; fast iteration |
-| test | Rolling or Recreate | Ephemeral PR envs: Helm install per branch |
-| staging | Rolling | Prod manifest rehearsal |
-| production | Rolling (stable RS) | PDB `minAvailable: 1`; readiness strict |
-| live | **Canary** (Argo Rollouts) or **blue-green** | 5% → 25% → 100% over 24h ([[Release cycle]]) |
-
-**Database migrations:** Helm pre-upgrade hook or Job; **expand/contract** only — no destructive `down` in production ([[Release cycle]] warning).
-
----
-
-
-## Rollback strategy
+| test | Rolling or Recreate | Ephemeral PR environments |
+| staging | Rolling | Production manifest rehearsal |
+| production | Rolling (stable RS) | PDB; readiness strict |
+| live | Canary (Argo Rollouts) or blue-green | 5% → 25% → 100% ([[Release cycle]]) |
 
 | Layer | Action | When |
 |-------|--------|------|
-| **Live canary** | Rollouts `abort` or undo promotion | SLO breach during canary |
-| **K8s deployment** | `kubectl rollout undo` / Argo CD sync previous revision | Prod error spike |
+| **Live canary** | Rollouts `abort` | SLO breach during canary |
+| **K8s deployment** | `kubectl rollout undo` / Argo sync previous | Production error spike |
 | **Helm** | `helm rollback <release> <revision>` | Bad chart values |
-| **Feature flag** | Disable flag | Logic bug without infra rollback ([[Release cycle]]) |
-| **Kafka consumer** | Pause consumer + skip bad offset after fix | Poison message |
-| **Terraform** | Revert commit + `terraform apply` previous | Infra regression |
+| **Feature flag** | Disable flag | Logic bug without infra rollback |
+| **Kafka consumer** | Pause + skip bad offset after fix | Poison message |
+| **Terraform** | Revert commit + apply previous | Infra regression |
 
-**Do not rollback** if forward-only migration already applied — forward fix + flag off.
+```shell
+kubectl argo rollouts get rollout payment -n prod
+kubectl rollout undo deployment/catalog -n prod
+helm rollback payment 42 -n prod
+```
 
-**Immutable artifacts:** rollback = redeploy **previous digest** from ECR, not rebuild old branch unless source fix needed.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Staging OK, production fails | Values diff, secrets, scale | Compare Helm values; IRSA role ARNs |
+| Canary red, stable green | New code only on canary | Rollouts abort; inspect payment metrics |
+| Pipeline won't promote | Gate job logs | Fix scan/CVE or flaky contract test |
+| Wrong environment webhook | PSP dashboard URL | Separate ingress per environment subdomain |
+| Deploy stuck | PDB, insufficient nodes | Cluster autoscaler max; temporary raise max surge |
 
----
+## Real-World Applications
 
+Payment and order services promote the same ECR digest from staging soak into production stable, then shift 5% live traffic via Argo Rollouts while watching payment success SLO.
 
-## Related
+**Example:** Staging passes but production fails because IRSA role ARNs and Helm values diverged — compare `values-prod.yaml` and never copy production secrets into development.
 
-[[ecommerce-platform-architecture]] · [[ecommerce-eks-layout]] · [[Release cycle]] · [[Github action]] · [[spinnaker]] · [[Terraform workflow]] · [[helm]] · [[AWS ECR]]
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Parallel environments plus digest promotion catch configuration and scale mismatches before customers see them.
+- **Con:** Five full production clones are expensive and unnecessary — `live` is a traffic slice.
+- **Con:** Canary on one service while peers stay old creates subtle cross-service bugs — coordinate release bundles or flags.
 
-- [Wikipedia — ecommerce-cicd-environments](https://en.wikipedia.org/wiki/ecommerce-cicd-environments)
+## Comparison
+
+- vs single-namespace MVP: one workflow and one namespace until a second production deploy justifies Rollouts.
+- vs [[spinnaker]] multi-cloud pipelines: Argo CD + Rollouts preferred for Kubernetes-only; Spinnaker when multi-cloud already exists.
+- vs [[Jenkins]] / [[Github action]]: either can run CI; the environment contract (gates, digests, accounts) is the durable design.
+
+## Mistakes to Avoid
+
+- Promoting the `latest` tag — digest drift across nodes; always pin image digest in manifests.
+- Staging without production-sized data — migration time estimates lie; restore a production snapshot to staging regularly.
+- Canary only on one service in a tightly coupled payment/order path without feature flags.
+- Building five full production clones for `live` — wasteful; share the production cluster and shift traffic.
+- Rolling back after a forward-only migration already applied — forward-fix and turn the flag off instead.
+- Copying production secrets into development or sharing Kafka topics across environments.

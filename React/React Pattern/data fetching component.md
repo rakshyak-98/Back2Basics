@@ -2,24 +2,40 @@
 
 # data fetching component
 
-> data fetching component shapes how React applications compose UI, state, and side effects in production.
+> Component whose job is to load remote data and pass it to a view — prefer hooks/query libraries today.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
+Interviewers ask which composition pattern fits the API you want — and what breaks when you force the wrong one.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [data fetching component docs](https://tanstack.com/query/latest/docs/framework/react/overview) — deep-dive
+- [React Learn](https://react.dev/learn) — overview
 
-## Recall
+## Key Concepts
 
-What breaks first in production if `data fetching component` is misused — bundle size, stale UI, or hydration errors?
+- **Modern default:** custom hooks for logic reuse.
+- **Keep for APIs:** compound components / providers when the JSX API matters.
 
-## Related
+## Technical Details
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Data Fetching HOC component]] [[React pattern categorisation]] [[Component Presentational Pattern]]
+See also sibling notes under `React Pattern/` and [[React design patterns]].
+
+## Real-World Applications
+
+Reach for data fetching component when the component API needs that composition style; otherwise prefer hooks.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Shared vocabulary in code reviews.
+- **Con:** Forcing a pattern where a simple hook suffices.
+
+## Comparison
+
+- vs [[react hooks]]: hooks share logic; these patterns shape component APIs.
+
+## Mistakes to Avoid
+
+- Introducing HOCs in greenfield 2026 code without a library constraint.
+- Provider for high-frequency changing values.

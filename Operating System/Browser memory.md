@@ -1,31 +1,63 @@
-[[Operating System]] [[Heap memory]] [[buffer]] [[RAM and Swap memory]] [[OOM (Linux Out Of Memory)]]
+[[Operating System]] [[Heap memory]] [[buffer]] [[RAM and Swap memory]] [[OOM (Linux Out Of Memory)]] [[Inter Process Communication]] [[shared memory]] [[cgroup (Control Group)]] [[Buffer cache]]
 
 # Browser memory
 
-> A browser is a multi-process user-space operating environment — each tab’s JavaScript heap, DOM, GPU buffers, and disk cache compete for the same machine RAM the kernel accounts in [[RAM and Swap memory]].
+> A browser is a multi-process user-space OS environment — each tab’s JavaScript heap, DOM, GPU buffers, and disk cache compete for the same RAM the kernel tracks in [[RAM and Swap memory]].
 
-Chromium-derived browsers split **browser**, **GPU**, **network**, and **renderer** processes. A heavy web app can consume gigabytes across:
+## Interview Relevance
 
-- **JavaScript heap** — objects, closures, typed arrays ([[Heap memory]] semantics at user level).
-- **DOM / layout** — C++ trees in the renderer, not visible to JS heap profilers alone.
-- **Image and canvas buffers** — large contiguous allocations, sometimes GPU-resident.
-- **HTTP cache / code cache** — memory-backed with eviction policies similar to [[Buffer cache]].
-- **Shared memory** — IPC between processes ([[Inter Process Communication]], [[shared memory]]).
-
-## Pressure and failure
-
-When system memory is tight, Linux reclaims page cache and may swap anonymous pages. The browser may discard tab backgrounds or kill renderer processes before the kernel’s [[OOM (Linux Out Of Memory)]] killer selects a system daemon — but runaway tabs can still trigger global OOM.
-
-Developer tools (`about:memory`, Performance heap snapshots) measure **JS heap** only; use OS tools (`ps`, `smem`, `/proc/PID/smaps_rollup`) for true RSS.
-
-## Engineering implications
-
-- Large ArrayBuffers and WebAssembly linear memory bypass typical GC pacing — spikes look like native leaks.
-- Service workers and caches persist across navigations; memory is not freed on `location.href` alone.
-- Container limits ([[cgroup (Control Group)]]) cap entire browser cgroup RSS for kiosk or CI runners.
+Shows you can reason about memory beyond “the JS heap” — multi-process accounting, RSS vs heap snapshots, and how container limits or OOM interact with runaway tabs.
 
 ## Sources
 
-- Chromium design docs — [Multi-process Architecture](https://www.chromium.org/developers/design-documents/multi-process-architecture/)
-- Google developers — memory tooling for Chrome
-- Wikipedia: [Web browser engine](https://en.wikipedia.org/wiki/Web_browser_engine)
+- [Chromium — Multi-process Architecture](https://www.chromium.org/developers/design-documents/multi-process-architecture/) — overview
+- Google developers — Chrome memory tooling — overview
+- [Wikipedia — Web browser engine](https://en.wikipedia.org/wiki/Web_browser_engine) — overview
+
+## Key Concepts
+
+- **Process split:** browser, GPU, network, and renderer processes (Chromium-derived).
+- **JS heap ≠ total cost:** DOM/layout C++ trees, images/canvas, and caches sit outside heap profilers.
+- **Caches:** HTTP/code caches behave like an app-level [[Buffer cache]] with eviction.
+- **IPC cost:** [[shared memory]] and pipes between processes ([[Inter Process Communication]]).
+
+## Technical Details
+
+Heavy web apps consume gigabytes across:
+
+- **JavaScript heap** — objects, closures, typed arrays ([[Heap memory]] at user level).
+- **DOM / layout** — C++ trees in the renderer.
+- **Image and canvas buffers** — large contiguous allocations, sometimes GPU-resident.
+- **HTTP cache / code cache** — memory-backed with eviction.
+- **Shared memory** — IPC between processes.
+
+When system memory is tight, Linux reclaims page cache and may swap anonymous pages. The browser may discard background tabs or kill renderers before the kernel [[OOM (Linux Out Of Memory)]] killer picks a system daemon — runaway tabs can still trigger global OOM.
+
+```bash
+# True RSS (not just JS heap)
+ps -o pid,rss,cmd -p PID
+cat /proc/PID/smaps_rollup
+```
+
+Developer tools (`about:memory`, Performance heap snapshots) measure **JS heap** only.
+
+## Real-World Applications
+
+Kiosk / CI runners cap the whole browser under a [[cgroup (Control Group)]]. Performance budgets track renderer RSS, not only heap snapshots, for SPA and WebAssembly apps.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Process isolation limits blast radius of a bad tab.
+- **Con:** Duplicated heaps and IPC increase baseline memory vs a single-process model.
+- **Trade-off:** large ArrayBuffers / Wasm linear memory bypass typical GC pacing — spikes look like native leaks.
+
+## Comparison
+
+- vs [[Heap memory]]: heap is one allocator arena; browser memory is multi-process + GPU + caches.
+- vs [[RAM and Swap memory]]: OS accounting of physical pages vs what DevTools shows.
+
+## Mistakes to Avoid
+
+- Trusting only JS heap snapshots when diagnosing “Chrome ate 8 GB”.
+- Assuming navigation frees service-worker and Cache API memory.
+- Ignoring cgroup limits in containerized browser automation (Chrome OOMs the pod).

@@ -1,12 +1,23 @@
-[[JWT authentication]] [[Token rotation]] [[openssl]] [[symmetrical encryption]]
+[[JWT authentication]] [[Token rotation]] [[openssl]] [[symmetrical encryption]] [[Securing a hash key authentication]] [[RSA]]
 
 # HMAC
 
 > Hash-based Message Authentication Code — proves integrity and shared-secret authenticity of a message without encryption.
 
----
+## Interview Relevance
 
-## How it works
+Crypto/API interviews: HMAC proves integrity and authenticity with a shared secret — constant-time compare and key handling matter.
+
+## Sources
+
+- [RFC 2104 — HMAC](https://www.rfc-editor.org/rfc/rfc2104) — deep-dive
+- [NIST FIPS 198-1 — HMAC](https://csrc.nist.gov/publications/detail/fips/198/1/final) — deep-dive
+
+## Core Definition
+
+HMAC combines a cryptographic hash with a secret key to produce a tag that verifies message integrity and authenticity.
+
+## Key Concepts
 
 **HMAC** = hash function (SHA-256) keyed with a secret:
 
@@ -24,10 +35,7 @@ Used in: JWT `HS256`, webhook signatures (Stripe, GitHub), API request signing, 
 
 Contrast **[[Asymmetrical Encryption]]** signatures — public verify, private sign; no shared secret distribution problem at scale.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### OpenSSL CLI
 
@@ -59,10 +67,7 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 
 **Why `timingSafeEqual`:** naive `===` leaks tag bytes via timing side channel.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,34 +76,22 @@ sig = HMAC-SHA256(webhook_secret, timestamp + '.' + raw_body)
 | Key rotation pain | Single global secret | Dual-key verify window — see [[Token rotation]] |
 | Weak forgery resistance | SHA1 HMAC | Upgrade to SHA-256 minimum |
 
----
+## Real-World Applications
 
+Webhook providers and internal APIs sign payloads with HMAC-SHA256 so receivers can reject tampered requests.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Never use plain `SHA256(secret + msg)`** — vulnerable to length-extension; use HMAC or KDF.
+- **Pro:** Fast integrity+authenticity with a shared secret — ideal for webhooks.
+- **Con:** Prefer **asymmetric signatures** (Ed25519, RSA-PSS) when many verifiers, untrusted clients, or public webhook endpoints — avoids sharing one MAC key with every consumer.
 
-> [!WARNING]
-> **Short secrets** — brute-force HMAC on offline captures; use ≥256-bit random keys.
+## Comparison
 
-> [!WARNING]
-> **JWT `none` alg** — separate issue, but HMAC JWTs need strong secret and alg allowlist.
+- vs [[Asymmetrical Encryption]] signatures: HMAC needs shared secret; public-key signatures allow open verify.
+- vs plain hash: hash alone does not prove who held a secret.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-Prefer **asymmetric signatures** (Ed25519, RSA-PSS) when many verifiers, untrusted clients, or public webhook endpoints — avoids sharing one MAC key with every consumer.
-
----
-
-
-## Related
-
-[[JWT authentication]] [[Securing a hash key authentication]] [[Token rotation]] [[RSA]] [[openssl]]
-
-## Sources
-
-- [Wikipedia — HMAC](https://en.wikipedia.org/wiki/HMAC)
+- Never use plain `SHA256(secret + msg)` — vulnerable to length-extension; use HMAC or KDF.
+- Short secrets — brute-force HMAC on offline captures; use ≥256-bit random keys.
+- JWT `none` alg — separate issue, but HMAC JWTs need strong secret and alg allowlist.

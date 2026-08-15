@@ -1,14 +1,26 @@
-[[ssh/ssh allow local system with key]] · [[ftp]] · [[TLS (Transport Layer Security)]] · [[Linux/CLI]]
+[[ssh/ssh allow local system with key]] [[SSH authentication]] [[ssh agent]] [[ftp]] [[TLS (Transport Layer Security)]] [[Linux/CLI]]
 
 # SCP (Secure Copy Protocol)
 
-> SCP copies files over SSH using the same authentication and encryption as interactive shell sessions — prefer `sftp` or `rsync` for new automation, but SCP remains ubiquitous for one-off secure copies.
+> SCP copies files over SSH using the same authentication and encryption as an interactive shell — prefer `sftp` or `rsync` for new automation, but SCP remains common for one-off secure copies.
 
----
+## Interview Relevance
 
-## Usage
+Interviewers check that SCP is SSH (not a separate daemon), host-key verification inheritance, and when `rsync -e ssh` beats SCP.
 
-Runs over **SSH** (default port 22), not a separate protocol server.
+## Sources
+
+- [OpenSSH scp man page](https://man.openbsd.org/scp) — deep-dive
+- [RFC 4251 — SSH Protocol Architecture](https://datatracker.ietf.org/doc/html/rfc4251) — overview
+- [OpenSSH release notes](https://www.openssh.com/releasenotes.html) — overview
+
+## Key Concepts
+
+- **Runs over SSH:** default port 22 — same keys, agent, and ProxyJump as shell access.
+- **Legacy remote `scp`:** classic mode invokes remote `scp`; OpenSSH 9+ steers new scripts toward **sftp**.
+- **Auth:** [[SSH authentication]] via keys ([[ssh agent]]) or passwords (disable password auth in production).
+
+## Technical Details
 
 ```bash
 # Local → remote
@@ -22,13 +34,9 @@ scp -r ./dist/ user@host:/var/www/
 
 # Through bastion
 scp -o ProxyJump=bastion.example.com file user@internal:/tmp/
+
+scp -i ~/.ssh/deploy_key artifact.zip deploy@prod:/releases/
 ```
-
-## How it works
-
-Legacy `scp` invokes `scp` binary on remote side over SSH channel; data stream is encrypted like any SSH session. OpenSSH 9+ recommends **`sftp`** for new scripts ([OpenSSH release notes](https://www.openssh.com/releasenotes.html)).
-
-## vs alternatives
 
 | Tool | Strength |
 |------|----------|
@@ -37,26 +45,27 @@ Legacy `scp` invokes `scp` binary on remote side over SSH channel; data stream i
 | **rsync** | Delta sync, `--delete`, bandwidth limits |
 | **[[ftp]]** | Cleartext — avoid |
 
-## Authentication
+## Real-World Applications
 
-Uses [[SSH authentication]] — keys via [[ssh agent]] or passwords (disable password auth in production).
+Shipping a build artifact to a bastion-reachable host, pulling a log for incident review, one-off directory drops.
 
-```bash
-scp -i ~/.ssh/deploy_key artifact.zip deploy@prod:/releases/
-```
+**Example:** `scp -o ProxyJump=bastion.example.com artifact.tgz deploy@internal:/releases/` reuses the same jump path as interactive SSH.
 
-## Pitfalls
+## Pros/Cons or Trade-offs
 
-- **Globbing** happens locally vs remotely depending on quoting
-- **Trailing slash** on directory paths changes meaning
-- Large trees without `rsync` re-copy everything on retry
+- **Pro:** Zero extra infrastructure if SSH already works.
+- **Con:** Large trees without `rsync` re-copy everything on retry.
+- **Con:** Globbing and trailing-slash semantics surprise operators.
 
-## Recall
+## Comparison
 
-- Why does SCP inherit SSH host key verification?
-- When is `rsync -e ssh` preferable to SCP?
+- vs SFTP: better for interactive listing/resume; OpenSSH recommends it for new scripts.
+- vs `rsync -e ssh`: delta sync and `--delete` for mirrors.
+- vs [[ftp]]: SCP is encrypted; FTP is cleartext unless FTPS.
 
-## Sources
+## Mistakes to Avoid
 
-- [OpenSSH scp man page](https://man.openbsd.org/scp)
-- [RFC 4251 — SSH Protocol Architecture](https://datatracker.ietf.org/doc/html/rfc4251)
+- Quoting mistakes that expand globs locally instead of remotely.
+- Ignoring trailing-slash meaning on directories.
+- Using SCP for repeated full-tree syncs instead of rsync.
+- Disabling host-key checks “to make CI pass.”

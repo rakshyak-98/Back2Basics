@@ -1,12 +1,20 @@
-[[git]] [[git rebase]] [[git error]] [[git worktree]]
+[[git]] [[git rebase]] [[git error]] [[git worktree]] [[git ssh configuration]]
 
 # git blame
 
 > Line-level authorship: which commit last touched each line — **forensics for regressions**, not a performance review weapon.
 
----
+## Interview Relevance
 
-## How it works
+Blame interviews check archaeology of a line — when to use blame versus bisect, and etiquette on shared code.
+
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+- [git blame — Wikipedia](https://en.wikipedia.org/wiki/Blame_(version_control_software)) — overview
+
+## Key Concepts
 
 ```txt
 ```
@@ -17,10 +25,7 @@
 
 **Blame ≠ bug owner** — understand *why* the line exists (`git show abc1234`) before reverting.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Basic
 
@@ -71,24 +76,13 @@ GitHub: "Blame" button on file view
 VS Code / Cursor: GitLens or built-in blame gutter
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Finding why code exists** — read commit message + PR + tests; blame only points to where.
+- **Binary files** — meaningless line blame.
+- **Before `-M/-C` on moved code** — you'll chase the wrong commit.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Whole file blamed on one commit | Mass rename without `-M` | `git blame -M -C file` |
-| Blame stops at unrelated commit | File rename break | `git log --follow -- file` then blame old path |
-| Line shows wrong date | Author date vs committer | `git blame --date=iso`; `git show` for details |
-| Ignore-revs not applied | Config path | `blame.ignoreRevsFile` in repo `.git/config` or local |
-| Binary / generated file noise | Should be gitignored | Stop blaming; fix `.gitattributes` export-ignore |
-| Slow on huge file | Full history | `-L` range; or blame specific commit snapshot |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Force-pushed rebased history** — blame SHAs won't match old PR discussions; use reflog on maintainer machine if still available.
@@ -102,22 +96,12 @@ VS Code / Cursor: GitLens or built-in blame gutter
 > [!WARNING]
 > **Using blame in perf reviews** — incentivizes tiny commits and avoids refactors; use for incident/debug only.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Whole file blamed on one commit | Mass rename without `-M` | `git blame -M -C file` |
+| Blame stops at unrelated commit | File rename break | `git log --follow -- file` then blame old path |
+| Line shows wrong date | Author date vs committer | `git blame --date=iso`; `git show` for details |
+| Ignore-revs not applied | Config path | `blame.ignoreRevsFile` in repo `.git/config` or local |
+| Binary / generated file noise | Should be gitignored | Stop blaming; fix `.gitattributes` export-ignore |
+| Slow on huge file | Full history | `-L` range; or blame specific commit snapshot |
 
-
-## When not to use
-
-- **Finding why code exists** — read commit message + PR + tests; blame only points to where.
-- **Binary files** — meaningless line blame.
-- **Before `-M/-C` on moved code** — you'll chase the wrong commit.
-
----
-
-
-## Related
-
-[[git rebase]] · [[git error]] · [[git worktree]] · [[git ssh configuration]]
-
-## Sources
-
-- [Wikipedia — git blame](https://en.wikipedia.org/wiki/git_blame)

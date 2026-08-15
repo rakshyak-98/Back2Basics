@@ -2,24 +2,49 @@
 
 # Optimizing performance
 
-> Optimizing performance shapes how React applications compose UI, state, and side effects in production.
+> Cut wasted React work — fewer re-renders, smaller bundles, lighter lists — measure before memoizing everything.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
+Interviewers want profiling evidence, then targeted fixes (`React.memo`, virtualization, code split) — not blanket memo.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [Render and Commit](https://react.dev/learn/render-and-commit) — overview
+- [React.memo](https://react.dev/reference/react/memo) — deep-dive
 
-## Recall
+## Core Definition
 
-What breaks first in production if `Optimizing performance` is misused — bundle size, stale UI, or hydration errors?
+Performance work targets unnecessary renders, expensive calculations, and oversized JS payloads — guided by the Profiler.
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]]
+- **Render cost:** parent state updates re-render children unless memoized/isolated.
+- **Lists:** virtualize long lists; stable keys.
+- **Code split:** `lazy` + Suspense for rare routes.
+
+## Technical Details
+
+| Tool | Use |
+|------|-----|
+| React Profiler | Find expensive commits |
+| `memo` / `useMemo` | After proving re-render cost |
+| Windowing (e.g. react-window) | Thousands of rows |
+
+## Real-World Applications
+
+Settings page re-rendered a 5k-row table on every keystroke — isolate input state and virtualize the table.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Measured fixes improve INP/TBT.
+- **Con:** Premature memo adds complexity and stale-deps bugs.
+
+## Comparison
+
+- vs [[react cache]]: cache is server/dedupe; this note is client render cost.
+
+## Mistakes to Avoid
+
+- Wrapping every component in `memo`.
+- Unstable inline objects as props defeating memo.

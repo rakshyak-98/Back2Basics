@@ -1,12 +1,19 @@
-[[Architectures]]
+[[Architectures]] [[System Architecture]]
 
 # H3 (Hexagonal Hierarchical Spatial Index)
 
 > H3 maps lat/lng to hexagon IDs — bucket nearby points for density, surge, and spatial joins. **Uber**.
 
----
+## Interview Relevance
 
-## How it works
+H3 shows spatial indexing literacy — hex cells for density/surge joins vs geohash/S2 trade-offs.
+
+## Sources
+
+- [Uber blog — H3](https://www.uber.com/blog/h3/) — overview
+- [H3 docs](https://h3geo.org/docs/) — deep-dive
+
+## Key Concepts
 
 ```txt
 lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
@@ -24,10 +31,7 @@ lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
 | **k-ring** | Neighbor cells | “Surge looks at ring around the rider.” |
 | **Compact** | Merge children → parent | “Store less for large areas.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import h3
@@ -42,10 +46,7 @@ parent = h3.cell_to_parent(cell, 7)
 | `grid_disk` | Neighbor queries without GIS joins |
 | Same res in joins | Don’t join res-8 to res-10 blindly |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,30 +55,12 @@ parent = h3.cell_to_parent(cell, 7)
 | Join mismatch | Different resolutions | Normalize to one res |
 | Slow polyfill | Huge polygons | Simplify geom; lower res |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Legal parcel boundaries — use real GIS polygons.
+- **Trade-off:** One-off distance between two points — haversine is enough.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Hex ≠ exact geography** — coastlines and political borders won’t match cell edges.
-
-> [!WARNING]
-> **Resolution drift** — mixing res in one metric doubles or splits counts.
-
----
-
-
-## When not to use
-
-- **Legal parcel boundaries** — use real GIS polygons.
-- **One-off distance between two points** — haversine is enough.
-
-
-## Related
-
-[[Architectures]] [[System Architecture]]
-
-## Sources
-
-- [Wikipedia — H3](https://en.wikipedia.org/wiki/H3)
+- Hex ≠ exact geography — coastlines and political borders won’t match cell edges.
+- Resolution drift — mixing res in one metric doubles or splits counts.

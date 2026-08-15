@@ -1,148 +1,75 @@
-[[CLI]] [[grep]] [[Find command]] [[Scripting]]
+[[CLI]] [[grep]] [[Find command]] [[Scripting]] [[date]] [[ss]] [[journalctl]] [[lsof]]
 
 # Common commands — daily ops cheat sheet
 
-> curated shell one-liners with interpretation — the 80% you reach for during incidents, deploys, and log hunts. Not exhaustive; each line says *what it proves*.
+> Curated shell one-liners with interpretation — the 80% you reach for during incidents, deploys, and log hunts.
 
----
+## Interview Relevance
+Not a memorization list — shows you pick the right tool for “what’s big,” “who holds this,” and “safe delete preview,” with flags that reduce noise.
 
-## How it works
+## Sources
+- [GNU Coreutils](https://www.gnu.org/software/coreutils/manual/) — overview
+- [find(1)](https://man7.org/linux/man-pages/man1/find.1.html) — deep-dive
 
-These commands answer recurring questions: *where am I*, *what changed*, *what's big*, *who owns this port*, *what's in these files*. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to `grep`.
+## Core Definition
+These commands answer recurring questions: where am I, what changed, what’s big, who owns this port, what’s in these files. Prefer flags that reduce noise (`-type f`, `--exclude-dir`) before piping to grep.
 
-### Interview map (words you can say)
+## Key Concepts
+- **Navigate safely:** `pwd -P`, `realpath`, `cd -` for humans (not cron).
+- **Size triage:** `du` finds hogs; `df` shows mount capacity.
+- **Scoped search:** `grep -R` / `rg` with excludes beat searching `/`.
+- **Preview before delete:** `find -print` before `-delete`.
+- **Open files:** Deleted-but-open explains `df` vs `du` mismatches ([[lsof]]).
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ls / cd / pwd** | Navigate filesystem | “pwd before destructive rm.” |
-| **cp / mv / rm** | Copy move delete | “rm -rf needs a pause.” |
-| **chmod / chown** | Perms / owner | “chmod 600 for secrets.” |
-| **df / du** | Disk free / usage | “du -sh * finds hogs.” |
-| **ps / top** | Processes | “ps aux | grep then kill.” |
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
-
-### Navigation & paths
+## Technical Details
 
 ```bash
-cd -                    # Jump to $OLDPWD — previous directory after cd elsewhere
-pwd -P                  # Physical path (resolves symlinks); use in scripts
-realpath ./relative     # Absolute path without cd
-mkdir -p a/b/c          # Create tree; no error if exists (-p)
-```
+cd -
+pwd -P
+realpath ./relative
+mkdir -p a/b/c
 
-### Find & size
-
-```bash
 find . -type f -size +100M -printf '%s %p\n' | sort -rn | head
-# +100M = larger than 100 MiB blocks; add -mtime +30 for stale large files
-
 find /var/log -type f -name '*.log' -mtime +14 -ls
-# Logs older than 14 days — candidate for rotation/archive
-
 du -sh */ | sort -hr | head
-# Which top-level dirs dominate disk — first pass before find
-```
 
-### Search in trees
-
-```bash
 grep -R --exclude-dir={.git,node_modules,dist} 'pattern' .
-# Recursive; skip VCS and build artifacts
-
 grep -RIn 'ERROR' /var/log/app/ --include='*.log'
-# -I skip binary, -n line numbers — incident triage
+rg 'pattern' --glob '!node_modules'
 
-rg 'pattern' --glob '!node_modules'    # ripgrep: faster default on large trees
-```
+ps aux --sort=-%mem | head -20
+df -hT
+lsof +D /path/to/dir 2>/dev/null
 
-### Process & disk quick checks
+find . -name '*.tmp' -print
+find . -name '*.tmp' -delete
 
-```bash
-ps aux --sort=-%mem | head -20         # Who ate RAM
-df -hT                                 # Mount + fstype; spot 100% partitions
-lsof +D /path/to/dir 2>/dev/null       # What's open under dir (umount failures)
-```
-
-### Safe destructive preview
-
-```bash
-find . -name '*.tmp' -print           # ALWAYS print before -delete
-find . -name '*.tmp' -delete          # Only after print looks right
-
-rm -rf ./build/*                      # Trailing /* avoids rm -rf mistake on wrong dir
-```
-
-### Archives & permissions
-
-```bash
 tar czf backup-$(date +%F).tar.gz --exclude=node_modules project/
-chmod -R u+rwX,go-rwx sensitive_dir/  # Capital X = dirs only get +x
+chmod -R u+rwX,go-rwx sensitive_dir/
+
+date -u +%Y-%m-%dT%H:%M:%SZ
+id; groups; whoami
 ```
-
-### Time & identity
-
-```bash
-date -u +%Y-%m-%dT%H:%M:%SZ           # ISO UTC for logs/tickets
-id; groups; whoami                    # Effective user + supplementary groups
-```
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "No space left on device" | `df -h`; `du -sh /*` | `find` large files; rotate logs; expand volume |
-| Can't delete file | `lsof +D .` | Stop process holding FD; not a chmod issue |
-| grep too slow / wrong hits | `--include`, `--exclude-dir` | Narrow path; use `rg` |
-| Script cd'd wrong place | `pwd -P`; `realpath` | Use absolute paths in cron/systemd |
-| find deleted too much | `-print` first | Restore from backup; add `-maxdepth` guard |
+| No space left | `df -h`; `du -sh /*` | Large files; rotate logs; expand volume |
+| Can't delete file | `lsof +D .` | Stop process holding FD |
+| grep too slow | `--include`, `--exclude-dir` | Narrow path; use `rg` |
+| find deleted too much | `-print` first | Backup; add `-maxdepth` / `-type f` |
 
+## Real-World Applications
+Disk-full incidents, finding stale logs, and scoping recursive greps during outages without thrashing the whole filesystem.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Instant, scriptable, no extra tooling required.
+- **Con:** Easy to cause damage with `rm`/`find -delete`; locale/`ps` parsing is fragile.
+- **Trade-off:** One-liners for triage vs configuration management for lasting change.
 
-> [!WARNING]
-> **`find . -delete` without `-type f`** — can remove directories unexpectedly. Always constrain type and depth.
+## Comparison
+vs dedicated notes ([[grep]], [[Find command]], [[ss]]): this is a cheat sheet hub; those notes go deep. vs security scanners: find/grep are not an audit program.
 
-> [!WARNING]
-> **`grep -R` on /** — IO storm. Scope to `/var/log`, app dir, or use `-m 1` to cap matches.
-
-- **`cd -` in scripts** — `$OLDPWD` is shell state; don't rely on it in non-interactive cron without explicit cd.
-- **`du` versus `df` mismatch** — deleted but open files (`lsof \| grep deleted`); restart process or reboot.
-
-
-## When not to use
-
-- **Production configuration changes** — use configuration management + review, not ad-hoc one-liners from this sheet.
-- **Security audit** — need dedicated tools ([[nmap]], [[ss]], policy scanners), not find/grep alone.
-
-
-## Related
-
-[[CLI]] [[grep]] [[Find command]] [[Scripting]] [[date]] [[ss]] [[journalctl]]
-
-## Sources
-
-- [Wikipedia — common commands](https://en.wikipedia.org/wiki/common_commands)
+## Mistakes to Avoid
+- `find . -delete` without `-type f` / depth limits.
+- `grep -R` from `/` on production.
+- Trusting `cd -` inside cron/systemd scripts.

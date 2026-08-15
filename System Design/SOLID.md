@@ -4,9 +4,28 @@
 
 > SOLID names five object-oriented design habits that keep modules focused, substitutable, and open to extension without turning every change into a shotgun edit.
 
----
+## Interview Relevance
 
-## The five principles
+Define each SOLID letter with a one-line example and a violation smell.
+
+## Sources
+
+- Robert C. Martin, "The Principles of OOD" — [butunclebob.com](https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html) — overview
+- Barbara Liskov & Jeannette Wing, "A Behavioral Notion of Subtyping" (1994) — Liskov Substitution Principle foundation — overview
+- Bertrand Meyer, *Object-Oriented Software Construction* (Prentice Hall, 1997) — Open/Closed Principle — overview
+
+## Key Concepts
+
+- **S — Single Responsibility:** one reason to change per module.
+- **O — Open/Closed:** extend via new types, not endless edits.
+- **L — Liskov:** subtypes must honor the parent contract.
+- **I — Interface Segregation:** no fat interfaces clients half-use.
+- **D — Dependency Inversion:** depend on abstractions, not concretions.
+
+
+## Technical Details
+
+### The five principles
 
 | Letter | Name | In plain language |
 |--------|------|-------------------|
@@ -71,8 +90,27 @@ Scripts, one-off glue, and throwaway spikes should not carry full SOLID ceremony
 
 *When would you choose composition over inheritance?* When behavior varies independently of the type hierarchy — most policy and integration code.
 
-## Sources
+## Real-World Applications
 
-- Robert C. Martin, "The Principles of OOD" — [butunclebob.com](https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html).
-- Barbara Liskov & Jeannette Wing, "A Behavioral Notion of Subtyping" (1994) — Liskov Substitution Principle foundation.
-- Bertrand Meyer, *Object-Oriented Software Construction* (Prentice Hall, 1997) — Open/Closed Principle.
+Class/module design in large codebases and hexagonal/ports-and-adapters services.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Change isolation and testability.
+- **Con:** Over-fragmentation into tiny types.
+- **Trade-off:** SOLID purity vs [[KISS]] delivery speed.
+
+
+## Comparison
+
+- vs [[GRASP]]: GRASP assigns responsibilities; SOLID constrains dependency shape.
+- vs [[solid diagram]]: diagram is the visual mnemonic for these five.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

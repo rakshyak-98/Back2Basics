@@ -1,13 +1,19 @@
-[[golang]] [[Design pattern]] [[java]]
+[[golang]] [[Design pattern]] [[java]] [[method shadowing]]
 
 # Go embedding (struct and interface)
 
 > Anonymous field embedding — promotes methods and fields for convenient delegation; **not** classical inheritance; conflicts resolve by explicit outer rules.
 
----
+## Interview Relevance
 
-## How it works
+Embedding vs inheritance is a frequent Go design question — promotion rules, method sets, and when embedding hides a bad abstraction.
 
+## Sources
+
+- [Effective Go — Embedding](https://go.dev/doc/effective_go#embedding) — deep-dive
+- [Go spec — Struct types](https://go.dev/ref/spec#Struct_types) — deep-dive
+
+## Key Concepts
 
 ```go
 type Reader struct { io.Reader }  // embed interface
@@ -24,8 +30,7 @@ Two cases:
 
 No virtual dispatch chain — method on outer replaces promoted method when called on outer type.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Struct embedding — promotion
 
@@ -97,8 +102,7 @@ func NewServer(addr string) *Server {
 }
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -109,33 +113,15 @@ func NewServer(addr string) *Server {
 | JSON/tags wrong | Tags on embedded struct | Tag outer or embed with named field for custom marshaling |
 | `promoted method` hidden in interface assertion | Outer doesn't implement extra methods | Define all interface methods on outer explicitly |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Pure "has-a" with no promotion — use named field `logger Logger` for clarity.
+- **Trade-off:** Deep embedding chains — hard to trace method origin; prefer explicit delegation.
+- **Trade-off:** Hiding third-party types — embed locks API surface to theirs; wrap with named field + forwarders if stability matters.
 
-> [!WARNING]
-> **Embedding ≠ inheritance** — no LSP hierarchy; promoted methods copy by name, outer override is static dispatch.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Pointer vs value embed** — `embed *T` promotes pointer-receiver methods; value embed `T` may not promote pointer-only methods on value of outer.
-
-> [!WARNING]
-> **JSON serialization** — anonymous embed fields flatten into parent JSON object; can surprise API consumers.
-
-> [!WARNING]
-> **Testing mocks** — embedding mock interface in struct is idiomatic but nil embedded interface causes panic on call.
-
-
-## When not to use
-
-- **Pure "has-a" with no promotion** — use named field `logger Logger` for clarity.
-- **Deep embedding chains** — hard to trace method origin; prefer explicit delegation.
-- **Hiding third-party types** — embed locks API surface to theirs; wrap with named field + forwarders if stability matters.
-
-
-## Related
-
-[[golang]] [[method shadowing]] [[Design pattern]] [[java]]
-
-## Sources
-
-- [Wikipedia — go embedding](https://en.wikipedia.org/wiki/go_embedding)
+- Embedding ≠ inheritance — no LSP hierarchy; promoted methods copy by name, outer override is static dispatch.
+- Pointer vs value embed — `embed *T` promotes pointer-receiver methods; value embed `T` may not promote pointer-only methods on value of outer.
+- JSON serialization — anonymous embed fields flatten into parent JSON object; can surprise API consumers.
+- Testing mocks — embedding mock interface in struct is idiomatic but nil embedded interface causes panic on call.

@@ -1,12 +1,19 @@
-[[Security]] [[Descriptive]]
+[[Security]] [[Descriptive]] [[Etherium]]
 
 # GPL (GNU General Public License)
 
 > Copyleft open-source license — distribute derivatives **only** if you provide corresponding source under the same license; understand v2 vs v3 and linking boundaries before shipping products.
 
----
+## Interview Relevance
 
-## How it works
+GPL interviews check copyleft obligations — distribution triggers and SaaS nuances (AGPL).
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+- [GPL — Wikipedia](https://en.wikipedia.org/wiki/GNU_General_Public_License) — overview
+
+## Key Concepts
 
 GPL grants use, modify, and redistribute rights with a ** reciprocity obligation**: if you distribute a GPL-covered **combined work**, recipients get source and GPL freedoms.
 
@@ -27,8 +34,7 @@ Versions:
 
 Related licenses: **LGPL** (weaker copyleft — dynamic link boundary), **AGPL** (network use triggers source obligation).
 
-
-## Configuration and commands
+## Technical Details
 
 ### Identify GPL in dependency tree
 
@@ -71,19 +77,13 @@ docker sbom myimage:tag | rg -i 'gpl'
 # Or run GPL component as sidecar with IPC only — document boundary
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **As a substitute for legal review** — this note orients engineers; compliance sign-off is legal/compliance team.
+- **Assuming LGPL == GPL** — LGPL has different linking rules; read the actual license text.
+- **Ignoring patents** — GPLv3 addresses patents; v2 does not explicitly.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Legal flagged release | SBOM missing GPL | Run license scan in CI; block on AGPL/GPL without approval |
-| Can't open-source product module | GPL static link | Swap library; isolate process; or GPL the module (business call) |
-| Customer asks for source | GPL component in appliance | Publish source bundle matching exact versions |
-| Patent clause concern | GPLv3 vs v2 | Review with counsel; prefer v3 for patent grant clarity |
-| MySQL connector confusion | Oracle dual-licensing history | Verify **current** connector license (often GPL v2 with FOSS exception) |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **AGPL in backend** — SaaS distributing no binaries can still trigger AGPL if users interact with modified AGPL code over network.
@@ -97,18 +97,10 @@ docker sbom myimage:tag | rg -i 'gpl'
 > [!WARNING]
 > **Internal use only** — no distribution often means no GPL trigger — but **giving** to customers, contractors, or cloud images may count as distribution.
 
-
-## When not to use
-
-- **As a substitute for legal review** — this note orients engineers; compliance sign-off is legal/compliance team.
-- **Assuming LGPL == GPL** — LGPL has different linking rules; read the actual license text.
-- **Ignoring patents** — GPLv3 addresses patents; v2 does not explicitly.
-
-
-## Related
-
-[[Security]] [[Descriptive]] [[Etherium]]
-
-## Sources
-
-- [Wikipedia — GPL](https://en.wikipedia.org/wiki/GPL)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Legal flagged release | SBOM missing GPL | Run license scan in CI; block on AGPL/GPL without approval |
+| Can't open-source product module | GPL static link | Swap library; isolate process; or GPL the module (business call) |
+| Customer asks for source | GPL component in appliance | Publish source bundle matching exact versions |
+| Patent clause concern | GPLv3 vs v2 | Review with counsel; prefer v3 for patent grant clarity |
+| MySQL connector confusion | Oracle dual-licensing history | Verify **current** connector license (often GPL v2 with FOSS exception) |

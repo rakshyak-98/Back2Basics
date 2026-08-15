@@ -1,12 +1,28 @@
-[[event listener]] [[Event Loop]] [[debouncing]] [[throttle]] [[content security policy]]
+[[event listener]] [[Event Loop]] [[debouncing]] [[throttle]] [[content security policy]] [[dataTransfer]]
 
 # User-triggered events
 
 > Browser events caused directly by user input — the gate for privileged APIs, popup blockers, and "did the user mean this?" security checks.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **User-triggered events** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Wikipedia — user triggered event](https://en.wikipedia.org/wiki/user_triggered_event) — overview
+
+## Core Definition
+
+Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.
+
+## Key Concepts
+
+- Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It…
+- Categories: - **Direct user events** — `click`, `keydown`, `pointerdown`, `submit`, drag/drop initiated by user. - **Synthetic but trusted** — programmatic click on a focused bu…
+- Common handlers: `onclick`, `onchange`, `onselect`, `ondrag`, `ondrop`, `onsubmit`.
+
+## Technical Details
 
 Not all DOM events are user-triggered. **User activation** (also called *transient activation*) is a browser-internal flag set when the user clicks, taps, presses a key, etc. It expires after a short window (~few seconds) and gates sensitive operations.
 
@@ -27,9 +43,6 @@ Categories:
 - **Passive / document events** — `scroll`, `mousemove` — not user activation for privileged APIs.
 
 Common handlers: `onclick`, `onchange`, `onselect`, `ondrag`, `ondrop`, `onsubmit`.
-
-
-## Configuration and commands
 
 ### Register handlers (prefer explicit over inline HTML)
 
@@ -88,47 +101,30 @@ window.addEventListener('touchstart', onTouch, { passive: true });
 // Avoid: useEffect(() => window.open(...), []) — no user activation
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **user triggered event** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Activation does not survive `await`** — any microtask/macrotask gap can consume transient activation. Open popups / start media **before** the first `await`; **`dispatchEvent` is not a user gesture** — tests and programmatic events won't unlock autoplay or popups; design UX for real clicks.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `play()` rejected / autoplay blocked | Was `play()` called outside click/tap handler? | Call `play()` synchronously inside user event; mute for autoplay fallback |
-| `window.open` returns `null` | Popup blocker; lost activation after `await` | Open window sync in handler; use `<a target="_blank">` |
-| Clipboard write fails | No permission + no user gesture | Trigger from `click`; use `navigator.permissions.query` |
-| Fullscreen API rejects | Not user-initiated | Bind to button `click` |
-| File upload dialog doesn't open | `input.click()` from setTimeout | Call `click()` synchronously in user handler |
-| Double submit / duplicate API calls | No debounce on rapid clicks | Disable button during request; [[debouncing]] |
-| Drag-drop doesn't fire | Wrong event phase or `preventDefault` missing | Listen `dragover` + `preventDefault`; set `dropEffect` |
-| Mobile tap delay / ghost clicks | 300ms legacy or touch handlers | `touch-action: manipulation`; `pointer-events` CSS |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (Browser events caused directly by user input — the gate for privileged APIs, pop…).
+- **Con / when not:** **Background automation** — don't hack `click()` from `setInterval` to bypass policies; use proper permissions API or server-side flow.
+- **Con / when not:** **Scroll handlers for "user intent"** — scrolling doesn't grant activation for popups/clipboard.
+- **Con / when not:** **Global document listeners for everything** — attach to interactive elements; reduces noise and eases passive/listener tuning.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **Activation does not survive `await`** — any microtask/macrotask gap can consume transient activation. Open popups / start media **before** the first `await`.
+vs [[event listener]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable. vs [[debouncing]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **`dispatchEvent` is not a user gesture** — tests and programmatic events won't unlock autoplay or popups; design UX for real clicks.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Delegated listeners still count** — activation propagates from real user target; use event delegation on `document` without losing gesture if handler runs synchronously.
-
-> [!WARNING]
-> **Third-party iframes** — cross-origin frames have separate activation; embedding payment or OAuth flows must happen in direct user navigation or sanctioned iframe APIs.
-
-
-## When not to use
-
-- **Background automation** — don't hack `click()` from `setInterval` to bypass policies; use proper permissions API or server-side flow.
-- **Scroll handlers for "user intent"** — scrolling doesn't grant activation for popups/clipboard.
-- **Global document listeners for everything** — attach to interactive elements; reduces noise and eases passive/listener tuning.
-
-
-## Related
-
-[[event listener]] [[debouncing]] [[throttle]] [[Event Loop]] [[content security policy]] [[dataTransfer]]
-
-## Sources
-
-- [Wikipedia — user triggered event](https://en.wikipedia.org/wiki/user_triggered_event)
+- **Activation does not survive `await`** — any microtask/macrotask gap can consume transient activation. Open popups / start media **before** the first `await`.
+- **`dispatchEvent` is not a user gesture** — tests and programmatic events won't unlock autoplay or popups; design UX for real clicks.
+- **Delegated listeners still count** — activation propagates from real user target; use event delegation on `document` without losing gesture if handler runs synchronously.
+- **Third-party iframes** — cross-origin frames have separate activation; embedding payment or OAuth flows must happen in direct user navigation or sanctioned iframe APIs.
+- **`play()` rejected / autoplay blocked:** check Was `play()` called outside click/tap handler?; fix: Call `play()` synchronously inside user event; mute for autoplay fallback
+- **`window.open` returns `null`:** check Popup blocker; lost activation after `await`; fix: Open window sync in handler; use `<a target="_blank">`
+- **Clipboard write fails:** check No permission + no user gesture; fix: Trigger from `click`; use `navigator.permissions.query`
+- **Fullscreen API rejects:** check Not user-initiated; fix: Bind to button `click`
+- **File upload dialog doesn't open:** check `input.click()` from setTimeout; fix: Call `click()` synchronously in user handler
+- **Double submit / duplicate API calls:** check No debounce on rapid clicks; fix: Disable button during request; [[debouncing]]

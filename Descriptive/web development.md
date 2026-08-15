@@ -1,12 +1,18 @@
-[[javascript]] [[css/Animation]] [[Nginx/nginx SPA deployment]] [[Rendering performance/SEO]]
+[[javascript]] [[css/Animation]] [[Nginx/nginx SPA deployment]] [[Rendering performance/SEO]] [[Rendering performance/layout]] [[Descriptive/WCAG (Web Content Accessibility Guidelines)]]
 
 # Web development
 
 > Building for browsers — HTML parse, script loading, render path, and delivery constraints — **browser architecture + Core Web Vitals mindset**.
 
----
+## Interview Relevance
 
-## How it works
+Broad web-dev interviews want architecture judgment — boundaries between client, edge, and API.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 Browser pipeline for a typical page:
 
@@ -19,8 +25,7 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 
 **Main thread** owns DOM, layout, paint, and most JS. Long tasks jank UX — see [[Rendering performance/INP]].
 
-
-## Configuration and commands
+## Technical Details
 
 ### Script loading (`async` vs `defer`)
 
@@ -62,19 +67,12 @@ JS: can block parse (sync script), defer until parse done, or async fetch
 
 Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on interactive flows from day one.
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Don't SSR every dashboard widget — SPA + client fetch is fine behind login.
+- Avoid reinventing bundler/security headers — platform defaults (Vercel, Cloudflare) first.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Blank page until JS loads | Sync script in `<head>` | `defer` or move to body end |
-| FOUC / unstyled flash | CSS late | Critical CSS inline or preload |
-| Hydration mismatch (SSR) | Server HTML ≠ client render | Fix random IDs/dates; `suppressHydrationWarning` last resort |
-| Works in Chrome, broken Safari | API gap / date parsing | Polyfill or feature detect — [[Descriptive/JavaScript/Polyfilling]] |
-| LCP slow | Hero image unoptimized | `fetchpriority="high"`, WebP/AVIF, dimensions set |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Third-party scripts** (ads, tags) often inject blocking sync scripts — sandbox or load after consent.
@@ -84,17 +82,10 @@ Ship [[Descriptive/WCAG (Web Content Accessibility Guidelines)]] **AA** on inter
 - **Mobile Safari** ITP limits storage — don't rely on long-lived `localStorage` for authentication.
 - **`100vh`** includes mobile URL bar — use `dvh` where supported.
 
-
-## When not to use
-
-- Don't SSR every dashboard widget — SPA + client fetch is fine behind login.
-- Avoid reinventing bundler/security headers — platform defaults (Vercel, Cloudflare) first.
-
-
-## Related
-
-[[javascript]] [[css/Animation]] [[Rendering performance/layout]] [[Rendering performance/SEO]] [[Descriptive/WCAG (Web Content Accessibility Guidelines)]]
-
-## Sources
-
-- [Wikipedia — web development](https://en.wikipedia.org/wiki/web_development)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Blank page until JS loads | Sync script in `<head>` | `defer` or move to body end |
+| FOUC / unstyled flash | CSS late | Critical CSS inline or preload |
+| Hydration mismatch (SSR) | Server HTML ≠ client render | Fix random IDs/dates; `suppressHydrationWarning` last resort |
+| Works in Chrome, broken Safari | API gap / date parsing | Polyfill or feature detect — [[Descriptive/JavaScript/Polyfilling]] |
+| LCP slow | Hero image unoptimized | `fetchpriority="high"`, WebP/AVIF, dimensions set |

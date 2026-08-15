@@ -1,24 +1,21 @@
-[[HLS]] [[DASH]] [[MPEG-TS]] [[CMAF]] [[codecs]] [[DRM]] [[Manifest (streaming)]]
+[[HLS]] [[DASH]] [[MPEG-TS]] [[CMAF]] [[codecs]] [[DRM]] [[Manifest (streaming)]] [[HLS vs. DASH]] [[MPD]] [[EME]] [[ABR]]
 
 # CMAF (Common Media Application Format)
 
 > CMAF (Common Media Application Format) — encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about CMAF to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — CMAF](https://en.wikipedia.org/wiki/CMAF) — overview
+- [CTA CMAF](https://cta.tech/) — overview
+
+## Key Concepts
 
 **CMAF** standardizes **fragmented MP4 (fMP4)** chunks so **[[HLS]]** and **[[DASH]]** can share the **same `.m4s` media segments** — only the **manifests differ** (`.m3u8` versus `.mpd`). Each **CMAF chunk** is a `moof`+`mdat` pair; a **CMAF segment** is typically 2–6 seconds of chunks aligned on keyframes.
-
-```txt
-Encoder ──► fMP4 chunks (CMAF) ──► origin storage
-                    │                    │
-            ┌───────┴───────┐            │
-         HLS manifest    DASH MPD       same .m4s URLs
-         (.m3u8)          (.mpd)
-            │                │
-         Safari/iOS      Android/Chrome
-```
 
 | Concept | Meaning |
 |---------|---------|
@@ -29,10 +26,17 @@ Encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
 Without CMAF, operators stored **duplicate TS for HLS + separate DASH segments** — double egress, double cache footprint.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Encoder ──► fMP4 chunks (CMAF) ──► origin storage
+                    │                    │
+            ┌───────┴───────┐            │
+         HLS manifest    DASH MPD       same .m4s URLs
+         (.m3u8)          (.mpd)
+            │                │
+         Safari/iOS      Android/Chrome
+```
 
 ### ffmpeg — CMAF-style HLS (fMP4 segments)
 
@@ -77,10 +81,22 @@ ffprobe -show_frames -select_streams v:0 -read_intervals 0%+5 -show_entries fram
 mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 ```
 
----
+## Real-World Applications
 
+Used wherever CMAF sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
+- **Con / skip when:** **Single-ecosystem (Apple-only)** — TS HLS still works but loses DASH unification benefit.
+- **Con / skip when:** **Sub-second WebRTC** — CMAF segment model adds seconds of latency; use WebRTC for that path.
+
+## Comparison
+
+- vs [[MPEG-TS]]: **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -91,39 +107,7 @@ mp4dump --verbosity 1 segment.m4s | head -40   # Bento4, if installed
 | 404 on init.mp4 | CDN caches media but not init | Long-cache init; version in path on codec change |
 | Audio missing in DASH | Separate AdaptationSet | Mirror HLS `#EXT-X-MEDIA` audio group |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Legacy HLS TS-only devices** — old STBs need parallel TS ladder or device blocklist; fMP4 is modern default.
-
-> [!WARNING]
-> **Init segment change** — codec/resolution change needs new init; stale CDN init → decode failure.
-
-> [!WARNING]
-> **Independent segments flag** — DASH `@sap` / HLS discontinuity mishandled → A/V glitch at boundaries.
-
-> [!WARNING]
-> **Encrypting init** — usually cleartext init + encrypted media; check [[EME]]/[[DRM]] vendor spec.
-
----
-
-
-## When not to use
-
-- **Legacy IPTV broadcast chain** — MPEG-TS end-to-end ([[MPEG-TS]]) may be mandatory.
-- **Single-ecosystem (Apple-only)** — TS HLS still works but loses DASH unification benefit.
-- **Sub-second WebRTC** — CMAF segment model adds seconds of latency; use WebRTC for that path.
-
----
-
-
-## Related
-
-[[HLS]] [[DASH]] [[HLS vs. DASH]] [[MPEG-TS]] [[Manifest (streaming)]] [[MPD]] [[DRM]] [[EME]] [[ABR]]
-
-## Sources
-
-- [Wikipedia — CMAF](https://en.wikipedia.org/wiki/CMAF)
+- **Legacy HLS TS-only devices** — old STBs need parallel TS ladder or device blocklist; fMP4 is modern default.
+- **Init segment change** — codec/resolution change needs new init; stale CDN init → decode failure.
+- **Independent segments flag** — DASH `@sap` / HLS discontinuity mishandled → A/V glitch at boundaries.
+- **Encrypting init** — usually cleartext init + encrypted media; check [[EME]]/[[DRM]] vendor spec.

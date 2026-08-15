@@ -1,12 +1,19 @@
-[[Airflow]] [[Jenkins]] [[kafka]] [[webhook]] [[Idempotent-key]]
+[[Airflow]] [[Jenkins]] [[kafka]] [[webhook]] [[Idempotent-key]] [[ABR]]
 
 # Orchestration layer
 
-> Orchestration layer — orchestration: a central coordinator drives steps, knows global state, retries, timeouts, compensations. Choreography: each service reacts to events with no central brain — flow emerges
+> Orchestration — a central coordinator drives the workflow; choreography — services react to events with no single brain.
 
----
+## Interview Relevance
 
-## How it works
+Orchestration vs choreography is a system-design staple — central coordinator vs event-driven reactions, with failure/compensation implications.
+
+## Sources
+
+- [Microsoft — Choreography vs orchestration](https://learn.microsoft.com/en-us/azure/architecture/patterns/choreography) — overview
+- [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) — deep-dive
+
+## Key Concepts
 
 **Orchestration:** a central **coordinator** drives steps, knows global state, retries, timeouts, compensations. **Choreography:** each service reacts to **events** with no central brain — flow emerges from message contracts.
 
@@ -28,10 +35,7 @@ Choreography (Kafka/events):
 
 **Streaming note:** HLS/DASH manifests act as client-side [[Orchestration layer]] for rendition selection — different domain, same word.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Tool placement
 
@@ -87,10 +91,7 @@ Choreograph when:
   - Event schema versioning discipline exists
 ```
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -101,42 +102,16 @@ Choreograph when:
 | Version skew | Worker deploy mid-workflow | Temporal workflow versioning; compatible activity changes |
 | "Works in dev" timeout | Step Functions 25s lambda limit | Break steps; use activity workers |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Single CRUD service — domain logic in application code suffices.
+- **Trade-off:** Sync request/response chain < 3 hops — direct calls + [[Idempotent-key]].
+- **Trade-off:** **Replace [[kafka]]** with Airflow — different problems; often complement (Airflow consumes Kafka).
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Orchestrator as SPOF** — HA cluster + persistence (Temporal/Camunda DB) required for prod.
-
-> [!WARNING]
-> **Choreography saga without compensating events** — partial failure leaves inconsistent state.
-
-> [!WARNING]
-> **Airflow for online traffic** — wrong latency model; batch scheduler not RPC bus.
-
-> [!WARNING]
-> **BPMN for engineers who hate XML** — adoption dies; pick code-first (Temporal) if team is dev-heavy.
-
-> [!WARNING]
-> **Nested orchestrators** — Airflow triggers Step Functions triggers Lambda — observability nightmare; one primary layer.
-
----
-
-
-## When not to use
-
-- **Single CRUD service** — domain logic in application code suffices.
-- **Sync request/response chain < 3 hops** — direct calls + [[Idempotent-key]].
-- **Replace [[kafka]]** with Airflow — different problems; often complement (Airflow consumes Kafka).
-
----
-
-
-## Related
-
-[[Airflow]] [[Jenkins]] [[kafka]] [[webhook]] [[Idempotent-key]] [[ABR]]
-
-## Sources
-
-- [Wikipedia — Orchestration layer](https://en.wikipedia.org/wiki/Orchestration_layer)
+- Orchestrator as SPOF — HA cluster + persistence (Temporal/Camunda DB) required for prod.
+- Choreography saga without compensating events — partial failure leaves inconsistent state.
+- Airflow for online traffic — wrong latency model; batch scheduler not RPC bus.
+- BPMN for engineers who hate XML — adoption dies; pick code-first (Temporal) if team is dev-heavy.
+- Nested orchestrators — Airflow triggers Step Functions triggers Lambda — observability nightmare; one primary layer.

@@ -2,28 +2,40 @@
 
 # React pattern categorisation
 
-> React pattern categorisation shapes how React applications compose UI, state, and side effects in production.
+> Map of React composition patterns — when to reach for hooks, compound components, providers, or legacy HOCs.
 
-## What this is
+## Interview Relevance
 
-React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React pattern categorisation` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React Architecture]] [[Component Presentational Pattern]] [[Composite pattern]] [[Controlled and Uncontrolled component Pattern]] [[Provider pattern]]
+Interviewers ask which composition pattern fits the API you want — and what breaks when you force the wrong one.
 
 ## Sources
 
-- [React official documentation](https://react.dev)
+- [React pattern categorisation docs](https://react.dev/learn) — deep-dive
+- [React Learn](https://react.dev/learn) — overview
+
+## Key Concepts
+
+- **Modern default:** custom hooks for logic reuse.
+- **Keep for APIs:** compound components / providers when the JSX API matters.
+
+## Technical Details
+
+See also sibling notes under `React Pattern/` and [[React design patterns]].
+
+## Real-World Applications
+
+Reach for React pattern categorisation when the component API needs that composition style; otherwise prefer hooks.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Shared vocabulary in code reviews.
+- **Con:** Forcing a pattern where a simple hook suffices.
+
+## Comparison
+
+- vs [[react hooks]]: hooks share logic; these patterns shape component APIs.
+
+## Mistakes to Avoid
+
+- Introducing HOCs in greenfield 2026 code without a library constraint.
+- Provider for high-frequency changing values.

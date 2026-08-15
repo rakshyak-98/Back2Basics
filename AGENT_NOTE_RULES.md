@@ -1,6 +1,6 @@
 # Agent Note Rules — Internal Reference Memory
 
-> How AI agents write and rewrite notes in this vault. No predefined templates. Structure follows **conceptual relationships**, not delivery order.
+> How AI agents write and rewrite notes in this vault. Leaf notes follow a fixed **interview-prep** section order. Omit empty sections. Meta and hub notes stay routing-only.
 
 ---
 
@@ -15,23 +15,23 @@ Effective notes eliminate friction so understanding emerges naturally. Three pri
 - Spell out abbreviations on first use. Name the real objects, steps, and failure signals — not jargon labels alone.
 - Prefer complete sentences in summaries. Avoid telegraphic shorthand and unexplained insider terms.
 
-### 2. Structure mirrors cognition
+### 2. Structure for recall and interviews
 
-- Organize by **conceptual relationships** and subject-level grouping, not lecture sequence or arbitrary section templates.
+- Leaf notes use the **interview-prep skeleton** below so definitions, trade-offs, and pitfalls are easy to find.
 - Prefer **networked, lateral links** (`[[wikilinks]]`) over isolated one-off pages.
 - Use mind-map thinking: hub notes route to leaf notes; leaf notes link siblings and parents.
-- Headings emerge from what the topic needs — not from a fixed skeleton (no mandatory "Mental model → Triage → Gotchas" blocks).
+- **Omit** any section that has nothing useful to say — no placeholder stubs.
 
 ### 3. Active engagement
 
-- Open with a **one-sentence anchor** that states what this is and why it matters.
+- Open with a **one-sentence plain-English anchor** (blockquote under the title).
 - Use **visual hierarchy**: headings, tables, ASCII diagrams, and bullet clusters where they aid scanning.
-- Embed **recall-prompting questions** where useful (e.g. "What breaks first when…?", "When would you choose X over Y?").
+- Embed **recall-prompting** material in Interview Relevance, Comparison, and Mistakes to Avoid.
 - Transform passive facts into material the reader can **apply**: commands to run, checks to perform, decisions to make.
 
 ### Unifying rule
 
-Both writer and learner must eliminate unnecessary friction. Clear writing, organized by how ideas connect, with structural cues that invite interaction — not effort that obscures meaning.
+Both writer and learner must eliminate unnecessary friction. Clear writing, a predictable section order for leaf notes, and structural cues that invite interaction — not effort that obscures meaning.
 
 ---
 
@@ -49,21 +49,71 @@ Ground content in authoritative, verifiable sources. Prefer:
 
 Do not invent facts. If a topic is uncertain, say what is known and link the source. Strip wiki/ChatGPT citation spam; keep real attributions.
 
+Tag each source with coverage level: **overview** or **deep-dive**.
+
 ---
 
-## Note shape (flexible, not templated)
+## Leaf note shape (interview-prep)
 
-Each note answers **one focused topic** (tool, concept, procedure, comparison, or hub). Choose sections based on what the reader needs:
+Each leaf note answers **one focused topic**. Use this section order. Skip sections that do not apply.
 
-| Reader need | Typical content (use only what fits) |
-|-------------|--------------------------------------|
-| **Understand** | Definition, mechanism, how parts relate, trade-offs |
-| **Operate** | Configuration, commands, verification steps |
-| **Debug** | Symptom → check → fix rows for *this* topic only |
-| **Decide** | Criteria, options, when to pick each |
-| **Navigate** | Routing table, curated links (hub notes) |
+```markdown
+[[Related]] [[Sibling]] [[Parent]]
+
+# Topic Name
+
+> Plain-English definition — what it does / why it exists.
+
+## Interview Relevance
+Why interviewers ask; what signal they want.
+
+## Sources
+- [Name](url) — overview | deep-dive
+
+## Core Definition
+1–2 sentences in your words (deepen the blockquote only when useful — avoid duplicate blurbs).
+
+## Key Concepts
+- **Concept A:** what → why it matters
+- **Concept B:** what → why it matters
+
+## Technical Details
+Formulas, algorithms, architecture, commands, diagrams from sources.
+
+## Real-World Applications
+Practical use; one concrete scenario.
+
+## Pros/Cons or Trade-offs
+- **Pro:** advantage + context
+- **Con:** limitation + context
+
+## Comparison
+vs related concept: key difference (with `[[wikilinks]]`).
+
+## Mistakes to Avoid
+Common misconceptions / wrong approaches.
+```
+
+| Section | Reader need |
+|---------|-------------|
+| **Interview Relevance** | Why this topic shows up in interviews |
+| **Sources** | Verifiable grounding with coverage tags |
+| **Core Definition** | Short precise restatement |
+| **Key Concepts** | What → why it matters |
+| **Technical Details** | Mechanisms, formulas, commands |
+| **Real-World Applications** | Concrete ops / product scenarios |
+| **Pros/Cons or Trade-offs** | Decision context |
+| **Comparison** | Boundaries vs siblings |
+| **Mistakes to Avoid** | Misconceptions and wrong approaches |
 
 **Do not** force empty sections. **Do not** add strategy labels, HTML strategy tags, or boilerplate triage rows copied from other topics.
+
+### Exclusions (do not force this skeleton)
+
+- Meta: `AGENT_NOTE_RULES`, `AGENTS.md`, `README`, Cursor rules
+- Routing hubs: `INDEX`, domain hubs that are link tables only
+- Redirect stubs (`→ [[Canonical]]`)
+- Canvas / non-note assets
 
 ---
 
@@ -71,22 +121,23 @@ Each note answers **one focused topic** (tool, concept, procedure, comparison, o
 
 - **Title**: `# Topic Name` matching filename stem where possible.
 - **Top wikilinks**: Related notes at the top (parent, siblings, dependencies).
-- **Blockquote summary**: One breath — what this is and the first thing that breaks or matters.
+- **Blockquote summary**: One breath — plain English; what this is and why it exists (see simple-English definition rule).
 - **Wikilinks**: Obsidian `[[note]]` and `[[note|alias]]`; link siblings in the same domain.
 - **Code**: Literal commands and configs in fenced blocks; do not expand tool names inside blocks.
-- **Sources**: End with a **Sources** or inline citations where facts are non-obvious.
+- **Sources**: Prefer early **Sources** section with overview/deep-dive tags; keep citations honest.
 - **Hub notes** (`INDEX.md`, domain roots): routing only — no deep duplication of leaf content.
 
 ---
 
 ## What to avoid
 
-- Predefined template section order mandated across all notes.
+- Empty placeholder sections (“TBD”, “N/A”, bare headings with no content).
 - `## Index` auto-lists unless the note is long and benefits from jump links.
 - Generic triage tables (Auth/TLS/Deploy) unrelated to the note's topic.
 - Casual shortenings in prose: auth, config, env, prod, repo, creds (use full words in body text).
 - Duplicate stubs — merge and redirect to a canonical note.
 - Placeholder wikilinks (`[[Parent]]`, `[[Sibling]]`, `[[Tool]]`) in finished notes.
+- Duplicating the blockquote verbatim under Core Definition.
 
 ---
 
@@ -94,9 +145,9 @@ Each note answers **one focused topic** (tool, concept, procedure, comparison, o
 
 1. **Read** the filename, path, and any existing content for context and sibling notes in the folder.
 2. **Research** the topic using authoritative sources (RFC, official docs, Wikipedia + primary source).
-3. **Plan** structure from conceptual relationships — what must the reader know first, what depends on what?
+3. **Map** existing content into the interview-prep sections; omit empties.
 4. **Write** with clarity, visual hierarchy, and wikilinks to related vault notes.
-5. **Verify** facts against sources; add citations for specs, defaults, and numbers.
+5. **Verify** facts against sources; tag coverage; add Interview Relevance and Mistakes to Avoid when thin.
 6. **Link** — ensure related notes cross-link; update hub notes if routing changes.
 
 ---
@@ -105,7 +156,7 @@ Each note answers **one focused topic** (tool, concept, procedure, comparison, o
 
 - The deliverable is **notes and cross-links**, not build tooling.
 - Meaningful check: `[[wikilinks]]` resolve to existing notes where possible (100% resolution is not expected for folder names and intentional stubs).
-- Navigation entry points: [[README]], [[INDEX]], [[general]], [[staff engineer]].
+- Navigation entry points: [[README]] · [[INDEX]] · [[general]] · [[staff engineer]].
 
 ---
 

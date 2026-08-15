@@ -4,9 +4,25 @@
 
 > Churn rate — (attrition) measures how many customers stop paying or actively leave in a time window, expressed as a percentage of the starting cohort. It
 
----
+## Interview Relevance
 
-## How it works
+Define churn formula, cohort vs blunt rate, and product/ops levers that move it.
+
+## Sources
+
+- [Wikipedia — churn rate](https://en.wikipedia.org/wiki/churn_rate) — overview
+
+## Key Concepts
+
+- **Attrition metric:** customers lost over a period ÷ base.
+- **Cohorts beat blunt rates:** when signup mix shifts, overall churn lies.
+- **Product + ops levers:** onboarding, reliability, pricing, support.
+- **Leading indicators:** engagement drops before cancel.
+
+
+## Technical Details
+
+### How it works
 
 **Churn rate** (attrition) measures **how many customers stop paying or actively leave** in a time window, expressed as a **percentage of the starting cohort**. It is the inverse lens of retention: high churn destroys unit economics and leaves **orphaned data, idle seats, and over-provisioned capacity**.
 
@@ -83,23 +99,33 @@ Reactivation rate (win-back campaigns)
 ```
 
 ---
+## When not to use
 
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Churn spike post deploy | Release correlation | Rollback; feature flag |
-| Involuntary churn up | Payment gateway errors | Update cards; retry rules |
-| Enterprise logos leave | Support tickets | CSM review; SLA breach |
-| Metric disagrees finance | Definition drift | Align cancel date vs end-of-period |
-| "Churn" from duplicate accounts | Bad dedupe | One user = one subscriber ID |
-| Low churn but revenue down | Downgrades not counted | Track revenue churn separately |
+- **Pre-PMF startup** — sample too small; focus qualitative exit interviews.
+- **Single metric for eng SLOs** — churn is business KPI, not p99 latency substitute.
+- **Blame eng for all churn** — content, pricing, support dominate in media SaaS.
 
 ---
 
+## Real-World Applications
 
-## Gotchas
+SaaS growth reviews, subscription businesses, and marketplace retention work.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Forces focus on retention economics.
+- **Con:** Bad definitions make false victories.
+- **Trade-off:** logo churn vs revenue churn.
+
+
+## Comparison
+
+- vs growth/acquisition metrics: opposite side of the funnel.
+- vs [[Throughput]]: system capacity ≠ customer retention.
+
+
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Annual plans** — monthly churn math needs **cohort normalization** or misleading 0% months.
@@ -118,20 +144,13 @@ Reactivation rate (win-back campaigns)
 
 ---
 
-
-## When not to use
-
-- **Pre-PMF startup** — sample too small; focus qualitative exit interviews.
-- **Single metric for eng SLOs** — churn is business KPI, not p99 latency substitute.
-- **Blame eng for all churn** — content, pricing, support dominate in media SaaS.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Churn spike post deploy | Release correlation | Rollback; feature flag |
+| Involuntary churn up | Payment gateway errors | Update cards; retry rules |
+| Enterprise logos leave | Support tickets | CSM review; SLA breach |
+| Metric disagrees finance | Definition drift | Align cancel date vs end-of-period |
+| "Churn" from duplicate accounts | Bad dedupe | One user = one subscriber ID |
+| Low churn but revenue down | Downgrades not counted | Track revenue churn separately |
 
 ---
-
-
-## Related
-
-[[System design]] [[CMS]] [[Authentication web application]] [[Eventual consistency]] [[database sharding]]
-
-## Sources
-
-- [Wikipedia — churn rate](https://en.wikipedia.org/wiki/churn_rate)

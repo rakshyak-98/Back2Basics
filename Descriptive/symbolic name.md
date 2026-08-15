@@ -1,12 +1,18 @@
-[[javascript]] [[Operating System/abstract storage location]] [[Design pattern/Static Members]] [[compiler/library file]]
+[[javascript]] [[Operating System/abstract storage location]] [[Design pattern/Static Members]] [[compiler/library file]] [[Descriptive/JavaScript/function]]
 
 # Symbolic name
 
 > Human-readable identifier bound to a program entity — variables, functions, constants — instead of raw literals — **readability + refactor safety**.
 
----
+## Interview Relevance
 
-## How it works
+Symbolic names/linker questions check how names resolve to addresses — systems interview territory.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 A **symbolic name** maps meaning to storage or behavior. The compiler/interpreter resolves the name to an address, register, or closure slot at compile or run time.
 
@@ -27,8 +33,7 @@ vs magic:   if (attempt > 3) …   // what is 3?
 
 Same concept across languages: Python symbols, Rust bindings, DNS hostnames as symbolic network names.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Named constants (avoid magic values)
 
@@ -69,19 +74,12 @@ const ID_BY_ROLE = Object.fromEntries(
 );
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Ultra-local throwaway loop index `i` — noise if scope is 3 lines.
+- Over-abstracting every literal (`const TWO = 2`) — hurts readability.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Wrong value, hard to trace | Magic number/string | Extract named constant |
-| Rename broke runtime | Stringly-typed keys | Use constants or TS enums |
-| Duplicate symbol names | Shadowing in nested scope | Rename or narrow block |
-| Export name collision | Barrel re-exports | Explicit export aliases |
-| Minified stack unreadable | Production build | Source maps; keep named fns in errors |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Symbolic names in logs/config must stay stable** — renaming env vars without migration breaks deploy scripts.
@@ -90,17 +88,10 @@ const ID_BY_ROLE = Object.fromEntries(
 - **Dynamic keys** `obj[variable]` lose static rename support in IDEs.
 - **DNS symbolic names** cache TTL — name resolution is not the same as JS binding lifetime.
 
-
-## When not to use
-
-- Ultra-local throwaway loop index `i` — noise if scope is 3 lines.
-- Over-abstracting every literal (`const TWO = 2`) — hurts readability.
-
-
-## Related
-
-[[javascript]] [[Operating System/abstract storage location]] [[Design pattern/Static Members]] [[Descriptive/JavaScript/function]]
-
-## Sources
-
-- [Wikipedia — symbolic name](https://en.wikipedia.org/wiki/symbolic_name)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Wrong value, hard to trace | Magic number/string | Extract named constant |
+| Rename broke runtime | Stringly-typed keys | Use constants or TS enums |
+| Duplicate symbol names | Shadowing in nested scope | Rename or narrow block |
+| Export name collision | Barrel re-exports | Explicit export aliases |
+| Minified stack unreadable | Production build | Source maps; keep named fns in errors |

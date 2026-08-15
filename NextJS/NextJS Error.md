@@ -1,28 +1,53 @@
-[[NextJS]]
+[[Next JS]] [[NextJS navigation]] [[NextJS Config]] [[RSC (React Server Component boundaries)]] [[hydration]]
 
 # NextJS Error
 
-> NextJS Error — error comes from Next.js v13+ App Router
+> Common Next.js errors usually mean the wrong router API, a broken path alias, or React Server Component boundaries — read the message as a routing or boundary bug, not a random crash.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers care less about memorizing error strings and more about whether you can map “router not mounted,” module-not-found, and RSC `useContext` failures to App Router versus Pages Router and client/server boundaries.
 
+## Sources
 
-> [!INFO] NextJS build will call api
-[next-router-not-mounted](https://nextjs.org/docs/messages/next-router-not-mounted)
-error comes from `Next.js v13+` application Router
-- If used in the `app` directory, migrate to the new hooks imported from `next/navigation`.
-use new `next/navigation` hooks
+- [Next.js Docs — `NextRouter` was not mounted](https://nextjs.org/docs/messages/next-router-not-mounted) — deep-dive
+- [Next.js Docs — Migrating to the App Router](https://nextjs.org/docs/app/guides/migrating/app-router-migration) — overview
+- [Next.js Docs — Absolute Imports and Module Path Aliases](https://nextjs.org/docs/app/getting-started/installation#set-up-absolute-imports-and-module-path-aliases) — overview
+
+## Core Definition
+
+Next.js surfaces framework-specific failures when client-only hooks run in the wrong tree, imports resolve outside configured aliases, or a Server Component graph pulls in client React APIs.
+
+## Key Concepts
+
+- **`NextRouter` was not mounted:** `useRouter` from `next/router` used under `app/`, or outside a Next provider (tests) → migrate to `next/navigation` or mock the router.
+- **App Router hooks:** `useRouter`, `useSearchParams`, `useParams` from `next/navigation` → designed for the App Router; need a Client Component when used in UI.
+- **Path aliases:** `@/` only works if `tsconfig`/`jsconfig` `paths` match the project layout.
+- **RSC boundary errors:** importing client React (`useContext`, hooks) into a Server Component graph → `"use client"` on the leaf that needs hooks, or move logic down.
+- **Vendored RSC React:** errors mentioning `app-rsc` / vendored `react.js` → wrong React entry pulled into the server graph.
+
+## Technical Details
+
+### Router not mounted (App Router)
+
 ```js
+// Wrong under app/
+import { useRouter } from 'next/router'
+
+// Correct for App Router (Client Component)
 import { useRouter, useSearchParams, useParams } from 'next/navigation'
 ```
- Why the changes?
-application Router runs in a **React Server Component-first architecture**. The old hooks from `next/router` depend on the client-side routing context — which doesn't exist in server components.
-The new `next/navigation` hooks are **designed to work with [[RSC (React Server Component boundaries)]] and match the new routing paradigm.
+
+Why: App Router is Server Components first. Pages Router hooks expect a client routing context that does not exist in that tree. See [[RSC (React Server Component boundaries)]].
+
+### Module not found for `@/`
+
 ```text
 Module not found: Can't resolve '@/app/store/store.js'
 ```
+
+Ensure `tsconfig.json` (or `jsconfig.json`) includes:
+
 ```json
 {
   "compilerOptions": {
@@ -32,80 +57,43 @@ Module not found: Can't resolve '@/app/store/store.js'
   }
 }
 ```
+
+Paths are relative to the TypeScript/JavaScript configuration file; restart the development server after changes.
+
+### RSC / `useContext` is not a function
+
 ```text
-this error : TypeError: (0 , {imported module [project]/nodemodules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-rsc] (ecmascript)}.useContext) is not a function
-```
-- you're importing a vendored/interval version of React from `Next.js` RSC (`react.js [app-rsc]`) instead of the public React module.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **NextJS Error** | This note’s core idea | “I explain NextJS Error in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-
-## Configuration and commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
+TypeError: ... useContext is not a function
 ```
 
----
-
-
-## When things break
+Often means a client hook or client-only library is imported into a Server Component. Fix by adding `"use client"` to the component that uses hooks, or by splitting a client child from a server parent.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
+| `NextRouter was not mounted` | Import path | `next/navigation` in `app/`; mock in tests |
+| `Can't resolve '@/…'` | `paths` in tsconfig | Align alias; restart [[Next js Build]] / `next dev` |
+| `useContext is not a function` (RSC) | Import graph | `"use client"` boundary; avoid client libs on server |
+| Hydration mismatch overlay | Server vs client HTML | Stabilize output; see [[hydration]] |
 
----
+## Real-World Applications
 
+Migrations from `pages/` to `app/` hit router-not-mounted first; monorepos hit alias resolution; shared UI kits that call hooks must be marked client when used under the App Router.
 
-## Steps
+**Example:** A shared `useAuth()` hook imported into a Server Component page fails until the consuming component is a Client Component or the session is read on the server instead.
 
-1. …
+## Pros/Cons or Trade-offs
 
+- **Pro:** Explicit errors push you toward correct boundaries instead of silent wrong behavior.
+- **Con:** Messages can look like React internals (`app-rsc`) until you map them to “client API on the server.”
+- **Con:** Dual router eras (`next/router` vs `next/navigation`) double the failure modes during migration.
 
-## Verification
+## Comparison
 
-```bash
-# …
-```
+- vs generic React errors: Next.js adds router context and RSC packaging layers on top of React.
+- vs [[NextJS navigation]]: wrong import is an error; choosing `<Link>` vs `<a>` is an API design choice.
 
+## Mistakes to Avoid
 
-## Rollback
-
-1. …
-
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[NextJS]]
-
-## Sources
-
-- [Wikipedia — NextJS Error](https://en.wikipedia.org/wiki/NextJS_Error)
+- Copy-pasting Pages Router examples into `app/` without changing imports.
+- Fixing alias errors by relative `../../../` sprawl instead of correcting `paths`.
+- Marking entire trees `"use client"` to silence RSC errors — shrink the client boundary instead.

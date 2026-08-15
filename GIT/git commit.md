@@ -4,12 +4,16 @@
 
 > git commit — snapshot of the index; the unit of Git history.
 
----
+## Interview Relevance
 
-## How it works
+Commit interviews probe atomic commits, message quality, and amend/fixup safety on shared history.
 
+## Sources
 
-## Configuration and commands
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Technical Details
 
 ```bash
 git add file.txt
@@ -20,10 +24,14 @@ git status
 git diff --cached                   # what will be committed
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- Do not commit secrets, build artifacts, or `.env` files — use `.gitignore`.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Commit only stages what you added** — `git commit` does not pick up unstaged edits.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -32,29 +40,3 @@ git diff --cached                   # what will be committed
 | Wrong files committed | `git show --stat HEAD` | `git reset --soft HEAD~1` then re-stage |
 | Author/email wrong | `git config user.name`; `git config user.email` | Set locally or globally before commit |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Commit only stages what you added** — `git commit` does not pick up unstaged edits.
-
----
-
-
-## When not to use
-
-- Do not commit secrets, build artifacts, or `.env` files — use `.gitignore`.
-
-
----
-
-
-## Related
-
-[[GIT]]
-
-## Sources
-
-- [Wikipedia — git commit](https://en.wikipedia.org/wiki/git_commit)

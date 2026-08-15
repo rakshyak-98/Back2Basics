@@ -1,21 +1,20 @@
-[[ss]] [[ip]] [[Networking]] [[UDP]] [[TCP]] [[Streaming]] [[ingestion]]
+[[ss]] [[ip]] [[Networking]] [[UDP]] [[TCP]] [[Streaming]] [[ingestion]] [[RTMP]] [[half-open connections]] [[Egress traffic]]
 
 # Network management (streaming)
 
 > Network management (streaming) — streaming breaks at the network layer before the player shows a useful error: RTMP stall, UDP TS gaps, CDN 502, TLS reset.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Network management to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — network management](https://en.wikipedia.org/wiki/network_management) — overview
+
+## Key Concepts
 
 Streaming **breaks at the network layer** before the player shows a useful error: **RTMP stall**, **UDP TS gaps**, **CDN 502**, **TLS reset**. Operators correlate **publisher uplink**, **origin ingest**, and **viewer last-mile** — each hop has different tools and SLOs.
-
-```txt
-Publisher ──► Ingest (RTMP/SRT) ──► Origin ──► CDN ──► Player
-     │              │                  │         │
-  iperf/upstream   ss :1935         egress $   tcpdump 443
-  OBS stats        packet loss      cache hit   CDN logs
-```
 
 | Symptom layer | First tool | Typical culprit |
 |---------------|------------|-----------------|
@@ -26,10 +25,14 @@ Publisher ──► Ingest (RTMP/SRT) ──► Origin ──► CDN ──► P
 
 This note is **streaming-focused triage** — see [[Networking]] for routing/BGP.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Publisher ──► Ingest (RTMP/SRT) ──► Origin ──► CDN ──► Player
+     │              │                  │         │
+  iperf/upstream   ss :1935         egress $   tcpdump 443
+  OBS stats        packet loss      cache hit   CDN logs
+```
 
 ### Socket & connection inventory
 
@@ -86,10 +89,22 @@ sudo nft list ruleset | grep -E '1935|443'
 # AWS: security group + NACL both directions
 ```
 
----
+## Real-World Applications
 
+Used wherever Network management sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Application codec debug** — use `ffprobe`, not packet capture first.
+- **Con / skip when:** **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
+- **Con / skip when:** **Full corporate LAN redesign** — escalate to netops; streaming operations prove hop + metric.
+
+## Comparison
+
+- vs [[EME]]: **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -101,42 +116,8 @@ sudo nft list ruleset | grep -E '1935|443'
 | TLS errors on license | Certificate chain | Full chain on 443; see [[TLS (Transport Layer Security)]] |
 | High latency live | Segment duration + CDN + playlist | [[HLS]] LL-HLS tuning; not a "network mgmt" knob alone |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **tcpdump on 10 Gbps ingest** — can drop packets itself; use sampled capture or mirror port.
-
-> [!WARNING]
-> **Wi-Fi publisher for broadcast** — jitter buffers hide until catastrophic disconnect; require wired for SLA events.
-
-> [!WARNING]
-> **Symmetric NAT + RTMP** — publish outbound OK; don't confuse with viewer UDP/WebRTC paths.
-
-> [!WARNING]
-> **CDN cache mistaken for network fix** — stale manifest looks like "network lag"; check `Age` header.
-
-> [!WARNING]
-> **Rate-limit on auth webhook** — ingest drops when auth service slow, looks like network failure.
-
----
-
-
-## When not to use
-
-- **Application codec debug** — use `ffprobe`, not packet capture first.
-- **DRM license logic** — network shows 403; root cause is [[EME]]/authentication.
-- **Full corporate LAN redesign** — escalate to netops; streaming operations prove hop + metric.
-
----
-
-
-## Related
-
-[[ss]] [[ip]] [[Networking]] [[RTMP]] [[ingestion]] [[UDP]] [[half-open connections]] [[Egress traffic]]
-
-## Sources
-
-- [Wikipedia — network management](https://en.wikipedia.org/wiki/network_management)
+- **tcpdump on 10 Gbps ingest** — can drop packets itself; use sampled capture or mirror port.
+- **Wi-Fi publisher for broadcast** — jitter buffers hide until catastrophic disconnect; require wired for SLA events.
+- **Symmetric NAT + RTMP** — publish outbound OK; don't confuse with viewer UDP/WebRTC paths.
+- **CDN cache mistaken for network fix** — stale manifest looks like "network lag"; check `Age` header.
+- **Rate-limit on auth webhook** — ingest drops when auth service slow, looks like network failure.

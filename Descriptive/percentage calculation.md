@@ -4,9 +4,15 @@
 
 > Mental math and code patterns for `%` of a value, change, and reverse-percent — **on-call sizing + discount math without a calculator**.
 
----
+## Interview Relevance
 
-## How it works
+Percentage CSS/layout interviews check containing block rules — a common layout bug source.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 **Percent = parts per hundred.** Three operations cover 90% of production math:
 
@@ -25,8 +31,7 @@ Whole  = Part / (Rate / 100)
   15%       = 36
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Quick mental table (anchor on 10%)
 
@@ -71,19 +76,12 @@ const errorRate = (errors / requests) * 100;
 const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Statistical significance — use proper tests, not raw % delta on tiny samples.
+- GPU/memory "percent" in monitoring — know if it's of host, cgroup limit, or pod request.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Off-by-one cent | Float `0.1 + 0.2` | Integer cents or `decimal.js` |
-| Wrong baseline in change % | Denominator | Use old value for growth; specify clearly in dashboards |
-| Percentages sum to 99.9% | Rounding per row | Round last row to 100% or use largest remainder |
-| "50% faster" confusion | Relative vs absolute | 50% faster = half the time, not zero time |
-| Tip/tax double-applied | Compound order | Define order: pre-tax vs post-tax |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Percentage points ≠ percent change.** Rate 5% → 7% is **+2 percentage points**, not +2% (that's +40% relative change).
@@ -92,17 +90,10 @@ const slaBudgetMs = latencyP99 * 0.01; // 1% of p99 as micro-budget example
 - **Uptime:** 99.9% allows ~43 min/month downtime — don't advertise "100%".
 - **Chart axes** starting above zero exaggerate percent moves.
 
-
-## When not to use
-
-- Statistical significance — use proper tests, not raw % delta on tiny samples.
-- GPU/memory "percent" in monitoring — know if it's of host, cgroup limit, or pod request.
-
-
-## Related
-
-[[Data structure/dsa genera formula]] [[javascript]] [[general]] [[ML/Model/Linear regression]]
-
-## Sources
-
-- [Wikipedia — percentage calculation](https://en.wikipedia.org/wiki/percentage_calculation)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Off-by-one cent | Float `0.1 + 0.2` | Integer cents or `decimal.js` |
+| Wrong baseline in change % | Denominator | Use old value for growth; specify clearly in dashboards |
+| Percentages sum to 99.9% | Rounding per row | Round last row to 100% or use largest remainder |
+| "50% faster" confusion | Relative vs absolute | 50% faster = half the time, not zero time |
+| Tip/tax double-applied | Compound order | Define order: pre-tax vs post-tax |

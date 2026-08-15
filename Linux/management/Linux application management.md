@@ -1,12 +1,26 @@
-[[management]] [[Package Manager]] [[system service unit files]] [[supervisorctl]]
+[[Package Manager]] [[system service unit files]] [[supervisorctl]] [[Setup Non-Login user from Running process]] [[apt package manager]]
 
 # Linux application management
 
-> Application management on Linux is how you install, run, upgrade, and supervise a service — packages or images, plus systemd (or a process manager).
+> How you install, run, upgrade, and supervise a service on a host — packages or images, plus systemd (or another process manager).
 
----
+## Interview Relevance
 
-## How it works
+Lifecycle story: artifact → non-root user → unit with Restart → health check → journal — and avoid dual supervisors.
+
+## Sources
+
+- [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) — deep-dive
+- [12-Factor App — Logs](https://12factor.net/logs) — overview
+
+## Key Concepts
+
+- **Unit defines runtime:** `ExecStart`, `User=`, `Restart=`.
+- **Config vs data:** `/etc` vs `/var` so upgrades don’t wipe state.
+- **Health ≠ listen:** probe readiness, not only bind success.
+- **One supervisor:** systemd *or* Supervisor/Docker restart — not both fighting.
+
+## Technical Details
 
 ```txt
 artifact (deb/oci/bin) → User=myapp → systemd unit
@@ -14,24 +28,8 @@ artifact (deb/oci/bin) → User=myapp → systemd unit
                          journald + metrics
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **unit** | How it runs | “ExecStart + Restart + User.” |
-| **config vs data** | `/etc` vs `/var` | “Separate so upgrades don’t wipe state.” |
-| **health check** | Ready/live | “Don’t mark healthy on listen alone.” |
-| **rollback** | Prior version | “Keep n-1 artifacts.” |
-| **12-factor logs** | stdout/err | “Let journald/collectors ship.” |
-
----
-
-
-## Configuration and commands
-
 ```bash
 sudo apt-get install myapp
-# or: deploy binary to /usr/local/bin
 sudo systemctl enable --now myapp
 systemctl status myapp --no-pager
 journalctl -u myapp -f
@@ -41,12 +39,7 @@ curl -fsS localhost:8080/healthz
 | Knob | Why it matters |
 |------|----------------|
 | `Restart=on-failure` | Survive crashes |
-| `EnvironmentFile=` | Secrets/config injection |
-
----
-
-
-## When things break
+| `EnvironmentFile=` | Config/secrets injection |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,32 +48,22 @@ curl -fsS localhost:8080/healthz
 | Works manually not as service | cwd/env/user | Match unit environment |
 | Upgrade broke config | Diff `/etc` | Restore; migrate schema |
 
----
+## Real-World Applications
 
+Deploy an API deb: package installs binary + unit, runs as `User=app`, logs to journal, `/healthz` gates the load balancer.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Running as root “just to work”** — fix permissions instead.
+- **Pro:** Clear host-local lifecycle with audit-friendly units.
+- **Con:** Multi-tenant SaaS usually wants an orchestrator, not ad-hoc host services.
 
-> [!WARNING]
-> **Two supervisors** (systemd + supervisord + docker restart) fight each other.
+## Comparison
 
----
+- vs [[supervisorctl]]: legacy Python supervisor vs native systemd.
+- vs Kubernetes: node-local app management vs cluster scheduling.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **One-shot CLI tools** — no service needed.
-- **Multi-tenant SaaS** — prefer k8s/orchestrator over ad-hoc host services.
-
----
-
-
-## Related
-
-[[system service unit files]] [[Package Manager]] [[supervisorctl]] [[Setup Non-Login user from Running process]]
-
-## Sources
-
-- [Wikipedia — Linux application management](https://en.wikipedia.org/wiki/Linux_application_management)
+- Running as root “just to work” instead of fixing permissions.
+- Running systemd and supervisord for the same process.
+- Marking healthy on port open alone.

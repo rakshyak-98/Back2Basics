@@ -1,12 +1,19 @@
-[[ML]] [[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]]
+[[ML]] [[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[xg boost]]
 
 # rank prediction
 
 > Rank prediction orders items by relevance — learning-to-rank, not just classify/regress one score in isolation.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about rank prediction to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 query → candidates → score → sort → top-K
@@ -21,10 +28,7 @@ query → candidates → score → sort → top-K
 | **Listwise** | Optimize whole list | “Closer to NDCG.” |
 | **NDCG / MAP** | Ranking quality | “Top ranks matter more.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 # sketch: score then sort
@@ -39,10 +43,18 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 | Group by query | Metrics are per-list |
 | Candidate gen | Ranker can’t fix a bad funnel |
 
----
+## Pros/Cons or Trade-offs
 
+- **Binary gate only** — plain classifier may suffice.
+- **Tiny catalogs** — hand rules / editorial order.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Offline NDCG ≠ online engagement** — A/B test the ranking change.
+
+> [!WARNING]
+> **Label noise** — implicit clicks ≠ true relevance.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +63,3 @@ ranked = candidates.iloc[scores.argsort()[::-1]]
 | Leakage | future features | Time-based split |
 | Slow serving | huge candidate set | Two-stage retrieval + rank |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Offline NDCG ≠ online engagement** — A/B test the ranking change.
-
-> [!WARNING]
-> **Label noise** — implicit clicks ≠ true relevance.
-
----
-
-
-## When not to use
-
-- **Binary gate only** — plain classifier may suffice.
-- **Tiny catalogs** — hand rules / editorial order.
-
-
-## Related
-
-[[Normalized Discounted Cumulative Gain (NDCG)]] [[Mean Average Precision (MAP)]] [[xg boost]]
-
-## Sources
-
-- [Wikipedia — rank prediction](https://en.wikipedia.org/wiki/rank_prediction)

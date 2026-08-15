@@ -1,106 +1,87 @@
-[[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[NodeJS/Event Loop]]
+[[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Rendering performance/critical rendering path]] [[NodeJS/Event Loop]]
 
-# INP (Interaction to Next Paint)
+# INP
 
-> Core Web Vital measuring responsiveness — latency from user input to next frame paint — **replaces FID (2024)**.
+> Interaction to Next Paint — Core Web Vital for responsiveness: how long from click/tap/key until the next frame shows feedback.
 
----
+## Interview Relevance
 
-## How it works
+Replaced FID as the responsiveness Core Web Vital (2024). Interviewers want: what INP measures, good/needs-improvement thresholds, and how you fix long tasks vs presentation delay.
 
-**INP** captures **worst-case** (or high percentile) delay between interaction (click, tap, key) and when the browser **paints the next frame** showing feedback. Target: **≤ 200 ms** good, **200–500 ms** needs improvement, **> 500 ms** poor.
+## Sources
+
+- [web.dev — Interaction to Next Paint (INP)](https://web.dev/articles/inp) — deep-dive
+- [web.dev — Optimize INP](https://web.dev/explore/how-to-optimize-inp) — deep-dive
+- [web-vitals library](https://github.com/GoogleChrome/web-vitals) — overview
+
+## Core Definition
+
+INP summarizes how quickly the page responds to user interactions over the whole visit. Field data typically uses a high percentile (commonly p75); lab tools approximate but CrUX / Search Console are the ranking-facing signal.
+
+## Key Concepts
+
+- **Full interaction latency:** input delay + event handling + presentation (style/layout/paint) until next paint — not just “JS finished.”
+- **vs FID:** FID measured only first-input delay; INP watches (essentially) all click/tap/key interactions and includes processing + paint.
+- **Thresholds (CWV):** ≤ 200 ms good; 200–500 ms needs improvement; > 500 ms poor (p75 field).
+- **Long tasks:** main-thread work > ~50 ms delays input — same class of problem as a blocked [[NodeJS/Event Loop|event loop]], but in the browser.
+
+## Technical Details
 
 ```
 User click
     │
     ▼ input queued
-Main thread busy? ──yes──► delay (long task)
+Main thread busy? ──yes──► input delay
     │
-    ▼ event handler runs
-    ▼ style/layout/paint scheduled
-    ▼ next paint ◄── INP measures this gap
+    ▼ event handlers run
+    ▼ style / layout / paint scheduled
+    ▼ next paint  ◄── INP ends here (feedback frame)
 ```
-
-Unlike **FID** (first input only), INP considers **all interactions** during page lifetime (field data p75).
-
-
-## Configuration and commands
-
-### Measure in production (web-vitals library)
 
 ```javascript
 import { onINP } from 'web-vitals';
 
 onINP((metric) => {
+  // metric.value in ms; send to analytics with metric.id
   console.log('INP', metric.value, metric.entries);
-  // Send to analytics: metric.id, metric.navigationType
 });
 ```
 
-### Chrome DevTools
-
-1. **Performance** panel → record → interact → find **Long tasks** (> 50 ms).
-2. **Performance insights** → INP breakdown (input delay, processing, presentation delay).
-
-### Common fixes (priority order)
+Common fixes (priority order):
 
 ```javascript
-// 1. Break long tasks
 function yieldToMain() {
-  return new Promise(r => setTimeout(r, 0));
+  return new Promise((r) => setTimeout(r, 0));
 }
 
-// 2. Defer non-urgent work
 requestIdleCallback(() => heavyAnalytics());
-
-// 3. Offload CPU
 const worker = new Worker('/worker.js');
 ```
 
-### Framework patterns
-
-- React 18 **Transitions** — mark updates non-urgent (`startTransition`)
-- Virtualize long lists — don't render 10k DOM nodes on click filter
-- Avoid synchronous layout read/write thrashing in click handlers
-
-### Lab vs field
-
 | Source | Use |
 |--------|-----|
-| **CrUX / Search Console** | Real user INP (28-day p75) |
-| **Lighthouse** | Lab proxy — not official INP score |
+| CrUX / Search Console | Real-user INP (field) |
+| Performance panel | Find long tasks and INP breakdown |
+| Lighthouse | Lab proxy — not the official field score |
 
+Framework patterns: React `startTransition` for non-urgent updates; virtualize long lists; avoid layout thrashing in click handlers (see [[Rendering performance/layout]]).
 
-## When things break
+## Real-World Applications
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| INP poor, LCP good | Long tasks on interaction | Profile click handler; split work |
-| Spikes only mobile | Slower CPU, 4x throttling | Reduce JS; simplify DOM |
-| After deploy regression | New sync JSON parse | Stream/chunk; Web Worker |
-| Third-party widgets | Tag managers on click | Delay load; facade buttons |
-| INP N/A in report | No interactions / bfcache | Normal for static pages |
+E-commerce filter click: sync JSON parse + re-render of 5k DOM nodes → INP spikes on mobile. Fix: virtualize, defer analytics, paint an optimistic selected state immediately.
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Pro:** Captures real “UI felt dead” moments better than FID.
+- **Con:** Pages with few interactions may lack INP in reports — not always a bug.
 
-> [!WARNING]
-> **Optimizing LCP alone won't fix INP** — hero image fast but 800 ms click handler still fails CWV.
+## Comparison
 
-- **SPA route change** counts as interaction — include in profiling.
-- **preventDefault** on slow handler blocks native feedback — show instant optimistic UI.
-- **100 ms input delay** from overlay capturing events — check z-index hit targets.
+- vs LCP: LCP is loading; INP is interaction — a fast hero image does not fix an 800 ms click handler.
+- vs [[Rendering performance/refresh rate]]: frame budget explains jank during animation; INP is interaction → next paint, including JS delay.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- Don't chase sub-50 ms INP on internal administrator tools with 5 users — focus on critical revenue paths first.
-
-
-## Related
-
-[[Rendering performance/layout]] [[Rendering performance/paint]] [[Rendering performance/refresh rate]] [[Descriptive/web development]]
-
-## Sources
-
-- [Wikipedia — INP](https://en.wikipedia.org/wiki/INP)
+- Optimizing only LCP/CLS and ignoring click handlers.
+- Calling `preventDefault` then doing heavy work before any visual feedback — show optimistic UI first.
+- Trusting Lighthouse alone for INP — ship field monitoring.

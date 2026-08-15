@@ -2,11 +2,26 @@
 
 # Epoll
 
-> `epoll` is Linux's edge-triggered / level-triggered readiness notification API — the scalable replacement for `select`/`poll` when one thread must watch thousands of sockets.
+> `epoll` is Linux's scalable I/O readiness API — one thread can watch thousands of sockets without scanning every file descriptor each wait.
 
-The `epoll` family (`epoll_create1`, `epoll_ctl`, `epoll_wait`) lets a process register many file descriptors on one **epoll instance**. The kernel returns only descriptors that became readable/writable since the last wait — O(active events) instead of O(total fds).
+## Interview Relevance
+Backend / systems staple: contrast `select`/`poll` O(n) scans with `epoll`'s O(ready) waits, explain edge-triggered vs level-triggered, and name who uses it (Nginx, Node/libuv, Redis).
 
-## Mental picture
+## Sources
+- `man 7 epoll` — deep-dive
+- [epoll(7) — man7.org](https://man7.org/linux/man-pages/man7/epoll.7.html) — deep-dive
+
+## Core Definition
+The `epoll` family (`epoll_create1`, `epoll_ctl`, `epoll_wait`) registers many file descriptors on one **epoll instance**. The kernel returns only descriptors that became ready — not a full walk of every watched fd.
+
+## Key Concepts
+- **epoll instance:** Interest set you add/mod/delete with `epoll_ctl`.
+- **Level-triggered (default):** Keep reporting while the condition remains true.
+- **Edge-triggered (`EPOLLET`):** Notify on state change — you must drain the fd.
+- **EPOLLONESHOT:** Disable after one event until re-armed.
+- **Scales readiness, not fd limits:** `ulimit -n` still caps open files.
+
+## Technical Details
 
 ```
 epoll instance
@@ -22,10 +37,8 @@ epoll instance
 |------|---------|
 | `EPOLLIN` | Readable |
 | `EPOLLOUT` | Writable |
-| `EPOLLET` | Edge-triggered — must drain fd after event |
-| `EPOLLONESHOT` | Disable after one event until re-armed |
-
-## Minimal C-shaped pseudocode
+| `EPOLLET` | Edge-triggered — drain after event |
+| `EPOLLONESHOT` | One shot until re-armed |
 
 ```c
 int epfd = epoll_create1(0);
@@ -38,26 +51,25 @@ for (int i = 0; i < n; i++)
     handle(events[i].data.fd);
 ```
 
-## Operator relevance
-
-You rarely call `epoll` directly unless writing high-performance servers. You *do* see its effects when tuning:
-
-- **Nginx**, **Node.js** (libuv), **Redis**, **systemd** use epoll (or io_uring on newer stacks).
-- `ulimit -n` (open files) still matters — epoll scales readiness, not fd table size.
-
-## Debugging event-loop stalls
+Nginx, Node.js (libuv), Redis, and systemd use epoll (or newer io_uring) under the hood.
 
 | Symptom | Check |
 |---------|-------|
-| CPU spin on idle server | Edge-triggered without full read — switch to level or drain buffer |
-| Missed connections | `somaxconn`, accept loop not registered |
-| High latency under load | `strace -e epoll_wait` on process; compare with `ss -s` |
+| CPU spin on idle server | Edge-triggered without full read — drain or use level |
+| Missed connections | `somaxconn`; accept loop not registered |
+| High latency under load | `strace -e epoll_wait`; compare with `ss -s` |
 
-## Related
+## Real-World Applications
+A reverse proxy accepts tens of thousands of keep-alive clients on a few worker threads because each worker’s event loop is epoll-based, not `select`.
 
-[[process]] · [[Linux Process Theory]] · [[eBPF]]
+## Pros/Cons or Trade-offs
+- **Pro:** Scales to huge connection counts with constant-time waits on active events.
+- **Con:** Edge-triggered bugs are subtle; incorrect draining causes spins or stalled clients. Portability differs (`kqueue` on BSD, IOCP on Windows).
 
-## Sources
+## Comparison
+vs `select`/`poll`: those rescan the whole set each call; epoll does not. vs io_uring: newer async submission/completion model that can reduce syscalls further. vs [[eBPF]]: epoll is userspace readiness; eBPF observes inside the kernel.
 
-- `man 7 epoll`
-- [epoll(7) — man7.org](https://man7.org/linux/man-pages/man7/epoll.7.html)
+## Mistakes to Avoid
+- Using `EPOLLET` without non-blocking I/O and a drain-until-EAGAIN loop.
+- Assuming epoll raises `ulimit -n` automatically.
+- Confusing “socket in epoll” with “connection accepted” — you still need an accept loop on the listen fd.

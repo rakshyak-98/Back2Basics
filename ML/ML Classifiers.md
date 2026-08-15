@@ -1,12 +1,19 @@
-[[Decision tree]] [[Random forest]] [[binary classification]] [[multiclass classification]] [[supervised learning]]
+[[Decision tree]] [[Random forest]] [[binary classification]] [[multiclass classification]] [[supervised learning]] [[Gradient boosting]] [[scikitlearn]]
 
 # ML Classifiers
 
 > Algorithms that assign **discrete class labels** from features — pick by data size, interpretability, imbalance, and latency — **scikit-learn classifier zoo**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about ML Classifiers to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 **Features** (predictors, X) → **classifier** → **predicted label** (target, y). All sklearn classifiers share `fit(X, y)` and `predict(X)`.
 
@@ -26,10 +33,7 @@ Features x₁…xₚ  →  f(x)  →  ŷ ∈ {classes}
 
 **Target leakage:** any feature available only after the label is known must be dropped before training.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.ensemble import RandomForestClassifier
@@ -55,10 +59,19 @@ for name, clf in candidates.items():
 3. Metric aligned to cost ([[binary classification]] PR-AUC versus accuracy).
 4. Persist with `joblib` + training data hash + schema version.
 
----
+## Pros/Cons or Trade-offs
 
+- **Continuous target** — [[regression]].
+- **Ordered ratings** — [[ordinal classification]].
+- **Search ranking** — learning-to-rank + [[Normalized Discounted Cumulative Gain (NDCG)]].
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Accuracy on imbalanced data** — report precision/recall/F1 or PR-AUC per class.
+
+> [!WARNING]
+> **One-hot high cardinality** — tree models may memorize categories; target encoding with CV only.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -68,33 +81,3 @@ for name, clf in candidates.items():
 | Unstable feature importances | Correlated features | [[Random forest]] impurity vs SHAP |
 | High variance across CV folds | Small data | Simpler model; collect more labels |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Accuracy on imbalanced data** — report precision/recall/F1 or PR-AUC per class.
-
-> [!WARNING]
-> **One-hot high cardinality** — tree models may memorize categories; target encoding with CV only.
-
----
-
-
-## When not to use
-
-- **Continuous target** — [[regression]].
-- **Ordered ratings** — [[ordinal classification]].
-- **Search ranking** — learning-to-rank + [[Normalized Discounted Cumulative Gain (NDCG)]].
-
----
-
-
-## Related
-
-[[binary classification]] · [[multiclass classification]] · [[Decision tree]] · [[Random forest]] · [[Gradient boosting]] · [[scikitlearn]]
-
-## Sources
-
-- [Wikipedia — ML Classifiers](https://en.wikipedia.org/wiki/ML_Classifiers)

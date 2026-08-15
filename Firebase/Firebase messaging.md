@@ -1,60 +1,63 @@
-[[Firebase]] [[FCM Token (Firebase Cloud Messaging Token)]] [[Multicast delivery]]
+[[FCM Token (Firebase Cloud Messaging Token)]] [[Multicast delivery]]
 
 # Firebase messaging
 
-> Firebase Admin SDK messaging sends push notifications via FCM HTTP v1 — batch APIs cap at 500 tokens per multicast call; larger audiences require chunking, topic subscriptions, or fanout jobs.
+> Admin SDK / HTTP v1 sends pushes through FCM — single token, multicast (≤500), topics, or a fan-out job for large audiences.
 
----
+## Interview Relevance
 
-## Send patterns
-
-| Pattern | When to use |
-|---------|-------------|
-| Single `token` | One device |
-| [[Multicast delivery]] | Up to 500 tokens in one call |
-| Topic `condition` | Broadcast to subscribers |
-| Fanout job | Thousands of tokens — chunk and parallelize |
-
-```txt
-Token list → chunk(500) → sendEachForMulticast per chunk → handle per-token errors
-```
-
-A common logic flaw: `tokens.slice(0, 500)` sends to the first 500 only — tokens beyond 500 are silently dropped unless you loop chunks.
-
----
-
-## Admin SDK (Node)
-
-```js
-const message = {
-  notification: { title: 'Hello', body: 'World' },
-  tokens: deviceTokens.slice(0, 500), // chunk larger lists
-};
-const response = await admin.messaging().sendEachForMulticast(message);
-// Inspect response.responses for per-token failures
-```
-
-Remove failed tokens (`registration-token-not-registered`) from your database on each batch.
-
----
-
-## What breaks first
-
-| Symptom | Likely cause | Fix |
-|---------|--------------|-----|
-| Partial audience receives | Only first 500 tokens sent | Chunk with offset loop |
-| Retry storm on failures | No backoff | Cap retries; circuit break |
-| Duplicate side effects | Unsafe retries | Idempotent handlers; dedupe keys |
-| Silent drops | Unhandled batch errors | Log `response.failureCount` |
-
-Make retries safe — duplicate notification sends annoy users and may violate compliance.
-
----
-
-## Related
-
-[[FCM Token (Firebase Cloud Messaging Token)]] · [[Multicast delivery]]
+Interviewers catch the classic bug: `tokens.slice(0, 500)` once — and they want per-token failure handling plus safe retries.
 
 ## Sources
 
-- [Firebase MulticastMessage](https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/messaging/MulticastMessage)
+- [Firebase Admin — Send messages](https://firebase.google.com/docs/cloud-messaging/send-message) — deep-dive
+- [Firebase — MulticastMessage](https://firebase.google.com/docs/reference/admin/node/firebase-admin.messaging.multicastmessage) — overview
+
+## Key Concepts
+
+- **Single token:** one device.
+- **Multicast:** up to 500 tokens per call → chunk larger lists.
+- **Topics / conditions:** broadcast to subscribers.
+- **Fan-out job:** thousands of tokens — chunk and parallelize with backoff.
+
+## Technical Details
+
+```txt
+Token list → chunk(500) → sendEachForMulticast → handle per-token errors
+```
+
+```js
+const response = await admin.messaging().sendEachForMulticast({
+  notification: { title: "Hello", body: "World" },
+  tokens: deviceTokens.slice(offset, offset + 500),
+});
+// Inspect response.responses; prune not-registered
+```
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Partial audience | Only first 500 sent | Loop chunks with offset |
+| Retry storms | No backoff | Cap retries; circuit break |
+| Duplicate notifies | Unsafe retries | Idempotent send keys |
+
+## Real-World Applications
+
+Campaign worker reads user tokens, chunks by 500, sends, deletes dead tokens, logs `failureCount`.
+
+**Example:** 2,000 tokens with a single `slice(0, 500)` — 1,500 users silently skipped.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Managed delivery across iOS/Android/Web.
+- **Con:** Application-level fan-out and hygiene still your job.
+
+## Comparison
+
+- vs [[Multicast delivery]]: messaging note covers patterns; multicast note details the 500-token API.
+- vs email/SMS: push is device-permissioned and token-based.
+
+## Mistakes to Avoid
+
+- Dropping tokens beyond the first chunk.
+- Retrying forever on permanent token errors.
+- Mixing notification payload expectations across platforms without testing.

@@ -4,12 +4,16 @@
 
 > git error — drwxr-xr-x 2 root root 4096 Jul 3 18:35 test/
 
----
+## Interview Relevance
 
-## How it works
+Git error interviews check whether you can diagnose from messages — detached HEAD, rejected non-fast-forward, index locks.
 
+## Sources
 
-## Configuration and commands
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Technical Details
 
 ```bash
 git status
@@ -18,10 +22,16 @@ GIT_TRACE=1 git fetch
 git config --list --show-origin
 ```
 
----
+1. …
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Do not force-push to shared branches to silence errors — coordinate with the team.
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> Read the **first error line** in the message — later lines are often cascading noise.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -30,46 +40,8 @@ git config --list --show-origin
 | Failed to push (non-fast-forward) | Remote has new commits | `git pull --rebase` then push |
 | Unable to index file | File permissions; line endings | `chmod`; check `core.autocrlf` |
 
----
-
-
-## Steps
-
 1. …
-
-
-## Verification
 
 ```bash
 # …
 ```
-
-
-## Rollback
-
-1. …
-
-
-## Gotchas
-
-> [!WARNING]
-> Read the **first error line** in the message — later lines are often cascading noise.
-
----
-
-
-## When not to use
-
-- Do not force-push to shared branches to silence errors — coordinate with the team.
-
-
----
-
-
-## Related
-
-[[GIT]]
-
-## Sources
-
-- [Wikipedia — git error](https://en.wikipedia.org/wiki/git_error)

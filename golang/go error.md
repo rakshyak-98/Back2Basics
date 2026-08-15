@@ -1,12 +1,19 @@
-[[golang]] [[go callstack]] [[go-routines]]
+[[golang]] [[go callstack]] [[go-routines]] [[go debugging]] [[go functions]]
 
 # go error
 
 > Go errors — values you return (`error` interface), not exceptions; `panic` is for truly unrecoverable surprises.
 
----
+## Interview Relevance
 
-## How it works
+Error handling is the Go culture check — `error` values, wrapping (`%w`), `errors.Is`/`As`, and never using panic for ordinary control flow.
+
+## Sources
+
+- [Go blog — Working with Errors in Go 1.13](https://go.dev/blog/go1.13-errors) — deep-dive
+- [pkg.go.dev — errors](https://pkg.go.dev/errors) — deep-dive
+
+## Key Concepts
 
 ```txt
 f() (T, error)
@@ -20,10 +27,7 @@ panic ──unwinds──► defers run ──► crash (or recover)
 | `fmt.Errorf("%w", err)` | Wrap preserve chain |
 | `panic` / `recover` | Abort / boundary only |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 if err != nil {
@@ -44,10 +48,7 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 | `%w` vs `%v` | Wrapping vs stringifying |
 | `defer recover` | Only at goroutine / http boundaries |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,53 +58,14 @@ if errors.Is(err, fs.ErrNotExist) { /* … */ }
 | Panic in goroutine | No recover | Handle inside goroutine; log |
 | Silent ignore | `_ = f()` | Never drop err in prod paths |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Panic for control flow — never.
+- **Trade-off:** `recover` in every function — hides bugs.
+- **Trade-off:** Stringly errors only — use types/sentinels for branches.
 
-## Steps
+## Mistakes to Avoid
 
-1. …
-
-
-## Verification
-
-```bash
-# …
-```
-
-
-## Rollback
-
-1. …
-
-
-## Gotchas
-
-> [!WARNING]
-> **`(*T)(nil)` in interface is not nil error** — typed nil interface pitfall.
-
-> [!WARNING]
-> **Don’t panic for user input** — return `error`.
-
-> [!WARNING]
-> **Stack traces** — panics have them; plain `error` needs wrapping context.
-
----
-
-
-## When not to use
-
-- **Panic for control flow** — never.
-- **`recover` in every function** — hides bugs.
-- **Stringly errors only** — use types/sentinels for branches.
-
----
-
-
-## Related
-
-[[go callstack]] [[go-routines]] [[go debugging]] [[go functions]]
-
-## Sources
-
-- [Wikipedia — go error](https://en.wikipedia.org/wiki/go_error)
+- **`(*T)(nil)` in interface is not nil error** — typed nil interface pitfall.
+- Don’t panic for user input — return `error`.
+- Stack traces — panics have them; plain `error` needs wrapping context.

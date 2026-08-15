@@ -1,13 +1,19 @@
-[[golang/go embedding]] [[compiler/compiler]] [[Release cycle]]
+[[golang/go embedding]] [[compiler/compiler]] [[Release cycle]] [[golang/go SOLID]] [[Docker/Docker compose]]
 
 # go build
 
 > `go build` compiles a module into a binary — modules replace GOPATH; cross-compile with `GOOS`/`GOARCH`.
 
----
+## Interview Relevance
 
-## How it works
+Build/module questions check modules vs GOPATH, cross-compile knobs (`GOOS`/`GOARCH`/`CGO`), and reproducible flags (`-trimpath`, ldflags) — production packaging literacy.
 
+## Sources
+
+- [Go — Modules reference](https://go.dev/ref/mod) — deep-dive
+- [Go — Command go](https://pkg.go.dev/cmd/go) — deep-dive
+
+## Key Concepts
 
 ```
 go.mod (module path + require)
@@ -15,8 +21,7 @@ go.mod (module path + require)
     → bin/app (static-ish binary)
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Module init
 
@@ -45,8 +50,7 @@ go install ./cmd/...           # puts binary in $GOBIN
 | `-ldflags "-X main.version=1.2.3"` | Inject version at link time |
 | `-trimpath` | Reproducible builds (strip local paths) |
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,27 +60,13 @@ go install ./cmd/...           # puts binary in $GOBIN
 | `main redeclared` | Multiple `main` packages | Build specific `./cmd/foo` path |
 | Stale binary | Build cache | `go clean -cache` (last resort) |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Don't commit `go.sum` deletes — always commit after `go mod tidy`.
+- **Trade-off:** Don't vendor unless you have air-gap or reproducibility policy requiring it.
 
-> [!WARNING]
-> **Private modules** — set `GOPRIVATE=*.corp.com` and git credentials; CI needs same.
->
-> **`-race` in prod** — 5–10× slower; never ship race binaries.
->
-> **Working directory matters** for relative embed paths — use `//go:embed` from module root.
+## Mistakes to Avoid
 
-
-## When not to use
-
-- Don't commit `go.sum` deletes — always commit after `go mod tidy`.
-- Don't vendor unless you have air-gap or reproducibility policy requiring it.
-
-
-## Related
-
-[[golang/go SOLID]] [[golang/go embedding]] [[compiler/compiler]] [[Docker/Docker compose]]
-
-## Sources
-
-- [Wikipedia — go build](https://en.wikipedia.org/wiki/go_build)
+- Private modules — set `GOPRIVATE=*.corp.com` and git credentials; CI needs same. `-race` in prod — 5–10× slower; never ship race binaries.
+- Working directory matters
+- for relative embed paths — use `//go:embed` from module root.

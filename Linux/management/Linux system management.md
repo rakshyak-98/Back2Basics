@@ -1,12 +1,26 @@
-[[management]] [[systemctl]] [[Package Manager]] [[loggging]]
+[[Package Manager]] [[systemctl]] [[journalctl]] [[loggging]] [[Linux management]] [[commands/systemctl]]
 
 # Linux system management
 
-> Day-2 system management is patch, observe, control services, and recover — package updates, systemd, logs, and backups.
+> Day-2 host work — patch, observe, control services, and recover with packages, systemd, logs, and backups.
 
----
+## Interview Relevance
 
-## How it works
+Runbook discipline: enable vs start, unattended upgrades awareness, journal scoping, and blast radius before fleet changes.
+
+## Sources
+
+- [Debian Reference — System maintenance](https://www.debian.org/doc/manuals/debian-reference/ch09.en.html) — overview
+- [systemd documentation](https://www.freedesktop.org/software/systemd/man/latest/) — deep-dive
+
+## Key Concepts
+
+- **Patch → service → logs:** the daily loop.
+- **Backup before risky change:** snapshots/images beat hope.
+- **enable vs start:** boot persistence vs now.
+- **Canaries:** one host before the fleet.
+
+## Technical Details
 
 ```txt
 patch (apt) → services (systemctl) → logs (journalctl)
@@ -14,27 +28,12 @@ patch (apt) → services (systemctl) → logs (journalctl)
             backup / snapshots before risky change
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **runbook** | Known steps | “Don’t invent under SEV.” |
-| **enable vs start** | Boot vs now | “Both usually needed.” |
-| **unattended-upgrades** | Auto security updates | “Know what’s automatic.” |
-| **journal** | systemd logs | “`-u` + `-b` scopes noise.” |
-| **blast radius** | What one change hits | “Canaries before fleet.” |
-
----
-
-
-## Configuration and commands
-
 ```bash
 sudo apt-get update && sudo apt-get upgrade
 systemctl status
 journalctl -p err -b
 uptime; free -h; df -h
-sudo needrestart   # if installed
+sudo needrestart
 ```
 
 | Knob | Why it matters |
@@ -42,44 +41,29 @@ sudo needrestart   # if installed
 | Maintenance window | Reboots for kernel |
 | Config management | Idempotent desired state |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| After patch broken | journal + status | Roll back package; check changelog |
+| After patch broken | journal + status | Roll back package; changelog |
 | Disk full | `df`/`du`/`journal` | Vacuum journals; clear caches |
-| High load | top/iostat/psi | Find CPU vs IO vs mem |
-| Can’t SSH | console/cloud serial | Fix sshd/firewall via out-of-band |
+| High load | top/iostat/psi | CPU vs IO vs mem |
+| Can’t SSH | console/cloud serial | Fix sshd/firewall out-of-band |
 
----
+## Real-World Applications
 
+Monthly patch window: snapshot, upgrade, `needrestart`, verify critical units, vacuum journals if disk pressure rises.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Upgrade without snapshot/backup** on snowflake hosts — have a rollback.
+- **Pro:** Repeatable day-2 operations on classic VMs/bare metal.
+- **Con:** Endless surgery on pets that should be cattle — rebuild instead.
 
-> [!WARNING]
-> **Manual `/etc` drift** fights config management — pick a source of truth.
+## Comparison
 
----
+- vs [[Linux management]]: broader philosophy; this note is the day-2 checklist.
+- vs app deploy pipelines: keep OS management separate from application releases.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Pets that should be cattle** — rebuild from image instead of endless surgery.
-- **application deploys** — separate from OS management pipelines.
-
----
-
-
-## Related
-
-[[Package Manager]] [[systemctl]] [[journalctl]] [[Linux management]]
-
-## Sources
-
-- [Wikipedia — Linux system management](https://en.wikipedia.org/wiki/Linux_system_management)
+- Upgrading snowflake hosts without rollback.
+- Manual `/etc` drift fighting config management.
+- Treating application deploys as OS package upgrades casually.

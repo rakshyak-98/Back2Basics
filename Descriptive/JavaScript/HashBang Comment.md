@@ -4,9 +4,15 @@
 
 > First-line interpreter hint for Unix shells — stripped by the JS engine, meaningful only to the OS launcher — **POSIX + Node shebang practice**.
 
----
+## Interview Relevance
 
-## How it works
+Hashbang in JS modules is niche — interviewers may ask Node CLI script entry behavior.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 `#!` (hash-bang) at **byte 0, line 1** tells the kernel which program executes the file when run as `./script.js`. The JavaScript engine treats it as a **single-line comment** and removes it before parse.
 
@@ -24,8 +30,7 @@ node cli.js  ──► shebang ignored (node invoked directly)
 | `node script.js` | Comment only |
 | Import/require from another file | Comment only |
 
-
-## Configuration and commands
+## Technical Details
 
 ### Node CLI script
 
@@ -64,19 +69,12 @@ Ensure built file retains shebang; bundlers may need `banner` plugin.
 
 Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/esbuild injects it.
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Files only ever imported, never executed directly.
+- Browser bundles — bundler strips or breaks shebang if misplaced.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `bad interpreter: No such file` | Windows CRLF broke shebang | `dos2unix script.js`; shebang must be first bytes |
-| `./script: Permission denied` | Not executable | `chmod +x` |
-| Wrong Node version | `which node` vs shebang path | Use `env node` + nvm default |
-| Shebang not first line | BOM or blank line before `#!` | Move to line 1; remove BOM |
-| Works with `node x` not `./x` | Missing shebang or exec bit | Add both |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Shebang line length is limited (~128 bytes on Linux) — use `/usr/bin/env node`, not long absolute paths, when possible.
@@ -85,17 +83,10 @@ Shebang belongs on ** emitted** `.js`, not usually on `.ts` unless ts-node/esbui
 - **Windows:** shebang ignored unless WSL/Git Bash; use `node script.js` in `.cmd` shims for npm bins.
 - **ES modules:** shebang + `"type":"module"` in package.json is fine.
 
-
-## When not to use
-
-- Files only ever imported, never executed directly.
-- Browser bundles — bundler strips or breaks shebang if misplaced.
-
-
-## Related
-
-[[NodeJS/node command]] [[NodeJS/CLI]] [[Linux/Scripting]] [[javascript]]
-
-## Sources
-
-- [Wikipedia — HashBang Comment](https://en.wikipedia.org/wiki/HashBang_Comment)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `bad interpreter: No such file` | Windows CRLF broke shebang | `dos2unix script.js`; shebang must be first bytes |
+| `./script: Permission denied` | Not executable | `chmod +x` |
+| Wrong Node version | `which node` vs shebang path | Use `env node` + nvm default |
+| Shebang not first line | BOM or blank line before `#!` | Move to line 1; remove BOM |
+| Works with `node x` not `./x` | Missing shebang or exec bit | Add both |

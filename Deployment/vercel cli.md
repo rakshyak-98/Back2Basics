@@ -1,53 +1,36 @@
-[[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
+[[vercel deployment]] [[render cli]] [[Netlify/Netlify deployment]]
 
 # Vercel CLI
 
-> Vercel CLI — link, preview-deploy, and promote a project from the terminal.
+> Terminal client for Vercel — link a project, pull environment variables, preview-deploy, and promote to production.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want preview vs `--prod`, how linking works (`.vercel/`), and CI-friendly non-interactive deploys.
 
-`vercel` CLI talks to Vercel platform: creates preview URL per deploy, production on `--prod`. Project linked via `.vercel/project.json` after `vercel link`. Builds run remotely (default) or locally (`vercel dev`). environment variables pulled from dashboard or `vercel env pull`.
+## Sources
 
-```
-local repo → vercel → remote build → *.vercel.app preview → --prod → custom domain
-```
+- [Vercel CLI reference](https://vercel.com/docs/cli) — deep-dive
+- [Vercel — Deploying](https://vercel.com/docs/deployments/overview) — overview
 
+## Key Concepts
 
-## Quick reference
+- **Preview deploy:** default `vercel` → unique URL per deployment.
+- **Production:** `vercel --prod` → production aliases/domains.
+- **Link:** `.vercel/project.json` associates the directory with a project.
+- **Remote build:** platform builds unless you use local `vercel build` flows.
 
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
-
-### Install and auth
+## Technical Details
 
 ```bash
 npm i -g vercel
 vercel login
-```
-
-### Link and dev
-
-```bash
-vercel link              # associate or create project
+vercel link
 vercel env pull .env.local
-vercel dev               # local dev with Vercel routing/functions
+vercel                 # preview
+vercel --prod --yes    # CI / non-interactive production
+vercel logs <url>
 ```
-
-### Deploy
-
-```bash
-vercel                   # preview deploy (interactive)
-vercel --prod            # production
-vercel --prod --yes      # CI non-interactive
-```
-
-### vercel.json (Next.js often optional)
 
 ```json
 {
@@ -57,61 +40,24 @@ vercel --prod --yes      # CI non-interactive
 }
 ```
 
-### Inspect
+## Real-World Applications
 
-```bash
-vercel ls
-vercel inspect <url>
-vercel logs <deployment-url>
-```
+Open a PR preview URL from CLI during incidents when Git integration is slow; promote with `--prod` after checks pass.
 
+**Example:** CI uses `vercel --prod --yes` with a token — never embed personal interactive login in pipelines.
 
-## Options and flags
+## Pros/Cons or Trade-offs
 
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
+- **Pro:** Fast previews; same platform as Git deploys.
+- **Con:** Easy to ship to the wrong project if `link` is wrong.
 
+## Comparison
 
-## Examples
+- vs [[vercel deployment]]: CLI is the operator interface; deployment note covers CDN/serverless behavior.
+- vs [[render cli]]: Vercel often “upload/build this directory”; Render CLI usually triggers an existing Git-wired service.
 
-```bash
-# …
-```
+## Mistakes to Avoid
 
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Wrong project linked | `.vercel/project.json` | `vercel link` again |
-| Env missing in build | Dashboard vs preview/prod | `vercel env pull`; scope vars |
-| `vercel dev` ≠ prod | Edge vs Node runtime | Test preview deploy |
-| Build OOM | Build logs | Increase memory tier; optimize build |
-| Typo `varcel dev` | — | `vercel dev` |
-| 404 on API routes | Output config | Don't `output: 'export'` if using API routes |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Preview URLs are public** — don't deploy secrets in client bundle assuming privacy.
->
-> **Git integration vs CLI** — two deploy paths; know which owns production branch.
->
-> **Monorepo** — set Root Directory in project settings.
-
-
-## When not to use
-
-- Don't use CLI production deploy without CI checks — wire Git integration + required checks.
-- Don't commit `.vercel` with tokens — only project ids; secrets stay in dashboard.
-
-
-## Related
-
-[[Deployment/vercel deployment]] [[Deployment/render cli]] [[NextJS/ISR (Incremental Static Regeneration)]] [[Netlify/Netlify deployment]]
-
-## Sources
-
-- [Wikipedia — vercel cli](https://en.wikipedia.org/wiki/vercel_cli)
+- Committing `.vercel` with the wrong org/project to a shared repo without care.
+- Putting secrets in `NEXT_PUBLIC_*` via `env pull` mistakes.
+- Using interactive prompts in CI without `--yes` / tokens.

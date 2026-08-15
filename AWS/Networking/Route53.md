@@ -1,12 +1,26 @@
-[[DNS]] · [[DNS zone]] · [[AWS Networking]] · [[AWS EC2]] · [[How to connect Godaddy domain with AWS EC2 instance]]
+[[DNS]] [[DNS zone]] [[AWS Networking]] [[AWS EC2]] [[How to connect Godaddy domain with AWS EC2 instance]]
 
 # Route53
 
 > Amazon Route 53 is AWS's authoritative DNS service and domain registrar — you create hosted zones, publish records, and optionally run health-checked routing policies that send traffic only to healthy endpoints.
 
----
+## Interview Relevance
 
-## Core concepts
+Route 53 interviews check hosted zones, routing policies, health checks, and DNS failover patterns.
+
+## Sources
+
+- [Amazon Route 53 Developer Guide](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) — deep-dive
+- [Choosing a routing policy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html) — overview
+
+## Technical Details
+
+```bash
+aws route53 list-hosted-zones
+aws route53 change-resource-record-sets --hosted-zone-id Z123 --change-batch file://change.json
+```
+
+### Core concepts
 
 | Concept | Meaning |
 |---------|---------|
@@ -18,7 +32,7 @@
 
 Route 53 implements standard DNS ([RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035)) with AWS-specific routing policies.
 
-## Routing policies
+### Routing policies
 
 | Policy | Behavior |
 |--------|----------|
@@ -30,7 +44,7 @@ Route 53 implements standard DNS ([RFC 1035](https://datatracker.ietf.org/doc/ht
 | **Geoproximity** | Route by geographic bias with optional bias adjustments |
 | **Multivalue** | Multiple healthy records (not a substitute for load balancer) |
 
-## Common records for [[AWS EC2]]
+### Common records for [[AWS EC2]]
 
 ```
 www.example.com.  A     300  203.0.113.10        # Elastic IP or ALB alias target
@@ -39,23 +53,6 @@ api.example.com.  ALIAS     dualstack.my-alb-....  # Alias to ALB (no charge for
 
 **Alias records** map to AWS resources (ALB, CloudFront, S3 website) without CNAME restrictions at zone apex.
 
-## CLI
-
-```bash
-aws route53 list-hosted-zones
-aws route53 change-resource-record-sets --hosted-zone-id Z123 --change-batch file://change.json
-```
-
-## Private zone pattern
+### Private zone pattern
 
 Associate VPCs with a private zone `internal.example.com` for service discovery without exposing names publicly.
-
-## Recall
-
-- When would you choose weighted routing over failover routing?
-- Why use an alias record instead of CNAME at the zone apex?
-
-## Sources
-
-- [Amazon Route 53 Developer Guide](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
-- [Choosing a routing policy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html)

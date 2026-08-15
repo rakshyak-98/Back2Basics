@@ -1,148 +1,65 @@
-[[java]] [[android]] [[golang]]
+[[java]] [[android]] [[kotlin data flow]] [[kotlin view]]
 
-# Kotlin syntax (quick reference)
+# Kotlin syntax
 
-> Kotlin syntax (quick reference) — kotlin targets JVM/JS/Native. val immutable reference, var mutable. Nullability enforced at compile time: String vs String?.
+> JVM/JS/Native language with null-safe types — `val`/`var`, smart casts, data classes, and concise functions that interop with Java.
 
----
+## Interview Relevance
 
-## How it works
-
-Kotlin targets JVM/JS/Native. **`val`** immutable reference, **`var`** mutable. Nullability enforced at compile time: `String` versus `String?`.
-
-```
-Java null check     →  Kotlin ?.  ?:  !!
-Java static         →  object / companion object
-Java getter/setter  →  property syntax
-```
-
-
-## Configuration and commands
-
-### Basics
-
-```kotlin
-val name: String = "app"      // read-only
-var count = 0                 // inferred Int
-
-fun greet(who: String = "world"): String = "Hello, $who"
-
-if (x is String) println(x.length)  // smart cast after is
-```
-
-### Null safety
-
-```kotlin
-val len = text?.length              // Int? — null if text null
-val safe = text?.length ?: 0        // Elvis — default 0
-val forced = text!!.length          // NPE if text null — avoid in prod
-
-// Safe call chain
-user?.profile?.avatar?.url
-```
-
-### `!!` — when and why not
-
-```kotlin
-binding.progressBar!!.visibility = View.GONE
-// Asserts non-null for platform/view code after findViewById
-// Prefer: binding.progressBar?.visibility = View.GONE
-// Or: requireNotNull(binding.progressBar) { "missing id" }
-```
-
-### Classes / data
-
-```kotlin
-data class User(val id: Long, val email: String)
-
-class Repo(private val api: Api) {
-    fun load() = api.fetch()
-}
-```
-
-### Object & companion (static-like)
-
-```kotlin
-object Config {
-    const val TIMEOUT = 30
-}
-
-class Factory {
-    companion object {
-        fun create(): Factory = Factory()
-    }
-}
-```
-
-### Extensions
-
-```kotlin
-fun String.isEmail(): Boolean = "@" in this
-```
-
-### Scope functions (pick by intent)
-
-| Fn | `this`/`it` | Use |
-|----|-------------|-----|
-| `let` | `it` | null-safe block + result |
-| `run` | `this` | configure object + result |
-| `apply` | `this` | configure, return receiver |
-| `also` | `it` | side effect, return receiver |
-
-```kotlin
-user?.let { u -> sendWelcome(u.email) }
-```
-
-### Collections
-
-```kotlin
-val xs = listOf(1, 2, 3)
-val map = xs.associateWith { it * 2 }
-xs.filter { it > 1 }.map { it.toString() }
-```
-
-### Coroutines (Android / backend)
-
-```kotlin
-suspend fun load(): Data = withContext(Dispatchers.IO) {
-    api.fetch()
-}
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| NPE at `!!` | View/binding not inflated | Use view binding; `?.` or `requireNotNull` |
-| Smart cast impossible | `var` mutated across threads | Copy to local `val` before check |
-| Platform type warning | Java API returns unknown null | Annotate Java `@Nullable` / `@NonNull` or explicit Kotlin type |
-| `when` not exhaustive | Sealed/interface not covered | Add branches or `else` |
-| Coroutine crash | Blocking on Main | `withContext(IO)` for network/disk |
-
-
-## Gotchas
-
-> [!WARNING]
-> **`!!` in UI code** — crashes users instead of failing gracefully; treat as code smell except generated binding guarantees.
-
-> [!WARNING]
-> **Java interop null** — Java `String` becomes platform type; assume nullable unless annotated.
-
-> [!WARNING]
-> **`==` is structural equality** — reference equality is `===`.
-
-
-## When not to use
-
-- **Full Kotlin course** — this is a cheat sheet; use official docs for coroutines flow, inline classes, DSL builders.
-- **`!!` to silence compiler** — fix nullability model instead.
-
-
-## Related
-
-[[java]] [[android]] [[golang]] [[Design pattern]]
+Interviewers probe null safety (`?.`, `?:`, `!!`), `val` vs `var`, data classes, coroutines at a high level, and Java interop gotchas.
 
 ## Sources
 
-- [Wikipedia — kotlin syntax](https://en.wikipedia.org/wiki/kotlin_syntax)
+- [Kotlin — Basic syntax](https://kotlinlang.org/docs/basic-syntax.html) — overview
+- [Kotlin — Null safety](https://kotlinlang.org/docs/null-safety.html) — deep-dive
+
+## Key Concepts
+
+- **`val` / `var`:** read-only reference vs reassignable.
+- **Null system:** `String` vs `String?` enforced at compile time.
+- **Smart cast:** after `is` checks, the compiler narrows types.
+- **`object` / `companion object`:** singletons and Java-static-like APIs.
+- **Properties:** replace Java getter/setter boilerplate.
+
+## Technical Details
+
+```kotlin
+val name: String = "app"
+var count = 0
+fun greet(who: String = "world"): String = "Hello, $who"
+
+val len = text?.length
+val safe = text?.length ?: 0
+// text!!.length  — avoid in production paths
+
+if (x is String) println(x.length) // smart cast
+```
+
+| Java habit | Kotlin |
+|------------|--------|
+| null checks | `?.` `?:` |
+| static | `object` / `companion` |
+| getters/setters | properties |
+| POJO | `data class` |
+
+## Real-World Applications
+
+Android and backend JVM services: fewer NPEs, clearer models with `data class`, gradual Java migration.
+
+**Example:** Replace `if (x != null) x.foo()` chains with `x?.foo()` and Elvis defaults.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Null safety and concision cut boilerplate.
+- **Con:** `!!` and platform types from Java can reintroduce NPE footguns.
+
+## Comparison
+
+- vs Java: same ecosystem, stronger null model and less ceremony.
+- vs [[dart]]: similar modern-null ideas; different runtimes (JVM vs Flutter/Dart VM).
+
+## Mistakes to Avoid
+
+- Sprinkling `!!` to silence the compiler.
+- Mutating `val` list contents and calling it “immutable” (reference vs deep immutability).
+- Ignoring Java nullable annotations when crossing APIs.

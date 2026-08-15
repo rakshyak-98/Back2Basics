@@ -2,28 +2,51 @@
 
 # React feature implementations
 
-> React feature implementations shapes how React applications compose UI, state, and side effects in production.
+> Ship a vertical slice — UI, hooks, API, tests — as a feature module instead of scattering files by technical type only.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React feature implementations` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+Interviewers like feature-based folders and ask how you keep a feature releasable behind a flag.
 
 ## Sources
 
-- [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/)
+- [Thinking in React](https://react.dev/learn/thinking-in-react) — overview
+
+## Core Definition
+
+A feature implementation is a thin vertical: route entry, view, domain hooks, and API calls colocated for that product capability.
+
+## Key Concepts
+
+- **Colocation:** keep code that changes together nearby.
+- **Public exports:** feature barrel for the route to import.
+- **Flag:** gate unfinished UI without merging half-wired routes.
+
+## Technical Details
+
+```txt
+features/billing/
+  index.ts
+  BillingPage.tsx
+  useInvoices.ts
+  api.ts
+  BillingPage.test.tsx
+```
+
+## Real-World Applications
+
+Billing feature ships behind a flag; query hooks already hit staging API while nav link stays hidden.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Teams own features end-to-end.
+- **Con:** Duplicated helpers if shared/ is neglected.
+
+## Comparison
+
+- vs type-based `components/ hooks/ utils/` only: features scale better for product teams.
+
+## Mistakes to Avoid
+
+- Circular imports between features.
+- Copy-pasting API clients per feature.

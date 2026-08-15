@@ -4,9 +4,16 @@
 
 > git diff — show unstaged, staged, or commit-to-commit file changes.
 
----
+## Interview Relevance
 
-## How it works
+Diff questions check staged vs unstaged, word-diff, and reading patches in review.
+
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```bash
 git diff --name-only;
@@ -43,8 +50,7 @@ git diff -- . ':!node_modules';
 git diff --diff-filter=R --name-only;
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 git diff                            # unstaged changes
@@ -55,10 +61,14 @@ git diff branch1 branch2 -- path/   # one file between branches
 git diff --stat
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- Do not rely on diff alone for merge conflict resolution — open conflicted files and read conflict markers.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> `git diff` without flags shows **working tree versus index** — not last commit.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,29 +77,3 @@ git diff --stat
 | Cannot diff binary | Expected for images/binaries | `git diff --numstat`; use external diff tool |
 | Wrong comparison range | `..` versus `...` syntax | `A..B` = reachable from B not A; `A...B` = symmetric difference since merge base |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> `git diff` without flags shows **working tree versus index** — not last commit.
-
----
-
-
-## When not to use
-
-- Do not rely on diff alone for merge conflict resolution — open conflicted files and read conflict markers.
-
-
----
-
-
-## Related
-
-[[GIT]]
-
-## Sources
-
-- [Wikipedia — git diff](https://en.wikipedia.org/wiki/git_diff)

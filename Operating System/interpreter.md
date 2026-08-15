@@ -1,12 +1,26 @@
-[[Operating System]] [[linker]] [[runtime]] [[Runtime Environment]] [[OS program]]
+[[Operating System]] [[linker]] [[runtime]] [[Runtime Environment]] [[OS program]] [[opcode]] [[system call]] [[file descriptors]] [[Heap memory]]
 
 # Interpreter
 
-> An interpreter executes source or bytecode instructions directly at runtime — trading startup simplicity and portability for lower peak speed compared with ahead-of-time compiled [[OS program]] binaries.
+> An interpreter executes source or bytecode at runtime — trading startup simplicity and portability for lower peak speed than ahead-of-time native binaries.
 
-**Pure interpretation** fetches each instruction in a loop. **Bytecode VMs** (CPython, JVM without JIT, Ruby) decode opcodes ([[opcode]]) in software. **JIT** hybrids compile hot paths to machine code while retaining interpreter fallback.
+## Interview Relevance
 
-## Versus compilation pipeline
+Compiler vs interpreter vs JIT; shebang → `execve` of interpreter binary; same OS rules for fds/heap underneath.
+
+## Sources
+
+- Aho, Lam, Sethi & Ullman, *Compilers: Principles, Techniques, and Tools* — deep-dive
+- [Wikipedia — Interpreter (computing)](https://en.wikipedia.org/wiki/Interpreter_(computing)) — overview
+
+## Key Concepts
+
+- **Pure interpretation:** fetch/decode/execute loop.
+- **Bytecode VM:** software decode of [[opcode]]s (CPython, JVM without JIT).
+- **JIT hybrid:** hot paths → machine code; cold paths stay interpreted.
+- **Shebang:** `#!/usr/bin/env python3` selects the interpreter [[OS program]].
+
+## Technical Details
 
 ```txt
 Source → interpreter ──► run immediately
@@ -15,13 +29,25 @@ Source → compiler → object → [[linker]] → native binary → CPU
 Source → compiler → bytecode → VM interpreter / JIT
 ```
 
-## OS involvement
+The interpreter is itself a native executable. It makes [[system call]]s for scripts — same [[file descriptors]] and [[Heap memory]] rules. Part of the [[Runtime Environment]] / [[runtime]].
 
-The interpreter itself is a native executable loaded by the loader ([[Boot/UEFI]] chain → kernel → execve). It makes [[system call]]s on behalf of scripts — same [[file descriptors]] and [[Heap memory]] rules.
+## Real-World Applications
 
-Shebang `#!/usr/bin/env python3` selects the interpreter binary via `execve`.
+Python/Ruby/PHP apps, JVM warmup before JIT, and embedded Forth/BASIC systems.
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- Aho, Lam, Sethi & Ullman, *Compilers: Principles, Techniques, and Tools*
-- Wikipedia: [Interpreter (computing)](https://en.wikipedia.org/wiki/Interpreter_(computing))
+- **Pro:** Fast edit-run cycle; portable bytecode.
+- **Con:** Lower peak throughput without JIT; larger runtime dependency.
+- **Trade-off:** interpret everything vs AOT/JIT complexity.
+
+## Comparison
+
+- vs compiled [[OS program]]: native CPU vs software dispatch.
+- vs [[linker]]: interpreters skip user-code link steps; the interpreter binary was still linked.
+
+## Mistakes to Avoid
+
+- Assuming the kernel “runs Python” — it runs the interpreter binary.
+- Comparing interpreter microbenchmarks to fully warmed JITs unfairly.
+- Shipping scripts without the required interpreter in the image.

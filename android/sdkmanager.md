@@ -1,150 +1,57 @@
-[[android]] [[Docker compose]] [[kubectl]]
+[[adb device]] [[flutter build]] [[Linux/apt package manager]]
 
 # sdkmanager
 
-> Android SDK command-line package manager — install platforms, build-tools, NDK in **headless CI** without Android Studio.
+> Android SDK command-line package manager — install platforms, build-tools, NDK, and other packages without the full Android Studio UI.
 
----
+## Interview Relevance
 
-## How it works
-
-```txt
-sdkmanager  →  reads SDK root ($ANDROID_HOME)
-            →  downloads packages from Google Maven/SDK repo
-            →  writes licenses + package metadata under cmdline-tools/
-```
-
-**SDK layout (modern):**
-
-```txt
-$ANDROID_HOME/
-  cmdline-tools/latest/bin/sdkmanager
-  platforms/android-34/
-  build-tools/34.0.0/
-  platform-tools/          # adb, fastboot
-  licenses/                # must accept for CI
-```
-
-**Gradle** consumes `compileSdk`, `buildToolsVersion`, NDK version from `build.gradle` — CI must pre-install matching packages or builds fail before compile.
-
----
-
-
-## Configuration and commands
-
-### Install cmdline-tools (CI base image)
-
-```bash
-export ANDROID_HOME=/opt/android-sdk
-export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools"
-
-# Download commandlinetools-linux-*.zip from developer.android.com
-mkdir -p "$ANDROID_HOME/cmdline-tools"
-unzip commandlinetools-linux-*.zip -d /tmp
-mv /tmp/cmdline-tools "$ANDROID_HOME/cmdline-tools/latest"
-```
-
-### Accept licenses (non-interactive)
-
-```bash
-yes | sdkmanager --licenses
-# Or pipe pre-accepted hashes in regulated CI (document in vault policy)
-```
-
-### Install packages (typical CI set)
-
-```bash
-sdkmanager --install \
-  "platform-tools" \
-  "platforms;android-34" \
-  "build-tools;34.0.0" \
-  "cmdline-tools;latest"
-
-# NDK (when native code / React Native / Flutter)
-sdkmanager --install "ndk;26.1.10909125"
-```
-
-### List / update
-
-```bash
-sdkmanager --list              # available + installed
-sdkmanager --list_installed
-sdkmanager --update            # upgrade installed (pin in CI instead)
-```
-
-### Gradle alignment
-
-```gradle
-// app/build.gradle
-android {
-  compileSdk 34
-  buildToolsVersion "34.0.0"
-  ndkVersion "26.1.10909125"
-}
-```
-
-### GitHub Actions pattern
-
-```yaml
-- uses: android-actions/setup-android@v3
-- run: sdkmanager --install "platforms;android-34" "build-tools;34.0.0"
-```
-
-### Docker CI snippet
-
-```dockerfile
-ENV ANDROID_HOME=/opt/android-sdk
-RUN yes | sdkmanager --licenses && \
-    sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
-```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Failed to install ... license not accepted` | `licenses/` dir | `yes \| sdkmanager --licenses` |
-| `SDK location not found` | `ANDROID_HOME`, `local.properties` | Set env; `sdk.dir=` in local.properties |
-| Gradle: compileSdk not found | `--list_installed` | Install matching `platforms;android-XX` |
-| NDK build fails version mismatch | `ndkVersion` in Gradle vs installed | `sdkmanager --install "ndk;..."` exact version |
-| `Warning: Still waiting for package manager` | Stale lock / parallel jobs | Single sdkmanager process; clear `.android` locks |
-| Network fail in CI | Proxy / Google repo | Mirror or cache SDK tarball; retry with timeout |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Unpinned `--update` in CI** — non-reproducible builds; pin platform + build-tools versions in pipeline YAML.
-
-> [!WARNING]
-> **Old `tools/bin/sdkmanager`** — deprecated; use `cmdline-tools/latest/bin`.
-
-> [!WARNING]
-> **JDK version** — AGP 8+ requires JDK 17; sdkmanager itself needs working Java on PATH.
-
-> [!WARNING]
-> **Huge SDK footprint** — cache `$ANDROID_HOME` in CI; don't re-download platforms every job.
-
----
-
-
-## When not to use
-
-- **Local development with Android Studio** — Studio SDK Manager UI is easier; same packages underneath.
-- **iOS builds** — Xcode / `xcodebuild`, not sdkmanager.
-- **Installing arbitrary APKs on device** — `adb install`, not sdkmanager.
-
----
-
-
-## Related
-
-[[android]] · [[Docker compose]] · [[docker cli]] · [[Terraform workflow]]
+CI interviews: headless SDK install, accepting licenses, and pinning `build-tools`/`platforms` versions for reproducible builds.
 
 ## Sources
 
-- [Wikipedia — sdkmanager](https://en.wikipedia.org/wiki/sdkmanager)
+- [Android — sdkmanager](https://developer.android.com/tools/sdkmanager) — deep-dive
+
+## Key Concepts
+
+- **SDK root:** `ANDROID_HOME` / `ANDROID_SDK_ROOT`.
+- **Packages:** platforms, build-tools, platform-tools, emulators, NDK.
+- **Licenses:** `sdkmanager --licenses` must be accepted in CI.
+- **Channel/version pins:** avoid silent skew across agents.
+
+## Technical Details
+
+```bash
+sdkmanager --list
+sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+yes | sdkmanager --licenses
+```
+
+| Package | Role |
+|---------|------|
+| platform-tools | `adb`, `fastboot` |
+| platforms;android-XX | Compile SDK |
+| build-tools;X.Y.Z | aapt/dx/d8 tooling |
+| ndk;XX | Native builds |
+
+## Real-World Applications
+
+GitHub Actions runner installs only needed packages instead of full Android Studio.
+
+**Example:** Flutter build fails missing `build-tools` — install the version Gradle requests, not a random older one.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Scriptable, minimal images for CI.
+- **Con:** Easy to drift if versions are not pinned in docs/CI.
+
+## Comparison
+
+- vs Android Studio SDK UI: same packages; CLI is automatable.
+- vs [[adb device]]: sdkmanager installs; adb operates devices.
+
+## Mistakes to Avoid
+
+- Skipping license acceptance in CI.
+- Installing every package “just in case” (huge images).
+- Mixing multiple SDK roots without fixing environment variables.

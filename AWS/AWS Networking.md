@@ -1,12 +1,24 @@
-[[Security group]] · [[Elastic IP]] · [[Route53]] · [[AWS EC2]] · [[IAM]]
+[[Security group]] [[Elastic IP]] [[Route53]] [[AWS EC2]] [[IAM]]
 
 # AWS Networking
 
 > AWS networking is VPC-centric: you define IP ranges, subnets per Availability Zone, route tables, gateways, and firewalls — most "cannot connect" incidents are routing or security group mistakes, not broken cables.
 
----
+## Interview Relevance
 
-## VPC building blocks
+Interviewers ask about AWS Networking to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
+
+- What makes a subnet "public" in AWS terms?
+- Why do private subnets need a NAT gateway for outbound package updates?
+
+## Sources
+
+- [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) — overview
+- [VPC with public and private subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html) — overview
+
+## Technical Details
+
+### VPC building blocks
 
 ```
                     Internet
@@ -41,17 +53,17 @@
 | **VPC endpoints** | Private connectivity to AWS APIs (S3, DynamoDB, etc.) |
 | **Peering / Transit Gateway** | Connect VPCs or on-premises networks |
 
-## DNS inside VPC
+### DNS inside VPC
 
 Enable **DNS hostnames** and **DNS resolution** on the VPC. Instances receive internal DNS names like `ip-10-0-1-5.ec2.internal`. Public hosted zones use [[Route53]].
 
-## Hybrid connectivity
+### Hybrid connectivity
 
 - **Site-to-Site VPN** — IPsec over internet
 - **Direct Connect** — dedicated circuit to AWS
 - **Transit Gateway** — hub for many VPCs and VPN/DX attachments
 
-## Debugging checklist
+### Debugging checklist
 
 1. **Route table** — does the subnet have a path to the destination?
 2. **Security group** — inbound on server, outbound on client if restricted
@@ -59,20 +71,10 @@ Enable **DNS hostnames** and **DNS resolution** on the VPC. Instances receive in
 4. **Source/destination check** — disabled on NAT instances only when required
 5. **VPC Flow Logs** — accept/reject evidence
 
-## CLI snapshot
+### CLI snapshot
 
 ```bash
 aws ec2 describe-vpcs
 aws ec2 describe-subnets --filters Name=vpc-id,Values=vpc-0abc
 aws ec2 describe-route-tables --filters Name=vpc-id,Values=vpc-0abc
 ```
-
-## Recall
-
-- What makes a subnet "public" in AWS terms?
-- Why do private subnets need a NAT gateway for outbound package updates?
-
-## Sources
-
-- [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html)
-- [VPC with public and private subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)

@@ -1,22 +1,33 @@
-[[Nginx]] [[Configuration]] [[ExpressJS]]
+[[Configuration]] [[nginx stream]] [[Nginx internals]] [[Express middleware]]
 
 # Nginx + Unix Domain Socket Upstream
 
-> skip TCP loopback — bind the app to a unix socket for lower latency and no port conflicts; permissions must allow Nginx to connect.
+> Same-host upstream over a unix socket — skip TCP loopback for lower latency and no port conflicts; socket permissions must allow Nginx to connect.
 
----
+## Interview Relevance
 
-## How it works
+Platform interviews ask why unix sockets beat `127.0.0.1`, how to fix 502 permission errors, and how systemd cleans stale socket files.
 
-```
-```
+## Sources
 
-Unix sockets avoid TCP overhead on same host (~20–30% throughput gain in typical benchmarks). Tradeoff: socket file permissions and cleanup on restart.
+- [nginx.org — proxy_pass (unix)](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) — deep-dive
+- [man unix(7)](https://man7.org/linux/man-pages/man7/unix.7.html) — overview
+- [systemd — RuntimeDirectory](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#RuntimeDirectory=) — overview
 
----
+## Core Definition
 
+Nginx can reverse-proxy to an HTTP upstream bound on a unix domain socket (`http://unix:/path.sock`) instead of a TCP port on localhost.
 
-## Configuration and commands
+## Key Concepts
+
+- **Why unix sockets:** Avoid TCP/IP stack on loopback — typically higher throughput / lower latency same-host; no port collisions.
+- **Permissions:** Socket file mode + directory ownership so the Nginx user (e.g. `www-data`) can connect.
+- **Stale sockets:** Crash leaves a socket file that blocks bind — remove in `ExecStartPre`.
+- **WebSocket still works:** Set `Upgrade` / `Connection` headers as with TCP upstreams.
+
+## Technical Details
+
+Unix sockets avoid TCP overhead on the same host (often ~20–30% throughput gain in benchmarks). Trade-off: socket file permissions and cleanup on restart.
 
 ### App side (Express)
 
@@ -36,8 +47,6 @@ app.listen(SOCKET_PATH, () => {
   console.log(`Listening on ${SOCKET_PATH}`);
 });
 ```
-
-Create socket directory with correct owner:
 
 ```bash
 sudo mkdir -p /var/run/my-api
@@ -65,12 +74,6 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target
 ```
 
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now my-api
-pm2 start dist/server.js --name my-api --user www-data   # alternative
-```
-
 ### Nginx upstream
 
 ```nginx
@@ -92,40 +95,11 @@ server {
 
 Syntax: `http://unix:/absolute/path.sock` — no host/port.
 
-### Verify
-
 ```bash
 ls -la /var/run/my-api/app.sock
 curl --unix-socket /var/run/my-api/app.sock http://localhost/health
 sudo nginx -t && sudo systemctl reload nginx
 ```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 502 Bad Gateway | Socket missing or wrong path | `ls -la` socket; app running? |
-| 502 Permission denied | Nginx user can't access socket | Shared group: `chgrp www-data` on dir + socket `660`; or run app as `www-data` |
-| App won't start: EADDRINUSE on socket | Stale socket file after crash | `ExecStartPre=/bin/rm -f ...`; manual `rm` |
-| Works via curl --unix-socket, 502 via Nginx | Typo in `proxy_pass` path | Paths must match exactly; no trailing slash issues like HTTP upstream |
-| Intermittent 502 after restart | Race: Nginx reload before app ready | systemd `After=` + health check; `Restart=always` |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`/var/run` is tmpfs** — socket gone on reboot. systemd `RuntimeDirectory=my-api` creates `/run/my-api` automatically.
-
-> [!WARNING]
-> **`chmod 777` is a lazy fix** — use group membership (`www-data`) instead.
-
-> [!WARNING]
-> **WebSocket + unix socket works** — still set `Upgrade` / `Connection` headers.
 
 | Method | Requests/sec (typical) | Latency |
 |--------|------------------------|---------|
@@ -134,21 +108,31 @@ sudo nginx -t && sudo systemctl reload nginx
 
 Numbers vary by hardware and payload — directionally correct for same-host proxy.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| 502 Bad Gateway | Socket missing or wrong path | `ls -la`; app running? |
+| 502 Permission denied | Nginx user can't access socket | Shared group `www-data`; mode `660` |
+| EADDRINUSE on socket | Stale socket after crash | `ExecStartPre=rm -f`; manual `rm` |
+| curl unix works, Nginx 502 | Typo in `proxy_pass` path | Paths must match exactly |
+| Intermittent 502 after restart | Nginx before app ready | systemd ordering + health check |
 
+## Real-World Applications
 
-## When not to use
+Node/Python/PHP-FPM on the same VM as Nginx, proxying over `/run/app/app.sock` in production.
 
-- **Multi-host upstreams** — unix sockets are local only; use TCP or HTTP upstream.
-- **Quick local development** — TCP port is simpler; switch to socket in production.
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** Latency and port hygiene on single-host deploys.
+- **Con:** Local only — multi-host upstreams need TCP/HTTP.
+- **Con:** Local development is often simpler on a TCP port; switch to socket for production.
 
+## Comparison
 
-## Related
+- vs TCP `127.0.0.1:PORT`: sockets win on same host; TCP wins for remote upstreams and simple local DX.
+- vs [[nginx stream]]: stream is L4 listen/proxy; unix socket here is an HTTP upstream transport for `proxy_pass`.
 
-[[Configuration]] [[nginx stream]] [[Express middleware]]
+## Mistakes to Avoid
 
-## Sources
-
-- [Wikipedia — nginx using unix socket](https://en.wikipedia.org/wiki/nginx_using_unix_socket)
+- `chmod 777` on the socket — use group membership instead.
+- Forgetting `/var/run` is tmpfs — use `RuntimeDirectory=` so `/run/my-api` returns after reboot.
+- Assuming WebSockets need TCP — Upgrade headers work over unix sockets too.

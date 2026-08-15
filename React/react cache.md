@@ -1,29 +1,30 @@
-[[React]] [[react-query]]
+[[React]] [[react-query]] [[Redux/Redux createApi]] [[Optimizing performance]]
 
 # react cache / TanStack Query cache
 
 > Client in-memory cache of server responses — update it after mutations so UI stays in sync without a full refetch.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want concrete re-render causes and fixes (memoization, keys, list virtualization) — not vague “optimize React.”
+
+## Sources
+
+- [Wikipedia — react cache](https://en.wikipedia.org/wiki/react_cache) — overview
+
+## Key Concepts
+
+- **queryKey:** Cache address for this data — “Same key = shared cache across components.”
+- **invalidate:** Mark stale, refetch — “After create, invalidate the list.”
+- **Optimistic update:** Patch UI before server replies — “Roll back if the request fails.”
+
+## Technical Details
 
 ```txt
 queryKey → QueryCache (RAM)
 mutation ──► onSuccess: setQueryData | invalidateQueries
 failure  ──► rollback optimistic patch
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **queryKey** | Cache address for this data | “Same key = shared cache across components.” |
-| **invalidate** | Mark stale, refetch | “After create, invalidate the list.” |
-| **Optimistic update** | Patch UI before server replies | “Roll back if the request fails.” |
-
-
-## Configuration and commands
 
 ```ts
 useMutation({
@@ -45,10 +46,17 @@ useMutation({
 | `invalidateQueries` | Safe when many lists touch the resource |
 | Optimistic + rollback | Snappy UX; must restore on error |
 
----
+## Real-World Applications
 
+Apply react cache / TanStack Query cache in feature code where the Key Concepts match; verify with the Mistakes table.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Client-only UI state** — `useState` / Zustand, not Query cache.
+- **Con / skip when:** **authentication secrets** — don’t persist sensitive query data to `localStorage`.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,32 +65,5 @@ useMutation({
 | Cache empty after F5 | In-memory only | Persist plugin or accept refetch |
 | Duplicate fetches | Different queryKeys | Normalize keys (stable serialization) |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Hard refresh clears RAM cache** — not Redis, not backend. Soft reload often keeps it.
-
-> [!WARNING]
-> **Wrong key = silent miss** — `['todo', 1]` vs `['todos', 1]` never sync.
-
----
-
-
-## When not to use
-
-- **Client-only UI state** — `useState` / Zustand, not Query cache.
-- **authentication secrets** — don’t persist sensitive query data to `localStorage`.
-
----
-
-
-## Related
-
-[[react-query]] [[Redux/Redux createApi]] [[Optimizing performance]]
-
-## Sources
-
-- [Wikipedia — react cache](https://en.wikipedia.org/wiki/react_cache)
+- **Hard refresh clears RAM cache** — not Redis, not backend. Soft reload often keeps it.
+- **Wrong key = silent miss** — `['todo', 1]` vs `['todos', 1]` never sync.

@@ -1,121 +1,75 @@
-[[file mount]] [[Linux file management]] [[Linux system management]]
+[[file mount]] [[Linux file management]] [[media mount as read only]] [[MBR]]
 
 # USB pendrive (removable media)
 
-> USB pendrive (removable media) — USB block device appears as /dev/sdX (whole disk) and /dev/sdX1 (first partition). Kernel + udev may auto-mount under /media/$USER/. Manual workflow
+> Removable USB storage shows up as a block device — identify with lsblk, filesystem it, mount it, sync, then unmount before you pull it.
 
----
+## Interview Relevance
+Ops hygiene: never guess `/dev/sdX`, prefer by-id paths, FAT32 vs exFAT limits, and `umount` before yanking the stick.
 
-## How it works
+## Sources
+- [lsblk(8)](https://man7.org/linux/man-pages/man8/lsblk.8.html) — overview
+- [mount(8)](https://man7.org/linux/man-pages/man8/mount.8.html) — deep-dive
 
-USB block device appears as `/dev/sdX` (whole disk) and `/dev/sdX1` (first partition). Kernel + udev may **auto-mount** under `/media/$USER/`. Manual workflow: identify device → unmount if busy → partition (optional) → mkfs → mount → sync before physical remove.
+## Core Definition
+A USB block device appears as `/dev/sdX` (disk) and `/dev/sdX1` (partition). Kernel/udev may auto-mount under `/media/$USER/`. Manual workflow: identify → unmount if busy → partition/mkfs if needed → mount → sync → umount/eject.
 
+## Key Concepts
+- **Whole disk vs partition:** `mkfs` on `sdb` vs `sdb1` wipes different scopes.
+- **Filesystem choice:** vfat (compat, 4GB file limit), exfat (large files), ext4 (Linux perms).
+- **Busy mounts:** open cwd/files block `umount` — use `fuser`.
+- **Stable names:** `/dev/disk/by-id/usb-…` survives sdX reshuffles.
+- **Persistence:** UUID in fstab with `noauto` for occasional mounts.
+
+## Technical Details
+
+```txt
+lsblk ──► /dev/sdb1 ──► mkfs ──► mount ──► cp ──► umount ──► eject
 ```
-lsblk ──► /dev/sdb1 ──► mkfs.vfat ──► mount ──► cp data ──► umount ──► eject
-```
-
-| Filesystem | Use case |
-|------------|----------|
-| `vfat` (FAT32) | UEFI ESP, max compatibility; 4GB file limit |
-| `exfat` | Large files; Windows/macOS/Linux with exfat-fuse |
-| `ext4` | Linux-only; permissions preserved |
-
-> [!WARNING]
-> **Triple-check device node** — `mkfs` on `/dev/sdb` vs `/dev/sdb1` wipes wrong scope. Use `lsblk`, by-id paths in scripts.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **pandoc** | Doc converter | “Markdown → PDF/DOCX/HTML.” |
-| **from / to** | -f -t formats | “Explicit -f/-t beats guessing.” |
-| **filters** | Lua/JSON transforms | “Filters reshape AST.” |
-| **citeproc** | Citations | “Bibliography via --citeproc.” |
-| **templates** | Output chrome | “--template for branded PDF.” |
-
-
-## Configuration and commands
 
 ```bash
-# Identify — look at SIZE and RM (removable)
 lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,RM,MODEL
 sudo fdisk -l /dev/sdb
 
-# Unmount before format (was: pandrive typo in original note)
 sudo umount /dev/sdb1
-# if busy: sudo fuser -mv /dev/sdb1; close files; umount again
+sudo fuser -mv /dev/sdb1
 
-# FAT32 for universal swap (label optional)
 sudo mkfs.vfat -F 32 -n USBDATA /dev/sdb1
-
-# exFAT for large files
 sudo mkfs.exfat -n USBDATA /dev/sdb1
 
-# Mount manually
 sudo mkdir -p /mnt/usb
 sudo mount /dev/sdb1 /mnt/usb
-# or with uid for desktop user write:
 sudo mount -o uid=1000,gid=1000,umask=022 /dev/sdb1 /mnt/usb
 
-# Safe removal — flush buffers
 sync
 sudo umount /dev/sdb1
-sudo eject /dev/sdb                # or udisksctl power-off
-```
+sudo eject /dev/sdb
 
-**Partition from scratch (destructive):**
-
-```bash
 sudo parted /dev/sdb --script mklabel gpt mkpart primary fat32 1MiB 100%
-sudo mkfs.vfat -F 32 /dev/sdb1
-```
-
-**Persist mount (servers) — use UUID in `/etc/fstab`:**
-
-```bash
 blkid /dev/sdb1
 # UUID=XXXX  /mnt/usb  vfat  defaults,noauto,user  0  0
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `target is busy` on umount | Open file or cwd on mount | `fuser -mv /mnt/usb`; `cd /`; close apps |
-| Device not appearing | USB port/cable | `dmesg \| tail`; try another port; `lsusb` |
-| Read-only mount | Filesystem errors | `dmesg`; `fsck.vfat /dev/sdb1`; replace failing stick |
-| Wrong `/dev/sdX` after replug | Names shuffle | Use `/dev/disk/by-id/usb-...` in scripts |
-| `Permission denied` on copy | Mount options | Remount with `uid=` or run as root (avoid) |
-| Slow writes | Cheap stick or USB2 | Expected; use exfat/ext4 for large sequential |
+| target is busy | Open files/cwd | `fuser -mv`; `cd /`; close apps |
+| Device missing | Port/cable | `dmesg`; `lsusb`; try another port |
+| Read-only mount | FS errors | `fsck.vfat`; replace failing stick |
+| Wrong sdX after replug | Name shuffle | Use `/dev/disk/by-id/…` |
+| FAT32 copy fails on big file | 4GB limit | Use exfat/ext4 |
 
+## Real-World Applications
+Building a FAT32 installer stick, moving large ISOs via exFAT, and safely removing media on a headless server after `sync && umount`.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro vfat:** Universal across OSes and firmware.
+- **Con vfat:** 4GB file limit; weak permissions.
+- **Trade-off:** Consumer flash for sneaker-net vs encrypted/object storage for production data.
 
-> [!WARNING]
-> **Never run `mkfs` on `/dev/sda` without confirming** — on some VMs sda is system disk. Match SIZE/MODEL in `lsblk`.
+## Comparison
+vs [[file mount]] / fstab volumes: pendrives are transient; server disks are persistent. vs pandoc: unrelated — the filename typo “pandirve” is USB, not document conversion.
 
-> [!WARNING]
-> **Pulling without umount** — filesystem corruption; silent data loss. Always `sync && umount`.
-
-> [!WARNING]
-> **Auto-mount + manual mount** — double-mount confusion. One mount point at a time.
-
-> [!WARNING]
-> **FAT32 4GB file limit** — large ISOs need exfat or split archives.
-
-
-## When not to use
-
-- **Production data transfer** → encrypted media, signed artifacts, object storage — not random USB.
-- **Document conversion** → that's **pandoc**, unrelated tool.
-- **Persistent server storage** → proper block volume + ext4/xfs, not consumer flash.
-
-
-## Related
-
-[[file mount]] [[Linux file management]] [[Linux system management]] [[MBR]]
-
-## Sources
-
-- [Wikipedia — linux pandirve](https://en.wikipedia.org/wiki/linux_pandirve)
+## Mistakes to Avoid
+- Running `mkfs` without confirming SIZE/MODEL in `lsblk` (system disk footgun).
+- Pulling the stick without `umount`.
+- Hard-coding `/dev/sdb1` in scripts.

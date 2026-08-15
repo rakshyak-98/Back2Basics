@@ -1,33 +1,32 @@
-[[management]] [[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]]
+[[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]] [[systemd]] [[Memory management]]
 
 # Linux resource management
 
-> Resource management caps CPU, memory, I/O, and PIDs so one tenant can’t sink the host — niceness is soft; cgroups are hard.
+> Caps CPU, memory, I/O, and PIDs so one tenant cannot sink the host — niceness is soft; cgroups are hard.
 
----
+## Interview Relevance
 
-## How it works
+Soft vs hard controls: nice/ionice vs `MemoryMax`/`CPUQuota`, plus PSI as early warning.
+
+## Sources
+
+- [cgroup-v2 documentation](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html) — deep-dive
+- [systemd.resource-control(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.resource-control.html) — deep-dive
+
+## Key Concepts
+
+- **Soft:** `nice` / `ionice` — hints under contention.
+- **Hard:** systemd resource properties backed by cgroups.
+- **PSI:** `/proc/pressure/*` stalls before hard failure.
+- **Heaps must honor limits:** JVM/Go must size to cgroup, not host RAM.
+
+## Technical Details
 
 ```txt
 soft: nice / ionice
 hard: MemoryMax= CPUQuota= IOWeight= TasksMax=
 observe: PSI /proc/pressure + systemd-cgtop
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **cgroup** | Accounting + limits | “Containers are cgroups + namespaces.” |
-| **CPUQuota** | Percent of one CPU | “200% ≈ two cores.” |
-| **MemoryMax** | Hard RAM cap | “Hit → cgroup OOM.” |
-| **PSI** | Pressure stall info | “Early warning before OOM.” |
-| **nice** | Soft CPU priority | “Won’t cap a runaway alone.” |
-
----
-
-
-## Configuration and commands
 
 ```bash
 systemctl set-property myapp.service MemoryMax=1G CPUQuota=100%
@@ -43,11 +42,6 @@ ionice -c 3 -p PID
 | `MemoryHigh` vs `Max` | Throttle vs kill |
 | slice hierarchy | Shared budgets |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Throttled CPU | CPUQuota | Raise quota or fix hot loop |
@@ -55,32 +49,22 @@ ionice -c 3 -p PID
 | Disk latency spike | Heavy writer | ionice / IOWeight |
 | Fork bomb | TasksMax | Set TasksMax; find spawner |
 
----
+## Real-World Applications
 
+Protect an API unit with `CPUQuota=200%` and `MemoryMax=1G`, watch PSI during load tests, and nice a batch compressor so it yields under contention.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Limits without metrics** — you only learn in outages; watch PSI/cgtop.
+- **Pro:** Predictable multi-tenant behavior on shared hosts.
+- **Con:** Over-limiting lone latency-critical tenants can hurt — sometimes size the machine instead.
 
-> [!WARNING]
-> **JVM/Go heaps vs cgroup** — apps must honor container memory, not host RAM.
+## Comparison
 
----
+- vs [[renice]]: soft only — won’t stop a runaway alone.
+- vs [[Linux cgroup]]: this note is the ops policy layer; cgroup is the mechanism.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Latency-critical lone tenants** — over-limit can hurt; size the machine instead.
-- **Trying to “fix” leaks with nice** — won’t reclaim RSS.
-
----
-
-
-## Related
-
-[[Linux cgroup]] [[renice]] [[OOM (Linux Out Of Memory)]] [[systemd]]
-
-## Sources
-
-- [Wikipedia — Linux resource management](https://en.wikipedia.org/wiki/Linux_resource_management)
+- Limits without metrics — you only learn in outages.
+- Trying to “fix” memory leaks with nice.
+- Ignoring runtime heap vs cgroup mismatch.

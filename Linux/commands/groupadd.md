@@ -1,72 +1,50 @@
-[[user management]] [[linux groups]] [[usermod]] [[useradd]] [[getent]]
+[[user management]] [[linux groups]] [[usermod]] [[useradd]] [[getent]] [[passwd]]
 
 # groupadd
 
-> groupadd — groups are numeric GID + name mappings. File permissions use UID for owner, GID for group (ls -l third column). Users gain group membership
+> groupadd creates a Unix group (name + GID) — it does not add members; file permissions and sudo/docker access hang off group membership.
 
----
+## Interview Relevance
+Shows you know GID vs membership, `-r` system groups, and the classic `usermod -G` without `-a` lockout.
 
-## How it works
+## Sources
+- [groupadd(8)](https://man7.org/linux/man-pages/man8/groupadd.8.html) — deep-dive
+- [group(5)](https://man7.org/linux/man-pages/man5/group.5.html) — overview
 
-Groups are numeric **GID** + name mappings. File permissions use UID for owner, GID for group (`ls -l` third column). Users gain group membership via primary group (set at `useradd`) or secondary groups (`usermod -aG`). `groupadd` only creates the group — it does not add members.
+## Core Definition
+Groups are numeric **GID** + name mappings. File permissions use UID for owner, GID for group (`ls -l` third column). Users join via primary group (`useradd`) or supplementary groups (`usermod -aG`). `groupadd` only creates the group.
 
-```
+## Key Concepts
+- **Primary vs supplementary:** One primary GID; many secondary groups.
+- **System groups (`-r`):** Low GID range for daemons.
+- **Explicit GID (`-g`):** Needed for NFS / multi-host consistency.
+- **Session cache:** New membership applies after re-login / `newgrp`.
+- **/etc/group:** Local membership; LDAP/SSSD may shadow via NSS.
+
+## Technical Details
+
+```txt
 groupadd devops ──► /etc/group: devops:x:1005:
-                         │
 usermod -aG devops alice ──► alice in supplementary groups
 ```
 
-| Command | Purpose |
-|---------|---------|
-| `groupadd name` | New group, GID auto from `/etc/login.defs` |
-| `groupadd -g 1005 name` | Explicit GID (match NFS/LDAP) |
-| `groupadd -r name` | System group (low GID range) |
-| `groupmod -n new old` | Rename |
-| `groupdel name` | Delete (must have no members as primary) |
-| `gpasswd -a user group` | Add member |
-| `gpasswd -d user group` | Remove member |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **groupadd** | Create group | “groupadd deploy.” |
-| **-g** | Set GID | “Match GID across fleet.” |
-| **-r** | System group | “For daemons.” |
-| **/etc/group** | Membership file | “getent group to verify.” |
-| **usermod -aG** | Add members | “groupadd creates; usermod joins.” |
-
-
-## Configuration and commands
-
 ```bash
-# Create application group
 sudo groupadd deploy
-
-# System group for a daemon (GID < 1000 typically)
 sudo groupadd -r myapp
-
-# Fixed GID — NFS, cross-host consistency
 sudo groupadd -g 1005 shared-data
 
-# Add users
-sudo usermod -aG deploy alice          # -a append; without -a replaces groups!
+sudo usermod -aG deploy alice          # -a append; without -a replaces!
 sudo gpasswd -a alice deploy
 
-# Verify
 getent group deploy
 id alice
 groups alice
 
-# Set directory setgid so new files inherit group
 sudo chgrp deploy /var/www/app
-sudo chmod 2775 /var/www/app            # 2 = setgid
+sudo chmod 2775 /var/www/app            # setgid
 
-# Delete empty group
 sudo groupdel oldproject
 ```
-
-**Common production groups:**
 
 | Group | Typical purpose |
 |-------|-----------------|
@@ -75,45 +53,25 @@ sudo groupdel oldproject
 | `adm` | Read `/var/log` |
 | `www-data` | Web server file ownership |
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| "group already exists" | `getent group name` | Use existing or pick new name |
-| "GID already in use" | `getent group <gid>` | Choose free GID: `grep : /etc/group \| cut -d: -f3 \| sort -n` |
-| User not in group after add | Session cached | Re-login; `newgrp deploy`; verify `id` |
-| `usermod -G` wiped other groups | Forgot `-a` | Restore from backup; `usermod -aG g1,g2,user` |
-| Permission denied on setgid dir | Wrong group / no membership | `ls -ld`; add user to group |
-| `groupdel` fails | Primary group of user | Change user's primary group first |
+| group already exists | `getent group name` | Use existing or new name |
+| GID already in use | `getent group <gid>` | Choose free GID |
+| User not in group after add | Session cached | Re-login; `newgrp`; verify `id` |
+| `usermod -G` wiped groups | Forgot `-a` | Restore; always `-aG` |
 
+## Real-World Applications
+Shared deploy directories with setgid `2775`, and granting `docker`/`sudo` without making every operator root.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Simple DAC sharing model on one host.
+- **Con:** GID collisions across hosts; session lag; easy to wipe groups with `-G`.
+- **Trade-off:** Unix groups vs ACLs (`setfacl`) for complex sharing.
 
-> [!WARNING]
-> **`usermod -G` without `-a` replaces all supplementary groups** — classic lock-out from `sudo`/`docker`. Always `-aG`.
+## Comparison
+vs [[useradd]]: creates users (with a primary group). vs [[linux groups]]: conceptual membership model. vs cloud IAM: different identity plane.
 
-> [!WARNING]
-> **Group membership is per-login-session** — adding user to group does not affect open SSH sessions until reconnect or `newgrp`.
-
-> [!WARNING]
-> **GID conflicts across hosts** — NFSv4/NFSv3 squash and shared volumes need consistent GIDs. Document GID map.
-
-> [!WARNING]
-> **`groupadd` on LDAP/SSSD systems** — may create local group shadowing directory group. Check `getent group`.
-
-
-## When not to use
-
-- **One-off file share for two users** → ACLs (`setfacl`) or project directories with setgid.
-- **Cloud IAM** → AWS/GCP roles, not Unix groups.
-- **Rename** → `groupmod -n`, not delete + add (breaks ownership).
-
-
-## Related
-
-[[user management]] [[linux groups]] [[usermod]] [[useradd]] [[getent]] [[passwd]]
-
-## Sources
-
-- [Wikipedia — groupadd](https://en.wikipedia.org/wiki/groupadd)
+## Mistakes to Avoid
+- `usermod -G` without `-a` (drops `sudo`/`docker`).
+- Expecting open SSH sessions to pick up new groups immediately.
+- Creating local groups that shadow LDAP/SSSD names without checking `getent`.

@@ -1,12 +1,19 @@
-[[Normalized Discounted Cumulative Gain (NDCG)]] [[rank prediction]] [[binary classification]] [[multiclass classification]]
+[[Normalized Discounted Cumulative Gain (NDCG)]] [[rank prediction]] [[binary classification]] [[multiclass classification]] [[Visualization/Rank distribution]] [[Visualization/predicated versus actual plot]]
 
 # Mean Average Precision (MAP)
 
 > Mean Average Precision (MAP) — for each query, you have a ranked list of items. Relevance is binary (or graded in nDCG). Precision@k = relevant in top k
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Mean Average Precision (MAP) to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 For each query, you have a ranked list of items. **Relevance** is binary (or graded in nDCG). **Precision@k** = relevant in top k / k. **Average Precision (AP)** integrates precision at each rank where a relevant item appears.
 
@@ -24,10 +31,7 @@ MAP cares about **order**: putting all relevant items at the top scores higher t
 | **AP / MAP** | Full ranked list, query-averaged |
 | **[[Normalized Discounted Cumulative Gain (NDCG)]]** | Graded relevance + position discount |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.metrics import average_precision_score, label_ranking_average_precision_score
@@ -52,10 +56,19 @@ map_score = np.mean([
 2. Score all candidates; sort descending.
 3. Report MAP @ full list and **Precision@5 / Recall@20** for product SLAs.
 
----
+## Pros/Cons or Trade-offs
 
+- **Single-label classification** — use precision/recall/F1 ([[binary classification]]).
+- **Regression** — use MAE/RMSE ([[regression]]).
+- **Clustering** — no query-level ranking.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **MAP with binary relevance** ignores **how** relevant (marginally vs perfect match) — use [[Normalized Discounted Cumulative Gain (NDCG)]] for graded labels.
+
+> [!WARNING]
+> **Click data is biased** toward top ranks — raw clicks overestimate MAP of the old ranker.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,33 +78,3 @@ map_score = np.mean([
 | AP undefined | No relevant items in query | Skip query or define fallback metric |
 | Compares unfairly across systems | Different candidate pools | Same corpus per query |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **MAP with binary relevance** ignores **how** relevant (marginally vs perfect match) — use [[Normalized Discounted Cumulative Gain (NDCG)]] for graded labels.
-
-> [!WARNING]
-> **Click data is biased** toward top ranks — raw clicks overestimate MAP of the old ranker.
-
----
-
-
-## When not to use
-
-- **Single-label classification** — use precision/recall/F1 ([[binary classification]]).
-- **Regression** — use MAE/RMSE ([[regression]]).
-- **Clustering** — no query-level ranking.
-
----
-
-
-## Related
-
-[[Normalized Discounted Cumulative Gain (NDCG)]] · [[rank prediction]] · [[Visualization/Rank distribution]] · [[Visualization/predicated versus actual plot]]
-
-## Sources
-
-- [Wikipedia — Mean Average Precision](https://en.wikipedia.org/wiki/Mean_Average_Precision)

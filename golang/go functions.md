@@ -1,12 +1,19 @@
-[[golang]] [[go]] [[go package]] [[go functions]]
+[[golang]] [[go]] [[go package]] [[go functions]] [[go interface]] [[go error]] [[go-routines]]
 
 # go functions
 
 > Functions — first-class values with multiple returns; methods are functions with a receiver.
 
----
+## Interview Relevance
 
-## How it works
+Multiple returns, defer, and method receivers show up constantly — value vs pointer receiver and first-class functions are the depth checks.
+
+## Sources
+
+- [Go spec — Function types](https://go.dev/ref/spec#Function_types) — deep-dive
+- [Effective Go — Functions](https://go.dev/doc/effective_go#functions) — overview
+
+## Key Concepts
 
 ```txt
 func Add(a, b int) int
@@ -21,10 +28,7 @@ f := func(x int) int { return x + 1 }
 | Closure | Capture env |
 | Variadic `...T` | Soft argc |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 func Load(path string) ([]byte, error) {
@@ -50,10 +54,7 @@ sum := func(xs ...int) int {
 | Value receiver | Immutable small types |
 | Named results | Rare; clarity vs opacity |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,36 +63,14 @@ sum := func(xs ...int) int {
 | Huge stack copies | Big struct value recv | Pointer receiver |
 | Nil receiver panic | Called on nil | Guard or document |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** God functions 200+ lines — split.
+- **Trade-off:** Methods on every DTO — keep domain focused.
+- **Trade-off:** Returning `any` everywhere — type it.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **No default args / overloads** — use options structs.
-
-> [!WARNING]
-> **Defer closes over vars** — watch loop + defer.
-
-> [!WARNING]
-> **First-class funcs aren’t generics substitutes** — use type params when needed.
-
----
-
-
-## When not to use
-
-- **God functions 200+ lines** — split.
-- **Methods on every DTO** — keep domain focused.
-- **Returning `any` everywhere** — type it.
-
----
-
-
-## Related
-
-[[go interface]] [[go error]] [[go package]] [[go-routines]]
-
-## Sources
-
-- [Wikipedia — go functions](https://en.wikipedia.org/wiki/go_functions)
+- No default args / overloads — use options structs.
+- Defer closes over vars — watch loop + defer.
+- First-class funcs aren’t generics substitutes — use type params when needed.

@@ -1,12 +1,19 @@
-[[git]] [[git merge]] [[git rebase]] [[git branch]] [[git diff]] [[git error]]
+[[git]] [[git merge]] [[git rebase]] [[git branch]] [[git diff]] [[git error]] [[git worktree]] [[git hook]] [[git submodule]] [[git logs]] [[git blame]]
 
 # Git Commands — Recovery & Debug
 
 > When history is wrong — reflog, bisect, and dry-run merge before you force-push.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git Commands — Recovery & Debug` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
+
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```txt
 Working tree → index → commits → remote refs
@@ -14,17 +21,7 @@ Working tree → index → commits → remote refs
            reflog = local undo log
 ```
 
----
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 git reflog                          # find lost SHA
@@ -49,38 +46,24 @@ git stash list && git stash apply stash@{0}
 | `ORIG_HEAD` | Quick undo after rebase/merge |
 | Triple-dot `A...B` | Review / PR shape |
 
----
-
-
-## Options and flags
-
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
-
-
-## Examples
 
 ```bash
 # …
 ```
 
+| Task | Command |
+|------|---------|
+| … | `…` |
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Lost after reset | `git reflog` | Reset/branch to old SHA |
-| Detached HEAD | `git status` | `git switch -c keep-work` |
-| Push rejected | Non-fast-forward | Rebase/merge; force only if agreed |
-| When did bug land? | Bisect | `git bisect run` between good/bad |
-| Conflict mess | `git ls-files -u` | Fix markers; `--continue` / `--abort` |
-| Auth mid-push | credential helper | Clear helper; SSH/PAT |
+- **Force-push shared main** — prefer revert.
+- **Bisect on flaky tests** — script must be deterministic.
 
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **`git clean -fd` is irreversible** — preview with `-n`.
@@ -91,21 +74,12 @@ git stash list && git stash apply stash@{0}
 > [!WARNING]
 > **`A...B` ≠ `A..B`** — code review usually wants triple-dot.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Lost after reset | `git reflog` | Reset/branch to old SHA |
+| Detached HEAD | `git status` | `git switch -c keep-work` |
+| Push rejected | Non-fast-forward | Rebase/merge; force only if agreed |
+| When did bug land? | Bisect | `git bisect run` between good/bad |
+| Conflict mess | `git ls-files -u` | Fix markers; `--continue` / `--abort` |
+| Auth mid-push | credential helper | Clear helper; SSH/PAT |
 
-
-## When not to use
-
-- **Force-push shared main** — prefer revert.
-- **Bisect on flaky tests** — script must be deterministic.
-
----
-
-
-## Related
-
-[[git merge]] [[git rebase]] [[git worktree]] [[git hook]] [[git submodule]] [[git logs]] [[git blame]]
-
-## Sources
-
-- [Wikipedia — git command](https://en.wikipedia.org/wiki/git_command)

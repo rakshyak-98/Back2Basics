@@ -1,12 +1,19 @@
-[[Prefix sum]] [[sliding window]] [[dsa modular arithmetics]] [[Algorithm]]
+[[Prefix sum]] [[sliding window]] [[dsa modular arithmetics]] [[Algorithm]] [[Data structure]]
 
 # DSA combinatorics formulas
 
 > High-frequency counting formulas for interviews and complexity sanity checks — not a substitute for understanding *why* the formula applies.
 
----
+## Interview Relevance
 
-## How it works
+Combinatorics formulas are a speed check — interviewers watch whether you apply counting formulas only when the model matches.
+
+## Sources
+
+- [Wikipedia — Combinatorics](https://en.wikipedia.org/wiki/Combinatorics) — overview
+- [CP-Algorithms — Combinatorics](https://cp-algorithms.com/combinatorics/binomial-coefficients.html) — deep-dive
+
+## Key Concepts
 
 Many DSA problems reduce to **counting objects** (subarrays, pairs, paths) or **bounding work** (max operations). These closed forms avoid brute-force enumeration.
 
@@ -19,8 +26,7 @@ Permutations of n distinct:        n!
 
 Always verify: **distinct versus identical**, **ordered versus unordered**, **contiguous versus any subsequence**.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Subarrays / substrings (contiguous)
 
@@ -75,8 +81,7 @@ When output is mod `10^9+7`:
 // See [[dsa modular arithmetics]]
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -86,29 +91,13 @@ When output is mod `10^9+7`:
 | n! overflow | n > 20 in 64-bit | Use BigInt or modular factorial |
 | C(n,k) wrong for large n,k | Cancel before multiply | Use multiplicative formula with mod inverse |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Problem has constraint structure — e.g. "subarrays with sum divisible by k" needs prefix mod + frequency, not n(n+1)/2.
+- **Trade-off:** Replacing proof with memorization — formulas are sanity checks; derive from small n on whiteboard if unsure.
 
-> [!WARNING]
-> **`n(n+1)/2` is substrings, not subsequences** — subsequence count is exponential (2^n) for binary choice per position.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Duplicate elements** — distinct substring count ≠ n(n+1)/2; need suffix structures or rolling hash with set.
-
-> [!WARNING]
-> **Interview "formula" questions** — state assumptions aloud (distinct? contiguous?) before plugging numbers.
-
-
-## When not to use
-
-- **Problem has constraint structure** — e.g. "subarrays with sum divisible by k" needs prefix mod + frequency, not n(n+1)/2.
-- **Replacing proof with memorization** — formulas are sanity checks; derive from small n on whiteboard if unsure.
-
-
-## Related
-
-[[Prefix sum]] [[sliding window]] [[dsa modular arithmetics]] [[Algorithm]] [[Data structure]]
-
-## Sources
-
-- [Wikipedia — dsa genera formula](https://en.wikipedia.org/wiki/dsa_genera_formula)
+- `n(n+1)/2` is substrings, not subsequences — subsequence count is exponential (2^n) for binary choice per position.
+- Duplicate elements — distinct substring count ≠ n(n+1)/2; need suffix structures or rolling hash with set.
+- Interview "formula" questions — state assumptions aloud (distinct? contiguous?) before plugging numbers.

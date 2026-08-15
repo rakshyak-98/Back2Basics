@@ -1,12 +1,19 @@
-[[multiclass classification]] [[binary classification]] [[ML Classifiers]] [[regression]]
+[[multiclass classification]] [[binary classification]] [[ML Classifiers]] [[regression]] [[Mean Average Precision (MAP)]] [[Visualization/Residual plot]]
 
 # Ordinal classification
 
 > Ordinal classification — nominal multiclass treats "medium" vs "large" as equally wrong as "small" vs "large". Ordinal models encode rank structure:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Ordinal classification to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 Nominal multiclass treats "medium" versus "large" as equally wrong as "small" versus "large". Ordinal models encode **rank structure**:
 
@@ -27,10 +34,7 @@ Approaches:
 
 **Ordinal cross-entropy** (sometimes used) applies class weights by distance from true rank — not standard softmax CE.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import numpy as np
@@ -59,10 +63,19 @@ pred = clf.predict(X_test)
 
 Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 
----
+## Pros/Cons or Trade-offs
 
+- **Unordered categories** (cat/dog/bird) — [[multiclass classification]].
+- **True continuous measurement** — [[regression]] without bucketing.
+- **Binary decision** — [[binary classification]].
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Standard softmax** on star ratings wastes order information and treats all misclassifications equally in the loss (unless you post-hoc weight).
+
+> [!WARNING]
+> **Shuffling class IDs** — ordinal requires consistent integer order 0…K−1.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,33 +85,3 @@ Use **quadratic weighted kappa** or **MAE on ranks** — not plain accuracy.
 | Good accuracy, bad user UX | Far-off errors hidden | Report MAE / off-by-2 rate |
 | Label order ambiguous | Domain definition | Lock encoding doc (low=0 vs low=1) |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Standard softmax** on star ratings wastes order information and treats all misclassifications equally in the loss (unless you post-hoc weight).
-
-> [!WARNING]
-> **Shuffling class IDs** — ordinal requires consistent integer order 0…K−1.
-
----
-
-
-## When not to use
-
-- **Unordered categories** (cat/dog/bird) — [[multiclass classification]].
-- **True continuous measurement** — [[regression]] without bucketing.
-- **Binary decision** — [[binary classification]].
-
----
-
-
-## Related
-
-[[multiclass classification]] · [[regression]] · [[ML Classifiers]] · [[Mean Average Precision (MAP)]] · [[Visualization/Residual plot]]
-
-## Sources
-
-- [Wikipedia — ordinal classification](https://en.wikipedia.org/wiki/ordinal_classification)

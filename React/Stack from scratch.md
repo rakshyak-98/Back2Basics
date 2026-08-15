@@ -2,24 +2,50 @@
 
 # Stack from scratch
 
-> Stack from scratch shapes how React applications compose UI, state, and side effects in production.
+> Build a React app toolchain yourself — bundler, JSX transform, TypeScript, lint, test — to know what Vite/CRA hide.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
+Interviewers rarely want you to invent Webpack from memory; they want you to know what each tool does in the pipeline.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [Vite guide](https://vitejs.dev/guide/) — overview
+- [Start a React project](https://react.dev/learn/start-a-new-react-project) — overview
 
-## Recall
+## Core Definition
 
-What breaks first in production if `Stack from scratch` is misused — bundle size, stale UI, or hydration errors?
+A from-scratch stack wires compile (TS/JSX), bundle/dev server, env, and test runner — usually better adopted via Vite/Next than hand-rolled.
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Separate functional logic from persentation components]]
+- **Dev server + HMR:** Vite/webpack-dev-server.
+- **Transform:** esbuild/SWC/Babel for JSX.
+- **Typecheck:** `tsc --noEmit` separate from bundle.
+
+## Technical Details
+
+Minimal mental model:
+
+1. Resolve modules
+2. Transform JSX/TS
+3. Serve with HMR (dev) or emit assets (build)
+4. Run typecheck + unit tests in CI
+
+## Real-World Applications
+
+Greenfield admin UI: Vite + React + TS + ESLint + Vitest instead of custom Webpack.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Learning the pipeline debugs production build issues.
+- **Con:** Maintaining a custom bundler config is usually wasted effort.
+
+## Comparison
+
+- vs [[React build]]: build is the production artifact step; stack includes DX tooling around it.
+
+## Mistakes to Avoid
+
+- Copying outdated CRA eject configs in 2026.
+- Skipping typecheck because “the bundler compiled.”

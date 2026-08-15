@@ -1,12 +1,28 @@
-[[web workers]] [[content security policy]] [[Event Loop]] [[React build]]
+[[web workers]] [[content security policy]] [[Event Loop]] [[React build]] [[source map]]
 
 # Service Worker
 
 > Service Worker — unlike web workers (page-spawned, die with tab), a service worker is registered per origin + scope:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Service Worker** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [MDN — Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) — deep-dive
+- [Wikipedia — ServiceWorker](https://en.wikipedia.org/wiki/ServiceWorker) — overview
+
+## Core Definition
+
+Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
+
+## Key Concepts
+
+- Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
+- Short-lived: wakes on events, may terminate when idle. **No DOM access.**
+
+## Technical Details
 
 Unlike [[web workers]] (page-spawned, die with tab), a **service worker** is registered per **origin + scope**:
 
@@ -32,11 +48,6 @@ Client page  ──fetch──►  Service Worker  ──► network / cache
                               ↑
                          controls scope path
 ```
-
----
-
-
-## Configuration and commands
 
 ### Register (main thread)
 
@@ -82,47 +93,28 @@ New SW waits in **waiting** until tabs close — call `skipWaiting()` + `clients
 
 Requires **HTTPS** (localhost exempt). See [[content security policy]] for worker-source.
 
----
+## Real-World Applications
 
+In production APIs and tooling, **ServiceWorker** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Cache API ≠ HTTP cache** — you must version and delete old caches on activate; **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| SW never registers | Not HTTPS / wrong path | Serve over TLS; scope path |
-| Stale assets forever | cache-first on HTML | network-first for navigations |
-| 404 after deploy | Old precache list | Version CACHE name; cleanup activate |
-| SW not updating | Browser cache on sw.js | `Cache-Control: no-cache` on sw file |
-| CSP blocks | `worker-src` | Add self in CSP |
-| Works in dev only | build paths | Precache hashed filenames from manifest |
+- **Pro:** Solves the job described above when used in the right layer (Service Worker — unlike web workers (page-spawned, die with tab), a service work…).
+- **Con / when not:** **Heavy computation** — use [[web workers]]; SW is for network/cache lifecycle.
+- **Con / when not:** **authentication secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
+- **Con / when not:** **SSR-only apps with no offline need** — skip SW complexity.
 
----
+## Comparison
 
+vs [[web workers]]: know when each applies — do not treat them as interchangeable. vs [[content security policy]]: know when each applies — do not treat them as interchangeable. vs [[Event Loop]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Cache API ≠ HTTP cache** — you must version and delete old caches on activate.
-
-> [!WARNING]
-> **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
-
----
-
-
-## When not to use
-
-- **Heavy computation** — use [[web workers]]; SW is for network/cache lifecycle.
-- **authentication secrets in SW** — visible; tokens belong HttpOnly cookies server-side.
-- **SSR-only apps with no offline need** — skip SW complexity.
-
----
-
-
-## Related
-
-[[web workers]] · [[content security policy]] · [[Event Loop]] · [[React build]] · [[source map]]
-
-## Sources
-
-- [Wikipedia — ServiceWorker](https://en.wikipedia.org/wiki/ServiceWorker)
+- **Cache API ≠ HTTP cache** — you must version and delete old caches on activate.
+- **Debugging pain** — DevTools → Application → Service Workers → "Bypass for network" during dev.
+- **SW never registers:** check Not HTTPS / wrong path; fix: Serve over TLS; scope path
+- **Stale assets forever:** check cache-first on HTML; fix: network-first for navigations
+- **404 after deploy:** check Old precache list; fix: Version CACHE name; cleanup activate
+- **SW not updating:** check Browser cache on sw.js; fix: `Cache-Control: no-cache` on sw file
+- **CSP blocks:** check `worker-src`; fix: Add self in CSP
+- **Works in dev only:** check build paths; fix: Precache hashed filenames from manifest

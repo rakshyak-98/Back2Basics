@@ -1,12 +1,19 @@
-[[golang]] [[go]] [[go package]] [[go debugging]]
+[[golang]] [[go]] [[go package]] [[go debugging]] [[Makefile]]
 
 # go cli
 
 > `go` CLI — module, build, test, and dig into deps/memory with the standard toolchain.
 
----
+## Interview Relevance
 
-## How it works
+The `go` tool is daily driver literacy — modules, test, vet, and profiling entrypoints signal you can operate a Go codebase without IDE magic.
+
+## Sources
+
+- [Go — Command go](https://pkg.go.dev/cmd/go) — deep-dive
+- [Go — About the go command](https://go.dev/doc/go-commands) — overview
+
+## Key Concepts
 
 ```txt
 go mod init → edit code → go test ./... → go build
@@ -20,17 +27,7 @@ go mod init → edit code → go test ./... → go build
 | `go test -race` | Race detector |
 | `go doc` | Quick docs |
 
----
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 go mod init github.com/you/app
@@ -57,24 +54,7 @@ grep Vm /proc/$pid/status
 | `-trimpath` | Reproducible builds |
 | `replace` | Local module override |
 
----
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -84,36 +64,26 @@ grep Vm /proc/$pid/status
 | Slow CI | Module download | Cache pkg mod; vendor if needed |
 | Binary huge | Debug symbols | `-ldflags="-s -w"` |
 
----
+### Quick reference
 
+| Task | Command |
+|------|---------|
+| … | `…` |
 
-## Gotchas
+### Options and flags
 
-> [!WARNING]
-> **`go get` on a main module** — prefer `go get pkg@version` explicitly.
+| Flag | Effect | When to use |
+|------|--------|-------------|
+| … | … | … |
 
-> [!WARNING]
-> **`pmap`/`/proc` are Linux ops tips** — not part of Go itself.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`go run` rebuilds often** — use `build` for timing tests.
+- **Trade-off:** Non-Go monorepo orchestration — Bazel/Make wrap `go`, don’t replace understanding.
+- **Trade-off:** Editing `go.sum` by hand — never.
+- **Trade-off:** `GO111MODULE=off` in 2026 — modules only.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Non-Go monorepo orchestration** — Bazel/Make wrap `go`, don’t replace understanding.
-- **Editing `go.sum` by hand** — never.
-- **`GO111MODULE=off` in 2026** — modules only.
-
----
-
-
-## Related
-
-[[go]] [[Makefile]] [[go debugging]] [[go package]]
-
-## Sources
-
-- [Wikipedia — go cli](https://en.wikipedia.org/wiki/go_cli)
+- `go get` on a main module — prefer `go get pkg@version` explicitly.
+- `pmap`/`/proc` are Linux ops tips — not part of Go itself.
+- `go run` rebuilds often — use `build` for timing tests.

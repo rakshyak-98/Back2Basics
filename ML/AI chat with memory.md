@@ -1,12 +1,19 @@
-[[GPT]] [[prompt]] [[prompt enginerring]] [[scikitlearn]]
+[[GPT]] [[prompt]] [[prompt enginerring]] [[scikitlearn]] [[ANN]] [[data preprocessing]]
 
 # AI chat with memory
 
 > AI chat with memory — the model does not persist anything between HTTP calls. Every turn you send:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about AI chat with memory to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 The model does not persist anything between HTTP calls. Every turn you send:
 
@@ -24,10 +31,7 @@ Token budget is finite (`context window`). Long chats hit **context rot** (early
 | **Vector RAG** | Embeddings of docs + past turns | Scales knowledge; retrieval quality matters |
 | **Structured memory** | DB rows (user prefs, facts) | Deterministic; needs schema + extraction |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Minimal chat loop (OpenAI-style)
 
@@ -68,10 +72,19 @@ messages.append({"role": "user", "content": f"Context:\n{context}\n\nQuestion: {
 
 Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming protects latency and cost.
 
----
+## Pros/Cons or Trade-offs
 
+- **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
+- **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
+- **Real-time collaborative editing** — use CRDT/OT, not chat history as state.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Storing full chat in the client** — anyone can tamper with "memory." Treat client history as UX only; authoritative memory lives server-side with user/session ID.
+
+> [!WARNING]
+> **Injecting untrusted retrieved text** — RAG chunks can contain prompt-injection strings. Sanitize, attribute, and instruct the model to ignore instructions inside documents.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,33 +94,3 @@ Annotate **why**: system prompt sets behavior; RAG grounds facts; trimming prote
 | Duplicate / contradictory replies | Multiple memory sources unsynced | Single source of truth; version user profile row |
 | PII in logs | What you persist | Redact before store; TTL on conversation tables |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Storing full chat in the client** — anyone can tamper with "memory." Treat client history as UX only; authoritative memory lives server-side with user/session ID.
-
-> [!WARNING]
-> **Injecting untrusted retrieved text** — RAG chunks can contain prompt-injection strings. Sanitize, attribute, and instruct the model to ignore instructions inside documents.
-
----
-
-
-## When not to use
-
-- **Single-shot Q&A** with no follow-up — skip memory infrastructure entirely.
-- **Strict audit trail required** — prefer structured DB fields over LLM summaries you cannot replay verbatim.
-- **Real-time collaborative editing** — use CRDT/OT, not chat history as state.
-
----
-
-
-## Related
-
-[[GPT]] · [[prompt enginerring]] · [[ANN]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — AI chat with memory](https://en.wikipedia.org/wiki/AI_chat_with_memory)

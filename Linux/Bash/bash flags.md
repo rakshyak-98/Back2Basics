@@ -1,112 +1,73 @@
-[[Bash]] [[bash script]] [[Bash syntax]]
+[[Bash]] [[bash script]] [[Bash syntax]] [[Scripting]]
 
 # bash flags
 
 > Bash flags (`set -o` / `bash -e`) change shell behavior — strict mode, debug traces, noclobber, and friends.
 
----
+## Interview Relevance
+`set -euo pipefail` is the expected baseline; know what each letter does and that `-e` has subtle exceptions.
 
-## How it works
+## Sources
+- [Bash Reference — The Set Builtin](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html) — deep-dive
+- [BashFAQ — set -e](https://mywiki.wooledge.org/BashFAQ/105) — deep-dive
 
-```txt
-bash -c '…'          one-shot string
-set -euo pipefail    strict script defaults
-set -x               print commands as run (debug)
-set +x               turn trace off
-```
+## Core Definition
+`set -o option` (or short `-e`, `-u`, …) toggles shell options for the current shell. Scripts typically start with `set -euo pipefail`. `bash -x` / `set -x` traces commands as they run.
 
-### Interview map (words you can say)
+## Key Concepts
+- **`-e` (errexit):** Exit when a command fails (with caveats in `if`/`&&` lists).
+- **`-u` (nounset):** Error on unset variable expansion.
+- **`-o pipefail:** Pipeline fails if any stage fails, not only the last.
+- **`-x` (xtrace):** Print commands — debug gold.
+- **`bash -n`:** Syntax check without running.
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`-e` / `errexit`** | Exit on failure | “Don’t keep going after a failed deploy step.” |
-| **`-u` / `nounset`** | Error on unset vars | “Catches typos in variable names.” |
-| **`pipefail`** | Pipeline fails if any stage fails | “Without it, only the last command’s status counts.” |
-| **`-x` / `xtrace`** | Trace execution | “Show what ran — great in CI logs.” |
-| **`-n` / `noexec`** | Syntax check only | “`bash -n script.sh` before you ship.” |
-| **`-C` / `noclobber`** | Don’t overwrite with `>` | “Force `>|` to clobber deliberately.” |
-
----
-
-
-## Configuration and commands
-
-**Script default:**
+## Technical Details
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-```
 
-| Flag | Long (`set -o`) | Job |
-|------|-----------------|-----|
-| `-e` | `errexit` | Exit on non-zero |
-| `-u` | `nounset` | Unset → error |
-| `-x` | `xtrace` | Trace |
-| `-n` | `noexec` | Parse only |
-| `-v` | `verbose` | Print input lines |
-| `-f` | `noglob` | Disable globs |
-| `-C` | `noclobber` | Protect `>` overwrite |
-| `-a` | `allexport` | Auto-export vars |
-| `-b` | `notify` | Async job notifications |
-| `-m` | `monitor` | Job control |
-| `-i` | (invocation) | Force interactive |
-| `-l` | (invocation) | Login shell |
-| `-c` | (invocation) | Run string: `bash -c 'echo hi'` |
-| `-r` | restricted | Restricted shell |
-| `-P` | `physical` | `cd` follows physical paths |
-
-```bash
 set -e
 set +e                 # disable
 set -o pipefail
-bash -n ./deploy.sh    # syntax check
-bash -x ./deploy.sh    # run with trace
+bash -n ./deploy.sh
+bash -x ./deploy.sh
+set -x
+# …
+set +x
+
+set -o noclobber       # refuse > overwrite
+set -o nounset
 ```
 
----
-
-
-## When things break
+| Flag / option | Effect |
+|---------------|--------|
+| `-e` | Exit on error |
+| `-u` | Unset var = error |
+| `pipefail` | Any pipe stage failure counts |
+| `-x` | Trace |
+| `noclobber` | Block `>` overwrite |
+| `noglob` | Disable pathname expansion |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Script exits “for no reason” | `-e` + command status | Log with `-x`; handle expected non-zero |
-| Pipeline “succeeds” on failure | No `pipefail` | `set -o pipefail` |
-| `unbound variable` | `-u` | Provide defaults `${x:-}` |
-| Can’t overwrite file with `>` | `noclobber` | `>| file` or `set +C` |
-| Trace too noisy | Blind `-x` | `set -x` around critical section only |
+| Script continues after fail | no `-e` / exception context | Add `-e`; don’t hide in `cmd \|\| true` casually |
+| Pipeline “succeeds” on mid fail | default pipe status | `set -o pipefail` |
+| Trace too noisy | whole script `-x` | Wrap critical section only |
+| `nounset` on optional arg | `${1}` | Use `${1:-}` |
 
----
+## Real-World Applications
+Making CI deploy scripts fail loudly, tracing a flaky install with `bash -x`, and preventing accidental overwrite with `noclobber`.
 
+## Pros/Cons or Trade-offs
+- **Pro:** Catches silent failures early.
+- **Con:** `-e` semantics surprise people in conditionals; over-tracing hides signal.
+- **Trade-off:** Strict scripts vs temporary `set +e` around expected failures.
 
-## Gotchas
+## Comparison
+vs language exceptions: shell uses exit statuses + options. vs `shellcheck`: static analysis complements runtime flags. Related: [[bash script]].
 
-> [!WARNING]
-> **`set -e` is not a safety net for every construct** — commands in `if`, `&&`, `||`, and some pipelines are exempt; read Bash FAQ when surprised.
-
-> [!WARNING]
-> **`allexport` leaks env into every child** — easy to accidentally pass secrets.
-
-> [!WARNING]
-> **Restricted shell (`-r`) is not a security boundary** against determined users — use real isolation.
-
----
-
-
-## When not to use
-
-- **One-liner interactive exploration** — strict mode gets in the way; enable it in committed scripts.
-- **Expecting `set -e` to replace real error handling** — still check critical commands explicitly.
-- **Non-Bash `/bin/sh`** — `pipefail` and many `-o` names are Bash/ksh territory.
-
----
-
-
-## Related
-
-[[bash script]] [[Bash syntax]] [[Bash history]] [[Bash]]
-
-## Sources
-
-- [Wikipedia — bash flags](https://en.wikipedia.org/wiki/bash_flags)
+## Mistakes to Avoid
+- Believing `-e` covers every failure mode (read the FAQ exceptions).
+- Leaving `set -x` on in production cron (secret leakage in logs).
+- Using `cmd || true` everywhere “to satisfy -e.”

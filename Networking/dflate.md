@@ -1,14 +1,33 @@
-[[mime type]] [[TCP]] [[HTTP]]
+[[mime type]] [[TCP]] [[HTTP]] [[Nginx Configuration]]
 
 # Deflate (dflate)
 
 > Lossless compression combining LZ77 dictionary matching + Huffman coding — raw DEFLATE is the payload inside gzip and zlib wrappers.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers separate the **DEFLATE algorithm** from **gzip/zlib containers**, and expect you to know when HTTP compression saves bandwidth versus when it burns CPU or enables BREACH-class attacks.
 
-**DEFLATE** (RFC 1951) is the **algorithm**; **gzip** (RFC 1952) and **zlib** (RFC 1950) are **container formats** around it:
+## Sources
+
+- [RFC 1951 — DEFLATE Compressed Data Format](https://www.rfc-editor.org/rfc/rfc1951) — deep-dive
+- [RFC 1952 — GZIP file format](https://www.rfc-editor.org/rfc/rfc1952) — deep-dive
+- [RFC 1950 — ZLIB Compressed Data Format](https://www.rfc-editor.org/rfc/rfc1950) — overview
+- [MDN — Content-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) — overview
+
+## Core Definition
+
+DEFLATE is a lossless bitstream (LZ77 + Huffman). gzip and zlib wrap that bitstream with headers and checksums; HTTP usually advertises `Content-Encoding: gzip`, not raw DEFLATE.
+
+## Key Concepts
+
+- **DEFLATE (RFC 1951):** the compression algorithm → exact bytes restored.
+- **gzip / zlib:** container formats around DEFLATE → CRC/size (gzip) or Adler-32 (zlib).
+- **Content-Encoding:** HTTP negotiation (`Accept-Encoding` / `Content-Encoding`) → one compression layer end-to-end.
+- **Thresholds:** compress above ~1–2 KiB typically → tiny responses waste CPU.
+- **Alternatives:** brotli / zstd often beat gzip on text → trade CPU and compatibility.
+
+## Technical Details
 
 ```txt
 HTTP Content-Encoding: gzip
@@ -18,29 +37,15 @@ zlib (PNG, many libs)
   └─ zlib header + DEFLATE + Adler32
 ```
 
-Properties:
-- **Lossless** — exact bytes restored
-- **Not parallel-friendly** — single stream; brotli/zstd often beat it on text at cost of CPU
-- **Streaming** — compress chunk-by-chunk for HTTP
-
-**Service impact:** `gzip` on JSON/API saves bandwidth; CPU on small responses can **increase** latency — compress above ~1–2 KiB typically.
-
----
-
-
-## Configuration and commands
-
-### CLI compress/decompress
+Properties: lossless; not especially parallel-friendly as a single stream; supports streaming chunk-by-chunk for HTTP.
 
 ```bash
 echo 'hello world' | gzip | wc -c
 echo 'hello world' | gzip -d
 
-# Raw deflate (zlib wrapper stripped) — interop testing
+# Raw deflate (zlib wrapper) — interop testing
 python3 -c "import zlib; print(len(zlib.compress(b'hello'*100)))"
 ```
-
-### Nginx
 
 ```nginx
 gzip on;
@@ -49,62 +54,46 @@ gzip_min_length 1000;
 gzip_comp_level 5;   # 1 fast .. 9 slow
 ```
 
-### curl test
-
 ```bash
 curl -H 'Accept-Encoding: gzip' -v --compressed https://api.example.com/data
 # --compressed auto-decompresses
 ```
-
-### Node / Express
 
 ```javascript
 import compression from 'compression';
 app.use(compression({ threshold: 1024 }));
 ```
 
-**Why `gzip_min_length`:** compressing 200-byte 404 costs CPU for negligible bytes saved.
-
----
-
-
-## When things break
+**Why `gzip_min_length`:** compressing a 200-byte 404 costs CPU for negligible bytes saved.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Garbled response body | Double gzip; wrong Content-Encoding | One layer only; proxy decompress/recompress |
+| Garbled response body | Double gzip; wrong Content-Encoding | One layer only; proxy decompress/recompress carefully |
 | `ERR_CONTENT_DECODING_FAILED` | Truncated stream | Proxy buffer limits; disable gzip on broken path |
 | High CPU | gzip level 9 on hot path | Lower level; offload to CDN; use zstd at edge |
 | Android okhttp issues | Missing `Accept-Encoding` | Client must decode or disable gzip |
 
----
+## Real-World Applications
 
+API gateways and CDNs gzip JSON/HTML to cut bandwidth; static sites often serve precompressed `.gz`/`.br` assets.
 
-## Gotchas
+**Example:** An API enables `gzip_comp_level 9` on every response — p99 latency rises on small payloads; drop to level 5 and set a minimum length.
 
-> [!WARNING]
-> **DEFLATE ≠ gzip file** — `.gz` has headers; raw DEFLATE confuses tools expecting gzip.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **BREACH attack class** — gzip + secret in same body + attacker-controlled input — separate secrets or disable compression on sensitive endpoints.
+- **Pro:** Large text/JSON responses shrink substantially with modest CPU at mid levels.
+- **Con:** CPU on tiny or already-compressed bodies can increase latency.
+- **Con:** Compression + secrets in the same response can enable BREACH-class attacks.
 
-> [!WARNING]
-> **Precompressed static assets** — serve `.br`/`.gz` with correct headers; don't gzip twice.
+## Comparison
 
----
+- vs gzip file: `.gz` has headers/trailer; raw DEFLATE alone confuses tools expecting gzip.
+- vs brotli/zstd: better ratios on many text corpora; broader client support still favors gzip for some APIs.
+- Related: [[mime type]], [[TCP]], [[Nginx Configuration]].
 
+## Mistakes to Avoid
 
-## When not to use
-
-Skip compression for **already compressed** media (JPEG, PNG, video) and **TLS 1.3 0-RTT** sensitive paths where timing matters more than bytes.
-
----
-
-
-## Related
-
-[[mime type]] [[response header]] [[Nginx Configuration]] [[TCP]]
-
-## Sources
-
-- [Wikipedia — dflate](https://en.wikipedia.org/wiki/dflate)
+- Confusing DEFLATE with a `.gz` file — wrappers matter for interop.
+- Double-compressing — precompressed assets plus on-the-fly gzip; set correct `Content-Encoding` once.
+- Compressing JPEG/PNG/video again — already compressed; waste of CPU.
+- Ignoring BREACH — gzip + secret in same body + attacker-controlled input; separate secrets or disable compression on sensitive endpoints.

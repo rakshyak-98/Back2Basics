@@ -1,47 +1,57 @@
-[[Feature implementation]] [[Firebase messaging]] [[FCM Token (Firebase Cloud Messaging Token)]] [[Firebase]]
+[[Firebase messaging]] [[FCM Token (Firebase Cloud Messaging Token)]] [[android]]
 
 # Push notification integration
 
-> Push notifications require platform-specific credentials — Apple Push Notification service (APNs) for iOS, Firebase Cloud Messaging (FCM) for Android and web — your backend authenticates to the push gateway, not directly to the device.
+> Wire device push across Apple Push Notification service and FCM — platform credentials on the server, device tokens from the client, permission UX in the app.
 
----
+## Interview Relevance
 
-## Platform credentials
+Interviewers separate provider credentials (APNs key/cert, FCM service account), token storage, and permission prompts from “just call an SDK.”
 
-| Platform | Credential | Purpose |
-|----------|------------|---------|
-| iOS | APNs auth key or certificate | Proves your server may send for your app bundle ID |
-| Android / web | FCM service account (HTTP v1) | OAuth token for `fcm.googleapis.com` |
-| Web push | VAPID key pair | Browser subscription endpoint |
+## Sources
 
-APNs certificate or auth key proves to Apple that your backend is authorized to deliver notifications for your application. Without valid credentials, Apple does not deliver pushes.
+- [Apple — Sending notification requests](https://developer.apple.com/documentation/usernotifications) — overview
+- [Firebase — Cloud Messaging](https://firebase.google.com/docs/cloud-messaging) — deep-dive
 
----
+## Key Concepts
 
-## End-to-end flow
+- **APNs:** Apple’s pipe for iOS; needs key/certificate + bundle id.
+- **FCM:** Google’s pipe; often also relays to APNs for iOS when configured.
+- **Device token / FCM token:** store per install; refresh and prune.
+- **Permission:** OS prompt — explain value before asking.
+- **Payloads:** notification vs data messages; background limits differ per OS.
+
+## Technical Details
 
 ```txt
-App registers → device token → your API stores (userId, token, platform)
-Event occurs → your server → FCM or APNs → device OS → notification UI
+App asks permission → receives token → POST /devices
+Backend → APNs and/or FCM → device
 ```
 
-Store tokens per device install, not per user — one user may have many tokens. Listen for token refresh and delete stale tokens on `registration-token-not-registered` errors.
+| Platform | Typical credential |
+|----------|--------------------|
+| iOS direct | APNs auth key (.p8) |
+| Android | FCM / Google services |
+| iOS via FCM | FCM + uploaded APNs key |
 
----
+## Real-World Applications
 
-## What breaks first
+Order status and chat pings: server event → fan-out to user tokens → prune dead tokens from provider errors.
 
-| Symptom | Likely cause | Fix |
-|---------|--------------|-----|
-| iOS never receives | Missing APNs key in Firebase or Xcode capability | Upload key; enable Push Notifications |
-| Android works, iOS fails | Separate credential paths | Verify APNs + FCM project link |
-| Duplicate notifications | Multiple tokens per user | Send to latest token set; dedupe |
-| Web push fails | Not HTTPS or wrong VAPID | HTTPS only; match VAPID in console |
+**Example:** Android works, iOS silent — missing APNs key upload in Firebase or wrong bundle id.
 
-Do not use the device token as the user identifier. Treat tokens as secrets in logs and support tickets.
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** OS-level delivery and battery-aware scheduling.
+- **Con:** Multi-platform credential matrix and opaque provider failures.
 
-## Related
+## Comparison
 
-[[FCM Token (Firebase Cloud Messaging Token)]] · [[Firebase messaging]] · [[Multicast delivery]]
+- vs polling: push is event-driven but permission-gated.
+- vs [[Firebase messaging]]: this note is integration checklist; Firebase notes cover send APIs.
+
+## Mistakes to Avoid
+
+- Shipping without a token refresh path.
+- Treating data-only messages the same on iOS/Android without testing force-quit behavior.
+- Hardcoding provider keys in the mobile app.

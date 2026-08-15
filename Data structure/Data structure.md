@@ -1,12 +1,19 @@
-[[Data structure]] [[ADT (Abstract Data Type)]] [[DSA algorithms]]
+[[Data structure]] [[ADT (Abstract Data Type)]] [[DSA algorithms]] [[array]] [[linked list]]
 
 # Data structure
 
 > Data structures store data with different access costs — pick for the operations you run most.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers expect you to pick structures by access pattern and cost — not by name familiarity.
+
+## Sources
+
+- [Wikipedia — Data structure](https://en.wikipedia.org/wiki/Data_structure) — overview
+- [MIT 6.006 — Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
+
+## Key Concepts
 
 ```txt
 ops you need → structure → complexity tradeoffs
@@ -21,10 +28,7 @@ ops you need → structure → complexity tradeoffs
 | **Locality** | Cache friendliness | “Arrays beat pointer chasing.” |
 | **ADT vs impl** | Behavior vs layout | “Queue can be ring buffer.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 need O(1) avg lookup     → hash map
@@ -40,10 +44,7 @@ need relationships       → graph (adj list)
 | Memory | Pointer-heavy structures cost RAM |
 | Concurrency | Most classic DS aren’t thread-safe |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,30 +53,12 @@ need relationships       → graph (adj list)
 | Ordering bugs | unstable map iteration | Use ordered structure |
 | Memory blow | unbounded cache | Bound + eviction |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Tiny n — simplest container wins.
+- **Trade-off:** When a database index already solves it — don’t rebuild in application memory casually.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Premature cleverness** — array + scan beats fancy trees at small n.
-
-> [!WARNING]
-> **Language defaults** — “list” in Python is array; LinkedList in Java is nodes.
-
----
-
-
-## When not to use
-
-- **Tiny n** — simplest container wins.
-- **When a database index already solves it** — don’t rebuild in application memory casually.
-
-
-## Related
-
-[[ADT (Abstract Data Type)]] [[array]] [[linked list]] [[DSA algorithms]]
-
-## Sources
-
-- [Wikipedia — Data structure](https://en.wikipedia.org/wiki/Data_structure)
+- Premature cleverness — array + scan beats fancy trees at small n.
+- Language defaults — “list” in Python is array; LinkedList in Java is nodes.

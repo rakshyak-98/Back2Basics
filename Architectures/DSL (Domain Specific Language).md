@@ -4,9 +4,16 @@
 
 > Language tuned to one problem domain — expressive for experts, useless elsewhere — **contrast with general-purpose languages**.
 
----
+## Interview Relevance
 
-## How it works
+DSL questions separate internal vs external DSLs and when a constrained language beats a general-purpose API.
+
+## Sources
+
+- [Martin Fowler — Domain-Specific Languages](https://martinfowler.com/books/dsl.html) — deep-dive
+- [Wikipedia — Domain-specific language](https://en.wikipedia.org/wiki/Domain-specific_language) — overview
+
+## Key Concepts
 
 A **DSL** trades generality for **domain fit**: SQL for relations, Regex for strings, HCL for infra, CSS for styling, Mermaid for diagrams.
 
@@ -23,8 +30,7 @@ General-purpose (Java, Python)     DSL (SQL, Makefile, GraphQL schema)
 | **Internal DSL** | Fluent API in Ruby | Host language syntax |
 | **Declarative config** | [[Terraform/variable file]] HCL, K8s YAML | Engine interprets |
 
-
-## Configuration and commands
+## Technical Details
 
 ### When to introduce a DSL
 
@@ -79,8 +85,7 @@ See [[Descriptive/Mermaid (DSL)]].
 { "action": "doThing", "arg": 1 }  // prefer protobuf/OpenAPI/JSON Schema
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -90,27 +95,14 @@ See [[Descriptive/Mermaid (DSL)]].
 | Two DSLs for same domain | Org drift | Consolidate; version schema |
 | Hard to test | No golden files | Snapshot parse → AST → eval |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** One-off 10-line configuration — JSON/YAML enough.
+- **Trade-off:** Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
 
-> [!WARNING]
-> **Every DSL becomes a maintenance product** — parsers, docs, migration, IDE support.
+## Mistakes to Avoid
 
+- Every DSL becomes a maintenance product — parsers, docs, migration, IDE support.
 - **YAML as DSL** — easy to start, painful at scale (no types, footgun syntax).
 - **Internal DSL** inherits host complexity — Ruby DSL unreadable to non-Ruby devs.
 - **Version DSL files** in git — breaking grammar needs migration tool.
-
-
-## When not to use
-
-- One-off 10-line configuration — JSON/YAML enough.
-- Team lacks parser expertise and domain rules change weekly — use data-driven tables in code.
-
-
-## Related
-
-[[Descriptive/Mermaid (DSL)]] [[Terraform/variable file]] [[Nginx/Configuration]] [[Architectures/Orchestration layer]]
-
-## Sources
-
-- [Wikipedia — DSL](https://en.wikipedia.org/wiki/DSL)

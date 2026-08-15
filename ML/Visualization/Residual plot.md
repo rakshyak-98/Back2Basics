@@ -1,12 +1,19 @@
-[[regression]] [[Visualization/predicated versus actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]]
+[[regression]] [[Visualization/predicated versus actual plot]] [[Model/Linear regression]] [[data preprocessing]] [[ordinal classification]] [[Model/Polynomial regression]]
 
 # Residual plot
 
 > Residual plot — residuals should look like random noise around zero:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Residual plot to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 Residuals should look like **random noise** around zero:
 
@@ -30,10 +37,7 @@ Structured patterns mean the model missed something:
 
 For **ordinal** models, off-by-k errors show as discrete bands — consider [[ordinal classification]] metrics too.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import matplotlib.pyplot as plt
@@ -74,10 +78,19 @@ outliers = np.abs(std_res) > 3
 print(f"Outlier count: {outliers.sum()}")
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Classification** — use calibration curves / confusion matrix.
+- **Huge datasets** — subsample scatter; use binned residual plots.
+- **Ranking-only goals** — [[Normalized Discounted Cumulative Gain (NDCG)]] on ranked lists.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Heteroscedasticity** violates OLS confidence intervals — predictions may still be OK; inference is wrong.
+
+> [!WARNING]
+> **Outliers drive visual scale** — plot standardized residuals or use robust regression.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -89,33 +102,3 @@ print(f"Outlier count: {outliers.sum()}")
 
 Pair with [[Visualization/predicated versus actual plot]] for full picture.
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Heteroscedasticity** violates OLS confidence intervals — predictions may still be OK; inference is wrong.
-
-> [!WARNING]
-> **Outliers drive visual scale** — plot standardized residuals or use robust regression.
-
----
-
-
-## When not to use
-
-- **Classification** — use calibration curves / confusion matrix.
-- **Huge datasets** — subsample scatter; use binned residual plots.
-- **Ranking-only goals** — [[Normalized Discounted Cumulative Gain (NDCG)]] on ranked lists.
-
----
-
-
-## Related
-
-[[Visualization/predicated versus actual plot]] · [[regression]] · [[Model/Polynomial regression]] · [[Model/Linear regression]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — Residual plot](https://en.wikipedia.org/wiki/Residual_plot)

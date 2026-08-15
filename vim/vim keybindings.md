@@ -1,99 +1,81 @@
-[[vim buffers]] [[Descriptive/LSP]] [[nvim setup]] [[zed keybindings]]
+[[vim buffers]] [[vim commands]] [[vim mark]] [[Descriptive/LSP]] [[nvim/nvim setup]]
 
-# Vim / Neovim keybindings — go to
+# vim keybindings
 
-> LSP-powered navigation (definition, references, implementation) plus jump-back — requires Neovim with a language server attached; plain Vim needs ctags or a plugin.
+> Keyboard maps for modes and navigation — move, jump to definitions, and return via jumplist / tag stack.
 
----
+## Interview Relevance
 
-## How it works
-
-
-**Go to** commands ask the [[Descriptive/LSP|LSP]] (or ctags) where a symbol lives, then jump the cursor there. Neovim 0.11+ ships **global** `gr*` maps at startup; **buffer-local** maps (`K`, `CTRL-]`, diagnostics) apply when an LSP client attaches.
-
-After any jump, use the **jumplist** (`Ctrl-o` / `Ctrl-i`) or **tag stack** (`Ctrl-t`) to return — LSP single-result jumps push onto the tag stack.
-
-```
-cursor on symbol → go-to key → LSP query → jump (or quickfix list)
-                                    ↓
-                              Ctrl-o to jump back
-```
-
-See [[Descriptive/LSP#Difference between Go to Reference, Definition, Implementation]] for when to use each target.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Vim / Neovim keybindings — go to** | This note’s core idea | “I explain Vim / Neovim keybindings — go to in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Broken / unexpected | Reproduce + logs | Fix config or code path |
-| Works only locally | Env / secrets / versions | Align environments |
-| Intermittent | race / timeout / retry | Add backoff; fix shared state |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[vim buffers]] [[Descriptive/LSP]] [[nvim setup]] [[zed keybindings]]
+Signals you can navigate a large codebase in Vim/Neovim under screen share: motions, LSP “go to,” and how to get back (`Ctrl-o` / `Ctrl-t`) without losing context.
 
 ## Sources
 
-- [Wikipedia — vim keybindings](https://en.wikipedia.org/wiki/vim_keybindings)
+- [Neovim — LSP defaults](https://neovim.io/doc/user/lsp.html) — deep-dive
+- [Vim help — map.txt](https://vimhelp.org/map.txt.html) — deep-dive
+- [Vim help — motion.txt](https://vimhelp.org/motion.txt.html) — overview
+
+## Core Definition
+
+Keybindings are Normal/Visual/Insert maps plus built-in motions. In Neovim, language-server “go to” maps jump the cursor to definitions and references; the jumplist and tag stack bring you back.
+
+## Key Concepts
+
+- **Modes:** Normal for verbs, Insert for typing, Visual for selections, Ex (`:`) for commands → wrong mode is the #1 “Vim is broken” report.
+- **Motions vs operators:** `w` / `}` / `gg` move; `d` / `c` / `y` act — compose them (see [[vim commands]]).
+- **LSP go-to:** definition, references, implementation — query the [[Descriptive/LSP|language server]], then jump or fill the quickfix list.
+- **Jumplist / tag stack:** `Ctrl-o` / `Ctrl-i` walk jump history; `Ctrl-t` pops the tag stack after `Ctrl-]` / many LSP single-result jumps.
+- **Custom maps:** `nnoremap` (non-recursive Normal) preferred over `nmap` to avoid remap loops.
+
+## Technical Details
+
+```
+cursor on symbol → go-to key → LSP query → jump (or quickfix)
+                                    ↓
+                              Ctrl-o / Ctrl-t to return
+```
+
+Typical Neovim LSP maps (0.11+ ships many `gr*` defaults; buffer-local maps attach with the client):
+
+| Action | Common map |
+|--------|------------|
+| Hover | `K` |
+| Definition | `gd` / `CTRL-]` |
+| References | `grr` (Neovim default) |
+| Implementation | `gri` |
+| Signature help | `CTRL-s` (when mapped) |
+| Jump back | `Ctrl-o` or `Ctrl-t` |
+
+```vim
+" Example custom maps (Vim + ctags, or older Neovim)
+nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>rn <Cmd>lua vim.lsp.buf.rename()<CR>
+```
+
+Plain Vim without LSP: `ctags -R` then `Ctrl-]` / `Ctrl-t`, or a plugin.
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Go-to does nothing | LSP attached? `:LspInfo` | Start language server; open correct root |
+| Jump but can’t return | Used mouse / new edit | Prefer `Ctrl-o`; check `:jumps` |
+| Map inserts literal keys | Wrong mode / recursive map | Use `nnoremap`; verify mode |
+| Works in Neovim only | Feature not in Vim | Install LSP plugin or use ctags |
+
+## Real-World Applications
+
+Live debugging a service: `gd` into a handler, chase one more definition, then `Ctrl-o` twice back to the call site to patch.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Hands stay on home row; navigation scales with LSP.
+- **Con:** Maps differ across Vim vs Neovim versions — document team defaults.
+
+## Comparison
+
+- vs IDE F12 / Cmd-click: same idea; Vim exposes jumplist explicitly.
+- vs [[zed/zed keybindings]]: different editor, same “go to definition + back” mental model.
+
+## Mistakes to Avoid
+
+- Remapping without `noremap` — recursive maps surprise you later.
+- Expecting LSP maps in stock Vim — need Neovim + client or a plugin / ctags.
+- Ignoring jumplist after deep dives — you “lose” your place even though history exists (`:jumps`).

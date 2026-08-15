@@ -1,19 +1,18 @@
-[[React Architecture]] [[React build]] [[RSC (React Server Component boundaries)]] [[Optimizing performance]]
+[[React Architecture]] [[React build]] [[RSC (React Server Component boundaries)]] [[Optimizing performance]] [[API handling]]
 
 # React routes
 
 > Map URLs → layouts → screens — prefer **relative routes + route objects** so base path changes don't break — **React Router v6+ docs**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use React routes to test whether you can apply the idea under production constraints, not recite docs.
 
-```txt
-URL /billing/invoices/42
-  → Router matches route tree
-  → layout (shell) + child route (page)
-  → loaders/actions (data router) optional
-```
+## Sources
+
+- [Wikipedia — react routes](https://en.wikipedia.org/wiki/react_routes) — overview
+
+## Key Concepts
 
 React Router v6 uses nested routes:
 
@@ -31,10 +30,14 @@ React Router v6 uses nested routes:
 | `lazy()` | Code-split route modules ([[React build]]) |
 | `basename` | Deploy under `/app` subpath |
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+URL /billing/invoices/42
+  → Router matches route tree
+  → layout (shell) + child route (page)
+  → loaders/actions (data router) optional
+```
 
 ```tsx
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
@@ -83,10 +86,17 @@ function AppLayout() {
 
 Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login" />` or `<Outlet />`.
 
----
+## Real-World Applications
 
+Apply React routes in feature code where the Key Concepts match; verify with the Mistakes table.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **File-based routing only** — Next.js application Router owns routes; don't fight framework.
+- **Con / skip when:** **Hash routing (`#/`)** — only legacy embeds without server rewrite support.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -96,32 +106,5 @@ Wrap with `RequireAuth` that reads authentication hook → `<Navigate to="/login
 | Loader data stale | No revalidation | `shouldRevalidate` / Query cache |
 | Basename broken assets | Hardcoded `/` paths | `import.meta.env.BASE_URL` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **All absolute paths** (`/manage-rooms`) — works until app moves under `/v2`; use relative segments in nested config.
-
-> [!WARNING]
-> **Client-only router on SSR** — hydrate with same route on server ([[RSC (React Server Component boundaries)]]).
-
----
-
-
-## When not to use
-
-- **File-based routing only** — Next.js application Router owns routes; don't fight framework.
-- **Hash routing (`#/`)** — only legacy embeds without server rewrite support.
-
----
-
-
-## Related
-
-[[React Architecture]] · [[React build]] · [[API handling]] · [[RSC (React Server Component boundaries)]]
-
-## Sources
-
-- [Wikipedia — react routes](https://en.wikipedia.org/wiki/react_routes)
+- **All absolute paths** (`/manage-rooms`) — works until app moves under `/v2`; use relative segments in nested config.
+- **Client-only router on SSR** — hydrate with same route on server ([[RSC (React Server Component boundaries)]]).

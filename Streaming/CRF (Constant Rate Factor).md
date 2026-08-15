@@ -1,23 +1,20 @@
-[[bitrate streaming]] [[Encoding]] [[transcoding]] [[NVENC]] [[codecs]]
+[[bitrate streaming]] [[Encoding]] [[transcoding]] [[NVENC]] [[codecs]] [[re-encoding]] [[ABR]]
 
 # CRF (Constant Rate Factor)
 
 > CRF (Constant Rate Factor) — CRF 18 ──► high quality, large files (archival-ish VoD)
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about CRF to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — CRF](https://en.wikipedia.org/wiki/CRF) — overview
+
+## Key Concepts
 
 **CRF** tells the encoder **how hard to compress** (quality target), not a fixed bitrate. Complex scenes get **more bits**; static scenes get **fewer** — average file size **varies by content**. Scale: lower CRF = higher quality (x264 typical range **18–28**, sane default **23**).
-
-```txt
-CRF 18 ──► high quality, large files (archival-ish VoD)
-CRF 23 ──► default balance
-CRF 28 ──► small files, visible artifacts on motion
-
-Per-scene complexity ──► encoder allocates bits dynamically
-Manifest BANDWIDTH ──► must use measured peak / capped maxrate for ABR
-```
 
 | Mode | Use when | Predictability |
 |------|----------|----------------|
@@ -27,10 +24,16 @@ Manifest BANDWIDTH ──► must use measured peak / capped maxrate for ABR
 
 CRF is **single-pass friendly** for VoD; live ABR ladders usually use **CBR or capped VBR** ([[bitrate streaming]]).
 
----
+## Technical Details
 
+```txt
+CRF 18 ──► high quality, large files (archival-ish VoD)
+CRF 23 ──► default balance
+CRF 28 ──► small files, visible artifacts on motion
 
-## Configuration and commands
+Per-scene complexity ──► encoder allocates bits dynamically
+Manifest BANDWIDTH ──► must use measured peak / capped maxrate for ABR
+```
 
 ### x264 CRF (quality anchor)
 
@@ -79,10 +82,18 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 # Or peak over segments for HLS
 ```
 
----
+## Real-World Applications
 
+Used wherever CRF sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Contractual max bitrate (broadcast)** — use CBR.
+- **Con / skip when:** **Live with fixed uplink** — CBR or capped VBR; CRF can spike and drop frames.
+- **Con / skip when:** **ABR manifest without maxrate** — player bandwidth math breaks on variable peaks.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,39 +104,7 @@ ffprobe -v error -show_entries format=bit_rate -of csv=p=0 output.mp4
 | Inconsistent rung quality | Same CRF at different resolutions | Per-rung CRF offset (+2 for 720p, +4 for 480p) |
 | Live attempt with CRF | Uplink spikes | Switch to CBR for live ([[RTMP]] ingest) |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **CRF + `-b:v` together** — x264 uses `-b:v` as VBR cap in some modes; know your encoder docs.
-
-> [!WARNING]
-> **Copy CRF across codecs** — AV1 CRF 30 ≠ x264 CRF 30; re-tune per codec.
-
-> [!WARNING]
-> **Hardware encoders (NVENC)** — use CQ/VBR quality modes, not libx264 CRF — see [[NVENC]].
-
-> [!WARNING]
-> **Statistical multiplexing** — broadcast statmux needs CBR; CRF incompatible with shared pool.
-
----
-
-
-## When not to use
-
-- **Contractual max bitrate (broadcast)** — use CBR.
-- **Live with fixed uplink** — CBR or capped VBR; CRF can spike and drop frames.
-- **ABR manifest without maxrate** — player bandwidth math breaks on variable peaks.
-
----
-
-
-## Related
-
-[[bitrate streaming]] [[Encoding]] [[transcoding]] [[re-encoding]] [[codecs]] [[NVENC]] [[ABR]]
-
-## Sources
-
-- [Wikipedia — CRF](https://en.wikipedia.org/wiki/CRF)
+- **CRF + `-b:v` together** — x264 uses `-b:v` as VBR cap in some modes; know your encoder docs.
+- **Copy CRF across codecs** — AV1 CRF 30 ≠ x264 CRF 30; re-tune per codec.
+- **Hardware encoders (NVENC)** — use CQ/VBR quality modes, not libx264 CRF — see [[NVENC]].
+- **Statistical multiplexing** — broadcast statmux needs CBR; CRF incompatible with shared pool.

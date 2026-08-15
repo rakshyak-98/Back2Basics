@@ -1,13 +1,19 @@
-[[gpg]] [[git command]] [[git hook]]
+[[gpg]] [[git command]] [[git hook]] [[Authentication command]]
 
 # GPG sign (Git commits & tags)
 
 > GPG sign (Git commits & tags) — git attaches an OpenPGP signature to commit or tag objects. Verifiers use your public key (gpg --list-keys) to confirm
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `GPG sign (Git commits & tags)` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 git commit -S ──► gpg signs hash ──► signature embedded in commit
@@ -20,8 +26,7 @@ git log --show-signature ──► gpg --verify against trusted keys
 | `gpg: signing failed: No secret key` | Key ID in git config doesn't match secret keyring |
 | `gpg: signing failed: Inappropriate ioctl` | TTY/pinentry broken over SSH |
 
-
-## Configuration and commands
+## Technical Details
 
 **Generate key (if none):**
 
@@ -73,8 +78,25 @@ git config --global user.signingkey ~/.ssh/id_ed25519.pub
 
 See [[gpg]] for repository key verification (nginx packages, etc.) — different use case from commit signing.
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Internal-only repos with no audit requirement** — signing overhead may not pay off.
+- **Replace code review** — signature proves key holder signed, not that code is safe.
+- **Secrets in commits** — sign doesn't encrypt; use git-crypt/SOPS for confidentiality.
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Key in git config but only public key imported** — signing needs **secret** key on that machine.
+
+> [!WARNING]
+> **Expired/revoked key** — old commits verify as expired. Plan rotation and GitHub key update.
+
+> [!WARNING]
+> **`commit.gpgsign true` globally** — rebases/amends re-sign constantly; ensure agent works or disable on throwaway branches.
+
+> [!WARNING]
+> **Subkeys vs primary** — git signing uses signing subkey if present; list with `--list-secret-keys`.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -93,34 +115,3 @@ git config --global user.signingkey <LONG_ID> # must match
 gpg-agent --daemon                            # restart agent if stuck
 export GPG_TTY=$(tty)
 ```
-
-
-## Gotchas
-
-> [!WARNING]
-> **Key in git config but only public key imported** — signing needs **secret** key on that machine.
-
-> [!WARNING]
-> **Expired/revoked key** — old commits verify as expired. Plan rotation and GitHub key update.
-
-> [!WARNING]
-> **`commit.gpgsign true` globally** — rebases/amends re-sign constantly; ensure agent works or disable on throwaway branches.
-
-> [!WARNING]
-> **Subkeys vs primary** — git signing uses signing subkey if present; list with `--list-secret-keys`.
-
-
-## When not to use
-
-- **Internal-only repos with no audit requirement** — signing overhead may not pay off.
-- **Replace code review** — signature proves key holder signed, not that code is safe.
-- **Secrets in commits** — sign doesn't encrypt; use git-crypt/SOPS for confidentiality.
-
-
-## Related
-
-[[gpg]] [[git command]] [[git hook]] [[Authentication command]]
-
-## Sources
-
-- [Wikipedia — gpg sign](https://en.wikipedia.org/wiki/gpg_sign)

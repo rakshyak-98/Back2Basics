@@ -4,7 +4,17 @@
 
 > Proxy provides a stand-in object that controls access to another — lazy loading, remote calls, permissions, or logging without changing the real subject's interface.
 
-## Common proxy types
+## Interview Relevance
+
+Proxy interviews cover access control, lazy init, and remoting — same interface as the real object, different control point than Decorator.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Proxy) — deep-dive
+
+## Technical Details
+
+**Common proxy types**
 
 | Type | Behavior |
 |------|----------|
@@ -19,21 +29,18 @@ Client → Proxy.operation()
             → RealSubject.operation()
 ```
 
-## vs Decorator
-
-Both wrap and delegate. Proxy usually manages **lifecycle or access** of one subject; Decorator **stacks** optional behavior.
-
-## When to use
+## Real-World Applications
 
 - Large images/documents loaded on demand.
 - API clients that need retries, auth injection, or metering at the boundary.
 
-## Pitfalls
+## Comparison
+
+**vs Decorator**
+
+Both wrap and delegate. Proxy usually manages **lifecycle or access** of one subject; Decorator **stacks** optional behavior.
+
+## Mistakes to Avoid
 
 - Proxy that changes semantics silently (caching stale data).
 - Remote proxy without timeout and circuit breaking — failures look like hangs.
-
-## Sources
-
-- Gamma et al., *Design Patterns* (Proxy)
-- [Proxy pattern — Wikipedia](https://en.wikipedia.org/wiki/Proxy_pattern)

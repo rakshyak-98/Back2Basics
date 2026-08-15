@@ -1,12 +1,31 @@
-[[TypeScript]] [[ambient modules]] [[tsconfig]]
+[[ambient modules]] [[tsconfig]] [[typescript]] [[typescript error]]
 
 # Triple-Slash Directives
 
-> Triple-slash — `/// <reference … />` comments that pull in `.d.ts` or set a module path (legacy; prefer `import` / `tsconfig` includes).
+> `/// <reference … />` comments pull declaration files or `@types` packages into compilation — legacy wiring; prefer `import` and `tsconfig` `types`/`include`.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers may mention triple-slash directives to see if you know they are a dependency mechanism for `.d.ts` files, and that modern apps should not sprinkle them when `tsconfig` already controls types.
+
+## Sources
+
+- [TypeScript Handbook — Triple-Slash Directives](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html) — deep-dive
+- [TypeScript Handbook — tsconfig types](https://www.typescriptlang.org/tsconfig#types) — overview
+
+## Core Definition
+
+Triple-slash directives are single-line comments of the form `/// <reference … />` that instruct the compiler to include another file (`path`) or a type package (`types`) as part of the compilation context.
+
+## Key Concepts
+
+- **`reference path`:** include another `.d.ts` or TS file by relative path.
+- **`reference types`:** load a package from `@types` / `node_modules` (for example `node`, `vite/client`).
+- **Order matters:** earlier references are processed first.
+- **Prefer `tsconfig`:** `compilerOptions.types` and `include` usually replace ad-hoc refs.
+- **Types only:** directives do not create runtime imports.
+
+## Technical Details
 
 ```ts
 /// <reference types="node" />
@@ -17,12 +36,7 @@
 |-----------|-----|
 | `path` | Include another file |
 | `types` | Package like `@types/node` |
-| `lib` | (rare) lib components |
-
----
-
-
-## Configuration and commands
+| `lib` | (rare) built-in lib components |
 
 ```ts
 /// <reference types="vite/client" />
@@ -35,49 +49,35 @@
 |------|----------------|
 | Order | Earliest refs process first |
 | `types` vs `path` | Package vs relative file |
-| `tsconfig` `types` | Often replaces refs |
-
----
-
-
-## When things break
+| `tsconfig` `types` | Often replaces scattered refs |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Types missing in Vite | Client ref | Add vite/client ref or types |
-| Duplicate globals | Multiple refs | Deduge via tsconfig types |
-| Path not found | Wrong relative | Fix path; use include |
+| Types missing in Vite | Client types not loaded | Add `vite/client` via ref or `types` |
+| Duplicate globals | Multiple refs | Deduplicate via `tsconfig` `types` |
+| Path not found | Wrong relative path | Fix path; use `include` |
 
----
+## Real-World Applications
 
+Generated declaration emit may insert references; Vite templates sometimes keep `/// <reference types="vite/client" />` at the top of `vite-env.d.ts`.
 
-## Gotchas
+**Example:** Globals appear twice because both a triple-slash and `compilerOptions.types` load `@types/node` — pick one path.
 
-> [!WARNING]
-> **Don’t sprinkle in app TS** — use imports/`tsconfig`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`reference types` loads whole package** — can pollute globals.
+- **Pro:** Explicit, file-local way to pull declarations in older or generated code.
+- **Con:** Scattering refs in application TS obscures the real dependency graph.
+- **Con:** `reference types` can load an entire package and pollute globals.
 
-> [!WARNING]
-> **Generated emit may insert them** — don’t fight blindly.
+## Comparison
 
----
+- vs ES `import`: imports are the modern module graph; triple-slash is declaration wiring.
+- vs [[tsconfig]] `types`/`include`: central configuration beats per-file refs for apps.
+- vs [[ambient modules]]: ambient modules declare shapes; triple-slash decides which declaration files participate.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Modern application code** — ES imports.
-- **Controlling `@types` set** — `compilerOptions.types`.
-- **Runtime dependency** — it’s types only.
-
----
-
-
-## Related
-
-[[ambient modules]] [[tsconfig]] [[typescript]]
-
-## Sources
-
-- [Wikipedia — Triple-Slash Directives](https://en.wikipedia.org/wiki/Triple-Slash_Directives)
+- Sprinkling directives through application source when `tsconfig` already lists types.
+- Fighting generated emit that inserts references without understanding why.
+- Assuming a reference creates a runtime dependency — it is types only.
+- Using `path` refs instead of fixing `include` for project files.

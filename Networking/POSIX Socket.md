@@ -1,30 +1,29 @@
-[[Networking]] [[BSD Socket]] [[TCP]] [[UDP]] [[address port]]
+[[Networking]] [[BSD Socket]] [[Berkeley sockets]] [[TCP]] [[UDP]] [[address port]] [[localhost]]
 
 # POSIX Socket
 
 > POSIX sockets are the portable `socket()`/`bind()`/`connect()` API — a socket is a file descriptor you `read`/`write`/`close`.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers want the client/server call sequence, what `bind` does vs `connect`, and that TCP is a byte stream (no message boundaries) — plus common errors like `EADDRINUSE` and `EAGAIN`.
 
-```txt
-Server: socket → bind → listen → accept → recv/send → close
-Client: socket → (optional bind) → connect → send/recv → close
-```
+## Sources
 
-### Interview map (words you can say)
+- [IEEE Std 1003.1 — `socket`](https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html) — deep-dive
+- [IEEE Std 1003.1 — `bind` / `listen` / `accept`](https://pubs.opengroup.org/onlinepubs/9699919799/functions/bind.html) — deep-dive
+- [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Socket** | Communication endpoint (fd) | “Looks like a file to the process.” |
-| **bind** | Attach local IP:port | “Server identity; clients usually skip it.” |
-| **listen / accept** | Queue + take connections | “TCP server path.” |
-| **connect** | Dial peer | “Client; OS may ephemeral-bind first.” |
-| **AF_INET / AF_UNIX** | IPv4 vs local IPC | “Unix domain skips the network stack.” |
-| **Non-blocking** | Return `EAGAIN` instead of wait | “Needed with `epoll`/`poll`.” |
+## Key Concepts
 
-### Core calls (map)
+- **Socket as fd:** create with `socket`, then `read`/`write`/`close` like a file → “looks like a file to the process.”
+- **`bind`:** attach local IP:port → server identity; clients usually skip it (OS ephemeral-binds).
+- **`listen` / `accept`:** queue + take connections → TCP server path.
+- **`connect`:** dial peer → client path; OS may ephemeral-bind first.
+- **`AF_INET` / `AF_UNIX`:** IPv4 network vs local IPC → Unix domain skips the network stack.
+- **Non-blocking:** return `EAGAIN` instead of wait → needed with `epoll`/`poll`.
+
+### Core calls
 
 | Call | Role |
 |------|------|
@@ -35,10 +34,12 @@ Client: socket → (optional bind) → connect → send/recv → close
 | `sendto`/`recvfrom` | UDP datagram |
 | `setsockopt` | Tunables (`SO_REUSEADDR`, timeouts, …) |
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Server: socket → bind → listen → accept → recv/send → close
+Client: socket → (optional bind) → connect → send/recv → close
+```
 
 ```c
 int fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -66,11 +67,6 @@ ss -tnp
 | `IPV6_V6ONLY` | Dual-stack vs IPv6-only behavior |
 | Backlog (`listen`) | Syn flood / accept lag ⇒ drops |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | `EADDRINUSE` | `ss -tlnp \| grep :port` | Kill old process; `SO_REUSEADDR`; other port |
@@ -79,36 +75,26 @@ ss -tnp
 | `SIGPIPE` / `EPIPE` | Write after peer close | `MSG_NOSIGNAL` or ignore SIGPIPE |
 | Client works, server unreachable from LAN | Bound `127.0.0.1` | Bind `0.0.0.0` / correct interface |
 
----
+## Real-World Applications
 
+POSIX sockets are the portable baseline for servers and clients; production code still tunes backlog, reuse, and non-blocking I/O on top.
 
-## Gotchas
+**Example:** A service bound only to `127.0.0.1` passes local health checks but fails from the LAN — bind `INADDR_ANY` / `0.0.0.0` (or the intended interface) and open the firewall.
 
-> [!WARNING]
-> **TCP has no message boundaries** — one `send` ≠ one `recv`; frame in the app.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **bind is optional for clients** — omit it unless you need a fixed source port/IP.
+- **Pro:** Portable across Unix-like systems; one mental model for stream and datagram.
+- **Con:** Strict POSIX ≠ Linux extras (`epoll`, `SO_REUSEPORT`) — check man pages per OS.
+- **Con:** Blocking sockets in a single-thread server: one slow client stalls everyone.
 
-> [!WARNING]
-> **POSIX ≈ portable BSD sockets** — Linux extras (`epoll`, `SO_REUSEPORT`) are beyond strict POSIX; check man pages per OS.
+## Comparison
 
----
+- vs [[BSD Socket]] / [[Berkeley sockets]]: POSIX ≈ portable Berkeley/BSD sockets; Linux adds beyond-POSIX knobs.
+- vs `AF_UNIX` for same-host IPC: prefer Unix sockets when you do not need IP — simpler than firewall/NAT noise.
+- vs application libraries: prefer HTTP/gRPC stacks unless you own the wire format.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Raw sockets for application protocols** — prefer HTTP/gRPC libraries unless you own the wire format.
-- **Blocking sockets in a single-thread server** — one slow client stalls everyone.
-- **AF_INET for same-host IPC when AF_UNIX fits** — Unix sockets are simpler and skip NAT/firewall noise.
-
----
-
-
-## Related
-
-[[Networking]] [[BSD Socket]] [[TCP]] [[UDP]] [[address port]] [[localhost]]
-
-## Sources
-
-- [Wikipedia — POSIX Socket](https://en.wikipedia.org/wiki/POSIX_Socket)
+- Treating one `send` as one `recv` on [[TCP]] — frame in the application; TCP has no message boundaries.
+- Requiring `bind` on every client — omit unless you need a fixed source port/IP.
+- Binding `127.0.0.1` then expecting LAN reachability — see [[localhost]].

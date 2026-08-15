@@ -1,22 +1,33 @@
-[[Nginx/Configuration]] [[Linux/loggging]] [[Linux/commands/journalctl]]
+[[Configuration]] [[nginx config structure]] [[How does directive work]] [[Linux/loggging]]
 
-# Nginx files (paths and log rotation)
+# nginx files
 
-> Nginx files (paths and log rotation) — package layout varies Debian (/etc/nginx/) vs RHEL (/etc/nginx/ similar) but patterns hold: main config includes snippets and sites-enabled. See
+> Package paths and log rotation — where configs, PIDs, and access/error logs live, and how logrotate signals Nginx to reopen files.
 
----
+## Interview Relevance
 
-## How it works
+Ops interviews ask where to look when “my edit did nothing,” why disks fill from logs, and what `USR1` after logrotate does.
 
+## Sources
+
+- [nginx.org — Logging](https://nginx.org/en/docs/ngx_core_module.html#error_log) — deep-dive
+- [Debian — nginx package layout](https://wiki.debian.org/Nginx) — overview
+- [logrotate man page](https://linux.die.net/man/8/logrotate) — overview
+
+## Key Concepts
+
+- **Config tree:** `/etc/nginx/nginx.conf` includes `sites-enabled` / `conf.d` — see [[nginx config structure]].
+- **Logs:** `/var/log/nginx/access.log` and `error.log` (override with `error_log` / `access_log` directives).
+- **PID:** `/run/nginx.pid` — master process id for signals.
+- **logrotate + USR1:** After rename/compress, send `USR1` so Nginx reopens log file descriptors (avoids writing to deleted inodes).
+
+## Technical Details
 
 ```
 /etc/nginx/nginx.conf → sites-enabled/* → access.log / error.log
          ↓ logrotate (daily)
 /var/log/nginx/*.log.1.gz
 ```
-
-
-## Configuration and commands
 
 ### Common paths (Debian/Ubuntu)
 
@@ -31,21 +42,14 @@
 | `/etc/logrotate.d/nginx`      | Rotation policy           |
 | `/run/nginx.pid`              | Master PID                |
 
-### Enable site
-
 ```bash
 sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-```
-
-### Tail logs
-
-```bash
 sudo tail -f /var/log/nginx/error.log
 sudo tail -f /var/log/nginx/access.log
 ```
 
-### logrotate snippet (typical)
+Typical logrotate snippet:
 
 ```
 /var/log/nginx/*.log {
@@ -62,9 +66,6 @@ sudo tail -f /var/log/nginx/access.log
 }
 ```
 
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Edit has no effect | Which file included? | `nginx -T`; enable correct site symlink |
@@ -74,27 +75,23 @@ sudo tail -f /var/log/nginx/access.log
 | Site enabled twice | Duplicate server_name | One conf per `server_name`:port |
 | PID file stale | Crash | `systemctl restart nginx` |
 
+## Real-World Applications
 
-## Gotchas
+Enable a site via symlink, watch `error.log` for upstream 502s during deploy, rely on daily logrotate with USR1 postrotate.
 
-> [!WARNING]
-> **Reload vs restart** — bad config fails reload silently if you skip `-t`.
->
-> **Symlink broken** — sites-enabled points to deleted file → nginx -t fail on boot.
->
-> **JSON access log to same disk as app data** — IO contention; ship to centralized logging.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Standard Debian layout is familiar across hosts.
+- **Con:** JSON access logs on the same disk as app data can cause IO contention — ship logs centrally when busy.
 
-## When not to use
+## Comparison
 
-- Don't hand-edit `.log.1.gz` — use `zgrep`/`zgrep error`.
-- Don't disable logrotate postrotate USR1 — nginx keeps writing to old inode → full disk.
+- vs journald-only logging: Nginx file logs remain common; can also log to syslog.
+- vs [[nginx config structure]]: structure is the include tree; this note is paths + rotation lifecycle.
 
+## Mistakes to Avoid
 
-## Related
-
-[[nginx configuration structure]] [[Nginx/Configuration]] [[Nginx/How does directive work]] [[Linux/loggging]]
-
-## Sources
-
-- [Wikipedia — nginx files](https://en.wikipedia.org/wiki/nginx_files)
+- Reloading without `nginx -t` — bad config fails reload if you skip the test.
+- Broken `sites-enabled` symlink to a deleted file — `nginx -t` fails on boot.
+- Hand-editing `.log.1.gz` — use `zgrep` instead.
+- Disabling logrotate postrotate USR1 — Nginx keeps writing to the old inode → full disk.

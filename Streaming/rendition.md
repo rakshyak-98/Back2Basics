@@ -1,12 +1,32 @@
-[[Streaming]] [[ABR]] [[bitrate streaming]] [[HLS]] [[DASH]] [[transcoding]]
+[[Streaming]] [[ABR]] [[bitrate streaming]] [[HLS]] [[DASH]] [[transcoding]] [[Encoding]] [[NVENC]] [[codecs]] [[Manifest (streaming)]]
 
 # rendition
 
 > A rendition is one encoded quality of the same source — resolution, bitrate, or codec — so ABR can switch without stopping.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk rendition end-to-end — not just name it. Signal fluency with **Rendition**, **Ladder**, **Variant stream**, **Representation** and when you would pick a different path.
+
+## Sources
+
+- [Wikipedia — rendition](https://en.wikipedia.org/wiki/rendition) — overview
+
+## Key Concepts
+
+- **Rendition:** One quality variant — “A rendition is one rung on the ABR ladder.”
+- **Ladder:** Ordered set of renditions — “We design the ladder for devices and bandwidth.”
+- **Variant stream:** HLS name for a video rung — “EXT-X-STREAM-INF points at a variant playlist.”
+- **Representation:** DASH name for a rung — “In DASH, a Representation is the rendition.”
+- **Audio rendition:** Separate audio encode/playlist — “Audio can be its own rendition group.”
+- **Encode session:** GPU/CPU job per output — “N renditions means N concurrent encodes.”
+
+### Capacity math (say the number)
+
+[!NOTE]
+Encode load **multiplies**: 300 channels × 3 video renditions ≈ **900** concurrent encode jobs — not 300 — when you size [[NVENC]] / CPU.
+
+## Technical Details
 
 ```txt
 Source mezzanine / live ingest
@@ -17,27 +37,6 @@ Source mezzanine / live ingest
         │
    listed in master / AdaptationSet  ([[ABR]] ladder)
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Rendition** | One quality variant | “A rendition is one rung on the ABR ladder.” |
-| **Ladder** | Ordered set of renditions | “We design the ladder for devices and bandwidth.” |
-| **Variant stream** | HLS name for a video rung | “EXT-X-STREAM-INF points at a variant playlist.” |
-| **Representation** | DASH name for a rung | “In DASH, a Representation is the rendition.” |
-| **Audio rendition** | Separate audio encode/playlist | “Audio can be its own rendition group.” |
-| **Encode session** | GPU/CPU job per output | “N renditions means N concurrent encodes.” |
-
-### Capacity math (say the number)
-
-> [!NOTE]
-> Encode load **multiplies**: 300 channels × 3 video renditions ≈ **900** concurrent encode jobs — not 300 — when you size [[NVENC]] / CPU.
-
----
-
-
-## Configuration and commands
 
 ### Name them in the HLS master
 
@@ -66,10 +65,18 @@ ffmpeg -i in.mp4 \
 | Path per rendition | Clear CDN cache keys / purge |
 | Codec per rung (AVC vs HEVC) | Device reach vs bandwidth — label `CODECS` honestly |
 
----
+## Real-World Applications
 
+Used wherever rendition sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Single-bitrate contribution link** — one rendition to ingest; ladder after origin.
+- **Con / skip when:** **Archive mezzanine** — store one master; spawn renditions at package time.
+- **Con / skip when:** **Interactive WebRTC** — usually one encode per peer direction, not an HLS-style ladder.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,39 +88,7 @@ ffmpeg -i in.mp4 \
 | HEVC rung never used | Device can’t decode | Keep AVC baseline rung |
 | Loudness jump between rungs | Different audio encodes | One audio rendition or matched loudness |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **“Three profiles” means three encodes** — ops and cost plans that count channels only are wrong by factor M.
-
-> [!WARNING]
-> **Upscaling a low rendition on a 4K TV** — looks soft; cap display or add a higher rung.
-
-> [!WARNING]
-> **Renaming folders without regenerating the master** — player still points at dead URIs.
-
-> [!WARNING]
-> **Different frame rates in one ladder** — many players mishandle; prefer separate ladders per fps.
-
----
-
-
-## When not to use
-
-- **Single-bitrate contribution link** — one rendition to ingest; ladder after origin.
-- **Archive mezzanine** — store one master; spawn renditions at package time.
-- **Interactive WebRTC** — usually one encode per peer direction, not an HLS-style ladder.
-
----
-
-
-## Related
-
-[[ABR]] [[bitrate streaming]] [[HLS]] [[DASH]] [[transcoding]] [[Encoding]] [[NVENC]] [[codecs]] [[Manifest (streaming)]]
-
-## Sources
-
-- [Wikipedia — rendition](https://en.wikipedia.org/wiki/rendition)
+- **“Three profiles” means three encodes** — ops and cost plans that count channels only are wrong by factor M.
+- **Upscaling a low rendition on a 4K TV** — looks soft; cap display or add a higher rung.
+- **Renaming folders without regenerating the master** — player still points at dead URIs.
+- **Different frame rates in one ladder** — many players mishandle; prefer separate ladders per fps.

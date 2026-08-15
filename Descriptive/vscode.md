@@ -1,12 +1,18 @@
-[[Descriptive]] [[GIT/git command]]
+[[Descriptive]] [[GIT/git command]] [[ssh/ssh allow local system with key]]
 
 # VS Code (CLI and workspace ops)
 
 > Editor CLI + multi-root workflow — open correct folder, reuse window, remote URIs, and command palette IDs for automation and docs.
 
----
+## Interview Relevance
 
-## How it works
+Editor fluency shows debugging/LSP setup — when configuration belongs in shared workspace settings.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 `code` CLI talks to a running VS Code (or Cursor-compatible) instance via IPC. Opening paths attaches folders to the **current window** or spawns new windows depending on flags and settings.
 
@@ -18,8 +24,7 @@ code . ──► running instance ──► opens folder in window
 
 Remote: `vscode-remote://` URIs target SSH/WSL/development Containers attach points.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Open workspace
 
@@ -104,21 +109,12 @@ Common IDs:
 # Settings: terminal.integrated.cwd, shell args
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Production server editing** — use CI-deployed configuration management, not remote VS Code on production.
+- **Heavy batch refactors** — prefer `sed`/codemod/IDE refactoring with VCS checkpoint.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `code: command not found` | CLI not on PATH | Shell Command: Install 'code' command in PATH (or Cursor equivalent) |
-| Opens new window every time | `-n` or setting | Use `code -r .`; set `window.openFoldersInNewWindow`: `off` |
-| Wrong folder root | Opened parent not repo | Open git root: `code $(git rev-parse --show-toplevel)` |
-| Remote won't connect | SSH config / extension | Verify `Remote-SSH: Connect to Host`; check `~/.ssh/config` |
-| Extension missing in remote | Local vs remote install | Install extension on SSH/WSL side |
-| Format on save broken | No default formatter | Set `"editor.defaultFormatter"` per language |
-| Keybinding no effect | Conflicting chord | Troubleshooting log; unbind conflict |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Cursor vs VS Code CLI** — may be `cursor` not `code` on some installs; same flags usually apply.
@@ -132,17 +128,12 @@ Common IDs:
 > [!WARNING]
 > **Settings sync** — machine-specific paths in settings break remote dev; use relative or env vars.
 
-
-## When not to use
-
-- **Production server editing** — use CI-deployed configuration management, not remote VS Code on production.
-- **Heavy batch refactors** — prefer `sed`/codemod/IDE refactoring with VCS checkpoint.
-
-
-## Related
-
-[[GIT/git command]] [[ssh/ssh allow local system with key]] [[Descriptive]]
-
-## Sources
-
-- [Wikipedia — vscode](https://en.wikipedia.org/wiki/vscode)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `code: command not found` | CLI not on PATH | Shell Command: Install 'code' command in PATH (or Cursor equivalent) |
+| Opens new window every time | `-n` or setting | Use `code -r .`; set `window.openFoldersInNewWindow`: `off` |
+| Wrong folder root | Opened parent not repo | Open git root: `code $(git rev-parse --show-toplevel)` |
+| Remote won't connect | SSH config / extension | Verify `Remote-SSH: Connect to Host`; check `~/.ssh/config` |
+| Extension missing in remote | Local vs remote install | Install extension on SSH/WSL side |
+| Format on save broken | No default formatter | Set `"editor.defaultFormatter"` per language |
+| Keybinding no effect | Conflicting chord | Troubleshooting log; unbind conflict |

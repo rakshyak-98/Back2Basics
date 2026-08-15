@@ -1,13 +1,19 @@
-[[git]] [[git command]] [[git branch]]
+[[git]] [[git command]] [[git branch]] [[git worktree]] [[git merge]]
 
 # Git Submodule
 
 > pin another repo at a specific commit inside your repo — powerful for vendoring, painful if treated like a shortcut for package management.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git Submodule` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 parent-repo/
@@ -17,10 +23,7 @@ parent-repo/
 
 Parent tracks **pointer**, not submodule files directly.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Clone with submodules
 
@@ -68,10 +71,24 @@ rm -rf .git/modules/vendor/lib
 git commit -m "Remove lib submodule"
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
+- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Detached HEAD is default** inside submodule — easy to commit locally and forget to push submodule remote before updating parent.
+
+> [!WARNING]
+> **`git pull` in parent doesn't update submodule working tree** — run `git submodule update` after pull.
+
+> [!WARNING]
+> **Recursive submodules** — nested submodules multiply pain; prefer monorepo or package registry when possible.
+
+> [!WARNING]
+> **Renaming path** — edit `.gitmodules` AND `git mv`; run `git submodule sync`.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -88,38 +105,3 @@ git diff vendor/lib
 git submodule foreach 'git rev-parse HEAD'
 ```
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Detached HEAD is default** inside submodule — easy to commit locally and forget to push submodule remote before updating parent.
-
-> [!WARNING]
-> **`git pull` in parent doesn't update submodule working tree** — run `git submodule update` after pull.
-
-> [!WARNING]
-> **Recursive submodules** — nested submodules multiply pain; prefer monorepo or package registry when possible.
-
-> [!WARNING]
-> **Renaming path** — edit `.gitmodules` AND `git mv`; run `git submodule sync`.
-
----
-
-
-## When not to use
-
-- **npm/cargo/go modules exist** — use proper package manager unless you need to fork/patch at source level.
-- **Teams unfamiliar with gitlinks** — onboarding cost exceeds benefit for application repos.
-
----
-
-
-## Related
-
-[[git command]] [[git worktree]] [[git merge]]
-
-## Sources
-
-- [Wikipedia — git submodule](https://en.wikipedia.org/wiki/git_submodule)

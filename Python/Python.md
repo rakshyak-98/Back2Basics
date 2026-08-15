@@ -1,80 +1,71 @@
-[[Python]]
+[[ASGI]] [[GIL (Global interpreter lock)]] [[wheel]] [[pandas]] [[create python package from source]]
 
 # Python
 
-> Python — 3 -m pdb <"python file to debug">;
+> High-level language with a batteries-included standard library — CPython is the common runtime for scripting, services, and data work.
 
----
+## Interview Relevance
 
-## How it works
-
-- reference
-	[https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/](https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/)
-	[https://docs.python.org/3/library/inspect.html#module-inspect](https://docs.python.org/3/library/inspect.html#module-inspect)
-	[https://docs.python.org/3/glossary.html](https://docs.python.org/3/glossary.html)
-	[https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf](https://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf)
-```bash
-python3 -m pdb <"python file to debug">;
-```
-- dashes are illegal in Python identifiers
-- The `sys.path` list contains all the directories that Python will search for modules when you try to import them.
-
-
----
-
-
-## Configuration and commands
-
-```bash
-# version + config path
-# dry-run when available
-```
-
----
-
-
-## Where to go next
-
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
-
-
-## Related topics in this domain
-
-- …: [[…]]
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Retry storm | backoff / jitter | Cap retries; circuit break |
-| Config drift | plan/apply or lockfile | Single source of truth |
-| Poison message | DLQ | Quarantine and alert |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Make retries safe or you will duplicate side effects.
-
----
-
-
-## When not to use
-
-- Avoid the tool if a simpler built-in covers the job.
-
----
-
-
-## Related
-
-[[Python]]
+Interviewers probe runtime basics: virtual environments, import/`sys.path`, packaging, debugging with `pdb`, and concurrency limits from the [[GIL (Global interpreter lock)|GIL]].
 
 ## Sources
 
-- [Wikipedia — Python](https://en.wikipedia.org/wiki/Python)
+- [Python 3 documentation](https://docs.python.org/3/) — deep-dive
+- [Python glossary](https://docs.python.org/3/glossary.html) — overview
+- [pdb — The Python Debugger](https://docs.python.org/3/library/pdb.html) — deep-dive
+
+## Core Definition
+
+Python source compiles to bytecode executed by a virtual machine (usually CPython). Indentation defines blocks; everything is an object; modules are found via `sys.path` and installed distributions.
+
+## Key Concepts
+
+- **Runtime vs language:** CPython vs PyPy/others — behavior and extension APIs differ; most production is CPython.
+- **Virtual environments:** isolate dependencies per project — avoid installing into the system interpreter.
+- **Imports:** `sys.path` search order; packages need `__init__.py` (or namespace packages) — dashes are illegal in identifiers.
+- **Debugging:** `python -m pdb script.py` or breakpoints — stack inspection without a full IDE.
+- **Ecosystem lanes:** web ([[ASGI]]), data ([[pandas]]), packaging ([[wheel]]) — pick tools per domain.
+
+## Technical Details
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip
+python -m pdb myscript.py          # debug
+python -c "import sys; print(sys.path)"
+```
+
+```python
+import sys
+print(sys.version)
+print(sys.path)  # module search path
+```
+
+Useful stdlib modules in interviews: `asyncio`, `concurrent.futures`, `pathlib`, `json`, `unittest`/`pytest` (third-party), `inspect` for runtime reflection.
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `ModuleNotFoundError` | `sys.path` / venv active? | Install into the environment; fix package layout |
+| Wrong Python on PATH | `which python3` | Use venv or explicit version |
+| IndentationError | mixed tabs/spaces | Keep one style; editor shows invisibles |
+
+## Real-World Applications
+
+Glue code on a jump host: venv + small script calling cloud APIs, debugged with `pdb` when a token refresh fails — same language as the service for shared mental model.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Fast to write, huge libraries, readable for ops and ML alike.
+- **Con:** CPU-bound threads limited by GIL; packaging and environment drift need discipline.
+
+## Comparison
+
+- vs Node.js: both excel at I/O-bound services; Python stronger in scientific/data; Node stronger in isomorphic web tooling.
+- vs Go/Java: those compile to heavier static binaries/services with different concurrency stories.
+
+## Mistakes to Avoid
+
+- Using the distro `python` for project deps — always venv/container.
+- Naming modules after stdlib (`email.py`, `random.py`) — shadowing breaks imports.
+- Treating threads as multi-core CPU scaling — see [[GIL (Global interpreter lock)]].

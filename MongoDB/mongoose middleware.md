@@ -1,12 +1,19 @@
-[[mongoose]] [[mongoose schema]] [[mongoose methods]] [[MongoDB]] [[Data access patterns]]
+[[mongoose]] [[mongoose schema]] [[mongoose methods]] [[MongoDB]] [[Data access patterns]] [[Mongoose plugin]] [[ACID]]
 
 # Mongoose middleware
 
 > Mongoose middleware — middleware runs between Mongoose API call and MongoDB operation. Hooks attach to save, validate, remove, and **find* query methods** — not all methods
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use Mongoose middleware to test MongoDB data modeling and ops judgment — indexes, consistency, and when the document model helps or hurts.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 **Middleware** runs between Mongoose API call and MongoDB operation. Hooks attach to **`save`**, **`validate`**, **`remove`**, and **`find*` query methods** — not all methods trigger all hook types.
 
@@ -29,10 +36,7 @@ User.findOneAndUpdate(...)
 
 **Order matters:** global → schema → pre before op → post after op. Multiple pres on same hook run in registration order.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Document middleware (save path)
 
@@ -87,30 +91,13 @@ await doc.save({ validateBeforeSave: false }); // skips validate hooks only part
 User.find().bypassMiddleware(); // if plugin supports — prefer explicit flag on schema
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Authorization / tenancy** — enforce at API/gateway layer; query middleware is defense-in-depth only.
+- **Cross-collection invariants** — use transaction + explicit domain service, not cascading hooks.
+- **Heavy I/O in pre hooks** — blocks request; queue async job in post-commit hook or outbox pattern.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Request hangs forever | Missing `next()` in sync pre | Add `next()` or switch to async/await |
-| Password not hashed on update | Used `updateOne` not `save` | Query middleware on `findOneAndUpdate` or hash in service layer |
-| Infinite loop | post('save') calls `doc.save()` | Remove recursive save; use `updateOne` or flag |
-| Hook didn't run | Wrong op (`insertMany` skips some) | Use supported hook or explicit service function |
-| Tests flaky | Parallel saves; shared doc state | Isolate fixtures; `sinon` stub hooks |
-| Data differs prod vs script | Script uses collection API directly | Scripts bypass Mongoose — duplicate logic or use models |
-| `this` is wrong in arrow fn | Arrow doesn't bind document `this` | Use `function () {}` in document hooks |
-
-```javascript
-// Debug: log hook registration
-console.log(userSchema._pres.get('save'));
-```
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **`findOneAndUpdate` bypasses `save` middleware** — most common prod bug. Password/hash hooks on `pre('save')` silently skipped.
@@ -130,22 +117,18 @@ console.log(userSchema._pres.get('save'));
 > [!WARNING]
 > **Transactions** — hook side effects (email, SQS) outside transaction commit → orphan messages on rollback.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Request hangs forever | Missing `next()` in sync pre | Add `next()` or switch to async/await |
+| Password not hashed on update | Used `updateOne` not `save` | Query middleware on `findOneAndUpdate` or hash in service layer |
+| Infinite loop | post('save') calls `doc.save()` | Remove recursive save; use `updateOne` or flag |
+| Hook didn't run | Wrong op (`insertMany` skips some) | Use supported hook or explicit service function |
+| Tests flaky | Parallel saves; shared doc state | Isolate fixtures; `sinon` stub hooks |
+| Data differs prod vs script | Script uses collection API directly | Scripts bypass Mongoose — duplicate logic or use models |
+| `this` is wrong in arrow fn | Arrow doesn't bind document `this` | Use `function () {}` in document hooks |
 
+```javascript
+// Debug: log hook registration
+console.log(userSchema._pres.get('save'));
+```
 
-## When not to use
-
-- **Authorization / tenancy** — enforce at API/gateway layer; query middleware is defense-in-depth only.
-- **Cross-collection invariants** — use transaction + explicit domain service, not cascading hooks.
-- **Heavy I/O in pre hooks** — blocks request; queue async job in post-commit hook or outbox pattern.
-
----
-
-
-## Related
-
-[[mongoose]] [[mongoose schema]] [[mongoose methods]] [[Mongoose plugin]] [[Data access patterns]] [[ACID]]
-
-## Sources
-
-- [Wikipedia — mongoose middleware](https://en.wikipedia.org/wiki/mongoose_middleware)

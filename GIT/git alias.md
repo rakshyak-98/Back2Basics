@@ -1,13 +1,19 @@
-[[git command]] [[git branch]] [[git logs]]
+[[git command]] [[git branch]] [[git logs]] [[git formating]]
 
 # Git aliases
 
 > shortcuts for repeated flags — save typing, encode team conventions; prefer scripts (`!`) for shell pipelines.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git aliases` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 git st  →  alias.st = status -sb
@@ -16,8 +22,7 @@ git ignoredtop → !git ignored | cut ...
 
 Aliases don't pass arguments the same way unless you use `$1` in shell aliases — for parameterized workflows use scripts in `PATH` or functions.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Simple aliases
 
@@ -65,19 +70,12 @@ git config --global alias.difft 'difftool -d vimdiff'
 git config --global alias.cleanup '!git branch --merged main | grep -v "main" | xargs -r git branch -d'
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Complex multi-step automation** — shell script in repository `scripts/` with tests.
+- **Override built-in commands** — avoid aliasing `commit`/`push` to dangerous defaults.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Alias not found | Scope (global vs local) | `git config --list --show-origin \| grep alias` |
-| `ignoredtop` typo fails | Wrong alias name | `git config --get alias.ignoredtop` |
-| Shell alias no args | Missing `$@` | Use `!f() { ...; }; f'` pattern for args |
-| Destructive alias | `!` with rm/reset | Code review aliases before sharing dotfiles |
-| Works in bash not fish | Shell-specific | Use POSIX sh in `!` or external script |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Typos in alias names** — `git ignoreedtop` vs `ignoredtop`; document team aliases in README.
@@ -88,17 +86,10 @@ git config --global alias.cleanup '!git branch --merged main | grep -v "main" | 
 > [!WARNING]
 > **Shell injection in `!` aliases** — don't embed untrusted input.
 
-
-## When not to use
-
-- **Complex multi-step automation** — shell script in repository `scripts/` with tests.
-- **Override built-in commands** — avoid aliasing `commit`/`push` to dangerous defaults.
-
-
-## Related
-
-[[git command]] [[git logs]] [[git formating]] [[git branch]]
-
-## Sources
-
-- [Wikipedia — git alias](https://en.wikipedia.org/wiki/git_alias)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Alias not found | Scope (global vs local) | `git config --list --show-origin \| grep alias` |
+| `ignoredtop` typo fails | Wrong alias name | `git config --get alias.ignoredtop` |
+| Shell alias no args | Missing `$@` | Use `!f() { ...; }; f'` pattern for args |
+| Destructive alias | `!` with rm/reset | Code review aliases before sharing dotfiles |
+| Works in bash not fish | Shell-specific | Use POSIX sh in `!` or external script |

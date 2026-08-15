@@ -1,12 +1,29 @@
-[[Linux window manager]] [[WM_CLASS]] [[x11]] [[terminal config]]
+[[Linux window manager]] [[WM_CLASS]] [[x11]] [[terminal config]] [[compositors]]
 
 # i3 Window Manager Starter Guide
 
 > i3 is a manual tiling window manager for X11 — keyboard-driven workspaces, splits, and a plain-text config at `~/.config/i3/config`.
 
-Install: `sudo apt install i3` (Debian/Ubuntu). Select **i3** session from display manager at login.
+## Interview Relevance
+Desktop Linux depth check: tiling vs stacking, how session selection works via the display manager, and how `WM_CLASS` rules assign apps to workspaces.
 
-## Essential keys (default)
+## Sources
+- [i3 user guide](https://i3wm.org/docs/userguide.html) — deep-dive
+- [i3wm.org](https://i3wm.org/) — overview
+
+## Core Definition
+i3 places windows in a tree of horizontal/vertical splits. You drive focus, move, and workspace changes with a modifier key (`$mod`, usually Super). Reload config with `$mod+Shift+r` — no full DE required.
+
+## Key Concepts
+- **Tiling tree:** Containers split; windows fill cells unless floating.
+- **Workspaces:** Numbered (or named) virtual desktops.
+- **$mod bindings:** All power-user actions hang off one modifier.
+- **WM_CLASS rules:** `assign` / `for_window` match app classes — [[WM_CLASS]].
+- **X11 only:** Native i3 targets X; Sway is the Wayland cousin.
+
+## Technical Details
+
+Install: `sudo apt install i3` (Debian/Ubuntu). Select **i3** from the display manager session menu.
 
 | Key | Action |
 |-----|--------|
@@ -18,39 +35,32 @@ Install: `sudo apt install i3` (Debian/Ubuntu). Select **i3** session from displ
 | `$mod+1..0` | Switch workspace |
 | `$mod+Shift+1..0` | Move window to workspace |
 
-`$mod` is usually Alt or Super — set in config.
-
-## Config snippet
-
 ```
 set $mod Mod4
 font pango:monospace 10
 floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+d exec dmenu_run
+
+exec --no-startup-id picom
+exec --no-startup-id nm-applet
+
+assign [class="Firefox"] workspace 2
 ```
 
 Reload: `$mod+Shift+r`.
 
-## Autostart
+## Real-World Applications
+Developers run i3 on workstations for keyboard-only window management, with Picom for compositing and class rules pinning the browser to workspace 2.
 
-```
-exec --no-startup-id picom
-exec --no-startup-id nm-applet
-```
+## Pros/Cons or Trade-offs
+- **Pro:** Fast, scriptable, minimal RAM vs full GNOME/KDE.
+- **Con:** Steeper learning curve; poor fit for users who need rich DE integration out of the box. X11-only (use Sway on Wayland).
 
-## Rules with WM_CLASS
+## Comparison
+vs GNOME/KDE: i3 is WM-centric; those are full desktop environments. vs Sway: same mental model on Wayland. vs bspwm/dwm: same tiling family, different config languages (shell/C vs i3’s DSL).
 
-```
-assign [class="Firefox"] workspace 2
-```
-
-See [[WM_CLASS]].
-
-## Related
-
-[[Linux window manager]] · [[compositors]] · [[x11]]
-
-## Sources
-
-- [i3 user guide](https://i3wm.org/docs/userguide.html)
+## Mistakes to Avoid
+- Editing config and logging out instead of `$mod+Shift+r` first.
+- Matching on window title instead of stable `WM_CLASS`.
+- Expecting i3 session files under Wayland sessions without Sway.

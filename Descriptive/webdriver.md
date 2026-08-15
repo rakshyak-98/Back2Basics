@@ -1,12 +1,18 @@
-[[Descriptive]] [[DAP (Debug Adapter Protocol)]]
+[[Descriptive]] [[DAP (Debug Adapter Protocol)]] [[html]] [[Debugger configuratoin]]
 
 # webdriver
 
 > WebDriver is the W3C API for driving browsers — Selenium talks WebDriver to click, type, and assert UI.
 
----
+## Interview Relevance
 
-## How it works
+WebDriver interviews cover browser automation — flaky selectors, waits, and CI reliability.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 test → WebDriver → chromedriver → Chrome
@@ -21,10 +27,7 @@ test → WebDriver → chromedriver → Chrome
 | **Explicit wait** | Wait for condition | “Not blind sleep.” |
 | **Grid** | Remote browsers | “Parallel CI.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const driver = await new Builder().forBrowser('chrome').build()
@@ -39,10 +42,18 @@ await driver.quit()
 | Headless | CI without display |
 | Implicit wait | Can hide races — prefer explicit |
 
----
+## Pros/Cons or Trade-offs
 
+- **Unit logic tests** — no browser needed.
+- **API contracts** — HTTP tests are cheaper.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Sleep(1000) everywhere** — slow and still flaky; wait for conditions.
+
+> [!WARNING]
+> **XPath tied to layout** — one CSS change breaks the suite.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +62,3 @@ await driver.quit()
 | Stale element | DOM re-render | Re-find element |
 | CI only fails | headless / res | Set viewport; await network |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Sleep(1000) everywhere** — slow and still flaky; wait for conditions.
-
-> [!WARNING]
-> **XPath tied to layout** — one CSS change breaks the suite.
-
----
-
-
-## When not to use
-
-- **Unit logic tests** — no browser needed.
-- **API contracts** — HTTP tests are cheaper.
-
-
-## Related
-
-[[html]] [[Debugger configuratoin]]
-
-## Sources
-
-- [Wikipedia — webdriver](https://en.wikipedia.org/wiki/webdriver)

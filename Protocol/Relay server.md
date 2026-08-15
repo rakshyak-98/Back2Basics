@@ -1,12 +1,27 @@
-[[Protocol]] [[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT Traversal]]
+[[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT Traversal]] [[NAT (Network Address Translation)]] [[WebRTC]] [[P2P (Peer-to-Peer)]]
 
 # Relay server
 
-> Relay server — both peers dial out to a middle box that forwards bytes when they cannot connect directly through NAT.
+> A relay server is a middle box both peers dial out to — it forwards bytes when they cannot connect directly through NAT.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers separate STUN (discover addresses) from TURN/relay (carry media), and ask why relays are the expensive ICE fallback.
+
+## Sources
+
+- [RFC 8656 — Traversal Using Relays around NAT (TURN)](https://datatracker.ietf.org/doc/html/rfc8656) — deep-dive
+- [RFC 8445 — ICE](https://datatracker.ietf.org/doc/html/rfc8445) — overview
+- [WebRTC — ICE](https://webrtc.org/getting-started/peer-connections) — overview
+
+## Key Concepts
+
+- **Outbound-only:** clients dial the relay — NATs allow out; relay avoids inbound hole-punching.
+- **Allocation:** TURN reserves ports; that address becomes the relay candidate.
+- **ICE order:** try host/srflx first; nominate relay only after cheaper paths fail.
+- **Cost:** server sees full bitrate — expensive fallback, not the happy path.
+
+## Technical Details
 
 ```txt
 Peer A ──outbound──► Relay ◄──outbound── Peer B
@@ -14,34 +29,16 @@ Peer A ──outbound──► Relay ◄──outbound── Peer B
                   forwards A↔B
 ```
 
-In WebRTC this is usually [[TURN server (Traversal Using Relays around NAT)]]. [[STUN (Session Traversal Utilities for NAT)]] only discovers addresses; the relay **carries** the media. [[ICE (Interactive Connectivity Establishment)]] picks relay only after cheaper paths fail.
+In WebRTC this is usually [[TURN server (Traversal Using Relays around NAT)]]. [[STUN (Session Traversal Utilities for NAT)]] only discovers addresses; the relay **carries** the media. [[ICE (Interactive Connectivity Establishment)]] picks relay after cheaper paths fail.
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Outbound-only** | Clients dial the relay | “NATs allow out; relay avoids inbound.” |
-| **Allocation** | Relay reserves ports for a client | “TURN allocation is my relay address.” |
-| **Hairpin / double NAT** | Complex home/CGNAT topologies | “Direct fails; relay still works.” |
-| **TCP/TLS TURN** | Relay over allowed web ports | “When UDP dies, turns:443 saves the call.” |
-| **Cost** | Server sees full bitrate | “Relays are the expensive fallback.” |
-
-### When outbound is also blocked
-
-Strict egress firewalls break STUN/TURN. Escapes (in order of commonality):
+When outbound is also blocked (strict egress):
 
 1. Allowlist TURN IPs/ports (best).
 2. TURN over TLS/WebSocket on 443.
 3. Corporate forward HTTP proxy (if supported).
 4. VPN that exits where TURN is reachable.
 
----
-
-
-## Configuration and commands
-
 ```js
-// WebRTC: relay = TURN in iceServers
 const pc = new RTCPeerConnection({
   iceServers: [{
     urls: [
@@ -56,7 +53,6 @@ const pc = new RTCPeerConnection({
 ```
 
 ```bash
-# coturn smoke test
 turnutils_uclient -v -u user -w pass turn.example.com
 ```
 
@@ -65,11 +61,6 @@ turnutils_uclient -v -u user -w pass turn.example.com
 | Short-lived credentials | Long-lived secrets in clients get stolen |
 | UDP + TCP/TLS listeners | Corporate nets block UDP |
 | Bandwidth alerts | Silent “everyone on relay” burns money |
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,36 +71,27 @@ turnutils_uclient -v -u user -w pass turn.example.com
 | One-way media via relay | Permissions / wrong peer addr | Check TURN permissions/channels |
 | Outbound totally blocked | Proxy/VPN required | Allowlist or tunnel; otherwise no P2P |
 
----
+## Real-World Applications
 
+WebRTC calls behind symmetric NAT/CGNAT, enterprise Wi‑Fi that blocks UDP, and forced-relay debug of ICE.
 
-## Gotchas
+**Example:** Two phones on cellular CGNAT fail host/srflx; ICE nominates TURN on 443/TLS and the call still connects.
 
-> [!WARNING]
-> **Relay is not STUN** — if you only deploy STUN, hard NATs still fail.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Forcing relay hides root cause** — fine for demos; in prod measure how often you need it.
+- **Pro:** Connectivity of last resort when direct and STUN paths fail.
+- **Con:** Latency and cloud egress cost scale with bitrate and session count.
+- **Con:** Forcing relay hides root-cause NAT/firewall problems.
 
-> [!WARNING]
-> **Reverse proxies ≠ TURN** — an HTTPS reverse proxy fronts your API; TURN is a media/data forwarder with allocations.
+## Comparison
 
----
+- vs [[STUN (Session Traversal Utilities for NAT)]]: STUN discovers; relay carries.
+- vs HTTPS reverse proxy: fronts your API; TURN is a media/data forwarder with allocations.
+- vs CDN/[[HLS]]: one-to-many broadcast should not use per-viewer relays.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Same-LAN / host candidates already work** — don’t pay relay RTT and cost.
-- **One-to-many broadcast** — CDN + [[HLS]]/[[DASH]], not per-viewer relays.
-- **You control both ends with public IPs** — direct TCP/UDP or a normal media server is simpler.
-
----
-
-
-## Related
-
-[[TURN server (Traversal Using Relays around NAT)]] [[STUN (Session Traversal Utilities for NAT)]] [[ICE (Interactive Connectivity Establishment)]] [[NAT (Network Address Translation)]] [[NAT Traversal]] [[WebRTC]] [[P2P (Peer-to-Peer)]]
-
-## Sources
-
-- [Wikipedia — Relay server](https://en.wikipedia.org/wiki/Relay_server)
+- Deploying only STUN and expecting hard NATs to work.
+- Long-lived TURN credentials embedded in clients.
+- Using relay for same-LAN peers that already have working host candidates.
+- Assuming a normal reverse proxy substitutes for TURN.

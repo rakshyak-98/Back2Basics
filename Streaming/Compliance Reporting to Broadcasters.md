@@ -1,24 +1,20 @@
-[[Streaming]] [[DRM]] [[CMS]] [[database sharding]]
+[[Streaming]] [[DRM]] [[CMS]] [[database sharding]] [[ingestion]] [[Microservice]]
 
 # Compliance Reporting to Broadcasters
 
 > Compliance Reporting to Broadcasters — compliance reporting is the contractual data pipeline that proves how licensed content was sold, entitled, and consumed per Content ID (CID)
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Compliance Reporting to Broadcasters to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — Compliance Reporting to Broadcasters](https://en.wikipedia.org/wiki/Compliance_Reporting_to_Broadcasters) — overview
+
+## Key Concepts
 
 **Compliance reporting** is the **contractual data pipeline** that proves how licensed content was **sold, entitled, and consumed** per **Content ID (CID)** and **Broadcaster Network ID**. Studios and rights holders use it for **revenue share, minimum guarantees, and geo/format restrictions**. Errors become legal exposure — design for **immutability, idempotency, and late-arriving data**.
-
-```txt
-Billing (subs/PPV) ──► Entitlement ledger ──► Playback beacons
-        │                      │                      │
-        └──────────► Reconciliation job ◄──────────────┘
-                           │
-                    Compliance report (CSV/API)
-                           │
-                    Broadcaster / licensor SFTP
-```
 
 | Data source | Proves | Typical grain |
 |-------------|--------|---------------|
@@ -29,10 +25,17 @@ Billing (subs/PPV) ──► Entitlement ledger ──► Playback beacons
 
 Reports must **join on stable IDs** — internal UUIDs useless to licensor; map to **canonical CID** at ingest ([[CMS]] metadata).
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Billing (subs/PPV) ──► Entitlement ledger ──► Playback beacons
+        │                      │                      │
+        └──────────► Reconciliation job ◄──────────────┘
+                           │
+                    Compliance report (CSV/API)
+                           │
+                    Broadcaster / licensor SFTP
+```
 
 ### Minimum report schema (negotiate per contract)
 
@@ -83,10 +86,18 @@ aws s3 cp s3://compliance-reports/daily/2026-07-22/report.csv.gpg s3://licensor-
 sha256sum report.csv.gpg > report.csv.gpg.sha256
 ```
 
----
+## Real-World Applications
 
+Used wherever Compliance Reporting to Broadcasters sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Internal product analytics** — use warehouse/BI stack; don't overload compliance schema.
+- **Con / skip when:** **Pre-revenue MVP** — still **log raw events** early; retrofitting CIDs is painful.
+- **Con / skip when:** **Real-time licensor API before legal requires it** — batch daily/weekly unless contract mandates SLA.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -97,42 +108,8 @@ sha256sum report.csv.gpg > report.csv.gpg.sha256
 | Late Kafka events | Partition reprocessing | Re-run reconciliation for open window |
 | CID mismatch | CMS typo vs ingest | Golden CID registry; block publish without CID |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Analytics ≠ compliance** — QoE dashboards use sampled data; compliance needs **complete, auditable** counts.
-
-> [!WARNING]
-> **Rewound VOD scrubbing** — contract may count **unique completion %** not raw heartbeats.
-
-> [!WARNING]
-> **DRM offline downloads** — plays offline may batch-upload; reporting lag must be disclosed.
-
-> [!WARNING]
-> **Multi-CDN duplicate segments** — count **unique viewer sessions**, not segment requests.
-
-> [!WARNING]
-> **Manual CSV edits** — breaks audit trail; regenerate from immutable raw only.
-
----
-
-
-## When not to use
-
-- **Internal product analytics** — use warehouse/BI stack; don't overload compliance schema.
-- **Pre-revenue MVP** — still **log raw events** early; retrofitting CIDs is painful.
-- **Real-time licensor API before legal requires it** — batch daily/weekly unless contract mandates SLA.
-
----
-
-
-## Related
-
-[[Streaming]] [[CMS]] [[DRM]] [[ingestion]] [[Microservice]] [[database sharding]]
-
-## Sources
-
-- [Wikipedia — Compliance Reporting to Broadcasters](https://en.wikipedia.org/wiki/Compliance_Reporting_to_Broadcasters)
+- **Analytics ≠ compliance** — QoE dashboards use sampled data; compliance needs **complete, auditable** counts.
+- **Rewound VOD scrubbing** — contract may count **unique completion %** not raw heartbeats.
+- **DRM offline downloads** — plays offline may batch-upload; reporting lag must be disclosed.
+- **Multi-CDN duplicate segments** — count **unique viewer sessions**, not segment requests.
+- **Manual CSV edits** — breaks audit trail; regenerate from immutable raw only.

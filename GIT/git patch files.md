@@ -4,10 +4,16 @@
 
 > Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git patch files` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.patch
@@ -19,8 +25,7 @@ feature branch commits  ──format-patch──► 0001-fix.patch, 0002-feat.pa
 
 Use for: mailing lists, exporting PR to air-gapped environment, carrying patches across forks. For modern teams, prefer `git cherry-pick` or merge when both repos are network-accessible.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Export range
 
@@ -72,20 +77,12 @@ git apply patch.file
 git commit -C HEAD  # after manual apply
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- **Same repository, same remote** — push branch + PR.
+- **Interactive conflict-prone long series** — one merge or rebase onto target.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `patch does not apply` | Base branch drift | Regenerate from common ancestor; `git am --3way` |
-| Empty patch series | Wrong range `A..B` | `A..B` excludes A; use `A^..B` or verify log |
-| Wrong author on applied | Used `apply` not `am` | `git am` preserves From: line |
-| `corrupt patch at line` | Line endings CRLF | `git config core.autocrlf`; regenerate patch |
-| Duplicate commits after am | Patches already applied | `git log`; skip or rebase --onto |
-| Merge commit patch huge | Need `-m` parent | `format-patch -m -1 merge_sha` |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **`git apply` vs `git am`** — apply doesn't create commit metadata; easy to lose authorship.
@@ -96,17 +93,11 @@ git commit -C HEAD  # after manual apply
 > [!WARNING]
 > **Renames** — patches can be fragile across refactors; prefer merge/cherry-pick for big moves.
 
-
-## When not to use
-
-- **Same repository, same remote** — push branch + PR.
-- **Interactive conflict-prone long series** — one merge or rebase onto target.
-
-
-## Related
-
-[[git command]] [[git diff]] [[git merge]] [[git rebase]]
-
-## Sources
-
-- [Wikipedia — git patch files](https://en.wikipedia.org/wiki/git_patch_files)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `patch does not apply` | Base branch drift | Regenerate from common ancestor; `git am --3way` |
+| Empty patch series | Wrong range `A..B` | `A..B` excludes A; use `A^..B` or verify log |
+| Wrong author on applied | Used `apply` not `am` | `git am` preserves From: line |
+| `corrupt patch at line` | Line endings CRLF | `git config core.autocrlf`; regenerate patch |
+| Duplicate commits after am | Patches already applied | `git log`; skip or rebase --onto |
+| Merge commit patch huge | Need `-m` parent | `format-patch -m -1 merge_sha` |

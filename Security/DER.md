@@ -1,12 +1,23 @@
-[[read pem file]] [[Base64]] [[PKI]] [[openssl]]
+[[read pem file]] [[Base64]] [[PKI]] [[openssl]] [[Root certificate]] [[fingerprint]] [[RSA]]
 
 # DER
 
 > Distinguished Encoding Rules — canonical binary ASN.1 encoding for X.509 certs, keys, and CSRs; PEM is Base64-wrapped DER with headers.
 
----
+## Interview Relevance
 
-## How it works
+PKI tooling interviews: PEM vs DER, when wire formats need binary ASN.1, and how to convert with OpenSSL.
+
+## Sources
+
+- [ITU-T X.690 — DER](https://www.itu.int/rec/T-REC-X.690/) — deep-dive
+- [Wikipedia — X.690](https://en.wikipedia.org/wiki/X.690) — overview
+
+## Core Definition
+
+DER (Distinguished Encoding Rules) is the canonical binary ASN.1 encoding used for X.509 certificates, keys, and CSRs; PEM is Base64-wrapped DER.
+
+## Key Concepts
 
 ```txt
 Logical cert (ASN.1 structure)
@@ -30,10 +41,7 @@ Formats engineers confuse:
 | **PEM** | Base64 DER + labels |
 | **PKCS#12 (.p12)** | Encrypted bundle of key+cert |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### PEM ↔ DER conversion
 
@@ -64,10 +72,7 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 
 **Why DER in Java/Android:** `CertificateFactory.generateCertificate(InputStream)` expects DER by default.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -76,34 +81,22 @@ openssl x509 -in cert.der -inform der -noout -fingerprint -sha256
 | Signature verify fail | Re-encoded PEM altered whitespace | Sign/compare DER bytes |
 | Java keystore import fail | Wrong format | `keytool -importcert -file cert.der` |
 
----
+## Real-World Applications
 
+Java keystores, Windows cert stores, and some ACME payloads expect DER; convert with OpenSSL when tooling rejects PEM.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **PEM is not "more secure"** — same key material; PEM is encoding only.
+- **Pro:** Canonical binary encoding for certs/keys in wire and keystore formats.
+- **Con:** Humans editing certs → **PEM**. Wire protocols and some embedded parsers → **DER**. Don't hand-edit DER bytes.
 
-> [!WARNING]
-> **Double Base64** — some APIs want PEM string, others raw DER — read API docs.
+## Comparison
 
-> [!WARNING]
-> **Copy/paste corruption** — PEM needs exact line wraps; use files not Slack.
+- vs PEM ([[read pem file]]): DER is binary; PEM is Base64 text with `BEGIN`/`END` markers.
+- vs [[Base64]]: Base64 is the encoding layer inside PEM, not the ASN.1 rules themselves.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-Humans editing certs → **PEM**. Wire protocols and some embedded parsers → **DER**. Don't hand-edit DER bytes.
-
----
-
-
-## Related
-
-[[read pem file]] [[Base64]] [[Root certificate]] [[fingerprint]] [[RSA]] [[openssl]]
-
-## Sources
-
-- [Wikipedia — DER](https://en.wikipedia.org/wiki/DER)
+- PEM is not "more secure" — same key material; PEM is encoding only.
+- Double Base64 — some APIs want PEM string, others raw DER — read API docs.
+- Copy/paste corruption — PEM needs exact line wraps; use files not Slack.

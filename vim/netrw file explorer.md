@@ -1,83 +1,83 @@
-[[vim buffers]] [[Linux/CLI]]
+[[vim buffers]] [[vim commands]] [[Linux/commands/fzf]] [[Linux/CLI]]
 
-# netrw (Vim file explorer)
+# netrw file explorer
 
-> Built-in Vim directory browser (`:Explore`, `:Vex`) — navigate and open files without a plugin manager.
+> Built-in Vim directory browser (`:Explore`, `:Vex`) — open and manage files without a plugin manager.
 
----
+## Interview Relevance
 
-## How it works
+Shows you can navigate a remote host with stock Vim — no NERDTree/Telescope assumed — and that you know when to disable netrw for a fuzzy finder workflow.
 
+## Sources
 
-## Configuration and commands
+- [Vim help — pi_netrw](https://vimhelp.org/pi_netrw.txt.html) — deep-dive
+- [Wikipedia — netrw](https://en.wikipedia.org/wiki/Netrw) — overview
 
-### Open explorer
+## Core Definition
+
+netrw is Vim’s shipped plugin for local and remote directory listing. It loads a special buffer you browse with normal-mode keys; opening a file edits it in a real buffer.
+
+## Key Concepts
+
+- **Explore family:** `:Explore`, `:Vexplore` / `:Vex`, `:Sexplore` / `:Sex`, `:Lexplore` → same browser, different window layout.
+- **Remote URLs:** `vim scp://user@host/path/` → edit over SSH without leaving Vim.
+- **List styles:** thin / long / wide / tree (`i` cycles; `g:netrw_liststyle = 3` for tree) → pick density vs hierarchy.
+- **Buffers still rule:** netrw is a buffer; [[vim buffers]] commands (`:bd`, `:ls`) apply — treat it like any other window.
+
+## Technical Details
 
 ```vim
-:Explore              " current dir in current window
-:Vex .                " vertical split, current dir
+:Explore              " current file's directory (or cwd)
+:Vex .                " vertical split explorer
 :Sex .                " horizontal split
-:edit .               " same as Explore
+:Lexplore             " toggle left drawer-style explorer
+:edit .               " same idea as Explore
 ```
-
-### Navigation keys (default)
 
 | Key | Action |
 |-----|--------|
-| Enter | Open file / enter dir |
-| `-` | Up one directory |
+| Enter | Open file / enter directory |
+| `-` | Parent directory |
 | `%` | New file |
-| `D` | Delete file (confirm) |
+| `d` | New directory |
+| `D` | Delete (confirm) |
 | `R` | Rename |
-| `i` | Toggle list style |
-| `I` | Toggle hidden files |
-
-### Disable if using another file manager
+| `i` | Cycle list style |
+| `I` / `gh` | Toggle banner / hide dotfiles (version-dependent) |
 
 ```vim
-" init.vim / .vimrc
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 25
+
+" disable if using another file manager
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 ```
 
-### Useful options
-
-```vim
-let g:netrw_banner = 0           " hide banner
-let g:netrw_liststyle = 3        " tree view
-let g:netrw_winsize = 25         " Vex width %
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `:Explore` does nothing / error | `echo g:loaded_netrw` | Re-enable netrw; check plugin manager didn't block it |
-| Slow on remote dirs | SSHFS / NFS latency | Use `ranger`/`lf` in terminal split instead |
-| Wrong cwd | `:pwd` | `:cd /path` then `:Explore` |
-| Tree view broken | `netrw_liststyle` | Set to 3; update Vim (old netrw bugs) |
-| Accidental delete | `netrw_fastbrowse` | Set `let g:netrw_fastbrowse = 0` for confirm |
+| `:Explore` does nothing | `echo g:loaded_netrw` | Re-enable; plugin manager may have blocked it |
+| Slow on remote dirs | SSHFS / NFS latency | Terminal file manager in a split instead |
+| Wrong working directory | `:pwd` | `:cd /path` then `:Explore` |
+| Accidental delete | Confirm prompts | Prefer `g:netrw_fastbrowse = 0`; double-check before `D` |
 
+## Real-World Applications
 
-## Gotchas
+Onboarding a bastion host with only Vim installed — browse `/etc`, open configs, rename a bad unit file without installing plugins.
 
-> [!WARNING]
-> **`D` deletes immediately** in some configs — muscle memory from `:bd` doesn't apply.
->
-> **netrw + autochdir** — plugins that `cd` on buffer switch confuse relative paths.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Zero install; local + remote protocols in one tool.
+- **Con:** UX is dated; fuzzy finders ([[Linux/commands/fzf]], Telescope) win for large trees.
 
-## When not to use
+## Comparison
 
-- Don't fight netrw if you live in fuzzy finders — disable it and use fzf/telescope in Neovim.
-- Don't use netrw as a project-wide search tool — `:grep`/LSP is better.
+- vs NERDTree / oil.nvim: plugins polish UX; netrw is always there.
+- vs `fzf` / Telescope: search-by-name beats tree browsing for large codebases.
 
+## Mistakes to Avoid
 
-## Related
-
-[[vim buffers]] [[Linux/commands/fzf]] [[Descriptive/vscode]]
-
-## Sources
-
-- [Wikipedia — netrw file explorer](https://en.wikipedia.org/wiki/netrw_file_explorer)
+- Muscle-memory `D` thinking it is `:bd` — `D` deletes files on disk.
+- Fighting netrw while using autochdir plugins — relative paths get confusing; pick one navigation model.
+- Using netrw as project-wide search — use `:grep`, ripgrep, or LSP instead.

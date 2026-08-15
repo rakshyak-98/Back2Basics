@@ -1,28 +1,30 @@
-[[javascript]] [[prototype]]
+[[javascript]] [[prototype]] [[promise]]
 
 # Destructuring
 
 > Unpack values from arrays/objects into bindings — shorter than manual indexing; defaults and rest supported.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **Destructuring** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **rename**, **default**, **rest**.
+
+## Sources
+
+- [MDN — Destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring) — deep-dive
+- [Wikipedia — Destructuring](https://en.wikipedia.org/wiki/Destructuring) — overview
+
+## Key Concepts
+
+- **rename:** `a: b` — Bind prop `a` as `b`.
+- **default:** `= value` — When nullish/undefined (objects: undefined).
+- **rest:** `...r` — Remaining props/items.
+
+## Technical Details
 
 ```txt
 const { a: x = 1, ...rest } = obj
 const [first, , third] = arr
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **rename** | `a: b` | “Bind prop `a` as `b`.” |
-| **default** | `= value` | “When nullish/undefined (objects: undefined).” |
-| **rest** | `...r` | “Remaining props/items.” |
-
-
-## Configuration and commands
 
 ```js
 function f({ id, name = 'anon' } = {}) { /* … */ }
@@ -36,44 +38,25 @@ const [head, ...tail] = list
 | Computed keys | `[key]: value` |
 | Array holes | Skip with commas |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **Destructuring** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Defaults don’t run for `null`** — only `undefined`; **Parameter destructuring + no default** — `f(undefined)` throws.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Cannot destructure undefined | Null source | Default `= {}` / optional chain |
-| Got `undefined` not default | `null` prop | Defaults only for `undefined` |
-| Rest dropped keys | Needed them | Don’t omit in rest pattern |
-| Confusion with TS types | `: Type` vs rename | Careful colon meaning |
+- **Pro:** Solves the job described above when used in the right layer (Unpack values from arrays/objects into bindings — shorter than manual indexing; …).
+- **Con / when not:** **Deep optional trees** — readability dies; intermediate variables help.
+- **Con / when not:** **Huge objects once** — sometimes explicit access is clearer.
 
----
+## Comparison
 
+vs [[prototype]]: know when each applies — do not treat them as interchangeable. vs [[promise]]: know when each applies — do not treat them as interchangeable. vs [[prototype]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Defaults don’t run for `null`** — only `undefined`.
-
-> [!WARNING]
-> **Parameter destructuring + no default** — `f(undefined)` throws.
-
----
-
-
-## When not to use
-
-- **Deep optional trees** — readability dies; intermediate variables help.
-- **Huge objects once** — sometimes explicit access is clearer.
-
----
-
-
-## Related
-
-[[promise]] [[prototype]]
-
-## Sources
-
-- [Wikipedia — Destructuring](https://en.wikipedia.org/wiki/Destructuring)
+- **Defaults don’t run for `null`** — only `undefined`.
+- **Parameter destructuring + no default** — `f(undefined)` throws.
+- **Cannot destructure undefined:** check Null source; fix: Default `= {}` / optional chain
+- **Got `undefined` not default:** check `null` prop; fix: Defaults only for `undefined`
+- **Rest dropped keys:** check Needed them; fix: Don’t omit in rest pattern
+- **Confusion with TS types:** check `: Type` vs rename; fix: Careful colon meaning

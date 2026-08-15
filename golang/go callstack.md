@@ -1,12 +1,19 @@
-[[golang]] [[go error]] [[go-routines]]
+[[golang]] [[go error]] [[go-routines]] [[go debugging]] [[go functions]]
 
 # go callstack
 
 > Call stack unwind — Go walks frames backward on panic and runs each `defer` before the frame dies.
 
----
+## Interview Relevance
 
-## How it works
+Panic/defer unwind questions separate “errors as values” from stack unwinding — interviewers want when `defer` runs and why `recover` belongs at boundaries.
+
+## Sources
+
+- [Go spec — Defer statements](https://go.dev/ref/spec#Defer_statements) — deep-dive
+- [Go blog — Defer, Panic, and Recover](https://go.dev/blog/defer-panic-and-recover) — overview
+
+## Key Concepts
 
 ```txt
 panic
@@ -24,10 +31,7 @@ crash  or  recover() at a defer boundary
 | `defer` | Cleanup on exit / panic |
 | `recover` | Stop unwind inside a deferred func |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 func safe() {
@@ -50,10 +54,7 @@ debug.PrintStack()
 | `recover` only in defer | Elsewhere always nil |
 | Per-goroutine stack | Panic in one goroutine ≠ catch in another |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -62,32 +63,12 @@ debug.PrintStack()
 | Huge stacks | Recursive panic / deep calls | Fix root; raise only if needed |
 | Lost cleanup | No defer around resource | `defer f.Close()` |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Business errors — return `error`, don’t panic + recover.
+- **Trade-off:** Cross-goroutine control flow — use channels / context.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`recover` outside defer is useless** — always returns nil.
-
-> [!WARNING]
-> **Sibling goroutine cannot recover your panic** — each stack is isolated.
-
----
-
-
-## When not to use
-
-- **Business errors** — return `error`, don’t panic + recover.
-- **Cross-goroutine control flow** — use channels / context.
-
----
-
-
-## Related
-
-[[go error]] [[go-routines]] [[go debugging]] [[go functions]]
-
-## Sources
-
-- [Wikipedia — go callstack](https://en.wikipedia.org/wiki/go_callstack)
+- `recover` outside defer is useless — always returns nil.
+- Sibling goroutine cannot recover your panic — each stack is isolated.

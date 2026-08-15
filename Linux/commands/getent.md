@@ -1,124 +1,69 @@
-[[user management]] [[passwd]] [[Authentication command]] [[linux groups]]
+[[user management]] [[passwd]] [[Authentication command]] [[linux groups]] [[useradd]] [[dig]]
 
 # getent
 
-> getent — when a program calls getpwnam("alice"), glibc walks /etc/nsswitch.conf and asks each configured source (files, systemd, sss, ldap, …). getent exposes that same resolution path
+> getent queries Name Service Switch (NSS) databases — the same path login and libc use — so it sees files, SSSD, LDAP, not just `/etc/passwd`.
 
----
+## Interview Relevance
+Enterprise Linux signal: `getent` vs `grep /etc/passwd`, `getent hosts` vs `dig`, and reading `/etc/nsswitch.conf`.
 
-## How it works
+## Sources
+- [getent(1)](https://man7.org/linux/man-pages/man1/getent.1.html) — deep-dive
+- [nsswitch.conf(5)](https://man7.org/linux/man-pages/man5/nsswitch.conf.5.html) — deep-dive
 
-When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and asks each configured source (files, systemd, sss, ldap, …). `getent` exposes that same resolution path — so it beats `grep /etc/passwd alice` when accounts live in LDAP/SSSD.
+## Core Definition
+When a program calls `getpwnam("alice")`, glibc walks `/etc/nsswitch.conf` and asks each configured source (files, systemd, sss, ldap, …). `getent` exposes that same resolution path.
 
-```
+## Key Concepts
+- **NSS:** Pluggable lookup order for passwd, group, hosts, services, …
+- **passwd / group:** User and group records including directory-backed accounts.
+- **hosts:** Name→IP via nsswitch (often files before DNS) — not pure DNS.
+- **shadow:** Password aging; usually root-only.
+- **Read-only:** getent does not create or edit accounts.
+
+## Technical Details
+
+```txt
 app / login ──► libc NSS ──► files │ sss │ ldap │ ...
-                                ▲
-                           getent (same path)
+                           ▲
+                      getent (same path)
 ```
-
-| Database | Typical use |
-|----------|-------------|
-| `passwd` | Users (UID, home, shell) |
-| `group` | Groups (GID, members) |
-| `shadow` | Password aging (root only) |
-| `hosts` | Hostname ↔ IP (`/etc/hosts` + DNS per nsswitch) |
-| `services` | Port ↔ service name |
-| `ethers`, `protocols`, `rpc` | Network tables |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **getent** | Query NSS databases | “getent sees LDAP/sssd, not just files.” |
-| **passwd** | User lookup | “getent passwd user — exists?” |
-| **group** | Group lookup | “getent group sudo.” |
-| **hosts** | Name → IP via NSS | “getent hosts vs dig — different paths.” |
-| **nsswitch.conf** | Lookup order | “files ldap dns order matters.” |
-
-
-## Configuration and commands
 
 ```bash
-# Does user exist? Full record
 getent passwd alice
-# alice:x:1001:1001:Alice:/home/alice:/bin/bash
-
-# UID lookup
 getent passwd 1001
-
-# Group + members
 getent group docker
 getent group 1005
-
-# All local+remote users (can be long)
 getent passwd
 
-# Host resolution (respects nsswitch — files before dns)
 getent hosts myapp.internal
 getent hosts 10.0.1.50
-
-# Service name → port
 getent services http
-getent services 443
-
-# Shadow (root)
 sudo getent shadow alice
 
-# Which databases exist
-getent --help
-```
-
-**versus raw file grep:**
-
-```bash
-grep alice /etc/passwd          # files only — misses SSSD/LDAP
-getent passwd alice             # authoritative for login path
-
-# Debug NSS order
 cat /etc/nsswitch.conf
 # passwd: files systemd sss
-# group:  files systemd sss
 ```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| User in `/etc/passwd` but can't login | Not in SSSD/LDAP view | `getent passwd user`; fix nsswitch or sync directory |
-| `getent` hangs | Broken DNS/LDAP | `getent hosts badname`; `sssctl user-checks`; fix resolver |
-| Empty `getent passwd` | nsswitch misconfigured | Restore `/etc/nsswitch.conf`; `authselect` / `pam-auth-update` |
-| Different result than `id` | Cached sssd | `sss_cache -E`; restart `sssd` |
-| Host resolves in dig but not app | nsswitch order | `getent hosts` vs `dig`; put files/dns order right |
-| Shadow empty for local user | Expected on sss-only | Password in directory; use ldap/sss tools |
+| User in `/etc/passwd` but can't login | NSS view | `getent passwd user`; fix nsswitch/directory |
+| `getent` hangs | Broken DNS/LDAP | Fix resolver; `sssctl` / restart sssd |
+| Different than `id` | Cached sssd | `sss_cache -E`; restart `sssd` |
+| Host resolves in dig not app | nsswitch order | Compare `getent hosts` vs [[dig]] |
 
+## Real-World Applications
+Confirming an LDAP user exists before debugging SSH, verifying `docker` group membership from SSSD, and checking whether an internal hostname comes from `/etc/hosts` or DNS.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Authoritative for “will login see this user?”
+- **Con:** Full `getent passwd` on large LDAP can hammer the directory.
+- **Trade-off:** Fast local files vs slower networked NSS sources.
 
-> [!WARNING]
-> **`grep /etc/passwd` lies on enterprise hosts** — always `getent` when debugging login, permissions, or automation that mirrors system users.
+## Comparison
+vs `grep /etc/passwd`: files only — misses SSSD/LDAP. vs [[dig]]: DNS-only path. vs [[useradd]]/[[passwd]]: those mutate; getent only reads.
 
-> [!WARNING]
-> **`getent hosts` is not `dig`** — follows nsswitch (often `/etc/hosts` first). DNS-only debugging → [[dig]].
-
-> [!WARNING]
-> **Large `getent passwd` on LDAP** — can hammer directory; filter with `getent passwd username`.
-
-> [!WARNING]
-> **Shadow via getent still needs root** — same as reading `/etc/shadow`.
-
-
-## When not to use
-
-- **DNS-only troubleshooting** → `dig`, `resolvectl query`.
-- **Active Directory administrator** → `ldapsearch`, `adcli`, `realm`.
-- **Edit accounts** → [[useradd]], [[usermod]], [[passwd]] — getent is read-only.
-
-
-## Related
-
-[[user management]] [[passwd]] [[useradd]] [[Authentication command]] [[linux groups]] [[dig]]
-
-## Sources
-
-- [Wikipedia — getent](https://en.wikipedia.org/wiki/getent)
+## Mistakes to Avoid
+- Debugging login with file greps on enterprise hosts.
+- Treating `getent hosts` as equivalent to `dig`.
+- Dumping entire directory passwd databases in scripts.

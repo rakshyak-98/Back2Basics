@@ -1,23 +1,32 @@
-[[Nginx]]
+[[URL Rewriting]] [[Configuration]] [[How does directive work]] [[nginx SPA deployment]]
 
 # nginx URL rewrite
 
-> nginx URL rewrite — what happens when user goes to /about
+> Change the URI inside Nginx before looking up files or proxying — different from `root`/`alias`/`try_files`, which leave the browser URL alone unless you `return`/`permanent`.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers distinguish internal rewrite vs external redirect (`permanent`/`redirect`), query-string handling, and interaction with `proxy_pass`.
 
-|Nginx directive|What it actually does|When your browser URL becomes|Real folder on disk|
-|---|---|---|---|
-|`root /var/www/html;`|Physical folder|unchanged|`/var/www/html/blog/post1.html`|
-|`alias`|Replace entire path|unchanged|something else|
-|`try_files`|“Look here, then here, then fallback”|unchanged|multiple places|
-|`rewrite`|**Changes the URL inside Nginx before it looks for files**|can change|depends|
-|`return` / `proxy_pass`|Final answer|can change|doesn’t matter|
+## Sources
 
+- [nginx.org — ngx_http_rewrite_module](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html) — deep-dive
+- [nginx.org — Creating NGINX Rewrite Rules](https://www.nginx.com/blog/creating-nginx-rewrite-rules/) — overview
 
-## Configuration and commands
+## Key Concepts
+
+| Nginx directive | What it does | Browser URL | Disk / upstream |
+|-----------------|--------------|-------------|-----------------|
+| `root` | Physical folder base | unchanged | URI under root |
+| `alias` | Replace location prefix | unchanged | different path |
+| `try_files` | Try paths then fallback | unchanged | multiple places |
+| `rewrite` | Change URI inside Nginx | can change if redirect flag | depends |
+| `return` / `proxy_pass` | Final answer / proxy | can change | N/A |
+
+- **Flags:** `last` re-search locations; `break` stop rewrite module; `redirect` (302); `permanent` (301).
+- **Query string:** Rewrite may drop `$args` unless you append `$is_args$args`.
+
+## Technical Details
 
 ```nginx
 rewrite ^/old/(.*)$ /new/$1 permanent;
@@ -27,11 +36,6 @@ location /api/ {
 }
 ```
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Redirect loop | `rewrite` plus `try_files` interaction | Test with `curl -I`; simplify rules |
@@ -39,29 +43,22 @@ location /api/ {
 | 301 when expecting internal | `permanent` flag | Use `last` or `break` for internal rewrite |
 | Wrong backend path | `proxy_pass` URI part | With URI in proxy_pass, location prefix is replaced |
 
----
+## Real-World Applications
 
+Migrate `/old/...` to `/new/...` with 301; strip `/api` prefix before proxying to a backend that expects bare paths.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> `rewrite ... permanent` sends **301** to the client — browser will cache it.
+- **Pro:** Powerful pattern-based URI transforms without touching the app.
+- **Con:** Long rewrite chains are hard to debug — prefer `return` for simple redirects.
 
----
+## Comparison
 
+- vs [[URL Rewriting]]: general concept vs Nginx `rewrite`/`return` specifics.
+- vs `return 301`: clearer for host/scheme redirects than complex rewrite.
 
-## When not to use
+## Mistakes to Avoid
 
-- Prefer `return 301` for simple host or scheme redirects — clearer than rewrite.
-
-
----
-
-
-## Related
-
-[[Nginx]]
-
-## Sources
-
-- [Wikipedia — nginx URL rewrite](https://en.wikipedia.org/wiki/nginx_URL_rewrite)
+- Using `rewrite ... permanent` when you only needed an internal rewrite — browsers cache 301s.
+- Preferring rewrite for simple redirects instead of `return 301`.
+- Chaining rewrites that fight `try_files` SPA fallbacks.

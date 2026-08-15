@@ -4,7 +4,15 @@
 
 > Strategy defines a family of algorithms, encapsulates each one, and makes them interchangeable — so the client picks behavior at runtime without conditional branches in the hot path.
 
-## Structure
+## Interview Relevance
+
+Strategy tests swapping algorithms at runtime without if/else forests — composition over conditional inheritance.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Strategy) — deep-dive
+
+## Key Concepts
 
 ```
 Context → Strategy interface → ConcreteStrategyA / B
@@ -12,15 +20,7 @@ Context → Strategy interface → ConcreteStrategyA / B
 
 Context calls `strategy.execute(data)`; wiring can happen at construction or via setter.
 
-## vs Template Method
-
-| | Strategy | Template Method |
-|---|----------|-----------------|
-| Mechanism | Composition (interface) | Inheritance (override hooks) |
-| Runtime swap | Easy | Harder (subclass fixed) |
-| Granularity | Whole algorithm | Fixed skeleton, variable steps |
-
-## Example
+## Technical Details
 
 Payment processing: `PaymentStrategy` with `pay(amount)` — `CreditCard`, `PayPal`. Checkout holds a strategy reference.
 
@@ -31,17 +31,22 @@ class Checkout {
 }
 ```
 
-## When to use
+## Real-World Applications
 
 - Multiple algorithms for one job (compression, routing, pricing rules).
 - Eliminating `switch` on type codes in business logic.
 
-## Pitfalls
+## Comparison
+
+**vs Template Method**
+
+| | Strategy | Template Method |
+|---|----------|-----------------|
+| Mechanism | Composition (interface) | Inheritance (override hooks) |
+| Runtime swap | Easy | Harder (subclass fixed) |
+| Granularity | Whole algorithm | Fixed skeleton, variable steps |
+
+## Mistakes to Avoid
 
 - Strategy per tiny variation — functions or lambdas may be enough.
 - Context must expose all data strategies need — avoid strategies reaching into private context state.
-
-## Sources
-
-- Gamma et al., *Design Patterns* (Strategy)
-- [Strategy pattern — Wikipedia](https://en.wikipedia.org/wiki/Strategy_pattern)

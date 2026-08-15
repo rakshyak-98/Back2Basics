@@ -1,14 +1,27 @@
-[[POSIX Socket]] [[TCP]] [[UDP]] [[webSocket]]
+[[POSIX Socket]] [[BSD Socket]] [[TCP]] [[UDP]] [[webSocket]] [[Inter Process Communication]] [[file descriptors]]
 
 # Berkeley sockets
 
 > BSD-origin API (`socket`, `bind`, `listen`, `connect`, `send`, `recv`) — the POSIX façade for Internet and Unix domain communication.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers expect you to walk a TCP server path (`socket` → `bind` → `listen` → `accept`) and know that languages wrap this C ABI — not invent a different kernel model.
 
-**Berkeley sockets** are the **C ABI** most languages wrap:
+## Sources
+
+- [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview
+- [IEEE Std 1003.1 — sockets](https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html) — deep-dive
+- [man 7 socket (Linux)](https://man7.org/linux/man-pages/man7/socket.7.html) — deep-dive
+
+## Key Concepts
+
+- **C ABI most languages wrap:** domain + type + protocol → kernel holds connection state; userspace sees an fd + syscalls.
+- **Fd-shaped I/O:** fits `select` / `poll` / `epoll` — see [[file descriptors]].
+- **Stream vs datagram:** `SOCK_STREAM` → [[TCP]]; `SOCK_DGRAM` → [[UDP]]; `AF_UNIX` → local IPC.
+- **Socket options:** `SO_REUSEADDR`, `TCP_NODELAY`, timeouts → production tunables via `setsockopt`.
+
+## Technical Details
 
 ```txt
 socket(domain, type, protocol)
@@ -17,15 +30,6 @@ socket(domain, type, protocol)
    ├─ AF_INET + SOCK_DGRAM           → UDP
    └─ AF_UNIX + SOCK_STREAM           → local IPC
 ```
-
-File-descriptor shaped — fits `select`/`poll`/`epoll` ([[file descriptors]]). Kernel holds connection state; userspace sees fd + syscalls.
-
-Also see [[POSIX Socket]] for portable behavior details and [[BSD Socket]] if present as sibling note.
-
----
-
-
-## Configuration and commands
 
 ### Minimal TCP server (C pattern)
 
@@ -58,12 +62,7 @@ setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof yes);
 ss -tin 'sport = :8080'
 ```
 
-**Why `SO_REUSEADDR`:** faster restart after crash/TIME-WAIT; **TCP_NODELAY:** disable Nagle for latency-sensitive RPC.
-
----
-
-
-## When things break
+**Why `SO_REUSEADDR`:** faster restart after crash/TIME-WAIT. **`TCP_NODELAY`:** disable Nagle for latency-sensitive RPC.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,34 +71,27 @@ ss -tin 'sport = :8080'
 | `ECONNRESET` | Peer closed; TLS mismatch | App logs; tcpdump |
 | Accept queue overflow | `ss -lnt` Send-Q vs `somaxconn` | Raise `net.core.somaxconn`; tune backlog |
 
----
+## Real-World Applications
 
+Go `net`, Python `socket`, Node `net`, and JVM NIO all sit on Berkeley sockets underneath.
 
-## Gotchas
+**Example:** After a crash-restart, bind fails with `EADDRINUSE` during TIME-WAIT — enable `SO_REUSEADDR` (and understand what it does *not* do for multi-process bind).
 
-> [!WARNING]
-> **Partial reads/writes** — `read`/`write` may return less than requested; loop or use `sendmsg`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Blocking vs non-blocking** changes error shape (`EAGAIN`) — see [[non-blocking]].
+- **Pro:** Universal, fd-compatible, maps cleanly to event loops.
+- **Con:** Partial reads/writes and stream framing are the app’s job on [[TCP]].
+- **Con:** Blocking sockets in a single-thread server stall everyone on one slow client.
 
-> [!WARNING]
-> **FD leaks** — every `accept` needs `close` on all paths.
+## Comparison
 
----
+- vs [[POSIX Socket]]: portable behavior and knobs; Berkeley naming emphasizes the historical C API.
+- vs [[BSD Socket]]: sibling naming of the same lineage — use [[BSD Socket]] when distinguishing API vs BSD-the-OS.
+- vs [[webSocket]]: WebSocket is an application protocol over TCP (HTTP Upgrade), not a replacement for the socket API.
+- Same-host only: prefer `AF_UNIX` over IP to skip stack/NAT/firewall noise — see [[Inter Process Communication]].
 
+## Mistakes to Avoid
 
-## When not to use
-
-For same-host IPC only, **Unix domain sockets** avoid IP stack overhead. For HTTP/gRPC, use libraries — don't hand-roll protocol on bare sockets unless necessary.
-
----
-
-
-## Related
-
-[[POSIX Socket]] [[TCP]] [[UDP]] [[Berkeley sockets]] [[Inter Process Communication]] [[file descriptors]]
-
-## Sources
-
-- [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets)
+- Assuming `read`/`write` return the full buffer — loop or use `sendmsg`; see [[non-blocking]] for `EAGAIN`.
+- Leaking fds — every `accept` needs `close` on all paths.
+- Hand-rolling HTTP/gRPC on bare sockets when a library already owns framing and TLS.

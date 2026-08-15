@@ -1,12 +1,27 @@
-[[redis-cli]] [[systemd]]
+[[redis-cli]] [[systemd]] [[connection pooling]] [[Docker compose]]
 
 # redis installation
 
-> redis installation — package / image ──► redis-server ──► reads redis.conf
+> Install and harden Redis: package or image runs `redis-server` with `redis.conf`, systemd supervision, bind/ACL, and RDB/AOF under `/var/lib/redis`.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe bind/protected-mode, ACL versus `requirepass`, `maxmemory` policy, and why an open `0.0.0.0:6379` is an instant incident.
+
+## Sources
+
+- [Redis — Install](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/) — overview
+- [Redis — Configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/) — deep-dive
+- [Redis — ACL](https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/) — deep-dive
+
+## Key Concepts
+
+- **Process model:** `redis-server` + systemd + listen address + persistence directory.
+- **Protected-mode:** default safety when unbound auth would expose you — not a substitute for ACL + firewall.
+- **ACL (6+):** per-user command/key permissions; prefer over legacy `requirepass`.
+- **Memory + persistence:** `maxmemory` + eviction; RDB/AOF trade durability for latency.
+
+## Technical Details
 
 ```
 Package / image ──► redis-server ──► reads redis.conf
@@ -15,11 +30,6 @@ Package / image ──► redis-server ──► reads redis.conf
                          ├── TCP/UNIX listen + ACL
                          └── RDB/AOF under dir /var/lib/redis
 ```
-
-**Default upstream packages** expose `6379` with **protected-mode** if no password and bind not restricted — fine for development trap, dangerous if firewall wrong.
-
-
-## Configuration and commands
 
 ### Install (Debian/Ubuntu — official redis.io repo)
 
@@ -39,38 +49,24 @@ sudo systemctl enable redis-server
 sudo systemctl start redis-server
 sudo systemctl status redis-server
 sudo journalctl -u redis-server -f
-
-# After config change
 sudo systemctl restart redis-server
-# Prefer CONFIG REWRITE for runtime-persisted changes when using include
 ```
 
-Typical unit (`/lib/systemd/system/redis-server.service`):
+Typical unit: `User=redis`, `ExecStart=/usr/bin/redis-server /etc/redis/redis.conf`, `LimitNOFILE=65535`.
 
-- `User=redis` `Group=redis`
-- `ExecStart=/usr/bin/redis-server /etc/redis/redis.conf`
-- `LimitNOFILE=65535` — raise if `maxclients` high
-
-### redis.conf essentials (production baseline)
+### redis.conf essentials
 
 ```ini
-# Network — default safe: localhost only
 bind 127.0.0.1 ::1
 port 6379
-protected-mode yes          # yes when no auth + non-local bind blocked
-
-# Auth — pick ACL (6+) or requirepass (legacy)
-# requirepass CHANGE_ME_LONG_RANDOM
+protected-mode yes
 
 # ACL (recommended 6+)
-# user default on nopass ~* &* +@all    # dev only
 # user app on >APP_SECRET ~app:* +get +set +del +expire
 
-# Memory
 maxmemory 1gb
 maxmemory-policy allkeys-lfu
 
-# Persistence (cache-only can disable both — document the risk)
 dir /var/lib/redis
 dbfilename dump.rdb
 save 900 1
@@ -80,34 +76,23 @@ save 60 10000
 appendonly yes
 appendfsync everysec
 
-# Security / ops
 supervised systemd
-daemonize no                # systemd manages foreground
-logfile ""                  # log to stdout/journal
+daemonize no
+logfile ""
 slowlog-log-slower-than 10000
 slowlog-max-len 128
-
-# Rename dangerous commands (optional)
-# rename-command FLUSHALL ""
-# rename-command CONFIG "CONFIG_9a7b2c"
 ```
 
-### ACL setup example
+### ACL setup
 
 ```bash
 redis-cli ACL SETUSER app on >$(openssl rand -base64 32) ~app:* +@read +@write +@string -@dangerous
-redis-cli ACL SETUSER default off    # disable default after app user works
+redis-cli ACL SETUSER default off
 redis-cli ACL LIST
 redis-cli CONFIG REWRITE
 ```
 
-application connection string:
-
-```
-redis://app:SECRET@127.0.0.1:6379/0
-```
-
-### Bind + protected-mode decision table
+Connection string: `redis://app:SECRET@127.0.0.1:6379/0`
 
 | Deployment | bind | protected-mode | auth |
 |------------|------|----------------|------|
@@ -116,34 +101,14 @@ redis://app:SECRET@127.0.0.1:6379/0
 | Private VPC only | internal IP | yes + firewall | ACL required |
 | Public internet | **don't** | — | use TLS + VPC + ACL |
 
-```ini
-# Private network — still use ACL + firewall SG
-bind 10.0.1.50
-protected-mode yes
-```
-
-Never `bind 0.0.0.0` without authentication, firewall, and TLS consideration.
-
-### Post-install verify
-
 ```bash
 redis-cli PING
 redis-cli INFO server | grep redis_version
 redis-cli CONFIG GET bind
-redis-cli CONFIG GET maxmemory
-sudo ss -tlnp | grep 6379          # confirm listen address
-```
-
-### File permissions
-
-```bash
+sudo ss -tlnp | grep 6379
 sudo chown redis:redis /var/lib/redis /etc/redis/redis.conf
 sudo chmod 640 /etc/redis/redis.conf
-# secrets outside world-readable paths
 ```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -152,47 +117,30 @@ sudo chmod 640 /etc/redis/redis.conf
 | Starts then exits | `journalctl -u redis-server` | Bad `dir` permissions; corrupt AOF → `redis-check-aof` |
 | Can't write config | `CONFIG SET` without rewrite | Edit redis.conf; restart; fix ownership |
 | OOM on host | no `maxmemory` | Set cap + eviction policy |
-| Exposed to internet scan | Shodan/censys; `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
+| Exposed to internet scan | `ss -tlnp` | Firewall; bind localhost; ACL; disable default user |
 
+## Real-World Applications
 
-## Steps
+Local cache for a monolith, sidecar Redis in [[Docker compose]], and VPC-private Redis for session stores.
 
-1. …
+**Example:** App and Redis on one host bind `127.0.0.1`, ACL user `app` limited to `~app:*`, `maxmemory-policy allkeys-lfu`.
 
+## Pros/Cons or Trade-offs
 
-## Verification
+- **Pro:** Fast install path with strong defaults if you keep bind local + ACL.
+- **Con:** Wrong bind exposes an in-memory database to the internet.
+- **Con:** Self-managed multi-master/cluster topology is harder than managed Redis.
 
-```bash
-# smoke test
-```
+## Comparison
 
+- vs managed Redis (ElastiCache/Memorystore): managed wins for HA/patching; self-install wins for local/dev control.
+- vs Redis Stack packages: different unit name and module memory profile — do not assume identical.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`requirepass` in git** — config management leaks secrets. Use env-substituted template or secret mount.
-
-> [!WARNING]
-> **Redis Stack default** — different unit name (`redis-stack-server`); modules change memory profile.
-
-- ** systemd `Type=notify`** — Redis supports `supervised systemd`; wrong `daemonize yes` breaks notify.
-- **THP (transparent huge pages)** — Redis docs say disable on Linux for latency (`never` in sysfs).
-- **Overcommit memory** — fork for RDB needs `vm.overcommit_memory=1` on Linux (see official FAQ).
-- **Package upgrade** — configuration diff in `/etc/redis/redis.conf.dpkg-old`; merge don't blind overwrite.
-- **Docker sidecar** — bind `127.0.0.1` in container ≠ host; use network namespace or shared volume unix socket.
-
-
-## When not to use
-
-- **Multi-master write on open network** — use managed Redis / cluster with proper topology.
-- **requirepass only on 6+** — migrate to ACL for command-level least privilege.
-- **Installing from random PPA** — use official redis.io or distro you trust; pin version.
-
-
-## Related
-
-[[redis-cli]] [[systemd]] [[connection pooling]] [[Docker compose]]
-
-## Sources
-
-- [Wikipedia — redis installation](https://en.wikipedia.org/wiki/redis_installation)
+- `requirepass` committed in git — use secret mounts/templates.
+- `daemonize yes` under systemd notify — breaks supervision.
+- Leaving transparent huge pages enabled — latency spikes (Redis recommends `never`).
+- Missing `vm.overcommit_memory=1` so RDB fork fails.
+- Blind package upgrades overwriting `/etc/redis/redis.conf`.
+- Binding `127.0.0.1` inside Docker and expecting the host to reach it without network setup.

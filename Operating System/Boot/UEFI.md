@@ -1,12 +1,27 @@
-[[Operating System]] [[Boot/Extensible Firmware interface (efi)]] [[MBR]] [[Persistent Block Storage]] [[inittramfs]]
+[[Operating System]] [[Boot/Extensible Firmware interface (efi)]] [[MBR]] [[Persistent Block Storage]] [[inittramfs]] [[Boot/UEFI (2)]] [[Linux/management/grub]]
 
 # UEFI
 
-> UEFI (Unified Extensible Firmware Interface) is modern PC firmware that initializes hardware, reads boot entries from NVRAM, and loads signed EFI applications from the EFI System Partition — replacing the 446-byte MBR boot sector chain.
+> UEFI is modern PC firmware that initializes hardware, reads boot entries from NVRAM, and loads signed EFI apps from the ESP — replacing the 446-byte MBR boot-sector chain.
 
-After power-on, the CPU starts firmware at a reset vector. **UEFI** runs in 32- or 64-bit mode with drivers, protocols, and a **boot manager** defined by the UEFI specification. The boot manager consults variables such as `BootOrder` and `Boot####` to choose an OS loader (for example `\EFI\ubuntu\shim.efi` → GRUB → Linux kernel).
+## Interview Relevance
 
-## Boot flow (simplified)
+Explain UEFI boot flow vs BIOS+MBR, GPT/ESP, Secure Boot, and why dual-boot is NVRAM entries not just an active flag.
+
+## Sources
+
+- [UEFI Spec 2.10 — Boot Manager](https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html) — deep-dive
+- [Wikipedia — UEFI](https://en.wikipedia.org/wiki/UEFI) — overview
+- Microsoft Learn — UEFI firmware documentation — overview
+
+## Key Concepts
+
+- **Boot manager:** `BootOrder` / `Boot####` choose an OS loader.
+- **ESP:** FAT32 on GPT holding `.efi` loaders.
+- **Secure Boot:** signature checks before loader runs.
+- **CSM:** optional legacy MBR path — see [[Boot/UEFI (2)]].
+
+## Technical Details
 
 ```txt
 Power-on → SEC/PEI/DXE (platform init) → BDS boot manager
@@ -16,8 +31,6 @@ Power-on → SEC/PEI/DXE (platform init) → BDS boot manager
          → kernel takes over (long mode on x86-64)
 ```
 
-## Versus legacy BIOS + MBR
-
 | Topic | Legacy BIOS | UEFI |
 |-------|-------------|------|
 | Partition table | [[MBR]] (2 TiB limit) | GPT (large disks) |
@@ -25,18 +38,25 @@ Power-on → SEC/PEI/DXE (platform init) → BDS boot manager
 | Security | No standard Secure Boot | Secure Boot, measured boot (TPM) |
 | Handoff mode | 16-bit real mode chain | Protected/long mode with tables |
 
-Many machines ship **UEFI with CSM** (Compatibility Support Module) to boot old MBR images — see [[Boot/UEFI (2)]] for practical firmware menu behavior.
+Ops: remount ESP to reinstall loaders; cloud images are often UEFI-GPT. Related: [[Boot/Extensible Firmware interface (efi)]], [[Linux/management/grub]].
 
-## Operations relevance
+## Real-World Applications
 
-- Reinstalling boot loaders requires mounting the ESP (`/boot/efi`).
-- Dual-boot means multiple NVRAM entries, not only an “active” partition flag.
-- Cloud images are often UEFI-GPT; bare-metal automation must align partition layout with firmware mode.
+Bare-metal provisioning, dual-boot laptops, and cloud VM images that must match firmware mode.
 
-Related: [[Boot/Extensible Firmware interface (efi)]] (EFI naming history), [[Linux/management/grub]].
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Large disks, Secure Boot, structured boot entries.
+- **Con:** More moving parts (ESP + NVRAM) than classic MBR.
+- **Trade-off:** UEFI-only purity vs CSM for old installers.
 
-- UEFI Specification 2.10 — [Boot Manager](https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html)
-- Wikipedia: [UEFI](https://en.wikipedia.org/wiki/UEFI)
-- Microsoft Learn: UEFI firmware documentation
+## Comparison
+
+- vs [[MBR]]: sector stub vs file-based loaders on ESP.
+- vs [[Boot/UEFI (2)]]: architecture vs recovery checklist.
+
+## Mistakes to Avoid
+
+- Installing GRUB to the wrong place (MBR vs ESP) for the firmware mode.
+- Assuming “active partition” still controls UEFI boot selection.
+- Ignoring Secure Boot when a custom kernel/loader suddenly “vanishes.”

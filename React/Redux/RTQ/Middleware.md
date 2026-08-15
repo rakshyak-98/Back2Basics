@@ -1,33 +1,42 @@
 [[react hooks]] [[React State management]] [[React Architecture]] [[RTQ Toolkit]] [[RTQ store]] [[RTQ tags]]
 
-# Middleware
+# RTK Query Middleware
 
-> Middleware is a type of computer software program that provides services to software applications beyond those available from the operating system.
+> RTK Query middleware manages subscriptions, caching lifetimes, and request lifecycle in the store.
 
-## What this is
+## Interview Relevance
 
-Middleware is a type of computer software program that provides services to software applications beyond those available from the operating system. It can be described as "software glue".
-
-
-
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `Middleware` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[React Architecture]] [[RTQ Toolkit]] [[RTQ store]] [[RTQ tags]]
+Interviewers want action → reducer → store → subscribe data flow, immutability, and why Redux Toolkit is the default path.
 
 ## Sources
 
-- [Wikipedia — Middleware](https://en.wikipedia.org/wiki/Middleware)
+- [RTK Query Middleware](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive
+- [Redux getting started](https://redux.js.org/introduction/getting-started) — overview
+
+## Key Concepts
+
+- **Data flow:** dispatch → middleware → reducer → subscribers.
+- **Modern path:** Redux Toolkit; avoid hand-written switch statements for new code.
+
+## Technical Details
+
+Prefer official RTK APIs documented at the Sources link. Cross-link [[Redux/Redux concept and data flow]] and [[Redux toolkit]].
+
+## Real-World Applications
+
+Use RTK Query Middleware when your app’s Redux layer needs that capability; keep server lists in RTK Query or TanStack Query.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Centralized, debuggable updates with DevTools.
+- **Con:** Ceremony — skip Redux for local UI-only state.
+
+## Comparison
+
+- vs [[zustand]]: Redux for large shared client graphs + middleware; Zustand for minimal stores.
+
+## Mistakes to Avoid
+
+- Mutating state outside Immer drafts.
+- Caching server entities only in slices without a query layer.
+- Persisting secrets to localStorage.

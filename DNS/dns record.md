@@ -1,12 +1,26 @@
-[[DNS]] · [[DNS zone]] · [[name server]] · [[top-level Domain]] · [[Sub Domain]]
+[[DNS]] [[DNS zone]] [[name server]] [[top-level Domain]] [[Sub Domain]] [[servers/DSN records]]
 
 # dns record
 
 > A DNS record is a typed tuple (owner name, class, type, TTL, rdata) published in a zone — operations break when TTL, CNAME chains, or apex constraints are wrong.
 
----
+## Interview Relevance
 
-## Record anatomy
+Interviewers ask for record anatomy, CNAME-at-apex rules, and TTL strategy — signals you have operated zones, not only read a glossary.
+
+## Sources
+
+- [RFC 1035 — Resource record definitions](https://datatracker.ietf.org/doc/html/rfc1035#section-3.2) — deep-dive
+- [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208) — deep-dive
+
+## Key Concepts
+
+- **Owner + type + rdata:** the lookup key and payload — same owner can have multiple types (except CNAME rules).
+- **TTL:** how long resolvers may cache — lower = faster change visibility, higher query load.
+- **CNAME exclusivity:** standard DNS forbids other types at the same owner — apex needs A/AAAA or provider ALIAS/ANAME.
+- **Delegation records:** NS (and glue) cut the tree into child [[DNS zone]]s.
+
+## Technical Details
 
 ```
 owner-name  TTL  IN  TYPE  RDATA
@@ -26,8 +40,6 @@ www.example.com.  300  IN  A  203.0.113.10
 | **TYPE** | Kind of record |
 | **RDATA** | Type-specific payload |
 
-## Common types
-
 | Type | RDATA | Notes |
 |------|-------|-------|
 | **A** | IPv4 | 32-bit address |
@@ -40,11 +52,9 @@ www.example.com.  300  IN  A  203.0.113.10
 | **SRV** | priority weight port target | `_service._proto.name` |
 | **CAA** | flags tag value | Certificate issuance policy |
 
-## CNAME constraints
+**CNAME constraints:** zone apex (`example.com`) historically could not be CNAME; use ALIAS/ANAME at providers ([[Route53]], [[cloudflare]]) or A/AAAA records.
 
-Standard DNS forbids CNAME coexisting with other record types at the same owner name. **Zone apex** (`example.com`) historically could not be CNAME; use ALIAS/ANAME at providers ([[Route53]], [[cloudflare]]) or A/AAAA records.
-
-## Mail authentication records
+**Mail authentication** (see [[servers/DSN records]]):
 
 ```
 example.com.  TXT  "v=spf1 include:_spf.google.com ~all"
@@ -52,29 +62,36 @@ default._domainkey.example.com.  TXT  "v=DKIM1; k=rsa; p=..."
 _dmarc.example.com.  TXT  "v=DMARC1; p=reject; rua=mailto:dmarc@example.com"
 ```
 
-See [[Protocol/SMTP]] and [[servers/DSN records]] (mail-related DNS).
-
-## TTL strategy
-
 | Scenario | TTL guidance |
 |----------|--------------|
 | Pre-migration | Lower TTL hours before change |
 | Stable production | 300–3600s common |
 | CDN failover | Provider may ignore low TTL at edge |
 
-## Verify
-
 ```bash
 dig +noall +answer www.example.com A
 dig +short TXT example.com
 ```
 
-## Recall
+## Real-World Applications
 
-- Why can a CNAME at `www` differ from apex `A` records?
-- What does MX preference number mean?
+Every hostname clients hit is one or more records in a [[DNS zone]].
 
-## Sources
+**Example:** Moving `www` to a CDN — set CNAME to the CDN hostname, lower TTL beforehand, keep apex as A/ALIAS separately so email MX and apex stay valid.
 
-- [RFC 1035 — Resource record definitions](https://datatracker.ietf.org/doc/html/rfc1035#section-3.2)
-- [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Typed records keep concerns separate (address vs mail vs cert policy).
+- **Con:** CNAME chains and apex rules surprise people migrating to CDNs.
+- **Con:** Very low TTLs increase recursive query load worldwide.
+
+## Comparison
+
+- vs [[DNS zone]]: a zone is the administrative unit; records are the rows inside it.
+- vs hosts file lines: no TTL, type system, or global publication.
+
+## Mistakes to Avoid
+
+- Putting a CNAME at the apex without provider ALIAS/ANAME support — breaks coexisting MX/NS/SOA.
+- Leaving multi-hour TTLs during a cutover — old IPs linger in caches.
+- Multiple SPF TXT records — merge into one SPF string (see [[servers/DSN records]]).

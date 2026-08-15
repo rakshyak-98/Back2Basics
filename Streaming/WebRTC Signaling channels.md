@@ -1,23 +1,20 @@
-[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]]
+[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]] [[ingestion]] [[WebRTC Get Started Guide]]
 
 # WebRTC Signaling channels
 
 > Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about WebRTC Signaling channels to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — WebRTC Signaling channels](https://en.wikipedia.org/wiki/WebRTC_Signaling_channels) — overview
+
+## Key Concepts
 
 **WebRTC** needs a **side channel** to swap **session descriptions (SDP)** and **ICE candidates** before UDP media flows. Browsers **do not** embed signaling in WebRTC — you implement it (WebSocket, HTTPS, SSE, XMPP). Signaling is **trusted application logic**, not encrypted like SRTP — **authenticate users** before relaying SDP.
-
-```txt
-Browser A                    Signaling server                 Browser B
-    │── offer (SDP) ─────────────►│◄── join room ────────────────│
-    │◄── answer (SDP) ────────────│──────── offer/answer ───────►│
-    │── ICE candidate ───────────►│◄── ICE candidate ────────────│
-    │                                                             │
-    └────────────── SRTP media (direct or via TURN) ──────────────┘
-```
 
 | Message | Contents | Direction |
 |---------|----------|-----------|
@@ -27,10 +24,16 @@ Browser A                    Signaling server                 Browser B
 
 Media never touches signaling server in pure P2P — **SFU** (Janus, mediasoup, LiveKit) terminates media; signaling still sets up session.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Browser A                    Signaling server                 Browser B
+    │── offer (SDP) ─────────────►│◄── join room ────────────────│
+    │◄── answer (SDP) ────────────│──────── offer/answer ───────►│
+    │── ICE candidate ───────────►│◄── ICE candidate ────────────│
+    │                                                             │
+    └────────────── SRTP media (direct or via TURN) ──────────────┘
+```
 
 ### Minimal WebSocket signaling (Node pattern)
 
@@ -97,10 +100,23 @@ chrome://webrtc-internals — signaling state machine timeline
 Server logs: join/leave, failed JSON parse, unauthorized room
 ```
 
----
+## Real-World Applications
 
+Used wherever WebRTC Signaling channels sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
+- **Con / skip when:** **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
+- **Con / skip when:** **Unauthenticated public rooms** — toll fraud / scraping; always authentication.
+
+## Comparison
+
+- vs [[HLS]]: **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
+- vs [[RTMP]]: **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -112,42 +128,8 @@ Server logs: join/leave, failed JSON parse, unauthorized room
 | DataChannel dead, media OK | Separate negotiation | CreateDataChannel before offer or renegotiate |
 | High connect latency | Trickle ICE disabled | Enable trickle; don't wait full gather |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Signaling != TURN** — STUN/TURN config goes in `RTCPeerConnection`, not signaling body alone.
-
-> [!WARNING]
-> **Broadcasting SDP in logs** — contains fingerprint + ICE pwd; scrub logs.
-
-> [!WARNING]
-> **No signaling redundancy** — WebSocket drop mid-negotiation needs reconnect + ICE restart.
-
-> [!WARNING]
-> **SFU vs P2P** — SFU clients signal with server; don't copy P2P tutorials for LiveKit/Janus.
-
-> [!WARNING]
-> **[[SCTP (Stream Control Transmission Protocol)]] setup** — DataChannel requires signaling-complete PeerConnection first.
-
----
-
-
-## When not to use
-
-- **One-to-many OTT viewers** — [[HLS]]/[[DASH]] + CDN; WebRTC signaling doesn't scale to millions.
-- **RTMP ingest from OBS** — [[RTMP]] to origin, not WebRTC signaling ([[OBS]]).
-- **Unauthenticated public rooms** — toll fraud / scraping; always authentication.
-
----
-
-
-## Related
-
-[[WebRTC]] [[ICE (Interactive Connectivity Establishment)]] [[SCTP (Stream Control Transmission Protocol)]] [[webSocket]] [[ingestion]] [[WebRTC Get Started Guide]]
-
-## Sources
-
-- [Wikipedia — WebRTC Signaling channels](https://en.wikipedia.org/wiki/WebRTC_Signaling_channels)
+- **Signaling != TURN** — STUN/TURN config goes in `RTCPeerConnection`, not signaling body alone.
+- **Broadcasting SDP in logs** — contains fingerprint + ICE pwd; scrub logs.
+- **No signaling redundancy** — WebSocket drop mid-negotiation needs reconnect + ICE restart.
+- **SFU vs P2P** — SFU clients signal with server; don't copy P2P tutorials for LiveKit/Janus.
+- **[[SCTP (Stream Control Transmission Protocol)]] setup** — DataChannel requires signaling-complete PeerConnection first.

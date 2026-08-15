@@ -1,12 +1,26 @@
-[[systemd]] [[busctl]] [[systemctl]]
+[[systemd]] [[busctl]] [[systemctl]] [[systemd-hostnamed]] [[Service masking]]
 
 # D-Bus
 
-> D-Bus is the Linux IPC message bus — services expose methods/signals; desktop and systemd lean on it heavily.
+> Linux IPC message bus — services expose methods and signals; desktop environments and systemd lean on it heavily.
 
----
+## Interview Relevance
 
-## How it works
+Know system vs session bus, well-known names, activation-on-call, and `busctl` for live introspection.
+
+## Sources
+
+- [D-Bus Specification](https://dbus.freedesktop.org/doc/dbus-specification.html) — deep-dive
+- [Wikipedia — D-Bus](https://en.wikipedia.org/wiki/D-Bus) — overview
+
+## Key Concepts
+
+- **System vs session:** machine-wide vs per-user login session.
+- **Well-known name:** e.g. `org.freedesktop.hostname1` claimed by a service.
+- **Method vs signal:** RPC call vs publish/subscribe event.
+- **Activation:** first call may spawn the providing service.
+
+## Technical Details
 
 ```txt
 client ──method call──► dbus-daemon/broker ──► service
@@ -14,21 +28,6 @@ client ──method call──► dbus-daemon/broker ──► service
 system bus: /run/dbus/system_bus_socket
 session:    $DBUS_SESSION_BUS_ADDRESS
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **system vs session** | Machine vs user | “systemd on system; apps on session.” |
-| **well-known name** | e.g. `org.freedesktop…` | “Claimed by the service.” |
-| **method / signal** | RPC vs event | “Call vs subscribe.” |
-| **busctl / gdbus** | Introspect/call | “Discover APIs live.” |
-| **activation** | Start on demand | “First call may spawn the service.” |
-
----
-
-
-## Configuration and commands
 
 ```bash
 busctl list
@@ -44,44 +43,29 @@ echo "$DBUS_SESSION_BUS_ADDRESS"
 | Policy in `/etc/dbus-1/` | Who may call what |
 | Activation units | `.service` + `.dbus` pairing |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Name has no owner | Service down | Start unit; check activation |
 | Access denied | Policy | Fix dbus policy / polkit |
-| No session bus | Headless SSH | `loginctl enable-linger` / systemd --user |
+| No session bus | Headless SSH | linger / systemd --user |
 | Hang on call | Dead service | `busctl monitor`; restart provider |
 
----
+## Real-World Applications
 
+`hostnamectl` and many desktop settings UIs are D-Bus clients — debug with `busctl introspect` when the CLI hangs or returns access denied.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Root on session bus** ≠ system bus — pick the right address.
+- **Pro:** Discoverable local control plane with introspection.
+- **Con:** Wrong bus address and activation side effects confuse newcomers.
 
-> [!WARNING]
-> **Activation surprises** — a method call may start heavy desktop components.
+## Comparison
 
----
+- vs gRPC/HTTP: those are cross-host; D-Bus is local machine IPC.
+- vs raw UNIX sockets: D-Bus adds naming, typing, and policy.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Cross-host RPC** — use gRPC/HTTP; D-Bus is local.
-- **High-throughput data plane** — use shared memory/sockets; D-Bus is control plane.
-
----
-
-
-## Related
-
-[[busctl]] [[systemd]] [[systemd-hostnamed]] [[Service masking]]
-
-## Sources
-
-- [Wikipedia — D-Bus](https://en.wikipedia.org/wiki/D-Bus)
+- Calling the session bus as root expecting system services.
+- Triggering heavy desktop activation from a headless script unintentionally.
+- Using D-Bus as a high-throughput data plane.

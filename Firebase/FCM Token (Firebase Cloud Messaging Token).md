@@ -1,78 +1,62 @@
-[[Firebase]] [[Firebase messaging]] [[Multicast delivery]] [[Messaging/webhook]] [[android/sdkmanager]] [[Security/Token rotation]]
+[[Firebase messaging]] [[Multicast delivery]] [[Messaging/webhook]] [[android/sdkmanager]] [[Security/Token rotation]]
 
 # FCM Token (Firebase Cloud Messaging Token)
 
-> A Firebase Cloud Messaging (FCM) registration token identifies one app install on one device — your backend stores it to target push delivery; tokens rotate on reinstall, clear data, or refresh callbacks.
+> Registration token for one app install on one device — your backend stores it to target push; it rotates on reinstall, clear-data, and refresh callbacks.
 
----
+## Interview Relevance
 
-## Lifecycle
+Interviewers want token lifecycle (store, refresh, delete on `not-registered`), HTTP v1 + service account (not legacy server keys), and per-platform storage.
+
+## Sources
+
+- [Firebase — About FCM messages](https://firebase.google.com/docs/cloud-messaging/concept-options) — overview
+- [Firebase — HTTP v1 API](https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages) — deep-dive
+
+## Key Concepts
+
+- **One token ≈ one app instance:** not “one user forever.”
+- **Refresh callbacks:** update DB when the SDK rotates the token.
+- **Prune hard failures:** delete tokens returning `registration-token-not-registered`.
+- **Auth to FCM:** OAuth access token from a Firebase service account (HTTP v1).
+
+## Technical Details
 
 ```txt
-App → FCM SDK → registration token → your API → database
-Server → FCM HTTP v1 (OAuth) → Google/Apple push infra → device
+App → FCM SDK → token → your API → database
+Server → FCM HTTP v1 → Google/Apple push infra → device
 ```
-
-Client SDK requests a token. Your backend stores `(userId, fcmToken, platform, updated_at)`. FCM uses the token plus project credentials to route the message.
-
-Tokens **expire and refresh** — register `onTokenRefresh` (or equivalent) and update the database. Delete tokens that return `registration-token-not-registered`.
-
----
-
-## Client (conceptual)
 
 ```js
 const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-// Send token to backend on login and on every refresh
+// POST token to backend on login and on every refresh
 ```
-
----
-
-## Server send (HTTP v1)
-
-```bash
-curl -X POST \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  https://fcm.googleapis.com/v1/projects/PROJECT_ID/messages:send \
-  -d '{
-    "message": {
-      "token": "DEVICE_FCM_TOKEN",
-      "notification": { "title": "Hi", "body": "Message" }
-    }
-  }'
-```
-
-Access token comes from a Firebase service account (not the deprecated legacy server key).
-
-### Storage schema
 
 | Field | Purpose |
 |-------|---------|
 | `user_id` | Target user |
-| `token` | FCM device token (unique per app instance) |
-| `platform` | `ios` / `android` / `web` |
-| `updated_at` | Stale token cleanup |
+| `token` | FCM device token |
+| `platform` | ios / android / web |
+| `updated_at` | Stale cleanup |
 
----
+## Real-World Applications
 
-## What breaks first
+Multi-device users: store many tokens per user; send to all active devices; prune dead ones from batch responses.
 
-| Symptom | Likely cause | Fix |
-|---------|--------------|-----|
-| `registration-token-not-registered` | Stale token in database | Delete; client re-registers |
-| Web push fails | VAPID or HTTPS | HTTPS only; matching VAPID in console |
-| iOS no push | APNs not linked | Upload APNs auth key; enable capability |
-| Duplicate notifications | Multiple tokens per user | Dedupe; send to current set |
+**Example:** User reinstalls the app — old token fails; refresh handler upserts the new token.
 
-One user, many devices — never use the token as the user ID. Migrate off legacy server key API to HTTP v1.
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** Precise device targeting without building your own push pipe.
+- **Con:** Token churn requires disciplined DB hygiene.
 
-## Related
+## Comparison
 
-[[Firebase messaging]] · [[Multicast delivery]] · [[Security/Token rotation]] · [[Messaging/webhook]]
+- vs topics: tokens target explicit devices; topics broadcast to subscribers.
+- vs [[Multicast delivery]]: token is the address; multicast is how you send to many addresses.
 
-## Sources
+## Mistakes to Avoid
 
-- [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
+- Treating a token as a permanent user id.
+- Still using deprecated legacy server keys for new work.
+- Ignoring refresh events until sends start failing in production.

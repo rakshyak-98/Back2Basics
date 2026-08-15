@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongosh]]
+[[MongoDB]] [[mongosh]] [[mongodb connection]]
 
 # mongosh user management
 
 > MongoDB users and roles live in databases — grant least privilege, usually via `admin`.
 
----
+## Interview Relevance
 
-## How it works
+User management checks roles, auth databases, and least-privilege for app vs admin users.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 admin.createUser → roles[{ role, db }] → clients auth with authSource
@@ -21,10 +28,7 @@ admin.createUser → roles[{ role, db }] → clients auth with authSource
 | **Custom role** | Least privilege set | “Only `find` on one coll.” |
 | **SCRAM** | Password auth mechanism | “Default for users.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 use admin
@@ -44,10 +48,18 @@ db.dropUser('app')
 | Custom roles | Lock down collections |
 | X.509 / LDAP | Enterprise auth stories |
 
----
+## Pros/Cons or Trade-offs
 
+- **Local disposable docker** — root is fine for throwaway demos.
+- **Managed Atlas** — prefer UI/API database users.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Users in app DB vs admin** — URI `authSource` must match where the user was created.
+
+> [!WARNING]
+> **Shared root credentials in apps** — blast radius on leak.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,30 +68,3 @@ db.dropUser('app')
 | Can’t create user | not admin | Use root/userAdmin |
 | Too much privilege | `root` in apps | Replace with readWrite |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Users in app DB vs admin** — URI `authSource` must match where the user was created.
-
-> [!WARNING]
-> **Shared root credentials in apps** — blast radius on leak.
-
----
-
-
-## When not to use
-
-- **Local disposable docker** — root is fine for throwaway demos.
-- **Managed Atlas** — prefer UI/API database users.
-
-
-## Related
-
-[[mongosh]] [[mongodb connection]]
-
-## Sources
-
-- [Wikipedia — mongosh user management](https://en.wikipedia.org/wiki/mongosh_user_management)

@@ -1,12 +1,19 @@
-[[Descriptive]] [[blockchain property]] [[Etherium]]
+[[Descriptive]] [[blockchain property]] [[Etherium]] [[symmetrical encryption]]
 
 # Blockchain
 
 > A blockchain is a linked, append-only ledger of blocks — useful when many parties need a shared history without one admin DB.
 
----
+## Interview Relevance
 
-## How it works
+Blockchain interviews check distributed ledger basics — immutability trade-offs, consensus, and when a DB is enough.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+- [Blockchain — Wikipedia](https://en.wikipedia.org/wiki/Blockchain) — overview
+
+## Key Concepts
 
 ```txt
 tx → mempool → block(n) hashes block(n-1) → network consensus
@@ -21,10 +28,7 @@ tx → mempool → block(n) hashes block(n-1) → network consensus
 | **Finality** | When tx is settled | “Probabilistic vs hard finality.” |
 | **Smart contract** | On-chain program | “Ethereum VM example.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # ethereum sketch
@@ -38,10 +42,18 @@ cast tx <hash>
 | Confirmations | Reorg risk |
 | Chain id | Replay protection |
 
----
+## Pros/Cons or Trade-offs
 
+- **Ordinary CRUD apps** — a database is enough.
+- **Needs delete/GDPR erase of history** — poor fit for public ledgers.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Immutable mistakes** — bad contract deploys are forever (unless upgrade pattern).
+
+> [!WARNING]
+> **Blockchain ≠ free database** — cost, latency, and privacy differ from Postgres.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +62,3 @@ cast tx <hash>
 | Reorged tx | shallow confirmations | Wait deeper finality |
 | Contract revert | traces | Read error; fix calldata |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Immutable mistakes** — bad contract deploys are forever (unless upgrade pattern).
-
-> [!WARNING]
-> **Blockchain ≠ free database** — cost, latency, and privacy differ from Postgres.
-
----
-
-
-## When not to use
-
-- **Ordinary CRUD apps** — a database is enough.
-- **Needs delete/GDPR erase of history** — poor fit for public ledgers.
-
-
-## Related
-
-[[blockchain property]] [[Etherium]] [[symmetrical encryption]]
-
-## Sources
-
-- [Wikipedia — Blockchain](https://en.wikipedia.org/wiki/Blockchain)

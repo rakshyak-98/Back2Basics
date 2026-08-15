@@ -1,12 +1,21 @@
-[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS Networking]] · [[Security group]]
+[[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS Networking]] [[Security group]]
 
 # AMI (Amazon Machine Image)
 
 > An AMI is the template for an EC2 instance — it captures the root volume snapshot, launch permissions, and block device mapping so you can launch identical machines repeatedly.
 
----
+## Interview Relevance
 
-## What an AMI contains
+AMI questions check golden-image pipelines, region copy, and baking vs bootstrapping trade-offs.
+
+## Sources
+
+- [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) — overview
+- [Creating an Amazon EBS-backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) — overview
+
+## Technical Details
+
+### What an AMI contains
 
 - **Root volume snapshot** (usually EBS-backed) or instance-store template
 - **Virtualization type** — HVM (standard today) or paravirtual (legacy)
@@ -16,7 +25,7 @@
 
 AMIs are regional. Copy an AMI to another region before launching there.
 
-## AMI sources
+### AMI sources
 
 | Source | When to use |
 |--------|-------------|
@@ -25,7 +34,7 @@ AMIs are regional. Copy an AMI to another region before launching there.
 | `CreateImage` from running instance | Capture configured server (mind drift and secrets) |
 | EC2 Image Builder | Pipelines for reproducible images |
 
-## Create from instance
+### Create from instance
 
 ```bash
 aws ec2 create-image \
@@ -36,7 +45,7 @@ aws ec2 create-image \
 
 `--no-reboot` avoids restart but risks filesystem inconsistency; maintenance window snapshots are safer.
 
-## Launch from AMI
+### Launch from AMI
 
 Console or:
 
@@ -49,18 +58,8 @@ aws ec2 run-instances \
   --subnet-id subnet-0abc123
 ```
 
-## Lifecycle hygiene
+### Lifecycle hygiene
 
 - **Version** AMIs with dates or build numbers; deregister old ones.
 - **Scan** for CVEs before promotion; do not bake secrets into images — inject at boot via user data or secrets manager.
 - **Encrypt** EBS snapshots backing the AMI with KMS keys you control.
-
-## Recall
-
-- What is the difference between an AMI and a running EC2 instance?
-- Why are AMIs regional resources?
-
-## Sources
-
-- [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html)
-- [Creating an Amazon EBS-backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html)

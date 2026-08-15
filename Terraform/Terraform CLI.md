@@ -2,94 +2,61 @@
 
 # Terraform CLI
 
-> Commands & debugging — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler) + HashiCorp CLI reference.
+> Terraform CLI is the day-to-day command surface — init, plan, apply, fmt/validate, logging, provider schema, and careful state surgery.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers watch for saved plans (`-out`), CI `fmt`/`validate`, and treating `terraform state` as last-resort ops with backups.
 
-Most day-to-day work is the [[Terraform workflow]] quartet. This note covers flags, logging, provider inspection, and formatting.
+## Sources
 
+- [HashiCorp — Terraform CLI](https://developer.hashicorp.com/terraform/cli) — deep-dive
+- Yevgeniy Brikman, *Terraform: Up & Running* — overview
+- Scott Winkler, *Terraform in Action* — overview
 
-## Quick reference
+## Key Concepts
 
-| Task | Command |
-|------|---------|
-| … | `…` |
+- **Workflow quartet:** init → plan → apply → destroy ([[Terraform workflow]]).
+- **Inspect before guess:** `providers schema` is the contract for arguments.
+- **Sharp tools:** state mv/rm; prefer `moved` blocks in code.
+- **Logs leak secrets:** never leave `TF_LOG=TRACE` in CI artifacts.
 
-
-## Examples
-
-```bash
-# …
-```
-
-
-## Gotchas
-
-> [!WARNING]
-> **`terraform state` is sharp** — prefer import/moved blocks in code; state surgery is last resort with backups.
-
-> [!WARNING]
-> **TRACE logs leak secrets** — never leave `TF_LOG=TRACE` on in CI artifacts.
-
-
-## When not to use
-
-- **One-off cloud click-operations** — CLI shines when the configuration is code; skip Terraform for a single manual sandbox resource if the team agrees.
-
-
-## Everyday commands
+## Technical Details
 
 ```shell
 terraform version
-terraform fmt -recursive      # rewrite HCL style
-terraform validate            # syntax + basic type checks (after init)
+terraform fmt -recursive
+terraform validate
 terraform init
 terraform plan
 terraform apply
 terraform destroy
 terraform output
-terraform console             # REPL for expressions
+terraform console
 ```
 
-Brikman tip: run `fmt` + `validate` in CI before plan.
-
----
-
-
-## Init flags
+### Init flags
 
 ```shell
 terraform init
-terraform init -upgrade                 # refresh providers/modules within constraints
-terraform init -reconfigure             # re-ask backend config
-terraform init -migrate-state           # move state to new backend
-terraform init -backend=false           # skip backend (rare / tooling)
+terraform init -upgrade
+terraform init -reconfigure
+terraform init -migrate-state
+terraform init -backend=false
 ```
 
-Backend living in [[Terraform setup]].
-
----
-
-
-## Plan / apply flags
+### Plan / apply flags
 
 ```shell
 terraform plan -out=tfplan
-terraform apply tfplan                  # apply saved plan exactly
+terraform apply tfplan
 terraform apply -auto-approve           # CI only; risky interactively
 terraform plan -var='region=us-west-2'
 terraform plan -var-file=prod.tfvars
-terraform plan -target=aws_instance.web # surgical; avoid habitually (Brikman)
+terraform plan -target=aws_instance.web # surgical; avoid habitually
 ```
 
-Variable sources: [[variable file]]
-
----
-
-
-## Logging (provider troubleshooting)
+### Logging
 
 ```shell
 TF_LOG=DEBUG terraform init
@@ -105,52 +72,17 @@ TF_LOG_PATH=./terraform.log terraform apply
 | `DEBUG` | Provider plugin chat (usual debug) |
 | `TRACE` | Very noisy |
 
-Shows how core talks to [[terraform provider]] plugins.
-
----
-
-
-## Provider / schema inspection
+### Provider / schema / state
 
 ```shell
 terraform providers
-terraform providers mirror ./provider-mirror
-```
-
-```shell
-terraform providers schema -json \
-  | jq '.provider_schemas | keys'
-
-terraform providers schema -json \
-  | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas | keys'
-
-terraform providers schema -json \
-  | jq '.provider_schemas["registry.terraform.io/hashicorp/aws"].resource_schemas["aws_instance"]'
-```
-
-Use schema to learn required arguments without guessing (Winkler: schema is the contract).
-
----
-
-
-## State subcommands (careful)
-
-```shell
+terraform providers schema -json | jq '.provider_schemas | keys'
 terraform state list
 terraform state show ADDRESS
-terraform state mv OLD NEW      # rename address after refactor
-terraform state rm ADDRESS      # stop managing (does not destroy cloud object)
-terraform state pull            # dump remote state to stdout
+terraform state mv OLD NEW
+terraform state rm ADDRESS      # stop managing — does not destroy cloud object
+terraform state pull
 ```
-
-> [!WARNING] Brikman — prefer refactor with `moved` blocks / `state mv` over hand-editing `terraform.tfstate`.
-
-Workflow context: [[Terraform workflow]]
-
----
-
-
-## Useful env vars
 
 | Var | Role |
 |-----|------|
@@ -159,29 +91,28 @@ Workflow context: [[Terraform workflow]]
 | `TF_DATA_DIR` | Override `.terraform` dir |
 | `TF_CLI_ARGS_plan` | Extra default args for a subcommand |
 
----
+First-time checklist: no `.tf` → create config; provider download fail → `TF_LOG=DEBUG init`; auth errors → cloud credentials; wrong region → provider + [[variable file]].
 
+## Real-World Applications
 
-## First-time failure checklist
+CI pipelines that fmt/validate/plan on PR, and on-call debugging of provider auth with `TF_LOG=DEBUG`.
 
-1. No `.tf` files? → create `main.tf` ([[Terraform setup]])
-2. Provider download fail? → `TF_LOG=DEBUG terraform init`
-3. authentication errors? → cloud credentials ([[terraform provider]])
-4. Wrong region/project? → provider block + [[variable file]]
+**Example:** `terraform plan -out=tfplan` in CI; apply job consumes only that artifact so reviewed and executed plans match.
 
----
+## Pros/Cons or Trade-offs
 
+- **Pro:** One CLI covers format, validate, graph execution, and inspection.
+- **Con:** `-target` and state surgery create drift habits if overused.
+- **Con:** Auto-approve interactively skips human review.
 
-## Book takeaways
+## Comparison
 
-- **Brikman**: automate fmt/validate/plan in CI; treat state commands as operations tools
-- **Winkler**: schema + graph explain *why* a plan looks that way — use CLI to inspect both
+- vs console ClickOps: CLI shines when configuration is code.
+- Backend living in [[Terraform setup]]; provider RPC detail in [[terraform provider]].
 
+## Mistakes to Avoid
 
-## Related
-
-[[Terraform setup]] [[terraform provider]] [[Terraform workflow]] [[terraform]] [[variable file]]
-
-## Sources
-
-- [Wikipedia — Terraform CLI](https://en.wikipedia.org/wiki/Terraform_CLI)
+- Hand-editing `terraform.tfstate`.
+- Leaving TRACE logs with secrets in CI.
+- Habitual `-target` instead of fixing the graph.
+- Applying without a saved plan that was reviewed.

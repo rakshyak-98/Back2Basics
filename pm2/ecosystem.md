@@ -1,90 +1,64 @@
-[[NodeJS/node command]] [[Linux/supervisorctl]] [[Linux/commands/Services commands]]
+[[pm2]] [[NodeJS]]
 
 # PM2 ecosystem file
 
-> Declarative process config — cluster mode, env injection, logs, and restart policy for Node apps.
+> Declarative process config (`ecosystem.config.js`) — apps, instances, environment variables, log paths, and restart policies in one reviewable file.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers prefer ecosystem files over tribal `pm2 start` commands — env separation, cluster instances, and deploy hooks.
 
-PM2 reads `ecosystem.config.js` (or `.cjs`/JSON) and starts one or more **apps**. Each application has script, instances, environment, and restart rules. PM2 keeps processes alive, aggregates logs, and supports zero-downtime reload for cluster mode.
+## Sources
 
-```
-ecosystem.config.js → pm2 start → PM2 daemon → app workers
-```
+- [PM2 — Ecosystem file](https://pm2.keymetrics.io/docs/usage/application-declaration/) — deep-dive
 
+## Key Concepts
 
-## Configuration and commands
+- **`apps` array:** one or more processes.
+- **`instances` / `exec_mode`:** `cluster` vs `fork`.
+- **`env` / `env_production`:** environment-specific variables.
+- **Restart rules:** `max_restarts`, `max_memory_restart`, watch (usually off in prod).
 
-### Production-ready ecosystem
+## Technical Details
 
 ```js
 module.exports = {
   apps: [{
-    name: 'booking-engine',
-    script: './dist/index.js',       // not `npm start` in prod if avoidable
-    instances: 'max',                // or number; use cluster for HTTP
-    exec_mode: 'cluster',
-    env: {
-      NODE_ENV: 'development',
-    },
-    env_production: {
-      NODE_ENV: 'production',
-      API_URL: 'https://api.example.com',
-    },
-    max_memory_restart: '512M',
-    error_file: './logs/err.log',
-    out_file: './logs/out.log',
-    merge_logs: true,
-    time: true,
+    name: "api",
+    script: "dist/server.js",
+    instances: "max",
+    exec_mode: "cluster",
+    env_production: { NODE_ENV: "production" },
+    max_memory_restart: "500M",
+    error_file: "./logs/api-err.log",
+    out_file: "./logs/api-out.log",
   }],
 };
 ```
 
-### Commands
-
 ```bash
 pm2 start ecosystem.config.js --env production
-pm2 reload ecosystem.config.js --env production   # zero-downtime cluster
-pm2 save
-pm2 startup                                       # systemd boot hook
-pm2 logs booking-engine
-pm2 monit
+pm2 reload ecosystem.config.js --env production
 ```
 
+## Real-World Applications
 
-## When things break
+Same file for API + worker with different scripts and instance counts.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| App not picking env | Wrong `--env` | `pm2 start --env production` |
-| Restarts loop | `pm2 logs` | Fix crash; raise memory if OOM |
-| `npm start` overhead | Script path | Point `script` at compiled JS |
-| Cluster sticky sessions | Single instance or Redis adapter | Scale Socket.IO with adapter |
-| Lost on reboot | `pm2 save` + startup | Re-run `pm2 startup` after PM2 upgrade |
+**Example:** Enable `watch: true` in production by mistake — constant restarts on log writes; keep watch for local only.
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Pro:** Git-reviewed process shape; repeatable deploys.
+- **Con:** Secrets still need injection (not plaintext in git).
 
-> [!WARNING]
-> **Secrets in ecosystem file** — use env from host/secret manager, not committed values.
->
-> **`instances: max` on CPU-bound** — can thrash; profile first.
->
-> **PM2 + Docker** — usually one process per container; PM2 inside container is redundant unless legacy.
+## Comparison
 
+- vs ad-hoc [[pm2]] CLI: file is source of truth.
+- vs Docker Compose: similar declarative idea at process vs container layer.
 
-## When not to use
+## Mistakes to Avoid
 
-- Don't use PM2 inside Kubernetes — use Deployments + probes.
-- Don't cluster non-HTTP workers (queue consumers) without idempotency — use fixed instance count.
-
-
-## Related
-
-[[NodeJS/clustering]] [[Linux/supervisorctl]] [[npm/npm script]] [[Deployment/vercel cli]]
-
-## Sources
-
-- [Wikipedia — ecosystem](https://en.wikipedia.org/wiki/ecosystem)
+- Committing production secrets in `env`.
+- `instances: max` on a tiny VM sharing the box with DB.
+- Forgetting `--env production` and booting with dev defaults.

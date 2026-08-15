@@ -1,12 +1,18 @@
-[[Descriptive]] [[JavaScript]] [[web capabilities]]
+[[Descriptive]] [[JavaScript]] [[web capabilities]] [[TLS (Transport Layer Security)]] [[CORS (Cross Origin Request Sharing)]]
 
 # Java applets
 
 > Historical browser plug-in model (1990s–2010s) — **removed from all major browsers** because the security boundary was unsalvageable.
 
----
+## Interview Relevance
 
-## How it works
+Applets are historical — interviewers may ask why the web moved to JS and WASM instead.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 Browser page → <applet> → JVM plugin in browser process → bytecode + full OS API
@@ -21,10 +27,7 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 
 **Replacement patterns:** static web apps, [[JavaScript]] SPAs, WebStart (also dead), desktop installers, or **WebAssembly** for compute-heavy client work — none replicate "download bytecode and run with legacy JRE in Chrome."
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Recognize legacy artifacts
 
@@ -49,22 +52,11 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 4. Audit PCI/SOC controls that assumed applet isolation
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Always** — for any new feature. Full stop.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| "Java blocked" / plugin missing | Browser version | Retire feature; no plugin reinstall path |
-| Enterprise site requires Java 6 | Legacy vendor | Escalate vendor rewrite; isolate in Citrix/VDI temp |
-| Security scan flags applet | Compliance | Document decommission; remove HTML embed |
-| Signed jar trust prompts | Old cert chain | Not fixable in browser — replace integration |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Do not recommend applet revival** for any new system — compliance and browser support are zero.
@@ -75,20 +67,10 @@ Applets ran **untrusted remote code** with near-native privileges inside the use
 > [!WARNING]
 > **Internal wikis still link JRE 8 32-bit** — update onboarding docs to prevent wasted eng days.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| "Java blocked" / plugin missing | Browser version | Retire feature; no plugin reinstall path |
+| Enterprise site requires Java 6 | Legacy vendor | Escalate vendor rewrite; isolate in Citrix/VDI temp |
+| Security scan flags applet | Compliance | Document decommission; remove HTML embed |
+| Signed jar trust prompts | Old cert chain | Not fixable in browser — replace integration |
 
-
-## When not to use
-
-- **Always** — for any new feature. Full stop.
-
----
-
-
-## Related
-
-[[JavaScript]] · [[web capabilities]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]]
-
-## Sources
-
-- [Wikipedia — Java applets](https://en.wikipedia.org/wiki/Java_applets)

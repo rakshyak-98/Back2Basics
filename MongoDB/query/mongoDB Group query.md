@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongosh query]] [[query/mongodb lookup query]]
+[[MongoDB]] [[mongosh query]] [[query/mongodb lookup query]] [[mongodb view]]
 
 # mongoDB Group query
 
 > `$group` aggregates rows into buckets — sum, count, push — like SQL GROUP BY.
 
----
+## Interview Relevance
 
-## How it works
+Group/aggregate interviews check $group stages, accumulators, and memory limits.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 $match → $group(_id, accumulators) → $sort → $project
@@ -21,10 +28,7 @@ $match → $group(_id, accumulators) → $sort → $project
 | **`$push` / `$addToSet`** | Collect values | “Watch memory.” |
 | **allowDiskUse** | Spill to disk | “Big groups.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.orders.aggregate([
@@ -45,10 +49,18 @@ db.orders.aggregate([
 | Compound `_id` | `{ day, country }` multi-key |
 | `$project` after | Shape output |
 
----
+## Pros/Cons or Trade-offs
 
+- **Simple counts with a filter** — `countDocuments` may suffice.
+- **Realtime per-request heavy groups** — precompute / rollups.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **`$push` entire docs** — easy OOM; push only needed fields.
+
+> [!WARNING]
+> **Grouping on unbound fields** — cardinality explosion.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,30 +69,3 @@ db.orders.aggregate([
 | Slow group | no match | Index + match first |
 | Too many groups | high-cardinality key | Bucket differently |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`$push` entire docs** — easy OOM; push only needed fields.
-
-> [!WARNING]
-> **Grouping on unbound fields** — cardinality explosion.
-
----
-
-
-## When not to use
-
-- **Simple counts with a filter** — `countDocuments` may suffice.
-- **Realtime per-request heavy groups** — precompute / rollups.
-
-
-## Related
-
-[[mongosh query]] [[query/mongodb lookup query]] [[mongodb view]]
-
-## Sources
-
-- [Wikipedia — mongoDB Group query](https://en.wikipedia.org/wiki/mongoDB_Group_query)

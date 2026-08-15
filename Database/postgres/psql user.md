@@ -1,35 +1,48 @@
-[[psql essential]] [[psql privileges]] [[ACL (postgreSQL)]] [[SQL/postgres]]
+[[psql essential]] [[psql privileges]] [[ACL (postgreSQL)]] [[SQL/postgres]] [[mysql user]]
 
 # psql user
 
-> PostgreSQL roles (`CREATE ROLE`)—login users and groups with password, connection limits, and membership in role hierarchies.
+> PostgreSQL roles (`CREATE ROLE`) — login users and groups with passwords, connection limits, and membership hierarchies.
 
-## Create role
+## Interview Relevance
+Postgres treats users and groups as roles. Expect `LOGIN`/`NOLOGIN`, `GRANT role TO role`, and least-privilege bootstrap for apps.
 
+## Sources
+- [Database Roles](https://www.postgresql.org/docs/current/user-manag.html) — overview
+- [CREATE ROLE](https://www.postgresql.org/docs/current/sql-createrole.html) — deep-dive
+
+## Key Concepts
+- **Role = user or group:** `LOGIN` marks a role that can connect.
+- **Membership:** Groups are `NOLOGIN` roles granted to humans/apps.
+- **Connection limits:** Per-role caps protect the cluster.
+- **Privileges separate:** Creating a role does not grant table access ([[psql privileges]]).
+
+## Technical Details
 ```sql
 CREATE ROLE app_user LOGIN PASSWORD 'secret' CONNECTION LIMIT 50;
 GRANT CONNECT ON DATABASE mydb TO app_user;
 GRANT USAGE ON SCHEMA app TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA app TO app_user;
-```
 
-## Roles as groups
-
-```sql
 CREATE ROLE app_read NOLOGIN;
 GRANT app_read TO human_user;
-```
 
-## Inspect
-
-```sql
 \du
 SELECT rolname, rolcanlogin FROM pg_roles;
 ```
 
-PostgreSQL uses **roles** for both users and groups (unlike MySQL `user`@`host`).
+## Real-World Applications
+`app_write` / `app_read` group roles; CI owns DDL; humans inherit read roles via IdP-provisioned roles where integrated.
 
-## Sources
+## Pros/Cons or Trade-offs
+- **Pro:** One abstraction for users and groups; clean role graphs.
+- **Con:** Easy to over-grant `LOGIN` on group roles by mistake.
+- **Trade-off:** Password roles vs peer/cert/IAM auth in managed Postgres.
 
-- PostgreSQL Documentation — [Database Roles](https://www.postgresql.org/docs/current/user-manag.html)
-- PostgreSQL Documentation — [CREATE ROLE](https://www.postgresql.org/docs/current/sql-createrole.html)
+## Comparison
+vs [[mysql user]]: MySQL `user`@`host` vs Postgres roles; both support role bundles, but catalogs and host matching differ.
+
+## Mistakes to Avoid
+- Application login as a superuser role.
+- Forgetting `CONNECT` / schema `USAGE` after creating a login role.
+- Sharing one powerful role across many services.

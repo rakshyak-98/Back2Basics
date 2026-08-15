@@ -1,12 +1,23 @@
-[[Security]] [[TLS (Transport Layer Security)]] [[Root certificate]] [[certbot (letsencrypt)]]
+[[Security]] [[TLS (Transport Layer Security)]] [[Root certificate]] [[certbot (letsencrypt)]] [[read pem file]] [[ACME server]] [[Asymmetrical Encryption]]
 
 # PKI
 
 > PKI (Public Key Infrastructure) — the factory and phone book for certificates: who issues them, who trusts them, how you revoke them.
 
----
+## Interview Relevance
 
-## How it works
+Trust model interviews: roots, intermediates, leaf certs, revocation, and how browsers decide a site is trusted.
+
+## Sources
+
+- [RFC 5280 — Internet X.509 PKI](https://www.rfc-editor.org/rfc/rfc5280) — deep-dive
+- [Wikipedia — Public key infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure) — overview
+
+## Core Definition
+
+PKI is the system of CAs, certificates, and trust stores that bind public keys to identities and enable verification and revocation.
+
+## Key Concepts
 
 ```txt
 Root CA (offline, trusted store)
@@ -26,10 +37,7 @@ Leaf cert (example.com) + private key on server
 
 TLS uses PKI for **server identity**; mTLS extends it to clients.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # Inspect leaf + chain
@@ -47,10 +55,7 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 | Private key protection | HSM/KMS or locked file perms; never in git |
 | Short lifetime | Let's Encrypt ~90d — automate renew ([[certbot (letsencrypt)]]) |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,36 +66,24 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt -untrusted intermediat
 | Internal mTLS fail | Wrong CA / expired client cert | Rotate; align trust anchors on both sides |
 | Corporate MITM “cert errors” | Proxy TLS inspection | Install corp root or exclude break-glass hosts |
 
----
+## Real-World Applications
 
+Public web trust (browser roots) and private corporate CAs for mTLS both are PKI deployments with different trust stores.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Root ≠ what you deploy** — servers send leaf + intermediates; clients already have roots.
+- **Pro:** Scalable trust for millions of sites via public CA hierarchies.
+- **Con:** One-off local HTTPS demo — self-signed or `mkcert` is enough; full PKI is overhead.
+- **Con:** Encrypting application payloads at rest — use [[KMS]] / envelope encryption, not X.509 PKI.
+- **Con:** API keys between trusted backends on private net — mTLS is stronger, but HMAC/API keys may be simpler if threat model allows.
 
-> [!WARNING]
-> **CN-only certs** — many clients ignore CN if SAN is present/absent; always set SANs.
+## Comparison
 
-> [!WARNING]
-> **Private CA in public internet** — browsers will reject; use only inside your fleet with your root distributed.
+- vs raw [[Asymmetrical Encryption]]: PKI adds names, issuance, and revocation around keys.
+- vs [[ACME server]]: ACME is one automated issuance method inside a PKI.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **One-off local HTTPS demo** — self-signed or `mkcert` is enough; full PKI is overhead.
-- **Encrypting application payloads at rest** — use [[KMS]] / envelope encryption, not X.509 PKI.
-- **API keys between trusted backends on private net** — mTLS is stronger, but HMAC/API keys may be simpler if threat model allows.
-
----
-
-
-## Related
-
-[[TLS (Transport Layer Security)]] [[Root certificate]] [[read pem file]] [[ACME server]] [[certbot (letsencrypt)]] [[Asymmetrical Encryption]]
-
-## Sources
-
-- [Wikipedia — PKI](https://en.wikipedia.org/wiki/PKI)
+- Root ≠ what you deploy — servers send leaf + intermediates; clients already have roots.
+- CN-only certs — many clients ignore CN if SAN is present/absent; always set SANs.
+- Private CA in public internet — browsers will reject; use only inside your fleet with your root distributed.

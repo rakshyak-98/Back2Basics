@@ -2,92 +2,44 @@
 
 # variable file
 
-> Inputs, locals, outputs, tfvars — make one config work across envs. **Brikman / Winkler**.
+> Variables, locals, outputs, and tfvars make one Terraform configuration work across environments without editing resource blocks.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers test precedence order, `sensitive` limits, validation blocks, and why secrets never live in committed tfvars.
 
-Variables make one configuration work across envs (development/stage/production) without editing resource blocks. They feed [[terraform provider]] region/project and resource arguments during [[Terraform workflow]].
+## Sources
 
+- [HashiCorp — Input variables](https://developer.hashicorp.com/terraform/language/values/variables) — deep-dive
+- [HashiCorp — Output values](https://developer.hashicorp.com/terraform/language/values/outputs) — overview
+- Yevgeniy Brikman, *Terraform: Up & Running* — overview
 
-## Configuration and commands
+## Key Concepts
 
-```bash
-terraform plan -var-file=env/prod.tfvars
-terraform apply -var-file=env/prod.tfvars
-# or: TF_VAR_region=us-east-1 terraform plan
-```
+- **Inputs:** `variable` blocks; referenced as `var.name`.
+- **Locals:** named expressions — not overridable from outside.
+- **Outputs:** module/root public API; `terraform output`.
+- **Precedence:** CLI `-var` / `-var-file` beats auto.tfvars beats terraform.tfvars beats `TF_VAR_` beats `default`.
 
+## Technical Details
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Missing required var | `terraform plan` error | Pass `-var`, tfvars, or env `TF_VAR_` |
-| Wrong value wins | precedence order | Remember CLI > tfvars > env > default |
-| Sensitive still logged | provider debug logs | Avoid TRACE; mark sensitive; scrub CI logs |
-| Type mismatch | variable type vs value | Fix type or cast in locals |
-| Module can't see root var | not passed into module | Pass explicitly in module block |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Precedence surprises** — CLI `-var` beats tfvars; env `TF_VAR_` beats defaults. Know the order before debugging “wrong value.”
-
-> [!WARNING]
-> **`sensitive = true` is not encryption** — it only redacts CLI UI; state and some logs can still hold the value.
-
-
-## When not to use
-
-- **Hard-coding one-environment throwaways** — a literal is fine until you need a second environment.
-- **Secrets as plain tfvars in git** — use a secret store / CI injection instead.
-
-
-## Declare inputs (`variables.tf`)
-
-```hcl
-variable "variable_name" {
-  type        = string          # or number, bool, list, map, object, any
-  default     = null            # optional; omit => required
-  description = "Why this exists"
-  sensitive   = false           # hide from CLI UI when true
-  nullable    = true
-}
-```
-
-### Scalar
 ```hcl
 variable "region" {
   type        = string
   default     = "us-east-1"
   description = "Cloud region to deploy to"
 }
-```
 
-### List
-```hcl
 variable "azs" {
   type    = list(string)
   default = ["us-east-1a", "us-east-1b"]
 }
-```
 
-### Map
-```hcl
 variable "tags" {
   type = map(string)
-  default = {
-    Env   = "dev"
-    Owner = "platform"
-  }
+  default = { Env = "dev", Owner = "platform" }
 }
-```
 
-### Object (Winkler — structured config)
-```hcl
 variable "app_config" {
   type = object({
     name     = string
@@ -95,13 +47,9 @@ variable "app_config" {
     replicas = number
   })
 }
-```
 
-### Validation (Brikman — catch bad inputs early)
-```hcl
 variable "environment" {
   type = string
-
   validation {
     condition     = contains(["dev", "stage", "prod"], var.environment)
     error_message = "environment must be dev, stage, or prod."
@@ -109,14 +57,7 @@ variable "environment" {
 }
 ```
 
-Reference in configuration: `var.region`, `var.tags["Env"]`.
-
----
-
-
-## How values are supplied (precedence)
-
-Highest wins (simplified from HashiCorp docs / both books):
+Precedence (highest wins):
 
 1. `-var` / `-var-file` on CLI
 2. `*.auto.tfvars` / `*.auto.tfvars.json`
@@ -127,45 +68,15 @@ Highest wins (simplified from HashiCorp docs / both books):
 ```shell
 export TF_VAR_region=us-west-2
 terraform plan -var-file=prod.tfvars
+terraform apply -var-file=env/prod.tfvars
 ```
-
-```hcl
-# terraform.tfvars  (non-secrets only — gitignore secrets)
-region      = "us-east-1"
-environment = "dev"
-```
-
-> [!WARNING] Brikman — do **not** commit secrets in `tfvars`. Use env / secret store / CI.
-
-Project layout: [[Terraform setup]]
-
----
-
-
-## Locals (named expressions)
 
 ```hcl
 locals {
   name_prefix = "${var.environment}-${var.project}"
-  common_tags = merge(var.tags, {
-    ManagedBy = "terraform"
-  })
+  common_tags = merge(var.tags, { ManagedBy = "terraform" })
 }
 
-resource "aws_instance" "web" {
-  # …
-  tags = local.common_tags
-}
-```
-
-Winkler: locals avoid repeating concatenations; not overridable from outside like variables.
-
----
-
-
-## Outputs (`outputs.tf`)
-
-```hcl
 output "vpc_id" {
   value       = aws_vpc.main.id
   description = "ID of the app VPC"
@@ -175,6 +86,12 @@ output "db_password" {
   value     = aws_db_instance.main.password
   sensitive = true
 }
+
+module "vpc" {
+  source     = "./modules/vpc"
+  cidr_block = var.vpc_cidr
+  env        = var.environment
+}
 ```
 
 ```shell
@@ -182,44 +99,34 @@ terraform output
 terraform output -raw vpc_id
 ```
 
-Brikman: outputs are the module’s public API — also how root modules share values (`module.vpc.vpc_id`) and how remote state consumers read deps.
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Missing required var | `terraform plan` error | Pass `-var`, tfvars, or env `TF_VAR_` |
+| Wrong value wins | precedence order | Remember CLI > tfvars > env > default |
+| Sensitive still logged | provider debug logs | Avoid TRACE; mark sensitive; scrub CI logs |
+| Type mismatch | variable type vs value | Fix type or cast in locals |
+| Module can't see root var | not passed into module | Pass explicitly in module block |
 
----
+## Real-World Applications
 
+Per-env `prod.tfvars` / `dev.tfvars`, module inputs for VPC CIDRs, and outputs consumed by remote-state data sources.
 
-## Module variables
+**Example:** CI injects `TF_VAR_db_password` from a secret store while `environment` and `region` come from committed non-secret tfvars.
 
-Child modules declare their own `variable` blocks; root passes values:
+## Pros/Cons or Trade-offs
 
-```hcl
-module "vpc" {
-  source = "./modules/vpc"
+- **Pro:** One codebase, many environments, validated inputs.
+- **Con:** `sensitive = true` only redacts CLI UI — state and some logs can still hold values.
+- **Con:** Hard-coding is fine for throwaways until a second environment appears.
 
-  cidr_block = var.vpc_cidr
-  env        = var.environment
-}
-```
+## Comparison
 
-Module overview: [[terraform]]
+- Wire into providers → [[terraform provider]] · [[Terraform setup]].
+- Used at plan/apply → [[Terraform workflow]] · [[Terraform CLI]].
 
----
+## Mistakes to Avoid
 
-
-## Book takeaways
-
-| Practice | Source |
-|----------|--------|
-| Variables + separate env dirs/files | Brikman |
-| Types, objects, locals, expressions | Winkler |
-| Validate + `sensitive` | Both / modern Terraform |
-| Wire into provider | [[terraform provider]] · [[Terraform setup]] |
-| Used at plan/apply | [[Terraform workflow]] · [[Terraform CLI]] |
-
-
-## Related
-
-[[Terraform setup]] [[Terraform workflow]] [[terraform]] [[terraform provider]] [[Terraform CLI]]
-
-## Sources
-
-- [Wikipedia — variable file](https://en.wikipedia.org/wiki/variable_file)
+- Committing secrets in tfvars.
+- Debugging “wrong value” without checking precedence.
+- Expecting child modules to see root variables without passing them.
+- Treating `sensitive` as encryption.

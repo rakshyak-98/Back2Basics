@@ -1,49 +1,53 @@
-[[ssh]]
+[[ssh login]] [[sshd config]] [[SOCKS (Socket Secure)]] [[non-Routable address]]
 
 # ssh private network
 
-> ssh private network — ip addr show | grep inet
+> Reach SSH on private (RFC1918) hosts via VPN or a jump host — and firewall port 22 so only trusted private source ranges can connect.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers check that you know private IPs are not internet-routable, and that bastion/`ProxyJump` plus tight `ufw`/SG rules are the usual pattern.
+
+## Sources
+
+- [RFC 1918 — Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918) — overview
+- [OpenSSH — ProxyJump](https://man.openbsd.org/ssh_config.5#ProxyJump) — deep-dive
+- [UFW community docs](https://help.ubuntu.com/community/UFW) — overview
+
+## Key Concepts
+
+- **Non-routable addresses:** `10/8`, `172.16/12`, `192.168/8` need VPN or jump — not public routes ([[non-Routable address]]).
+- **Least exposure:** delete wide-open `allow 22` rules; allow from private CIDR only.
+- **ProxyJump:** one public bastion; inner hosts stay private.
+- **Source IP reality:** NAT egress can break `from=` / firewall expectations.
+
+## Technical Details
 
 ```bash
 ip addr show | grep inet
-```
-**Remove any wide-open ssh rule**
-```bash
-sudo ufw delete allow 22;
-sudo ufw delete allow ssh;
-sudo ufw delete allow OpenSSH;
-```
-**Allow SSH only from your private network**
-```bash
-sudo ufw allow from 192.168.1.0/24 to any port 22 proto http
-```
-```bash
-sudo ufw allow from 192.168.1.0/24 to any port ssh
-sudo ufw allow from 192.168.1.0/24 port 22 proto tcp
-```
-**Reload `ufw`**
-```bash
-sudo ufw reload; # reload
-sudo ufw status numbered; # verify the rule
-```
-
-
-## Configuration and commands
-
-```bash
 ip route
-ssh -J bastion.internal user@10.0.5.20
-# ~/.ssh/config ProxyJump bastion.internal
 ```
 
----
+Remove wide-open SSH rules, then allow from the private network:
 
+```bash
+sudo ufw delete allow 22
+sudo ufw delete allow ssh
+sudo ufw delete allow OpenSSH
 
-## When things break
+sudo ufw allow from 192.168.1.0/24 to any port 22 proto tcp
+sudo ufw allow from 192.168.1.0/24 to any port ssh
+sudo ufw reload
+sudo ufw status numbered
+```
+
+```bash
+ssh -J bastion.internal user@10.0.5.20
+# ~/.ssh/config
+# Host internal
+#   ProxyJump bastion.internal
+#   HostName 10.0.5.20
+```
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,29 +56,26 @@ ssh -J bastion.internal user@10.0.5.20
 | Wrong source IP seen on inner host | Jump not used | Use `ProxyJump` or `-J` |
 | MTU black hole | VPN plus small MTU | Lower interface MTU on client |
 
----
+## Real-World Applications
 
+VPC admin access, lab networks locked to `192.168.1.0/24`, and zero-public-SSH fleets behind a bastion.
 
-## Gotchas
+**Example:** Laptop VPN gets `10.0.0.0/8` routes; `ufw` allows SSH only from that range; operators never open 22 to `0.0.0.0/0`.
 
-> [!WARNING]
-> Private IPs are **not routable on the public internet** — you need VPN or a jump host.
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** Shrinks attack surface versus public SSH.
+- **Con:** Depends on VPN/bastion availability — plan break-glass console access.
+- **Con:** Incorrect `ufw` proto/port syntax fails closed or open — verify with `status numbered`.
 
+## Comparison
 
-## When not to use
+- vs public SSH + keys only: private network + jump is defense in depth; keys alone are not enough.
+- vs [[SOCKS (Socket Secure)]] `-D`: SOCKS tunnels app traffic; ProxyJump is for SSH itself (can combine).
 
-- Do not expose private RFC1918 addresses directly to the internet with port forwarding.
+## Mistakes to Avoid
 
-
----
-
-
-## Related
-
-[[ssh]]
-
-## Sources
-
-- [Wikipedia — ssh private network](https://en.wikipedia.org/wiki/ssh_private_network)
+- Exposing RFC1918 addresses to the internet with port forwarding.
+- `ufw allow ... proto http` typos when you meant `tcp`.
+- Assuming the bastion’s client IP is what the inner host sees without understanding jump behavior.
+- Deleting all SSH rules before confirming alternate access.

@@ -1,32 +1,32 @@
-[[management]] [[file mount]] [[rsync]] [[Find command]]
+[[file mount]] [[rsync]] [[Find command]] [[management/Linux file management]] [[media mount as read only]]
 
 # Linux file management
 
-> File management is create/find/move/permission/backup of data on disk — paths, ownership, and mounts matter more than fancy tools.
+> Create, find, move, permission, and back up data on disk — paths, ownership, and mounts matter more than fancy tools.
 
----
+## Interview Relevance
 
-## How it works
+Everyday ops: inodes/hard links, `stat` before `chmod 777`, `-xdev`, and atomic write+rename patterns.
+
+## Sources
+
+- `man 1 find`, `man 1 rsync`, `man 2 rename` — deep-dive
+- [FHS](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html) — overview
+
+## Key Concepts
+
+- **inode:** metadata object — hard links share one.
+- **mode / ACL:** permission bits; never default to 777.
+- **mtime vs ctime:** content vs metadata change times.
+- **atomic replace:** write temp + `rename` so readers never see half files.
+- **Don’t cross mounts blindly:** `-xdev` / `findmnt`.
+
+## Technical Details
 
 ```txt
 path → dentry → inode → data blocks
 chmod/chown/rm/mv operate on that graph
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **inode** | File metadata object | “Hard links share an inode.” |
-| **mode** | rwx bits / ACL | “`stat` before chmod 777.” |
-| **mtime/ctime** | Content vs metadata time | “rsync -a preserves mtime.” |
-| **sparse** | Holes in files | “Copy tools may expand them.” |
-| **atomic replace** | write temp + rename | “Readers never see half files.” |
-
----
-
-
-## Configuration and commands
 
 ```bash
 ls -la
@@ -42,44 +42,29 @@ rsync -aHAX --delete src/ dst/
 | `-xdev` | Don’t cross mounts in find/du |
 | `install` vs `cp` | Mode/owner in one step |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Disk full | `df -h`; `du -x` | Clear logs; expand volume |
 | Permission denied | `namei -l` / `stat` | Fix owner/mode/ACL |
-| Vanished files | Wrong mount / overlay | `findmnt`; check bind mounts |
+| Vanished files | Wrong mount / overlay | `findmnt`; check binds |
 | Copy slow | Many small files | tar stream; tune rsync |
 
----
+## Real-World Applications
 
+Reclaim space with `du -x`, move an app tree with `rsync -aHAX`, and create data dirs with `install` so mode/owner are correct on first write.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`rm -rf` with variable paths** — echo first; prefer trash in interactive use.
+- **Pro:** Simple primitives compose into safe deploy/backup workflows.
+- **Con:** Recursive chmod/rm across bind mounts can hit the wrong tree.
 
-> [!WARNING]
-> **Crossing bind mounts** with naive `rm`/`chmod -R` can hit the wrong tree.
+## Comparison
 
----
+- vs [[file mount]]: attaching filesystems vs managing files on them.
+- vs object storage: different consistency and permission models.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Database files live** — snapshot/quiesce; don’t raw-copy.
-- **Secrets distribution** — use a secrets manager, not world-readable shares.
-
----
-
-
-## Related
-
-[[Find command]] [[rsync]] [[file mount]] [[lsof]]
-
-## Sources
-
-- [Wikipedia — Linux file management](https://en.wikipedia.org/wiki/Linux_file_management)
+- `rm -rf` with unchecked variables.
+- Raw-copying live database files without snapshot/quiesce.
+- Recursive operations that cross unexpected bind mounts.

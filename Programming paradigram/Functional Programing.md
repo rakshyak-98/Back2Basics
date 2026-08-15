@@ -1,92 +1,59 @@
-[[Programming paradigram/purely declarative]] [[Operating System/Stack based programming language]]
+[[purely declarative]] [[Design pattern/Strategy pattern]]
 
 # Functional programming
 
-> Compose pure functions and immutable data — minimize shared mutable state; side effects at the edges.
+> Compose pure functions and immutable data — minimize shared mutable state so behavior is easier to test, reason about, and parallelize.
 
----
+## Interview Relevance
 
-## How it works
-
-Core ideas: **pure functions** (same input → same output), **immutability**, **first-class functions**, **referential transparency**. State changes via new values, not mutation. Higher-order functions (`map`, `filter`, `reduce`) replace many loops. IO/monads/effects pushed to boundaries ("functional core, imperative shell").
-
-```
-input → f(g(h(x))) → output
-no hidden globals; mutation → new copy
-```
-
-
-## Configuration and commands
-
-### Pure function shape
-
-```js
-// pure
-function addTax(price, rate) {
-  return price * (1 + rate);
-}
-
-// impure — hide at boundary
-async function fetchUser(id) {
-  const res = await fetch(`/api/users/${id}`);
-  return res.json();
-}
-```
-
-### HOC patterns
-
-```js
-const nums = [1, 2, 3];
-const doubled = nums.map(x => x * 2);
-const sum = nums.reduce((a, b) => a + b, 0);
-```
-
-### Immutable update (JS)
-
-```js
-const next = { ...user, name: 'Ada' };
-const nextList = [...items, newItem];
-```
-
-### React alignment
-
-```jsx
-// prefer derived state, not mutate props/state in place
-const visible = items.filter(i => i.active);
-```
-
-
-## When things break
-
-| Smell | Check | Fix |
-|-------|-------|-----|
-| Stale UI | Mutated object in place | New reference for React deps |
-| Heisenbug | Global mutable cache | Pass deps explicitly |
-| Stack overflow | Deep recursion | Tail-call (where supported) or loop |
-| Performance | Excess copying | Structural sharing (Immer), persistent DS |
-| "Same input diff output" | Hidden Date/random/network | Inject clock/RNG; isolate IO |
-
-
-## Gotchas
-
-> [!WARNING]
-> **`map` without return** — accidental `undefined` array.
->
-> **Shallow copy nested objects** — still aliased inner fields.
->
-> **FP in JS without types** — easy to pass wrong arity; use TS.
-
-
-## When not to use
-
-- Don't clone huge graphs every tick in hot paths — profile first.
-- Don't ban all mutation in low-level perf code (games, codecs) — isolate instead.
-
-
-## Related
-
-[[Programming paradigram/purely declarative]] [[React/React data management]] [[Design pattern/Static Members]]
+Interviewers want purity, immutability, higher-order functions, and honest trade-offs vs imperative code — not buzzwords.
 
 ## Sources
 
-- [Wikipedia — Functional Programing](https://en.wikipedia.org/wiki/Functional_Programing)
+- [Wikipedia — Functional programming](https://en.wikipedia.org/wiki/Functional_programming) — overview
+- [HaskellWiki — Functional programming](https://wiki.haskell.org/Functional_programming) — deep-dive
+
+## Key Concepts
+
+- **Pure function:** same inputs → same outputs; no side effects.
+- **Immutability:** prefer new values over in-place edits.
+- **HOFs:** `map`/`filter`/`reduce`, functions as values.
+- **Composition:** small functions pipe into pipelines.
+- **Controlled effects:** isolate I/O at the edges.
+
+## Technical Details
+
+```js
+const total = items
+  .filter((i) => i.active)
+  .map((i) => i.price)
+  .reduce((a, b) => a + b, 0);
+```
+
+| Idea | Why it matters |
+|------|----------------|
+| Referential transparency | Replace expression with value safely |
+| Avoid shared mutable state | Fewer race bugs |
+| Pure core | Unit test without mocks for I/O |
+
+## Real-World Applications
+
+Reducers, data transforms in ETL, React render functions as pure with respect to props/state inputs.
+
+**Example:** Move date formatting and pricing math into pure helpers; keep DB writes in adapters.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Testability and safer concurrency stories.
+- **Con:** Naive deep-copy immutability can hurt performance; learn structural sharing tools.
+
+## Comparison
+
+- vs OOP: FP centers values/transforms; OOP centers objects/messages — hybrids are normal.
+- vs [[purely declarative]]: FP is a paradigm; declarative UI/config is one application style.
+
+## Mistakes to Avoid
+
+- Claiming “we are functional” while mutating global arrays everywhere.
+- Overusing monadic jargon in interviews without concrete examples.
+- Copying huge structures on every update without need.

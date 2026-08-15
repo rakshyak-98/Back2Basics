@@ -1,25 +1,41 @@
 [[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
 
-# Higher order Component (HOCs)
+# Higher-order Component (HOCs)
 
-> Higher order Component (HOCs) shapes how React applications compose UI, state, and side effects in production.
+> Function that takes a component and returns an enhanced component — classic reuse before hooks.
 
-## What this is
+## Interview Relevance
 
-React patterns are reusable composition strategies — how components share behavior without duplicating implementation. Modern code often prefers hooks and composition over legacy patterns, but recognizing each pattern helps when reading older codebases or choosing explicit component APIs.
+Interviewers ask which composition pattern fits the API you want — and what breaks when you force the wrong one.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [Higher-order Component (HOCs) docs](https://legacy.reactjs.org/docs/higher-order-components.html) — deep-dive
+- [React Learn](https://react.dev/learn) — overview
 
-## Recall
+## Key Concepts
 
-What breaks first in production if `Higher order Component (HOCs)` is misused — bundle size, stale UI, or hydration errors?
+- **Modern default:** custom hooks for logic reuse.
+- **Keep for APIs:** compound components / providers when the JSX API matters.
 
-## Related
+## Technical Details
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[React pattern categorisation]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
+See also sibling notes under `React Pattern/` and [[React design patterns]].
+
+## Real-World Applications
+
+Reach for Higher-order Component (HOCs) when the component API needs that composition style; otherwise prefer hooks.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Shared vocabulary in code reviews.
+- **Con:** Forcing a pattern where a simple hook suffices.
+
+## Comparison
+
+- vs [[react hooks]]: hooks share logic; these patterns shape component APIs.
+
+## Mistakes to Avoid
+
+- Introducing HOCs in greenfield 2026 code without a library constraint.
+- Provider for high-frequency changing values.

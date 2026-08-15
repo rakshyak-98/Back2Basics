@@ -1,12 +1,20 @@
-[[ML Classifiers]] [[Random forest]] [[Gradient boosting]] [[scikitlearn]] [[supervised learning]]
+[[ML Classifiers]] [[Random forest]] [[Gradient boosting]] [[scikitlearn]] [[supervised learning]] [[xg boost]] [[binary classification]] [[multiclass classification]] [[data preprocessing]]
 
 # Decision tree
 
-> Decision tree — a decision tree asks a sequence of yes/no questions on one feature at a time until a leaf assigns a class (classification) or
+> Decision tree — asks yes/no feature questions until a leaf assigns a class or average target value.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use decision trees to check impurity splits, overfit knobs (depth, min leaf), and why forests/boosting beat a single tree.
+
+## Sources
+
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [sklearn.tree.DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html) — deep-dive
+
+## Key Concepts
 
 A decision tree asks a sequence of **yes/no questions** on one feature at a time until a leaf assigns a class (classification) or average target (regression).
 
@@ -25,10 +33,7 @@ A decision tree asks a sequence of **yes/no questions** on one feature at a time
 
 **Ensembles:** single trees overfit; [[Random forest]] and [[Gradient boosting]] fix that by averaging or boosting many trees.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### scikit-learn (classification)
 
@@ -73,42 +78,26 @@ print(export_text(clf, feature_names=list(X.columns)))
 | `ccp_alpha` | post-prune via cost-complexity |
 | `max_leaf_nodes` | hard cap on complexity |
 
----
+## Pros/Cons or Trade-offs
 
+- **High-dimensional sparse text** without feature engineering — linear + hashing or embeddings beat deep single trees.
+- **Need calibrated probabilities** from one tree — use [[Random forest]], [[Gradient boosting]], or Platt/isotonic calibration.
+- **Strict monotonic or linear relationship** — prefer constrained boosting or GLM.
+- **Production latency at massive depth** — shallow tree or linear model; cache feature lookups.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| 100% train / 50% val | Depth too high, leaf min too low | Reduce `max_depth`; raise `min_samples_leaf`; try `ccp_alpha` |
-| Model ignores a feature | High cardinality / sparse one-hot | Target encoding, binning, or tree ensemble |
-| Unstable splits run-to-run | Small data + many ties | Set `random_state`; increase `min_samples_split` |
-| Biased toward majority class | Check `class_weight`, metric | `class_weight="balanced"`; optimize PR-AUC not accuracy |
-| Slow training on wide data | `max_features`, depth | Limit depth; use `max_features`; switch to [[Random forest]] / [[xg boost]] |
-
----
-
-
-## Decision
+## Comparison
 
 We will … because …
-
-
-## Consequences
 
 **Positive:** …
 
 **Negative / trade-offs:** …
 
-
-## Alternatives considered
-
 | Alternative | Why rejected |
 |-------------|--------------|
 | … | … |
 
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Extrapolation:** trees cannot predict outside training range for regression — flat plateau at training min/max.
@@ -122,23 +111,11 @@ We will … because …
 > [!WARNING]
 > **Monotonic constraints ignored** unless you use libraries that support them (XGBoost, LightGBM). Raw sklearn trees can violate business rules (e.g. "higher income → lower risk").
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| 100% train / 50% val | Depth too high, leaf min too low | Reduce `max_depth`; raise `min_samples_leaf`; try `ccp_alpha` |
+| Model ignores a feature | High cardinality / sparse one-hot | Target encoding, binning, or tree ensemble |
+| Unstable splits run-to-run | Small data + many ties | Set `random_state`; increase `min_samples_split` |
+| Biased toward majority class | Check `class_weight`, metric | `class_weight="balanced"`; optimize PR-AUC not accuracy |
+| Slow training on wide data | `max_features`, depth | Limit depth; use `max_features`; switch to [[Random forest]] / [[xg boost]] |
 
-
-## When not to use
-
-- **High-dimensional sparse text** without feature engineering — linear + hashing or embeddings beat deep single trees.
-- **Need calibrated probabilities** from one tree — use [[Random forest]], [[Gradient boosting]], or Platt/isotonic calibration.
-- **Strict monotonic or linear relationship** — prefer constrained boosting or GLM.
-- **Production latency at massive depth** — shallow tree or linear model; cache feature lookups.
-
----
-
-
-## Related
-
-[[Random forest]] · [[Gradient boosting]] · [[xg boost]] · [[binary classification]] · [[multiclass classification]] · [[scikitlearn]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — Decision tree](https://en.wikipedia.org/wiki/Decision_tree)

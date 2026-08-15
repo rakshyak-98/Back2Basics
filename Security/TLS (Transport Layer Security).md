@@ -1,12 +1,24 @@
-[[Security]] [[Nginx]] [[Configuration]]
+[[Security]] [[Nginx]] [[Configuration]] [[Node.js security flaws in architecture]]
 
 # TLS (Transport Layer Security)
 
-> encrypt + authenticate bytes on the wire — terminate at the edge (Nginx), use modern cipher suites, automate cert renewal, verify the full chain.
+> Encrypt and authenticate bytes on the wire — terminate at the edge, prefer modern suites, automate certificate renewal, verify the full chain.
 
----
+## Interview Relevance
 
-## How it works
+Core networking/security: handshake, certificates, cipher suites, termination points, and TLS 1.2 vs 1.3 differences.
+
+## Sources
+
+- [RFC 8446 — TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446) — deep-dive
+- [RFC 5246 — TLS 1.2](https://www.rfc-editor.org/rfc/rfc5246) — deep-dive
+- [MDN — TLS](https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security) — overview
+
+## Core Definition
+
+TLS encrypts and authenticates a byte stream above TCP (or QUIC); after handshake, application protocols like HTTP become HTTPS.
+
+## Key Concepts
 
 TLS sits above TCP. Handshake negotiates version, ciphers, and (usually) server identity via **X.509 certificate**. After handshake, application data (HTTP → HTTPS) is encrypted and integrity-protected.
 
@@ -23,10 +35,7 @@ Client                         Server
 
 SSL is obsolete terminology — say TLS 1.2/1.3.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Nginx TLS termination
 
@@ -86,10 +95,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
   -subj "/CN=localhost"
 ```
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -101,41 +107,25 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 | Works in browser, fails in app | Custom CA not trusted | Add CA to trust store or use public CA |
 | Handshake OK, then 502 | Backend issue, not TLS | See [[Configuration]] 502 playbook |
 
----
+## Real-World Applications
 
+Edge Nginx terminates TLS for HTTPS sites; automate Let's Encrypt renewals and prefer TLS 1.2+.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Private key permissions** — `chmod 600`; never commit to git.
+- **Pro:** Industry-standard wire security with broad client support.
+- **Con:** TLS inside trusted VPC for every microservice hop — mTLS/service mesh when policy requires; otherwise edge termination + private network is common.
+- **Con:** Self-signed in production public sites — users can't trust; use public CA.
 
-> [!WARNING]
-> **TLS renegotiation / client certs** — rare for public APIs; adds complexity.
+## Comparison
 
-> [!WARNING]
-> **HSTS before HTTPS stable** — locks users to HTTPS; broken cert becomes hard outage.
+- vs [[https]]: TLS is the secure channel; HTTPS is HTTP on TLS.
+- vs VPN/mTLS mesh: different trust and hop models for east-west traffic.
 
-> [!WARNING]
-> **Wildcard cert `*.example.com`** — does not cover `example.com` bare (needs SAN entry).
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Certificate transparency + short lifetimes** — Let's Encrypt 90 days; automate renew or pager at T-30.
-
----
-
-
-## When not to use
-
-- **TLS inside trusted VPC for every microservice hop** — mTLS/service mesh when policy requires; otherwise edge termination + private network is common.
-- **Self-signed in production public sites** — users can't trust; use public CA.
-
----
-
-
-## Related
-
-[[Configuration]] [[Nginx]] [[Node.js security flaws in architecture]]
-
-## Sources
-
-- [Wikipedia — TLS](https://en.wikipedia.org/wiki/TLS)
+- Private key permissions — `chmod 600`; never commit to git.
+- TLS renegotiation / client certs — rare for public APIs; adds complexity.
+- HSTS before HTTPS stable — locks users to HTTPS; broken cert becomes hard outage.
+- Wildcard cert `*.example.com` — does not cover `example.com` bare (needs SAN entry).
+- Certificate transparency + short lifetimes — Let's Encrypt 90 days; automate renew or pager at T-30.

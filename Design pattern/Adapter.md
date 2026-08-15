@@ -4,7 +4,15 @@
 
 > Adapter wraps an incompatible interface so existing code can call it as if it were the expected type — classic fix for third-party APIs that do not match your domain model.
 
-## Two forms
+## Interview Relevance
+
+Adapter questions check whether you retrofit incompatible APIs without leaking the adaptee — contrast with Bridge (planned split) and Facade (simplify subsystem).
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Adapter) — deep-dive
+
+## Key Concepts
 
 ```
 Class adapter:  Client → Adapter extends Target, holds Adaptee
@@ -13,7 +21,7 @@ Object adapter: Client → Adapter implements Target, delegates to Adaptee
 
 Object adapter (composition) is more common — no inheritance coupling to the legacy class.
 
-## Example
+## Technical Details
 
 Legacy `LegacyLogger.log(msg string)` vs your `Logger.info(level, msg)`:
 
@@ -24,7 +32,14 @@ class LegacyLoggerAdapter implements Logger {
 }
 ```
 
-## vs similar patterns
+## Real-World Applications
+
+- Vendor SDK, legacy service, or OS API with wrong shape.
+- Gradual migration: wrap old module, swap adapter for native implementation later.
+
+## Comparison
+
+**vs similar patterns**
 
 | Pattern | Intent |
 |---------|--------|
@@ -35,17 +50,7 @@ class LegacyLoggerAdapter implements Logger {
 
 Adapter is **retrofit**; Bridge is **planned** separation.
 
-## When to use
-
-- Vendor SDK, legacy service, or OS API with wrong shape.
-- Gradual migration: wrap old module, swap adapter for native implementation later.
-
-## Pitfalls
+## Mistakes to Avoid
 
 - Leaking adaptee types through the adapter API.
 - Adapter that re-implements half the adaptee — consider a full facade ([[Design pattern/Facade]]) instead.
-
-## Sources
-
-- Gamma et al., *Design Patterns* (Adapter)
-- [Adapter pattern — Wikipedia](https://en.wikipedia.org/wiki/Adapter_pattern)

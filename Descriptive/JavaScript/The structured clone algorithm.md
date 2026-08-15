@@ -1,12 +1,18 @@
-[[Javascript]] [[JavaScript/Garbage Collection]] [[Buffers]]
+[[Javascript]] [[JavaScript/Garbage Collection]] [[Buffers]] [[worker]]
 
 # The structured clone algorithm
 
 > Structured clone deep-copies certain JS values for `postMessage`, IndexedDB, and friends — richer than JSON, still limited.
 
----
+## Interview Relevance
 
-## How it works
+Structured clone interviews cover what postMessage/IndexedDB can copy — and what fails (functions, DOM).
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 value → structuredClone → independent copy
@@ -22,10 +28,7 @@ postMessage uses same algorithm (+ transfer list)
 | **Non-cloneable** | functions, symbols (as keys issues) | “Throws DataCloneError.” |
 | **vs JSON** | types preserved | “Date stays Date.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const copy = structuredClone(obj)
@@ -38,10 +41,18 @@ worker.postMessage(buf, [buf]) // transfer
 | Cycles | Clone supports cycles (JSON doesn’t) |
 | Platforms | Older browsers need polyfills/libs |
 
----
+## Pros/Cons or Trade-offs
 
+- **Need functions across realms** — redesign with messages.
+- **Tiny POJOs** — JSON may be enough and more portable.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Class instances become plain objects** — methods gone.
+
+> [!WARNING]
+> **JSON mindset** — structured clone isn’t “any JS value.”
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -50,30 +61,3 @@ worker.postMessage(buf, [buf]) // transfer
 | Lost prototype | class instance | Rehydrate after clone |
 | Slow clone | huge graph | Transfer buffers; shrink payload |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Class instances become plain objects** — methods gone.
-
-> [!WARNING]
-> **JSON mindset** — structured clone isn’t “any JS value.”
-
----
-
-
-## When not to use
-
-- **Need functions across realms** — redesign with messages.
-- **Tiny POJOs** — JSON may be enough and more portable.
-
-
-## Related
-
-[[JavaScript/Garbage Collection]] [[Buffers]] [[worker]]
-
-## Sources
-
-- [Wikipedia — The structured clone algorithm](https://en.wikipedia.org/wiki/The_structured_clone_algorithm)

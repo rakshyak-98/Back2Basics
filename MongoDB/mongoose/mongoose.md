@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongoose/mongoose schema]] [[mongodb connection]]
+[[MongoDB]] [[mongoose/mongoose schema]] [[mongodb connection]] [[mongoose/mongoose methods]]
 
 # mongoose
 
 > Mongoose is the Node ODM for MongoDB — schemas, models, and connection pooling on top of the driver.
 
----
+## Interview Relevance
 
-## How it works
+Mongoose interviews cover schemas vs MongoDB documents, middleware hooks, and validation boundaries.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 URI → mongoose.connect → Model(schema) → find/save
@@ -23,10 +30,7 @@ URI → mongoose.connect → Model(schema) → find/save
 | **Virtual** | Computed field not stored | “MongoDB doesn’t store it.” |
 | **Middleware** | pre/post hooks | “hash password pre('save').” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 await mongoose.connect(process.env.MONGO_URI, { maxPoolSize: 10 })
@@ -43,22 +47,18 @@ const User = mongoose.model('User', userSchema)
 | `strict` | Drop unknown paths vs keep |
 | `bufferCommands` | Behavior before connected |
 
----
+## Pros/Cons or Trade-offs
 
+- **Simple scripts** — native driver is enough.
+- **Heavy aggregations only** — driver + aggregate may be clearer.
 
-## Where to go next
+## Mistakes to Avoid
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
+> [!WARNING]
+> **Virtuals aren’t in Mongo** — can’t query/filter them server-side.
 
-
-## Related topics in this domain
-
-- …: [[…]]
-
-
-## When things break
+> [!WARNING]
+> **Multiple connections/models** — accidental `model` recompile in serverless hot reload.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -67,30 +67,3 @@ const User = mongoose.model('User', userSchema)
 | Duplicate key | unique index | Catch 11000; clean data |
 | Virtual missing in JSON | not in `toJSON` | `schema.set('toJSON', { virtuals: true })` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Virtuals aren’t in Mongo** — can’t query/filter them server-side.
-
-> [!WARNING]
-> **Multiple connections/models** — accidental `model` recompile in serverless hot reload.
-
----
-
-
-## When not to use
-
-- **Simple scripts** — native driver is enough.
-- **Heavy aggregations only** — driver + aggregate may be clearer.
-
-
-## Related
-
-[[mongoose/mongoose schema]] [[mongoose/mongoose methods]] [[mongodb connection]]
-
-## Sources
-
-- [Wikipedia — mongoose](https://en.wikipedia.org/wiki/mongoose)

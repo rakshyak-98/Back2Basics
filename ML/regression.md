@@ -1,12 +1,20 @@
-[[Model/Linear regression]] [[binary classification]] [[sigmoid]] [[supervised learning]] [[Visualization/Residual plot]]
+[[Model/Linear regression]] [[binary classification]] [[sigmoid]] [[supervised learning]] [[Visualization/Residual plot]] [[Model/Polynomial regression]] [[Gradient boosting]] [[data preprocessing]]
 
 # Regression
 
 > Predict a **continuous** target (price, latency, demand) — minimize squared or robust loss; diagnose with residuals — **Hastie et al. (ESL)**.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Regression to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+- [Linear regression — Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) — overview
+
+## Key Concepts
 
 Supervised task where **y ∈ ℝ** (or bounded interval treated as regression). Models output **ŷ = f(x)**. Common loss: **MSE** (L2), **MAE** (L1, outlier-robust), **Huber** (mix).
 
@@ -24,10 +32,7 @@ Nonlinear:  [[Decision tree]], [[Gradient boosting]], [[ANN]]
 | **Quantile regression** | Need P90 latency, not mean |
 | **Log-target** | Skewed positive counts (price, revenue) |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.linear_model import Ridge
@@ -54,10 +59,19 @@ pred = np.expm1(model.predict(X_test))
 
 Despite the name, **multinomial logistic regression** predicts **class probabilities** — see [[multiclass classification]], not this note.
 
----
+## Pros/Cons or Trade-offs
 
+- **Categorical unordered target** — [[binary classification]] / [[multiclass classification]].
+- **Ranking quality** — use ranking metrics ([[Normalized Discounted Cumulative Gain (NDCG)]]).
+- **Heavy zero-inflation** (counts with many zeros) — Poisson/negative binomial or two-part models.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **R² alone** — can look good while MAE is unacceptable for SLA (e.g. p99 latency).
+
+> [!WARNING]
+> **Extrapolation** — linear models confidently predict nonsense outside training range.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,33 +83,3 @@ Despite the name, **multinomial logistic regression** predicts **class probabili
 
 Use [[Visualization/Residual plot]] and [[Visualization/predicated versus actual plot]] after every serious regression build.
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **R² alone** — can look good while MAE is unacceptable for SLA (e.g. p99 latency).
-
-> [!WARNING]
-> **Extrapolation** — linear models confidently predict nonsense outside training range.
-
----
-
-
-## When not to use
-
-- **Categorical unordered target** — [[binary classification]] / [[multiclass classification]].
-- **Ranking quality** — use ranking metrics ([[Normalized Discounted Cumulative Gain (NDCG)]]).
-- **Heavy zero-inflation** (counts with many zeros) — Poisson/negative binomial or two-part models.
-
----
-
-
-## Related
-
-[[Model/Linear regression]] · [[Model/Polynomial regression]] · [[Gradient boosting]] · [[Visualization/Residual plot]] · [[data preprocessing]]
-
-## Sources
-
-- [Wikipedia — regression](https://en.wikipedia.org/wiki/regression)

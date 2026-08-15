@@ -1,118 +1,65 @@
-[[nginx SPA deployment]] [[React]] [[CORS (Cross Origin Request Sharing)]] [[Deployment]]
+[[vercel cli]] [[Netlify/Netlify deployment]] [[CORS (Cross Origin Request Sharing)]] [[NextJS/ISR (Incremental Static Regeneration)]]
 
 # Vercel deployment
 
-> Vercel deployment — vercel builds from Git (or CLI vercel deploy) → static assets on global CDN + serverless functions (/api/*, Next.js routes). Routing is filesystem-based
+> Git or CLI builds land on a global CDN for static assets plus serverless functions for APIs/SSR — no long-lived Node server by default.
 
----
+## Interview Relevance
 
-## How it works
-
-Vercel builds from Git (or CLI `vercel deploy`) → **static assets** on global CDN + **serverless functions** (`/api/*`, Next.js routes). Routing is **filesystem-based** (Next) or **`vercel.json` rewrites** (CRA/Vite SPA). No long-lived server — cold starts and regional execution matter for APIs.
-
-```
-Git push ──► build ──► static (CDN) + lambdas (region)
-                           │
-User refresh /deep link ──► must rewrite to index or SSR route
-```
-
-
-## Configuration and commands
-
-### SPA fallback (Vite/CRA — fix refresh 404)
-
-`vercel.json` at repository root:
-```json
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
-
-Next.js application Router: file-based routing — **no catch-all rewrite** unless custom static export.
-
-### Next.js (recommended path)
-
-- Framework preset auto-detected; `next build` output.
-- **Server Components / API routes** run as serverless — watch **10s/60s timeout** (plan-dependent) and **body size limits**.
-
-### Environment variables
-
-| Scope | Use |
-|-------|-----|
-| Production / Preview / Development | Separate secrets per branch deploy |
-| `NEXT_PUBLIC_*` | Exposed to browser — never secrets |
-| Server-only | DB URLs, API keys in non-public vars |
-
-```bash
-vercel env pull .env.local
-vercel --prod
-vercel logs <deployment-url>
-```
-
-### Custom domain + HTTPS
-
-- Project → Domains → add apex + `www`.
-- DNS: CNAME to `cname.vercel-dns.com` or A to Vercel anycast (dashboard shows exact records).
-- TLS automatic via Let's Encrypt.
-
-### Monorepo
-
-```json
-{
-  "buildCommand": "cd apps/web && npm run build",
-  "outputDirectory": "apps/web/dist",
-  "installCommand": "npm ci"
-}
-```
-Or set **Root Directory** in project settings.
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Refresh on `/dashboard` → 404 | Missing SPA rewrite | Add `vercel.json` rewrites to `/index.html` |
-| Works locally, env undefined in prod | Var not set for Production | Dashboard env; rebuild after add |
-| API 500 only on Vercel | Function timeout; edge vs node runtime | Increase timeout; `export const runtime = 'nodejs'` |
-| CORS from browser to `/api` on same domain | Usually same-origin — if split domain | Configure API CORS or proxy ([[CORS (Cross Origin Request Sharing)]]) |
-| Stale assets after deploy | CDN cache; service worker | Cache bust filenames; update SW |
-| Build OOM | Large deps | Reduce bundle; `NODE_OPTIONS=--max-old-space-size` |
-| Preview URL works, prod domain not | DNS not verified | Fix CNAME; wait propagation |
-
-```bash
-vercel inspect <url> --logs
-curl -I https://your-app.vercel.app/deep/route
-```
-
-
-## Gotchas
-
-> [!WARNING]
-> **Catch-all rewrite breaks real static files** if ordered wrong — Vercel serves existing files first; rewrite applies to non-matches (usually OK).
-
-> [!WARNING]
-> **`NEXT_PUBLIC_` leaks secrets** — anything prefixed is in client bundle.
-
-> [!WARNING]
-> **Serverless cold start** — first request slow; not for long WebSocket sessions without dedicated solution.
-
-> [!WARNING]
-> **Regional functions + global DB** — latency; co-locate or use edge-compatible data (Planetscale/Vercel Postgres region hints).
-
-
-## When not to use
-
-- **Long-running workers / queues** — use Railway/Fly/ECS/K8s ([[Deployment]]).
-- **Stateful TCP services** — Vercel is HTTP-centric.
-- **Full control of nginx tuning** — compare [[nginx SPA deployment]] on own VM.
-
-
-## Related
-
-[[nginx SPA deployment]] · [[React]] · [[CORS (Cross Origin Request Sharing)]] · [[Deployment]] · [[Release cycle]]
+Interviewers ask SPA refresh 404s (rewrites), preview vs production env vars, cold starts/timeouts, and what must never be `NEXT_PUBLIC_`.
 
 ## Sources
 
-- [Wikipedia — vercel deployment](https://en.wikipedia.org/wiki/vercel_deployment)
+- [Vercel — Project configuration](https://vercel.com/docs/project-configuration) — deep-dive
+- [Vercel — Environment variables](https://vercel.com/docs/projects/environment-variables) — overview
+
+## Key Concepts
+
+- **Static + functions:** HTML/JS/CSS on CDN; `/api` and SSR as serverless.
+- **Filesystem routing (Next.js):** prefer framework conventions over catch-all hacks.
+- **SPA fallback:** Vite/CRA need rewrite to `index.html` for deep links.
+- **Env scopes:** Production / Preview / Development separated.
+
+## Technical Details
+
+```
+Git push ──► build ──► static (CDN) + lambdas (region)
+```
+
+SPA `vercel.json`:
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
+
+| Scope | Use |
+|-------|-----|
+| `NEXT_PUBLIC_*` | Browser-visible — never secrets |
+| Server-only | DB URLs, private API keys |
+| Preview vs Production | Different backends/secrets per stage |
+
+Custom domains: dashboard DNS instructions; TLS via platform certificates.
+
+## Real-World Applications
+
+Next.js app: framework preset auto-detected; protect server routes; watch plan timeouts (often tens of seconds) for slow backends.
+
+**Example:** Vite app refresh on `/settings` 404s — add SPA rewrite, or switch to Next-style routing.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Excellent DX for frontends and preview URLs.
+- **Con:** Long-running/websocket workloads need a different host model.
+
+## Comparison
+
+- vs [[Netlify/Netlify deployment]]: similar Jamstack shape; different function/CDN knobs.
+- vs always-on VM/K8s: Vercel is request-scoped compute for the dynamic parts.
+
+## Mistakes to Avoid
+
+- Catch-all rewrites on Next.js app router “just in case.”
+- Secrets in `NEXT_PUBLIC_*`.
+- Assuming function timeouts match a home-server Node process.

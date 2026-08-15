@@ -1,146 +1,79 @@
-[[routing table]] [[route]] [[Linux network commands]] [[ss]] [[netstat]]
+[[routing table]] [[route]] [[Linux network commands]] [[ss]] [[netstat]] [[BGP]]
 
 # ip
 
-> ip — network config is objects: link (interface), address (IP on link), route (forwarding decision), rule (PBR). ip talks netlink to the kernel — same API
+> ip (iproute2) configures links, addresses, routes, and neighbors via netlink — the modern replacement for ifconfig/route.
 
----
+## Interview Relevance
+Core networking: `ip route get`, ephemeral vs persisted config, and mapping legacy net-tools to iproute2.
 
-## How it works
+## Sources
+- [ip(8)](https://man7.org/linux/man-pages/man8/ip.8.html) — deep-dive
+- [iproute2 documentation](https://wiki.linuxfoundation.org/networking/iproute2) — overview
 
-Network configuration is objects: **link** (interface), **address** (IP on link), **route** (forwarding decision), **rule** (PBR). `ip` talks netlink to the kernel — same API NetworkManager and Cilium use. Changes are **immediate** and often **ephemeral** unless persisted in Netplan/NM/systemd-networkd.
+## Core Definition
+Network configuration is objects: **link** (interface), **address** (IP on link), **route** (forwarding), **rule** (policy routing). `ip` talks netlink to the kernel. Changes are immediate and often ephemeral unless persisted in Netplan/NM/systemd-networkd.
 
-```
-ip link ──► iface up/down, mtu, master (bond/bridge)
-ip addr ──► IPv4/IPv6 on link
-ip route ──► [[routing table]] entries
-ip rule ──► policy routing
-ip neigh ──► ARP/NDP cache
-```
+## Key Concepts
+- **link / addr / route / neigh / rule:** Main object families.
+- **`ip route get`:** Best debug — shows path and source IP chosen.
+- **Ephemeral CLI:** Lost on reboot without a network manager.
+- **Policy routing:** Extra tables via `ip rule` — invisible in default `ip route` alone.
+- **netns:** Containers = network namespaces + veth.
 
-| Legacy (net-tools) | iproute2 |
-|--------------------|----------|
+## Technical Details
+
+| Legacy | iproute2 |
+|--------|----------|
 | `ifconfig eth0` | `ip addr show dev eth0` |
 | `ifconfig eth0 up` | `ip link set eth0 up` |
 | `route -n` | `ip route show` |
 | `arp -n` | `ip neigh show` |
-| `netstat -rn` | `ip route` + [[ss]] |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ip** | Address, route, link, neigh | “ip replaces ifconfig/route.” |
-| **ip addr** | Show/add addresses | “ip a is the quick view.” |
-| **ip route** | Routing table | “default via = gateway.” |
-| **ip link** | Up/down interfaces | “ip link set eth0 up.” |
-| **netns** | Network namespace | “Containers = netns + veth.” |
-
-
-## Configuration and commands
-
-**Links:**
 
 ```bash
 ip link show
-ip link show ens5
 ip link set dev ens5 up
-ip link set dev ens5 down
-ip link set dev ens5 mtu 9000          # jumbo frames — switch must match
-ip -s link show ens5                   # RX/TX stats (drops, errors)
-```
+ip link set dev ens5 mtu 9000
+ip -s link show ens5
 
-**Addresses:**
-
-```bash
 ip addr show dev ens5
 ip addr add 10.0.0.5/24 dev ens5
 ip addr del 10.0.0.5/24 dev ens5
-```
 
-**Routing:**
-
-```bash
 ip route show
-ip -d route show                      # proto, metric, mtu detail
+ip -d route show
 ip route show table all
 ip rule list
-
-# Which path for this destination? — best debug command
 ip route get 8.8.8.8
-# 8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.50 uid 1000
-
-# Default gateway
-ip route add default via 192.168.1.1 dev eth0
 ip route replace default via 192.168.1.1
-
-# Static subnet route
 ip route add 10.20.0.0/16 via 10.0.0.1 dev eth0
-ip route del 10.20.0.0/16
-```
 
-**Neighbors (ARP):**
-
-```bash
 ip neigh show
-ip neigh flush dev eth0               # careful — brief connectivity blip
-```
+ip neigh flush dev eth0
 
-**Bridge/VLAN (common in servers):**
-
-```bash
 ip link add link eth0 name eth0.100 type vlan id 100
-ip link set dev eth0.100 up
 ```
-
-**Monitor traffic counters:**
-
-```bash
-watch -n1 'ip -s link show ens5'
-sar -n DEV 1 5                        # needs sysstat
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Interface down | `ip link` `state DOWN` | `ip link set dev X up`; check NM/cloud config |
-| No route to host | `ip route get <dst>` | Add route or default gw; check link local |
-| Wrong source IP chosen | `ip route get` shows `src` | More specific route; policy rule |
-| MTU black hole | Large ping fails, small ok | `ip link set mtu 1500`; path MTU discovery |
-| ARP failures | `ip neigh` INCOMPLETE | Cable/gw down; stale neigh flush |
-| Config lost on reboot | Only `ip` CLI used | Persist in Netplan/NM/systemd-networkd |
-| Stats show drops/errors | `ip -s link` | Driver/firmware; ring buffer; [[ss]] for app backlog |
+| Interface down | `ip link` state | `ip link set up`; check NM/cloud |
+| No route to host | `ip route get <dst>` | Add route/default; check link |
+| Wrong source IP | `ip route get` `src` | Specific route / policy rule |
+| MTU black hole | Large ping fails | Lower MTU; PMTUD |
+| Config lost on reboot | Only CLI used | Persist in Netplan/NM/networkd |
 
+## Real-World Applications
+Debugging “no route to host,” adding a temporary static route during an incident, and checking RX drops with `ip -s link`.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Precise, scriptable, complete netlink surface.
+- **Con:** Easy to strand a remote host; changes vanish without persistence.
+- **Trade-off:** `add` vs `replace` for idempotent automation.
 
-> [!WARNING]
-> **`ip route add` without `replace`** — duplicate routes error or coexist confusingly. Use `replace` for idempotent scripts.
+## Comparison
+vs [[ss]]: sockets/process ownership, not L3 config. vs [[route]]: older net-tools; prefer `ip route`. vs firewall/nftables: routes don’t filter.
 
-> [!WARNING]
-> **Cloud ENI naming** — `ens5`, `eth0` varies. Scripts must discover via `ip route get $(dig +short example.com)` not hardcoded names.
-
-> [!WARNING]
-> **Policy routing invisible in `ip route` alone** — check `ip rule list` and `table all`.
-
-> [!WARNING]
-> **Changing MTU on live TCP** — can reset connections. Maintenance window for production NICs.
-
-
-## When not to use
-
-- **Socket/process ownership** → [[ss]] `-lntp`.
-- **DNS resolution** → `resolvectl`, `dig` — `ip` is L3.
-- **Firewall** → nftables/iptables — routes don't filter packets.
-- **Persistent production networking** → configuration management, not ad-hoc CLI only.
-
-
-## Related
-
-[[routing table]] [[route]] [[Linux network commands]] [[ss]] [[netstat]] [[BGP]]
-
-## Sources
-
-- [Wikipedia — ip](https://en.wikipedia.org/wiki/ip)
+## Mistakes to Avoid
+- Hard-coding `eth0` on cloud images (`ens5`, etc.).
+- Ignoring `ip rule` / alternate tables when routes “look right.”
+- Changing MTU on live production TCP without a window.

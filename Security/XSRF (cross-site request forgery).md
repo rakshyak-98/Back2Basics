@@ -1,12 +1,23 @@
-[[Security]] [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]]
+[[Security]] [[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[JWT]] [[content security policy]] [[Authentication terms]]
 
 # XSRF (cross-site request forgery)
 
 > CSRF/XSRF — evil.com tricks the browser into sending your bank.com cookies on a forged request; the bank thinks it’s you.
 
----
+## Interview Relevance
 
-## How it works
+Browser auth: CSRF abuses ambient cookies; SameSite, CSRF tokens, and why Bearer tokens in headers change the threat.
+
+## Sources
+
+- [OWASP — CSRF](https://owasp.org/www-community/attacks/csrf) — overview
+- [OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html) — deep-dive
+
+## Core Definition
+
+CSRF/XSRF tricks a victim's browser into sending authenticated requests to a site using the victim's cookies without the victim's intent.
+
+## Key Concepts
 
 ```txt
 You logged into bank.com (session cookie)
@@ -25,10 +36,7 @@ Defense: something evil.com **cannot** read or guess — synchronizer token, or 
 | **Custom header + CORS** | Simple form POST can’t set `X-CSRF-Token`; preflight required |
 | **Re-auth for money moves** | Password/2FA on sensitive actions |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 // Express + csurf-style pattern (concept)
@@ -51,10 +59,7 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax
 | Double-submit cookie | Token cookie + matching header/body |
 | `SameSite=None; Secure` | Needed for true cross-site iframes — **raises** CSRF risk; compensate with tokens |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -65,36 +70,24 @@ Set-Cookie: session=…; HttpOnly; Secure; SameSite=Lax
 | Payment forged via img/form | No CSRF on state-changing GET | **Never** mutate on GET; require token |
 | Mobile WebView oddities | Third-party cookie blocked | Prefer Bearer token auth over cookie |
 
----
+## Real-World Applications
 
+Cookie-session form posts need CSRF tokens or SameSite=Lax/Strict; Bearer-header APIs are largely CSRF-immune.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **CORS does not stop CSRF** — CSRF is about the browser *sending* cookies; CORS controls *reading* responses.
+- **Pro:** Well-understood defenses (tokens, SameSite) for cookie-session apps.
+- **Con:** Pure Bearer-token APIs (no cookies) — CSRF tokens usually unnecessary; still guard XSS.
+- **Con:** Server-to-server webhooks — use signatures ([[HMAC (Hash based Message Authentication Codes)]]), not CSRF tokens.
+- **Con:** Public read-only GETs — no session mutation → nothing to forge.
 
-> [!WARNING]
-> **Bearer JWT in `Authorization` header** — generally CSRF-resistant (evil page can’t set that header on your API from a simple form). Cookie sessions need CSRF defenses.
+## Comparison
 
-> [!WARNING]
-> **`SameSite=Lax` still allows top-level GET** — don’t put state changes on GET links.
+- vs [[cross-site scripting]]: CSRF needs the victim's browser + cookies; XSS runs code as the site.
+- vs [[CORS (Cross Origin Request Sharing)]]: CORS does not prevent cookie-based CSRF on simple requests.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Pure Bearer-token APIs (no cookies)** — CSRF tokens usually unnecessary; still guard XSS.
-- **Server-to-server webhooks** — use signatures ([[HMAC (Hash based Message Authentication Codes)]]), not CSRF tokens.
-- **Public read-only GETs** — no session mutation → nothing to forge.
-
----
-
-
-## Related
-
-[[SOP (Same-Origin Policy)]] [[CORS (Cross Origin Request Sharing)]] [[JWT]] [[content security policy]] [[Authentication terms]]
-
-## Sources
-
-- [Wikipedia — XSRF](https://en.wikipedia.org/wiki/XSRF)
+- CORS does not stop CSRF — CSRF is about the browser *sending* cookies; CORS controls *reading* responses.
+- Bearer JWT in `Authorization` header — generally CSRF-resistant (evil page can’t set that header on your API from a simple form). Cookie sessions need CSRF defenses.
+- `SameSite=Lax` still allows top-level GET — don’t put state changes on GET links.

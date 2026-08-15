@@ -1,12 +1,27 @@
-[[commands]] [[crontab]] [[Linux process commands]]
+[[commands]] [[crontab]] [[Linux process commands]] [[supervisorctl]] [[renice]]
 
 # tsp cli
 
-> `tsp` (Task Spooler) queues shell jobs on a single machine — simple FIFO/batch without full job schedulers.
+> Task Spooler (`tsp`) queues shell jobs on one machine — simple FIFO/batch without a full scheduler.
 
----
+## Interview Relevance
 
-## How it works
+Shows you can pick a local batch queue for ad-hoc heavy jobs without pretending it is Slurm or Kubernetes.
+
+## Sources
+
+- [Task Spooler home](https://viric.name/soft/ts/) — overview
+- [Debian package — task-spooler](https://packages.debian.org/task-spooler) — overview
+
+## Key Concepts
+
+- **Local IPC queue:** one host only — not multi-node fair share.
+- **Workers (`TSP_NWORKERS`):** caps parallel jobs.
+- **Job id:** `tsp -i` last id; `tsp -c ID` cats output.
+- **Dependency (`-D id`):** chain jobs without shell wait hacks.
+- **vs cron:** tsp is interactive/ad-hoc batch; [[crontab]] is calendar.
+
+## Technical Details
 
 ```txt
 tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
@@ -14,36 +29,14 @@ tsp cmd… ──► queue ──► worker slots (TSP_NWORKERS)
                  └─ tsp -c / tsp -o  (cat output)
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **tsp** | Local job queue | “Poor man’s batch on one box.” |
-| **slot / workers** | Parallelism cap | “`TSP_NWORKERS=2` limits concurrency.” |
-| **job id** | Queue handle | “`tsp -i` last id; `tsp -c ID`.” |
-| **dependency** | `-D id` wait | “Chain jobs without shell & wait hacks.” |
-| **vs cron** | Ad-hoc vs schedule | “tsp is interactive batch; cron is calendar.” |
-
----
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
-
 ```bash
 tsp long_job.sh
 tsp -l
-tsp -c          # cat last job output
-tsp -i          # last job id
-tsp -k          # kill last
+tsp -c
+tsp -i
+tsp -k
 TSP_NWORKERS=2 tsp heavy.sh
-tsp -D 3 ./step2.sh   # after job 3
+tsp -D 3 ./step2.sh
 ```
 
 | Knob | Why it matters |
@@ -51,58 +44,28 @@ tsp -D 3 ./step2.sh   # after job 3
 | `TSP_NWORKERS` | Max parallel jobs |
 | `TS_SOCKET` | Separate queues per project |
 
----
-
-
-## Options and flags
-
-| Flag | Effect | When to use |
-|------|--------|-------------|
-| … | … | … |
-
-
-## Examples
-
-```bash
-# …
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Jobs stuck queued | Workers=1 + long job | Raise `TSP_NWORKERS` or kill blocker |
 | Output missing | Job still running | `tsp -l`; wait; `tsp -c ID` |
 | Wrong queue | Shared socket | Set `TS_SOCKET` per project |
-| Command not found | PATH in tsp env | Use absolute paths |
+| Command not found | PATH in tsp environment | Use absolute paths |
 
----
+## Real-World Applications
 
+Queue overnight encodes, dataset transforms, or one-box CI-ish batches when you do not want five `nohup` shells.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Not multi-host** — tsp is local IPC; don’t treat it as Slurm/K8s.
+- **Pro:** Tiny, interactive, dependency-aware on one machine.
+- **Con:** Queue dies on reboot; no multi-host scheduling.
 
-> [!WARNING]
-> **Machine reboot clears the queue** — not a durable scheduler.
+## Comparison
 
----
+- vs [[crontab]] / systemd timers: calendar vs ad-hoc queue.
+- vs Slurm/K8s Jobs: those are for clusters and fair share.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Cluster / multi-user fair share** — use Slurm, K8s Jobs, or systemd.
-- **Calendar schedules** — [[crontab]] / systemd timers.
-
----
-
-
-## Related
-
-[[crontab]] [[Linux process commands]] [[supervisorctl]] [[renice]]
-
-## Sources
-
-- [Wikipedia — tsp cli](https://en.wikipedia.org/wiki/tsp_cli)
+- Treating tsp as a durable or multi-host scheduler.
+- Relying on relative PATH inside queued jobs — use absolute paths.

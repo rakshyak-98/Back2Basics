@@ -2,28 +2,52 @@
 
 # React interview
 
-> React interview shapes how React applications compose UI, state, and side effects in production.
+> What strong React interviews probe — hooks rules, state placement, RSC boundaries, and debugging re-renders — with crisp trade-offs.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `React interview` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
+This note is the study map: expect hooks, state vs server cache, keys/lists, effects vs events, and performance storytelling.
 
 ## Sources
 
-- [React official documentation](https://react.dev)
+- [React Learn](https://react.dev/learn) — overview
+- [React Reference](https://react.dev/reference/react) — deep-dive
+
+## Core Definition
+
+React interviews reward precise mental models (render → commit → effects) and production judgment over trivia.
+
+## Key Concepts
+
+- **Hooks rules & deps**
+- **State ownership** (server vs client)
+- **Lists/keys & reconciliation**
+- **SSR/hydration & RSC**
+- **Perf with evidence**
+
+## Technical Details
+
+Practice prompts:
+
+1. Why can’t hooks be conditional?
+2. When is Context the wrong tool?
+3. How do you fix a hydration mismatch?
+4. Redux vs Query vs Zustand — pick for a notifications dropdown.
+
+## Real-World Applications
+
+Whiteboard a notifications bell: unread count from query cache, dropdown open in local state, mark-read mutation with optimistic update.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Structured prep covers 80% of FE rounds.
+- **Con:** Memorizing API lists without failure stories fails senior bars.
+
+## Comparison
+
+- Cross-link deep leaves: [[react hooks]], [[React State management]], [[RSC (React Server Component boundaries)]].
+
+## Mistakes to Avoid
+
+- Answering “useMemo everything.”
+- Claiming Redux is required for all apps.

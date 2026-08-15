@@ -1,12 +1,26 @@
-[[Docker]] [[Docker compose]] [[docker cli]] [[P2P (Peer-to-Peer)]]
+[[Docker compose]] [[docker cli]] [[docker container]] [[P2P (Peer-to-Peer)]]
 
 # Swarm network
 
-> Docker Swarm overlay network — multi-host virtual network so Swarm services reach each other by name across nodes (not BitTorrent “swarm”).
+> Docker Swarm overlay networking — a multi-host virtual network so Swarm services reach each other by name across nodes (not BitTorrent or Ethereum “swarm”).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use Swarm networking to check overlay versus bridge, routing mesh surprises, and whether you know when Swarm is enough versus Kubernetes.
+
+## Sources
+
+- [Docker — Swarm networking](https://docs.docker.com/engine/swarm/networking/) — deep-dive
+- [Docker — Overlay network driver](https://docs.docker.com/network/drivers/overlay/) — overview
+
+## Key Concepts
+
+- **Overlay scope:** VXLAN-backed fabric so tasks on different nodes share DNS and service VIPs.
+- **Bridge vs overlay:** `bridge` is single-host; `overlay` is multi-host Swarm; `host` / `ingress` handle published ports and routing mesh.
+- **Routing mesh:** published ports can hit any node and forward to the service VIP — traffic may enter a node with no local task.
+- **Name clash:** Ethereum Swarm / BitTorrent “swarm” are unrelated P2P storage domains.
+
+## Technical Details
 
 ```txt
 Node A (web task) ══overlay══ Node B (db task)
@@ -18,13 +32,6 @@ Node A (web task) ══overlay══ Node B (db task)
 | `bridge` | Single host |
 | `overlay` | Multi-host Swarm |
 | `host` / `ingress` | Special routing mesh / published ports |
-
-(Name clash: Ethereum Swarm / BitTorrent “swarm” are unrelated P2P storage — different domain.)
-
----
-
-
-## Configuration and commands
 
 ```bash
 docker swarm init
@@ -42,11 +49,6 @@ docker service inspect web --pretty
 | Routing mesh | Published ports hit any node → VIP |
 | Encryption `--opt encrypted` | Wire protection between nodes |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Service DNS not found | Same network? | Attach both services to overlay |
@@ -55,36 +57,27 @@ docker service inspect web --pretty
 | Ingress port dead | Mesh / VIP | `docker service ps`; republish port |
 | “This node is not a swarm manager” | Worker context | Route manage commands to manager |
 
----
+## Real-World Applications
 
+Small Docker-native clusters that need service discovery across a few VMs without running full Kubernetes.
 
-## Gotchas
+**Example:** `web` and `api` services join `appnet`; clients hit any node on port 80 and the ingress mesh routes to a `web` task.
 
-> [!WARNING]
-> **Swarm ≠ Kubernetes** — lighter, fewer features; many shops moved to K8s.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Overlay needs open datapath** — cloud SGs often forget VXLAN ports.
+- **Pro:** Lightweight multi-host networking with built-in DNS and mesh — less moving parts than a full CNI stack.
+- **Con:** Swarm is feature-light versus Kubernetes; many shops have migrated.
+- **Con:** Overlay datapath needs open VXLAN / ESP ports — cloud security groups often omit them.
 
-> [!WARNING]
-> **Routing mesh surprises** — traffic may enter a node with no local task.
+## Comparison
 
----
+- vs single-host [[Docker compose]]: bridge + Compose is enough on one Engine.
+- vs Kubernetes CNI ([[Cilium]], Calico): K8s wins for large multi-tenant production and NetworkPolicy depth.
+- vs [[P2P (Peer-to-Peer)]] swarms: different domain — do not confuse names.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Single-host compose** — bridge + [[Docker compose]] is enough.
-- **Large multi-tenant production** — Kubernetes/ECS usually win.
-- **Non-Docker P2P storage** — don’t confuse with BitTorrent/Ethereum Swarm.
-
----
-
-
-## Related
-
-[[Docker compose]] [[docker cli]] [[docker container]] [[P2P (Peer-to-Peer)]]
-
-## Sources
-
-- [Wikipedia — Swarm network](https://en.wikipedia.org/wiki/Swarm_network)
+- Assuming Swarm equals Kubernetes capability for HA, PDBs, and policy.
+- Forgetting overlay firewall rules between nodes.
+- Surprising operators with routing mesh — traffic enters nodes that hold no task.
+- Managing Swarm from a worker instead of a manager.

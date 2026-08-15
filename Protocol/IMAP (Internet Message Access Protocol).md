@@ -1,14 +1,27 @@
-[[SMTP]] · [[E mail server]] · [[mail server]] · [[TCP]] · [[TLS (Transport Layer Security)]]
+[[SMTP]] [[E mail server]] [[mail server]] [[TCP]] [[TLS (Transport Layer Security)]]
 
 # IMAP (Internet Message Access Protocol)
 
-> IMAP lets mail clients synchronize folders and flags with a server-side mailbox over TCP — unlike POP3, messages stay on the server and multiple devices see the same state.
+> IMAP lets mail clients synchronize folders and flags with a server-side mailbox over TCP — messages stay on the server so multiple devices share the same state (unlike typical POP3).
 
----
+## Interview Relevance
 
-## Model
+Interviewers contrast IMAP with POP3 and SMTP: who stores mail, which port is preferred, and what `\Seen` / IDLE mean for multi-device sync.
 
-[IMAP4rev1 (RFC 3501)](https://datatracker.ietf.org/doc/html/rfc3501) maintains **mailbox hierarchy** (folders), **UIDs**, **flags** (`\Seen`, `\Answered`), and **partial fetch** of MIME parts.
+## Sources
+
+- [RFC 3501 — IMAP4rev1](https://datatracker.ietf.org/doc/html/rfc3501) — deep-dive
+- [RFC 2177 — IMAP IDLE](https://datatracker.ietf.org/doc/html/rfc2177) — overview
+- [RFC 8314 — Use of TLS for Email](https://datatracker.ietf.org/doc/html/rfc8314) — overview
+
+## Key Concepts
+
+- **Server-side mailbox:** folders, UIDs, flags (`\Seen`, `\Answered`), partial MIME fetch.
+- **Multi-device sync:** flag and folder changes propagate to every client.
+- **IDLE:** server push of new mail; mobile often polls instead for battery.
+- **Pair with SMTP:** 587 sends; 993 reads — often same credentials via SASL or OAuth2.
+
+## Technical Details
 
 ```
 Client                    Server
@@ -19,14 +32,10 @@ Client                    Server
   IDLE                    (push new mail notification)
 ```
 
-## Ports
-
 | Port | Mode |
 |------|------|
 | **143** | Cleartext + optional STARTTLS |
 | **993** | Implicit TLS (IMAPS) — prefer this |
-
-## vs POP3
 
 | IMAP | POP3 |
 |------|------|
@@ -34,30 +43,31 @@ Client                    Server
 | Multi-device sync | Single-device oriented |
 | Higher server storage | Offloads to client |
 
-## IDLE extension
-
-`IDLE` ([RFC 2177](https://datatracker.ietf.org/doc/html/rfc2177)) holds connection open for server push — mobile clients often use periodic polling instead to save battery.
-
-## Common with [[SMTP]]
-
-- **SMTP** (587) sends mail
-- **IMAP** (993) reads mail
-- Same credentials via Dovecot SASL or OAuth2 (modern providers)
-
-## Debugging
-
 ```bash
 openssl s_client -connect imap.example.com:993
 # a001 LOGIN user pass
 # a002 LIST "" "*"
 ```
 
-## Recall
+## Real-World Applications
 
-- Why does IMAP suit mobile plus desktop better than POP3?
-- What does the `\Seen` flag change for other clients?
+Desktop + phone mail clients against Dovecot, Exchange, or Workspace IMAP endpoints.
 
-## Sources
+**Example:** Marking a message read on the phone sets `\Seen`; the desktop client refreshes and shows it read without re-downloading the body.
 
-- [RFC 3501 — IMAP4rev1](https://datatracker.ietf.org/doc/html/rfc3501)
-- [RFC 8314 — Use of TLS for Email](https://datatracker.ietf.org/doc/html/rfc8314)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Correct model for multi-device users and shared server search.
+- **Con:** Higher server storage and I/O than POP3.
+- **Con:** Long IDLE connections and mobile battery trade-offs.
+
+## Comparison
+
+- vs POP3: IMAP keeps state on the server; POP3 is download-oriented.
+- vs [[SMTP]]: SMTP moves mail between MTAs; IMAP accesses the stored mailbox.
+
+## Mistakes to Avoid
+
+- Preferring port 143 without STARTTLS in production.
+- Expecting POP3-style “delete after download” semantics from IMAP.
+- Forgetting that `\Seen` is shared state — “unread counts” surprise users across devices.

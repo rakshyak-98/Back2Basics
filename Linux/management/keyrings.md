@@ -1,12 +1,26 @@
-[[management]] [[source list file]] [[gpg]] [[apt package manager]]
+[[source list file]] [[gpg]] [[apt package manager]] [[Linux Key management]] [[FileManagement/source list file]]
 
 # keyrings
 
-> APT keyrings hold the OpenPGP keys that verify repository metadata — modern path is files under `/usr/share/keyrings` + `signed-by=`.
+> APT keyrings hold the OpenPGP keys that verify repository metadata — modern path is `/usr/share/keyrings` + `signed-by=`.
 
----
+## Interview Relevance
 
-## How it works
+Expect deprecation of `apt-key`, per-repo `signed-by`, and how to fix `NO_PUBKEY` / `EXPKEYSIG`.
+
+## Sources
+
+- [Debian wiki — SecureApt](https://wiki.debian.org/SecureApt) — deep-dive
+- [Ubuntu — Third-party repositories](https://help.ubuntu.com/community/ThirdPartyRepositories) — overview
+
+## Key Concepts
+
+- **Scoped trust:** `signed-by=` limits a key to one repo.
+- **dearmor:** ASCII armored key → binary `.gpg` for APT.
+- **One keyring per vendor:** blast-radius control.
+- **Permissions:** root-owned `644` so users cannot swap trust anchors.
+
+## Technical Details
 
 ```txt
 vendor.asc ──gpg --dearmor──► /usr/share/keyrings/vendor.gpg
@@ -14,40 +28,14 @@ vendor.asc ──gpg --dearmor──► /usr/share/keyrings/vendor.gpg
 sources.list.d → deb [signed-by=…] …
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **keyring file** | Binary keyring | “Not `apt-key add` anymore.” |
-| **signed-by** | Per-repo trust | “Limits key blast radius.” |
-| **dearmor** | ASCII → binary | “APT wants `.gpg` binary.” |
-| **NO_PUBKEY** | Missing key | “Install/fix keyring path.” |
-| **expired key** | Vendor rotated | “Fetch new key; keep old briefly.” |
-
----
-
-
-## Configuration and commands
-
 ```bash
 curl -fsSL https://example.com/key.asc | \
   sudo gpg --dearmor -o /usr/share/keyrings/example.gpg
 echo 'deb [signed-by=/usr/share/keyrings/example.gpg] https://example.com/apt stable main' \
   | sudo tee /etc/apt/sources.list.d/example.list
 sudo apt-get update
-# inspect
 gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 ```
-
-| Knob | Why it matters |
-|------|----------------|
-| Mode `644` root-owned | Prevent user swap of trust anchors |
-| One keyring per vendor | Blast-radius control |
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,32 +44,22 @@ gpg --no-default-keyring --keyring /usr/share/keyrings/example.gpg --list-keys
 | apt-key warnings | Legacy | Migrate to signed-by |
 | Wrong key trusted globally | apt-key ring | Remove global trust; scoped signed-by |
 
----
+## Real-World Applications
 
+Add a vendor APT repo for a database or Kubernetes package with a dedicated keyring file instead of the old trusted.gpg grab-bag.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`apt-key` is deprecated** — keys in the trusted.gpg grab-bag over-trust.
+- **Pro:** Per-repo trust reduces cross-repo forgery blast radius.
+- **Con:** More files to manage; fingerprint verification still required out-of-band.
 
-> [!WARNING]
-> **HTTP without TLS for keys** — verify fingerprints out-of-band.
+## Comparison
 
----
+- vs [[Linux Key management]]: APT trust anchors vs broader secret/key tooling.
+- vs language package trust (npm/pip): separate from APT keyrings.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Internal debs only** — use a signed internal mirror, still with keyrings.
-- **Language packages** — npm/pip trust is separate from APT keyrings.
-
----
-
-
-## Related
-
-[[source list file]] [[apt configuration]] [[gpg]] [[Linux Key management]]
-
-## Sources
-
-- [Wikipedia — keyrings](https://en.wikipedia.org/wiki/keyrings)
+- Using deprecated `apt-key add`.
+- Fetching keys over plain HTTP without fingerprint checks.
+- World-writable keyring paths.

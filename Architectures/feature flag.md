@@ -1,12 +1,19 @@
-[[Architectures]] [[System Architecture]]
+[[Architectures]] [[System Architecture]] [[frontend layered architecture]] [[Idempotent-key]]
 
 # feature flag
 
 > Feature flags turn code paths on/off remotely — ship dark, open to cohorts, kill fast.
 
----
+## Interview Relevance
 
-## How it works
+Feature flags show release-control maturity — dark launch, kill switches, and avoiding flag debt / inconsistent state.
+
+## Sources
+
+- [Martin Fowler — Feature Toggles](https://martinfowler.com/articles/feature-toggles.html) — deep-dive
+- [LaunchDarkly — Feature flag best practices](https://docs.launchdarkly.com/guides/flags) — overview
+
+## Key Concepts
 
 ```txt
 Dashboard → Flag service → SDKs (poll/SSE)
@@ -23,10 +30,7 @@ Dashboard → Flag service → SDKs (poll/SSE)
 | **Kill switch** | Instant off | “Disable without rollback.” |
 | **Stale cache** | SDK holds old value | “Short TTL; listen for updates.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 if (featureFlags.isEnabled('new-checkout', { userId })) {
@@ -42,10 +46,7 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 | Server + client checks | Don’t trust UI-only gates for authz |
 | Cleanup tickets | Flags rot into permanent branches |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -54,30 +55,12 @@ if (featureFlags.isEnabled('new-checkout', { userId })) {
 | Partial cohort weirdness | Sticky bucketing | Consistent hash on user id |
 | “Temporary” flag forever | Code archaeology | Remove flag + dead path |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** configuration that rarely changes — environment variables / configuration files may be enough.
+- **Trade-off:** Permanent product differences — that’s packaging/plans, not a forever flag.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Flags are not security** — hide UI, still enforce authz server-side.
-
-> [!WARNING]
-> **Combinatorial explosion** — too many overlapping flags = untestable matrix.
-
----
-
-
-## When not to use
-
-- **configuration that rarely changes** — environment variables / configuration files may be enough.
-- **Permanent product differences** — that’s packaging/plans, not a forever flag.
-
-
-## Related
-
-[[System Architecture]] [[frontend layered architecture]] [[Idempotent-key]]
-
-## Sources
-
-- [Wikipedia — feature flag](https://en.wikipedia.org/wiki/feature_flag)
+- Flags are not security — hide UI, still enforce authz server-side.
+- Combinatorial explosion — too many overlapping flags = untestable matrix.

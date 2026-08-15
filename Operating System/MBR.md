@@ -2,9 +2,25 @@
 
 # MBR
 
-> The Master Boot Record is the first 512-byte sector of a legacy BIOS-boot disk — partition table plus a tiny boot code stub that chain-loads the real bootloader.
+> The Master Boot Record is the first 512-byte sector of a legacy BIOS-boot disk — partition table plus a tiny boot stub that chain-loads the real bootloader.
 
-**MBR** layout (classic):
+## Interview Relevance
+
+Storage/boot questions: MBR layout, four primary partitions, 2 TiB limit motivation for GPT, and how UEFI replaced BIOS+MBR.
+
+## Sources
+
+- [Wikipedia — Master boot record](https://en.wikipedia.org/wiki/Master_boot_record) — overview
+- GRUB documentation — BIOS boot installation — deep-dive
+
+## Key Concepts
+
+- **LBA 0 structure:** boot code + four partition entries + `0xAA55` signature.
+- **Active partition:** BIOS hands off to the marked volume boot record.
+- **Extended partitions:** enable [[logical partitions]] beyond four slots.
+- **Legacy path:** [[Boot/UEFI]] + GPT superseded MBR for new large disks.
+
+## Technical Details
 
 ```txt
 Byte 0–445:   boot code (446 bytes max)
@@ -12,15 +28,25 @@ Byte 446–510: 4 × 16-byte partition entries
 Byte 510–511: 0xAA55 signature
 ```
 
-One partition may be marked **active** for BIOS handoff. Extended partitions enable [[logical partitions]] beyond four slots.
+Boot repair on MBR disks: reinstall stage1/stage2 to the boot sector or embed GRUB in the gap after MBR. CSM legacy mode and old images still use MBR.
 
-## Modern status
+## Real-World Applications
 
-[[Boot/UEFI]] + GPT replaced MBR for new systems (>2 TiB disks, Secure Boot). MBR remains in CSM legacy mode and old images.
+Cloud images and VMs may still ship MBR for BIOS compatibility. Dual-boot repair tools rewrite the MBR boot code without touching partition entries carefully.
 
-Boot repair on MBR disks: reinstall stage1/stage2 to the boot sector or embed GRUB in the gap after MBR.
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Universal on old BIOS firmware; simple layout.
+- **Con:** Four primary slots; ~2 TiB addressing limits; tiny boot code field.
+- **Trade-off:** hybrid MBR on GPT for mixed BIOS/UEFI — complexity and footguns.
 
-- Wikipedia: [Master boot record](https://en.wikipedia.org/wiki/Master_boot_record)
-- GRUB documentation — BIOS boot installation
+## Comparison
+
+- Alias note: [[MBR(Master Boot Record)]].
+- vs [[Boot/UEFI]]: UEFI uses ESP + GPT; MBR is the BIOS-era first sector.
+
+## Mistakes to Avoid
+
+- Overwriting the MBR when you meant to rewrite only GRUB’s embedded area — can wipe the partition table.
+- Assuming MBR is required on modern UEFI-only systems.
+- Ignoring protective MBR on GPT disks (first sector still looks “MBR-like”).

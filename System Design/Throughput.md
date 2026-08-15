@@ -4,9 +4,27 @@
 
 > Throughput is the rate of successful work completed per unit time — requests per second, transactions per second, megabits per second — while error rate and latency remain within service level objectives.
 
----
+## Interview Relevance
 
-## Find the bottleneck layer
+Distinguish throughput vs latency; Little’s law intuition; find the bottleneck stage.
+
+## Sources
+
+- Neil Gunther, *Analyzing Computer System Performance with Perl::PDQ* — Little's Law application — overview
+- Google SRE Book — capacity planning and load testing — deep-dive
+- Brendan Gregg, *Systems Performance* — utilization and saturation analysis — overview
+
+## Key Concepts
+
+- **Rate of successful work:** ops/sec, bits/sec, jobs/sec — define the unit.
+- **Not latency:** high throughput can coexist with bad p99.
+- **Bottleneck stage:** pipeline rate equals the slowest stage.
+- **Little’s law intuition:** concurrency ≈ throughput × latency.
+
+
+## Technical Details
+
+### Find the bottleneck layer
 
 ```txt
 Network / load balancer → application workers → database / disk / GPU
@@ -44,7 +62,25 @@ Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces �
 | Async offload | Return `202 Accepted`; workers absorb ([[event-driven]]) |
 | [[backpressure]] | Prevents overload collapse |
 
-## Failure signatures
+## Real-World Applications
+
+Capacity planning, load tests, and SLO conversations about RPS vs latency.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Clear capacity language for sizing.
+- **Con:** Vanity throughput without success criteria (errors count).
+- **Trade-off:** batching for throughput vs interactive latency.
+
+
+## Comparison
+
+- vs latency SLOs: complementary metrics.
+- vs [[Scaling Throughput in High-load system]]: how to raise the number.
+
+
+## Mistakes to Avoid
 
 | Symptom | Likely cause |
 |---------|--------------|
@@ -54,9 +90,3 @@ Pair load tests with `ss -s`, `pidstat`, database slow query logs, and traces �
 | Errors climb with load | Downstream timeout — circuit break |
 
 *What breaks first when load doubles?* Usually the first shared resource without headroom — often the database connection pool.
-
-## Sources
-
-- Neil Gunther, *Analyzing Computer System Performance with Perl::PDQ* — Little's Law application.
-- Google SRE Book — capacity planning and load testing.
-- Brendan Gregg, *Systems Performance* — utilization and saturation analysis.

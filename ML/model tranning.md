@@ -1,12 +1,19 @@
-[[ML]] [[scikitlearn]] [[data preprocessing]]
+[[ML]] [[scikitlearn]] [[data preprocessing]] [[supervised learning]]
 
 # model tranning
 
 > Training fits model parameters on labeled data — split, fit, validate, then lock the test set.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about model tranning to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 raw → preprocess (fit on train only) → train → validate → test once
@@ -21,10 +28,7 @@ raw → preprocess (fit on train only) → train → validate → test once
 | **Cross-validation** | Rotate folds | “Small data honesty.” |
 | **Early stopping** | Halt on val plateau | “Stop before overfit.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -40,10 +44,18 @@ print(model.score(X_test, y_test))
 | Random seed | Reproducible splits |
 | Pipeline | Prevent leakage |
 
----
+## Pros/Cons or Trade-offs
 
+- **No labels** — unsupervised / pretrained embeddings first.
+- **One-shot demo** — still keep a holdout if you’ll claim accuracy.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Scaling fit on all data** — classic leakage; fit scaler on train only.
+
+> [!WARNING]
+> **Peeking at test repeatedly** — test becomes validation in disguise.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -52,30 +64,3 @@ print(model.score(X_test, y_test))
 | Overfit | train≫val | Regularize; more data |
 | Unstable scores | tiny test | Cross-val; bigger holdout |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Scaling fit on all data** — classic leakage; fit scaler on train only.
-
-> [!WARNING]
-> **Peeking at test repeatedly** — test becomes validation in disguise.
-
----
-
-
-## When not to use
-
-- **No labels** — unsupervised / pretrained embeddings first.
-- **One-shot demo** — still keep a holdout if you’ll claim accuracy.
-
-
-## Related
-
-[[scikitlearn]] [[data preprocessing]] [[supervised learning]]
-
-## Sources
-
-- [Wikipedia — model tranning](https://en.wikipedia.org/wiki/model_tranning)

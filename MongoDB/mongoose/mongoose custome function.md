@@ -1,12 +1,19 @@
-[[mongoose/mongoose]] [[mongoose/mongoose methods]] [[mongoose middleware]]
+[[mongoose/mongoose]] [[mongoose/mongoose methods]] [[mongoose middleware]] [[mongoose/mongoose schema]]
 
 # mongoose custome function
 
 > Custom validators, getters/setters, and schema helpers — teach Mongoose your domain checks.
 
----
+## Interview Relevance
 
-## How it works
+Custom functions on schemas check reuse versus keeping domain logic testable outside the ODM.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 set(value) → validate(fn) → save
@@ -21,10 +28,7 @@ set(value) → validate(fn) → save
 | **Custom SchemaType** | Reuse a type | “Shared Money type.” |
 | **pre hook** | Middleware | “See mongoose middleware.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 email: {
@@ -43,10 +47,18 @@ email: {
 | `message` | Clear API errors |
 | runValidators on update | Off by default for updates |
 
----
+## Pros/Cons or Trade-offs
 
+- **Cross-document rules** — transactions/services.
+- **One-time data cleanup** — migration scripts.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Updates ≠ save path** — many validators/setters don’t run unless configured.
+
+> [!WARNING]
+> **Heavy async validators** — external HTTP in validate = flaky saves.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,30 +67,3 @@ email: {
 | Setter not applied | update operators | setters need `update` pipelines / save path |
 | Vague ValidationError | no message | Add message strings |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Updates ≠ save path** — many validators/setters don’t run unless configured.
-
-> [!WARNING]
-> **Heavy async validators** — external HTTP in validate = flaky saves.
-
----
-
-
-## When not to use
-
-- **Cross-document rules** — transactions/services.
-- **One-time data cleanup** — migration scripts.
-
-
-## Related
-
-[[mongoose/mongoose methods]] [[mongoose middleware]] [[mongoose/mongoose schema]]
-
-## Sources
-
-- [Wikipedia — mongoose custome function](https://en.wikipedia.org/wiki/mongoose_custome_function)

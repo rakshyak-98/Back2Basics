@@ -1,36 +1,55 @@
-[[WAL (Write-Ahead Log)]] [[ACID]] [[ARIES]] [[mysql engine]] [[SQL/postgres]]
+[[WAL (Write-Ahead Log)]] [[ACID]] [[ARIES]] [[mysql engine]] [[SQL/postgres]] [[MySQL storage]]
 
 # write-ahead logging
 
-> The protocol that appends change records to a log and fsyncs them before acknowledging commit—foundation of crash-safe [[ACID]] durability in PostgreSQL, InnoDB, and most relational engines.
+> Protocol: append change records to a log and harden them before acknowledging commit — the foundation of crash-safe [[ACID]] durability in PostgreSQL, InnoDB, and most relational engines.
 
-## Mechanism
+## Interview Relevance
+Explain why dirty pages can flush later than commit, what a checkpoint LSN does, and how durability knobs trade fsync frequency for speed.
 
-1. Transaction modifies pages in the **buffer pool** (memory).
-2. Engine appends **redo records** describing the change to the [[WAL (Write-Ahead Log)]].
-3. On `COMMIT`, log records reach durable media (policy-dependent).
-4. Dirty data pages are written asynchronously; order does not matter because redo can reconstruct them.
+## Sources
+- [PostgreSQL WAL](https://www.postgresql.org/docs/current/wal.html) — deep-dive
+- [InnoDB Recovery](https://dev.mysql.com/doc/refman/en/innodb-recovery.html) — deep-dive
+- [Write-ahead logging (Wikipedia)](https://en.wikipedia.org/wiki/Write-ahead_logging) — overview
+- [[ARIES]] — deep-dive
 
-## Checkpointing
+## Core Definition
+WAL separates “make commit durable” from “write data pages.” Recovery replays redo from the last checkpoint so committed work survives crashes.
 
-Periodically the engine writes dirty pages and records a **checkpoint LSN**. Log segments before the checkpoint can be recycled. Long checkpoints or tiny logs increase write amplification.
+## Key Concepts
+- **Redo records:** Describe page changes; appended sequentially.
+- **Commit rule:** Log durable (per policy) before commit ack.
+- **Checkpoint LSN:** Bound for recycling old log; dirty pages flushed to advance it.
+- **Async data writes:** Page flush order can lag because redo reconstructs state.
 
-## Read path interaction
-
-Readers use buffer pool pages; they do not wait for WAL replay unless recovery is in progress. [[MVCC]] provides consistent snapshots independent of page flush timing.
-
-## Operational checks
+## Technical Details
+1. Transaction modifies pages in the **buffer pool**.
+2. Engine appends **redo** to the [[WAL (Write-Ahead Log)]].
+3. On `COMMIT`, log reaches durable media (policy-dependent).
+4. Dirty pages flush asynchronously later.
 
 ```sql
--- PostgreSQL: current WAL insert position
+-- PostgreSQL
 SELECT pg_current_wal_lsn();
 
--- MySQL: InnoDB status includes log sequence number
+-- MySQL InnoDB
 SHOW ENGINE INNODB STATUS\G
 ```
 
-## Sources
+Long checkpoints or tiny log capacity increase write amplification and stall risk.
 
-- PostgreSQL Documentation — [Reliability and the Write-Ahead Log](https://www.postgresql.org/docs/current/wal.html)
-- MySQL Reference Manual — [InnoDB Recovery](https://dev.mysql.com/doc/refman/en/innodb-recovery.html)
-- Wikipedia — [Write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging)
+## Real-World Applications
+Tuning `synchronous_commit` / `innodb_flush_log_at_trx_commit` for money paths versus bulk-load windows; sizing WAL/redo for peak write bursts.
+
+## Pros/Cons or Trade-offs
+- **Pro:** Crash safety with sequential log I/O instead of only random page writes.
+- **Con:** Log I/O and fsync latency on the commit path; operational need to manage log volume.
+- **Trade-off:** Full sync commit vs batched durability (possible loss on OS crash).
+
+## Comparison
+vs [[WAL (Write-Ahead Log)]]: that note is the log artifact/LSN view; this note is the protocol and operational checks. vs shadow paging: different durability strategies.
+
+## Mistakes to Avoid
+- Believing committed data is on the heap pages at commit time.
+- Disabling sync on financial ledgers for benchmark glory.
+- Starving checkpoints until the log fills and writers stall.

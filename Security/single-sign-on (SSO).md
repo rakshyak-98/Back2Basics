@@ -1,12 +1,23 @@
-[[JWT authentication]] [[TLS (Transport Layer Security)]] [[IDOR]]
+[[JWT authentication]] [[TLS (Transport Layer Security)]] [[IDOR]] [[CORS (Cross Origin Request Sharing)]]
 
 # Single-sign-on (SSO)
 
-> Single-sign-on (SSO) — user ──► App (SP) ──redirect──► IdP login
+> One IdP login unlocks many apps — the Service Provider redirects to the Identity Provider, then back with an assertion or code.
 
----
+## Interview Relevance
 
-## How it works
+Identity interviews: IdP vs SP, OIDC/SAML flows, redirect_uri exactness, and when SSO is overkill.
+
+## Sources
+
+- [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html) — deep-dive
+- [Wikipedia — Single sign-on](https://en.wikipedia.org/wiki/Single_sign-on) — overview
+
+## Core Definition
+
+SSO lets a user authenticate once at an Identity Provider and access multiple Service Providers without separate passwords per app.
+
+## Key Concepts
 
 SSO separates **authentication** (who you are) from **application sessions**. User authenticates once at the IdP (Okta, Azure AD, Google Workspace, Keycloak); the application receives a **signed token or assertion** and creates a local session.
 
@@ -27,8 +38,7 @@ App validates signature ──► session cookie / [[JWT authentication]]
 
 **OAuth 2.0 alone** is authorization ("can this application access my Google Drive?"). **OIDC** adds identity (`id_token` with `sub`, `email`). Enterprise SSO integrations are almost always **OIDC** (greenfield) or **SAML** (legacy SaaS).
 
-
-## Configuration and commands
+## Technical Details
 
 ### OIDC integration checklist (SE integrating SSO)
 
@@ -65,8 +75,7 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 # openssl verify signature with IdP cert from metadata
 ```
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -80,32 +89,27 @@ echo "$ID_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 | Works in dev, fails prod | Different client IDs; HTTP vs HTTPS | Separate IdP apps per env; never HTTP callbacks in prod |
 | Infinite redirect loop | Session not persisted; cookie domain | Fix cookie domain; check middleware order |
 
+## Real-World Applications
 
-## Gotchas
+Employees open many internal apps after one IdP login via OIDC or SAML.
 
-> [!WARNING]
-> **Never trust the id_token from the front channel without signature verification** against JWKS. Always validate server-side.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **SAML XML is easy to misconfigure** — one wrong ACS URL or cert = opaque 500s. Keep metadata under version control.
+- **Pro:** One strong login UX across many apps; central MFA and offboarding.
+- **Con:** Machine-to-machine APIs → client credentials grant or mTLS, not interactive SSO.
+- **Con:** Single small application with local users → SSO adds IdP dependency without ROI.
+- **Con:** Long-lived CLI tools → API keys or device code flow, not browser SSO redirect.
 
+## Comparison
+
+- vs local username/password per app: SSO centralizes AuthN at an IdP.
+- vs [[JWT authentication]]: SSO protocols (OIDC/SAML) often deliver JWTs or assertions afterward.
+
+## Mistakes to Avoid
+
+- Never trust the id_token from the front channel without signature verification — against JWKS. Always validate server-side.
+- SAML XML is easy to misconfigure — one wrong ACS URL or cert = opaque 500s. Keep metadata under version control.
 - **Just-in-time (JIT) provisioning** creates users on first login — plan default role; disable open signup.
 - **SLO / global logout** rarely works across all SPs — document "logout clears this application only".
 - **Multiple IdPs** (M&A) → account linking by email is fragile; prefer immutable `sub`.
 - **Mobile / SPA** must use **Authorization Code + PKCE**, not implicit flow (deprecated).
-
-
-## When not to use
-
-- Machine-to-machine APIs → client credentials grant or mTLS, not interactive SSO.
-- Single small application with local users → SSO adds IdP dependency without ROI.
-- Long-lived CLI tools → API keys or device code flow, not browser SSO redirect.
-
-
-## Related
-
-[[JWT authentication]] · [[TLS (Transport Layer Security)]] · [[CORS (Cross Origin Request Sharing)]] · [[IDOR]]
-
-## Sources
-
-- [Wikipedia — single-sign-on](https://en.wikipedia.org/wiki/single-sign-on)

@@ -4,9 +4,27 @@
 
 > High-load throughput optimization removes per-request overhead — batching, asynchronous job queues, connection multiplexing, and warm pools — when REST-per-call and connection churn saturate the control plane.
 
----
+## Interview Relevance
 
-## The API wall
+Remove per-request overhead: pooling, batching, caching, async — measure before scaling out.
+
+## Sources
+
+- Google gRPC performance guide — channel reuse, streaming — overview
+- Netflix/conversational engineering blogs — asynchronous job APIs for media pipelines — overview
+- Brendan Gregg, *Systems Performance* — identifying saturation — overview
+
+## Key Concepts
+
+- **Remove per-request overhead:** pools, reuse, batching, caching first.
+- **Find the bottleneck stage:** CPU, disk, lock, or downstream RTT.
+- **Async offload:** move non-critical work off the request path.
+- **Measure:** p99 and saturation before buying horizontal scale.
+
+
+## Technical Details
+
+### The API wall
 
 ```txt
 Poor:  300× PUT /channel/{i}   (serialization + Transport Layer Security handshake tax)
@@ -49,8 +67,27 @@ Public browser clients may still need REST or JSON gateway even when internal ea
 
 *What breaks first at ten times load?* Unbounded job queue without [[backpressure]] — memory exhaustion delayed, not prevented.
 
-## Sources
+## Real-World Applications
 
-- Google gRPC performance guide — channel reuse, streaming.
-- Netflix/conversational engineering blogs — asynchronous job APIs for media pipelines.
-- Brendan Gregg, *Systems Performance* — identifying saturation.
+High-QPS APIs, ad/telemetry ingest, and checkout spikes.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Multiplicative gains without new machines.
+- **Con:** Premature optimization of the wrong stage.
+- **Trade-off:** throughput vs latency when batching.
+
+
+## Comparison
+
+- vs [[Throughput]]: metric definition vs how to raise it under load.
+- vs [[Horizontal vs Vertical Scaling]]: optimize before/while scaling out.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

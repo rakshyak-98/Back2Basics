@@ -1,12 +1,27 @@
-[[E mail server]] · [[mail server]] · [[TCP]] · [[DNS]] · [[TLS (Transport Layer Security)]]
+[[E mail server]] [[mail server]] [[TCP]] [[DNS]] [[TLS (Transport Layer Security)]]
 
 # SMTP
 
-> Simple Mail Transfer Protocol moves email between Mail Transfer Agents using text commands over TCP — port 587 with STARTTLS is the standard client submission path; port 25 remains server-to-server relay.
+> Simple Mail Transfer Protocol moves email between Mail Transfer Agents with text commands over TCP — 587 + STARTTLS for client submission; 25 for server-to-server relay.
 
----
+## Interview Relevance
 
-## Session flow
+Interviewers probe envelope versus headers, submission versus relay ports, and how SPF/DKIM attach to the SMTP conversation.
+
+## Sources
+
+- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive
+- [RFC 5322 — Internet Message Format](https://datatracker.ietf.org/doc/html/rfc5322) — overview
+- [RFC 6409 — Message Submission](https://datatracker.ietf.org/doc/html/rfc6409) — overview
+
+## Key Concepts
+
+- **Text command session:** EHLO, MAIL FROM, RCPT TO, DATA, QUIT.
+- **Envelope vs headers:** envelope routes and bounces; `From:`/`To:` are what users see (and phishing can diverge).
+- **Ports:** 25 relay, 587 authenticated submission, 465 legacy implicit TLS.
+- **DNS:** MX for delivery; SPF checks envelope sender; DKIM signs headers.
+
+## Technical Details
 
 ```
 Client                          Server
@@ -24,10 +39,6 @@ Client                          Server
   QUIT
 ```
 
-Defined in [RFC 5321](https://datatracker.ietf.org/doc/html/rfc5321); message format in [RFC 5322](https://datatracker.ietf.org/doc/html/rfc5322).
-
-## Ports
-
 | Port | Use |
 |------|-----|
 | **25** | MTA-to-MTA delivery |
@@ -36,35 +47,32 @@ Defined in [RFC 5321](https://datatracker.ietf.org/doc/html/rfc5321); message fo
 
 Prefer **587 + STARTTLS** or **MTA-STS** policies for modern deployments.
 
-## Envelope vs header
-
-- **Envelope** — `MAIL FROM` / `RCPT TO` (routing, bounces)
-- **Headers** — `From:`, `To:` (what users see; can differ — phishing)
-
-Receivers validate **SPF** against envelope sender domain, **DKIM** on signed headers.
-
-## DNS dependencies
-
-- **MX** — where to deliver `@domain`
-- **SPF, DKIM, DMARC** — [[servers/DSN records]]
+Extensions: **SIZE**, **PIPELINING**, **SMTPUTF8** ([RFC 6531](https://datatracker.ietf.org/doc/html/rfc6531)).
 
 ```bash
 dig MX example.com +short
 openssl s_client -connect mx.example.com:25 -starttls smtp
 ```
 
-## Extensions
+## Real-World Applications
 
-- **SIZE** — max message bytes
-- **PIPELINING** — batch commands
-- **SMTPUTF8** — internationalized addresses ([RFC 6531](https://datatracker.ietf.org/doc/html/rfc6531))
+Application transactional mail, corporate outbound MTAs, and inbound MX acceptance at the edge of [[E mail server]] stacks.
 
-## Recall
+**Example:** A web app submits via authenticated 587 to Postfix; Postfix relays on 25 to the recipient MX after DKIM signing.
 
-- What is the difference between MAIL FROM and the From header?
-- When should clients use port 587 instead of 25?
+## Pros/Cons or Trade-offs
 
-## Sources
+- **Pro:** Universal interoperability — every domain speaks SMTP.
+- **Con:** Open relays and spoofable headers without SPF/DKIM/DMARC.
+- **Con:** Residential networks often block outbound 25 — clients must use submission.
 
-- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321)
-- [RFC 6409 — Message Submission](https://datatracker.ietf.org/doc/html/rfc6409)
+## Comparison
+
+- vs [[IMAP (Internet Message Access Protocol)]]: SMTP sends/relays; IMAP reads stored mail.
+- vs HTTP APIs (SendGrid/SES): still often SMTP under the hood or a proprietary REST façade over the same delivery problem.
+
+## Mistakes to Avoid
+
+- Using port 25 for end-user submission.
+- Trusting the `From:` header as proof of sender identity.
+- Skipping STARTTLS on submission “because the LAN is trusted.”

@@ -1,12 +1,18 @@
-[[Descriptive/vscode]] [[javascript]] [[NodeJS/node command]] [[compiler/library file]]
+[[Descriptive/vscode]] [[javascript]] [[NodeJS/node command]] [[compiler/library file]] [[Descriptive/JavaScript/execution context]]
 
 # Unbound breakpoint
 
 > Unbound breakpoint — a breakpoint is bound when the debugger links it to an exact script location (file URL + line → bytecode offset). Unbound means
 
----
+## Interview Relevance
 
-## How it works
+Unbound breakpoint questions diagnose source-map/path mismatches — a common IDE debugging trap.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 A breakpoint is **bound** when the debugger links it to an exact script location (file URL + line → bytecode offset). **Unbound** means the IDE shows the breakpoint (often hollow/grey) but the runtime has no matching source line loaded.
 
@@ -20,8 +26,7 @@ Runtime script (bundle.js)  ──► bound ✓
 
 Typical causes: typo path, webpack path prefix, breakpoint in dead code, lazy-loaded chunk not fetched yet.
 
-
-## Configuration and commands
+## Technical Details
 
 ### VS Code — verify launch config
 
@@ -58,8 +63,18 @@ module.exports = {
 };
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/loggging]]) instead.
+
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Optimizers (Terser)** drop unreachable code — breakpoint in removed branch stays unbound forever.
+
+- **Hot reload (Vite/HMR)** replaces modules — breakpoints may unbind until re-set.
+- **Inline source maps** huge but bind reliably; external maps need correct `//# sourceMappingURL`.
+- **Breakpoint in `node_modules`** — skipped unless `"skipFiles": false` and map exists.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -69,27 +84,3 @@ module.exports = {
 | Unbound in monorepo package | `link:` / workspace paths | `resolveSourceMapLocations` include package |
 | Conditional breakpoint unbound | Syntax in condition | Simplify `x > 1` test |
 | Docker path mismatch | `/app` vs local | `localRoot` / `remoteRoot` in launch.json |
-
-
-## Gotchas
-
-> [!WARNING]
-> **Optimizers (Terser)** drop unreachable code — breakpoint in removed branch stays unbound forever.
-
-- **Hot reload (Vite/HMR)** replaces modules — breakpoints may unbind until re-set.
-- **Inline source maps** huge but bind reliably; external maps need correct `//# sourceMappingURL`.
-- **Breakpoint in `node_modules`** — skipped unless `"skipFiles": false` and map exists.
-
-
-## When not to use
-
-- Don't fight unbound breakpoints in minified production without source maps — use logging/tracing ([[Linux/loggging]]) instead.
-
-
-## Related
-
-[[Descriptive/vscode]] [[javascript]] [[NodeJS/node command]] [[Descriptive/JavaScript/execution context]]
-
-## Sources
-
-- [Wikipedia — unbound breakpoint](https://en.wikipedia.org/wiki/unbound_breakpoint)

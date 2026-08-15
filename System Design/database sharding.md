@@ -1,84 +1,82 @@
-[[Distributed computing]] [[System design]] [[scaling data migration]] [[Horizontal vs Vertical Scaling]] [[connection pooling]]
+[[Distributed computing]] [[System design]] [[scaling data migration]] [[Horizontal vs Vertical Scaling]] [[connection pooling]] [[cache system]]
 
 # database sharding
 
 > Database sharding splits one logical database into independent physical databases keyed by a shard column — horizontal write scale at the cost of cross-shard queries and transactions.
 
----
+## Interview Relevance
 
-## When sharding is justified
+When to shard, how to pick a shard key, avoid cross-shard joins, and sketch a safe reshard (dual-write) plan.
+
+## Sources
+
+- Martin Kleppmann, *Designing Data-Intensive Applications*, ch. 6 Partitioning — deep-dive
+- Vitess documentation — MySQL sharding patterns — deep-dive
+- AWS DynamoDB best practices — partition key design — overview
+
+## Key Concepts
+
+- **Justify first:** size, write QPS, RAM, backup RTO — after vertical/replicas/pool/cache.
+- **Shard key:** high cardinality + query locality; avoid skew.
+- **Single-shard queries:** goal for hot paths.
+- **Resharding:** dual-write + backfill + checksum + cutover ([[scaling data migration]]).
+
+## Technical Details
 
 | Signal | Rule of thumb |
 |--------|---------------|
-| Database size | Single node exceeds operational comfort (often terabytes) |
-| Write queries per second | Primary saturated after vertical scale and tuning |
+| DB size | Beyond operational comfort (often TB) |
+| Write QPS | Primary saturated after scale-up/tuning |
 | Memory | Hot indexes no longer fit RAM |
-| Operations | Backup or restore exceeds recovery time objective |
-
-Exhaust **vertical scaling**, **read replicas**, **[[connection pooling]]**, and **[[cache system]]** before sharding — operational burden is high and **resharding** is a major [[scaling data migration]].
-
-## Shard key selection
+| Ops | Backup/restore exceeds RTO |
 
 ```txt
-Good: tenant_id, user_id — high cardinality, query locality
-Poor: country alone — skew (one hot shard)
-Poor: created_date — all writes hit "today" shard
+Good: tenant_id, user_id
+Poor: country alone (skew); created_date (all writes hit “today”)
 ```
-
-Goal: **even distribution** and **most queries single-shard**.
 
 ```python
 def shard_for_user(user_id: int) -> str:
     return f"shard_{user_id % NUM_SHARDS}"
-
-def get_user(user_id):
-    db = pools[shard_for_user(user_id)]
-    return db.query("SELECT * FROM users WHERE id = %s", user_id)
 ```
 
-## Avoid cross-shard work
-
-```txt
-Avoid: JOIN across shards in application hot path
-Prefer: denormalize tenant_id on child tables
-Prefer: global lookup table (user_id → shard_id), small and cached
-```
-
-Object-relational mappers can hide scatter-gather cost until production latency explodes.
-
-## Resharding sketch (double-write)
+Avoid cross-shard JOINs; denormalize tenant_id; keep global lookup (user→shard) small/cached. Prefer consistent hashing / logical shard IDs over raw modulo churn.
 
 ```txt
 1. Deploy new shard map
-2. Dual-write to old and new routing
-3. Backfill historical rows
-4. Verify checksums per shard
-5. Switch reads to new map
-6. Stop writes to old map
+2. Dual-write old+new
+3. Backfill
+4. Checksums
+5. Switch reads
+6. Stop old writes
 ```
 
-Plan **consistent hashing** or logical shard IDs so adding physical nodes does not require modulo churn on every row.
-
-## Monitoring per shard
-
-```txt
-Disk utilization, queries per second, replication lag, p99 query time
-Alert when one shard is 2× hotter than peers (skew)
-```
-
-## Common mistakes
+Monitor per-shard disk/QPS/lag/p99; alert on 2× skew.
 
 | Mistake | Consequence |
 |---------|-------------|
-| Shard on day one | Team operates N databases without need |
-| Auto-increment identifiers across shards | Collisions — use UUID or snowflake identifiers |
-| Global unique email lookup | Fan-out to all shards or separate index service |
-| Cross-shard two-phase commit without saga | Fragile distributed transactions |
+| Shard day one | N DBs without need |
+| Auto-increment across shards | Collisions — UUID/snowflake |
+| Global unique email | Fan-out or separate index service |
+| Naive 2PC | Fragile distributed tx |
 
-*What breaks first?* A query that forgets the shard key and hits every partition.
+## Real-World Applications
 
-## Sources
+Multi-tenant SaaS, Vitess/Citus rollouts, and DynamoDB partition design.
 
-- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), chapter 6 — Partitioning.
-- Vitess documentation — MySQL sharding router patterns.
-- AWS DynamoDB best practices — partition key design.
+## Pros/Cons or Trade-offs
+
+- **Pro:** Write scale beyond one primary.
+- **Con:** Cross-shard pain; reshard migrations; ops surface.
+- **Trade-off:** modulo simplicity vs consistent-hash flexibility.
+
+## Comparison
+
+- vs [[Horizontal vs Vertical Scaling]]: sharding is the write-scale horizontal lever.
+- vs read replicas: replicas help reads only.
+
+## Mistakes to Avoid
+
+- Queries that forget the shard key and scatter to all partitions.
+- Hot keys that pin one shard.
+- Treating ORM “transparency” as free cross-shard joins.

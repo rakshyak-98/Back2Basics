@@ -1,12 +1,18 @@
-[[Javascript]] [[JavaScript/lexical analysis]] [[JavaScript/Lexical Grammer]]
+[[Javascript]] [[JavaScript/lexical analysis]] [[JavaScript/Lexical Grammer]] [[JavaScript/Call stack]]
 
 # pre-parser
 
 > Engines skim source before full parse — find functions/boundaries early for faster startup and lazy compile.
 
----
+## Interview Relevance
 
-## How it works
+Pre-parser questions check lazy parsing optimizations in engines — not something most apps configure.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 ```txt
 scan → pre-parse (lazy) → full parse on first run → execute
@@ -21,10 +27,7 @@ scan → pre-parse (lazy) → full parse on first run → execute
 | **Syntax error** | Still caught | “Pre-parse must see structure.” |
 | **vs transpile** | Build-time | “Babel isn’t the engine pre-parser.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 // practical: keep top-level light; put heavy code in functions
@@ -37,21 +40,12 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 | Top-level work | Runs (and parses) eagerly |
 | Eval/new Function | Often forces eager paths |
 
----
+## Pros/Cons or Trade-offs
 
+- **Correctness reasoning** — assume full parse in CI.
+- **Micro-optimizing parse** — measure; bundling usually dominates.
 
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Slow startup | huge top-level | Code-split; defer |
-| Surprise syntax error late | lazy path | CI parse (`tsc`/lint) |
-| Eval cost | dynamic code | Avoid eval |
-
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **Engine heuristics change** — don’t depend on lazy parse for correctness.
@@ -59,19 +53,9 @@ export function rarelyUsed() { /* parsed when called (often) */ }
 > [!WARNING]
 > **Build tools ≠ VM pre-parse** — still ship less JS.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Slow startup | huge top-level | Code-split; defer |
+| Surprise syntax error late | lazy path | CI parse (`tsc`/lint) |
+| Eval cost | dynamic code | Avoid eval |
 
-
-## When not to use
-
-- **Correctness reasoning** — assume full parse in CI.
-- **Micro-optimizing parse** — measure; bundling usually dominates.
-
-
-## Related
-
-[[JavaScript/lexical analysis]] [[JavaScript/Call stack]]
-
-## Sources
-
-- [Wikipedia — pre-parser](https://en.wikipedia.org/wiki/pre-parser)

@@ -1,12 +1,19 @@
-[[Data structure]] [[Data structure]]
+[[Data structure]] [[Data structure]] [[array]] [[DSA algorithms]]
 
 # ADT (Abstract Data Type)
 
 > An ADT describes behavior (ops + rules) — not the concrete bytes in memory.
 
----
+## Interview Relevance
 
-## How it works
+ADTs show you can separate *what* operations mean from *how* they are stored — interviewers use this to frame complexity and API contracts.
+
+## Sources
+
+- [Wikipedia — Abstract data type](https://en.wikipedia.org/wiki/Abstract_data_type) — overview
+- [CLRS — Introduction to Algorithms (ADT framing)](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) — deep-dive
+
+## Key Concepts
 
 ```txt
 ADT (what)  →  data structure (how)
@@ -22,10 +29,7 @@ Stack.push/pop  →  array or linked list
 | **Encapsulation** | Hide representation | “Callers don’t see nodes.” |
 | **Complexity** | Cost of ops | “Pick impl for the hot op.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```text
 Stack ADT: push, pop, peek, isEmpty
@@ -39,10 +43,7 @@ Map ADT: get, set, delete, contains
 | Complexity table | Interview + prod choice |
 | Thread-safety | Not in classic ADT — add explicitly |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +52,12 @@ Map ADT: get, set, delete, contains
 | Invariant broken | peek empty | Define empty behavior |
 | “ADT too slow” | bad impl | Profile; change structure |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** One-off scripts — concrete arrays are fine.
+- **Trade-off:** When the representation *is* the product — e.g. teaching memory layouts.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Naming ADT as the impl** — “we used a Stack” doesn’t say array vs list costs.
-
-> [!WARNING]
-> **Mutating through leaked internals** — breaks invariants silently.
-
----
-
-
-## When not to use
-
-- **One-off scripts** — concrete arrays are fine.
-- **When the representation *is* the product** — e.g. teaching memory layouts.
-
-
-## Related
-
-[[Data structure]] [[array]] [[DSA algorithms]]
-
-## Sources
-
-- [Wikipedia — ADT](https://en.wikipedia.org/wiki/ADT)
+- Naming ADT as the impl — “we used a Stack” doesn’t say array vs list costs.
+- Mutating through leaked internals — breaks invariants silently.

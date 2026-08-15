@@ -1,13 +1,19 @@
-[[golang/go]] [[golang/go functions]] [[golang/go data structure]]
+[[golang/go]] [[golang/go functions]] [[golang/go data structure]] [[golang/go error]]
 
 # Go strings — bytes, UTF-8, and runes
 
 > Go strings — bytes, UTF-8, and runes — a Go string is not a sequence of characters. It is an immutable, read-only view over a byte
 
----
+## Interview Relevance
 
-## How it works
+Strings/runes/bytes trips up candidates who assume “character index” — UTF-8, `range` over runes, and immutability are the interview traps.
 
+## Sources
+
+- [Go blog — Strings, bytes, runes and characters in Go](https://go.dev/blog/strings) — deep-dive
+- [Go spec — String types](https://go.dev/ref/spec#String_types) — deep-dive
+
+## Key Concepts
 
 ```txt
 string "aé"
@@ -51,8 +57,7 @@ runes[1] // 'é' — whole character regardless of byte width
 > - `runes[0]` is `'a'`
 > - `runes[1]` is `'é'` (the whole character, regardless of how many bytes it took to store it)
 
-
-## Configuration and commands
+## Technical Details
 
 ### Iterate runes (preferred for most loops)
 
@@ -93,8 +98,7 @@ strings.Contains(s, "é") // works — compares UTF-8 text, not raw byte halves
 
 Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling user-facing text.
 
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -104,33 +108,15 @@ Prefer `strings`, `unicode/utf8`, and `range` over manual `s[i]` when handling u
 | Truncation breaks last character (e.g. API max length) | Last byte is continuation byte `0x80–0xBF` | Truncate by runes: `string([]rune(s)[:n])` or walk with `utf8.DecodeRuneInString` |
 | Emoji / combining marks counted wrong | `len([]rune(s))` vs grapheme clusters | For user-perceived length, use a locale/grapheme library; runes ≠ user-visible glyphs |
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Trade-off:** Do not convert every string to `[]rune` by default — binary protocols, file paths, and wire formats are byte-oriented; `string`/`[]byte` is correct there.
+- **Trade-off:** Do not use `s[i]` for parsing human text — use `range`, `strings`, or `unicode/utf8`.
+- **Trade-off:** Do not assume one rune = one screen column — width, emoji sequences, and combining marks need domain-specific handling.
 
-> [!WARNING]
-> **`s[i]` is a byte, not a character.** On `"aé"`, `s[1]` and `s[2]` are the two bytes of `é`. Using either alone in comparisons, hashing, or encryption corrupts the character.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`len(s)` is byte length.** A 140-character tweet limit implemented as `len(s) <= 140` will reject or accept the wrong strings once non-ASCII appears.
-
-> [!WARNING]
-> **`[]rune(s)` allocates and copies.** Fine for small strings and correctness-critical paths; avoid in hot loops over large text — use `range` or `utf8` iterators instead.
-
-> [!WARNING]
-> **Runes are Unicode code points, not grapheme clusters.** `"e\u0301"` (e + combining acute) is two runes but often displays as one glyph `é`.
-
-
-## When not to use
-
-- **Do not convert every string to `[]rune` by default** — binary protocols, file paths, and wire formats are byte-oriented; `string`/`[]byte` is correct there.
-- **Do not use `s[i]` for parsing human text** — use `range`, `strings`, or `unicode/utf8`.
-- **Do not assume one rune = one screen column** — width, emoji sequences, and combining marks need domain-specific handling.
-
-
-## Related
-
-[[golang/go]] [[golang/go functions]] [[golang/go data structure]] [[golang/go error]]
-
-## Sources
-
-- [Wikipedia — go strings](https://en.wikipedia.org/wiki/go_strings)
+- **`s[i]` is a byte, not a character.** On `"aé"`, `s[1]` and `s[2]` are the two bytes of `é`. Using either alone in comparisons, hashing, or encryption corrupts the character.
+- **`len(s)` is byte length.** A 140-character tweet limit implemented as `len(s) <= 140` will reject or accept the wrong strings once non-ASCII appears.
+- **`[]rune(s)` allocates and copies.** Fine for small strings and correctness-critical paths; avoid in hot loops over large text — use `range` or `utf8` iterators instead.
+- **Runes are Unicode code points, not grapheme clusters.** `"e\u0301"` (e + combining acute) is two runes but often displays as one glyph `é`.

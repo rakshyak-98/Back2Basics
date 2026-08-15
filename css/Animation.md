@@ -1,14 +1,32 @@
-[[css]] [[JavaScript]] [[webSocket]]
+[[scss]] [[Flash of Unstyled Content]] [[tailwindcss]] [[Javascript]] [[web capabilities]]
 
 # Animation
 
-> Animation — JS → Style → Layout → Paint → Composite
+> Smooth UI motion comes from animating compositor-friendly properties (`transform`, `opacity`) — layout-thrashing width/top updates drop frames.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about CSS/JS animation to see if you know the render pipeline (style → layout → paint → composite), when `will-change` helps or hurts, and how to respect `prefers-reduced-motion`.
 
-Rendering pipeline (simplified):
+## Sources
+
+- [web.dev — Stick to compositor-only properties](https://web.dev/articles/stick-to-compositor-only-properties-and-manage-layer-count) — deep-dive
+- [MDN — `will-change`](https://developer.mozilla.org/en-US/docs/Web/CSS/will-change) — overview
+- [MDN — `prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) — overview
+
+## Core Definition
+
+Browsers update pixels through a pipeline; changing some CSS properties forces layout and paint every frame, while `transform` and `opacity` on a promoted layer can often update on the compositor alone.
+
+## Key Concepts
+
+- **Pipeline:** JS → Style → Layout → Paint → Composite — later stages are cheaper when earlier ones are skipped.
+- **Compositor-friendly:** `transform`, `opacity` (with a layer) → typical interview “GPU-friendly” answer.
+- **Layout thrash:** interleaved geometry reads (`offsetHeight`) and style writes → forced synchronous layout each loop.
+- **`will-change`:** hints layer promotion → overuse burns GPU memory.
+- **FLIP:** measure First/Last, invert with transform, Play — animate layout changes without animating layout properties.
+
+## Technical Details
 
 ```txt
 JS → Style → Layout → Paint → Composite
@@ -18,33 +36,15 @@ JS → Style → Layout → Paint → Composite
 
 | Property change | Typical path | Cost |
 |-----------------|--------------|------|
-| `transform`, `opacity` | Composite only (if promoted) | **Low** — GPU-friendly |
+| `transform`, `opacity` | Composite (if promoted) | Low |
 | `color`, `box-shadow` | Paint | Medium |
-| `width`, `height`, `top`, `left`, `margin` | Layout → Paint → Composite | **High** — layout thrash |
-
-**Compositor layer:** promoted element gets own texture; GPU translates/scales/ fades without reflowing neighbors.
-
-**Layout thrash:** read geometry (`offsetHeight`, `getBoundingClientRect`) then write style in interleaved loop → forced synchronous layout (FSL) every iteration.
-
-```txt
-BAD:  for each el: el.style.width = el.offsetWidth + 1 + 'px'
-GOOD: batch reads → batch writes (or use transform)
-```
-
-**`will-change`:** hints promotion; overuse → memory blowup (each layer = texture RAM).
-
----
-
-
-## Configuration and commands
+| `width`, `height`, `top`, `left`, `margin` | Layout → Paint → Composite | High |
 
 ### Prefer compositor-friendly CSS
 
 ```css
 .card {
-  /* Animate these */
   transition: transform 200ms ease, opacity 200ms ease;
-  will-change: transform; /* remove after animation ends in JS */
 }
 
 .card:hover {
@@ -52,100 +52,72 @@ GOOD: batch reads → batch writes (or use transform)
   opacity: 0.95;
 }
 
-/* Avoid animating layout props */
-/* transition: width 200ms;  ← triggers layout every frame */
+/* Avoid: transition: width 200ms; — layout every frame */
 ```
 
-### FLIP technique (layout change without jank)
+### FLIP sketch
 
 ```javascript
-const first = el.getBoundingClientRect();
-// DOM change that would layout...
-const last = el.getBoundingClientRect();
-const dx = first.left - last.left;
-const dy = first.top - last.top;
-el.style.transform = `translate(${dx}px, ${dy}px)`;
-el.style.transition = 'none';
+const first = el.getBoundingClientRect()
+// DOM change that would reflow...
+const last = el.getBoundingClientRect()
+const dx = first.left - last.left
+const dy = first.top - last.top
+el.style.transform = `translate(${dx}px, ${dy}px)`
+el.style.transition = 'none'
 requestAnimationFrame(() => {
-  el.style.transition = 'transform 200ms ease';
-  el.style.transform = '';
-});
+  el.style.transition = 'transform 200ms ease'
+  el.style.transform = ''
+})
 ```
 
-### Batch DOM reads/writes
+### Batch reads/writes
 
 ```javascript
-// Read phase
-const heights = items.map(el => el.offsetHeight);
-// Write phase
-items.forEach((el, i) => { el.style.height = `${heights[i]}px`; });
+const heights = items.map((el) => el.offsetHeight)
+items.forEach((el, i) => {
+  el.style.height = `${heights[i]}px`
+})
 ```
 
-### DevTools checks
+### Reduced motion
 
-```txt
-Chrome Performance → enable "Screenshots" + "Layout Shift"
-Look for purple "Layout" blocks during animation
-Rendering tab → "Paint flashing" / "Layer borders"
-```
-
-### `requestAnimationFrame` for JS-driven animation
-
-```javascript
-function tick(t) {
-  el.style.transform = `translateX(${progress(t)}px)`;
-  if (!done) requestAnimationFrame(tick);
+```css
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
 }
-requestAnimationFrame(tick);
 ```
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Janky scroll-linked animation | Main thread long tasks | Move to transform; offload work; `passive: true` listeners |
-| Fan spin / GPU memory spike | Layer count | Remove excess `will-change`; avoid promoting huge elements |
-| Animation stutters every N ms | GC or layout in loop | Profile Performance tab; eliminate FSL |
-| Works desktop, dies mobile | Too many paints / layers | Reduce blur/shadow animation; simplify |
-| `position: fixed` jank during scroll | Compositor + scroll mismatch | `transform: translateZ(0)` sparingly; check containing block |
+| Janky scroll-linked motion | Main-thread long tasks | Prefer transform; `passive` listeners |
+| GPU memory spike | Layer count | Drop excess `will-change` |
+| Stutters every N ms | Layout in the loop | Profile; eliminate forced sync layout |
+| Fine on desktop, bad on mobile | Blur/shadow/paint area | Simplify effects |
 | CLS after animation | Layout-affecting exit | Animate transform/opacity; reserve space |
 
----
+## Real-World Applications
 
+Card hover lifts, route transition shells, and list reorder animations (FLIP) keep interfaces feeling responsive without burning the main thread.
 
-## Gotchas
+**Example:** A kanban board measures card positions, then animates `transform` instead of tweening `top`/`left`.
 
-> [!WARNING]
-> **`will-change: transform` on everything** — mobile Safari/Chrome may exhaust GPU memory; toggle only during active animation.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Animating `filter: blur()`** — expensive paint every frame; use pre-blurred asset or limit duration.
+- **Pro:** Compositor animations stay smooth under modest main-thread load.
+- **Con:** Not every design can avoid layout (height accordion) — measure carefully or use FLIP.
+- **Con:** Too many layers (`will-change`, large blurs) exhausts mobile GPUs.
 
-> [!WARNING]
-> **`height: auto` transitions** — cannot interpolate smoothly without JS measurement → layout thrash.
+## Comparison
 
-> [!WARNING]
-> **Third-party widgets** forcing layout in scroll handlers — audit with Performance → Bottom-Up → "Layout".
+- vs [[Flash of Unstyled Content]]: FOUC is first-paint styling; animation cost is ongoing frame budget.
+- vs JS timers (`setInterval`): `requestAnimationFrame` syncs to refresh; still prefer CSS transitions when possible.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Reduced motion users** — respect `prefers-reduced-motion: reduce`; provide instant state change.
-- **Critical path LCP element** — don't animate hero image/container until after LCP.
-- **Heavy box-shadow on large lists** — paint cost scales with pixels; use border or static shadow image.
-
----
-
-
-## Related
-
-[[scss]] · [[JavaScript]] · [[web capabilities]] · [[Progressive search functionality]]
-
-## Sources
-
-- [Wikipedia — Animation](https://en.wikipedia.org/wiki/Animation)
+- Leaving `will-change: transform` on everything permanently.
+- Animating `filter: blur()` on large areas every frame.
+- Ignoring `prefers-reduced-motion` — accessibility and vestibular safety.
+- Transitioning `height: auto` without a measured pixel height strategy.

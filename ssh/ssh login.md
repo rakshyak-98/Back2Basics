@@ -1,30 +1,40 @@
-[[ssh]]
+[[SSH authentication]] [[ssh allow local system with key]] [[sshd config]] [[ssh agent]] [[ssh private network]]
 
-# Verify with the public key
+# ssh login
 
-> Verify with the public key — TCP Connection — Your client connects to the server on port 22.
+> An SSH login is a TCP session to port 22 that negotiates crypto, verifies the host, authenticates you (usually with a key), then opens an encrypted shell or command channel.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers walk the handshake steps and triage `Permission denied (publickey)` versus connection refused versus “too many authentication failures.”
+
+## Sources
+
+- [RFC 4253 — SSH Transport Layer Protocol](https://datatracker.ietf.org/doc/html/rfc4253) — deep-dive
+- [RFC 4252 — SSH Authentication Protocol](https://datatracker.ietf.org/doc/html/rfc4252) — overview
+- [OpenSSH — ssh](https://man.openbsd.org/ssh) — overview
+
+## Key Concepts
+
+- **Six steps:** TCP → protocol negotiation → key exchange → server auth (host key) → client auth → secure session.
+- **Username is OS-local:** the account must exist on the server; the key proves you may use it.
+- **Host key trust:** first-connect TOFU or CA-signed host certs — prevents MITM.
+- **Client identity control:** `-i` / `IdentitiesOnly` avoid offering too many keys.
+
+## Technical Details
 
 ```bash
 ssh user@server.example.com
-```
-1. TCP Connection -> Your client connects to the server on port 22.
-2. Protocol Negotiation -> They agree on which encryption/authentication algorithm to use.
-3. Key Exchange -> They establish a shared secret for encrypting everything.
-4. Server Authentication -> You verify you're talking to the real server.
-5. Client Authentication -> The server verifies you are who you say you are.
-6. Secure Session Established -> Encrypted communication tunnel is read.
-**Generate Key Pair (Private + Public)**
-```bash
 ssh-keygen -t ed25519 -C "you@example.com"
+# private key stays local; public key → ~/.ssh/authorized_keys on server
 ```
-- private keys stays with you, the server needs to know who it should trust so, you copy your public key `~/.ssh/authorized_key` of your account on the server.
 
-
-## Configuration and commands
+1. TCP connection to port 22.
+2. Protocol negotiation — algorithms.
+3. Key exchange — shared secret for the session.
+4. Server authentication — verify host key.
+5. Client authentication — password or [[SSH authentication]] publickey.
+6. Secure session — encrypted shell/command channel.
 
 ```bash
 ssh user@host
@@ -33,41 +43,32 @@ ssh -p 2222 user@host
 ssh -J jump@bastion user@internal
 ```
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Connection refused | sshd down; wrong port | `ss -tlnp | grep 22`; check firewall |
+| Connection refused | sshd down; wrong port | `ss -tlnp \| grep 22`; check firewall |
 | Permission denied (publickey) | Key not on server | Install public key in `~/.ssh/authorized_keys` |
 | Too many authentication failures | Client offers too many keys | `IdentitiesOnly yes` in `~/.ssh/config` |
-| Hangs after password | DNS reverse lookup delay | Server `UseDNS no` (administrator setting) |
+| Hangs after banner | DNS reverse lookup delay | Server `UseDNS no` |
 
----
+## Real-World Applications
 
+Interactive admin shells, `ProxyJump` into private networks ([[ssh private network]]), and non-interactive deploy commands.
 
-## Gotchas
+**Example:** `ssh -J jump@bastion user@internal` logs into an RFC1918 host without exposing port 22 publicly.
 
-> [!WARNING]
-> SSH authenticates **the client key to the server** — username must exist on the server OS.
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** Encrypted, authenticated remote access with mature tooling.
+- **Con:** Internet-facing password auth is a constant attack surface — prefer keys.
+- **Con:** Mis-managed known_hosts / host-key changes cause scary but correct warnings.
 
+## Comparison
 
-## When not to use
+- vs VPN-only access: SSH can be the jump; VPN can replace public SSH exposure.
+- vs serial/console: console saves you when sshd config locks you out.
 
-- Do not enable password authentication on internet-facing servers if key-based login is available.
+## Mistakes to Avoid
 
-
----
-
-
-## Related
-
-[[ssh]]
-
-## Sources
-
-- [Wikipedia — ssh login](https://en.wikipedia.org/wiki/ssh_login)
+- Enabling password authentication on internet-facing servers when keys work.
+- Ignoring host-key change warnings.
+- Offering dozens of keys until the server hits `MaxAuthTries`.

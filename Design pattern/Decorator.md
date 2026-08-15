@@ -4,7 +4,15 @@
 
 > Decorator wraps an object to add responsibilities dynamically while keeping the same interface — stacking layers instead of subclassing every combination.
 
-## Structure
+## Interview Relevance
+
+Decorator checks open/closed extension by wrapping the same interface — stacked behavior versus subclass explosion.
+
+## Sources
+
+- Gamma et al., *Design Patterns* (Decorator) — deep-dive
+
+## Key Concepts
 
 ```
 Component interface
@@ -16,7 +24,14 @@ Component interface
 
 Client calls `decorated.operation()`; each decorator may pre/post-process and delegate inward.
 
-## vs inheritance
+## Real-World Applications
+
+- Optional features on streams (`io` wrappers in Go/Java).
+- UI styling layers, middleware stacks.
+
+## Comparison
+
+**vs inheritance**
 
 Subclass explosion: `BorderedScrollableTextView` vs `ScrollableBorderedTextView`. Decorators compose:
 
@@ -24,7 +39,7 @@ Subclass explosion: `BorderedScrollableTextView` vs `ScrollableBorderedTextView`
 new ScrollDecorator(new BorderDecorator(new TextView()))
 ```
 
-## vs Proxy
+**vs Proxy**
 
 | | Decorator | Proxy |
 |---|-----------|-------|
@@ -33,18 +48,8 @@ new ScrollDecorator(new BorderDecorator(new TextView()))
 
 Both wrap and delegate; intent differs.
 
-## When to use
-
-- Optional features on streams (`io` wrappers in Go/Java).
-- UI styling layers, middleware stacks.
-
-## Pitfalls
+## Mistakes to Avoid
 
 - Order of decorators matters.
 - Hard to reason about deep stacks — document composition order.
 - Small objects — function composition may be simpler.
-
-## Sources
-
-- Gamma et al., *Design Patterns* (Decorator)
-- [Decorator pattern — Wikipedia](https://en.wikipedia.org/wiki/Decorator_pattern)

@@ -1,12 +1,18 @@
-[[javascript]] [[NodeJS/Event Loop]] [[Networking/webSocket]] [[Security/CORS (Cross Origin Request Sharing)]]
+[[javascript]] [[NodeJS/Event Loop]] [[Networking/webSocket]] [[Security/CORS (Cross Origin Request Sharing)]] [[javascript/Session Storage]]
 
 # JavaScript Web APIs
 
 > Browser and runtime surfaces beyond ECMAScript — DOM, fetch, timers, storage — **MDN + integration debugging**.
 
----
+## Interview Relevance
 
-## How it works
+Web API interviews cover browser capabilities beyond ECMAScript — fetch, DOM, workers.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 **ECMAScript** defines the language (syntax, Promise, Map). **Web APIs** (browser) and **Node APIs** (`fs`, `http`) are host-provided, often asynchronous, and bound to the event loop.
 
@@ -22,8 +28,7 @@ Your JS
 
 Same name, different host: `fetch` exists in modern Node and all browsers; `setImmediate` is Node-only; `requestAnimationFrame` is browser-only.
 
-
-## Configuration and commands
+## Technical Details
 
 ### Fetch (browser + Node 18+)
 
@@ -72,19 +77,12 @@ ws.onmessage = (e) => console.log(JSON.parse(e.data));
 ws.send(JSON.stringify({ type: 'ping' }));
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Heavy file I/O in browser — use streams + download, not read entire blob into memory.
+- Replacing REST with WebSocket for simple CRUD — HTTP caching wins.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| CORS error on fetch | Response headers | Server `Access-Control-Allow-Origin`; see [[Security/CORS (Cross Origin Request Sharing)]] |
-| `fetch failed` Node | TLS, DNS, cert | `NODE_EXTRA_CA_CERTS`; verify URL |
-| Timer never fires | Tab throttled (background) | `visibilitychange`; Web Worker for critical timers |
-| `localStorage` null | Private mode / SSR | Feature detect; server-side session |
-| WebSocket closes 1006 | Proxy idle timeout | Heartbeat ping; reverse proxy read timeout |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Many Web APIs return **Promises** but DOM legacy APIs use callbacks — mixing styles without `await` causes race bugs.
@@ -93,17 +91,10 @@ ws.send(JSON.stringify({ type: 'ping' }));
 - **Third-party cookie phase-out** affects storage partitioning — test Safari/Firefox.
 - **Node `fetch` undici** — connection pooling differs from `axios`; tune `agent` for high throughput.
 
-
-## When not to use
-
-- Heavy file I/O in browser — use streams + download, not read entire blob into memory.
-- Replacing REST with WebSocket for simple CRUD — HTTP caching wins.
-
-
-## Related
-
-[[javascript]] [[NodeJS/Event Loop]] [[Networking/webSocket]] [[javascript/Session Storage]]
-
-## Sources
-
-- [Wikipedia — javascript web API](https://en.wikipedia.org/wiki/javascript_web_API)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| CORS error on fetch | Response headers | Server `Access-Control-Allow-Origin`; see [[Security/CORS (Cross Origin Request Sharing)]] |
+| `fetch failed` Node | TLS, DNS, cert | `NODE_EXTRA_CA_CERTS`; verify URL |
+| Timer never fires | Tab throttled (background) | `visibilitychange`; Web Worker for critical timers |
+| `localStorage` null | Private mode / SSR | Feature detect; server-side session |
+| WebSocket closes 1006 | Proxy idle timeout | Heartbeat ping; reverse proxy read timeout |

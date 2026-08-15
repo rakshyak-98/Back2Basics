@@ -2,24 +2,54 @@
 
 # Managing complex component structure
 
-> Managing complex component structure shapes how React applications compose UI, state, and side effects in production.
+> Keep large UIs navigable — feature folders, composition, and clear ownership instead of one 2k-line component.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
+Interviewers ask how you structure features, shared UI, and cross-cutting providers in a growing React app.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [Thinking in React](https://react.dev/learn/thinking-in-react) — overview
+- [Managing State](https://react.dev/learn/managing-state) — deep-dive
 
-## Recall
+## Core Definition
 
-What breaks first in production if `Managing complex component structure` is misused — bundle size, stale UI, or hydration errors?
+Complex UI stays maintainable when components are composed in a hierarchy with clear state owners and feature boundaries.
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]] [[Data Fetching HOC component]]
+- **Feature folders:** UI + hooks + API colocated.
+- **Lift state sparingly:** only as high as shared need.
+- **Compound / context:** for interrelated subcomponents ([[React Pattern/Compound Components]]).
+
+## Technical Details
+
+Suggested layout:
+
+```txt
+features/checkout/
+  CheckoutPage.tsx
+  useCheckout.ts
+  components/
+  api.ts
+shared/ui/
+```
+
+## Real-World Applications
+
+Checkout grew to payment + address + review — split into compound steps with one checkout hook owning the draft.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Parallel team work on features.
+- **Con:** Over-nesting folders for tiny widgets.
+
+## Comparison
+
+- vs [[React Architecture]]: architecture is the system view; this is the component-tree craft.
+
+## Mistakes to Avoid
+
+- God component with all modals and tabs.
+- Context that wraps the entire app for one rarely used value.

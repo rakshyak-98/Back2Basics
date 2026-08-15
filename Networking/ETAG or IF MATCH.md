@@ -1,12 +1,33 @@
-[[Concurrent modification]] [[Networking]]
+[[Concurrent modification]] [[Networking]] [[mime type]]
 
 # ETAG or IF MATCH
 
 > ETag + If-Match stop lost updates — write only if the resource is still the version you read.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use ETag/`If-Match` to test optimistic concurrency on HTTP: version tokens, `412 Precondition Failed`, and strong vs weak validators — not just “caching headers.”
+
+## Sources
+
+- [RFC 9110 — HTTP Semantics (Conditional Requests / ETag)](https://www.rfc-editor.org/rfc/rfc9110#name-conditional-requests) — deep-dive
+- [MDN — ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) — overview
+- [MDN — If-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match) — overview
+- [MDN — Conditional requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Conditional_requests) — overview
+
+## Core Definition
+
+An ETag is an opaque version of a representation; `If-Match` makes a write conditional so the server applies the change only when the current ETag still matches (optimistic lock on the HTTP wire).
+
+## Key Concepts
+
+- **ETag:** opaque version of the representation → hash, counter, or revision; client treats it as opaque.
+- **If-Match:** “apply only if current ETag is this” → optimistic concurrency for PUT/PATCH/DELETE.
+- **412 Precondition Failed:** mismatch → someone else wrote first; merge and retry.
+- **If-None-Match:** cache validation / create-if-absent → `*` can mean create-only; with ETag = conditional GET.
+- **Strong vs weak (`W/`):** strong comparison required for `If-Match` → weak tags are fine for caches, unsafe as the only write guard.
+
+## Technical Details
 
 ```txt
 GET  → 200 + ETag: "v3"
@@ -16,27 +37,12 @@ PUT + If-Match: "v3"
         └─ now "v4"   → 412 Precondition Failed
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ETag** | Opaque version of the representation | “Hash, counter, or revision — client treats it as opaque.” |
-| **If-Match** | “Apply only if current ETag is this” | “Optimistic lock on the HTTP wire.” |
-| **412** | Precondition failed | “Someone else wrote first — merge and retry.” |
-| **If-None-Match** | Cache / create-if-absent | “`*` can mean create-only; with ETag = conditional GET.” |
-| **Optimistic concurrency** | Detect conflict at write time | “No row lock held while the user edits.” |
-
-### Server checklist
+Server checklist:
 
 1. Store a version (integer, hash, or row version) with the resource.
 2. On GET/PUT response, emit `ETag`.
-3. On mutating request, compare `If-Match` **inside the same DB transaction** as the write.
+3. On mutating request, compare `If-Match` **inside the same database transaction** as the write.
 4. Bump version atomically on success.
-
----
-
-
-## Configuration and commands
 
 ```http
 GET /channels/42 HTTP/1.1
@@ -74,11 +80,6 @@ await fetch(`/channels/${id}`, {
 | Compare-and-swap in DB | Check version in `UPDATE … WHERE version=?` |
 | Proxy caches | `Cache-Control` + ETag for GET; don’t cache unsafe PUT |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Constant `412` | Client stale / shared ETag | Refetch; don’t reuse ETag across tabs blindly |
@@ -87,36 +88,27 @@ await fetch(`/channels/${id}`, {
 | CDN serves old body | Weak validators / long cache | Short TTL or purge on write |
 | Quotes stripped | Middleware mangles header | Keep quoted form `"…"` end-to-end |
 
----
+## Real-World Applications
 
+Shared document APIs, inventory updates, and config resources use ETag/`If-Match` so concurrent editors don’t silently overwrite each other.
 
-## Gotchas
+**Example:** Two admins edit the same channel bitrate; the second PUT without a matching ETag gets `412`, refetches, merges, and retries.
 
-> [!WARNING]
-> **Missing If-Match = last-write-wins** — if you require OCC, reject unconditional PUT with `428`/`400`.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **ETag must change when body changes** — a stuck ETag hides conflicts.
+- **Pro:** No long-held row lock while the user edits — conflict detected at write time.
+- **Con:** Clients must handle `412` (refetch/merge) — not last-write-wins by default.
+- **Con:** Weak ETags simplify caching but are the wrong sole guard for byte-exact updates.
 
-> [!WARNING]
-> **Weak ETags (`W/"…"`)** — fine for caches; dangerous as the only write guard.
+## Comparison
 
----
+- vs last-write-wins: unconditional PUT overwrites silently; `If-Match` rejects stale writers.
+- vs [[Concurrent modification]] / pessimistic locks: locks block during edit; ETag detects conflict at commit.
+- vs `If-None-Match`: used for cache revalidation and create-only, not “update if still this version.”
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Single-writer append-only logs** — versioning may be overkill; use offsets.
-- **WebSocket fan-out state** — prefer CRDT/OT or server authority, not HTTP ETags alone.
-- **Binary upload resume** — use upload protocols / checksums designed for chunks.
-
----
-
-
-## Related
-
-[[Concurrent modification]] [[Networking]] [[mime type]]
-
-## Sources
-
-- [Wikipedia — ETAG or IF MATCH](https://en.wikipedia.org/wiki/ETAG_or_IF_MATCH)
+- Missing `If-Match` = last-write-wins — if you require optimistic concurrency, reject unconditional PUT with `428`/`400`.
+- Stuck ETag when the body changes — hides conflicts; ETag must change when content changes.
+- Using only weak ETags (`W/"…"`) as the write guard — fine for caches; dangerous for OCC.
+- Comparing outside the write transaction — TOCTOU races reintroduce lost updates.

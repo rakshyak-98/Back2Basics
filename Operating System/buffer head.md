@@ -1,16 +1,29 @@
-[[Operating System]] [[Buffer cache]] [[buffer flags]] [[buffer lifecycle]] [[Persistent Block Storage]]
+[[Operating System]] [[Buffer cache]] [[buffer flags]] [[buffer lifecycle]] [[Persistent Block Storage]] [[file descriptors]] [[fsync]]
 
 # Buffer head
 
 > A buffer head is the kernel’s descriptor linking one logical disk block to a page in the page cache — the legacy bridge between the block layer and memory management.
 
-`struct buffer_head` (and modern helpers built on folios) answers: **which page**, **which block number**, **which device**, and **what state** (dirty, uptodate, locked). File systems and the block layer use buffer heads when I/O is expressed in fixed **sectors** rather than whole file pages.
+## Interview Relevance
 
-## Role after the page-cache merge
+Kernel interviews: after page-cache merge, buffer heads index slices of cached pages — they are not a second copy of the data.
 
-Since the buffer cache merged into the [[Buffer cache]] (page cache), buffer heads do not represent a second copy of data — they **index** a slice of a cached page. Multiple buffer heads can reference different blocks within the same page.
+## Sources
 
-## State machine (conceptual)
+- [Linux kernel docs — Buffer Head API](https://docs.kernel.org/core-api/buffer.html) — deep-dive
+- Robert Love, *Linux Kernel Development* — buffer heads and page cache — deep-dive
+- [Wikipedia — Buffer cache](https://en.wikipedia.org/wiki/Buffer_cache) — overview
+
+## Key Concepts
+
+- **Descriptor fields:** page, block number, device, state ([[buffer flags]]).
+- **Sector-oriented I/O:** fixed blocks vs whole-file pages.
+- **Not a second cache:** indexes a slice of a [[Buffer cache]] page.
+- **Concurrency:** buffer-head and page locks prevent races during writeback.
+
+## Technical Details
+
+`struct buffer_head` (and folio-era helpers) answers: which page, which block, which device, what state.
 
 ```txt
 allocate bh → map to page → read I/O fills → mark uptodate
@@ -18,14 +31,27 @@ allocate bh → map to page → read I/O fills → mark uptodate
            → writeback → clear dirty → unlock
 ```
 
-Concurrent access relies on locking buffer heads and page locks; races here cause filesystem corruption — why `fsync` and journal ordering matter ([[fsync]]).
+Multiple buffer heads can reference different blocks within the same page. Ordering with journals and [[fsync]] prevents filesystem corruption.
 
-## User-space visibility
+Normal apps use paths and [[file descriptors]], not buffer heads — relevant when reading kernel/fs source or debugging block-size issues on [[Persistent Block Storage]].
 
-Normal applications use paths and [[file descriptors]], not buffer heads. They matter when reading **kernel** or **filesystem** source, analyzing `block` layer traces, or debugging tunefs/block-size mismatches on [[Persistent Block Storage]].
+## Real-World Applications
 
-## Sources
+Filesystem implementers, crash dump analysis of stuck writeback, and teaching the block↔page bridge.
 
-- Linux kernel documentation: [Buffer Head API](https://docs.kernel.org/core-api/buffer.html)
-- Robert Love, *Linux Kernel Development* — buffer heads and page cache
-- Wikipedia: [Buffer cache](https://en.wikipedia.org/wiki/Buffer_cache)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Precise per-block state for the block layer.
+- **Con:** Legacy complexity; modern code prefers folio/`address_space` paths where possible.
+- **Trade-off:** keep buffer-head APIs for compatibility vs rewrite on newer abstractions.
+
+## Comparison
+
+- vs [[Buffer cache]]: cache holds pages; buffer head describes a block within/linked to them.
+- vs [[buffer]]: generic user/kernel byte region vs kernel block descriptor.
+
+## Mistakes to Avoid
+
+- Thinking buffer heads store a duplicate of page-cache data.
+- Ignoring lock ordering between page lock and buffer-head lock.
+- Debugging user apps by hunting buffer heads instead of fsync/I/O traces.

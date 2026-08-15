@@ -1,12 +1,18 @@
-[[Nginx/Nginx internals]] [[Nginx/Configuration]] [[Operating System/kernel subsystem]] [[compiler/library file]]
+[[Nginx/Nginx internals]] [[Nginx/Configuration]] [[Operating System/kernel subsystem]] [[compiler/library file]] [[Linux/Epoll]]
 
 # File structure (NGINX source layout)
 
 > File structure (NGINX source layout) — ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
 
----
+## Interview Relevance
 
-## How it works
+Project structure questions check modularity and discoverability — not a single correct tree.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 NGINX is modular C. The **core** owns memory pools, strings, and configuration parsing; the **event** layer wraps epoll/kqueue and drives the worker loop; **HTTP/stream modules** plug into that loop.
 
@@ -27,8 +33,7 @@ accept (event/) → parse HTTP (http/) → upstream (http/) → write (event/)
          ↑________________ core/ alloc + logging ________________|
 ```
 
-
-## Configuration and commands
+## Technical Details
 
 ### Build from source (inspect structure locally)
 
@@ -57,18 +62,12 @@ rg "ngx_http_upstream" src/http/
 
 Third-party modules typically live under `modules/` or are compiled via `--add-module=` pointing at your module's `config` script — same hook points as built-ins under `src/http/modules/`.
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- You only need runtime behavior — read [[Nginx/Configuration]] and `nginx -T`, not the full source tree.
+- Application-level folder layout (React `src/components`) — different topic; this note is NGINX C source structure.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Segfault after module upgrade | Module compiled against wrong NGINX version | Rebuild module against running `nginx -V` headers |
-| Worker spins at 100% CPU | `event/` loop stuck in tight read | Enable `--with-debug`; trace `ngx_event_process_events` |
-| Reload drops connections | `core/` cycle vs old workers | Expected brief overlap; check `worker_shutdown_timeout` |
-| Can't find symbol at link time | Wrong `objs/ngx_modules.c` | Clean `make clean` + reconfigure |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > NGINX **never** blocks the worker on disk I/O in the hot path — if your custom module calls synchronous `read()` on large files inside the event callback, you stall every connection on that worker.
@@ -77,17 +76,9 @@ Third-party modules typically live under `modules/` or are compiled via `--add-m
 - **Memory:** almost everything uses `ngx_pool_t` from `core/` — freeing individual allocations is rare; pool destroy at request end.
 - **Version skew:** distro packages (`nginx-extras`) may patch paths — always match headers to the binary you run.
 
-
-## When not to use
-
-- You only need runtime behavior — read [[Nginx/Configuration]] and `nginx -T`, not the full source tree.
-- Application-level folder layout (React `src/components`) — different topic; this note is NGINX C source structure.
-
-
-## Related
-
-[[Nginx/Nginx internals]] [[Nginx/Configuration]] [[Linux/Epoll]] [[Operating System/kernel subsystem]]
-
-## Sources
-
-- [Wikipedia — File structure](https://en.wikipedia.org/wiki/File_structure)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Segfault after module upgrade | Module compiled against wrong NGINX version | Rebuild module against running `nginx -V` headers |
+| Worker spins at 100% CPU | `event/` loop stuck in tight read | Enable `--with-debug`; trace `ngx_event_process_events` |
+| Reload drops connections | `core/` cycle vs old workers | Expected brief overlap; check `worker_shutdown_timeout` |
+| Can't find symbol at link time | Wrong `objs/ngx_modules.c` | Clean `make clean` + reconfigure |

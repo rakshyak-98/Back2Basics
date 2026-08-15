@@ -1,12 +1,20 @@
-[[golang]] [[Unbuffered channel]] [[go error]]
+[[golang]] [[Unbuffered channel]] [[go error]] [[go debugging]] [[Thread]]
 
 # go-routines
 
 > Goroutine — lightweight concurrent function the Go runtime schedules onto OS threads (`go f()`).
 
----
+## Interview Relevance
 
-## How it works
+Goroutines + scheduler questions separate “cheap threads” myths from M:N scheduling, leaks, and when channels vs mutexes fit.
+
+## Sources
+
+- [Go blog — Concurrency is not parallelism](https://go.dev/blog/concurrency-is-not-parallelism) — overview
+- [Go scheduler design notes (G-M-P)](https://go.dev/src/runtime/proc.go) — deep-dive
+- [Effective Go — Concurrency](https://go.dev/doc/effective_go#concurrency) — deep-dive
+
+## Key Concepts
 
 ```txt
 main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
@@ -19,10 +27,7 @@ main ──go worker()──► runnable queue ──► OS threads (GOMAXPROCS)
 | `WaitGroup` | Wait for N exits |
 | `context` | Cancel / deadline |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```go
 var wg sync.WaitGroup
@@ -50,10 +55,7 @@ wg.Wait()
 | Exit condition | Avoid leaks |
 | Don’t share without sync | Data races |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -63,36 +65,14 @@ wg.Wait()
 | Main exits early | No WaitGroup | Wait before return |
 | Too many goroutines | Unbounded spawn | Worker pool |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Tiny sync work — plain function call.
+- **Trade-off:** One goroutine per request without limits — bound concurrency.
+- **Trade-off:** Sharing structs “carefully” — prefer message passing or clear mutex.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Loop variable capture (old Go)** — pass `v := v` or use Go 1.22+ per-iter semantics.
-
-> [!WARNING]
-> **No join without sync** — `go f()` alone doesn’t wait.
-
-> [!WARNING]
-> **Blocking forever on chan** — always plan cancellation.
-
----
-
-
-## When not to use
-
-- **Tiny sync work** — plain function call.
-- **One goroutine per request without limits** — bound concurrency.
-- **Sharing structs “carefully”** — prefer message passing or clear mutex.
-
----
-
-
-## Related
-
-[[Unbuffered channel]] [[go error]] [[go debugging]] [[Thread]]
-
-## Sources
-
-- [Wikipedia — go-routines](https://en.wikipedia.org/wiki/go-routines)
+- Loop variable capture (old Go) — pass `v := v` or use Go 1.22+ per-iter semantics.
+- No join without sync — `go f()` alone doesn’t wait.
+- Blocking forever on chan — always plan cancellation.

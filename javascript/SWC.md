@@ -4,9 +4,22 @@
 
 > SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **SWC (Speedy Web Compiler)** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [SWC — Getting started](https://swc.rs/docs/getting-started) — deep-dive
+- [Wikipedia — SWC](https://en.wikipedia.org/wiki/SWC) — overview
+
+## Key Concepts
+
+- Used for:
+- **Syntax lowering** (optional chaining, JSX, TypeScript strip) - **React Fast Refresh** transforms (Next) - **Jest** via `@swc/jest` instead of ts-jest/babel-jest
+- Not a full **polyfill** layer — pair with [[polyfills]] for missing runtime APIs.
+
+## Technical Details
 
 ```txt
 TS/JSX/TSX  →  SWC parse/transform  →  ES target JS
@@ -27,11 +40,6 @@ Not a full **polyfill** layer — pair with [[polyfills]] for missing runtime AP
 | Speed | 10–20× faster typical |
 | Plugin ecosystem | Smaller; some Babel plugins missing |
 | Config | `.swcrc` / bundler integration |
-
----
-
-
-## Configuration and commands
 
 ### Vite (@vitejs/plugin-react-swc)
 
@@ -78,45 +86,28 @@ module.exports = {
 };
 ```
 
----
+## Real-World Applications
 
+In production APIs and tooling, **SWC** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Exotic Babel macros** (styled-components babel plugin, etc.) — verify SWC plugin exists before migrating.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Babel plugin missing | SWC unsupported syntax plugin | Keep Babel for that file or macro |
-| Different output vs Babel | Edge semantic diff | Integration test; pin @swc/core version |
-| JSX runtime error | Classic vs automatic | `react.runtime: "automatic"` |
-| Decorators fail | Stage mismatch | Enable experimental in swc config |
-| Slower than expected | Falling back to Babel | Remove `.babelrc` in Next |
+- **Pro:** Solves the job described above when used in the right layer (SWC (Speedy Web Compiler) — TS/JSX/TSX → SWC parse/transform → ES target JS).
+- **Con / when not:** **Heavy custom Babel plugin chain** — migration cost may exceed build time savings.
+- **Con / when not:** **Non-JS languages** — SWC is JS/TS focused; use appropriate compiler (Rust, Go) for those.
 
----
+## Comparison
 
+vs [[React build]]: know when each applies — do not treat them as interchangeable. vs [[polyfills]]: know when each applies — do not treat them as interchangeable. vs [[source map]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Exotic Babel macros** (styled-components babel plugin, etc.) — verify SWC plugin exists before migrating.
+- **Exotic Babel macros** (styled-components babel plugin, etc.) — verify SWC plugin exists before migrating.
 
 > [!WARNING]
 > **Type checking** — SWC strips types; still run `tsc --noEmit` in CI.
-
----
-
-
-## When not to use
-
-- **Heavy custom Babel plugin chain** — migration cost may exceed build time savings.
-- **Non-JS languages** — SWC is JS/TS focused; use appropriate compiler (Rust, Go) for those.
-
----
-
-
-## Related
-
-[[React build]] · [[polyfills]] · [[source map]] · [[metro bundler]] · [[javascript engine]]
-
-## Sources
-
-- [Wikipedia — SWC](https://en.wikipedia.org/wiki/SWC)
+- **Babel plugin missing:** check SWC unsupported syntax plugin; fix: Keep Babel for that file or macro
+- **Different output vs Babel:** check Edge semantic diff; fix: Integration test; pin @swc/core version
+- **JSX runtime error:** check Classic vs automatic; fix: `react.runtime: "automatic"`
+- **Decorators fail:** check Stage mismatch; fix: Enable experimental in swc config
+- **Slower than expected:** check Falling back to Babel; fix: Remove `.babelrc` in Next

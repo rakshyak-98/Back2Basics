@@ -1,13 +1,20 @@
-[[git]] [[git command]] [[git rebase]] [[git branch]]
+[[git]] [[git command]] [[git rebase]] [[git branch]] [[git diff]]
 
 # Git Merge
 
 > combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git Merge` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+- [git merge — Wikipedia](https://en.wikipedia.org/wiki/Merge_(version_control)) — overview
+
+## Key Concepts
 
 ```
       o---o---o  feature
@@ -20,10 +27,7 @@ o---o---o---o  main
 **Fast-forward:** main simply moves to feature tip — no merge commit (linear history).
 **Merge commit:** `--no-ff` preserves branch topology — preferred for release merges.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Basic merge
 
@@ -87,10 +91,24 @@ git diff target-branch...source-branch
 git merge-tree $(git merge-base target-branch source-branch) target-branch source-branch
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- **Always linear history requirement** — rebase feature onto main, then FF merge (or squash merge via PR).
+- **Integrating long-lived divergent forks** — merge is correct, but expect pain; consider subtree or rebase with coordination.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Merge vs rebase on shared branches:** Rebase rewrites history; merge preserves it. Don't rebase commits others have pulled.
+
+> [!WARNING]
+> **`git pull` = fetch + merge** — can create surprise merge commits. Use `git pull --rebase` if team prefers linear history.
+
+> [!WARNING]
+> **Octopus merges (3+ branches)** — rare; one conflict aborts entire merge.
+
+> [!WARNING]
+> **Renames:** Git detects renames heuristically; `-X patience` helps on big diffs.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -106,38 +124,3 @@ git merge-tree $(git merge-base target-branch source-branch) target-branch sourc
 git revert -m 1 <merge-commit-sha>    # -m 1 = keep first parent (main line)
 ```
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Merge vs rebase on shared branches:** Rebase rewrites history; merge preserves it. Don't rebase commits others have pulled.
-
-> [!WARNING]
-> **`git pull` = fetch + merge** — can create surprise merge commits. Use `git pull --rebase` if team prefers linear history.
-
-> [!WARNING]
-> **Octopus merges (3+ branches)** — rare; one conflict aborts entire merge.
-
-> [!WARNING]
-> **Renames:** Git detects renames heuristically; `-X patience` helps on big diffs.
-
----
-
-
-## When not to use
-
-- **Always linear history requirement** — rebase feature onto main, then FF merge (or squash merge via PR).
-- **Integrating long-lived divergent forks** — merge is correct, but expect pain; consider subtree or rebase with coordination.
-
----
-
-
-## Related
-
-[[git command]] [[git rebase]] [[git diff]] [[git branch]]
-
-## Sources
-
-- [Wikipedia — git merge](https://en.wikipedia.org/wiki/git_merge)

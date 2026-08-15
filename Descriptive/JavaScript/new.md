@@ -1,12 +1,18 @@
-[[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]]
+[[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/function]] [[javascript]] [[Design pattern/Static Members]] [[Descriptive/JavaScript/execution context]]
 
 # `new` operator
 
 > Creates object, sets prototype, runs constructor with fresh `this`, returns instance — **ECMAScript `[[Construct]]`**.
 
----
+## Interview Relevance
 
-## How it works
+new-operator questions check instance creation steps and what happens without new in non-strict mode.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 `new Constructor(args)` is syntactic sugar for a fixed sequence — no magic keyword beyond this algorithm:
 
@@ -27,8 +33,7 @@ new User('Ada')
 
 Works on **any** function with a `prototype` object — convention marks "constructors" by naming (`PascalCase`).
 
-
-## Configuration and commands
+## Technical Details
 
 ### Manual equivalent (understanding only)
 
@@ -68,19 +73,12 @@ class Service {
 // Service() without new → TypeError in class fields mode
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- Object literals for simple data: `{ id: 1 }` not `new Object()`.
+- Factory functions when callers forget `new` often — export plain function returning object.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `TypeError: X is not a constructor` | Arrow fn, or no `.prototype` | Use regular function or class |
-| `instanceof` wrong | Cross-realm or manual prototype | `Symbol.hasInstance` or duck typing |
-| Constructor returns `{}` | Explicit return object | Remove return or document factory |
-| `new` on async function | Not constructable | Use factory async function |
-| Subclass forgets `new` | `Reflect.construct` edge case | Always `new Derived()` |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > `new String(1)` creates object wrapper; `String(1)` returns primitive — subtle `typeof` bugs.
@@ -89,17 +87,10 @@ class Service {
 - **Optional `new` on builtins:** `Symbol()` must not use `new`; `BigInt()` same.
 - **Minifiers** may break `new.target` checks if constructor inlined incorrectly — rare.
 
-
-## When not to use
-
-- Object literals for simple data: `{ id: 1 }` not `new Object()`.
-- Factory functions when callers forget `new` often — export plain function returning object.
-
-
-## Related
-
-[[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/function]] [[Descriptive/JavaScript/execution context]] [[javascript]]
-
-## Sources
-
-- [Wikipedia — new](https://en.wikipedia.org/wiki/new)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `TypeError: X is not a constructor` | Arrow fn, or no `.prototype` | Use regular function or class |
+| `instanceof` wrong | Cross-realm or manual prototype | `Symbol.hasInstance` or duck typing |
+| Constructor returns `{}` | Explicit return object | Remove return or document factory |
+| `new` on async function | Not constructable | Use factory async function |
+| Subclass forgets `new` | `Reflect.construct` edge case | Always `new Derived()` |

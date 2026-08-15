@@ -1,24 +1,35 @@
-[[Nginx]] [[Configuration]]
+[[Configuration]] [[multi-domain]] [[nginx files]] [[nginx config structure]]
 
 # Nginx Automated Config Deployment
 
-> Nginx Automated Config Deployment — automated deploys (Node deploy scripts, Ansible, Terraform) generate per-tenant or per-release Nginx vhosts. The safe pattern:
+> Deploy scripts (Node, Ansible, Terraform) write vhost files — always `nginx -t`, then install, symlink, and reload so bad templates never take traffic.
 
----
+## Interview Relevance
 
-## How it works
+Platform interviews ask how you ship Nginx config safely: least-privilege sudo, atomic install, serialize reloads, and never skip config test in CI.
 
+## Sources
+
+- [nginx.org — Controlling nginx](https://nginx.org/en/docs/control.html) — overview
+- [sudoers manual](https://www.sudo.ws/docs/man/1.8.27/sudoers.man/) — deep-dive
+- [Ansible — template module](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html) — overview
+
+## Core Definition
+
+Automated Nginx config deployment generates per-tenant or per-release vhost files, validates them with `nginx -t`, installs into the include tree, and gracefully reloads workers.
+
+## Key Concepts
+
+- **Safe pipeline:** write temp → `nginx -t` → install to `sites-available` → symlink `sites-enabled` → reload.
+- **Graceful reload:** workers finish in-flight requests; bad config can block new workers if you skip the test.
+- **Least-privilege sudo:** whitelist exact binaries/paths — not `NOPASSWD: ALL`.
+- **Rollback:** keep previous conf versioned; restore + `nginx -t` + reload.
+
+## Technical Details
 
 ```
 App writes /tmp/site.conf  →  sudo nginx -t  →  sudo cp to sites-available  →  symlink  →  reload
 ```
-
-Nginx reload is graceful (workers finish in-flight requests). **Always** `nginx -t` before reload — bad configuration can block new workers.
-
----
-
-
-## Configuration and commands
 
 ### File ownership for static roots
 
@@ -31,18 +42,12 @@ Nginx reads as `www-data`/`nginx` — world-readable static files are fine; writ
 
 ### Passwordless sudo for deploy user (visudo)
 
-```bash
-sudo visudo
-```
-
 ```text
 ubuntu ALL=(root) NOPASSWD: /usr/sbin/nginx -t
 ubuntu ALL=(root) NOPASSWD: /bin/systemctl reload nginx
 ubuntu ALL=(root) NOPASSWD: /bin/cp /tmp/nginx-*.conf /etc/nginx/sites-available/*
 ubuntu ALL=(root) NOPASSWD: /bin/ln -sf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
 ```
-
-Verify least privilege:
 
 ```bash
 sudo -l
@@ -65,8 +70,7 @@ await exec('sudo nginx -t');
 await exec('sudo systemctl reload nginx');
 ```
 
-> [!WARNING]
-> Whitelist exact commands in sudoers — not blanket `NOPASSWD: ALL`.
+Prefer testing before install in stricter pipelines: write → `nginx -t -c` test harness → copy → reload.
 
 ### Rollback
 
@@ -75,50 +79,32 @@ sudo cp /etc/nginx/sites-available/site.conf.bak /etc/nginx/sites-available/site
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Keep previous configuration versioned in git or object storage.
-
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Deploy succeeds but site 502 | Generated `proxy_pass` port wrong | Diff generated conf vs working; test upstream with `curl` |
-| `nginx -t` fails in CI | Syntax error in template | Run `nginx -t` locally with same output; check unescaped `$` in templates |
+| Deploy succeeds but site 502 | Generated `proxy_pass` port wrong | Diff generated conf vs working; `curl` upstream |
+| `nginx -t` fails in CI | Syntax error in template | Reproduce locally; check unescaped `$` in templates |
 | Permission denied on sudo | `sudo -l` | Add missing command to sudoers |
-| Old config still served | Symlink not updated | `readlink -f /etc/nginx/sites-enabled/site`; force `ln -sf` |
-| Include path broken | No shell expansion in `include` | Use absolute paths in generated configs |
+| Old config still served | Symlink not updated | `readlink -f …/sites-enabled/site`; force `ln -sf` |
+| Include path broken | No shell expansion in `include` | Absolute paths in generated configs |
 
----
+## Real-World Applications
 
+Multi-tenant SaaS that provisions a vhost per customer domain from a deploy job; blue/green release that swaps upstream ports in generated config.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Race on reload:** Two deploys concurrently can interleave copy + reload. Serialize deploys per host or use config hash + atomic rename.
+- **Pro:** Fast, repeatable vhost provisioning with graceful reload.
+- **Con:** Concurrent deploys can race copy+reload — serialize per host or use atomic rename + single reload.
+- **Con:** On Kubernetes, prefer Ingress/Gateway over shelling to host Nginx from pods.
 
-> [!WARNING]
-> **`envsubst` and `$uri`:** Template tools may eat Nginx `$variables`. Escape as `$uri` or use `$$uri` depending on tool.
+## Comparison
 
-> [!WARNING]
-> **Never disable `nginx -t` in pipeline** — production incident from one missing semicolon.
+- vs Ansible/Terraform fleet management: better for many hosts than per-app runtime sudo.
+- vs [[Nginx ingress]]: in-cluster CRDs instead of writing `/etc/nginx` on nodes.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Kubernetes ingress** — use Ingress controller or Gateway API; don't shell out to host Nginx from pods.
-- **Multi-host fleet** — Ansible/Terraform managing `/etc/nginx` beats per-application sudo from runtime.
-
----
-
-
-## Related
-
-[[Configuration]] [[multi-domain]] [[nginx files]]
-
-## Sources
-
-- [Wikipedia — nginx auto file configuration](https://en.wikipedia.org/wiki/nginx_auto_file_configuration)
+- Blanket `NOPASSWD: ALL` for the deploy user.
+- Template tools (`envsubst`) eating Nginx `$uri` — escape (`$$uri`) as required.
+- Disabling `nginx -t` in the pipeline “to save time.”
+- Hand-editing generated files instead of the template source.

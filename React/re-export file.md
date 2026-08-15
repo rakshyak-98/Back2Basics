@@ -2,24 +2,49 @@
 
 # re-export file
 
-> re-export file shapes how React applications compose UI, state, and side effects in production.
+> Barrel `index.ts` that re-exports modules — shorter imports, but easy to create circular deps and fat bundles.
 
-## What this is
+## Interview Relevance
 
-Production React splits concerns across routing, feature modules, shared UI, client versus server state, and infrastructure (API clients, authentication, error boundaries). The first failure mode is usually duplicated server state in client stores or bundle bloat from importing server-only modules into client trees.
+Interviewers ask about barrel files, tree-shaking, and circular import hazards in React codebases.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [MDN — export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) — overview
+- [Webpack tree shaking](https://webpack.js.org/guides/tree-shaking/) — deep-dive
 
-## Recall
+## Core Definition
 
-What breaks first in production if `re-export file` is misused — bundle size, stale UI, or hydration errors?
+A re-export (barrel) file aggregates `export * from` / named exports so consumers import from a folder path.
 
-## Related
+## Key Concepts
 
-[[react hooks]] [[React State management]] [[React Architecture]]
+- **Convenience:** `import { Button } from '@/ui'`.
+- **Cost:** accidental pull of heavy modules; cycles through index.
+- **Mitigation:** path imports for heavy leaves; avoid side effects in barrels.
+
+## Technical Details
+
+```ts
+// ui/index.ts
+export { Button } from './Button'
+export { Modal } from './Modal'
+```
+
+## Real-World Applications
+
+Design-system package exposes a clean public API via barrels while keeping internal files deep-imported inside the package.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Stable public API surface.
+- **Con:** Can defeat tree-shaking and hide dependency cycles.
+
+## Comparison
+
+- vs deep imports: more verbose but clearer bundle boundaries.
+
+## Mistakes to Avoid
+
+- Barrel that re-exports a whole app folder.
+- Circular `A → index → B → index → A`.

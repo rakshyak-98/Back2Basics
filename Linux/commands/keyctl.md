@@ -1,136 +1,69 @@
-[[Linux management]] [[Linux Key management]] [[process]]
+[[Linux Key management]] [[management/Linux Key management]] [[process]] [[file mount]] [[keyrings]]
 
 # keyctl
 
-> keyctl — linux key retention service holds opaque blobs (keys) in keyrings attached to user, session, process, or thread. User-space sees them via keyutils (keyctl, keyctl(1)).
+> keyctl manages the Linux kernel key retention service — opaque keys in session/user/process keyrings for NFS, module signing, and OS helpers.
 
----
+## Interview Relevance
+Distinguishes kernel keyutils from apt GPG keyrings / GNOME Keyring — and knows session vs user keyrings, `logon` unreadability.
 
-## How it works
+## Sources
+- [keyctl(1)](https://man7.org/linux/man-pages/man1/keyctl.1.html) — deep-dive
+- [kernel keys documentation](https://www.kernel.org/doc/html/latest/security/keys/core.html) — deep-dive
 
-Linux **key retention service** holds opaque blobs (keys) in **keyrings** attached to user, session, process, or thread. User-space sees them via `keyutils` (`keyctl`, `keyctl(1)`).
+## Core Definition
+The kernel holds key objects in **keyrings** attached to user, session, process, or thread. User space uses `keyutils` (`keyctl`) to show, add, read (when permitted), timeout, and clear keys. Types include `user`, `logon`, `encrypted`, `asymmetric`, `dns_resolver`.
 
-```
-request_key / add_key / keyctl
-         │
-         ▼
-  ┌──────────────┐     ┌─────────────────┐
-  │ session      │────►│ user / process  │──► key serial → description, type, expiry
-  │ keyring      │     │ keyrings        │
-  └──────────────┘     └─────────────────┘
-         │
-    nfs.idmap, dns_resolver, asymmetric, logon, encrypted, …
-```
+## Key Concepts
+- **Key serial:** Numeric ID for a key object.
+- **Session keyring (`@s`):** Per-login; default for many helpers.
+- **User keyring (`@u`):** Per-UID across sessions.
+- **`logon` keys:** Kernel-only secrets — `keyctl read` fails by design.
+- **Not apt/GPG/GNOME:** Different “keyring” words.
 
-| Concept | Meaning |
-|---------|---------|
-| **Key serial** | Numeric ID for a key object |
-| **Keyring** | Container of keys (like a directory) |
-| **Key type** | `user`, `logon`, `encrypted`, `asymmetric`, `dns_resolver`, … |
-| **Session keyring** | Per-login session; default for `request_key` helpers |
-
-**Do not confuse with:** apt `/usr/share/keyrings/*.gpg` (Debian repository trust) or GNOME Keyring / GnuPG — see [[Linux Key management]] for **OpenSSL/GPG file keys**. `keyctl` is **kernel keyutils**.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **keyring** | In-kernel key store | “Keys can live in kernel, not files.” |
-| **keyctl** | Userspace control | “keyctl show / add / pipe.” |
-| **session keyring** | Per-login keys | “Gone at logout unless linked.” |
-| **user keyring** | Per-UID | “Shared across sessions of user.” |
-| **timeout** | Key expiry | “Short-lived creds via keyctl timeout.” |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
-# Package (most distros)
-sudo apt install keyutils   # Debian/Ubuntu
-sudo dnf install keyutils   # RHEL/Fedora
+sudo apt install keyutils
 
-# Show keyrings for current session
 keyctl show
-# @s  session keyring
-#  -3  user keyring
-#  -1  thread/process keyring (context-dependent)
-
-# Session for a specific UID (root)
-sudo keyctl show @u
-
-# List keys in session ring
 keyctl list @s
-
-# Describe one key by serial (from list output)
 keyctl describe 123456789
-
-# Read payload (types that permit it — often restricted)
 sudo keyctl read 123456789
-
-# Clear session keyring (destructive — know what uses it)
 keyctl clear @s
-
-# Pin / unpin (prevent expiry under memory pressure)
 keyctl pin @s
-```
 
-**Common key types operators see:**
+sudo keyctl show @u
+keyctl get_persistent 0 @u
+```
 
 | Type | Typical use |
 |------|-------------|
-| `logon` | Kernel / initramfs secrets — **not readable from user space** |
-| `encrypted` | Keys wrapped by master key in kernel |
-| `asymmetric` | Module signature verification, IMA/EVM |
+| `logon` | Kernel/initramfs secrets — not userspace-readable |
+| `encrypted` | Keys wrapped by master key |
+| `asymmetric` | Module sig / IMA/EVM |
 | `dns_resolver` | Kernel DNS cache keys |
 | `user` | Generic payload; NFS idmap helpers |
 
-**Persistent keyrings (survive process exit):**
-
-```bash
-# Root persistent keyring for UID 0
-keyctl get_persistent 0 @u
-keyctl show $(keyctl get_persistent 0 @u)
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| NFS `key expired` / mount auth fails | `keyctl show`; `keyctl list @s` | Re-run `nfsidmap`; remount; check `rpc.idmapd` |
-| `request_key: upcall failed` in dmesg | `journalctl -k`; helper `/sbin/request-key` | Install `keyutils`; fix helper timeout |
-| Module load `Required key not available` | `keyctl list @s`; MOK/secure boot | Enroll signing key; `mokutil` / distro doc |
-| Keys accumulate / memory | `keyctl show` serial count | Expire stale keys; restart session; `keyctl clear` in dev only |
-| Container lacks session keyring | `keyctl show` inside namespace | Expected — host keys not visible; debug per-namespace |
+| NFS key expired | `keyctl show` / list `@s` | Remount; `nfsidmap`; `rpc.idmapd` |
+| `request_key` upcall failed | `journalctl -k` | Install keyutils; fix helper |
+| Module “Required key not available” | keyctl list; secure boot | Enroll signing key / MOK |
+| Container empty keyrings | `keyctl show` in ns | Expected — debug inside namespace |
 
-```bash
-# Kernel messages for key subsystem
-dmesg | grep -i key
-journalctl -k | grep -i 'request_key\|keyctl'
-```
+## Real-World Applications
+Debugging NFS idmap failures, checking module signature keys, and verifying a session still holds expected kernel credentials after login.
 
+## Pros/Cons or Trade-offs
+- **Pro:** OS-integrated short-lived secrets without world-readable files.
+- **Con:** Easy to clear the wrong ring; namespace-scoped; opaque errors.
+- **Trade-off:** Kernel keyrings for OS contracts vs Vault/KMS for app secrets.
 
-## Gotchas
+## Comparison
+vs [[keyrings]] / apt `signed-by`: Debian package trust files. vs GPG/GNOME Keyring: userspace crypto stores. vs `ssh-add`: SSH agent protocol, not keyctl.
 
-> [!WARNING]
-> **`keyctl clear @s` on a live login** can break NFS, Kerberos tickets cached in kernel, or custom `request_key` workflows until re-authenticated.
-
-- **`logon` keys are intentionally unreadable** — `keyctl read` fails by design.
-- **Namespaces:** PID/mount/user namespaces each affect which keyring `@s` refers to — debug from **inside** the failing context.
-- **Not SSH agent** — `ssh-add` uses agent protocol; different from kernel keyrings.
-
-
-## When not to use
-
-- **Managing TLS cert files or GPG keys** — use [[Linux Key management]], `gpg`, `openssl`.
-- **Storing application secrets in production** — use vault/KMS; kernel keyrings are for OS/integration contracts (NFS, IMA, module sig).
-- **Daily password/keyring unlock prompts on GNOME** — that’s **GNOME Keyring** / PAM, not `keyctl` CLI.
-
-
-## Related
-
-[[Linux Key management]] [[Linux management]] [[process]] [[file mount]]
-
-## Sources
-
-- [Wikipedia — keyctl](https://en.wikipedia.org/wiki/keyctl)
+## Mistakes to Avoid
+- `keyctl clear @s` on a live login that uses NFS/Kerberos helpers.
+- Expecting `keyctl read` on `logon` keys.
+- Confusing apt `/usr/share/keyrings` with kernel keyutils.

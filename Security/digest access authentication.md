@@ -1,12 +1,23 @@
-[[Security]] [[TLS (Transport Layer Security)]] [[Base64]] [[HMAC (Hash based Message Authentication Codes)]]
+[[Security]] [[TLS (Transport Layer Security)]] [[Base64]] [[HMAC (Hash based Message Authentication Codes)]] [[JWT]] [[Authentication terms]]
 
 # digest access authentication
 
 > Digest auth — browser proves it knows the password by sending a hash (with nonce), not the raw password — still prefer TLS + modern auth.
 
----
+## Interview Relevance
 
-## How it works
+Legacy auth: Digest avoids sending the raw password but is obsolete for new apps versus TLS + modern session/token auth.
+
+## Sources
+
+- [RFC 7616 — HTTP Digest Access Authentication](https://www.rfc-editor.org/rfc/rfc7616) — deep-dive
+- [MDN — HTTP authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) — overview
+
+## Core Definition
+
+HTTP Digest authentication proves password knowledge with a hash involving a nonce, without sending the password in the clear — still weaker than modern schemes over TLS.
+
+## Key Concepts
 
 ```txt
 Client                     Server
@@ -21,10 +32,7 @@ Client                     Server
 | **Digest** | Hash involving password + nonce |
 | **Bearer** | Opaque/JWT token (modern APIs) |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```nginx
 # Example concept — many stacks discourage Digest now
@@ -45,10 +53,7 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 | `realm` | Password hash is realm-scoped |
 | HTTPS | Still required — Digest has known weaknesses |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -58,36 +63,24 @@ Authorization: Digest username="u", realm="api", nonce="…", uri="/x", response
 | User can’t log in after migrate | Passwd file format / realm change | Regenerate digest hashes for realm |
 | Intermittent replay rejects | Nonce count (`nc`) | Sticky sessions or disable strict nc if legacy client |
 
----
+## Real-World Applications
 
+Legacy device UIs and old proxies may still speak Digest — new apps should use TLS plus session or token auth instead.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Digest is not modern best practice** — phishing, downgrade, and algorithm limits remain; use OAuth/OIDC or session cookies over TLS.
+- **Pro:** Better than cleartext Basic on ancient clients when TLS is missing (legacy only).
+- **Con:** New public APIs — Bearer JWT/OIDC or HMAC-signed requests.
+- **Con:** Browser SPAs — interactive login + CSRF-safe cookies or Authorization header.
+- **Con:** High-security banking UX — layered modern MFA, not Digest.
 
-> [!WARNING]
-> **Basic + TLS ≠ Digest** — Basic is fine *with* TLS for simple cases; Digest’s advantage was mainly cleartext HTTP (don’t do that).
+## Comparison
 
-> [!WARNING]
-> **Password file is hashed for a realm** — changing realm invalidates entries.
+- vs Basic auth: Digest avoids cleartext password but is still legacy.
+- vs [[JWT]] / session cookies over [[TLS (Transport Layer Security)]]: prefer modern schemes for new apps.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **New public APIs** — Bearer JWT/OIDC or HMAC-signed requests.
-- **Browser SPAs** — interactive login + CSRF-safe cookies or Authorization header.
-- **High-security banking UX** — layered modern MFA, not Digest.
-
----
-
-
-## Related
-
-[[TLS (Transport Layer Security)]] [[HMAC (Hash based Message Authentication Codes)]] [[JWT]] [[Base64]] [[Authentication terms]]
-
-## Sources
-
-- [Wikipedia — digest access authentication](https://en.wikipedia.org/wiki/digest_access_authentication)
+- Digest is not modern best practice — phishing, downgrade, and algorithm limits remain; use OAuth/OIDC or session cookies over TLS.
+- Basic + TLS ≠ Digest — Basic is fine *with* TLS for simple cases; Digest’s advantage was mainly cleartext HTTP (don’t do that).
+- Password file is hashed for a realm — changing realm invalidates entries.

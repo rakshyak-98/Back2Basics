@@ -1,14 +1,26 @@
-[[docker container]] [[docker file]] [[Docker Runtime Security]] [[Swarm network]]
+[[docker container]] [[docker file]] [[Docker Runtime Security]] [[Swarm network]] [[Terraform docker]]
 
 # Docker compose
 
-> Docker compose — compose orchestrates one host / one stack (dev, CI, small prod). Not a cluster scheduler — that's Kubernetes.
+> Compose runs a multi-service stack on one host from a YAML file — great for development, CI, and small single-node production; not a cluster scheduler.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask Compose to see if you know service DNS, healthchecks versus weak `depends_on`, secrets handling, and when you graduate to Kubernetes or Swarm.
 
-Compose orchestrates **one host / one stack** (development, CI, small production). Not a cluster scheduler — that's Kubernetes.
+## Sources
+
+- [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) — deep-dive
+- [Docker Compose overview](https://docs.docker.com/compose/) — overview
+
+## Key Concepts
+
+- **One host / one stack:** `docker compose up` parses YAML + `.env`, creates a project network, builds/pulls, starts containers — not multi-node HA.
+- **v2 CLI:** `docker compose` (plugin) replaces legacy `docker-compose` (hyphen); same Compose Specification via Engine API.
+- **Project + service DNS:** project name defaults to directory (or `-p`); service name is DNS on the default network (`http://api:8080` from a sibling).
+- **Health-gated start:** without `condition: service_healthy`, `depends_on` only waits for container start — first requests race the database.
+
+## Technical Details
 
 ```
 docker compose up
@@ -18,16 +30,6 @@ docker compose up
     ├── pull/build images
     └── start containers with links, volumes, env
 ```
-
-**v2 mental model:** `docker compose` (space) replaces legacy `docker-compose` (hyphen). Same Compose Specification; implementation is Go plugin talking to Docker Engine API.
-
-```
-Project name = directory name (or -p)
-Service name = DNS name on default network  →  http://api:8080 from sibling container
-```
-
-
-## Configuration and commands
 
 ### Minimal production-shaped compose.yaml
 
@@ -107,8 +109,6 @@ docker compose down -v         # also removes named volumes — destructive
 
 ### depends_on + healthchecks
 
-**Without `condition: service_healthy`**, `depends_on` only waits for container *start*, not application ready — race on first request.
-
 ```yaml
 depends_on:
   redis:
@@ -125,12 +125,7 @@ depends_on:
 | `networks: [frontend, backend]` | Split public nginx from internal API |
 | `external: true` | Join pre-created network (shared reverse proxy) |
 
-### Secrets (compose-native)
-
-Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment:`. Swarm mode mounts secrets; standalone compose bind-mounts secret file read-only.
-
-
-## When things break
+Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment:`. Swarm mounts secrets; standalone compose bind-mounts the secret file read-only.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -143,33 +138,28 @@ Prefer `secrets:` + `_FILE` environment variables over plaintext in `environment
 | `port is already allocated` | Host port clash | Change `ports:` or stop conflicting service |
 | Prod outage after `down -v` | Operator ran destructive down | Backups; document runbooks; avoid `-v` in prod |
 
+## Real-World Applications
 
-## Gotchas
+Local full-stack development, CI integration tests, and small single-node SaaS or edge boxes.
 
-> [!WARNING]
-> **Bind mount database data dir** — SELinux (`:Z`), path drift, backup/restore pain, corrupt on laptop sleep. Use **named volumes** for state.
+**Example:** An API and Postgres share a `backend` network; the API waits on `service_healthy` before migrations run so first boot does not race an empty database.
 
-> [!WARNING]
-> **`restart: always` on dev laptop** — Docker daemon restart resurrects everything; port conflicts at boot.
+## Pros/Cons or Trade-offs
 
-- **`version:` key deprecated** — Compose specification doesn't require it; remove `version: '3.8'` from new files.
-- **`.env` committed with production credentials** — compose auto-loads `.env`; gitignore it.
-- **`build:` without pinned base image digest** — reproducibility drift.
-- **`depends_on` ≠ orchestration** — no rolling update, no auto-heal beyond restart policy; use K8s/swarm for that.
-- **Resource limits in compose** — `deploy.resources` applies in Swarm; for standalone use `mem_limit` / `cpus` (compose v2 supports both patterns — verify with `docker compose config`).
+- **Pro:** One YAML describes the whole stack — fast iteration, shared with teammates and CI.
+- **Con:** No multi-node HA, PDB, or autoscaling — plan a migration path early for large production.
+- **Con:** Resource `deploy.resources` is Swarm-oriented; standalone needs `mem_limit` / `cpus` patterns verified with `docker compose config`.
 
+## Comparison
 
-## When not to use
+- vs [[kubectl]] / Kubernetes: Compose is single-host; K8s is cluster scheduling, rolling updates, and policy.
+- vs [[Swarm network]]: Swarm adds multi-host overlay and routing mesh; Compose alone stays on one Engine.
+- vs plain `docker run`: Compose owns networks, volumes, and dependency order declaratively.
 
-- **Multi-node HA, PDB, autoscaling** — [[kubectl]] / Kubernetes.
-- **Secret rotation at scale** — Vault, cloud SM, not flat files on disk.
-- **Compose in production at large scale** — OK for single-node edge/small SaaS; plan migration path early.
+## Mistakes to Avoid
 
-
-## Related
-
-[[docker container]] [[docker file]] [[Docker Runtime Security]] [[Swarm network]] [[Terraform docker]]
-
-## Sources
-
-- [Wikipedia — Docker compose](https://en.wikipedia.org/wiki/Docker_compose)
+- Bind-mounting database data directories — SELinux (`:Z`), path drift, corrupt on laptop sleep; use named volumes for state.
+- `restart: always` on a development laptop — daemon restart resurrects everything and fights for ports.
+- Leaving the deprecated `version:` key; committing `.env` with production credentials; building without pinned base digests.
+- Treating `depends_on` as orchestration — no rolling update, no auto-heal beyond restart policy.
+- Secret rotation at scale with flat files — use Vault or a cloud secret manager instead.

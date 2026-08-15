@@ -1,12 +1,28 @@
-[[NodeJS]] [[CLI]] [[nvm]] [[Linux/commands/Services commands]]
+[[NodeJS]] [[CLI]] [[nvm]] [[Linux/commands/Services commands]] [[Nginx/Configuration]] [[Docker/Docker Runtime Security]]
 
 # Node.js run as a non-privileged user
 
 > Node.js run as a non-privileged user — node apps should run as a dedicated low-privilege user (node, app, www-data). Root-owned processes that parse untrusted input are
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **Node.js run as a non-privileged user** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive
+- [Wikipedia — Node.js run as a non-privileged user](https://en.wikipedia.org/wiki/Node.js_run_as_a_non-privileged_user) — overview
+
+## Core Definition
+
+Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
+
+## Key Concepts
+
+- Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privilege…
+- Ports **< 1024** require root unless `setcap cap_net_bind_service` on the node binary (use sparingly) or a front proxy.
+
+## Technical Details
 
 Node apps should run as a **dedicated low-privilege user** (`node`, `app`, `www-data`). Root-owned processes that parse untrusted input are full box compromise on RCE. Privileged operations (reload nginx, bind :443) belong in **systemd** `ExecStartPre` or separate administrator tools — not `sudo` from the application.
 
@@ -17,9 +33,6 @@ Better: systemd User=appuser + EnvironmentFile + Restart=on-failure
 ```
 
 Ports **< 1024** require root unless `setcap cap_net_bind_service` on the node binary (use sparingly) or a front proxy.
-
-
-## Configuration and commands
 
 ### Interactive run as user
 
@@ -79,41 +92,28 @@ sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 # document: lost on node upgrade/reinstall
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **Node.js run as a non-privileged user** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Build as root, run as user** — `node_modules` owned by root breaks runtime writes and native rebuilds; **`setcap` on node** — any script run with that binary can bind low ports; prefer reverse proxy.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `EACCES` writing logs/uploads | File owner root | `chown` app dir to service user |
-| `node: command not found` in service | PATH not loaded | Absolute path to node binary in unit |
-| Env vars empty under systemd | Missing EnvironmentFile | Add `EnvironmentFile=`; no shell profile in services |
-| Can't bind 80/443 | Privileged port | Proxy on 443; app on 3000+ |
-| Permission denied on `npm install` | Running as wrong user | Install deps as appuser in CI/build stage |
-| sudo nginx reload fails | NOPASSWD missing | Use root deploy hook, not app runtime sudo |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (Node.js run as a non-privileged user — node apps should run as a dedicated low-p…).
+- **Con / when not:** **One-shot CLI as your own user** — no need for service user locally.
+- **Con / when not:** **Container** — USER directive in Dockerfile replaces host user model (still non-root).
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **Build as root, run as user** — `node_modules` owned by root breaks runtime writes and native rebuilds.
+vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable. vs [[Linux/commands/Services commands]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **`setcap` on node** — any script run with that binary can bind low ports; prefer reverse proxy.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Secrets in world-readable `.env`** — mode `600`, owned by service user.
-
-
-## When not to use
-
-- **One-shot CLI as your own user** — no need for service user locally.
-- **Container** — USER directive in Dockerfile replaces host user model (still non-root).
-
-
-## Related
-
-[[CLI]] [[nvm]] [[Nginx/Configuration]] [[Linux/commands/Services commands]] [[Docker/Docker Runtime Security]]
-
-## Sources
-
-- [Wikipedia — Node.js run as a non-privileged user](https://en.wikipedia.org/wiki/Node.js_run_as_a_non-privileged_user)
+- **Build as root, run as user** — `node_modules` owned by root breaks runtime writes and native rebuilds.
+- **`setcap` on node** — any script run with that binary can bind low ports; prefer reverse proxy.
+- **Secrets in world-readable `.env`** — mode `600`, owned by service user.
+- **`EACCES` writing logs/uploads:** check File owner root; fix: `chown` app dir to service user
+- **`node: command not found` in service:** check PATH not loaded; fix: Absolute path to node binary in unit
+- **Env vars empty under systemd:** check Missing EnvironmentFile; fix: Add `EnvironmentFile=`; no shell profile in services
+- **Can't bind 80/443:** check Privileged port; fix: Proxy on 443; app on 3000+
+- **Permission denied on `npm install`:** check Running as wrong user; fix: Install deps as appuser in CI/build stage
+- **sudo nginx reload fails:** check NOPASSWD missing; fix: Use root deploy hook, not app runtime sudo

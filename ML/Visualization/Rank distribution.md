@@ -4,9 +4,16 @@
 
 > Rank distribution — a ranker should produce a spread of scores so sorting separates good from bad items. Healthy distribution:
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about Rank distribution to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 A ranker should produce a **spread** of scores so sorting separates good from bad items. Healthy distribution:
 
@@ -29,10 +36,7 @@ Failure modes:
 
 Compare **train, value, and production** score distributions — drift here precedes [[Normalized Discounted Cumulative Gain (NDCG)]] drops.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import matplotlib.pyplot as plt
@@ -68,10 +72,19 @@ for p in [50, 90, 99]:
 
 Alert if p50 jumps week-over-week without redeploy explanation.
 
----
+## Pros/Cons or Trade-offs
 
+- **Pure classification** without scores — use confusion matrix ([[binary classification]]).
+- **Regression error analysis** — [[Visualization/Residual plot]] instead.
+- **Small offline sets** — histograms noisy; rely on [[Mean Average Precision (MAP)]] with confidence intervals.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Global histogram hides per-query effects** — search quality is per-query; always check within-query rank stats too.
+
+> [!WARNING]
+> **Calibrated probability ≠ good rank spread** — you need relative ordering, not just 0–1 density.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -81,33 +94,3 @@ Alert if p50 jumps week-over-week without redeploy explanation.
 | Top-k always same items | Popularity bias | Negative sampling; diversify |
 | Bimodal after deploy | A/B bucket mixing | Split metrics by variant |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Global histogram hides per-query effects** — search quality is per-query; always check within-query rank stats too.
-
-> [!WARNING]
-> **Calibrated probability ≠ good rank spread** — you need relative ordering, not just 0–1 density.
-
----
-
-
-## When not to use
-
-- **Pure classification** without scores — use confusion matrix ([[binary classification]]).
-- **Regression error analysis** — [[Visualization/Residual plot]] instead.
-- **Small offline sets** — histograms noisy; rely on [[Mean Average Precision (MAP)]] with confidence intervals.
-
----
-
-
-## Related
-
-[[Mean Average Precision (MAP)]] · [[Normalized Discounted Cumulative Gain (NDCG)]] · [[Visualization/predicated versus actual plot]] · [[rank prediction]]
-
-## Sources
-
-- [Wikipedia — Rank distribution](https://en.wikipedia.org/wiki/Rank_distribution)

@@ -2,23 +2,30 @@
 
 # TCP
 
-> Transmission Control Protocol delivers a reliable, ordered byte stream between two endpoints — the first thing that breaks under load is usually flow control, congestion, or a middlebox idle timeout.
+> Transmission Control Protocol delivers a reliable, ordered byte stream between two endpoints — under load, flow control, congestion, or middlebox idle timeouts usually break first.
 
-## What TCP guarantees
+## Interview Relevance
 
-TCP (RFC 9293, successor to RFC 793) sits above IP and provides:
+Interviewers use TCP to check whether you understand reliability mechanisms (seq/ack, windows, congestion) versus “TCP just works,” and when you would pick [[UDP]] or QUIC instead.
 
-| Property | Mechanism |
-|----------|-----------|
-| Reliable delivery | Sequence numbers, acknowledgements, retransmission |
-| Ordered delivery | Receiver buffers out-of-order segments until gaps fill |
-| Flow control | Receiver window (`rwnd`) limits in-flight data |
-| Congestion control | Congestion window (`cwnd`) adapts to packet loss |
-| Connection-oriented | Four-tuple (source IP, source port, destination IP, destination port) identifies each connection |
+## Sources
 
-Unlike [[UDP]], TCP does **not** preserve message boundaries. One `write()` may become several segments; several `read()` calls may consume one segment. Applications must define framing (HTTP `Content-Length`, length-prefix, delimiters).
+- [RFC 9293 — Transmission Control Protocol (TCP)](https://www.rfc-editor.org/rfc/rfc9293) — deep-dive
+- [Wikipedia — Transmission Control Protocol](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) — overview
 
-## Connection lifecycle
+## Core Definition
+
+TCP sits above IP and turns an unreliable packet path into a connection-oriented, ordered byte stream identified by a four-tuple (source IP, source port, destination IP, destination port).
+
+## Key Concepts
+
+- **Reliability:** sequence numbers, acknowledgements, retransmission → lost segments recover without the app reinventing them.
+- **Ordered delivery:** receiver buffers out-of-order segments → apps see a contiguous stream (and pay head-of-line blocking).
+- **Flow control (`rwnd`):** receiver window limits in-flight data → protects a slow reader.
+- **Congestion control (`cwnd`):** adapts to loss → protects the shared network.
+- **No message boundaries:** one `write()` may become many segments → apps must frame (length prefix, delimiters, HTTP `Content-Length`).
+
+## Technical Details
 
 ```
 Client                          Server
@@ -32,13 +39,7 @@ Client                          Server
 
 After close, the side that sent the first FIN enters **TIME-WAIT** (typically 2× MSL) to catch late duplicates — this can block port reuse on busy servers.
 
-## Congestion and performance
-
-Modern Linux defaults include CUBIC or BBR congestion control. Loss triggers retransmission (RTO or fast retransmit after three duplicate ACKs). **Head-of-line blocking** means one lost segment stalls the entire byte stream — a motivation for QUIC/HTTP/3 over [[UDP]].
-
-**Nagle's algorithm** batches small writes; combined with delayed ACK it can add latency for chatty protocols. `TCP_NODELAY` disables Nagle when needed.
-
-## Operations
+Modern Linux defaults include CUBIC or BBR. Loss triggers retransmission (RTO or fast retransmit after three duplicate ACKs). **Nagle's algorithm** batches small writes; with delayed ACK it can add latency — `TCP_NODELAY` disables Nagle when needed.
 
 ```bash
 ss -tan state established
@@ -55,11 +56,25 @@ sysctl net.core.somaxconn
 | RST after idle | Load balancer or NAT timeout |
 | Garbled messages | Missing application-level framing |
 
-## When to choose something else
+## Real-World Applications
 
-Live audio/video with loss tolerance, DNS-style request/response, multicast discovery, and gaming often prefer [[UDP]] with application-level reliability where needed.
+HTTPS, databases, SSH, and most request/response APIs run over TCP.
 
-## Sources
+**Example:** An API behind a load balancer sees random RST after idle — the LB or [[NAT (Network Address Translation)]] UDP/TCP idle timer expired; enable keepalives or shorten idle.
 
-- [RFC 9293 — Transmission Control Protocol (TCP)](https://www.rfc-editor.org/rfc/rfc9293)
-- [Wikipedia — Transmission Control Protocol](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Built-in reliability and ordering — correct for most request/response and file transfer.
+- **Con:** Head-of-line blocking — one lost segment stalls the whole stream (motivation for QUIC/HTTP/3 over [[UDP]]).
+- **Con:** Connection setup and TIME-WAIT cost matter at high churn.
+
+## Comparison
+
+- vs [[UDP]]: UDP is datagram, unordered, no congestion by default — apps own reliability.
+- vs QUIC/HTTP/3: multiplexed streams over UDP with independent loss recovery.
+
+## Mistakes to Avoid
+
+- Treating TCP as message-oriented — without framing, `read()` boundaries are not application messages.
+- Ignoring middlebox idle timeouts — long-lived quiet connections die without keepalives.
+- Enabling Nagle on latency-sensitive chatty protocols without measuring.

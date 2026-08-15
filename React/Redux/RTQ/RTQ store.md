@@ -1,25 +1,42 @@
 [[react hooks]] [[React State management]] [[React Architecture]] [[RTQ Toolkit]] [[RTQ tags]] [[redux store architecture]]
 
-# RTQ store
+# RTK Query store wiring
 
-> RTQ store shapes how React applications compose UI, state, and side effects in production.
+> Add RTK Query reducer and middleware to configureStore so generated hooks work.
 
-## What this is
+## Interview Relevance
 
-Redux centralizes application state in a single store updated through dispatched actions and pure reducers. Redux Toolkit is the recommended integration path: `configureStore`, `createSlice`, and `createAsyncThunk` replace hand-written action types and boilerplate ([Redux Toolkit overview](https://redux.js.org/redux-toolkit/overview)).
+Interviewers want action → reducer → store → subscribe data flow, immutability, and why Redux Toolkit is the default path.
 
-## What breaks first
+## Sources
 
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
+- [RTK Query store wiring](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive
+- [Redux getting started](https://redux.js.org/introduction/getting-started) — overview
 
-## Recall
+## Key Concepts
 
-What breaks first in production if `RTQ store` is misused — bundle size, stale UI, or hydration errors?
+- **Data flow:** dispatch → middleware → reducer → subscribers.
+- **Modern path:** Redux Toolkit; avoid hand-written switch statements for new code.
 
-## Related
+## Technical Details
 
-[[react hooks]] [[React State management]] [[React Architecture]] [[RTQ Toolkit]] [[RTQ tags]] [[redux store architecture]]
+Prefer official RTK APIs documented at the Sources link. Cross-link [[Redux/Redux concept and data flow]] and [[Redux toolkit]].
+
+## Real-World Applications
+
+Use RTK Query store wiring when your app’s Redux layer needs that capability; keep server lists in RTK Query or TanStack Query.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Centralized, debuggable updates with DevTools.
+- **Con:** Ceremony — skip Redux for local UI-only state.
+
+## Comparison
+
+- vs [[zustand]]: Redux for large shared client graphs + middleware; Zustand for minimal stores.
+
+## Mistakes to Avoid
+
+- Mutating state outside Immer drafts.
+- Caching server entities only in slices without a query layer.
+- Persisting secrets to localStorage.

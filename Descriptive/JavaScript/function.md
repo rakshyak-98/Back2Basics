@@ -1,12 +1,18 @@
-[[Descriptive/JavaScript/execution context]] [[Descriptive/JavaScript/constructor function]] [[javascript]] [[NodeJS/Event Loop]]
+[[Descriptive/JavaScript/execution context]] [[Descriptive/JavaScript/constructor function]] [[javascript]] [[NodeJS/Event Loop]] [[Descriptive/JavaScript/Concurrency]]
 
 # Function (JavaScript)
 
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
----
+## Interview Relevance
 
-## How it works
+Function interviews cover declarations vs expressions, closures, and first-class usage.
+
+## Sources
+
+- [MDN Web Docs](https://developer.mozilla.org/) — overview
+
+## Key Concepts
 
 Functions are values: assign, pass, return, store on objects. Each **invocation** creates a new execution context; the function object persists and can hold its own properties.
 
@@ -24,8 +30,7 @@ fn(2, 3) → new context → return 5 → context popped
 | Arrow function | lexical `this` | not hoisted as fn |
 | Method shorthand | receiver object | like declaration |
 
-
-## Configuration and commands
+## Technical Details
 
 ### Core patterns
 
@@ -75,19 +80,12 @@ const withAuth = (token) => (req) => fetch(req, {
 });
 ```
 
+## Pros/Cons or Trade-offs
 
-## When things break
+- One-liner used once — inline or extract only when name clarifies intent.
+- Class when only data — plain object or record type may suffice.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `fn is not a function` | Import/export mismatch | Default vs named export |
-| Wrong arity silently | Extra args ignored | Validate length or use TS |
-| `this` undefined in method passed as callback | Detached method | `bind`, arrow wrapper, or class field |
-| Stack overflow | Recursion | Iterate or trampoline |
-| Memory growth | Closure over big scope | Narrow captured vars |
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > Functions are **mutable objects** — reassigning `parseConfig = null` does not remove it from closures that already captured the old reference.
@@ -96,17 +94,10 @@ const withAuth = (token) => (req) => fetch(req, {
 - **Generator/async:** return iterators/promises; different error paths.
 - **Strict mode** in modules and classes — silent global leaks become errors.
 
-
-## When not to use
-
-- One-liner used once — inline or extract only when name clarifies intent.
-- Class when only data — plain object or record type may suffice.
-
-
-## Related
-
-[[Descriptive/JavaScript/execution context]] [[Descriptive/JavaScript/constructor function]] [[Descriptive/JavaScript/Concurrency]] [[javascript]]
-
-## Sources
-
-- [Wikipedia — function](https://en.wikipedia.org/wiki/function)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| `fn is not a function` | Import/export mismatch | Default vs named export |
+| Wrong arity silently | Extra args ignored | Validate length or use TS |
+| `this` undefined in method passed as callback | Detached method | `bind`, arrow wrapper, or class field |
+| Stack overflow | Recursion | Iterate or trampoline |
+| Memory growth | Closure over big scope | Narrow captured vars |

@@ -1,12 +1,19 @@
-[[golang]] [[go]] [[go project]]
+[[golang]] [[go]] [[go project]] [[go cli]] [[go interface]] [[go functions]]
 
 # go package
 
 > Package — one directory of `.go` files compiled together; uppercase identifiers are exported across import boundaries.
 
----
+## Interview Relevance
 
-## How it works
+Package/visibility questions check uppercase export, one package per directory, and avoiding import cycles — basic module hygiene.
+
+## Sources
+
+- [How to Write Go Code](https://go.dev/doc/code) — overview
+- [Go spec — Packages](https://go.dev/ref/spec#Packages) — deep-dive
+
+## Key Concepts
 
 ```txt
 module github.com/acme/app
@@ -19,10 +26,7 @@ import "github.com/acme/app/internal/auth"
 | `Foo` vs `foo` | Exported vs private |
 | `internal/` | Only parent tree may import |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 go list ./...
@@ -43,10 +47,7 @@ func private() {} // same package only
 | `replace` | Local forks |
 | `_` import | Side-effect init only |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -55,36 +56,14 @@ func private() {} // same package only
 | Wrong package name | File mismatch in dir | Unify name |
 | Stale deps | Old sum/mod | `go mod tidy` |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Micro-packages of one tiny function — prefer cohesive packages.
+- **Trade-off:** Export everything “just in case” — keep API small.
+- **Trade-off:** Circular “utils” bags — name by domain.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **`init()` order** — dependency order; keep `init` tiny.
-
-> [!WARNING]
-> **Test package `foo_test`** — external test sees only exports.
-
-> [!WARNING]
-> **Blank import** — only for registering drivers (`database/sql`).
-
----
-
-
-## When not to use
-
-- **Micro-packages of one tiny function** — prefer cohesive packages.
-- **Export everything “just in case”** — keep API small.
-- **Circular “utils” bags** — name by domain.
-
----
-
-
-## Related
-
-[[go]] [[go cli]] [[go interface]] [[go functions]]
-
-## Sources
-
-- [Wikipedia — go package](https://en.wikipedia.org/wiki/go_package)
+- `init()` order — dependency order; keep `init` tiny.
+- Test package `foo_test` — external test sees only exports.
+- Blank import — only for registering drivers (`database/sql`).

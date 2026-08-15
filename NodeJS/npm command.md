@@ -1,35 +1,30 @@
-[[NodeJS]] [[node package json]] [[Packages/npm packages]]
+[[NodeJS]] [[node package json]] [[Packages/npm packages]] [[nvm]]
 
 # npm command
 
 > CLI for install, scripts, and registry — `--` separates npm’s flags from your script’s flags.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **npm command** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **`--`**, **npm ci**, **dedupe / outdated**.
+
+## Sources
+
+- [npm — CLI commands](https://docs.npmjs.com/cli/v10/commands) — deep-dive
+- [Wikipedia — npm command](https://en.wikipedia.org/wiki/npm_command) — overview
+
+## Key Concepts
+
+- **`--`:** End of npm args — Pass flags through to the script.
+- **npm ci:** Clean lockfile install — Reproducible CI; deletes node_modules.
+- **dedupe / outdated:** Tree hygiene — Find duplicates and stale ranges.
+
+## Technical Details
 
 ```txt
 package.json + lockfile ──npm ci──► node_modules
 npm run start -- --port 4000  →  script gets --port
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`--`** | End of npm args | “Pass flags through to the script.” |
-| **npm ci** | Clean lockfile install | “Reproducible CI; deletes node_modules.” |
-| **dedupe / outdated** | Tree hygiene | “Find duplicates and stale ranges.” |
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
 
 ```bash
 npm install pkg@1.2.3
@@ -51,57 +46,41 @@ npm cache clean --force
 | `--save-exact` | Pin versions |
 | `npm ci` vs `install` | CI vs local tinkering |
 
----
+### Quick reference
 
+| Task | Command |
+|------|---------|
+| … | `…` |
 
-## Options and flags
+### Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-
-## Examples
+### Examples
 
 ```bash
-# …
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **npm command** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`npm upgrade` vs lockfile** — know whether you intend to bump ranges; **Global `-g` installs** — avoid for app deps; pin in the project.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Script ignores flags | Missing `--` | `npm run x -- --flag` |
-| CI drift | Used `npm i` | Use `npm ci` |
-| Phantom deps | Import without declare | Add to package.json |
-| Corrupt cache | Weird ENOENT | `npm cache clean --force` |
+## Pros/Cons or Trade-offs
 
----
+- **Pro:** Solves the job described above when used in the right layer (CLI for install, scripts, and registry — `--` separates npm’s flags from your sc…).
+- **Con / when not:** **Other package managers** — pnpm/yarn if the repository standard says so; don’t mix casually.
 
+## Comparison
 
-## Gotchas
+vs [[node package json]]: know when each applies — do not treat them as interchangeable. vs [[Packages/npm packages]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **`npm upgrade` vs lockfile** — know whether you intend to bump ranges.
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Global `-g` installs** — avoid for app deps; pin in the project.
-
----
-
-
-## When not to use
-
-- **Other package managers** — pnpm/yarn if the repository standard says so; don’t mix casually.
-
----
-
-
-## Related
-
-[[node package json]] [[Packages/npm packages]] [[nvm]]
-
-## Sources
-
-- [Wikipedia — npm command](https://en.wikipedia.org/wiki/npm_command)
+- **`npm upgrade` vs lockfile** — know whether you intend to bump ranges.
+- **Global `-g` installs** — avoid for app deps; pin in the project.
+- **Script ignores flags:** check Missing `--`; fix: `npm run x -- --flag`
+- **CI drift:** check Used `npm i`; fix: Use `npm ci`
+- **Phantom deps:** check Import without declare; fix: Add to package.json
+- **Corrupt cache:** check Weird ENOENT; fix: `npm cache clean --force`

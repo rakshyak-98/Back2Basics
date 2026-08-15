@@ -1,90 +1,58 @@
-[[Linux/CLI]] [[Linux/Scripting]]
+[[tmux]] [[Linux/CLI]]
 
 # tmux copy-mode
 
-> Keyboard selection + copy from scrollback into tmux paste buffers — essential before yanking to system clipboard.
+> Keyboard selection from scrollback into tmux paste buffers — capture logs and commands without a mouse-only workflow.
 
----
+## Interview Relevance
 
-## How it works
-
-tmux maintains a scrollback per pane. **Copy-mode** enters a vi/emacs-like overlay to move, select, and yank text into a **paste buffer** (internal register). From there, paste into pane (`paste-buffer`) or sync to system clipboard (configuration-dependent). Copy-mode is not the same as shell `Ctrl+Shift+C`.
-
-```
-Pane scrollback → copy-mode → selection → paste buffer → paste / save-buffer
-```
-
-
-## Configuration and commands
-
-### Enter copy-mode (default prefix `Ctrl+b`)
-
-```txt
-Prefix + [          " enter copy-mode
-q                   " quit copy-mode
-```
-
-### Vi keys (if `mode-keys vi` in ~/.tmux.conf)
-
-```txt
-Space               " start selection
-Enter               " copy selection to paste buffer
-Esc                 " cancel
-/                   " search forward
-n / N               " next/prev match
-```
-
-### Paste buffer management
-
-```txt
-Prefix + ]          " paste most recent buffer into pane
-tmux show-buffer
-tmux save-buffer ~/copied.txt
-tmux load-buffer ~/file.txt
-tmux list-buffers
-tmux delete-buffer -a
-```
-
-### Clipboard integration (~/.tmux.conf)
-
-```tmux
-set -g mode-keys vi
-bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
-```
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Can't enter copy-mode | Wrong prefix | `Prefix + [` ; verify `prefix` in conf |
-| Yank does nothing | `mode-keys` | Set vi/emacs keys; use Enter after selection |
-| Paste empty | `list-buffers` | Re-yank; copy-mode exited early |
-| No system clipboard | `xclip`/`wl-copy` missing | Install xclip; add `copy-pipe` bind |
-| Mouse scroll weird | `mouse on` | `set -g mouse on` + proper terminal |
-| Wrong buffer pasted | `show-buffer` | Use `-b N` with save-buffer |
-
-
-## Gotchas
-
-> [!WARNING]
-> **SSH without X11** — system clipboard bridge won't work; use `save-buffer` to file.
->
-> **Large selection** — tmux buffer limits; pipe to file for big logs.
->
-> **Copy-mode vs terminal copy** — selecting with mouse may bypass tmux buffer depending on `terminal-overrides`.
-
-
-## When not to use
-
-- Don't copy secrets from production logs into shared clipboard on untrusted machines.
-- Don't rely on copy-mode in fully mouse-driven workflows without learning prefix keys — you'll fight the tool.
-
-
-## Related
-
-[[Linux/CLI]] [[Linux/commands/fzf]] [[ssh/ssh allow local system with key]]
+Ops interviews: navigate scrollback, copy text, paste across panes — especially on jump hosts without clipboard sharing.
 
 ## Sources
 
-- [Wikipedia — tmux copy-mode](https://en.wikipedia.org/wiki/tmux_copy-mode)
+- [tmux — Buffers and copy mode](https://man.openbsd.org/tmux#WINDOWS_AND_PANES) — deep-dive
+
+## Key Concepts
+
+- **Copy-mode:** freeze pane view and move a cursor through history.
+- **Paste buffer:** tmux-internal clipboard (can integrate with system clipboard via config).
+- **Vi vs emacs keys:** mode-keys setting changes motions.
+
+## Technical Details
+
+```bash
+# often: Ctrl-b [   enter copy-mode
+# select, copy to buffer, Ctrl-b ] paste
+tmux show-buffer
+tmux list-buffers
+```
+
+With `mode-keys vi`, motions feel like vim visual mode inside the pane history.
+
+| Task | Typical flow |
+|------|----------------|
+| Enter copy-mode | Prefix + `[` |
+| Paste | Prefix + `]` |
+| Search history | `/` or `?` in vi mode |
+
+## Real-World Applications
+
+Copy a failed migration error from scrollback into a ticket without re-running the command.
+
+**Example:** SSH from a phone — mouse selection fails; copy-mode still works.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Reliable remote copy when OS clipboard forwarding is broken.
+- **Con:** Muscle memory differs per `mode-keys` and bindings.
+
+## Comparison
+
+- vs terminal emulator selection: emulator clipboard may not work over plain SSH; tmux buffers do.
+- vs [[tmux]] basics: copy-mode is scrollback UX inside the multiplexer.
+
+## Mistakes to Avoid
+
+- Confusing tmux buffer with the OS clipboard (needs explicit integration).
+- Exiting copy-mode before copying.
+- Huge scrollback eating memory — set history limits thoughtfully.

@@ -1,68 +1,75 @@
-[[flutter]]
+[[flutter build]] [[android]] [[flutter cli]]
 
 # Flutter app icon change
 
-> Flutter app icon change — instructions for replacing the default Flutter launcher icon with the green recycling trash icon (WasteManagement.png).
+> Replace the default launcher icon on Android/iOS with your brand assets — mipmaps / AppIcon sets the home-screen image users tap.
 
----
+## Interview Relevance
 
-## How it works
-
-
-Instructions for replacing the default Flutter launcher icon with the green recycling trash icon (`WasteManagement.png`).
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Flutter app icon change** | This note’s core idea | “I explain Flutter app icon change in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-
-## Configuration and commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Runtime error | stack / overlay | Null-check; fix import |
-| Build fail | deps / tsconfig | Align versions; clear cache |
-| Auth/CORS | network tab | Headers and tokens |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[flutter]]
+Interviewers rarely deep-dive icons, but release hygiene questions expect you to know platform asset locations, density buckets, and that a Flutter rebuild alone does not always refresh launcher caches.
 
 ## Sources
 
-- [Wikipedia — Flutter app icon change](https://en.wikipedia.org/wiki/Flutter_app_icon_change)
+- [Flutter — App icons](https://docs.flutter.dev/deployment/android#changing-the-application-launcher-icons) — overview
+- [Android — Adaptive icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive) — deep-dive
+
+## Key Concepts
+
+- **Launcher icon ≠ in-app asset:** home screen uses platform resources under `android/` / `ios/`, not only `assets/` in `pubspec.yaml`.
+- **Density / idioms:** `mdpi`…`xxxhdpi`, adaptive foreground/background (Android), AppIcon.appiconset (iOS).
+- **Generators:** `flutter_launcher_icons` (or similar) writes platform files from one source image → fewer manual mistakes.
+- **Cache:** devices/launchers may keep the old icon until reinstall or icon cache clear.
+
+## Technical Details
+
+Manual (Android sketch):
+
+1. Provide a high-res master PNG (e.g. brand mark).
+2. Generate mipmaps / adaptive layers into `android/app/src/main/res/`.
+3. Confirm `AndroidManifest.xml` `android:icon` / `android:roundIcon`.
+4. Rebuild and reinstall: `flutter build apk` / run on device.
+
+Common package approach (`pubspec.yaml`):
+
+```yaml
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/icon/app_icon.png
+```
+
+```bash
+dart run flutter_launcher_icons
+flutter clean && flutter run
+```
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Old icon after rebuild | Install vs overlay | Uninstall app; reinstall |
+| Blurry icon | Source resolution | Use ≥1024px master; regenerate densities |
+| Android adaptive crop | Safe zone | Keep logo inside adaptive safe area |
+
+## Real-World Applications
+
+White-label or rebrand: one master asset → generate both stores’ icons → verify on a physical launcher, not only the IDE.
+
+**Example:** Shipping a waste-management app — swap default Flutter logo for `WasteManagement.png` via launcher-icons config before Play upload.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Codegen packages keep Android/iOS in sync from one file.
+- **Con:** Hand-edited mipmaps drift between platforms after the next rebrand.
+
+## Comparison
+
+- vs in-app `Image.asset`: UI images are Flutter assets; launcher icons are native resources.
+- vs store listing graphics: Play/App Store screenshots/feature graphics are separate from the launcher icon.
+
+## Mistakes to Avoid
+
+- Only changing `assets/` and expecting the home-screen icon to update.
+- Committing a tiny source image and upscaling — looks soft on xxxhdpi.
+- Forgetting iOS `AppIcon` when Android was updated (or the reverse).

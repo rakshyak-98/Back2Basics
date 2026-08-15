@@ -4,29 +4,26 @@
 
 > A streaming manifest lists segments and bitrates — if it embeds absolute origin URLs, rewrite them when you proxy so the player stays on your app host.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you can walk streaming manifest file end-to-end — not just name it. Signal fluency with **Manifest**, **Absolute URL**, **Relative URL**, **On-the-fly rewrite** and when you would pick a different path.
 
-```txt
-Browser                    Node proxy                 Flussonic / origin
-   │                            │                            │
-   ├── GET /flussonic/…/index.mpd ──────────────────────────►│
-   │◄── rewritten MPD (relative /app paths) ─────────────────┤
-   │                            │                            │
-   ├── GET /flussonic/…/seg.m4s  (stays on Node) ────────────►│
-```
+## Sources
 
-### Interview map (words you can say)
+- [Wikipedia — streaming manifest file](https://en.wikipedia.org/wiki/streaming_manifest_file) — overview
 
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Manifest** | Playlist metadata (`.m3u8` / `.mpd`) | “Playback starts by fetching the manifest.” |
-| **Absolute URL** | Full `http://host/...` inside the file | “Absolute BaseURL makes the player skip our proxy.” |
-| **Relative URL** | Path without host | “Relative links keep requests on the same origin.” |
-| **On-the-fly rewrite** | Change body in the proxy, not on disk | “We translate URLs in memory; Flussonic’s file stays put.” |
-| **MPD refresh** | Live re-fetch of the MPD | “If Location stays absolute, refresh bypasses Node.” |
-| **CORS** | Browser cross-origin rules | “Leaving localhost for 127.0.0.1 breaks the page.” |
+## Core Definition
+
+General manifest shape and ABR fields live in [[Manifest (streaming)]]. This note is the **proxy URL rewrite** failure mode.
+
+## Key Concepts
+
+- **Manifest:** Playlist metadata (`.m3u8` / `.mpd`) — “Playback starts by fetching the manifest.”
+- **Absolute URL:** Full `http://host/...` inside the file — “Absolute BaseURL makes the player skip our proxy.”
+- **Relative URL:** Path without host — “Relative links keep requests on the same origin.”
+- **On-the-fly rewrite:** Change body in the proxy, not on disk — “We translate URLs in memory; Flussonic’s file stays put.”
+- **MPD refresh:** Live re-fetch of the MPD — “If Location stays absolute, refresh bypasses Node.”
+- **CORS:** Browser cross-origin rules — “Leaving localhost for 127.0.0.1 breaks the page.”
 
 ### Why absolute URLs hurt (proxy case)
 
@@ -43,13 +40,16 @@ Then Shaka (and friends) use **those** hosts for refreshes and segments → prox
 
 Node proxies the manifest, rewrites `${FLUSSONIC_ORIGIN}/...` → `/flussonic/...`, returns the **modified copy**. The player keeps talking to `localhost:3000`. Source on Flussonic is unchanged — translator in the middle.
 
-> [!INFO]
-> General manifest shape and ABR fields live in [[Manifest (streaming)]]. This note is the **proxy URL rewrite** failure mode.
+## Technical Details
 
----
-
-
-## Configuration and commands
+```txt
+Browser                    Node proxy                 Flussonic / origin
+   │                            │                            │
+   ├── GET /flussonic/…/index.mpd ──────────────────────────►│
+   │◄── rewritten MPD (relative /app paths) ─────────────────┤
+   │                            │                            │
+   ├── GET /flussonic/…/seg.m4s  (stays on Node) ────────────►│
+```
 
 ### Rewrite sketch (Node)
 
@@ -83,10 +83,24 @@ curl -s "${FLUSSONIC_ORIGIN}/STREAM/index.mpd" | grep -E 'Location|BaseURL|http'
 
 See also [[How to attach stream to HTTP handlers]].
 
----
+## Real-World Applications
 
+General manifest shape and ABR fields live in [[Manifest (streaming)]]. This note is the **proxy URL rewrite** failure mode.
 
-## When things break
+Used wherever streaming manifest file sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **Public CDN with correct public BaseURL** — no application proxy; publish absolute **public** HTTPS URLs on purpose.
+- **Con / skip when:** **Relative manifests already** — don’t add a rewrite layer for sport.
+- **Con / skip when:** **WebRTC** — no HLS/DASH manifest; different stack ([[WebRTC]]).
+
+## Comparison
+
+- vs [[WebRTC]]: **WebRTC** — no HLS/DASH manifest; different stack ([[WebRTC]]).
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -98,39 +112,7 @@ See also [[How to attach stream to HTTP handlers]].
 | Works in curl, fails in Shaka | Shaka follows redirects/Location | Log every manifest URL Shaka requests |
 | Intermittent wrong host | Partial string replace | Replace all origin variants (DNS name + IP) |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Rewriting disk on Flussonic** — don’t; multi-tenant origins need the real host for other clients. Rewrite on the **response path**.
-
-> [!WARNING]
-> **Only fixing the first MPD** — nested HLS media playlists often still ship absolute segment URLs.
-
-> [!WARNING]
-> **String-replace too naive** — can corrupt tokens or XML; prefer URL-aware replace on known attributes (`BaseURL`, `Location`, URI=).
-
-> [!WARNING]
-> **HTTPS page + HTTP absolute media** — mixed content blocks; rewrite to same-scheme relative paths.
-
----
-
-
-## When not to use
-
-- **Public CDN with correct public BaseURL** — no application proxy; publish absolute **public** HTTPS URLs on purpose.
-- **Relative manifests already** — don’t add a rewrite layer for sport.
-- **WebRTC** — no HLS/DASH manifest; different stack ([[WebRTC]]).
-
----
-
-
-## Related
-
-[[Manifest (streaming)]] [[MPD]] [[HLS]] [[DASH]] [[flussonic]] [[How to attach stream to HTTP handlers]] [[DRM]] [[Streaming]]
-
-## Sources
-
-- [Wikipedia — streaming manifest file](https://en.wikipedia.org/wiki/streaming_manifest_file)
+- **Rewriting disk on Flussonic** — don’t; multi-tenant origins need the real host for other clients. Rewrite on the **response path**.
+- **Only fixing the first MPD** — nested HLS media playlists often still ship absolute segment URLs.
+- **String-replace too naive** — can corrupt tokens or XML; prefer URL-aware replace on known attributes (`BaseURL`, `Location`, URI=).
+- **HTTPS page + HTTP absolute media** — mixed content blocks; rewrite to same-scheme relative paths.

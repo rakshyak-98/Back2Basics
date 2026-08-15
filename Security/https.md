@@ -1,12 +1,23 @@
-[[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[response header]]
+[[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[response header]] [[certbot (letsencrypt)]]
 
 # HTTPS
 
 > HTTP over TLS — encrypts and authenticates web traffic; browsers require valid PKI chain for padlock, APIs should pin or trust store consciously.
 
----
+## Interview Relevance
 
-## How it works
+Baseline: HTTPS = HTTP over TLS — redirect, HSTS, and certificate trust are the operational checklist.
+
+## Sources
+
+- [MDN — HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) — overview
+- [RFC 9110 — HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110) — deep-dive
+
+## Core Definition
+
+HTTPS is HTTP carried over TLS so browsers and APIs get confidentiality, integrity, and (usually) server authentication via PKI.
+
+## Key Concepts
 
 ```txt
 Client                          Server
@@ -26,10 +37,7 @@ Not provided: **authorization**, **XSS protection**, **DDoS immunity**.
 
 HTTP/1.1 versus HTTP/2 versus HTTP/3: TLS is still the security layer; HTTP/2 adds **binary framing** and **multiplexing** on one connection.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Nginx TLS baseline
 
@@ -69,10 +77,7 @@ server {
 
 **Why fullchain.pem:** serve leaf + intermediates — clients without AIA fetch may fail on missing intermediate.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -82,37 +87,23 @@ server {
 | TLS handshake timeout | Firewall 443; SNI missing | Open port; correct vhost cert |
 | HTTP/2 errors behind old proxy | ALPN not forwarded | Enable HTTP/2 on edge; proxy_protocol |
 
----
+## Real-World Applications
 
+Every public web app terminates HTTPS at the edge, redirects HTTP, and serves HSTS once TLS is stable.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **TLS terminates at LB** — backend HTTP is plaintext on network — use mTLS or private network.
+- **Pro:** Confidentiality and server auth for web traffic users expect by default.
+- **Con:** Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NODE_TLS_REJECT_UNAUTHORIZED=0`) — fix trust store or use proper private CA.
 
-> [!WARNING]
-> **`ssl_certificate` without full chain** — Android/old clients fail intermittently.
+## Comparison
 
-> [!WARNING]
-> **HSTS before HTTPS stable** — locks users out if cert breaks.
+- vs [[TLS (Transport Layer Security)]]: HTTPS is HTTP-over-TLS; TLS can protect other protocols too.
+- vs [[HTTP Strict Transport Security]]: HSTS forces browsers to stick to HTTPS after first visit.
 
-> [!WARNING]
-> **Binary bodies fine on HTTP/1.1** — `Content-Type: application/octet-stream` over TLS is normal.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-Don't deploy HTTPS everywhere then **disable cert verification** in clients (`NODE_TLS_REJECT_UNAUTHORIZED=0`) — fix trust store or use proper private CA.
-
----
-
-
-## Related
-
-[[TLS (Transport Layer Security)]] [[HTTP Strict Transport Security]] [[Root certificate]] [[certbot (letsencrypt)]] [[response header]]
-
-## Sources
-
-- [Wikipedia — https](https://en.wikipedia.org/wiki/https)
+- TLS terminates at LB — backend HTTP is plaintext on network — use mTLS or private network.
+- `ssl_certificate` without full chain — Android/old clients fail intermittently.
+- HSTS before HTTPS stable — locks users out if cert breaks.
+- Binary bodies fine on HTTP/1.1 — `Content-Type: application/octet-stream` over TLS is normal.

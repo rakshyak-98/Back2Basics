@@ -1,12 +1,23 @@
-[[content security policy]] [[SOP (Same-Origin Policy)]] [[IDOR]] [[response header]]
+[[content security policy]] [[SOP (Same-Origin Policy)]] [[IDOR]] [[response header]] [[XSRF (cross-site request forgery)]] [[JWT authentication]]
 
 # Cross-site scripting (XSS)
 
 > Injection of executable script into a page another user's browser will run — steals sessions, defaces UI, exfiltrates data.
 
----
+## Interview Relevance
 
-## How it works
+Must-know web vuln: stored/reflected/DOM XSS, output encoding, and why CSP is defense-in-depth not a substitute for encoding.
+
+## Sources
+
+- [OWASP — Cross Site Scripting](https://owasp.org/www-community/attacks/xss/) — overview
+- [OWASP — XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) — deep-dive
+
+## Core Definition
+
+XSS injects executable script into a page another user's browser will run — sessions, DOM, and data are at risk.
+
+## Key Concepts
 
 XSS = attacker's JS runs in **victim origin** context:
 
@@ -24,10 +35,7 @@ Defense layers:
 3. **HttpOnly cookies** — JS can't read session cookie
 4. **Framework defaults** — React/Vue escape text nodes
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### CSP header (primary HTTP control)
 
@@ -59,10 +67,7 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 
 **Why HttpOnly:** even if XSS exists, exfiltrating session cookie is harder (not impossible with CSRF combos).
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -71,37 +76,23 @@ curl -s 'https://app.example/search?q=%3Cscript%3Ealert(1)%3C/script%3E' | grep 
 | CSP breaks legit feature | Console violations | Nonce/hash; narrow allowlist |
 | Markdown/HTML renderer XSS | Allowlist tags | Use safe parser; no raw HTML pass-through |
 
----
+## Real-World Applications
 
+Stored XSS in a comment field steals session cookies unless output is encoded and CSP blocks inline script.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **`dangerouslySetInnerHTML`** — name is accurate.
+- **Pro:** Clear attack classes (stored/reflected/DOM) map to concrete defenses.
+- **Con:** Don't rely on **WAF alone** — fix source encoding. Don't disable CSP globally for one widget — isolate vendor subdomain.
 
-> [!WARNING]
-> **JSON is not HTML-safe** — `</script>` in JSON inside `<script>` breaks out.
+## Comparison
 
-> [!WARNING]
-> **CSP bypass via JSONP/old plugins** — audit third-party script allowlist.
+- vs [[XSRF (cross-site request forgery)]]: XSS runs attacker script in the victim origin; CSRF forges requests using the victim's cookies.
+- vs [[content security policy]]: CSP is defense-in-depth after encoding.
 
-> [!WARNING]
-> **DOM XSS in SPA routers** — `document.write`, `location` to sink.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-Don't rely on **WAF alone** — fix source encoding. Don't disable CSP globally for one widget — isolate vendor subdomain.
-
----
-
-
-## Related
-
-[[content security policy]] [[SOP (Same-Origin Policy)]] [[XSRF (cross-site request forgery)]] [[JWT authentication]] [[response header]]
-
-## Sources
-
-- [Wikipedia — cross-site scripting](https://en.wikipedia.org/wiki/cross-site_scripting)
+- `dangerouslySetInnerHTML` — name is accurate.
+- JSON is not HTML-safe — `</script>` in JSON inside `<script>` breaks out.
+- CSP bypass via JSONP/old plugins — audit third-party script allowlist.
+- DOM XSS in SPA routers — `document.write`, `location` to sink.

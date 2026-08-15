@@ -1,52 +1,44 @@
-[[commands]] [[rsync]]
+[[commands]] [[rsync]] [[gpg]] [[Find command]]
 
 # zip
 
-> zip packs files into a portable `.zip` archive — common for sharing; not the best long-term backup format.
+> Packs files into a portable `.zip` archive — common for sharing; lossy for Unix permissions versus `tar`.
 
----
+## Interview Relevance
 
-## How it works
+Expect `-r` for directories, weak zip encryption vs real crypto, and when to prefer `tar`/`rsync`/`git archive`.
+
+## Sources
+
+- [Info-ZIP zip documentation](http://infozip.sourceforge.net/Zip.html) — overview
+- [Wikipedia — ZIP (file format)](https://en.wikipedia.org/wiki/ZIP_(file_format)) — overview
+
+## Key Concepts
+
+- **`-r` recurse:** without it you may zip only the directory entry, not contents.
+- **`-x` exclude:** drop `node_modules`, logs, build junk.
+- **`-e` encrypt:** password zip crypto is weak — not for secrets at rest.
+- **`unzip -l`:** list before extract — zip-bomb hygiene.
+- **`git archive`:** tracked tree only — clean release zips.
+
+## Technical Details
 
 ```txt
 dirs/files ──► zip -r archive.zip ──► .zip
-                     ↑ update / -x exclude
 .git tree ──► git archive -o out.zip HEAD   (tracked only)
 ```
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **`-r`** | Recurse directories | “Without `-r` you only zip the folder name, not contents.” |
-| **`-x`** | Exclude globs | “Drop `node_modules` and `*.log`.” |
-| **`-e`** | Encrypt (password) | “Zip crypto is weak — don’t use for secrets at rest.” |
-| **`unzip -l`** | List without extract | “Peek before you land a zip bomb.” |
-| **`git archive`** | Tracked tree only | “Clean release zip without junk.” |
-
----
-
-
-## Configuration and commands
-
 ```bash
-# Create
 zip -r archive.zip source_dir
 zip -r out.zip dir1 dir2 -x "*.log" "*.tmp" "excluded_dir/*"
-zip -e secret.zip folder/          # password prompt (weak)
-
-# Update / comment
+zip -e secret.zip folder/
 zip existing.zip file1 file2
-zip -z archive.zip                 # add archive comment
-
-# Inspect / extract
 unzip -l archive.zip
-zipinfo -1 archive.zip | wc -l     # file count
+zipinfo -1 archive.zip | wc -l
 unzip archive.zip -d /tmp/out
-unzip -j archive.zip               # junk paths (flat)
-
-# Git-tracked only
+unzip -j archive.zip
 git archive -o archive.zip HEAD
+unzip -t archive.zip
 ```
 
 | Tool | Job |
@@ -55,49 +47,30 @@ git archive -o archive.zip HEAD
 | `unzip` | Extract/list |
 | `zipinfo` | Detailed listing |
 
----
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | Empty / tiny archive of a folder | Forgot `-r` | `zip -r` |
-| Paths wrong on Windows | Absolute paths | zip from parent; prefer relative paths |
-| “Need PK compat” errors | Corrupt / partial download | Re-transfer; `unzip -t archive.zip` |
-| Permission denied on extract | Target dir perms | `-d` writable path; don’t extract as root into `/` |
-| Huge unexpected size | Included build artifacts | `-x` or `git archive` |
+| Paths wrong on Windows | Absolute paths | Zip from parent; relative paths |
+| PK compat errors | Corrupt / partial download | Re-transfer; `unzip -t` |
+| Huge unexpected size | Build artifacts included | `-x` or `git archive` |
 
----
+## Real-World Applications
 
+Shipping a release artifact to non-Unix users, or peeking an untrusted upload with `unzip -l` before extract.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Zip encryption is not modern crypto** — use age/gpg/openssl for real confidentiality.
+- **Pro:** Universal interchange format across Windows/macOS/Linux.
+- **Con:** Lossy on symlinks/owners/ACLs; encryption is not modern crypto.
 
-> [!WARNING]
-> **Symlinks and Unix perms** — zip is lossy vs `tar`; modes and owners often don’t survive round-trip.
+## Comparison
 
-> [!WARNING]
-> **Zip bombs** — always `unzip -l` / size-check untrusted archives.
+- vs `tar`: better Unix metadata fidelity for backups.
+- vs [[rsync]]: incremental sync, not a one-shot archive.
+- vs [[gpg]]/age: real confidentiality for secrets.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Backups with ownership/ACLs** — `tar` / [[rsync]].
-- **Incremental sync** — [[rsync]].
-- **Secrets** — [[gpg]] or age, not `zip -e`.
-
----
-
-
-## Related
-
-[[rsync]] [[gpg]] [[Find command]] [[commands]]
-
-## Sources
-
-- [Wikipedia — zip](https://en.wikipedia.org/wiki/zip)
+- Using `zip -e` for confidential data.
+- Extracting untrusted archives without listing size first.
+- Relying on zip for backups that need ownership/ACLs.

@@ -1,47 +1,64 @@
-[[commands/lspci]] [[management/Linux resource management]]
+[[commands/lspci]] [[management/Linux resource management]] [[process]]
 
 # nvidia-smi
 
-> `nvidia-smi` queries NVIDIA GPU driver state — utilization, memory, temperature, and processes using the device.
+> Queries NVIDIA GPU driver state — utilization, memory, temperature, and which processes hold the device.
 
-Requires proprietary or open NVIDIA kernel module loaded. Part of NVIDIA driver install on Linux.
+## Interview Relevance
 
-## Quick status
+ML/infra interviews: prove you can read GPU memory pressure, find stuck CUDA processes, and diagnose “NVIDIA-SMI has failed” as a driver/module problem.
+
+## Sources
+
+- [NVIDIA SMI documentation](https://docs.nvidia.com/deploy/nvidia-smi/) — deep-dive
+
+## Core Definition
+
+`nvidia-smi` talks to the loaded NVIDIA kernel module. It is part of the NVIDIA driver install on Linux — no module means the CLI fails.
+
+## Key Concepts
+
+- **Utilization vs memory:** a job can be memory-bound with low SM busy %.
+- **Process list:** who holds `/dev/nvidia*`.
+- **Persistence mode:** keeps driver initialized between jobs.
+- **Compute / MIG modes:** exclusivity and partitioning on multi-tenant GPUs.
+
+## Technical Details
 
 ```bash
 nvidia-smi
 watch -n1 nvidia-smi
-
-# Query fields
 nvidia-smi --query-gpu=name,temperature.gpu,utilization.gpu,memory.used,memory.total --format=csv
-```
-
-## Processes on GPU
-
-```bash
 nvidia-smi pmon -c 1
 fuser -v /dev/nvidia*
-```
-
-## Persistence / compute mode
-
-```bash
 sudo nvidia-smi -pm 1
-nvidia-smi -c EXCLUSIVE_PROCESS   # caution in shared hosts
+nvidia-smi -c EXCLUSIVE_PROCESS
+nvidia-smi -q -d ECC
+nvidia-smi mig -lgip
 ```
-
-## Troubleshooting
 
 | Symptom | Check |
 |---------|-------|
-| `NVIDIA-SMI has failed` | Driver not loaded: `lsmod | grep nvidia`; DKMS build |
+| `NVIDIA-SMI has failed` | `lsmod \| grep nvidia`; DKMS build |
 | ECC errors | `nvidia-smi -q -d ECC` |
 | MIG partitions | `nvidia-smi mig -lgip` (A100/H100 class) |
 
-## Related
+## Real-World Applications
 
-[[commands/lspci]] · [[process]]
+Find a leaked training process holding VRAM after a crashed notebook, or confirm a new driver loaded after reboot before launching jobs.
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- [NVIDIA SMI documentation](https://docs.nvidia.com/deploy/nvidia-smi/)
+- **Pro:** Single pane for GPU health and process attribution.
+- **Con:** NVIDIA-specific; AMD/Intel need different tools (`rocm-smi`, `intel_gpu_top`).
+
+## Comparison
+
+- vs [[commands/lspci]]: hardware presence vs driver runtime metrics.
+- vs [[process]]/`top`: CPU view misses GPU memory holders.
+
+## Mistakes to Avoid
+
+- Setting exclusive compute mode on a shared interactive host without warning.
+- Debugging CUDA OOMs with only CPU `top`.
+- Ignoring driver/DKMS failure when the CLI says it “has failed.”

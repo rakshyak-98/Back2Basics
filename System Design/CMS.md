@@ -1,15 +1,29 @@
-[[System design]] [[API design]] [[Authentication web application]] [[cache system]] [[IM (Information Management) production systems]]
+[[System design]] [[API design]] [[Authentication web application]] [[cache system]] [[IM (Information Management) production systems]] [[KISS]] [[Streaming]]
 
 # CMS (Content Management System)
 
-> A content management system lets editors create, review, and publish structured content — headless systems expose JSON application programming interfaces while frontends and applications own presentation.
+> A CMS lets editors create, review, and publish structured content — headless systems expose JSON APIs while frontends own presentation.
 
----
+## Interview Relevance
 
-## Headless versus monolithic
+Contrast headless vs monolithic CMS, publish→cache invalidation, and draft/preview auth separation from production keys.
+
+## Sources
+
+- Strapi / Directus documentation — headless content modeling — overview
+- Jamstack architecture — decoupled content and delivery — overview
+
+## Key Concepts
+
+- **Headless:** content API + multi-channel clients.
+- **Monolithic:** WordPress-style server-rendered sites.
+- **Publish webhook:** bust Redis/CDN on publish.
+- **Draft vs published:** tokenized preview; production filters `publish_at <= now`.
+
+## Technical Details
 
 ```txt
-Editors → admin user interface → content API → applications / CDN / [[Streaming]] metadata
+Editors → admin UI → content API → apps / CDN / [[Streaming]] metadata
                 │                    │
            workflow state      webhooks → cache invalidation
                 │
@@ -18,64 +32,45 @@ Editors → admin user interface → content API → applications / CDN / [[Stre
 
 | Style | Examples | When |
 |-------|----------|------|
-| Headless | Strapi, Directus, Sanity | Multi-channel product (web, mobile, television) |
-| Git-based | Markdown in repository | Developer-heavy documentation |
-| Monolithic | WordPress | Marketing site with server-rendered HTML |
-| Broadcast media asset management | Dalet, Avid | Professional video — [[IM (Information Management) production systems]] |
-
-Streaming products use content management for **title metadata, posters, content identifiers, geo rules** — playback still comes from origin or content delivery network.
-
-## Content model (example)
+| Headless | Strapi, Directus, Sanity | Multi-channel |
+| Git-based | Markdown in repo | Dev-heavy docs |
+| Monolithic | WordPress | Marketing SSR HTML |
+| Broadcast MAM | Dalet, Avid | Pro video — [[IM (Information Management) production systems]] |
 
 ```json
-{
-  "content_type": "movie",
-  "fields": {
-    "title": "string",
-    "slug": "uid",
-    "synopsis": "richtext",
-    "poster": "media",
-    "content_id": "string",
-    "publish_at": "datetime"
-  }
-}
+{ "content_type": "movie", "fields": { "title": "string", "slug": "uid", "poster": "media", "publish_at": "datetime" } }
 ```
 
-## Consumption pattern
-
 ```txt
-GET /api/movies?filters[published_at][$lte]=now&populate=poster
-Cache at CDN with short time-to-live + purge webhook on publish
-Production clients hit backend-for-frontend or edge cache — not raw content management in hot path
-```
-
-### Publish webhook → cache bust
-
-```txt
-CMS publish → POST /internal/revalidate { slug: "movie-123" }
+CMS publish → POST /internal/revalidate { slug }
 → delete Redis keys + CDN purge
-→ optional static site regeneration
 ```
 
-### Draft versus preview
-
-Preview uses tokenized draft application programming interface key — no CDN cache. Production serves only `status=published` and `publish_at <= now()`.
-
-## Authorization
-
-Role-based access: author, editor, publisher. Separate preview credentials from production keys ([[Authentication web application]]).
-
-## Common failures
+RBAC: author/editor/publisher. Separate preview credentials ([[Authentication web application]]).
 
 | Symptom | Direction |
 |---------|-----------|
-| Stale content after publish | Webhook or [[cache system]] invalidation missing |
-| Draft visible publicly | Filter misconfiguration |
-| Slow editor | Large media through wide-area network — direct upload to object storage |
+| Stale after publish | Webhook / [[cache system]] invalidation missing |
+| Draft public | Filter misconfiguration |
+| Slow editor | Direct upload to object storage |
 
-*When would you skip a content management system?* Single developer blog — Markdown in git may suffice ([[KISS]]).
+## Real-World Applications
 
-## Sources
+Streaming title metadata, marketing sites, and multi-channel product catalogs.
 
-- Strapi / Directus documentation — headless content modeling.
-- Jamstack architecture — decoupled content and delivery.
+## Pros/Cons or Trade-offs
+
+- **Headless pro:** channel flexibility; **con:** more moving parts.
+- **Monolithic pro:** fast to ship a site; **con:** harder multi-app reuse.
+- **Trade-off:** CMS vs Markdown-in-git ([[KISS]] for tiny blogs).
+
+## Comparison
+
+- vs [[IM (Information Management) production systems]]: broadcast MAM is specialized CMS for media ops.
+- vs static generators: git content vs editorial workflows.
+
+## Mistakes to Avoid
+
+- Hot-path clients hitting raw CMS instead of BFF/edge cache.
+- Same API keys for preview and production.
+- No purge webhook → editors “publish” into stale CDN.

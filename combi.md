@@ -1,68 +1,46 @@
-[[Linux/commands/fzf]] [[Linux/CLI]]
+[[Linux/commands/fzf]] [[Linux/CLI]] [[Linux/Linux window manager]] [[Linux]]
 
-# combi (rofi mode)
+# combi
 
-> Rofi **combi** mode merges window switcher, app launcher, and run dialog into one fuzzy search — muscle memory launcher on Linux desktops.
+> Rofi **combi** mode — one fuzzy launcher that merges window switcher, app menu, and run dialog.
 
----
-
-## How it works
-
-
-Rofi is a dmenu replacement. **combi** aggregates multiple internal modes (`window`, `drun`, `run`) into a single filtered list. User types; rofi ranks matches across modes. Configured via CLI flags or `~/.config/rofi/config.rasi`.
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **combi** | This note’s core idea | “I explain combi in plain words.” |
-| **idea** | What it is for | “One sentence, no jargon.” |
-| **check** | How I verify | “I name the command or signal I look at.” |
-| **fail** | How it breaks | “I name the top production failure.” |
-
----
-
-
-## Configuration and commands
-
-```bash
-# version / help / dry-run when available
-# keep env-specific values out of git
-```
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Broken / unexpected | Reproduce + logs | Fix config or code path |
-| Works only locally | Env / secrets / versions | Align environments |
-| Intermittent | race / timeout / retry | Add backoff; fix shared state |
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> Prefer words you can say aloud in an interview.
-
----
-
-
-## When not to use
-
-- Skip when a simpler existing approach already fits.
-
----
-
-
-## Related
-
-[[Linux/commands/fzf]] [[Linux/CLI]]
+## Interview Relevance
+Rare as a formal interview topic; useful systems/desktop literacy when discussing Linux tooling, UX for power users, and composing small Unix tools ([[Linux/commands/fzf]] kinship).
 
 ## Sources
+- [Rofi documentation](https://github.com/davatorium/rofi) — deep-dive
+- [man rofi](https://man.archlinux.org/man/rofi.1) — overview
 
-- [Wikipedia — combi](https://en.wikipedia.org/wiki/combi)
+## Core Definition
+Rofi is a dmenu-style application launcher/switcher. **combi** aggregates multiple modes (commonly `window`, `drun`, `run`) into a single ranked list so one keybind covers “switch or launch.”
+
+## Key Concepts
+- **Modes:** `window` (open windows), `drun` (`.desktop` apps), `run` (PATH binaries).
+- **Fuzzy filter:** Type to rank across combined results.
+- **Config:** CLI flags or `~/.config/rofi/config.rasi`.
+- **Compositor/WM fit:** Common with i3/sway/other tiling WMs ([[Linux/Linux window manager]]).
+
+## Technical Details
+```bash
+rofi -show combi -combi-modes "window,drun,run"
+# or set in config.rasi:
+# modi: "combi"
+# combi-modes: "window,drun,run"
+```
+
+Bind to a hotkey in the window manager. Theme via `configuration { … }` / `@theme` in the rasi file.
+
+## Real-World Applications
+Muscle-memory desktop: Alt+Space opens combi → type `term` or window title → Enter. Same idea as Spotlight/PowerToys, but scriptable on Linux.
+
+## Pros/Cons or Trade-offs
+- **Pro:** One habit for switch + launch; keyboard-driven speed.
+- **Con:** Mode noise if too many sources enabled; desktop-specific (not a server tool).
+
+## Comparison
+vs [[Linux/commands/fzf]]: fzf is a generic fuzzy filter for pipes; rofi combi is a GUI/launcher front-end for desktop actions. vs separate `rofi -show window` binds: combi reduces keybind sprawl.
+
+## Mistakes to Avoid
+- Expecting combi on headless servers — it is a desktop launcher.
+- Enabling every mode until results are unusable.
+- Forgetting `.desktop` files when `drun` finds nothing.

@@ -1,12 +1,19 @@
-[[golang]] [[go cli]] [[go build]]
+[[golang]] [[go cli]] [[go build]] [[go project]]
 
 # Makefile
 
 > Makefile for Go — thin wrapper around `go test`/`go build` so CI and humans share one entrypoint (this note is about Makefiles, not a real build file in the vault).
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe whether you use Make as a thin, portable entrypoint over `go test`/`go build`, or whether you reinvent module-aware builds inside Make recipes.
+
+## Sources
+
+- [GNU Make manual](https://www.gnu.org/software/make/manual/make.html) — deep-dive
+- [Go — How to Write Go Code](https://go.dev/doc/code) — overview
+
+## Key Concepts
 
 ```txt
 make test  → go test ./...
@@ -20,10 +27,7 @@ make build → go build -o bin/app ./cmd/app
 | `build` | `go build …` |
 | `run` | `go run ./cmd/app` |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```makefile
 .PHONY: test build run tidy
@@ -47,10 +51,7 @@ run: build
 | Tabs | Recipes must use tabs |
 | Vars `$(GO)` | Override toolchain |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -59,36 +60,14 @@ run: build
 | Works locally CI fails | Env / modules cache | Match `GOFLAGS`; cache modules |
 | Recursive make hell | Nested projects | One module-aware Makefile |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** Trivial one-package repository — raw `go test` is enough.
+- **Trade-off:** Polyglot Bazel monorepo — use the monorepo tool.
+- **Trade-off:** Replacing `go.mod` — never.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Make doesn’t understand Go packages** — always shell out to `go`.
-
-> [!WARNING]
-> **Silent `@`** — hides commands; keep visible in CI.
-
-> [!WARNING]
-> **Windows** — prefer `task`/`just` or scripts if team isn’t Make-fluent.
-
----
-
-
-## When not to use
-
-- **Trivial one-package repository** — raw `go test` is enough.
-- **Polyglot Bazel monorepo** — use the monorepo tool.
-- **Replacing `go.mod`** — never.
-
----
-
-
-## Related
-
-[[go cli]] [[go build]] [[go project]]
-
-## Sources
-
-- [Wikipedia — Makefile](https://en.wikipedia.org/wiki/Makefile)
+- Make doesn’t understand Go packages — always shell out to `go`.
+- Silent `@` — hides commands; keep visible in CI.
+- Windows — prefer `task`/`just` or scripts if team isn’t Make-fluent.

@@ -1,12 +1,19 @@
-[[ML]] [[model tranning]]
+[[ML]] [[model tranning]] [[Visualization/Residual plot]] [[Visualization/predicated versus actual plot]]
 
 # data visualization
 
 > Viz checks whether the data and model make sense — plots before metrics, residual plots after fit.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about data visualization to check whether you can choose models/metrics for the problem, explain bias-variance trade-offs, and avoid evaluation mistakes.
+
+## Sources
+
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) — overview
+
+## Key Concepts
 
 ```txt
 EDA plots → train → residual / pred-vs-actual → decide next feature
@@ -21,10 +28,7 @@ EDA plots → train → residual / pred-vs-actual → decide next feature
 | **Confusion matrix** | Class errors | “Which classes confuse.” |
 | **Residual** | y − ŷ | “Structure left = missing signal.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```python
 import matplotlib.pyplot as plt
@@ -39,10 +43,18 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 | Log scales | Heavy tails |
 | Color by segment | Hidden cohorts |
 
----
+## Pros/Cons or Trade-offs
 
+- **Automated nightly metrics only** — still sample-plot failures.
+- **Huge dashboards nobody reads** — fewer sharper plots.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Default axes lie** — truncated y-axis exaggerates tiny effects.
+
+> [!WARNING]
+> **Chart without sample size** — pretty nonsense.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -51,30 +63,3 @@ plt.scatter(y_pred, y_true - y_pred, alpha=0.3); plt.axhline(0)
 | Fan-shaped residuals | heteroscedasticity | Transform target / model |
 | Overplot ink | millions of points | Hexbin / sample |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Default axes lie** — truncated y-axis exaggerates tiny effects.
-
-> [!WARNING]
-> **Chart without sample size** — pretty nonsense.
-
----
-
-
-## When not to use
-
-- **Automated nightly metrics only** — still sample-plot failures.
-- **Huge dashboards nobody reads** — fewer sharper plots.
-
-
-## Related
-
-[[Visualization/Residual plot]] [[Visualization/predicated versus actual plot]] [[model tranning]]
-
-## Sources
-
-- [Wikipedia — data visualization](https://en.wikipedia.org/wiki/data_visualization)

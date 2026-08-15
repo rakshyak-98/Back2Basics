@@ -1,40 +1,27 @@
-[[Bash syntax]] [[bash script]] [[Scripting]]
+[[Bash syntax]] [[bash script]] [[Scripting]] [[bash sourcing other script]] [[bash flags]]
 
 # Bash functions
 
-> Bash functions — reusable shell blocks in the current session or a sourced file.
+> Bash functions are reusable shell blocks in the current session or a sourced file — they share the shell’s environment unless you isolate them.
 
----
+## Interview Relevance
+Shows `local`, return codes, sourcing vs executing, and why `export -f` is rare compared to sourcing a library.
 
-## How it works
+## Sources
+- [Bash Reference — Shell Functions](https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html) — deep-dive
+- [bash(1)](https://man7.org/linux/man-pages/man1/bash.1.html) — overview
 
-Functions run in the **current shell** (no new process unless you call external commands). Variables are global by default — **`local` is mandatory** for parameters and temps. Exit status is `return N` (0–255) or last command's status. Functions are defined before use; order matters in sourced files.
+## Core Definition
+A function is a named compound command. When defined in the current shell (or via `source`), calling it runs in that shell — so it can change `cwd`, set variables, and define other functions. Running `./script.sh` usually uses a subshell; functions defined there vanish when it exits.
 
-```
-source deploy.sh  →  functions loaded into shell
-deploy_app        →  runs in same shell — can mutate cwd, env, exports
-./deploy.sh       →  subshell (unless exec) — functions not retained
-```
+## Key Concepts
+- **`local`:** Scope variables to the function.
+- **`return` vs `exit`:** return leaves the function; exit leaves the shell/script.
+- **Arguments:** `$1`…`$@` inside the function.
+- **Sourcing:** Load a library of functions into the caller.
+- **`export -f`:** Pass function to child bash — uncommon; prefer source.
 
-| vs | Function | Script |
-|----|----------|--------|
-| Process | same shell | usually subshell |
-| Env/cwd side effects | yes | isolated if subshell |
-| Speed | no fork for logic | fork per invocation |
-| Shebang | N/A | `#!/usr/bin/env bash` |
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **function** | Named reusable block | “Prefer functions over copy-paste.” |
-| **local** | Scoped vars | “Without local, you leak globals.” |
-| **$@ / "$@"** | All args safely | “Always quote "$@".” |
-| **return** | Function exit status | “return N; exit kills the shell.” |
-| **declare -f** | List functions | “declare -f name to inspect.” |
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 #!/usr/bin/env bash
@@ -53,14 +40,11 @@ greet() {
     [[ -n "$age" ]] && echo "Age: $age"
 }
 
-# Usage
 greet "Alice" 30
 greet "Bob" || echo "failed with $?"
 
-# Export for subshells (rare — prefer sourcing)
 export -f greet
 
-# Recursive / nested
 log() {
     local level="$1"; shift
     echo "[$(date +%H:%M:%S)] [$level] $*" >&2
@@ -69,69 +53,28 @@ log() {
 deploy() {
     local env="$1"
     log INFO "Deploying to $env"
-    # ...
 }
 ```
-
-**Pass arrays (bash 4+):**
-
-```bash
-run_on_hosts() {
-    local -a hosts=("$@")
-    local h
-    for h in "${hosts[@]}"; do
-        ssh "$h" "$@"
-    done
-}
-```
-
-**Cleanup pattern:**
-
-```bash
-cleanup() {
-    local rc=$?
-    rm -f /tmp/work.$$
-    exit "$rc"
-}
-trap cleanup EXIT
-```
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `command not found` for function | Defined after call | Reorder; source lib first |
-| Variable clobbered global | Missing `local` | Add `local` to all params/temps |
-| `return: can only return from function` | return in sourced top-level | Use `exit` in scripts, `return` in functions only |
-| Function not in cron | Cron minimal env | Full path; source profile; absolute paths |
-| `set -e` exits unexpectedly | Failing cmd in function | `|| true` or explicit handling |
-| Export -f fails | Non-bash shell | Force bash in shebang |
+| Function not found after script | Ran as `./` | `source` the file instead |
+| Variable leak | Forgot `local` | Declare `local` |
+| `exit` killed parent | Used exit in sourced fn | Prefer `return` |
+| Broken under `sh` | Bash-only syntax | Use bash shebang |
 
+## Real-World Applications
+Shared `log`/`die` helpers in deploy libraries, and wrapping SSH loops without copy-pasting.
 
-## Gotchas
+## Pros/Cons or Trade-offs
+- **Pro:** Structure scripts; reuse without forking.
+- **Con:** Side effects on caller env if undisciplined.
+- **Trade-off:** Functions in-shell vs external scripts for isolation.
 
-> [!WARNING]
-> **Functions + `set -e`** — failure inside function may not exit caller unless `set -e` and caller invokes directly. Test failure paths.
+## Comparison
+vs [[bash sourcing other script]]: how libraries get loaded. vs external commands: functions avoid fork but share state. Related: [[bash script]], [[Bash syntax]].
 
-> [!WARNING]
-> **Naming collision** — function `ls` shadows binary. Prefix with `_` or namespace (`app::deploy` as name with colon).
-
-- **Recursive functions** — bash has no tail-call optimization; deep recursion blows stack.
-- **`$*` versus `$@`** — use `"$@"` for preserved word splitting on arguments.
-
-
-## When not to use
-
-- **Complex CLI with flags** — standalone script or proper language (Python/Go).
-- **sudo boundaries** — function runs as current user; can't elevate inside without sudo in body.
-- **Library for multiple shells** — POSIX `sh` functions differ; use external script.
-
-
-## Related
-
-[[Bash syntax]] [[bash script]] [[Scripting]] [[bash sourcing other script]]
-
-## Sources
-
-- [Wikipedia — Bash functions](https://en.wikipedia.org/wiki/Bash_functions)
+## Mistakes to Avoid
+- Using `exit` inside sourced helper functions.
+- Forgetting `local` and clobbering globals.
+- Expecting `./lib.sh` to leave functions behind.

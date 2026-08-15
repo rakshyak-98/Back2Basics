@@ -1,12 +1,30 @@
-[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]]
+[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]] [[IDOR]]
 
 # Session Storage
 
 > Session Storage — sessionStorage is a Storage object tied to a top-level browsing context (tab/window). Data survives page reloads and SPA navigations within the same tab
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **Session Storage** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **sessionStorage**, **localStorage**, **Cookie**, **Memory (React state)**.
+
+## Sources
+
+- [MDN — sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) — deep-dive
+- [Wikipedia — Session Storage](https://en.wikipedia.org/wiki/Session_Storage) — overview
+
+## Core Definition
+
+`sessionStorage` is a **`Storage` object** tied to a **top-level browsing context** (tab/window). Data survives **page reloads and SPA navigations** within the same tab, but dies when the tab closes. It is **origin-scoped** (`scheme + host + port`) like `localStorage`.
+
+## Key Concepts
+
+- **sessionStorage:** Tab — No
+- **localStorage:** Until cleared — No
+- **Cookie:** Configurable — Yes (auto)
+- **Memory (React state):** Page — No
+
+## Technical Details
 
 `sessionStorage` is a **`Storage` object** tied to a **top-level browsing context** (tab/window). Data survives **page reloads and SPA navigations** within the same tab, but dies when the tab closes. It is **origin-scoped** (`scheme + host + port`) like `localStorage`.
 
@@ -24,14 +42,8 @@ Tab B (same origin) → separate sessionStorage (not shared)
 | **sessionStorage** | Tab | No | ~5MB | Full read if XSS |
 | **localStorage** | Until cleared | No | ~5MB | Full read if XSS |
 | **Cookie** | Configurable | Yes (auto) | ~4KB | HttpOnly mitigates JS read |
-| **Memory (React state)** | Page | No | RAM | Lost on refresh |
 
 **Not a session mechanism for authentication** — the server doesn't see sessionStorage. authentication sessions use **HttpOnly Secure cookies** or **Bearer tokens** with explicit tradeoffs ([[JWT authentication]]).
-
----
-
-
-## Configuration and commands
 
 ### Basic API
 
@@ -85,56 +97,31 @@ const bc = new BroadcastChannel('app');
 bc.postMessage({ type: 'logout' });
 ```
 
----
+## Real-World Applications
 
+In production APIs and tooling, **Session Storage** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **XSS = full storage read** — anything in sessionStorage/localStorage is stealable. Never store refresh tokens accessible to JS if avoidable; **Third-party scripts** — analytics tag XSS exfiltrates storage; CSP + script hygiene.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Data lost on refresh | Expected if new tab/window | Use `localStorage` or server persistence |
-| Data not shared between tabs | By design | `localStorage` or URL state |
-| `QuotaExceededError` | Large JSON blobs | Compress; server-side session store |
-| Works in dev, null in prod | SSR accessing `sessionStorage` | `typeof window !== 'undefined'` guard |
-| Stale state after deploy | Old keys without version | Namespace with version suffix `v2:` |
-| Security audit flag | PII in sessionStorage | Move sensitive data server-side |
+- **Pro:** Solves the job described above when used in the right layer (Session Storage — sessionStorage is a Storage object tied to a top-level browsin…).
+- **Con / when not:** **Authentication/session IDs** — HttpOnly cookies + SameSite.
+- **Con / when not:** **Preferences that should persist** — theme, locale → `localStorage` or account settings API.
+- **Con / when not:** **Large datasets** — IndexedDB or server fetch.
 
----
+## Comparison
 
+vs [[CORS (Cross Origin Request Sharing)]]: know when each applies — do not treat them as interchangeable. vs [[JWT authentication]]: know when each applies — do not treat them as interchangeable. vs [[single-sign-on (SSO)]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **XSS = full storage read** — anything in sessionStorage/localStorage is stealable. Never store refresh tokens accessible to JS if avoidable.
-
-> [!WARNING]
-> **Third-party scripts** — analytics tag XSS exfiltrates storage; CSP + script hygiene.
-
-> [!WARNING]
-> **Subdomain scope** — `app.example.com` ≠ `www.example.com`; storage not shared.
-
-> [!WARNING]
-> **Iframe embedding** — third-party iframe has its own origin storage; don't rely on parent sessionStorage.
-
-> [!WARNING]
-> **Safari ITP / private mode** — `setItem` throws; always try/catch.
-
----
-
-
-## When not to use
-
-- **Authentication/session IDs** — HttpOnly cookies + SameSite.
-- **Preferences that should persist** — theme, locale → `localStorage` or account settings API.
-- **Large datasets** — IndexedDB or server fetch.
-
----
-
-
-## Related
-
-[[CORS (Cross Origin Request Sharing)]] [[JWT authentication]] [[single-sign-on (SSO)]] [[webSocket]] [[IDOR]]
-
-## Sources
-
-- [Wikipedia — Session Storage](https://en.wikipedia.org/wiki/Session_Storage)
+- **XSS = full storage read** — anything in sessionStorage/localStorage is stealable. Never store refresh tokens accessible to JS if avoidable.
+- **Third-party scripts** — analytics tag XSS exfiltrates storage; CSP + script hygiene.
+- **Subdomain scope** — `app.example.com` ≠ `www.example.com`; storage not shared.
+- **Iframe embedding** — third-party iframe has its own origin storage; don't rely on parent sessionStorage.
+- **Safari ITP / private mode** — `setItem` throws; always try/catch.
+- **Data lost on refresh:** check Expected if new tab/window; fix: Use `localStorage` or server persistence
+- **Data not shared between tabs:** check By design; fix: `localStorage` or URL state
+- **`QuotaExceededError`:** check Large JSON blobs; fix: Compress; server-side session store
+- **Works in dev, null in prod:** check SSR accessing `sessionStorage`; fix: `typeof window !== 'undefined'` guard
+- **Stale state after deploy:** check Old keys without version; fix: Namespace with version suffix `v2:`
+- **Security audit flag:** check PII in sessionStorage; fix: Move sensitive data server-side

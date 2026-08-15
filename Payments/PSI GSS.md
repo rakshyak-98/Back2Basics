@@ -1,13 +1,32 @@
-[[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Security/TLS (Transport Layer Security)]]
+[[SAQ GSS]] [[payment gateway]] [[PSP]] [[Strip]] [[TLS (Transport Layer Security)]] [[webhook]]
 
 # PSI GSS (PCI Guest Service System)
 
-> PSI GSS (PCI Guest Service System) — PSI GSS (Payment Card Industry Guest Service System) describes when a merchant uses a third-party hosted checkout such that
+> Payment Card Industry Guest Service System (PSI GSS) means the shopper types the card on a PCI-validated provider’s hosted page or iframe — your servers never see PAN, track, or CVV.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers test PCI scoping: when hosted checkout keeps you on a short SAQ, and which one misconfiguration (logging PAN, custom card inputs) expands you to SAQ D.
 
+## Sources
+
+- [PCI SSC — Document library (SAQ instructions)](https://www.pcisecuritystandards.org/document_library/) — deep-dive
+- [PCI SSC — SAQ A eligibility (outsourced e-commerce)](https://www.pcisecuritystandards.org/) — overview
+- [Wikipedia — PCI DSS](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard) — overview
+
+## Core Definition
+
+GSS-style architecture (hospitality and retail jargon for outsourced card entry) keeps cardholder data (CHD) inside the provider’s environment. The merchant receives tokens, redirects, or postMessage results only. Questionnaire pairing is [[SAQ GSS]] / SAQ A–class attestations when eligibility still holds.
+
+## Key Concepts
+
+- **No CHD on merchant systems:** no PAN, CVV, or track data in apps, logs, or tickets.
+- **Hosted redirect or provider iframe:** payment UI originates from the validated [[PSP]].
+- **AOC on file:** provider Attestation of Compliance and a responsibility matrix.
+- **Token / webhook results:** your API stores payment tokens and order ids — not cards.
+- **Scope creep:** one route that accepts raw card JSON ends GSS eligibility.
+
+## Technical Details
 
 ```
 Shopper enters card ──► Hosted payment page (PSP) ──► networks
@@ -15,15 +34,6 @@ Shopper enters card ──► Hosted payment page (PSP) ──► networks
 Merchant site ────────────────┘ only receives token / redirect result
 (no PAN, no track, no CVV on merchant servers)
 ```
-
-Eligible merchants may qualify for simplified **SAQ** (Self-Assessment Questionnaire) — historically aligned with **SAQ A**-style scope when **all** card data handled by compliant service provider.
-
-Works with [[Payments/PSI GSS]] companion concept on questionnaire side — see [[Payments/SAQ GSS]].
-
-
-## Configuration and commands
-
-### Scope reduction checklist
 
 ```text
 ☐ Checkout UI fully hosted OR iframe from PCI-validated provider
@@ -33,8 +43,6 @@ Works with [[Payments/PSI GSS]] companion concept on questionnaire side — see 
 ☐ Written agreement: provider is PCI DSS compliant (AOC on file)
 ☐ Annual SAQ correct type signed by officer
 ```
-
-### Hosted redirect pattern
 
 ```javascript
 // Merchant server — create session, redirect URL only
@@ -48,50 +56,38 @@ res.redirect(session.url);
 // Card entry happens entirely on PSP domain
 ```
 
-### iframe / embedded fields
-
-- Use official SDK fields — not custom `<input>` for PAN
-- CSP `frame-src` allow PSP origin only
-- PostMessage results — validate origin
-
-### Documentation for audit
-
-- Store provider **AOC** (Attestation of Compliance) + responsibility matrix
-- Network diagram showing CHD boundaries
-- List all systems that could touch cardholder data (should be empty for true GSS)
-
-
-## When things break
+**Embedded fields:** use the official SDK fields — not custom `<input>` for PAN. Set CSP `frame-src` to the PSP origin. Validate `postMessage` origins.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | QSA rejects SAQ A claim | PAN passed through merchant API | Move to hosted fields |
 | Card data in application logs | Debug logging body | Redact; structured logging policy |
-| Analytics pixel on checkout page | Third-party script access | Remove from hosted page or use redirect |
-| Custom CSS overlay on card field | Breaks isolation | Use provider-approved styling hooks |
-| Mobile WebView checkout | In-app browser rules | Use provider mobile SDK |
+| Analytics pixel on checkout page | Third-party script access | Remove or use full redirect |
+| Custom CSS overlay on card field | Breaks isolation | Provider-approved styling only |
+| Mobile WebView checkout | In-app browser rules | Provider mobile SDK |
 
+## Real-World Applications
 
-## Gotchas
+Hotel booking engines, restaurant online ordering, and any guest-facing checkout that must stay out of full PCI programs.
 
-> [!WARNING]
-> **One misconfigured API route** that accepts raw card JSON expands scope to full SAQ D instantly.
+**Example:** Front desk never keys cards into the admin panel — guests pay via PSP-hosted link; merchant systems only store `payment_token` and confirmation numbers.
 
-- **Mail-order / phone** MOTO flows are separate scope — not GSS.
-- **Staff "keying in"** card on merchant administrator panel = CHD on your systems.
-- **Provider change** — revalidate AOC and SAQ type annually and on vendor switch.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Dramatically smaller compliance questionnaire when eligibility is real.
+- **Con:** Less control over card-field UX than a direct API (which expands scope).
+- **Con:** Vendor changes require fresh AOC and SAQ review.
 
-## When not to use
+## Comparison
 
-- Business requirement to own entire checkout UX with raw card API — accept full PCI program.
-- Provider lacks current PCI validation — no scope magic.
+- vs [[SAQ GSS]]: PSI GSS is the technical pattern; SAQ GSS is the attestation path.
+- vs direct PAN API: full cardholder-data environment — typically SAQ D.
+- vs MOTO / staff key-entry: not GSS — CHD lands on merchant systems.
 
+## Mistakes to Avoid
 
-## Related
-
-[[Payments/SAQ GSS]] [[Payments/payment gateway]] [[Payments/PSP]] [[Payments/Strip]] [[Security/TLS (Transport Layer Security)]]
-
-## Sources
-
-- [Wikipedia — PSI GSS](https://en.wikipedia.org/wiki/PSI_GSS)
+- Accepting raw card JSON “only in staging” on merchant APIs.
+- Letting support tools paste PANs into tickets.
+- Overlaying custom inputs on provider iframes.
+- Assuming analytics scripts on the checkout page are out of scope.
+- Skipping annual AOC collection when switching PSPs.

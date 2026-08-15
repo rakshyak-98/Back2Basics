@@ -1,46 +1,67 @@
-[[process]] [[Linux process commands]]
+[[process]] [[Linux process commands]] [[top]] [[Linux cgroup]] [[management/Linux resource management]]
 
 # renice
 
-> `renice` changes scheduling priority (nice value) for running processes — lower nice means more CPU time when the machine is contended.
+> Changes the nice value of running processes — lower nice gets more CPU share when the machine is contended.
 
-Linux uses **CFS** (Completely Fair Scheduler). Nice ranges **−20** (highest priority) to **19** (lowest). Only root can set negative nice values.
+## Interview Relevance
 
-## Usage
+Scheduler basics: nice range −20..19, only root can go negative, and cgroups/`cpu.max` beat renice for hard caps.
+
+## Sources
+
+- `man 1 renice` — deep-dive
+- `man 7 sched` — deep-dive
+
+## Core Definition
+
+Linux CFS (Completely Fair Scheduler) uses nice as a relative weight. Nice −20 is highest priority; 19 is lowest. Raising priority (negative nice) requires root.
+
+## Key Concepts
+
+- **Relative, not absolute:** nice only matters under contention.
+- **Root for negative nice:** unprivileged users can only make themselves nicer (lower priority).
+- **ionice vs nice:** disk I/O class vs CPU share.
+- **cgroups win:** hard CPU caps live in [[Linux cgroup]], not nice.
+
+## Technical Details
 
 ```bash
-# Lower priority of PID 1234 (higher nice number)
 renice +10 -p 1234
-
-# Raise priority (requires root)
 sudo renice -5 -p 1234
-
-# By user or group
 renice +5 -u www-data
 ```
 
-Interactive `top`: press `r`, enter PID and new nice value.
-
-## nice vs ionice vs cgroups
+In [[top]], press `r`, enter PID and new nice value.
 
 | Tool | Resource |
 |------|----------|
 | `nice` / `renice` | CPU time share |
 | `ionice` | Disk I/O class |
-| [[Linux cgroup]] `cpu.max` | Hard CPU cap |
-
-## Debugging CPU contention
+| cgroup `cpu.max` | Hard CPU cap |
 
 | Symptom | Check |
 |---------|-------|
 | Batch job starves desktop | `renice +10` on batch PIDs |
-| Critical daemon slow | `sudo renice -5 -p PID` — temporary relief only |
-| Throttling despite high nice | cgroup `cpu.max` or CPU quota — not nice |
+| Critical daemon slow | Temporary `sudo renice -5` |
+| Still throttled at high priority | cgroup quota — not nice |
 
-## Related
+## Real-World Applications
 
-[[process]] · [[top]] · [[Linux cgroup]] · [[management/Linux resource management]]
+Lower priority of a overnight compression job so the API stays responsive during business hours.
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- `man 1 renice`, `man 7 sched`
+- **Pro:** Instant, per-PID relief without restart.
+- **Con:** Soft hint only — quotas and real-time classes override expectations.
+
+## Comparison
+
+- vs `nice` at start: renice mutates running tasks; `nice` wraps launch.
+- vs cgroups: policy and hard limits for services/containers.
+
+## Mistakes to Avoid
+
+- Expecting renice to bypass cgroup CPU max.
+- Habitually giving production daemons nice −20 instead of fixing capacity.
+- Confusing ionice with CPU nice.

@@ -1,20 +1,31 @@
-[[DNS]] · [[Unbound]] · [[cloudflare]] · [[dig]]
+[[DNS]] [[Unbound]] [[cloudflare]] [[dig]] [[name server]]
 
 # public resolver
 
 > A public recursive resolver (1.1.1.1, 8.8.8.8, 9.9.9.9) answers DNS queries for anyone on the Internet — use them when your ISP resolver is slow, filtered, or untrusted, understanding they see every name you look up.
 
----
+## Interview Relevance
 
-## How they differ from authoritative servers
+Interviewers ask privacy vs convenience, DoH/DoT, and why corporate split-horizon names fail when you hard-code 8.8.8.8.
 
-Public resolvers **do not host your zone**. They cache answers from authoritative [[name server]]s on your behalf, applying privacy and security policies (logging, DNSSEC validation, malware blocking).
+## Sources
+
+- [RFC 8499 — DNS Terminology](https://datatracker.ietf.org/doc/html/rfc8499) — overview
+- [Cloudflare 1.1.1.1 resolver](https://developers.cloudflare.com/1.1.1.1/) — overview
+- [Google Public DNS](https://developers.google.com/speed/public-dns) — overview
+
+## Key Concepts
+
+- **Recursive only:** they cache answers from authoritative [[name server]]s — they do not host your zone.
+- **Policy variants:** malware blocking (Quad9), family filters, logging policies differ by operator.
+- **Encrypted transport:** DoH/DoT hide queries on the path to the resolver — the operator still sees QNAMEs.
+- **Split-horizon conflict:** public answers may disagree with internal private zones.
+
+## Technical Details
 
 ```
 Your laptop → 1.1.1.1 (recursive) → root/TLD/auth → cached answer
 ```
-
-## Major providers
 
 | Resolver | IPv4 | Notes |
 |----------|------|-------|
@@ -24,8 +35,6 @@ Your laptop → 1.1.1.1 (recursive) → root/TLD/auth → cached answer
 | **OpenDNS** | 208.67.222.222 | Cisco Umbrella consumer tier |
 
 DoH/DoT endpoints exist for encrypted transport to the same backends.
-
-## Configure as upstream
 
 ### systemd-resolved
 
@@ -45,26 +54,31 @@ nameserver 8.8.8.8
 
 Corporate networks may **block** alternate resolvers — use split tunnel or accept internal resolver for split-horizon names.
 
-## Privacy trade-off
-
-The operator sees query metadata (timing, source IP, QNAME). For sensitive lookups, run your own [[Unbound]] forwarder or full recursive resolver.
-
-## Testing
-
 ```bash
 dig @1.1.1.1 example.com A
 dig @8.8.8.8 example.com A +dnssec
+dig +trace example.com
 ```
 
-Compare with `dig +trace` to see authoritative path without cache.
+## Real-World Applications
 
-## Recall
+Traveling laptops, CI runners, and home networks often pin a public resolver for speed or to bypass ISP filtering.
 
-- Why can a public resolver return different answers than your corporate resolver for the same name?
-- What does DNS-over-HTTPS change about who can see your queries on the wire?
+**Example:** Office Wi-Fi hijacks DNS to a captive portal — DoH to 1.1.1.1 may bypass it (policy and security implications vary).
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- [RFC 8499 — DNS Terminology](https://datatracker.ietf.org/doc/html/rfc8499)
-- [Cloudflare 1.1.1.1 resolver](https://developers.cloudflare.com/1.1.1.1/)
-- [Google Public DNS](https://developers.google.com/speed/public-dns)
+- **Pro:** Fast anycast, DNSSEC validation, optional threat blocking.
+- **Con:** Operator sees query metadata (timing, source IP, QNAME).
+- **Con:** Breaks private hosted zone names unless you keep a local forwarder ([[Unbound]]) for internal suffixes.
+
+## Comparison
+
+- vs authoritative [[name server]]: public resolvers do not publish your MX/A records for the world to query as NS.
+- vs self-hosted [[Unbound]]: you keep cache and forwarding policy on-box; still may forward to a public resolver.
+
+## Mistakes to Avoid
+
+- Pointing production servers at a public resolver and expecting VPC-private names to resolve.
+- Assuming DoH means “nobody sees my queries” — the resolver operator still does.
+- Ignoring enterprise policy that blocks or redirects alternate resolvers.

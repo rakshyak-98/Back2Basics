@@ -1,12 +1,27 @@
-[[SMTP]] · [[IMAP (Internet Message Access Protocol)]] · [[DNS]] · [[TLS (Transport Layer Security)]] · [[E mail server]]
+[[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]] [[TLS (Transport Layer Security)]] [[E mail server]]
 
 # mail server
 
-> A mail server stack receives, routes, stores, and delivers email using SMTP between servers and often IMAP or POP3 for clients — delivery fails when DNS (MX/SPF/DKIM/DMARC) or TLS policy does not match what receivers expect.
+> A mail server stack receives, routes, stores, and delivers email — SMTP between servers, IMAP or POP3 for clients; delivery fails when DNS (MX/SPF/DKIM/DMARC) or TLS policy mismatches receivers.
 
----
+## Interview Relevance
 
-## Components
+Interviewers expect you to name submission versus relay ports, the MTA/IMAP split, and which DNS records decide inbox versus spam.
+
+## Sources
+
+- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive
+- [RFC 3501 — IMAP](https://datatracker.ietf.org/doc/html/rfc3501) — overview
+- [Google — Email sender guidelines](https://support.google.com/mail/answer/81126) — overview
+
+## Key Concepts
+
+- **MUA → MTA → MX → mailbox:** clients submit; MTAs relay; recipient MX accepts; IMAP/POP3 serves the mailbox.
+- **Submission vs relay:** 587 for authenticated users; 25 for MTA-to-MTA.
+- **DNS authenticity:** MX for destination; SPF/DKIM/DMARC against spoofing; PTR for sending IP reputation.
+- **Software roles:** Postfix/Exim as MTA; Dovecot as IMAP; Rspamd for filtering.
+
+## Technical Details
 
 ```
 Sender MUA (Thunderbird, Gmail UI)
@@ -28,15 +43,11 @@ Receiver MUA
 | **Mailbox access** | [[IMAP (Internet Message Access Protocol)]] | 993 (IMAPS) |
 | **Legacy mailbox** | POP3 | 995 (POP3S) |
 
-## DNS requirements
-
-See [[servers/DSN records]]:
+DNS requirements ([[servers/DSN records]]):
 
 - **MX** — where mail for the domain goes
 - **SPF / DKIM / DMARC** — anti-spoofing and reputation
 - **PTR** — reverse DNS for sending IP
-
-## Popular software
 
 | Software | Role |
 |----------|------|
@@ -46,15 +57,7 @@ See [[servers/DSN records]]:
 | **Rspamd / SpamAssassin** | Filtering |
 | **OpenDKIM / Rspamd DKIM** | Signing |
 
-Managed: Google Workspace, Microsoft 365, Amazon SES.
-
-## Security baseline
-
-- Require **TLS** for submission and prefer **DANE** / **MTA-STS** where supported
-- Disable open relay — authenticate submission users
-- Rate limit outbound mail; monitor bounce rates
-
-## Debugging
+Managed alternatives: Google Workspace, Microsoft 365, Amazon SES.
 
 ```bash
 dig MX example.com +short
@@ -62,13 +65,26 @@ openssl s_client -connect mail.example.com:25 -starttls smtp
 swaks --to user@example.com --from test@example.com --server mail.example.com
 ```
 
-## Recall
+## Real-World Applications
 
-- What is the difference between port 25 and 587?
-- Which DNS records affect whether your mail lands in spam?
+Corporate mailboxes, transactional mail from apps, and partner integrations that still require SMTP drop boxes.
 
-## Sources
+**Example:** Debug “mail not arriving” with `dig MX`, then `openssl s_client -starttls smtp` to confirm the MX speaks TLS before chasing application bugs.
 
-- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321)
-- [RFC 3501 — IMAP](https://datatracker.ietf.org/doc/html/rfc3501)
-- [Google — Email sender guidelines](https://support.google.com/mail/answer/81126)
+## Pros/Cons or Trade-offs
+
+- **Pro:** Standard protocols everywhere — any client can talk SMTP/IMAP.
+- **Con:** Cleartext paths and open relays are still footguns; require TLS and authenticated submission.
+- **Con:** Deliverability is a reputation game — self-hosting outbound at scale is hard.
+
+## Comparison
+
+- vs [[E mail server]]: ports and components here; architecture/ops depth there.
+- vs chat ([[IRC]], Slack): email is store-and-forward with strong identity/DNS coupling.
+
+## Mistakes to Avoid
+
+- Confusing port 25 (relay) with 587 (submission).
+- Skipping PTR/SPF/DKIM and blaming the MTA software for spam folders.
+- Disabling TLS on submission “for compatibility.”
+- Leaving an open relay for convenience.

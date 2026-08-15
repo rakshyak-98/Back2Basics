@@ -2,16 +2,30 @@
 
 # Terraform
 
-> Terraform — declare cloud resources as code and apply planned changes. **Brikman / Winkler**.
+> Terraform declares cloud resources as code and applies planned changes — desired state in HCL, executed through provider plugins against cloud APIs.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers expect declarative IaC versus ClickOps/scripts, resource versus data, state ownership, and when not to manage every app deploy with Terraform.
 
-Terraform is a declarative Infrastructure as Code (IaC) tool. You describe the **desired end state** in HCL; Terraform figures out create / update / delete against cloud APIs through [[terraform provider]] plugins.
+## Sources
 
+- [HashiCorp — What is Terraform?](https://developer.hashicorp.com/terraform/intro) — overview
+- Yevgeniy Brikman, *Terraform: Up & Running* — deep-dive
+- Scott Winkler, *Terraform in Action* — deep-dive
 
-## Configuration and commands
+## Core Definition
+
+You describe the desired end state in HCL; Terraform computes create/update/delete against APIs through [[terraform provider]] plugins and records ownership in state.
+
+## Key Concepts
+
+- **Declarative + plan:** review the diff before apply.
+- **Building blocks:** `terraform {}`, `provider`, `resource`, `data`, `variable`/`output`/`locals`, `module`.
+- **Implicit graph:** attribute references create dependencies; file order among `*.tf` does not.
+- **State:** maps addresses to real IDs — deleting state does not delete cloud resources.
+
+## Technical Details
 
 ```hcl
 terraform {
@@ -38,20 +52,38 @@ terraform init && terraform plan -out=tfplan && terraform apply tfplan
 | `resource` vs `data` | Manage vs read-only lookup |
 | Module `version` | Avoid surprise upstream breaks |
 
+```hcl
+resource "<PROVIDER>_<TYPE>" "<NAME>" {
+  # arguments (desired config)
+}
+# Reference: <PROVIDER>_<TYPE>.<NAME>.<ATTR>
 
-## Where to go next
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+}
 
-| Symptom / need | Go to |
-|----------------|-------|
-| … | [[…]] |
+module "vpc" {
+  source     = "./modules/vpc"
+  cidr_block = var.vpc_cidr
+  env        = var.environment
+}
 
+module "s3_bucket" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "~> 4.0"
+}
+```
 
-## Related topics in this domain
-
-- …: [[…]]
-
-
-## When things break
+| Approach | Problem |
+|----------|---------|
+| ClickOps (console) | Not repeatable, no review, drift |
+| Scripts alone | Imperative, brittle order, hard to parallelize |
+| Terraform | Declarative, plan before apply, state + dependency graph |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,169 +93,25 @@ terraform init && terraform plan -out=tfplan && terraform apply tfplan
 | State drift | Manual console edits | `plan` then import or adopt |
 | Module version jump | Unpinned `source` | Pin `version = "~> x.y"` |
 
+## Real-World Applications
 
-## Gotchas
+VPCs, IAM, EKS/RDS baselines, and reusable registry modules reviewed in PRs.
 
-> [!WARNING]
-> **State is the source of truth for ownership** — deleting state ≠ deleting cloud resources.
+**Example:** A team pins `hashicorp/aws ~> 5.0`, plans in CI, and applies only the saved `tfplan` artifact.
 
-> [!WARNING]
-> **Data sources refresh on plan** — they can change outputs without changing infra.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Reviewable, versioned infrastructure with a dependency graph and remote state locking.
+- **Con:** Day-2 application image tags belong in CI/CD, not every Terraform apply.
+- **Con:** Half-baked HCL can be riskier than a careful console + runbook for one irreversible change.
 
-## When not to use
+## Comparison
 
-- **Day-2 application deploys** — prefer CI + container/orchestrator, not Terraform for every image tag.
-- **One irreversible click** — sometimes the console + runbook is safer than half-baked HCL.
+- Install / backends → [[Terraform setup]]; plugins → [[terraform provider]]; loop → [[Terraform workflow]]; flags → [[Terraform CLI]]; inputs → [[variable file]]; practice → [[Terraform docker]].
+- vs cloud SDKs alone: Terraform owns drift detection and team state; SDKs win for one-off inventory scripts.
 
+## Mistakes to Avoid
 
-## Why Terraform (Brikman)
-
-| Approach           | Problem                                                  |
-| ------------------ | -------------------------------------------------------- |
-| ClickOps (console) | Not repeatable, no review, drift                         |
-| Scripts alone      | Imperative, brittle order, hard to parallelize           |
-| Terraform          | Declarative, plan before apply, state + dependency graph |
-
-Brikman: treat infra like software — code review, versioning, reusable modules, CI.
-
----
-
-
-## Building blocks (Winkler)
-
-| Block                            | Role                                                |
-| -------------------------------- | --------------------------------------------------- |
-| `terraform {}`                   | Version pins, backends → [[Terraform setup]]        |
-| `provider`                       | Cloud/API plugin config → [[terraform provider]]    |
-| `resource`                       | Manage something (create/update/delete)             |
-| `data`                           | Read-only lookup of existing info                   |
-| `variable` / `output` / `locals` | Inputs, exports, computed names → [[variable file]] |
-| `module`                         | Reusable folder of config                           |
-
----
-
-
-## Resource
-
-```hcl
-resource "<PROVIDER>_<TYPE>" "<NAME>" {
-  # arguments (desired config)
-}
-```
-
-Reference elsewhere: `<PROVIDER>_<TYPE>.<NAME>.<ATTR>`
-
-```hcl
-resource "aws_instance" "web" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "web"
-  }
-}
-```
-
-- Implicit dependency: using another resource’s attribute creates an edge in the graph (Winkler).
-- Explicit: `depends_on = [aws_iam_role_policy.example]`
-
----
-
-
-## Data source (read-only)
-
-```hcl
-data "<PROVIDER>_<TYPE>" "<NAME>" {
-  # filters / query params
-}
-```
-
-Reference: `data.<PROVIDER>_<TYPE>.<NAME>.<ATTR>`
-
-```hcl
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"] # Canonical
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-}
-
-resource "aws_instance" "web" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-}
-```
-
-> [!INFO] Data sources do not create cloud resources. On apply they refresh reads and may only update [[Terraform workflow|state]] / outputs.
-
----
-
-
-## Modules (Brikman — “how to stay DRY”)
-
-```hcl
-module "vpc" {
-  source = "./modules/vpc"
-
-  cidr_block = var.vpc_cidr
-  env        = var.environment
-}
-
-output "vpc_id" {
-  value = module.vpc.vpc_id
-}
-```
-
-- Local path, Git URL, or Terraform Registry
-- Each module has its own `variables.tf` / `outputs.tf` / `main.tf`
-- Layout: [[Terraform setup]]
-
----
-
-
-## Registry
-
-Public hub: `registry.terraform.io`
-
-- **Providers** — API plugins → [[terraform provider]]
-- **Modules** — packaged patterns (VPC, EKS, RDS)
-
-```hcl
-module "s3_bucket" {
-  source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 4.0"
-}
-```
-
-Always pin module `version` (Brikman).
-
----
-
-
-## State (preview)
-
-Terraform stores IDs and attributes in `terraform.tfstate` so the next `plan` can compare desired versus actual.
-
-- Solo: local state
-- Team: remote backend + locking → [[Terraform setup]]
-- Behavior in the apply loop → [[Terraform workflow]]
-
----
-
-
-## Related graph
-
-- Install / versions / authentication / backend → [[Terraform setup]]
-- Provider plugins & aliases → [[terraform provider]]
-- initialize → plan → apply → destroy → [[Terraform workflow]]
-- CLI / logging / schema → [[Terraform CLI]]
-- Variables & tfvars → [[variable file]]
-- Docker provider example → [[Terraform docker]]
-
-## Sources
-
-- [Wikipedia — terraform](https://en.wikipedia.org/wiki/terraform)
+- Treating state deletion as resource deletion.
+- Unpinned providers/modules drifting between CI and laptop.
+- Expecting data sources to create infrastructure — they refresh reads and may change outputs only.

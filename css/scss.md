@@ -1,41 +1,45 @@
-[[css]] [[Animation]]
+[[Animation]] [[tailwindcss]] [[Flash of Unstyled Content]] [[CSS property]] [[Javascript]]
 
 # scss
 
-> scss — = CSS + variables, nesting, mixins, functions, @use modules. Build step compiles to plain CSS.
+> SCSS (Sassy CSS) extends CSS with variables, nesting, mixins, and `@use` modules — a build step compiles it to plain CSS the browser understands.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about SCSS to see if you know `@use` versus deprecated `@import`, when Sass variables lose to CSS custom properties, and when teams should prefer native CSS or [[tailwindcss]] instead.
 
-SCSS = CSS + variables, nesting, mixins, functions, `@use` modules. Build step compiles to plain CSS.
+## Sources
+
+- [Sass Docs — `@use`](https://sass-lang.com/documentation/at-rules/use/) — deep-dive
+- [Sass Docs — Breaking change: `@import`](https://sass-lang.com/documentation/breaking-changes/import/) — overview
+- [MDN — Using CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) — overview
+
+## Core Definition
+
+SCSS is a stylesheet language compiled by Dart Sass (or compatible tools) into CSS; it adds authoring features (modules, mixins, functions) that disappear at runtime.
+
+## Key Concepts
+
+- **Compile step:** `.scss` → `.css` via Vite/`sass-embedded` or the Sass CLI — browsers never see SCSS.
+- **`@use` / `@forward`:** modern module system with namespaces → replaces global `@import` pollution.
+- **Mixins / functions:** reusable chunks and calculations → keep what native CSS still lacks.
+- **Sass `$variables` vs CSS `var()`:** Sass values are build-time; custom properties are runtime-themeable.
+- **Migration pressure:** native nesting, `@layer`, and `@property` cover many former SCSS jobs in greenfield apps.
+
+## Technical Details
 
 ```txt
 2026 stack options:
   Vite/Webpack + sass-embedded (dart-sass)
-  PostCSS for autoprefixer + nesting polyfill (optional)
-  CSS @layer + @property for some former SCSS jobs
+  PostCSS for autoprefixer (optional)
+  Native CSS nesting / @layer for some former SCSS jobs
 ```
 
-**Migration reality:** greenfield may ship CSS modules + Tailwind; legacy codebases still run large SCSS — know both maintenance and sunset patterns.
-
-**Module system (`@use` / `@forward`)** replaced `@import` (deprecated) — one namespace per file, no duplicate global pollution.
-
----
-
-
-## Configuration and commands
-
-### File layout (design system)
+### File layout
 
 ```scss
 // tokens/_colors.scss
 $color-primary: #2563eb;
-$color-danger: #dc2626;
-
-// tokens/_spacing.scss
-$space-unit: 0.25rem;
-@function space($n) { @return $n * $space-unit; }
 
 // _mixins.scss
 @mixin focus-ring {
@@ -49,22 +53,24 @@ $space-unit: 0.25rem;
 
 .btn-primary {
   background: c.$color-primary;
-  &:focus-visible { @include m.focus-ring; }
+  &:focus-visible {
+    @include m.focus-ring;
+  }
 }
 ```
 
-### `@use` vs old `@import`
+### `@use` vs deprecated `@import`
 
 ```scss
-// ✅ Modern
-@use 'tokens/colors' as *;   // or namespaced: colors.$primary
-@forward 'tokens/colors';    // re-export from index
+// Modern
+@use 'tokens/colors' as *;
+@forward 'tokens/colors';
 
-// ❌ Deprecated — duplicate CSS, global scope leaks
+// Deprecated — duplicate CSS, global scope leaks
 // @import 'tokens/colors';
 ```
 
-### Mixins worth keeping (no native equivalent)
+### Mixins still useful
 
 ```scss
 @mixin truncate($lines: 1) {
@@ -79,93 +85,56 @@ $space-unit: 0.25rem;
     overflow: hidden;
   }
 }
-
-@mixin respond-to($breakpoint) {
-  @if $breakpoint == md {
-    @media (min-width: 768px) { @content; }
-  }
-}
 ```
 
-### Prefer native CSS now
+### Prefer native CSS for runtime themes
 
 ```css
-/* Custom properties — runtime themable, no build for toggle */
 :root {
   --color-primary: #2563eb;
   --space-4: 1rem;
 }
 
-/* Nesting (widely supported 2024+) */
 .card {
   padding: var(--space-4);
-  & .title { font-weight: 600; }
+  & .title {
+    font-weight: 600;
+  }
 }
-
-/* @layer for cascade control */
-@layer reset, components, utilities;
 ```
-
-### Build (Vite example)
 
 ```bash
 npm i -D sass-embedded
-# vite.config: css.preprocessorOptions.scss.additionalData optional for global @use
+# or: sass src/styles:dist/css --style=compressed --no-source-map
 ```
-
-```json
-"scripts": {
-  "build:css": "sass src/styles:dist/css --style=compressed --no-source-map"
-}
-```
-
----
-
-
-## When things break
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| Duplicate CSS in bundle | Leftover `@import` | Migrate to `@use`; single entry `@forward` barrel |
-| Undefined variable | Namespace | `@use 'tokens/colors' as c;` → `c.$primary` |
-| Deprecation warnings CI fail | dart-sass 1.80+ | Replace `@import`, `/` division → `math.div()` |
-| Huge CSS output | `@extend` chains | Prefer mixins or utility classes |
-| Dark mode tokens wrong | Compile-time `$vars` only | Move theme to CSS custom properties |
-| Slow builds | `@use` graph + source maps | `--quiet-deps`; limit `additionalData` glob |
+| Duplicate CSS in bundle | Leftover `@import` | Migrate to `@use` / `@forward` |
+| Undefined variable | Namespace | `c.$primary` after `@use … as c` |
+| Deprecation warnings fail CI | dart-sass 1.80+ | Replace `@import`; use `math.div()` |
+| Huge output | `@extend` chains | Prefer mixins or utilities |
+| Dark mode wrong | Compile-time `$vars` only | Move theme to CSS custom properties |
 
----
+## Real-World Applications
 
+Large design systems still organize tokens and component sheets in SCSS; many new apps use CSS modules + Tailwind and keep SCSS only in legacy packages.
 
-## Gotchas
+**Example:** A component library `@forward`s tokens from `index.scss` so apps `@use 'design-system' as ds` without reaching into private files.
 
-> [!WARNING]
-> **`@extend` across files** — unpredictable selector bloat and ordering bugs; prefer mixins or utility classes.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Sass variables can't change at runtime** — theme switching needs CSS variables, not `$primary-dark`.
+- **Pro:** Strong authoring structure (modules, mixins) for large shared stylesheets.
+- **Con:** Extra build dependency and mental model beside native CSS.
+- **Con:** Sass variables cannot switch at runtime for user themes — need `var(--*)`.
 
-> [!WARNING]
-> **`!default` override order** — depends on `@use` load order; document token override chain.
+## Comparison
 
-> [!WARNING]
-> **Tailwind + SCSS duplication** — pick source of truth for spacing/color; don't define both.
+- vs [[tailwindcss]]: Tailwind constrains design via utilities; SCSS authors arbitrary CSS with better structure.
+- vs plain CSS: native nesting and custom properties close the gap; SCSS still wins for complex mixins and shared libraries.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **New micro-frontends with Tailwind/CSS-in-JS** — SCSS adds build complexity without team buy-in.
-- **Runtime theming / user accent colors** — CSS custom properties only.
-- **One-off static landing** — plain CSS or utility framework faster than token architecture.
-
----
-
-
-## Related
-
-[[Animation]] · [[css]] · [[JavaScript]]
-
-## Sources
-
-- [Wikipedia — scss](https://en.wikipedia.org/wiki/scss)
+- Keeping `@import` in new code — migrate to `@use` / `@forward`.
+- Using `@extend` across files until selector graphs become unreadable — prefer mixins or utilities.
+- Defining the same spacing/color tokens in both SCSS and Tailwind without a single source of truth.

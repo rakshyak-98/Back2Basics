@@ -1,12 +1,24 @@
-[[Security]] [[JWT authentication]] [[Token rotation]] [[single-sign-on (SSO)]]
+[[Security]] [[JWT authentication]] [[Token rotation]] [[single-sign-on (SSO)]] [[HMAC (Hash based Message Authentication Codes)]] [[Asymmetrical Encryption]] [[Authentication terms]]
 
 # JWT
 
-> JWT (JSON Web Token) — a signed blob of claims the client carries; the server verifies the signature instead of looking up a session.
+> Signed blob of claims the client carries — the server verifies the signature instead of looking up a session (until you add revocation).
 
----
+## Interview Relevance
 
-## How it works
+Structure of JWT (header.payload.signature), when to use HS* vs RS*/ES*, and access vs refresh token roles.
+
+## Sources
+
+- [RFC 7519 — JSON Web Token](https://www.rfc-editor.org/rfc/rfc7519) — deep-dive
+- [RFC 7515 — JSON Web Signature](https://www.rfc-editor.org/rfc/rfc7515) — deep-dive
+- [jwt.io introduction](https://jwt.io/introduction) — overview
+
+## Core Definition
+
+A JWT is three Base64url parts (header, payload, signature) carrying claims the client presents and the server verifies without a session lookup (until revocation is added).
+
+## Key Concepts
 
 ```txt
 Client                         Server
@@ -26,10 +38,7 @@ Client                         Server
 
 **Access versus refresh:** short-lived access JWT in memory/`Authorization`; longer refresh in HttpOnly cookie → `POST /refresh` mints a new pair. Stateless until you add a denylist or rotate keys.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 const jwt = require('jsonwebtoken')
@@ -57,10 +66,7 @@ const claims = jwt.verify(token, process.env.JWT_PUBLIC_KEY, {
 
 Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone.
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -72,39 +78,25 @@ Decode only for debug: `jwt.decode(t)` — **never** authorize from decode alone
 | `alg: none` accepted | Library default too loose | Explicit `algorithms` allowlist |
 | Role claim ignored / wrong | Custom claim name collision | Namespace claims; verify before use |
 
----
+## Real-World Applications
 
+OIDC ID tokens and API access tokens are JWTs — parse claims only after signature and `alg` verification.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Payload is not secret** — Base64 ≠ encryption. Put secrets in the server, not in JWT claims.
+- **Pro:** Portable, inspectable claims format widely supported across languages.
+- **Con:** Need instant server-side logout / session kill — opaque session IDs in Redis/DB.
+- **Con:** Huge authorization graphs in every request — keep JWT thin; fetch permissions server-side.
+- **Con:** Broadcast / manage connected clients — JWT is not a messaging channel; use WebSockets + sessions.
 
-> [!WARNING]
-> **Verify before trust** — never branch on `decode()` claims; always `verify()` first.
+## Comparison
 
-> [!WARNING]
-> **One leaked HS256 secret = forge any user** — prefer asymmetric keys across services.
+- vs opaque session ids: JWT is self-contained claims; opaque ids need a lookup.
+- vs [[Token rotation]]: rotation policy sits on top of JWT access/refresh pairs.
 
-> [!WARNING]
-> **Cannot push-revoke easily** — until expiry, stolen tokens work unless you track `jti` or rotate keys.
+## Mistakes to Avoid
 
----
-
-
-## When not to use
-
-- **Need instant server-side logout / session kill** — opaque session IDs in Redis/DB.
-- **Huge authorization graphs in every request** — keep JWT thin; fetch permissions server-side.
-- **Broadcast / manage connected clients** — JWT is not a messaging channel; use WebSockets + sessions.
-
----
-
-
-## Related
-
-[[JWT authentication]] [[Token rotation]] [[HMAC (Hash based Message Authentication Codes)]] [[Asymmetrical Encryption]] [[single-sign-on (SSO)]] [[Authentication terms]]
-
-## Sources
-
-- [Wikipedia — JWT](https://en.wikipedia.org/wiki/JWT)
+- Payload is not secret — Base64 ≠ encryption. Put secrets in the server, not in JWT claims.
+- Verify before trust — never branch on `decode()` claims; always `verify()` first.
+- One leaked HS256 secret = forge any user — prefer asymmetric keys across services.
+- Cannot push-revoke easily — until expiry, stolen tokens work unless you track `jti` or rotate keys.

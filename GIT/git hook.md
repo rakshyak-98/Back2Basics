@@ -1,13 +1,19 @@
-[[git]] [[git command]] [[git commit]]
+[[git]] [[git command]] [[git commit]] [[git commit template]] [[gpg sign]]
 
 # Git Hooks
 
 > scripts Git runs at lifecycle events — enforce quality locally (pre-commit) or gate pushes (pre-push); server-side hooks live on the remote.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use `Git Hooks` to check real Git fluency under pressure — history rewriting safety, conflict recovery, and what not to do on shared branches.
 
+## Sources
+
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Key Concepts
 
 ```
 git commit  →  pre-commit → commit-msg → post-commit
@@ -16,10 +22,7 @@ git push    →  pre-push → (remote) pre-receive / update / post-receive
 
 Exit non-zero from a hook **blocks** the operation.
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ### Built-in sample hooks
 
@@ -89,23 +92,22 @@ git push --no-verify
 
 Document when bypass is acceptable (hotfix with failing unrelated test).
 
----
+| Hook | Trigger | Typical use |
+|------|---------|-------------|
+| `pre-commit` | Before commit recorded | Lint, format, secrets scan |
+| `commit-msg` | After message entered | Message format, ticket ID |
+| `pre-push` | Before push | Run tests, block protected branches |
+| `post-merge` | After merge | `npm install` if lockfile changed |
+| `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
 
+Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Commit silently slow | Hook running full test suite | Scope to staged files; move heavy checks to CI/pre-push |
-| Hook not running | `ls -la .git/hooks/pre-commit` | Must be executable; verify `core.hooksPath` |
-| Works locally, not for teammate | Hooks not in repo | Commit husky/lefthook config; hooks aren't cloned from `.git/hooks` |
-| CI passes, pre-commit fails | Different Node/Python version | Pin versions in `.tool-versions` / `engines` |
-| `--no-verify` abuse | Audit culture | Protected branches on remote + required checks |
+- **Heavy integration tests in pre-commit** — belongs in CI; local hook should stay under ~10s.
+- **Security-only on client hooks** — attacker can bypass; enforce on server/PR checks.
 
----
-
-
-## Gotchas
+## Mistakes to Avoid
 
 > [!WARNING]
 > **`.git/hooks` is not versioned** — use husky, lefthook, or `core.hooksPath` to share hooks via repo.
@@ -119,36 +121,11 @@ Document when bypass is acceptable (hotfix with failing unrelated test).
 > [!WARNING]
 > **Secret scanners in pre-commit** — can false-positive on test fixtures; tune allowlists.
 
----
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Commit silently slow | Hook running full test suite | Scope to staged files; move heavy checks to CI/pre-push |
+| Hook not running | `ls -la .git/hooks/pre-commit` | Must be executable; verify `core.hooksPath` |
+| Works locally, not for teammate | Hooks not in repo | Commit husky/lefthook config; hooks aren't cloned from `.git/hooks` |
+| CI passes, pre-commit fails | Different Node/Python version | Pin versions in `.tool-versions` / `engines` |
+| `--no-verify` abuse | Audit culture | Protected branches on remote + required checks |
 
-
-## When not to use
-
-- **Heavy integration tests in pre-commit** — belongs in CI; local hook should stay under ~10s.
-- **Security-only on client hooks** — attacker can bypass; enforce on server/PR checks.
-
----
-
-
-## Common hooks reference
-
-| Hook | Trigger | Typical use |
-|------|---------|-------------|
-| `pre-commit` | Before commit recorded | Lint, format, secrets scan |
-| `commit-msg` | After message entered | Message format, ticket ID |
-| `pre-push` | Before push | Run tests, block protected branches |
-| `post-merge` | After merge | `npm install` if lockfile changed |
-| `pre-rebase` | Before rebase | Prevent rebase onto wrong branch |
-
-Server-side (self-hosted bare repository): `pre-receive`, `update`, `post-receive`.
-
----
-
-
-## Related
-
-[[git command]] [[git commit]] [[git commit template]] [[gpg sign]]
-
-## Sources
-
-- [Wikipedia — git hook](https://en.wikipedia.org/wiki/git_hook)

@@ -1,12 +1,27 @@
-[[NodeJS]] [[CLI]] [[nvm]] [[node package json]] [[node inspect]]
+[[NodeJS]] [[CLI]] [[nvm]] [[node package json]] [[node inspect]] [[Event Loop]]
 
 # node command
 
 > node command — node is the V8 runtime entrypoint. It loads your script (CJS or ESM per node package json "type"), applies V8 flags after --
 
----
+## Interview Relevance
 
-## How it works
+Interviewers probe **node command** to see if you understand what it does operationally and when it is the wrong tool — not just the definition.
+
+## Sources
+
+- [Node.js — Command-line options](https://nodejs.org/api/cli.html) — deep-dive
+- [Wikipedia — node command](https://en.wikipedia.org/wiki/node_command) — overview
+
+## Core Definition
+
+`node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
+
+## Key Concepts
+
+- `node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and p…
+
+## Technical Details
 
 `node` is the V8 runtime entrypoint. It loads your script (CJS or ESM per [[node package json]] `"type"`), applies V8 flags after `--`, and exposes `process.*` globals. CI and production should call a **pinned absolute path** to Node — not whatever `which node` returns after nvm shims.
 
@@ -17,16 +32,6 @@ node [options] [ -e script | script.js ] [arguments]
          ├── --inspect         debugger
          └── --max-old-space-size
 ```
-
-
-## Quick reference
-
-| Task | Command |
-|------|---------|
-| … | `…` |
-
-
-## Configuration and commands
 
 ### Version & path
 
@@ -82,52 +87,44 @@ node cli.js --port 4000
 # process.argv: ['node', 'cli.js', '--port', '4000']
 ```
 
+### Quick reference
 
-## Options and flags
+| Task | Command |
+|------|---------|
+| … | `…` |
+
+### Options and flags
 
 | Flag | Effect | When to use |
 |------|--------|-------------|
 | … | … | … |
 
-
-## Examples
+### Examples
 
 ```bash
-# …
 ```
 
+## Real-World Applications
 
-## When things break
+In production APIs and tooling, **node command** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **`node -e` and top-level await** — need `--input-type=module` or wrap in async IIFE on older Node; **Different node in cron vs shell** — cron uses minimal PATH; use full path in crontab.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| `Cannot find module` | cwd; NODE_PATH | Run from project root; install deps |
-| ESM/CJS mismatch | `"type":"module"` | Rename to `.cjs`/`.mjs` or adjust imports |
-| `ERR_REQUIRE_ESM` | require() on ESM package | Use dynamic `import()` |
-| Old Node in CI | `node -v` in pipeline | Pin setup-node / Docker base |
-| dotenv not applied | Import order | `--import dotenv/config` before app |
-| OOM heap | `--max-old-space-size` | Fix leak; scale memory |
+## Pros/Cons or Trade-offs
 
+- **Pro:** Solves the job described above when used in the right layer (node command — node is the V8 runtime entrypoint. It loads your script (CJS or E…).
+- **Con / when not:** **Package binary** — prefer `npm run` / `npx` for local CLI tools.
+- **Con / when not:** **Production multi-process** — systemd/K8s with explicit ExecStart, not shell aliases.
 
-## Gotchas
+## Comparison
 
-> [!WARNING]
-> **`node -e` and top-level await** — need `--input-type=module` or wrap in async IIFE on older Node.
+vs [[CLI]]: know when each applies — do not treat them as interchangeable. vs [[nvm]]: know when each applies — do not treat them as interchangeable. vs [[node package json]]: know when each applies — do not treat them as interchangeable.
 
-> [!WARNING]
-> **Different node in cron vs shell** — cron uses minimal PATH; use full path in crontab.
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Package binary** — prefer `npm run` / `npx` for local CLI tools.
-- **Production multi-process** — systemd/K8s with explicit ExecStart, not shell aliases.
-
-
-## Related
-
-[[CLI]] [[nvm]] [[node package json]] [[node inspect]] [[Event Loop]]
-
-## Sources
-
-- [Wikipedia — node command](https://en.wikipedia.org/wiki/node_command)
+- **`node -e` and top-level await** — need `--input-type=module` or wrap in async IIFE on older Node.
+- **Different node in cron vs shell** — cron uses minimal PATH; use full path in crontab.
+- **`Cannot find module`:** check cwd; NODE_PATH; fix: Run from project root; install deps
+- **ESM/CJS mismatch:** check `"type":"module"`; fix: Rename to `.cjs`/`.mjs` or adjust imports
+- **`ERR_REQUIRE_ESM`:** check require() on ESM package; fix: Use dynamic `import()`
+- **Old Node in CI:** check `node -v` in pipeline; fix: Pin setup-node / Docker base
+- **dotenv not applied:** check Import order; fix: `--import dotenv/config` before app
+- **OOM heap:** check `--max-old-space-size`; fix: Fix leak; scale memory

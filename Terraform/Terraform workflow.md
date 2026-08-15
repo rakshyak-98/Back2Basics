@@ -2,37 +2,26 @@
 
 # Terraform workflow
 
-> Core loop & state — **Terraform: Up & Running** (Brikman) + **Terraform in Action** (Winkler).
+> The core Terraform loop is init → plan → apply (and destroy) — desired HCL plus credentials plus state become cloud API calls and an updated state file.
 
----
+## Interview Relevance
 
-## When things break
+Interviewers probe state locking, dependency graphs, lifecycle guards, and why apply must match the reviewed plan.
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
-| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
-| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
-| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
-| Wrong backend | `backend` block vs old state | `init -migrate-state` |
+## Sources
 
+- [HashiCorp — Core Terraform workflow](https://developer.hashicorp.com/terraform/intro/core-workflow) — deep-dive
+- Yevgeniy Brikman, *Terraform: Up & Running* — deep-dive
+- Scott Winkler, *Terraform in Action* — overview
 
-## Gotchas
+## Key Concepts
 
-> [!WARNING]
-> **Apply without saved plan** — interactive apply can diverge from reviewed CI plan; use `-out`.
+- **Four commands:** init (plugins/backend), plan (diff), apply (execute), destroy (remove).
+- **DAG:** implicit edges from references; explicit `depends_on`; independent nodes parallelize — file order does not matter.
+- **State:** address → real ID map; remote + lock for teams.
+- **Lifecycle:** `create_before_destroy`, `prevent_destroy`, `ignore_changes`.
 
-> [!WARNING]
-> **force-unlock casually** — two applies can corrupt state; confirm the other run is dead first.
-
-
-## When not to use
-
-- **Hotfix outside Terraform** — then import or accept drift; don’t fight both consoles.
-- **Destroy in production without plan review** — always `plan` destroy first.
-
-
-## Mental model (both books)
+## Technical Details
 
 ```txt
 .tf desired state  +  credentials  +  state file
@@ -46,22 +35,6 @@
                  cloud API + new state
 ```
 
-Concepts used in this loop:
-
-| Concept | Meaning | Notes |
-|---------|---------|-------|
-| Provider | Which cloud/API | [[terraform provider]] |
-| Resource | Managed object | [[terraform]] |
-| Variable | Per-env input | [[variable file]] |
-| Output | Value to show / share | [[variable file]] |
-| Module | Reusable package | [[terraform]] |
-| State | Record of what Terraform owns | [[Terraform setup]] backends |
-
----
-
-
-## The four commands
-
 | Step | Command | Purpose |
 |------|---------|---------|
 | Initialize | `terraform init` | Download providers/modules; configure backend |
@@ -69,96 +42,26 @@ Concepts used in this loop:
 | Apply | `terraform apply` | Execute the plan; update state |
 | Destroy | `terraform destroy` | Remove managed resources; clear state |
 
-Prereqs: [[Terraform setup]] · debug: [[Terraform CLI]]
-
 ```shell
 terraform init
 terraform plan -out=tfplan
 terraform apply tfplan
 terraform destroy
-```
 
----
-
-
-## Dependency graph (Winkler)
-
-Before plan, Terraform builds a DAG of resources:
-
-- **Implicit** edges from references (`ami = aws_ami…` / `subnet_id = aws_subnet.a.id`)
-- **Explicit** `depends_on` when there is no attribute reference but order still matters
-- Independent nodes can run **in parallel**
-
-That’s why file order among `*.tf` files does not define apply order.
-
----
-
-
-## What `init` does
-
-1. Read `required_providers` / module sources
-2. Download plugins → `.terraform/`
-3. Configure backend (local or remote)
-4. Write `.terraform.lock.hcl` (provider checksums — commit this; Brikman/team practice)
-
-```shell
-terraform init
-terraform init -upgrade          # allow newer providers within constraints
-terraform init -migrate-state    # after backend change
-```
-
----
-
-
-## What `plan` / `apply` do
-
-1. Load configuration + [[variable file]] values
-2. Refresh state against cloud (unless `-refresh=false`)
-3. Compute actions: create / update / replace / destroy
-4. Apply: call [[terraform provider]], then write state
-
-```txt
-│ Error: No configuration files
-│ The directory … contains no Terraform configuration files.
-```
-
-→ add at least one `.tf` (e.g. `main.tf` with a [[terraform provider]] block), then `terraform init`.
-
----
-
-
-## State: why it exists (Brikman)
-
-`terraform.tfstate` maps addresses → real IDs/attributes.
-
-| Without state | With state |
-|---------------|------------|
-| Guess what exists | Know what Terraform created |
-| Risk of duplicates | Diff-driven changes |
-| Solo only | Remote + lock for teams |
-
-```shell
+terraform init -upgrade
+terraform init -migrate-state
 terraform state list
 terraform state show aws_instance.web
-terraform refresh   # sync state from cloud (use carefully)
 ```
 
-> [!INFO] Apply of **data sources only** can change state/outputs without changing cloud infrastructure.
+What `init` does: read `required_providers` / modules → download to `.terraform/` → configure backend → write `.terraform.lock.hcl` (commit it).
 
-Example: reading `data.aws_instances.all` and writing an output updates local/remote state, not EC2 inventory.
-
-Remote backend + DynamoDB/Blob lease locking → [[Terraform setup]]
-
----
-
-
-## Lifecycle meta-arguments (Winkler)
+What `plan`/`apply` do: load config + [[variable file]] → refresh state → compute actions → call [[terraform provider]] → write state.
 
 ```hcl
 resource "aws_instance" "web" {
   ami           = var.ami
   instance_type = var.instance_type
-
   lifecycle {
     create_before_destroy = true
     prevent_destroy       = true
@@ -173,27 +76,36 @@ resource "aws_instance" "web" {
 | `prevent_destroy` | Guard rails for critical resources |
 | `ignore_changes` | Stop Terraform fighting out-of-band edits |
 
----
+Safe team loop: branch + PR with plan in CI; remote lock; secrets never in git; lock file committed.
 
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| State lock held | Who holds remote lock | Wait or `force-unlock` after confirming no run |
+| Plan empty but drift | Refresh off / wrong workspace | `terraform workspace show`; refresh on |
+| Apply partial fail | Which resource errored | Fix API error; re-apply (idempotent) |
+| Destroy blocked | `prevent_destroy` | Remove lifecycle guard deliberately |
+| Wrong backend | `backend` block vs old state | `init -migrate-state` |
 
-## Safe team loop (Brikman)
+## Real-World Applications
 
-1. Branch + PR with plan output in CI
-2. Remote state unlocked only after apply finishes
-3. Secrets never in git
-4. Pin versions (`.terraform.lock.hcl` committed)
+PR plans for network changes, production applies from saved plans, and guarded RDS modules with `prevent_destroy`.
 
----
+**Example:** CI posts `terraform plan` on a PR; after merge, apply uses `-out` artifact so production matches review.
 
+## Pros/Cons or Trade-offs
 
-## Related
+- **Pro:** Diff-driven changes with locking beat shared local state.
+- **Con:** Hotfixes outside Terraform create drift — import or accept it consciously.
+- **Con:** `force-unlock` during a live apply can corrupt state.
 
-- Language building blocks → [[terraform]]
-- First project plumbing → [[Terraform setup]]
-- Provider RPC / aliases → [[terraform provider]]
-- Logs & schema → [[Terraform CLI]]
-- Variables → [[variable file]]
+## Comparison
 
-## Sources
+- Language blocks → [[terraform]]; plumbing → [[Terraform setup]]; CLI flags → [[Terraform CLI]].
+- Data-source-only applies can change state/outputs without changing cloud inventory.
 
-- [Wikipedia — Terraform workflow](https://en.wikipedia.org/wiki/Terraform_workflow)
+## Mistakes to Avoid
+
+- Interactive apply that diverges from the reviewed CI plan.
+- Casual `force-unlock` while another run is alive.
+- Destroy in production without a destroy plan review.
+- Fighting both the console and Terraform on the same objects.

@@ -1,12 +1,19 @@
-[[MongoDB]] [[mongodb schema]] [[mongodb shell]]
+[[MongoDB]] [[mongodb schema]] [[mongodb shell]] [[mongodb migration]]
 
 # MongoDB query validation
 
 > Collection validators reject bad writes — JSON Schema (or operators) enforced by the server.
 
----
+## Interview Relevance
 
-## How it works
+Validation interviews check schema validators, validationLevel/action, and migration of invalid docs.
+
+## Sources
+
+- [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
+- [MongoDB Docs home](https://www.mongodb.com/docs/) — overview
+
+## Key Concepts
 
 ```txt
 write → validator ($jsonSchema) → accept | reject
@@ -21,10 +28,7 @@ write → validator ($jsonSchema) → accept | reject
 | **`validationLevel`** | strict vs moderate | “moderate skips already-invalid docs.” |
 | **collMod** | Change validator later | “Evolve without recreate.” |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```js
 db.runCommand({
@@ -45,10 +49,18 @@ db.runCommand({
 | warn | Observe without blocking |
 | App + server validation | Defense in depth |
 
----
+## Pros/Cons or Trade-offs
 
+- **Highly polymorphic events** — validate in the producer instead.
+- **One-off scratch collections** — skip until shape stabilizes.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> **Validators don’t migrate history** — old docs stay wrong until you rewrite them.
+
+> [!WARNING]
+> **Complex `$jsonSchema`** — hard to read; keep rules minimal and clear.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -57,30 +69,3 @@ db.runCommand({
 | Validator too weak | only app checks | Add server schema |
 | Silent bad data | action=warn | Flip to error after cleanup |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Validators don’t migrate history** — old docs stay wrong until you rewrite them.
-
-> [!WARNING]
-> **Complex `$jsonSchema`** — hard to read; keep rules minimal and clear.
-
----
-
-
-## When not to use
-
-- **Highly polymorphic events** — validate in the producer instead.
-- **One-off scratch collections** — skip until shape stabilizes.
-
-
-## Related
-
-[[mongodb schema]] [[mongodb migration]] [[mongodb shell]]
-
-## Sources
-
-- [Wikipedia — MongoDB query validation](https://en.wikipedia.org/wiki/MongoDB_query_validation)

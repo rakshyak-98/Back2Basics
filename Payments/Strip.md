@@ -1,13 +1,33 @@
-[[Payments/payment gateway]] [[Payments/PSP]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[NodeJS/Packages/SuperTokens]]
+[[payment gateway]] [[PSP]] [[Payment integration Strip]] [[PSI GSS]] [[SAQ GSS]] [[webhook]] [[TLS (Transport Layer Security)]]
 
 # Strip
 
-> *(Filename typo: **Stripe**)* — Payment processor API for cards, subscriptions, Connect marketplaces — **Stripe docs + PCI scope reduction**.
+> *(Filename typo for **Stripe**.)* Stripe is a Payment Service Provider API for cards, wallets, subscriptions, and Connect marketplaces — use Checkout or Elements so card data never hits your server.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers expect PaymentIntents, webhook signature verification with the raw body, idempotency keys, and amounts in the smallest currency unit (cents).
 
+## Sources
+
+- [Stripe — Documentation](https://docs.stripe.com/) — deep-dive
+- [Stripe — Webhooks](https://docs.stripe.com/webhooks) — deep-dive
+- [Stripe — Payment Intents](https://docs.stripe.com/payments/paymentintents) — overview
+- [Stripe — Checkout](https://docs.stripe.com/payments/checkout) — overview
+
+## Core Definition
+
+Stripe provides APIs and client SDKs so merchants accept payments under Stripe’s acquiring relationships. Browser code (Stripe.js / Checkout) creates PaymentMethods; your server confirms PaymentIntents and treats signed webhooks as the source of truth for fulfillment.
+
+## Key Concepts
+
+- **Checkout:** hosted payment page — smallest PCI scope for many shops.
+- **PaymentIntents:** server-created intent + client confirmation — supports SCA / 3-D Secure.
+- **Connect:** platforms and marketplaces with split payouts.
+- **Billing:** subscriptions and invoices.
+- **Webhooks:** async state (`payment_intent.succeeded`, disputes) — verify signatures.
+
+## Technical Details
 
 ```
 Browser (Stripe.js) ──PaymentMethod id──► Your API ──► Stripe API
@@ -17,16 +37,11 @@ Browser (Stripe.js) ──PaymentMethod id──► Your API ──► Stripe AP
 
 | Product | Use |
 |---------|------|
-| **Checkout** | Hosted payment page — smallest PCI scope |
-| **Payment Intents** | Custom UI + SCA (3DS) |
-| **Connect** | Marketplace split payouts |
-| **Billing** | Subscriptions + invoices |
-| **Webhooks** | Async payment state — source of truth |
-
-
-## Configuration and commands
-
-### Node.js integration
+| Checkout | Hosted page — smallest PCI scope |
+| Payment Intents | Custom UI + SCA (3DS) |
+| Connect | Marketplace split payouts |
+| Billing | Subscriptions + invoices |
+| Webhooks | Async payment state — source of truth |
 
 ```bash
 npm install stripe
@@ -36,19 +51,18 @@ npm install stripe
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-06-20', // pin version in prod
+  apiVersion: '2024-06-20', // pin version in production
 });
 
-// Create PaymentIntent (server)
 const intent = await stripe.paymentIntents.create({
   amount: 1999,
   currency: 'usd',
   automatic_payment_methods: { enabled: true },
+}, {
+  idempotencyKey: `order-${orderId}`,
 });
-// Return client_secret to frontend
+// Return client_secret to the frontend
 ```
-
-### Webhook (verify signature — mandatory)
 
 ```javascript
 import express from 'express';
@@ -66,57 +80,44 @@ app.post('/webhooks/stripe', express.raw({ type: 'application/json' }), (req, re
 });
 ```
 
-### CLI local testing
-
 ```bash
 stripe login
 stripe listen --forward-to localhost:3000/webhooks/stripe
 stripe trigger payment_intent.succeeded
 ```
 
-### Idempotency (retries)
-
-```javascript
-await stripe.paymentIntents.create(params, {
-  idempotencyKey: `order-${orderId}`,
-});
-```
-
-
-## When things break
-
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| `card_declined` | Radar rules / insufficient funds | Dashboard logs; test cards in test mode |
-| Webhook 400 | Raw body parsed as JSON | Use `express.raw` on webhook route only |
-| Double charge | Retry without idempotency key | Same key per logical operation |
-| SCA required loop | Off-session charge | Use SetupIntent + on-session confirmation |
-| Connect payout stuck | KYC / capabilities | Dashboard Connect onboarding status |
-| Test keys in prod | `sk_test` in env | Separate secrets per env; doppler/CI scan |
+| `card_declined` | Radar / funds | Dashboard logs; test cards in test mode |
+| Webhook 400 | Body parsed as JSON | `express.raw` on webhook route only |
+| Double charge | Retry without idempotency | Same key per logical operation |
+| SCA required loop | Off-session charge | SetupIntent + on-session confirmation |
+| Connect payout stuck | KYC / capabilities | Connect onboarding status |
+| Test keys in production | `sk_test` in environment | Separate secrets; scan CI |
 
+## Real-World Applications
 
-## Gotchas
+SaaS subscriptions, one-time e-commerce Checkout, and marketplaces paying out connected accounts.
 
-> [!WARNING]
-> **Never log full PaymentMethod or card objects** — PCI and secret data exposure.
+**Example:** EU card requires Strong Customer Authentication — PaymentIntent enters `requires_action`; the client completes 3DS, then `payment_intent.succeeded` fires.
 
-- **Webhook order not guaranteed** — design idempotent handlers; store event IDs.
-- **Amount in cents** — off-by-100 bugs are common.
-- **Radar + 3DS** — EU PSD2 requires SCA; test with Stripe test cards triggering authentication.
-- **Connect** — platform liability for negative balances; read reserves docs.
+## Pros/Cons or Trade-offs
 
+- **Pro:** Excellent docs, test clocks/cards, and PCI-reducing Checkout/Elements.
+- **Con:** Country coverage gaps — fall back to a local [[PSP]].
+- **Con:** Connect platforms inherit negative-balance and reserve complexity.
 
-## When not to use
+## Comparison
 
-- Pure crypto/on-chain payments — different stack.
-- In-person only with no online — simpler terminal SDK may suffice.
-- Countries Stripe doesn't support — local PSP via [[Payments/PSP]].
+- vs [[payment gateway]]: Stripe is a full [[PSP]] with gateway APIs built in.
+- vs [[Payment integration Strip]]: this note is the platform; that note is the Checkout-session client flow.
+- vs [[razorpay integration]]: Razorpay is stronger for India/UPI; Stripe for many global card markets.
+- vs crypto-only stacks: different rails entirely.
 
+## Mistakes to Avoid
 
-## Related
-
-[[Payments/payment gateway]] [[Payments/PSP]] [[Payments/PSI GSS]] [[Payments/SAQ GSS]] [[Messaging/webhook]]
-
-## Sources
-
-- [Wikipedia — Strip](https://en.wikipedia.org/wiki/Strip)
+- Logging full PaymentMethod or card objects.
+- Parsing the webhook body as JSON before signature verification.
+- Treating amounts as major units (off-by-100 bugs).
+- Fulfilling from the success URL without a verified webhook or retrieve.
+- Using Dashboard webhook secrets against Stripe CLI-forwarded events (or the reverse).

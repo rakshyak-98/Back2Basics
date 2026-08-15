@@ -1,12 +1,32 @@
-[[DevOps]] [[orchestration]] [[Docker]] [[Kubernetes]]
+[[orchestration]] [[Docker]] [[Pods]] [[ecommerce-cicd-environments]] [[HES Architecture]]
 
 # Edge orchestration tools for industrial IoT
 
-> Edge orchestration — deploy, update, and watch containerized workloads on factory/remote devices that often have weak WAN and must keep running offline.
+> Deploy, update, and watch container workloads on factory or remote devices that often have weak WAN links and must keep running offline.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about edge orchestration to see whether you understand cloud-first Kubernetes assumptions fail at the edge — offline autonomy, image caching, OT/IT network zones, and rollback when WAN is down.
+
+## Sources
+
+- [KubeEdge documentation](https://kubeedge.io/docs/) — overview
+- [K3s documentation](https://docs.k3s.io/) — overview
+- [CNCF — KubeEdge](https://www.cncf.io/projects/kubeedge/) — overview
+
+## Core Definition
+
+Edge orchestration is the control plane and local runtime that keep desired-state apps running on constrained sites (gateways, kiosks, plant floors), syncing with a hub when connectivity exists and continuing locally when it does not.
+
+## Key Concepts
+
+- **Cloud/hub control plane:** desired state, images, and policies → operators manage fleets from one place.
+- **Edge autonomy:** local runtime keeps workloads up when WAN drops → store-and-forward sync later.
+- **Image pre-cache:** pull-on-boot fails on thin links → mirror or preload images on site.
+- **OT vs IT isolation:** plant-floor networks stay separated → dual-homing and signed artifacts matter.
+- **Tool fit:** KubeEdge (Kubernetes-native edge), K3s (light cluster), ZEDEDA/EVE-OS (secure edge OS), Avassa (multi-site fleets).
+
+## Technical Details
 
 ```txt
 Cloud / hub control plane
@@ -19,15 +39,10 @@ Edge site (kiosk/gateway) ── local apps ── machines/sensors
 
 | Tool | Fit |
 |------|-----|
-| **KubeEdge** | K8s-native edge nodes |
-| **K3s** | Light K8s for constrained sites |
-| **ZEDEDA / EVE-OS** | Secure edge OS + app deploy |
+| **KubeEdge** | Kubernetes-native edge nodes with cloud–edge sync |
+| **K3s** | Lightweight Kubernetes for constrained sites |
+| **ZEDEDA / EVE-OS** | Secure edge OS plus application deploy |
 | **Avassa** | Multi-site container orchestration / fleets |
-
----
-
-
-## Configuration and commands
 
 ```bash
 # K3s-shaped mental loop (illustrative)
@@ -41,51 +56,36 @@ kubectl get nodes -o wide
 | Image pre-cache | WAN too thin for pull-on-boot |
 | Resource limits | Cameras/models starve PLC bridges |
 | Signed artifacts | Untrusted remote sites |
-| Dual-homing | OT vs IT networks isolation |
-
----
-
-
-## When things break
+| Dual-homing | OT vs IT network isolation |
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
 | App stuck `ImagePullBackOff` | WAN / registry | Mirror registry on-site; pre-load |
 | Node NotReady after power blip | Disk / agent | Watchdog; durable containerd store |
-| Config drift vs cloud | Agent sync lag | Force reconcile; conflict policy |
+| Configuration drift vs cloud | Agent sync lag | Force reconcile; conflict policy |
 | OT traffic jitter | App CPU steal | cgroups/CPU pin; separate NICs |
 | Update bricks site | No canary / rollback | Staged rollouts; last-good image pin |
 
----
+## Real-World Applications
 
+Factories run vision models and PLC bridges on gateways that lose internet for hours — the edge agent must keep containers healthy and reconcile when the link returns.
 
-## Gotchas
+**Example:** A plant gateway hits `ImagePullBackOff` after a reboot because the WAN cannot pull multi-gigabyte images — pre-cache images on a local registry and pin digests.
 
-> [!WARNING]
-> **Cloud-first assumptions fail offline** — every control action needs a local fallback.
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **OT security zones** — don’t bridge plant floor to internet for convenience.
+- **Pro:** One operational model for many remote sites with offline survival.
+- **Con:** Harder debugging than a single datacenter cluster — clocks, certs, and sync lag dominate.
+- **Con:** Overkill for one well-connected site or pure ladder-logic PLC work.
 
-> [!WARNING]
-> **Clock skew** — certs and TOTP-like device auth break without NTP/GPS discipline.
+## Comparison
 
----
+- vs datacenter [[orchestration]] / full Kubernetes: edge tools assume intermittent WAN and local autonomy.
+- vs single-node [[Docker]]: Docker alone lacks fleet desired-state, signed rollout, and multi-site policy.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Single well-connected datacenter** — normal K8s/ECS is enough.
-- **Tiny PLC ladder only** — classic OT tools, not container fleets.
-- **Strict air gap with no update story** — orchestration without a secure sneakernet process is fantasy.
-
----
-
-
-## Related
-
-[[orchestration]] [[Docker]] [[ecommerce-cicd-environments]] [[HES Architecture]]
-
-## Sources
-
-- [Wikipedia — Edge orchestration tools for industrial IoT](https://en.wikipedia.org/wiki/Edge_orchestration_tools_for_industrial_IoT)
+- Assuming cloud-first pull-and-run works offline — every control action needs a local fallback.
+- Bridging plant-floor OT networks to the internet for convenience.
+- Ignoring clock skew — certificates and device authentication break without NTP/GPS discipline.
+- Treating air-gapped sites as orchestratable without a secure sneakernet update path.

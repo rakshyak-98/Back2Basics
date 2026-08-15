@@ -1,12 +1,27 @@
-[[Operating System]] [[SMT threads]] [[TDP]] [[CPU IO Bound Task]] [[context switching]]
+[[Operating System]] [[SMT threads]] [[TDP]] [[CPU IO Bound Task]] [[context switching]] [[cgroup (Control Group)]] [[disk IOPS]] [[mutexes]]
 
 # Base clock speed
 
-> Base clock speed is the guaranteed steady-state frequency of a CPU core under nominal thermal and power limits — not the short turbo burst you see in marketing.
+> Base clock speed is the guaranteed steady-state frequency of a CPU core under nominal thermal and power limits — not the short turbo burst in marketing slides.
 
-Modern processors expose **base** and **maximum turbo** frequencies (GHz). The **base clock** is the speed the vendor certifies when all cores run a typical workload within thermal design power ([[TDP]]). Turbo raises frequency when headroom exists; under sustained load the core often settles near base or an intermediate all-core frequency.
+## Interview Relevance
 
-## What actually sets frequency
+Capacity planning: base vs turbo, why sustained all-core load settles near base, and how cgroup CPU limits interact with hardware P-states.
+
+## Sources
+
+- Intel® 64 Architecture Software Developer’s Manual — power management — deep-dive
+- [Linux kernel docs — CPUFreq](https://docs.kernel.org/admin-guide/pm/cpufreq.html) — deep-dive
+- [Wikipedia — Dynamic frequency scaling](https://en.wikipedia.org/wiki/Dynamic_frequency_scaling) — overview
+
+## Key Concepts
+
+- **Base vs turbo:** certified sustained vs opportunistic boost.
+- **Governors / P-states:** OS + hardware choose frequency within [[TDP]] / PL limits.
+- **Workload fit:** I/O-bound services rarely need peak GHz ([[CPU IO Bound Task]]).
+- **Shared core:** [[SMT threads]] share frequency and cache budget.
+
+## Technical Details
 
 ```txt
 Workload demand → OS scheduler places threads on cores
@@ -14,18 +29,27 @@ Workload demand → OS scheduler places threads on cores
                 → thermal and power limits (TDP, PL1/PL2) cap or throttle
 ```
 
-Linux exposes this through `cpufreq` governors (`performance`, `powersave`, `schedutil`), `/proc/cpuinfo`, and tools like `turbostat`. Container CPU quotas ([[cgroup (Control Group)]]) limit effective compute even when the hardware could turbo higher.
+Linux: `cpufreq` governors (`performance`, `powersave`, `schedutil`), `/proc/cpuinfo`, `turbostat`. [[cgroup (Control Group)]] CPU quotas limit effective compute even when hardware could turbo higher.
 
-## Why it matters for systems work
+[[context switching]] overhead remains regardless of GHz. Memory latency, [[disk IOPS]], and [[mutexes]] contention still dominate many profiles.
 
-- **[[CPU IO Bound Task]]** — an I/O-bound service rarely needs peak GHz; wrong-sizing leads to paying for idle turbo headroom.
-- **[[context switching]]** — higher frequency reduces time per quantum but does not remove scheduler overhead.
-- **[[SMT threads]]** — two logical CPUs share one core’s execution units; both compete for the same frequency and cache budget.
+## Real-World Applications
 
-Base clock is a hardware specification; observed performance still depends on memory latency, disk ([[disk IOPS]]), and lock contention ([[mutexes]]).
+Choosing instance types, explaining “same CPU slower in production,” and setting `cpufreq` policy on latency-sensitive hosts.
 
-## Sources
+## Pros/Cons or Trade-offs
 
-- Intel® 64 Architecture Software Developer’s Manual — power management
-- Linux kernel documentation: [CPUFreq](https://docs.kernel.org/admin-guide/pm/cpufreq.html)
-- Wikipedia: [CPU multiplier](https://en.wikipedia.org/wiki/CPU_multiplier), [Dynamic frequency scaling](https://en.wikipedia.org/wiki/Dynamic_frequency_scaling)
+- **Higher base:** predictable sustained throughput; more power/cooling.
+- **Aggressive turbo marketing:** great for short bursts; misleading for 24/7 load.
+- **Trade-off:** `performance` governor latency vs power/heat.
+
+## Comparison
+
+- vs [[TDP]]: TDP is the thermal budget; base clock is the frequency claim inside that budget.
+- vs software concurrency: frequency helps single-thread work; it does not fix I/O waits.
+
+## Mistakes to Avoid
+
+- Sizing fleets from single-core turbo screenshots.
+- Ignoring thermal throttle when comparing laptop vs server numbers.
+- Expecting more GHz to fix lock-contended or disk-bound services.

@@ -1,14 +1,24 @@
-[[AWS EC2]] · [[EBS (Elastic Block Store)]] · [[AWS EFS (Elastic File System)]] · [[AWS Billing and cost management]]
+[[AWS EC2]] [[EBS (Elastic Block Store)]] [[AWS EFS (Elastic File System)]] [[AWS Billing and cost management]]
 
 # AWS EBS(Elastic Block Store)
 
 > EBS is network-attached block storage for EC2 instances — the canonical note is [[EBS (Elastic Block Store)]]; this page covers the same service with emphasis on console naming and attach workflows.
 
----
+## Interview Relevance
+
+Interviewers ask about AWS EBS(Elastic Block Store) to see whether you can design and operate AWS resources with least privilege, failure modes, and cost awareness.
+
+## Sources
+
+- [Amazon EBS User Guide](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html) — overview
+
+## Key Concepts
 
 Amazon documents the product as **Amazon Elastic Block Store (EBS)**. The vault keeps two filenames for historical linking; content is unified here.
 
-## Quick attach workflow
+## Technical Details
+
+### Quick attach workflow
 
 1. Create volume in the **same Availability Zone** as the target [[AWS EC2]] instance.
 2. Choose type (usually **gp3**), size, and encryption.
@@ -20,7 +30,7 @@ aws ec2 create-volume --availability-zone us-east-1a --size 50 --volume-type gp3
 aws ec2 attach-volume --volume-id vol-0abc --instance-id i-0abc --device /dev/sdf
 ```
 
-## Operations checklist
+### Operations checklist
 
 | Task | Command / action |
 |------|------------------|
@@ -29,14 +39,10 @@ aws ec2 attach-volume --volume-id vol-0abc --instance-id i-0abc --device /dev/sd
 | Detach safely | Stop writes, `umount`, then `detach-volume` |
 | Delete | Detach first; snapshots remain until deleted separately |
 
-## When things break
+## Mistakes to Avoid
 
 - **Volume stuck attaching** — previous instance did not detach cleanly; force detach after verifying no I/O.
 - **Wrong AZ** — volume and instance must match AZ.
 - **Full disk** — expand volume, grow partition, resize filesystem.
 
 See [[EBS (Elastic Block Store)]] for volume types, encryption, and comparison with [[AWS EFS (Elastic File System)]].
-
-## Sources
-
-- [Amazon EBS User Guide](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html)

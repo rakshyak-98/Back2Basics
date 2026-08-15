@@ -1,12 +1,23 @@
-[[Security]] [[C]] [[gcc]]
+[[Security]] [[C]] [[gcc]] [[Makefile]]
 
 # Preprocessor
 
-> Preprocessor — text transform before the real compiler: macros, includes, and conditional compilation (`#define`, `#include`, `#ifdef`).
+> Text transform before the real compiler: macros, includes, and conditional compilation (`#define`, `#include`, `#ifdef`).
 
----
+## Interview Relevance
 
-## How it works
+Systems/C interviews: what happens before compilation — macros, includes, conditional compilation — and macro footguns.
+
+## Sources
+
+- [GCC — The C Preprocessor](https://gcc.gnu.org/onlinedocs/cpp/) — deep-dive
+- [Wikipedia — Preprocessor](https://en.wikipedia.org/wiki/Preprocessor) — overview
+
+## Core Definition
+
+A preprocessor rewrites source text before the compiler proper — in C/C++: `#include`, `#define` macros, and `#ifdef` conditionals.
+
+## Key Concepts
 
 ```txt
 source.c ──#include / #define / #if──► preprocessed.c ──► compile
@@ -18,10 +29,7 @@ source.c ──#include / #define / #if──► preprocessed.c ──► compil
 | **Lexer / tokenizer** | Split text into identifiers, operators, literals |
 | **Parser** | Build AST from tokens |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 # See what the compiler actually compiles
@@ -45,8 +53,15 @@ cpp -I./include main.c
 | `#pragma once` / include guards | Duplicate symbol / redefinition |
 | `-DFOO=1` | Define from CLI / build system |
 
+### Lexical preprocessors
 
-## When things break
+Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
+
+### Lexical tokenization
+
+Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
+
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -56,48 +71,24 @@ cpp -I./include main.c
 | `#ifdef` branch wrong | `-D` flags in build | Print `clang -E -dM`; align CMake/Make |
 | Pasting errors `##` | Invalid token paste | Fix macro; avoid complex `##` |
 
----
+## Real-World Applications
 
+Debug macro expansion with `gcc -E` when a `#define` changes types or includes the wrong header.
 
-## Gotchas
+## Pros/Cons or Trade-offs
 
-> [!WARNING]
-> **Macros don’t respect types or scopes** — prefer `static inline` / `constexpr` in C++.
+- **Pro:** Cheap compile-time configuration and header composition in C/C++.
+- **Con:** Business logic configuration — use real configuration languages, not `#ifdef` forests.
+- **Con:** New languages with modules — rely on the module system instead of include soup.
+- **Con:** Security policy — preprocessor can’t enforce runtime authz.
 
-> [!WARNING]
-> **Multi-eval arguments** — `MAX(++i, a)` can increment twice; use functions.
+## Comparison
 
-> [!WARNING]
-> **Huge `-E` output** — includes expand everything; don’t commit preprocessed files.
+- vs compiler proper: preprocessor is text rewrite before parsing/typing.
+- vs lexer: lexical analysis tokenizes; C preprocessor runs earlier on source text.
 
----
+## Mistakes to Avoid
 
-
-## When not to use
-
-- **Business logic configuration** — use real configuration languages, not `#ifdef` forests.
-- **New languages with modules** — rely on the module system instead of include soup.
-- **Security policy** — preprocessor can’t enforce runtime authz.
-
----
-
-
-## Lexical preprocessors
-
-Lowest level: operate on tokens before parsing — substitute token sequences per user rules (`#define`, macros).
-
-
-## Lexical tokenization
-
-Split text into lexemes (identifiers, operators, punctuation, literals). Stages: **scan** (segment) → **evaluate** (turn lexemes into values). Used by compilers, linters, pretty-printers.
-
----
-
-
-## Related
-
-[[C]] [[gcc]] [[Makefile]]
-
-## Sources
-
-- [Wikipedia — Preprocessor](https://en.wikipedia.org/wiki/Preprocessor)
+- Macros don’t respect types or scopes — prefer `static inline` / `constexpr` in C++.
+- Multi-eval arguments — `MAX(++i, a)` can increment twice; use functions.
+- Huge `-E` output — includes expand everything; don’t commit preprocessed files.

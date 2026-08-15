@@ -1,10 +1,27 @@
-[[Operating System]] [[buffer]] [[buffer head]] [[buffer flags]] [[Buffer cache]] [[multiple levels of buffering]]
+[[Operating System]] [[buffer]] [[buffer head]] [[buffer flags]] [[Buffer cache]] [[multiple levels of buffering]] [[fsync]]
 
 # Buffer lifecycle
 
-> A kernel or application buffer moves through allocate → fill → optionally dirty → flush → reclaim — each transition has failure modes if the next stage is slower than the producer.
+> A kernel or application buffer moves through allocate → fill → optionally dirty → flush → reclaim — each step fails differently if the next stage is slower than the producer.
 
-## Typical kernel block buffer
+## Interview Relevance
+
+Design-review prompt: power loss mid-lifecycle, which layer blocks the producer when full, and whether buffered bytes are bounded (backpressure).
+
+## Sources
+
+- Linux kernel: `mm/page-writeback.c`, block layer writeback — deep-dive
+- Robert Love, *Linux Kernel Development* — deep-dive
+- Tanenbaum, *Modern Operating Systems* — I/O and buffering — overview
+
+## Key Concepts
+
+- **Stages:** allocate, fill, dirty, flush, reclaim.
+- **Kernel block path:** [[buffer head]] + [[buffer flags]] on pages.
+- **User-space rhythm:** malloc → append → `write()` → free/reuse.
+- **Stacked flush:** one layer’s flush is not all layers’ durability.
+
+## Technical Details
 
 ```txt
 1. Allocate buffer head + attach to page ([[buffer head]])
@@ -14,24 +31,27 @@
 5. Page reclaimed under memory pressure if clean
 ```
 
-User-space buffers (socket, `stdio`) follow the same rhythm without buffer heads: malloc → append → `write()` → free or reuse.
+[[multiple levels of buffering]]: `fflush()` does not [[fsync]]; TCP `close()` does not guarantee the peer persisted data.
 
-## Interaction with stacked buffering
+Clean [[Buffer cache]] pages are cheap to drop. Dirty pages must be written carefully — writeback throttling prevents flooding slow disks. Under OOM, prefer dropping cache before killing processes.
 
-[[multiple levels of buffering]] mean a logical “flush” at one layer does not flush lower layers. `fflush()` does not [[fsync]]; TCP `close()` does not guarantee the peer persisted data.
+## Real-World Applications
 
-## Reclaim and pressure
+Tuning dirty ratios, diagnosing writeback storms, and designing app-level flush policies for logs and databases.
 
-Clean [[Buffer cache]] pages are cheap to drop. Dirty pages must be written or discarded with care — writeback throttling prevents flooding slow disks. Under OOM, the kernel prefers dropping cache before killing processes.
+## Pros/Cons or Trade-offs
 
-## Questions for design reviews
+- **Pro:** Predictable stages make failure modes discussable.
+- **Con:** Easy to “flush” the wrong layer and believe you are durable.
+- **Trade-off:** aggressive writeback (lower peak dirty) vs bursty disk load.
 
-- What happens on power loss mid-lifecycle?
-- Which layer’s full buffer blocks the producer?
-- Is there a bound on buffered bytes (backpressure)?
+## Comparison
 
-## Sources
+- vs [[buffer]]: buffer is the object; lifecycle is its state machine over time.
+- vs [[fsync]]: fsync forces a late lifecycle stage for durability.
 
-- Linux kernel: `mm/page-writeback.c`, block layer writeback
-- Robert Love, *Linux Kernel Development*
-- Tanenbaum, *Modern Operating Systems* — I/O and buffering
+## Mistakes to Avoid
+
+- Unbounded dirty memory without backpressure.
+- Equating `fflush` with disk durability.
+- Discarding dirty pages as if they were clean cache.

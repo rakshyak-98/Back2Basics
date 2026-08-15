@@ -1,24 +1,21 @@
-[[DRM]] [[HLS]] [[DASH]] [[CMAF]] [[codecs]]
+[[DRM]] [[HLS]] [[DASH]] [[CMAF]] [[codecs]] [[CAS (Conditional Access System)]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]
 
 # EME (Encrypted Media Extensions)
 
 > Browser API bridging JavaScript players to hardware CDMs for [[DRM]] — **W3C spec**, not a DRM system itself.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers ask about EME to see if you understand the pipeline role, failure modes, and trade-offs — not just the acronym.
+
+## Sources
+
+- [Wikipedia — EME](https://en.wikipedia.org/wiki/EME) — overview
+- [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/) — deep-dive
+
+## Key Concepts
 
 **EME** is the **HTML5 JavaScript API** (`navigator.requestMediaKeySystemAccess`, `MediaKeys`, sessions) that lets a web player request **encrypted media** from **MSE** and obtain **decryption keys** from a **license server** via a **Content Decryption Module (CDM)** — Widevine, PlayReady, FairPlay (Safari uses FairPlay JS + EME-like flow).
-
-```txt
-Player JS ──► EME: requestMediaKeySystemAccess('com.widevine.alpha')
-                    │
-              CDM (browser binary) ◄── license challenge/response
-                    │
-              MSE appends encrypted fMP4 ──► CDM decrypts ──► video element
-                    │
-         License server ([[DRM]] KMS — Pallycon, EZDRM, etc.)
-```
 
 | Piece              | Role                                       |
 | ------------------ | ------------------------------------------ |
@@ -30,10 +27,17 @@ Player JS ──► EME: requestMediaKeySystemAccess('com.widevine.alpha')
 
 EME does **not** define encryption — packaging uses **CENC**; [[HLS]] SAMPLE-AES / fMP4 `sinf`/`schi` boxes wrap the same keys for Apple.
 
----
+## Technical Details
 
-
-## Configuration and commands
+```txt
+Player JS ──► EME: requestMediaKeySystemAccess('com.widevine.alpha')
+                    │
+              CDM (browser binary) ◄── license challenge/response
+                    │
+              MSE appends encrypted fMP4 ──► CDM decrypts ──► video element
+                    │
+         License server ([[DRM]] KMS — Pallycon, EZDRM, etc.)
+```
 
 ### Shaka Player — minimal Widevine flow (pattern)
 
@@ -93,10 +97,18 @@ License server CORS must allow player origin
 Mixed content blocked — manifest + segments + license all TLS
 ```
 
----
+## Real-World Applications
 
+Used wherever EME sits in an ingest → package → CDN → player path. Concrete check: validate the failure table in Mistakes to Avoid against a real stream.
 
-## When things break
+## Pros/Cons or Trade-offs
+
+- **Pro:** Use when the note's core job matches the problem (see Key Concepts).
+- **Con / skip when:** **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
+- **Con / skip when:** **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
+- **Con / skip when:** **Internal corp streams** — tokenized URLs + TLS often enough; EME operations cost unjustified.
+
+## Mistakes to Avoid
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -108,42 +120,8 @@ Mixed content blocked — manifest + segments + license all TLS
 | `DOMException` key session | Init data / PSSH mismatch | Regenerate PSSH at packager; verify [[MPD]] |
 | CORS on license | Preflight blocked | `Access-Control-Allow-Origin` on license endpoint |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **Clear + encrypted mix in one MSE buffer** — append only encrypted init matching CDM session.
-
-> [!WARNING]
-> **Hardcoded license URLs in player** — use auth-wrapped URLs; short TTL tokens.
-
-> [!WARNING]
-> **EME on HTTP** — blocked except localhost; prod must be HTTPS.
-
-> [!WARNING]
-> **L3 screen capture** — studios may reject L3-only for UHD; contract check.
-
-> [!WARNING]
-> **HLS FairPlay ≠ Widevine MPD** — multi-DRM still needs **two manifest paths**, one segment set ([[CMAF]]).
-
----
-
-
-## When not to use
-
-- **AES-128 HLS only (no studio mandate)** — simpler `EXT-X-KEY`; not true hardware DRM.
-- **Native apps** — use platform SDKs (ExoPlayer, AVPlayer) directly; EME is web-only.
-- **Internal corp streams** — tokenized URLs + TLS often enough; EME operations cost unjustified.
-
----
-
-
-## Related
-
-[[DRM]] [[CAS (Conditional Access System)]] [[HLS]] [[DASH]] [[CMAF]] [[MPD]] [[Manifest (streaming)]] [[Pallycon(DoveRunner)]]
-
-## Sources
-
-- [Wikipedia — EME](https://en.wikipedia.org/wiki/EME)
+- **Clear + encrypted mix in one MSE buffer** — append only encrypted init matching CDM session.
+- **Hardcoded license URLs in player** — use auth-wrapped URLs; short TTL tokens.
+- **EME on HTTP** — blocked except localhost; prod must be HTTPS.
+- **L3 screen capture** — studios may reject L3-only for UHD; contract check.
+- **HLS FairPlay ≠ Widevine MPD** — multi-DRM still needs **two manifest paths**, one segment set ([[CMAF]]).

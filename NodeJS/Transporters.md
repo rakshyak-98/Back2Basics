@@ -1,27 +1,28 @@
-[[NodeJS]] [[Transporter in Email sending]] [[Protocol/gRPC]] [[Protocol/MQTT]] [[HTTP module]]
+[[NodeJS]] [[Transporter in Email sending]] [[Protocol/gRPC]] [[Protocol/MQTT]] [[HTTP module]] [[MQTT]] [[Message Broker]]
 
 # Transporters
 
 > Pluggable send/receive layer — business code calls `send`/`emit`; the transporter owns HTTP, gRPC, MQTT, broker details.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers use **Transporters** to check whether you can explain the mechanism in plain words and apply it under failure. Expect follow-ups on **Transporter**, **Broker vs RPC**, **Email transporter**.
+
+## Sources
+
+- [Wikipedia — Transporters](https://en.wikipedia.org/wiki/Transporters) — overview
+
+## Key Concepts
+
+- **Transporter:** I/O adapter — Decouple protocol from business.
+- **Broker vs RPC:** Async bus vs request/reply — Pick semantics, not just speed.
+- **Email transporter:** Nodemailer SMTP/API — See [[Transporter in Email sending]].
+
+## Technical Details
 
 ```txt
 Service ──transporter.send──► HTTP | gRPC | MQTT | broker
 ```
-
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **Transporter** | I/O adapter | “Decouple protocol from business.” |
-| **Broker vs RPC** | Async bus vs request/reply | “Pick semantics, not just speed.” |
-| **Email transporter** | Nodemailer SMTP/API | “See [[Transporter in Email sending]].” |
-
-
-## Configuration and commands
 
 ```js
 // Pattern — interface, many backends
@@ -40,44 +41,25 @@ await transporter.send({ type: 'order.created', payload })
 | Serialization | JSON vs protobuf |
 | Idempotency keys | At-least-once buses |
 
----
+## Real-World Applications
 
+In production APIs and tooling, **Transporters** shows up whenever teams ship Node/JS services. Concrete failure signals to rehearse: **Protocol leak** — if domain imports MQTT types, you didn’t abstract; **At-least-once delivery** — duplicates happen; design for them.
 
-## When things break
+## Pros/Cons or Trade-offs
 
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Works on HTTP, fails on bus | Ack/retry semantics | Make handlers idempotent |
-| Backpressure | Unbounded queue | Limit in-flight; drop/slow |
-| Dual writes | Two transporters | Outbox / single writer |
-| Auth mismatch | Per-protocol creds | Centralize secrets in config |
+- **Pro:** Solves the job described above when used in the right layer (Pluggable send/receive layer — business code calls `send`/`emit`; the transporte…).
+- **Con / when not:** **One protocol forever** — direct client may be simpler.
+- **Con / when not:** **Ultra-low latency peer path** — specialized stacks (e.g. raw sockets) without a bus.
 
----
+## Comparison
 
+vs [[Transporter in Email sending]]: know when each applies — do not treat them as interchangeable. vs [[Protocol/gRPC]]: know when each applies — do not treat them as interchangeable. vs [[Protocol/MQTT]]: know when each applies — do not treat them as interchangeable.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **Protocol leak** — if domain imports MQTT types, you didn’t abstract.
-
-> [!WARNING]
-> **At-least-once delivery** — duplicates happen; design for them.
-
----
-
-
-## When not to use
-
-- **One protocol forever** — direct client may be simpler.
-- **Ultra-low latency peer path** — specialized stacks (e.g. raw sockets) without a bus.
-
----
-
-
-## Related
-
-[[Transporter in Email sending]] [[Protocol/gRPC]] [[MQTT]] [[Message Broker]] [[HTTP module]]
-
-## Sources
-
-- [Wikipedia — Transporters](https://en.wikipedia.org/wiki/Transporters)
+- **Protocol leak** — if domain imports MQTT types, you didn’t abstract.
+- **At-least-once delivery** — duplicates happen; design for them.
+- **Works on HTTP, fails on bus:** check Ack/retry semantics; fix: Make handlers idempotent
+- **Backpressure:** check Unbounded queue; fix: Limit in-flight; drop/slow
+- **Dual writes:** check Two transporters; fix: Outbox / single writer
+- **Auth mismatch:** check Per-protocol creds; fix: Centralize secrets in config

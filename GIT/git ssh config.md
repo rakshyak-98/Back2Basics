@@ -4,12 +4,16 @@
 
 > git ssh config — bad owner or permissions on /home/mihir/.ssh/config
 
----
+## Interview Relevance
 
-## How it works
+SSH config for Git checks host aliases, keys per host, and debugging permission denied.
 
+## Sources
 
-## Configuration and commands
+- [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive
+- [Git reference documentation](https://git-scm.com/docs) — overview
+
+## Technical Details
 
 ```bash
 # ~/.ssh/config
@@ -21,10 +25,14 @@ Host github.com
 chmod 600 ~/.ssh/config
 ```
 
----
+## Pros/Cons or Trade-offs
 
+- Do not disable `StrictHostKeyChecking` in production automation.
 
-## When things break
+## Mistakes to Avoid
+
+> [!WARNING]
+> SSH config `Host` is a **label** — it does not have to match the real DNS name.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -33,29 +41,3 @@ chmod 600 ~/.ssh/config
 | Host key verification failed | DNS or MITM; rotated host key | Verify fingerprint; update `known_hosts` |
 | Connection timed out | Firewall; wrong HostName | `ssh -vT git@github.com` |
 
----
-
-
-## Gotchas
-
-> [!WARNING]
-> SSH config `Host` is a **label** — it does not have to match the real DNS name.
-
----
-
-
-## When not to use
-
-- Do not disable `StrictHostKeyChecking` in production automation.
-
-
----
-
-
-## Related
-
-[[GIT]]
-
-## Sources
-
-- [Wikipedia — git ssh config](https://en.wikipedia.org/wiki/git_ssh_config)

@@ -4,9 +4,27 @@
 
 > Serialization converts in-memory structures to bytes for storage or network transport and back — the contract between producers and consumers must survive version changes and language boundaries.
 
----
+## Interview Relevance
 
-## Encode and decode path
+Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Avro.
+
+## Sources
+
+- [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON data interchange format — deep-dive
+- Google Protocol Buffers documentation — language guide and compatibility — overview
+- Martin Kleppmann, *Designing Data-Intensive Applications* — encoding and evolution — deep-dive
+
+## Key Concepts
+
+- **Object ↔ bytes:** for disk, queue, or wire.
+- **Schema evolution:** add optional fields; avoid silent breaks.
+- **Format choice:** JSON ergonomics vs Protobuf/Avro size/CPU.
+- **Versioning:** embed type/version; reject unknowns safely.
+
+
+## Technical Details
+
+### Encode and decode path
 
 ```txt
 Object ──serialize──► bytes ──wire / disk──► bytes ──deserialize──► object
@@ -56,8 +74,26 @@ Compress **before** encrypting if both apply — encrypted data does not compres
 
 Same-process calls should pass objects — do not serialize unnecessarily.
 
-## Sources
+## Real-World Applications
 
-- [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON data interchange format.
-- Google Protocol Buffers documentation — language guide and compatibility.
-- Martin Kleppmann, *Designing Data-Intensive Applications* — encoding and evolution.
+RPC payloads, event buses, and durable message formats.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Portable state across languages and time.
+- **Con:** Version drift and expensive (de)serialization CPU.
+- **Trade-off:** human-readable JSON vs compact binary.
+
+
+## Comparison
+
+- vs [[marshalling]]: overlapping; marshalling often implies RPC object graphs.
+- vs [[event-driven]]: events need stable serialized contracts.
+
+
+## Mistakes to Avoid
+
+- Treating Serialization as a silver bullet without measuring the bottleneck.
+- Ignoring failure modes and operability until production.
+- Skipping idempotency, timeouts, or rollback where the pattern requires them.

@@ -1,14 +1,30 @@
-[[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]]
+[[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]] [[eBPF]] [[netstat]]
 
 # ss
 
-> ss — socket stats from the kernel; faster, richer replacement for netstat.
+> Socket statistics from the kernel — faster, richer replacement for netstat on modern Linux.
 
----
+## Interview Relevance
 
-## How it works
+Go-to tool for “who is listening,” CLOSE-WAIT vs TIME-WAIT, and Recv-Q/Send-Q diagnosis — interviewers expect `ss -luntp` muscle memory.
 
-`ss` reads `/proc/net/*` and netlink — same truth the kernel uses for TCP/UDP state. No DNS, no guessing from `/proc/<pid>/fd` alone.
+## Sources
+
+- [man ss](https://man7.org/linux/man-pages/man8/ss.8.html) — deep-dive
+- [Wikipedia — ss (utility)](https://en.wikipedia.org/wiki/Ss_(utility)) — overview
+
+## Core Definition
+
+`ss` reads `/proc/net/*` and netlink — the same truth the kernel uses for TCP/UDP state — without guessing from `/proc/<pid>/fd` alone.
+
+## Key Concepts
+
+- **LISTEN / ESTABLISHED / TIME-WAIT / CLOSE-WAIT:** states tell you handshake, app bugs, or churn.
+- **Recv-Q / Send-Q:** unread bytes vs unacked bytes — slow app vs slow peer/network.
+- **`-luntp`:** listen + UDP + numeric + TCP + process — default inventory one-liner.
+- **Filters:** ss filter syntax (`sport = :443`), not grep alone.
+
+## Technical Details
 
 ```
 Client ──SYN──► LISTEN (ss -lnt)
@@ -19,124 +35,65 @@ Client ──SYN──► LISTEN (ss -lnt)
 
 | vs | ss | netstat |
 |----|-----|---------|
-| Speed on 10k+ sockets | Fast | Slow (linear scan) |
+| Speed on 10k+ sockets | Fast | Slow |
 | TCP internals (`ss -ti`) | Yes | Limited |
-| Default on modern distros | iproute2 | often symlink/deprecated |
+| Default on modern distros | iproute2 | often deprecated |
 | Process column (`-p`) | Needs root/CAP | Same |
 
-### Interview map (words you can say)
-
-| Word | Plain meaning | Say in interview |
-|------|---------------|------------------|
-| **ss** | Socket stats from kernel | “ss is the modern netstat — ask the kernel who’s listening.” |
-| **LISTEN / ESTABLISHED** | TCP socket states | "CLOSE-WAIT means the application forgot to call close on the socket." |
-| **Recv-Q / Send-Q** | Unread bytes in receive queue / unacknowledged bytes in send queue | "High receive queue = slow application; high send queue = slow network or peer." |
-| **-luntp** | Listen sockets, UDP, numeric addresses, TCP, show owning process | “ss -luntp is my first port inventory.” |
-| **TIME-WAIT** | TCP state after local close; kernel holds socket about two minutes | "Many TIME-WAIT sockets can exhaust ephemeral client ports." |
-
-
-## Configuration and commands
-
-**Flags mnemonic:** `-l` listen, `-a` all (listen + established), `-n` numeric, `-t` TCP, `-u` UDP, `-p` process, `-i` TCP information.
-
 ```bash
-# Baseline inventory (your old one-liner, expanded)
 ss -luntp
-# -l listening  -u UDP  -n no DNS  -t TCP  -p process (root)
-
-# All TCP with state + queues
 ss -tan
-
-# Summary histogram — first stop in incidents
 ss -s
-
-# One port, who owns it
 ss -lntp 'sport = :443'
-sudo ss -lntp 'sport = :443'   # -p needs priv
-
-# Established to a backend
+sudo ss -lntp 'sport = :443'
 ss -tn dst 10.0.1.50 and dport = 5432
-
-# Sockets owned by a PID
-ss -tp | awk -v pid=1234 '$0 ~ "pid="pid'
-
-# TCP timer info (keepalive, retrans)
 ss -ti
-
-# Filter by TCP state (ss syntax, not grep)
 ss -tan state time-wait
 ss -tan state established
 ss -tan state syn-recv
 ss -tan state close-wait
 ```
 
-**Common TCP state codes:**
-
 | State | Meaning | Worry when |
 |-------|---------|------------|
-| `LISTEN` | Accept queue open | `Recv-Q` ≈ backlog → SYN flood or slow accept |
-| `ESTAB` | Connected | High `Send-Q` → peer not ACKing / network issue |
-| `SYN-SENT` / `SYN-RECV` | Handshake in flight | Many stuck → firewall, SYN backlog, half-open |
-| `FIN-WAIT-1/2` | Local closed, waiting peer | Normal drain; huge counts → churn |
-| `CLOSE-WAIT` | Peer closed, local app hasn’t `close()` | **App bug** — FD leak, missing cleanup |
-| `TIME-WAIT` | Local side closed cleanly | Storm → ephemeral port exhaustion ([[connection chrun]]) |
+| `LISTEN` | Accept queue open | Recv-Q ≈ backlog → SYN flood or slow accept |
+| `ESTAB` | Connected | High Send-Q → peer not ACKing / network |
+| `SYN-SENT` / `SYN-RECV` | Handshake in flight | Firewall, backlog, half-open |
+| `CLOSE-WAIT` | Peer closed, app hasn’t `close()` | App bug — FD leak |
+| `TIME-WAIT` | Local closed cleanly | Storm → ephemeral port exhaustion |
 | `UNCONN` | UDP idle | Expected for datagram sockets |
 
-**Recv-Q / Send-Q (TCP):**
+**Recv-Q:** bytes in kernel recv buffer not yet read → app slow or blocked event loop ([[Epoll]]).
+**Send-Q:** bytes sent, not ACKed → congestion or peer window zero.
 
-- `Recv-Q`: bytes in kernel recv buffer not yet read by app → app slow or blocked event loop ([[Epoll]]).
-- `Send-Q`: bytes sent, not ACKed → network congestion or peer window zero.
-
-
-## When things break
+Half-open flow: `ss -s` → `state syn-recv` → `state close-wait -p` → `ss -ti` on ESTAB.
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
-| “Port already in use” | `ss -lntp 'sport = :8080'` | Kill stale process; `SO_REUSEADDR` policy; systemd restart |
-| Service unreachable but process up | `ss -lnt` vs `curl` / `nc` | Binding `127.0.0.1` only; wrong interface; firewall |
-| DB pool exhausted | `ss -tn dst dbhost:5432 \| wc -l` | Leaked connections; lower pool; fix CLOSE-WAIT in app |
-| Many `CLOSE-WAIT` | `ss -tan state close-wait -p` | App not closing after FIN; trace code path |
-| `TIME-WAIT` thousands | `ss -s`; `ss -tan state time-wait \| wc -l` | [[connection chrun]] — keepalive, reuse, tune `ip_local_port_range` |
-| Half-open / ghost clients | `ss -tan state syn-recv`; [[half-open connections]] | LB timeout; `tcp_syncookies`; app read side dead |
-| Listen backlog drops | `ss -lnt` Recv-Q on LISTEN line | Increase `somaxconn`; faster accept loop |
-| Mystery outbound | `ss -tnp` as root | Identify PID; block egress if exfil |
+| Port already in use | `ss -lntp 'sport = :8080'` | Kill stale process; reuse policy; restart |
+| Process up, unreachable | `ss -lnt` vs curl/nc | Bound to `127.0.0.1`; wrong iface; firewall |
+| Many CLOSE-WAIT | `ss -tan state close-wait -p` | App not closing after FIN |
+| TIME-WAIT thousands | `ss -s`; count time-wait | [[connection chrun]] — reuse, port range |
+| Listen backlog drops | Recv-Q on LISTEN | Raise `somaxconn`; faster accept |
 
-**Half-open diagnosis flow:**
+## Real-World Applications
 
-1. `ss -s` — synrecv count, timewait, orphaned.
-2. `ss -tan state syn-recv` — stuck handshakes?
-3. `ss -tan state close-wait -p` — local application not closing?
-4. `ss -ti` on affected ESTAB — retrans, rtt, cwnd.
+Port inventory, DB pool leak hunts, and load-balancer timeout / half-open diagnosis.
 
-```bash
-# Example: nginx upstream stuck
-ss -tan state established '( dport = :8080 )' | wc -l
-ss -o state established '( dport = :8080 )'   # timer=keepalive detail
-```
+**Example:** nginx upstream stuck — count `ss -tan state established '( dport = :8080 )'` and inspect timers with `ss -o`.
 
+## Pros/Cons or Trade-offs
 
-## Gotchas
+- **Pro:** Fast, filterable, shows TCP internals (`-ti`).
+- **Con:** Point-in-time only — no history without flow logs or eBPF.
 
-> [!WARNING]
-> **Without root, `-p` is empty or partial.** Always `sudo ss -luntp` when you need the owning process.
+## Comparison
 
-- **Filters use ss syntax** — `ss filter` not grep; wrong filter silently returns empty.
-- **`ss -s` “TCP: inuse X orphaned Y”** — orphaned = no socket owner in userspace; often mid-close or namespace edge cases.
-- **Containers:** run `ss` **inside** the net namespace (`nsenter`, `docker exec`) — host view shows veth, not application’s localhost.
-- **IPv6 bracket notation** — filters may need `( sport = :443 )` form for clarity.
+- vs [[netstat]]: prefer `ss` everywhere modern Linux is available.
+- vs tcpdump: `ss` is state; capture is payloads and packet timing.
 
+## Mistakes to Avoid
 
-## When not to use
-
-- **Packet contents or TLS plaintext** — use `tcpdump` / wire capture.
-- **Routing / ARP / firewall rules** — `ip route`, `iptables/nft`, `conntrack -L`.
-- **Historical connections** — `ss` is point-in-time; use flow logs or eBPF for past state.
-
-
-## Related
-
-[[Linux network commands]] [[half-open connections]] [[Epoll]] [[connection chrun]] [[eBPF]]
-
-## Sources
-
-- [Wikipedia — ss](https://en.wikipedia.org/wiki/ss)
+- Running without root and trusting an empty `-p` column.
+- Running `ss` on the host namespace and expecting container localhost listeners.
+- Grepping instead of learning ss filter syntax when the filter silently returns empty.

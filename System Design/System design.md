@@ -4,9 +4,27 @@
 
 > System design is the practice of shaping software so requirements (scale, reliability, cost) are met while keeping boundaries clear enough that implementation can change without rewriting the product.
 
----
+## Interview Relevance
 
-## What system design is asking
+Clarify requirements, data path, coordination, failure, and operability — not boxes for their own sake.
+
+## Sources
+
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017) — replication, partitioning, consistency — deep-dive
+- Google SRE Book — reliability targets, capacity planning, incident response — deep-dive
+- AWS Well-Architected Framework — operational excellence, reliability, performance efficiency — overview
+
+## Key Concepts
+
+- **Requirements first:** QPS, durability, consistency, failure domains, operability.
+- **Ports and adapters:** domain rules stay free of framework/DB types ([[SOLID]]).
+- **Scale path:** single node → replicas/cache → vertical → horizontal → shard/async.
+- **Failure design:** timeouts, idempotency, [[backpressure]], observability.
+
+
+## Technical Details
+
+### What system design is asking
 
 Whether in an interview or a production review, the same questions recur:
 
@@ -80,8 +98,27 @@ Single service + single database
 | [[SOLID]] | Object-oriented modularity at class and module boundaries |
 | [[GRASP]] | Responsibility assignment in object models |
 
-## Sources
+## Real-World Applications
 
-- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017) — replication, partitioning, consistency.
-- Google SRE Book — reliability targets, capacity planning, incident response.
-- AWS Well-Architected Framework — operational excellence, reliability, performance efficiency.
+Interview design problems and production architecture reviews for multi-service products.
+
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Explicit requirements prevent cargo-cult microservices.
+- **Con:** Over-design wastes time before product-market fit.
+- **Trade-off:** distribution complexity vs single-node simplicity.
+
+
+## Comparison
+
+- vs [[Distributed computing]]: workload split vs end-to-end product design.
+- vs [[KISS]]/[[SOLID]]/[[DRY]]: principles constrain how you shape the design.
+
+
+## Mistakes to Avoid
+
+- Skipping failure modes until production.
+- Ignoring idempotency, timeouts, or rollback where required.
+- Optimizing or distributing before measuring the real bottleneck.
+

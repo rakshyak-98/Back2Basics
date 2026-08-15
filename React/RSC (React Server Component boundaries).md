@@ -2,28 +2,52 @@
 
 # RSC (React Server Component boundaries)
 
-> RSC (React Server Component boundaries) shapes how React applications compose UI, state, and side effects in production.
+> Server Components render on the server and send UI to the client; use client marks the interactive boundary that ships JS.
 
-## What this is
+## Interview Relevance
 
-React Server Components run on the server and serialize their output for the client bundle boundary. Files marked `"use client"` become client components that can hold state and browser APIs; keeping server components at the leaves of data-fetching trees reduces JavaScript shipped to browsers.
-
-## What breaks first
-
-| Symptom | Likely cause | What to check |
-|---------|--------------|---------------|
-| Invalid hook call warning | Hook outside component or duplicate React copies | Call hooks only from components/custom hooks; dedupe `react` in bundle |
-| Hydration mismatch | Server HTML differs from client render | Fix conditional rendering; avoid `Date.now()` in SSR output |
-| State updates but UI stale | Mutation without setter | Use immutable updates; Redux Toolkit uses Immer but raw React state needs new references |
-
-## Recall
-
-What breaks first in production if `RSC (React Server Component boundaries)` is misused — bundle size, stale UI, or hydration errors?
-
-## Related
-
-[[react hooks]] [[React State management]] [[React Architecture]] [[react style inside component]] [[Component Presentational Pattern]] [[Controlled and Uncontrolled component Pattern]]
+Interviewers probe what can run on the server, what must be client, and how data fetching moves out of the browser bundle.
 
 ## Sources
 
-- [React — Server Components](https://react.dev/reference/rsc/server-components)
+- [Server Components](https://react.dev/reference/rsc/server-components) — deep-dive
+- [use client](https://react.dev/reference/rsc/use-client) — overview
+
+## Core Definition
+
+RSC boundaries separate server-only code (filesystem, secrets, direct DB) from client components that use state and browser APIs.
+
+## Key Concepts
+
+- **Default server:** less JS shipped.
+- **`"use client"`:** opt into hooks/events.
+- **Pass serializable props** across the boundary.
+- **No server-only imports** into client files.
+
+## Technical Details
+
+```tsx
+// Server Component (default in App Router)
+async function Page() {
+  const data = await db.posts()
+  return <PostList posts={data} />  // Client child for likes button
+}
+```
+
+## Real-World Applications
+
+Next.js app router page fetches posts on the server; like button is a small client island.
+
+## Pros/Cons or Trade-offs
+
+- **Pro:** Smaller bundles, closer data.
+- **Con:** Wrong boundary causes bundle bloat or serialisation errors.
+
+## Comparison
+
+- vs SSR of client trees: RSC can keep code off the client entirely; SSR still ships the component JS for hydration.
+
+## Mistakes to Avoid
+
+- Marking the root layout client “to use hooks.”
+- Passing functions/classes across the server→client boundary.

@@ -1,12 +1,19 @@
-[[golang]] [[go package]] [[go project]]
+[[golang]] [[go package]] [[go project]] [[go cli]] [[go interface]]
 
 # go
 
 > Go — compiled language with packages, modules (`go.mod`), and `package main` + `func main` as the executable entry.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers expect the Go mental model: compiled packages/modules, `package main` entry, and a toolchain that owns build/test — not a scripting runtime.
+
+## Sources
+
+- [Go documentation](https://go.dev/doc/) — overview
+- [Go spec](https://go.dev/ref/spec) — deep-dive
+
+## Key Concepts
 
 ```txt
 go.mod module path
@@ -20,10 +27,7 @@ package main → binary
 | Inheritance | Embedding, not class trees |
 | Visibility | Uppercase = exported |
 
----
-
-
-## Configuration and commands
+## Technical Details
 
 ```bash
 go mod init github.com/you/app
@@ -48,10 +52,7 @@ func main() { fmt.Println("hi") }
 | Same package per dir | Compiler unit |
 | `internal/` | Import firewall |
 
----
-
-
-## When things break
+### Failure signals
 
 | Symptom | Check | Fix |
 |---------|-------|-----|
@@ -61,36 +62,14 @@ func main() { fmt.Println("hi") }
 | Multiple packages in dir | Mixed names | Split dirs |
 | Enum “invalid value” | No exhaustiveness | Validate at boundaries |
 
----
+## Pros/Cons or Trade-offs
 
+- **Trade-off:** One-off scripts with heavy FFI to Python ML — call out or use another runtime.
+- **Trade-off:** GUI-heavy desktop — possible, not Go’s sweet spot.
+- **Trade-off:** Tiny glue without concurrency needs — shell may be enough.
 
-## Gotchas
+## Mistakes to Avoid
 
-> [!WARNING]
-> **All files in a dir share one package name** (except `_test` external tests).
-
-> [!WARNING]
-> **Folder name ≠ package name required** — but matching reduces pain.
-
-> [!WARNING]
-> **No real enums** — consts don’t stop arbitrary values.
-
----
-
-
-## When not to use
-
-- **One-off scripts with heavy FFI to Python ML** — call out or use another runtime.
-- **GUI-heavy desktop** — possible, not Go’s sweet spot.
-- **Tiny glue without concurrency needs** — shell may be enough.
-
----
-
-
-## Related
-
-[[go package]] [[go cli]] [[go project]] [[go interface]]
-
-## Sources
-
-- [Wikipedia — go](https://en.wikipedia.org/wiki/go)
+- **All files in a dir share one package name** (except `_test` external tests).
+- Folder name ≠ package name required — but matching reduces pain.
+- No real enums — consts don’t stop arbitrary values.

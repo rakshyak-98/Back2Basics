@@ -1,148 +1,63 @@
-[[Jenkins]] [[Airflow]] [[Docker compose]] [[Kubernates/kubectl]] [[Terraform workflow]]
+[[DevOps/Jenkins]] [[Github action]] [[Kubernates/kubectl]] [[Docker/Docker compose]]
 
 # Spinnaker
 
-> Multi-cloud continuous delivery control plane — pipelines, bakes, deploy stages, and rollback — **Netflix OSS CD mental model**.
+> Multi-cloud continuous delivery control plane — pipelines, optional image bakes, deploy stages, judgments, and rollback — Netflix-style CD.
 
----
+## Interview Relevance
 
-## How it works
+Interviewers separate CI (build artifact) from CD (promote safely): baking, server groups, manual judgment/canary, and rollback strategy.
 
-Spinnaker separates **how artifacts are built** (CI: Jenkins, GitHub Actions) from **how they are promoted** (CD: pipelines with gates). A typical flow:
+## Sources
+
+- [Spinnaker docs](https://spinnaker.io/docs/) — deep-dive
+- [Wikipedia — Spinnaker (software)](https://en.wikipedia.org/wiki/Spinnaker_(software)) — overview
+
+## Key Concepts
+
+- **Application / pipeline:** service boundary + DAG of stages.
+- **Bake:** immutable AMI/image from base + package (optional).
+- **Deploy stage:** rolling/blue-green via cloud drivers (K8s, ASG, etc.).
+- **Server group:** homogeneous instances/replicas for a version.
+- **Artifact:** versioned image/jar produced by CI and consumed by CD.
+
+## Technical Details
 
 ```txt
-CI builds image → trigger Spinnaker pipeline
-  → Bake (AMI or container) [optional]
-  → Deploy to staging (K8s/ECS/ASG/Lambda)
-  → Manual judgment / canary analysis
-  → Deploy to prod
-  → Rollback = run previous pipeline version or disable new server group
+CI builds image → Spinnaker pipeline
+  → Bake (optional)
+  → Deploy staging
+  → Manual judgment / canary
+  → Deploy prod
+  → Rollback prior server group / pipeline version
 ```
 
 | Concept | Meaning |
 |---------|---------|
-| **Application** | Group of services (microservice boundary) |
-| **Pipeline** | DAG of stages with triggers |
-| **Bake** | Packer-style immutable image from base + package |
-| **Deploy stage** | Blue/green or rolling via cloud provider adapter |
-| **Server group** | Homogeneous instances (ASG, K8s replica set abstraction) |
-| **Artifact** | Docker image, jar, deb — versioned reference from CI |
+| Clouddriver | Caches cloud state for the UI/API |
+| Trigger | Docker tag, Git, cron, webhook |
+| Judgment | Human gate before prod |
 
-**Orchestration versus execution:** Spinnaker orchestrates; clusters (EKS, GKE, Titus) execute. Clouddriver caches cloud state — stale cache causes scary UI drift.
+Spinnaker orchestrates; the cluster executes. Stale Clouddriver cache looks like “UI drift.”
 
----
+## Real-World Applications
 
+Promote the same container digest staging → prod with a judgment gate and automated rollback hooks.
 
-## Configuration and commands
+**Example:** Jenkins builds `api:1.4.2` → Spinnaker deploys to EKS staging → canary → prod.
 
-### Pipeline trigger (Docker → EKS sketch)
+## Pros/Cons or Trade-offs
 
-```json
-{
-  "triggers": [{
-    "type": "docker",
-    "account": "docker-hub",
-    "organization": "myorg",
-    "repository": "api",
-    "tag": "^v.*"
-  }],
-  "stages": [
-    { "type": "deploy", "account": "eks-staging", "cloudProvider": "kubernetes", "manifestArtifactId": "k8s-manifest" },
-    { "type": "manualJudgment", "judgmentInputs": ["Proceed to prod"] },
-    { "type": "deploy", "account": "eks-prod", "cloudProvider": "kubernetes" }
-  ]
-}
-```
+- **Pro:** Rich multi-cloud deploy semantics and visibility.
+- **Con:** Operationally heavy versus GitHub Actions-only deploys for small teams.
 
-### Common stages
+## Comparison
 
-```txt
-Bake (AWS)     — ami from package + base AMI
-Deploy (ASG)   — create new ASG, attach LB, shrink old (blue/green)
-Run Job (K8s)  — migration Job before traffic shift
-Canary         — Kayenta metrics comparison (Prometheus/Datadog)
-Webhook        — notify Slack/PagerDuty
-Rollback       — redeploy last known good artifact pin
-```
+- vs [[Github action]]: Actions often builds and deploys; Spinnaker specializes in progressive delivery control planes.
+- vs raw `kubectl apply` in CI: Spinnaker adds inventory, strategies, and gated pipelines.
 
-### Ops CLI (gate / spin)
+## Mistakes to Avoid
 
-```shell
-# Halyard (legacy install) or Operator — version-dependent
-spin pipeline list --application myapp
-spin pipeline execute --name deploy-prod --application myapp
-
-# UI: Applications → Pipelines → Executions — source of truth for audits
-```
-
-### When Spinnaker vs Argo
-
-| Factor | Spinnaker | Argo CD / Rollouts |
-|--------|-----------|-------------------|
-| Multi-cloud ASG/Lambda | Strong | K8s-centric |
-| Complex promotion DAG | Native pipelines | Argo Workflows / separate CI |
-| GitOps desired state | Secondary (pipeline-driven) | Primary (manifest in Git) |
-| Ops burden | Heavy (multiple microservices) | Lighter for K8s-only shops |
-| Canary analysis | Kayenta built-in | Argo Rollouts + AnalysisTemplate |
-
-**Rule of thumb:** K8s-only + GitOps → **Argo**. Multi-cloud + legacy VM/ASG + rich pipelines → **Spinnaker**. Many teams: **Actions/Jenkins CI + Argo CD** and skip Spinnaker entirely.
-
----
-
-
-## When things break
-
-| Symptom | Check | Fix |
-|---------|-------|-----|
-| Pipeline not triggering | Trigger config; artifact regex; CI webhook | Match tag pattern; verify echo/delivery config |
-| Deploy stuck "in progress" | Clouddriver logs; cloud quota | Kill stuck stage; refresh cache; fix IAM |
-| Wrong version deployed | Artifact pin vs `:latest` | Immutable tags; forbid floating latest in prod |
-| Rollback didn't revert | Deployed new server group still receiving traffic | Disable bad group; verify LB weights |
-| Bake fails | Packer logs in Rosco | Base AMI deprecated; region mismatch |
-| UI shows phantom resources | Cache stale | `curl` cache refresh API; clouddriver pod restart |
-| K8s manifest stage error | Artifact compression; account kubeconfig | Validate manifest locally with kubectl |
-
-```shell
-kubectl -n spinnaker logs deploy/clouddriver --tail=200
-kubectl -n spinnaker logs deploy/orca --tail=200
-```
-
----
-
-
-## Gotchas
-
-> [!WARNING]
-> **`:latest` in prod** — rollback impossible to reason about; pin digest/tag.
-
-> [!WARNING]
-> **Manual judgment as only gate** — human fatigue; add metrics canary or automated policy.
-
-> [!WARNING]
-> **Pipeline copy drift** — 20 near-duplicate pipelines; extract shared templates (Dhall/Jsonnet).
-
-> [!WARNING]
-> **Spinnaker HA complexity** — Redis, S3 front50, DB orca — backup and upgrade planning required.
-
-> [!WARNING]
-> **IAM too broad** — clouddriver creds with `*` — blast radius on compromise.
-
----
-
-
-## When not to use
-
-- **Single small K8s cluster** — Argo CD + Helm sufficient.
-- **Serverless-only, few functions** — CI deploy per function adequate.
-- **Team without dedicated platform operations** — Spinnaker maintenance will stall feature work.
-
----
-
-
-## Related
-
-[[Jenkins]] [[Airflow]] [[Docker compose]] [[kubectl]] [[Terraform workflow]]
-
-## Sources
-
-- [Wikipedia — spinnaker](https://en.wikipedia.org/wiki/spinnaker)
+- Baking mutable “latest” without digest pinning.
+- Skipping judgments on prod for high-risk services without automated analysis.
+- Debugging only the UI when Clouddriver cache is stale — check cloud APIs directly.
