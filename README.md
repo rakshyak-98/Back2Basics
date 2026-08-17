@@ -12,7 +12,6 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 
 | Need | Open |
 |------|------|
-| How agents (and humans) write notes | [[AGENT_NOTE_RULES]] |
 | Symptom → note map | [[INDEX]] |
 | Similar / duplicate note clusters | [[Similar Notes — Cluster Map]] |
 | Merge plan & per-domain CLI map | [[Note Merge Plan]] |
@@ -23,14 +22,9 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 
 ## What good looks like
 
-Leaf notes pick a **shape** that matches how the topic is held in memory (omit empty sections):
-
-1. **Clear language** — plain-English blockquote as the **center**; the writer owns comprehension.
-2. **Mind Map** (default) — 4–7 primary `##` branches radiating from the center for associative topics.
-3. **Cornell** — numbered **Technical Details** spine plus **Recall Cues** for sequential flows (lectures, pipelines, runbooks).
-4. **Networked organization** — `[[wikilinks]]` to siblings and parents; hubs route, leaves go deep.
-
-See [[AGENT_NOTE_RULES]] for the full agent reference.
+1. **Clear language** — plain-English summary up front; the writer owns comprehension.
+2. **Actionable detail** — commands, checks, failure modes, and trade-offs you can use under pressure.
+3. **Networked organization** — `[[wikilinks]]` to siblings and parents; hubs route, leaves go deep.
 
 ---
 
@@ -44,11 +38,10 @@ Use [[INDEX]] for on-call routing.
 
 ## Contributing to this vault
 
-1. Read [[AGENT_NOTE_RULES]]; choose Mind Map or Cornell shape; omit empty sections.
-2. Ground facts in authoritative sources (RFCs, official docs, university materials, Wikipedia + primaries); tag overview vs deep-dive.
-3. Prefer expanding one empty/stub over adding a fifth synonym.
-4. Merge duplicates with a redirect (`→ [[Canonical]]`).
-5. Link siblings with Obsidian `[[wikilinks]]`.
+1. Ground facts in authoritative sources (RFCs, official docs, university materials, Wikipedia + primaries); tag overview vs deep-dive.
+2. Prefer expanding one empty/stub over adding a fifth synonym.
+3. Merge duplicates with a redirect (`→ [[Canonical]]`).
+4. Link siblings with Obsidian `[[wikilinks]]`.
 
 ---
 

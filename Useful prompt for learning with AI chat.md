@@ -1,4 +1,4 @@
-[[general]] [[staff engineer]] [[AGENT_NOTE_RULES]] [[Repro]] [[TL;DR]]
+[[general]] [[staff engineer]] [[Repro]] [[TL;DR]]
 
 # Useful prompt for learning with AI chat
 
@@ -19,7 +19,6 @@
 
 ## Sources
 - [Make It Stick — retrieval practice (overview via authors’ site)](https://www.retrievalpractice.org/) — overview
-- Vault authoring: [[AGENT_NOTE_RULES]] — deep-dive (how we structure notes for recall)
 
 ## Key Concepts
 - **Core:** A learning prompt is a reusable question pattern that turns a chat model into…
