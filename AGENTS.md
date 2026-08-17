@@ -38,3 +38,6 @@ Non-obvious things worth knowing:
   Note: a portion of wikilinks are intentionally unresolved (folder names rather
   than notes, and topics still being expanded), so 100% resolution is not
   expected.
+- **Bulk Mind Map rewrite:** `python3 scripts/rewrite_mindmap_notes.py` applies
+  the Mind Map shape (center, ASCII branch map, 4–7 primary sections, keyword
+  branches) to all leaf notes. Redirect stubs are skipped.
