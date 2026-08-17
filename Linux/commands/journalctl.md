@@ -31,6 +31,17 @@ journalctl -u myapp -n 100 --no-pager
 journalctl -u sshd --since "1 hour ago"
 journalctl --since "2024-03-01" --until "2024-03-18"
 journalctl -p err -b
+<<<<<<< HEAD
+=======
+journalctl -u myapp -p err..crit
+
+# Boot navigation
+journalctl -b -1                   # previous boot (crash analysis)
+journalctl --list-boots
+journalctl -b <boot id>                   # current boot
+
+# Kernel only
+>>>>>>> 20f2818d (new changes: 2026-08-17 10:22:58)
 journalctl -k
 
 journalctl -b -1

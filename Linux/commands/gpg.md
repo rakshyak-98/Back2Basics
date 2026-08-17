@@ -2,7 +2,7 @@
 
 # gpg
 
-> gpg (GNU Privacy Guard) encrypts, decrypts, signs, and verifies with OpenPGP keys — also how apt trusts third-party repos.
+> 	gpg (GNU Privacy Guard) encrypts, decrypts, signs, and verifies with OpenPGP keys — also how apt trusts third-party repos.
 
 ## Interview Relevance
 Know encrypt vs sign, armor, fingerprint verification for apt keyrings, and never emailing private keys.
