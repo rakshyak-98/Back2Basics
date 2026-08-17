@@ -1,11 +1,11 @@
 {
-  "note_count": 1117,
+  "note_count": 1134,
   "folder_cluster_count": 88,
-  "title_similarity_cluster_count": 26,
-  "likely_duplicate_pair_count": 87,
-  "prefix_cluster_count": 63,
+  "title_similarity_cluster_count": 23,
+  "likely_duplicate_pair_count": 81,
+  "prefix_cluster_count": 68,
   "topic_cluster_count": 41,
-  "basename_duplicate_count": 5,
+  "basename_duplicate_count": 15,
   "hubs": [
     [
       "NodeJS",
@@ -13,11 +13,11 @@
     ],
     [
       "react hooks",
-      57
+      56
     ],
     [
       "React Architecture",
-      56
+      55
     ],
     [
       "React State management",
@@ -33,7 +33,7 @@
     ],
     [
       "TLS (Transport Layer Security)",
-      42
+      41
     ],
     [
       "TCP",
@@ -72,6 +72,10 @@
       27
     ],
     [
+      "NodeJS CLI",
+      27
+    ],
+    [
       "Database",
       26
     ],
@@ -84,16 +88,16 @@
       26
     ],
     [
-      "NodeJS CLI",
-      26
-    ],
-    [
       "zustand",
-      26
+      25
     ],
     [
       "MongoDB",
       23
+    ],
+    [
+      "connection pooling",
+      22
     ],
     [
       "DRM",
@@ -106,10 +110,6 @@
     [
       "CMAF",
       22
-    ],
-    [
-      "connection pooling",
-      21
     ],
     [
       "JWT authentication",
@@ -130,8 +130,6 @@
   ],
   "title_similarity_clusters": [
     [
-      "Connection Pool",
-      "connection pooling",
       "mysql connection",
       "mysql pool connection",
       "mysql ssl connection"
@@ -221,18 +219,6 @@
       "buffer"
     ],
     [
-      "Blocking Vs Non-Blocking",
-      "non-blocking"
-    ],
-    [
-      "React State management",
-      "React data management"
-    ],
-    [
-      "Asymmetrical Encryption",
-      "symmetrical encryption"
-    ],
-    [
       "npm CLI",
       "pnpm CLI"
     ]
@@ -245,14 +231,6 @@
       "reason": "exact",
       "path_a": "Nginx/Configuration.md",
       "path_b": "Nginx/Configuration.md"
-    },
-    {
-      "a": "mysql pool connection",
-      "b": "Connection Pool",
-      "score": 1.0,
-      "reason": "tokens",
-      "path_a": "Database/mysql/mysql pool connection.md",
-      "path_b": "LLD/Questions/Connection Pool.md"
     },
     {
       "a": "Python",
@@ -269,22 +247,6 @@
       "reason": "tokens",
       "path_a": "NextJS/Next JS.md",
       "path_b": "NextJS/Next js Build.md"
-    },
-    {
-      "a": "Blocking Vs Non-Blocking",
-      "b": "non-blocking",
-      "score": 1.0,
-      "reason": "tokens",
-      "path_a": "Operating System/Blocking Vs Non-Blocking.md",
-      "path_b": "Operating System/non-blocking.md"
-    },
-    {
-      "a": "Asymmetrical Encryption",
-      "b": "symmetrical encryption",
-      "score": 0.978,
-      "reason": "string",
-      "path_a": "Security/Asymmetrical Encryption.md",
-      "path_b": "Security/symmetrical encryption.md"
     },
     {
       "a": "uWebSocket",
@@ -359,14 +321,6 @@
       "path_b": "Security/ACME server.md"
     },
     {
-      "a": "connection pooling",
-      "b": "Connection Pool",
-      "score": 0.909,
-      "reason": "string",
-      "path_a": "Database/connection pooling.md",
-      "path_b": "LLD/Questions/Connection Pool.md"
-    },
-    {
       "a": "mysql",
       "b": "mysql2",
       "score": 0.909,
@@ -421,14 +375,6 @@
       "reason": "string",
       "path_a": "Linux/management/Linux Key management.md",
       "path_b": "Linux/management/Linux management.md"
-    },
-    {
-      "a": "React State management",
-      "b": "React data management",
-      "score": 0.884,
-      "reason": "string",
-      "path_a": "React/React State management.md",
-      "path_b": "React/React data management.md"
     },
     {
       "a": "apt package manager",
@@ -613,14 +559,6 @@
       "reason": "token+string",
       "path_a": "NodeJS/node debugger.md",
       "path_b": "zed/zed debugger.md"
-    },
-    {
-      "a": "Blocking",
-      "b": "non-blocking",
-      "score": 0.8,
-      "reason": "token+string",
-      "path_a": "Operating System/Blocking.md",
-      "path_b": "Operating System/non-blocking.md"
     },
     {
       "a": "UEFI (2)",
@@ -944,6 +882,7 @@
       "Swarm network",
       "Terraform docker",
       "docker OCI",
+      "docker cli",
       "docker container",
       "docker file"
     ],
@@ -977,6 +916,7 @@
     ],
     "helm": [
       "Helm CLI",
+      "cli",
       "helm"
     ],
     "terraform": [
@@ -1011,7 +951,8 @@
     ],
     "redis": [
       "Redis CLI",
-      "redis installation"
+      "redis installation",
+      "redis-cli"
     ],
     "mysql": [
       "Configuration",
@@ -1021,6 +962,7 @@
       "MySQL Events",
       "MySQL Triggers",
       "MySQL storage",
+      "cli",
       "covering index",
       "key Constraint",
       "mysql",
@@ -1146,11 +1088,13 @@
       "GitHub CLI",
       "Github action",
       "Github action (2)",
+      "Github cli",
       "Github cli (2)",
       "Github runner",
       "git alias",
       "git blame",
       "git branch",
+      "git command",
       "git commit",
       "git commit template",
       "git credential",
@@ -1382,6 +1326,7 @@
     "node": [
       "Ajv (Another JSON validator)",
       "Buffers",
+      "CLI",
       "Error handeling",
       "Event Loop",
       "EventEmitter",
@@ -1451,16 +1396,19 @@
     "vim": [
       "Neovim CLI",
       "Vim CLI",
+      "commands",
       "ed",
       "netrw file explorer",
       "nvim setup",
       "vim buffers",
+      "vim commands",
       "vim config",
       "vim keybindings",
       "vim mark"
     ],
     "nvim": [
       "Neovim CLI",
+      "commands",
       "nvim setup"
     ],
     "aws": [
@@ -1476,6 +1424,8 @@
       "AWS EFS (Elastic File System)",
       "AWS Lambda",
       "AWS Networking",
+      "AWS cli commands",
+      "AWS cli installation",
       "EBS (Elastic Block Store)",
       "Elastic IP",
       "How to connect Godaddy domain with AWS EC2 instance",
@@ -1494,6 +1444,7 @@
       "CORS (Cross Origin Request Sharing)",
       "DER",
       "Docker Runtime Security",
+      "Encryption",
       "HMAC (Hash based Message Authentication Codes)",
       "HTTP Strict Transport Security",
       "IDOR",
@@ -1593,6 +1544,7 @@
       "go SOLID",
       "go build",
       "go callstack",
+      "go cli",
       "go data structure",
       "go debugging",
       "go embedding",

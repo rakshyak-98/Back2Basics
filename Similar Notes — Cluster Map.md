@@ -8,10 +8,10 @@
 
 ## Executive summary
 
-- **1087** notes organized into **30** major folder domains (10+ notes each).
+- **1105** notes organized into **30** major folder domains (10+ notes each).
 - **41** cross-folder topic keyword families (docker, mysql, react, etc.).
-- **26** high-confidence title-similarity groups and **87** likely duplicate pairs to review.
-- **5** basename collisions across different paths.
+- **23** high-confidence title-similarity groups and **81** likely duplicate pairs to review.
+- **15** basename collisions across different paths.
 
 ### Major domain clusters
 
@@ -21,20 +21,20 @@
 | `Linux/commands` | 57 | [[APT policy]], [[Authentication command]], [[Find command]] |
 | `Streaming` | 53 | [[AAC (Advanced Audio Coding)]], [[ABR]], [[AV1]] |
 | `Linux` | 49 | [[CLI]], [[Commands]], [[Epoll]] |
-| `NodeJS` | 44 | [[Buffers]], [[Error handeling]], [[Event Loop]] |
+| `NodeJS` | 45 | [[Buffers]], [[CLI]], [[Error handeling]] |
 | `System Design` | 43 | [[API design]], [[Authentication web application]], [[CMS]] |
+| `Security` | 40 | [[ACME server]], [[Asymmetrical Encryption]], [[Authentication terms]] |
 | `Networking` | 39 | [[10 NIC]], [[BGP]], [[BSD Socket]] |
-| `Security` | 39 | [[ACME server]], [[Asymmetrical Encryption]], [[Authentication terms]] |
-| `Database/mysql` | 36 | [[Configuration]], [[MySQL CLI]], [[MySQL Engines]] |
+| `Database/mysql` | 37 | [[Configuration]], [[MySQL CLI]], [[MySQL Engines]] |
 | `React` | 35 | [[API handling]], [[Data Fetching HOC component]], [[Framer motion]] |
 | `javascript` | 32 | [[AMD module]], [[Callback]], [[Coroutine]] |
 | `Descriptive` | 31 | [[Blockchain]], [[DAP (Debug Adapter Protocol)]], [[Debugger configuratoin]] |
 | `Database` | 29 | [[ACID]], [[ARIES]], [[Alter table]] |
 | `ML` | 25 | [[AI chat with memory]], [[ANN]], [[Decision tree]] |
 | `Design pattern` | 22 | [[Abstraction]], [[Adapter]], [[Bridge]] |
-| `GIT` | 21 | [[Git CLI]], [[git alias]], [[git blame]] |
-| `golang` | 19 | [[Go CLI]], [[Makefile]], [[Unbuffered channel]] |
-| `AWS` | 18 | [[AMI (Amazon Machine Image)]], [[ARN (Amazon Resource Name)]], [[AWS Billing and cost management]] |
+| `GIT` | 22 | [[Git CLI]], [[git alias]], [[git blame]] |
+| `AWS` | 20 | [[AMI (Amazon Machine Image)]], [[ARN (Amazon Resource Name)]], [[AWS Billing and cost management]] |
+| `golang` | 20 | [[Go CLI]], [[Makefile]], [[Unbuffered channel]] |
 | `Descriptive/JavaScript` | 18 | [[Asynchronous]], [[Call stack]], [[Concurrency]] |
 | `MongoDB` | 17 | [[MongoDB data populate]], [[MongoDB query validation]], [[mognodb indexing]] |
 
@@ -56,12 +56,12 @@
 | Note | Inbound links |
 |------|---------------|
 | [[NodeJS]] | 58 |
-| [[react hooks]] | 57 |
-| [[React Architecture]] | 56 |
+| [[react hooks]] | 56 |
+| [[React Architecture]] | 55 |
 | [[React State management]] | 55 |
 | [[HLS]] | 43 |
 | [[Streaming]] | 43 |
-| [[TLS (Transport Layer Security)]] | 42 |
+| [[TLS (Transport Layer Security)]] | 41 |
 | [[TCP]] | 37 |
 | [[DASH]] | 35 |
 | [[ACID]] | 34 |
@@ -71,16 +71,16 @@
 | [[process]] | 30 |
 | [[webSocket]] | 28 |
 | [[Design pattern]] | 27 |
+| [[NodeJS CLI]] | 27 |
 | [[Database]] | 26 |
 | [[UDP]] | 26 |
 | [[WebRTC]] | 26 |
-| [[NodeJS CLI]] | 26 |
-| [[zustand]] | 26 |
+| [[zustand]] | 25 |
 | [[MongoDB]] | 23 |
+| [[connection pooling]] | 22 |
 | [[DRM]] | 22 |
 | [[Commands]] | 22 |
 | [[CMAF]] | 22 |
-| [[connection pooling]] | 21 |
 | [[JWT authentication]] | 21 |
 | [[ss]] | 21 |
 | [[Redux toolkit]] | 21 |
@@ -206,9 +206,10 @@
 - [[display server]]
 - … and 24 more
 
-### NodeJS (44 notes)
+### NodeJS (45 notes)
 
 - [[Buffers]]
+- [[CLI]]
 - [[Error handeling]]
 - [[Event Loop]]
 - [[EventEmitter]]
@@ -232,8 +233,7 @@
 - [[child process]]
 - [[clustering]]
 - [[event emitter]]
-- [[expressjs]]
-- … and 19 more
+- … and 20 more
 
 ### System Design (43 notes)
 
@@ -264,6 +264,35 @@
 - [[autonomous program]]
 - … and 18 more
 
+### Security (40 notes)
+
+- [[ACME server]]
+- [[Asymmetrical Encryption]]
+- [[Authentication terms]]
+- [[Base64]]
+- [[CORS (Cross Origin Request Sharing)]]
+- [[DER]]
+- [[Encryption]]
+- [[HMAC (Hash based Message Authentication Codes)]]
+- [[HTTP Strict Transport Security]]
+- [[IDOR]]
+- [[JWT authentication]]
+- [[JWT]]
+- [[KMS]]
+- [[PKI]]
+- [[Preprocessor]]
+- [[RSA]]
+- [[Root certificate]]
+- [[SOP (Same-Origin Policy)]]
+- [[STUN (Session Traversal Utilities for NAT)]]
+- [[Securing a hash key authentication]]
+- [[TLS (Transport Layer Security)]]
+- [[TOTP (Time based One Time Password)]]
+- [[TURN server (Traversal Using Relays around NAT)]]
+- [[Token rotation]]
+- [[XSRF (cross-site request forgery)]]
+- … and 15 more
+
 ### Networking (39 notes)
 
 - [[10 NIC]]
@@ -293,36 +322,7 @@
 - [[autonomous system]]
 - … and 14 more
 
-### Security (39 notes)
-
-- [[ACME server]]
-- [[Asymmetrical Encryption]]
-- [[Authentication terms]]
-- [[Base64]]
-- [[CORS (Cross Origin Request Sharing)]]
-- [[DER]]
-- [[HMAC (Hash based Message Authentication Codes)]]
-- [[HTTP Strict Transport Security]]
-- [[IDOR]]
-- [[JWT authentication]]
-- [[JWT]]
-- [[KMS]]
-- [[PKI]]
-- [[Preprocessor]]
-- [[RSA]]
-- [[Root certificate]]
-- [[SOP (Same-Origin Policy)]]
-- [[STUN (Session Traversal Utilities for NAT)]]
-- [[Securing a hash key authentication]]
-- [[TLS (Transport Layer Security)]]
-- [[TOTP (Time based One Time Password)]]
-- [[TURN server (Traversal Using Relays around NAT)]]
-- [[Token rotation]]
-- [[XSRF (cross-site request forgery)]]
-- [[certbot (letsencrypt)]]
-- … and 14 more
-
-### Database/mysql (36 notes)
+### Database/mysql (37 notes)
 
 - [[Configuration]]
 - [[MySQL CLI]]
@@ -331,6 +331,7 @@
 - [[MySQL Events]]
 - [[MySQL Triggers]]
 - [[MySQL storage]]
+- [[cli]]
 - [[covering index]]
 - [[key Constraint]]
 - [[mysql Privileges]]
@@ -348,8 +349,7 @@
 - [[mysql json]]
 - [[mysql lock]]
 - [[mysql normalization]]
-- [[mysql partitioning]]
-- … and 11 more
+- … and 12 more
 
 ### React (35 notes)
 
@@ -520,12 +520,13 @@
 - [[Template Method]]
 - [[method shadowing]]
 
-### GIT (21 notes)
+### GIT (22 notes)
 
 - [[Git CLI]]
 - [[git alias]]
 - [[git blame]]
 - [[git branch]]
+- [[git command]]
 - [[git commit template]]
 - [[git commit]]
 - [[git credential]]
@@ -544,7 +545,30 @@
 - [[git worktree]]
 - [[gpg sign]]
 
-### golang (19 notes)
+### AWS (20 notes)
+
+- [[AMI (Amazon Machine Image)]]
+- [[ARN (Amazon Resource Name)]]
+- [[AWS Billing and cost management]]
+- [[AWS CLI installation]]
+- [[AWS CLI]]
+- [[AWS EBS(Elastic Block Store)]]
+- [[AWS EC2]]
+- [[AWS ECR]]
+- [[AWS EFS (Elastic File System)]]
+- [[AWS Lambda]]
+- [[AWS Networking]]
+- [[AWS cli commands]]
+- [[AWS cli installation]]
+- [[EBS (Elastic Block Store)]]
+- [[Elastic IP]]
+- [[How to connect Godaddy domain with AWS EC2 instance]]
+- [[IAM]]
+- [[Security group]]
+- [[aws STS (Security Token Service)]]
+- [[aws host website]]
+
+### golang (20 notes)
 
 - [[Go CLI]]
 - [[Makefile]]
@@ -552,6 +576,7 @@
 - [[go SOLID]]
 - [[go build]]
 - [[go callstack]]
+- [[go cli]]
 - [[go data structure]]
 - [[go debugging]]
 - [[go embedding]]
@@ -565,27 +590,6 @@
 - [[go strings]]
 - [[go-routines]]
 - [[go]]
-
-### AWS (18 notes)
-
-- [[AMI (Amazon Machine Image)]]
-- [[ARN (Amazon Resource Name)]]
-- [[AWS Billing and cost management]]
-- [[AWS CLI installation]]
-- [[AWS CLI]]
-- [[AWS EBS(Elastic Block Store)]]
-- [[AWS EC2]]
-- [[AWS ECR]]
-- [[AWS EFS (Elastic File System)]]
-- [[AWS Lambda]]
-- [[AWS Networking]]
-- [[EBS (Elastic Block Store)]]
-- [[Elastic IP]]
-- [[How to connect Godaddy domain with AWS EC2 instance]]
-- [[IAM]]
-- [[Security group]]
-- [[aws STS (Security Token Service)]]
-- [[aws host website]]
 
 ### Descriptive/JavaScript (18 notes)
 
@@ -751,7 +755,7 @@
 - [[gRPC]]
 - [[mail server]]
 
-### npm (11 notes)
+### npm (12 notes)
 
 - [[husk]]
 - [[moment]]
@@ -761,6 +765,7 @@
 - [[npm script]]
 - [[npm]]
 - [[pnpm CLI]]
+- [[pnpm cli]]
 - [[pnpm logs]]
 - [[yarn]]
 - [[zod]]
@@ -815,6 +820,17 @@
 - [[payment integration razorpay]]
 - [[razorpay integration]]
 
+### Docker (8 notes)
+
+- [[Docker CLI]]
+- [[Docker Runtime Security]]
+- [[Docker compose]]
+- [[Swarm network]]
+- [[docker OCI]]
+- [[docker cli]]
+- [[docker container]]
+- [[docker file]]
+
 ### Kubernates (8 notes)
 
 - [[Cilium]]
@@ -848,15 +864,26 @@
 - [[typescript types]]
 - [[typescript]]
 
-### Docker (7 notes)
+### vim (8 notes)
 
-- [[Docker CLI]]
-- [[Docker Runtime Security]]
-- [[Docker compose]]
-- [[Swarm network]]
-- [[docker OCI]]
-- [[docker container]]
-- [[docker file]]
+- [[Vim CLI]]
+- [[ed]]
+- [[netrw file explorer]]
+- [[vim buffers]]
+- [[vim commands]]
+- [[vim config]]
+- [[vim keybindings]]
+- [[vim mark]]
+
+### Deployment (7 notes)
+
+- [[Deployment CLI]]
+- [[Render CLI]]
+- [[Vercel CLI]]
+- [[render cli]]
+- [[spinnaker]]
+- [[vercel cli]]
+- [[vercel deployment]]
 
 ### NextJS (7 notes)
 
@@ -898,15 +925,15 @@
 - [[tailwindcss Error]]
 - [[tailwindcss]]
 
-### vim (7 notes)
+### flutter (7 notes)
 
-- [[Vim CLI]]
-- [[ed]]
-- [[netrw file explorer]]
-- [[vim buffers]]
-- [[vim config]]
-- [[vim keybindings]]
-- [[vim mark]]
+- [[Flutter CLI]]
+- [[Flutter app icon change]]
+- [[flutter build]]
+- [[flutter cli]]
+- [[flutter debugging]]
+- [[flutter error]]
+- [[flutter widget]]
 
 ### ExpressJS (6 notes)
 
@@ -916,6 +943,15 @@
 - [[express error handler]]
 - [[express query handler]]
 - [[regular expression]]
+
+### GitHub (6 notes)
+
+- [[GitHub CLI]]
+- [[Github action (2)]]
+- [[Github action]]
+- [[Github cli (2)]]
+- [[Github cli]]
+- [[Github runner]]
 
 ### Linux/Bash (6 notes)
 
@@ -944,6 +980,15 @@
 - [[normalizer]]
 - [[npm packages]]
 
+### apache (6 notes)
+
+- [[Apache CLI]]
+- [[CGI]]
+- [[apache command]]
+- [[apache configurations]]
+- [[apache modules]]
+- [[fastCGI servers]]
+
 ### compiler (6 notes)
 
 - [[clang]]
@@ -952,15 +997,6 @@
 - [[library file]]
 - [[object code]]
 - [[transpiler]]
-
-### flutter (6 notes)
-
-- [[Flutter CLI]]
-- [[Flutter app icon change]]
-- [[flutter build]]
-- [[flutter debugging]]
-- [[flutter error]]
-- [[flutter widget]]
 
 ### ssh (6 notes)
 
@@ -979,22 +1015,6 @@
 - [[PoserDNS]]
 - [[dnsmasq]]
 
-### Deployment (5 notes)
-
-- [[Deployment CLI]]
-- [[Render CLI]]
-- [[Vercel CLI]]
-- [[spinnaker]]
-- [[vercel deployment]]
-
-### GitHub (5 notes)
-
-- [[GitHub CLI]]
-- [[Github action (2)]]
-- [[Github action]]
-- [[Github cli (2)]]
-- [[Github runner]]
-
 ### ML/Visualization (5 notes)
 
 - [[Rank distribution]]
@@ -1010,14 +1030,6 @@
 - [[mongoose methods]]
 - [[mongoose schema]]
 - [[mongoose]]
-
-### apache (5 notes)
-
-- [[Apache CLI]]
-- [[CGI]]
-- [[apache configurations]]
-- [[apache modules]]
-- [[fastCGI servers]]
 
 ### ExpressJS/pacakges (4 notes)
 
@@ -1108,17 +1120,35 @@
 - [[RTQ store]]
 - [[RTQ tags]]
 
+### Redis (3 notes)
+
+- [[Redis CLI]]
+- [[redis installation]]
+- [[redis-cli]]
+
 ### cookies (3 notes)
 
 - [[cookie error]]
 - [[cookies configuration]]
 - [[cookies lifecycle]]
 
+### helm (3 notes)
+
+- [[Helm CLI]]
+- [[cli]]
+- [[helm]]
+
 ### kotlin (3 notes)
 
 - [[kotlin data flow]]
 - [[kotlin syntax]]
 - [[kotlin view]]
+
+### nvim (3 notes)
+
+- [[Neovim CLI]]
+- [[commands]]
+- [[nvim setup]]
 
 ### vite (3 notes)
 
@@ -1172,11 +1202,6 @@
 - [[RTQ Concepts]]
 - [[matcher]]
 
-### Redis (2 notes)
-
-- [[Redis CLI]]
-- [[redis installation]]
-
 ### android (2 notes)
 
 - [[adb device]]
@@ -1187,20 +1212,10 @@
 - [[dart functions]]
 - [[dart]]
 
-### helm (2 notes)
-
-- [[Helm CLI]]
-- [[helm]]
-
 ### javascript/Packages (2 notes)
 
 - [[Immer]]
 - [[Intl Formattor]]
-
-### nvim (2 notes)
-
-- [[Neovim CLI]]
-- [[nvim setup]]
 
 ### pm2 (2 notes)
 
@@ -1220,11 +1235,8 @@
 | Score | Note A | Note B | Reason |
 |-------|--------|--------|--------|
 | 1.0 | [[Configuration]] | [[Configuration]] | exact |
-| 1.0 | [[mysql pool connection]] | [[Connection Pool]] | tokens |
 | 1.0 | [[Python]] | [[Python]] | exact |
 | 1.0 | [[Next JS]] | [[Next js Build]] | tokens |
-| 1.0 | [[Blocking Vs Non-Blocking]] | [[non-blocking]] | tokens |
-| 0.978 | [[Asymmetrical Encryption]] | [[symmetrical encryption]] | string |
 | 0.947 | [[uWebSocket]] | [[webSocket]] | string |
 | 0.944 | [[SQL normalization]] | [[mysql normalization]] | string |
 | 0.941 | [[variables]] | [[variable]] | string |
@@ -1234,7 +1246,6 @@
 | 0.917 | [[linux groups]] | [[Linux cgroup]] | string |
 | 0.914 | [[network managmeen]] | [[network management]] | string |
 | 0.909 | [[name server]] | [[ACME server]] | string |
-| 0.909 | [[connection pooling]] | [[Connection Pool]] | string |
 | 0.909 | [[mysql]] | [[mysql2]] | string |
 | 0.903 | [[Data structure]] | [[go data structure]] | string |
 | 0.903 | [[mysql Privileges]] | [[psql privileges]] | string |
@@ -1242,7 +1253,6 @@
 | 0.9 | [[Docker CLI]] | [[docker OCI]] | string |
 | 0.889 | [[mysql connection]] | [[mysql ssl connection]] | string |
 | 0.889 | [[Linux Key management]] | [[Linux management]] | string |
-| 0.884 | [[React State management]] | [[React data management]] | string |
 | 0.882 | [[apt package manager]] | [[Package Manager]] | string |
 | 0.878 | [[mysql pool connection]] | [[mysql ssl connection]] | token+string |
 | 0.872 | [[mongoDB Group query]] | [[mongodb lookup query]] | token+string |
@@ -1266,7 +1276,6 @@
 | 0.8 | [[Design pattern]] | [[React design patterns]] | token+string |
 | 0.8 | [[Node events driven]] | [[event-driven]] | token+string |
 | 0.8 | [[node debugger]] | [[zed debugger]] | token+string |
-| 0.8 | [[Blocking]] | [[non-blocking]] | token+string |
 | 0.8 | [[UEFI (2)]] | [[UEFI]] | token+string |
 | 0.8 | [[data fetching component]] | [[Data fetching Frontend]] | token+string |
 | 0.8 | [[vim keybindings]] | [[zed keybindings]] | token+string |
@@ -1279,14 +1288,18 @@
 | 0.783 | [[Buffer cache]] | [[buffer head]] | token+string |
 | 0.778 | [[kubectl CLI]] | [[kubectl]] | token+string |
 | 0.778 | [[Buffers]] | [[vim buffers]] | token+string |
+| 0.773 | [[Concurrent modification]] | [[concurrent connection]] | token+string |
+| 0.769 | [[psql functions]] | [[go functions]] | token+string |
+| 0.769 | [[Bash functions]] | [[go functions]] | token+string |
+| 0.769 | [[IPC namespace]] | [[UTS namespace]] | token+string |
+| 0.769 | [[Rolling Buffer]] | [[right buffer]] | token+string |
+| 0.769 | [[multi-threaded]] | [[Multi Stream]] | token+string |
 
 ---
 
 ## Title similarity groups (possible duplicates)
 
-### Cluster 1 (5 notes)
-- [[Connection Pool]]
-- [[connection pooling]]
+### Cluster 1 (3 notes)
 - [[mysql connection]]
 - [[mysql pool connection]]
 - [[mysql ssl connection]]
@@ -1376,18 +1389,6 @@
 - [[buffer]]
 
 ### Cluster 23 (2 notes)
-- [[Blocking Vs Non-Blocking]]
-- [[non-blocking]]
-
-### Cluster 24 (2 notes)
-- [[React State management]]
-- [[React data management]]
-
-### Cluster 25 (2 notes)
-- [[Asymmetrical Encryption]]
-- [[symmetrical encryption]]
-
-### Cluster 26 (2 notes)
 - [[npm CLI]]
 - [[pnpm CLI]]
 
@@ -1413,11 +1414,12 @@
 - [[mysql dump]]
 - … and 16 more
 
-### `git*` (20 notes)
+### `git*` (21 notes)
 - [[Git CLI]]
 - [[git alias]]
 - [[git blame]]
 - [[git branch]]
+- [[git command]]
 - [[git commit]]
 - [[git commit template]]
 - [[git credential]]
@@ -1428,8 +1430,7 @@
 - [[git hook]]
 - [[git logs]]
 - [[git merge]]
-- [[git patch files]]
-- … and 5 more
+- … and 6 more
 
 ### `linux*` (20 notes)
 - [[Linux]]
@@ -1501,6 +1502,22 @@
 - [[redux store architecture]]
 - [[redux toolkit features]]
 
+### `aws*` (14 notes)
+- [[AWS]]
+- [[AWS Billing and cost management]]
+- [[AWS CLI]]
+- [[AWS CLI installation]]
+- [[AWS EBS(Elastic Block Store)]]
+- [[AWS EC2]]
+- [[AWS ECR]]
+- [[AWS EFS (Elastic File System)]]
+- [[AWS Lambda]]
+- [[AWS Networking]]
+- [[AWS cli commands]]
+- [[AWS cli installation]]
+- [[aws STS (Security Token Service)]]
+- [[aws host website]]
+
 ### `node*` (14 notes)
 - [[Node events driven]]
 - [[Node.js run as a non-privileged user]]
@@ -1516,20 +1533,6 @@
 - [[node serverless]]
 - [[node-convict]]
 - [[node-cron]]
-
-### `aws*` (12 notes)
-- [[AWS]]
-- [[AWS Billing and cost management]]
-- [[AWS CLI]]
-- [[AWS CLI installation]]
-- [[AWS EBS(Elastic Block Store)]]
-- [[AWS EC2]]
-- [[AWS ECR]]
-- [[AWS EFS (Elastic File System)]]
-- [[AWS Lambda]]
-- [[AWS Networking]]
-- [[aws STS (Security Token Service)]]
-- [[aws host website]]
 
 ### `nginx*` (11 notes)
 - [[Nginx ingress]]
@@ -1565,12 +1568,13 @@
 - [[database seeding]]
 - [[database sharding]]
 
-### `docker*` (7 notes)
+### `docker*` (8 notes)
 - [[Docker]]
 - [[Docker CLI]]
 - [[Docker Runtime Security]]
 - [[Docker compose]]
 - [[docker OCI]]
+- [[docker cli]]
 - [[docker container]]
 - [[docker file]]
 
@@ -1582,6 +1586,15 @@
 - [[express concepts]]
 - [[express error handler]]
 - [[express query handler]]
+
+### `flutter*` (7 notes)
+- [[Flutter CLI]]
+- [[Flutter app icon change]]
+- [[flutter build]]
+- [[flutter cli]]
+- [[flutter debugging]]
+- [[flutter error]]
+- [[flutter widget]]
 
 ### `psql*` (7 notes)
 - [[psql database dump]]
@@ -1609,13 +1622,13 @@
 - [[bash script]]
 - [[bash sourcing other script]]
 
-### `flutter*` (6 notes)
-- [[Flutter CLI]]
-- [[Flutter app icon change]]
-- [[flutter build]]
-- [[flutter debugging]]
-- [[flutter error]]
-- [[flutter widget]]
+### `github*` (6 notes)
+- [[GitHub CLI]]
+- [[Github action]]
+- [[Github action (2)]]
+- [[Github cli]]
+- [[Github cli (2)]]
+- [[Github runner]]
 
 ### `mongoose*` (6 notes)
 - [[Mongoose plugin]]
@@ -1648,6 +1661,14 @@
 - [[Terraform workflow]]
 - [[terraform]]
 - [[terraform provider]]
+
+### `vim*` (6 notes)
+- [[Vim CLI]]
+- [[vim buffers]]
+- [[vim commands]]
+- [[vim config]]
+- [[vim keybindings]]
+- [[vim mark]]
 
 ### `web*` (6 notes)
 - [[Web hooks]]
@@ -1684,13 +1705,6 @@
 - [[file]]
 - [[file descriptors]]
 - [[file mount]]
-
-### `github*` (5 notes)
-- [[GitHub CLI]]
-- [[Github action]]
-- [[Github action (2)]]
-- [[Github cli (2)]]
-- [[Github runner]]
 
 ### `how*` (5 notes)
 - [[How does debugger work]]
@@ -1734,18 +1748,11 @@
 - [[typescript extend types]]
 - [[typescript types]]
 
-### `vim*` (5 notes)
-- [[Vim CLI]]
-- [[vim buffers]]
-- [[vim config]]
-- [[vim keybindings]]
-- [[vim mark]]
-
-### `event*` (4 notes)
-- [[Event Loop]]
-- [[event emitter]]
-- [[event listener]]
-- [[event-driven]]
+### `apache*` (4 notes)
+- [[Apache CLI]]
+- [[apache command]]
+- [[apache configurations]]
+- [[apache modules]]
 
 ---
 
@@ -1797,9 +1804,10 @@
 - [[React Architecture]]
 - … and 45 more
 
-### node (53 notes)
+### node (54 notes)
 - [[Ajv (Another JSON validator)]]
 - [[Buffers]]
+- [[CLI]]
 - [[Error handeling]]
 - [[Event Loop]]
 - [[EventEmitter]]
@@ -1817,10 +1825,9 @@
 - [[Stream]]
 - [[Stream Events]]
 - [[SuperTokens]]
-- [[Transporter in Email sending]]
-- … and 33 more
+- … and 34 more
 
-### security (43 notes)
+### security (44 notes)
 - [[ACME server]]
 - [[Asymmetrical Encryption]]
 - [[Authentication terms]]
@@ -1828,6 +1835,7 @@
 - [[CORS (Cross Origin Request Sharing)]]
 - [[DER]]
 - [[Docker Runtime Security]]
+- [[Encryption]]
 - [[HMAC (Hash based Message Authentication Codes)]]
 - [[HTTP Strict Transport Security]]
 - [[IDOR]]
@@ -1840,10 +1848,9 @@
 - [[RSA]]
 - [[Root certificate]]
 - [[SOP (Same-Origin Policy)]]
-- [[STUN (Session Traversal Utilities for NAT)]]
-- … and 23 more
+- … and 24 more
 
-### mysql (39 notes)
+### mysql (40 notes)
 - [[Configuration]]
 - [[MySQL CLI]]
 - [[MySQL Engines]]
@@ -1851,6 +1858,7 @@
 - [[MySQL Events]]
 - [[MySQL Triggers]]
 - [[MySQL storage]]
+- [[cli]]
 - [[covering index]]
 - [[key Constraint]]
 - [[mysql]]
@@ -1863,19 +1871,20 @@
 - [[mysql data partition]]
 - [[mysql dump]]
 - [[mysql engine]]
-- [[mysql events 1]]
-- … and 19 more
+- … and 20 more
 
-### git (26 notes)
+### git (28 notes)
 - [[Git CLI]]
 - [[GitHub CLI]]
 - [[Github action]]
 - [[Github action (2)]]
+- [[Github cli]]
 - [[Github cli (2)]]
 - [[Github runner]]
 - [[git alias]]
 - [[git blame]]
 - [[git branch]]
+- [[git command]]
 - [[git commit]]
 - [[git commit template]]
 - [[git credential]]
@@ -1885,9 +1894,7 @@
 - [[git guidlines]]
 - [[git hook]]
 - [[git logs]]
-- [[git merge]]
-- [[git patch files]]
-- … and 6 more
+- … and 8 more
 
 ### design pattern (26 notes)
 - [[Abstract Factor]]
@@ -1935,7 +1942,7 @@
 - [[mongoose methods]]
 - … and 5 more
 
-### aws (21 notes)
+### aws (23 notes)
 - [[AMI (Amazon Machine Image)]]
 - [[ARN (Amazon Resource Name)]]
 - [[AWS]]
@@ -1948,17 +1955,17 @@
 - [[AWS EFS (Elastic File System)]]
 - [[AWS Lambda]]
 - [[AWS Networking]]
+- [[AWS cli commands]]
+- [[AWS cli installation]]
 - [[EBS (Elastic Block Store)]]
 - [[Elastic IP]]
 - [[How to connect Godaddy domain with AWS EC2 instance]]
 - [[IAM]]
 - [[Node.js security flaws in architecture]]
 - [[Route53]]
-- [[Security group]]
-- [[aws STS (Security Token Service)]]
-- … and 1 more
+- … and 3 more
 
-### golang (20 notes)
+### golang (21 notes)
 - [[Go CLI]]
 - [[Makefile]]
 - [[Unbuffered channel]]
@@ -1966,6 +1973,7 @@
 - [[go SOLID]]
 - [[go build]]
 - [[go callstack]]
+- [[go cli]]
 - [[go data structure]]
 - [[go debugging]]
 - [[go embedding]]
@@ -1978,7 +1986,7 @@
 - [[go project]]
 - [[go strings]]
 - [[go-routines]]
-- [[golang]]
+- … and 1 more
 
 ### dns (19 notes)
 - [[BIND]]
@@ -2049,7 +2057,20 @@
 - [[regular expression]]
 - [[uWebSocket]]
 
-### docker (9 notes)
+### vim (11 notes)
+- [[Neovim CLI]]
+- [[Vim CLI]]
+- [[commands]]
+- [[ed]]
+- [[netrw file explorer]]
+- [[nvim setup]]
+- [[vim buffers]]
+- [[vim commands]]
+- [[vim config]]
+- [[vim keybindings]]
+- [[vim mark]]
+
+### docker (10 notes)
 - [[Docker]]
 - [[Docker CLI]]
 - [[Docker Runtime Security]]
@@ -2057,6 +2078,7 @@
 - [[Swarm network]]
 - [[Terraform docker]]
 - [[docker OCI]]
+- [[docker cli]]
 - [[docker container]]
 - [[docker file]]
 
@@ -2070,17 +2092,6 @@
 - [[ssh private network]]
 - [[ssh-keygen key validity]]
 - [[sshd config]]
-
-### vim (9 notes)
-- [[Neovim CLI]]
-- [[Vim CLI]]
-- [[ed]]
-- [[netrw file explorer]]
-- [[nvim setup]]
-- [[vim buffers]]
-- [[vim config]]
-- [[vim keybindings]]
-- [[vim mark]]
 
 ### auth (9 notes)
 - [[Authentication command]]
@@ -2179,6 +2190,21 @@
 - [[Nginx ingress]]
 - [[ingress]]
 
+### helm (3 notes)
+- [[Helm CLI]]
+- [[cli]]
+- [[helm]]
+
+### redis (3 notes)
+- [[Redis CLI]]
+- [[redis installation]]
+- [[redis-cli]]
+
+### nvim (3 notes)
+- [[Neovim CLI]]
+- [[commands]]
+- [[nvim setup]]
+
 ### cert (3 notes)
 - [[Root certificate]]
 - [[certbot (letsencrypt)]]
@@ -2197,14 +2223,6 @@
 - [[Pods]]
 - [[kubectl pod creation]]
 
-### helm (2 notes)
-- [[Helm CLI]]
-- [[helm]]
-
-### redis (2 notes)
-- [[Redis CLI]]
-- [[redis installation]]
-
 ### jwt (2 notes)
 - [[JWT]]
 - [[JWT authentication]]
@@ -2212,10 +2230,6 @@
 ### websocket (2 notes)
 - [[uWebSocket]]
 - [[webSocket]]
-
-### nvim (2 notes)
-- [[Neovim CLI]]
-- [[nvim setup]]
 
 ### pm2 (2 notes)
 - [[ecosystem]]
@@ -2233,13 +2247,12 @@
 
 ## Link neighborhood clusters
 
-### Neighborhood 1 (730 notes)
+### Neighborhood 1 (727 notes)
 - [[10 NIC]]
 - [[AAC (Advanced Audio Coding)]]
 - [[ABR]]
 - [[ACID]]
 - [[ACME server]]
-- [[AGENT_NOTE_RULES]]
 - [[AI chat with memory]]
 - [[AMI (Amazon Machine Image)]]
 - [[ANN]]
@@ -2262,7 +2275,6 @@
 - [[Alter table]]
 - [[Animation]]
 - [[Architectural backend design principles]]
-- [[Asymmetrical Encryption]]
 - [[Authentication command]]
 - [[Authentication terms]]
 - [[Authentication web application]]
@@ -2331,6 +2343,7 @@
 - [[Elastic IP]]
 - [[Electronic Control Unit (ECU)]]
 - [[Encoding]]
+- [[Encryption]]
 - [[Error handeling]]
 - [[Error status code]]
 - [[Etherium]]
@@ -2403,9 +2416,9 @@
 - [[Linux out of memory daemon]]
 - [[Linux process commands]]
 - [[Linux resource management]]
+- [[Linux terminal]]
 - [[Linux window manager]]
 - [[Live Streaming Architecture Multi-Channel Distribution at 1M Concurrent User]]
-- [[MBR]]
 - [[ML Classifiers]]
 - [[MMAP]]
 - [[MPD]]
@@ -2423,7 +2436,9 @@
 - [[MongoDB query validation]]
 - [[Multi Stream]]
 - [[Multi-tier and Layered Architecture]]
+- [[MySQL Engines]]
 - [[MySQL Error]]
+- [[MySQL Events]]
 - [[MySQL Triggers]]
 - [[MySQL storage]]
 - [[NAT (Network Address Translation)]]
@@ -2491,7 +2506,6 @@
 - [[React State management]]
 - [[React build]]
 - [[React code smells]]
-- [[React data management]]
 - [[React depth map]]
 - [[React design patterns]]
 - [[React feature implementations]]
@@ -2758,7 +2772,6 @@
 - [[linker]]
 - [[linux groups]]
 - [[localhost]]
-- [[logical partitions]]
 - [[loopback]]
 - [[lsof]]
 - [[lspci]]
@@ -2789,6 +2802,7 @@
 - [[mysql concepts]]
 - [[mysql connection]]
 - [[mysql data migrations]]
+- [[mysql data partition]]
 - [[mysql dump]]
 - [[mysql function]]
 - [[mysql index]]
@@ -2824,7 +2838,6 @@
 - [[node package json]]
 - [[node-convict]]
 - [[non-Routable address]]
-- [[non-blocking]]
 - [[npm]]
 - [[npm error]]
 - [[npm packages]]
@@ -2855,7 +2868,6 @@
 - [[psql functions]]
 - [[psql table]]
 - [[psql user]]
-- [[puTTY]]
 - [[public resolver]]
 - [[race condition]]
 - [[razorpay integration]]
@@ -2902,7 +2914,6 @@
 - [[ssh allow local system with key]]
 - [[ssh login]]
 - [[ssh private network]]
-- [[staff engineer]]
 - [[stateless]]
 - [[stateless offset handling]]
 - [[stream error]]
@@ -2910,13 +2921,13 @@
 - [[streaming manifest file]]
 - [[supervised learning]]
 - [[support vector machines (SVM)]]
-- [[symmetrical encryption]]
 - [[system bus]]
 - [[system call]]
 - [[system service unit files]]
 - [[systemctl]]
 - [[systemd]]
 - [[tailwindcss]]
+- [[terminal emulator]]
 - [[terraform]]
 - [[terraform provider]]
 - [[thread pool]]
@@ -2969,36 +2980,66 @@
 
 ## Mutual-link graph components
 
-### Component 1 (1112 notes)
+### Component 1 (1127 notes)
 - [[Similar Notes — Cluster Map]]
-- [[React State management]]
 - [[NodeJS]]
-- [[react hooks]]
+- [[React State management]]
 - [[React Architecture]]
+- [[react hooks]]
 - [[Note Merge Plan]]
 - [[Streaming]]
 - [[Database]]
-- [[TLS (Transport Layer Security)]]
 - [[HLS]]
+- [[TLS (Transport Layer Security)]]
 - [[Commands]]
 - [[mysql]]
 - [[TCP]]
 - [[DASH]]
 - [[ACID]]
-- [[DNS]]
 - [[webSocket]]
+- [[DNS]]
 - [[Configuration]]
-- [[process]]
 - [[zustand]]
-- … and 1092 more
+- [[process]]
+- … and 1107 more
 
 ---
 
 ## Same basename in different paths
 
+### `aws cli installation`
+- `AWS/AWS CLI installation.md`
+- `AWS/AWS cli installation.md`
+
+### `cli`
+- `Database/mysql/cli.md`
+- `Linux/CLI.md`
+- `NodeJS/CLI.md`
+- `helm/cli.md`
+
+### `commands`
+- `Linux/Commands.md`
+- `nvim/commands.md`
+
 ### `configuration`
 - `Database/mysql/Configuration.md`
 - `Nginx/Configuration.md`
+
+### `docker cli`
+- `Docker/Docker CLI.md`
+- `Docker/docker cli.md`
+
+### `flutter cli`
+- `flutter/Flutter CLI.md`
+- `flutter/flutter cli.md`
+
+### `github cli`
+- `GitHub/GitHub CLI.md`
+- `GitHub/Github cli.md`
+
+### `go cli`
+- `golang/Go CLI.md`
+- `golang/go cli.md`
 
 ### `mysql partitioning`
 - `Database/mysql/mysql partitioning.md`
@@ -3008,11 +3049,23 @@
 - `Database/mysql/MySQL Triggers.md`
 - `Database/mysql/mysql triggers.md`
 
+### `pnpm cli`
+- `npm/pnpm CLI.md`
+- `npm/pnpm cli.md`
+
 ### `python`
 - `Errors/Python.md`
 - `Python/Python.md`
 
+### `render cli`
+- `Deployment/Render CLI.md`
+- `Deployment/render cli.md`
+
 ### `systemctl`
 - `Linux/commands/systemctl.md`
 - `Linux/management/systemctl.md`
+
+### `vercel cli`
+- `Deployment/Vercel CLI.md`
+- `Deployment/vercel cli.md`
 
