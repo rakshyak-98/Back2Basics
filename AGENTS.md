@@ -22,10 +22,11 @@ Non-obvious things worth knowing:
   other with Obsidian `[[wikilinks]]` (and `[[target|alias]]`). The intended
   viewer is the Obsidian desktop app; any Markdown editor also works.
 - **Navigation entry points:** `README.md` (overview), `INDEX.md` (symptom→note
-  routing map), `AGENT_NOTE_RULES.md` (how agents write notes — interview-prep
-  leaf skeleton; omit empty sections; hubs/meta excluded).
-- **Creating or updating notes:** Read `AGENT_NOTE_RULES.md` first. Use the
-  interview-prep section order for leaf notes; omit empty sections. Research
+  routing map), `AGENT_NOTE_RULES.md` (how agents write notes — Mind Map or
+  Cornell shape; omit empty sections; hubs/meta excluded).
+- **Creating or updating notes:** Read `AGENT_NOTE_RULES.md` first. Choose
+  Mind Map (associative) or Cornell (sequential) shape for leaf notes; omit
+  empty sections. Research
   authoritative sources (RFCs, official docs, university materials, Wikipedia
   cross-checked with primaries). Do not add strategy labels or HTML tags inside
   notes.

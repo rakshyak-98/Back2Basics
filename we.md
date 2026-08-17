@@ -19,7 +19,7 @@ Culture questions (“how do you share knowledge?”) map here: durable notes be
 - **Force multiplication:** One clear note saves N future engineers N minutes each.
 - **Pressure-ready:** Prefer checks, commands, and failure modes over essay history.
 - **Networked knowledge:** Wikilinks and hubs ([[INDEX]], [[general]]) over isolated dumps.
-- **Craft bar:** Interview-prep structure for leaf topics ([[AGENT_NOTE_RULES]]).
+- **Craft bar:** Mind Map or Cornell shape for leaf topics ([[AGENT_NOTE_RULES]]).
 
 ## Technical Details
 | Need | Open |

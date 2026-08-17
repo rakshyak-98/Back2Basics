@@ -1,7 +1,7 @@
 # Vault INDEX — Fast Retrieval
 
 > Symptom → note map — start here under pressure to find the right playbook fast.
-> Note format: [[AGENT_NOTE_RULES]] (interview-prep leaf skeleton — omit empty sections)
+> Note format: [[AGENT_NOTE_RULES]] (Mind Map or Cornell shape — omit empty sections)
 
 ---
 
