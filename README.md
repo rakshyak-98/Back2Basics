@@ -13,6 +13,7 @@ Not a framework zoo. Not man-page dumps. Notes are written for software engineer
 | Need | Open |
 |------|------|
 | Symptom → note map | [[INDEX]] |
+| Similar / duplicate note clusters | [[Similar Notes — Cluster Map]] |
 | Staff-level skill model | [[staff engineer]] |
 | Vault meta hub | [[general]] |
 
