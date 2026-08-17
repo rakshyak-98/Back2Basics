@@ -5,7 +5,7 @@
 > Triage blank pages, 502s, and bind failures — separate “web server cannot listen,” “FPM socket mismatch,” and “PHP threw inside the worker.”
 
 ```txt
-        PHP errors ──┬── Interview
+        PHP errors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch your first commands: `ss`, service status, socket path ali…
+## Why It Matters
+- **Key signal:** Reviewers watch your first commands: `ss`, service status, socket path ali…
 
 ## Sources
 - [PHP — Error Handling](https://www.php.net/manual/en/book.errorfunc.php) — overview

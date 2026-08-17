@@ -5,7 +5,7 @@
 > PCI and its successor PCIe are the standard local buses for NICs, GPUs, NVMe, and chipset devices — enumerated at boot with vendor/device IDs and BAR memory regions.
 
 ```txt
-        PCI (Peripheral Co ──┬── Interview
+        PCI (Peripheral Co ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Systems / kernel interviews: enumerate devices (`lspci`), explain BARs/MMIO, …
+## Why It Matters
+- **Key signal:** Systems / kernel reviews: enumerate devices (`lspci`), explain BARs/MMIO, …
 
 ## Sources
 - PCI-SIG PCIe base specification — deep-dive

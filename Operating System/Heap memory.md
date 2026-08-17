@@ -5,7 +5,7 @@
 > Heap memory is dynamically allocated process memory — `malloc`, `new`, GC arenas — growing independently of the call stack and subject to fragmentation and OOM policy.
 
 ```txt
-        Heap memory ──┬── Interview
+        Heap memory ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast stack vs heap, ask how allocators get pages from the ke…
+## Why It Matters
+- **Key signal:** Reviewers contrast stack vs heap, ask how allocators get pages from the ke…
 
 ## Sources
 - Wilson et al., “Dynamic Storage Allocation: A Survey and Classification” — deep-dive

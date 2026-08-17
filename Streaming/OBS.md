@@ -5,7 +5,7 @@
 > Desktop capture + encode + publish for live — **default RTMP publisher** for creators and ops smoke tests.
 
 ```txt
-        OBS (Open Broadcas ──┬── Interview
+        OBS (Open Broadcas ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about OBS to see if you understand the pipeline role, failur…
+## Why It Matters
+- **Key signal:** Reviewers ask about OBS to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — OBS](https://en.wikipedia.org/wiki/OBS) — overview

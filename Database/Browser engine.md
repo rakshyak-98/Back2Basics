@@ -5,7 +5,7 @@
 > Not a database topic—this note clarifies the naming collision between **browser rendering engines** (Blink, Gecko, WebKit) and **database storage engines** ([[mysql engine]], [[WiredTiger storage engine]]).
 
 ```txt
-        Browser engine ──┬── Interview
+        Browser engine ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Rare as a standalone question
+## Why It Matters
+- **Key signal:** Rare as a standalone question
 
 ## Sources
 - [MDN Web Docs — Browser engine](https://developer.mozilla.org/en-US/docs/Glossary/Engine) — overview
@@ -47,4 +47,4 @@
 
 
 ### Use cases
-- Onboarding docs and interviews where “switch the engine” could mean Chromium …
+- Onboarding docs and reviews where “switch the engine” could mean Chromium …

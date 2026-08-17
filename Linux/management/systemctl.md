@@ -5,7 +5,7 @@
 > CLI for systemd — start/stop/enable units, inspect state, and reload after unit-file edits.
 
 ```txt
-        systemctl ──┬── Interview
+        systemctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Daily muscle memory: status first, enable ≠ start, daemon-reload after edits,…
+## Why It Matters
+- **Key signal:** Daily muscle memory: status first, enable ≠ start, daemon-reload after edits,…
 
 ## Sources
 - [systemctl(1)](https://www.freedesktop.org/software/systemd/man/latest/systemctl.html) — deep-dive

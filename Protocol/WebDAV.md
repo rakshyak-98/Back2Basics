@@ -5,7 +5,7 @@
 > WebDAV extends HTTP with authoring methods so clients can manage files on a remote server — CalDAV and CardDAV reuse the same MOVE/COPY/PROPFIND primitives.
 
 ```txt
-        WebDAV ──┬── Interview
+        WebDAV ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use WebDAV to check HTTP method literacy beyond GET/POST and to …
+## Why It Matters
+- **Key signal:** Reviewers use WebDAV to check HTTP method literacy beyond GET/POST and to …
 
 ## Sources
 - [RFC 4918 — HTTP Extensions for WebDAV](https://datatracker.ietf.org/doc/html/rfc4918) — deep-dive

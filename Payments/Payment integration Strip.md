@@ -5,7 +5,7 @@
 > *(Stripe Checkout integration.)* The browser asks your API for a Checkout Session, redirects to Stripe’s hosted page, then your server confirms payment via webhook — not the return URL alone.
 
 ```txt
-        Payment integratio ──┬── Interview
+        Payment integratio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the end-to-end Checkout flow: create session server-side, r…
+## Why It Matters
+- **Key signal:** Reviewers want the end-to-end Checkout flow: create session server-side, r…
 
 ## Sources
 - [Stripe — Checkout quickstart](https://docs.stripe.com/checkout/quickstart) — deep-dive

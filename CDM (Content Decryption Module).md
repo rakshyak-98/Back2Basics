@@ -5,7 +5,7 @@
 > CDM decrypts DRM-protected media inside a secure player sandbox — keys never leave the trusted path.
 
 ```txt
-        CDM (Content Decry ──┬── Interview
+        CDM (Content Decry ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want you to separate the browser API ([[EME]]), the license serv…
+## Why It Matters
+- **Key signal:** Reviewers want you to separate the browser API ([[EME]]), the license serv…
 
 ## Sources
 - [W3C Encrypted Media Extensions](https://www.w3.org/TR/encrypted-media/) — deep-dive

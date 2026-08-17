@@ -5,7 +5,7 @@
 > Component whose job is to load remote data and pass it to a view — prefer hooks/query libraries today.
 
 ```txt
-        data fetching comp ──┬── Interview
+        data fetching comp ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [data fetching component docs](https://tanstack.com/query/latest/docs/framework/react/overview) — deep-dive

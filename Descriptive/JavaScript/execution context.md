@@ -5,7 +5,7 @@
 > The environment in which JavaScript runs a chunk of code — variables, `this`, outer scope, and hoisting — **ECMAScript spec + debugger mental model**.
 
 ```txt
-        Execution context ──┬── Interview
+        Execution context ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Execution context interviews cover lexical environments, this binding, and ho…
+## Why It Matters
+- **Key signal:** Execution context reviews cover lexical environments, this binding, and ho…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

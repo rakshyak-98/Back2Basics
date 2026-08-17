@@ -5,7 +5,7 @@
 > `TSxxxx` diagnostics from the type checker — read the first error, fix the root type, and avoid `as any` or blanket `@ts-ignore` band-aids.
 
 ```txt
-        typescript error ──┬── Interview
+        typescript error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch how you debug TypeScript errors: narrow unions, install mi…
+## Why It Matters
+- **Key signal:** Reviewers watch how you debug TypeScript errors: narrow unions, install mi…
 
 ## Sources
 - [TypeScript Handbook — Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html) — deep-dive

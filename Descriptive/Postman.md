@@ -5,7 +5,7 @@
 > API client + collection runner + Newman CLI for CI — design, debug, and regression-test HTTP APIs — **Postman docs + contract testing in pipelines**.
 
 ```txt
-        Postman ──┬── Interview
+        Postman ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Postman interviews are light tooling checks
+## Why It Matters
+- **Key signal:** Postman reviews are light tooling checks
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

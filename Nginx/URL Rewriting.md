@@ -5,7 +5,7 @@
 > Map a pretty public URL to a different internal path or entry point — so deep links and refreshes work when there is no real file per route.
 
 ```txt
-        URL Rewriting ──┬── Interview
+        URL Rewriting ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Product/platform interviews ask why SPAs and frameworks need rewrite/fallback…
+## Why It Matters
+- **Key signal:** Product/platform reviews ask why SPAs and frameworks need rewrite/fallback…
 
 ## Sources
 - [Wikipedia — Rewrite engine](https://en.wikipedia.org/wiki/Rewrite_engine) — overview

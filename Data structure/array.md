@@ -5,7 +5,7 @@
 > An array is a contiguous block of same-size slots — index `i` means `base + i * size` (that’s why zero-based is natural).
 
 ```txt
-        array ──┬── Interview
+        array ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Arrays are the baseline structure
+## Why It Matters
+- **Key signal:** Arrays are the baseline structure
 
 ## Sources
 - [Wikipedia — Array data structure](https://en.wikipedia.org/wiki/Array_(data_structure)) — overview
@@ -25,9 +25,9 @@
 base → [0][1][2]…[n-1]   address(i) = base + i*elem_size
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Contiguous** | Neighbors in memory | “Great cache locality.” |
 | **Zero-based** | First offset is 0 | “No extra subtract in address math.” |

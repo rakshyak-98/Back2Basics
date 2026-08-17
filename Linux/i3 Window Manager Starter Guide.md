@@ -5,7 +5,7 @@
 > i3 is a manual tiling window manager for X11 — keyboard-driven workspaces, splits, and a plain-text config at `~/.config/i3/config`.
 
 ```txt
-        i3 Window Manager  ──┬── Interview
+        i3 Window Manager  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop Linux depth check: tiling vs stacking, how session selection works vi…
+## Why It Matters
+- **Key signal:** Desktop Linux depth check: tiling vs stacking, how session selection works vi…
 
 ## Sources
 - [i3 user guide](https://i3wm.org/docs/userguide.html) — deep-dive

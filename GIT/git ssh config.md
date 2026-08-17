@@ -5,15 +5,15 @@
 > git ssh config — bad owner or permissions on /home/mihir/.ssh/config
 
 ```txt
-        git ssh config ──┬── Interview
+        git ssh config ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** SSH config for Git checks host aliases, keys per host, and debugging permissi…
+## Why It Matters
+- **Key signal:** SSH config for Git checks host aliases, keys per host, and debugging permissi…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

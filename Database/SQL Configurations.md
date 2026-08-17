@@ -5,7 +5,7 @@
 > Server and session parameters that control memory, connections, logging, and durability — misconfiguration often shows up as timeouts or silent data loss after a crash.
 
 ```txt
-        SQL Configurations ──┬── Interview
+        SQL Configurations ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you size buffer pools, cap connections, and choose durab…
+## Why It Matters
+- **Key signal:** Reviewers ask how you size buffer pools, cap connections, and choose durab…
 
 ## Sources
 - [PostgreSQL Documentation — Server Configuration](https://www.postgresql.org/docs/current/runtime-config.html) — deep-dive

@@ -5,7 +5,7 @@
 > Predicted vs actual plot — perfect predictions lie on the diagonal y = x:
 
 ```txt
-        Predicted vs actua ──┬── Interview
+        Predicted vs actua ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Predicted vs actual plot to check whether you can choo…
+## Why It Matters
+- **Key signal:** Reviewers ask about Predicted vs actual plot to check whether you can choo…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

@@ -5,7 +5,7 @@
 > System design is the practice of shaping software so requirements (scale, reliability, cost) are met while keeping boundaries clear enough that implementation can change without rewriting the product.
 
 ```txt
-        System design ──┬── Interview
+        System design ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Clarify requirements, data path, coordination, failure, and operability
+## Why It Matters
+- **Key signal:** Clarify requirements, data path, coordination, failure, and operability
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017) — replication, partitioning, consistency — deep-dive
@@ -24,7 +24,7 @@
 ## Technical Details
 ### What system design is asking
 
-- Whether in an interview or a production review, the same questions recur:
+- Whether in a review or a production review, the same questions recur:
 
 | Question | What a good answer names |
 |----------|--------------------------|
@@ -77,4 +77,4 @@ Single service + single database
 
 
 ### Use cases
-- Interview design problems and production architecture reviews for multi-servi…
+- Review design problems and production architecture reviews for multi-servi…

@@ -5,7 +5,7 @@
 > Node.js Clustering — node cluster uses cluster module (or PM2) to fork multiple Node processes bound to the same port via SO_REUSEPORT / master handoff. Each
 
 ```txt
-        Node.js Clustering ──┬── Interview
+        Node.js Clustering ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js Clustering** to see if you understand what it do…
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js Clustering** to see if you understand what it do…
 
 ## Sources
 - [Node.js — Cluster](https://nodejs.org/api/cluster.html) — deep-dive

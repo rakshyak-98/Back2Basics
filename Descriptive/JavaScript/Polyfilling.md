@@ -5,7 +5,7 @@
 > Polyfilling — transpiling rewrites syntax (class → function). Polyfilling adds missing functions or prototypes at runtime. No syntax change — only implementation.
 
 ```txt
-        Polyfilling ──┬── Interview
+        Polyfilling ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Polyfill interviews cover shipping modern APIs on old runtimes
+## Why It Matters
+- **Key signal:** Polyfill reviews cover shipping modern APIs on old runtimes
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

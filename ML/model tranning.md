@@ -5,7 +5,7 @@
 > Training fits model parameters on labeled data — split, fit, validate, then lock the test set.
 
 ```txt
-        model tranning ──┬── Interview
+        model tranning ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about model tranning to check whether you can choose models/…
+## Why It Matters
+- **Key signal:** Reviewers ask about model tranning to check whether you can choose models/…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** raw → preprocess (fit on train only) → train → validate → test once
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Train/val/test** | Fit / tune / report | “Never tune on test.” |
 | **Overfit** | Memorize train | “Val gap means regularize.” |

@@ -5,7 +5,7 @@
 > CAS controls who can watch scrambled pay-TV — headend encrypts; only entitled STBs get the control word.
 
 ```txt
-        CAS (Conditional A ──┬── Interview
+        CAS (Conditional A ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk CAS end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk CAS end-to-end
 
 ## Sources
 - [Wikipedia — CAS](https://en.wikipedia.org/wiki/CAS) — overview

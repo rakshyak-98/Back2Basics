@@ -5,7 +5,7 @@
 > TOTP — six-digit codes from a shared secret + current time (Authenticator apps); second factor after password.
 
 ```txt
-        TOTP (Time based O ──┬── Interview
+        TOTP (Time based O ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** MFA interviews: shared secret + time step, clock skew windows, and enrollment…
+## Why It Matters
+- **Key signal:** MFA reviews: shared secret + time step, clock skew windows, and enrollment…
 
 ## Sources
 - [RFC 6238 — TOTP](https://www.rfc-editor.org/rfc/rfc6238) — deep-dive

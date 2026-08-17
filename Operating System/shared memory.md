@@ -5,7 +5,7 @@
 > Shared memory maps the same physical pages into multiple processes — zero-copy IPC once mapped, requiring separate synchronization for concurrent access.
 
 ```txt
-        Shared memory ──┬── Interview
+        Shared memory ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** IPC menu: when shm beats pipes, how you sync (mutex/atomics in the region), a…
+## Why It Matters
+- **Key signal:** IPC menu: when shm beats pipes, how you sync (mutex/atomics in the region), a…
 
 ## Sources
 - Stevens, *Advanced Programming in the UNIX Environment* — deep-dive

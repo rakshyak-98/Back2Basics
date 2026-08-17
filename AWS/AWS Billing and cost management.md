@@ -5,13 +5,13 @@
 > AWS bills per service, per second or per request — surprises usually come from data transfer, idle Elastic IPs, unattached EBS volumes, and resources left running in forgotten regions.
 
 ```txt
-        AWS Billing and co ──┬── Interview
+        AWS Billing and co ──┬── Why it matters
                ├── Sources
                └── Mechanism
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AWS Billing and cost management to see whether you can…
+## Why It Matters
+- **Key signal:** Reviewers ask about AWS Billing and cost management to see whether you can…
 
 ## Sources
 - [AWS Billing and Cost Management User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) — overview

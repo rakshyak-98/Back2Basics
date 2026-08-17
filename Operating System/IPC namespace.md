@@ -5,7 +5,7 @@
 > The IPC namespace isolates System V semaphores, message queues, and shared-memory IDs — and POSIX message-queue names — so containers do not collide on key `12345`.
 
 ```txt
-        IPC namespace ──┬── Interview
+        IPC namespace ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Container interviews expect: namespaces isolate *visibility*
+## Why It Matters
+- **Key signal:** Container reviews expect: namespaces isolate *visibility*
 
 ## Sources
 - Linux `ipc_namespaces(7)` manual page — deep-dive

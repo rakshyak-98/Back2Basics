@@ -5,7 +5,7 @@
 > Server-side language runtime — execute scripts via FPM or CLI, load extensions, and tune `php.ini` for web workloads.
 
 ```txt
-        PHP ──┬── Interview
+        PHP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect FPM-behind-Nginx as the modern default, Composer autoload…
+## Why It Matters
+- **Key signal:** Reviewers expect FPM-behind-Nginx as the modern default, Composer autoload…
 
 ## Sources
 - [PHP — Manual](https://www.php.net/manual/en/) — deep-dive

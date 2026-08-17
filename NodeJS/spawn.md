@@ -5,7 +5,7 @@
 > run an external binary with piped stdio — no shell by default; use for ffmpeg, git, openssl, and other CLI tools from Node.
 
 ```txt
-        spawn ──┬── Interview
+        spawn ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **spawn** to see if you understand what it does operationa…
+## Why It Matters
+- **Key signal:** Reviewers probe **spawn** to see if you understand what it does operationa…
 
 ## Sources
 - [Node.js — child_process.spawn](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options) — deep-dive

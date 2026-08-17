@@ -5,7 +5,7 @@
 > combine branch histories with a merge commit (or fast-forward) — preview conflicts before touching shared branches.
 
 ```txt
-        Git Merge ──┬── Interview
+        Git Merge ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git Merge` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git Merge` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

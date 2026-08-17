@@ -5,7 +5,7 @@
 > Stream failures — wrong chunk types, missing `pipeline` callback, and unclean destroy; handle `error` or use `stream/promises`.
 
 ```txt
-        stream error ──┬── Interview
+        stream error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **stream error** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **stream error** to check whether you can explain the mechan…
 
 ## Sources
 - [Node.js — Stream error handling](https://nodejs.org/api/stream.html#error-handling) — deep-dive

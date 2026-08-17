@@ -5,7 +5,7 @@
 > Field shortlist of common Node libs — what each is for and the footguns that show up in prod.
 
 ```txt
-        npm packages ──┬── Interview
+        npm packages ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **npm packages** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **npm packages** to check whether you can explain the mechan…
 
 ## Sources
 - [npm — Packages and modules](https://docs.npmjs.com/about-packages-and-modules) — overview

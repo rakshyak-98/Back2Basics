@@ -5,7 +5,7 @@
 > The CA’s API that ACME clients (Certbot, Caddy, Traefik) call to prove domain control and get certificates.
 
 ```txt
-        ACME server ──┬── Interview
+        ACME server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how automated certificate issuance works end-to-end
+## Why It Matters
+- **Key signal:** Reviewers ask how automated certificate issuance works end-to-end
 
 ## Sources
 - [RFC 8555 — Automatic Certificate Management Environment](https://www.rfc-editor.org/rfc/rfc8555) — deep-dive

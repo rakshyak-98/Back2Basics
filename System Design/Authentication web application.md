@@ -5,7 +5,7 @@
 > Web authentication proves who the user is on each request; authorization decides what they may do — sessions, tokens, and identity providers are transport mechanisms, not substitutes for object-level checks.
 
 ```txt
-        Authentication web ──┬── Interview
+        Authentication web ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 40…
+## Why It Matters
+- **Key signal:** Walk cookie vs token sessions, CSRF for cookie auth, refresh rotation, and 40…
 
 ## Sources
 - [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html) — overview

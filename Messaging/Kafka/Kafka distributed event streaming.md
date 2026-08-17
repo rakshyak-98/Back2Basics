@@ -5,7 +5,7 @@
 > Architectural pattern Kafka enables — many services publish and subscribe to durable event streams instead of calling each other synchronously.
 
 ```txt
-        Kafka distributed  ──┬── Interview
+        Kafka distributed  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask you to contrast event streaming with request/response: decou…
+## Why It Matters
+- **Key signal:** Reviewers ask you to contrast event streaming with request/response: decou…
 
 ## Sources
 - [Apache Kafka — Introduction](https://kafka.apache.org/intro) — overview
@@ -60,7 +60,7 @@ Checkout service --produce--> topic:order.placed
 - **Con:** Requires idempotent consumers and clear event contracts (schema evolution).
 
 ## Comparison
-- vs [[kafka]]: platform/mechanics versus this note’s *pattern* focus — link both in interviews.
+- vs [[kafka]]: platform/mechanics versus this note’s *pattern* focus — link both in reviews.
 - vs synchronous REST: streaming favors throughput and isolation
 - vs [[RabbitMQ]] work queues: streaming keeps history for many subscriber groups
 

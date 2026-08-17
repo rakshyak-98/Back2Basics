@@ -5,7 +5,7 @@
 > Viz checks whether the data and model make sense — plots before metrics, residual plots after fit.
 
 ```txt
-        data visualization ──┬── Interview
+        data visualization ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about data visualization to check whether you can choose mod…
+## Why It Matters
+- **Key signal:** Reviewers ask about data visualization to check whether you can choose mod…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** EDA plots → train → residual / pred-vs-actual → decide next feature
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Histogram / KDE** | Distribution shape | “Skew, outliers, multimodality.” |
 | **Scatter** | Relationship | “Non-linear? clusters?” |

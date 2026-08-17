@@ -5,7 +5,7 @@
 > One publisher → one ingest destination → one encoded bitrate path — **simplest live topology** before ABR and multi-CDN.
 
 ```txt
-        Single Stream ──┬── Interview
+        Single Stream ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Single Stream to see if you understand the pipeline ro…
+## Why It Matters
+- **Key signal:** Reviewers ask about Single Stream to see if you understand the pipeline ro…
 
 ## Sources
 - [Wikipedia — Single Stream](https://en.wikipedia.org/wiki/Single_Stream) — overview

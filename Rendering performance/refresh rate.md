@@ -5,7 +5,7 @@
 > Display cadence in hertz — frames must be ready before vsync or the user sees stutter; 60 Hz ≈ 16.7 ms budget.
 
 ```txt
-        refresh rate ──┬── Interview
+        refresh rate ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Separates “we animate in JS” from real-time budgets: can you do the math for …
+## Why It Matters
+- **Key signal:** Separates “we animate in JS” from real-time budgets: can you do the math for …
 
 ## Sources
 - [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — overview

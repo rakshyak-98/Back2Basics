@@ -5,7 +5,7 @@
 > IP fragmentation splits oversized datagrams — lose one fragment and the entire original packet is discarded.
 
 ```txt
-        Packet Fragment ──┬── Interview
+        Packet Fragment ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about fragmentation to check Path MTU Discovery knowledge, I…
+## Why It Matters
+- **Key signal:** Reviewers ask about fragmentation to check Path MTU Discovery knowledge, I…
 
 ## Sources
 - [RFC 791 — IPv4 (fragmentation)](https://www.rfc-editor.org/rfc/rfc791) — deep-dive

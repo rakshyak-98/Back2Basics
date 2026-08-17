@@ -5,7 +5,7 @@
 > SOCKS is a client-side proxy protocol that tunnels arbitrary TCP (and UDP in v5) through a proxy — useful for debug egress and jump-host paths (RFC 1928).
 
 ```txt
-        SOCKS (Socket Secu ──┬── Interview
+        SOCKS (Socket Secu ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers distinguish SOCKS from HTTP proxies, `socks5` versus `socks5h` D…
+## Why It Matters
+- **Key signal:** Reviewers distinguish SOCKS from HTTP proxies, `socks5` versus `socks5h` D…
 
 ## Sources
 - [RFC 1928 — SOCKS Protocol Version 5](https://datatracker.ietf.org/doc/html/rfc1928) — deep-dive

@@ -5,7 +5,7 @@
 > µWebSockets.js is a high-performance Node WebSocket and HTTP server — lower overhead than Express plus `ws` for realtime fanout, with a different API and no Express middleware drop-in.
 
 ```txt
-        uWebSocket ──┬── Interview
+        uWebSocket ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast “use Express for everything” with specialized servers: …
+## Why It Matters
+- **Key signal:** Reviewers contrast “use Express for everything” with specialized servers: …
 
 ## Sources
 - [uWebSockets.js — GitHub](https://github.com/uNetworking/uWebSockets.js) — deep-dive

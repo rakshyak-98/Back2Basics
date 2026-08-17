@@ -5,7 +5,7 @@
 > Decompose tables so each fact lives once — usually through third normal form (3NF) — eliminating redundant columns and update anomalies.
 
 ```txt
-        SQL normalization ──┬── Interview
+        SQL normalization ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers walk through 1NF→3NF/BCNF on a messy schema and ask when denorma…
+## Why It Matters
+- **Key signal:** Reviewers walk through 1NF→3NF/BCNF on a messy schema and ask when denorma…
 
 ## Sources
 - Codd, E.F., relational model and normalization papers (1970s) — deep-dive

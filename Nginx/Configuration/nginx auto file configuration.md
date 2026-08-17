@@ -5,7 +5,7 @@
 > Deploy scripts (Node, Ansible, Terraform) write vhost files — always `nginx -t`, then install, symlink, and reload so bad templates never take traffic.
 
 ```txt
-        Nginx Automated Co ──┬── Interview
+        Nginx Automated Co ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Platform interviews ask how you ship Nginx config safely: least-privilege sud…
+## Why It Matters
+- **Key signal:** Platform reviews ask how you ship Nginx config safely: least-privilege sud…
 
 ## Sources
 - [nginx.org — Controlling nginx](https://nginx.org/en/docs/control.html) — overview

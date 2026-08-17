@@ -5,7 +5,7 @@
 > Mongoose plugin — a plugin is a function (schema, options) => void registered on a schema before mongoose.model(). Global plugins apply to every schema. Plugins compose
 
 ```txt
-        Mongoose plugin ──┬── Interview
+        Mongoose plugin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Plugin questions cover reusable schema plugins and avoiding global side effec…
+## Why It Matters
+- **Key signal:** Plugin questions cover reusable schema plugins and avoiding global side effec…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive

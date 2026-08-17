@@ -5,7 +5,7 @@
 > Hash-based Message Authentication Code — proves integrity and shared-secret authenticity of a message without encryption.
 
 ```txt
-        HMAC ──┬── Interview
+        HMAC ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Crypto/API interviews: HMAC proves integrity and authenticity with a shared s…
+## Why It Matters
+- **Key signal:** Crypto/API reviews: HMAC proves integrity and authenticity with a shared s…
 
 ## Sources
 - [RFC 2104 — HMAC](https://www.rfc-editor.org/rfc/rfc2104) — deep-dive

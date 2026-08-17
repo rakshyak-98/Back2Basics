@@ -5,7 +5,7 @@
 > A DNS server is software (or a managed service) that answers queries — either authoritatively from zone data or recursively by walking the global tree on behalf of clients.
 
 ```txt
-        DNS server ──┬── Interview
+        DNS server ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check that you pick software by role (authoritative vs recursive…
+## Why It Matters
+- **Key signal:** Reviewers check that you pick software by role (authoritative vs recursive…
 
 ## Sources
 - [RFC 1034 — Name server specification](https://datatracker.ietf.org/doc/html/rfc1034) — deep-dive

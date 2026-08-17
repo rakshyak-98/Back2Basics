@@ -5,7 +5,7 @@
 > CIDR notation (`203.0.113.0/24`) expresses how many bits are the network prefix — mis-sized subnets are the usual cause of "works on VPN, fails on LAN."
 
 ```txt
-        CIDR (Classless In ──┬── Interview
+        CIDR (Classless In ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask CIDR to confirm you can size subnets, read masks, and explai…
+## Why It Matters
+- **Key signal:** Reviewers ask CIDR to confirm you can size subnets, read masks, and explai…
 
 ## Sources
 - [RFC 4632 — Classless Inter-domain Routing (CIDR)](https://www.rfc-editor.org/rfc/rfc4632) — deep-dive

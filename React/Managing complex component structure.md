@@ -5,7 +5,7 @@
 > Keep large UIs navigable — feature folders, composition, and clear ownership instead of one 2k-line component.
 
 ```txt
-        Managing complex c ──┬── Interview
+        Managing complex c ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you structure features, shared UI, and cross-cutting pro…
+## Why It Matters
+- **Key signal:** Reviewers ask how you structure features, shared UI, and cross-cutting pro…
 
 ## Sources
 - [Thinking in React](https://react.dev/learn/thinking-in-react) — overview

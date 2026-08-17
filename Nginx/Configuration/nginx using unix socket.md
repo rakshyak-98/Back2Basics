@@ -5,7 +5,7 @@
 > Same-host upstream over a unix socket — skip TCP loopback for lower latency and no port conflicts; socket permissions must allow Nginx to connect.
 
 ```txt
-        Nginx + Unix Domai ──┬── Interview
+        Nginx + Unix Domai ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Platform interviews ask why unix sockets beat `127.0.0.1`, how to fix 502 per…
+## Why It Matters
+- **Key signal:** Platform reviews ask why unix sockets beat `127.0.0.1`, how to fix 502 per…
 
 ## Sources
 - [nginx.org — proxy_pass (unix)](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) — deep-dive

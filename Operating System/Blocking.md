@@ -5,7 +5,7 @@
 > A blocking call holds the calling thread until the kernel finishes the work — disk, network, lock, or sleep — and that wait usually costs a context switch.
 
 ```txt
-        Blocking ──┬── Interview
+        Blocking ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want you to explain what happens to a thread during a blocking `…
+## Why It Matters
+- **Key signal:** Reviewers want you to explain what happens to a thread during a blocking `…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — file I/O and threads — deep-dive

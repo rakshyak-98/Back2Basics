@@ -5,7 +5,7 @@
 > White-label auth URL — users log in on your branded domain while an external IdP still runs the real authentication behind the scenes.
 
 ```txt
-        white-label auth-u ──┬── Interview
+        white-label auth-u ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** B2B SaaS identity: branded login domains while an external IdP still owns cre…
+## Why It Matters
+- **Key signal:** B2B SaaS identity: branded login domains while an external IdP still owns cre…
 
 ## Sources
 - [OpenID Connect Core — redirect_uri](https://openid.net/specs/openid-connect-core-1_0.html) — deep-dive

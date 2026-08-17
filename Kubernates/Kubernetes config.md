@@ -5,7 +5,7 @@
 > `kubectl` talks to the API server (backed by etcd) using a kubeconfig — contexts pick cluster, user, and default namespace so you read/write the right cluster brain.
 
 ```txt
-        Kubernetes config ──┬── Interview
+        Kubernetes config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how kubeconfig contexts work, that etcd holds desired state,…
+## Why It Matters
+- **Key signal:** Reviewers ask how kubeconfig contexts work, that etcd holds desired state,…
 
 ## Sources
 - [Kubernetes — Organizing Cluster Access Using kubeconfig Files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) — deep-dive

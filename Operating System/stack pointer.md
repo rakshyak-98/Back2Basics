@@ -5,7 +5,7 @@
 > The stack pointer register (RSP on x86-64, SP on ARM) tracks the top of the current thread stack — decremented on call/push, incremented on return/pop.
 
 ```txt
-        Stack pointer ──┬── Interview
+        Stack pointer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** ABI alignment (often 16-byte), how overflows smash return addresses, and read…
+## Why It Matters
+- **Key signal:** ABI alignment (often 16-byte), how overflows smash return addresses, and read…
 
 ## Sources
 - System V AMD64 ABI — stack alignment — deep-dive

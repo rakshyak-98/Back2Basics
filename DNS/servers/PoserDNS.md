@@ -5,7 +5,7 @@
 > PowerDNS Authoritative serves DNS zones from SQL, LDAP, or BIND-style zone files with a modular architecture — the vault filename `PoserDNS` is a historical typo for PowerDNS.
 
 ```txt
-        PoserDNS ──┬── Interview
+        PoserDNS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast DB-backed authoritative DNS with BIND zone files, and w…
+## Why It Matters
+- **Key signal:** Reviewers contrast DB-backed authoritative DNS with BIND zone files, and w…
 
 ## Sources
 - [PowerDNS Authoritative Server documentation](https://doc.powerdns.com/authoritative/) — deep-dive

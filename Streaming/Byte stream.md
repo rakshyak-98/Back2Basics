@@ -5,7 +5,7 @@
 > Byte stream — encoder ──► byte stream (TCP/file) ──► demuxer reads framing
 
 ```txt
-        Byte stream ──┬── Interview
+        Byte stream ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Byte stream to see if you understand the pipeline role…
+## Why It Matters
+- **Key signal:** Reviewers ask about Byte stream to see if you understand the pipeline role…
 
 ## Sources
 - [Wikipedia — Byte stream](https://en.wikipedia.org/wiki/Byte_stream) — overview

@@ -5,7 +5,7 @@
 > Indexes make MongoDB finds fast — without them, every query is a collection scan.
 
 ```txt
-        mognodb indexing ──┬── Interview
+        mognodb indexing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Index interviews check compound key order, ESR rule, covered queries, and whe…
+## Why It Matters
+- **Key signal:** Index reviews check compound key order, ESR rule, covered queries, and whe…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 Query {a:1,b:2} sort {c:1}  →  compound index {a:1,b:1,c:1}
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Single / compound** | One field vs several | “Equality fields first, then sort.” |
 | **ESR** | Equality → Sort → Range | “Order keys that way.” |

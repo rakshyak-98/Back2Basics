@@ -5,15 +5,15 @@
 > Estimator (ML / statistics) — in sklearn, Estimator is the base contract:
 
 ```txt
-        Estimator (ML / st ──┬── Interview
+        Estimator (ML / st ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Estimator (ML / statistics) to check whether you can c…
+## Why It Matters
+- **Key signal:** Reviewers ask about Estimator (ML / statistics) to check whether you can c…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

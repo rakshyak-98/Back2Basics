@@ -5,7 +5,7 @@
 > Predict continuous target as weighted sum of features (+ intercept) — **Hastie ESL**; baseline every tabular regression problem should beat.
 
 ```txt
-        Linear regression ──┬── Interview
+        Linear regression ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Linear regression to check whether you can choose mode…
+## Why It Matters
+- **Key signal:** Reviewers ask about Linear regression to check whether you can choose mode…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

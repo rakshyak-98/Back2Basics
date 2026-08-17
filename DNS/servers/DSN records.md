@@ -5,7 +5,7 @@
 > Email deliverability depends on DNS records beyond MX — SPF, DKIM, and DMARC TXT records tell receiving servers which hosts may send mail for your domain and what to do when authentication fails.
 
 ```txt
-        DSN records ──┬── Interview
+        DSN records ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Mail and platform interviews ask MX preference, single-SPF-record rule, DKIM …
+## Why It Matters
+- **Key signal:** Mail and platform reviews ask MX preference, single-SPF-record rule, DKIM …
 
 ## Sources
 - [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208) — deep-dive

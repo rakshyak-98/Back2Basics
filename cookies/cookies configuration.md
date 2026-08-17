@@ -5,7 +5,7 @@
 > `Set-Cookie` attributes control where a cookie lives, how long, and when the browser attaches it — `Domain`, `Path`, `Expires`/`Max-Age`, `Secure`, `HttpOnly`, `SameSite`.
 
 ```txt
-        Cookies configurat ──┬── Interview
+        Cookies configurat ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Security interviews expect `HttpOnly` + `Secure` + appropriate `SameSite` for…
+## Why It Matters
+- **Key signal:** Security reviews expect `HttpOnly` + `Secure` + appropriate `SameSite` for…
 
 ## Sources
 - [RFC 6265bis drafts / MDN Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) — deep-dive

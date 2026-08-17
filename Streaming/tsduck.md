@@ -5,7 +5,7 @@
 > TSDuck — CLI tools to capture, filter, and rewrite MPEG-TS (join multicast, zap a channel, analyze PIDs).
 
 ```txt
-        tsduck ──┬── Interview
+        tsduck ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk tsduck end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk tsduck end-to-end
 
 ## Sources
 - [Wikipedia — tsduck](https://en.wikipedia.org/wiki/tsduck) — overview

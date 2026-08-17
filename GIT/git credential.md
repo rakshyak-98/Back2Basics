@@ -5,7 +5,7 @@
 > 1. When git runs a command like `git push` it internally calls. — create auth token from GitHub personal access token
 
 ```txt
-        1. When git runs a ──┬── Interview
+        1. When git runs a ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `1
+## Why It Matters
+- **Key signal:** Reviewers use `1
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

@@ -5,7 +5,7 @@
 > Replay your commits on top of a moving base — linear history without merge commits — **Pro Git (Chacon)**; dangerous on shared branches without agreement.
 
 ```txt
-        git rebase ──┬── Interview
+        git rebase ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Rebase interviews check the golden rule (do not rewrite shared history), ours…
+## Why It Matters
+- **Key signal:** Rebase reviews check the golden rule (do not rewrite shared history), ours…
 
 ## Sources
 - [Pro Git — Rewriting History](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History) — deep-dive

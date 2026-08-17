@@ -5,7 +5,7 @@
 > Overview of MySQL storage engines—InnoDB for transactional data, specialized engines for caches and archives; `ENGINE=` clause selects per table.
 
 ```txt
-        MySQL Engines ──┬── Interview
+        MySQL Engines ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** A comparison-style question: name engines, transaction/locking support, and w…
+## Why It Matters
+- **Key signal:** A comparison-style question: name engines, transaction/locking support, and w…
 
 ## Sources
 - [MySQL Reference Manual — Storage Engines](https://dev.mysql.com/doc/refman/en/storage-engines.html) — deep-dive

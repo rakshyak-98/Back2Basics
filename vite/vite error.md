@@ -5,7 +5,7 @@
 > Common Vite CLI failures — especially `Permission denied` on `node_modules/.bin/vite` after bad installs, WSL copies, or lost execute bits.
 
 ```txt
-        Vite error ──┬── Interview
+        Vite error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers like a crisp diagnosis: script path exists but is not executable
+## Why It Matters
+- **Key signal:** Reviewers like a crisp diagnosis: script path exists but is not executable
 
 ## Sources
 - [Vite — Troubleshooting](https://vitejs.dev/guide/troubleshooting.html) — overview

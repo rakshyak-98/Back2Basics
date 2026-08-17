@@ -5,7 +5,7 @@
 > Route handlers are adapters: read `req.query`, `req.params`, and `req.body`, validate, call a service, and map outcomes to HTTP status and JSON.
 
 ```txt
-        express query hand ──┬── Interview
+        express query hand ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers look for thin controllers, input validation, correct status code…
+## Why It Matters
+- **Key signal:** Reviewers look for thin controllers, input validation, correct status code…
 
 ## Sources
 - [Express — Request](https://expressjs.com/en/4x/api.html#req) — deep-dive

@@ -5,7 +5,7 @@
 > Populating databases with initial or test data—reference rows, fixtures, and anonymized production subsets—for development, staging, and automated tests.
 
 ```txt
-        database seeding ──┬── Interview
+        database seeding ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Seeding questions check whether you separate schema migrations from data, kee…
+## Why It Matters
+- **Key signal:** Seeding questions check whether you separate schema migrations from data, kee…
 
 ## Sources
 - [Rails Guides — Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html) — overview

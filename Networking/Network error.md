@@ -5,7 +5,7 @@
 > Network errors happen before or instead of an HTTP response — DNS, TCP, or TLS failed; you never got a status line.
 
 ```txt
-        Network error ──┬── Interview
+        Network error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want a layered mental model: DNS → TCP → TLS → HTTP
+## Why It Matters
+- **Key signal:** Reviewers want a layered mental model: DNS → TCP → TLS → HTTP
 
 ## Sources
 - [Chromium — Network Error Logging / net errors](https://chromium.googlesource.com/chromium/src/+/HEAD/net/base/net_error_list.h) — deep-dive

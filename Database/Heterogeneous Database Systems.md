@@ -5,7 +5,7 @@
 > Federated or multi-engine architectures where different data stores cooperate—often through ETL, linked servers, or middleware—each chosen for a workload shape.
 
 ```txt
-        Heterogeneous Data ──┬── Interview
+        Heterogeneous Data ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Polyglot persistence interviews ask why one store is not enough, how consiste…
+## Why It Matters
+- **Key signal:** Polyglot persistence reviews ask why one store is not enough, how consiste…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 11 — deep-dive

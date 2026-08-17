@@ -5,7 +5,7 @@
 > Package manager commands for Kubernetes — add repos, install/upgrade releases, diff values, and rollback when a chart deploy goes wrong.
 
 ```txt
-        Helm CLI ──┬── Interview
+        Helm CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want release vs chart, `values.yaml` overrides, upgrade/rollback…
+## Why It Matters
+- **Key signal:** Reviewers want release vs chart, `values.yaml` overrides, upgrade/rollback…
 
 ## Sources
 - [Helm — Commands](https://helm.sh/docs/helm/) — deep-dive

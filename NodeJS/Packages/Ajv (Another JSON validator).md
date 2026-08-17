@@ -5,7 +5,7 @@
 > Fast JSON Schema validator — compile a schema once, validate many payloads; get structured errors.
 
 ```txt
-        Ajv (Another JSON  ──┬── Interview
+        Ajv (Another JSON  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Ajv (Another JSON validator)** to check whether you can ex…
+## Why It Matters
+- **Key signal:** Reviewers use **Ajv (Another JSON validator)** to check whether you can ex…
 
 ## Sources
 - [Ajv — JSON Schema validator](https://ajv.js.org/) — deep-dive

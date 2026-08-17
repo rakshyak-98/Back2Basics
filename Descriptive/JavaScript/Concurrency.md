@@ -5,7 +5,7 @@
 > JavaScript concurrency — javaScript runtimes (browser, Node) run user code on one thread. "Concurrency" means the runtime interleaves callbacks while waiting on I/O — not parallel
 
 ```txt
-        JavaScript concurr ──┬── Interview
+        JavaScript concurr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** JS concurrency interviews check event loop vs threads
+## Why It Matters
+- **Key signal:** JS concurrency reviews check event loop vs threads
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

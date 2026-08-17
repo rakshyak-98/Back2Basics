@@ -5,7 +5,7 @@
 > CMAF (Common Media Application Format) — encoder ──► fMP4 chunks (CMAF) ──► origin storage
 
 ```txt
-        CMAF (Common Media ──┬── Interview
+        CMAF (Common Media ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about CMAF to see if you understand the pipeline role, failu…
+## Why It Matters
+- **Key signal:** Reviewers ask about CMAF to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — CMAF](https://en.wikipedia.org/wiki/CMAF) — overview

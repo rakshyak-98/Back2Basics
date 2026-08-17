@@ -5,7 +5,7 @@
 > `systemd-oomd` kills cgroups under memory pressure early — before the global OOM killer picks a blunt victim.
 
 ```txt
-        Linux out of memor ──┬── Interview
+        Linux out of memor ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Distinguish PSI/`systemd-oomd` (scoped, pressure-based) from the classic glob…
+## Why It Matters
+- **Key signal:** Distinguish PSI/`systemd-oomd` (scoped, pressure-based) from the classic glob…
 
 ## Sources
 - [systemd-oomd(8)](https://www.freedesktop.org/software/systemd/man/latest/systemd-oomd.service.html) — deep-dive

@@ -5,7 +5,7 @@
 > MySQL accounts are `user`@`host` pairs with an auth plugin and grants — apply least privilege for apps and humans.
 
 ```txt
-        mysql user ──┬── Interview
+        mysql user ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect create-user + grant examples, plugin differences (`caching_sha2_passwo…
+## Why It Matters
+- **Key signal:** Expect create-user + grant examples, plugin differences (`caching_sha2_passwo…
 
 ## Sources
 - [CREATE USER](https://dev.mysql.com/doc/refman/en/create-user.html) — deep-dive

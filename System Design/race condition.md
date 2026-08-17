@@ -5,7 +5,7 @@
 > A race condition occurs when the outcome depends on the interleaving of concurrent operations on shared mutable state — without synchronization, order is undefined and bugs are intermittent.
 
 ```txt
-        race condition ──┬── Interview
+        race condition ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interleaving hazard; TOCTOU; fixes via atomics/locks/queues
+## Why It Matters
+- **Key signal:** Interleaving hazard; TOCTOU; fixes via atomics/locks/queues
 
 ## Sources
 - Herlihy & Shavit, *The Art of Multiprocessor Programming* — overview

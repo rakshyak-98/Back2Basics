@@ -5,7 +5,7 @@
 > ABR ladder design, CRF vs CBR, and encoder ops for multi-bitrate delivery — **streaming engineering, not generic video wiki**.
 
 ```txt
-        Bitrate streaming ──┬── Interview
+        Bitrate streaming ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Bitrate streaming to see if you understand the pipelin…
+## Why It Matters
+- **Key signal:** Reviewers ask about Bitrate streaming to see if you understand the pipelin…
 
 ## Sources
 - [Wikipedia — bitrate streaming](https://en.wikipedia.org/wiki/bitrate_streaming) — overview

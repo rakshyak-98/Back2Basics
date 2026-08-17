@@ -5,7 +5,7 @@
 > Node’s core style — emit events, run listeners; `http`/`fs`/`stream` already use `EventEmitter` under the hood.
 
 ```txt
-        Node events driven ──┬── Interview
+        Node events driven ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Node events driven** to check whether you can explain the …
+## Why It Matters
+- **Key signal:** Reviewers use **Node events driven** to check whether you can explain the …
 
 ## Sources
 - [Wikipedia — Node events driven](https://en.wikipedia.org/wiki/Node_events_driven) — overview

@@ -5,7 +5,7 @@
 > Open standard — a documented rule set anyone can implement without asking a single vendor for permission.
 
 ```txt
-        open standard ──┬── Interview
+        open standard ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Tests whether you can argue interoperability and lock-in: RFCs, W3C, ISO vs p…
+## Why It Matters
+- **Key signal:** Tests whether you can argue interoperability and lock-in: RFCs, W3C, ISO vs p…
 
 ## Sources
 - [Wikipedia — Open standard](https://en.wikipedia.org/wiki/Open_standard) — overview

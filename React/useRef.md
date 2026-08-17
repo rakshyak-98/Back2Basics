@@ -5,7 +5,7 @@
 > Holds a mutable box that survives renders without re-rendering — DOM nodes or “remember this value.”
 
 ```txt
-        useRef ──┬── Interview
+        useRef ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want Rules of Hooks, dependency arrays, and when a custom hook b…
+## Why It Matters
+- **Key signal:** Reviewers want Rules of Hooks, dependency arrays, and when a custom hook b…
 
 ## Sources
 - [Wikipedia — useRef](https://en.wikipedia.org/wiki/useRef) — overview

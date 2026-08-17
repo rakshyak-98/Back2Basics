@@ -5,7 +5,7 @@
 > IPTV delivers live TV and VOD over an IP network — set-top box or app, not satellite or cable RF.
 
 ```txt
-        IPTV ──┬── Interview
+        IPTV ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk IPTV end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk IPTV end-to-end
 
 ## Sources
 - [Wikipedia — IPTV](https://en.wikipedia.org/wiki/IPTV) — overview

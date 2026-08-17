@@ -5,7 +5,7 @@
 > Ex-mode and Normal-mode operations — edit, search, yank, and repeat without leaving the keyboard.
 
 ```txt
-        vim commands ──┬── Interview
+        vim commands ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Pairing interviews and on-call screens share Vim: can you jump, substitute gl…
+## Why It Matters
+- **Key signal:** Pairing sessions and on-call screens share Vim: can you jump, substitute gl…
 
 ## Sources
 - [Vim help — usr_toc](https://vimhelp.org/usr_toc.txt.html) — overview

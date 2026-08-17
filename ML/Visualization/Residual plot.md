@@ -5,7 +5,7 @@
 > Residual plot — residuals should look like random noise around zero:
 
 ```txt
-        Residual plot ──┬── Interview
+        Residual plot ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Residual plot to check whether you can choose models/m…
+## Why It Matters
+- **Key signal:** Reviewers ask about Residual plot to check whether you can choose models/m…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

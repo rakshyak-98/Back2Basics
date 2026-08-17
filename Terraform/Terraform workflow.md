@@ -5,7 +5,7 @@
 > The core Terraform loop is init → plan → apply (and destroy) — desired HCL plus credentials plus state become cloud API calls and an updated state file.
 
 ```txt
-        Terraform workflow ──┬── Interview
+        Terraform workflow ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe state locking, dependency graphs, lifecycle guards, and wh…
+## Why It Matters
+- **Key signal:** Reviewers probe state locking, dependency graphs, lifecycle guards, and wh…
 
 ## Sources
 - [HashiCorp — Core Terraform workflow](https://developer.hashicorp.com/terraform/intro/core-workflow) — deep-dive

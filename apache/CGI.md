@@ -5,7 +5,7 @@
 > Common Gateway Interface — the web server forks a process per request and talks via environment variables and stdio to generate dynamic responses.
 
 ```txt
-        CGI ──┬── Interview
+        CGI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use CGI to test whether you understand process-per-request cost …
+## Why It Matters
+- **Key signal:** Reviewers use CGI to test whether you understand process-per-request cost …
 
 ## Sources
 - [RFC 3875 — CGI](https://datatracker.ietf.org/doc/html/rfc3875) — deep-dive

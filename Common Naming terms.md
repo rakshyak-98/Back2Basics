@@ -5,7 +5,7 @@
 > Common naming terms — short vocabulary for background workers, agents, and control-plane roles you’ll see in code and ops.
 
 ```txt
-        Common Naming term ──┬── Interview
+        Common Naming term ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Clear naming shows system literacy: daemon vs service vs agent, proxy vs gate…
+## Why It Matters
+- **Key signal:** Clear naming shows system literacy: daemon vs service vs agent, proxy vs gate…
 
 ## Sources
 - [Wikipedia — Daemon (computing)](https://en.wikipedia.org/wiki/Daemon_(computing)) — overview
@@ -43,12 +43,12 @@
 | Controller | Reconcile state (K8s controllers, MVC controllers — different layers) |
 | Worker / task | Execute jobs from a queue |
 
-- Disambiguate in interviews: “Kubernetes Service” ≠ “systemd service” ≠ “micro…
+- Disambiguate in reviews: “Kubernetes Service” ≠ “systemd service” ≠ “micro…
 
 ## Mistakes to Avoid
 - **Mistake:** Using “daemon,” “service,” and “agent” interchangeably in one de…
 - **Mistake:** Naming everything `*Manager` until nothing has a clear boundary
-- **Mistake:** Assuming interviewers share your company’s private naming dialec…
+- **Mistake:** Assuming reviewers share your company’s private naming dialec…
 
 ## Pros/Cons or Trade-offs
 - **Pro:** Shared mental model across teams and diagrams.

@@ -5,7 +5,7 @@
 > Optimized distributed GBDT — histogram splits, regularized leaf weights, sparsity-aware — **Chen & Guestrin**; default for production tabular ML at scale.
 
 ```txt
-        XGBoost ──┬── Interview
+        XGBoost ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about XGBoost to check whether you can choose models/metrics…
+## Why It Matters
+- **Key signal:** Reviewers ask about XGBoost to check whether you can choose models/metrics…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

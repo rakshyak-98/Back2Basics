@@ -5,7 +5,7 @@
 > `go build` compiles a module into a binary — modules replace GOPATH; cross-compile with `GOOS`/`GOARCH`.
 
 ```txt
-        go build ──┬── Interview
+        go build ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Build/module questions check modules vs GOPATH, cross-compile knobs (`GOOS`/`…
+## Why It Matters
+- **Key signal:** Build/module questions check modules vs GOPATH, cross-compile knobs (`GOOS`/`…
 
 ## Sources
 - [Go — Modules reference](https://go.dev/ref/mod) — deep-dive

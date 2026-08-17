@@ -5,7 +5,7 @@
 > Choosing the right buffer size balances latency, memory, and drop behavior — too small causes syscalls or overruns; too large hides backpressure until memory pressure hits.
 
 ```txt
-        Right buffer ──┬── Interview
+        Right buffer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Capacity interviews: how you pick socket/ring sizes, what you measure (drops,…
+## Why It Matters
+- **Key signal:** Capacity reviews: how you pick socket/ring sizes, what you measure (drops,…
 
 ## Sources
 - Stevens, *UNIX Network Programming* — socket buffer tuning — deep-dive

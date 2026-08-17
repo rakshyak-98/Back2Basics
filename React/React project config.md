@@ -5,7 +5,7 @@
 > Tooling knobs — TypeScript, ESLint, path aliases, env files, test runner — that keep a React repo consistent.
 
 ```txt
-        React project conf ──┬── Interview
+        React project conf ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers may ask how you structure env, lint rules (especially hooks), an…
+## Why It Matters
+- **Key signal:** Reviewers may ask how you structure env, lint rules (especially hooks), an…
 
 ## Sources
 - [Vite config](https://vitejs.dev/config/) — deep-dive

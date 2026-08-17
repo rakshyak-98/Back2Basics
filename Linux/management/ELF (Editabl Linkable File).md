@@ -5,7 +5,7 @@
 > Native Linux binary format — executables, shared libraries, and object files share one header/segment model.
 
 ```txt
-        ELF (Executable an ──┬── Interview
+        ELF (Executable an ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect `readelf`/`ldd`, PT_INTERP, NEEDED libs, and why `LD_LIBRARY_PATH` is …
+## Why It Matters
+- **Key signal:** Expect `readelf`/`ldd`, PT_INTERP, NEEDED libs, and why `LD_LIBRARY_PATH` is …
 
 ## Sources
 - [ELF man page — elf(5)](https://man7.org/linux/man-pages/man5/elf.5.html) — deep-dive

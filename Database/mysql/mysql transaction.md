@@ -5,7 +5,7 @@
 > InnoDB transactions group SQL statements under [[ACID]] rules — autocommit wraps each statement unless `START TRANSACTION` opens an explicit unit of work.
 
 ```txt
-        mysql transaction ──┬── Interview
+        mysql transaction ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect isolation default (REPEATABLE READ), durability knobs, and why distrib…
+## Why It Matters
+- **Key signal:** Expect isolation default (REPEATABLE READ), durability knobs, and why distrib…
 
 ## Sources
 - [START TRANSACTION / COMMIT](https://dev.mysql.com/doc/refman/en/commit.html) — overview

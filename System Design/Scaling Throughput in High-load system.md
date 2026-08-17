@@ -5,7 +5,7 @@
 > High-load throughput optimization removes per-request overhead — batching, asynchronous job queues, connection multiplexing, and warm pools — when REST-per-call and connection churn saturate the control plane.
 
 ```txt
-        Scaling Throughput ──┬── Interview
+        Scaling Throughput ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Remove per-request overhead: pooling, batching, caching, async
+## Why It Matters
+- **Key signal:** Remove per-request overhead: pooling, batching, caching, async
 
 ## Sources
 - Google gRPC performance guide — channel reuse, streaming — overview

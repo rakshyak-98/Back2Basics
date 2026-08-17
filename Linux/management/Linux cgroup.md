@@ -5,7 +5,7 @@
 > Control groups — kernel resource accounting and hard limits for CPU, memory, PIDs, and I/O (cgroup v2 unified under `/sys/fs/cgroup`).
 
 ```txt
-        Linux cgroups ──┬── Interview
+        Linux cgroups ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Container/platform staple: v1 vs v2, `memory.max` vs `memory.high`, CPU throt…
+## Why It Matters
+- **Key signal:** Container/platform staple: v1 vs v2, `memory.max` vs `memory.high`, CPU throt…
 
 ## Sources
 - [cgroup-v2 documentation — kernel.org](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html) — deep-dive

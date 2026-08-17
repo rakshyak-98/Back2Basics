@@ -5,7 +5,7 @@
 > `kubectl` is the CLI to the Kubernetes API — read cluster state, apply manifests, and debug failing pods through the apiserver (not by SSHing to nodes first).
 
 ```txt
-        kubectl ──┬── Interview
+        kubectl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch context/namespace discipline, CrashLoop/ImagePull triage, …
+## Why It Matters
+- **Key signal:** Reviewers watch context/namespace discipline, CrashLoop/ImagePull triage, …
 
 ## Sources
 - [Kubernetes — kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) — overview

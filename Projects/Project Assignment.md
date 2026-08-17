@@ -5,7 +5,7 @@
 > Time-boxed engineering exercise — ship a thin vertical slice that matches the brief’s read/write mix, not an overbuilt platform.
 
 ```txt
-        Project assignment ──┬── Interview
+        Project assignment ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hiring loops watch product sense under constraints: prioritize high-frequency…
+## Why It Matters
+- **Key signal:** Hiring loops watch product sense under constraints: prioritize high-frequency…
 
 ## Sources
 - [Wikipedia — Open Graph protocol](https://en.wikipedia.org/wiki/Open_Graph_protocol) — overview
@@ -49,7 +49,7 @@
 
 ## Comparison
 - vs [[online business PRD]]: PRD defines a product; a take-home is a constrained proof.
-- vs system-design interview: take-home expects running code; whiteboard expects trade-offs.
+- vs system-design review: take-home expects running code; whiteboard expects trade-offs.
 
 
 ### Use cases

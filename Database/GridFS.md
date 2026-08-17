@@ -5,7 +5,7 @@
 > MongoDB specification for storing files larger than the 16 MB BSON document limit by chunking binary data across `fs.files` and `fs.chunks` collections.
 
 ```txt
-        GridFS ──┬── Interview
+        GridFS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** GridFS tests whether you know BSON size limits and when object storage beats …
+## Why It Matters
+- **Key signal:** GridFS tests whether you know BSON size limits and when object storage beats …
 
 ## Sources
 - [MongoDB Documentation — GridFS](https://www.mongodb.com/docs/manual/core/gridfs/) — deep-dive

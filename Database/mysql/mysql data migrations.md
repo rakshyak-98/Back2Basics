@@ -5,7 +5,7 @@
 > Moving or transforming data within or between MySQL instances—batch updates, `pt-online-schema-change`, and cutover plans that avoid long table locks.
 
 ```txt
-        mysql data migrati ──┬── Interview
+        mysql data migrati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** MySQL-specific migration interviews focus on online schema change tools (gh-o…
+## Why It Matters
+- **Key signal:** MySQL-specific migration reviews focus on online schema change tools (gh-o…
 
 ## Sources
 - [MySQL Reference Manual — Online DDL](https://dev.mysql.com/doc/refman/en/innodb-online-ddl-operations.html) — deep-dive

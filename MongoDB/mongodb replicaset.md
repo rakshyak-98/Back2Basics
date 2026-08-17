@@ -5,7 +5,7 @@
 > Primary + secondaries + oplog for durability and automatic failover — **MongoDB Manual** (Kleppmann-style distributed ops).
 
 ```txt
-        MongoDB replica se ──┬── Interview
+        MongoDB replica se ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use MongoDB replica set to test MongoDB data modeling and ops ju…
+## Why It Matters
+- **Key signal:** Reviewers use MongoDB replica set to test MongoDB data modeling and ops ju…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive

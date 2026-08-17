@@ -5,7 +5,7 @@
 > Kernel data structure mapping destination CIDR → next hop; longest-prefix match wins — **Kerrisk, Linux Programming Interface**.
 
 ```txt
-        Routing table ──┬── Interview
+        Routing table ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use routing tables to check longest-prefix match, default routes…
+## Why It Matters
+- **Key signal:** Reviewers use routing tables to check longest-prefix match, default routes…
 
 ## Sources
 - [man 8 ip-route](https://man7.org/linux/man-pages/man8/ip-route.8.html) — deep-dive

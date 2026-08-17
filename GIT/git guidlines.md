@@ -5,7 +5,7 @@
 > git guidlines — feat: add new inventory endpoint
 
 ```txt
-        git guidlines ──┬── Interview
+        git guidlines ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Guideline questions check team conventions
+## Why It Matters
+- **Key signal:** Guideline questions check team conventions
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

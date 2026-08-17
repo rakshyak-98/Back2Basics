@@ -5,7 +5,7 @@
 > Practical UEFI — firmware menus, ESP layout, Secure Boot, and CSM fallback that still boots legacy MBR when “UEFI-only” fails.
 
 ```txt
-        UEFI (2) ──┬── Interview
+        UEFI (2) ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops interview gold: mode mismatch (GPT/UEFI vs MBR/legacy), ESP + efibootmgr …
+## Why It Matters
+- **Key signal:** Ops review gold: mode mismatch (GPT/UEFI vs MBR/legacy), ESP + efibootmgr …
 
 ## Sources
 - UEFI Specification 2.10 — Boot Manager, Secure Boot — deep-dive

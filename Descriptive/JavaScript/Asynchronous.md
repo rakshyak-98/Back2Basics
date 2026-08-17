@@ -5,7 +5,7 @@
 > Async JS schedules work for later — callbacks, promises, async/await on the event loop, not OS threads by default.
 
 ```txt
-        Asynchronous ──┬── Interview
+        Asynchronous ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Async interviews cover promises/async-await, microtasks, and error propagatio…
+## Why It Matters
+- **Key signal:** Async reviews cover promises/async-await, microtasks, and error propagatio…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 call stack empty → microtasks → next macrotask (timers, I/O)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Event loop** | Schedules turns | “One turn at a time.” |
 | **Microtask** | Promise jobs | “Run before next render/timer.” |

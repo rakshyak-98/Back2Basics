@@ -5,7 +5,7 @@
 > When the kernel remounts a filesystem read-only, writes stop to limit corruption — usually after I/O errors or journal failure.
 
 ```txt
-        media mount as rea ──┬── Interview
+        media mount as rea ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops emergency path: confirm `ro` in mounts, read `dmesg`, fix the underlying …
+## Why It Matters
+- **Key signal:** Ops emergency path: confirm `ro` in mounts, read `dmesg`, fix the underlying …
 
 ## Sources
 - `man 8 mount` — deep-dive

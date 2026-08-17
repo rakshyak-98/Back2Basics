@@ -5,7 +5,7 @@
 > Encrypt the MySQL wire protocol with TLS — protect credentials and data in transit; required on most cloud-managed instances.
 
 ```txt
-        mysql ssl connecti ──┬── Interview
+        mysql ssl connecti ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Security-minded interviews ask `ssl-mode` levels and why `REQUIRED` without i…
+## Why It Matters
+- **Key signal:** Security-minded reviews ask `ssl-mode` levels and why `REQUIRED` without i…
 
 ## Sources
 - [Encrypted Connections](https://dev.mysql.com/doc/refman/en/using-encrypted-connections.html) — deep-dive

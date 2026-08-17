@@ -5,7 +5,7 @@
 > Churn rate — (attrition) measures how many customers stop paying or actively leave in a time window, expressed as a percentage of the starting cohort. It
 
 ```txt
-        Churn rate ──┬── Interview
+        Churn rate ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Define churn formula, cohort vs blunt rate, and product/ops levers that move …
+## Why It Matters
+- **Key signal:** Define churn formula, cohort vs blunt rate, and product/ops levers that move …
 
 ## Sources
 - [Wikipedia — churn rate](https://en.wikipedia.org/wiki/churn_rate) — overview
@@ -131,7 +131,7 @@ Reactivation rate (win-back campaigns)
 ---
 
 ## Pros/Cons or Trade-offs
-- **Pre-PMF startup** — sample too small; focus qualitative exit interviews.
+- **Pre-PMF startup** — sample too small; focus qualitative exit reviews.
 - **Single metric for eng SLOs**
 - **Blame eng for all churn**
 

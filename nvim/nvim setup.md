@@ -5,7 +5,7 @@
 > Bootstrap config (Lua today) — options, plugin manager, LSP, treesitter, and keymaps so Neovim feels like a modern IDE.
 
 ```txt
-        Neovim setup ──┬── Interview
+        Neovim setup ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** DX discussions: Lua config vs vimscript, LSP client built-in, and keeping a p…
+## Why It Matters
+- **Key signal:** DX discussions: Lua config vs vimscript, LSP client built-in, and keeping a p…
 
 ## Sources
 - [Neovim — Lua guide](https://neovim.io/doc/user/lua-guide.html) — deep-dive

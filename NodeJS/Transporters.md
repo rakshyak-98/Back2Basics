@@ -5,7 +5,7 @@
 > Pluggable send/receive layer — business code calls `send`/`emit`; the transporter owns HTTP, gRPC, MQTT, broker details.
 
 ```txt
-        Transporters ──┬── Interview
+        Transporters ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Transporters** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **Transporters** to check whether you can explain the mechan…
 
 ## Sources
 - [Wikipedia — Transporters](https://en.wikipedia.org/wiki/Transporters) — overview

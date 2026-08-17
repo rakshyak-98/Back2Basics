@@ -5,7 +5,7 @@
 > Map URLs → layouts → screens — prefer **relative routes + route objects** so base path changes don't break — **React Router v6+ docs**.
 
 ```txt
-        React routes ──┬── Interview
+        React routes ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use React routes to test whether you can apply the idea under pr…
+## Why It Matters
+- **Key signal:** Reviewers use React routes to test whether you can apply the idea under pr…
 
 ## Sources
 - [Wikipedia — react routes](https://en.wikipedia.org/wiki/react_routes) — overview

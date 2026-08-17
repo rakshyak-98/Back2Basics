@@ -5,7 +5,7 @@
 > On simple microcontrollers, a Data Direction Register sets each GPIO pin as input or output — the firmware switch that decides who drives the wire.
 
 ```txt
-        Data Direction Reg ──┬── Interview
+        Data Direction Reg ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Embedded / firmware interviews use DDR to check you know GPIO direction, and …
+## Why It Matters
+- **Key signal:** Embedded / firmware reviews use DDR to check you know GPIO direction, and …
 
 ## Sources
 - AVR / ARM Cortex-M vendor reference manuals — GPIO chapters — deep-dive

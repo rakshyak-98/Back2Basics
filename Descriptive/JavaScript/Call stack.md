@@ -5,7 +5,7 @@
 > The call stack tracks nested function frames — push on call, pop on return; overflow when recursion is too deep.
 
 ```txt
-        Call stack ──┬── Interview
+        Call stack ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Call stack questions check frames, stack overflow, and relation to the event …
+## Why It Matters
+- **Key signal:** Call stack questions check frames, stack overflow, and relation to the event …
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -26,9 +26,9 @@ main → a → b → c   then pop c,b,a
 async: stack clears → task/microtask → new stack
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Frame** | One function activation | “Locals + return addr.” |
 | **Stack overflow** | Too deep recursion | “Convert to loop / trampoline.” |

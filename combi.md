@@ -5,7 +5,7 @@
 > Rofi **combi** mode — one fuzzy launcher that merges window switcher, app menu, and run dialog.
 
 ```txt
-        combi ──┬── Interview
+        combi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Rare as a formal interview topic
+## Why It Matters
+- **Key signal:** Rare as a formal review topic
 
 ## Sources
 - [Rofi documentation](https://github.com/davatorium/rofi) — deep-dive

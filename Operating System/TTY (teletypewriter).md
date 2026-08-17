@@ -5,7 +5,7 @@
 > A TTY is the kernel’s terminal abstraction — line discipline, session, and job control — backing consoles, SSH sessions, and pseudo-terminals (pts).
 
 ```txt
-        TTY (teletypewrite ──┬── Interview
+        TTY (teletypewrite ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops/systems questions: PTY master/slave, why `docker run -t` matters, and how…
+## Why It Matters
+- **Key signal:** Ops/systems questions: PTY master/slave, why `docker run -t` matters, and how…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — terminals and sessions — deep-dive

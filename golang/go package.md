@@ -5,7 +5,7 @@
 > Package — one directory of `.go` files compiled together; uppercase identifiers are exported across import boundaries.
 
 ```txt
-        go package ──┬── Interview
+        go package ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Package/visibility questions check uppercase export, one package per director…
+## Why It Matters
+- **Key signal:** Package/visibility questions check uppercase export, one package per director…
 
 ## Sources
 - [How to Write Go Code](https://go.dev/doc/code) — overview

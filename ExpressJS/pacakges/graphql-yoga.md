@@ -5,7 +5,7 @@
 > GraphQL Yoga is a batteries-included GraphQL HTTP server on Envelop plugins — schema plus resolvers, mount on Node or beside Express, with defaults for landing page and error masking.
 
 ```txt
-        graphql-yoga ──┬── Interview
+        graphql-yoga ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast REST and GraphQL: context factories, N+1 queries, query…
+## Why It Matters
+- **Key signal:** Reviewers contrast REST and GraphQL: context factories, N+1 queries, query…
 
 ## Sources
 - [GraphQL Yoga documentation](https://the-guild.dev/graphql/yoga-server/docs) — deep-dive

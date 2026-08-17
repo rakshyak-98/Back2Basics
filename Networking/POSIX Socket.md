@@ -5,7 +5,7 @@
 > POSIX sockets are the portable `socket()`/`bind()`/`connect()` API — a socket is a file descriptor you `read`/`write`/`close`.
 
 ```txt
-        POSIX Socket ──┬── Interview
+        POSIX Socket ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the client/server call sequence, what `bind` does vs `conne…
+## Why It Matters
+- **Key signal:** Reviewers want the client/server call sequence, what `bind` does vs `conne…
 
 ## Sources
 - [IEEE Std 1003.1 — `socket`](https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html) — deep-dive

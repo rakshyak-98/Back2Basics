@@ -5,7 +5,7 @@
 > H3 maps lat/lng to hexagon IDs — bucket nearby points for density, surge, and spatial joins. **Uber**.
 
 ```txt
-        H3 (Hexagonal Hier ──┬── Interview
+        H3 (Hexagonal Hier ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** H3 shows spatial indexing literacy
+## Why It Matters
+- **Key signal:** H3 shows spatial indexing literacy
 
 ## Sources
 - [Uber blog — H3](https://www.uber.com/blog/h3/) — overview
@@ -28,9 +28,9 @@ lat,lng ──► H3 index (res N) ──► aggregate / join / heatmap
                  └─ children (finer)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Cell** | One hexagon bucket | “We count events per cell.” |
 | **Resolution** | Cell size knob | “Higher res = smaller hexes.” |

@@ -5,7 +5,7 @@
 > A context switch saves one thread’s CPU registers and restores another’s — the scheduler tax that shows up as `cs` in vmstat when runnable work outruns clean core capacity.
 
 ```txt
-        Context switching ──┬── Interview
+        Context switching ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explain voluntary vs involuntary switches, process vs thread switch cost (TLB…
+## Why It Matters
+- **Key signal:** Explain voluntary vs involuntary switches, process vs thread switch cost (TLB…
 
 ## Sources
 - Silberschatz, Galvin & Gagne, *Operating System Concepts* — CPU scheduling — deep-dive

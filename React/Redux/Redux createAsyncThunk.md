@@ -5,7 +5,7 @@
 > RTK helper that dispatches pending/fulfilled/rejected actions around an async function.
 
 ```txt
-        Redux createAsyncT ──┬── Interview
+        Redux createAsyncT ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux createAsyncThunk](https://redux-toolkit.js.org/api/createAsyncThunk) — deep-dive

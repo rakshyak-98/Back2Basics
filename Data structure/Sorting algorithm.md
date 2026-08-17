@@ -5,7 +5,7 @@
 > Sorting puts elements in order — pick by stability, memory, and whether data is almost sorted.
 
 ```txt
-        Sorting algorithm ──┬── Interview
+        Sorting algorithm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Sorting interviews check stability, average vs worst case, and when n log n i…
+## Why It Matters
+- **Key signal:** Sorting reviews check stability, average vs worst case, and when n log n i…
 
 ## Sources
 - [Wikipedia — Sorting algorithm](https://en.wikipedia.org/wiki/Sorting_algorithm) — overview
@@ -25,9 +25,9 @@
 input → (compare | count keys) → ordered output
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Stable** | Equal keys keep order | “Needed for multi-key sorts.” |
 | **In-place** | Little extra memory | “Heapsort yes; mergesort usually no.” |
@@ -37,7 +37,7 @@ input → (compare | count keys) → ordered output
 ## Technical Details
 ```js
 arr.sort((a, b) => a - b) // know if stable in your runtime
-// interview classics: merge, quick, heap, counting
+// review classics: merge, quick, heap, counting
 ```
 
 | Knob | Why it matters |

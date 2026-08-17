@@ -5,7 +5,7 @@
 > The X Desktop Group (XDG) publishes freedesktop.org standards — base directories, `.desktop` files, icons, and portals that unify GNOME, KDE, and other desktops.
 
 ```txt
-        X Desktop Group ──┬── Interview
+        X Desktop Group ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Useful for “where does config live?”
+## Why It Matters
+- **Key signal:** Useful for “where does config live?”
 
 ## Sources
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) — deep-dive

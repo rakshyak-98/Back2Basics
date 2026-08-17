@@ -5,7 +5,7 @@
 > The stack that turns application draw requests into pixels — display server, compositor, window manager, and toolkit glue.
 
 ```txt
-        windowing system ──┬── Interview
+        windowing system ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Layer cake question: DRM/KMS → display server → WM/shell → toolkit
+## Why It Matters
+- **Key signal:** Layer cake question: DRM/KMS → display server → WM/shell → toolkit
 
 ## Sources
 - [Freedesktop.org — Desktop](https://www.freedesktop.org/wiki/) — overview

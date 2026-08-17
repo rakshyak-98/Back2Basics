@@ -5,7 +5,7 @@
 > Source-to-source translator — rewrite modern (or alternate) syntax into another high-level dialect older runtimes or different platforms accept.
 
 ```txt
-        Transpiler ──┬── Interview
+        Transpiler ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast transpile vs compile, why Babel/TypeScript exist, and t…
+## Why It Matters
+- **Key signal:** Reviewers contrast transpile vs compile, why Babel/TypeScript exist, and t…
 
 ## Sources
 - [Wikipedia — Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) — overview

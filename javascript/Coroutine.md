@@ -5,7 +5,7 @@
 > Cooperative multi-step function — pause with `yield`/`await` and resume later (generators + async).
 
 ```txt
-        Coroutine ──┬── Interview
+        Coroutine ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Coroutine** to check whether you can explain the mechanism…
+## Why It Matters
+- **Key signal:** Reviewers use **Coroutine** to check whether you can explain the mechanism…
 
 ## Sources
 - [Wikipedia — Coroutine](https://en.wikipedia.org/wiki/Coroutine) — overview

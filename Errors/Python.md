@@ -5,7 +5,7 @@
 > `StaleElementReferenceException` means the WebElement you hold no longer points at a DOM node — the page re-rendered and your reference died.
 
 ```txt
-        Python errors (Sel ──┬── Interview
+        Python errors (Sel ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Automation interviews: explain staleness, re-find elements after DOM updates,…
+## Why It Matters
+- **Key signal:** Automation reviews: explain staleness, re-find elements after DOM updates,…
 
 ## Sources
 - [Selenium — Stale element](https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/#staleelementreferenceexception) — deep-dive

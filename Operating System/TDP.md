@@ -5,7 +5,7 @@
 > TDP (Thermal Design Power) is the heat a cooling solution must handle at sustained load — the thermal envelope that drives throttling and sustainable [[base clock speed]], not a peak-watt number.
 
 ```txt
-        TDP ──┬── Interview
+        TDP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hardware capacity planning: TDP vs turbo, why sustained load throttles, and h…
+## Why It Matters
+- **Key signal:** Hardware capacity planning: TDP vs turbo, why sustained load throttles, and h…
 
 ## Sources
 - Intel product specification — TDP definition — overview

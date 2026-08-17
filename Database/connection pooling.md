@@ -5,7 +5,7 @@
 > Reuse a bounded set of open database sessions across many application threads so burst traffic does not exhaust `max_connections` or pay TCP+TLS handshake per request.
 
 ```txt
-        connection pooling ──┬── Interview
+        connection pooling ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Pooling is a classic ops interview topic: sizing, exhaustion symptoms, statem…
+## Why It Matters
+- **Key signal:** Pooling is a classic ops review topic: sizing, exhaustion symptoms, statem…
 
 ## Sources
 - [PostgreSQL Documentation — Connection Settings](https://www.postgresql.org/docs/current/runtime-config-connection.html) — overview

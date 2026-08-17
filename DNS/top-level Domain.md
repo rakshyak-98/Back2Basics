@@ -5,7 +5,7 @@
 > A top-level domain (TLD) is the rightmost public label in a DNS name (`example.com` → TLD is `com`) — IANA delegates each TLD to a registry that sets registration policy and operates its nameservers.
 
 ```txt
-        top-level Domain ──┬── Interview
+        top-level Domain ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers distinguish registry vs registrar, gTLD vs ccTLD policy, and why…
+## Why It Matters
+- **Key signal:** Reviewers distinguish registry vs registrar, gTLD vs ccTLD policy, and why…
 
 ## Sources
 - [IANA — Top-Level Domains](https://www.iana.org/domains) — overview

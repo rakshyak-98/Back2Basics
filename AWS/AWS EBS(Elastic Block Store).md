@@ -5,14 +5,14 @@
 > EBS is network-attached block storage for EC2 instances — the canonical note is [[EBS (Elastic Block Store)]]; this page covers the same service with emphasis on console naming and attach workflows.
 
 ```txt
-        AWS EBS(Elastic Bl ──┬── Interview
+        AWS EBS(Elastic Bl ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                └── Pitfalls
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about AWS EBS(Elastic Block Store) to see whether you can de…
+## Why It Matters
+- **Key signal:** Reviewers ask about AWS EBS(Elastic Block Store) to see whether you can de…
 
 ## Sources
 - [Amazon EBS User Guide](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html) — overview

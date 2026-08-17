@@ -5,7 +5,7 @@
 > Linux — the kernel plus userland that runs most servers; you control processes, files, networking, and services from the shell.
 
 ```txt
-        Linux ──┬── Interview
+        Linux ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Linux questions probe processes, permissions, networking basics, and how you …
+## Why It Matters
+- **Key signal:** Linux questions probe processes, permissions, networking basics, and how you …
 
 ## Sources
 - [Linux man-pages project](https://www.kernel.org/doc/man-pages/) — deep-dive

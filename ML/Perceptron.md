@@ -5,7 +5,7 @@
 > A perceptron is a tiny linear classifier — weighted sum + threshold; the building block of neural nets.
 
 ```txt
-        Perceptron ──┬── Interview
+        Perceptron ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Perceptron to check whether you can choose models/metr…
+## Why It Matters
+- **Key signal:** Reviewers ask about Perceptron to check whether you can choose models/metr…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -27,9 +27,9 @@ x · w + b  →  activation  →  ŷ
      ↑ update w when wrong (perceptron rule / gradient)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Weights / bias** | Learnable params | “Draw the decision boundary.” |
 | **Linearly separable** | Line/plane splits classes | “XOR needs more layers.” |

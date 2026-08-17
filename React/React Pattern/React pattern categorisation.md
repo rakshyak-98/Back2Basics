@@ -5,7 +5,7 @@
 > Map of React composition patterns — when to reach for hooks, compound components, providers, or legacy HOCs.
 
 ```txt
-        React pattern cate ──┬── Interview
+        React pattern cate ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [React pattern categorisation docs](https://react.dev/learn) — deep-dive

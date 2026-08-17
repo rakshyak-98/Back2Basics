@@ -5,7 +5,7 @@
 > Moving or transforming data and schema between states—includes versioned DDL ([[database migration]]) and one-off data backfills during deploys.
 
 ```txt
-        migration ──┬── Interview
+        migration ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** “Migration” is overloaded—interviewers want you to split schema vs data migra…
+## Why It Matters
+- **Key signal:** “Migration” is overloaded—reviewers want you to split schema vs data migra…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 4 — deep-dive

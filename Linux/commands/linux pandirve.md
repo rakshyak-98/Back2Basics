@@ -5,7 +5,7 @@
 > Removable USB storage shows up as a block device — identify with lsblk, filesystem it, mount it, sync, then unmount before you pull it.
 
 ```txt
-        USB pendrive (remo ──┬── Interview
+        USB pendrive (remo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops hygiene: never guess `/dev/sdX`, prefer by-id paths, FAT32 vs exFAT limit…
+## Why It Matters
+- **Key signal:** Ops hygiene: never guess `/dev/sdX`, prefer by-id paths, FAT32 vs exFAT limit…
 
 ## Sources
 - [lsblk(8)](https://man7.org/linux/man-pages/man8/lsblk.8.html) — overview

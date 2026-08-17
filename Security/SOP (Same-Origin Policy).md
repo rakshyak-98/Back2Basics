@@ -5,7 +5,7 @@
 > Origin Policy) — the browser wall: page JS on one origin cannot read another origin’s responses or DOM.
 
 ```txt
-        SOP (Same-Origin P ──┬── Interview
+        SOP (Same-Origin P ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Browser security foundation: what counts as an origin, what SOP blocks, and h…
+## Why It Matters
+- **Key signal:** Browser security foundation: what counts as an origin, what SOP blocks, and h…
 
 ## Sources
 - [MDN — Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) — overview

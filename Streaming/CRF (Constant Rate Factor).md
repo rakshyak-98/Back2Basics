@@ -5,7 +5,7 @@
 > CRF (Constant Rate Factor) — CRF 18 ──► high quality, large files (archival-ish VoD)
 
 ```txt
-        CRF (Constant Rate ──┬── Interview
+        CRF (Constant Rate ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about CRF to see if you understand the pipeline role, failur…
+## Why It Matters
+- **Key signal:** Reviewers ask about CRF to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — CRF](https://en.wikipedia.org/wiki/CRF) — overview

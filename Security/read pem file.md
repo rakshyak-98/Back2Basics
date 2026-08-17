@@ -5,7 +5,7 @@
 > Inspect PEM-encoded certs, keys, and CSRs with OpenSSL — confirm subject, expiry, SANs, and key type before install or debug TLS.
 
 ```txt
-        Read PEM file ──┬── Interview
+        Read PEM file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops debugging: prove subject, SANs, expiry, and key match before installing a…
+## Why It Matters
+- **Key signal:** Ops debugging: prove subject, SANs, expiry, and key match before installing a…
 
 ## Sources
 - [OpenSSL — x509 command](https://www.openssl.org/docs/manmaster/man1/openssl-x509.html) — deep-dive

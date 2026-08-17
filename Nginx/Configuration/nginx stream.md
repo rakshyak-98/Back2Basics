@@ -5,7 +5,7 @@
 > Layer-4 proxy in the `stream {}` context — forward bytes (TCP/UDP), optional TLS passthrough via SNI preread; no HTTP header parsing.
 
 ```txt
-        Nginx Stream (L4 T ──┬── Interview
+        Nginx Stream (L4 T ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Distinguishes L7 `http {}` reverse proxy from L4 stream proxying
+## Why It Matters
+- **Key signal:** Distinguishes L7 `http {}` reverse proxy from L4 stream proxying
 
 ## Sources
 - [nginx.org — ngx_stream_core_module](https://nginx.org/en/docs/stream/ngx_stream_core_module.html) — deep-dive

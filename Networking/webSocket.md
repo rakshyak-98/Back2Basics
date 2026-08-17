@@ -5,7 +5,7 @@
 > Full-duplex framed messages over a single TCP connection, bootstrapped via HTTP Upgrade — **RFC 6455**.
 
 ```txt
-        WebSocket ──┬── Interview
+        WebSocket ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask WebSocket to see if you know the Upgrade handshake, why prox…
+## Why It Matters
+- **Key signal:** Reviewers ask WebSocket to see if you know the Upgrade handshake, why prox…
 
 ## Sources
 - [RFC 6455 — The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455.html) — deep-dive

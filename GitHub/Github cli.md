@@ -5,7 +5,7 @@
 > Terminal client for GitHub — auth, PRs, issues, secrets, and API calls without clicking through the website.
 
 ```txt
-        GitHub CLI (`gh`) ──┬── Interview
+        GitHub CLI (`gh`) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers look for PR workflow fluency (`create`/`checks`/`merge`), script…
+## Why It Matters
+- **Key signal:** Reviewers look for PR workflow fluency (`create`/`checks`/`merge`), script…
 
 ## Sources
 - [GitHub CLI manual](https://cli.github.com/manual/) — deep-dive

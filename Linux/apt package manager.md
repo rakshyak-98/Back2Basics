@@ -5,7 +5,7 @@
 > APT (Advanced Package Tool) is Debian and Ubuntu's high-level package manager — it resolves dependencies from configured repositories and tracks installed `.deb` state.
 
 ```txt
-        apt package manage ──┬── Interview
+        apt package manage ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core Linux ops signal: can you update indexes, install/hold packages, recover…
+## Why It Matters
+- **Key signal:** Core Linux ops signal: can you update indexes, install/hold packages, recover…
 
 ## Sources
 - [apt(8) man page](https://manpages.debian.org/apt) — deep-dive

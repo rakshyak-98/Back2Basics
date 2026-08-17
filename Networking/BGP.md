@@ -5,7 +5,7 @@
 > Border Gateway Protocol is how autonomous systems exchange reachability on the public internet — outages here are policy and peering problems, not a missing default route on one host.
 
 ```txt
-        BGP ──┬── Interview
+        BGP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff interviews use BGP to test inter-domain thinking: AS paths, eBGP vs iBG…
+## Why It Matters
+- **Key signal:** Staff reviews use BGP to test inter-domain thinking: AS paths, eBGP vs iBG…
 
 ## Sources
 - [RFC 4271 — A Border Gateway Protocol 4 (BGP-4)](https://www.rfc-editor.org/rfc/rfc4271) — deep-dive

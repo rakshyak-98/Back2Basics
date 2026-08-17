@@ -5,7 +5,7 @@
 > Continuous integration controller — pipelines as code, agents run the steps; outages usually come from credentials, disk, or plugin drift.
 
 ```txt
-        Jenkins ──┬── Interview
+        Jenkins ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Jenkins to check whether you separate controller from agents…
+## Why It Matters
+- **Key signal:** Reviewers use Jenkins to check whether you separate controller from agents…
 
 ## Sources
 - [Jenkins User Handbook](https://www.jenkins.io/doc/book/) — deep-dive

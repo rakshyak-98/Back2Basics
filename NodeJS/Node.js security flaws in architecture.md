@@ -5,7 +5,7 @@
 > single-process trust boundary, huge dependency trees, and prototype pollution make Node apps fragile — design assumes hostile input and supply chain from day one.
 
 ```txt
-        Node.js Security — ──┬── Interview
+        Node.js Security — ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js Security
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js Security
 
 ## Sources
 - [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive

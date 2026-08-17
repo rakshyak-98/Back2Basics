@@ -5,7 +5,7 @@
 > An APT sources line tells apt where packages come from — URI, suite, components, and which key verifies them.
 
 ```txt
-        source list file ──┬── Interview
+        source list file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Debian/Ubuntu ops staple: parse a `deb` line, explain `signed-by`, and debug …
+## Why It Matters
+- **Key signal:** Debian/Ubuntu ops staple: parse a `deb` line, explain `signed-by`, and debug …
 
 ## Sources
 - [sources.list(5)](https://manpages.debian.org/sources.list.5) — deep-dive

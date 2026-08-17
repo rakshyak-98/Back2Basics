@@ -5,7 +5,7 @@
 > Go — compiled language with packages, modules (`go.mod`), and `package main` + `func main` as the executable entry.
 
 ```txt
-        go ──┬── Interview
+        go ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect the Go mental model: compiled packages/modules, `package …
+## Why It Matters
+- **Key signal:** Reviewers expect the Go mental model: compiled packages/modules, `package …
 
 ## Sources
 - [Go documentation](https://go.dev/doc/) — overview

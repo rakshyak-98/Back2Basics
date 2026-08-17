@@ -5,7 +5,7 @@
 > Concurrent modification — two writers read-modify-write the same record; last write wins unless you version or lock.
 
 ```txt
-        Concurrent modific ──┬── Interview
+        Concurrent modific ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Optimistic concurrency (`version`/`If-Match`), lost updates, and when to seri…
+## Why It Matters
+- **Key signal:** Optimistic concurrency (`version`/`If-Match`), lost updates, and when to seri…
 
 ## Sources
 - [Wikipedia — Optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) — overview

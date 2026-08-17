@@ -5,7 +5,7 @@
 > Higher-order component that loads data and injects props — legacy pattern largely replaced by hooks and query libraries.
 
 ```txt
-        Data Fetching HOC  ──┬── Interview
+        Data Fetching HOC  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers may show `withUser(Component)` and ask how you’d redo it with ho…
+## Why It Matters
+- **Key signal:** Reviewers may show `withUser(Component)` and ask how you’d redo it with ho…
 
 ## Sources
 - [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive

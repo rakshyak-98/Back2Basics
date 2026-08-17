@@ -5,7 +5,7 @@
 > The runtime environment is everything that executes your program after the kernel starts it — dynamic linker, libc, thread library, GC, and language builtins.
 
 ```txt
-        Runtime Environmen ──┬── Interview
+        Runtime Environmen ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Distinguishes kernel `execve` from user-space runtime (ld.so, JVM, Go runtime)
+## Why It Matters
+- **Key signal:** Distinguishes kernel `execve` from user-space runtime (ld.so, JVM, Go runtime)
 
 ## Sources
 - Levine, *Linkers and Loaders* — deep-dive

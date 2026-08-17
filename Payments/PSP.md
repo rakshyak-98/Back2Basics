@@ -5,7 +5,7 @@
 > A Payment Service Provider (PSP) connects payers and merchants — onboarding, KYC, payment-method acceptance, APIs, and settlement to a bank account.
 
 ```txt
-        PSP (Payment Servi ──┬── Interview
+        PSP (Payment Servi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you pick a PSP (geography, PCI path, payouts, disputes) …
+## Why It Matters
+- **Key signal:** Reviewers ask how you pick a PSP (geography, PCI path, payouts, disputes) …
 
 ## Sources
 - [Wikipedia — Payment service provider](https://en.wikipedia.org/wiki/Payment_service_provider) — overview

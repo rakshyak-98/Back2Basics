@@ -5,7 +5,7 @@
 > Multi-cloud continuous delivery control plane — pipelines, optional image bakes, deploy stages, judgments, and rollback — Netflix-style CD.
 
 ```txt
-        Spinnaker ──┬── Interview
+        Spinnaker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate CI (build artifact) from CD (promote safely): baking, s…
+## Why It Matters
+- **Key signal:** Reviewers separate CI (build artifact) from CD (promote safely): baking, s…
 
 ## Sources
 - [Spinnaker docs](https://spinnaker.io/docs/) — deep-dive

@@ -5,7 +5,7 @@
 > Host-side MCP operations — discover servers, authenticate, list tools/resources/prompts, invoke calls with timeouts, and debug failures.
 
 ```txt
-        MCP Client ──┬── Interview
+        MCP Client ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Platform interviews: client mediates the LLM (model never speaks raw to your …
+## Why It Matters
+- **Key signal:** Platform reviews: client mediates the LLM (model never speaks raw to your …
 
 ## Sources
 - [MCP — Clients](https://modelcontextprotocol.io/docs/concepts/architecture) — deep-dive

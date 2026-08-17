@@ -5,7 +5,7 @@
 > An opcode is the numeric operation code in a machine or bytecode instruction — the CPU or VM decoder reads it and dispatches the right micro-operation.
 
 ```txt
-        Opcode ──┬── Interview
+        Opcode ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** ISA vs bytecode
+## Why It Matters
+- **Key signal:** ISA vs bytecode
 
 ## Sources
 - Intel/AMD ISA manuals — instruction encodings — deep-dive

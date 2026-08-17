@@ -5,7 +5,7 @@
 > Pipe Node readable streams into `res` (and `req` into files/upstreams) — backpressure-aware bytes, not buffering whole files in RAM.
 
 ```txt
-        How to attach stre ──┬── Interview
+        How to attach stre ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk How to attach stream to HTTP handlers…
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk How to attach stream to HTTP handlers…
 
 ## Sources
 - [Wikipedia — How to attach stream to HTTP handlers](https://en.wikipedia.org/wiki/How_to_attach_stream_to_HTTP_handlers) — overview

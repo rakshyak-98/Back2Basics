@@ -5,7 +5,7 @@
 > Collection validators reject bad writes — JSON Schema (or operators) enforced by the server.
 
 ```txt
-        MongoDB query vali ──┬── Interview
+        MongoDB query vali ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Validation interviews check schema validators, validationLevel/action, and mi…
+## Why It Matters
+- **Key signal:** Validation reviews check schema validators, validationLevel/action, and mi…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 write → validator ($jsonSchema) → accept | reject
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **`$jsonSchema`** | Draft-ish schema for BSON | “required, bsonType, pattern…” |
 | **`validationAction`** | error vs warn | “warn while backfilling.” |

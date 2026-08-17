@@ -5,7 +5,7 @@
 > A critical section is a stretch of code that must not run concurrently with other threads touching the same data — mutual exclusion makes those regions safe.
 
 ```txt
-        Critical sections ──┬── Interview
+        Critical sections ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Sync basics: what races look like, keep sections short, lock ordering, and pr…
+## Why It Matters
+- **Key signal:** Sync basics: what races look like, keep sections short, lock ordering, and pr…
 
 ## Sources
 - Herlihy & Shavit, *The Art of Multiprocessor Programming* — deep-dive

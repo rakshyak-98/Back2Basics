@@ -5,7 +5,7 @@
 > How a React app is sliced — routes, features, shared UI, server vs client state, and infrastructure boundaries.
 
 ```txt
-        React Architecture ──┬── Interview
+        React Architecture ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers sketch boxes: routing, features, API client, auth
+## Why It Matters
+- **Key signal:** Reviewers sketch boxes: routing, features, API client, auth
 
 ## Sources
 - [Thinking in React](https://react.dev/learn/thinking-in-react) — overview

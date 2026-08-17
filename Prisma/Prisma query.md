@@ -5,7 +5,7 @@
 > Type-safe database access via the generated client — `findMany`, filters, pagination, and nested `include`/`select` for relations.
 
 ```txt
-        Prisma query ──┬── Interview
+        Prisma query ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers look for N+1 awareness (`include` vs separate queries), `select`…
+## Why It Matters
+- **Key signal:** Reviewers look for N+1 awareness (`include` vs separate queries), `select`…
 
 ## Sources
 - [Prisma — CRUD](https://www.prisma.io/docs/orm/prisma-client/queries/crud) — deep-dive

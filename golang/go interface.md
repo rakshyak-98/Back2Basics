@@ -5,7 +5,7 @@
 > Interface — a method set; any type with those methods satisfies it **implicitly** (no `implements` keyword).
 
 ```txt
-        go interface ──┬── Interview
+        go interface ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interfaces are Go’s polymorphism story
+## Why It Matters
+- **Key signal:** Interfaces are Go’s polymorphism story
 
 ## Sources
 - [Go blog — The Laws of Reflection](https://go.dev/blog/laws-of-reflection) — deep-dive

@@ -5,7 +5,7 @@
 > An index that contains all columns needed by a query—InnoDB can satisfy the query from the index leaf pages alone (`Using index` in EXPLAIN) without touching the clustered table.
 
 ```txt
-        covering index ──┬── Interview
+        covering index ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Covering indexes are a classic optimization interview topic: explain `Using i…
+## Why It Matters
+- **Key signal:** Covering indexes are a classic optimization review topic: explain `Using i…
 
 ## Sources
 - [MySQL Reference Manual — EXPLAIN Extra Information](https://dev.mysql.com/doc/refman/en/explain-output.html) — deep-dive

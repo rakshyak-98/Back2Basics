@@ -5,7 +5,7 @@
 > Supervised learning — you have pairs (xᵢ, yᵢ). The algorithm picks a function class (linear, tree, neural net) and minimizes empirical risk + regularization on training
 
 ```txt
-        Supervised learnin ──┬── Interview
+        Supervised learnin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Supervised learning to check whether you can choose mo…
+## Why It Matters
+- **Key signal:** Reviewers ask about Supervised learning to check whether you can choose mo…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

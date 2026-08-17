@@ -5,7 +5,7 @@
 > Immediately Invoked Function Expression — run a function once at definition time to make a private scope.
 
 ```txt
-        IIFC (IIFE) ──┬── Interview
+        IIFC (IIFE) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **IIFC (IIFE)** to check whether you can explain the mechani…
+## Why It Matters
+- **Key signal:** Reviewers use **IIFC (IIFE)** to check whether you can explain the mechani…
 
 ## Sources
 - [MDN — IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) — deep-dive

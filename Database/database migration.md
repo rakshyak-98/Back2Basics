@@ -5,7 +5,7 @@
 > Versioned, repeatable schema changes applied in order across environments—so production structure matches what the application code expects.
 
 ```txt
-        database migration ──┬── Interview
+        database migration ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Migrations probe zero-downtime thinking: expand/contract, online DDL, and nev…
+## Why It Matters
+- **Key signal:** Migrations probe zero-downtime thinking: expand/contract, online DDL, and nev…
 
 ## Sources
 - [PostgreSQL Documentation — DDL](https://www.postgresql.org/docs/current/ddl.html) — overview

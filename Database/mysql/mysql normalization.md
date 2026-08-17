@@ -5,7 +5,7 @@
 > Applying normal forms in MySQL schema design—separate entities into tables linked by foreign keys so updates do not leave inconsistent duplicates.
 
 ```txt
-        mysql normalizatio ──┬── Interview
+        mysql normalizatio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Normalization questions want 3NF intuition, FK links in MySQL, and deliberate…
+## Why It Matters
+- **Key signal:** Normalization questions want 3NF intuition, FK links in MySQL, and deliberate…
 
 ## Sources
 - Codd normalization principles — deep-dive

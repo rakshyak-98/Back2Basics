@@ -5,7 +5,7 @@
 > Wire device push across Apple Push Notification service and FCM — platform credentials on the server, device tokens from the client, permission UX in the app.
 
 ```txt
-        Push notification  ──┬── Interview
+        Push notification  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate provider credentials (APNs key/cert, FCM service accoun…
+## Why It Matters
+- **Key signal:** Reviewers separate provider credentials (APNs key/cert, FCM service accoun…
 
 ## Sources
 - [Apple — Sending notification requests](https://developer.apple.com/documentation/usernotifications) — overview

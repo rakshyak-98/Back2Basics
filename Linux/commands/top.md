@@ -5,7 +5,7 @@
 > Live process monitor — CPU, RAM, and load, refreshing until you quit.
 
 ```txt
-        top ──┬── Interview
+        top ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort…
+## Why It Matters
+- **Key signal:** Tests load average vs CPU %, iowait (`wa`), RES vs VIRT, and whether you sort…
 
 ## Sources
 - [man top](https://man7.org/linux/man-pages/man1/top.1.html) — deep-dive

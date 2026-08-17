@@ -5,7 +5,7 @@
 > Production React needs error boundaries, env config, observability, auth session handling, and deployable build artifacts — not just components.
 
 ```txt
-        React Application  ──┬── Interview
+        React Application  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers move past todo apps into failure handling, config, and how you k…
+## Why It Matters
+- **Key signal:** Reviewers move past todo apps into failure handling, config, and how you k…
 
 ## Sources
 - [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) — deep-dive

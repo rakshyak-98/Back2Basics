@@ -5,7 +5,7 @@
 > Ingress is traffic in; egress is traffic out — cloud bills and firewalls care most about egress.
 
 ```txt
-        Egress and Ingress ──┬── Interview
+        Egress and Ingress ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask ingress/egress to check cloud networking cost awareness and …
+## Why It Matters
+- **Key signal:** Reviewers ask ingress/egress to check cloud networking cost awareness and …
 
 ## Sources
 - [Wikipedia — Egress and Ingress](https://en.wikipedia.org/wiki/Egress_and_Ingress) — overview
@@ -32,7 +32,7 @@ Internet ── ingress ──► VPC / host
 Internet ◄── egress ─── VPC / host
 ```
 
-| Word | Plain meaning | Interview phrasing |
+| Word | Plain meaning | Review phrasing |
 |------|---------------|-------------------|
 | **Ingress** | Traffic coming in | Security group / NACL allow inbound on 443. |
 | **Egress** | Traffic going out | NAT Gateway + data-transfer cost. |

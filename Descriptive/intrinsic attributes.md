@@ -5,7 +5,7 @@
 > The TypeScript type for props every DOM element accepts in JSX — `className`, `onClick`, `aria-*` — **React typings + accessibility audits**.
 
 ```txt
-        Intrinsic attribut ──┬── Interview
+        Intrinsic attribut ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Intrinsic sizing interviews cover width/height hints to reduce CLS in respons…
+## Why It Matters
+- **Key signal:** Intrinsic sizing reviews cover width/height hints to reduce CLS in respons…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

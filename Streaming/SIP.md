@@ -5,7 +5,7 @@
 > SIP (Session Initiation Protocol) — SIP is text-based signaling (like HTTP) for establishing, modifying, and tearing down media sessions. Actual audio/video flows over RTP/RTCP (usually UDP)
 
 ```txt
-        SIP (Session Initi ──┬── Interview
+        SIP (Session Initi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about SIP to see if you understand the pipeline role, failur…
+## Why It Matters
+- **Key signal:** Reviewers ask about SIP to see if you understand the pipeline role, failur…
 
 ## Sources
 - [Wikipedia — SIP](https://en.wikipedia.org/wiki/SIP) — overview

@@ -5,7 +5,7 @@
 > On-demand vs static — VOD/static files sit on disk/CDN; “on-demand” packaging/transcode happens when requested (or just-in-time), vs pre-packaged assets.
 
 ```txt
-        on-demand vs stati ──┬── Interview
+        on-demand vs stati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** VOD/static CDN vs on-demand generation; cacheability and origin cost.
+## Why It Matters
+- **Key signal:** VOD/static CDN vs on-demand generation; cacheability and origin cost.
 
 ## Sources
 - [Wikipedia — on-demand vs static file](https://en.wikipedia.org/wiki/on-demand_vs_static_file) — overview

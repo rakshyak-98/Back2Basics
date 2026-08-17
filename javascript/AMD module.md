@@ -5,7 +5,7 @@
 > Asynchronous Module Definition — browser modules loaded via `define`/`require` (RequireJS era) before native ESM.
 
 ```txt
-        AMD module ──┬── Interview
+        AMD module ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **AMD module** to check whether you can explain the mechanis…
+## Why It Matters
+- **Key signal:** Reviewers use **AMD module** to check whether you can explain the mechanis…
 
 ## Sources
 - [RequireJS — Why AMD](https://requirejs.org/docs/whyamd.html) — overview

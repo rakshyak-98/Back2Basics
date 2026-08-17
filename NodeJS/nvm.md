@@ -5,7 +5,7 @@
 > nvm (Node Version Manager) — nvm installs Node versions under ~/.nvm/versions/node/ and replaces node/npm on PATH when you nvm use. Shell startup sources nvm.sh to define
 
 ```txt
-        nvm (Node Version  ──┬── Interview
+        nvm (Node Version  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **nvm (Node Version Manager)** to see if you understand wh…
+## Why It Matters
+- **Key signal:** Reviewers probe **nvm (Node Version Manager)** to see if you understand wh…
 
 ## Sources
 - [nvm-sh/nvm](https://github.com/nvm-sh/nvm) — deep-dive

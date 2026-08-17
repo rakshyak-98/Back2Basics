@@ -5,7 +5,7 @@
 > Connect readable → writable — `readable.pipe(writable)` moves chunks and applies backpressure; prefer `pipeline` for errors.
 
 ```txt
-        pipe ──┬── Interview
+        pipe ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **pipe** to check whether you can explain the mechanism in p…
+## Why It Matters
+- **Key signal:** Reviewers use **pipe** to check whether you can explain the mechanism in p…
 
 ## Sources
 - [Node.js — readable.pipe](https://nodejs.org/api/stream.html#readablepipedestination-options) — deep-dive

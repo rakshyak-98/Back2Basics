@@ -5,7 +5,7 @@
 > Server generates barcode images (e.g. with `bwip-js`) and serves them over HTTP so clients display scannable codes without local encoder libraries.
 
 ```txt
-        Bar code generate  ──┬── Interview
+        Bar code generate  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask input validation (symbology + payload), caching, and why gen…
+## Why It Matters
+- **Key signal:** Reviewers ask input validation (symbology + payload), caching, and why gen…
 
 ## Sources
 - [bwip-js documentation](https://github.com/metafloor/bwip-js) — deep-dive

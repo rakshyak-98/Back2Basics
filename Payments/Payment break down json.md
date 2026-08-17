@@ -5,7 +5,7 @@
 > Payment breakdown JSON is the structured price and payment-state payload a booking or checkout API returns — line totals, taxes, add-ons, and flags like SCA required — so the client can show “what you pay” without inven…
 
 ```txt
-        Payment break down ──┬── Interview
+        Payment break down ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you model money in APIs (minor units, currency codes), h…
+## Why It Matters
+- **Key signal:** Reviewers ask how you model money in APIs (minor units, currency codes), h…
 
 ## Sources
 - [ISO 4217 — Currency codes](https://www.iso.org/iso-4217-currency-codes.html) — overview

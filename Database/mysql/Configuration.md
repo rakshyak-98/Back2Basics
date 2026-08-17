@@ -5,7 +5,7 @@
 > MySQL server configuration via `my.cnf` / `my.cnf.d`, `SET PERSIST`, and cloud parameter groups—tune memory, logging, replication, and InnoDB for your hardware.
 
 ```txt
-        Configuration ──┬── Interview
+        Configuration ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Config questions test whether you size `innodb_buffer_pool_size`, enable slow…
+## Why It Matters
+- **Key signal:** Config questions test whether you size `innodb_buffer_pool_size`, enable slow…
 
 ## Sources
 - [MySQL Reference Manual — Server Configuration](https://dev.mysql.com/doc/refman/en/server-configuration.html) — overview

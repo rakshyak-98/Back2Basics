@@ -5,7 +5,7 @@
 > Bash functions are reusable shell blocks in the current session or a sourced file — they share the shell’s environment unless you isolate them.
 
 ```txt
-        Bash functions ──┬── Interview
+        Bash functions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows `local`, return codes, sourcing vs executing, and why `export -f` is ra…
+## Why It Matters
+- **Key signal:** Shows `local`, return codes, sourcing vs executing, and why `export -f` is ra…
 
 ## Sources
 - [Bash Reference — Shell Functions](https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html) — deep-dive

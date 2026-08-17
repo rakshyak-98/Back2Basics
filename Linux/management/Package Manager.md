@@ -5,7 +5,7 @@
 > Installs, upgrades, and removes software with dependency solving — APT/dpkg on Debian/Ubuntu; dnf/zypper/pacman elsewhere.
 
 ```txt
-        Package Manager ──┬── Interview
+        Package Manager ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** APT vs dpkg, policy/pins, holds, and never killing mid-dpkg unpack.
+## Why It Matters
+- **Key signal:** APT vs dpkg, policy/pins, holds, and never killing mid-dpkg unpack.
 
 ## Sources
 - [Debian APT guide](https://www.debian.org/doc/manuals/apt-guide/) — deep-dive

@@ -5,7 +5,7 @@
 > How InnoDB lays out tablespaces, buffer pool pages, redo/undo, and the doublewrite buffer on disk — the physical layer behind [[mysql transaction]] durability.
 
 ```txt
-        MySQL storage ──┬── Interview
+        MySQL storage ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask what `innodb_buffer_pool_size` does, why redo exists beside …
+## Why It Matters
+- **Key signal:** Reviewers ask what `innodb_buffer_pool_size` does, why redo exists beside …
 
 ## Sources
 - [MySQL Reference Manual — InnoDB Disk Layout](https://dev.mysql.com/doc/refman/en/innodb-disk-layout.html) — deep-dive

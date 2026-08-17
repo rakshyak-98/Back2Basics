@@ -5,7 +5,7 @@
 > Socket.IO is a realtime event library with transport fallbacks (WebSocket first, then long-polling) — rooms, reconnect, and named events; not the browser’s native WebSocket API.
 
 ```txt
-        Socket IO ──┬── Interview
+        Socket IO ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask when to use Socket.IO versus raw WebSockets, SSE, or WebRTC,…
+## Why It Matters
+- **Key signal:** Reviewers ask when to use Socket.IO versus raw WebSockets, SSE, or WebRTC,…
 
 ## Sources
 - [Socket.IO — Documentation](https://socket.io/docs/v4/) — deep-dive

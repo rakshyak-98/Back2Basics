@@ -5,7 +5,7 @@
 > Marshalling converts runtime objects to bytes for network, disk, or inter-process communication and unmarshals them on the receiver — the explicit contract where languages, versions, and endianness meet.
 
 ```txt
-        marshalling ──┬── Interview
+        marshalling ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Object↔bytes for RPC/storage
+## Why It Matters
+- **Key signal:** Object↔bytes for RPC/storage
 
 ## Sources
 - Google Protocol Buffers Language Guide — overview

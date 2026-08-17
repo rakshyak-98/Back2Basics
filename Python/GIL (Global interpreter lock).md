@@ -5,7 +5,7 @@
 > Global Interpreter Lock — CPython mutex so only one thread runs Python bytecode at a time in a process.
 
 ```txt
-        GIL (Global interp ──┬── Interview
+        GIL (Global interp ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic Python concurrency question: why `threading` doesn’t speed CPU-bound …
+## Why It Matters
+- **Key signal:** Classic Python concurrency question: why `threading` doesn’t speed CPU-bound …
 
 ## Sources
 - [Python wiki — GlobalInterpreterLock](https://wiki.python.org/moin/GlobalInterpreterLock) — overview

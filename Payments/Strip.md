@@ -5,7 +5,7 @@
 > *(Filename typo for **Stripe**.)* Stripe is a Payment Service Provider API for cards, wallets, subscriptions, and Connect marketplaces — use Checkout or Elements so card data never hits your server.
 
 ```txt
-        Strip ──┬── Interview
+        Strip ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect PaymentIntents, webhook signature verification with the r…
+## Why It Matters
+- **Key signal:** Reviewers expect PaymentIntents, webhook signature verification with the r…
 
 ## Sources
 - [Stripe — Documentation](https://docs.stripe.com/) — deep-dive

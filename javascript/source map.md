@@ -5,7 +5,7 @@
 > Source map — production ships app.js (one line, mangled names). Browser loads optional app.js.map:
 
 ```txt
-        Source map ──┬── Interview
+        Source map ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Source map** to see if you understand what it does opera…
+## Why It Matters
+- **Key signal:** Reviewers probe **Source map** to see if you understand what it does opera…
 
 ## Sources
 - [Source Map specification](https://tc39.es/ecma426/) — deep-dive

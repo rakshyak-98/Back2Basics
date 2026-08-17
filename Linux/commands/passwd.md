@@ -5,7 +5,7 @@
 > Changes or locks the password hash in `/etc/shadow` — PAM decides when that hash is actually checked.
 
 ```txt
-        passwd ──┬── Interview
+        passwd ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want lock vs disable, shadow vs keys, and that `passwd -l` does …
+## Why It Matters
+- **Key signal:** Reviewers want lock vs disable, shadow vs keys, and that `passwd -l` does …
 
 ## Sources
 - [man passwd](https://man7.org/linux/man-pages/man1/passwd.1.html) — deep-dive

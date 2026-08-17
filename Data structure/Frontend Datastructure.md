@@ -5,7 +5,7 @@
 > Maps, sets, rings, and queues FE engineers use daily for UI state, caches, and render performance — not CLRS trivia.
 
 ```txt
-        Frontend Datastruc ──┬── Interview
+        Frontend Datastruc ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Frontend structure choices (Map/Set/ring buffers) show up in UI performance i…
+## Why It Matters
+- **Key signal:** Frontend structure choices (Map/Set/ring buffers) show up in UI performance i…
 
 ## Sources
 - [MDN — Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) — overview

@@ -5,7 +5,7 @@
 > Built-in Vim directory browser (`:Explore`, `:Vex`) — open and manage files without a plugin manager.
 
 ```txt
-        netrw file explore ──┬── Interview
+        netrw file explore ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can navigate a remote host with stock Vim
+## Why It Matters
+- **Key signal:** Shows you can navigate a remote host with stock Vim
 
 ## Sources
 - [Vim help — pi_netrw](https://vimhelp.org/pi_netrw.txt.html) — deep-dive

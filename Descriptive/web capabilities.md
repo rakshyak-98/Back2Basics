@@ -5,7 +5,7 @@
 > Browser **capability APIs** gated by **Permissions Policy** (formerly Feature Policy) + user consent — know what works in iframe, third-party, and locked-down enterprise.
 
 ```txt
-        web capabilities ──┬── Interview
+        web capabilities ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Capability questions check feature detection and progressive enhancement stra…
+## Why It Matters
+- **Key signal:** Capability questions check feature detection and progressive enhancement stra…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

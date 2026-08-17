@@ -5,7 +5,7 @@
 > Server metadata that controls caching, framing, MIME sniffing, and browser security policy — mis-set headers cause stale content or clickjacking.
 
 ```txt
-        HTTP Response Head ──┬── Interview
+        HTTP Response Head ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Web hardening: security and caching headers
+## Why It Matters
+- **Key signal:** Web hardening: security and caching headers
 
 ## Sources
 - [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/) — overview

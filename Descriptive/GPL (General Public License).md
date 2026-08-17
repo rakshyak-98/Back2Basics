@@ -5,15 +5,15 @@
 > Copyleft open-source license — distribute derivatives **only** if you provide corresponding source under the same license; understand v2 vs v3 and linking boundaries before shipping products.
 
 ```txt
-        GPL (GNU General P ──┬── Interview
+        GPL (GNU General P ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** GPL interviews check copyleft obligations
+## Why It Matters
+- **Key signal:** GPL reviews check copyleft obligations
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

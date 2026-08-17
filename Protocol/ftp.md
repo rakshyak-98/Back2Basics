@@ -5,7 +5,7 @@
 > FTP transfers files over TCP with separate control (21) and data channels — NAT and firewalls make passive mode common, and SFTP/HTTPS replace FTP for most new designs.
 
 ```txt
-        ftp ──┬── Interview
+        ftp ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test active versus passive mode, FTPS versus SFTP (not the same)…
+## Why It Matters
+- **Key signal:** Reviewers test active versus passive mode, FTPS versus SFTP (not the same)…
 
 ## Sources
 - [RFC 959 — FTP](https://datatracker.ietf.org/doc/html/rfc959) — deep-dive

@@ -5,7 +5,7 @@
 > Accounts, groups, passwords, and sudo policy — the identity layer every multi-user Linux host depends on.
 
 ```txt
-        user management ──┬── Interview
+        user management ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect passwd vs shadow, `-aG` append, lock vs delete, PAM/NSS/`getent`, and …
+## Why It Matters
+- **Key signal:** Expect passwd vs shadow, `-aG` append, lock vs delete, PAM/NSS/`getent`, and …
 
 ## Sources
 - `man 5 passwd`, `man 5 shadow`, `man 8 useradd` — deep-dive

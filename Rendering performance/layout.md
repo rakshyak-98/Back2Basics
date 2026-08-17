@@ -5,7 +5,7 @@
 > Browser geometry pass (reflow) — compute sizes and positions after style, before paint.
 
 ```txt
-        layout ──┬── Interview
+        layout ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff frontend interviews probe layout thrashing (`offsetWidth` read/write lo…
+## Why It Matters
+- **Key signal:** Staff frontend reviews probe layout thrashing (`offsetWidth` read/write lo…
 
 ## Sources
 - [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — deep-dive

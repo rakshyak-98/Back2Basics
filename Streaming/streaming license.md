@@ -5,7 +5,7 @@
 > A streaming license token proves the player may fetch decryption keys — not the same as the CPIX packaging key token.
 
 ```txt
-        streaming license ──┬── Interview
+        streaming license ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk streaming license end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk streaming license end-to-end
 
 ## Sources
 - [Wikipedia — streaming license](https://en.wikipedia.org/wiki/streaming_license) — overview

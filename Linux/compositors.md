@@ -5,7 +5,7 @@
 > A compositor composites window buffers into the final screen image — required for transparency, animations, and many modern desktop effects.
 
 ```txt
-        compositors ──┬── Interview
+        compositors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Separates people who treat “Wayland compositor” as a buzzword from those who …
+## Why It Matters
+- **Key signal:** Separates people who treat “Wayland compositor” as a buzzword from those who …
 
 ## Sources
 - [Wayland protocol — compositor role](https://wayland.freedesktop.org/) — overview

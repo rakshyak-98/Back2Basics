@@ -5,7 +5,7 @@
 > Everyday find/aggregate patterns in mongosh — filter, project, sort, explain.
 
 ```txt
-        mongosh query ──┬── Interview
+        mongosh query ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Query interviews probe filters, projections, and explain plans
+## Why It Matters
+- **Key signal:** Query reviews probe filters, projections, and explain plans
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 filter → project → sort → limit   (+ index)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Filter** | `$eq` / `$in` / ranges | “Equality first for indexes.” |
 | **Projection** | Fields returned | “Cut payload.” |

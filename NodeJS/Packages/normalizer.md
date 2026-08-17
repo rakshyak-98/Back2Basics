@@ -5,7 +5,7 @@
 > flatten nested API JSON into `{ entities, result }` by schema — dedupe by id; pairs with Redux but works standalone.
 
 ```txt
-        normalizr ──┬── Interview
+        normalizr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **normalizr** to see if you understand what it does operat…
+## Why It Matters
+- **Key signal:** Reviewers probe **normalizr** to see if you understand what it does operat…
 
 ## Sources
 - [Wikipedia — normalizer](https://en.wikipedia.org/wiki/normalizer) — overview

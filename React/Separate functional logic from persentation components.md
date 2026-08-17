@@ -5,7 +5,7 @@
 > Split hooks/data logic from JSX-only views — test and reuse behavior without caring about markup.
 
 ```txt
-        Separate functiona ──┬── Interview
+        Separate functiona ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you separate container/logic from presentational UI and …
+## Why It Matters
+- **Key signal:** Reviewers ask how you separate container/logic from presentational UI and …
 
 ## Sources
 - [React — Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) — deep-dive

@@ -5,7 +5,7 @@
 > Adapter wraps an incompatible interface so existing code can call it as if it were the expected type — classic fix for third-party APIs that do not match your domain model.
 
 ```txt
-        Adapter ──┬── Interview
+        Adapter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Adapter questions check whether you retrofit incompatible APIs without leakin…
+## Why It Matters
+- **Key signal:** Adapter questions check whether you retrofit incompatible APIs without leakin…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Adapter) — deep-dive

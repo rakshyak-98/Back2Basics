@@ -5,7 +5,7 @@
 > Goroutine — lightweight concurrent function the Go runtime schedules onto OS threads (`go f()`).
 
 ```txt
-        go-routines ──┬── Interview
+        go-routines ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Goroutines + scheduler questions separate “cheap threads” myths from M:N sche…
+## Why It Matters
+- **Key signal:** Goroutines + scheduler questions separate “cheap threads” myths from M:N sche…
 
 ## Sources
 - [Go blog — Concurrency is not parallelism](https://go.dev/blog/concurrency-is-not-parallelism) — overview

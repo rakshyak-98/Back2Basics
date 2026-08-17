@@ -5,7 +5,7 @@
 > Git patch files — feature branch commits ──format-patch──► 0001-fix.patch, 0002-feat.patch
 
 ```txt
-        Git patch files ──┬── Interview
+        Git patch files ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git patch files` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git patch files` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

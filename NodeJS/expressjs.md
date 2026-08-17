@@ -5,7 +5,7 @@
 > Minimal HTTP framework on Node’s `http` — routers and middleware; concurrency is still the single-threaded event loop.
 
 ```txt
-        expressjs ──┬── Interview
+        expressjs ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **expressjs** to check whether you can explain the mechanism…
+## Why It Matters
+- **Key signal:** Reviewers use **expressjs** to check whether you can explain the mechanism…
 
 ## Sources
 - [Express — API reference](https://expressjs.com/en/4x/api.html) — deep-dive

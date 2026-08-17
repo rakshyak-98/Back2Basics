@@ -1,11 +1,11 @@
 [[mognodb indexing]] [[Database]] [[SQL/postgres]] [[Data structure/Data structure]] [[ISAM]] [[GIN]]
 
-# interview
+# Database indexing map
 
-> Interview indexing notes — functional dependency and the index types you’ll be asked to compare under pressure.
+> Database indexing notes — functional dependency and index types compared under pressure.
 
 ```txt
-        interview ──┬── Interview
+        Database indexing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Database interviews almost always hit indexes: what they speed up, what they …
+## Why It Matters
+- **Key signal:** Database reviews almost always hit indexes: what they speed up, what they …
 
 ## Sources
 - [PostgreSQL — Indexes](https://www.postgresql.org/docs/current/indexes.html) — deep-dive

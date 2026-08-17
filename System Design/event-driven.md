@@ -5,7 +5,7 @@
 > Event-driven architecture publishes facts ("OrderPlaced", "UserRegistered") to a durable log or bus so downstream services react asynchronously — decoupling deploy and scale at the cost of eventual consistency and opera…
 
 ```txt
-        event-driven ──┬── Interview
+        event-driven ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Events as facts
+## Why It Matters
+- **Key signal:** Events as facts
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — logs, streams, and processing — deep-dive

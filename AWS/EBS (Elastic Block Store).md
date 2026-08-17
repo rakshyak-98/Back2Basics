@@ -5,14 +5,14 @@
 > EBS provides network-attached block volumes for EC2 — durable, snapshot-backed disks you attach to one instance at a time (except Multi-Attach on io2).
 
 ```txt
-        EBS (Elastic Block ──┬── Interview
+        EBS (Elastic Block ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** EBS interviews probe volume types, IOPS, snapshots, and AZ attachment constra…
+## Why It Matters
+- **Key signal:** EBS reviews probe volume types, IOPS, snapshots, and AZ attachment constra…
 
 ## Sources
 - [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) — overview

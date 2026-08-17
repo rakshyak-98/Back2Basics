@@ -5,7 +5,7 @@
 > Parent and children components share implicit state (often Context) for a flexible API.
 
 ```txt
-        Compound Component ──┬── Interview
+        Compound Component ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Compound Components docs](https://react.dev/learn/passing-data-deeply-with-context) — deep-dive

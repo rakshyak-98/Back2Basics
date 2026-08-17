@@ -5,7 +5,7 @@
 > Modular arithmetic is math on remainders — wrap indices, hash, and contest math under a modulus.
 
 ```txt
-        dsa modular arithm ──┬── Interview
+        dsa modular arithm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Modular arithmetic appears in hashing, wraparound indices, and contest math
+## Why It Matters
+- **Key signal:** Modular arithmetic appears in hashing, wraparound indices, and contest math
 
 ## Sources
 - [Wikipedia — Modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic) — overview
@@ -25,9 +25,9 @@
 (a + b) mod m = ((a mod m) + (b mod m)) mod m
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **mod** | Remainder | “Clock math.” |
 | **Congruent** | Same remainder | `a ≡ b (mod m)` |

@@ -5,7 +5,7 @@
 > Define name, initial state, reducers — RTK generates action creators and case reducers with Immer.
 
 ```txt
-        Redux createSlice ──┬── Interview
+        Redux createSlice ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux createSlice](https://redux-toolkit.js.org/api/createSlice) — deep-dive

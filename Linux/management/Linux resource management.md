@@ -5,7 +5,7 @@
 > Caps CPU, memory, I/O, and PIDs so one tenant cannot sink the host — niceness is soft; cgroups are hard.
 
 ```txt
-        Linux resource man ──┬── Interview
+        Linux resource man ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Soft vs hard controls: nice/ionice vs `MemoryMax`/`CPUQuota`, plus PSI as ear…
+## Why It Matters
+- **Key signal:** Soft vs hard controls: nice/ionice vs `MemoryMax`/`CPUQuota`, plus PSI as ear…
 
 ## Sources
 - [cgroup-v2 documentation](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html) — deep-dive

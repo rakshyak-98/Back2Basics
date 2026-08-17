@@ -5,7 +5,7 @@
 > Never mutate state trees in place — new references signal change; Immer writes drafts in RTK.
 
 ```txt
-        Immutability in Re ──┬── Interview
+        Immutability in Re ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Immutability in Redux](https://redux.js.org/understanding/thinking-in-redux/three-principles) — deep-dive

@@ -5,7 +5,7 @@
 > Out-of-band exchange of SDP + ICE candidates — no media on signaling; required before the peer connection.
 
 ```txt
-        WebRTC Signaling c ──┬── Interview
+        WebRTC Signaling c ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about WebRTC Signaling channels to see if you understand the…
+## Why It Matters
+- **Key signal:** Reviewers ask about WebRTC Signaling channels to see if you understand the…
 
 ## Sources
 - [Wikipedia — WebRTC Signaling channels](https://en.wikipedia.org/wiki/WebRTC_Signaling_channels) — overview

@@ -5,7 +5,7 @@
 > Multicast — one sender to many interested receivers; only hosts that joined the group get the traffic.
 
 ```txt
-        Multicast ──┬── Interview
+        Multicast ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Networking interviews contrast unicast / broadcast / multicast, IGMP on the L…
+## Why It Matters
+- **Key signal:** Networking reviews contrast unicast / broadcast / multicast, IGMP on the L…
 
 ## Sources
 - [Wikipedia — Multicast](https://en.wikipedia.org/wiki/Multicast) — overview

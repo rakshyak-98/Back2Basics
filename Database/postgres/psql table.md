@@ -5,7 +5,7 @@
 > Create and inspect PostgreSQL tables — types, constraints, indexes (including [[GIN]]), partitions, and `\d` introspection.
 
 ```txt
-        psql table ──┬── Interview
+        psql table ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Schema design in Postgres: `TIMESTAMPTZ`, `JSONB`+GIN, identity/serial keys, …
+## Why It Matters
+- **Key signal:** Schema design in Postgres: `TIMESTAMPTZ`, `JSONB`+GIN, identity/serial keys, …
 
 ## Sources
 - [CREATE TABLE](https://www.postgresql.org/docs/current/sql-createtable.html) — deep-dive

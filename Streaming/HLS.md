@@ -5,7 +5,7 @@
 > HLS cuts video into short HTTP files and a playlist — the player fetches the next chunk over plain HTTPS.
 
 ```txt
-        HLS (HTTP Live Str ──┬── Interview
+        HLS (HTTP Live Str ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk HLS end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk HLS end-to-end
 
 ## Sources
 - [Wikipedia — HLS](https://en.wikipedia.org/wiki/HLS) — overview

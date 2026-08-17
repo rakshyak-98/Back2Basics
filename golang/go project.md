@@ -5,7 +5,7 @@
 > Go practice projects — climb CLI → HTTP/SQL → concurrency → distributed; each has a clear scope and test bar.
 
 ```txt
-        go project ──┬── Interview
+        go project ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Project ladders show deliberate practice
+## Why It Matters
+- **Key signal:** Project ladders show deliberate practice
 
 ## Sources
 - [Go project layout conventions (community)](https://github.com/golang-standards/project-layout) — overview

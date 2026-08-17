@@ -5,7 +5,7 @@
 > tiled, multi-resolution, and predictive loading system — full image 16k×16k — never ship whole file to client
 
 ```txt
-        tiled, multi-resol ──┬── Interview
+        tiled, multi-resol ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about tiled, multi-resolution, and predictive loading system…
+## Why It Matters
+- **Key signal:** Reviewers ask about tiled, multi-resolution, and predictive loading system…
 
 ## Sources
 - [Wikipedia — tiled, multi-resolution, and predictive loading system](https://en.wikipedia.org/wiki/tiled%2C_multi-resolution%2C_and_predictive_loading_system) — overview

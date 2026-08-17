@@ -5,7 +5,7 @@
 > BSD-origin API (`socket`, `bind`, `listen`, `connect`, `send`, `recv`) — the POSIX façade for Internet and Unix domain communication.
 
 ```txt
-        Berkeley sockets ──┬── Interview
+        Berkeley sockets ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to walk a TCP server path (`socket` → `bind` → `liste…
+## Why It Matters
+- **Key signal:** Reviewers expect you to walk a TCP server path (`socket` → `bind` → `liste…
 
 ## Sources
 - [Wikipedia — Berkeley sockets](https://en.wikipedia.org/wiki/Berkeley_sockets) — overview

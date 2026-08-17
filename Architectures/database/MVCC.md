@@ -5,7 +5,7 @@
 > MVCC (Multi-Version Concurrency Control) keeps old row versions so readers see a snapshot — reads don’t block writers.
 
 ```txt
-        MVCC ──┬── Interview
+        MVCC ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** MVCC is the Postgres/InnoDB concurrency story
+## Why It Matters
+- **Key signal:** MVCC is the Postgres/InnoDB concurrency story
 
 ## Sources
 - [PostgreSQL — Concurrency Control](https://www.postgresql.org/docs/current/mvcc.html) — deep-dive
@@ -27,9 +27,9 @@ Reader with older snapshot  →  still sees previous version
 VACUUM / purge  →  removes versions no one can see
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Snapshot** | Which versions this txn may see | “My read sees data committed before my snapshot.” |
 | **xmin / xmax** | Postgres hidden create/delete tx ids | “xmax marks a row version dead for new readers.” |

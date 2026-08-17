@@ -5,7 +5,7 @@
 > A task is I/O-bound when it spends most of its time waiting on disk, network, or locks — not executing instructions; thread and hardware sizing differ completely from CPU-bound work.
 
 ```txt
-        CPU IO Bound Task ──┬── Interview
+        CPU IO Bound Task ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you size a thread pool and whether adding cores helps
+## Why It Matters
+- **Key signal:** Reviewers ask how you size a thread pool and whether adding cores helps
 
 ## Sources
 - Google SRE Book — capacity planning — overview

@@ -5,7 +5,7 @@
 > JSON settings for the Zed editor — user defaults plus optional project `.zed/settings.json`; language servers and edit predictions are separate systems.
 
 ```txt
-        Zed config ──┬── Interview
+        Zed config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers (tooling/DX) care that you do not confuse LSP popup completions …
+## Why It Matters
+- **Key signal:** Reviewers (tooling/DX) care that you do not confuse LSP popup completions …
 
 ## Sources
 - [Zed — Configuring Zed](https://zed.dev/docs/configuring-zed) — deep-dive

@@ -5,7 +5,7 @@
 > Points a systemd unit at `/dev/null` so it cannot start — stronger than disable for services that keep coming back.
 
 ```txt
-        Service masking ──┬── Interview
+        Service masking ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic systemd trap: disable vs mask, mask sockets too, and never mask sshd/…
+## Why It Matters
+- **Key signal:** Classic systemd trap: disable vs mask, mask sockets too, and never mask sshd/…
 
 ## Sources
 - [systemd.unit(5) — mask](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive

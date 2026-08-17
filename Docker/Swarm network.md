@@ -5,7 +5,7 @@
 > Docker Swarm overlay networking — a multi-host virtual network so Swarm services reach each other by name across nodes (not BitTorrent or Ethereum “swarm”).
 
 ```txt
-        Swarm network ──┬── Interview
+        Swarm network ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Swarm networking to check overlay versus bridge, routing mes…
+## Why It Matters
+- **Key signal:** Reviewers use Swarm networking to check overlay versus bridge, routing mes…
 
 ## Sources
 - [Docker — Swarm networking](https://docs.docker.com/engine/swarm/networking/) — deep-dive

@@ -5,7 +5,7 @@
 > Node.js `file` module patterns — node has no separate file package — file I/O lives in node:fs. Three API surfaces:
 
 ```txt
-        Node.js `file` mod ──┬── Interview
+        Node.js `file` mod ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js `file` module patterns** to see if you understan…
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js `file` module patterns** to see if you understan…
 
 ## Sources
 - [Wikipedia — file](https://en.wikipedia.org/wiki/file) — overview

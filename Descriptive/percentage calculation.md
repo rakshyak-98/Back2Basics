@@ -5,7 +5,7 @@
 > Mental math and code patterns for `%` of a value, change, and reverse-percent — **on-call sizing + discount math without a calculator**.
 
 ```txt
-        Percentage calcula ──┬── Interview
+        Percentage calcula ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Percentage CSS/layout interviews check containing block rules
+## Why It Matters
+- **Key signal:** Percentage CSS/layout reviews check containing block rules
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

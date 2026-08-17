@@ -5,7 +5,7 @@
 > Tailwind CSS is a utility-first framework — you compose designs from constrained class names, and the build step emits only the utilities your source files use.
 
 ```txt
-        Tailwind CSS ──┬── Interview
+        Tailwind CSS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Tailwind to probe purge/content scanning, why dynamic …
+## Why It Matters
+- **Key signal:** Reviewers ask about Tailwind to probe purge/content scanning, why dynamic …
 
 ## Sources
 - [Tailwind CSS Docs](https://tailwindcss.com/docs) — overview

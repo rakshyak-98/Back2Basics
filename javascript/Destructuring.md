@@ -5,7 +5,7 @@
 > Unpack values from arrays/objects into bindings — shorter than manual indexing; defaults and rest supported.
 
 ```txt
-        Destructuring ──┬── Interview
+        Destructuring ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Destructuring** to check whether you can explain the mecha…
+## Why It Matters
+- **Key signal:** Reviewers use **Destructuring** to check whether you can explain the mecha…
 
 ## Sources
 - [MDN — Destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring) — deep-dive

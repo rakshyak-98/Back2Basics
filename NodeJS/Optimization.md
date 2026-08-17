@@ -5,7 +5,7 @@
 > Make Node faster and safer under load — find the bottleneck first (CPU, I/O, GC), then cache, cluster, or compress.
 
 ```txt
-        Optimization ──┬── Interview
+        Optimization ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Optimization** to check whether you can explain the mechan…
+## Why It Matters
+- **Key signal:** Reviewers use **Optimization** to check whether you can explain the mechan…
 
 ## Sources
 - [Node.js — Diagnostics / profiling](https://nodejs.org/en/learn/diagnostics/) — overview

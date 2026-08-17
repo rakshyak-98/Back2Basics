@@ -5,7 +5,7 @@
 > Apple’s Pkl (pronounced “pickle”) is a typed configuration language — evaluate overlays per environment and emit JSON/YAML instead of maintaining a pile of untyped `.env` files.
 
 ```txt
-        Pkl environment va ──┬── Interview
+        Pkl environment va ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers care less about Pkl trivia and more about whether you keep confi…
+## Why It Matters
+- **Key signal:** Reviewers care less about Pkl trivia and more about whether you keep confi…
 
 ## Sources
 - [Pkl documentation](https://pkl-lang.org/) — overview

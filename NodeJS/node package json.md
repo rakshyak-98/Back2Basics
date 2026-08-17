@@ -5,7 +5,7 @@
 > package.json — npm's contract with the repo: dependencies (runtime), devDependencies (build/test), scripts (automation entrypoints), engines (supported Node/npm), and type (module vs CommonJS default).
 
 ```txt
-        package.json ──┬── Interview
+        package.json ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **package.json** to see if you understand what it does ope…
+## Why It Matters
+- **Key signal:** Reviewers probe **package.json** to see if you understand what it does ope…
 
 ## Sources
 - [npm — package.json](https://docs.npmjs.com/cli/v10/configuring-npm/package-json) — deep-dive

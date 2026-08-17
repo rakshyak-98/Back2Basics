@@ -5,7 +5,7 @@
 > Create, find, move, permission, and back up data on disk — paths, ownership, and mounts matter more than fancy tools.
 
 ```txt
-        Linux file managem ──┬── Interview
+        Linux file managem ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Everyday ops: inodes/hard links, `stat` before `chmod 777`, `-xdev`, and atom…
+## Why It Matters
+- **Key signal:** Everyday ops: inodes/hard links, `stat` before `chmod 777`, `-xdev`, and atom…
 
 ## Sources
 - `man 1 find`, `man 1 rsync`, `man 2 rename` — deep-dive

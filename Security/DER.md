@@ -5,7 +5,7 @@
 > Distinguished Encoding Rules — canonical binary ASN.1 encoding for X.509 certs, keys, and CSRs; PEM is Base64-wrapped DER with headers.
 
 ```txt
-        DER ──┬── Interview
+        DER ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** PKI tooling interviews: PEM vs DER, when wire formats need binary ASN.1, and …
+## Why It Matters
+- **Key signal:** PKI tooling reviews: PEM vs DER, when wire formats need binary ASN.1, and …
 
 ## Sources
 - [ITU-T X.690 — DER](https://www.itu.int/rec/T-REC-X.690/) — deep-dive

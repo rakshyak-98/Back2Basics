@@ -5,7 +5,7 @@
 > `/etc` holds host-local configuration — the authoritative text files operators edit (or template via configuration management) to define how this machine behaves.
 
 ```txt
-        etc files ──┬── Interview
+        etc files ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** FHS literacy: know that `/etc` is admin config (not `/usr`), name high-traffi…
+## Why It Matters
+- **Key signal:** FHS literacy: know that `/etc` is admin config (not `/usr`), name high-traffi…
 
 ## Sources
 - [Filesystem Hierarchy Standard — /etc](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#etcOpt) — overview

@@ -5,7 +5,7 @@
 > A CSS property is a named style setting (`display`, `color`, `object-fit`) — some only apply in certain layout contexts, so changing one property can silently disable another feature.
 
 ```txt
-        CSS property ──┬── Interview
+        CSS property ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use tricky properties (`::first-letter` with `display`, line cla…
+## Why It Matters
+- **Key signal:** Reviewers use tricky properties (`::first-letter` with `display`, line cla…
 
 ## Sources
 - [MDN — `::first-letter`](https://developer.mozilla.org/en-US/docs/Web/CSS/::first-letter) — deep-dive

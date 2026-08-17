@@ -5,7 +5,7 @@
 > Changes the nice value of running processes — lower nice gets more CPU share when the machine is contended.
 
 ```txt
-        renice ──┬── Interview
+        renice ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Scheduler basics: nice range −20..19, only root can go negative, and cgroups/…
+## Why It Matters
+- **Key signal:** Scheduler basics: nice range −20..19, only root can go negative, and cgroups/…
 
 ## Sources
 - `man 1 renice` — deep-dive

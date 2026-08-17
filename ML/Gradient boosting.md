@@ -5,7 +5,7 @@
 > Sequential ensemble: each new tree fits the **residual errors** of the ensemble so far — **Friedman (1999)** + modern GBDT libraries.
 
 ```txt
-        Gradient boosting ──┬── Interview
+        Gradient boosting ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Boosting interviews cover sequential residual fitting, learning rate, and ove…
+## Why It Matters
+- **Key signal:** Boosting reviews cover sequential residual fitting, learning rate, and ove…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

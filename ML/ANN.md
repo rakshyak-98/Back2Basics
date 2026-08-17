@@ -5,7 +5,7 @@
 > Stacked layers of weighted sums + nonlinear activations — universal function approximator trained by gradient descent — **Goodfellow et al. (Deep Learning)**.
 
 ```txt
-        ANN (Artificial Ne ──┬── Interview
+        ANN (Artificial Ne ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about ANN (Artificial Neural Network) to check whether you c…
+## Why It Matters
+- **Key signal:** Reviewers ask about ANN (Artificial Neural Network) to check whether you c…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

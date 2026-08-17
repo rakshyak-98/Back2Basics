@@ -5,15 +5,15 @@
 > Historical browser plug-in model (1990s–2010s) — **removed from all major browsers** because the security boundary was unsalvageable.
 
 ```txt
-        Java applets ──┬── Interview
+        Java applets ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Applets are historical
+## Why It Matters
+- **Key signal:** Applets are historical
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

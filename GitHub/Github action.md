@@ -5,7 +5,7 @@
 > CI/CD workflows as YAML in the repository — events trigger jobs that run steps on runners.
 
 ```txt
-        GitHub Actions ──┬── Interview
+        GitHub Actions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want triggers (`push`/`pull_request`/`schedule`), jobs vs steps,…
+## Why It Matters
+- **Key signal:** Reviewers want triggers (`push`/`pull_request`/`schedule`), jobs vs steps,…
 
 ## Sources
 - [GitHub Docs — Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions) — overview

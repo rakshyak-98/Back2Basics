@@ -5,7 +5,7 @@
 > Encrypt and authenticate bytes on the wire — terminate at the edge, prefer modern suites, automate certificate renewal, verify the full chain.
 
 ```txt
-        TLS (Transport Lay ──┬── Interview
+        TLS (Transport Lay ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core networking/security: handshake, certificates, cipher suites, termination…
+## Why It Matters
+- **Key signal:** Core networking/security: handshake, certificates, cipher suites, termination…
 
 ## Sources
 - [RFC 8446 — TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446) — deep-dive

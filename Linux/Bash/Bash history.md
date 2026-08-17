@@ -5,7 +5,7 @@
 > Bash history stores commands you ran — search, redo, and carefully avoid logging secrets.
 
 ```txt
-        Bash history ──┬── Interview
+        Bash history ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interactive productivity (`!!`, Ctrl+R) plus ops hygiene: `HISTCONTROL`, `HIS…
+## Why It Matters
+- **Key signal:** Interactive productivity (`!!`, Ctrl+R) plus ops hygiene: `HISTCONTROL`, `HIS…
 
 ## Sources
 - [Bash Reference — Bash History Facilities](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Facilities.html) — deep-dive

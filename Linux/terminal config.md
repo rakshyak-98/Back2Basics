@@ -5,7 +5,7 @@
 > Fonts, colors, shell startup, and multiplexer settings — the knobs that make daily CLI work comfortable.
 
 ```txt
-        terminal config ──┬── Interview
+        terminal config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops comfort signal: login vs interactive startup files, `$TERM`, and a portab…
+## Why It Matters
+- **Key signal:** Ops comfort signal: login vs interactive startup files, `$TERM`, and a portab…
 
 ## Sources
 - `man 1 bash` (INVOCATION) — deep-dive

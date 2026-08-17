@@ -5,7 +5,7 @@
 > Common Next.js errors usually mean the wrong router API, a broken path alias, or React Server Component boundaries — read the message as a routing or boundary bug, not a random crash.
 
 ```txt
-        NextJS Error ──┬── Interview
+        NextJS Error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers care less about memorizing error strings and more about whether …
+## Why It Matters
+- **Key signal:** Reviewers care less about memorizing error strings and more about whether …
 
 ## Sources
 - [Next.js Docs — `NextRouter` was not mounted](https://nextjs.org/docs/messages/next-router-not-mounted) — deep-dive

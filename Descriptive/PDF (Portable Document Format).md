@@ -5,7 +5,7 @@
 > PDF is a fixed-layout document format — pages, fonts, and vectors aimed at print-faithful rendering.
 
 ```txt
-        PDF (Portable Docu ──┬── Interview
+        PDF (Portable Docu ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** PDF questions may touch generation/rendering pipelines
+## Why It Matters
+- **Key signal:** PDF questions may touch generation/rendering pipelines
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -25,9 +25,9 @@
 objects (page, font, stream) → xref → viewer renders page N
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Page tree** | Structure of pages | “Random access to page N.” |
 | **Content stream** | Draw operators | “Text as positioned glyphs.” |

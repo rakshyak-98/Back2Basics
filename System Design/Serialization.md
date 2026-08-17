@@ -5,7 +5,7 @@
 > Serialization converts in-memory structures to bytes for storage or network transport and back — the contract between producers and consumers must survive version changes and language boundaries.
 
 ```txt
-        Serialization ──┬── Interview
+        Serialization ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Av…
+## Why It Matters
+- **Key signal:** Schema evolution, versioning, and CPU/size trade-offs across JSON/Protobuf/Av…
 
 ## Sources
 - [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) — JSON data interchange format — deep-dive

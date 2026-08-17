@@ -5,7 +5,7 @@
 > Splitting one logical table into physical partitions by RANGE, LIST, HASH, or KEY—pruning limits scans to relevant partitions for time-series and archival.
 
 ```txt
-        mysql data partiti ──┬── Interview
+        mysql data partiti ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Partitioning interviews ask RANGE by time, partition pruning, and DROP PARTIT…
+## Why It Matters
+- **Key signal:** Partitioning reviews ask RANGE by time, partition pruning, and DROP PARTIT…
 
 ## Sources
 - [MySQL Reference Manual — Partitioning](https://dev.mysql.com/doc/refman/en/partitioning.html) — deep-dive

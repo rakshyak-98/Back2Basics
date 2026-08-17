@@ -5,7 +5,7 @@
 > STUN asks a public server “how does the internet see me?” — you get a public IP:port to share for a direct path.
 
 ```txt
-        STUN (Session Trav ──┬── Interview
+        STUN (Session Trav ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** WebRTC/NAT interviews: STUN discovers server-reflexive candidates; it is not …
+## Why It Matters
+- **Key signal:** WebRTC/NAT reviews: STUN discovers server-reflexive candidates; it is not …
 
 ## Sources
 - [RFC 8489 — STUN](https://www.rfc-editor.org/rfc/rfc8489) — deep-dive

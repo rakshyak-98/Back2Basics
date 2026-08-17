@@ -5,7 +5,7 @@
 > Base clock speed is the guaranteed steady-state frequency of a CPU core under nominal thermal and power limits — not the short turbo burst in marketing slides.
 
 ```txt
-        Base clock speed ──┬── Interview
+        Base clock speed ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Capacity planning: base vs turbo, why sustained all-core load settles near ba…
+## Why It Matters
+- **Key signal:** Capacity planning: base vs turbo, why sustained all-core load settles near ba…
 
 ## Sources
 - Intel® 64 Architecture Software Developer’s Manual — power management — deep-dive

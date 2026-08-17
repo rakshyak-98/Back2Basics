@@ -5,7 +5,7 @@
 > A ring buffer stores a fixed-capacity stream by wrapping read/write indices around a circular array — atomics let one producer and one consumer update those indices without a lock.
 
 ```txt
-        Atomic ring buffer ──┬── Interview
+        Atomic ring buffer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Concurrency classic: SPSC lock-free ring, memory barriers (“store data before…
+## Why It Matters
+- **Key signal:** Concurrency classic: SPSC lock-free ring, memory barriers (“store data before…
 
 ## Sources
 - Linux kernel: `include/linux/kfifo.h`, `lib/kfifo.c` — deep-dive

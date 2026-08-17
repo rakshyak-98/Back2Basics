@@ -5,7 +5,7 @@
 > GRASP (General Responsibility Assignment Software Patterns) guides which object should own a behavior — answering "who should know this?" and "who should create that?" before [[SOLID]] shapes the type relationships.
 
 ```txt
-        GRASP ──┬── Interview
+        GRASP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Name several GRASP patterns (Information Expert, Controller, Low Coupling) an…
+## Why It Matters
+- **Key signal:** Name several GRASP patterns (Information Expert, Controller, Low Coupling) an…
 
 ## Sources
 - Craig Larman, *Applying UML and Patterns* (Prentice Hall, 3rd ed.) — GRASP patterns — overview

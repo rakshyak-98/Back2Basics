@@ -5,7 +5,7 @@
 > Online Transaction Processing — many short, concurrent reads and writes on a live system where latency and correctness under contention matter more than scan throughput.
 
 ```txt
-        OLTP ──┬── Interview
+        OLTP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you keep p99 low under contention, when to pool connecti…
+## Why It Matters
+- **Key signal:** Reviewers ask how you keep p99 low under contention, when to pool connecti…
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 3 (OLTP vs OLAP storage) — deep-dive

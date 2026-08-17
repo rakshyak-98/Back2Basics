@@ -5,7 +5,7 @@
 > Write “mutating” updates that produce immutable next state — Immer uses a draft proxy (powers RTK reducers).
 
 ```txt
-        Packages/Immer ──┬── Interview
+        Packages/Immer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Packages/Immer** to check whether you can explain the mech…
+## Why It Matters
+- **Key signal:** Reviewers use **Packages/Immer** to check whether you can explain the mech…
 
 ## Sources
 - [Immer — Docs](https://immerjs.github.io/immer/) — deep-dive

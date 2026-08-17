@@ -5,7 +5,7 @@
 > Process data in chunks — don’t load the whole file/response into RAM; backpressure keeps readers and writers in pace.
 
 ```txt
-        Stream ──┬── Interview
+        Stream ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Stream** to check whether you can explain the mechanism in…
+## Why It Matters
+- **Key signal:** Reviewers use **Stream** to check whether you can explain the mechanism in…
 
 ## Sources
 - [Node.js — Stream](https://nodejs.org/api/stream.html) — deep-dive

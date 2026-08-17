@@ -5,7 +5,7 @@
 > Distributed commit log for event streams — producers append to partitioned topics; consumers read at their own pace with durable retention and replay.
 
 ```txt
-        kafka ──┬── Interview
+        kafka ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Kafka to test partitions/consumer groups, delivery semantics…
+## Why It Matters
+- **Key signal:** Reviewers use Kafka to test partitions/consumer groups, delivery semantics…
 
 ## Sources
 - [Apache Kafka documentation](https://kafka.apache.org/documentation/) — deep-dive

@@ -5,7 +5,7 @@
 > Four independent guarantees—atomicity, consistency, isolation, durability—that let applications treat multi-step writes as one unit and trust committed data after a crash.
 
 ```txt
-        ACID ──┬── Interview
+        ACID ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use ACID to test whether you can separate the four properties, n…
+## Why It Matters
+- **Key signal:** Reviewers use ACID to test whether you can separate the four properties, n…
 
 ## Sources
 - [ISO/IEC 9075 — SQL standard (transaction isolation)](https://www.iso.org/standard/76583.html) — deep-dive

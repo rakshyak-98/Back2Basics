@@ -5,7 +5,7 @@
 > UEFI is modern PC firmware that initializes hardware, reads boot entries from NVRAM, and loads signed EFI apps from the ESP — replacing the 446-byte MBR boot-sector chain.
 
 ```txt
-        UEFI ──┬── Interview
+        UEFI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explain UEFI boot flow vs BIOS+MBR, GPT/ESP, Secure Boot, and why dual-boot i…
+## Why It Matters
+- **Key signal:** Explain UEFI boot flow vs BIOS+MBR, GPT/ESP, Secure Boot, and why dual-boot i…
 
 ## Sources
 - [UEFI Spec 2.10 — Boot Manager](https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html) — deep-dive

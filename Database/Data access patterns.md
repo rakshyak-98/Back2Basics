@@ -5,7 +5,7 @@
 > The read and write paths your application actually runs—indexes, query shapes, and caching should follow these patterns, not the ER diagram alone.
 
 ```txt
-        Data access patter ──┬── Interview
+        Data access patter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Strong schema design answers start from access patterns: cardinality, QPS, co…
+## Why It Matters
+- **Key signal:** Strong schema design answers start from access patterns: cardinality, QPS, co…
 
 ## Sources
 - [Use The Index, Luke!](https://use-the-index-luke.com/) — deep-dive

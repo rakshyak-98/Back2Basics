@@ -5,7 +5,7 @@
 > The Linux terminal is the character-cell interface to the shell — emulator + PTY + shell, whether on a local TTY or remote over SSH.
 
 ```txt
-        Linux terminal ──┬── Interview
+        Linux terminal ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Everyday ops fluency: `$TERM`, PTY vs TTY, why colors break in tmux, and how …
+## Why It Matters
+- **Key signal:** Everyday ops fluency: `$TERM`, PTY vs TTY, why colors break in tmux, and how …
 
 ## Sources
 - `man 4 tty`, `man 7 pty` — deep-dive

@@ -5,7 +5,7 @@
 > Day-one Docker CLI for build, run, debug, and cleanup — the on-call toolkit when containers misbehave.
 
 ```txt
-        docker cli ──┬── Interview
+        docker cli ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch how you build with context/`.dockerignore`, debug with log…
+## Why It Matters
+- **Key signal:** Reviewers watch how you build with context/`.dockerignore`, debug with log…
 
 ## Sources
 - [Docker CLI reference](https://docs.docker.com/reference/cli/docker/) — deep-dive

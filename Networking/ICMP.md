@@ -5,7 +5,7 @@
 > Internet Control Message Protocol carries network diagnostics and error signals — when ping works but TCP fails, ICMP told you reachability, not service health.
 
 ```txt
-        ICMP ──┬── Interview
+        ICMP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about ICMP to separate Layer-3 reachability from application…
+## Why It Matters
+- **Key signal:** Reviewers ask about ICMP to separate Layer-3 reachability from application…
 
 ## Sources
 - [RFC 792 — Internet Control Message Protocol](https://www.rfc-editor.org/rfc/rfc792) — deep-dive

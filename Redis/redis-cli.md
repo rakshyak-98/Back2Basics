@@ -5,7 +5,7 @@
 > `redis-cli` is the interactive and scripted admin client — inspect memory, latency, persistence, and live traffic when Redis misbehaves under load.
 
 ```txt
-        redis-cli ──┬── Interview
+        redis-cli ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers watch whether you reach for `INFO`/`SLOWLOG`/`SCAN` instead of `…
+## Why It Matters
+- **Key signal:** Reviewers watch whether you reach for `INFO`/`SLOWLOG`/`SCAN` instead of `…
 
 ## Sources
 - [Redis — redis-cli](https://redis.io/docs/latest/operate/oss_and_stack/management/cli/) — deep-dive

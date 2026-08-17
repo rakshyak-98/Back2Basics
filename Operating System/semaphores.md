@@ -5,7 +5,7 @@
 > A semaphore counts permits — threads wait at zero and post when releasing a resource — generalizing [[mutexes]] from binary locks to N-way pools.
 
 ```txt
-        Semaphores ──┬── Interview
+        Semaphores ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Counting vs binary semaphores, producer-consumer, and SysV semaphores living …
+## Why It Matters
+- **Key signal:** Counting vs binary semaphores, producer-consumer, and SysV semaphores living …
 
 ## Sources
 - Dijkstra — semaphore original definition — overview

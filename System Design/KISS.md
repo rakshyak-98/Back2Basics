@@ -5,7 +5,7 @@
 > KISS (Keep It Simple, Stupid) urges designs that solve the present problem with the fewest moving parts that still meet requirements — complexity is a loan with interest.
 
 ```txt
-        KISS ──┬── Interview
+        KISS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Defend the simplest design that meets requirements
+## Why It Matters
+- **Key signal:** Defend the simplest design that meets requirements
 
 ## Sources
 - Kelly Johnson / Lockheed Skunk Works — KISS origin in engineering culture — overview

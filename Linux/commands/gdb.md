@@ -5,7 +5,7 @@
 > gdb (GNU Debugger) stops a program mid-flight — inspect stack, memory, and variables when it crashes or misbehaves.
 
 ```txt
-        gdb ──┬── Interview
+        gdb ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can get a backtrace from a core or live attach, know symbols/build-…
+## Why It Matters
+- **Key signal:** Shows you can get a backtrace from a core or live attach, know symbols/build-…
 
 ## Sources
 - [GDB User Manual](https://sourceware.org/gdb/current/onlinedocs/gdb/) — deep-dive

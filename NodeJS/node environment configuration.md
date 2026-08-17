@@ -5,7 +5,7 @@
 > Configure Node apps via env vars and files — `NODE_ENV`, secrets outside git, fail fast on missing required config.
 
 ```txt
-        node environment c ──┬── Interview
+        node environment c ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **node environment configuration** to check whether you can …
+## Why It Matters
+- **Key signal:** Reviewers use **node environment configuration** to check whether you can …
 
 ## Sources
 - [Node.js — process.env](https://nodejs.org/api/process.html#processenv) — overview

@@ -5,7 +5,7 @@
 > QUIC — (Quick UDP Internet Connections) moves transport into user space over UDP, integrating encryption and stream multiplexing. Designed to fix TCP head-of-line blocking and slow
 
 ```txt
-        QUIC ──┬── Interview
+        QUIC ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** QUIC/HTTP3 interviews test UDP transport literacy
+## Why It Matters
+- **Key signal:** QUIC/HTTP3 reviews test UDP transport literacy
 
 ## Sources
 - [RFC 9000 — QUIC](https://www.rfc-editor.org/rfc/rfc9000) — deep-dive

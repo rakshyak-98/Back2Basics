@@ -5,7 +5,7 @@
 > LSP (Language Server Protocol) gives editors completions, go-to-def, and diagnostics via a language server process.
 
 ```txt
-        LSP ──┬── Interview
+        LSP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast LSP with DAP
+## Why It Matters
+- **Key signal:** Reviewers contrast LSP with DAP
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -26,9 +26,9 @@
 - **Note:** Editor ↔ LSP (JSON-RPC) ↔ language server (tsc, pylsp, gopls)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **language server** | Analysis process | “gopls for Go.” |
 | **diagnostics** | Squiggles | “Push as you type.” |

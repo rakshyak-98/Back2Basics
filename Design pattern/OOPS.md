@@ -5,15 +5,15 @@
 > Object-oriented programming organizes code around objects that combine state and behavior — using encapsulation, abstraction, inheritance, and polymorphism to manage change at scale.
 
 ```txt
-        OOPS ──┬── Interview
+        OOPS ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** OOP interviews want encapsulation, inheritance, polymorphism, and abstraction…
+## Why It Matters
+- **Key signal:** OOP reviews want encapsulation, inheritance, polymorphism, and abstraction…
 
 ## Sources
 - Gamma et al., *Design Patterns* — deep-dive

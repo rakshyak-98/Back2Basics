@@ -5,7 +5,7 @@
 > A MongoDB view is a saved aggregation pipeline — read-only, always reflects the source collection.
 
 ```txt
-        mongodb view ──┬── Interview
+        mongodb view ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Views questions check read-only aggregation shortcuts versus materialized col…
+## Why It Matters
+- **Key signal:** Views questions check read-only aggregation shortcuts versus materialized col…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 orders ──$group/$sort──► orderSummaryView (read-only)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **View** | Named pipeline | “Reuse the same aggregation.” |
 | **On-demand** | Computed at read | “Slow if pipeline is heavy.” |

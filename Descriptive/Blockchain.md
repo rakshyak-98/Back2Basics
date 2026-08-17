@@ -5,7 +5,7 @@
 > A blockchain is a linked, append-only ledger of blocks — useful when many parties need a shared history without one admin DB.
 
 ```txt
-        Blockchain ──┬── Interview
+        Blockchain ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Blockchain interviews check distributed ledger basics
+## Why It Matters
+- **Key signal:** Blockchain reviews check distributed ledger basics
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -25,9 +25,9 @@
 - **Note:** tx → mempool → block(n) hashes block(n-1) → network consensus
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Block** | Batch of txs + header | “Links via parent hash.” |
 | **Consensus** | Who may append | “PoW/PoS/permissioned.” |

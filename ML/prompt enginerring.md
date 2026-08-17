@@ -5,7 +5,7 @@
 > Prompt engineering shapes LLM inputs so outputs are reliable, constrained, and useful for a task.
 
 ```txt
-        prompt enginerring ──┬── Interview
+        prompt enginerring ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Prompt engineering interviews cover constraints, few-shot examples, and evalu…
+## Why It Matters
+- **Key signal:** Prompt engineering reviews cover constraints, few-shot examples, and evalu…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** system/role → task → constraints → format → (examples) → user input
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **System prompt** | Standing rules | “Safety + persona.” |
 | **Few-shot** | Show examples | “Teach the pattern.” |

@@ -5,7 +5,7 @@
 > fontconfig CLI tools list, match, and rebuild fonts when apps show missing glyphs or wrong faces.
 
 ```txt
-        Font commands (fon ──┬── Interview
+        Font commands (fon ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop/ops niche: `fc-list` / `fc-match` / `fc-cache`, user vs system font d…
+## Why It Matters
+- **Key signal:** Desktop/ops niche: `fc-list` / `fc-match` / `fc-cache`, user vs system font d…
 
 ## Sources
 - [fontconfig documentation](https://www.freedesktop.org/software/fontconfig/fontconfig-user.html) — deep-dive

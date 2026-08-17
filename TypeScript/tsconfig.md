@@ -5,7 +5,7 @@
 > `tsconfig.json` tells the TypeScript compiler which files to include, how strict to check, how modules resolve, and whether to emit JavaScript.
 
 ```txt
-        tsconfig ──┬── Interview
+        tsconfig ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about `tsconfig` to see if you enable `strict`, understand `…
+## Why It Matters
+- **Key signal:** Reviewers ask about `tsconfig` to see if you enable `strict`, understand `…
 
 ## Sources
 - [TypeScript Handbook — tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) — deep-dive

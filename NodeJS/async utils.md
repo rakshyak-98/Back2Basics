@@ -5,7 +5,7 @@
 > Tiny wrappers so async route handlers don’t need try/catch — rejected promises become `next(err)`.
 
 ```txt
-        async utils ──┬── Interview
+        async utils ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **async utils** to check whether you can explain the mechani…
+## Why It Matters
+- **Key signal:** Reviewers use **async utils** to check whether you can explain the mechani…
 
 ## Sources
 - [Express — Error handling](https://expressjs.com/en/guide/error-handling.html) — overview

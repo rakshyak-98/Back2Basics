@@ -5,7 +5,7 @@
 > First-class callable object — closures, `this`, and properties on the function itself — **ECMAScript + daily API design**.
 
 ```txt
-        Function (JavaScri ──┬── Interview
+        Function (JavaScri ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Function interviews cover declarations vs expressions, closures, and first-cl…
+## Why It Matters
+- **Key signal:** Function reviews cover declarations vs expressions, closures, and first-cl…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

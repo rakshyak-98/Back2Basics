@@ -5,7 +5,7 @@
 > Open protocol for AI hosts to discover and call tools, read resources, and fetch prompts from servers — “USB-C for LLM integrations.”
 
 ```txt
-        MCP (Model Context ──┬── Interview
+        MCP (Model Context ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers (AI platform) want host/client/server roles, transports (stdio v…
+## Why It Matters
+- **Key signal:** Reviewers (AI platform) want host/client/server roles, transports (stdio v…
 
 ## Sources
 - [MCP specification](https://modelcontextprotocol.io/) — deep-dive

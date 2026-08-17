@@ -5,7 +5,7 @@
 > Web Workers — the browser's main thread owns the DOM, layout, paint, and the Event Loop. A Web Worker is a separate JS execution context with
 
 ```txt
-        Web Workers ──┬── Interview
+        Web Workers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Web Workers** to see if you understand what it does oper…
+## Why It Matters
+- **Key signal:** Reviewers probe **Web Workers** to see if you understand what it does oper…
 
 ## Sources
 - [MDN — Web Workers API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) — deep-dive

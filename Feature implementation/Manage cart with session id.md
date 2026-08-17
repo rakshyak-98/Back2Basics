@@ -5,7 +5,7 @@
 > Guest carts bind to a server-side session identifier — persist line items until login merges into a user cart or the session expires.
 
 ```txt
-        Manage cart with s ──┬── Interview
+        Manage cart with s ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want cookie/session fixation awareness, merge-on-login rules, an…
+## Why It Matters
+- **Key signal:** Reviewers want cookie/session fixation awareness, merge-on-login rules, an…
 
 ## Sources
 - [OWASP — Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) — deep-dive

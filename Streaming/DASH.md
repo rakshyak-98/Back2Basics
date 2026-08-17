@@ -5,7 +5,7 @@
 > DASH serves the same idea as HLS over HTTP — an [[MPD]] menu plus segments — as an open MPEG standard.
 
 ```txt
-        DASH (Dynamic Adap ──┬── Interview
+        DASH (Dynamic Adap ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk DASH end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk DASH end-to-end
 
 ## Sources
 - [Wikipedia — DASH](https://en.wikipedia.org/wiki/DASH) — overview

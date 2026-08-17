@@ -5,7 +5,7 @@
 > Process theory explains how the kernel schedules, isolates, and accounts for work — background you need before tuning PIDs, cgroups, or OOM behavior.
 
 ```txt
-        Linux Process Theo ──┬── Interview
+        Linux Process Theo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Foundational systems interview material: `fork`/`exec`/`wait`, zombie vs orph…
+## Why It Matters
+- **Key signal:** Foundational systems review material: `fork`/`exec`/`wait`, zombie vs orph…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive

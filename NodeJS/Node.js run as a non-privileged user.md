@@ -5,7 +5,7 @@
 > Node.js run as a non-privileged user — node apps should run as a dedicated low-privilege user (node, app, www-data). Root-owned processes that parse untrusted input are
 
 ```txt
-        Node.js run as a n ──┬── Interview
+        Node.js run as a n ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js run as a non-privileged user** to see if you und…
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js run as a non-privileged user** to see if you und…
 
 ## Sources
 - [Node.js — Security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices) — deep-dive

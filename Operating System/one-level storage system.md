@@ -5,7 +5,7 @@
 > A one-level storage system presents one uniform address space for programs and persistent data — the classic vision where memory and disk look the same to the programmer.
 
 ```txt
-        One-level storage  ──┬── Interview
+        One-level storage  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Virtual memory history: Multics/single-level store ideas, and why mmap + page…
+## Why It Matters
+- **Key signal:** Virtual memory history: Multics/single-level store ideas, and why mmap + page…
 
 ## Sources
 - Corbato et al., Multics papers — one-level store — deep-dive

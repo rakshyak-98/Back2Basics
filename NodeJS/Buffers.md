@@ -5,7 +5,7 @@
 > Fixed-size bytes in memory outside the V8 string heap — binary I/O, crypto, and stream chunks.
 
 ```txt
-        Buffers ──┬── Interview
+        Buffers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Buffers** to check whether you can explain the mechanism i…
+## Why It Matters
+- **Key signal:** Reviewers use **Buffers** to check whether you can explain the mechanism i…
 
 ## Sources
 - [Node.js — Buffer](https://nodejs.org/api/buffer.html) — deep-dive

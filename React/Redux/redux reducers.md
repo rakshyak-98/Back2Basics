@@ -5,7 +5,7 @@
 > Pure functions (state, action) => nextState — Redux Toolkit uses Immer so you can write drafts.
 
 ```txt
-        redux reducers ──┬── Interview
+        redux reducers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux reducers](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers) — deep-dive

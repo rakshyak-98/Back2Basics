@@ -5,7 +5,7 @@
 > Turn raw tables into **leak-safe, scaled, encoded** matrices estimators can fit — garbage in → un-debuggable models — **scikit-learn Pipeline docs**.
 
 ```txt
-        Data preprocessing ──┬── Interview
+        Data preprocessing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Data preprocessing to check whether you can choose mod…
+## Why It Matters
+- **Key signal:** Reviewers ask about Data preprocessing to check whether you can choose mod…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

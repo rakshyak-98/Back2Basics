@@ -5,7 +5,7 @@
 > Spans file-based secrets (PEM, gpg) and in-kernel keyrings (`keyctl`) — know which layer holds the credential.
 
 ```txt
-        Linux Key manageme ──┬── Interview
+        Linux Key manageme ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Security ops: 600 permissions, agents vs files, APT keyrings vs `keyctl`, and…
+## Why It Matters
+- **Key signal:** Security ops: 600 permissions, agents vs files, APT keyrings vs `keyctl`, and…
 
 ## Sources
 - `man 1 keyctl` — deep-dive

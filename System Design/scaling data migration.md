@@ -5,7 +5,7 @@
 > Moving data between database servers or nodes while scaling — much harder for relational databases introducing sharding than for partition-native NoSQL; replication and sharding solve different problems.
 
 ```txt
-        Scaling data migra ──┬── Interview
+        Scaling data migra ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
+## Why It Matters
+- **Key signal:** Dual-write/backfill/cutover; checksums; expand-contract; rollback criteria.
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — partitioning and rebalancing — deep-dive
@@ -317,9 +317,9 @@ Schema migration ([[database migration]]): ALTER TABLE, versioned DDL
 Scaling data migration (this note): move rows across nodes while scaling
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Resharding** | Change shard map and move rows | "Dual-write, backfill, verify, cut over." |
 | **Rebalancing** | NoSQL moves partition ranges | "Built-in but still moves bytes on the wire." |

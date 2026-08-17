@@ -5,7 +5,7 @@
 > High-level language with a batteries-included standard library — CPython is the common runtime for scripting, services, and data work.
 
 ```txt
-        Python ──┬── Interview
+        Python ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe runtime basics: virtual environments, import/`sys.path`, p…
+## Why It Matters
+- **Key signal:** Reviewers probe runtime basics: virtual environments, import/`sys.path`, p…
 
 ## Sources
 - [Python 3 documentation](https://docs.python.org/3/) — deep-dive
@@ -47,7 +47,7 @@ print(sys.version)
 print(sys.path)  # module search path
 ```
 
-- Useful stdlib modules in interviews: `asyncio`, `concurrent.futures`, `pathli…
+- Useful stdlib modules in reviews: `asyncio`, `concurrent.futures`, `pathli…
 
 | Symptom | Check | Fix |
 |---------|-------|-----|

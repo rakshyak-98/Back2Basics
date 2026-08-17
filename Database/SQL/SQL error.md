@@ -5,7 +5,7 @@
 > Database servers return structured error codes and messages — reading SQLSTATE, detail fields, and constraint names turns opaque failures into fast fixes.
 
 ```txt
-        SQL error ──┬── Interview
+        SQL error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you map unique violations to HTTP status codes, when to …
+## Why It Matters
+- **Key signal:** Reviewers ask how you map unique violations to HTTP status codes, when to …
 
 ## Sources
 - [PostgreSQL Documentation — Appendix A. Error Codes](https://www.postgresql.org/docs/current/errcodes-appendix.html) — deep-dive

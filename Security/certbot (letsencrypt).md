@@ -5,7 +5,7 @@
 > Certbot — ACME client that proves you own a domain, then installs a Let’s Encrypt cert and renews it before expiry.
 
 ```txt
-        certbot (letsencry ──┬── Interview
+        certbot (letsencry ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Platform interviews ask how you obtain and renew free TLS certs safely
+## Why It Matters
+- **Key signal:** Platform reviews ask how you obtain and renew free TLS certs safely
 
 ## Sources
 - [Certbot documentation](https://eff-certbot.readthedocs.io/) — deep-dive

@@ -5,7 +5,7 @@
 > Browser P2P real-time A/V + data — media is encrypted UDP, not HTTP.
 
 ```txt
-        WebRTC ──┬── Interview
+        WebRTC ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk WebRTC end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk WebRTC end-to-end
 
 ## Sources
 - [Wikipedia — WebRTC](https://en.wikipedia.org/wiki/WebRTC) — overview

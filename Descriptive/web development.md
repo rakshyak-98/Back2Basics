@@ -5,7 +5,7 @@
 > Building for browsers — HTML parse, script loading, render path, and delivery constraints — **browser architecture + Core Web Vitals mindset**.
 
 ```txt
-        Web development ──┬── Interview
+        Web development ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Broad web-dev interviews want architecture judgment
+## Why It Matters
+- **Key signal:** Broad web-dev reviews want architecture judgment
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

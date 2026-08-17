@@ -5,7 +5,7 @@
 > TURN relays media through a server when two peers cannot punch through NATs — last resort path, not the first try.
 
 ```txt
-        TURN server (Trave ──┬── Interview
+        TURN server (Trave ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** WebRTC interviews: TURN is the relay fallback when ICE cannot find a direct p…
+## Why It Matters
+- **Key signal:** WebRTC reviews: TURN is the relay fallback when ICE cannot find a direct p…
 
 ## Sources
 - [RFC 8656 — TURN](https://www.rfc-editor.org/rfc/rfc8656) — deep-dive

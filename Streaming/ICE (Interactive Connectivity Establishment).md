@@ -5,7 +5,7 @@
 > ICE finds a working path between two peers behind NATs — try direct, then relay.
 
 ```txt
-        ICE (Interactive C ──┬── Interview
+        ICE (Interactive C ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk ICE end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk ICE end-to-end
 
 ## Sources
 - [Wikipedia — ICE](https://en.wikipedia.org/wiki/ICE) — overview

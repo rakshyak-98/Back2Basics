@@ -5,7 +5,7 @@
 > An OS program is an executable image the kernel loads into a [[process]] — ELF binary, shebang script, or shared object run by the loader.
 
 ```txt
-        OS program ──┬── Interview
+        OS program ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Walk `execve` → ELF map → `_start` → `main`, and distinguish kernel load from…
+## Why It Matters
+- **Key signal:** Walk `execve` → ELF map → `_start` → `main`, and distinguish kernel load from…
 
 ## Sources
 - Bryant & O’Hallaron, *Computer Systems* — deep-dive

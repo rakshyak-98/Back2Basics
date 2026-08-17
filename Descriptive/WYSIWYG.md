@@ -5,7 +5,7 @@
 > Rich-text editing where formatted output matches published appearance — architecture is document model + toolbar + sanitizer; XSS and paste garbage are the production failures.
 
 ```txt
-        WYSIWYG (What You  ──┬── Interview
+        WYSIWYG (What You  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** WYSIWYG questions cover editing UX versus storing semantic HTML/Markdown safe…
+## Why It Matters
+- **Key signal:** WYSIWYG questions cover editing UX versus storing semantic HTML/Markdown safe…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

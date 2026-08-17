@@ -5,7 +5,7 @@
 > The Linux Standard Base defined cross-distribution conventions — init script headers, FHS paths, and core library ABIs — so third-party packages could target “Linux” instead of each distro.
 
 ```txt
-        LSB (Linux Standar ──┬── Interview
+        LSB (Linux Standar ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Rare as a deep dive, but useful to map legacy `### BEGIN INIT INFO` headers a…
+## Why It Matters
+- **Key signal:** Rare as a deep dive, but useful to map legacy `### BEGIN INIT INFO` headers a…
 
 ## Sources
 - [Linux Foundation LSB](https://refspecs.linuxfoundation.org/lsb.shtml) — overview

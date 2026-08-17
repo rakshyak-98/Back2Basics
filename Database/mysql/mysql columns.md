@@ -5,7 +5,7 @@
 > Column definitions—types, nullability, defaults, generated columns, and character sets—that determine storage size, index eligibility, and validation.
 
 ```txt
-        mysql columns ──┬── Interview
+        mysql columns ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Type-choice questions (money as `DECIMAL`, `utf8mb4`, timestamp pitfalls) sep…
+## Why It Matters
+- **Key signal:** Type-choice questions (money as `DECIMAL`, `utf8mb4`, timestamp pitfalls) sep…
 
 ## Sources
 - [MySQL Reference Manual — Data Types](https://dev.mysql.com/doc/refman/en/data-types.html) — deep-dive

@@ -5,7 +5,7 @@
 > Memory-hard password hashing (yescrypt; filename typo for yescrypt) — raises attacker RAM cost per guess versus fast hashes.
 
 ```txt
-        yescrypt (yashcryp ──┬── Interview
+        yescrypt (yashcryp ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Password storage: memory-hard KDFs (yescrypt/scrypt/Argon2) raise attacker co…
+## Why It Matters
+- **Key signal:** Password storage: memory-hard KDFs (yescrypt/scrypt/Argon2) raise attacker co…
 
 ## Sources
 - [yescrypt — password hashing scheme](https://www.openwall.com/yescrypt/) — deep-dive

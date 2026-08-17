@@ -5,7 +5,7 @@
 > In Bash, an unbound variable is a name you reference before it is set — `set -u` (nounset) turns silent empty expansion into a hard error so scripts fail fast instead of corrupting data.
 
 ```txt
-        unbound variable ──┬── Interview
+        unbound variable ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shell and SRE interviews use `set -u` to see whether you prevent empty-expans…
+## Why It Matters
+- **Key signal:** Shell and SRE reviews use `set -u` to see whether you prevent empty-expans…
 
 ## Sources
 - [GNU Bash Manual — The Set Builtin](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html) — deep-dive

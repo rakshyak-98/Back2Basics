@@ -5,7 +5,7 @@
 > Service accounts should run daemons without login shells — create a system user, assign file ownership, and run the process under that UID via systemd.
 
 ```txt
-        Setup Non-Login us ──┬── Interview
+        Setup Non-Login us ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hardening basics: least privilege, `nologin` shell, systemd `User=`
+## Why It Matters
+- **Key signal:** Hardening basics: least privilege, `nologin` shell, systemd `User=`
 
 ## Sources
 - [useradd(8)](https://man7.org/linux/man-pages/man8/useradd.8.html) — deep-dive

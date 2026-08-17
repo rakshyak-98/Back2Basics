@@ -5,7 +5,7 @@
 > MTU is the largest IP payload one link accepts without fragmentation — black-hole MTU issues show up as HTTPS that hangs on large responses but works for small pages.
 
 ```txt
-        MTU (Maximum Trans ──┬── Interview
+        MTU (Maximum Trans ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** MTU questions separate people who have debugged tunnels and VPNs from those w…
+## Why It Matters
+- **Key signal:** MTU questions separate people who have debugged tunnels and VPNs from those w…
 
 ## Sources
 - [RFC 8200 — IPv6 (minimum MTU 1280)](https://www.rfc-editor.org/rfc/rfc8200) — deep-dive

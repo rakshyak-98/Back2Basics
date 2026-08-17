@@ -5,7 +5,7 @@
 > Common failure modes when npm or a script it launches dies — peer conflicts, lifecycle failures, and Node/V8 heap limits during builds.
 
 ```txt
-        npm error ──┬── Interview
+        npm error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers care less about memorizing messages and more about triage: read …
+## Why It Matters
+- **Key signal:** Reviewers care less about memorizing messages and more about triage: read …
 
 ## Sources
 - [npm Docs — common errors](https://docs.npmjs.com/common-errors) — overview

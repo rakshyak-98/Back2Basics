@@ -5,7 +5,7 @@
 > Node’s built-in `http`/`https` servers and clients — Express sits on top; use raw server when you need the `Server` handle (WS, dual HTTP/HTTPS, graceful shutdown).
 
 ```txt
-        HTTP module ──┬── Interview
+        HTTP module ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **HTTP module** to check whether you can explain the mechani…
+## Why It Matters
+- **Key signal:** Reviewers use **HTTP module** to check whether you can explain the mechani…
 
 ## Sources
 - [Node.js — HTTP](https://nodejs.org/api/http.html) — deep-dive

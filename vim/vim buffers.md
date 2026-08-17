@@ -5,7 +5,7 @@
 > In-memory file views in Vim — list, switch, and close them without quitting the editor.
 
 ```txt
-        vim buffers ──┬── Interview
+        vim buffers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Editors ask how you juggle multiple files under SSH: buffers vs windows vs ta…
+## Why It Matters
+- **Key signal:** Editors ask how you juggle multiple files under SSH: buffers vs windows vs ta…
 
 ## Sources
 - [Vim help — windows and buffers](https://vimhelp.org/windows.txt.html) — deep-dive

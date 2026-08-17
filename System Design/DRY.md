@@ -5,7 +5,7 @@
 > DRY (Don't Repeat Yourself) means every piece of knowledge has one authoritative representation — duplication of *rules*, not mere similar text.
 
 ```txt
-        DRY ──┬── Interview
+        DRY ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Show you distinguish business-rule duplication from coincidental similarity, …
+## Why It Matters
+- **Key signal:** Show you distinguish business-rule duplication from coincidental similarity, …
 
 ## Sources
 - Hunt & Thomas, *The Pragmatic Programmer* — DRY — deep-dive

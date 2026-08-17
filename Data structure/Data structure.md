@@ -5,7 +5,7 @@
 > Data structures store data with different access costs — pick for the operations you run most.
 
 ```txt
-        Data structure ──┬── Interview
+        Data structure ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect you to pick structures by access pattern and cost
+## Why It Matters
+- **Key signal:** Reviewers expect you to pick structures by access pattern and cost
 
 ## Sources
 - [Wikipedia — Data structure](https://en.wikipedia.org/wiki/Data_structure) — overview
@@ -25,9 +25,9 @@
 ops you need → structure → complexity tradeoffs
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Access vs update** | Read pattern vs write | “Optimize the hot path.” |
 | **Amortized** | Average over ops | “Dynamic array append.” |

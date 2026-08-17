@@ -5,7 +5,7 @@
 > Install and harden Redis: package or image runs `redis-server` with `redis.conf`, systemd supervision, bind/ACL, and RDB/AOF under `/var/lib/redis`.
 
 ```txt
-        redis installation ──┬── Interview
+        redis installation ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe bind/protected-mode, ACL versus `requirepass`, `maxmemory`…
+## Why It Matters
+- **Key signal:** Reviewers probe bind/protected-mode, ACL versus `requirepass`, `maxmemory`…
 
 ## Sources
 - [Redis — Install](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/) — overview

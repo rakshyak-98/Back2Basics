@@ -5,7 +5,7 @@
 > HTTP Parameter Pollution (HPP) is when duplicate query or body keys (`?id=1&id=2`) parse inconsistently — `hpp` middleware drops polluted duplicates so validation sees one value.
 
 ```txt
-        Express HPP ──┬── Interview
+        Express HPP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use HPP to see if you understand parser ambiguity, WAF bypass pa…
+## Why It Matters
+- **Key signal:** Reviewers use HPP to see if you understand parser ambiguity, WAF bypass pa…
 
 ## Sources
 - [hpp on npm](https://www.npmjs.com/package/hpp) — overview

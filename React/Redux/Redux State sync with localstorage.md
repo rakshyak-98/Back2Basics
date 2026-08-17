@@ -5,7 +5,7 @@
 > Persist selected Redux slices to localStorage and rehydrate on startup — careful with SSR and secrets.
 
 ```txt
-        Redux State sync w ──┬── Interview
+        Redux State sync w ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux State sync with localStorage](https://redux-toolkit.js.org/api/createStore) — deep-dive

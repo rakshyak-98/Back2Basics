@@ -5,7 +5,7 @@
 > Bash syntax is how the shell parses words, expansions, and control operators — so pipelines and scripts do what you meant.
 
 ```txt
-        Bash syntax ──┬── Interview
+        Bash syntax ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Quoting, `[[ ]]`, parameter expansion, `&&`/`||`, and process substitution
+## Why It Matters
+- **Key signal:** Quoting, `[[ ]]`, parameter expansion, `&&`/`||`, and process substitution
 
 ## Sources
 - [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html) — deep-dive

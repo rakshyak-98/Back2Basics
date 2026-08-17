@@ -5,7 +5,7 @@
 > How errors surface in Redux apps — rejected thunks, error slices, and middleware crash reporters.
 
 ```txt
-        Redux Error ──┬── Interview
+        Redux Error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [Redux Error](https://redux-toolkit.js.org/api/createAsyncThunk) — deep-dive

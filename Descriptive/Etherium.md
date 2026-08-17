@@ -5,7 +5,7 @@
 > Programmable blockchain: accounts hold state; transactions pay **gas** to mutate it — **Ethereum Yellow Paper** + **Mastering Ethereum** for SE integration context.
 
 ```txt
-        Ethereum (filename ──┬── Interview
+        Ethereum (filename ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Ethereum questions cover smart contracts, gas, and why chain data differs fro…
+## Why It Matters
+- **Key signal:** Ethereum questions cover smart contracts, gas, and why chain data differs fro…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

@@ -5,7 +5,7 @@
 > Recurring production failures from treating the database as a dumb file store—autocommit races, missing indexes, untested backups, and schema drift.
 
 ```txt
-        Database mistakes ──┬── Interview
+        Database mistakes ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** “What goes wrong in production?” questions map directly here
+## Why It Matters
+- **Key signal:** “What goes wrong in production?” questions map directly here
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 7–9 — overview

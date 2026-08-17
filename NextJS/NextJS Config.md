@@ -5,7 +5,7 @@
 > `next.config.js` (or `.mjs` / `.ts`) holds Next.js knobs — redirects, headers, images, and build output — without putting app logic in the configuration file.
 
 ```txt
-        NextJS Config ──┬── Interview
+        NextJS Config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about `next.config` to see if you know which settings affect…
+## Why It Matters
+- **Key signal:** Reviewers ask about `next.config` to see if you know which settings affect…
 
 ## Sources
 - [Next.js Docs — next.config.js Options](https://nextjs.org/docs/app/api-reference/config/next-config-js) — deep-dive

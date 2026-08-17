@@ -5,7 +5,7 @@
 > An offset is how far you move from a known start — bytes in a file, or time from a timeline base in live DASH/HLS.
 
 ```txt
-        offset ──┬── Interview
+        offset ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk offset end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk offset end-to-end
 
 ## Sources
 - [Wikipedia — offset](https://en.wikipedia.org/wiki/offset) — overview

@@ -5,7 +5,7 @@
 > Early Facebook unidirectional data pattern — actions → dispatcher → stores → views — ancestor of Redux.
 
 ```txt
-        Flux ──┬── Interview
+        Flux ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers may ask Flux vs Redux: single store, pure reducers, and immutabi…
+## Why It Matters
+- **Key signal:** Reviewers may ask Flux vs Redux: single store, pure reducers, and immutabi…
 
 ## Sources
 - [Flux overview](https://facebook.github.io/flux/) — overview

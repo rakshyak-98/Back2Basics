@@ -5,7 +5,7 @@
 > MySQL server error numbers and messages—duplicate key `1062`, deadlock `1213`, lock wait timeout `1205`—mapped to fixes and retry policies.
 
 ```txt
-        MySQL Error ──┬── Interview
+        MySQL Error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Error-code fluency shows production readiness: which errors to retry (deadloc…
+## Why It Matters
+- **Key signal:** Error-code fluency shows production readiness: which errors to retry (deadloc…
 
 ## Sources
 - [MySQL Reference Manual — Server Error Message Reference](https://dev.mysql.com/doc/mysql-errors/en/server-error-reference.html) — deep-dive

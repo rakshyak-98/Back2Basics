@@ -5,7 +5,7 @@
 > JSON keymaps that bind chords to editor actions — resolve conflicts when LSP popups and inline edit predictions both want the keyboard.
 
 ```txt
-        Zed keybindings ──┬── Interview
+        Zed keybindings ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Tooling interviews care that you can customize bindings without fighting moda…
+## Why It Matters
+- **Key signal:** Tooling reviews care that you can customize bindings without fighting moda…
 
 ## Sources
 - [Zed — Key bindings](https://zed.dev/docs/key-bindings) — deep-dive

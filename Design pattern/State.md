@@ -5,7 +5,7 @@
 > State lets an object alter its behavior when its internal state changes — the object appears to change class by delegating to state objects instead of giant `switch` statements.
 
 ```txt
-        State ──┬── Interview
+        State ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** State checks modeling behavior that changes with lifecycle
+## Why It Matters
+- **Key signal:** State checks modeling behavior that changes with lifecycle
 
 ## Sources
 - Gamma et al., *Design Patterns* (State) — deep-dive

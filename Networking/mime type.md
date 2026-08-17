@@ -5,7 +5,7 @@
 > MIME type labels what bytes are — browser/OS picks how to open, render, or download them.
 
 ```txt
-        mime type ──┬── Interview
+        mime type ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about MIME/`Content-Type` to see if you know it is a **claim…
+## Why It Matters
+- **Key signal:** Reviewers ask about MIME/`Content-Type` to see if you know it is a **claim…
 
 ## Sources
 - [RFC 2045 — MIME Part One](https://www.rfc-editor.org/rfc/rfc2045) — deep-dive

@@ -5,7 +5,7 @@
 > Progressive search functionality — keystroke → debounce window → abort prior fetch → new query → render results
 
 ```txt
-        Progressive search ──┬── Interview
+        Progressive search ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Progressive search interviews cover debounce, ranking, and accessibility of l…
+## Why It Matters
+- **Key signal:** Progressive search reviews cover debounce, ranking, and accessibility of l…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

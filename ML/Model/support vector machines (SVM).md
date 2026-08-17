@@ -5,7 +5,7 @@
 > Find the **maximum-margin** separating hyperplane (or ε-tube for regression) — kernel trick maps to high-D implicitly — **Cortes & Vapnik (1995)**.
 
 ```txt
-        Support Vector Mac ──┬── Interview
+        Support Vector Mac ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Support Vector Machines (SVM) to check whether you can…
+## Why It Matters
+- **Key signal:** Reviewers ask about Support Vector Machines (SVM) to check whether you can…
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

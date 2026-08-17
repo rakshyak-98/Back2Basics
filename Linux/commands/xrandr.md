@@ -5,7 +5,7 @@
 > Configures X11 outputs — resolution, rotation, and multi-monitor layout via RandR.
 
 ```txt
-        xrandr ──┬── Interview
+        xrandr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop/Linux graphics trivia: output names, modes, and that xrandr does not …
+## Why It Matters
+- **Key signal:** Desktop/Linux graphics trivia: output names, modes, and that xrandr does not …
 
 ## Sources
 - [man xrandr](https://www.x.org/releases/current/doc/man/man1/xrandr.1.xhtml) — deep-dive

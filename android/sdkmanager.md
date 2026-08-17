@@ -5,7 +5,7 @@
 > Android SDK command-line package manager — install platforms, build-tools, NDK, and other packages without the full Android Studio UI.
 
 ```txt
-        sdkmanager ──┬── Interview
+        sdkmanager ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** CI interviews: headless SDK install, accepting licenses, and pinning `build-t…
+## Why It Matters
+- **Key signal:** CI reviews: headless SDK install, accepting licenses, and pinning `build-t…
 
 ## Sources
 - [Android — sdkmanager](https://developer.android.com/tools/sdkmanager) — deep-dive

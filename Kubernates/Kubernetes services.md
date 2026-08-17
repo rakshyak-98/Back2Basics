@@ -5,7 +5,7 @@
 > A Service is a stable virtual IP and DNS name in front of a changing set of Pods — kube-proxy or the CNI dataplane load-balances to ready endpoints.
 
 ```txt
-        Kubernetes service ──┬── Interview
+        Kubernetes service ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test Service types, selector/endpoint mismatch, and when to use …
+## Why It Matters
+- **Key signal:** Reviewers test Service types, selector/endpoint mismatch, and when to use …
 
 ## Sources
 - [Kubernetes — Service](https://kubernetes.io/docs/concepts/services-networking/service/) — deep-dive

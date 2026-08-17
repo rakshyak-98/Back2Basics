@@ -5,7 +5,7 @@
 > Service Worker — unlike web workers (page-spawned, die with tab), a service worker is registered per origin + scope:
 
 ```txt
-        Service Worker ──┬── Interview
+        Service Worker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Service Worker** to see if you understand what it does o…
+## Why It Matters
+- **Key signal:** Reviewers probe **Service Worker** to see if you understand what it does o…
 
 ## Sources
 - [MDN — Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) — deep-dive

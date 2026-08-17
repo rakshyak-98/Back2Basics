@@ -5,7 +5,7 @@
 > SSH (Secure Shell) opens an encrypted login/command channel to a remote host — authenticate with keys, then run shells, tunnels, or file copy.
 
 ```txt
-        SSH ──┬── Interview
+        SSH ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect host key vs user key, KEX → session cipher, and why `StrictHostKeyChec…
+## Why It Matters
+- **Key signal:** Expect host key vs user key, KEX → session cipher, and why `StrictHostKeyChec…
 
 ## Sources
 - [OpenSSH Manual Pages](https://man.openbsd.org/ssh) — deep-dive

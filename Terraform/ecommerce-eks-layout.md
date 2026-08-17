@@ -5,7 +5,7 @@
 > Split e-commerce infra so Terraform owns cloud (VPC, EKS, RDS, MSK, ECR, IAM) per environment state, while Helm/GitOps owns workloads — one state per env, reusable modules.
 
 ```txt
-        ecommerce eks layo ──┬── Interview
+        ecommerce eks layo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers look for blast-radius-aware state splits, Terraform↔Helm handoff…
+## Why It Matters
+- **Key signal:** Reviewers look for blast-radius-aware state splits, Terraform↔Helm handoff…
 
 ## Sources
 - [AWS — EKS best practices](https://aws.github.io/aws-eks-best-practices/) — overview

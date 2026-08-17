@@ -5,7 +5,7 @@
 > Plain INI text that tells PID 1 how to start, supervise, and order a service, socket, timer, or mount.
 
 ```txt
-        system service uni ──┬── Interview
+        system service uni ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect `Type=` pitfalls, drop-in overrides under `/etc`, `daemon-reload`, and…
+## Why It Matters
+- **Key signal:** Expect `Type=` pitfalls, drop-in overrides under `/etc`, `daemon-reload`, and…
 
 ## Sources
 - [systemd.unit(5)](https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html) — deep-dive

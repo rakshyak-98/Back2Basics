@@ -1,11 +1,11 @@
 [[react hooks]] [[RSC (React Server Component boundaries)]] [[React Application Architecture for Production]] [[React Architecture]] [[React State management]] [[React build]]
 
-# React interview
+# React depth map
 
-> What strong React interviews probe — hooks rules, state placement, RSC boundaries, and debugging re-renders — with crisp trade-offs.
+> What strong React depth checks cover — hooks rules, state placement, RSC boundaries, and debugging re-renders.
 
 ```txt
-        React interview ──┬── Interview
+        React depth map ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,15 +14,15 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** This note is the study map: expect hooks, state vs server cache, keys/lists, …
+## Why It Matters
+- **Key signal:** This note is the study map — expect hooks, state vs server cache, keys/lists, …
 
 ## Sources
 - [React Learn](https://react.dev/learn) — overview
 - [React Reference](https://react.dev/reference/react) — deep-dive
 
 ## Key Concepts
-- **Core:** React interviews reward precise mental models (render → commit → effects) and…
+- **Core:** React depth checks reward precise mental models (render → commit → effects) and…
 
 ## Technical Details
 - Practice prompts:

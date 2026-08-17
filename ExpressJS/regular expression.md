@@ -5,7 +5,7 @@
 > Express path patterns are not full JavaScript `RegExp` — anchoring, capture groups, and `*` semantics differ; misread routes cause 404s, open redirects, and ReDoS.
 
 ```txt
-        Express route regu ──┬── Interview
+        Express route regu ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test whether you understand `path-to-regexp` vs raw `RegExp` rou…
+## Why It Matters
+- **Key signal:** Reviewers test whether you understand `path-to-regexp` vs raw `RegExp` rou…
 
 ## Sources
 - [Express — Routing](https://expressjs.com/en/guide/routing.html) — deep-dive

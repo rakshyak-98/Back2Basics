@@ -5,7 +5,7 @@
 > fzf is an interactive fuzzy filter — pipe candidate lines in, type to narrow, pick one out for the next command.
 
 ```txt
-        fzf ──┬── Interview
+        fzf ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` in…
+## Why It Matters
+- **Key signal:** Shows shell productivity tooling: Ctrl+R history, piping `ps`/`git`/`find` in…
 
 ## Sources
 - [junegunn/fzf](https://github.com/junegunn/fzf) — deep-dive

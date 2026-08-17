@@ -5,7 +5,7 @@
 > Client in-memory cache of server responses — update it after mutations so UI stays in sync without a full refetch.
 
 ```txt
-        react cache / TanS ──┬── Interview
+        react cache / TanS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want concrete re-render causes and fixes (memoization, keys, lis…
+## Why It Matters
+- **Key signal:** Reviewers want concrete re-render causes and fixes (memoization, keys, lis…
 
 ## Sources
 - [Wikipedia — react cache](https://en.wikipedia.org/wiki/react_cache) — overview

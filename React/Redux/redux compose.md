@@ -5,7 +5,7 @@
 > Right-to-left function composition used to apply multiple store enhancers.
 
 ```txt
-        redux compose ──┬── Interview
+        redux compose ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux compose](https://redux.js.org/api/compose) — deep-dive

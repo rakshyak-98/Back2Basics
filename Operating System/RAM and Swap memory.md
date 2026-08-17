@@ -5,7 +5,7 @@
 > RAM holds running code, stacks, heaps, and cache; swap extends virtual memory to disk when physical pages are scarce — trading latency for capacity.
 
 ```txt
-        RAM and Swap memor ──┬── Interview
+        RAM and Swap memor ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic ops interview: read `free -h`, explain buff/cache vs used, when swap …
+## Why It Matters
+- **Key signal:** Classic ops review: read `free -h`, explain buff/cache vs used, when swap …
 
 ## Sources
 - [Linux kernel docs — MM concepts / swap](https://docs.kernel.org/admin-guide/mm/concepts.html) — deep-dive

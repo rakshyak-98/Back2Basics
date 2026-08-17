@@ -5,7 +5,7 @@
 > Go strings — bytes, UTF-8, and runes — a Go string is not a sequence of characters. It is an immutable, read-only view over a byte
 
 ```txt
-        Go strings — bytes ──┬── Interview
+        Go strings — bytes ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Strings/runes/bytes trips up candidates who assume “character index”
+## Why It Matters
+- **Key signal:** Strings/runes/bytes trips up candidates who assume “character index”
 
 ## Sources
 - [Go blog — Strings, bytes, runes and characters in Go](https://go.dev/blog/strings) — deep-dive

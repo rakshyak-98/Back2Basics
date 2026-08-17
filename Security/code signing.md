@@ -5,7 +5,7 @@
 > Cryptographic signature on binaries, packages, or scripts — proves publisher identity and detects tampering since build.
 
 ```txt
-        Code signing ──┬── Interview
+        Code signing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Supply-chain interviews cover who signs artifacts, how OS/store trust works, …
+## Why It Matters
+- **Key signal:** Supply-chain reviews cover who signs artifacts, how OS/store trust works, …
 
 ## Sources
 - [Wikipedia — Code signing](https://en.wikipedia.org/wiki/Code_signing) — overview

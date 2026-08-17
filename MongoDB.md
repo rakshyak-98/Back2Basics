@@ -5,7 +5,7 @@
 > MongoDB — a document database: JSON-like BSON docs, replica sets for failover, sharding for scale; production pain is often indexes, pools, or schema drift.
 
 ```txt
-        MongoDB ──┬── Interview
+        MongoDB ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect document model vs relational, replica set elections, read preference, …
+## Why It Matters
+- **Key signal:** Expect document model vs relational, replica set elections, read preference, …
 
 ## Sources
 - [MongoDB Manual — Introduction](https://www.mongodb.com/docs/manual/introduction/) — overview

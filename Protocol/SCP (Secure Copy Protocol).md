@@ -5,7 +5,7 @@
 > SCP copies files over SSH using the same authentication and encryption as an interactive shell — prefer `sftp` or `rsync` for new automation, but SCP remains common for one-off secure copies.
 
 ```txt
-        SCP (Secure Copy P ──┬── Interview
+        SCP (Secure Copy P ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check that SCP is SSH (not a separate daemon), host-key verifica…
+## Why It Matters
+- **Key signal:** Reviewers check that SCP is SSH (not a separate daemon), host-key verifica…
 
 ## Sources
 - [OpenSSH scp man page](https://man.openbsd.org/scp) — deep-dive

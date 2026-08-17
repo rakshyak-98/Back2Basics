@@ -5,7 +5,7 @@
 > Function that takes a component and returns an enhanced component — classic reuse before hooks.
 
 ```txt
-        Higher-order Compo ──┬── Interview
+        Higher-order Compo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask which composition pattern fits the API you want
+## Why It Matters
+- **Key signal:** Reviewers ask which composition pattern fits the API you want
 
 ## Sources
 - [Higher-order Component (HOCs) docs](https://legacy.reactjs.org/docs/higher-order-components.html) — deep-dive

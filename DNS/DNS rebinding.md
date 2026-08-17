@@ -5,7 +5,7 @@
 > DNS rebinding tricks a browser into treating an attacker-controlled hostname as same-origin with an internal IP — the attack rotates DNS answers from a public IP to `127.0.0.1` or RFC1918 space after the same-origin che…
 
 ```txt
-        DNS rebinding ──┬── Interview
+        DNS rebinding ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Security and frontend interviews use this to test same-origin policy depth
+## Why It Matters
+- **Key signal:** Security and frontend reviews use this to test same-origin policy depth
 
 ## Sources
 - [Stanford — DNS Rebinding Protection in Web Browsers](https://crypto.stanford.edu/dns/dns-rebinding.pdf) — deep-dive

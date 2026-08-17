@@ -5,7 +5,7 @@
 > Auto-pong answers a ping automatically — prove the path is alive without app-level chatter.
 
 ```txt
-        auto-pong ──┬── Interview
+        auto-pong ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use ping/pong to separate **protocol keepalives** (WebSocket con…
+## Why It Matters
+- **Key signal:** Reviewers use ping/pong to separate **protocol keepalives** (WebSocket con…
 
 ## Sources
 - [RFC 6455 — The WebSocket Protocol (Ping/Pong)](https://www.rfc-editor.org/rfc/rfc6455#section-5.5.2) — deep-dive

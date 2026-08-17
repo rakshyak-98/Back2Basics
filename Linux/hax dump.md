@@ -5,7 +5,7 @@
 > A hex dump shows raw bytes of a file or memory region — use it to inspect magic headers, corrupted records, and protocol payloads.
 
 ```txt
-        hax dump ──┬── Interview
+        hax dump ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Debugging literacy: prove you can read binary with `xxd`/`hexdump`, compare b…
+## Why It Matters
+- **Key signal:** Debugging literacy: prove you can read binary with `xxd`/`hexdump`, compare b…
 
 ## Sources
 - `man 1 xxd`, `man 1 hexdump` — deep-dive

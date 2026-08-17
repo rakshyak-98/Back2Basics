@@ -5,7 +5,7 @@
 > Compose runs a multi-service stack on one host from a YAML file — great for development, CI, and small single-node production; not a cluster scheduler.
 
 ```txt
-        Docker compose ──┬── Interview
+        Docker compose ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask Compose to see if you know service DNS, healthchecks versus …
+## Why It Matters
+- **Key signal:** Reviewers ask Compose to see if you know service DNS, healthchecks versus …
 
 ## Sources
 - [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) — deep-dive

@@ -5,7 +5,7 @@
 > Work done before the program runs — parse, type-check, optimize, and generate code so the runtime starts with a finished artifact.
 
 ```txt
-        Compile time ──┬── Interview
+        Compile time ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate compile time vs runtime vs link time: where generics mo…
+## Why It Matters
+- **Key signal:** Reviewers separate compile time vs runtime vs link time: where generics mo…
 
 ## Sources
 - [Wikipedia — Compile time](https://en.wikipedia.org/wiki/Compile_time) — overview

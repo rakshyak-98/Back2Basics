@@ -5,7 +5,7 @@
 > Presentation layer is the UI/API edge — it shows data and takes input; it should not own business rules.
 
 ```txt
-        presentation layer ──┬── Interview
+        presentation layer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Presentation-layer questions check thin UI/API edges
+## Why It Matters
+- **Key signal:** Presentation-layer questions check thin UI/API edges
 
 ## Sources
 - [Martin Fowler — Presentation Domain Separation](https://martinfowler.com/eaaCatalog/presentationDomainSeparation.html) — deep-dive
@@ -26,9 +26,9 @@ User → View / Controller / BFF → Service → Data
          ↑ presentation lives here
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Presentation** | How users see/send data | “React pages or REST controllers.” |
 | **DTO / view-model** | Shape for the wire/UI | “Don’t leak DB columns to the client.” |

@@ -5,7 +5,7 @@
 > `GRANT` / `REVOKE` on PostgreSQL objects — tables, sequences, schemas, functions — plus default privileges for objects created later.
 
 ```txt
-        psql privileges ──┬── Interview
+        psql privileges ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Operational security: least privilege, `ALTER DEFAULT PRIVILEGES`, and column…
+## Why It Matters
+- **Key signal:** Operational security: least privilege, `ALTER DEFAULT PRIVILEGES`, and column…
 
 ## Sources
 - [GRANT](https://www.postgresql.org/docs/current/sql-grant.html) — deep-dive

@@ -5,7 +5,7 @@
 > Lossless compression combining LZ77 dictionary matching + Huffman coding — raw DEFLATE is the payload inside gzip and zlib wrappers.
 
 ```txt
-        Deflate (dflate) ──┬── Interview
+        Deflate (dflate) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers separate the **DEFLATE algorithm** from **gzip/zlib containers**…
+## Why It Matters
+- **Key signal:** Reviewers separate the **DEFLATE algorithm** from **gzip/zlib containers**…
 
 ## Sources
 - [RFC 1951 — DEFLATE Compressed Data Format](https://www.rfc-editor.org/rfc/rfc1951) — deep-dive

@@ -5,7 +5,7 @@
 > Universal Module Definition — one file that works as AMD, CommonJS, or a browser global.
 
 ```txt
-        UMD global ──┬── Interview
+        UMD global ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **UMD global** to check whether you can explain the mechanis…
+## Why It Matters
+- **Key signal:** Reviewers use **UMD global** to check whether you can explain the mechanis…
 
 ## Sources
 - [umdjs/umd](https://github.com/umdjs/umd) — overview

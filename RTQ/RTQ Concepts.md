@@ -5,7 +5,7 @@
 > Data-fetching layer on Redux Toolkit — define API endpoints once, get generated hooks, caching, and invalidation instead of hand-rolled thunks.
 
 ```txt
-        RTQ concepts (Redu ──┬── Interview
+        RTQ concepts (Redu ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want cache tags/invalidation, generated hooks vs slices, and whe…
+## Why It Matters
+- **Key signal:** Reviewers want cache tags/invalidation, generated hooks vs slices, and whe…
 
 ## Sources
 - [Redux Toolkit — RTK Query](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive

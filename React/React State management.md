@@ -5,7 +5,7 @@
 > Choose mechanisms for client state — useState, Context, Zustand, Redux — matched to update rate and sharing needs.
 
 ```txt
-        React State manage ──┬── Interview
+        React State manage ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers force a choice among local state, Context, and external stores a…
+## Why It Matters
+- **Key signal:** Reviewers force a choice among local state, Context, and external stores a…
 
 ## Sources
 - [Managing State](https://react.dev/learn/managing-state) — deep-dive

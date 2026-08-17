@@ -5,7 +5,7 @@
 > dnsmasq provides DNS caching, conditional forwarding, and DHCP on small networks — one lightweight process for home routers, libvirt bridges, and Docker's embedded DNS forwarder patterns.
 
 ```txt
-        dnsmasq ──┬── Interview
+        dnsmasq ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use dnsmasq for edge/LAN DNS+DHCP combined roles, port-53 confli…
+## Why It Matters
+- **Key signal:** Reviewers use dnsmasq for edge/LAN DNS+DHCP combined roles, port-53 confli…
 
 ## Sources
 - [dnsmasq man page](http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html) — deep-dive

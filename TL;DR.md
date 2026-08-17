@@ -5,7 +5,7 @@
 > TL;DR — put the outcome and key constraint first; details follow.
 
 ```txt
-        TL;DR ──┬── Interview
+        TL;DR ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Communication skill interviews and staff promo packets reward executives who …
+## Why It Matters
+- **Key signal:** Communication skill reviews and staff promo packets reward executives who …
 
 ## Sources
 - [Wikipedia — TL;DR](https://en.wikipedia.org/wiki/TL%3BDR) — overview

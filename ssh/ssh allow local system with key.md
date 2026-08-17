@@ -5,7 +5,7 @@
 > Install an ed25519 public key into a local user’s `authorized_keys`, lock down permissions, then confirm login — including on loopback — before turning off passwords.
 
 ```txt
-        ssh allow local sy ──┬── Interview
+        ssh allow local sy ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers look for permission pitfalls (`StrictModes`), `AllowUsers` locko…
+## Why It Matters
+- **Key signal:** Reviewers look for permission pitfalls (`StrictModes`), `AllowUsers` locko…
 
 ## Sources
 - [OpenSSH — sshd](https://man.openbsd.org/sshd.8) — deep-dive

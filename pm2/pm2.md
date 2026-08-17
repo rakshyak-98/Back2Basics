@@ -5,7 +5,7 @@
 > Node.js process manager — keep apps alive, reload with zero-ish downtime, and supervise logs/clusters in production-like environments.
 
 ```txt
-        pm2 ──┬── Interview
+        pm2 ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask cluster mode vs fork, restart policies, and why pm2 is not a…
+## Why It Matters
+- **Key signal:** Reviewers ask cluster mode vs fork, restart policies, and why pm2 is not a…
 
 ## Sources
 - [PM2 documentation](https://pm2.keymetrics.io/docs/usage/quick-start/) — deep-dive

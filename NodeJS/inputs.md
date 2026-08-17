@@ -5,7 +5,7 @@
 > Node.js stdin / readline inputs — CLI tools get input from process.stdin (readable stream) and write to process.stdout. The readline module provides an Interface that emits
 
 ```txt
-        Node.js stdin / re ──┬── Interview
+        Node.js stdin / re ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js stdin / readline inputs** to see if you understa…
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js stdin / readline inputs** to see if you understa…
 
 ## Sources
 - [Node.js — Readline](https://nodejs.org/api/readline.html) — deep-dive

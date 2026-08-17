@@ -5,7 +5,7 @@
 > In-process cron schedules — fires JS callbacks on a crontab pattern while the Node process is alive.
 
 ```txt
-        node-cron ──┬── Interview
+        node-cron ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **node-cron** to check whether you can explain the mechanism…
+## Why It Matters
+- **Key signal:** Reviewers use **node-cron** to check whether you can explain the mechanism…
 
 ## Sources
 - [node-cron](https://github.com/node-cron/node-cron) — deep-dive

@@ -5,7 +5,7 @@
 > JavaScript — language of the browser (and Node): single-threaded event loop, prototypes, and first-class functions.
 
 ```txt
-        Javascript ──┬── Interview
+        Javascript ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** JavaScript interviews span runtime model
+## Why It Matters
+- **Key signal:** JavaScript reviews span runtime model
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

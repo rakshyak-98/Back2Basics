@@ -5,7 +5,7 @@
 > Lists sockets, listeners, and some interface stats — legacy on modern Linux; prefer [[ss]].
 
 ```txt
-        netstat ──┬── Interview
+        netstat ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check whether you reach for `ss` first and treat netstat as a le…
+## Why It Matters
+- **Key signal:** Reviewers check whether you reach for `ss` first and treat netstat as a le…
 
 ## Sources
 - [Wikipedia — netstat](https://en.wikipedia.org/wiki/netstat) — overview

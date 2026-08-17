@@ -5,7 +5,7 @@
 > Single store, slice reducers combined, middleware stack, and selector layer for reads.
 
 ```txt
-        redux store archit ──┬── Interview
+        redux store archit ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux store architecture](https://redux.js.org/tutorials/fundamentals/part-4-store) — deep-dive

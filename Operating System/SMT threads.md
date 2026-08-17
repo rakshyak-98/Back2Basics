@@ -5,7 +5,7 @@
 > Simultaneous multithreading (Intel Hyper-Threading, AMD SMT) exposes two logical CPUs per physical core — sharing execution units while each keeps its own architectural state.
 
 ```txt
-        SMT threads ──┬── Interview
+        SMT threads ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Capacity and latency interviews: logical CPUs ≠ 2× throughput
+## Why It Matters
+- **Key signal:** Capacity and latency reviews: logical CPUs ≠ 2× throughput
 
 ## Sources
 - Intel 64 Architecture optimization manual — Hyper-Threading — deep-dive

@@ -5,7 +5,7 @@
 > The kernel ring buffer is the fixed-size circular log where printk records land — what `dmesg` reads, especially before userspace logging is up.
 
 ```txt
-        Kernel ring buffer ──┬── Interview
+        Kernel ring buffer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops debugging: early-boot messages, overflow/loss behavior, and how journald …
+## Why It Matters
+- **Key signal:** Ops debugging: early-boot messages, overflow/loss behavior, and how journald …
 
 ## Sources
 - [Linux kernel docs — Printk](https://docs.kernel.org/core-api/printk-basics.html) — deep-dive

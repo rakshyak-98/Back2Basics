@@ -5,7 +5,7 @@
 > DSA intuition is recognizing which pattern fits — before you write a line of code.
 
 ```txt
-        dsa intuition ──┬── Interview
+        dsa intuition ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Pattern intuition is the soft skill behind DSA interviews
+## Why It Matters
+- **Key signal:** Pattern intuition is the soft skill behind DSA problem reviews
 
 ## Sources
 - [NeetCode — Pattern roadmap](https://neetcode.io/roadmap) — overview
@@ -25,9 +25,9 @@
 clue → pattern → structure → prove → code
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Subarray / window** | Contiguous | Sliding window / prefix |
 | **Subsequence** | Not contiguous | DP / two pointers |
@@ -64,5 +64,5 @@ count ways / max score   → DP
 - **Mistake:** Ignoring “contiguous” — the whole game for windows
 
 ## Pros/Cons or Trade-offs
-- **Trade-off:** Systems design interviews — different intuition.
+- **Trade-off:** Systems design reviews — different intuition.
 - **Trade-off:** When the API already sorts/searches — use the library.

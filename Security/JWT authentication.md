@@ -5,7 +5,7 @@
 > signed (or encrypted) JSON claims for stateless auth — verify **algorithm, signature, and claims** server-side every request — **RFC 7519**.
 
 ```txt
-        JWT authentication ──┬── Interview
+        JWT authentication ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** API interviews: verify algorithm, signature, and claims every request
+## Why It Matters
+- **Key signal:** API reviews: verify algorithm, signature, and claims every request
 
 ## Sources
 - [RFC 7519 — JWT](https://www.rfc-editor.org/rfc/rfc7519) — deep-dive

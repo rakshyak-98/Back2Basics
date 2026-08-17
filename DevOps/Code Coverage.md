@@ -5,7 +5,7 @@
 > Coverage tools instrument code, run tests, and report which lines and branches executed — they show what ran, not what was correctly asserted.
 
 ```txt
-        Code Coverage ──┬── Interview
+        Code Coverage ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use coverage to see if you treat percentages as a signal, not a …
+## Why It Matters
+- **Key signal:** Reviewers use coverage to see if you treat percentages as a signal, not a …
 
 ## Sources
 - [Wikipedia — Code coverage](https://en.wikipedia.org/wiki/Code_coverage) — overview

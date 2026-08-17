@@ -5,7 +5,7 @@
 > Cut wasted React work — fewer re-renders, smaller bundles, lighter lists — measure before memoizing everything.
 
 ```txt
-        Optimizing perform ──┬── Interview
+        Optimizing perform ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want profiling evidence, then targeted fixes (`React.memo`, virt…
+## Why It Matters
+- **Key signal:** Reviewers want profiling evidence, then targeted fixes (`React.memo`, virt…
 
 ## Sources
 - [Render and Commit](https://react.dev/learn/render-and-commit) — overview

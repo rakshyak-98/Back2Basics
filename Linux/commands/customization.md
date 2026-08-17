@@ -5,7 +5,7 @@
 > GNOME Shell extensions are UUID-keyed bundles you install, enable, and reset — the CLI talks to Shell over D-Bus when a desktop session is running.
 
 ```txt
-        GNOME customizatio ──┬── Interview
+        GNOME customizatio ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop Linux niche: extension lifecycle, Shell version compatibility, and wh…
+## Why It Matters
+- **Key signal:** Desktop Linux niche: extension lifecycle, Shell version compatibility, and wh…
 
 ## Sources
 - [GNOME Shell extensions](https://wiki.gnome.org/Projects/GnomeShell/Extensions) — overview

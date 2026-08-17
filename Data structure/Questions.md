@@ -5,7 +5,7 @@
 > DSA question bank mindset — classify the prompt, pick a pattern, then solve with the scaffold.
 
 ```txt
-        Questions ──┬── Interview
+        Questions ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Question-bank discipline
+## Why It Matters
+- **Key signal:** Question-bank discipline
 
 ## Sources
 - [NeetCode roadmap](https://neetcode.io/roadmap) — overview
@@ -25,9 +25,9 @@
 read → tag → constraints → pattern → code → edges
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Tag** | Topic label | “This is sliding window.” |
 | **Similar problems** | Transfer learning | “Same as two-sum variant.” |
@@ -48,7 +48,7 @@ Checklist per question:
 | Knob | Why it matters |
 |------|----------------|
 | Time box | Don’t sink 40m on one |
-| Verbalize | Interview signal |
+| Verbalize | Review signal |
 | Postmortem | Note the pattern gap |
 
 ### Failure signals
@@ -62,8 +62,8 @@ Checklist per question:
 
 ## Mistakes to Avoid
 - **Mistake:** Collecting solutions without tags — unsearchable later
-- **Mistake:** Only LeetCode Easy — medium graph/DP is where interviews live
+- **Mistake:** Only LeetCode Easy — medium graph/DP is where reviews live
 
 ## Pros/Cons or Trade-offs
 - **Trade-off:** On-call incident — use runbooks, not puzzle mode.
-- **Trade-off:** production feature with clear CRUD — don’t force interview patterns.
+- **Trade-off:** production feature with clear CRUD — don’t force review patterns.

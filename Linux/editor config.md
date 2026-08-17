@@ -5,7 +5,7 @@
 > Editor configuration lives in dotfiles and language-server settings — align `$EDITOR`, terminal capabilities, and keybindings so remote and local editing behave the same.
 
 ```txt
-        editor config ──┬── Interview
+        editor config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Small but real ops signal: can you set `$EDITOR`/`$VISUAL`, survive `crontab …
+## Why It Matters
+- **Key signal:** Small but real ops signal: can you set `$EDITOR`/`$VISUAL`, survive `crontab …
 
 ## Sources
 - `man 1 vim` — overview

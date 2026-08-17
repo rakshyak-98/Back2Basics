@@ -5,7 +5,7 @@
 > Vertical scaling makes one machine bigger; horizontal scaling adds machines — relational databases usually scale up and out for reads first, because cross-node atomic transactions are expensive.
 
 ```txt
-        Horizontal vs Vert ──┬── Interview
+        Horizontal vs Vert ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Walk the typical OLTP scale path (vertical → tune → replicas → cache → shard)…
+## Why It Matters
+- **Key signal:** Walk the typical OLTP scale path (vertical → tune → replicas → cache → shard)…
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — partitioning and replication — deep-dive

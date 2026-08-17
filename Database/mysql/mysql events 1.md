@@ -5,7 +5,7 @@
 > Supplemental examples for MySQL scheduled events—one-shot events, conditional execution, and privilege requirements alongside [[MySQL Events]].
 
 ```txt
-        mysql events 1 ──┬── Interview
+        mysql events 1 ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Follow-up to event scheduler: one-time `AT` schedules, `EVENT` privilege, and…
+## Why It Matters
+- **Key signal:** Follow-up to event scheduler: one-time `AT` schedules, `EVENT` privilege, and…
 
 ## Sources
 - [MySQL Reference Manual — CREATE EVENT](https://dev.mysql.com/doc/refman/en/create-event.html) — deep-dive

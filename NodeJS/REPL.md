@@ -5,7 +5,7 @@
 > Read-Eval-Print-Loop — interactive Node prompt to try JS without a file.
 
 ```txt
-        REPL ──┬── Interview
+        REPL ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **REPL** to check whether you can explain the mechanism in p…
+## Why It Matters
+- **Key signal:** Reviewers use **REPL** to check whether you can explain the mechanism in p…
 
 ## Sources
 - [Node.js — REPL](https://nodejs.org/api/repl.html) — deep-dive

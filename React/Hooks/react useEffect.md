@@ -5,7 +5,7 @@
 > Synchronize a component with an external system after render — subscriptions, network, non-React widgets.
 
 ```txt
-        react useEffect ──┬── Interview
+        react useEffect ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers hammer dependency arrays, cleanup, and “you might not need an ef…
+## Why It Matters
+- **Key signal:** Reviewers hammer dependency arrays, cleanup, and “you might not need an ef…
 
 ## Sources
 - [useEffect](https://react.dev/reference/react/useEffect) — deep-dive

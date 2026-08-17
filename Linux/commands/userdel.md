@@ -5,7 +5,7 @@
 > Removes the account from passwd/shadow/group — home/mail only if `-r`; other files stay as numeric UID orphans.
 
 ```txt
-        userdel ──┬── Interview
+        userdel ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Offboarding depth: `-r` destructiveness, UID reuse, and that cron/systemd/use…
+## Why It Matters
+- **Key signal:** Offboarding depth: `-r` destructiveness, UID reuse, and that cron/systemd/use…
 
 ## Sources
 - [man userdel](https://man7.org/linux/man-pages/man8/userdel.8.html) — deep-dive

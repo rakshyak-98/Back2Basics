@@ -5,7 +5,7 @@
 > On Linux the old “buffer cache” is not separate anymore — file and block data live in the unified page cache; buffer heads only describe how pages map to disk blocks.
 
 ```txt
-        Buffer cache ──┬── Interview
+        Buffer cache ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect questions on dirty pages, writeback vs `fsync`, and why a successful `…
+## Why It Matters
+- **Key signal:** Expect questions on dirty pages, writeback vs `fsync`, and why a successful `…
 
 ## Sources
 - [Linux kernel docs — Page Cache](https://docs.kernel.org/mm/page_cache.html) — deep-dive

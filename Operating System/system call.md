@@ -5,7 +5,7 @@
 > A system call is the controlled gateway from user mode into the kernel — open files, map memory, spawn processes, send packets — with privilege checks on every entry.
 
 ```txt
-        System call ──┬── Interview
+        System call ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Walk user→kernel transition (`syscall`/`svc`), errno returns, blocking vs `EA…
+## Why It Matters
+- **Key signal:** Walk user→kernel transition (`syscall`/`svc`), errno returns, blocking vs `EA…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive

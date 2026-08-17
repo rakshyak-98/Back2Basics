@@ -5,7 +5,7 @@
 > CPIX (Content Protection Information Exchange) is XML that hands your packager the keys and PSSH needed to encrypt media.
 
 ```txt
-        CPIX ──┬── Interview
+        CPIX ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk CPIX end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk CPIX end-to-end
 
 ## Sources
 - [Wikipedia — CPIX](https://en.wikipedia.org/wiki/CPIX) — overview

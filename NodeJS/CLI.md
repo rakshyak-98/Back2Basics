@@ -5,7 +5,7 @@
 > Node.js CLI — the node binary executes JavaScript (file or -e). npm run sets PATH to local node_modules/.bin and injects npm lifecycle env. npx runs package
 
 ```txt
-        Node.js CLI ──┬── Interview
+        Node.js CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Node.js CLI** to see if you understand what it does oper…
+## Why It Matters
+- **Key signal:** Reviewers probe **Node.js CLI** to see if you understand what it does oper…
 
 ## Sources
 - [Node.js — Command-line options](https://nodejs.org/api/cli.html) — deep-dive

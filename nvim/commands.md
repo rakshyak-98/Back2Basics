@@ -5,7 +5,7 @@
 > Everyday operator vocabulary — modes, motions, and ex commands that make Neovim faster than arrow-key editing.
 
 ```txt
-        Neovim commands ──┬── Interview
+        Neovim commands ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Rarely a deep interview topic, but pairing/onsite screens reward fluent navig…
+## Why It Matters
+- **Key signal:** Rarely a deep review topic, but pairing/onsite screens reward fluent navig…
 
 ## Sources
 - [Neovim help — quickref](https://neovim.io/doc/user/quickref.html) — deep-dive

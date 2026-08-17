@@ -5,7 +5,7 @@
 > MongoDB documents are flexible by default — add fields freely; use JSON Schema validation when you need guardrails.
 
 ```txt
-        mongodb schema ──┬── Interview
+        mongodb schema ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Schema design questions probe embedding vs referencing, unbounded arrays, and…
+## Why It Matters
+- **Key signal:** Schema design questions probe embedding vs referencing, unbounded arrays, and…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -26,9 +26,9 @@ App writes docs → (optional $jsonSchema) → BSON on disk
 Design for: queries you run, not SQL tables
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Flexible schema** | Fields can vary per doc | “Evolve without ALTER TABLE.” |
 | **Validator** | Server-side JSON Schema | “Reject bad inserts at write time.” |

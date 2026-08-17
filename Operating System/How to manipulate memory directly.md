@@ -5,7 +5,7 @@
 > Direct memory manipulation means mapping bytes into your address space and touching them with pointers, atomics, or `mmap` — bypassing higher-level abstractions when you accept the safety cost.
 
 ```txt
-        How to manipulate  ──┬── Interview
+        How to manipulate  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Systems interviews probe `mmap` vs `read`/`write`, shared-memory IPC, and why…
+## Why It Matters
+- **Key signal:** Systems reviews probe `mmap` vs `read`/`write`, shared-memory IPC, and why…
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — `mmap`, shared memory — deep-dive

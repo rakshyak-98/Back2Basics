@@ -5,7 +5,7 @@
 > A rendition is one encoded quality of the same source — resolution, bitrate, or codec — so ABR can switch without stopping.
 
 ```txt
-        rendition ──┬── Interview
+        rendition ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk rendition end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk rendition end-to-end
 
 ## Sources
 - [Wikipedia — rendition](https://en.wikipedia.org/wiki/rendition) — overview

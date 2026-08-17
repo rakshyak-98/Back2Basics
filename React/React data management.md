@@ -5,7 +5,7 @@
 > Decide where data lives — server cache, URL, local UI state, or a global client store — and keep those roles separate.
 
 ```txt
-        React data managem ──┬── Interview
+        React data managem ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers draw the line between server state and client state
+## Why It Matters
+- **Key signal:** Reviewers draw the line between server state and client state
 
 ## Sources
 - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) — deep-dive

@@ -5,7 +5,7 @@
 > crontab schedules commands by minute — crond wakes each minute, matches the five time fields, and runs the job with a minimal environment.
 
 ```txt
-        crontab ──┬── Interview
+        crontab ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Know the five fields, DOM/DOW OR semantics, absolute paths, logging, and when…
+## Why It Matters
+- **Key signal:** Know the five fields, DOM/DOW OR semantics, absolute paths, logging, and when…
 
 ## Sources
 - [crontab(5)](https://man7.org/linux/man-pages/man5/crontab.5.html) — deep-dive

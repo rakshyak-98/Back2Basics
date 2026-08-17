@@ -5,7 +5,7 @@
 > DRM (Digital Rights Management) encrypts the stream and only hands keys to entitled players — stops casual copying.
 
 ```txt
-        DRM ──┬── Interview
+        DRM ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk DRM end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk DRM end-to-end
 
 ## Sources
 - [Wikipedia — DRM](https://en.wikipedia.org/wiki/DRM) — overview

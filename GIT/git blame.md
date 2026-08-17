@@ -5,7 +5,7 @@
 > Line-level authorship: which commit last touched each line — **forensics for regressions**, not a performance review weapon.
 
 ```txt
-        git blame ──┬── Interview
+        git blame ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Blame interviews check archaeology of a line
+## Why It Matters
+- **Key signal:** Blame reviews check archaeology of a line
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

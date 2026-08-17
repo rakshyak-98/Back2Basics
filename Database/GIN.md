@@ -5,7 +5,7 @@
 > PostgreSQL Generalized Inverted Index—stores (key → row pointers) entries for composite values like arrays, `jsonb`, and full-text `tsvector` documents.
 
 ```txt
-        GIN ──┬── Interview
+        GIN ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** GIN comes up when discussing PostgreSQL full-text search, `jsonb` containment…
+## Why It Matters
+- **Key signal:** GIN comes up when discussing PostgreSQL full-text search, `jsonb` containment…
 
 ## Sources
 - [PostgreSQL Documentation — GIN Indexes](https://www.postgresql.org/docs/current/gin.html) — deep-dive

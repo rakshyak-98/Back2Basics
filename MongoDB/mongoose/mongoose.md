@@ -5,7 +5,7 @@
 > Mongoose is the Node ODM for MongoDB — schemas, models, and connection pooling on top of the driver.
 
 ```txt
-        mongoose ──┬── Interview
+        mongoose ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Mongoose interviews cover schemas vs MongoDB documents, middleware hooks, and…
+## Why It Matters
+- **Key signal:** Mongoose reviews cover schemas vs MongoDB documents, middleware hooks, and…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -27,9 +27,9 @@ URI → mongoose.connect → Model(schema) → find/save
                          virtuals / hooks (app-level)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **ODM** | Objects ↔ documents | “Schema lives in the app.” |
 | **Model** | Collection constructor | “`mongoose.model('User', schema)`.” |

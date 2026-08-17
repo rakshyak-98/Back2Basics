@@ -5,7 +5,7 @@
 > TypeScript-first schema library — parse and validate untrusted data at runtime, then infer static types from the same schema.
 
 ```txt
-        zod ──┬── Interview
+        zod ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Zod to check whether you validate at system boundaries (HTTP…
+## Why It Matters
+- **Key signal:** Reviewers use Zod to check whether you validate at system boundaries (HTTP…
 
 ## Sources
 - [Zod documentation](https://zod.dev/) — deep-dive

@@ -5,7 +5,7 @@
 > ACPI (Advanced Configuration and Power Interface) is the OS–firmware contract for discovering hardware, configuring devices, and managing system power states — sleep, hibernate, and shutdown — without legacy BIOS-only h…
 
 ```txt
-        ACPI ──┬── Interview
+        ACPI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explain how the operating system hands off to firmware for sleep/wake, what A…
+## Why It Matters
+- **Key signal:** Explain how the operating system hands off to firmware for sleep/wake, what A…
 
 ## Sources
 - [UEFI Forum — ACPI specification](https://uefi.org/specifications) — deep-dive

@@ -5,7 +5,7 @@
 > Builder separates **construction of a complex object** from its representation — so the same assembly steps can build different variants without a telescoping constructor.
 
 ```txt
-        Builder ──┬── Interview
+        Builder ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Builder interviews cover telescoping constructors, fluent steps, validation a…
+## Why It Matters
+- **Key signal:** Builder reviews cover telescoping constructors, fluent steps, validation a…
 
 ## Sources
 - Gamma et al., *Design Patterns* (Builder) — deep-dive

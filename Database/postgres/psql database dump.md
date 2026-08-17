@@ -5,7 +5,7 @@
 > Logical backups with `pg_dump` / `pg_dumpall` — schema, data, and globals for restore, cloning, and version upgrades.
 
 ```txt
-        psql database dump ──┬── Interview
+        psql database dump ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops staple: custom format (`-Fc`) for parallel restore, globals dump for role…
+## Why It Matters
+- **Key signal:** Ops staple: custom format (`-Fc`) for parallel restore, globals dump for role…
 
 ## Sources
 - [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) — deep-dive

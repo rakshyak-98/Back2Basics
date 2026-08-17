@@ -5,7 +5,7 @@
 > Store pipeline between dispatch and reducers — logging, crash reporting, async, analytics.
 
 ```txt
-        redux middleware ──┬── Interview
+        redux middleware ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux middleware](https://redux.js.org/understanding/history-and-design/middleware) — deep-dive

@@ -5,7 +5,7 @@
 > Debug Go — race detector, Delve, pprof, and logging beats printf-only when concurrency bites.
 
 ```txt
-        go debugging ──┬── Interview
+        go debugging ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Debugging questions check race detector, Delve, and pprof
+## Why It Matters
+- **Key signal:** Debugging questions check race detector, Delve, and pprof
 
 ## Sources
 - [Go blog — Introducing the Go Race Detector](https://go.dev/blog/race-detector) — overview

@@ -5,7 +5,7 @@
 > NVENC (NVIDIA Encoder) — cPU: demux / mux / audio / orchestration
 
 ```txt
-        NVENC (NVIDIA Enco ──┬── Interview
+        NVENC (NVIDIA Enco ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Use cases
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about NVENC to see if you understand the pipeline role, fail…
+## Why It Matters
+- **Key signal:** Reviewers ask about NVENC to see if you understand the pipeline role, fail…
 
 ## Sources
 - [Wikipedia — NVENC](https://en.wikipedia.org/wiki/NVENC) — overview

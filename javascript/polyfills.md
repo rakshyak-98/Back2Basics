@@ -5,7 +5,7 @@
 > **Runtime implementation** of missing APIs on old engines — no syntax transform — fills the gap so **calling** `Array.prototype.at` works — **MDN + core-js**.
 
 ```txt
-        Polyfills ──┬── Interview
+        Polyfills ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Polyfills** to see if you understand what it does operat…
+## Why It Matters
+- **Key signal:** Reviewers probe **Polyfills** to see if you understand what it does operat…
 
 ## Sources
 - [MDN — Polyfill](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill) — overview

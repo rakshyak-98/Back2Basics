@@ -27,7 +27,7 @@ MAX_BRANCH_CHARS = 78
 MAX_CENTER_CHARS = 220
 
 BRANCH_SHORT = {
-    "Interview Relevance": "Interview",
+    "Why It Matters": "Why it matters",
     "Sources": "Sources",
     "Key Concepts": "Concepts",
     "Technical Details": "Mechanism",
@@ -38,7 +38,7 @@ BRANCH_SHORT = {
 }
 
 MIND_MAP_PRIMARY_ORDER = [
-    "Interview Relevance",
+    "Why It Matters",
     "Sources",
     "Key Concepts",
     "Technical Details",
@@ -110,7 +110,7 @@ def is_structural_line(line: str) -> bool:
     return False
 
 
-def rewrite_interview_relevance(body: list[str]) -> list[str]:
+def rewrite_why_it_matters(body: list[str]) -> list[str]:
     text = "\n".join(body).strip()
     if not text:
         return body
@@ -118,14 +118,14 @@ def rewrite_interview_relevance(body: list[str]) -> list[str]:
         out = []
         for line in body:
             if line.strip().startswith("- "):
-                out.append(compress_interview_line(line))
+                out.append(compress_key_signal_line(line))
             else:
                 out.append(line)
         return out
-    return [f"- **Interview probes:** {compress_clause(text, 120)}"]
+    return [f"- **Key signal:** {compress_clause(text, 120)}"]
 
 
-def compress_interview_line(line: str) -> str:
+def compress_key_signal_line(line: str) -> str:
     m = re.match(r"(- \*\*[^*]+\*\*:?\s*)(.*)", line.strip())
     if m:
         return m.group(1) + compress_clause(m.group(2))
@@ -139,9 +139,9 @@ def recall_cue_to_concept(line: str) -> str | None:
     m = re.match(r"- What is \*\*([^*]+)\*\*\??", line)
     if m:
         return f"- **{m.group(1).strip()}:** recall hook"
-    m = re.match(r"- Why do interviewers care about (.+)\??", line)
+    m = re.match(r"- Why does this matter for (.+)\??", line)
     if m:
-        return f"- **Interview probe:** {compress_clause(m.group(1))}"
+        return f"- **Key signal:** {compress_clause(m.group(1))}"
     m = re.match(r"- (.+)\??$", line)
     if m and line.startswith("- "):
         text = compress_clause(m.group(1))
@@ -362,9 +362,9 @@ def build_primary_sections(
             sections["Technical Details"]
         )
 
-    if "Interview Relevance" in sections:
-        sections["Interview Relevance"] = rewrite_interview_relevance(
-            sections["Interview Relevance"]
+    if "Why It Matters" in sections:
+        sections["Why It Matters"] = rewrite_why_it_matters(
+            sections["Why It Matters"]
         )
 
     if "Pros/Cons or Trade-offs" in sections:
@@ -457,7 +457,7 @@ def rebuild_preamble(
 def already_mindmap_shaped(content: str) -> bool:
     return (
         "┬──" in content
-        and "## Interview Relevance" in content
+        and "## Why It Matters" in content
         and "## Recall Cues" not in content
     )
 

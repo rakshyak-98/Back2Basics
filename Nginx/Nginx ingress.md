@@ -5,7 +5,7 @@
 > Kubernetes Ingress controller built on Nginx — L7 HTTP(S) routing to Services by host and path, with TLS termination at the edge.
 
 ```txt
-        Nginx ingress ──┬── Interview
+        Nginx ingress ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Cluster interviews ask Ingress vs Service vs Gateway API, why empty Endpoints…
+## Why It Matters
+- **Key signal:** Cluster reviews ask Ingress vs Service vs Gateway API, why empty Endpoints…
 
 ## Sources
 - [kubernetes/ingress-nginx docs](https://kubernetes.github.io/ingress-nginx/) — deep-dive

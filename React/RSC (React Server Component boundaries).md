@@ -5,7 +5,7 @@
 > Server Components render on the server and send UI to the client; use client marks the interactive boundary that ships JS.
 
 ```txt
-        RSC (React Server  ──┬── Interview
+        RSC (React Server  ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe what can run on the server, what must be client, and how d…
+## Why It Matters
+- **Key signal:** Reviewers probe what can run on the server, what must be client, and how d…
 
 ## Sources
 - [Server Components](https://react.dev/reference/rsc/server-components) — deep-dive

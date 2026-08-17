@@ -5,7 +5,7 @@
 > Go errors — values you return (`error` interface), not exceptions; `panic` is for truly unrecoverable surprises.
 
 ```txt
-        go error ──┬── Interview
+        go error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Error handling is the Go culture check
+## Why It Matters
+- **Key signal:** Error handling is the Go culture check
 
 ## Sources
 - [Go blog — Working with Errors in Go 1.13](https://go.dev/blog/go1.13-errors) — deep-dive

@@ -5,7 +5,7 @@
 > One-off state and fetch wiring scattered across components — works in a spike, fights you in production.
 
 ```txt
-        ad hoc system ──┬── Interview
+        ad hoc system ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast disciplined data/state boundaries with ad-hoc effects a…
+## Why It Matters
+- **Key signal:** Reviewers contrast disciplined data/state boundaries with ad-hoc effects a…
 
 ## Sources
 - [React — Thinking in React](https://react.dev/learn/thinking-in-react) — overview

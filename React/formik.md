@@ -5,7 +5,7 @@
 > Form state library for React — values, validation, and touched/error tracking without hand-rolling every field.
 
 ```txt
-        Formik ──┬── Interview
+        Formik ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers compare controlled forms, Formik, and React Hook Form
+## Why It Matters
+- **Key signal:** Reviewers compare controlled forms, Formik, and React Hook Form
 
 ## Sources
 - [Formik docs](https://formik.org/docs/overview) — deep-dive

@@ -5,7 +5,7 @@
 > URI + driver options that keep your app talking to the right cluster under load and failover — **MongoDB Manual** + production incident patterns.
 
 ```txt
-        MongoDB connection ──┬── Interview
+        MongoDB connection ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use MongoDB connection to test MongoDB data modeling and ops jud…
+## Why It Matters
+- **Key signal:** Reviewers use MongoDB connection to test MongoDB data modeling and ops jud…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive

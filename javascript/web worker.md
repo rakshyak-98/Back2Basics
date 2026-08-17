@@ -5,7 +5,7 @@
 > Background JS thread in the browser — keep heavy CPU off the UI thread; talk via `postMessage`.
 
 ```txt
-        web worker ──┬── Interview
+        web worker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **web worker** to check whether you can explain the mechanis…
+## Why It Matters
+- **Key signal:** Reviewers use **web worker** to check whether you can explain the mechanis…
 
 ## Sources
 - [MDN — Using web workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) — deep-dive

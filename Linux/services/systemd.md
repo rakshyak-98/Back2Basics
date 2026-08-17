@@ -5,7 +5,7 @@
 > PID 1 on modern Linux — starts units in parallel, tracks dependencies, and restarts services declared in unit files.
 
 ```txt
-        systemd ──┬── Interview
+        systemd ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Core Linux ops: units vs targets, enable ≠ start, Wants vs Requires, daemon-r…
+## Why It Matters
+- **Key signal:** Core Linux ops: units vs targets, enable ≠ start, Wants vs Requires, daemon-r…
 
 ## Sources
 - [systemd documentation index](https://www.freedesktop.org/software/systemd/man/latest/) — deep-dive

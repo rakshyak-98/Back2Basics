@@ -5,7 +5,7 @@
 > Centralizes kernel and service messages in the journal and classic text files under `/var/log` — triage both paths in incidents.
 
 ```txt
-        loggging ──┬── Interview
+        loggging ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you use `journalctl` on systemd hosts, know persistent vs volatile jour…
+## Why It Matters
+- **Key signal:** Shows you use `journalctl` on systemd hosts, know persistent vs volatile jour…
 
 ## Sources
 - [journald.conf(5)](https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html) — deep-dive

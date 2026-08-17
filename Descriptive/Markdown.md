@@ -5,7 +5,7 @@
 > Markdown is lightweight plaintext that compiles to HTML — good for notes, READMEs, and docs-as-code.
 
 ```txt
-        Markdown ──┬── Interview
+        Markdown ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Markdown literacy is assumed
+## Why It Matters
+- **Key signal:** Markdown literacy is assumed
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -25,9 +25,9 @@
 .md → parser (flavor) → HTML
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Flavor** | Dialect rules | “GFM tables vs strict CM.” |
 | **Front matter** | YAML header | “Hugo/Obsidian metadata.” |

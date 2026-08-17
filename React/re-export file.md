@@ -5,7 +5,7 @@
 > Barrel `index.ts` that re-exports modules — shorter imports, but easy to create circular deps and fat bundles.
 
 ```txt
-        re-export file ──┬── Interview
+        re-export file ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about barrel files, tree-shaking, and circular import hazard…
+## Why It Matters
+- **Key signal:** Reviewers ask about barrel files, tree-shaking, and circular import hazard…
 
 ## Sources
 - [MDN — export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) — overview

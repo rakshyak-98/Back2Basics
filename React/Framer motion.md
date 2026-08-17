@@ -5,7 +5,7 @@
 > React animation library — declarative motion components and gestures on top of the DOM.
 
 ```txt
-        Framer Motion ──┬── Interview
+        Framer Motion ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you animate without layout thrash, and when CSS transiti…
+## Why It Matters
+- **Key signal:** Reviewers ask how you animate without layout thrash, and when CSS transiti…
 
 ## Sources
 - [Framer Motion docs](https://www.framer.com/motion/) — deep-dive

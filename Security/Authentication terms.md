@@ -5,7 +5,7 @@
 > Glossary of identity primitives — use consistent vocabulary in design reviews, incident docs, and API specs.
 
 ```txt
-        Authentication ter ──┬── Interview
+        Authentication ter ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Staff interviews expect precise AuthN vs AuthZ vocabulary
+## Why It Matters
+- **Key signal:** Staff reviews expect precise AuthN vs AuthZ vocabulary
 
 ## Sources
 - [NIST SP 800-63B — Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html) — deep-dive

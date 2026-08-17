@@ -5,7 +5,7 @@
 > Registration token for one app install on one device — your backend stores it to target push; it rotates on reinstall, clear-data, and refresh callbacks.
 
 ```txt
-        FCM Token (Firebas ──┬── Interview
+        FCM Token (Firebas ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want token lifecycle (store, refresh, delete on `not-registered`…
+## Why It Matters
+- **Key signal:** Reviewers want token lifecycle (store, refresh, delete on `not-registered`…
 
 ## Sources
 - [Firebase — About FCM messages](https://firebase.google.com/docs/cloud-messaging/concept-options) — overview

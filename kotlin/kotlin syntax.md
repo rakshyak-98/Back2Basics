@@ -5,7 +5,7 @@
 > JVM/JS/Native language with null-safe types — `val`/`var`, smart casts, data classes, and concise functions that interop with Java.
 
 ```txt
-        Kotlin syntax ──┬── Interview
+        Kotlin syntax ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe null safety (`?.`, `?:`, `!!`), `val` vs `var`, data class…
+## Why It Matters
+- **Key signal:** Reviewers probe null safety (`?.`, `?:`, `!!`), `val` vs `var`, data class…
 
 ## Sources
 - [Kotlin — Basic syntax](https://kotlinlang.org/docs/basic-syntax.html) — overview

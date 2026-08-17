@@ -5,7 +5,7 @@
 > Engines skim source before full parse — find functions/boundaries early for faster startup and lazy compile.
 
 ```txt
-        pre-parser ──┬── Interview
+        pre-parser ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Pre-parser questions check lazy parsing optimizations in engines
+## Why It Matters
+- **Key signal:** Pre-parser questions check lazy parsing optimizations in engines
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 scan → pre-parse (lazy) → full parse on first run → execute
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Lazy parse** | Defer full AST | “Faster cold start.” |
 | **Eager parse** | Parse now | “Directives / certain patterns.” |

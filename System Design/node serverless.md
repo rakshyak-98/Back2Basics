@@ -5,7 +5,7 @@
 > Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling — goal: Build a minimal viable prototype of an event-driven serverless task manager by weekend (target
 
 ```txt
-        Prototype Plan: Se ──┬── Interview
+        Prototype Plan: Se ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Lambda + DynamoDB patterns: event triggers, cold start, idempotency, and scal…
+## Why It Matters
+- **Key signal:** Lambda + DynamoDB patterns: event triggers, cold start, idempotency, and scal…
 
 ## Sources
 - [Wikipedia — node serverless](https://en.wikipedia.org/wiki/node_serverless) — overview
@@ -36,9 +36,9 @@
 - Implement iteratively—commit to GitHub daily for version control.
 - Total effort: 10-15 hours, assuming basic AWS CLI setup.
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling** | This note’s core idea | “I explain Prototype Plan: Serverless Node.js Patterns - Event-Driven Lambdas with DynamoDB for Auto-Scaling in plain words.” |
 | **idea** | What it is for | “One sentence, no jargon.” |
@@ -54,7 +54,7 @@
 
 ## Mistakes to Avoid
 > [!WARNING]
-> Prefer words you can say aloud in an interview.
+> Prefer words you can say aloud in a review.
 
 ---
 

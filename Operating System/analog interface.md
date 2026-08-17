@@ -5,7 +5,7 @@
 > An analog interface moves continuously varying physical quantities — voltage, current, pressure — across the boundary between the real world and digital logic the OS can schedule.
 
 ```txt
-        Analog interface ──┬── Interview
+        Analog interface ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Embedded interviews: ADC/DAC path, why sample rate and resolution matter, and…
+## Why It Matters
+- **Key signal:** Embedded reviews: ADC/DAC path, why sample rate and resolution matter, and…
 
 ## Sources
 - [Wikipedia — Analog-to-digital converter](https://en.wikipedia.org/wiki/Analog-to-digital_converter) — overview

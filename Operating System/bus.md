@@ -5,7 +5,7 @@
 > A bus is a shared communication pathway — address, data, and control — that lets the CPU, memory, and devices exchange bytes under a defined protocol.
 
 ```txt
-        Bus ──┬── Interview
+        Bus ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hardware/systems questions: PCIe vs memory fabric vs I2C, how the OS enumerat…
+## Why It Matters
+- **Key signal:** Hardware/systems questions: PCIe vs memory fabric vs I2C, how the OS enumerat…
 
 ## Sources
 - Hennessy & Patterson, *Computer Architecture: A Quantitative Approach* — deep-dive

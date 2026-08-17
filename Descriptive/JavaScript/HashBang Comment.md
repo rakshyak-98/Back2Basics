@@ -5,7 +5,7 @@
 > First-line interpreter hint for Unix shells — stripped by the JS engine, meaningful only to the OS launcher — **POSIX + Node shebang practice**.
 
 ```txt
-        HashBang comment ( ──┬── Interview
+        HashBang comment ( ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Hashbang in JS modules is niche
+## Why It Matters
+- **Key signal:** Hashbang in JS modules is niche
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

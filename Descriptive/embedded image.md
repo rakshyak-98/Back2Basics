@@ -5,7 +5,7 @@
 > Embedded images ship inside the document (often base64 data URLs) — no extra HTTP fetch, bigger payload.
 
 ```txt
-        embedded image ──┬── Interview
+        embedded image ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Embedded image questions cover base64 vs URL assets
+## Why It Matters
+- **Key signal:** Embedded image questions cover base64 vs URL assets
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -24,9 +24,9 @@
 bytes → base64 → data URL in HTML/CSS/Markdown
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **data URL** | Inline resource | “No separate request.” |
 | **base64** | Text encoding of bytes | “~33% size overhead.” |

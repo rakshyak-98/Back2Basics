@@ -5,7 +5,7 @@
 > Schema + indexes + hooks that define document shape, constraints, and query paths — **Mongoose docs** + DBA review habits.
 
 ```txt
-        MongoDB model (Mon ──┬── Interview
+        MongoDB model (Mon ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use MongoDB model (Mongoose schema) to test MongoDB data modelin…
+## Why It Matters
+- **Key signal:** Reviewers use MongoDB model (Mongoose schema) to test MongoDB data modelin…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive

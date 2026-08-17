@@ -5,7 +5,7 @@
 > Protocol: append change records to a log and harden them before acknowledging commit — the foundation of crash-safe [[ACID]] durability in PostgreSQL, InnoDB, and most relational engines.
 
 ```txt
-        write-ahead loggin ──┬── Interview
+        write-ahead loggin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explain why dirty pages can flush later than commit, what a checkpoint LSN do…
+## Why It Matters
+- **Key signal:** Explain why dirty pages can flush later than commit, what a checkpoint LSN do…
 
 ## Sources
 - [PostgreSQL WAL](https://www.postgresql.org/docs/current/wal.html) — deep-dive

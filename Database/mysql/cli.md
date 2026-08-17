@@ -5,7 +5,7 @@
 > The `mysql` command-line client—interactive [[SQL]] shell and script runner for administering local or remote MySQL servers.
 
 ```txt
-        cli ──┬── Interview
+        cli ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops interviews expect fluent CLI: connect with TLS, run one-shot `-e`, script…
+## Why It Matters
+- **Key signal:** Ops reviews expect fluent CLI: connect with TLS, run one-shot `-e`, script…
 
 ## Sources
 - [MySQL Reference Manual — mysql Command-Line Client](https://dev.mysql.com/doc/refman/en/mysql.html) — deep-dive

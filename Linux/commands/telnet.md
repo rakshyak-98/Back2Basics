@@ -5,7 +5,7 @@
 > Cleartext TCP client — fastest manual probe for “does this port accept connections and speak text?”
 
 ```txt
-        telnet ──┬── Interview
+        telnet ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can hand-talk SMTP/HTTP for debugging, know telnet is not encrypted…
+## Why It Matters
+- **Key signal:** Shows you can hand-talk SMTP/HTTP for debugging, know telnet is not encrypted…
 
 ## Sources
 - [Wikipedia — Telnet](https://en.wikipedia.org/wiki/Telnet) — overview

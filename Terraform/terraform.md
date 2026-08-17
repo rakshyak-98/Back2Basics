@@ -5,7 +5,7 @@
 > Terraform declares cloud resources as code and applies planned changes — desired state in HCL, executed through provider plugins against cloud APIs.
 
 ```txt
-        Terraform ──┬── Interview
+        Terraform ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect declarative IaC versus ClickOps/scripts, resource versus …
+## Why It Matters
+- **Key signal:** Reviewers expect declarative IaC versus ClickOps/scripts, resource versus …
 
 ## Sources
 - [HashiCorp — What is Terraform?](https://developer.hashicorp.com/terraform/intro) — overview

@@ -5,7 +5,7 @@
 > SCTP (Stream Control Transmission Protocol) — SCTP sits above IP, offering multiple streams with optional reliable ordered delivery — unlike TCP's single byte stream. In WebRTC, SCTP runs
 
 ```txt
-        SCTP (Stream Contr ──┬── Interview
+        SCTP (Stream Contr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about SCTP to see if you understand the pipeline role, failu…
+## Why It Matters
+- **Key signal:** Reviewers ask about SCTP to see if you understand the pipeline role, failu…
 
 ## Sources
 - [Wikipedia — SCTP](https://en.wikipedia.org/wiki/SCTP) — overview

@@ -5,7 +5,7 @@
 > Accept live or file video into the processing pipeline — **front door** where protocols, validation, and backpressure matter first.
 
 ```txt
-        Ingestion ──┬── Interview
+        Ingestion ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Ingestion to see if you understand the pipeline role, …
+## Why It Matters
+- **Key signal:** Reviewers ask about Ingestion to see if you understand the pipeline role, …
 
 ## Sources
 - [Wikipedia — ingestion](https://en.wikipedia.org/wiki/ingestion) — overview

@@ -5,7 +5,7 @@
 > Redux Toolkit Query — generated hooks for fetching and caching server state inside the Redux store.
 
 ```txt
-        RTK Query Toolkit ──┬── Interview
+        RTK Query Toolkit ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [RTK Query Toolkit](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive

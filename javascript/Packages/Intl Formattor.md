@@ -5,7 +5,7 @@
 > `Intl.*` — built-in locale formatting for numbers, dates, lists, plurals, and collation (no Moment required for basics).
 
 ```txt
-        Intl Formattor ──┬── Interview
+        Intl Formattor ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Intl Formattor** to see if you understand what it does o…
+## Why It Matters
+- **Key signal:** Reviewers probe **Intl Formattor** to see if you understand what it does o…
 
 ## Sources
 - [Wikipedia — Intl Formattor](https://en.wikipedia.org/wiki/Intl_Formattor) — overview

@@ -5,7 +5,7 @@
 > Populate (Mongoose) replaces ObjectId refs with documents — convenience join at the app layer.
 
 ```txt
-        MongoDB data popul ──┬── Interview
+        MongoDB data popul ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Populate questions cover reference hydration costs versus embedding
+## Why It Matters
+- **Key signal:** Populate questions cover reference hydration costs versus embedding
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** Post { author: ObjectId } ──populate──► Post { author: UserDoc }
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **ref** | Path points at another model | “`ref: 'User'` on the schema.” |
 | **populate** | Hydrate refs | “Extra query unless you aggregate.” |

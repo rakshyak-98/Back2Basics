@@ -5,7 +5,7 @@
 > Server-side logic in MySQL — stored procedures, functions, triggers, and scheduled events that run inside `mysqld` with the server’s privileges and connection context.
 
 ```txt
-        mysql Programmable ──┬── Interview
+        mysql Programmable ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect “when would you put logic in the database versus the app?” Signal: you…
+## Why It Matters
+- **Key signal:** Expect “when would you put logic in the database versus the app?” Signal: you…
 
 ## Sources
 - [MySQL Stored Objects](https://dev.mysql.com/doc/refman/en/stored-objects.html) — overview

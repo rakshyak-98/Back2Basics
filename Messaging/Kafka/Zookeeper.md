@@ -5,7 +5,7 @@
 > Distributed coordination service — historically stored Kafka’s cluster metadata and helped elect controllers; new clusters prefer KRaft instead.
 
 ```txt
-        Zookeeper ──┬── Interview
+        Zookeeper ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about ZooKeeper to see if you understand *why* Kafka needed …
+## Why It Matters
+- **Key signal:** Reviewers ask about ZooKeeper to see if you understand *why* Kafka needed …
 
 ## Sources
 - [Apache ZooKeeper documentation](https://zookeeper.apache.org/doc/current/) — deep-dive

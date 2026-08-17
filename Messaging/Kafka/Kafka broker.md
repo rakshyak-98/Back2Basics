@@ -5,7 +5,7 @@
 > A Kafka server process that stores topic partitions, serves produce/fetch traffic, and replicates data to peer brokers for durability.
 
 ```txt
-        Kafka broker ──┬── Interview
+        Kafka broker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask what a broker actually does (storage, replication, leadershi…
+## Why It Matters
+- **Key signal:** Reviewers ask what a broker actually does (storage, replication, leadershi…
 
 ## Sources
 - [Apache Kafka — Core concepts](https://kafka.apache.org/intro#intro_topics) — overview

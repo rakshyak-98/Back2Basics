@@ -5,7 +5,7 @@
 > One-way push from server to browser over plain HTTP — the server keeps a long-lived response open and writes `text/event-stream` events.
 
 ```txt
-        SSE (Server-Sent E ──┬── Interview
+        SSE (Server-Sent E ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about SSE to see if you know when unidirectional server→clie…
+## Why It Matters
+- **Key signal:** Reviewers ask about SSE to see if you know when unidirectional server→clie…
 
 ## Sources
 - [MDN — Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) — deep-dive

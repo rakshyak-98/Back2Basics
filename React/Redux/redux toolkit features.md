@@ -5,7 +5,7 @@
 > RTK feature set — slices, thunks, RTK Query, listeners, Immer, DevTools wiring by default.
 
 ```txt
-        redux toolkit feat ──┬── Interview
+        redux toolkit feat ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux toolkit features](https://redux-toolkit.js.org/introduction/getting-started) — deep-dive

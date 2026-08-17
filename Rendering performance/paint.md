@@ -5,7 +5,7 @@
 > Pixel-filling stage after layout — text, colors, borders, shadows, images recorded into layers for compositing.
 
 ```txt
-        paint ──┬── Interview
+        paint ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Checks whether you can rank CSS property cost (layout vs paint vs composite) …
+## Why It Matters
+- **Key signal:** Checks whether you can rank CSS property cost (layout vs paint vs composite) …
 
 ## Sources
 - [web.dev — Rendering performance](https://web.dev/articles/rendering-performance) — deep-dive

@@ -5,7 +5,7 @@
 > Text transform before the real compiler: macros, includes, and conditional compilation (`#define`, `#include`, `#ifdef`).
 
 ```txt
-        Preprocessor ──┬── Interview
+        Preprocessor ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Systems/C interviews: what happens before compilation
+## Why It Matters
+- **Key signal:** Systems/C reviews: what happens before compilation
 
 ## Sources
 - [GCC — The C Preprocessor](https://gcc.gnu.org/onlinedocs/cpp/) — deep-dive

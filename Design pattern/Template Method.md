@@ -5,7 +5,7 @@
 > Template Method defines the skeleton of an algorithm in a base class, deferring some steps to subclasses — fixed order, swappable details.
 
 ```txt
-        Template Method ──┬── Interview
+        Template Method ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Template Method checks skeleton algorithms with overridable steps
+## Why It Matters
+- **Key signal:** Template Method checks skeleton algorithms with overridable steps
 
 ## Sources
 - Gamma et al., *Design Patterns* (Template Method) — deep-dive

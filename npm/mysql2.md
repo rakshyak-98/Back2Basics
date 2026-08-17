@@ -5,7 +5,7 @@
 > Popular Node.js MySQL / MariaDB client — talks to the server over the wire with prepared statements, pooling, and optional Promise APIs.
 
 ```txt
-        mysql2 ──┬── Interview
+        mysql2 ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about `mysql2` to see if you use connection pools, prepared …
+## Why It Matters
+- **Key signal:** Reviewers ask about `mysql2` to see if you use connection pools, prepared …
 
 ## Sources
 - [mysql2 GitHub documentation](https://github.com/sidorares/node-mysql2) — deep-dive

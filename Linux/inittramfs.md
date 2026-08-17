@@ -5,7 +5,7 @@
 > The initial RAM filesystem (initramfs) is a cpio archive the bootloader loads — early userspace that finds disks, unlocks encryption, mounts real root, then hands off to PID 1.
 
 ```txt
-        inittramfs ──┬── Interview
+        inittramfs ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Boot troubleshooting classic: “gave up waiting for root device,” LUKS unlock …
+## Why It Matters
+- **Key signal:** Boot troubleshooting classic: “gave up waiting for root device,” LUKS unlock …
 
 ## Sources
 - `man 8 update-initramfs`, `man 8 dracut` — deep-dive

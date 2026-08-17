@@ -5,7 +5,7 @@
 > Renders monospace text and turns keystrokes into bytes for a shell on a pseudo-terminal (PTY).
 
 ```txt
-        terminal emulator ──┬── Interview
+        terminal emulator ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you know `$TERM`/terminfo, PTY allocation over SSH, and that PuTTY/Alac…
+## Why It Matters
+- **Key signal:** Shows you know `$TERM`/terminfo, PTY allocation over SSH, and that PuTTY/Alac…
 
 ## Sources
 - `man 1 xterm` — overview

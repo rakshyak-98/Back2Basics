@@ -5,7 +5,7 @@
 > PostgreSQL error reporting — `SQLSTATE`, `DETAIL`, `HINT`, and `CONTEXT` fields that turn failed queries into actionable fixes.
 
 ```txt
-        postgres Error ──┬── Interview
+        postgres Error ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Reliability interviews care which errors are retryable (`40001`, `40P01`) ver…
+## Why It Matters
+- **Key signal:** Reliability reviews care which errors are retryable (`40001`, `40P01`) ver…
 
 ## Sources
 - [Protocol error fields](https://www.postgresql.org/docs/current/protocol-error-fields.html) — deep-dive

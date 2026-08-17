@@ -5,7 +5,7 @@
 > Create a Pod through the API — declarative manifests (preferred), generated YAML from `kubectl run --dry-run`, or imperative one-offs for debug only.
 
 ```txt
-        kubectl pod creati ──┬── Interview
+        kubectl pod creati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast bare Pods versus Deployments, `apply` versus `create`, …
+## Why It Matters
+- **Key signal:** Reviewers contrast bare Pods versus Deployments, `apply` versus `create`, …
 
 ## Sources
 - [Kubernetes — Pods](https://kubernetes.io/docs/concepts/workloads/pods/) — deep-dive

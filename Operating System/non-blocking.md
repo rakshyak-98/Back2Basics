@@ -5,7 +5,7 @@
 > Non-blocking I/O returns immediately when data is not ready — retry or wait via an event multiplexer instead of sleeping inside the kernel.
 
 ```txt
-        Non-blocking ──┬── Interview
+        Non-blocking ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** `O_NONBLOCK` + `EAGAIN` + `epoll_wait` loop
+## Why It Matters
+- **Key signal:** `O_NONBLOCK` + `EAGAIN` + `epoll_wait` loop
 
 ## Sources
 - Kerrisk, *The Linux Programming Interface* — deep-dive

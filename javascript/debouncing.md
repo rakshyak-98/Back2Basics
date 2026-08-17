@@ -5,7 +5,7 @@
 > Delay function execution until **input stops** for N ms — coalesce burst calls into one — **UI search, resize, autocomplete**.
 
 ```txt
-        Debouncing ──┬── Interview
+        Debouncing ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **Debouncing** to see if you understand what it does opera…
+## Why It Matters
+- **Key signal:** Reviewers probe **Debouncing** to see if you understand what it does opera…
 
 ## Sources
 - [CSS-Tricks — Debouncing and Throttling](https://css-tricks.com/debouncing-throttling-explained-examples/) — overview

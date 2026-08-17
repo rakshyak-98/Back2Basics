@@ -5,7 +5,7 @@
 > `next build` compiles the app into `.next` (static assets plus server chunks); `next start` serves that production build.
 
 ```txt
-        Next js Build ──┬── Interview
+        Next js Build ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe `next build` to check whether you understand build-time ve…
+## Why It Matters
+- **Key signal:** Reviewers probe `next build` to check whether you understand build-time ve…
 
 ## Sources
 - [Next.js Docs — CLI `next build`](https://nextjs.org/docs/app/api-reference/cli/next#next-build-options) — deep-dive

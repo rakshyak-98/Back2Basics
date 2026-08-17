@@ -5,7 +5,7 @@
 > ffprobe reads media metadata — codecs, duration, timestamps, programs — without rewriting the file.
 
 ```txt
-        ffprobe ──┬── Interview
+        ffprobe ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Media ops: streams vs format, `pts_time`/`start_time` for A/V sync, and JSON …
+## Why It Matters
+- **Key signal:** Media ops: streams vs format, `pts_time`/`start_time` for A/V sync, and JSON …
 
 ## Sources
 - [ffprobe Documentation](https://ffmpeg.org/ffprobe.html) — deep-dive

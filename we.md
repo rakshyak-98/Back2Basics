@@ -5,7 +5,7 @@
 > We — this vault’s mission: force-multiply engineers with field notes you can retrieve, debug, and configure under incident pressure.
 
 ```txt
-        we ──┬── Interview
+        we ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Culture questions (“how do you share knowledge?”) map here: durable notes bea…
+## Why It Matters
+- **Key signal:** Culture questions (“how do you share knowledge?”) map here: durable notes bea…
 
 ## Sources
 - Vault: [[AGENT_NOTE_RULES]] — deep-dive
@@ -48,7 +48,7 @@
 - **Mistake:** Capturing secrets or customer data in the vault
 
 ## Pros/Cons or Trade-offs
-- **Pro:** Compounds team speed; onboarding shortcut; interview prep as a byproduct.
+- **Pro:** Compounds team speed; onboarding shortcut; study prep as a byproduct.
 - **Con:** Notes rot without owners; vanity pages without links help no one.
 
 ## Comparison

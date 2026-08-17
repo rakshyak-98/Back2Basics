@@ -5,7 +5,7 @@
 > Binary protocol between a web server and long-lived application workers — reuse processes instead of forking per request like classic CGI.
 
 ```txt
-        FastCGI ──┬── Interview
+        FastCGI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the contrast with CGI, where PHP-FPM fits, and how Nginx/Ap…
+## Why It Matters
+- **Key signal:** Reviewers want the contrast with CGI, where PHP-FPM fits, and how Nginx/Ap…
 
 ## Sources
 - [FastCGI specification](https://fastcgi-archives.github.io/) — deep-dive

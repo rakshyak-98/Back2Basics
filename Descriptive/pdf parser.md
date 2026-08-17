@@ -5,7 +5,7 @@
 > Extract text, structure, and metadata from PDF byte streams — operators, fonts, and page trees — **PDF spec + production extraction pitfalls**.
 
 ```txt
-        PDF parser ──┬── Interview
+        PDF parser ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** PDF parsing interviews cover structured extraction limits and why PDFs are ho…
+## Why It Matters
+- **Key signal:** PDF parsing reviews cover structured extraction limits and why PDFs are ho…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

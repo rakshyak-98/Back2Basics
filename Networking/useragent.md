@@ -5,7 +5,7 @@
 > Client-declared software identity string on HTTP requests — used for compatibility, analytics, and bot detection; easily spoofed.
 
 ```txt
-        User-Agent ──┬── Interview
+        User-Agent ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about User-Agent to see if you treat it as **untrusted metad…
+## Why It Matters
+- **Key signal:** Reviewers ask about User-Agent to see if you treat it as **untrusted metad…
 
 ## Sources
 - [RFC 9110 — User-Agent](https://www.rfc-editor.org/rfc/rfc9110#name-user-agent) — deep-dive

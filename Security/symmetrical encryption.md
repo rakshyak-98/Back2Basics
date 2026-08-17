@@ -5,7 +5,7 @@
 > Symmetric encryption — same secret key encrypts and decrypts; fast bulk crypto once both sides share the key.
 
 ```txt
-        symmetrical encryp ──┬── Interview
+        symmetrical encryp ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Crypto basics: same key both ways, AES-GCM preferred, key distribution proble…
+## Why It Matters
+- **Key signal:** Crypto basics: same key both ways, AES-GCM preferred, key distribution proble…
 
 ## Sources
 - [NIST SP 800-38D — GCM](https://csrc.nist.gov/publications/detail/sp/800-38d/final) — deep-dive

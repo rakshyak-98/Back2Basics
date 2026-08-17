@@ -5,7 +5,7 @@
 > Keyboard selection from scrollback into tmux paste buffers — capture logs and commands without a mouse-only workflow.
 
 ```txt
-        tmux copy-mode ──┬── Interview
+        tmux copy-mode ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Ops interviews: navigate scrollback, copy text, paste across panes
+## Why It Matters
+- **Key signal:** Ops reviews: navigate scrollback, copy text, paste across panes
 
 ## Sources
 - [tmux — Buffers and copy mode](https://man.openbsd.org/tmux#WINDOWS_AND_PANES) — deep-dive

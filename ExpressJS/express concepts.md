@@ -5,7 +5,7 @@
 > Express is a minimal HTTP framework: an `app`, mountable `Router`s, and a middleware chain where each `(req, res, next)` either responds or calls `next`.
 
 ```txt
-        express concepts ──┬── Interview
+        express concepts ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use Express to test middleware order, error propagation, and whe…
+## Why It Matters
+- **Key signal:** Reviewers use Express to test middleware order, error propagation, and whe…
 
 ## Sources
 - [Express — Guide: Using middleware](https://expressjs.com/en/guide/using-middleware.html) — deep-dive

@@ -5,7 +5,7 @@
 > `sshd_config` is the server SSH policy file — who can log in, how they authenticate, and which session features are allowed.
 
 ```txt
-        sshd config ──┬── Interview
+        sshd config ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers expect `sshd -T` / `sshd -t`, drop-in files, `Match` block order…
+## Why It Matters
+- **Key signal:** Reviewers expect `sshd -T` / `sshd -t`, drop-in files, `Match` block order…
 
 ## Sources
 - [OpenSSH — sshd_config](https://man.openbsd.org/sshd_config) — deep-dive

@@ -5,7 +5,7 @@
 > CSRF token inside phpMyAdmin’s session — proves state-changing POSTs came from the logged-in UI, not a foreign site.
 
 ```txt
-        PMA token (phpMyAd ──┬── Interview
+        PMA token (phpMyAd ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use this to check CSRF fundamentals: session-bound token, why “t…
+## Why It Matters
+- **Key signal:** Reviewers use this to check CSRF fundamentals: session-bound token, why “t…
 
 ## Sources
 - [phpMyAdmin docs — Configuration](https://docs.phpmyadmin.net/en/latest/config.html) — deep-dive

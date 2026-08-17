@@ -5,7 +5,7 @@
 > A thread-safe queue lets multiple producers and consumers enqueue/dequeue without corrupting structure — via locks, condition variables, or lock-free rings.
 
 ```txt
-        Thread-safe queue ──┬── Interview
+        Thread-safe queue ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** MPMC vs SPSC, blocking vs drop-on-full, and which structure backs a [[thread …
+## Why It Matters
+- **Key signal:** MPMC vs SPSC, blocking vs drop-on-full, and which structure backs a [[thread …
 
 ## Sources
 - Herlihy & Shavit — concurrent queues — deep-dive

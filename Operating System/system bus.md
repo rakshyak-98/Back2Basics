@@ -5,7 +5,7 @@
 > The system bus is the backbone connecting CPU, main memory, and I/O controllers — every syscall that touches disk or network eventually moves bytes across these links.
 
 ```txt
-        System bus ──┬── Interview
+        System bus ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence co…
+## Why It Matters
+- **Key signal:** Computer architecture meets OS: von Neumann path, NUMA, DMA, and coherence co…
 
 ## Sources
 - Hennessy & Patterson, *Computer Architecture* — deep-dive

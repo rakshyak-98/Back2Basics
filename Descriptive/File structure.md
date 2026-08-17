@@ -5,7 +5,7 @@
 > File structure (NGINX source layout) — ├── src/core/ ← ngx_pool, ngx_string, ngx_conf — shared primitives
 
 ```txt
-        File structure (NG ──┬── Interview
+        File structure (NG ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Project structure questions check modularity and discoverability
+## Why It Matters
+- **Key signal:** Project structure questions check modularity and discoverability
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

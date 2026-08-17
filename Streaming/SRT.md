@@ -5,7 +5,7 @@
 > SRT carries MPEG-TS (or other payloads) over UDP with encryption, configurable latency buffer, and packet retransmission — built for contribution across lossy networks.
 
 ```txt
-        SRT (Secure Reliab ──┬── Interview
+        SRT (Secure Reliab ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you can walk SRT end-to-end
+## Why It Matters
+- **Key signal:** Reviewers probe whether you can walk SRT end-to-end
 
 ## Sources
 - [Wikipedia — SRT](https://en.wikipedia.org/wiki/SRT) — overview

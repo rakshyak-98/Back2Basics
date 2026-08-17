@@ -5,7 +5,7 @@
 > traverse commit DAG — file history, ranges, merge-aware views, and formatted output for audits and bisect prep.
 
 ```txt
-        Git log ──┬── Interview
+        Git log ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git log` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git log` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

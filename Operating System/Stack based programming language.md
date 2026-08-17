@@ -5,7 +5,7 @@
 > Stack-based languages express programs as operations on an operand stack — no named registers in the source model; the JVM, Forth, and RPN calculators work this way.
 
 ```txt
-        Stack based progra ──┬── Interview
+        Stack based progra ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Bytecode / VM interviews: operand stack vs register machines, and how JIT sti…
+## Why It Matters
+- **Key signal:** Bytecode / VM reviews: operand stack vs register machines, and how JIT sti…
 
 ## Sources
 - JVM specification — operand stack — deep-dive

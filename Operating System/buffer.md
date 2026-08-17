@@ -5,7 +5,7 @@
 > A buffer is a temporary memory region that decouples producers and consumers — smoothing speed mismatches between CPU, kernel, network, and disk.
 
 ```txt
-        Buffer ──┬── Interview
+        Buffer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect stacked-buffering questions: where bytes sit between `fwrite` and NAND…
+## Why It Matters
+- **Key signal:** Expect stacked-buffering questions: where bytes sit between `fwrite` and NAND…
 
 ## Sources
 - Tanenbaum, *Modern Operating Systems* — I/O buffering — deep-dive

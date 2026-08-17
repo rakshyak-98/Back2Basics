@@ -5,7 +5,7 @@
 > A browser is a multi-process user-space OS environment — each tab’s JavaScript heap, DOM, GPU buffers, and disk cache compete for the same RAM the kernel tracks in [[RAM and Swap memory]].
 
 ```txt
-        Browser memory ──┬── Interview
+        Browser memory ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can reason about memory beyond “the JS heap”
+## Why It Matters
+- **Key signal:** Shows you can reason about memory beyond “the JS heap”
 
 ## Sources
 - [Chromium — Multi-process Architecture](https://www.chromium.org/developers/design-documents/multi-process-architecture/) — overview

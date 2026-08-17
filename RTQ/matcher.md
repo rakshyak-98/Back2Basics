@@ -5,7 +5,7 @@
 > `addMatcher` on a slice reacts to RTK Query lifecycle actions — merge remote payloads into local UI state when hooks alone are not enough.
 
 ```txt
-        RTK Query matchers ──┬── Interview
+        RTK Query matchers ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check whether you split matchers only when order/state dependenc…
+## Why It Matters
+- **Key signal:** Reviewers check whether you split matchers only when order/state dependenc…
 
 ## Sources
 - [Redux Toolkit — Matching utilities](https://redux-toolkit.js.org/api/matching-utilities) — deep-dive

@@ -5,7 +5,7 @@
 > Linux IPC message bus — services expose methods and signals; desktop environments and systemd lean on it heavily.
 
 ```txt
-        D-Bus ──┬── Interview
+        D-Bus ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Know system vs session bus, well-known names, activation-on-call, and `busctl…
+## Why It Matters
+- **Key signal:** Know system vs session bus, well-known names, activation-on-call, and `busctl…
 
 ## Sources
 - [D-Bus Specification](https://dbus.freedesktop.org/doc/dbus-specification.html) — deep-dive

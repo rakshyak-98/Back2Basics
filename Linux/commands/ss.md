@@ -5,7 +5,7 @@
 > Socket statistics from the kernel — faster, richer replacement for netstat on modern Linux.
 
 ```txt
-        ss ──┬── Interview
+        ss ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Go-to tool for “who is listening,” CLOSE-WAIT vs TIME-WAIT, and Recv-Q/Send-Q…
+## Why It Matters
+- **Key signal:** Go-to tool for “who is listening,” CLOSE-WAIT vs TIME-WAIT, and Recv-Q/Send-Q…
 
 ## Sources
 - [man ss](https://man7.org/linux/man-pages/man8/ss.8.html) — deep-dive

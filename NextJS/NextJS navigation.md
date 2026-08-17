@@ -5,7 +5,7 @@
 > Next.js intercepts in-app navigations so the browser does not full-reload — App Router uses `next/navigation`; Pages Router uses `next/router`.
 
 ```txt
-        Next.js navigation ──┬── Interview
+        Next.js navigation ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers check whether you know App Router versus Pages Router navigation…
+## Why It Matters
+- **Key signal:** Reviewers check whether you know App Router versus Pages Router navigation…
 
 ## Sources
 - [Next.js Docs — Linking and Navigating](https://nextjs.org/docs/app/getting-started/linking-and-navigating) — deep-dive

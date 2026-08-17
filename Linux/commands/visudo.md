@@ -5,7 +5,7 @@
 > Edits sudoers safely — file lock plus syntax check so a typo does not lock everyone out of root.
 
 ```txt
-        visudo ──┬── Interview
+        visudo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scopin…
+## Why It Matters
+- **Key signal:** Expect visudo (never raw `vi /etc/sudoers`), `%group` syntax, NOPASSWD scopin…
 
 ## Sources
 - [man visudo](https://man7.org/linux/man-pages/man8/visudo.8.html) — deep-dive

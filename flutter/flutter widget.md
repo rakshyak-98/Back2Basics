@@ -5,7 +5,7 @@
 > Immutable UI description nodes — Flutter rebuilds widgets; `State` and `Element` hold what survives across frames.
 
 ```txt
-        Flutter widget ──┬── Interview
+        Flutter widget ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe `StatelessWidget` vs `StatefulWidget`, why `builder` delay…
+## Why It Matters
+- **Key signal:** Reviewers probe `StatelessWidget` vs `StatefulWidget`, why `builder` delay…
 
 ## Sources
 - [Flutter — Introduction to widgets](https://docs.flutter.dev/ui/widgets-intro) — overview

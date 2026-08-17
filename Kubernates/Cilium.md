@@ -5,7 +5,7 @@
 > Cilium is an eBPF-powered CNI — pod networking, optional kube-proxy replacement, NetworkPolicy (including L7), and Hubble flow observability.
 
 ```txt
-        Cilium ──┬── Interview
+        Cilium ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask why eBPF beats iptables at scale, how identity is label-base…
+## Why It Matters
+- **Key signal:** Reviewers ask why eBPF beats iptables at scale, how identity is label-base…
 
 ## Sources
 - [Cilium documentation](https://docs.cilium.io/) — deep-dive

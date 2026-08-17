@@ -5,7 +5,7 @@
 > dig asks DNS questions and prints the raw answer — use it to see whether a name, type, or resolver is wrong.
 
 ```txt
-        dig ──┬── Interview
+        dig ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth N…
+## Why It Matters
+- **Key signal:** DNS debugging: NOERROR vs NXDOMAIN vs empty answer, `+trace`, querying auth N…
 
 ## Sources
 - [dig(1)](https://man.bind9.net/man1/dig.html) — deep-dive

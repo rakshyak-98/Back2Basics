@@ -5,7 +5,7 @@
 > Function passed to be called later — Node-style `(err, value)` or browser event handlers; precursor to Promises.
 
 ```txt
-        Callback ──┬── Interview
+        Callback ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Callback** to check whether you can explain the mechanism …
+## Why It Matters
+- **Key signal:** Reviewers use **Callback** to check whether you can explain the mechanism …
 
 ## Sources
 - [MDN — Callback function](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) — overview

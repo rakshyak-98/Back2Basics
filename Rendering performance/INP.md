@@ -5,7 +5,7 @@
 > Interaction to Next Paint — Core Web Vital for responsiveness: how long from click/tap/key until the next frame shows feedback.
 
 ```txt
-        INP ──┬── Interview
+        INP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Replaced FID as the responsiveness Core Web Vital (2024)
+## Why It Matters
+- **Key signal:** Replaced FID as the responsiveness Core Web Vital (2024)
 
 ## Sources
 - [web.dev — Interaction to Next Paint (INP)](https://web.dev/articles/inp) — deep-dive

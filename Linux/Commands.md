@@ -5,7 +5,7 @@
 > Hub for Linux command notes — route from symptom to the right tool instead of memorizing every flag.
 
 ```txt
-        Commands ──┬── Interview
+        Commands ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers care less about memorizing flags and more about choosing the rig…
+## Why It Matters
+- **Key signal:** Reviewers care less about memorizing flags and more about choosing the rig…
 
 ## Sources
 - `man 1 man`, `man 1 apropos` — overview

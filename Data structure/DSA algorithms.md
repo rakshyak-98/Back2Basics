@@ -5,7 +5,7 @@
 > DSA algorithms are named techniques on data structures — pick by constraints, not by fashion.
 
 ```txt
-        DSA algorithms ──┬── Interview
+        DSA algorithms ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,11 +13,11 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Named algorithm families (two pointers, sliding window, DFS/BFS, DP) are how …
+## Why It Matters
+- **Key signal:** Named algorithm families (two pointers, sliding window, DFS/BFS, DP) are how …
 
 ## Sources
-- [LeetCode Explore — Interview patterns](https://leetcode.com/explore/) — overview
+- [LeetCode Explore — Review patterns](https://leetcode.com/explore/) — overview
 - [MIT 6.006](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
 
 ## Key Concepts
@@ -25,9 +25,9 @@
 constraints → pattern → structure → code → edges
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Brute → optimal** | Correct then faster | “Show both if asked.” |
 | **Trade space** | Hash for speed | “O(n) memory for O(n) time.” |

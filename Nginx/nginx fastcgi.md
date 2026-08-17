@@ -5,7 +5,7 @@
 > Hand PHP (and other FastCGI apps) to a pool — Nginx speaks FastCGI to php-fpm over a unix socket or TCP, not by embedding the language.
 
 ```txt
-        nginx fastcgi ──┬── Interview
+        nginx fastcgi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic ops interview: why `.php` downloads instead of runs, what `SCRIPT_FIL…
+## Why It Matters
+- **Key signal:** Classic ops review: why `.php` downloads instead of runs, what `SCRIPT_FIL…
 
 ## Sources
 - [nginx.org — ngx_http_fastcgi_module](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html) — deep-dive

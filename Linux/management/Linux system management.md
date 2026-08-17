@@ -5,7 +5,7 @@
 > Day-2 host work — patch, observe, control services, and recover with packages, systemd, logs, and backups.
 
 ```txt
-        Linux system manag ──┬── Interview
+        Linux system manag ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Runbook discipline: enable vs start, unattended upgrades awareness, journal s…
+## Why It Matters
+- **Key signal:** Runbook discipline: enable vs start, unattended upgrades awareness, journal s…
 
 ## Sources
 - [Debian Reference — System maintenance](https://www.debian.org/doc/manuals/debian-reference/ch09.en.html) — overview

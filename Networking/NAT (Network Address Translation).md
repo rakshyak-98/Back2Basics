@@ -5,7 +5,7 @@
 > NAT rewrites addresses and ports so many private hosts share one public IP — expired UDP mappings and broken inbound connections are the daily failure mode.
 
 ```txt
-        NAT (Network Addre ──┬── Interview
+        NAT (Network Addre ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about NAT to see if you understand private addressing, trans…
+## Why It Matters
+- **Key signal:** Reviewers ask about NAT to see if you understand private addressing, trans…
 
 ## Sources
 - [RFC 3022 — Traditional IP Network Address Translator](https://www.rfc-editor.org/rfc/rfc3022) — deep-dive

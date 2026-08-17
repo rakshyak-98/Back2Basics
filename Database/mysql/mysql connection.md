@@ -5,7 +5,7 @@
 > A TCP session between client and `mysqld` — authentication, character set, session variables, and one unit of server work until disconnect.
 
 ```txt
-        mysql connection ──┬── Interview
+        mysql connection ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how connections relate to `max_connections`, why pooling exi…
+## Why It Matters
+- **Key signal:** Reviewers ask how connections relate to `max_connections`, why pooling exi…
 
 ## Sources
 - [Connection Management](https://dev.mysql.com/doc/refman/en/connection-management.html) — overview

@@ -5,15 +5,15 @@
 > git error — drwxr-xr-x 2 root root 4096 Jul 3 18:35 test/
 
 ```txt
-        git error ──┬── Interview
+        git error ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Git error interviews check whether you can diagnose from messages
+## Why It Matters
+- **Key signal:** Git error reviews check whether you can diagnose from messages
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

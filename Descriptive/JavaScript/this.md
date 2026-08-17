@@ -5,7 +5,7 @@
 > `this` is the call-site receiver in JS — how you invoke the function decides what `this` is (unless bound/arrow).
 
 ```txt
-        this ──┬── Interview
+        this ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** this-binding interviews check call-site rules, arrow functions, and bind/call…
+## Why It Matters
+- **Key signal:** this-binding reviews check call-site rules, arrow functions, and bind/call…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -28,9 +28,9 @@ new Fn()     → this = new object
 () => this   → lexical outer this
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Call site** | How it’s invoked | “Not where it’s defined.” |
 | **bind** | Freeze this | “Callbacks keep object.” |

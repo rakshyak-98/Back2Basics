@@ -5,7 +5,7 @@
 > Shared durable storage with a query language and transaction rules — the engine's job is to turn concurrent clients and bytes on disk into atomic commits that survive crashes.
 
 ```txt
-        Database ──┬── Interview
+        Database ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** This is the domain hub: interviewers expect you to map symptoms (crash loss, …
+## Why It Matters
+- **Key signal:** This is the domain hub: reviewers expect you to map symptoms (crash loss, …
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017), Ch. 3, 7 — deep-dive

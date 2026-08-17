@@ -5,7 +5,7 @@
 > Trivial File Transfer Protocol moves small files over UDP without authentication — common for PXE boot loaders and embedded firmware because the stack fits in kilobytes of code.
 
 ```txt
-        TFTP ──┬── Interview
+        TFTP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask why PXE uses TFTP, how stop-and-wait limits throughput, and …
+## Why It Matters
+- **Key signal:** Reviewers ask why PXE uses TFTP, how stop-and-wait limits throughput, and …
 
 ## Sources
 - [RFC 1350 — TFTP](https://datatracker.ietf.org/doc/html/rfc1350) — deep-dive

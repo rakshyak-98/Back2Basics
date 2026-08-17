@@ -5,7 +5,7 @@
 > PostgreSQL access control lists — privileges stored in the catalog on each object, evaluated per statement from role membership and `SET ROLE`.
 
 ```txt
-        ACL (postgreSQL) ──┬── Interview
+        ACL (postgreSQL) ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows whether you understand role-based grants, reading `relacl`, and how row…
+## Why It Matters
+- **Key signal:** Shows whether you understand role-based grants, reading `relacl`, and how row…
 
 ## Sources
 - [Privileges](https://www.postgresql.org/docs/current/ddl-priv.html) — overview

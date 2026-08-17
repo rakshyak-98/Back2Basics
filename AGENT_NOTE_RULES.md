@@ -1,6 +1,6 @@
 # Agent Note Rules — Internal Reference Memory
 
-> How AI agents write and rewrite notes in this vault. Pick **Mind Map** or **Cornell** shape based on how the topic connects in memory — then use shared interview-prep sections where they fit. Omit empty sections. Meta and hub notes stay routing-only.
+> How AI agents write and rewrite notes in this vault. Pick **Mind Map** or **Cornell** shape based on how the topic connects in memory — then use shared field-note sections where they fit. Omit empty sections. Meta and hub notes stay routing-only.
 
 ---
 
@@ -15,7 +15,7 @@ Effective notes eliminate friction so understanding emerges naturally. Three pri
 - Spell out abbreviations on first use. Name the real objects, steps, and failure signals — not jargon labels alone.
 - Prefer complete sentences in summaries. Avoid telegraphic shorthand and unexplained insider terms.
 
-### 2. Structure for recall and interviews
+### 2. Structure for recall and field use
 
 - Match **note shape** to how the topic is learned: radiating branches (Mind Map) vs ordered flow (Cornell).
 - Prefer **networked, lateral links** (`[[wikilinks]]`) over isolated one-off pages.
@@ -26,7 +26,7 @@ Effective notes eliminate friction so understanding emerges naturally. Three pri
 
 - Open with a **one-sentence plain-English anchor** (blockquote under the title) — the **center** of every leaf note.
 - Use **visual hierarchy**: headings, tables, ASCII diagrams, and bullet clusters where they aid scanning.
-- Embed **recall-prompting** material: cue questions (Cornell), Interview Relevance, Comparison, and Mistakes to Avoid.
+- Embed **recall-prompting** material: cue questions (Cornell), Why It Matters, Comparison, and Mistakes to Avoid.
 - Transform passive facts into material the reader can **apply**: commands to run, checks to perform, decisions to make.
 
 ### Unifying rule
@@ -43,7 +43,7 @@ Both writer and learner must eliminate unnecessary friction. Clear writing, a sh
 | Clear sequence: steps, phases, lecture order, pipeline A→B→C | **Cornell** | Preserves order while building recall cues |
 | Brainstorming, architecture overview, “map the territory” | **Mind Map** | Branches can grow anywhere; cross-links are natural |
 | Procedures, onboarding runbooks, algorithm walkthroughs | **Cornell** | Numbered spine + cue column for review |
-| Interview topic with comparisons and pitfalls | **Mind Map** (often) | Sibling concepts as peer branches |
+| Topic with comparisons and pitfalls | **Mind Map** (often) | Sibling concepts as peer branches |
 | Certification / lecture notes with exam-style recall | **Cornell** | Cue column becomes the study guide |
 
 **Default for this vault:** Mind Map for concept-heavy leaf notes (most domains). Cornell when the note’s value is **ordered execution** or **time-ordered capture**.
@@ -90,7 +90,7 @@ A mind map starts with a **central idea** and branches outward. In Markdown, the
 
 Use topic-appropriate names. Common clusters for staff-engineer notes:
 
-- **Interview Relevance** — why this shows up in interviews
+- **Why It Matters** — why this topic shows up on the job or in design reviews
 - **Sources** — verifiable grounding (overview | deep-dive tags)
 - **Core Definition** — restate center only when the blockquote is not enough
 - **Key Concepts** — secondary branches as `**Term:** what → why`
@@ -112,7 +112,7 @@ Use topic-appropriate names. Common clusters for staff-engineer notes:
 
 ### Best use cases
 
-Brainstorming expansions, complex systems (databases, K8s, networking), architecture summaries, comparison-heavy interview topics, hub-adjacent deep dives with many siblings.
+Brainstorming expansions, complex systems (databases, K8s, networking), architecture summaries, comparison-heavy study topics, hub-adjacent deep dives with many siblings.
 
 ### Common mistakes
 
@@ -133,8 +133,8 @@ Brainstorming expansions, complex systems (databases, K8s, networking), architec
 
 > Center — one plain-English sentence: what it is and why it exists.
 
-## Interview Relevance
-Why interviewers ask; what signal they want.
+## Why It Matters
+What reviewers probe; what signal they want.
 
 ## Sources
 - [Name](url) — overview | deep-dive
@@ -180,7 +180,7 @@ The Cornell method keeps **sequence** in the main column and adds **recall cues*
 | Cornell zone | ~Share of note | In this vault |
 |--------------|----------------|---------------|
 | **Notes** (right, ~60%) | Main capture | `## Technical Details` with **numbered** steps; `## Core Definition` for setup context |
-| **Cues** (left, ~25%) | Retrieval prompts | `## Interview Relevance` + `## Recall Cues` (questions the notes answer) |
+| **Cues** (left, ~25%) | Retrieval prompts | `## Why It Matters` + `## Recall Cues` (questions the notes answer) |
 | **Summary** (bottom, ~15%) | 3–5 sentence synthesis | Top blockquote (center) **or** `## Summary` at bottom if blockquote stays definitional |
 
 ### Cornell craft rules
@@ -200,8 +200,8 @@ The Cornell method keeps **sequence** in the main column and adds **recall cues*
 
 > Summary-quality anchor — often the A→B→C takeaway in one breath.
 
-## Interview Relevance
-What interviewers probe along this sequence.
+## Why It Matters
+What reviewers probe along this sequence.
 
 ## Sources
 - [Name](url) — overview | deep-dive
@@ -226,7 +226,7 @@ Setup context before the numbered flow (optional if blockquote suffices).
 When to use this sequence vs [[alternative]].
 ```
 
-Omit **Recall Cues** only if Interview Relevance already lists equivalent questions. Omit **Comparison** when not applicable.
+Omit **Recall Cues** only if Why It Matters already lists equivalent questions. Omit **Comparison** when not applicable.
 
 ### Best use cases
 
@@ -243,13 +243,13 @@ Lecture-style material, CI/CD stages, request lifecycles, incident response chec
 
 ---
 
-## Shared interview-prep vocabulary
+## Shared section vocabulary
 
-Both shapes reuse the same **section names** where they apply. This keeps the vault grep-friendly and interview-aligned.
+Both shapes reuse the same **section names** where they apply. This keeps the vault grep-friendly and field-aligned.
 
 | Section | Reader need | Mind Map | Cornell |
 |---------|-------------|----------|---------|
-| **Interview Relevance** | Why this topic shows up | Often a primary branch | Often cue seeds |
+| **Why It Matters** | Why this topic shows up | Often a primary branch | Often cue seeds |
 | **Sources** | Verifiable grounding | Early branch | Early, before long sequence |
 | **Core Definition** | Short precise restatement | Only if blockquote insufficient | Setup before numbered flow |
 | **Key Concepts** | What → why | Secondary branches | Usually merged into steps |
@@ -322,7 +322,7 @@ Tag each source with coverage level: **overview** or **deep-dive**.
 3. **Research** the topic using authoritative sources (RFC, official docs, Wikipedia + primary source).
 4. **Map** content to the chosen shape; for Mind Map, sketch 4–7 primary branches; for Cornell, outline numbered spine then cues.
 5. **Write** center (title + blockquote), branches or numbered notes, then cues/summary as appropriate.
-6. **Verify** facts against sources; tag coverage; add Interview Relevance and Mistakes to Avoid when thin.
+6. **Verify** facts against sources; tag coverage; add Why It Matters and Mistakes to Avoid when thin.
 7. **Link** — `[[wikilinks]]` to related notes; update hub notes if routing changes.
 
 ---

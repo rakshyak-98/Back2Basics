@@ -5,7 +5,7 @@
 > Symptom → cause → fix for the errors that show up in prod logs and Compass — **MongoDB Manual** + Mongoose gotchas.
 
 ```txt
-        MongoDB errors ──┬── Interview
+        MongoDB errors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use MongoDB errors to test MongoDB data modeling and ops judgment
+## Why It Matters
+- **Key signal:** Reviewers use MongoDB errors to test MongoDB data modeling and ops judgment
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive

@@ -2,10 +2,10 @@
 
 # golang
 
-> Go — a compiled language built for simple concurrency and straightforward networked services; goroutines and interfaces dominate interviews.
+> Go — a compiled language built for simple concurrency and straightforward networked services; goroutines and interfaces dominate reviews.
 
 ```txt
-        golang ──┬── Interview
+        golang ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Go interviews probe goroutines/channels, interfaces (implicit satisfaction), …
+## Why It Matters
+- **Key signal:** Go reviews probe goroutines/channels, interfaces (implicit satisfaction), …
 
 ## Sources
 - [Go Language Specification](https://go.dev/ref/spec) — deep-dive

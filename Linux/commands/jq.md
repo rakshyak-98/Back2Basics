@@ -5,7 +5,7 @@
 > jq is a JSON filter for the shell — select, reshape, and print without writing a script.
 
 ```txt
-        jq ──┬── Interview
+        jq ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** API/ops staple: path walks, `select`, `-r` for shell, and why whole-document …
+## Why It Matters
+- **Key signal:** API/ops staple: path walks, `select`, `-r` for shell, and why whole-document …
 
 ## Sources
 - [jq Manual](https://jqlang.github.io/jq/manual/) — deep-dive

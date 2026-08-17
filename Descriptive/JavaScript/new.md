@@ -5,7 +5,7 @@
 > Creates object, sets prototype, runs constructor with fresh `this`, returns instance — **ECMAScript `[[Construct]]`**.
 
 ```txt
-        `new` operator ──┬── Interview
+        `new` operator ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** new-operator questions check instance creation steps and what happens without…
+## Why It Matters
+- **Key signal:** new-operator questions check instance creation steps and what happens without…
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

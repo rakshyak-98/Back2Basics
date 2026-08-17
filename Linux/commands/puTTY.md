@@ -5,7 +5,7 @@
 > Windows GUI SSH (and serial/telnet) client with saved sessions — not a shell; keys use `.ppk`, not OpenSSH by default.
 
 ```txt
-        PuTTY ──┬── Interview
+        PuTTY ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Checks Windows remote-access literacy: host-key verification, Pageant, `.ppk`…
+## Why It Matters
+- **Key signal:** Checks Windows remote-access literacy: host-key verification, Pageant, `.ppk`…
 
 ## Sources
 - [PuTTY documentation](https://www.chiark.greenend.org.uk/~sgtatham/putty/docs.html) — deep-dive

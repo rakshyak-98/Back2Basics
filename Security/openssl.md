@@ -5,7 +5,7 @@
 > The Swiss-army CLI for keys, CSRs, certs, and TLS debugging on the box.
 
 ```txt
-        openssl ──┬── Interview
+        openssl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Hands-on PKI: generate keys/CSRs, inspect certs, and debug TLS handshakes wit…
+## Why It Matters
+- **Key signal:** Hands-on PKI: generate keys/CSRs, inspect certs, and debug TLS handshakes wit…
 
 ## Sources
 - [OpenSSL documentation](https://www.openssl.org/docs/) — deep-dive

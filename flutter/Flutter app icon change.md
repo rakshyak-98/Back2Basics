@@ -5,7 +5,7 @@
 > Replace the default launcher icon on Android/iOS with your brand assets — mipmaps / AppIcon sets the home-screen image users tap.
 
 ```txt
-        Flutter app icon c ──┬── Interview
+        Flutter app icon c ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers rarely deep-dive icons, but release hygiene questions expect you…
+## Why It Matters
+- **Key signal:** Reviewers rarely deep-dive icons, but release hygiene questions expect you…
 
 ## Sources
 - [Flutter — App icons](https://docs.flutter.dev/deployment/android#changing-the-application-launcher-icons) — overview

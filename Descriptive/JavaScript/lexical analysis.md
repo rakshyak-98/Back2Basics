@@ -5,7 +5,7 @@
 > First compiler phase — scan source left-to-right into tokens; strip whitespace and comments — **ECMAScript lexical grammar**.
 
 ```txt
-        Lexical analysis ──┬── Interview
+        Lexical analysis ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Lexer interviews cover tokenization before parse
+## Why It Matters
+- **Key signal:** Lexer reviews cover tokenization before parse
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

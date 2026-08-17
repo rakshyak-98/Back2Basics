@@ -5,7 +5,7 @@
 > Express routes failures to four-argument middleware `(err, req, res, next)` — `next(err)` or a wrapped async throw skips normal handlers and lands there.
 
 ```txt
-        Express Error Hand ──┬── Interview
+        Express Error Hand ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe whether you know arity-based error middleware, Express 4 v…
+## Why It Matters
+- **Key signal:** Reviewers probe whether you know arity-based error middleware, Express 4 v…
 
 ## Sources
 - [Express — Error handling](https://expressjs.com/en/guide/error-handling.html) — deep-dive

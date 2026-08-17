@@ -5,7 +5,7 @@
 > Terminal client for Render — authenticate to a workspace, then trigger deploys, stream logs, and inspect services already wired to Git or an image.
 
 ```txt
-        Render CLI ──┬── Interview
+        Render CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers contrast Render’s “deploy an existing service” model with Vercel…
+## Why It Matters
+- **Key signal:** Reviewers contrast Render’s “deploy an existing service” model with Vercel…
 
 ## Sources
 - [Render — CLI](https://render.com/docs/cli) — deep-dive

@@ -5,7 +5,7 @@
 > The application layer that issues queries—ORMs, repositories, transaction boundaries, and retry logic that turn business operations into [[ACID]]-safe database work.
 
 ```txt
-        database applicati ──┬── Interview
+        database applicati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe where transactions begin/end, how you retry serialization …
+## Why It Matters
+- **Key signal:** Reviewers probe where transactions begin/end, how you retry serialization …
 
 ## Sources
 - Kleppmann, *Designing Data-Intensive Applications*, Ch. 7–9 — deep-dive

@@ -5,7 +5,7 @@
 > apt policy shows which versions exist, where they come from, and which pin priority wins — so you know what apt will install next.
 
 ```txt
-        APT policy ──┬── Interview
+        APT policy ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how…
+## Why It Matters
+- **Key signal:** Debian/Ubuntu packaging: Candidate vs Installed, priority 100 vs 500, and how…
 
 ## Sources
 - [apt_preferences(5)](https://manpages.debian.org/apt_preferences.5) — deep-dive

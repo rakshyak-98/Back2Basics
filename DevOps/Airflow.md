@@ -5,7 +5,7 @@
 > Apache Airflow schedules batch workflows as DAGs (Directed Acyclic Graphs) — tasks with dependencies, retries, and a metadata database as the source of truth.
 
 ```txt
-        Airflow ──┬── Interview
+        Airflow ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask Airflow to check whether you know scheduler vs workers vs me…
+## Why It Matters
+- **Key signal:** Reviewers ask Airflow to check whether you know scheduler vs workers vs me…
 
 ## Sources
 - [Apache Airflow — DAGs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html) — deep-dive

@@ -5,7 +5,7 @@
 > journalctl queries journald’s binary logs — filter by unit, boot, time, and priority instead of grepping flat files blindly.
 
 ```txt
-        journalctl ──┬── Interview
+        journalctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Must-know ops: `-u` + `-b`, `--since`, `-p err`, vacuum retention, and persis…
+## Why It Matters
+- **Key signal:** Must-know ops: `-u` + `-b`, `--since`, `-p err`, vacuum retention, and persis…
 
 ## Sources
 - [journalctl(1)](https://www.freedesktop.org/software/systemd/man/latest/journalctl.html) — deep-dive

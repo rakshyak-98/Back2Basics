@@ -5,7 +5,7 @@
 > Practice Terraform against the local Docker provider — same init/plan/apply patterns as cloud, without a cloud bill.
 
 ```txt
-        Terraform docker ──┬── Interview
+        Terraform docker ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers like Docker-provider demos to prove you understand providers, im…
+## Why It Matters
+- **Key signal:** Reviewers like Docker-provider demos to prove you understand providers, im…
 
 ## Sources
 - [kreuzwerkel/docker provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs) — deep-dive

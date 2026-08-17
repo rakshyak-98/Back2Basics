@@ -5,7 +5,7 @@
 > MongoDB migrations are scripts that reshape documents — run carefully in batches with a rollback story.
 
 ```txt
-        mongodb migration ──┬── Interview
+        mongodb migration ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Migration interviews cover schema evolution without downtime
+## Why It Matters
+- **Key signal:** Migration reviews cover schema evolution without downtime
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 - **Note:** 1 deploy dual-read/write → 2 migrate docs → 3 remove old path
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Expand/contract** | Dual support then cleanup | “Never require one deploy + full rewrite.” |
 | **Batch cursor** | Migrate in chunks | “Avoid multi-hour locks / OOM.” |

@@ -5,7 +5,7 @@
 > Ordered browser work that turns HTML, CSS, and JavaScript bytes into the first pixels — optimize it to show content sooner.
 
 ```txt
-        critical rendering ──┬── Interview
+        critical rendering ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Classic web performance question: DOM → CSSOM → render tree → layout → paint …
+## Why It Matters
+- **Key signal:** Classic web performance question: DOM → CSSOM → render tree → layout → paint …
 
 ## Sources
 - [web.dev — Critical Rendering Path](https://web.dev/articles/critical-rendering-path) — deep-dive

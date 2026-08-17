@@ -5,7 +5,7 @@
 > Shrink the container attack surface: non-root, dropped capabilities, seccomp, read-only rootfs — defense in depth on a shared kernel.
 
 ```txt
-        Docker Runtime Sec ──┬── Interview
+        Docker Runtime Sec ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test whether you know containers are namespaced processes (not V…
+## Why It Matters
+- **Key signal:** Reviewers test whether you know containers are namespaced processes (not V…
 
 ## Sources
 - [Docker — Seccomp security profiles](https://docs.docker.com/engine/security/seccomp/) — deep-dive

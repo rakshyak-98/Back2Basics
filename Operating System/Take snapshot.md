@@ -5,7 +5,7 @@
 > A storage snapshot is a point-in-time view of a volume — copy-on-write or redirect-on-write — so you can roll back or clone without copying every block up front.
 
 ```txt
-        Take snapshot ──┬── Interview
+        Take snapshot ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Backup/DR interviews: crash-consistent vs application-consistent snapshots, a…
+## Why It Matters
+- **Key signal:** Backup/DR reviews: crash-consistent vs application-consistent snapshots, a…
 
 ## Sources
 - [Wikipedia — Snapshot (computer storage)](https://en.wikipedia.org/wiki/Snapshot_(computer_storage)) — overview

@@ -5,7 +5,7 @@
 > 1M concurrent live viewers — push encode once, fan out via CDN/edge; origin must not serve every player directly.
 
 ```txt
-        Live Streaming Arc ──┬── Interview
+        Live Streaming Arc ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** 1M-viewer live design interviews test encode-once/fan-out via CDN, origin pro…
+## Why It Matters
+- **Key signal:** 1M-viewer live design reviews test encode-once/fan-out via CDN, origin pro…
 
 ## Sources
 - [Apple — HLS documentation](https://developer.apple.com/documentation/http-live-streaming) — deep-dive

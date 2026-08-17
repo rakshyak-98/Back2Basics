@@ -5,7 +5,7 @@
 > Express has no separate compiler — transpile TypeScript if needed, install production dependencies, and run `node` behind a process manager or container.
 
 ```txt
-        express build ──┬── Interview
+        express build ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask how you ship a Node HTTP service: dependency pruning, `NODE_…
+## Why It Matters
+- **Key signal:** Reviewers ask how you ship a Node HTTP service: dependency pruning, `NODE_…
 
 ## Sources
 - [Express — Production best practices: performance and reliability](https://expressjs.com/en/advanced/best-practice-performance.html) — deep-dive

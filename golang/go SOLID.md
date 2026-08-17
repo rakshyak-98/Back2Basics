@@ -5,7 +5,7 @@
 > SOLID adapted to Go's interfaces, composition, and small-package culture — not Java inheritance.
 
 ```txt
-        Go SOLID (idiomati ──┬── Interview
+        Go SOLID (idiomati ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** SOLID in Go interviews tests whether you map SRP/ISP/DIP onto small interface…
+## Why It Matters
+- **Key signal:** SOLID in Go reviews tests whether you map SRP/ISP/DIP onto small interface…
 
 ## Sources
 - [Go blog — Go Proverbs](https://go-proverbs.github.io/) — overview

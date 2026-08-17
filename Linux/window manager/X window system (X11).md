@@ -5,7 +5,7 @@
 > Network-transparent windowing protocol — the X server owns the display; clients send drawing requests over a UNIX socket or TCP.
 
 ```txt
-        X window system (X ──┬── Interview
+        X window system (X ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Architecture question: clients, server, and WM as another client
+## Why It Matters
+- **Key signal:** Architecture question: clients, server, and WM as another client
 
 ## Sources
 - [X.Org Foundation](https://www.x.org/wiki/) — overview

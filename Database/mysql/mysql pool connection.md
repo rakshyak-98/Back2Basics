@@ -5,7 +5,7 @@
 > Application-side pool of reusable MySQL sessions — HikariCP, mysql2 pool, SQLAlchemy `QueuePool` — to cap server connections and amortize handshake cost.
 
 ```txt
-        mysql pool connect ──┬── Interview
+        mysql pool connect ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Capacity planning: `pool_max × app_instances` versus `max_connections`
+## Why It Matters
+- **Key signal:** Capacity planning: `pool_max × app_instances` versus `max_connections`
 
 ## Sources
 - [Connector/J connection notes](https://dev.mysql.com/doc/connector-j/en/connector-j-usagenotes-connect-drivermanager.html) — overview

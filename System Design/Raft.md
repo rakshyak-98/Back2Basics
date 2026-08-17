@@ -5,7 +5,7 @@
 > Raft is a consensus algorithm that elects a leader, replicates an append-only log to a majority of nodes, and commits only after durable replication — strong coordination without Paxos opacity.
 
 ```txt
-        Raft ──┬── Interview
+        Raft ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Walk leader election, log replication, commit = majority, odd voter counts, a…
+## Why It Matters
+- **Key signal:** Walk leader election, log replication, commit = majority, odd voter counts, a…
 
 ## Sources
 - Diego Ongaro & John Ousterhout, [In Search of an Understandable Consensus Algorithm](https://raft.github.io/raft.pdf) (USENIX ATC 2014) — deep-dive

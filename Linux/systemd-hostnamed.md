@@ -5,7 +5,7 @@
 > D-Bus service behind `hostnamectl` — sets static, transient, and pretty hostname metadata.
 
 ```txt
-        systemd-hostnamed ──┬── Interview
+        systemd-hostnamed ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Small systemd ecosystem question: static vs transient hostname, which files c…
+## Why It Matters
+- **Key signal:** Small systemd ecosystem question: static vs transient hostname, which files c…
 
 ## Sources
 - [hostnamectl(1)](https://www.freedesktop.org/software/systemd/man/latest/hostnamectl.html) — deep-dive

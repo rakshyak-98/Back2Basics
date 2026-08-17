@@ -5,7 +5,7 @@
 > Declarative language for relational data — you describe the result or change set; the optimizer picks access paths and the engine enforces [[ACID]] rules inside transactions.
 
 ```txt
-        SQL ──┬── Interview
+        SQL ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers test query shape (joins, indexes, CTEs), injection safety, and D…
+## Why It Matters
+- **Key signal:** Reviewers test query shape (joins, indexes, CTEs), injection safety, and D…
 
 ## Sources
 - ISO/IEC 9075 SQL standard — deep-dive

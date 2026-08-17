@@ -5,7 +5,7 @@
 > Binary classification — score(x) → probability p → if p ≥ τ then positive else negative
 
 ```txt
-        Binary classificat ──┬── Interview
+        Binary classificat ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Binary classification to check whether you can choose …
+## Why It Matters
+- **Key signal:** Reviewers ask about Binary classification to check whether you can choose …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

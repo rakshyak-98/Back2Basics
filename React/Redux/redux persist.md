@@ -5,7 +5,7 @@
 > Library that saves Redux state to storage and rehydrates — version migrations matter.
 
 ```txt
-        redux-persist ──┬── Interview
+        redux-persist ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [redux-persist](https://github.com/rt2zz/redux-persist) — deep-dive

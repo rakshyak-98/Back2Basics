@@ -5,7 +5,7 @@
 > Instance methods and statics attach behavior to documents/models — keep query helpers next to the schema.
 
 ```txt
-        mongoose methods ──┬── Interview
+        mongoose methods ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Instance/static methods questions check where business logic belongs versus s…
+## Why It Matters
+- **Key signal:** Instance/static methods questions check where business logic belongs versus s…
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 doc.method() | Model.static() | Model.find().byEmail()
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **methods** | Per-document API | “`user.checkPassword()`.” |
 | **statics** | Per-model API | “`User.findByEmail()`.” |

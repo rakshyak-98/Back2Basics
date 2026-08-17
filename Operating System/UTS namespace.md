@@ -5,7 +5,7 @@
 > The UTS namespace isolates hostname and NIS domain name — each container can `sethostname` without renaming the host.
 
 ```txt
-        UTS namespace ──┬── Interview
+        UTS namespace ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Container isolation checklist: UTS for hostname, IPC for SysV IDs, cgroups fo…
+## Why It Matters
+- **Key signal:** Container isolation checklist: UTS for hostname, IPC for SysV IDs, cgroups fo…
 
 ## Sources
 - Linux `uts_namespaces(7)` manual page — deep-dive

@@ -5,7 +5,7 @@
 > A single-threaded program has one call stack and one scheduler entity — concurrency must come from non-blocking I/O, events, or external processes, not sibling threads.
 
 ```txt
-        Single-threaded ──┬── Interview
+        Single-threaded ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Explain how Redis/Node-style designs stay correct without locks, and what bre…
+## Why It Matters
+- **Key signal:** Explain how Redis/Node-style designs stay correct without locks, and what bre…
 
 ## Sources
 - [Wikipedia — Thread (computing)](https://en.wikipedia.org/wiki/Thread_(computing)) — overview

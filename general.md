@@ -5,7 +5,7 @@
 > Vault entry hub — where to start in Back2Basics, how notes are written, and what this collection is for.
 
 ```txt
-        general ──┬── Interview
+        general ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Not a classic interview topic
+## Why It Matters
+- **Key signal:** Not a classic review topic
 
 ## Sources
 - Vault: [[AGENT_NOTE_RULES]] — deep-dive (note shape)

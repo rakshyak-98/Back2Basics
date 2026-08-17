@@ -2,10 +2,10 @@
 
 # dsa problem solving Scaffold
 
-> A repeatable scaffold for interview DSA — clarify, pattern-match, complexity, then code + tests.
+> A repeatable scaffold for review DSA — clarify, pattern-match, complexity, then code + tests.
 
 ```txt
-        dsa problem solvin ──┬── Interview
+        dsa problem solvin ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,11 +13,11 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** A scaffold shows process maturity
+## Why It Matters
+- **Key signal:** A scaffold shows process maturity
 
 ## Sources
-- [Cracking the Coding Interview — process](https://www.crackingthecodinginterview.com/) — overview
+- [CTCI — process](https://www.crackingthecodinginterview.com/) — overview
 - [MIT 6.006](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/) — deep-dive
 
 ## Key Concepts
@@ -25,9 +25,9 @@
 - **Note:** 1 clarify I/O 2 examples 3 brute 4 pattern 5 code 6 test
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **Constraints** | n, value ranges | “Pick O(n) vs O(n log n).” |
 | **Brute force** | Correct slow | “Baseline before optimize.” |
@@ -45,7 +45,7 @@ Complexity target from constraints (n=1e5 → ~O(n log n) max)
 |------|----------------|
 | Constraints | Kill impossible approaches early |
 | Edge checklist | Empty/dupes/overflow |
-| Speak invariants | Interviewer follows |
+| Speak invariants | Reviewer follows |
 
 ### Failure signals
 

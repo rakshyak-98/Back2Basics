@@ -5,7 +5,7 @@
 > git commit template — git config to use custom commit template
 
 ```txt
-        git commit templat ──┬── Interview
+        git commit templat ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Commit templates enforce structure
+## Why It Matters
+- **Key signal:** Commit templates enforce structure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

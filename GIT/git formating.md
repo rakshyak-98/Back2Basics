@@ -5,7 +5,7 @@
 > `--pretty=format` placeholders and presets — readable history for terminals, CI artifacts, and release notes (filename uses legacy typo *formating*).
 
 ```txt
-        Git log formatting ──┬── Interview
+        Git log formatting ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use `Git log formatting` to check real Git fluency under pressure
+## Why It Matters
+- **Key signal:** Reviewers use `Git log formatting` to check real Git fluency under pressure
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

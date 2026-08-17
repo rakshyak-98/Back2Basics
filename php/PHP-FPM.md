@@ -5,7 +5,7 @@
 > FastCGI Process Manager for PHP — a master supervises a worker pool; Nginx/Apache proxy requests to a Unix socket or TCP port.
 
 ```txt
-        PHP-FPM ──┬── Interview
+        PHP-FPM ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask pool modes (`static`/`dynamic`/`ondemand`), how you size `ma…
+## Why It Matters
+- **Key signal:** Reviewers ask pool modes (`static`/`dynamic`/`ondemand`), how you size `ma…
 
 ## Sources
 - [PHP — FPM configuration](https://www.php.net/manual/en/install.fpm.configuration.php) — deep-dive

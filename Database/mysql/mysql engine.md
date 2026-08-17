@@ -5,7 +5,7 @@
 > MySQL pluggable storage engine layer—**InnoDB** is the default and production choice for transactional [[ACID]] workloads; others serve niche roles.
 
 ```txt
-        mysql engine ──┬── Interview
+        mysql engine ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Engine choice questions expect InnoDB as default, awareness of MEMORY/MyISAM …
+## Why It Matters
+- **Key signal:** Engine choice questions expect InnoDB as default, awareness of MEMORY/MyISAM …
 
 ## Sources
 - [MySQL Reference Manual — InnoDB Introduction](https://dev.mysql.com/doc/refman/en/innodb-introduction.html) — deep-dive

@@ -5,7 +5,7 @@
 > The Master Boot Record is the first 512-byte sector of a legacy BIOS-boot disk — partition table plus a tiny boot stub that chain-loads the real bootloader.
 
 ```txt
-        MBR ──┬── Interview
+        MBR ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Storage/boot questions: MBR layout, four primary partitions, 2 TiB limit moti…
+## Why It Matters
+- **Key signal:** Storage/boot questions: MBR layout, four primary partitions, 2 TiB limit moti…
 
 ## Sources
 - [Wikipedia — Master boot record](https://en.wikipedia.org/wiki/Master_boot_record) — overview

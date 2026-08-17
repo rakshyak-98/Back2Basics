@@ -5,7 +5,7 @@
 > bluetoothctl is the BlueZ interactive CLI — pair devices, debug Busy errors, and script Bluetooth when GUI applets lie about power state.
 
 ```txt
-        bluetoothctl ──┬── Interview
+        bluetoothctl ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Desktop/IoT niche: BlueZ over D-Bus, agent/pairing flow, and masking bluetoot…
+## Why It Matters
+- **Key signal:** Desktop/IoT niche: BlueZ over D-Bus, agent/pairing flow, and masking bluetoot…
 
 ## Sources
 - [bluetoothctl(1)](https://man.archlinux.org/man/bluetoothctl.1) — deep-dive

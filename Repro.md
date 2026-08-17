@@ -5,7 +5,7 @@
 > Repro — the minimal steps that reliably show whether a bug still exists; the human-executable test for triage and QA handoff.
 
 ```txt
-        Repro ──┬── Interview
+        Repro ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Strong engineers turn “it broke once” into a stable reproduction
+## Why It Matters
+- **Key signal:** Strong engineers turn “it broke once” into a stable reproduction
 
 ## Sources
 - [Google Testing Blog — Flaky tests](https://testing.googleblog.com/) — overview (stability mindset)

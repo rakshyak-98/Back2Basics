@@ -5,15 +5,15 @@
 > git commit — snapshot of the index; the unit of Git history.
 
 ```txt
-        git commit ──┬── Interview
+        git commit ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Commit interviews probe atomic commits, message quality, and amend/fixup safe…
+## Why It Matters
+- **Key signal:** Commit reviews probe atomic commits, message quality, and amend/fixup safe…
 
 ## Sources
 - [Pro Git book](https://git-scm.com/book/en/v2) — deep-dive

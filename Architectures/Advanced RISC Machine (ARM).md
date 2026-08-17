@@ -5,7 +5,7 @@
 > ARM (Advanced RISC Machine) — RISC load/store CPUs; AArch64 is the modern 64-bit server and mobile baseline.
 
 ```txt
-        Advanced RISC Mach ──┬── Interview
+        Advanced RISC Mach ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** ARM/AArch64 questions check RISC load/store thinking, calling conventions, an…
+## Why It Matters
+- **Key signal:** ARM/AArch64 questions check RISC load/store thinking, calling conventions, an…
 
 ## Sources
 - [Arm Architecture Reference Manual](https://developer.arm.com/documentation) — deep-dive

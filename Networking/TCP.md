@@ -5,7 +5,7 @@
 > Transmission Control Protocol delivers a reliable, ordered byte stream between two endpoints — under load, flow control, congestion, or middlebox idle timeouts usually break first.
 
 ```txt
-        TCP ──┬── Interview
+        TCP ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use TCP to check whether you understand reliability mechanisms (…
+## Why It Matters
+- **Key signal:** Reviewers use TCP to check whether you understand reliability mechanisms (…
 
 ## Sources
 - [RFC 9293 — Transmission Control Protocol (TCP)](https://www.rfc-editor.org/rfc/rfc9293) — deep-dive

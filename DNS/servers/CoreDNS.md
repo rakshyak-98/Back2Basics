@@ -5,7 +5,7 @@
 > CoreDNS is a DNS server built as a chain of plugins — the default cluster DNS in Kubernetes, mapping `Service` and `Pod` names to cluster IPs with optional forwarding to upstream resolvers.
 
 ```txt
-        CoreDNS ──┬── Interview
+        CoreDNS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Kubernetes interviews ask how `svc.namespace.svc.cluster.local` resolves, whe…
+## Why It Matters
+- **Key signal:** Kubernetes reviews ask how `svc.namespace.svc.cluster.local` resolves, whe…
 
 ## Sources
 - [CoreDNS documentation](https://coredns.io/manual/toc/) — deep-dive

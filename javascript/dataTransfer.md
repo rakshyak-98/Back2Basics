@@ -5,7 +5,7 @@
 > `dataTransfer` — drag-and-drop / clipboard payload bag: set data on dragstart, read on drop (types + files).
 
 ```txt
-        dataTransfer ──┬── Interview
+        dataTransfer ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers probe **dataTransfer** to see if you understand what it does ope…
+## Why It Matters
+- **Key signal:** Reviewers probe **dataTransfer** to see if you understand what it does ope…
 
 ## Sources
 - [Wikipedia — dataTransfer](https://en.wikipedia.org/wiki/dataTransfer) — overview

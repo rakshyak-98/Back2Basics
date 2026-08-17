@@ -5,7 +5,7 @@
 > Groups bundle users for shared file access and sudo — one primary GID plus optional supplementary memberships.
 
 ```txt
-        linux groups ──┬── Interview
+        linux groups ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect primary vs supplementary, `usermod -aG`, session refresh, and why `get…
+## Why It Matters
+- **Key signal:** Expect primary vs supplementary, `usermod -aG`, session refresh, and why `get…
 
 ## Sources
 - [group(5)](https://man7.org/linux/man-pages/man5/group.5.html) — deep-dive

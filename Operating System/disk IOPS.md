@@ -5,7 +5,7 @@
 > IOPS counts how many read/write commands a storage device completes per second — bytes/sec and latency still matter for real workloads.
 
 ```txt
-        disk IOPS ──┬── Interview
+        disk IOPS ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Storage sizing: random 4K vs sequential MB/s, queue depth, and how [[fsync]] …
+## Why It Matters
+- **Key signal:** Storage sizing: random 4K vs sequential MB/s, queue depth, and how [[fsync]] …
 
 ## Sources
 - Brendan Gregg — storage performance methodology — deep-dive

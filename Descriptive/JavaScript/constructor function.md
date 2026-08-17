@@ -5,7 +5,7 @@
 > Pre-ES6 factory for instances — regular function + `new` wires prototype and `this` — **ECMAScript object model**.
 
 ```txt
-        Constructor functi ──┬── Interview
+        Constructor functi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Constructor interviews check new, prototypes, and class syntax equivalence.
+## Why It Matters
+- **Key signal:** Constructor reviews check new, prototypes, and class syntax equivalence.
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview

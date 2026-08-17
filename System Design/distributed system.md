@@ -5,7 +5,7 @@
 > A distributed system is software whose parts run on multiple networked machines and must coordinate despite delayed messages, partial failures, and disagreeing clocks.
 
 ```txt
-        distributed system ──┬── Interview
+        distributed system ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Name partial failure, replication, consistency, coordination, and time
+## Why It Matters
+- **Key signal:** Name partial failure, replication, consistency, coordination, and time
 
 ## Sources
 - Martin Kleppmann, *Designing Data-Intensive Applications* — deep-dive

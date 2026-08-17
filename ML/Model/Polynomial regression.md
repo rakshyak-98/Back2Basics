@@ -5,7 +5,7 @@
 > Extend linear models with **x, x², x³, interactions** to capture curvature — still linear in coefficients, nonlinear in features — **ESL**.
 
 ```txt
-        Polynomial regress ──┬── Interview
+        Polynomial regress ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers ask about Polynomial regression to check whether you can choose …
+## Why It Matters
+- **Key signal:** Reviewers ask about Polynomial regression to check whether you can choose …
 
 ## Sources
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — deep-dive

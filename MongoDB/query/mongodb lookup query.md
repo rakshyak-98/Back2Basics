@@ -5,7 +5,7 @@
 > `$lookup` joins collections in an aggregation — Mongo’s left outer join.
 
 ```txt
-        mongodb lookup que ──┬── Interview
+        mongodb lookup que ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** $lookup interviews cover application-side joins vs embedding
+## Why It Matters
+- **Key signal:** $lookup reviews cover application-side joins vs embedding
 
 ## Sources
 - [MongoDB Manual](https://www.mongodb.com/docs/manual/) — deep-dive
@@ -25,9 +25,9 @@
 orders $lookup users on userId = _id  →  orders + users[]
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **localField / foreignField** | Equality join | “Simple key match.” |
 | **pipeline lookup** | Join with extra `$match` | “Filter related docs.” |

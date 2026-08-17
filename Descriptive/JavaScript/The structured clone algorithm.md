@@ -5,7 +5,7 @@
 > Structured clone deep-copies certain JS values for `postMessage`, IndexedDB, and friends — richer than JSON, still limited.
 
 ```txt
-        The structured clo ──┬── Interview
+        The structured clo ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** Structured clone interviews cover what postMessage/IndexedDB can copy
+## Why It Matters
+- **Key signal:** Structured clone reviews cover what postMessage/IndexedDB can copy
 
 ## Sources
 - [MDN Web Docs](https://developer.mozilla.org/) — overview
@@ -25,9 +25,9 @@ value → structuredClone → independent copy
 postMessage uses same algorithm (+ transfer list)
 ```
 
-### Interview map (words you can say)
+### Review map (words you can say)
 
-| Word | Plain meaning | Say in interview |
+| Word | Plain meaning | Say in review |
 |------|---------------|------------------|
 | **structuredClone** | Deep copy API | “Better than JSON.parse(JSON.stringify).” |
 | **Transfer** | Move ArrayBuffer | “Zero-copy to worker; sender loses it.” |

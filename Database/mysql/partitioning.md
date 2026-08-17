@@ -5,7 +5,7 @@
 > When MySQL table partitioning helps — and when a separate archive table is simpler — on one server (not the same as sharding).
 
 ```txt
-        partitioning ──┬── Interview
+        partitioning ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** “Partition or shard?” and “when does partitioning hurt?” are common design pr…
+## Why It Matters
+- **Key signal:** “Partition or shard?” and “when does partitioning hurt?” are common design pr…
 
 ## Sources
 - [Partitioning Overview](https://dev.mysql.com/doc/refman/en/partitioning-overview.html) — overview

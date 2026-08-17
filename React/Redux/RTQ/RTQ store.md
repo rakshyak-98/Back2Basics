@@ -5,7 +5,7 @@
 > Add RTK Query reducer and middleware to configureStore so generated hooks work.
 
 ```txt
-        RTK Query store wi ──┬── Interview
+        RTK Query store wi ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want action → reducer → store → subscribe data flow, immutabilit…
+## Why It Matters
+- **Key signal:** Reviewers want action → reducer → store → subscribe data flow, immutabilit…
 
 ## Sources
 - [RTK Query store wiring](https://redux-toolkit.js.org/rtk-query/overview) — deep-dive

@@ -5,7 +5,7 @@
 > `go` CLI — module, build, test, and dig into deps/memory with the standard toolchain.
 
 ```txt
-        go cli ──┬── Interview
+        go cli ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -13,8 +13,8 @@
                └── Trade-offs
 ```
 
-## Interview Relevance
-- **Interview probes:** The `go` tool is daily driver literacy
+## Why It Matters
+- **Key signal:** The `go` tool is daily driver literacy
 
 ## Sources
 - [Go — Command go](https://pkg.go.dev/cmd/go) — deep-dive

@@ -5,7 +5,7 @@
 > LDAP queries and updates a hierarchical directory (users, groups, devices) over the network — usually the source of truth for “who is this user?”
 
 ```txt
-        LDAP (Lightweight  ──┬── Interview
+        LDAP (Lightweight  ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want DN/bind/filter fluency, LDAPS versus StartTLS, and why gree…
+## Why It Matters
+- **Key signal:** Reviewers want DN/bind/filter fluency, LDAPS versus StartTLS, and why gree…
 
 ## Sources
 - [RFC 4511 — LDAP](https://datatracker.ietf.org/doc/html/rfc4511) — deep-dive

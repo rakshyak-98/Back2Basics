@@ -5,7 +5,7 @@
 > `localhost` always means “this device” — the machine running the code, not your laptop by magic.
 
 ```txt
-        localhost ──┬── Interview
+        localhost ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use localhost to catch bind/listen mistakes: phones and containe…
+## Why It Matters
+- **Key signal:** Reviewers use localhost to catch bind/listen mistakes: phones and containe…
 
 ## Sources
 - [RFC 1122 — Requirements for Internet Hosts (loopback)](https://www.rfc-editor.org/rfc/rfc1122) — deep-dive

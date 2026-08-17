@@ -5,7 +5,7 @@
 > Uncomplicated Firewall — thin front-end for iptables/nft to allow/deny ports without hand-writing raw rules.
 
 ```txt
-        ufw ──┬── Interview
+        ufw ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Lockout question: always allow SSH before `ufw enable` on a remote box
+## Why It Matters
+- **Key signal:** Lockout question: always allow SSH before `ufw enable` on a remote box
 
 ## Sources
 - [Ubuntu UFW documentation](https://documentation.ubuntu.com/server/how-to/security/firewalls/) — deep-dive

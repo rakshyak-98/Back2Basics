@@ -5,7 +5,7 @@
 > Built Python distribution format (`.whl`) — a zip of code + metadata so `pip install` skips a local compile when a matching wheel exists.
 
 ```txt
-        wheel ──┬── Interview
+        wheel ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Packaging interviews: wheel vs sdist, platform tags (`manylinux`, `py3-none-a…
+## Why It Matters
+- **Key signal:** Packaging reviews: wheel vs sdist, platform tags (`manylinux`, `py3-none-a…
 
 ## Sources
 - [PEP 427 — The Wheel Binary Package Format](https://peps.python.org/pep-0427/) — deep-dive

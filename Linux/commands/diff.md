@@ -5,7 +5,7 @@
 > diff compares files or trees line-by-line — verify deploy artifacts and config drift before rsync or rollback.
 
 ```txt
-        diff ──┬── Interview
+        diff ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Know `diff -u` for patches, `diff -rq` for trees, and that content-identical …
+## Why It Matters
+- **Key signal:** Know `diff -u` for patches, `diff -rq` for trees, and that content-identical …
 
 ## Sources
 - [diff(1)](https://man7.org/linux/man-pages/man1/diff.1.html) — deep-dive

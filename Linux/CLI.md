@@ -5,7 +5,7 @@
 > The command-line interface is the primary operator surface on Linux — a text shell reads your line, runs programs, and wires their input and output through pipes.
 
 ```txt
-        CLI ──┬── Interview
+        CLI ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Nearly every Linux interview starts at the CLI: pipes, redirection, exit stat…
+## Why It Matters
+- **Key signal:** Nearly every Linux review starts at the CLI: pipes, redirection, exit stat…
 
 ## Sources
 - [POSIX Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/) — deep-dive

@@ -5,7 +5,7 @@
 > Runtime is the active phase when a program executes — and colloquially the libraries/services that phase depends on, distinct from compile/link time.
 
 ```txt
-        Runtime ──┬── Interview
+        Runtime ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Compile-time vs runtime errors
+## Why It Matters
+- **Key signal:** Compile-time vs runtime errors
 
 ## Sources
 - [Wikipedia — Runtime system](https://en.wikipedia.org/wiki/Runtime_system) — overview

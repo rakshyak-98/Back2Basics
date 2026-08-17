@@ -5,7 +5,7 @@
 > Control groups (cgroups) are the Linux kernel mechanism that limits and accounts for CPU, memory, I/O, and pids — the enforcement layer behind containers and systemd slices.
 
 ```txt
-        cgroup (Control Gr ──┬── Interview
+        cgroup (Control Gr ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Container interviews: namespaces isolate *view*
+## Why It Matters
+- **Key signal:** Container reviews: namespaces isolate *view*
 
 ## Sources
 - [Linux kernel docs — Control Groups v2](https://docs.kernel.org/admin-guide/cgroup-v2.html) — deep-dive

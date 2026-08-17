@@ -5,7 +5,7 @@
 > A rolling buffer overwrites the oldest entries when full — fixed memory for logs, metrics, and telemetry where history beyond N samples is expendable.
 
 ```txt
-        Rolling Buffer ──┬── Interview
+        Rolling Buffer ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Shows you can pick bounded in-memory history with an explicit loss policy
+## Why It Matters
+- **Key signal:** Shows you can pick bounded in-memory history with an explicit loss policy
 
 ## Sources
 - [Wikipedia — Circular buffer](https://en.wikipedia.org/wiki/Circular_buffer) — overview

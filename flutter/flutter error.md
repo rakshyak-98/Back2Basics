@@ -5,7 +5,7 @@
 > Typical Flutter/Android build and runtime failures — wrong JDK path, stale Gradle, and dependency drift — and how to clear them.
 
 ```txt
-        Flutter errors ──┬── Interview
+        Flutter errors ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want a calm triage path: read the first actionable line, check J…
+## Why It Matters
+- **Key signal:** Reviewers want a calm triage path: read the first actionable line, check J…
 
 ## Sources
 - [Flutter — Android setup](https://docs.flutter.dev/get-started/install/linux#android-setup) — overview

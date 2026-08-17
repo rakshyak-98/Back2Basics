@@ -5,7 +5,7 @@
 > Stream lifecycle signals — `data`/`end`/`drain`/`error`; flowing vs paused modes decide how you pull chunks.
 
 ```txt
-        Stream Events ──┬── Interview
+        Stream Events ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use **Stream Events** to check whether you can explain the mecha…
+## Why It Matters
+- **Key signal:** Reviewers use **Stream Events** to check whether you can explain the mecha…
 
 ## Sources
 - [Node.js — Stream events](https://nodejs.org/api/stream.html#event-data) — deep-dive

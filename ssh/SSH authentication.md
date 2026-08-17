@@ -5,7 +5,7 @@
 > SSH public-key authentication — the client signs a server challenge with its private key; the server verifies the signature with the matching public key in `authorized_keys`.
 
 ```txt
-        SSH authentication ──┬── Interview
+        SSH authentication ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers want the challenge-sign-verify story, not “SSH uses keys,” plus …
+## Why It Matters
+- **Key signal:** Reviewers want the challenge-sign-verify story, not “SSH uses keys,” plus …
 
 ## Sources
 - [RFC 4252 — SSH Authentication Protocol](https://datatracker.ietf.org/doc/html/rfc4252) — deep-dive

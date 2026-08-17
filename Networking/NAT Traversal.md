@@ -5,7 +5,7 @@
 > NAT traversal techniques let two peers behind address translators set up direct or relayed sessions — when it fails, one side is still symmetric NAT or UDP is blocked.
 
 ```txt
-        NAT Traversal ──┬── Interview
+        NAT Traversal ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
@@ -13,8 +13,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Interviewers use NAT traversal to probe WebRTC/P2P depth: why inbound connect…
+## Why It Matters
+- **Key signal:** Reviewers use NAT traversal to probe WebRTC/P2P depth: why inbound connect…
 
 ## Sources
 - [RFC 8445 — Interactive Connectivity Establishment (ICE)](https://www.rfc-editor.org/rfc/rfc8445) — deep-dive

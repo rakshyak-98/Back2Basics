@@ -5,15 +5,15 @@
 > Static members belong to the type itself, not to any instance — shared constants, factory hooks, and singleton holders live here, but static overuse creates hidden global state.
 
 ```txt
-        Static Members ──┬── Interview
+        Static Members ──┬── Why it matters
                ├── Sources
                ├── Mechanism
                ├── Pitfalls
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Static member questions probe shared mutable state, testability, and when ins…
+## Why It Matters
+- **Key signal:** Static member questions probe shared mutable state, testability, and when ins…
 
 ## Sources
 - Java Language Specification — static members — deep-dive

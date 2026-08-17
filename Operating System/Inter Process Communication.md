@@ -5,7 +5,7 @@
 > Inter-process communication (IPC) lets separate address spaces exchange data and synchronize — pipes, sockets, shared memory, and message queues are the usual Unix toolkit.
 
 ```txt
-        Inter Process Comm ──┬── Interview
+        Inter Process Comm ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Expect a menu of IPC options with trade-offs (copy vs map, local vs network) …
+## Why It Matters
+- **Key signal:** Expect a menu of IPC options with trade-offs (copy vs map, local vs network) …
 
 ## Sources
 - Stevens, *Advanced Programming in the UNIX Environment* — IPC chapters — deep-dive

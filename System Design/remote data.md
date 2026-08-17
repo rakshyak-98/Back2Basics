@@ -5,7 +5,7 @@
 > Remote data — state that lives on another machine; every read/write is a network call with failure, lag, and versioning.
 
 ```txt
-        remote data ──┬── Interview
+        remote data ──┬── Why it matters
                ├── Sources
                ├── Concepts
                ├── Mechanism
@@ -14,8 +14,8 @@
                └── Comparison
 ```
 
-## Interview Relevance
-- **Interview probes:** Every remote read is a distributed call: timeouts, caching, partial failure.
+## Why It Matters
+- **Key signal:** Every remote read is a distributed call: timeouts, caching, partial failure.
 
 ## Sources
 - [Wikipedia — remote data](https://en.wikipedia.org/wiki/remote_data) — overview
