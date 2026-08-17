@@ -18,6 +18,10 @@
 
 | Canonical note | Merged / redirected sources | Reason |
 |----------------|----------------------------|--------|
+| [[Encryption]] | [[Asymmetrical Encryption]], [[symmetrical encryption]] | Single crypto reference |
+| [[React State management]] | [[React data management]] | Unified client + server state architecture |
+| [[connection pooling]] | [[Connection Pool]] (LLD) | App pool + LLD design in one note |
+| [[Blocking Vs Non-Blocking]] | [[non-blocking]] | Combined I/O models |
 | [[MySQL Triggers]] | `mysql triggers` | Case duplicate |
 | [[mysql partitioning]] | `Database/mysql partitioning` (parent path) | Same topic, two paths |
 | [[systemctl]] | `Linux/management/systemctl` | Same topic, two paths |
@@ -33,6 +37,8 @@
 | [[MBR]] | `MBR(Master Boot Record)` | Abbrev vs full name |
 | [[GitHub CLI]] | `Github cli (2)` | Redirect stub |
 | [[NodeJS CLI]] | `node command`, `npm command` | Folded into domain CLI |
+
+All canonical notes above have been **rewritten** with full topic explanations and one-line descriptions on every external link.
 
 ---
 
@@ -68,11 +74,7 @@ Regenerate CLI aggregates: `python3 scripts/consolidate_vault.py`
 
 | Pair | Recommendation |
 |------|----------------|
-| [[React State management]] / [[React data management]] | Cross-link or merge if content overlaps |
 | [[SQL normalization]] / [[mysql normalization]] | Keep mysql-specific under [[mysql normalization]]; link from general SQL note |
-| [[connection pooling]] / [[Connection Pool]] | Merge if LLD note is stub-only |
-| [[Blocking Vs Non-Blocking]] / [[non-blocking]] | Cross-link — OS concept vs syscall detail |
-| [[Asymmetrical Encryption]] / [[symmetrical encryption]] | Single parent note with comparison table |
 | [[mysql]] / [[mysql2]] | **Do not merge** — driver vs database |
 | [[network managmeen]] / [[network management]] | **Do not merge** — NetworkManager typo note vs streaming ops |
 | [[name server]] / [[ACME server]] | **Do not merge** — different roles |

@@ -1,93 +1,146 @@
-[[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]] [[TLS (Transport Layer Security)]] [[mail server]]
+[[SMTP]] [[IMAP (Internet Message Access Protocol)]] [[DNS]] [[TLS (Transport Layer Security)]] [[servers/DSN records]]
 
 # mail server
 
-> A mail server stack receives, routes, stores, and delivers email — SMTP between servers, IMAP or POP3 for clients; delivery fails when DNS (MX/SPF/DKIM/DMARC) or TLS policy mismatches receivers.
+> A mail server stack receives, routes, stores, and delivers email — SMTP moves messages between servers, IMAP or POP3 gives clients mailbox access, and DNS records (MX, SPF, DKIM, DMARC) determine whether receivers accept your mail.
 
-```txt
-        mail server ──┬── Why it matters
-               ├── Sources
-               ├── Concepts
-               ├── Mechanism
-               ├── Pitfalls
-               ├── Trade-offs
-               └── Comparison
-```
+---
 
 ## Why It Matters
-- **Key signal:** Reviewers expect you to name submission versus relay ports, the MTA/IMAP s…
+
+Email looks simple from the user side but involves multiple protocols, ports, and DNS records that must align. Confusing port 25 (MTA relay) with 587 (authenticated submission), missing PTR records, or broken DKIM signing are the top causes of "mail not arriving" tickets. Self-hosting outbound mail at scale is a reputation game — most teams use transactional providers (SES, SendGrid) for outbound and self-host only when compliance demands it.
+
+---
 
 ## Sources
-- [RFC 5321 — SMTP](https://datatracker.ietf.org/doc/html/rfc5321) — deep-dive
-- [RFC 3501 — IMAP](https://datatracker.ietf.org/doc/html/rfc3501) — overview
-- [Google — Email sender guidelines](https://support.google.com/mail/answer/81126) — overview
+
+- [RFC 5321 — Simple Mail Transfer Protocol](https://datatracker.ietf.org/doc/html/rfc5321) — Normative SMTP specification for message relay, bounce handling, and envelope vs header addresses.
+- [RFC 3501 — Internet Message Access Protocol](https://datatracker.ietf.org/doc/html/rfc3501) — IMAP4rev1 protocol for mailbox access, folder sync, and server-side search.
+- [Google — Email sender guidelines](https://support.google.com/mail/answer/81126) — Practical requirements for deliverability to Gmail: SPF, DKIM, DMARC, and reverse DNS.
+- [RFC 7208 — SPF](https://datatracker.ietf.org/doc/html/rfc7208) — Sender Policy Framework DNS record format for authorizing sending IPs.
+- [RFC 6376 — DKIM](https://datatracker.ietf.org/doc/html/rfc6376) — DomainKeys Identified Mail — cryptographic signing of message headers and body.
+
+---
 
 ## Key Concepts
-- **MUA → MTA → MX → mailbox:** clients submit
-- **Submission vs relay:** 587 for authenticated users; 25 for MTA-to-MTA.
-- **DNS authenticity:** MX for destination
-- **Software roles:** Postfix/Exim as MTA; Dovecot as IMAP; Rspamd for filtering.
 
-## Technical Details
-```
-Sender MUA (Thunderbird, Gmail UI)
-        │ SMTP submission (587 + STARTTLS)
+```txt
+Sender MUA (Thunderbird, app)
+        │ SMTP submission (587 + STARTTLS + auth)
         ▼
    Outbound MTA (Postfix, Exim)
         │ SMTP (25) between MTAs
         ▼
-   Recipient MX servers
-        │ IMAP/POP3 (993/995)
+   Recipient MX servers (DNS MX lookup)
+        │ Delivery to mailbox
         ▼
-Receiver MUA
+Receiver MUA (IMAP 993 or POP3 995)
 ```
 
-| Role | Protocol | Port (typical) |
-|------|----------|----------------|
-| **Submission** | [[SMTP]] + STARTTLS | 587 |
-| **Relay between domains** | SMTP | 25 |
-| **Mailbox access** | [[IMAP (Internet Message Access Protocol)]] | 993 (IMAPS) |
-| **Legacy mailbox** | POP3 | 995 (POP3S) |
+| Role | Protocol | Port | Purpose |
+|------|----------|------|---------|
+| **Submission** | SMTP + STARTTLS | 587 | Authenticated users send outbound mail |
+| **MTA relay** | SMTP | 25 | Server-to-server delivery between domains |
+| **Mailbox access** | IMAP | 993 (IMAPS) | Sync folders, server-side search |
+| **Legacy mailbox** | POP3 | 995 (POP3S) | Download-and-delete model |
 
-- DNS requirements ([[servers/DSN records]]):
+### DNS requirements
 
-- **MX:** — where mail for the domain goes
-- **SPF / DKIM / DMARC:** — anti-spoofing and reputation
-- **PTR:** — reverse DNS for sending IP
+| Record | Purpose |
+|--------|---------|
+| **MX** | Points to the mail server hostname for the domain |
+| **SPF** | Lists authorized sending IP addresses/subnets |
+| **DKIM** | Public key for verifying signed message headers |
+| **DMARC** | Policy for what receivers do when SPF/DKIM fail |
+| **PTR** | Reverse DNS for sending IP — receivers check this |
+
+### Common software stack
 
 | Software | Role |
 |----------|------|
-| **Postfix** | MTA (send/receive) |
-| **Exim** | MTA (Debian default historically) |
-| **Dovecot** | IMAP/POP3 server |
-| **Rspamd / SpamAssassin** | Filtering |
-| **OpenDKIM / Rspamd DKIM** | Signing |
+| **Postfix** | MTA — send, receive, relay |
+| **Exim** | MTA — Debian default historically |
+| **Dovecot** | IMAP/POP3 mailbox server |
+| **Rspamd / SpamAssassin** | Spam filtering |
+| **OpenDKIM / Rspamd DKIM** | Outbound message signing |
 
-- Managed alternatives: Google Workspace, Microsoft 365, Amazon SES.
+---
+
+## Technical Details
+
+### Verify DNS setup
 
 ```bash
 dig MX example.com +short
-openssl s_client -connect mail.example.com:25 -starttls smtp
-swaks --to user@example.com --from test@example.com --server mail.example.com
+dig TXT example.com +short          # SPF record
+dig TXT default._domainkey.example.com +short  # DKIM
+dig TXT _dmarc.example.com +short     # DMARC policy
+dig -x 203.0.113.10 +short           # PTR for sending IP
 ```
 
+### Test SMTP connectivity
+
+```bash
+openssl s_client -connect mail.example.com:587 -starttls smtp
+openssl s_client -connect mail.example.com:25 -starttls smtp
+swaks --to user@example.com --from test@example.com --server mail.example.com:587 --tls
+```
+
+### Postfix submission config (conceptual)
+
+```
+# /etc/postfix/main.cf
+smtpd_tls_cert_file = /etc/ssl/certs/mail.pem
+smtpd_tls_key_file  = /etc/ssl/private/mail.key
+smtpd_sasl_auth_enable = yes
+submission inet n - n - - smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+```
+
+### Failure signals
+
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Mail to Gmail lands in spam | SPF/DKIM/DMARC alignment | Fix DNS; warm up IP reputation |
+| Connection refused on 587 | Firewall; Postfix listening | `ss -lntp \| grep 587` |
+| Relay denied | Not authenticated | Require SASL on submission |
+| Bounce "550 relay not permitted" | Open relay misconfiguration | Restrict `mynetworks` and require auth |
+
+---
+
 ## Mistakes to Avoid
-- **Mistake:** Confusing port 25 (relay) with 587 (submission)
-- **Mistake:** Skipping PTR/SPF/DKIM and blaming the MTA software for spam fold…
-- **Mistake:** Disabling TLS on submission “for compatibility.”
-- **Mistake:** Leaving an open relay for convenience
+
+- Using port 25 for client submission — use 587 with authentication.
+- Skipping PTR/SPF/DKIM and blaming the MTA software for spam folder delivery.
+- Leaving an open relay — anyone on the internet can send through your server.
+- Disabling TLS on submission "for compatibility" — credentials travel in cleartext.
+- Self-hosting high-volume outbound without IP warming and reputation monitoring.
+
+---
 
 ## Pros/Cons or Trade-offs
-- **Pro:** Standard protocols everywhere — any client can talk SMTP/IMAP.
-- **Con:** Cleartext paths and open relays are still footguns; require TLS and authenticated submission.
-- **Con:** Deliverability is a reputation game — self-hosting outbound at scale is hard.
+
+| Pro | Con |
+|-----|-----|
+| Standard protocols — any client works | Deliverability is a reputation game |
+| Full control over data residency | Self-hosted outbound at scale is hard |
+| Rich ecosystem (Postfix, Dovecot) | DNS misconfiguration causes silent delivery failure |
+
+---
 
 ## Comparison
-- vs [[mail server]]: ports and components here; architecture/ops depth there.
-- vs chat ([[IRC]], Slack): email is store-and-forward with strong identity/DNS coupling.
 
+| vs | Distinction |
+|----|-------------|
+| Transactional email (SES, SendGrid) | Managed reputation and APIs — preferred for app outbound |
+| Chat (Slack, IRC) | Real-time; email is store-and-forward with DNS identity |
+| [[SMTP]] | Protocol detail — this note is the full server stack |
 
-### Use cases
-- Corporate mailboxes, transactional mail from apps, and partner integrations t…
+---
 
-- **Example:** Debug “mail not arriving” with `dig MX`, then `openssl s_client …
+## Use cases
+
+- Corporate mailboxes with Dovecot IMAP and Postfix MTA.
+- App transactional mail via Amazon SES with DKIM signing in Route 53.
+- Debug "mail not arriving": `dig MX` → `openssl s_client` → check SPF/DKIM alignment.

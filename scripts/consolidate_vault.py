@@ -41,6 +41,11 @@ MERGES: list[Merge] = [
     Merge("Operating System/MBR(Master Boot Record).md", "Operating System/MBR.md", "abbrev vs full"),
     Merge("NodeJS/node command.md", "NodeJS/NodeJS CLI.md", "fold into domain CLI"),
     Merge("NodeJS/npm command.md", "NodeJS/NodeJS CLI.md", "fold into domain CLI"),
+    Merge("Security/Asymmetrical Encryption.md", "Security/Encryption.md", "unified crypto reference"),
+    Merge("Security/symmetrical encryption.md", "Security/Encryption.md", "unified crypto reference"),
+    Merge("React/React data management.md", "React/React State management.md", "unified state architecture"),
+    Merge("LLD/Questions/Connection Pool.md", "Database/connection pooling.md", "LLD + ops in one note"),
+    Merge("Operating System/non-blocking.md", "Operating System/Blocking Vs Non-Blocking.md", "combined I/O models"),
 ]
 
 # CLI rename: old path -> new path (title derived from stem)

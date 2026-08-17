@@ -1,38 +1,28 @@
-[[NodeJS]] [[Event Loop]] [[Stream]] [[Node events driven]] [[EventEmitter]] [[worker threads]]
+[[NodeJS]] [[Event Loop]] [[Stream]] [[Node events driven]] [[worker threads]] [[web workers]]
 
 # EventEmitter
 
-> Node’s observer bus — `emit` named events; listeners run synchronously in registration order.
+> EventEmitter is Node.js's built-in publish-subscribe primitive — objects emit named events and registered listeners run synchronously in registration order when the event fires.
 
-```txt
-        EventEmitter ──┬── Why it matters
-               ├── Sources
-               ├── Concepts
-               ├── Mechanism
-               ├── Pitfalls
-               ├── Trade-offs
-               └── Comparison
-```
+---
 
 ## Why It Matters
-- **Key signal:** Reviewers probe **EventEmitter** to see if you understand what it does ope…
+
+`EventEmitter` is the backbone of Node's I/O APIs: `net.Socket`, `http.Server`, `fs.ReadStream`, and `process` all extend it. Understanding synchronous listener execution, the special `error` event, and listener leak patterns explains production bugs like memory growth over days, uncaught exceptions from async listeners, and HMR duplicating handlers in development.
+
+---
 
 ## Sources
-- [Node.js — Events / EventEmitter](https://nodejs.org/api/events.html) — deep-dive
-- [Wikipedia — EventEmitter](https://en.wikipedia.org/wiki/EventEmitter) — overview
+
+- [Node.js — Events / EventEmitter](https://nodejs.org/api/events.html) — Official API reference for `on`, `once`, `emit`, `removeListener`, `setMaxListeners`, and async listener behavior.
+- [Node.js — Error handling](https://nodejs.org/api/errors.html#errors) — How unhandled `error` events crash the process and best practices for attaching error listeners.
+- [Wikipedia — Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) — Design pattern context: subject notifies observers without tight coupling.
+
+---
 
 ## Key Concepts
-- **`EventEmitter` is:** `EventEmitter` is Node's observer pattern: objects **emit** named events
-- **Core APIs:** Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`…
-- **Sync by default:** a slow listener blocks other listeners and the emitter's caller until it retu…
 
-
-- **Core:** `EventEmitter` is Node's observer pattern: objects **emit** named events
-
-## Technical Details
-- `EventEmitter` is Node's observer pattern: objects **emit** named events
-
-```
+```txt
 Producer                    EventEmitter                    Listeners
    │                              │                              │
    └── emit('data', chunk) ──────►│──► on('data') handler 1      │
@@ -40,39 +30,49 @@ Producer                    EventEmitter                    Listeners
                                   └──► once('end') handler       │
 ```
 
-- Core APIs extend `EventEmitter`: `net.Socket`, `http.Server`, `fs.ReadStream`…
-- Listener leaks (`on` without `removeListener`) are a top cause of memory grow…
+| Property | Detail |
+|----------|--------|
+| **Synchronous dispatch** | All listeners for an event run before `emit()` returns — a slow listener blocks others. |
+| **`error` is special** | `emit('error')` with no listener throws — crashes the process. |
+| **Order** | Listeners run in registration order; `prependListener` inserts at front. |
+| **Leak pattern** | `on()` without matching `removeListener` / `off()` keeps closures alive. |
+| **Built-in extenders** | Streams, HTTP, TCP sockets, child processes — all EventEmitter subclasses. |
 
-- **Sync by default:** a slow listener blocks other listeners and the emitter's…
+---
+
+## Technical Details
 
 ### Basic usage
 
 ```javascript
 import { EventEmitter } from 'node:events';
 
-class JobQueue extends EventEmitter {}
-const queue = new JobQueue();
+const emitter = new EventEmitter();
 
-queue.on('job', (id) => console.log('processing', id));
-queue.once('ready', () => console.log('first boot only'));
+emitter.on('job', (id) => console.log('processing', id));
+emitter.once('ready', () => console.log('fires once only'));
 
-queue.emit('job', 42);
+emitter.emit('job', 42);
+emitter.emit('ready');
 ```
 
-### Extend EventEmitter (class pattern)
+### Class extension pattern
 
 ```javascript
-import { EventEmitter } from 'node:events';
-
-class MyService extends EventEmitter {
+class JobQueue extends EventEmitter {
   constructor() {
     super();
-    this.setMaxListeners(20); // raise if many modules attach
+    this.setMaxListeners(20); // raise default 10 if many modules attach
   }
 
-  doWork() {
+  enqueue(job) {
+    this.emit('enqueued', job);
+    this.process(job);
+  }
+
+  process(job) {
     this.emit('progress', 50);
-    this.emit('done');
+    this.emit('done', job);
   }
 }
 ```
@@ -83,50 +83,75 @@ class MyService extends EventEmitter {
 import { createReadStream } from 'node:fs';
 
 const reader = createReadStream('large-file.bin');
-
-reader.on('data', (chunk) => { /* backpressure: pause if slow consumer */ });
+reader.on('data', (chunk) => { /* handle backpressure with pause/resume */ });
 reader.on('end', () => console.log('complete'));
-reader.on('error', (err) => console.error(err)); // always attach error handler
+reader.on('error', (err) => console.error(err)); // always attach
 ```
 
-### `once`, `off`, `prependListener`
+### Listener management
 
 ```javascript
 emitter.once('open', handler);           // auto-removed after first fire
-emitter.off('data', handler);            // same as removeListener
-emitter.prependListener('data', first);  // runs before older listeners
+emitter.off('data', handler);            // alias for removeListener
+emitter.removeAllListeners('data');      // nuclear option for one event
+emitter.listenerCount('data');           // debug duplicate registrations
 ```
 
 ### Async listener errors (Node 16+)
 
 ```javascript
 emitter.on('data', async () => {
-  throw new Error('boom'); // surfaces as 'error' on emitter if unhandled
+  throw new Error('boom'); // rejected promise → 'error' event if unhandled
 });
-emitter.on('error', (err) => console.error(err));
+emitter.on('error', (err) => console.error('caught:', err.message));
 ```
 
+### Failure signals
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `MaxListenersExceededWarning` | Too many `on()` for same event | `setMaxListeners`; check for leaks |
+| Memory grows over days | Listeners not removed | `off()` in cleanup; WeakRef patterns |
+| Uncaught exception crash | `emit('error')` without listener | Always attach `error` handler on streams |
+| Handler fires twice after HMR | Hot reload re-registers | `removeAllListeners` before re-attach |
+| Handler never runs | Event name typo | Log `emitter.eventNames()` |
+
+---
+
 ## Mistakes to Avoid
-- **Mistake:** **Listeners are synchronous**
-- **Mistake:** **`emit('error')` without listener throws**
-- **Mistake:** **Arrow functions as listeners**
-- **Mistake:** **Don't emit during `removeListener`**
-- **Mistake:** **`MaxListenersExceededWarning`:** check `emitter.listenerCount(…
-- **Mistake:** **Memory grows over days:** check Heap snapshot
-- **Mistake:** **Handler never runs:** check Wrong event name typo
-- **Mistake:** **Uncaught exception crashes process:** check Missing `error` li…
-- **Mistake:** **Event order surprises:** check Sync handlers + microtasks
-- **Mistake:** **Duplicate handlers after HMR:** check Hot reload re-registers …
+
+- Assuming listeners run asynchronously — they block the emitter's caller.
+- `emit('error')` without an `error` listener on any EventEmitter — process crash.
+- Using arrow functions when you need `this` bound to the emitter in a class method listener.
+- Registering the same listener on every HMR cycle without cleanup.
+- Using EventEmitter as a global application state bus — untraceable data flow; prefer explicit APIs.
+
+---
 
 ## Pros/Cons or Trade-offs
-- **Pro:** Solves the job described above when used in the right layer (EventEmitter — └── emit('data', chunk) ──────►│──► on('data') handler 1 │).
-- **Con / when not:** **Cross-process messaging**
-- **Con / when not:** **Request/response with one caller**
-- **Con / when not:** **Global event bus for all application state**
+
+| Pro | Con |
+|-----|-----|
+| Decouples producers from consumers | Synchronous listeners block each other |
+| Native to all Node I/O APIs | Easy to leak listeners |
+| Simple API — `on` / `emit` | Not for request/response with one caller (use Promises) |
+| | Not for cross-process messaging (use IPC, queues) |
+
+---
 
 ## Comparison
-- vs [[Event Loop]]: know when each applies
 
+| vs | Distinction |
+|----|-------------|
+| [[Event Loop]] | Event loop schedules I/O callbacks; EventEmitter is the in-process dispatch mechanism |
+| [[Stream]] | Streams extend EventEmitter and add backpressure semantics |
+| [[worker threads]] | Cross-thread messaging uses `postMessage`, not EventEmitter |
+| Promises / async-await | Single consumer, structured error propagation |
 
-### Use cases
-- In production APIs and tooling, **EventEmitter** shows up whenever teams ship…
+---
+
+## Use cases
+
+- Custom job queue emitting `progress` and `done` events for CLI tooling.
+- Wrapping a third-party SDK that uses callbacks into an EventEmitter interface.
+- Debugging stream pipelines by attaching temporary `data`/`end`/`error` listeners.
